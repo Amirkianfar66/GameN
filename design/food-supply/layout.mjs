@@ -1,84 +1,76 @@
 // mothership:dev-only
 //
-// The Food Supply Task's geometry: where each column, row and fixture of the machine (./task.mjs)
-// sits in the Supply Room's picture, 1024 x 768 like every room's, and where the operators stand.
-// The room is drawn in the board's cutaway frame (the back wall from y 70 to 372, the deck
-// receding to y 748); the machine stands in a plane near the front, its deck line at y 640, so
-// that every cell is a 128-pixel square and every move reads as a straight step.
+// The Food Supply Task's geometry: where each stop of the crane's rail (./task.mjs) and each fixture
+// sits in the Supply Room's picture, 1024 x 768 like every room's, and where the operators are.
+// The room is drawn in the board's cutaway frame (the back wall from y 70 to 372, the floor receding
+// to y 748); the crane stands in a plane near the front, its deck line at y 700. The stops are 128
+// pixels apart, stop 1 at x 128, so that the sweep reads as an even beat and a stop is a crate's
+// width.
 
-import { FIXTURES, GRID, NEAR } from './task.mjs';
+import { FIXTURES, STOPS, ZONES } from './task.mjs';
 
 /** The picture. */
 export const BOX = Object.freeze([1024, 768]);
-/** One cell, the machine plane's left edge (column 0) and its deck line (the bottom of row 0). */
-export const CELL = 128;
-export const X0 = 64;
-export const DECK = 640;
-/** The rail's I-beam, and the gantry's wheels on it. */
+/** The distance between two stops, stop 1's x (stop index 0), and the crane plane's deck line. */
+export const STEP = 128;
+export const X0 = 128;
+export const DECK = 700;
+/** A stop's x in the picture (fractional while the panel moves). */
+export const stopX = s => X0 + STEP * s;
+
+/** The rail's I-beam; the locking panel's carriage under it; its blade, by its bottom edge. */
 export const RAIL = Object.freeze({ top: 74, bottom: 104, left: 30, right: 994 });
+export const CARRIAGE = Object.freeze({ half: 58, top: 104, bottom: 140, pivot: 140 });
+export const BLADE = Object.freeze({ half: 30, height: 34, up: 140, locked: 158, caught: 164, cut: 226 });
 
-/** A cell's box, [x, y, w, h], in the picture. */
-export const cellBox = (c, r) => [X0 + CELL * c, DECK - CELL * (r + 1), CELL, CELL];
-/** A cell's centre. */
-export const cellCentre = (c, r) => [X0 + CELL * c + CELL / 2, DECK - CELL * r - CELL / 2];
-/** The crate, a little inside its cell; at row r it rests 4 px above the cell's floor. */
-export const CRATE = 108;
-export const crateBox = (x, y) => [x - CRATE / 2, y - CRATE / 2, CRATE, CRATE];
-/** The gantry's centre x at a column (it may be fractional between two columns while moving). */
-export const carriageX = c => X0 + CELL * c + CELL / 2;
-/** The crate's centre y at a row (fractional while moving). */
-export const crateY = r => DECK - CELL * r - CELL / 2 + 6;
+/** The crate, its hanging height (its centre), and where it rests in each place (its centre). */
+export const CRATE = 104;
+export const HANG = 408;
+export const REST = Object.freeze({ intake: 658, deck: 648, platform: 568, console: 540 });
+/** The pendulum: from the hoist's sheave at the carriage's foot to the crate's centre. */
+export const PENDULUM = HANG - CARRIAGE.pivot;
 
-/** The fixtures' boxes in the picture, [x, y, w, h], for the drawing, the hit regions and the annotated layout. */
+/** The fixtures' boxes in the picture, [x, y, w, h], for the drawing, the regions and the annotated layout. */
 export const BOXES = Object.freeze({
-  cab: Object.freeze([30, 104, 176, 300]),
-  cabWindow: Object.freeze([58, 172, 136, 152]),
-  buffer: Object.freeze(cellBox(FIXTURES.buffer.col, 3).map((v, i) => (i === 1 ? RAIL.bottom : i === 3 ? 160 : v))),
-  intake: Object.freeze([X0 + CELL * FIXTURES.intake.col + 6, DECK - 10, CELL - 12, 24]),
-  rib: Object.freeze([X0 + CELL * FIXTURES.rib.col + 10, DECK - CELL * 3 + 8, CELL - 20, CELL * 3 - 8]),
-  pulpit: Object.freeze([X0 + CELL * FIXTURES.pulpit.col + 4, 432, CELL - 8, DECK - 432]),
-  console: Object.freeze([X0 + CELL * FIXTURES.pulpit.col + 10, 432, CELL - 20, 90]),
-  platform: Object.freeze([X0 + CELL * FIXTURES.pulpit.col - 2, 522, CELL + 4, 14]),
-  shaft: Object.freeze([X0 + CELL * FIXTURES.cradle.col + 6, 70, CELL - 12, DECK - 70]),
-  cradle: Object.freeze(cellBox(FIXTURES.cradle.col, FIXTURES.cradle.row)),
-  liftBase: Object.freeze(cellBox(FIXTURES.liftBase.col, FIXTURES.liftBase.row)),
-  stop: Object.freeze([X0 + CELL * GRID.cols - 2, 92, 30, 86]),
-  porthole: Object.freeze([258, 132, 120, 120]),
+  intake: Object.freeze([stopX(FIXTURES.intake.stop) - 56, DECK - 10, 112, 24]),
+  console: Object.freeze([stopX(FIXTURES.console.stop) - 54, 596, 108, 104]),
+  platform: Object.freeze([stopX(FIXTURES.platform.stop) - 62, 620, 124, 80]),
+  liftWell: Object.freeze([stopX(FIXTURES.platform.stop) - 66, 600, 132, 104]),
+  cab: Object.freeze([stopX(FIXTURES.cab.stop) - 76, 150, 152, 190]),
+  cabWindow: Object.freeze([stopX(FIXTURES.cab.stop) - 64, 178, 128, 100]),
+  cabBracket: Object.freeze([stopX(FIXTURES.cab.stop) + 76, RAIL.bottom, 18, 100]),
+  porthole: Object.freeze([200, 128, 112, 112]),
+  sign: Object.freeze([stopX(FIXTURES.platform.stop) - 30, 300, 60, 40]),
 });
 
 /**
- * The hit regions both attacks use, in cells and in the picture: the drop zone over the pulpit
- * (the crate entering row 2 of column 4 from row 3) and the ram zone (the gantry entering column 0).
- * The warning zones are one press before each.
+ * The regions both attacks use, in stops and in the picture: the cut (the panel locked at the cab's
+ * stop), the drop (the crate falling over the console), the platform (the correct position), and
+ * the deck. The warnings are live: a phone stripes the button while the panel or the swing is there.
  */
+const band = (centre, half, top, bottom) => [stopX(centre - half), top, STEP * half * 2, bottom - top];
 export const REGIONS = Object.freeze({
-  dropWarning: Object.freeze({ cells: [[FIXTURES.pulpit.col, FIXTURES.pulpit.head + 1]], box: cellBox(FIXTURES.pulpit.col, FIXTURES.pulpit.head + 1), about: 'The crate over the Boom operator: one Lower from the drop' }),
-  drop: Object.freeze({ cells: [[FIXTURES.pulpit.col, FIXTURES.pulpit.head]], box: cellBox(FIXTURES.pulpit.col, FIXTURES.pulpit.head), about: "The Boom operator's head: the crate entering it is the drop" }),
-  ramWarning: Object.freeze({ cols: [FIXTURES.buffer.col], box: [X0 + CELL * FIXTURES.buffer.col, RAIL.top, CELL, 300], about: "The gantry at the cab's door: one Left from the ram" }),
-  ram: Object.freeze({ cols: [FIXTURES.cab.col], box: [X0, RAIL.top, CELL, 300], about: "The cab: the gantry's bumper plate entering it is the ram" }),
-  cradle: Object.freeze({ cells: [[FIXTURES.cradle.col, FIXTURES.cradle.row]], box: cellBox(FIXTURES.cradle.col, FIXTURES.cradle.row), about: 'The cradle: the correct position. Docked here, a survivor can send the crate alone' }),
-  rib: Object.freeze({ cells: [0, 1, 2].map(r => [FIXTURES.rib.col, r]), box: BOXES.rib, about: 'The rib: blocks the crate below the top row' }),
-  pulpit: Object.freeze({ cells: [0, 1, 2].map(r => [FIXTURES.pulpit.col, r]), box: BOXES.pulpit, about: 'The pulpit and its operator: the crate may not enter it from the side' }),
-  intake: Object.freeze({ cells: [[FIXTURES.intake.col, 0]], box: cellBox(FIXTURES.intake.col, 0), about: 'The intake hatch, where the crate starts; it rests on the deck only here' }),
-  // Accidents (the owner, 11 November 2026): where both moving at once can kill one of them by mistake.
-  nearBoom: Object.freeze({ cells: NEAR.boom.cells, boxes: NEAR.boom.cells.map(([c, r]) => cellBox(c, r)), about: NEAR.boom.about }),
-  nearCab: Object.freeze({ cols: NEAR.cab.carriage, box: [X0 + CELL * NEAR.cab.carriage[0], RAIL.top, CELL, 300], about: NEAR.cab.about }),
+  cut: Object.freeze({ stops: [FIXTURES.cab.stop], box: [stopX(FIXTURES.cab.stop) - STEP / 2, RAIL.top, STEP, BOXES.cab[1] + BOXES.cab[3] - RAIL.top], about: 'The cab\'s stop: the panel sweeping here has LOCK striped on the Panel phone; locked here, its blade drops into the cab' }),
+  drop: Object.freeze({ centre: FIXTURES.console.stop, half: ZONES.console, box: band(FIXTURES.console.stop, ZONES.console, HANG - CRATE / 2, DECK), about: 'Over the console: the crate lowered with its centre here falls on the Panel operator' }),
+  platform: Object.freeze({ centre: FIXTURES.platform.stop, half: ZONES.platform, box: band(FIXTURES.platform.stop, ZONES.platform, HANG - CRATE / 2, DECK), about: 'Over the platform: the crate lowered with its centre here lands. The correct position' }),
+  intake: Object.freeze({ centre: FIXTURES.intake.stop, half: ZONES.intake, box: band(FIXTURES.intake.stop, ZONES.intake, HANG - CRATE / 2, DECK), about: 'The intake hatch, where the crate starts; lowered here it goes back in' }),
+  sweep: Object.freeze({ stops: [0, STOPS - 1], box: [stopX(0) - CARRIAGE.half, RAIL.top - 30, stopX(STOPS - 1) - stopX(0) + CARRIAGE.half * 2, CARRIAGE.bottom - RAIL.top + 30], about: 'The panel\'s sweep: end to end and back, a stop every 220 ms (PROPOSED)' }),
 });
 
 /**
  * The operators: their stations, the crew rig's gestures (design/board-motion/figures/gestures.mjs)
- * alive and down, where the figure's feet stand and its scale. The Boom stands behind the pulpit's
- * console, facing us, the hands on it; the Hoist sits in the cab, the hands on the two winch levers.
- * Down, each slumps over their own controls, as the board draws an Eliminated figure at a desk:
- * no wound, no mark.
+ * alive and down, where the figure's feet stand and its scale. The Panel operator stands behind
+ * the console, facing us, the hands on it; the Winch operator sits in the cab, the hands on the two
+ * winch levers. Down, each slumps over their own controls, as the board draws an Eliminated figure
+ * at a desk: no wound, no mark. head: the top of the head, for the drop.
  */
 export const OPERATORS = Object.freeze({
-  boom: Object.freeze({ gesture: 'leanBench', down: 'slumpBench', feet: [640, 522], scale: 0.96, head: 282, front: 'console' }),
-  hoist: Object.freeze({ gesture: 'wheelchair', down: 'slumpDesk', feet: [118, 372], scale: 0.7, head: 200, front: 'cab' }),
+  panel: Object.freeze({ gesture: 'leanBench', down: 'slumpBench', feet: [stopX(FIXTURES.console.stop), DECK], scale: 1, head: 491, front: 'console' }),
+  winch: Object.freeze({ gesture: 'wheelchair', down: 'slumpDesk', feet: [stopX(FIXTURES.cab.stop), 333], scale: 0.75, head: 196, front: 'cab' }),
 });
 
-/** The phones' view of the picture: the machine's part of it, the same crop on both phones. */
-export const VIEW = Object.freeze([16, 44, 992, 612]);
+/** The phones' view of the picture: the crane's part of it, the same crop on both phones. */
+export const VIEW = Object.freeze([16, 40, 992, 696]);
 
-/** Where each operator's name tag sits: under each station, clear of the crate's path and the gantry's. */
-export const TAGS = Object.freeze({ boom: Object.freeze([640, 604]), hoist: Object.freeze([118, 432]) });
+/** Where each operator's name tag sits: under the console, and on the cab's lower panel. */
+export const TAGS = Object.freeze({ panel: Object.freeze([stopX(FIXTURES.console.stop), 718]), winch: Object.freeze([stopX(FIXTURES.cab.stop) + 21, 312]) });

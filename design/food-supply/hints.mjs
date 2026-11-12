@@ -2,49 +2,57 @@
 //
 // The Food Supply Task's hint line: what one participant's phone says under the view, from their own
 // projection (./task.mjs view()) and the events of the last moment. The next press, a wait, a warning,
-// a bump, a stop. Short on purpose: every hint fits three lines at the game's 200% text on a 320-pixel
+// a stop, a miss. Short on purpose: every hint fits three lines at the game's 200% text on a 320-pixel
 // phone (packages/design-tokens/test/food-supply.test.mjs holds them to 40 characters).
 
 import { seatOf } from '../phone-ui/prototype/fixtures.mjs';
+import { FIXTURES } from './task.mjs';
 import { CAST } from './boards.mjs';
 
 /** A participant from the fixtures, with their crew character. */
 export const person = role => ({ ...seatOf(CAST[role].seat), character: CAST[role].character });
-export const other = role => (role === 'hoist' ? 'boom' : 'hoist');
+export const other = role => (role === 'winch' ? 'panel' : 'winch');
 
-/** What the hint line says, from the participant's own view: the next press, a wait, a warning, a bump. */
+const say = (tone, icon, text) => ({ tone, icon, text });
+
+/** What the hint line says, from the participant's own view: the next press, a wait, a warning, a stop. */
 export function hintFor(v, recent) {
   const partner = person(other(v.role)).name;
-  if (v.phase === 'briefing') return { tone: 'quiet', icon: 'timer', text: `The controls work in ${v.briefingLeft} s.` };
-  if (v.phase === 'ended') return { tone: 'quiet', icon: 'info', text: 'The Task is over.' };
-  if (v.you === 'down') return { tone: 'quiet', icon: 'eliminated', text: 'You are out.' };
-  if (v.warnings.includes('crate-over-partner')) return { tone: 'hazard', icon: 'warning', text: `Lower now drops the crate on ${partner}.` };
-  if (v.warnings.includes('crate-over-you')) return { tone: 'hazard', icon: 'warning', text: 'The crate is over you.' };
-  if (v.warnings.includes('bumper-at-partner-cab')) return { tone: 'hazard', icon: 'warning', text: `Left now rams ${partner}'s cab.` };
-  if (v.warnings.includes('bumper-at-your-cab')) return { tone: 'hazard', icon: 'warning', text: "The gantry is at your cab's door." };
-  if (v.partner === 'down') {
-    if (v.docked) return { tone: 'next', icon: 'key', text: v.role === 'boom' && !v.buttons.some(b => b.key) ? `${partner} is out. You can send it alone.` : `${partner} is out. Turn your key.` };
-    return { tone: 'quiet', icon: 'info', text: `${partner} is out.` };
-  }
-  if (v.partner === 'offline') return { tone: 'quiet', icon: 'offline', text: `${partner} is offline. The Task goes on.` };
-  const bump = recent.find(e => e.type === 'BUMPED');
+  if (v.phase === 'briefing') return say('quiet', 'timer', `The controls work in ${v.briefingLeft} s.`);
+  if (v.phase === 'ended') return say('quiet', 'info', 'The Task is over.');
+  if (v.you === 'down') return say('quiet', 'eliminated', 'You are out.');
+  // The dangers, live: both phones say them while they last.
+  if (v.warnings.includes('panel-at-partner-cab')) return say('hazard', 'warning', `LOCK here cuts ${partner}.`);
+  if (v.warnings.includes('panel-at-your-cab')) return say('hazard', 'warning', 'The panel is over your cab.');
+  if (v.warnings.includes('crate-over-partner')) return say('hazard', 'warning', `Lower now drops it on ${partner}.`);
+  if (v.warnings.includes('crate-over-you')) return say('hazard', 'warning', 'The crate is swinging over you.');
   const stopped = recent.find(e => e.type === 'STOPPED');
-  if (stopped) return { tone: 'quiet', icon: 'block', text: stopped.kind === 'ram' ? 'Stopped: the spring buffer held.' : 'Stopped: the safety catch held.' };
-  // Accidents (the owner, 11 November 2026): near one of them, both moving at once can kill by mistake.
-  if (recent.some(e => e.type === 'NEAR_MISS')) return { tone: 'caution', icon: 'warning', text: 'Close call! Move one at a time.' };
-  if (v.near) {
-    const text = v.near.zone === 'boom'
-      ? (v.near.you ? 'One at a time: the crate is near you.' : `One at a time near ${partner}.`)
-      : (v.near.you ? 'One at a time near your cab.' : `One at a time near ${partner}'s cab.`);
-    return { tone: 'caution', icon: 'warning', text };
+  if (stopped) return say('quiet', 'block', stopped.kind === 'cut' ? "Stopped: the cab's buffer held." : 'Stopped: the winch brake held.');
+  if (v.partner === 'offline') return say('quiet', 'offline', `${partner} is offline. The Task goes on.`);
+  const c = v.crate, p = v.panel;
+  const overPlatform = p.locked && p.stop === FIXTURES.platform.stop;
+  if (c.state === 'landed') {
+    if (v.keys.you) return say('quiet', 'key', `Key turned. Waiting for ${partner}.`);
+    return v.partner === 'down' ? say('next', 'key', `${partner} is out. Turn your key alone.`) : say('next', 'key', 'Landed. Turn your key.');
   }
-  if (v.docked) {
-    if (v.keys.you) return { tone: 'quiet', icon: 'key', text: `Key turned. Waiting for ${partner}.` };
-    return { tone: 'next', icon: 'key', text: v.role === 'boom' && !v.buttons.some(b => b.key) ? 'Docked. Turn your key at the end stop.' : 'Docked. Turn your key.' };
+  const missed = recent.some(e => e.type === 'MISSED');
+  if (v.role === 'panel') {
+    if (c.state !== 'hanging') return say('quiet', 'hourglass', missed ? `Missed. ${partner} raises it again.` : `Wait: ${partner} raises the crate.`);
+    if (!c.settled) return say('quiet', 'hourglass', 'Wait: the crate is rising.');
+    if (!p.locked) return say('next', 'lock', 'Lock it over the platform, at 6.');
+    if (overPlatform) return say('quiet', 'hourglass', `Locked. ${partner} lowers it in.`);
+    if (p.stop === FIXTURES.console.stop) return say('caution', 'release', 'Locked over you. Release it.');
+    if (p.stop === FIXTURES.intake.stop) return say('next', 'release', 'Release the panel.');
+    return say('next', 'release', `Locked at ${p.stop + 1}. Release and try again.`);
   }
-  const next = v.buttons.find(b => b.next);
-  if (bump && bump.by === v.role) return { tone: 'quiet', icon: 'block', text: { rib: 'Blocked: the rib. It has to be higher.', pulpit: 'Blocked: the pulpit.', stop: 'Blocked: the end stop.', rail: 'It is at the top.', deck: 'It cannot go lower here.', 'in-intake': 'Lift it out of the intake first.', lift: 'Blocked: the lift.', wall: 'Blocked: the wall.', cradle: 'It is in the cradle.', 'key-turned': 'Your key is already turned.' }[bump.why] ?? 'Blocked.' };
-  if (next) return { tone: 'next', icon: 'move', text: { up: v.docked ? 'Turn your key.' : 'Raise the crate over the rib.', down: 'Lower it into the cradle.', right: 'Drive it across to the lift.', left: 'Drive left.' }[next.dir] };
-  const theirs = { hoist: 'lifting it', boom: 'driving it across' }[other(v.role)];
-  return { tone: 'quiet', icon: 'hourglass', text: `${partner} is ${theirs}.` };
+  // The Winch.
+  if (c.state !== 'hanging') {
+    if (v.partner === 'down') return say('next', 'move', `${partner} is out. Raise it, lower it in.`);
+    return say('next', 'move', missed ? 'Missed. Raise it again.' : 'Raise the crate.');
+  }
+  if (!c.settled) return say('quiet', 'hourglass', 'Raising…');
+  if (!p.locked) return say('quiet', 'hourglass', `Wait for ${partner} to lock it.`);
+  if (v.zone === 'platform') return say('next', 'move', 'Lower now: over the platform.');
+  if (overPlatform) return say('caution', 'hourglass', 'Wait for the swing over 6.');
+  return say('quiet', 'hourglass', `Wait: ${partner} moves the panel.`);
 }

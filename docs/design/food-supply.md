@@ -1,105 +1,113 @@
 # The Food Supply Task
 
-A two-player Task in the Supply Room, designed from the owner's confirmed highlights of 11 November 2026 ([owner-decisions.md](owner-decisions.md#11-november-2026-the-food-supply-task)). **A design proposal on synthetic fixtures. It activates no gameplay and is in no release.** Every choice of the design's own is marked PROPOSED; the rest follows the confirmed rules.
+A two-player Task in the Supply Room, designed from the owner's confirmed highlights of 11 November 2026, the owner's answers the same day and after midnight, and the owner's crane, which replaced the first design that evening ([owner-decisions.md](owner-decisions.md#11-november-2026-the-food-supply-task)). **A design proposal on synthetic fixtures. It activates no gameplay and is in no release.** Every choice of the design's own is marked PROPOSED; the rest follows the owner's decisions.
 
 | | |
 | --- | --- |
 | Base commit | `8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d` (`main`, after PR #225), in its own worktree on `claude/designer-food-supply` |
 | Ruleset in force there | `in-person-planet-blackout-before-vote-2026-11-10` (engine `planet-game-1.3.0`, protocol 3): `rules/planet-successor-blackout-before-vote-authority-2026-11-10.json` and `rules/overlays/planet-blackout-before-vote-owner-decision-2026-11-10.json`, over the successor authority `in-person-planet-2026-11-05` |
-| Rule source for this Task | The owner's highlights of 11 November 2026 only. No Task, Food or Supply Room rule exists under `rules/` at the base commit |
-| The owner's detailed handoff | `docs/design/food-supply-requirements-2026-11-11.md` and `food-supply-concepts/` are on the owner's computer and were not available to this session. This design follows the confirmed highlights; it will be reconciled with that file when it is shared |
-| Fixtures | The phone pack's invented roster: Hana (seat 8) runs the Hoist, Cleo (seat 3) the Boom, both from Room B |
+| Rule source for this Task | The owner's decisions of 11 November 2026 only. No Task, Food or Supply Room rule exists under `rules/` at the base commit |
+| The owner's detailed handoff | `docs/design/food-supply-requirements-2026-11-11.md` and `food-supply-concepts/` are on the owner's computer and were not available to this session. This design follows the owner's decisions; it will be reconciled with that file when it is shared |
+| Fixtures | The phone pack's invented roster: Hana (seat 8) runs the Winch, Cleo (seat 3) the Panel, both from Room B |
 | Runner | A Claude Code session acting as Visual and Motion Designer |
 
 ## The concept
 
-**A gantry crane, seen from the side, that two people must work together and either can turn on the other.** The Supply Room is a cargo bay. A ration crate rises out of an intake hatch in the deck; a gantry on a ceiling rail carries it across the room, over a hull rib, to the galley lift; lowered into the lift's cradle, it is clamped, and when both operators turn a key, the lift sends it up to the galley: **+5 packages**.
+**A crane on a ceiling rail, seen from the side, that two people must time together and either can turn on the other.** The Supply Room is a cargo bay with a rail across the top and seven stops painted on it, 1 to 7:
 
-- **The Hoist** (vertical) sits in a cab hung from the left end of the rail and raises and lowers the crate on its cable.
-- **The Boom** (horizontal) stands at a pulpit in the middle of the room and drives the gantry left and right.
+- **Stop 1:** the intake hatch, where the ration crate rises from the supply pod under the hull.
+- **Stop 5:** the console, where **Cleo runs the Panel** (horizontal), standing under the rail.
+- **Stop 6:** the galley lift's landing platform, where the crate should land.
+- **Stop 7:** **Hana's cab**, hung under the rail's right end, right of the platform. Hana runs the **Winch** (vertical) from it.
 
-Neither can deliver alone: the crate has to go up before it can cross the rib, across before it can go down, and down before the keys work. Nine presses and two keys, in an order both phones light up. The puzzle is simple on purpose; **the challenge is trust**, because the same two buttons that deliver the crate can kill:
+The **locking panel** rides the rail with the crate's hoist on it. Delivering takes four presses and two keys:
 
-- **The drop.** The route passes over the Boom operator's head. With the crate hanging there, the Hoist's Lower drops it on them.
-- **The ram.** The gantry's left end carries a bumper plate. Driven into the column of the Hoist's cab, it slams into the cab.
+1. **Hana: Raise.** The crate rises out of the intake.
+2. **Cleo: RELEASE.** The panel's blade lifts and the panel runs along the rail, fast, end to end and back: a stop every 0.22 s (PROPOSED).
+3. **Cleo: LOCK** as it passes stop 6. The blade drops and the panel stops there. The sudden stop **sets the crate swinging** like a pendulum, wide at first, then calmer, but never still.
+4. **Hana: Lower** as the swing passes over the platform. The crate lands, and the platform's jaws close.
+5. **Both turn a key.** The lift takes the crate down to the galley: **+5 packages**.
 
-Both are ordinary presses of the attacker's own control. Both phones see each danger coming one press ahead: a flashing lamp, a warning mark, and on the attacker's phone the very button striped and saying what it will do. Nothing asks to confirm; the press acts.
+**The challenge is timing and trust.** The same presses that deliver can kill:
 
-**And accidents happen** (the owner's decision). Near one of them, if both move at the same moment, the jolt can kill by mistake. So the crossing over the Boom is a moment to take turns, and any death on a Task might have been an accident, which is what the survivor will say.
+- **The cut.** Stop 7 is Hana's cab. LOCK while the panel is passing it, and the blade drops into the cab.
+- **The drop.** Locked over the platform, the swing carries the crate out over Cleo at the console. Lower while it is there, and it falls on Cleo.
 
-### Accidents
+Both are ordinary presses at a dangerous moment, and both can happen by mistake: the panel is fast, and the swing is wide. While a danger lasts, both phones show it: the cab's lamp or the console's lamp flashes, and the presser's own button is striped and says what it would do. Nothing asks to confirm; the press acts.
 
-The owner asked for it on 11 November 2026: *"if Player A and B position and the result near each other and there is a small movement in both parts there is chance they kill each other by mistake"*.
+### Why it changed
+
+The first design that day was a gantry on a grid of steps, with dice accidents near the operators. Having played a timing sketch of this crane, the owner chose it: the Winch's cab right of the platform, "a mechanism of locking system panel, which fast moving to right and left", which "by mistake … cut Hano", and a crate that "has a swinging or pendulum movement", so that not killing the partner "needs attention". The owner said yes to rebuilding the whole Task with it. The dice are gone: mistakes now come from the timing itself.
+
+### Kills, mistakes and the catch
+
+The owner wanted kills by mistake to be possible ("there is chance they kill each other by mistake"). In the crane they come from the timing, with no dice: a lock meant for stop 6 can land on stop 7, and a Lower made a moment too soon can drop the crate on the Panel operator. Each kill takes both participants moving the crane: one locks, the other lowers, or one runs the panel past the other's cab.
+
+Nothing can tell a mistake from a betrayal: not the server, not the phones. The owner decided (12 November 2026):
+
+- **A kill on the Task is not an attack**, because it can be a mistake. It uses no attack opportunity. Nothing limits how often a player kills on Tasks: a betrayer can kill on every Task they join and say it was a mistake, and the owner accepts that.
+- **The safety catch sometimes saves by luck: 25%.** Protection always stops a lethal press: the cab's roof buffer catches the blade, or the winch's brake catches the crate (CLANK!). The catch also holds by luck one time in four, by the server's own roll, and looks exactly the same. So a CLANK! never proves that the other player is Protected.
+
+### The crane in numbers
+
+All PROPOSED, for Game Balance to tune:
 
 | | |
 | --- | --- |
-| Where | Two zones, hatched on the annotated room. **Beside the Boom:** the crate in the top row over or next to the pulpit, or hanging just beside the operator's head (columns 4 to 6). **At the cab:** the gantry at the cab's door (column 2) |
-| When | **Both move within half a second of each other** (PROPOSED) while the machine is in a zone, before or after the second move. A move counts; a bump, a key or a refused press does not. A press that would attack but was made on an older picture, or a held button's repeat, is not an attack: it only jerks the winch or the drive, and with the partner moving at the same moment it counts as movement |
-| Then | The server rolls: **1 in 4** (PROPOSED) is an accident. Beside the Boom, the crate swings into the Boom operator (WHAM!); at the cab, the gantry lurches into the cab (CRASH!). Otherwise it is a **close call**: the crate swings close, or the gantry jolts toward the cab, and back (WHOA!) |
-| An accident | Lethal, not the Hospital, like an attack, and the Task goes on or is lost the same way (lost unless the crate is docked). It is **no one's attack: it uses no attack opportunity** |
-| Protection | PROPOSED: a Protected participant only ever has a close call. No STOPPED, so an accident shows nothing about Protection |
-| On the phones | In a zone, both hints say **"One at a time"** (near Cleo, near you, near the cab). After a close call: "Close call! Move one at a time." The victim's card says it was an accident; so does the survivor's |
-| For everyone else | A death, as any death. No cause is shown, so the survivor can always say it was an accident, whether or not it was |
-
-**Machinarium as inspiration, Mothership as the look.** Every press turns something you can see: a drum winds, wheels turn, the cable sways, a clunk when something blocks. Causes and effects are mechanical and visible, never explained by text alone. The drawing is the crew's own ink and noir light, the rooms' halftone, the comic lettering of the board (THUD!, SLAM!, CLANK!) and the phone pack's interface.
+| The sweep | 220 ms a stop: end to end in 1.32 s, a full lap 2.64 s. A lock takes the nearest stop, so stop 6 is a 0.22 s window as the panel passes it each way. Stop 7 begins half way between 6 and 7, at the end of the rail, where the panel turns back |
+| The swing | A lock with the crate hanging starts a swing of 0.9 of a stop each way, in the direction the panel was moving (back off the rail's end at stops 1 and 7). It settles toward 0.38 with a 2.2 s time constant, and never stops. One swing, there and back, takes 1.3 s. A raise ends in a small swing of 0.25 |
+| The zones | A falling crate lands where its swing has it. Within 0.3 of a stop of the platform it lands; within 0.42 of the console it falls on the operator; within 0.42 of the intake it goes back in; anywhere else it misses (CLUNK), and the Winch raises it again |
+| The danger, in practice | Locked over the platform, the swing is out over the console about a second after the lock, and never again after about 2.3 s. Patience is safe; haste is not |
+| Raise, fall | 0.45 s to raise; 0.3 s to fall (the outcome is decided on the press) |
 
 ![The Supply Room, annotated](../../design/food-supply/review/layout.png)
 
-### The room, on a grid
+### The correct position
 
-The machine works on a plane of **7 columns and 4 rows**. Every press moves one step. Columns are numbered 1 to 7 here and on the sheet (0 to 6 in the handoff); rows are 0 to 3, with row 0 on the deck.
+The confirmed rule: after a partner dies, the survivor completes the delivery alone if the crate is in the correct position, otherwise the Task is lost. **The correct position is over the platform:** the crate on the platform, or still on the hook of the panel locked over it. That gives each operator exactly one way to kill and still deliver:
 
-| Column | What stands there | Why it matters |
-| --- | --- | --- |
-| 1 | **The Hoist's cab**, rows 2 and 3 | The ram's target: the gantry entering this column |
-| 2 | **The cab's door** | The gantry here is one Left from the ram: the cab's lamp flashes on both phones |
-| 3 | **The intake hatch**, row 0 | The crate starts here; it rests on the deck only here, and cannot be dragged while in it |
-| 4 | **The rib**, rows 0 to 2 | The crate crosses only at the top row |
-| 5 | **The pulpit and the Boom operator**, rows 0 to 2, head at row 2 | The drop: the crate lowered from row 3 here |
-| 6 | Open deck | Free |
-| 7 | **The galley lift**: the cradle at row 1, its machinery at row 0, the end stop and the Boom's key at the rail's end | The cradle is the correct position; the end stop turns the Boom's key |
+- **The Winch's:** from the platform stop, a Lower while the swing is over the console. The panel stays locked over the platform, so Hana raises the crate again, lowers it in alone, and turns the Winch's key.
+- **The Panel's:** after the landing, while the keys wait. Cleo releases the empty panel, locks it over the cab, and turns the Panel's key alone.
 
-The precise boxes, cells and regions (in the 1024 × 768 picture) are in [handoff.json](../../design/food-supply/handoff.json) (`plane`, `boxes`, `regions`) and in `design/food-supply/layout.mjs`.
-
-**The route** (3 Raise, 4 Right, 2 Lower, two keys) crosses the Boom's own column at the top row: **the Boom must trust the Hoist for one step**, and the Hoist must trust the Boom whenever the gantry can reach the cab. **The correct position for a survivor is the cradle**: there the crate is clamped and both mechanisms are free, so a survivor's key alone sends it.
+Every other kill loses the Task at once: a cut with the crate still hanging, or a drop with the panel locked anywhere but the platform.
 
 ## The phones
 
-Each participant's phone shows the same view of the Supply Room, then their own controls: **two big buttons for their own axis, and nothing else**.
+Both participants' phones are built on the phone pack's own components (its top bar, pills, toasts, banners, cards and name tags), so the Task reads as part of the same interface. The view is the same crop of the room on both phones. Under it:
 
-![The Hoist's phone, every state](../../design/food-supply/review/phones-hoist.png)
+- **Cleo, the Panel:**
+  - **The sweep strip**: the seven stops, 6 in amber, 7 striped, the console marked as you, and a bar where the panel is now.
+  - **One big button**, RELEASE or LOCK. It glows amber when it is the next press: RELEASE, and LOCK only while the panel is passing stop 6. It turns striped and says "Here it cuts Hana" while the panel passes stop 7. Under its label it always says what it would do: "Stops it at 6: the platform", "Stops it over you", "Stops it at 4".
+  - **Once landed**, the key comes above it, and RELEASE stays, smaller.
+- **Hana, the Winch:**
+  - **The swing meter**: the crate's place along the rail from stop 4 to stop 7, the console's band striped, the platform's in amber.
+  - **Raise above Lower.** Lower says what it would do now: "Onto the platform" (glowing), "Falls on Cleo" (striped), "Misses: wait", "Back into the hatch".
+  - **Once landed**, the key takes their place.
+- **Both:** a hint line (40 characters at most) with the next press, a wait or a warning; the timer; the partner's state; and cards for the briefing, a death, and the outcome. After a kill the card waits for the impact to play, so both see the cause first.
 
-![The Boom's phone, every state](../../design/food-supply/review/phones-boom.png)
+![Every state of Cleo's phone](../../design/food-supply/review/phones-panel.png)
 
-| Part | Behaviour |
-| --- | --- |
-| Top bar | The pack's pair bar: both participants, "Food Supply · you run the Hoist", the Task's time |
-| View | The machine's part of the room, the same crop on both phones, with the pack's name tags (you in paper). An image with a text equivalent: where the crate and the gantry are, and whether a warning shows |
-| Role row | "Hoist · up and down" and the partner, with Out or Offline |
-| Hint | One line: the next press, a wait, a warning, "one at a time" in an accident zone, a close call, a bump's reason, a stop. A polite live region. At most 40 characters, so it fits three lines at the largest text |
-| Controls | Raise above Lower (the Hoist); Left beside Right (the Boom). One press, one step; holding repeats (PROPOSED every 300 ms, the server's own interval). Arrow keys on the participant's own axis |
-| The next press | Glows (an amber ring), from the cooperative route |
-| A press that attacks | **Striped like the room's hazard markings**, and it says what it does: "Lower · Drops it on Cleo", "Left · Rams Hana's cab". Its accessible name says the warning. No confirmation, no arming |
-| Keys | Docked, the Hoist's Raise becomes **Turn key**; at the end stop, the Boom's Right does. Turned: **Key turned**, waiting for the other |
-| Cards | The briefing (who runs what, the route, the stripes, the countdown); **You are out** for the victim (killed in the Supply Room, not the Hospital, out of the match); **Delivered** (+5 packages); **Task lost**; **Task cancelled**. After a kill, the card waits for the impact to play (0.9 s), so both see the cause first. Then the return |
-| Banners | "Stopped · the safety catch held" (or the spring buffer); "Close call · move one at a time"; "Reconnecting… The Task goes on without your presses" on a participant's own phone when it loses the connection |
+![Every state of Hana's phone](../../design/food-supply/review/phones-winch.png)
 
-**Large text.** At 320 × 568 with 200% text, the view gives way to the words, down to a 112-pixel letterboxed strip; the controls keep their places and grow; the role row goes (the buttons, hint and tags say the same); cards scroll. Each phone measures itself on the sheet: every control whole, no word cut, no hint scrolling.
+**Large text.** At 320 × 568 with the game's 200% text:
 
-![Phones at 320 × 568 with the largest text](../../design/food-supply/review/large-text.png)
+- The view gives way first, down to a letterboxed strip.
+- The hint keeps two lines: on the Winch's phone it is the only place that says the panel is over the cab.
+- The meter's legend and the role row go.
+- The landed RELEASE becomes small.
+- Cards scroll.
 
-**Before and after the Task**, outside the Task space:
+Every control is whole and no word is cut; each phone reports its own layout on the sheet.
+
+![The phones at 320 × 568 with the largest text](../../design/food-supply/review/large-text.png)
+
+**Starting and ending** are unchanged from the owner's answers:
+
+- A Volunteer opens Tasks outside the turn order and asks a Partner, who can join or decline. PROPOSED: 15 s to answer, and no answer declines.
+- While the two are away, every board shows their places empty, and a banner names no one.
+- Afterwards everyone is back at their places; a participant killed on the Task is Eliminated there, as any death is shown.
 
 ![Starting a Task, the other phones, the return and the food warning](../../design/food-supply/review/flow.png)
-
-1. **The Volunteer** opens Tasks, outside the turn order, and chooses Food Supply. The sheet says each player can start one Task per match, Food or Engine, and that joining as a Partner does not use theirs.
-2. **Asks a Partner** from the players (PROPOSED: a living player outside the Hospital and the Jail, not on a Task), then waits; Cancel withdraws the request.
-3. **The Partner can join or decline** (the owner's decision). The request says who asks, that their place is kept, and that joining does not use their own Task. PROPOSED: 15 s to answer, and no answer is a decline.
-4. **After a decline**, the Volunteer sees who declined and asks someone else, or closes. The Volunteer's Task is used only when a Partner joins (PROPOSED). The request and its answer stay between the two (PROPOSED).
-5. **Both are briefed** (PROPOSED 4 s), then play (PROPOSED 45 s).
-6. **Other players** never see the Supply Room. Their board shows the two places empty, so anyone can tell who went (the owner's decision); a banner says only that two players are away on the Food Supply Task. PROPOSED: the result shows only as the food stock.
-7. **The return**: each is back at their place; a participant killed on the Task lies there, Eliminated, as the board draws any death.
-8. **The food warning**: "Food low: 1 package left" (PROPOSED: on every phone).
 
 ## Storyboards
 
@@ -107,179 +115,222 @@ Each storyboard is a scripted run of presses played through the design's mechani
 
 | Storyboard | What happens | Sheet | Film |
 | --- | --- | --- | --- |
-| Cooperation | Lift, an early Right bumps the rib, across, into the cradle, two keys: delivered | [board-cooperation](../../design/food-supply/review/board-cooperation.png) | [film](../../design/food-supply/review/film-cooperation.mp4), [reduced](../../design/food-supply/review/film-cooperation-reduced.mp4) |
-| The drop | The crate over the Boom; the Hoist's Lower: THUD!, lethal; the crate on the pulpit, lost | [board-drop](../../design/food-supply/review/board-drop.png) | [film](../../design/food-supply/review/film-drop.mp4), [reduced](../../design/food-supply/review/film-drop-reduced.mp4) |
-| The ram | The gantry back to the cab's door; the Boom's Left: SLAM!, lethal; lost | [board-ram](../../design/food-supply/review/board-ram.png) | [film](../../design/food-supply/review/film-ram.mp4) |
-| Survivor completion | Docked; the Hoist's key turned; the Boom rams instead; the crate stays clamped; the Boom's key alone sends it | [board-survivor](../../design/food-supply/review/board-survivor.png) | [film](../../design/food-supply/review/film-survivor.mp4) |
-| Protection against the drop | The cable's safety catch stops the crate: CLANK!, STOPPED; the Task goes on to a delivery | [board-protection-drop](../../design/food-supply/review/board-protection-drop.png) | [film](../../design/food-supply/review/film-protection-drop.mp4) |
-| Protection against the ram | The cab's spring buffer stops the gantry: CLANK!, STOPPED; delivered | [board-protection-ram](../../design/food-supply/review/board-protection-ram.png) | [film](../../design/food-supply/review/film-protection-ram.mp4) |
-| An accident | Both move at once beside the Boom: the crate swings into Cleo, WHAM!; lost. Hana's attack is not used | [board-accident](../../design/food-supply/review/board-accident.png) | [film](../../design/food-supply/review/film-accident.mp4) |
-| A close call | The same jolt with a lucky roll: WHOA!; then one at a time, and delivered | [board-near-miss](../../design/food-supply/review/board-near-miss.png) | [film](../../design/food-supply/review/film-near-miss.mp4) |
-| Lost: the time runs out | The crate left over the open deck; the timer runs down | [board-timeout](../../design/food-supply/review/board-timeout.png) | [film](../../design/food-supply/review/film-timeout.mp4) |
-| Disconnect | Cleo's phone drops; the Task runs on through the grace; cancelled; both return | [board-disconnect](../../design/food-supply/review/board-disconnect.png) | [film](../../design/food-supply/review/film-disconnect.mp4) |
+| Cooperation | Raise; release; LOCK as it passes 6; the swing over Cleo, Hana waits; Lower over the platform: landed; two keys: delivered | [board-cooperation](../../design/food-supply/review/board-cooperation.png) | [film](../../design/food-supply/review/film-cooperation.mp4), [reduced](../../design/food-supply/review/film-cooperation-reduced.mp4) |
+| The cut | The panel runs past 6 to the cab; Cleo locks it there: CHOP!, lethal, not an attack; the crate hangs at 7: lost | [board-chop](../../design/food-supply/review/board-chop.png) | [film](../../design/food-supply/review/film-chop.mp4) |
+| The drop | Locked over the platform; the swing over Cleo; Hana lowers: THUD!, lethal. The panel is still over the platform: Hana raises it again, lowers it in and sends it alone | [board-drop](../../design/food-supply/review/board-drop.png) | [film](../../design/food-supply/review/film-drop.mp4), [reduced](../../design/food-supply/review/film-drop-reduced.mp4) |
+| The standoff | Landed; Hana turns the Winch's key; Cleo releases the empty panel instead and cuts; the crate stays clamped; Cleo's key alone sends it | [board-standoff](../../design/food-supply/review/board-standoff.png) | [film](../../design/food-supply/review/film-standoff.mp4) |
+| Protection against the cut | The cab's roof buffer catches the blade: CLANK!, STOPPED, the same as the catch's luck; delivered | [board-protection-cut](../../design/food-supply/review/board-protection-cut.png) | [film](../../design/food-supply/review/film-protection-cut.mp4) |
+| Protection against the drop | The winch's brake catches the crate: CLANK!, STOPPED, the same as the catch's luck; it swings on; delivered | [board-protection-drop](../../design/food-supply/review/board-protection-drop.png) | [film](../../design/food-supply/review/film-protection-drop.mp4) |
+| Mistakes that cost only time | A lock one stop early, over Cleo; released and locked again; a Lower too soon misses (CLUNK); raised again, landed, delivered | [board-mistakes](../../design/food-supply/review/board-mistakes.png) | [film](../../design/food-supply/review/film-mistakes.mp4) |
+| Lost: the time runs out | Locked at 3, short of the platform; the timer runs down | [board-timeout](../../design/food-supply/review/board-timeout.png) | [film](../../design/food-supply/review/film-timeout.mp4) |
+| Disconnect | Cleo's phone drops with the panel running; the Task runs on through the grace; cancelled; both return | [board-disconnect](../../design/food-supply/review/board-disconnect.png) | [film](../../design/food-supply/review/film-disconnect.mp4) |
 
 ![The drop, beat by beat](../../design/food-supply/review/board-drop.png)
 
 ## Artwork
 
-The room is drawn flat and inked by the rooms' own pass (`design/room-pilot/ink-room.mjs`) in a rust family of its own (PROPOSED: deep `#2B1A10`, shadow `#4C2D17`, mid `#82512A`, light `#BC8448`, pale `#E6C590`), with the shared ink and paper and the pack's accent `#F1B84B` for focus. The still picture is exported as [art/supply-room.back.svg](../../design/food-supply/art/supply-room.back.svg). The moving parts are drawn per pose in the crew's ink by `design/food-supply/machine.mjs`, and the operators are the crew rig's figures: the Boom standing at the console, the Hoist seated in the cab; down, each slumps over their own controls, as the board draws an Eliminated figure, with no wound and no mark.
+The room is drawn flat and inked by the rooms' own pass (`design/room-pilot/ink-room.mjs`) in a rust family of its own (PROPOSED: deep `#2B1A10`, shadow `#4C2D17`, mid `#82512A`, light `#BC8448`, pale `#E6C590`), with the shared ink and paper and the pack's accent `#F1B84B` for focus. The still picture is exported as [art/supply-room.back.svg](../../design/food-supply/art/supply-room.back.svg). The moving parts are drawn per pose in the crew's ink by `design/food-supply/machine.mjs`:
 
-![The machine's parts and their states](../../design/food-supply/review/machine.png)
+- **The locking panel:** the carriage, its drum, and a hazard-striped shutter blade that drops when it locks.
+- **The cab:** the roof slot the blade comes through at stop 7, the roof buffer that Protection throws across, the warning lamp and the key.
+- **The console:** its stop lights, the lock lever and the key.
+- **The platform:** its jaws and lamp; it goes down through the deck when sent.
+- **The painted stops**, 1 to 7, on the rail.
 
-Layer order, back to front: the room; the cab's back; the Hoist; the cab's front (window, lamp, key, spring buffer); the festoon cable; the gantry (drum, wheels, bumper plate); the Boom's key at the end stop; the cradle's back; the Boom; the console; the cable and hook; the drop line; the crate; the cradle's jaws; the ram's warning mark; the route guide; the effects; the name tags.
+The operators are the crew rig's figures: Cleo standing at the console, Hana seated in the cab. Down, each slumps over their own controls, as the board draws an Eliminated figure, with no wound and no mark.
+
+![The crane's parts and their states](../../design/food-supply/review/machine.png)
+
+Layer order, back to front: the room; the festoon cable; the platform; the cab's back; Hana, kept inside the cab; the cab's front; Cleo; the console; the stop plates; the locking panel; the cable and hook; the drop line; the crate; the platform's jaws; the effects; the name tags.
 
 ## Motion
 
 ![Each cue and its Reduce motion form](../../design/food-supply/review/motion.png)
 
-All timings PROPOSED. **Presentation only**: a cue never delays a press, and a new authoritative state always replaces a cue still playing.
+All timings PROPOSED. **Presentation only:** a cue never delays a press, and a new authoritative state always replaces a cue still playing.
 
-| Cue | Time | Easing | Reduce motion |
-| --- | --- | --- | --- |
-| Move one step (crate or gantry; the drum and wheels turn) | 240 ms | in-out | The part at its new place at once |
-| Sway of the hanging crate after a move | 700 ms | | None |
-| Bump: a blocked move | 180 ms | | A clunk mark at the contact for 400 ms; nothing moves |
-| The drop | 160 ms | in | The crate on the pulpit at once; THUD! shown still |
-| The ram | 140 ms | in | The gantry at the cab at once; SLAM! shown still |
-| Stopped (the safety catch or the spring buffer) | 320 ms | | The catch shown thrown out, still, with CLANK! for 600 ms |
-| Impact (the burst grows, the lettering holds) | 900 ms | out | The burst and the lettering still for 900 ms |
-| Dock (the jaws shut) | 140 ms | | The jaws shut at once |
-| The empty hook rises | 300 ms | | At the gantry at once |
-| A key turns, its lamp lights | 140 ms | | Turned and lit at once |
-| Send (the cradle rises, +5) | 1100 ms | in-out | The cradle gone at once; the +5 stamp still |
-| A warning (the lamp flashes) | 330 ms on, 330 ms off | | The lamp lit steadily; no flashing; the warning mark shown |
-| The ending dim | 600 ms | | Dimmed at once |
-| An accident: the swing (the crate into the Boom operator, and back) | 380 ms, then 520 ms back | in-out | The crate shown against the operator at once; WHAM! still |
-| An accident: the lurch (the gantry into the cab) | 160 ms | in | The gantry at the cab at once; CRASH! still |
-| A close call (the crate swings close, or the gantry jolts, and back) | 700 ms | in-out | WHOA! shown still for 700 ms; nothing swings |
+| Cue | Normal | Reduce motion |
+| --- | --- | --- |
+| The sweep | 220 ms a stop, speed lines, the crate leaning back | The panel moves exactly the same (its place is the game); no speed lines, no lean |
+| The swing | The pendulum: the crate on its cable, tilting and rising at the ends | The same place along the rail, upright and level |
+| Release, lock | The blade lifts (90 ms) or slams down (90 ms) with a clunk | At once; a clunk mark for 400 ms |
+| Raise | 450 ms, ease in-out: the crate slides under the hook and rises | At its hanging height at once |
+| Lower | 300 ms, ease in, straight down from where the swing had it | Where it falls, at once |
+| Land | The jaws close (140 ms), the lamp lights; the empty hook rises (300 ms) | At once |
+| Miss | CLUNK, a small bounce (220 ms) | CLUNK still for 600 ms |
+| The cut | The blade drives into the cab (120 ms), CHOP! | The blade in the cab at once; CHOP! still |
+| The drop | The crate falls on the operator (180 ms), THUD! | The crate on the console at once; THUD! still |
+| Stopped (Protection, or the catch's luck) | The roof buffer or the winch's brake (320 ms), CLANK! | Shown thrown, still, with CLANK! for 600 ms |
+| Impact | The burst grows (900 ms) | Still for 900 ms |
+| Key | 140 ms | At once |
+| Send | The platform goes down (1100 ms), +5 | Gone at once; +5 still |
+| Warning lamps | Flash, 330 ms on, 330 ms off | Lit steadily |
+| Dim (lost, cancelled) | 600 ms | At once |
 
-The warning lamp flashes 1.5 times a second, well under three. Nothing shakes. Reduce motion keeps every state and every word; it removes travel, sway, growth and flashing. The prototype draws a key turned at once; the 140 ms turn is the specification.
+The sweep and the swing cannot be taken away: they are the Task. Reduce motion takes away everything else that moves. The warning lamps flash 1.5 times a second, well under three. Nothing shakes.
 
 ## For Frontend
 
-- **The view.** One SVG scene per state (`sceneSvg` in `design/food-supply/scene.mjs` is the reference), cropped to `[16, 44, 992, 612]` of the 1024 × 768 picture, in a box that keeps its aspect and letterboxes when the panel needs the height. The name tags are the pack's `.tag`, placed from `tags` in the handoff; the Hoist's starts at the cab's left edge.
-- **The panel** is a column under the view: hint, then the controls at the bottom. The phone CSS (`design/food-supply/phone.css`) is the specification: the view gives way first (flex-shrink), down to 112 px; only the hint may scroll, and at the reviewed sizes it never does.
-- **Controls.** Pointer down acts at once and starts the repeat; pointer up or leave stops it. A repeat stops when the button turns into a warning; to act on the warning, press again. Send each press with `shown` (the button showed the warning) and `repeat` (PROPOSED command fields, below).
-- **States to draw**, from the projection: the buttons (`hazard`, `next`, `key`, `enabled`), `warnings`, `docked`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The storyboards' sheets show each.
-- **Never show** an attack opportunity, Protection or a reason for a stop. "Stopped" is the same words whichever caused it.
-- **Accessibility.** Each button's name includes its warning; the view's text equivalent; the hint's live region; arrow keys; large text as above; Reduce motion as above.
+- **The view:** one SVG scene per moment (`sceneSvg` in `design/food-supply/scene.mjs` is the reference), cropped to `[16, 40, 992, 696]` of the 1024 × 768 picture, in a box that keeps its aspect and letterboxes when the panel needs the height. The name tags are the pack's `.tag`, placed from `tags` in the handoff; Hana's ends at the cab's right edge.
+- **Draw from time, not from frames:** the panel's place is `sweep(from, dir, t − since)` and the crate's is `swingOffset(swing, t)`. Both phones animate locally from the shared state on the server's clock; the formulas are in the handoff's `mechanics`.
+- **The panel** is a column under the view: hint, then the instrument and the controls docked together at the bottom. The phone CSS (`design/food-supply/phone.css`) is the specification: the view gives way first, down to 112 px (84 px on the narrowest phones at the largest text); only the hint may scroll.
+- **Controls:**
+  - One tap, one act; no hold, drag or gesture.
+  - Send the act the button showed, with the moment of the press on the server's clock (PROPOSED `TASK_PRESS`, below). A double tap on LOCK must not release the panel.
+  - Keyboard: Space for RELEASE and LOCK, the arrow keys for Raise and Lower, Enter for the key.
+- **States to draw**, from the projection: the buttons (`act`, `enabled`, `next`, `hazard`, `zone`, `stop`, `turned`), `panel`, `crate`, `zone`, `warnings`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The phone sheets show each.
+- **Never show** Protection, the catch's roll, a reason for a stop, or whether a kill was meant. "Stopped" is the same words whichever caused it.
+- **Accessibility:**
+  - Each button's name says what it would do now ("Lower. Warning: falls on Cleo.").
+  - The view has a text equivalent: where the panel and the crate are, and whether a warning shows.
+  - The hint is a polite live region that changes only with what to do; the strip and the meter repeat what the view and the buttons say.
+  - Large text and Reduce motion as above.
+  - A Task of timing cannot be made fully equal without sight or quick hands: see the open item on timing access.
 
 ## For Backend
 
-The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not the engine: Backend implements the rules; this fixes the geometry and the cause and effect so the phones, the storyboards and the tests agree.
+The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not the engine: Backend implements the rules; this fixes the geometry, the timing and the cause and effect so the phones, the storyboards and the tests agree.
 
-- **State** (`state` in the handoff): phase, seats, the gantry's column, the crate's cell, docked, keys, alive, online, the deadline and the outcome, all seen by both participants; the attack opportunities, Protection and each participant's last accepted press, held by the server only.
-- **Start**: each player has **one attack for the whole match**, and **a blocked attack uses it up** (the owner's decisions). The server holds it across Tasks and passes it into each one; once used, it never returns. Protection is read as the existing rules decide, at the moment of the press.
-- **One press** (`act`): refused (briefing, too soon, down, ended, not your axis, stale, repeat), or one of MOVED, BUMPED (with why), DOCKED, KEY, KEY_RELEASED, STOPPED, KILLED (then lost unless docked), JERKED, NEAR_MISS, SENT and ENDED. The events and their visibility are listed in the handoff (`events`).
-- **Attacks are deliberate (PROPOSED).** A press attacks only if it is a fresh press on a button that showed the warning. A press made on an older picture (another press moved the crate over the Boom first) or a hold's repeat is not an attack: alone it is refused; with the partner moving at the same moment it is a jerk. The flags can only stop the presser's own attack; the server's state decides everything else. It is not a confirmation: one press of the same button acts.
-- **Accidents** (the owner's decision; numbers PROPOSED, in the handoff's `accidents`): after each move or jerk, if the partner moved the machine less than 500 ms before and the machine is in a zone before or after this move, roll the server's own random number: below 0.25, the zone's victim dies (KILLED with `accident`, kind `swing` or `lurch`), unless Protected; otherwise NEAR_MISS. Accidents never touch attack opportunities. The roll never reaches a phone.
-- **Clock**: the briefing's end, the deadline (lost: time), the grace (cancelled: disconnect).
-- **Connection**: out of contact, the Task runs on through the grace (PROPOSED 8 s); back in time, nothing paused; out longer, cancelled. A death that resolved first stands.
-- **Command**: `TASK_MOVE { taskId, dir, shown, repeat }` (a proposal for the shared contract; Integration owns `packages/contracts/`). The answer is the new state with its events to both participants; a refusal to the presser only.
-- **Asking a Partner** (proposals, around the owner's decision that a Partner can decline): `TASK_ASK { kind, partner }` from the Volunteer, `TASK_ANSWER { askId, join }` from the asked player within the answer time, `TASK_ASK_WITHDRAW { askId }`; events `TASK_ASKED` to the asked player, `TASK_DECLINED` to the Volunteer (a decline or no answer), `TASK_STARTED` to both. The Volunteer's initiation is spent on `TASK_STARTED` (PROPOSED). Details in the handoff (`controls.ask`).
+- **State** (`state` in the handoff): phase, seats, the panel (locked at a stop, or running from a stop in a direction since a time), the crate (where it lies, or hanging), the swing, keys, alive, online, the deadline and the outcome, all seen by both participants. Protection and the time of the last change are held by the server only.
+- **Start:** no attack opportunity comes into the Task: a kill on the Task is not an attack (the owner, 12 November). Protection is read as the existing rules decide, at the moment of the press.
+- **One press** (`act`): either refused, or one of RAISED, RELEASED, LOCKED, LOWERED, LANDED, MISSED, STOPPED, KILLED, KEY, SENT and ENDED.
+  - Refusals: briefing, ended, down, not your control, late, stale, busy, crate down, unlocked, locked, up, landed, not landed, turned.
+  - After a KILLED, the Task is lost unless the crate is in the correct position.
+  - The events and their visibility are listed in the handoff (`events`).
+- **Lethal presses:** a LOCK that takes stop 7 (the cut), or a Lower whose landing is the console (the drop). Each is stopped if the partner is Protected, or by luck: the server rolls its own random number for the press, and below 0.25 the catch holds (the owner). Otherwise it kills. Either way it uses nothing, and the roll never reaches a phone.
+- **Press timing (PROPOSED):** a press counts at the moment its phone showed, `at` on the server's clock, if it arrives within 300 ms and nothing has changed since; otherwise it is refused (late or stale), and the phone shows the present.
+  - What you saw is what you get, within the allowance: a LOCK made over stop 6 that arrives when the panel is already over the cab still stops at 6.
+  - A modified phone could choose its moment inside the allowance; Backend may shorten it.
+  - The deadline is judged on arrival.
+- **Clock:** the briefing's end, the deadline (lost: time), the grace (cancelled: disconnect).
+- **Connection:** out of contact, the Task runs on through the grace (PROPOSED 8 s) and the panel keeps running; back in time, nothing paused; out longer, cancelled. A death that resolved first stands. A phone out of contact shows its controls off.
+- **Command:** `TASK_PRESS { taskId, act, at }`, a proposal for the shared contract (Integration owns `packages/contracts/`). The answer is the new state with its events to both participants; a refusal goes to the presser only.
+- **Asking a Partner**, proposals around the owner's decision that a Partner can decline:
+  - From the Volunteer: `TASK_ASK { kind, partner }`, and `TASK_ASK_WITHDRAW { askId }`.
+  - From the asked player: `TASK_ANSWER { askId, join }`, within the answer time.
+  - Events: `TASK_ASKED` to the asked player, `TASK_DECLINED` to the Volunteer (a decline or no answer), `TASK_STARTED` to both.
+  - The Volunteer's initiation is spent on `TASK_STARTED` (PROPOSED).
 
 ## For Game Balance
 
-- **The survivor asymmetry** (conflict 2): only the Boom can kill and still deliver.
-- **Timing**, all PROPOSED: 15 s for a Partner to answer, 4 s briefing, 45 s deadline (the route itself is eleven presses, a few seconds of play), 8 s grace, 300 ms between presses.
-- **The food economy**: five packages, five per delivery, one dose per player at each Eating step, one Task initiation per player per match. How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
-- **Trust windows**: the Boom is exposed for one step (the crossing); the Hoist whenever the gantry can reach the cab, and most after docking, when the ram also delivers.
-- **Accidents**: more deaths, and cover for every death. The numbers (1 in 4, half a second, the zones) are PROPOSED for tuning; the crossing is where they matter most, since the route goes through the Boom's zone.
+- **The two kill-and-deliver paths** (conflict 2): the Winch's drop from the platform stop, which can pass as a mistake, against the Panel's cut in the standoff, which cannot. Is either more tempting? The server assigns the controls at random (PROPOSED).
+- **The timing:** the sweep (220 ms a stop), the swing (0.9, settling to 0.38, 2.2 s, 1.3 s), the zones (0.3 and 0.42), and the presses' 300 ms allowance. Faster or wider means more mistakes, and more cover for attacks. A cooperative run takes about 7 seconds; the deadline is 45 s (PROPOSED).
+- **Mistakes:** each costs time (a lock in the wrong place, a miss) or a life (a lock at 7, a Lower over the console). A kill is not an attack and costs its presser nothing (the owner); the catch saves one in four.
+- **The food economy:** five packages, five per delivery, one dose per player at each Eating step, one Task initiation per player per match. How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
 
 ## Visibility
 
 | Who | Sees |
 | --- | --- |
-| The two participants | The whole Supply Room: every move and bump, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Never an attack opportunity, Protection, or the other's refused presses |
+| The two participants | The whole Supply Room: the panel running or locked, the swing, every press's effect, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Never an attack opportunity, Protection, the other's refused presses, or whether a kill was meant |
 | Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. PROPOSED: the result only as the food stock shows it (delivered or not), never how it went. PROPOSED: not who was asked, or who declined |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
-| Protection | Never shown. An accident never shows a STOPPED: a Protected participant only has a close call, like a lucky roll |
-| Accidents | The two participants see an accident or a close call as it happens, and the cards say it was an accident. Everyone else sees only the death, with no cause |
+| Protection | Never shown. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing |
+| Mistakes | Both participants see a lethal press as it happens (CHOP!, THUD!); neither phone says whether it was meant. Everyone else sees only the death, with no cause |
 | The food stock | PROPOSED public: the count (the ship-life food capsules) and the warning at one package |
-| Only the server | Attack opportunities, Protection, and why a STOPPED happened |
+| Only the server | Protection, the catch's roll, and why a STOPPED happened |
 
 ## Acceptance scenarios
 
-Thirty-two, each a start, a list of timed steps and what must follow, in [handoff.json](../../design/food-supply/handoff.json) (`acceptance`) and `design/food-supply/scenarios.mjs`. `packages/design-tokens/test/food-supply.test.mjs` plays each through the mechanics model.
+Thirty-seven scenarios, each a start, a list of presses and what must follow, in the handoff (`acceptance`) and in `design/food-supply/scenarios.mjs`. The design's tests play every one through the mechanics model. The nine storyboards are the first nine. The edge cases:
 
-| Scenario | Given and when | Then |
+| Scenario | Given and done | Then |
 | --- | --- | --- |
-| cooperation | The route, with an early Right into the rib | Delivered, +5, both alive; a bump; no stop, no kill |
-| drop | The crate over the Boom; Lower | The Boom killed; lost (not in the cradle) |
-| ram | The gantry at the cab's door; Left | The Hoist killed; lost |
-| survivor | Docked, the Hoist's key turned; the Boom rams, drives back, turns its key | The Hoist killed; delivered alone |
-| protection-drop | The Boom Protected; Lower over the Boom | STOPPED; both alive; delivered later |
-| protection-ram | The Hoist Protected; Left at the door | STOPPED; both alive; delivered later |
-| timeout | The crate left over the open deck | Lost (time) |
-| disconnect | The Boom offline past the grace | Cancelled (disconnect, the Boom); both alive |
-| briefing-refused | A press in the briefing | Refused; nothing moves |
-| too-soon | Two presses inside the interval | The second refused; the third moves |
-| not-your-axis | The Hoist presses Left | Refused |
-| intake-holds | Right while the crate sits in the hatch | A bump |
-| rib-blocks | Right at row 1 | A bump (the rib) |
-| pulpit-blocks | Lowered over open deck, then Left toward the pulpit | A bump (the pulpit); no stop, no kill |
-| no-opportunity | The Hoist with no opportunity left lowers over the Boom | STOPPED, exactly as Protection |
-| blocked-twice | The Boom Protected; two Lowers | Two STOPPED; no kill |
-| key-release | The Boom's key turned, then Left | KEY_RELEASED; nothing sent |
-| docked-hoist-down | Docked; Lower | A bump (the cradle) |
-| reconnect-in-grace | Offline, back inside the grace | Goes on; nothing paused |
-| death-stands | The Boom offline; the drop lands in the grace | Lost (not in the cradle), not cancelled |
-| offline-victim-docked | Docked; the Hoist offline; the ram | Delivered alone; the death stands |
-| dead-cannot-press | The Hoist killed; the Hoist presses | Refused (down) |
-| accident | Both move at once beside the Boom; an unlucky roll | The Boom killed by accident; lost; no attack used |
-| near-miss | The same jolt; a lucky roll | A close call; then delivered |
-| race-jolt | Lower pressed on the old picture as the Boom drives the crate over itself | Not an attack: a jerk and a close call; a fresh Lower on the warning then drops it |
-| race-accident | The same race, an unlucky roll | The Boom killed by accident; the Hoist's attack not used |
-| cab-lurch | The gantry at the cab's door, both move at once, an unlucky roll | The Hoist killed by accident; lost |
-| protected-close-call | The Boom Protected, an unlucky roll | Only a close call: no kill, no STOPPED |
-| one-at-a-time | The crossing, the Hoist waits until the Boom has stopped | No jolt, whatever the roll |
-| together-bump | Both press at once, but the Hoist's press only bumps | No jolt |
-| hold-stops-at-warning | A held Lower's repeat reaches the warning | Refused (repeat); no stop, no kill |
-| cancel-without-death | The Hoist offline for the whole grace | Cancelled; both alive |
+| briefing-refused | A Raise during the briefing | Refused (briefing) |
+| not-your-control | The Winch presses LOCK | Refused (not your control) |
+| release-needs-the-crate-up | RELEASE with the crate in the intake | Refused (crate down) |
+| busy-while-raising | RELEASE while the crate is still rising | Refused (busy) |
+| lower-needs-the-lock | Lower while the panel runs | Refused (unlocked) |
+| lock-twice | A second LOCK on a locked panel | Refused (locked); the panel stays at 6 |
+| lock-rounds-to-the-platform | LOCK just short of half way between 6 and 7 | Locked at 6 |
+| lock-rounds-to-the-cab | LOCK at half way between 6 and 7 | Locked at 7: the cut; lost |
+| press-counts-as-shown | A LOCK made over 6 arrives 250 ms later, when the panel is over the cab | Locked at 6 (PROPOSED) |
+| late-press | A LOCK arrives 400 ms after it was made | Refused (late) |
+| stale-press | A Lower made before a release arrives after it | Refused (stale) |
+| drop-from-the-console-stop | Locked over the console; lowered at once | The drop; not in position: lost |
+| lucky-catch-cut | Hana not Protected; LOCK at 7 with the server's roll under 1 in 4 | STOPPED by luck; both alive |
+| lucky-catch-drop | Cleo not Protected; Lower over the console, the roll under 1 in 4 | STOPPED by luck; the crate swings on |
+| luck-runs-out | LOCK at 7 with a roll of 1 in 4 | The catch does not hold: the cut; lost |
+| blocked-twice | Cleo Protected; two Lowers over the console, high rolls | Two STOPPEDs: Protection holds whatever the roll |
+| back-into-the-intake | Raised and lowered at once over the intake | MISSED into the intake |
+| landed-winch-idle | Raise after the landing | Refused (landed) |
+| key-before-landing | A key before the landing | Refused (not landed) |
+| key-twice | A key turned twice | Refused (turned) |
+| keys-stay-turned | Hana's key; Cleo releases and locks again short of the cab; Cleo's key | Delivered by both (PROPOSED) |
+| cut-after-own-key | Cleo's key first, then release and cut | Delivered alone at once |
+| reconnect-in-grace | Cleo offline for less than the grace | The Task goes on |
+| death-stands-in-grace | Cleo offline; the drop lands | Hana finishes alone: delivered |
+| offline-victim-cut | Hana offline after the landing; the cut | Cleo sends alone: delivered |
+| dead-cannot-press | Cleo dead; Cleo's RELEASE | Refused (down) |
+| survivor-out-of-time | After the drop, Hana never lowers it in | Lost: time |
+| cancel-without-death | Hana offline for the whole grace | Cancelled; both alive |
 
 ## Genuine rule conflicts
 
-Four tensions inside the confirmed rules, each with a solution that stays inside them. The owner decides whether each solution stands.
+Five tensions inside the owner's decisions, each with a solution that stays inside them. The owner has settled three of them (3, 4 and 5); the others wait for the owner.
 
-1. **No escape, and a disconnect cancels.** If a disconnect cancelled at once, switching off the network would escape an attack. **Solution:** the server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on and an attack resolves; a death before the cancellation stands. *Left open:* a participant can still end a Task they dislike by staying offline; whether that should cost anything.
-2. **Both can betray, and a survivor completes only from the correct position.** The drop puts the crate onto the Boom, out of the cradle, so a Hoist who drops can never complete; only the Boom's ram after docking kills and still delivers. **Solution:** the server assigns the controls at random (PROPOSED), so neither player picks the stronger seat; both phones show both risks equally; the two-key send makes docking a visible standoff. *Left open:* accepting the asymmetry, for Game Balance and the owner.
-3. **Protection applies, and Protection is not disclosed.** An attacker who knows they still had their opportunity learns from a failed attack that the victim is Protected. **Solution:** one STOPPED, identical for Protection and for a spent opportunity, with no reason on either phone; the victim cannot tell which; no one else learns anything. The attacker's inference cannot be removed without a third cause for a stop, which the rules do not have. *Accepted by the owner:* the attacker may make that inference.
-4. **No automatic attribution, and the return shows the dead.** With two participants, the survivor is the only possible killer to anyone who knows who went. **Solution:** no phone states a killer, a cause or a Task death. *Settled:* the owner decided that other players can see on the board who is away, so after a death everyone can work out the survivor. That is accepted, and nothing states it. And since accidents happen, the survivor can always say it was one.
+1. **No escape, and a disconnect cancels.**
+   - The conflict: if a disconnect cancelled at once, switching off the network would escape an attack.
+   - **Solution:** the server judges a disconnect only after a grace (PROPOSED 8 s). In the grace the Task runs on, the panel keeps running, and a cut or a drop resolves; a death before the cancellation stands.
+   - *Left open:* a participant can still end a Task they dislike by staying offline. Whether that should cost anything is the owner's call.
+2. **Both can betray, and a survivor completes only from the correct position.**
+   - The conflict: a betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal. The gantry let only one operator kill and still deliver.
+   - **Solution:** the crane gives each operator exactly one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut in the standoff. The server assigns the controls at random (PROPOSED).
+   - *Left open:* whether the two paths are equally tempting, for Game Balance and the owner.
+3. **Protection applies, and Protection is not disclosed.**
+   - The conflict: a stopped kill is something both participants see. With a kill on the Task not an attack, nothing else could stop one, so every CLANK! would have meant Protection.
+   - **Solution, the owner's (12 November 2026):** the catch also holds by luck one time in four. A CLANK! is the same for Protection and for luck, with no reason on either phone, and no one else learns anything.
+   - *Settled.* A presser stopped again and again on the same partner may still suspect Protection; the owner had already accepted that inference.
+4. **No automatic attribution, and the return shows the dead.**
+   - The conflict: with two participants, the survivor is the only possible killer to anyone who knows who went.
+   - **Solution:** no phone states a killer, a cause or a Task death.
+   - *Settled:* the owner decided that other players can see on the board who is away, so after a death everyone can work out the survivor. That is accepted, and nothing states it; and since mistakes happen, the survivor can always say it was one.
+5. **Kills by mistake, and one attack per match.**
+   - The conflict: nothing can tell a mistake from an attack. If a Task kill were an attack, an honest mistake would spend it; if not, the one-attack rule cannot limit kills on Tasks.
+   - **Solution, the owner's (12 November 2026):** a kill on the Task is not an attack, and nothing limits how often a player kills on Tasks.
+   - *Settled.*
 
 ## Open items
 
 | Item | For |
 | --- | --- |
 | Whether one dose is one package (PROPOSED: yes) | The owner |
-| When the initiation is spent (PROPOSED: when a Partner joins and the Task starts, so a decline does not spend it; a Task cancelled by the Partner's disconnect gives it back, by the Volunteer's own does not) | The owner |
+| When the initiation is spent. PROPOSED: when a Partner joins and the Task starts, so a decline does not spend it. A Task cancelled by the Partner's disconnect gives it back; one cancelled by the Volunteer's own does not | The owner |
 | Whether a deliberate disconnect costs anything (conflict 1) | The owner |
-| Who can be asked as a Partner (PROPOSED: living, outside the Hospital and the Jail, not on a Task), the time to answer (PROPOSED: 15 s, no answer declines), and asking the same player again after a decline (PROPOSED: not for this start). That a Partner can decline is decided | The owner |
+| The Partner request (that a Partner can decline is decided). PROPOSED: who can be asked (living, outside the Hospital and the Jail, not on a Task), 15 s to answer (no answer declines), and not asking the same player again for this start | The owner |
 | Who runs which control (PROPOSED: the server at random; conflict 2) | The owner |
 | Whether others learn the result (PROPOSED: only as the food stock shows it). That they can see who is away is decided | The owner |
 | When a Task may start, and whether two may run at once | The owner, Backend |
-| The timing (15 s, 4 s, 45 s, 8 s, 300 ms) | Game Balance |
-| The survivor asymmetry and the food economy | Game Balance |
+| The timing: the sweep, the swing, the zones, the raise and the fall, the 45 s deadline, the 8 s grace, the 4 s briefing | Game Balance |
+| The two kill-and-deliver paths, and the food economy | Game Balance |
 | The Eating step's place and order | The owner, Game Balance |
-| Attacks are deliberate: a stale press or a repeat never attacks, and counts toward an accident instead (PROPOSED) | The owner, Backend |
-| The accident numbers: 1 in 4, half a second, the two zones (PROPOSED) | Game Balance |
-| Whether Protection saves a participant from an accident (PROPOSED: yes, as a close call) | The owner |
-| `TASK_MOVE`, the Task projection and the ruleset version that adopts this Task | Integration |
+| Press timing: the clock sync and the 300 ms allowance (PROPOSED) | Backend, Integration |
+| Timing access: whether a player who cannot react in time can ask for a slower panel or a calmer swing, which changes the danger for their partner too. Nothing is proposed | The owner, Game Balance |
+| `TASK_PRESS`, the Task projection and the ruleset version that adopts this Task | Integration |
 | The Engine Task (not designed here) | The owner |
 
 ## Review files
 
 | File | What it is |
 | --- | --- |
-| [review/layout.png](../../design/food-supply/review/layout.png) | The room annotated: grid, regions, route, callouts |
-| `review/board-<id>.png` (10) | Each storyboard, beat by beat, with both phones and the return |
-| [review/phones-hoist.png](../../design/food-supply/review/phones-hoist.png), [review/phones-boom.png](../../design/food-supply/review/phones-boom.png) | Every state of each participant's phone |
+| [review/layout.png](../../design/food-supply/review/layout.png) | The room annotated: stops, zones, the swing, the sweep, the cut, callouts |
+| `review/board-<id>.png` (9) | Each storyboard, beat by beat, with both phones and the return |
+| [review/phones-winch.png](../../design/food-supply/review/phones-winch.png), [review/phones-panel.png](../../design/food-supply/review/phones-panel.png) | Every state of each participant's phone (18 each) |
 | [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, the other phones, the return, the food warning |
-| [review/machine.png](../../design/food-supply/review/machine.png) | The machine's parts and their states |
+| [review/machine.png](../../design/food-supply/review/machine.png) | The crane's parts and their states |
 | [review/motion.png](../../design/food-supply/review/motion.png) | Each cue's frames and its Reduce motion form |
 | [review/large-text.png](../../design/food-supply/review/large-text.png) | 320 × 568 at 200% text, each phone's measured layout |
-| `review/film-<id>.mp4` (12) | The storyboards as silent films; cooperation and the drop also with Reduce motion |
+| `review/film-<id>.mp4` (11) | The storyboards as silent films; cooperation and the drop also with Reduce motion |
 | [review/renders.json](../../design/food-supply/review/renders.json) | Each file's SHA-256 and the browser |
 
-To regenerate: `node design/tools/food-supply-export.mjs` (the art and the handoff; `--check` compares), `node design/tools/food-supply-render.mjs --sheets --films` (needs Chromium and ffmpeg). The pages themselves: `design/food-supply/review.html`, `phone.html` (`?s=task&board=drop&t=7300&as=hoist`, `&text=2`, `&motion=reduced`, `&live=1`) and `film.html`.
+To regenerate:
 
-**Limits.** Rendered in desktop headless Chromium at each page's CSS size: not a phone, not a real network, not a playtest. The films are silent. The mechanics model and the scenarios show the design is consistent; they do not show that the Task is fun, fair or balanced with real people, and they are not the engine.
+- `node design/tools/food-supply-export.mjs`: the art and the handoff (`--check` compares).
+- `node design/tools/food-supply-render.mjs --sheets --films`: needs Chromium and ffmpeg.
+
+The pages themselves are `design/food-supply/review.html`, `phone.html` and `film.html`. `phone.html` takes `?s=task&board=drop&t=7675&as=winch` (or `as=panel`), `&text=2`, `&motion=reduced` and `&live=1`.
+
+**Limits:**
+
+- Rendered in desktop headless Chromium at each page's CSS size: not a phone, not a real network, not a playtest. The films are silent.
+- The mechanics model and the scenarios show the design is consistent. They do not show that the Task is fun, fair or balanced with real people, or that its timing suits a real network, and they are not the engine.

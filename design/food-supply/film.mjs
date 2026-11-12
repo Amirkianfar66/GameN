@@ -17,8 +17,8 @@ const frames = run(board);
 const last = board.captions[board.captions.length - 1][1];
 const segments = board.cuts ?? [[0, last]];
 const duration = segments.reduce((sum, [a, z]) => sum + (z - a), 0);
-const tags = { hoist: { number: CAST.hoist.seat, name: CAST.hoist.name }, boom: { number: CAST.boom.seat, name: CAST.boom.name } };
-const chars = { hoist: CAST.hoist.character, boom: CAST.boom.character };
+const tags = { winch: { number: CAST.winch.seat, name: CAST.winch.name }, panel: { number: CAST.panel.seat, name: CAST.panel.name } };
+const chars = { winch: CAST.winch.character, panel: CAST.panel.character };
 
 document.getElementById('back').innerHTML = roomBack();
 document.getElementById('title').textContent = `${board.title}${reduced ? ' · Reduce motion' : ''}`;

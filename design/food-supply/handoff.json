@@ -1,6 +1,6 @@
 {
-  "schema": "mothership.design.food-supply-handoff/1",
-  "status": "A design proposal on synthetic fixtures (11 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules. Nothing here activates gameplay.",
+  "schema": "mothership.design.food-supply-handoff/2",
+  "status": "A design proposal on synthetic fixtures (11 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules and the owner's crane. Nothing here activates gameplay.",
   "base": {
     "commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
     "ruleset": {
@@ -10,8 +10,8 @@
       "overlay": "rules/overlays/planet-blackout-before-vote-owner-decision-2026-11-10.json",
       "successor": "rules/planet-successor-authority-2026-11-05.json (in-person-planet-2026-11-05)"
     },
-    "owner": "docs/design/owner-decisions.md, 11 November 2026: the Food Supply Task's confirmed highlights",
-    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11 November highlights are the only rule source for this Task. Backend versions any adoption."
+    "owner": "docs/design/owner-decisions.md, 11 November 2026: the Food Supply Task's confirmed highlights, the owner's answers, and the owner's crane",
+    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11 November decisions are the only rule source for this Task. Backend versions any adoption."
   },
   "rules": [
     {
@@ -42,32 +42,32 @@
     {
       "id": "axes",
       "rule": "One participant controls vertical movement; the other controls horizontal movement.",
-      "design": "The Hoist: Raise and Lower. The Boom: Left and Right. Two buttons each, nothing else."
+      "design": "The Winch: Raise and Lower (vertical). The Panel: RELEASE and LOCK, the locking panel running left and right along the rail (horizontal). Once the crate has landed, a key each; nothing else."
     },
     {
       "id": "betrayal",
       "rule": "Both can betray their partner using movement of the same controller: dropping the crate onto the other player, or driving a moving panel into them.",
-      "design": "The Hoist's Lower over the pulpit drops the crate on the Boom operator; the Boom's Left at the cab's door drives the gantry's bumper plate into the Hoist's cab."
+      "design": "The Winch's Lower while the crate's swing has it over the Panel operator drops it on them (the drop); the Panel's LOCK while the panel passes the cab's stop drives its blade into the Winch operator's cab (the cut)."
     },
     {
       "id": "no-attack-button",
       "rule": "There is no separate attack button, special trigger, confirmation or armed mode.",
-      "design": "The attack is the same button's ordinary press. The button is striped and says what it will do; nothing asks to confirm."
+      "design": "The attack is the ordinary press at a dangerous moment. While it is dangerous, the button is striped and says what it would do; nothing asks to confirm."
     },
     {
       "id": "no-escape",
       "rule": "There is no escape opportunity. An unblocked attack is lethal and does not send its victim to Hospital. Protection applies.",
-      "design": "An attack resolves on the press, at once; the victim has nothing to press. KILLED is final (Eliminated); Protection gives STOPPED."
+      "design": "A lethal press resolves at once; the victim has nothing to press. KILLED is final (Eliminated). Protection gives STOPPED (CLANK!), and so does the catch by luck, one time in four (the owner)."
     },
     {
       "id": "one-opportunity",
       "rule": "Each player has one attack opportunity. Its reset scope across repeated Task participation remains unspecified; do not silently choose it.",
-      "design": "The server passes each participant's opportunity into the Task and the design never resets it or shows it. The owner has since decided the scope: one per match, and a blocked attack uses it up (below)."
+      "design": "Not touched by this Task: the owner decided that a kill on the Task is not an attack (below). The Task never reads, spends or shows an attack opportunity."
     },
     {
       "id": "survivor",
       "rule": "After a partner dies, the survivor can complete the delivery alone if the crate is in the correct position. Otherwise the Task is lost.",
-      "design": "The correct position is the cradle (docked). A death with the crate docked: the survivor's key alone sends it. Otherwise: lost."
+      "design": "The correct position is over the platform: the crate on it, or on the hook of the panel locked over it. A death there: the survivor finishes alone (the Winch lowers it in and turns its key; the Panel turns its key). Anywhere else: lost."
     },
     {
       "id": "disconnect",
@@ -87,7 +87,7 @@
     {
       "id": "experience",
       "rule": "A short, understandable cooperative activity; low puzzle difficulty; coordination and trust are the challenge; both contribute without talking.",
-      "design": "Nine presses and two keys; the next press glows on the right phone; every risk is visible to both."
+      "design": "Four presses and two keys: raise, release, lock over the platform, lower as the swing passes over it. The challenge is timing and trust, without talking: the next press glows, and every danger shows on both phones."
     },
     {
       "id": "away-visible",
@@ -97,41 +97,67 @@
     {
       "id": "opportunity-per-match",
       "rule": "One attack opportunity per match, not one per Task.",
-      "design": "The server holds each player's attack for the whole match and passes it into every Task they join; once used, it is gone for the rest of the match."
+      "design": "The owner's answer for attacks in general. A kill on the Task is not one (the owner, 12 November), so this Task never spends it."
     },
     {
       "id": "block-uses-it",
       "rule": "A blocked attack uses up the opportunity.",
-      "design": "A STOPPED attack spends it as a kill would: the attacker cannot try again, in this Task or a later one."
+      "design": "Not touched by this Task, where a kill is not an attack (the owner, 12 November)."
     },
     {
       "id": "accidents",
       "rule": "Near each other, a small movement by both can kill one of them by mistake (a chance).",
-      "design": "Two zones: the crate over or beside the Boom operator's head, and the gantry at the cab's door. When both move within half a second there, the jolt kills the one in danger by chance (PROPOSED: 1 in 4); otherwise it is a close call (WHOA!). An accident is no one's attack: it uses no attack opportunity. PROPOSED: a Protected participant only ever has a close call."
+      "design": "In the timing, with no dice: the panel runs fast, so a lock meant for 6 can land on 7 and cut the Winch operator; a lock sets the crate swinging, so a Lower a moment too soon can drop it on the Panel operator. Each kill takes both moving the crane, the lock and the Lower. A kill on the Task is not an attack, so a mistake costs the presser nothing (the owner)."
     },
     {
       "id": "partner-decline",
       "rule": "The Partner can decline.",
       "design": "The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer's Task is used only when a Partner joins."
+    },
+    {
+      "id": "crane-sides",
+      "rule": "The vertical operator is to the right of the platform where the crate should land.",
+      "design": "Hana's Winch cab hangs under the rail at stop 7, right of the landing platform at stop 6; Cleo's console is at stop 5, on the other side of it."
+    },
+    {
+      "id": "locking-panel",
+      "rule": "The horizontal operator works a locking panel that moves fast left and right and must be locked in the correct position; locked at the vertical operator's place, by mistake or not, it cuts them.",
+      "design": "RELEASE sets the panel running end to end, a stop every 0.22 s (PROPOSED); LOCK drops its blade at the stop it is passing. The correct position is stop 6, over the platform; locked at stop 7, the blade drops into the cab."
+    },
+    {
+      "id": "task-kills",
+      "rule": "A kill on the Task is not an attack, because it can be a mistake. Nothing limits how often a player kills on Tasks.",
+      "design": "The Task never reads or spends an attack opportunity. Every lethal press kills unless the catch holds (below), as often as it happens; a betrayer can kill on every Task they join and say it was a mistake."
+    },
+    {
+      "id": "lucky-catch",
+      "rule": "The safety catch sometimes saves by luck: 25%.",
+      "design": "A lethal press on an unprotected participant is stopped one time in four by the server's own roll, exactly as Protection stops it: the roof buffer catches the blade, or the winch's brake catches the crate (CLANK!). A Protected participant is always saved. So a CLANK! proves nothing."
+    },
+    {
+      "id": "pendulum",
+      "rule": "The crate swings like a pendulum, so lowering it without killing the partner takes attention.",
+      "design": "A lock sets the crate swinging, wide at first and calming but never still (PROPOSED: 0.9 of a stop, settling to 0.38, a swing every 1.3 s). Lowered, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, anywhere else it misses."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "2bd86044ce05fe6ad77a15b1cbfe0a22704492059fdcbf60c559195c987ca4d1",
-    "design/food-supply/layout.mjs": "9bd257d96e21502a2cb8d33119e0aaa45004d8a21c9e0907a31eb25bd4e436ad",
-    "design/food-supply/room.mjs": "43d82db22f9cc43c389db2c4e713ae7a924ea4dbf8f252412118dbcbdd4c1c5e",
-    "design/food-supply/machine.mjs": "fdd21693f951094203b2feb3a6b06165949cda8e3fd3258a0e015c37bfc7e078",
-    "design/food-supply/scene.mjs": "7982d36d4f2f42d3e643ce1e1c690e9482618b66c0c128f3384d76d2117a6b53",
-    "design/food-supply/stage.mjs": "2333eb70db8d9dccda85845fc641357daecb4bef31779a39b73f44f369ab3325",
-    "design/food-supply/boards.mjs": "ecb0372b24d36554c0ec38710f9199ef1d7119db36f7cce8980465e0390d144b",
-    "design/food-supply/scenarios.mjs": "0b2cfdb820a93d826e16b2138b3b41c91dd2e6e438f6cf65da8a108083147216",
-    "design/food-supply/rules.mjs": "3fdc3699d54b85982fe7ba848d1495ab3a90891ff814162c371e8f35668819d1",
-    "design/food-supply/phone.mjs": "ff2ae7cc3a615b91a046c8ef99cfb4aaf512566b0e7e9e3537b2c1bba7d5372f",
-    "design/food-supply/phone.css": "7c97c4fe9390bab8c7da02a1b396a21ee35f892299c4f955284b947866034a20"
+    "design/food-supply/task.mjs": "a34863c333e771de4cb25affef663f40419806c3177ece3f347a6624596ac48a",
+    "design/food-supply/layout.mjs": "8979c72608fef5cb162fece7c9fd8e4cf0a30781214121740b727abda534bb51",
+    "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
+    "design/food-supply/machine.mjs": "449e5ac81b9638dcbde254bce30a8c8eb499a682ac79f613150e45a34d0d798a",
+    "design/food-supply/scene.mjs": "ae084a4ed6b188050a0d0420464b22ef0f9339b496802eb61463b764481ac6c4",
+    "design/food-supply/stage.mjs": "b040684114e14a7f128d4d6a4d8fbd2e24514270190103089e4a6e0ad4841093",
+    "design/food-supply/boards.mjs": "c796c907f06317220acc6f7d9eea0b236c8c0afbd378d9154b8373968c2a76a3",
+    "design/food-supply/scenarios.mjs": "4a5a59ecadab67044317f1b47eba245522141fe053f75b4aa715b8c18805a29d",
+    "design/food-supply/hints.mjs": "f4dd6fc062dafb34ee7d972fd1992af3a0aa6e17e8791d485c80a6569a120272",
+    "design/food-supply/rules.mjs": "92f25819b7cbeb7e6f0e84d01da53d1509ee6e4eef790a7fed760509245e25b9",
+    "design/food-supply/phone.mjs": "9c882de569e444720734276dcae30510299cf12179d63db34216b74026fd65d2",
+    "design/food-supply/phone.css": "8b86c8a56ee3917f6269a96db51df14a7562a7e151c568e2c550e3d6c079b8f6"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
     "cast": {
-      "hoist": {
+      "winch": {
         "seat": 8,
         "name": "Hana",
         "character": "c2",
@@ -140,7 +166,7 @@
           "place": "B3"
         }
       },
-      "boom": {
+      "panel": {
         "seat": 3,
         "name": "Cleo",
         "character": "c6",
@@ -154,7 +180,7 @@
   "art": {
     "back": {
       "file": "design/food-supply/art/supply-room.back.svg",
-      "sha256": "99d8dbe13cd5ec3a4eb770bd65f2ac1cc6c3af676d892292ed75310500aa7070",
+      "sha256": "d993437538cd046625d712c21664fa6895c82a0be98540de70e8962f93ba20d1",
       "viewBox": [
         0,
         0,
@@ -173,542 +199,393 @@
     "parts": "design/food-supply/machine.mjs: each moving part and its states, drawn per pose; design/food-supply/scene.mjs: the layer order.",
     "layers": [
       "the room back (art)",
-      "cab back",
-      "Hoist operator",
-      "cab front (window, lamp, key, spring buffer)",
       "festoon cable",
-      "gantry (drum, wheels, bumper plate)",
-      "Boom's key at the end stop",
-      "cradle back",
-      "Boom operator",
-      "pulpit console",
+      "platform",
+      "cab back",
+      "Winch operator (kept inside the cab)",
+      "cab front (roof slot, window, lamp, key, roof buffer)",
+      "Panel operator",
+      "console (stop lights, lock lever, key, warning lamp)",
+      "stop plates on the rail",
+      "the locking panel (shutter blade, wheels, drum, sheave)",
       "cable and hook",
-      "drop line (warning)",
+      "drop line (where a Lower would put it)",
       "crate",
-      "cradle jaws",
-      "ram warning mark",
-      "route guide",
-      "effects (lettering, bursts, speed lines, clunks, the safety catch)",
+      "platform jaws",
+      "effects (lettering, bursts, speed lines, clunks, the winch brake, warning marks)",
       "name tags (the phone: the pack's .tag)"
     ],
-    "characters": "The crew rig (design/board-motion/figures): the Boom stands at the console (leanBench; down: slumpBench), the Hoist sits in the cab (wheelchair; down: slumpDesk). Down, a figure slumps over its own controls, as the board draws an Eliminated figure: no wound, no mark."
+    "characters": "The crew rig (design/board-motion/figures): the Panel operator stands at the console (leanBench; down: slumpBench), the Winch operator sits in the cab (wheelchair; down: slumpDesk). Down, a figure slumps over its own controls, as the board draws an Eliminated figure: no wound, no mark."
   },
   "plane": {
-    "grid": {
-      "cols": 7,
-      "rows": 4
-    },
-    "cell": 128,
-    "origin": {
-      "x": 64,
-      "deck": 640
-    },
+    "stops": 7,
+    "step": 128,
+    "x0": 128,
+    "deck": 700,
     "rail": {
       "top": 74,
       "bottom": 104,
       "left": 30,
       "right": 994
     },
-    "crate": 108,
-    "cellBox": "x = 64 + 128 × column, y = 640 − 128 × (row + 1), 128 × 128, in the 1024 × 768 picture",
+    "carriage": {
+      "half": 58,
+      "top": 104,
+      "bottom": 140,
+      "pivot": 140
+    },
+    "blade": {
+      "half": 30,
+      "height": 34,
+      "up": 140,
+      "locked": 158,
+      "caught": 164,
+      "cut": 226
+    },
+    "crate": 104,
+    "hang": 408,
+    "rest": {
+      "intake": 658,
+      "deck": 648,
+      "platform": 568,
+      "console": 540
+    },
+    "pendulum": 268,
     "start": {
-      "carriage": 2,
-      "crate": [
-        2,
-        0
-      ]
+      "panel": 0,
+      "crate": "intake"
     },
     "phoneView": {
       "crop": [
         16,
-        44,
+        40,
         992,
-        612
+        696
       ],
-      "about": "The same crop of the picture on both phones; the view gives way to the words at large text sizes, down to 112 px, letterboxed."
-    }
-  },
-  "fixturesInRoom": {
-    "cab": {
-      "col": 0,
-      "rows": [
-        2,
-        3
-      ],
-      "about": "The Hoist operator's cab, hung from the left end of the rail. The gantry's bumper plate reaches it only when the gantry is driven into column 0: the ram."
-    },
-    "buffer": {
-      "col": 1,
-      "about": "The cab's door: the gantry here is one step from the ram. The cab's lamp lights on both phones."
-    },
-    "intake": {
-      "col": 2,
-      "row": 0,
-      "about": "The intake hatch in the deck: the supply crate rises out of it on the hook. The gantry starts above it."
-    },
-    "rib": {
-      "col": 3,
-      "rows": [
-        0,
-        1,
-        2
-      ],
-      "about": "A hull rib: the crate passes column 3 only at the top row."
-    },
-    "pulpit": {
-      "col": 4,
-      "rows": [
-        0,
-        1,
-        2
-      ],
-      "head": 2,
-      "about": "The Boom operator's drive pulpit, a raised platform under the rail: the operator's head reaches row 2. Lowering the crate from row 3 here drops it on them: the drop."
-    },
-    "open": {
-      "col": 5,
-      "about": "Open deck: the crate may be lowered here."
-    },
-    "cradle": {
-      "col": 6,
-      "row": 1,
-      "about": "The galley lift's cradle: lowering the crate into it docks it. The correct position for a survivor."
-    },
-    "liftBase": {
-      "col": 6,
-      "row": 0,
-      "about": "The lift's machinery, under the cradle."
-    },
-    "stop": {
-      "col": 6,
-      "about": "The rail's end stop, with the Boom operator's key lever: driving into it with the crate docked turns that key."
+      "about": "The same crop of the picture on both phones; the view gives way to the words at large text sizes, down to 112 px (84 px on the narrowest screens at the largest text), letterboxed."
     }
   },
   "boxes": {
-    "cab": [
-      30,
-      104,
-      176,
-      300
-    ],
-    "cabWindow": [
-      58,
-      172,
-      136,
-      152
-    ],
-    "buffer": [
-      192,
-      104,
-      128,
-      160
-    ],
     "intake": [
-      326,
-      630,
-      116,
+      72,
+      690,
+      112,
       24
-    ],
-    "rib": [
-      458,
-      264,
-      108,
-      376
-    ],
-    "pulpit": [
-      580,
-      432,
-      120,
-      208
     ],
     "console": [
       586,
-      432,
+      596,
       108,
-      90
+      104
     ],
     "platform": [
-      574,
-      522,
+      706,
+      620,
+      124,
+      80
+    ],
+    "liftWell": [
+      702,
+      600,
       132,
-      14
+      104
     ],
-    "shaft": [
-      838,
-      70,
-      116,
-      570
+    "cab": [
+      820,
+      150,
+      152,
+      190
     ],
-    "cradle": [
+    "cabWindow": [
       832,
-      384,
+      178,
       128,
-      128
+      100
     ],
-    "liftBase": [
-      832,
-      512,
-      128,
-      128
-    ],
-    "stop": [
-      958,
-      92,
-      30,
-      86
+    "cabBracket": [
+      972,
+      104,
+      18,
+      100
     ],
     "porthole": [
-      258,
-      132,
-      120,
-      120
+      200,
+      128,
+      112,
+      112
+    ],
+    "sign": [
+      738,
+      300,
+      60,
+      40
     ]
   },
   "regions": {
-    "dropWarning": {
-      "cells": [
-        [
-          4,
-          3
-        ]
-      ],
-      "box": [
-        576,
-        128,
-        128,
-        128
-      ],
-      "about": "The crate over the Boom operator: one Lower from the drop"
-    },
-    "drop": {
-      "cells": [
-        [
-          4,
-          2
-        ]
-      ],
-      "box": [
-        576,
-        256,
-        128,
-        128
-      ],
-      "about": "The Boom operator's head: the crate entering it is the drop"
-    },
-    "ramWarning": {
-      "cols": [
-        1
-      ],
-      "box": [
-        192,
-        74,
-        128,
-        300
-      ],
-      "about": "The gantry at the cab's door: one Left from the ram"
-    },
-    "ram": {
-      "cols": [
-        0
-      ],
-      "box": [
-        64,
-        74,
-        128,
-        300
-      ],
-      "about": "The cab: the gantry's bumper plate entering it is the ram"
-    },
-    "cradle": {
-      "cells": [
-        [
-          6,
-          1
-        ]
+    "cut": {
+      "stops": [
+        6
       ],
       "box": [
         832,
-        384,
-        128,
-        128
-      ],
-      "about": "The cradle: the correct position. Docked here, a survivor can send the crate alone"
-    },
-    "rib": {
-      "cells": [
-        [
-          3,
-          0
-        ],
-        [
-          3,
-          1
-        ],
-        [
-          3,
-          2
-        ]
-      ],
-      "box": [
-        458,
-        264,
-        108,
-        376
-      ],
-      "about": "The rib: blocks the crate below the top row"
-    },
-    "pulpit": {
-      "cells": [
-        [
-          4,
-          0
-        ],
-        [
-          4,
-          1
-        ],
-        [
-          4,
-          2
-        ]
-      ],
-      "box": [
-        580,
-        432,
-        120,
-        208
-      ],
-      "about": "The pulpit and its operator: the crate may not enter it from the side"
-    },
-    "intake": {
-      "cells": [
-        [
-          2,
-          0
-        ]
-      ],
-      "box": [
-        320,
-        512,
-        128,
-        128
-      ],
-      "about": "The intake hatch, where the crate starts; it rests on the deck only here"
-    },
-    "nearBoom": {
-      "cells": [
-        [
-          3,
-          3
-        ],
-        [
-          4,
-          3
-        ],
-        [
-          5,
-          3
-        ],
-        [
-          5,
-          2
-        ]
-      ],
-      "boxes": [
-        [
-          448,
-          128,
-          128,
-          128
-        ],
-        [
-          576,
-          128,
-          128,
-          128
-        ],
-        [
-          704,
-          128,
-          128,
-          128
-        ],
-        [
-          704,
-          256,
-          128,
-          128
-        ]
-      ],
-      "about": "The crate over or beside the Boom operator's head: moving together, the swinging crate can hit them"
-    },
-    "nearCab": {
-      "cols": [
-        1
-      ],
-      "box": [
-        192,
         74,
         128,
-        300
+        266
       ],
-      "about": "The gantry at the cab's door: moving together, it can lurch into the cab"
+      "about": "The cab's stop: the panel sweeping here has LOCK striped on the Panel phone; locked here, its blade drops into the cab"
+    },
+    "drop": {
+      "centre": 4,
+      "half": 0.42,
+      "box": [
+        586.24,
+        356,
+        107.52,
+        344
+      ],
+      "about": "Over the console: the crate lowered with its centre here falls on the Panel operator"
+    },
+    "platform": {
+      "centre": 5,
+      "half": 0.3,
+      "box": [
+        729.6,
+        356,
+        76.8,
+        344
+      ],
+      "about": "Over the platform: the crate lowered with its centre here lands. The correct position"
+    },
+    "intake": {
+      "centre": 0,
+      "half": 0.42,
+      "box": [
+        74.24000000000001,
+        356,
+        107.52,
+        344
+      ],
+      "about": "The intake hatch, where the crate starts; lowered here it goes back in"
+    },
+    "sweep": {
+      "stops": [
+        0,
+        6
+      ],
+      "box": [
+        70,
+        44,
+        884,
+        96
+      ],
+      "about": "The panel's sweep: end to end and back, a stop every 220 ms (PROPOSED)"
     }
   },
   "operators": {
-    "boom": {
+    "panel": {
       "gesture": "leanBench",
       "down": "slumpBench",
       "feet": [
         640,
-        522
+        700
       ],
-      "scale": 0.96,
-      "head": 282,
+      "scale": 1,
+      "head": 491,
       "front": "console"
     },
-    "hoist": {
+    "winch": {
       "gesture": "wheelchair",
       "down": "slumpDesk",
       "feet": [
-        118,
-        372
+        896,
+        333
       ],
-      "scale": 0.7,
-      "head": 200,
+      "scale": 0.75,
+      "head": 196,
       "front": "cab"
     }
   },
   "tags": {
-    "boom": [
+    "panel": [
       640,
-      604
+      718
     ],
-    "hoist": [
-      118,
-      432
+    "winch": [
+      917,
+      312
     ]
   },
   "route": [
     {
-      "role": "hoist",
-      "dir": "up"
+      "role": "winch",
+      "act": "raise"
     },
     {
-      "role": "hoist",
-      "dir": "up"
+      "role": "panel",
+      "act": "release"
     },
     {
-      "role": "hoist",
-      "dir": "up"
+      "role": "panel",
+      "act": "lock",
+      "stop": 5
     },
     {
-      "role": "boom",
-      "dir": "right"
+      "role": "winch",
+      "act": "lower",
+      "zone": "platform"
     },
     {
-      "role": "boom",
-      "dir": "right"
+      "role": "winch",
+      "act": "key"
     },
     {
-      "role": "boom",
-      "dir": "right"
-    },
-    {
-      "role": "boom",
-      "dir": "right"
-    },
-    {
-      "role": "hoist",
-      "dir": "down"
-    },
-    {
-      "role": "hoist",
-      "dir": "down"
-    },
-    {
-      "role": "hoist",
-      "dir": "up",
-      "key": true
-    },
-    {
-      "role": "boom",
-      "dir": "right",
-      "key": true
+      "role": "panel",
+      "act": "key"
     }
   ],
+  "mechanics": {
+    "stops": {
+      "count": 7,
+      "x": "x = 128 + 128 × stop in the picture (stop 0 to 6, painted 1 to 7)",
+      "fixtures": {
+        "intake": {
+          "stop": 0,
+          "about": "The intake hatch at the rail's left end: the crate starts in it, and rises out of it on the hook. The panel starts locked over it."
+        },
+        "deck": {
+          "stops": [
+            1,
+            2,
+            3
+          ],
+          "about": "Open deck: the crate crosses it on the way to the platform; lowered here, it misses."
+        },
+        "console": {
+          "stop": 4,
+          "about": "The Panel operator's console: they stand at it under the rail, their head just under the crate's path. Lowered while its swing has it over here, the crate falls on them: the drop."
+        },
+        "platform": {
+          "stop": 5,
+          "about": "The galley lift's landing platform: lowered over it, the crate lands and the platform's clamps hold it. The correct position. Then both turn a key and the lift takes it down to the galley."
+        },
+        "cab": {
+          "stop": 6,
+          "about": "The Winch operator's cab, hung under the rail's right end, past the platform. The panel locked here drops its blade into the cab: the cut."
+        }
+      }
+    },
+    "sweep": {
+      "rule": "sweep(from, dir, dt): the panel runs end to end and back at TIMING.stop = 220 ms a stop. Unfold the bounce: u = (dir > 0 ? from : 12 − from) + dt / 220, taken modulo 12; at = u ≤ 6 ? u : 12 − u, moving right while u ≤ 6.",
+      "lock": "A lock takes the nearest stop, Math.round(at): stop 7 (the cut) from half way between 6 and 7. A release starts from the locked stop in the direction the panel last moved (right from stop 1, left from stop 7).",
+      "proposed": true
+    },
+    "swing": {
+      "period": 1300,
+      "settle": 2200,
+      "least": 0.38,
+      "lock": 0.9,
+      "lift": 0.25,
+      "rule": "swingOffset(t) = dir × a × sin(2π (t − since) / period), with a = least + (amp − least) × e^(−(t − since) / settle), in stops along the rail. A lock with the crate hanging starts amp = SWING.lock in the panel's direction (back off the rail's end at stop 1 or 7); a raise ends in amp = SWING.lift, starting when it settles.",
+      "drawing": "The crate on its cable from the sheave at y 140: a pendulum 268 px long, angle asin(offset × 128 / 268), the crate tilted with its cable. Reduce motion: the same offset along the rail, upright and level.",
+      "proposed": true
+    },
+    "landing": {
+      "zones": {
+        "platform": 0.3,
+        "console": 0.42,
+        "intake": 0.42
+      },
+      "rule": "landingAt(x): within ZONES.platform of stop 6 'platform' (lands), within ZONES.console of stop 5 'console' (the drop), within ZONES.intake of stop 1 'intake', otherwise 'deck' (a miss).",
+      "proposed": true
+    },
+    "correctPosition": "Over the platform: the crate landed, or still on the hook of the panel locked at stop 6. A death anywhere else loses the Task at once.",
+    "interlocks": [
+      "Raise and Lower work only with the panel locked; Lower only with the crate up and settled.",
+      "RELEASE works only with the crate up and settled, or once it has landed (the empty hook).",
+      "The keys work only once the crate has landed; a turned key stays turned (PROPOSED)."
+    ],
+    "kills": "A kill on the Task is not an attack (the owner, 12 November 2026): the Task never reads or spends an attack opportunity, and nothing limits how often a player kills on Tasks. A lethal press is stopped if the partner is Protected, or by the catch's luck: the server rolls for each lethal press, and below CATCH.luck the catch holds (the owner: 25%). Otherwise it kills.",
+    "catch": {
+      "luck": 0.25,
+      "confirmed": true,
+      "rule": "roll < CATCH.luck: STOPPED, the same CLANK! as Protection; a Protected participant is always stopped, whatever the roll."
+    }
+  },
   "controls": {
-    "hoist": {
+    "winch": {
       "axis": "vertical",
       "station": "cab",
-      "attack": "drop",
-      "about": "Raises and lowers the crate from the cab at the left end of the rail",
+      "kill": "drop",
+      "about": "Raises and lowers the crate, from the cab at the right end of the rail",
       "buttons": [
         {
-          "dir": "up",
+          "act": "raise",
           "label": "Raise",
-          "key": "ArrowUp",
-          "arrow": "up"
+          "keyboard": "ArrowUp"
         },
         {
-          "dir": "down",
+          "act": "lower",
           "label": "Lower",
-          "key": "ArrowDown",
-          "arrow": "down"
+          "keyboard": "ArrowDown"
+        },
+        {
+          "act": "key",
+          "label": "Turn key",
+          "keyboard": "Enter"
         }
       ],
-      "docked": "Raise becomes 'Turn key' (then 'Key turned'); Lower is disabled.",
-      "hazard": "With the crate over the Boom operator, Lower is striped and says 'Drops it on <name>'."
+      "layout": "Raise above Lower, under the swing meter; once landed, the key in their place.",
+      "hazard": "While the swing has the crate over the Panel operator, Lower is striped and says 'Falls on <name>'.",
+      "says": "Lower says what it would do now: 'Onto the platform' (glowing), 'Falls on <name>' (striped), 'Misses: wait', 'Back into the hatch'."
     },
-    "boom": {
+    "panel": {
       "axis": "horizontal",
-      "station": "pulpit",
-      "attack": "ram",
-      "about": "Drives the gantry along the rail from the pulpit in the middle of the room",
+      "station": "console",
+      "kill": "cut",
+      "about": "Sets the locking panel sweeping along the rail and locks it at a stop, from the console under the rail",
       "buttons": [
         {
-          "dir": "left",
-          "label": "Left",
-          "key": "ArrowLeft",
-          "arrow": "left"
+          "act": "release",
+          "label": "RELEASE",
+          "keyboard": "Space"
         },
         {
-          "dir": "right",
-          "label": "Right",
-          "key": "ArrowRight",
-          "arrow": "right"
+          "act": "lock",
+          "label": "LOCK",
+          "keyboard": "Space"
+        },
+        {
+          "act": "key",
+          "label": "Turn key",
+          "keyboard": "Enter"
         }
       ],
-      "docked": "At the end stop, Right becomes 'Turn key' (then 'Key turned'); Left drives away and releases the key.",
-      "hazard": "At the cab's door, Left is striped and says 'Rams <name>'s cab'."
+      "layout": "One big button, RELEASE or LOCK, under the sweep strip; once landed, the key above it and RELEASE smaller.",
+      "hazard": "While the panel passes the cab's stop, LOCK is striped and says 'Here it cuts <name>'.",
+      "says": "LOCK says where it would stop: 'Stops it at 6: the platform' (glowing), 'Here it cuts <name>' (striped), 'Stops it over you', 'Stops it at <n>'."
     },
-    "press": "One press, one step. Holding repeats every 300 ms (PROPOSED), the server's own interval: a press inside it is refused (too-soon). No drag, swipe or gesture; two big buttons for the participant's own axis only.",
-    "deliberate": "PROPOSED: attacks are deliberate. A hold's repeat stops at a warning, and an attack needs a fresh press on a button that showed it (TASK_MOVE shown and repeat). Not a confirmation or an armed mode: one press of the same button acts. A press that is not an attack still moves, or jerks, the machine, and moving together near someone can cause an accident (the owner's decision; see accidents).",
-    "next": "The press the cooperative route asks for next glows (amber ring), on both phones for their own button.",
-    "keyboard": "Arrow keys on the participant's own axis; the others do nothing.",
-    "accessibility": "Each button's accessible name says its warning (\"Lower. Warning: drops it on Cleo.\"). The view is an image with a text equivalent (where the crate and the gantry are, and whether a warning shows). The hint is a polite live region. Large text: the controls keep their places (Raise above Lower, Left beside Right) and grow; the view gives way; cards scroll.",
+    "press": "One press, one act. No hold, drag, swipe or gesture. The phone sends the act its button showed.",
+    "next": "The press the cooperative route asks for now glows (amber); LOCK glows only while the panel is passing stop 6, Lower only while the swing has the crate over the platform.",
+    "keyboard": "Space for RELEASE and LOCK, the up and down arrows for Raise and Lower, Enter for the key; the other participant's keys do nothing.",
+    "accessibility": "Each button's accessible name says what it would do now (\"Lower. Warning: falls on Cleo.\"). The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). The hint is a polite live region that changes only with what to do; the strip and the meter are pictures of what the view and the buttons say. Large text: the controls keep their places and grow; the view gives way; cards scroll. A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
     "command": {
-      "name": "TASK_MOVE (a proposal for the shared contract; Integration owns packages/contracts/)",
+      "name": "TASK_PRESS (a proposal for the shared contract; Integration owns packages/contracts/)",
       "fields": [
         {
           "field": "taskId",
           "about": "The Task in progress."
         },
         {
-          "field": "dir",
-          "about": "'up' | 'down' (the Hoist) or 'left' | 'right' (the Boom). The key presses are the same buttons: the Hoist's up, the Boom's right at the end stop, when docked."
+          "field": "act",
+          "about": "'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), 'key' (either, once landed). The phone sends the act its button showed, so a double tap on LOCK never releases the panel."
         },
         {
-          "field": "shown",
-          "about": "PROPOSED: whether the pressed button showed the attack warning when pressed. A press that would attack with shown = false is not an attack: refused (stale), or, with the partner moving at the same moment, a jerk (JERKED) toward an accident."
-        },
-        {
-          "field": "repeat",
-          "about": "PROPOSED: whether the press is a hold's repeat. A repeat never attacks (refused: repeat, or a jerk as above); a fresh press on the warning does."
+          "field": "at",
+          "about": "PROPOSED: the moment of the press on the server's clock, as the phone showed it (the phone keeps the server's clock, as serverTimeMs already lets it). The server resolves the press at `at` if it arrives within TIMING.lag of it and nothing has changed since (changedAt); otherwise REFUSED late or stale."
         },
         {
           "field": "(no roll)",
-          "about": "The accident roll is the server's own random number for the press; the phone never sends or sees it."
+          "about": "The catch's roll is the server's own random number for a press that would kill; the phone never sends or sees it."
         }
       ],
       "answer": "The new revision of the Task state with the events, to both participants; REFUSED to the presser only."
@@ -752,54 +629,16 @@
     }
   },
   "timing": {
-    "step": 240,
-    "interval": 300,
+    "stop": 220,
+    "raise": 450,
+    "lower": 300,
     "briefing": 4000,
     "deadline": 45000,
     "grace": 8000,
     "ending": 2500,
     "answer": 15000,
+    "lag": 300,
     "proposed": true
-  },
-  "accidents": {
-    "decision": "The owner, 11 November 2026: \"if Player A and B position and the result near each other and there is a small movement in both parts there is chance they kill each other by mistake\".",
-    "window": 500,
-    "chance": 0.25,
-    "proposed": true,
-    "zones": {
-      "boom": {
-        "victim": "boom",
-        "kind": "swing",
-        "cells": [
-          [
-            3,
-            3
-          ],
-          [
-            4,
-            3
-          ],
-          [
-            5,
-            3
-          ],
-          [
-            5,
-            2
-          ]
-        ],
-        "about": "The crate over or beside the Boom operator's head: moving together, the swinging crate can hit them"
-      },
-      "cab": {
-        "victim": "hoist",
-        "kind": "lurch",
-        "carriage": [
-          1
-        ],
-        "about": "The gantry at the cab's door: moving together, it can lurch into the cab"
-      }
-    },
-    "rule": "A jolt: both participants move the machine (a move, or a jerk) within the window, and the machine is in a zone before or after the second move. The server rolls: below the chance, an accident kills the zone's victim (unless Protected: then a close call); otherwise a close call. No attack opportunity is used. Bumps, keys and refusals are not movement."
   },
   "food": {
     "initial": 5,
@@ -810,45 +649,65 @@
   },
   "motion": {
     "cues": {
-      "move": {
-        "ms": 240,
+      "sweep": {
+        "ms": 220,
+        "reduced": "The panel moves along the rail exactly as without Reduce motion (its place is the game), with no speed lines and no lean of the crate"
+      },
+      "swing": {
+        "ms": 1300,
+        "reduced": "The crate keeps its place along the rail (the game) but stays upright and level: no tilt, no rise"
+      },
+      "release": {
+        "ms": 90,
+        "ease": "out",
+        "reduced": "The blade up at once"
+      },
+      "lock": {
+        "ms": 90,
+        "ease": "in",
+        "reduced": "The panel at its stop and the blade down at once; a clunk mark for 400 ms"
+      },
+      "raise": {
+        "ms": 450,
         "ease": "in-out",
-        "reduced": "The part is at its new place at once"
+        "reduced": "The crate at its hanging height at once"
       },
-      "sway": {
-        "ms": 700,
-        "reduced": "None"
+      "lower": {
+        "ms": 300,
+        "ease": "in",
+        "reduced": "The crate where it falls, at once"
       },
-      "bump": {
-        "ms": 180,
-        "reduced": "A clunk mark at the contact for 400 ms; nothing moves"
+      "land": {
+        "ms": 140,
+        "reduced": "The jaws shut and the lamp lit at once"
+      },
+      "hookUp": {
+        "ms": 300,
+        "ease": "out",
+        "reduced": "The empty hook under the panel at once"
+      },
+      "miss": {
+        "ms": 220,
+        "reduced": "CLUNK! shown still for 600 ms"
+      },
+      "cut": {
+        "ms": 120,
+        "ease": "in",
+        "reduced": "The blade in the cab at once; CHOP! still"
       },
       "drop": {
-        "ms": 160,
+        "ms": 180,
         "ease": "in",
-        "reduced": "The crate is on the pulpit at once; THUD! shown still"
-      },
-      "ram": {
-        "ms": 140,
-        "ease": "in",
-        "reduced": "The gantry is at the cab at once; SLAM! shown still"
+        "reduced": "The crate on the console at once; THUD! still"
       },
       "stopped": {
         "ms": 320,
-        "reduced": "The catch shown thrown out, still, with CLANK! for 600 ms"
+        "reduced": "The catch shown thrown, still, with CLANK! for 600 ms"
       },
       "impact": {
         "ms": 900,
         "ease": "out",
         "reduced": "The burst and the lettering shown still for 900 ms"
-      },
-      "dock": {
-        "ms": 140,
-        "reduced": "The jaws shut at once"
-      },
-      "hookUp": {
-        "ms": 300,
-        "reduced": "The empty hook at the gantry at once"
       },
       "key": {
         "ms": 140,
@@ -857,7 +716,7 @@
       "send": {
         "ms": 1100,
         "ease": "in-out",
-        "reduced": "The cradle gone at once; the +5 stamp shown still"
+        "reduced": "The platform gone at once; the +5 stamp shown still"
       },
       "warning": {
         "ms": 660,
@@ -867,25 +726,10 @@
       "dim": {
         "ms": 600,
         "reduced": "Dimmed at once"
-      },
-      "swing": {
-        "ms": 380,
-        "ease": "in-out",
-        "reduced": "The crate shown against the Boom operator at once; WHAM! still"
-      },
-      "lurch": {
-        "ms": 160,
-        "ease": "in",
-        "reduced": "The gantry at the cab at once; CRASH! still"
-      },
-      "closeCall": {
-        "ms": 700,
-        "ease": "in-out",
-        "reduced": "WHOA! shown still for 700 ms; nothing swings"
       }
     },
     "proposed": true,
-    "rule": "Presentation only: a cue never delays a press, and the next authoritative state replaces a cue still playing. Reduce motion: each cue's reduced form; no flashing, no shake, no travel.",
+    "rule": "Presentation only: a cue never delays a press, and the next authoritative state replaces a cue still playing. The sweep and the swing are the Task itself: Reduce motion keeps them and takes away the rest (each cue's reduced form: no lean, no speed lines, no flashing, effects still).",
     "cards": "After a kill, the phones hold the outcome card until the impact cue has played, so both participants see the cause before the card covers the view."
   },
   "state": [
@@ -896,37 +740,37 @@
     },
     {
       "field": "seats",
-      "holds": "{ hoist, boom }: the participants' player numbers",
+      "holds": "{ winch, panel }: the participants' player numbers",
       "seenBy": "participants"
     },
     {
-      "field": "carriage",
-      "holds": "the gantry's column, 0 to 6",
+      "field": "panel",
+      "holds": "{ locked, stop } locked at a stop (0 to 6), or { locked: false, from, dir, since } running: its place at time t is sweep(from, dir, t − since)",
       "seenBy": "participants"
     },
     {
       "field": "crate",
-      "holds": "[column, row]",
+      "holds": "{ state: 'intake' | 'hanging' | 'deck' | 'fallen' | 'landed' | 'sent', x, since, from }: where it lies (x, a fractional stop), or hanging under the panel; since and from time its last move",
       "seenBy": "participants"
     },
     {
-      "field": "docked",
-      "holds": "whether the crate is clamped in the cradle",
+      "field": "swing",
+      "holds": "{ since, amp, dir } while the crate hangs under a locked panel: its offset at time t is swingOffset(swing, t)",
       "seenBy": "participants"
     },
     {
       "field": "keys",
-      "holds": "{ hoist, boom }: each key turned",
+      "holds": "{ winch, panel }: each key turned",
       "seenBy": "participants"
     },
     {
       "field": "alive",
-      "holds": "{ hoist, boom }",
+      "holds": "{ winch, panel }",
       "seenBy": "participants (deaths become public as any death does, on the return)"
     },
     {
       "field": "online",
-      "holds": "{ hoist, boom }: as the server observes the connection",
+      "holds": "{ winch, panel }: as the server observes the connection",
       "seenBy": "participants"
     },
     {
@@ -936,27 +780,17 @@
     },
     {
       "field": "outcome",
-      "holds": "{ result: 'delivered' (packages, alone) | 'lost' (why: 'not-in-cradle' | 'time') | 'cancelled' (why: 'disconnect', who) }",
+      "holds": "{ result: 'delivered' (packages, alone) | 'lost' (why: 'not-in-position' | 'time') | 'cancelled' (why: 'disconnect', who) }",
       "seenBy": "participants; PROPOSED public: delivered or not"
     },
     {
-      "field": "attack",
-      "holds": "{ hoist, boom }: whether each still has their one attack opportunity of the match (a kill or a blocked attack uses it up; it never returns)",
+      "field": "changedAt",
+      "holds": "the time of the last change to the crane (a raise, a release, a lock, a lower): a press made on an older picture is stale",
       "seenBy": "the server only"
     },
     {
       "field": "protection",
-      "holds": "{ hoist, boom }: whether each is Protected, as the existing rules decide",
-      "seenBy": "the server only"
-    },
-    {
-      "field": "lastMove",
-      "holds": "{ hoist, boom }: the time of each participant's last accepted press",
-      "seenBy": "the server only"
-    },
-    {
-      "field": "stir",
-      "holds": "{ hoist, boom }: the time each last moved the machine (a move or a jerk), for jolts",
+      "holds": "{ winch, panel }: whether each is Protected, as the existing rules decide",
       "seenBy": "the server only"
     }
   ],
@@ -968,57 +802,63 @@
       "seenBy": "both participants"
     },
     {
-      "type": "MOVED",
-      "fields": "by, dir, from { crate, carriage }, to { crate, carriage }",
-      "about": "One step: the crate on the hook, or the gantry with it.",
+      "type": "RAISED",
+      "fields": "by, from (intake | deck | fallen), x",
+      "about": "The crate slides under the hook and rises; it hangs, settled, TIMING.raise later, with a small swing.",
       "seenBy": "both participants"
     },
     {
-      "type": "BUMPED",
-      "fields": "by, dir, why (rib | pulpit | lift | deck | rail | wall | stop | in-intake | cradle | key-turned)",
-      "about": "Blocked: a clunk, nothing moves. The presser's hint says why.",
+      "type": "RELEASED",
+      "fields": "by, from (stop), dir",
+      "about": "The blade lifts and the panel runs from that stop: both phones animate sweep(from, dir, t − at).",
       "seenBy": "both participants"
     },
     {
-      "type": "DOCKED",
+      "type": "LOCKED",
+      "fields": "by, stop, dir, at (where the panel was, a fractional stop)",
+      "about": "The blade drops at the nearest stop; with the crate hanging, it starts to swing: amp SWING.lock, in dir (back off the rail's end at stop 1 or 7).",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "LOWERED",
+      "fields": "by, x, to ('platform' | 'console' | 'intake' | 'deck')",
+      "about": "The winch lets the crate fall from where its swing has it; the result follows at once.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "LANDED",
       "fields": "",
-      "about": "The crate entered the cradle: the jaws shut. The correct position.",
+      "about": "Onto the platform: the jaws close and the hook is free. The correct position. The keys work.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "MISSED",
+      "fields": "on ('deck' | 'intake' | 'fallen'), x",
+      "about": "Anywhere else: CLUNK. The crate lies on its hook; the Winch raises it again.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "STOPPED",
+      "fields": "kind ('cut' | 'drop'), by",
+      "about": "A lethal press that did not kill: the partner is Protected, or the catch held by luck (1 in 4). Identical either way, and whether or not it was meant.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "KILLED",
+      "fields": "kind ('cut' | 'drop'), by, victim",
+      "about": "A lethal press: the cut (a lock at stop 7) or the drop (a Lower over the console). Lethal, no escape, not the Hospital. Not an attack: it uses nothing (the owner).",
       "seenBy": "both participants"
     },
     {
       "type": "KEY",
       "fields": "by",
-      "about": "A key turned (the Hoist's Raise or the Boom's Right at the end stop, docked).",
+      "about": "A key turned, once landed.",
       "seenBy": "both participants"
     },
     {
-      "type": "KEY_RELEASED",
-      "fields": "by",
-      "about": "The Boom drove away from the end stop: its key turned back.",
-      "seenBy": "both participants"
-    },
-    {
-      "type": "STOPPED",
-      "fields": "kind (drop | ram), by",
-      "about": "An attack press that did not kill: Protection, or no attack opportunity left. Identical either way.",
-      "seenBy": "both participants"
-    },
-    {
-      "type": "KILLED",
-      "fields": "kind (drop | ram | swing | lurch), by (an attack only), accident (an accident only), victim, docked",
-      "about": "An unblocked attack, or an accident: lethal, no escape, not the Hospital.",
-      "seenBy": "both participants"
-    },
-    {
-      "type": "JERKED",
-      "fields": "by, dir",
-      "about": "A press that would attack, made on an older picture or as a hold's repeat, while the partner is moving: not an attack; it counts toward a jolt.",
-      "seenBy": "both participants"
-    },
-    {
-      "type": "NEAR_MISS",
-      "fields": "zone (boom | cab), kind, victim",
-      "about": "A jolt that did not kill: a close call (WHOA!). The same for a lucky roll and for a Protected participant.",
+      "type": "SENT",
+      "fields": "by (the living participants)",
+      "about": "Every living participant's key is turned: the lift takes the crate down to the galley.",
       "seenBy": "both participants"
     },
     {
@@ -1034,12 +874,6 @@
       "seenBy": "both participants"
     },
     {
-      "type": "SENT",
-      "fields": "by (the living participants)",
-      "about": "Every living participant's key is turned: the lift goes up.",
-      "seenBy": "both participants"
-    },
-    {
       "type": "ENDED",
       "fields": "outcome",
       "about": "Delivered, lost or cancelled. The outcome card shows, then the return.",
@@ -1047,7 +881,7 @@
     },
     {
       "type": "REFUSED",
-      "fields": "seat, dir, why (briefing | too-soon | down | ended | not-your-axis | stale | repeat | not-a-participant)",
+      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-your-control | late | stale | busy | crate-down | unlocked | locked | up | down-already | landed | not-landed | turned)",
       "about": "The press did nothing; only the presser is told, and the phone shows the current state.",
       "seenBy": "the presser"
     }
@@ -1055,7 +889,7 @@
   "projection": [
     {
       "fields": "role, roleName, axis",
-      "about": "Their own control: the Hoist (vertical) or the Boom (horizontal)."
+      "about": "Their own control: the Winch (vertical) or the Panel (horizontal)."
     },
     {
       "fields": "partnerSeat",
@@ -1070,16 +904,28 @@
       "about": "'alive' | 'down'; the partner also 'offline'."
     },
     {
+      "fields": "panel { locked, at, stop, dir }",
+      "about": "Where the panel is now (a fractional stop), its nearest stop, and its direction."
+    },
+    {
+      "fields": "crate { state, x, settled }",
+      "about": "Where the crate is now along the rail (a fractional stop), and whether its last move has finished."
+    },
+    {
+      "fields": "zone",
+      "about": "Where a Lower would put the crate now: 'platform' | 'console' | 'intake' | 'deck', or null when it cannot be lowered."
+    },
+    {
       "fields": "buttons[]",
-      "about": "{ dir, label, key, hazard, enabled, next }: the two buttons. key: the button turns a key now. hazard: this press would attack. next: the cooperative route asks for it."
+      "about": "{ act, label, enabled, next, hazard, zone, stop, turned }: the participant's own buttons. hazard: this press would kill the partner now. next: the cooperative route asks for it now."
     },
     {
       "fields": "warnings[]",
-      "about": "'crate-over-partner' | 'crate-over-you' | 'bumper-at-partner-cab' | 'bumper-at-your-cab': both participants see each position one press from an attack."
+      "about": "'panel-at-partner-cab' | 'panel-at-your-cab' | 'crate-over-partner' | 'crate-over-you': both participants see each danger while it lasts."
     },
     {
-      "fields": "docked, keys { you, partner, needed }",
-      "about": "The cradle and the keys; needed counts the living participants."
+      "fields": "keys { you, partner, needed }",
+      "about": "The keys; needed counts the living participants."
     },
     {
       "fields": "secondsLeft, briefingLeft",
@@ -1091,45 +937,41 @@
     },
     {
       "fields": "(never)",
-      "about": "Attack opportunity, Protection, the other participant's refusals, and why a STOPPED happened: no phone can show them."
+      "about": "Protection, the catch's roll, the other participant's refusals, why a STOPPED happened, and whether a lethal press was meant: no phone can show them."
     }
   ],
   "visibility": {
-    "participants": "Both see the whole Supply Room and its shared machine, every move and bump, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
+    "participants": "Both see the whole Supply Room and its crane: the panel running or locked, the crate's swing, every press's effect, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
     "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. PROPOSED: the result as the food stock shows it, delivered (+5) or nothing delivered; not how it went.",
     "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
-    "protection": "Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3). An accident never shows a STOPPED: a Protected participant has only a close call, exactly like a lucky roll.",
-    "accidents": "Both participants see an accident or a close call as it happens (WHAM!, CRASH!, WHOA!), and the victim's card says it was an accident. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was an accident.",
+    "protection": "Never shown. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing (the owner, 12 November 2026).",
+    "mistakes": "Both participants see a lethal press as it happens (CHOP!, THUD!), and neither phone says whether it was meant: the server cannot tell. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was a mistake.",
     "foodStock": "PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.",
-    "server": "Only the server holds attack opportunities, Protection, and the reason for a STOPPED."
+    "server": "Only the server holds Protection, the catch's roll, and the reason for a STOPPED."
   },
   "flow": [
     "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply: one Task initiation per match across Food and Engine.",
     "The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends the Partner's own initiation.",
     "The Partner can join or decline (the owner, 11 November 2026). PROPOSED: 15 s to answer, and no answer is a decline. After a decline the Volunteer asks someone else or closes; the Volunteer's initiation is used only when a Partner joins (PROPOSED). The request and its answer are private to the two (PROPOSED).",
     "The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
-    "Briefing (4 s PROPOSED): who runs which control, the route, the warning stripes. The controls do nothing yet.",
-    "Running (45 s PROPOSED): presses, the shared machine, the warnings, the keys.",
+    "Briefing (4 s PROPOSED): who runs which control, the route, the dangers. The controls do nothing yet.",
+    "Running (45 s PROPOSED): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
     "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were."
   ],
   "acceptance": [
     {
       "id": "cooperation",
-      "about": "Lift it out, drive it across, lower it into the cradle, both turn a key",
+      "about": "Raise it, release the panel, lock it over the platform, lower it as the swing passes over the platform, both turn a key",
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -1137,62 +979,32 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
-          "at": 5000,
+          "at": 5600,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 5300,
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9300,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 5800,
+          "at": 10200,
           "seat": 8,
-          "dir": "up"
+          "act": "key"
         },
         {
-          "at": 6500,
+          "at": 10800,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7000,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7500,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8000,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8600,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9100,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9700,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 10300,
-          "seat": 3,
-          "dir": "right"
+          "act": "key"
         }
       ],
       "then": {
@@ -1202,36 +1014,84 @@
           "alone": false
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
+        "locked": [
+          5
+        ],
         "present": [
-          "BUMPED",
-          "DOCKED",
+          "LANDED",
           "SENT"
         ],
         "absent": [
           "KILLED",
-          "STOPPED"
+          "STOPPED",
+          "MISSED"
+        ]
+      }
+    },
+    {
+      "id": "chop",
+      "about": "Lock the panel over the Winch operator's cab",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6920,
+          "seat": 3,
+          "act": "lock"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-position"
+        },
+        "alive": {
+          "winch": false,
+          "panel": true
+        },
+        "locked": [
+          6
+        ],
+        "present": [
+          "KILLED"
         ]
       }
     },
     {
       "id": "drop",
-      "about": "Lower while the crate hangs over the Boom operator",
+      "about": "Lower while the swing has the crate over the Panel operator; the panel stays over the platform, so the Winch finishes alone",
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -1239,252 +1099,37 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7675,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7600,
-          "seat": 8,
-          "dir": "down"
-        }
-      ],
-      "then": {
-        "outcome": {
-          "result": "lost",
-          "why": "not-in-cradle"
-        },
-        "alive": {
-          "hoist": true,
-          "boom": false
-        },
-        "present": [
-          "KILLED"
-        ]
-      }
-    },
-    {
-      "id": "ram",
-      "about": "Drive the gantry into the Hoist operator's cab",
-      "kind": "storyboard",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 7500,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 8300,
-          "seat": 3,
-          "dir": "left"
-        }
-      ],
-      "then": {
-        "outcome": {
-          "result": "lost",
-          "why": "not-in-cradle"
-        },
-        "alive": {
-          "hoist": false,
-          "boom": true
-        },
-        "present": [
-          "KILLED"
-        ]
-      }
-    },
-    {
-      "id": "survivor",
-      "about": "The ram after docking: the crate stays clamped, and the survivor sends it alone",
-      "kind": "storyboard",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7800,
-          "seat": 3,
-          "dir": "right"
+          "act": "lower"
         },
         {
           "at": 8600,
           "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9100,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9700,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 10400,
-          "seat": 3,
-          "dir": "left"
+          "seat": 8,
+          "act": "lower"
         },
         {
-          "at": 10780,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11160,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11540,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11920,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 12300,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 13200,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 13580,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 13960,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 14340,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 14720,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 15100,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 15700,
-          "seat": 3,
-          "dir": "right"
+          "at": 11200,
+          "seat": 8,
+          "act": "key"
         }
       ],
       "then": {
@@ -1494,32 +1139,106 @@
           "alone": true
         },
         "alive": {
-          "hoist": false,
-          "boom": true
+          "winch": true,
+          "panel": false
         },
         "present": [
-          "DOCKED",
+          "KILLED",
+          "LANDED",
+          "SENT"
+        ]
+      }
+    },
+    {
+      "id": "standoff",
+      "about": "Landed, the Winch turns its key; the Panel releases the empty panel instead, cuts, and sends the crate alone",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9300,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 10200,
+          "seat": 8,
+          "act": "key"
+        },
+        {
+          "at": 10900,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 11120,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 12000,
+          "seat": 3,
+          "act": "key"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": true
+        },
+        "alive": {
+          "winch": false,
+          "panel": true
+        },
+        "locked": [
+          5,
+          6
+        ],
+        "present": [
+          "LANDED",
           "KILLED",
           "SENT"
         ]
       }
     },
     {
-      "id": "protection-drop",
-      "about": "The Boom operator is Protected: the safety catch stops the crate",
+      "id": "protection-cut",
+      "about": "The Winch operator is Protected: the cab's roof buffer catches the blade",
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": true
+          "winch": true,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -1527,62 +1246,42 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 6800,
+          "at": 6920,
           "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
-          "at": 7600,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9200,
+          "at": 8400,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 9700,
+          "at": 8620,
           "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
-          "at": 10300,
+          "at": 11220,
           "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 10800,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 11400,
-          "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
           "at": 12000,
+          "seat": 8,
+          "act": "key"
+        },
+        {
+          "at": 12600,
           "seat": 3,
-          "dir": "right"
+          "act": "key"
         }
       ],
       "then": {
@@ -1592,9 +1291,13 @@
           "alone": false
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
+        "locked": [
+          6,
+          5
+        ],
         "present": [
           "STOPPED",
           "SENT"
@@ -1605,21 +1308,17 @@
       }
     },
     {
-      "id": "protection-ram",
-      "about": "The Hoist operator is Protected: the cab's spring buffer stops the gantry",
+      "id": "protection-drop",
+      "about": "The Panel operator is Protected: the winch's brake catches the crate",
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": true,
-          "boom": false
+          "winch": false,
+          "panel": true
         },
         "briefingEndsAt": 4000
       },
@@ -1627,82 +1326,37 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7675,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
+          "at": 9300,
+          "seat": 8,
+          "act": "lower"
         },
         {
-          "at": 7000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 7500,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 8300,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 9900,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 10350,
-          "seat": 3,
-          "dir": "right"
+          "at": 10200,
+          "seat": 8,
+          "act": "key"
         },
         {
           "at": 10800,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 11250,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 11700,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 12600,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 13100,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 13700,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 14300,
-          "seat": 3,
-          "dir": "right"
+          "act": "key"
         }
       ],
       "then": {
@@ -1712,8 +1366,8 @@
           "alone": false
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
         "present": [
           "STOPPED",
@@ -1725,21 +1379,17 @@
       }
     },
     {
-      "id": "accident",
-      "about": "Both move at once while the crate hangs beside the Boom operator: the jolt swings it into them",
+      "id": "mistakes",
+      "about": "A lock one stop early, a Lower too soon: each is put right, and the crate still goes down",
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -1747,134 +1397,52 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
+          "seat": 3,
+          "act": "release"
         },
         {
-          "at": 6300,
+          "at": 6400,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
           "at": 7300,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 7500,
-          "seat": 8,
-          "dir": "down",
-          "roll": 0.1
-        }
-      ],
-      "then": {
-        "outcome": {
-          "result": "lost",
-          "why": "not-in-cradle"
-        },
-        "alive": {
-          "hoist": true,
-          "boom": false
-        },
-        "accident": true,
-        "attack": {
-          "hoist": true,
-          "boom": true
-        }
-      },
-      "proposed": [
-        "A 1 in 4 chance when both move within half a second near someone"
-      ]
-    },
-    {
-      "id": "near-miss",
-      "about": "The same jolt beside the Boom operator, and this time the crate only swings close",
-      "kind": "storyboard",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
+          "at": 7520,
           "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7500,
+          "at": 7845,
           "seat": 8,
-          "dir": "down",
-          "roll": 0.9
+          "act": "lower"
         },
         {
-          "at": 8500,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 9100,
+          "at": 8600,
           "seat": 8,
-          "dir": "down"
+          "act": "raise"
         },
         {
-          "at": 9700,
+          "at": 10350,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 10300,
+          "at": 11200,
+          "seat": 8,
+          "act": "key"
+        },
+        {
+          "at": 11800,
           "seat": 3,
-          "dir": "right"
+          "act": "key"
         }
       ],
       "then": {
@@ -1884,37 +1452,34 @@
           "alone": false
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
-        "present": [
-          "NEAR_MISS",
-          "SENT"
+        "locked": [
+          4,
+          5
+        ],
+        "missed": [
+          "deck"
         ],
         "absent": [
-          "KILLED"
+          "KILLED",
+          "STOPPED"
         ]
-      },
-      "proposed": [
-        "A 1 in 4 chance when both move within half a second near someone"
-      ]
+      }
     },
     {
       "id": "timeout",
-      "about": "The crate never reaches the cradle before the deadline",
+      "about": "The crate never lands before the deadline",
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -1922,32 +1487,17 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
+          "seat": 3,
+          "act": "release"
         },
         {
-          "at": 6300,
+          "at": 6000,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
           "at": 49000
@@ -1959,9 +1509,12 @@
           "why": "time"
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
+        "locked": [
+          2
+        ],
         "absent": [
           "KILLED",
           "SENT"
@@ -1977,16 +1530,12 @@
       "kind": "storyboard",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -1994,47 +1543,38 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
+          "seat": 3,
+          "act": "release"
         },
         {
           "at": 6300,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7000,
-          "seat": 3,
           "online": false
         },
         {
-          "at": 15000
+          "at": 14300
         }
       ],
       "then": {
         "outcome": {
           "result": "cancelled",
           "why": "disconnect",
-          "who": "boom"
+          "who": "panel"
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
         "present": [
           "OFFLINE"
         ],
         "absent": [
-          "SENT"
+          "SENT",
+          "LOCKED"
         ]
       },
       "proposed": [
@@ -2047,16 +1587,12 @@
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2064,7 +1600,7 @@
         {
           "at": 1000,
           "seat": 8,
-          "dir": "up"
+          "act": "raise"
         }
       ],
       "then": {
@@ -2073,26 +1609,22 @@
           "briefing"
         ],
         "absent": [
-          "MOVED"
+          "RAISED"
         ]
       }
     },
     {
-      "id": "too-soon",
-      "about": "A second press within the interval is refused; holding a button repeats at the interval.",
+      "id": "not-your-control",
+      "about": "A participant cannot press the other's control: the Winch has no LOCK.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2100,110 +1632,94 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
+          "act": "lock"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "not-your-control"
+        ]
+      }
+    },
+    {
+      "id": "release-needs-the-crate-up",
+      "about": "The panel will not run while the crate is down on its hook: RELEASE first needs the Winch's Raise.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 3,
+          "act": "release"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "crate-down"
+        ],
+        "absent": [
+          "RELEASED"
+        ]
+      }
+    },
+    {
+      "id": "busy-while-raising",
+      "about": "While the crate is still rising, the panel cannot be released.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
         },
         {
           "at": 4800,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 4900,
-          "seat": 8,
-          "dir": "up"
+          "seat": 3,
+          "act": "release"
         }
       ],
       "then": {
         "outcome": null,
         "refused": [
-          "too-soon"
-        ],
-        "moves": 2
-      }
-    },
-    {
-      "id": "not-your-axis",
-      "about": "A participant cannot press the other axis: the Hoist has no Left.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "left"
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "refused": [
-          "not-your-axis"
+          "busy"
         ]
       }
     },
     {
-      "id": "intake-holds",
-      "about": "While the crate sits in the intake hatch, driving the gantry is a bump.",
+      "id": "lower-needs-the-lock",
+      "about": "While the panel runs, the winch is held: Lower does nothing until the panel is locked.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 3,
-          "dir": "right"
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "bumped": [
-          "in-intake"
-        ],
-        "moves": 0
-      }
-    },
-    {
-      "id": "rib-blocks",
-      "about": "The crate crosses the rib only at the top row.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2211,86 +1727,112 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 3,
-          "dir": "right"
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "bumped": [
-          "rib"
-        ]
-      }
-    },
-    {
-      "id": "pulpit-blocks",
-      "about": "Lowering from the top row elsewhere is free; below the top row the crate cannot enter the pulpit's column from the side.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
+          "seat": 3,
+          "act": "release"
         },
         {
-          "at": 6300,
+          "at": 6000,
+          "seat": 8,
+          "act": "lower"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "unlocked"
+        ],
+        "absent": [
+          "LOWERED"
+        ]
+      }
+    },
+    {
+      "id": "lock-twice",
+      "about": "A second LOCK on a locked panel does nothing: the button sends what it showed, so a double tap never releases it.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
         },
         {
           "at": 6800,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7800,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 8400,
-          "seat": 3,
-          "dir": "left"
+          "act": "lock"
         }
       ],
       "then": {
         "outcome": null,
-        "bumped": [
-          "pulpit"
+        "refused": [
+          "locked"
+        ],
+        "locked": [
+          5
+        ]
+      }
+    },
+    {
+      "id": "lock-rounds-to-the-platform",
+      "about": "A lock takes the nearest stop: just short of half way between 6 and 7, it locks over the platform.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6809,
+          "seat": 3,
+          "act": "lock"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "locked": [
+          5
         ],
         "absent": [
           "KILLED",
@@ -2299,21 +1841,17 @@
       }
     },
     {
-      "id": "no-opportunity",
-      "about": "A Hoist who used the one attack of the match in an earlier Task lowers over the Boom: STOPPED, exactly as Protection would show.",
+      "id": "lock-rounds-to-the-cab",
+      "about": "From half way between 6 and 7 on, a lock takes stop 7: the cut. The danger begins half a stop before the rail's end.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": false,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2321,39 +1859,262 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 6800,
+          "at": 6810,
           "seat": 3,
-          "dir": "right"
+          "act": "lock"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-position"
+        },
+        "locked": [
+          6
+        ],
+        "alive": {
+          "winch": false,
+          "panel": true
+        }
+      }
+    },
+    {
+      "id": "press-counts-as-shown",
+      "about": "PROPOSED press timing. A LOCK made with the panel over the platform arrives 250 ms later, when the panel is already over the cab: it counts where the phone showed it.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
         },
         {
-          "at": 7600,
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock",
+          "arrival": 6950
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "locked": [
+          5
+        ],
+        "absent": [
+          "KILLED",
+          "STOPPED"
+        ]
+      }
+    },
+    {
+      "id": "late-press",
+      "about": "PROPOSED press timing. A press that arrives more than 300 ms after it was made is refused, and the phone shows where the panel is now.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
           "seat": 8,
-          "dir": "down"
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock",
+          "arrival": 7100
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "late"
+        ],
+        "absent": [
+          "LOCKED"
+        ]
+      }
+    },
+    {
+      "id": "stale-press",
+      "about": "PROPOSED press timing. A Lower made on a picture from before the panel was released arrives after the release: refused, never resolved on a picture that is gone.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7500,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 7400,
+          "seat": 8,
+          "act": "lower",
+          "arrival": 7550
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "stale"
+        ],
+        "absent": [
+          "LOWERED"
+        ]
+      }
+    },
+    {
+      "id": "drop-from-the-console-stop",
+      "about": "Locked over the console instead of the platform, the crate swings right over the Panel operator. Lowered then, it falls on them, and the panel is not over the platform: the Task is lost.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6480,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7130,
+          "seat": 8,
+          "act": "lower"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-position"
+        },
+        "locked": [
+          4
+        ],
+        "alive": {
+          "winch": true,
+          "panel": false
+        }
+      }
+    },
+    {
+      "id": "lucky-catch-cut",
+      "about": "The owner's luck: Hana is not Protected, but the server's roll for the lock is under 1 in 4: the roof buffer holds, CLANK!, exactly as Protection would show.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6920,
+          "seat": 3,
+          "act": "lock",
+          "roll": 0.1
         }
       ],
       "then": {
         "outcome": null,
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         },
         "present": [
           "STOPPED"
@@ -2364,21 +2125,17 @@
       }
     },
     {
-      "id": "blocked-twice",
-      "about": "A Protected Boom: the drop is stopped, and again on a second try: the first block used up the Hoist's one attack.",
+      "id": "lucky-catch-drop",
+      "about": "The same luck on the drop: the winch's brake holds and the crate swings on.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": true
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2386,44 +2143,135 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 6800,
+          "at": 6700,
           "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
-          "at": 7600,
+          "at": 7675,
           "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 8200,
-          "seat": 8,
-          "dir": "down"
+          "act": "lower",
+          "roll": 0.2
         }
       ],
       "then": {
         "outcome": null,
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
+        },
+        "present": [
+          "STOPPED"
+        ],
+        "absent": [
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "luck-runs-out",
+      "about": "A roll of 1 in 4 or more: the catch does not hold, and the cut kills.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6920,
+          "seat": 3,
+          "act": "lock",
+          "roll": 0.25
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-position"
+        },
+        "alive": {
+          "winch": false,
+          "panel": true
+        },
+        "present": [
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "blocked-twice",
+      "about": "A Protected Panel operator: the drop is stopped, and again on a second try at once. Protection holds every time, whatever the roll.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": true
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7675,
+          "seat": 8,
+          "act": "lower",
+          "roll": 0.9
+        },
+        {
+          "at": 7700,
+          "seat": 8,
+          "act": "lower",
+          "roll": 0.9
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "alive": {
+          "winch": true,
+          "panel": true
         },
         "stops": 2,
         "absent": [
@@ -2432,21 +2280,17 @@
       }
     },
     {
-      "id": "key-release",
-      "about": "The Boom's key turns only at the end stop with the crate docked; driving away releases it.",
+      "id": "back-into-the-intake",
+      "about": "Lowered again at once over the intake, the crate goes back into the hatch: a miss, nothing worse.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2454,87 +2298,37 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8600,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9100,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9700,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 10300,
-          "seat": 3,
-          "dir": "left"
+          "act": "lower"
         }
       ],
       "then": {
         "outcome": null,
-        "present": [
-          "DOCKED",
-          "KEY",
-          "KEY_RELEASED"
+        "missed": [
+          "intake"
         ],
         "absent": [
-          "SENT"
+          "KILLED",
+          "STOPPED"
         ]
       }
     },
     {
-      "id": "docked-hoist-down",
-      "about": "Docked, the Hoist cannot lower further: a bump, and no drop is possible.",
+      "id": "landed-winch-idle",
+      "about": "Landed, the crate is clamped: the Winch cannot raise it off the platform.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2542,77 +2336,51 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 6800,
+          "at": 6700,
           "seat": 3,
-          "dir": "right"
+          "act": "lock"
         },
         {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8600,
+          "at": 9300,
           "seat": 8,
-          "dir": "down"
+          "act": "lower"
         },
         {
-          "at": 9100,
+          "at": 9800,
           "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9700,
-          "seat": 8,
-          "dir": "down"
+          "act": "raise"
         }
       ],
       "then": {
         "outcome": null,
-        "bumped": [
-          "cradle"
+        "refused": [
+          "landed"
+        ],
+        "present": [
+          "LANDED"
         ]
       }
     },
     {
-      "id": "reconnect-in-grace",
-      "about": "Out of contact for less than the grace: the Task never paused, and it goes on.",
+      "id": "key-before-landing",
+      "about": "The keys work only once the crate has landed.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2620,77 +2388,41 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
-          "seat": 8,
-          "dir": "up"
+          "seat": 3,
+          "act": "release"
         },
         {
           "at": 6000,
-          "seat": 3,
-          "online": false
-        },
-        {
-          "at": 13000,
-          "seat": 3,
-          "online": true
-        },
-        {
-          "at": 14000,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 14500,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 15000,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 15500,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 17000
+          "seat": 8,
+          "act": "key"
         }
       ],
       "then": {
         "outcome": null,
-        "present": [
-          "OFFLINE",
-          "ONLINE"
+        "refused": [
+          "not-landed"
         ],
-        "moves": 7
+        "absent": [
+          "KEY"
+        ]
       }
     },
     {
-      "id": "death-stands",
-      "about": "An attack that lands while the partner is out of contact stands: the Task ends lost, not cancelled.",
+      "id": "key-twice",
+      "about": "A turned key stays turned; a second turn does nothing.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2698,69 +2430,128 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9300,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "online": false
-        },
-        {
-          "at": 7600,
+          "at": 10000,
           "seat": 8,
-          "dir": "down"
+          "act": "key"
         },
         {
-          "at": 15800
+          "at": 10300,
+          "seat": 8,
+          "act": "key"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "turned"
+        ],
+        "present": [
+          "KEY"
+        ]
+      }
+    },
+    {
+      "id": "keys-stay-turned",
+      "about": "PROPOSED. Landed, Hana turns the Winch's key; Cleo releases the empty panel and locks it again short of the cab, then turns the Panel's key: delivered by both, Hana's key still turned.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9300,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 10200,
+          "seat": 8,
+          "act": "key"
+        },
+        {
+          "at": 10900,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 11340,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 11800,
+          "seat": 3,
+          "act": "key"
         }
       ],
       "then": {
         "outcome": {
-          "result": "lost",
-          "why": "not-in-cradle"
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
         },
-        "alive": {
-          "hoist": true,
-          "boom": false
-        }
+        "locked": [
+          5,
+          5
+        ],
+        "absent": [
+          "KILLED"
+        ]
       }
     },
     {
-      "id": "offline-victim-docked",
-      "about": "Docked; the Hoist drops out of contact and the Boom rams the cab. The death stands, the dead Hoist's connection no longer matters, and the Boom sends alone.",
+      "id": "cut-after-own-key",
+      "about": "Landed, Cleo turns the Panel's key first, then releases and cuts: Hana dies with the crate on the platform, and Cleo's key is already turned, so it goes down at once.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2768,120 +2559,37 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9300,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 6300,
+          "at": 10200,
           "seat": 3,
-          "dir": "right"
+          "act": "key"
         },
         {
-          "at": 6800,
+          "at": 10900,
           "seat": 3,
-          "dir": "right"
+          "act": "release"
         },
         {
-          "at": 7300,
+          "at": 11120,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8600,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9100,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9600,
-          "seat": 8,
-          "online": false
-        },
-        {
-          "at": 10000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 10400,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 10800,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11200,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11600,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 12000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 12600,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 13000,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 13400,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 13800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 14200,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 14600,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 15000,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 21600
+          "act": "lock"
         }
       ],
       "then": {
@@ -2891,8 +2599,201 @@
           "alone": true
         },
         "alive": {
-          "hoist": false,
-          "boom": true
+          "winch": false,
+          "panel": true
+        }
+      }
+    },
+    {
+      "id": "reconnect-in-grace",
+      "about": "Out of contact for less than the grace: the Task never paused, and it goes on.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5000,
+          "seat": 3,
+          "online": false
+        },
+        {
+          "at": 12000,
+          "seat": 3,
+          "online": true
+        },
+        {
+          "at": 13000,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 15000
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "present": [
+          "OFFLINE",
+          "ONLINE",
+          "RELEASED"
+        ]
+      }
+    },
+    {
+      "id": "death-stands-in-grace",
+      "about": "A drop that lands while its victim is out of contact stands; the panel is over the platform, so the Winch goes on alone and delivers. The dead participant's connection no longer matters.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7000,
+          "seat": 3,
+          "online": false
+        },
+        {
+          "at": 7675,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 10400,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 11200,
+          "seat": 8,
+          "act": "key"
+        },
+        {
+          "at": 15500
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": true
+        },
+        "alive": {
+          "winch": true,
+          "panel": false
+        }
+      }
+    },
+    {
+      "id": "offline-victim-cut",
+      "about": "Landed; the Winch operator drops out of contact and the Panel operator cuts. The death stands and the Panel's key alone sends the crate.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9300,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 10000,
+          "seat": 8,
+          "online": false
+        },
+        {
+          "at": 10900,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 11120,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 12000,
+          "seat": 3,
+          "act": "key"
+        },
+        {
+          "at": 18500
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": true
+        },
+        "alive": {
+          "winch": false,
+          "panel": true
         }
       }
     },
@@ -2902,16 +2803,12 @@
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -2919,82 +2816,27 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7675,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 6300,
+          "at": 8000,
           "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8600,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 9100,
-          "seat": 8,
-          "dir": "down"
-        },
-        {
-          "at": 10000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 10400,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 10800,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11200,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 11600,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 12000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 12600,
-          "seat": 8,
-          "dir": "up"
+          "act": "release"
         }
       ],
       "then": {
@@ -3003,27 +2845,23 @@
           "down"
         ],
         "alive": {
-          "hoist": false,
-          "boom": true
+          "winch": true,
+          "panel": false
         }
       }
     },
     {
-      "id": "race-jolt",
-      "about": "Attacks are deliberate. Cleo drives the crate back over Cleo's own head just as Hana's Lower, pressed on the old picture, arrives: not an attack, only a jerk of the winch; with both moving at once it is a jolt, here a close call. A fresh Lower on the warning then drops it.",
+      "id": "survivor-out-of-time",
+      "about": "After the drop, the Winch can finish alone, but only before the deadline: here Hana never lowers it in, and the Task is lost on time.",
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -3031,469 +2869,36 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
           "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6700,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7675,
           "seat": 8,
-          "dir": "up"
+          "act": "lower"
         },
         {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 8050,
-          "seat": 8,
-          "dir": "down",
-          "shown": false
-        },
-        {
-          "at": 8700,
-          "seat": 8,
-          "dir": "down",
-          "shown": true
+          "at": 49000
         }
       ],
       "then": {
         "outcome": {
           "result": "lost",
-          "why": "not-in-cradle"
+          "why": "time"
         },
-        "present": [
-          "JERKED",
-          "NEAR_MISS"
-        ],
         "alive": {
-          "hoist": true,
-          "boom": false
+          "winch": true,
+          "panel": false
         }
-      }
-    },
-    {
-      "id": "race-accident",
-      "about": "The same race with an unlucky roll: the jerk and the drive together swing the crate into Cleo. An accident: Hana's attack is not used.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 8000,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 8050,
-          "seat": 8,
-          "dir": "down",
-          "shown": false,
-          "roll": 0.1
-        }
-      ],
-      "then": {
-        "outcome": {
-          "result": "lost",
-          "why": "not-in-cradle"
-        },
-        "accident": true,
-        "alive": {
-          "hoist": true,
-          "boom": false
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        }
-      }
-    },
-    {
-      "id": "cab-lurch",
-      "about": "The gantry at the cab's door and both moving at once: an unlucky roll lurches it into the cab. An accident: the Hoist is killed and the Task is lost.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 6500,
-          "seat": 8,
-          "dir": "down",
-          "roll": 0.1
-        }
-      ],
-      "then": {
-        "outcome": {
-          "result": "lost",
-          "why": "not-in-cradle"
-        },
-        "accident": true,
-        "alive": {
-          "hoist": false,
-          "boom": true
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        }
-      }
-    },
-    {
-      "id": "protected-close-call",
-      "about": "The Boom is Protected and the roll is unlucky: still only a close call. No STOPPED, so an accident shows nothing about Protection.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": true
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7500,
-          "seat": 8,
-          "dir": "down",
-          "roll": 0.1
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "alive": {
-          "hoist": true,
-          "boom": true
-        },
-        "present": [
-          "NEAR_MISS"
-        ],
-        "absent": [
-          "KILLED",
-          "STOPPED"
-        ]
-      }
-    },
-    {
-      "id": "one-at-a-time",
-      "about": "The same crossing, but Hana waits until Cleo has stopped: no jolt, whatever the roll.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7900,
-          "seat": 8,
-          "dir": "down",
-          "roll": 0
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "absent": [
-          "NEAR_MISS",
-          "KILLED"
-        ]
-      }
-    },
-    {
-      "id": "together-bump",
-      "about": "Both press at once at the cab's door, but Hana's Raise only bumps the rail: nothing moved, so no jolt.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "left"
-        },
-        {
-          "at": 6400,
-          "seat": 8,
-          "dir": "up",
-          "roll": 0
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "bumped": [
-          "rail"
-        ],
-        "absent": [
-          "NEAR_MISS",
-          "KILLED"
-        ]
-      }
-    },
-    {
-      "id": "hold-stops-at-warning",
-      "about": "PROPOSED deliberate attacks only. A held Raise or Lower repeats, but a repeat never carries into an attack: it stops at the warning, and only a fresh press attacks.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
-        },
-        "protection": {
-          "hoist": false,
-          "boom": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6300,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 6800,
-          "seat": 3,
-          "dir": "right"
-        },
-        {
-          "at": 7600,
-          "seat": 8,
-          "dir": "down",
-          "repeat": true,
-          "shown": true
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "refused": [
-          "repeat"
-        ],
-        "alive": {
-          "hoist": true,
-          "boom": true
-        },
-        "absent": [
-          "KILLED",
-          "STOPPED"
-        ]
       }
     },
     {
@@ -3502,16 +2907,12 @@
       "kind": "edge",
       "given": {
         "seats": {
-          "hoist": 8,
-          "boom": 3
-        },
-        "attack": {
-          "hoist": true,
-          "boom": true
+          "winch": 8,
+          "panel": 3
         },
         "protection": {
-          "hoist": false,
-          "boom": false
+          "winch": false,
+          "panel": false
         },
         "briefingEndsAt": 4000
       },
@@ -3519,36 +2920,26 @@
         {
           "at": 4600,
           "seat": 8,
-          "dir": "up"
+          "act": "raise"
         },
         {
-          "at": 5100,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 5600,
-          "seat": 8,
-          "dir": "up"
-        },
-        {
-          "at": 6000,
+          "at": 5000,
           "seat": 8,
           "online": false
         },
         {
-          "at": 14000
+          "at": 13000
         }
       ],
       "then": {
         "outcome": {
           "result": "cancelled",
           "why": "disconnect",
-          "who": "hoist"
+          "who": "winch"
         },
         "alive": {
-          "hoist": true,
-          "boom": true
+          "winch": true,
+          "panel": true
         }
       }
     }
@@ -3561,29 +2952,30 @@
         "disconnect"
       ],
       "conflict": "If a disconnect cancelled the Task at once, a player could escape an attack by dropping their connection (switching off the network), which \"no escape\" forbids, and a network blip would wipe out a Task.",
-      "solution": "The server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on: an attack pressed in the grace resolves, and a death that resolved before the cancellation stands (a dead participant's connection no longer matters). Back in time, nothing paused. Out longer, the Task is cancelled and both return.",
+      "solution": "The server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on: the panel keeps running, a cut or a drop in the grace resolves, and a death that resolved before the cancellation stands (a dead participant's connection no longer matters). Back in time, nothing paused. Out longer, the Task is cancelled and both return.",
       "residual": "A participant can still end a Task they dislike by staying offline. Whether a deliberate disconnect should cost anything is the owner's call (open item)."
     },
     {
-      "id": "survivor-asymmetry",
+      "id": "survivor-paths",
       "rules": [
         "betrayal",
         "survivor"
       ],
-      "conflict": "The drop puts the crate onto the Boom operator, out of the cradle, so a Hoist who drops can never complete alone. Only the Boom's ram, after docking, can kill and still deliver. The rules make the two betrayals unequal.",
-      "solution": "Inside the rules: the server assigns the controls at random (PROPOSED), so neither player chooses the stronger seat; both phones show both risks equally; the two-key send makes docking a visible standoff (the Hoist's key turned and waiting is the moment to watch the gantry). Game Balance to judge the asymmetry with tools/balance.",
-      "residual": "Accepting the asymmetry, or asking for a symmetric mechanic, is the owner's decision."
+      "conflict": "Both can betray, but a survivor completes only from the correct position. A betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal: the gantry this crane replaced let only one operator kill and still deliver.",
+      "solution": "The crane gives each operator exactly one way to kill and still deliver. The Winch: from the platform stop, a Lower during the swing over the console, then lowered in alone and its own key. The Panel: after the landing, a cut while the keys wait, then its own key. Every other kill loses the Task. The server assigns the controls at random (PROPOSED), and both phones show both dangers equally.",
+      "residual": "Game Balance to judge with tools/balance whether the two paths are equally tempting; the owner accepts them or asks for a change."
     },
     {
       "id": "blocked-attack-disclosure",
       "rules": [
         "no-escape",
         "visibility",
-        "one-opportunity"
+        "task-kills",
+        "lucky-catch"
       ],
-      "conflict": "Protection applies, but a blocked attack is something the attacker sees fail. An attacker who knows they still had their opportunity learns that the victim is Protected, which \"does not automatically authorize Protection disclosure\".",
-      "solution": "The design discloses as little as the rules allow: one STOPPED for Protection and for a spent opportunity alike, with no reason on either phone; the victim cannot tell which it was; no one else learns anything. The attacker's inference cannot be removed without a third reason for a stop, which the rules do not have.",
-      "residual": "Accepted by the owner (11 November 2026): the attacker may infer Protection from a failed attack."
+      "conflict": "Protection applies, but a stopped kill is something both participants see. With a kill on the Task not an attack (the owner, 12 November), nothing else could stop one: every CLANK! would have meant Protection, which \"does not automatically authorize Protection disclosure\".",
+      "solution": "The owner's luck: the catch also holds by chance one time in four, by the server's own roll. A CLANK! is the same for Protection and for luck, with no reason on either phone, and no one else learns anything.",
+      "residual": "Settled by the owner (12 November 2026). A presser who is stopped again and again on the same partner may still suspect Protection; the owner had already accepted that inference (11 November)."
     },
     {
       "id": "deduced-attribution",
@@ -3592,8 +2984,19 @@
         "return"
       ],
       "conflict": "With two participants, a death on the Task names the killer to anyone who knows who went: the return shows the body, and the other participant is the only possible cause. The rules forbid automatic attribution but make it deducible.",
-      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it. Accidents (the owner's decision, the same day) make any Task death possibly an accident, so the survivor always has a story.",
+      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it. The crane's mistakes (the owner's accidents) make any Task death possibly a mistake, so the survivor always has a story.",
       "residual": "Settled by the owner's decision: nothing left to decide."
+    },
+    {
+      "id": "mistake-or-attack",
+      "rules": [
+        "accidents",
+        "one-opportunity",
+        "task-kills"
+      ],
+      "conflict": "Kills by mistake are wanted, and each player has one attack per match. Nothing can tell a mistake from an attack: if a Task kill were an attack, an honest mistake would spend it; if not, the one-attack rule cannot limit kills on Tasks.",
+      "solution": "The owner's decision (12 November 2026): a kill on the Task is not an attack, and nothing limits how often a player kills on Tasks.",
+      "residual": "Settled by the owner: nothing left to decide."
     }
   ],
   "openItems": [
@@ -3635,12 +3038,12 @@
     {
       "id": "timing",
       "owner": "Game Balance",
-      "item": "The PROPOSED timing: 4 s briefing, 45 s deadline, 8 s grace, 300 ms between presses."
+      "item": "The PROPOSED timing: a 4 s briefing, a 45 s deadline, an 8 s grace; the panel at 0.22 s a stop; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall."
     },
     {
-      "id": "asymmetry",
+      "id": "paths",
       "owner": "Game Balance",
-      "item": "The survivor asymmetry (conflict 2) and the food economy: five packages, five per delivery, one dose per player at each Eating step."
+      "item": "The two kill-and-deliver paths (conflict 2) and the food economy: five packages, five per delivery, one dose per player at each Eating step."
     },
     {
       "id": "eating-order",
@@ -3648,24 +3051,19 @@
       "item": "The Eating step's place in the round and its order: with the stock short, the order decides who goes to the Hospital."
     },
     {
-      "id": "deliberate-attacks",
-      "owner": "owner, Backend",
-      "item": "PROPOSED: attacks are deliberate. A press made on an older picture, or a hold's repeat, never attacks; with the partner moving at the same moment it counts toward an accident instead (TASK_MOVE shown and repeat)."
+      "id": "press-timing",
+      "owner": "Backend, Integration",
+      "item": "PROPOSED: a press counts at the moment its phone showed it, on the server's clock, if it arrives within 300 ms and nothing has changed since; otherwise it is refused (late or stale). The clock sync and the allowance are Backend's; a modified phone could choose its moment inside the allowance."
     },
     {
-      "id": "accident-numbers",
-      "owner": "Game Balance",
-      "item": "The accident numbers: a 1 in 4 chance, a half-second window, and the two zones (PROPOSED)."
-    },
-    {
-      "id": "accident-protection",
-      "owner": "owner",
-      "item": "Whether Protection saves a participant from an accident. PROPOSED: yes, as a close call, which reveals nothing."
+      "id": "timing-access",
+      "owner": "owner, Game Balance",
+      "item": "A Task of timing is harder for some players (slower reactions, motor or sight impairments, a slow network). Whether a player can ask for a slower panel or a calmer swing, which changes the danger for their partner too, is the owner's call; nothing is proposed here."
     },
     {
       "id": "contract",
       "owner": "Integration",
-      "item": "TASK_MOVE and the Task projection in packages/contracts/, and the ruleset version that adopts this Task."
+      "item": "TASK_PRESS and the Task projection in packages/contracts/, and the ruleset version that adopts this Task."
     },
     {
       "id": "engine-task",
@@ -3687,32 +3085,28 @@
         "title": "Cooperation"
       },
       {
+        "id": "chop",
+        "title": "The cut: the panel locked over the cab"
+      },
+      {
         "id": "drop",
-        "title": "The Hoist's attack: the drop"
+        "title": "The drop: the crate lowered over the console"
       },
       {
-        "id": "ram",
-        "title": "The Boom's attack: the ram"
+        "id": "standoff",
+        "title": "Survivor completion: the standoff"
       },
       {
-        "id": "survivor",
-        "title": "Survivor completion"
+        "id": "protection-cut",
+        "title": "Protection against the cut"
       },
       {
         "id": "protection-drop",
         "title": "Protection against the drop"
       },
       {
-        "id": "protection-ram",
-        "title": "Protection against the ram"
-      },
-      {
-        "id": "accident",
-        "title": "An accident: moving together near the Boom"
-      },
-      {
-        "id": "near-miss",
-        "title": "A close call"
+        "id": "mistakes",
+        "title": "Mistakes that cost only time"
       },
       {
         "id": "timeout",

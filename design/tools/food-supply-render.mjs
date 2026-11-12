@@ -4,7 +4,7 @@
 // from design/food-supply/review.html and film.html into design/food-supply/review/:
 //   node design/tools/food-supply-render.mjs --sheets        every review sheet (PNG)
 //   node design/tools/food-supply-render.mjs --films         every storyboard as a silent film (H.264, ffmpeg on the PATH)
-//   node design/tools/food-supply-render.mjs --sheets --only=layout,board-drop
+//   node design/tools/food-supply-render.mjs --sheets --only=layout,board-drop  (--only applies to --films too)
 // review/renders.json records each file's SHA-256 and the browser; a page problem fails the render.
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chrome, not a phone.
 
@@ -29,8 +29,8 @@ const rel = file => relative(ROOT, file).split('\\').join('/');
 export const SHEETS = Object.freeze([
   { name: 'layout', query: 'sheet=layout', width: 1660 },
   ...BOARDS.map(b => ({ name: `board-${b.id}`, query: `sheet=board&id=${b.id}`, width: 1240 })),
-  { name: 'phones-hoist', query: 'sheet=phones&as=hoist', width: 1500 },
-  { name: 'phones-boom', query: 'sheet=phones&as=boom', width: 1500 },
+  { name: 'phones-winch', query: 'sheet=phones&as=winch', width: 1500 },
+  { name: 'phones-panel', query: 'sheet=phones&as=panel', width: 1500 },
   { name: 'flow', query: 'sheet=flow', width: 1100 },
   { name: 'machine', query: 'sheet=machine', width: 1720 },
   { name: 'motion', query: 'sheet=motion', width: 2080 },
