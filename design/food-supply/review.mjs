@@ -132,7 +132,7 @@ function board(id) {
     const row = el('section', { class: 'beat' });
     const phones = el('div', { class: 'beat-phones wide' });
     phones.append(phone(`s=return&board=${id}&as=winch`, { label: `Back in Room B · ${CAST.winch.name}` }), phone(`s=return&board=${id}&as=panel`, { label: `Back in Room B · ${CAST.panel.name}` }), phone(`s=return&board=${id}&as=other`, { label: 'Another player in Room B' }));
-    row.append(el('div', { class: 'beat-art' }, '<p class="time">Return</p>'), phones, el('p', { class: 'caption' }, 'The ordinary return: each participant back at their place before the Task. A participant killed on the Task is shown at their place as Eliminated, not in the Hospital. Nothing names who killed whom.'));
+    row.append(el('div', { class: 'beat-art' }, '<p class="time">Return</p>'), phones, el('p', { class: 'caption' }, 'The ordinary return: each participant back at their place before the Task. A participant killed on the Task is shown at their place as Eliminated, not in the Hospital. Nothing names who killed whom. Another player learns only the food count: a delivery shows the new count (the owner).'));
     list.append(row);
   }
   app.append(list);
@@ -167,13 +167,14 @@ function phones(as) {
 }
 
 function flow() {
-  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). While the two are away, the board shows who is not here. Afterwards everyone is back at their places.'));
+  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). While the two are away, the board shows who is not here. Afterwards everyone is back at their places, and the others learn only the food count.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     ['s=volunteer&step=task', '1 · Volunteer: start a Task'], ['s=volunteer&step=partner', '2 · Volunteer: ask a Partner'], ['s=volunteer&step=asking', '3 · Volunteer: waiting for the answer'],
-    ['s=called', '4 · Partner: Join or Decline (15 s PROPOSED)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, ask another'], ['s=called&answer=join', '6 · Partner: joined'],
+    ['s=called', '4 · Partner: Join or Decline (15 s PROPOSED)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, the next volunteer goes'], ['s=called&answer=join', '6 · Partner: joined'],
     ['s=volunteer&step=starting', '7 · Volunteer: starting'], ['s=task&board=cooperation&t=2500&as=panel', '8 · Both: briefing'], ['s=away', '9 · Another player: the board shows who is away'],
-    ['s=return&board=cooperation&as=winch', '10 · Return after a delivery'], ['s=return&board=drop&as=other', '11 · Another player after a death'], ['s=stock&n=1', '12 · Food warning: one package (PROPOSED public)'],
+    ['s=return&board=cooperation&as=winch', '10 · Return after a delivery'], ['s=return&board=cooperation&as=other', '11 · Another player after a delivery: the food count only'], ['s=return&board=chop&as=other', '12 · Another player after a death, nothing delivered: the board only'],
+    ['s=stock&n=1', '13 · Food warning: one package (PROPOSED public)'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }

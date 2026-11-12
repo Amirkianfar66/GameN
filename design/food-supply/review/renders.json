@@ -6,17 +6,17 @@
       "height": 2386
     },
     "design/food-supply/review/board-cooperation.png": {
-      "sha256": "779e8b2aa8a74565a14b05a5692171053905147a5ddd59315623fd9c5d42ae72",
+      "sha256": "4bbbb4bd1f5eff894a87b82f1db36fdd5434f73a9dfa4d466c58417d91ce61c3",
       "width": 1720,
       "height": 4003
     },
     "design/food-supply/review/board-disconnect.png": {
-      "sha256": "7e2c1249da7d28175565ccca3025e529d51b7db8de011bc97ad9f0967e9f6725",
+      "sha256": "628fc535d859b8cf9be17252eb6411e7dab0770be2d02fb9a8b59930456b9eb9",
       "width": 1720,
       "height": 2326
     },
     "design/food-supply/review/board-drop.png": {
-      "sha256": "bbb43f7a14ed5833e88d303a36756268ff7850aab73c794d38e068970a639400",
+      "sha256": "c7cd18b67a5b50626b063ee470843f2740c65679d31367254cad48e69a7bd8d1",
       "width": 1720,
       "height": 3444
     },
@@ -36,7 +36,7 @@
       "height": 2386
     },
     "design/food-supply/review/board-standoff.png": {
-      "sha256": "0f58318889cf64008e091ba4f3090bb61fa321e1262a2d7ba9dbf270b9747e6c",
+      "sha256": "2d66ad19f219a8076d2e817b3b32cc798fdaabda917ce4a29247feabb4fc65ba",
       "width": 1720,
       "height": 3444
     },
@@ -101,9 +101,9 @@
       "duration": 15600
     },
     "design/food-supply/review/flow.png": {
-      "sha256": "8f5bd512c78672f019360a7b7b224d86e4a9af0076ebca75189e0bb405e6a33d",
+      "sha256": "73f99e6fbd97086d139d855602a9df05c172917760c55338bc5caaca44e8ffae",
       "width": 1720,
-      "height": 1135
+      "height": 1174
     },
     "design/food-supply/review/large-text.png": {
       "sha256": "4cad58efbdb128cb96e57963e19728421c40d4e848b427c3730a95eac8f3cec3",

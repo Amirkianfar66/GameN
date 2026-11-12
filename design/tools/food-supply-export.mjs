@@ -103,14 +103,14 @@ const PROJECTION = [
 /** Asking a Partner: proposals for the shared contract, around the owner's decision that a Partner can decline. */
 const ASK = {
   commands: [
-    { name: 'TASK_ASK { kind: "food", partner }', from: 'the Volunteer', about: 'Ask one player. Refused if the Volunteer has used their initiation, or the player cannot be asked.' },
+    { name: 'TASK_ASK { kind: "food", partner }', from: 'the Volunteer', about: 'Ask one player. Refused if the Volunteer or the player went for food last round (the owner, 12 November 2026), the Volunteer was refused this round (PROPOSED), or the player cannot be asked.' },
     { name: 'TASK_ANSWER { askId, join }', from: 'the asked player', about: `Join or decline, within ${TIMING.answer / 1000} s (PROPOSED); no answer is a decline.` },
-    { name: 'TASK_ASK_WITHDRAW { askId }', from: 'the Volunteer', about: 'Cancel while waiting; nothing is used.' },
+    { name: 'TASK_ASK_WITHDRAW { askId }', from: 'the Volunteer', about: 'Cancel while waiting. PROPOSED: the same as a refusal, so the next volunteer goes.' },
   ],
   events: [
     { type: 'TASK_ASKED', to: 'the asked player', about: 'Who asks, and the time to answer.' },
-    { type: 'TASK_DECLINED', to: 'the Volunteer', about: 'Declined or no answer. The Volunteer asks someone else or closes.' },
-    { type: 'TASK_STARTED', to: 'both', about: 'Joined: the roles, then the briefing. Every board now shows the two places empty.' },
+    { type: 'TASK_DECLINED', to: 'the Volunteer', about: 'Declined or no answer. The game goes to the next volunteer: anyone can now ask a Partner (the owner, 12 November 2026).' },
+    { type: 'TASK_STARTED', to: 'both', about: 'Joined: the roles, assigned at random (the owner, 12 November 2026), then the briefing. Every board now shows the two places empty. The server notes the two: neither can go for food the next round (the owner).' },
   ],
   visibility: 'PROPOSED: private to the two. Other players learn nothing until the Task starts, and then only that two players are away (the board shows who).',
 };
@@ -200,13 +200,13 @@ export function build(artText) {
     projection: PROJECTION,
     visibility: VISIBILITY,
     flow: [
-      'A Volunteer opens Tasks (outside the turn order) and chooses Food Supply: one Task initiation per match across Food and Engine.',
-      'The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends the Partner\'s own initiation.',
-      `The Partner can join or decline (the owner, 11 November 2026). PROPOSED: ${TIMING.answer / 1000} s to answer, and no answer is a decline. After a decline the Volunteer asks someone else or closes; the Volunteer\'s initiation is used only when a Partner joins (PROPOSED). The request and its answer are private to the two (PROPOSED).`,
-      'The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).',
+      'A Volunteer opens Tasks (outside the turn order) and chooses Food Supply. Anyone can volunteer, and there is no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026).',
+      'The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task; the owner rules out the two who went for food last round).',
+      `The Partner can join or decline (the owner, 11 November 2026). PROPOSED: ${TIMING.answer / 1000} s to answer, and no answer is a decline. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026). PROPOSED: the refused Volunteer can volunteer again from the next round, and a withdrawn request counts as a refusal. The request and its answer are private to the two (PROPOSED).`,
+      'The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).',
       `The whole Task has ${TIMING.deadline / 1000} s from its start, the briefing inside it (the owner). Briefing (${TIMING.briefing / 1000} s PROPOSED): who runs which control, the route, the dangers; the controls do nothing yet.`,
       `Running (the remaining ${(TIMING.deadline - TIMING.briefing) / 1000} s): raise, release, lock over the platform, lower as the swing passes over it, the keys.`,
-      `Ended: the outcome card (${TIMING.ending / 1000} s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were.`,
+      `Ended: the outcome card (${TIMING.ending / 1000} s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were. The other players learn the result only through the food count (the owner, 12 November 2026).`,
     ],
     acceptance: SCENARIOS.map(s => ({
       id: s.id, about: s.about, kind: s.board ? 'storyboard' : 'edge',

@@ -7,7 +7,8 @@
 // storyboard's run through the Task's own rules (./task.mjs, ./boards.mjs) at one moment.
 //
 //   phone.html?s=task&board=cooperation&t=9233&as=winch     a participant's Task screen (winch or panel)
-//   phone.html?s=volunteer&step=task|partner|starting        the Volunteer starts a Task
+//   phone.html?s=volunteer&step=task|partner|asking|declined|starting   the Volunteer starts a Task
+//   phone.html?s=volunteer&step=rested                      the next round: the two cannot go for food
 //   phone.html?s=called                                      the Partner is chosen
 //   phone.html?s=away                                        another player's phone meanwhile
 //   phone.html?s=return&board=drop&as=winch|panel|other      after the Task, back in Room B
@@ -225,37 +226,48 @@ function roomView(root, { room = 'room-b', seats, self, top: bar, tabsCfg = { he
   return { top, bottom };
 }
 
-const phaseBar = (title, sub, seconds = null) => topBar({ kind: 'phase', icon: 'supply', title, sub, seconds, round: 3, menu: {} });
+const phaseBar = (title, sub, seconds = null, round = 3) => topBar({ kind: 'phase', icon: 'supply', title, sub, seconds, round, menu: {} });
+
+// Fixtures for the flow: the two who went for food last round (round 2), and the food stock before this Task.
+const WENT_LAST_ROUND = Object.freeze([1, 7]);
+const STOCK_BEFORE = 1;
 
 function volunteer(root, p) {
   const step = p.step ?? 'task';
   const seats = fixtureBoard({ roster: 9 });
-  roomView(root, { seats, self: CAST.winch.seat, top: phaseBar('Tasks', 'Outside the turn order'), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: step !== 'partner' && step !== 'declined' });
+  const rested = step === 'rested';
+  roomView(root, { seats, self: CAST.winch.seat, top: phaseBar('Tasks', 'Outside the turn order', null, rested ? 4 : 3), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: step !== 'partner' });
   const asked = seatOf(CAST.panel.seat).name;
-  if (step === 'task') {
+  if (step === 'task' || rested) {
+    // The owner, 12 November 2026: no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round.
     root.append(...sheet({ title: 'Start a Task', sub: 'With a Partner you choose. Outside the turn order.', detent: 'auto', body: [
       list(
-        row({ icon: 'supply', title: 'Food Supply', sub: `Lower a ration crate onto the galley lift: +${FOOD.perDelivery} packages`, chevron: true, go: 's=volunteer&step=partner' }),
+        rested
+          ? row({ icon: 'supply', title: 'Food Supply', sub: 'You went for food last round', disabled: true })
+          : row({ icon: 'supply', title: 'Food Supply', sub: `Lower a ration crate onto the galley lift: +${FOOD.perDelivery} packages`, chevron: true, go: 's=volunteer&step=partner' }),
         row({ icon: 'panel', title: 'Engine', sub: 'Its own Task, designed separately', disabled: true })),
-      groupNote('You can start one Task this match, Food or Engine. Joining someone else\'s Task as their Partner does not use yours.'),
+      groupNote(rested ? 'The two who go for food cannot go again the next round. You can go again in round 5.' : 'Anyone can volunteer. You and your Partner cannot go for food again next round.'),
     ] }));
-  } else if (step === 'partner' || step === 'declined') {
-    // After a decline, the player who declined is marked, and the Volunteer asks someone else (here: Fay, seat 6).
-    const declined = step === 'declined';
-    const pick = declined ? 6 : CAST.panel.seat;
+  } else if (step === 'partner') {
     const choices = seats.filter(s => s.seat !== CAST.winch.seat);
-    root.append(...sheet({ title: declined ? `${asked} declined` : 'Choose your Partner', sub: declined ? 'Ask someone else, or close: your Task is not used yet' : 'Food Supply Task', back: 's=volunteer&step=task', detent: 'large', body: [
+    root.append(...sheet({ title: 'Choose your Partner', sub: 'Food Supply Task', back: 's=volunteer&step=task', detent: 'large', body: [
       groupLabel('Players'),
       list(...choices.map(s => {
         const away = s.location === 'Hospital' || s.location === 'Jail';
-        const no = declined && s.seat === CAST.panel.seat;
-        return row({ lead: h('b.num', String(s.seat)), title: s.name, sub: no ? 'Declined' : away ? 'Not available now' : s.location, disabled: away || no, trail: s.seat === pick ? ic('check', { filled: true }) : null });
+        const went = WENT_LAST_ROUND.includes(s.seat);
+        return row({ lead: h('b.num', String(s.seat)), title: s.name, sub: went ? 'Went for food last round' : away ? 'Not available now' : s.location, disabled: away || went, trail: s.seat === CAST.panel.seat ? ic('check', { filled: true }) : null });
       })),
-      groupNote('The player you ask can join or decline. Who can be asked comes from the game (PROPOSED: a living player outside the Hospital and the Jail, not already on a Task). The game assigns the controls.'),
-    ], foot: button(`Ask ${seatOf(pick).name}`, { icon: 'supply', block: true, go: 's=volunteer&step=asking' }) }));
+      groupNote('If the player you ask declines, the next volunteer goes. Last round\'s two cannot go for food (PROPOSED: nor anyone in the Hospital or the Jail). The game picks the controls at random.'),
+    ], foot: button(`Ask ${asked}`, { icon: 'supply', block: true, go: 's=volunteer&step=asking' }) }));
   } else if (step === 'asking') {
-    root.append(...sheet({ title: `Waiting for ${asked}`, sub: 'Food Supply Task', close: false, body: [h('p.group-note', `${asked} can join or decline. Your Task is not used until a Partner joins.`)],
-      foot: [button('Waiting…', { busy: true, block: true, disabled: true }), button('Cancel', { kind: 'plain', block: true, go: 's=volunteer&step=task' })] }));
+    root.append(...sheet({ title: `Waiting for ${asked}`, sub: 'Food Supply Task', close: false, body: [h('p.group-note', `${asked} can join or decline. If not, the next volunteer goes.`)],
+      foot: [button('Waiting…', { busy: true, block: true, disabled: true }), button('Cancel', { kind: 'plain', block: true })] }));
+  } else if (step === 'declined') {
+    // The owner, 12 November 2026: after a refusal the game goes to the next volunteer, anyone who volunteers.
+    root.append(...sheet({ title: `${asked} declined`, sub: 'Food Supply Task', detent: 'auto', body: [
+      groupNote('The next volunteer goes: anyone else can start the Task now.'),
+      groupNote('You can volunteer again next round (PROPOSED).'),
+    ], foot: button('OK', { block: true }) }));
   } else {
     root.append(...sheet({ title: 'Starting the Food Supply Task', sub: `${asked} joined`, close: false, body: [h('p.group-note', 'Going to the Supply Room…')], foot: button('Starting…', { busy: true, block: true, disabled: true }) }));
   }
@@ -279,8 +291,8 @@ function called(root, p) {
     h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner request'),
     h('h2', `${volunteerName} asks you to join the Food Supply Task`),
     h('p', 'You would go to the Supply Room together, one of you on each control. Your place in Room B is kept for your return.'),
-    h('p', 'Joining does not use your own Task.'),
-    h('div.fs-answer', button('Decline', { kind: 'secondary', block: true, go: 's=away' }), button('Join', { icon: 'check', block: true, go: 's=called&answer=join' })),
+    h('p', 'If you join, neither of you can go for food next round.'),
+    h('div.fs-answer', button('Decline', { kind: 'secondary', block: true }), button('Join', { icon: 'check', block: true, go: 's=called&answer=join' })),
     h('p.fs-timer', `Answer within ${Math.round(TIMING.answer / 1000)} s. No answer counts as a decline.`)));
 }
 
@@ -303,9 +315,13 @@ function returned(root, p) {
   const self = as === 'other' ? 6 : CAST[as].seat;
   const { top } = roomView(root, { seats, self, top: topBar({ kind: 'phase', icon: 'hourglass', title: 'Round 3', sub: 'Back in Room B', round: 3, menu: {} }) });
   const o = end.outcome;
-  const text = as === 'other'
-    ? (o.result === 'delivered' ? `The Food Supply Task delivered: +${o.packages} packages.` : 'The Food Supply Task is over. Nothing was delivered.')
-    : (!end.alive[as] ? 'You are out: you were killed on the Task.' : o.result === 'delivered' ? `Back in Room B. Delivered: +${o.packages} packages.` : o.result === 'cancelled' ? 'Back in Room B. The Task was cancelled.' : 'Back in Room B. The Task was lost.');
+  // The owner, 12 November 2026: the other players learn the result only through the food count. A delivery shows
+  // as the new count on every phone, naming no Task; otherwise they see only the board.
+  if (as === 'other') {
+    if (o.result === 'delivered') root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(`Food stock: ${STOCK_BEFORE + o.packages} packages (+${o.packages})`, 'supply')));
+    return;
+  }
+  const text = !end.alive[as] ? 'You are out: you were killed on the Task.' : o.result === 'delivered' ? `Back in Room B. Delivered: +${o.packages} packages.` : o.result === 'cancelled' ? 'Back in Room B. The Task was cancelled.' : 'Back in Room B. The Task was lost.';
   root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(text, o.result === 'delivered' ? 'check' : 'info')));
 }
 

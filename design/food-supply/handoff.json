@@ -35,9 +35,9 @@
       "design": "Tasks sheet outside the turn order, then Choose your Partner; both travel to the Supply Room and back without a move."
     },
     {
-      "id": "one-initiation",
-      "rule": "Each player may initiate one Task total per match across Food and Engine. Partner participation can repeat without spending that initiation.",
-      "design": "The Tasks sheet says so; the server spends the Volunteer's initiation (when, see the open items)."
+      "id": "next-round",
+      "rule": "There is no limit of one Task per match. The Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026, replacing the highlight \"Each player may initiate one Task total per match\").",
+      "design": "No Task count is kept. When a Task starts, the server notes the two; in the next round neither can volunteer for food or be asked as a Partner. Their Food Supply row says \"You went for food last round\", and the partner list marks them. From the round after, both can go again. PROPOSED: it holds whether the Task delivers, is lost or is cancelled; a refusal starts no Task, so it does not count."
     },
     {
       "id": "axes",
@@ -72,7 +72,7 @@
     {
       "id": "disconnect",
       "rule": "A participant disconnect cancels the Task.",
-      "design": "Cancelled after the grace (PROPOSED 8 s, see conflict 1). Nothing delivered; both return."
+      "design": "Cancelled after the grace (PROPOSED 8 s, see conflict 1). Nothing delivered; both return. Leaving on purpose costs nothing more (the owner, below)."
     },
     {
       "id": "visibility",
@@ -112,7 +112,7 @@
     {
       "id": "partner-decline",
       "rule": "The Partner can decline.",
-      "design": "The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer's Task is used only when a Partner joins."
+      "design": "The Partner request has Decline and Join. A decline passes the Task to the next volunteer (the owner, below). PROPOSED: 15 s to answer, and no answer is a decline."
     },
     {
       "id": "crane-sides",
@@ -143,6 +143,26 @@
       "id": "pendulum",
       "rule": "The crate swings like a pendulum, so lowering it without killing the partner takes attention.",
       "design": "A lock sets the crate swinging, wide at first and calming but never still (PROPOSED: 0.9 of a stop, settling to 0.38, a swing every 1.3 s). Lowered, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, anywhere else it misses."
+    },
+    {
+      "id": "next-volunteer",
+      "rule": "If the asked player declines, the game goes to the next volunteer: anyone who volunteers.",
+      "design": "A decline, or no answer, ends the Volunteer's request, and the Food Supply Task is open to anyone: the first player to ask a Partner goes next. PROPOSED: the refused Volunteer can volunteer again from the next round, and withdrawing a request counts as a refusal."
+    },
+    {
+      "id": "random-controls",
+      "rule": "The game assigns the controls at random.",
+      "design": "When the Partner joins, the server assigns the Winch and the Panel at random, and the briefing tells each which they run. Neither player can choose the control that is easier to betray with."
+    },
+    {
+      "id": "food-count-only",
+      "rule": "Other players learn the result only through the food count.",
+      "design": "A delivery raises the food stock by five, and every phone shows the new count, naming no Task. Nothing else tells anyone else how the Task went: no message when nothing is delivered, and a death shows as any death."
+    },
+    {
+      "id": "leaving-free",
+      "rule": "Leaving the Task on purpose costs nothing.",
+      "design": "A participant who goes offline on purpose is treated as any disconnect: after the grace (PROPOSED 8 s) the Task is cancelled, nothing is delivered and both go back, and a kill in the grace still stands (conflict 1)."
     }
   ],
   "sources": {
@@ -155,8 +175,8 @@
     "design/food-supply/boards.mjs": "b26e24b562c891453155e1cbb8c587af7f64620d839de1651a755c97ce9105e8",
     "design/food-supply/scenarios.mjs": "83dc66099f555cd84828619e9fc90e4c3377d7656bef49009d1fb35d5bb4cd65",
     "design/food-supply/hints.mjs": "f4dd6fc062dafb34ee7d972fd1992af3a0aa6e17e8791d485c80a6569a120272",
-    "design/food-supply/rules.mjs": "b8bee49d3d5b37e7c9a87b29d60357a25601276b85d7e3325da20d08a3701a1b",
-    "design/food-supply/phone.mjs": "9c882de569e444720734276dcae30510299cf12179d63db34216b74026fd65d2",
+    "design/food-supply/rules.mjs": "e984507a87fa26248066e8299e84bed4766e4baa4a084e34332908f713182387",
+    "design/food-supply/phone.mjs": "ef8f6c8ba4c77d0156f39a4e57fb6113ed85b1da8621e2293e1a90e8fe79fa12",
     "design/food-supply/phone.css": "8b86c8a56ee3917f6269a96db51df14a7562a7e151c568e2c550e3d6c079b8f6"
   },
   "fixtures": {
@@ -600,7 +620,7 @@
         {
           "name": "TASK_ASK { kind: \"food\", partner }",
           "from": "the Volunteer",
-          "about": "Ask one player. Refused if the Volunteer has used their initiation, or the player cannot be asked."
+          "about": "Ask one player. Refused if the Volunteer or the player went for food last round (the owner, 12 November 2026), the Volunteer was refused this round (PROPOSED), or the player cannot be asked."
         },
         {
           "name": "TASK_ANSWER { askId, join }",
@@ -610,7 +630,7 @@
         {
           "name": "TASK_ASK_WITHDRAW { askId }",
           "from": "the Volunteer",
-          "about": "Cancel while waiting; nothing is used."
+          "about": "Cancel while waiting. PROPOSED: the same as a refusal, so the next volunteer goes."
         }
       ],
       "events": [
@@ -622,12 +642,12 @@
         {
           "type": "TASK_DECLINED",
           "to": "the Volunteer",
-          "about": "Declined or no answer. The Volunteer asks someone else or closes."
+          "about": "Declined or no answer. The game goes to the next volunteer: anyone can now ask a Partner (the owner, 12 November 2026)."
         },
         {
           "type": "TASK_STARTED",
           "to": "both",
-          "about": "Joined: the roles, then the briefing. Every board now shows the two places empty."
+          "about": "Joined: the roles, assigned at random (the owner, 12 November 2026), then the briefing. Every board now shows the two places empty. The server notes the two: neither can go for food the next round (the owner)."
         }
       ],
       "visibility": "PROPOSED: private to the two. Other players learn nothing until the Task starts, and then only that two players are away (the board shows who)."
@@ -950,22 +970,22 @@
   ],
   "visibility": {
     "participants": "Both see the whole Supply Room and its crane: the panel running or locked, the crate's swing, every press's effect, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
-    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. PROPOSED: the result as the food stock shows it, delivered (+5) or nothing delivered; not how it went.",
-    "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined.",
+    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. The result only through the food count: a delivery raises it by five, and nothing says how the Task went (the owner, 12 November 2026).",
+    "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined. The next volunteer needs no message: anyone can open Tasks at any time.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
     "protection": "Never shown. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing (the owner, 12 November 2026).",
     "mistakes": "Both participants see a lethal press as it happens (CHOP!, THUD!), and neither phone says whether it was meant: the server cannot tell. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was a mistake.",
-    "foodStock": "PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.",
+    "foodStock": "Public: the count, so a delivery shows as five more (the owner, 12 November 2026); the ship-life food capsules show it. PROPOSED: every phone shows the new count when it changes, and the warning at one package.",
     "server": "Only the server holds Protection, the catch's roll, and the reason for a STOPPED."
   },
   "flow": [
-    "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply: one Task initiation per match across Food and Engine.",
-    "The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends the Partner's own initiation.",
-    "The Partner can join or decline (the owner, 11 November 2026). PROPOSED: 15 s to answer, and no answer is a decline. After a decline the Volunteer asks someone else or closes; the Volunteer's initiation is used only when a Partner joins (PROPOSED). The request and its answer are private to the two (PROPOSED).",
-    "The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
+    "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply. Anyone can volunteer, and there is no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026).",
+    "The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task; the owner rules out the two who went for food last round).",
+    "The Partner can join or decline (the owner, 11 November 2026). PROPOSED: 15 s to answer, and no answer is a decline. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026). PROPOSED: the refused Volunteer can volunteer again from the next round, and a withdrawn request counts as a refusal. The request and its answer are private to the two (PROPOSED).",
+    "The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
     "The whole Task has 30 s from its start, the briefing inside it (the owner). Briefing (4 s PROPOSED): who runs which control, the route, the dangers; the controls do nothing yet.",
     "Running (the remaining 26 s): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
-    "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were."
+    "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were. The other players learn the result only through the food count (the owner, 12 November 2026)."
   ],
   "acceptance": [
     {
@@ -2958,7 +2978,7 @@
       ],
       "conflict": "If a disconnect cancelled the Task at once, a player could escape an attack by dropping their connection (switching off the network), which \"no escape\" forbids, and a network blip would wipe out a Task.",
       "solution": "The server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on: the panel keeps running, a cut or a drop in the grace resolves, and a death that resolved before the cancellation stands (a dead participant's connection no longer matters). Back in time, nothing paused. Out longer, the Task is cancelled and both return.",
-      "residual": "A participant can still end a Task they dislike by staying offline. Whether a deliberate disconnect should cost anything is the owner's call (open item)."
+      "residual": "A participant can still end a Task they dislike by staying offline. The owner decided that leaving on purpose costs nothing (12 November 2026): nothing left to decide."
     },
     {
       "id": "survivor-paths",
@@ -2967,7 +2987,7 @@
         "survivor"
       ],
       "conflict": "Both can betray, but a survivor completes only from the correct position. A betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal: the gantry this crane replaced let only one operator kill and still deliver.",
-      "solution": "The crane gives each operator exactly one way to kill and still deliver. The Winch: from the platform stop, a Lower during the swing over the console, then lowered in alone and its own key. The Panel: after the landing, a cut while the keys wait, then its own key. Every other kill loses the Task. The server assigns the controls at random (PROPOSED), and both phones show both dangers equally.",
+      "solution": "The crane gives each operator exactly one way to kill and still deliver. The Winch: from the platform stop, a Lower during the swing over the console, then lowered in alone and its own key. The Panel: after the landing, a cut while the keys wait, then its own key. Every other kill loses the Task. The server assigns the controls at random (the owner, 12 November 2026), and both phones show both dangers equally.",
       "residual": "Game Balance to judge with tools/balance whether the two paths are equally tempting; the owner accepts them or asks for a change."
     },
     {
@@ -3011,34 +3031,24 @@
       "item": "Whether one dose is one package. PROPOSED: yes."
     },
     {
-      "id": "initiation-spent",
+      "id": "next-round",
       "owner": "owner",
-      "item": "When a Volunteer's initiation is spent. PROPOSED: when a Partner joins and the Task starts (a decline or a withdrawn request does not spend it); a Task cancelled by the Partner's disconnect gives it back, one cancelled by the Volunteer's own does not."
+      "item": "The edges of the next-round rule. PROPOSED: it holds once a Task starts, whether it delivers, is lost or is cancelled (both went for food); a refusal starts no Task, so it does not count; it covers the Food Supply Task only (the Engine Task is designed separately)."
     },
     {
-      "id": "deliberate-disconnect",
+      "id": "next-volunteer",
       "owner": "owner",
-      "item": "Whether a deliberate disconnect costs anything (conflict 1)."
+      "item": "After a refusal. PROPOSED: the refused Volunteer can volunteer again from the next round; no answer, or a withdrawn request, counts as a refusal; the first player to ask a Partner goes next."
     },
     {
       "id": "partner",
       "owner": "owner",
-      "item": "Who can be asked as a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task), how long they have to answer (PROPOSED: 15 s, and no answer is a decline), and whether a Volunteer may ask the same player again after a decline (PROPOSED: not for this start). That a Partner can decline is the owner's decision."
-    },
-    {
-      "id": "roles",
-      "owner": "owner",
-      "item": "Who runs which control. PROPOSED: the server at random (conflict 2)."
-    },
-    {
-      "id": "public-result",
-      "owner": "owner",
-      "item": "Whether other players learn the result. PROPOSED: only as the food stock shows it, delivered (+5) or not. That they can see who is away is the owner's decision."
+      "item": "Who can be asked as a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task; the owner rules out the two who went for food last round), and how long they have to answer (PROPOSED: 15 s, and no answer is a decline). That a Partner can decline, and that a refusal passes to the next volunteer, are the owner's decisions."
     },
     {
       "id": "when",
       "owner": "owner, Backend",
-      "item": "When a Task may start (which phases count as outside ordinary turns), and whether two Tasks may run at once."
+      "item": "When a Task may start (which phases count as outside ordinary turns), how many Food Supply Tasks a round may have, and whether two Tasks may run at once."
     },
     {
       "id": "timing",

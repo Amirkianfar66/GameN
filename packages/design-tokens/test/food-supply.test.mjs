@@ -235,7 +235,7 @@ test('every motion cue has its timing and a Reduce motion form; the sweep and th
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 26);
+  assert.equal(RULES.length, 30);
   for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit']) assert.ok(RULES.some(r => r.id === id), id);
   assert.equal(TIMING.deadline, 30000, 'the owner: 30 seconds to complete the Task');
   const s = start();
@@ -257,6 +257,23 @@ test('the rules record: each confirmed rule met, the conflicts with a solution, 
   // The gantry's dice accidents are gone: the only roll left is the catch's, read by a press that would kill.
   assert.doesNotMatch(text('design/food-supply/task.mjs'), /chance/);
   assert.match(text('design/food-supply/task.mjs'), /roll < CATCH\.luck/);
+});
+
+test('starting a Task: no one-Task limit, the two sit out food next round, a refusal passes on (the owner, 12 November)', () => {
+  for (const id of ['next-round', 'next-volunteer', 'random-controls', 'food-count-only', 'leaving-free']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.ok(!RULES.some(r => r.id === 'one-initiation'), 'the owner withdrew the one-Task limit');
+  for (const id of ['initiation-spent', 'deliberate-disconnect', 'roles', 'public-result']) assert.ok(!OPEN_ITEMS.some(o => o.id === id), `${id} is decided`);
+  for (const id of ['next-round', 'next-volunteer']) assert.ok(OPEN_ITEMS.some(o => o.id === id), `${id}: the edges stay PROPOSED`);
+  assert.match(CONFLICTS.find(c => c.id === 'disconnect-escape').residual, /costs nothing/);
+  assert.match(CONFLICTS.find(c => c.id === 'survivor-paths').solution, /at random \(the owner/);
+  assert.match(VISIBILITY.others, /only through the food count/);
+  // No screen or handoff text keeps the withdrawn limit or the old decline.
+  const handoff = text('design/food-supply/handoff.json');
+  for (const file of ['design/food-supply/phone.mjs', 'design/tools/food-supply-export.mjs']) {
+    assert.doesNotMatch(text(file), /initiation|one Task this match|use your own Task|ask someone else|is not used/i, file);
+  }
+  assert.doesNotMatch(handoff, /"one-initiation"|initiation-spent|asks someone else/);
+  assert.match(text('design/food-supply/phone.mjs'), /If you join, neither of you can go for food next round/);
 });
 
 test('the handoff and the room art are what the export tool writes', () => {

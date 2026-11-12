@@ -6,9 +6,9 @@ A two-player Task in the Supply Room, designed from the owner's confirmed highli
 | --- | --- |
 | Base commit | `8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d` (`main`, after PR #225), in its own worktree on `claude/designer-food-supply` |
 | Ruleset in force there | `in-person-planet-blackout-before-vote-2026-11-10` (engine `planet-game-1.3.0`, protocol 3): `rules/planet-successor-blackout-before-vote-authority-2026-11-10.json` and `rules/overlays/planet-blackout-before-vote-owner-decision-2026-11-10.json`, over the successor authority `in-person-planet-2026-11-05` |
-| Rule source for this Task | The owner's decisions of 11 November 2026 only. No Task, Food or Supply Room rule exists under `rules/` at the base commit |
+| Rule source for this Task | The owner's decisions of 11 and 12 November 2026 only. No Task, Food or Supply Room rule exists under `rules/` at the base commit |
 | The owner's detailed handoff | `docs/design/food-supply-requirements-2026-11-11.md` and `food-supply-concepts/` are on the owner's computer and were not available to this session. This design follows the owner's decisions; it will be reconciled with that file when it is shared |
-| Fixtures | The phone pack's invented roster: Hana (seat 8) runs the Winch, Cleo (seat 3) the Panel, both from Room B |
+| Fixtures | The phone pack's invented roster: Hana (seat 8) runs the Winch, Cleo (seat 3) the Panel, both from Room B. In the flow, Ava (seat 1) and Gus (seat 7) went for food last round, and the stock is 1 package before the Task |
 | Runner | A Claude Code session acting as Visual and Motion Designer |
 
 ## The concept
@@ -102,11 +102,16 @@ Every control is whole and no word is cut; each phone reports its own layout on 
 
 ![The phones at 320 × 568 with the largest text](../../design/food-supply/review/large-text.png)
 
-**Starting and ending** are unchanged from the owner's answers:
+**Starting and ending** follow the owner's answers (11 and 12 November 2026):
 
 - A Volunteer opens Tasks outside the turn order and asks a Partner, who can join or decline. PROPOSED: 15 s to answer, and no answer declines.
+- **A refusal passes to the next volunteer:** anyone else can now start the Task and ask a Partner, and the first to do so goes next. PROPOSED: the refused Volunteer can volunteer again from the next round, and a withdrawn request counts as a refusal.
+- **There is no limit of one Task per match.** Instead, the Volunteer and the Partner cannot go for food the next round: their Food Supply row says "You went for food last round", and the partner list marks them. PROPOSED: this holds once the Task starts, whatever its outcome; a refusal starts no Task.
+- **The game assigns the controls at random.**
 - While the two are away, every board shows their places empty, and a banner names no one.
 - Afterwards everyone is back at their places; a participant killed on the Task is Eliminated there, as any death is shown.
+- **The other players learn the result only through the food count:** a delivery shows the new count on every phone, naming no Task; nothing else says how it went.
+- **Leaving on purpose costs nothing:** it is a disconnect like any other.
 
 ![Starting a Task, the other phones, the return and the food warning](../../design/food-supply/review/flow.png)
 
@@ -181,6 +186,7 @@ The sweep and the swing cannot be taken away: they are the Task. Reduce motion t
   - Keyboard: Space for RELEASE and LOCK, the arrow keys for Raise and Lower, Enter for the key.
 - **States to draw**, from the projection: the buttons (`act`, `enabled`, `next`, `hazard`, `zone`, `stop`, `turned`), `panel`, `crate`, `zone`, `warnings`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The phone sheets show each.
 - **Never show** Protection, the catch's roll, a reason for a stop, or whether a kill was meant. "Stopped" is the same words whichever caused it.
+- **Outside the Task:** the Tasks sheet and the partner list mark the two who went for food last round. After the Task, the other players' phones show the new food count on a delivery and nothing else; only the participants' own toasts name the result.
 - **Accessibility:**
   - Each button's name says what it would do now ("Lower. Warning: falls on Cleo.").
   - The view has a text equivalent: where the panel and the crate are, and whether a warning shows.
@@ -206,29 +212,30 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 - **Clock:** the briefing's end, the deadline (lost: time), the grace (cancelled: disconnect).
 - **Connection:** out of contact, the Task runs on through the grace (PROPOSED 8 s) and the panel keeps running; back in time, nothing paused; out longer, cancelled. A death that resolved first stands. A phone out of contact shows its controls off.
 - **Command:** `TASK_PRESS { taskId, act, at }`, a proposal for the shared contract (Integration owns `packages/contracts/`). The answer is the new state with its events to both participants; a refusal goes to the presser only.
-- **Asking a Partner**, proposals around the owner's decision that a Partner can decline:
+- **Asking a Partner**, proposals around the owner's decisions (a Partner can decline; a refusal passes to the next volunteer):
   - From the Volunteer: `TASK_ASK { kind, partner }`, and `TASK_ASK_WITHDRAW { askId }`.
   - From the asked player: `TASK_ANSWER { askId, join }`, within the answer time.
   - Events: `TASK_ASKED` to the asked player, `TASK_DECLINED` to the Volunteer (a decline or no answer), `TASK_STARTED` to both.
-  - The Volunteer's initiation is spent on `TASK_STARTED` (PROPOSED).
+  - `TASK_ASK` is refused for anyone who went for food last round, as the Volunteer or the Partner (the owner), and for a Volunteer refused this round (PROPOSED).
+  - On `TASK_STARTED` the server assigns the controls at random (the owner) and records the two for the next-round rule. No Task count is kept.
 
 ## For Game Balance
 
-- **The two kill-and-deliver paths** (conflict 2): the Winch's drop from the platform stop, which can pass as a mistake, against the Panel's cut in the standoff, which cannot. Is either more tempting? The server assigns the controls at random (PROPOSED).
+- **The two kill-and-deliver paths** (conflict 2): the Winch's drop from the platform stop, which can pass as a mistake, against the Panel's cut in the standoff, which cannot. Is either more tempting? The server assigns the controls at random (the owner, 12 November 2026).
 - **The timing:** the sweep (220 ms a stop), the swing (0.9, settling to 0.38, 2.2 s, 1.3 s), the zones (0.3 and 0.42), and the presses' 300 ms allowance. Faster or wider means more mistakes, and more cover for betrayal. A cooperative run takes about 11 seconds from the start; the owner set the whole Task's time at 30 seconds, the briefing inside it.
 - **Mistakes:** each costs time (a lock in the wrong place, a miss) or a life (a lock at 7, a Lower over the console). A kill is not an attack and costs its presser nothing (the owner); the catch saves one in four.
-- **The food economy:** five packages, five per delivery, one dose per player at each Eating step, one Task initiation per player per match. How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
+- **The food economy:** five packages, five per delivery, one dose per player at each Eating step. There is no limit on Tasks per match, but the two who went for food cannot go the next round (the owner). How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
 
 ## Visibility
 
 | Who | Sees |
 | --- | --- |
 | The two participants | The whole Supply Room: the panel running or locked, the swing, every press's effect, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Never an attack opportunity, Protection, the other's refused presses, or whether a kill was meant |
-| Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. PROPOSED: the result only as the food stock shows it (delivered or not), never how it went. PROPOSED: not who was asked, or who declined |
+| Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. The result only through the food count, never how it went (the owner's decision). PROPOSED: not who was asked, or who declined |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
 | Protection | Never shown. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing |
 | Mistakes | Both participants see a lethal press as it happens (CHOP!, THUD!); neither phone says whether it was meant. Everyone else sees only the death, with no cause |
-| The food stock | PROPOSED public: the count (the ship-life food capsules) and the warning at one package |
+| The food stock | Public: the count, so a delivery shows as five more (the owner's decision); the ship-life food capsules show it. PROPOSED: every phone shows the new count when it changes, and the warning at one package |
 | Only the server | Protection, the catch's roll, and why a STOPPED happened |
 
 ## Acceptance scenarios
@@ -268,15 +275,15 @@ Thirty-seven scenarios, each a start, a list of presses and what must follow, in
 
 ## Genuine rule conflicts
 
-Five tensions inside the owner's decisions, each with a solution that stays inside them. The owner has settled three of them (3, 4 and 5); the others wait for the owner.
+Five tensions inside the owner's decisions, each with a solution that stays inside them. The owner has decided what four of them left open (1, 3, 4 and 5); conflict 2 waits for Game Balance and the owner.
 
 1. **No escape, and a disconnect cancels.**
    - The conflict: if a disconnect cancelled at once, switching off the network would escape an attack.
    - **Solution:** the server judges a disconnect only after a grace (PROPOSED 8 s). In the grace the Task runs on, the panel keeps running, and a cut or a drop resolves; a death before the cancellation stands.
-   - *Left open:* a participant can still end a Task they dislike by staying offline. Whether that should cost anything is the owner's call.
+   - *Settled:* a participant can still end a Task they dislike by staying offline, and the owner decided that this costs nothing (12 November 2026). The grace's length is in the timing open item.
 2. **Both can betray, and a survivor completes only from the correct position.**
    - The conflict: a betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal. The gantry let only one operator kill and still deliver.
-   - **Solution:** the crane gives each operator exactly one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut in the standoff. The server assigns the controls at random (PROPOSED).
+   - **Solution:** the crane gives each operator exactly one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut in the standoff. The server assigns the controls at random (the owner, 12 November 2026).
    - *Left open:* whether the two paths are equally tempting, for Game Balance and the owner.
 3. **Protection applies, and Protection is not disclosed.**
    - The conflict: a stopped kill is something both participants see. With a kill on the Task not an attack, nothing else could stop one, so every CLANK! would have meant Protection.
@@ -296,12 +303,10 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 | Item | For |
 | --- | --- |
 | Whether one dose is one package (PROPOSED: yes) | The owner |
-| When the initiation is spent. PROPOSED: when a Partner joins and the Task starts, so a decline does not spend it. A Task cancelled by the Partner's disconnect gives it back; one cancelled by the Volunteer's own does not | The owner |
-| Whether a deliberate disconnect costs anything (conflict 1) | The owner |
-| The Partner request (that a Partner can decline is decided). PROPOSED: who can be asked (living, outside the Hospital and the Jail, not on a Task), 15 s to answer (no answer declines), and not asking the same player again for this start | The owner |
-| Who runs which control (PROPOSED: the server at random; conflict 2) | The owner |
-| Whether others learn the result (PROPOSED: only as the food stock shows it). That they can see who is away is decided | The owner |
-| When a Task may start, and whether two may run at once | The owner, Backend |
+| The next-round rule's edges. PROPOSED: it holds once a Task starts, whether it delivers, is lost or is cancelled; a refusal starts no Task, so it does not count; it covers the Food Supply Task only | The owner |
+| After a refusal. PROPOSED: the refused Volunteer can volunteer again from the next round; no answer, or a withdrawn request, counts as a refusal; the first to ask a Partner goes next | The owner |
+| The Partner request (that a Partner can decline, and that last round's two cannot go, are decided). PROPOSED: who else can be asked (living, outside the Hospital and the Jail, not on a Task), and 15 s to answer (no answer declines) | The owner |
+| When a Task may start, how many Food Supply Tasks a round may have, and whether two may run at once | The owner, Backend |
 | The timing: the sweep, the swing, the zones, the raise and the fall, the 8 s grace, the 4 s briefing (the 30 s deadline is the owner's) | Game Balance |
 | The two kill-and-deliver paths, and the food economy | Game Balance |
 | The Eating step's place and order | The owner, Game Balance |
@@ -317,7 +322,7 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 | [review/layout.png](../../design/food-supply/review/layout.png) | The room annotated: stops, zones, the swing, the sweep, the cut, callouts |
 | `review/board-<id>.png` (9) | Each storyboard, beat by beat, with both phones and the return |
 | [review/phones-winch.png](../../design/food-supply/review/phones-winch.png), [review/phones-panel.png](../../design/food-supply/review/phones-panel.png) | Every state of each participant's phone (18 each) |
-| [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, the other phones, the return, the food warning |
+| [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, a refusal, the other phones, the return, the food warning, the next round (14 phones) |
 | [review/machine.png](../../design/food-supply/review/machine.png) | The crane's parts and their states |
 | [review/motion.png](../../design/food-supply/review/motion.png) | Each cue's frames and its Reduce motion form |
 | [review/large-text.png](../../design/food-supply/review/large-text.png) | 320 × 568 at 200% text, each phone's measured layout |
