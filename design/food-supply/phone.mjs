@@ -9,13 +9,14 @@
 //   phone.html?s=task&board=cooperation&t=9233&as=winch     a participant's Task screen (winch or panel)
 //   …&press=sending|refused|unknown|through|lost&act=lock     the presser's own press: in flight, refused, its answer unknown, recovered
 //   phone.html?s=howto                                       how the Task works: read any time before it, outside its 30 s
-//   phone.html?s=volunteer&step=task|partner|asking|declined|starting   the Volunteer starts a Task
+//   phone.html?s=volunteer&step=task|partner|asking|declined|starting   the Volunteer starts a Task, in the Food Supply step
 //   phone.html?s=volunteer&step=rested                      the next round: the two cannot go for food
+//   phone.html?s=volunteer&step=closed|busy                 the Tasks sheet in an ordinary turn; another request waiting
 //   phone.html?s=volunteer&step=withdrawn|withdraw-late      the Volunteer cancels, or is too late to
 //   phone.html?s=called[&answer=join|joining|late-withdrawn|late-expired]   the Partner is asked, and the races
 //   phone.html?s=away                                        another player's phone meanwhile
 //   phone.html?s=return&board=drop&as=winch|panel|other      after the Task, back in Room B
-//   phone.html?s=stock&n=1                                   the food warning (public, PROPOSED)
+//   phone.html?s=stock&n=1                                   the food warning, on every phone
 //   …&safe=47,34  …&text=2  …&motion=reduced                 as the pack's prototype
 //   …&before=1                                               the moment of a press at t, before the server's answer
 //   …&live=1                                                 the controls play the storyboard's next press
@@ -243,7 +244,8 @@ function outcomeCard({ title, stamp, tone = null, body }, top) {
 
 function endCard(v, role, top) {
   const o = v.outcome;
-  const back = h('p', `Returning to ${ROOM_NAMES[CAST[role].from.room]}…`);
+  // The owner, on Designer's recommendation (12 November 2026): both go back at the same moment, whatever happened.
+  const back = h('p', `You go back to ${ROOM_NAMES[CAST[role].from.room]} at the end of the Task's time.`);
   if (o.result === 'delivered') return outcomeCard({ title: 'Delivered', stamp: `+${o.packages} packages`, tone: 'accent', body: [h('p', 'The crate went down to the galley. The ship\'s food stock rises by five.'), back] }, top + 24);
   if (o.result === 'cancelled') return outcomeCard({ title: 'Task cancelled', stamp: 'Cancelled', body: [h('p', o.who === role ? 'You lost your connection. Nothing was delivered.' : `${person(other(role)).name} lost their connection. Nothing was delivered.`), back] }, top + 24);
   const lost = o.why === 'time' ? 'The time ran out before the crate went down.' : 'The crate was not over the platform.';
@@ -273,6 +275,10 @@ function roomView(root, { room = 'room-b', seats, self, top: bar, tabsCfg = { he
 }
 
 const phaseBar = (title, sub, seconds = null, round = 3) => topBar({ kind: 'phase', icon: 'supply', title, sub, seconds, round, menu: {} });
+// The Food Supply step, at the start of each round before the pre-turn window (the owner, on Designer's
+// recommendation, 12 November 2026): 30 s to ask a Partner, then the Task's 30 s.
+const stepBar = (seconds, round = 3) => phaseBar('Food Supply', 'Who goes for food?', seconds, round);
+const turnBar = () => topBar({ kind: 'turn', who: seatOf(7), round: 3, seconds: 42, menu: {} });
 
 // Fixtures for the flow: the two who went for food last round (round 2), and the food stock before this Task.
 const WENT_LAST_ROUND = Object.freeze([1, 7]);
@@ -282,11 +288,22 @@ function volunteer(root, p) {
   const step = p.step ?? 'task';
   const seats = fixtureBoard({ roster: 9 });
   const rested = step === 'rested';
-  roomView(root, { seats, self: CAST.winch.seat, top: phaseBar('Tasks', 'Outside the turn order', null, rested ? 4 : 3), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: step !== 'partner' });
+  const closed = step === 'closed';
+  roomView(root, { seats, self: CAST.winch.seat, top: closed ? turnBar() : stepBar(24, rested ? 4 : 3), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: step !== 'partner' });
   const asked = seatOf(CAST.panel.seat).name;
-  if (step === 'task' || rested) {
+  if (closed || step === 'busy') {
+    // Outside the step, the sheet still opens: How it works is read here, outside any timed window. In the
+    // step, one request at a time: while another waits, the row names no one.
+    root.append(...sheet({ title: 'Start a Task', sub: 'With a Partner you choose. Once a round, before the turns.', detent: 'auto', body: [
+      list(
+        row({ icon: 'supply', title: 'Food Supply', sub: closed ? 'Opens at the start of each round' : 'Someone is asking a Partner', disabled: true }),
+        row({ icon: 'panel', title: 'Engine', sub: 'Its own Task, designed separately', disabled: true }),
+        row({ icon: 'info', title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', chevron: true, go: 's=howto' })),
+      groupNote(closed ? 'The Food Supply Task runs only at the start of a round, before the turns.' : 'One request at a time. If it is refused, anyone else can ask while the step lasts.'),
+    ] }));
+  } else if (step === 'task' || rested) {
     // The owner, 12 November 2026: no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round.
-    root.append(...sheet({ title: 'Start a Task', sub: 'With a Partner you choose. Outside the turn order.', detent: 'auto', body: [
+    root.append(...sheet({ title: 'Start a Task', sub: 'With a Partner you choose. Once a round, before the turns.', detent: 'auto', body: [
       list(
         rested
           ? row({ icon: 'supply', title: 'Food Supply', sub: 'You went for food last round', disabled: true })
@@ -304,16 +321,16 @@ function volunteer(root, p) {
         const went = WENT_LAST_ROUND.includes(s.seat);
         return row({ lead: h('b.num', String(s.seat)), title: s.name, sub: went ? 'Went for food last round' : away ? 'Not available now' : s.location, disabled: away || went, trail: s.seat === CAST.panel.seat ? ic('check', { filled: true }) : null });
       })),
-      groupNote('If the player you ask declines, the next volunteer goes. Last round\'s two cannot go for food (PROPOSED: nor anyone in the Hospital or the Jail). The game picks the controls at random.'),
+      groupNote('If the player you ask declines, the next volunteer goes. Last round\'s two, and anyone in the Hospital or the Jail, cannot go. The game picks the controls at random.'),
     ], foot: button(`Ask ${asked}`, { icon: 'supply', block: true, go: 's=volunteer&step=asking' }) }));
   } else if (step === 'asking') {
     root.append(...sheet({ title: `Waiting for ${asked}`, sub: 'Food Supply Task', close: false, body: [h('p.group-note', `${asked} can join or decline. If not, the next volunteer goes.`)],
       foot: [button('Waiting…', { busy: true, block: true, disabled: true }), button('Cancel', { kind: 'plain', block: true, go: 's=volunteer&step=withdrawn' })] }));
   } else if (step === 'withdrawn') {
-    // PROPOSED: withdrawing counts as a refusal, so the next volunteer goes.
+    // Withdrawing counts as a refusal, so the next volunteer goes (the owner, on Designer's recommendation).
     root.append(...sheet({ title: 'Request withdrawn', sub: 'Food Supply Task', detent: 'auto', body: [
-      groupNote('The next volunteer goes: anyone else can start the Task now.'),
-      groupNote('You can volunteer again next round (PROPOSED).'),
+      groupNote('The next volunteer goes: anyone else can ask while the step lasts.'),
+      groupNote('You can volunteer again next round.'),
     ], foot: button('OK', { block: true }) }));
   } else if (step === 'withdraw-late') {
     // The race: Cancel reached the server after the Partner's Join. The first to arrive wins; the Task starts.
@@ -321,8 +338,8 @@ function volunteer(root, p) {
   } else if (step === 'declined') {
     // The owner, 12 November 2026: after a refusal the game goes to the next volunteer, anyone who volunteers.
     root.append(...sheet({ title: `${asked} declined`, sub: 'Food Supply Task', detent: 'auto', body: [
-      groupNote('The next volunteer goes: anyone else can start the Task now.'),
-      groupNote('You can volunteer again next round (PROPOSED).'),
+      groupNote('The next volunteer goes: anyone else can ask while the step lasts.'),
+      groupNote('You can volunteer again next round.'),
     ], foot: button('OK', { block: true }) }));
   } else {
     root.append(...sheet({ title: 'Starting the Food Supply Task', sub: `${asked} joined`, close: false, body: [h('p.group-note', 'Going to the Supply Room…')], foot: button('Starting…', { busy: true, block: true, disabled: true }) }));
@@ -330,14 +347,15 @@ function volunteer(root, p) {
 }
 
 /**
- * The Partner is asked: Join or Decline (the owner, 11 November 2026), with a time to answer (PROPOSED).
+ * The Partner is asked: Join or Decline (the owner, 11 November 2026), with 15 s to answer (the owner, on
+ * Designer's recommendation, 12 November 2026).
  * The answer races the Volunteer's Cancel and the time running out: the server takes whichever arrives
  * first, and the phone shows what it decided. answer: join (joined), joining (the answer on its way),
  * late-withdrawn (the Volunteer had cancelled), late-expired (the time had run out).
  */
 function called(root, p) {
   const seats = fixtureBoard({ roster: 9 });
-  const { top } = roomView(root, { seats, self: CAST.panel.seat, top: phaseBar('Tasks', 'Outside the turn order') });
+  const { top } = roomView(root, { seats, self: CAST.panel.seat, top: stepBar(21) });
   const volunteerName = seatOf(CAST.winch.seat).name;
   const style = { top: `${top + 60}px`, maxHeight: `calc(100% - ${top + 72}px)` };
   if (p.answer === 'join') {
@@ -374,25 +392,26 @@ function called(root, p) {
  */
 function howto(root) {
   const seats = fixtureBoard({ roster: 9 });
-  roomView(root, { seats, self: CAST.winch.seat, top: phaseBar('Tasks', 'Outside the turn order'), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: false });
+  roomView(root, { seats, self: CAST.winch.seat, top: turnBar(), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: false });
   const section = (title, text) => [groupLabel(title), groupNote(text)];
-  root.append(...sheet({ title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', back: 's=volunteer&step=task', detent: 'large', body: [
+  root.append(...sheet({ title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', back: 's=volunteer&step=closed', detent: 'large', body: [
+    ...section('When', 'Once a round, at its start, before the turns. The two who go cannot go again the next round.'),
     ...section('Two of you, one control each', 'The game picks who runs which control. The Panel moves the crane left and right; the Winch moves the crate up and down.'),
     ...section('The Panel', 'RELEASE sets the locking panel clicking from stop to stop along the rail. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch\'s cab.'),
     ...section('The Winch', 'Raise lifts the crate. Locked, the crate swings. Lower drops it where its swing has it: over the platform it lands; over the Panel it falls on them.'),
     ...section('Then', `Both turn a key: +${FOOD.perDelivery} packages for the ship.`),
     ...section('The time', '30 seconds for the whole Task, the short briefing included.'),
     ...section('Mistakes', 'A late LOCK or an early Lower can kill. Nothing tells a mistake from a betrayal. Your press counts when it reaches the ship, a moment after you press: the stripes warn you early for that.'),
-    ...section('Leaving', 'If you lose your connection for 8 seconds, the Task is cancelled. It costs you nothing more.'),
+    ...section('Leaving', 'If you lose your connection for 8 seconds, the Task is cancelled. It costs you nothing more. Whatever happens, you both go back at the end of the Task\'s time.'),
   ] }));
 }
 
 function away(root) {
   const seats = fixtureBoard({ roster: 9 }).filter(s => s.seat !== CAST.winch.seat && s.seat !== CAST.panel.seat);
   const self = 6;
-  const { top } = roomView(root, { seats, self, top: phaseBar('Tasks', 'Outside the turn order') });
+  const { top } = roomView(root, { seats, self, top: phaseBar('Food Supply', 'The turns start after it', 21) });
   // The owner, 11 November 2026: other players can check on the board who is not here. The banner names no one.
-  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'supply', title: 'Two players are away on the Food Supply Task', sub: 'The board shows who is not here. The Task itself shows on their phones only.' })));
+  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'supply', title: 'Two players are away on the Food Supply Task', sub: 'The board shows who. They come back when its time is up; the Task shows on their phones only.' })));
 }
 
 function returned(root, p) {
@@ -404,7 +423,8 @@ function returned(root, p) {
   const seats = fixtureBoard({ roster: 9, health });
   const as = p.as ?? 'winch';
   const self = as === 'other' ? 6 : CAST[as].seat;
-  const { top } = roomView(root, { seats, self, top: topBar({ kind: 'phase', icon: 'hourglass', title: 'Round 3', sub: 'Back in Room B', round: 3, menu: {} }) });
+  // Back at the end of the Task's time, whatever happened; the round goes on to the pre-turn window.
+  const { top } = roomView(root, { seats, self, top: topBar({ kind: 'phase', icon: 'hourglass', title: 'Round 3', sub: 'Pre-turn', seconds: 14, round: 3, menu: {} }) });
   const o = end.outcome;
   // The owner, 12 November 2026: the other players learn the result only through the food count. A delivery shows
   // as the new count on every phone, naming no Task; otherwise they see only the board.
@@ -419,8 +439,8 @@ function returned(root, p) {
 function stock(root, p) {
   const n = Number(p.n ?? 1);
   const seats = fixtureBoard({ roster: 9 });
-  const { top } = roomView(root, { seats, self: 4, room: 'room-a', top: topBar({ kind: 'turn', who: seatOf(7), round: 3, seconds: 42, menu: {} }) });
-  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'warning', title: n === 1 ? 'Food low: 1 package left' : `Food: ${n} packages`, sub: 'PROPOSED public warning. A Food Supply Task adds five.' })));
+  const { top } = roomView(root, { seats, self: 4, room: 'room-a', top: turnBar() });
+  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'warning', title: n === 1 ? 'Food low: 1 package left' : `Food: ${n} packages`, sub: 'On every phone. Each meal takes half a package; a Food Supply Task adds five.' })));
 }
 
 const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, stock, howto };

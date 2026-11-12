@@ -85,9 +85,10 @@ export const ROUTE = Object.freeze([
 ].map(Object.freeze));
 
 /**
- * Timing, in milliseconds. PROPOSED, except the deadline: the owner set the overall time to complete
- * the Task at 30 seconds, the briefing inside it (12 November 2026). The click is the owner's (12
- * November: the panel clicks from stop to stop); its two numbers are proposed.
+ * Timing, in milliseconds. PROPOSED, except what the owner set (12 November 2026): the overall time to
+ * complete the Task, 30 seconds with the briefing inside it; the click from stop to stop, with its 0.1 s
+ * snap and 0.4 s rest; the warnings' 0.15 s margin ("this is fine"); and, on Designer's recommendation,
+ * the 15 s answer, the 8 s grace and the Food Supply step's 30 s to ask.
  * move: the panel's snap from one stop to the next; rest: how long it then rests at that stop (a stop
  * every 0.5 s, end to end in 3 s); margin: how much earlier a warning starts, and a glow ends, than the
  * danger or the opening itself, so that a press already on its way to the server is covered; raise: the
@@ -95,9 +96,17 @@ export const ROUTE = Object.freeze([
  * the press arrives); briefing: who controls what, before the controls work; deadline: the whole
  * Task's time, from its start, the briefing included; grace: how long a participant may be out of
  * contact before the Task is cancelled (see the rule conflict in food-supply.md); ending: the outcome
- * card before the return; answer: how long an asked Partner has to join or decline.
+ * card after the deadline, before the return; answer: how long an asked Partner has to join or decline;
+ * asking: how long the Food Supply step stays open for a request, at the start of each round.
  */
-export const TIMING = Object.freeze({ move: 100, rest: 400, margin: 150, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000 });
+export const TIMING = Object.freeze({ move: 100, rest: 400, margin: 150, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000, asking: 30000 });
+
+/**
+ * When both participants return, after the Task's start: its 30 seconds, then the outcome card. The same
+ * for every outcome (the owner, on Designer's recommendation, 12 November 2026), so the time the two are
+ * away tells the others nothing; only the food count says how it went.
+ */
+export const RETURN_AFTER = TIMING.deadline + TIMING.ending;
 
 /** One click: the snap and the rest. */
 export const CLICK = TIMING.move + TIMING.rest;
@@ -121,8 +130,13 @@ export const ZONES = Object.freeze({ platform: 0.3, console: 0.42, intake: 0.42 
  */
 export const CATCH = Object.freeze({ luck: 0.25 });
 
-/** Food: five packages to start (shown by the ship-life capsules), five per delivery, a warning at one. Confirmed. */
-export const FOOD = Object.freeze({ initial: 5, perDelivery: 5, warnAt: 1 });
+/**
+ * Food, in packages: five to start (shown by the ship-life capsules), five per delivery, a warning at one
+ * (the owner, 11 November 2026). A package holds two doses, and each player eats one dose at their
+ * Eating step, the end of their own ordinary turn (the owner, on Designer's recommendation, 12 November
+ * 2026): one delivery a round feeds up to ten players.
+ */
+export const FOOD = Object.freeze({ initial: 5, perDelivery: 5, warnAt: 1, dosesPerPackage: 2 });
 
 /** Events that never reach a phone: the server's record of each lethal press (the catch's roll, and whether Protection or luck held). */
 export const SERVER_ONLY = Object.freeze(['CATCH']);
@@ -214,7 +228,7 @@ export function startTask({ id = 'task-1', seats, at = 0 } = {}) {
   if (!seats?.winch || !seats?.panel || seats.winch === seats.panel) throw new Error('A Task needs two different participants');
   return {
     id, revision: 0, pressRevision: 0, seq: 0,
-    phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.deadline,
+    phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.deadline, returnsAt: at + RETURN_AFTER,
     seats: { ...seats },
     alive: { winch: true, panel: true },
     online: { winch: true, panel: true }, offlineSince: { winch: null, panel: null },
@@ -610,7 +624,7 @@ export function projection(state, seat, { observedAt = state.at, events = [], af
   return {
     id: state.id, revision: state.revision, observedAt,
     seats: { ...state.seats }, role,
-    phase: state.phase, at: observedAt, startedAt: state.startedAt, runningAt: state.runningAt, deadline: state.deadline, endedAt: state.endedAt,
+    phase: state.phase, at: observedAt, startedAt: state.startedAt, runningAt: state.runningAt, deadline: state.deadline, endedAt: state.endedAt, returnsAt: state.returnsAt,
     alive: { ...state.alive }, online: { ...state.online }, keys: { ...state.keys },
     panel: { ...state.panel }, swing: state.swing ? { ...state.swing } : null, crate: { ...state.crate, from: state.crate.from ? { ...state.crate.from } : null },
     outcome: state.outcome ? { ...state.outcome } : null,

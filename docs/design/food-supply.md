@@ -1,6 +1,6 @@
 # The Food Supply Task
 
-A two-player Task in the Supply Room, designed from the owner's confirmed highlights of 11 November 2026, the owner's answers the same day and on 12 November, and the owner's crane, which replaced the first design that evening ([owner-decisions.md](owner-decisions.md#11-november-2026-the-food-supply-task)). Integration and Frontend reviewed it on 12 November ([#231](https://github.com/Amirkianfar66/GameN/pull/231)); this version answers that review. **A design proposal on synthetic fixtures. It activates no gameplay and is in no release.** Every choice of the design's own is marked PROPOSED; the rest follows the owner's decisions.
+A two-player Task in the Supply Room, designed from the owner's confirmed highlights of 11 November 2026, the owner's answers the same day and on 12 November, and the owner's crane, which replaced the first design that evening ([owner-decisions.md](owner-decisions.md#11-november-2026-the-food-supply-task)). Integration and Frontend reviewed it on 12 November ([#231](https://github.com/Amirkianfar66/GameN/pull/231)); this version answers that review, and records the owner's rules for [playing the Task](#playing-the-task), decided on Designer's recommendation the same day. **A design proposal on synthetic fixtures. It activates no gameplay and is in no release.** Every choice of the design's own is marked PROPOSED; the rest follows the owner's decisions.
 
 | | |
 | --- | --- |
@@ -23,7 +23,7 @@ A two-player Task in the Supply Room, designed from the owner's confirmed highli
 The **locking panel** rides the rail with the crate's hoist on it. Delivering takes four presses and two keys:
 
 1. **Hana: Raise.** The crate rises out of the intake.
-2. **Cleo: RELEASE.** The panel's blade lifts and the panel **clicks** along the rail, end to end and back: a fast snap to the next stop, then a short rest there (the owner's click; PROPOSED: a 0.1 s snap and a 0.4 s rest, a stop every half second).
+2. **Cleo: RELEASE.** The panel's blade lifts and the panel **clicks** along the rail, end to end and back: a fast snap to the next stop, then a short rest there (the owner's click: a 0.1 s snap and a 0.4 s rest, a stop every half second).
 3. **Cleo: LOCK** while it rests at stop 6. The blade drops and the panel stops there. The blade's slam **sets the crate swinging** like a pendulum, wide at first, then calmer, but never still.
 4. **Hana: Lower** as the swing passes over the platform. The crate lands, and the platform's jaws close.
 5. **Both turn a key.** The lift takes the crate down to the galley: **+5 packages**.
@@ -41,7 +41,7 @@ The first design that day was a gantry on a grid of steps, with dice accidents n
 
 ### Presses are judged when they arrive
 
-Integration's review (12 November 2026) set the rule for time: **the server resolves each press when it receives it**, on its own clock, and a phone's own time decides nothing. A press takes a moment to travel, typically 0.1 to 0.2 s. With the panel sliding a stop every 0.22 s, that delay alone would often have turned Cleo's LOCK at 6 into a cut at 7: the network, not the player, would have killed. Asked how the panel should move, the owner chose **"click stop to stop"**: the panel snaps to each stop and rests there. A LOCK takes the stop it rests at, or the one it is snapping to, so each stop takes a LOCK for half a second, longer than the delay. A late LOCK at 6 still cuts Hana; that is the mistake the owner wanted. The warnings start a little early (PROPOSED: 0.15 s) to cover a press already on its way, and the words on the buttons say where the panel and the crate are, never what a press will certainly do.
+Integration's review (12 November 2026) set the rule for time: **the server resolves each press when it receives it**, on its own clock, and a phone's own time decides nothing. A press takes a moment to travel, typically 0.1 to 0.2 s. With the panel sliding a stop every 0.22 s, that delay alone would often have turned Cleo's LOCK at 6 into a cut at 7: the network, not the player, would have killed. Asked how the panel should move, the owner chose **"click stop to stop"**: the panel snaps to each stop and rests there. A LOCK takes the stop it rests at, or the one it is snapping to, so each stop takes a LOCK for half a second, longer than the delay. A late LOCK at 6 still cuts Hana; that is the mistake the owner wanted. The warnings start a little early (0.15 s) to cover a press already on its way. The owner approved the snap, the rest and the margin ("this is fine"). and the words on the buttons say where the panel and the crate are, never what a press will certainly do.
 
 ### Kills, mistakes and the catch
 
@@ -54,7 +54,7 @@ Nothing can tell a mistake from a betrayal: not the server, not the phones. The 
 
 ### The crane in numbers
 
-All PROPOSED, except the click itself and the 30 seconds, which are the owner's:
+All PROPOSED, except the click (its snap, its rest and the 0.15 s margin) and the 30 seconds, which are the owner's:
 
 | | |
 | --- | --- |
@@ -76,6 +76,46 @@ The confirmed rule: after a partner dies, the survivor completes the delivery al
 - **The Panel's:** after the landing, while the keys wait. Cleo releases the empty panel, locks it over the cab, and turns the Panel's key alone.
 
 Every other kill loses the Task at once: a cut with the crate still hanging, or a drop with the panel locked anywhere but the platform.
+
+## Playing the Task
+
+Integration listed what the Task still needed before it could be played (12 November 2026). The owner asked Designer to decide it ("as you recommendation"), so these are now the owner's rules, on Designer's recommendation ([owner-decisions.md](owner-decisions.md#11-november-2026-the-food-supply-task)). They fit the round as the rules have it at the base commit (`docs/specifications/planet-successor/owner-decisions.md`, with the blackout-before-vote overlay). No rule file changes here.
+
+- **When: the Food Supply step.** The Task runs only in its own step at the start of each round, after any Captain election and before the 15 s pre-turn window.
+  - The step gives 30 s to ask a Partner, and a request made in time keeps its 15 s to answer.
+  - **One Task a round at most, and never two at once.**
+  - Nothing else happens in the step: no turn, move, shot, Hack, vote or Captain command.
+  - If no one joins, the step ends when the asking is over. If no two players can go, there is no step.
+- **Who can go:** two living players outside the Hospital and the Jail, neither of whom went for food last round.
+- **Asking:**
+  - One request at a time: the first to reach the server counts. While it waits, everyone else's Food Supply row says only "Someone is asking a Partner".
+  - No answer within 15 s is a decline, and a withdrawn request counts as a refusal.
+  - After a refusal, anyone else may volunteer while the step lasts. The refused Volunteer cannot ask again this round, but can still be asked.
+  - A request and its answer are private to the two.
+- **The next-round rule's edges:** it holds once a Task starts, whatever its outcome (delivered, lost or cancelled). A refusal starts no Task and bars no one. It bars the next round's Food Supply step only.
+- **The return:** both come back at the same moment whatever happened, 32.5 s after the Task's start (its 30 s, then the outcome card). Each goes back to the place the server recorded when the Task started.
+  - So the time they were away tells no one anything: only the food count says how it went.
+  - Nothing else happens in the step, so the place is still theirs, and no forced transfer can come during a Task.
+  - A participant killed on the Task stays at that place, Eliminated.
+- **Eating:**
+  - A package holds **two doses**.
+  - Each living player outside the Hospital eats one dose at their **Eating step: the end of their own ordinary turn** (a Pass or a timeout too). Players in the Jail eat too; patients in the Hospital do not.
+  - With the stock short, the turn order (random each round) decides who eats.
+  - A player who cannot eat goes hungry. At the round's end, with the round's retained actions in recorded turn order, they become Injured and go to the Hospital under its existing rules: four beds, and eliminated if the next round's Rescue does not heal them.
+  - Hunger is not an attack: Protection and Clone do not stop it.
+  - The server takes the dose when the turn ends. The ship-life visit after the turn ([#230](https://github.com/Amirkianfar66/GameN/pull/230)) only shows it, and a visit that never played decides nothing.
+- **The food count** is public on every phone, in packages: a delivery shows as five more, a meal as half a package less. The warning shows while one package or less remains. Five packages are ten doses, so one delivery a round feeds up to ten players.
+- **The Blackhole and Sync:**
+  - No Blackhole is active during a Task: the step comes before the pre-turn window, where a Blackhole is chosen.
+  - So everything the Task decides comes before any branch, and every reality inherits it: its deaths, the Protection it reads and uses up, the delivery, and who went.
+  - Meals and hunger come in the ordinary turns, so they follow the selected reality like any physical effect. A branch inherits the food count when it is made; Sync keeps the selected reality's count and its hungry players; a meal in a discarded reality was never eaten.
+  - Hunger resolves at the round's end, after Sync.
+- **Clone** does not stop a Task hazard: a kill on the Task is not an attack. Only applicable Protection stops it, besides the catch's luck.
+
+**Why this shape:**
+- The step before the pre-turn window keeps every Task out of a Blackhole branch and out of everyone's turns: no turn waits for a participant, no one can move into an empty place, and nothing can target a player who is away.
+- Meals at the end of each turn match the owner's ship life, where the character who finished a turn walks to the capsule and eats.
+- Two doses a package let the owner's numbers feed a full crew from one delivery a round. With one dose a package, nine players would need almost two deliveries every round, and the first round would start four players short.
 
 ## The phones
 
@@ -112,13 +152,14 @@ Every control is whole and no word is cut; each phone reports its own layout on 
 
 **Starting and ending** follow the owner's answers (11 and 12 November 2026):
 
-- A Volunteer opens Tasks outside the turn order and asks a Partner, who can join or decline. PROPOSED: 15 s to answer, and no answer declines. **How it works** is one row away on the Tasks sheet: the instructions, read any time before the Task, outside its 30 seconds.
+- **In the Food Supply step** at the start of each round, a Volunteer opens Tasks and asks a Partner, who can join or decline within 15 s; no answer declines. The top bar shows the step and its time to ask. Outside the step the Tasks sheet still opens: its Food Supply row says when it opens. **How it works** is one row away: the instructions, read any time, outside the Task's 30 seconds.
+- **One request at a time:** while one waits, everyone else's Food Supply row says only "Someone is asking a Partner".
 - **The races:** a Join, the Volunteer's Cancel and the time running out can cross. The server takes whichever arrives first and tells each phone: "Too late to join" (Hana had cancelled, or the time had run out) or "Too late to cancel" (Cleo joined first, and the Task starts).
-- **A refusal passes to the next volunteer:** anyone else can now start the Task and ask a Partner, and the first to do so goes next. PROPOSED: the refused Volunteer can volunteer again from the next round, and a withdrawn request counts as a refusal.
-- **There is no limit of one Task per match.** Instead, the Volunteer and the Partner cannot go for food the next round: their Food Supply row says "You went for food last round", and the partner list marks them. PROPOSED: this holds once the Task starts, whatever its outcome; a refusal starts no Task.
+- **A refusal passes to the next volunteer:** anyone else can ask while the step lasts, and the first to reach the server goes next. The refused Volunteer cannot ask again this round but can still be asked, and can volunteer again from the next round. A withdrawn request counts as a refusal.
+- **There is no limit of one Task per match.** Instead, the Volunteer and the Partner cannot go for food the next round: their Food Supply row says "You went for food last round", and the partner list marks them, as it marks anyone in the Hospital or the Jail. It holds once the Task starts, whatever its outcome; a refusal starts no Task.
 - **The game assigns the controls at random.**
 - While the two are away, every board shows their places empty, and a banner names no one.
-- Afterwards everyone is back at their places; a participant killed on the Task is Eliminated there, as any death is shown.
+- **Both come back at the same moment, whatever happened:** at the end of the Task's time, each to their place. The outcome card says so ("You go back to Room B at the end of the Task's time"), and the round goes on to the pre-turn window. A participant killed on the Task is Eliminated there, as any death is shown.
 - **The other players learn the result only through the food count:** a delivery shows the new count on every phone, naming no Task; nothing else says how it went.
 - **Leaving on purpose costs nothing:** it is a disconnect like any other.
 
@@ -162,7 +203,7 @@ Layer order, back to front: the room; the festoon cable; the platform; the cab's
 
 ![Each cue and its Reduce motion form](../../design/food-supply/review/motion.png)
 
-All timings PROPOSED. **Presentation only:** a cue never delays a press, and a new authoritative state always replaces a cue still playing.
+The cues' timings are PROPOSED; the click's own snap and rest are the owner's. **Presentation only:** a cue never delays a press, and a new authoritative state always replaces a cue still playing.
 
 | Cue | Normal | Reduce motion |
 | --- | --- | --- |
@@ -199,7 +240,7 @@ A reduced pose never runs ahead of the state: the crate is drawn at once where i
 - **States to draw**, from `view()`: the buttons (`act`, `enabled`, `next`, `hazard`, `zone`, `stop`, `leaving`, `turned`), `panel`, `crate`, `zone`, `likely`, `warnings`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The phone sheets show each.
 - **The prototype is layout evidence only.** `phone.mjs`'s live mode steps the storyboard on a click or a key; it does not send a press, hold a command id, enforce a disabled control or recover a receipt. The native phone implements all of that.
 - **Never show** Protection, the catch's roll, a reason for a stop, or whether a kill was meant. "Stopped" is the same words whichever caused it.
-- **Outside the Task:** the Tasks sheet and the partner list mark the two who went for food last round. After the Task, the other players' phones show the new food count on a delivery and nothing else; only the participants' own toasts name the result.
+- **Outside the Task:** the Food Supply step has its own top bar with its time to ask. Outside the step, the Tasks sheet's Food Supply row says "Opens at the start of each round"; in it, while another request waits, "Someone is asking a Partner" (the states sheet). The partner list marks the two who went for food last round and anyone in the Hospital or the Jail. The outcome card stays until both go back, at the end of the Task's time. After the Task, the other players' phones show the new food count on a delivery and nothing else; only the participants' own toasts name the result.
 - **Accessibility:**
   - Each button's name says what it would do now ("Lower. Warning: may fall on Cleo.").
   - The view has a text equivalent: where the panel and the crate are, and whether a warning shows.
@@ -223,35 +264,35 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
   - After a KILLED, the Task is lost unless the crate is in the correct position.
 - **Lethal presses:** a LOCK that takes stop 7 (the cut), or a Lower whose landing is the console (the drop). The server reads the partner's applicable Protection from the game at that moment (not used up, active this round: `packages/engine/src/planet-game/physical.ts`); it stops the press, and the block uses it up there. Clone is not read. Without Protection, the server's own roll below 0.25 stops it by luck (the owner). Otherwise it kills. Either way it uses nothing, and the server keeps a `CATCH` record of the roll and what held, for replay; it never reaches a phone.
 - **Endings:** the earliest boundary due wins, whenever the server gets to it: the deadline (lost: time) or a grace running out (cancelled). At the same moment the deadline comes first, then the participant out of contact first, then the Winch before the Panel. An ended Task stays as it ended: a late tick, a reconnect or a press changes nothing, a death already accepted stands, and nothing is delivered twice.
-- **Connection:** out of contact, the Task runs on through the grace (PROPOSED 8 s) and the panel keeps clicking; back in time, nothing paused; out longer, cancelled. A phone out of contact shows its controls off.
+- **Connection:** out of contact, the Task runs on through the 8 s grace and the panel keeps clicking; back in time, nothing paused; out longer, cancelled. A phone out of contact shows its controls off.
 - **Command:** `TASK_PRESS { commandId, taskId, revision, act }` (and `shownAt`, diagnostic). The actor comes from authentication. The answer is the new revision with its events to both participants; a refusal or a receipt goes to the presser only.
 - **Asking a Partner**, around the owner's decisions (a Partner can decline; a refusal passes to the next volunteer):
   - From the Volunteer: `TASK_ASK { commandId, kind: "food", partnerSeatId }` (a seat id, not the number on the screen), and `TASK_ASK_WITHDRAW { commandId, requestId, requestRevision }`.
   - From the asked player: `TASK_ANSWER { commandId, requestId, requestRevision, join }`, within the answer time.
   - When a Join competes with a withdrawal, the time running out or another request, the server revalidates both players and the request atomically, and the first to arrive wins; the loser is told ("Too late to join", "Too late to cancel").
   - Events: `TASK_ASKED` to the asked player, `TASK_DECLINED` to the Volunteer (a decline or no answer), `TASK_STARTED` to both.
-  - `TASK_ASK` is refused for anyone who went for food last round, as the Volunteer or the Partner (the owner), and for a Volunteer refused this round (PROPOSED).
+  - `TASK_ASK` works only in the Food Supply step, one request at a time. It is refused for anyone who went for food last round, as the Volunteer or the Partner (the owner); for a Volunteer refused this round; for anyone not living or in the Hospital or the Jail; while another request waits; and once the round's Task has started (the owner, on Designer's recommendation).
   - On `TASK_STARTED` the server assigns the controls at random (the owner), records that randomness for replay, and records the two for the next-round rule, once only, whatever a retry does. No Task count is kept.
 - **Version:** Integration's planning target is protocol 3, `planet-game-1.4.0`, ruleset `in-person-planet-food-task-2026-11-12`: a new opt-in candidate inheriting the exact 1.3.0 predecessor (the handoff's `target`). A planning allocation only: no authority hash, registered tuple, default change or release. Historical schemas, matches and payloads stay unchanged.
-- **Before the Task can be played** (open item `adoption`): the start window and concurrency, who can be asked, the edges of the next-round rule and of a refusal, Eating's units and cadence, return positions and forced transfers, the Blackhole, and how the Task's state, the food, deaths, Protection and participation history pass through a whole-reality Sync. The public "away" must not show guessed room positions, a fixture's origin cannot decide a real return, and a picture that was never played cannot decide whether a meal was eaten.
+- **The rules for playing it** are the owner's, on Designer's recommendation ([Playing the Task](#playing-the-task)): the Food Supply step and one Task a round; who can go; asking; the next-round rule's edges; the return at the same moment for every outcome (`returnsAt`, 32.5 s after the start), to the place the server recorded; meals at the end of each turn, two doses a package, hunger at the round's end; the Task before any Blackhole branch, and meals following the selected reality; Clone not read. The public "away" shows real places (no branch exists during the step), the return uses the server's record, and the server, not a picture, decides each meal. Integration writes them into the candidate ruleset; no rule file changes here.
 
 ## For Game Balance
 
 - **The two kill-and-deliver paths** (conflict 2): the Winch's drop from the platform stop, which can pass as a mistake, against the Panel's cut in the standoff, which cannot. Is either more tempting? The server assigns the controls at random (the owner, 12 November 2026).
-- **The timing:** the click (a 0.1 s snap, a 0.4 s rest), the 0.15 s margin, the swing (0.9, settling to 0.38, 2.2 s, 1.3 s), and the zones (0.3 and 0.42). A shorter rest or a wider swing means more mistakes, and more cover for betrayal; the rest must stay longer than a press's travel with real networks. A cooperative run takes about 11 seconds from the start; the owner set the whole Task's time at 30 seconds, the briefing inside it.
+- **The timing:** the swing (0.9, settling to 0.38, 2.2 s, 1.3 s) and the zones (0.3 and 0.42). The click (a 0.1 s snap, a 0.4 s rest) and the 0.15 s margin are the owner's. A shorter rest or a wider swing means more mistakes, and more cover for betrayal; the rest must stay longer than a press's travel with real networks. A cooperative run takes about 11 seconds from the start; the owner set the whole Task's time at 30 seconds, the briefing inside it.
 - **Mistakes:** each costs time (a lock in the wrong place, a miss) or a life (a lock at 7, a Lower over the console). A kill is not an attack and costs its presser nothing (the owner); the catch saves one in four.
-- **The food economy:** five packages, five per delivery, one dose per player at each Eating step. There is no limit on Tasks per match, but the two who went for food cannot go the next round (the owner). How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
+- **The food economy** (the owner's, on Designer's recommendation): five packages, five per delivery, two doses a package, a dose for each player at the end of their turn, and one Task a round. Nine players eat 4½ packages a round, so the crew needs a delivery almost every round: two failed rounds in a row starve most of the crew, and hunger fills the Hospital's four beds. Check it with `tools/balance`; the doses a package holds is the one number to change.
 
 ## Visibility
 
 | Who | Sees |
 | --- | --- |
 | The two participants | The whole Supply Room: the panel clicking or locked, the swing, every press's effect, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Their own refused presses and receipts. Never an attack opportunity, Protection, the catch's roll, the other's refused presses, or whether a kill was meant |
-| Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. The result only through the food count, never how it went (the owner's decision). PROPOSED: not who was asked, or who declined |
+| Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. The result only through the food count, never how it went (the owner's decision). Both participants come back at the same moment whatever happened, so the time tells nothing. Not who was asked or who declined: while a request waits, only that someone is asking |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
 | Protection | Never shown. Read by the server from the game at each lethal press, and used up by a block. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing |
 | Mistakes | Both participants see a lethal press as it happens (CHOP!, THUD!); neither phone says whether it was meant. Everyone else sees only the death, with no cause |
-| The food stock | Public: the count, so a delivery shows as five more (the owner's decision); the ship-life food capsules show it. PROPOSED: every phone shows the new count when it changes, and the warning at one package |
+| The food stock | Public on every phone, in packages: a delivery as five more (the owner's decision), a meal as half a package less, and the warning while one package or less remains. The ship-life food capsules show it |
 | Only the server | Protection, the catch's roll and why a STOPPED happened (its CATCH record), the role assignment's randomness, the press revisions' bookkeeping and the command receipts |
 
 ## Acceptance scenarios
@@ -300,8 +341,8 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 
 1. **No escape, and a disconnect cancels.**
    - The conflict: if a disconnect cancelled at once, switching off the network would escape an attack.
-   - **Solution:** the server judges a disconnect only after a grace (PROPOSED 8 s). In the grace the Task runs on, the panel keeps running, and a cut or a drop resolves; a death before the cancellation stands.
-   - *Settled:* a participant can still end a Task they dislike by staying offline, and the owner decided that this costs nothing (12 November 2026). The grace's length is in the timing open item.
+   - **Solution:** the server judges a disconnect only after a grace (8 s). In the grace the Task runs on, the panel keeps running, and a cut or a drop resolves; a death before the cancellation stands.
+   - *Settled:* a participant can still end a Task they dislike by staying offline, and the owner decided that this costs nothing (12 November 2026). The 8 s grace is the owner's, on Designer's recommendation.
 2. **Both can betray, and a survivor completes only from the correct position.**
    - The conflict: a betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal. The gantry let only one operator kill and still deliver.
    - **Solution:** the crane gives each operator exactly one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut in the standoff. The server assigns the controls at random (the owner, 12 November 2026).
@@ -323,19 +364,11 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 
 | Item | For |
 | --- | --- |
-| Whether one dose is one package (PROPOSED: yes) | The owner |
-| The next-round rule's edges. PROPOSED: it holds once a Task starts, whether it delivers, is lost or is cancelled; a refusal starts no Task, so it does not count; it covers the Food Supply Task only | The owner |
-| After a refusal. PROPOSED: the refused Volunteer can volunteer again from the next round; no answer, or a withdrawn request, counts as a refusal; the first to ask a Partner goes next | The owner |
-| The Partner request (that a Partner can decline, and that last round's two cannot go, are decided). PROPOSED: who else can be asked (living, outside the Hospital and the Jail, not on a Task), and 15 s to answer (no answer declines) | The owner |
-| When a Task may start, how many Food Supply Tasks a round may have, and whether two may run at once | The owner, Backend |
-| The timing: the click's snap and rest, the 0.15 s margin, the swing, the zones, the raise and the fall, the 8 s grace, the 4 s briefing (the 30 s deadline and the click are the owner's). The rest and the margin need real-network evidence | The owner, Game Balance |
-| The two kill-and-deliver paths, and the food economy | Game Balance |
-| The Eating step's place and order | The owner, Game Balance |
+| The timing: the 4 s briefing, the 2.5 s outcome card, the swing, the zones, the raise and the fall. The owner's: the 30 s deadline; the click's snap and rest; the 0.15 s margin; and, on Designer's recommendation, the 15 s answer, the 8 s grace and the step's 30 s to ask. The rest and the margin still need real-network evidence | The owner, Game Balance |
+| The two kill-and-deliver paths, and a check of the food economy: two doses a package, one Task a round | Game Balance |
 | Press timing: presses resolved on arrival (Integration's direction); the clock sync the phones draw by, revisions, command ids and durable receipts | Backend, Integration |
 | Timing access: whether a player who cannot react in time can ask for a slower panel or a calmer swing, which changes the danger for their partner too. Nothing is proposed. PROPOSED for the danger itself: a short vibration on the presser's phone; untested with a screen reader | The owner, Game Balance |
-| Whether Clone stops a Task hazard (not assumed) | The owner |
-| The contract: the accepted command families' wire format, the projection, and the planning target protocol 3 / `planet-game-1.4.0` / `in-person-planet-food-task-2026-11-12` | Integration, Backend |
-| Before the Task can be played: the start window and concurrency, eligibility, the edges of the next-round rule and of a refusal, Eating's units and cadence, return positions and forced transfers, the Blackhole, and whole-reality Sync | The owner, Integration |
+| The contract: the accepted command families' wire format, the projection, and the planning target protocol 3 / `planet-game-1.4.0` / `in-person-planet-food-task-2026-11-12`; and writing the owner's rules for playing the Task into that ruleset | Integration, Backend |
 | The Engine Task (not designed here) | The owner |
 
 ## Review files

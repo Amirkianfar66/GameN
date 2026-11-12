@@ -26,7 +26,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { test } from 'node:test';
-import { CATCH, CLICK, FIXTURES, FOOD, ROLES, SERVER_ONLY, STOPS, SWING, TIMING, ZONES, act, atTime, hazards, landingAt, projection, simulate, startTask, sweep, swingOffset, tick, view } from '../../../design/food-supply/task.mjs';
+import { CATCH, CLICK, FIXTURES, FOOD, RETURN_AFTER, ROLES, SERVER_ONLY, STOPS, SWING, TIMING, ZONES, act, atTime, hazards, landingAt, projection, simulate, startTask, sweep, swingOffset, tick, view } from '../../../design/food-supply/task.mjs';
 import { BOXES, CRATE, HANG, OPERATORS, REGIONS, VIEW, stopX } from '../../../design/food-supply/layout.mjs';
 import { BOARDS, CAST, MOMENTS } from '../../../design/food-supply/boards.mjs';
 import { CUES, run } from '../../../design/food-supply/stage.mjs';
@@ -88,8 +88,8 @@ test('the cooperative route delivers five packages in four presses and two keys,
   assert.deepEqual(finalOf(frames).outcome, { result: 'delivered', packages: FOOD.perDelivery, alone: false });
 });
 
-test('food: five to start, five per delivery, the warning at one', () => {
-  assert.deepEqual({ ...FOOD }, { initial: 5, perDelivery: 5, warnAt: 1 });
+test('food: five to start, five per delivery, the warning at one, two doses a package', () => {
+  assert.deepEqual({ ...FOOD }, { initial: 5, perDelivery: 5, warnAt: 1, dosesPerPackage: 2 });
 });
 
 test('an unblocked lethal press kills at once, by the presser\'s own press, with no escape and no Hospital', () => {
@@ -310,7 +310,7 @@ test('every motion cue has its timing and a Reduce motion form; the click and th
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 31);
+  assert.equal(RULES.length, 39);
   for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit', 'click-stop']) assert.ok(RULES.some(r => r.id === id), id);
   assert.equal(TIMING.deadline, 30000, 'the owner: 30 seconds to complete the Task');
   const s = start();
@@ -338,7 +338,7 @@ test('starting a Task: no one-Task limit, the two sit out food next round, a ref
   for (const id of ['next-round', 'next-volunteer', 'random-controls', 'food-count-only', 'leaving-free']) assert.ok(RULES.some(r => r.id === id), id);
   assert.ok(!RULES.some(r => r.id === 'one-initiation'), 'the owner withdrew the one-Task limit');
   for (const id of ['initiation-spent', 'deliberate-disconnect', 'roles', 'public-result']) assert.ok(!OPEN_ITEMS.some(o => o.id === id), `${id} is decided`);
-  for (const id of ['next-round', 'next-volunteer']) assert.ok(OPEN_ITEMS.some(o => o.id === id), `${id}: the edges stay PROPOSED`);
+  for (const id of ['next-round', 'next-volunteer']) assert.ok(!OPEN_ITEMS.some(o => o.id === id), `${id}: the edges are decided`);
   assert.match(CONFLICTS.find(c => c.id === 'disconnect-escape').residual, /costs nothing/);
   assert.match(CONFLICTS.find(c => c.id === 'survivor-paths').solution, /at random \(the owner/);
   assert.match(VISIBILITY.others, /only through the food count/);
@@ -349,6 +349,45 @@ test('starting a Task: no one-Task limit, the two sit out food next round, a ref
   }
   assert.doesNotMatch(handoff, /"one-initiation"|initiation-spent|asks someone else/);
   assert.match(text('design/food-supply/phone.mjs'), /If you join, neither of you can go for food next round/);
+});
+
+test('playing the Task: the owner\'s rules on Designer\'s recommendation (12 November), for what Integration listed', () => {
+  const decided = ['food-step', 'who-can-go', 'asking', 'next-round-edges', 'meals', 'return-place', 'no-blackhole', 'clone'];
+  for (const id of decided) assert.ok(RULES.some(r => r.id === id), id);
+  for (const id of ['dose-package', 'next-round', 'next-volunteer', 'partner', 'when', 'eating-order', 'clone', 'adoption']) assert.ok(!OPEN_ITEMS.some(o => o.id === id), `${id} is decided`);
+  assert.deepEqual(OPEN_ITEMS.map(o => o.id), ['timing', 'paths', 'press-timing', 'timing-access', 'contract', 'engine-task']);
+  for (const r of RULES) assert.doesNotMatch(r.rule, /PROPOSED/, `${r.id}: a rule is the owner's`);
+  // When, and how many: the Food Supply step before the pre-turn window, where a Blackhole is chosen.
+  assert.equal(TIMING.asking, 30000, 'the step\'s 30 s to ask');
+  assert.equal(TIMING.answer, 15000);
+  assert.equal(TIMING.grace, 8000);
+  assert.match(RULES.find(r => r.id === 'food-step').rule, /before the pre-turn window\. One Task a round at most; two never run at once/);
+  assert.match(RULES.find(r => r.id === 'no-blackhole').rule, /every reality inherits it/);
+  // The return: the same moment for every outcome, so the time away tells the others nothing.
+  assert.equal(RETURN_AFTER, TIMING.deadline + TIMING.ending);
+  for (const b of BOARDS) {
+    const frames = run(b);
+    const end = finalOf(frames);
+    assert.equal(end.phase, 'ended', b.id);
+    assert.equal(end.returnsAt - end.startedAt, RETURN_AFTER, `${b.id}: ${end.outcome.result}, back at the same moment`);
+    assert.ok(end.endedAt <= end.returnsAt, `${b.id}: ended before the return`);
+    assert.equal(projection(end, SEATS.winch).returnsAt, end.returnsAt, 'the phone knows when');
+  }
+  // Eating: two doses a package, so one delivery a round feeds up to ten.
+  assert.equal(FOOD.dosesPerPackage, 2);
+  assert.ok(FOOD.perDelivery * FOOD.dosesPerPackage >= 9, 'one delivery feeds a full crew of nine');
+  assert.match(RULES.find(r => r.id === 'meals').rule, /the end of their own ordinary turn/);
+  assert.match(RULES.find(r => r.id === 'meals').rule, /become Injured and go to the Hospital under its existing rules/);
+  assert.match(VISIBILITY.ask, /^A Partner request and its answer are private/);
+  const h = JSON.parse(text('design/food-supply/handoff.json'));
+  assert.match(h.flow[0], /Food Supply step opens for 30 s/);
+  assert.match(h.controls.ask.window, /One Task a round at most, never two at once/);
+  assert.doesNotMatch(JSON.stringify(h.controls.ask), /PROPOSED/, 'the request\'s rules are decided');
+  assert.doesNotMatch(h.food.eating, /open|PROPOSED/);
+  assert.match(h.food.sync, /follow the selected reality/);
+  for (const state of ['another request waiting', 'Food Supply closed']) assert.ok(h.phoneStates.some(s => s.state === state), state);
+  assert.match(text('design/food-supply/phone.mjs'), /at the end of the Task's time/);
+  assert.doesNotMatch(text('design/food-supply/phone.mjs'), /Outside the turn order|Returning to/);
 });
 
 test('the handoff and the room art are what the export tool writes', () => {

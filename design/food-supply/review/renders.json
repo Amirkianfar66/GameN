@@ -1,47 +1,47 @@
 {
   "outputs": {
     "design/food-supply/review/board-chop.png": {
-      "sha256": "bb3308c0eaedb87c0d85016fe7a98caf2ed5e5bff5ce472bcc0075fd3195947e",
+      "sha256": "e6a2c588f805c1ab5b912c7b446146906f3b3cbcc5cd962081c9e00630bf710b",
       "width": 1720,
       "height": 2386
     },
     "design/food-supply/review/board-cooperation.png": {
-      "sha256": "26fc95a0709df87c39d030d83f98366ecbeb9f8498c395176428d2b0a6f082b2",
+      "sha256": "b9f9b36f09ea2b105d1efca61493ec47f2371a255422f0a24e9a06dfe65882d5",
       "width": 1720,
       "height": 4003
     },
     "design/food-supply/review/board-disconnect.png": {
-      "sha256": "13c309d9f3782b55911bfc40572e80820e7a213acb7e3637b0b75343449a7323",
+      "sha256": "b6b24876548bfe8dfb04cba87da07500f3acbfb323be974b5e0729941b636065",
       "width": 1720,
       "height": 2326
     },
     "design/food-supply/review/board-drop.png": {
-      "sha256": "235fcdb699c654795260ba0108ed35e8513f18ec9227ca60803c92e7a68c9c00",
+      "sha256": "211d82a4234a606c9208032c2f2c10c01e8e00e9b1a29f1776e8df0a8e1ff0de",
       "width": 1720,
       "height": 3444
     },
     "design/food-supply/review/board-mistakes.png": {
-      "sha256": "18655747acb8ad2e2ca8859c1c9e6c66e9aa7e9e8fb527a9f76aabaabdea598d",
+      "sha256": "91f8fea362a7e5db5e2a39dc2ddefa72b63548193093a9a68f2d5cf0c484de7d",
       "width": 1720,
       "height": 3504
     },
     "design/food-supply/review/board-protection-cut.png": {
-      "sha256": "1ba55b96e4cb2c1d10ea2bcf92d3741284e72bff8ff5af2701c1c8f8d0748821",
+      "sha256": "52554411e28fe609c2ff64a9faed2d8c2617a9329cc73bf294bbf93d3a32e2ed",
       "width": 1720,
       "height": 2386
     },
     "design/food-supply/review/board-protection-drop.png": {
-      "sha256": "acf622d31cd2fa111b28c0b6c6313dac9555ccb3a78f243356f3166f0e691cab",
+      "sha256": "c487c1760f78b40daa7a01f5b356308c0204f28bc140d214cdfc3c894bac7e0a",
       "width": 1720,
       "height": 2386
     },
     "design/food-supply/review/board-standoff.png": {
-      "sha256": "7b8a3c8f614a1a32968db1959821aa9549145c81da8602652b0dcc9bca9c8188",
+      "sha256": "57a30b7d44dd090303d8f53cac6441cde9c0351283ef270761d61ee932f129a3",
       "width": 1720,
       "height": 3444
     },
     "design/food-supply/review/board-timeout.png": {
-      "sha256": "cac9e426d646cb5028b38ffe77002041eba3133e3ebf98455b1074ca09dc0a3f",
+      "sha256": "423c24a7e6247bb848ba750f964cfc0a2f9c61fe92c0234246dac890f5b3ef08",
       "width": 1720,
       "height": 1827
     },
@@ -61,7 +61,7 @@
       "duration": 13985
     },
     "design/food-supply/review/film-disconnect.mp4": {
-      "sha256": "995f86d8959141132dfa5aa7594ff5766aad73e0bf9140c8b23a303ab50a78de",
+      "sha256": "1191082f79d3e653aa11dad0295e970b692ed561908c57d98acb81a27194316b",
       "frames": 424,
       "duration": 14100
     },
@@ -101,17 +101,17 @@
       "duration": 14400
     },
     "design/food-supply/review/flow.png": {
-      "sha256": "bbf2415f36a1a1866d55ed84b254b3e68aeca3f95a8c3631d2b699c808c640b8",
+      "sha256": "af22ec4cb9505241dfda6d978bd6e33f51138a16e77d41f732646eabed1c01bf",
       "width": 1720,
-      "height": 1174
+      "height": 1195
     },
     "design/food-supply/review/large-text.png": {
-      "sha256": "c124f413f76907f5f1330772e0494a3e11b988f88cb876823d62933f912342cf",
+      "sha256": "d7abdfd821cf8d00e79c765ae4be9fdf2a825a74a3953f1bf8a7c37f6b400243",
       "width": 1400,
       "height": 2080
     },
     "design/food-supply/review/layout.png": {
-      "sha256": "271e4febe3d12cfb4de6358437ed7674ddfad975005052dc589257754fc7c17e",
+      "sha256": "089d6af1eb7106978727f5934e3cc76e43b8071c5113262c91080f1f38d24ac1",
       "width": 1660,
       "height": 1229
     },
@@ -121,24 +121,24 @@
       "height": 3160
     },
     "design/food-supply/review/motion.png": {
-      "sha256": "9a38c3ef0c06dda60c6ba666b51403364ef43ef0d6efd574072bd48b9a656730",
+      "sha256": "35cc85b02a54712798c28fd6dfd9b62266e053a106c657a977d141bbeba8fb5f",
       "width": 2080,
       "height": 5447
     },
     "design/food-supply/review/phones-panel.png": {
-      "sha256": "8f247f97591c23014444c95778d340541309f8da2379297b7f3042c572bb938b",
+      "sha256": "c0a09a53648240cfe7770400fc3c1685097eee33f1a608fd628fd7dd4c1bb3fb",
       "width": 1720,
       "height": 1564
     },
     "design/food-supply/review/phones-winch.png": {
-      "sha256": "c43c8b497495a614bb044c79e0faacd7ac771cfbd622aa8bcf87af76152dce71",
+      "sha256": "4f2b1c625929c1051abfca19a3e91a36cfe4a972bb520b4325694ec76f492b1c",
       "width": 1720,
       "height": 1615
     },
     "design/food-supply/review/states.png": {
-      "sha256": "377157eb9d56f120ede41a8681f76cdea5f0d97bc47bd5550e2313c700438ca5",
+      "sha256": "da2d0560780815292fb54300c62005c195f182b7693559b3621fed991f107925",
       "width": 1720,
-      "height": 1157
+      "height": 1174
     }
   },
   "tool": "design/tools/food-supply-render.mjs",

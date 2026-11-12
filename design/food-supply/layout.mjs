@@ -54,7 +54,7 @@ export const REGIONS = Object.freeze({
   drop: Object.freeze({ centre: FIXTURES.console.stop, half: ZONES.console, box: band(FIXTURES.console.stop, ZONES.console, HANG - CRATE / 2, DECK), about: 'Over the console: the crate lowered with its centre here falls on the Panel operator' }),
   platform: Object.freeze({ centre: FIXTURES.platform.stop, half: ZONES.platform, box: band(FIXTURES.platform.stop, ZONES.platform, HANG - CRATE / 2, DECK), about: 'Over the platform: the crate lowered with its centre here lands. The correct position' }),
   intake: Object.freeze({ centre: FIXTURES.intake.stop, half: ZONES.intake, box: band(FIXTURES.intake.stop, ZONES.intake, HANG - CRATE / 2, DECK), about: 'The intake hatch, where the crate starts; lowered here it goes back in' }),
-  sweep: Object.freeze({ stops: [0, STOPS - 1], box: [stopX(0) - CARRIAGE.half, RAIL.top - 30, stopX(STOPS - 1) - stopX(0) + CARRIAGE.half * 2, CARRIAGE.bottom - RAIL.top + 30], about: 'The panel\'s run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the click is the owner\'s; the numbers PROPOSED)' }),
+  sweep: Object.freeze({ stops: [0, STOPS - 1], box: [stopX(0) - CARRIAGE.half, RAIL.top - 30, stopX(STOPS - 1) - stopX(0) + CARRIAGE.half * 2, CARRIAGE.bottom - RAIL.top + 30], about: 'The panel\'s run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the owner\'s)' }),
 });
 
 /**

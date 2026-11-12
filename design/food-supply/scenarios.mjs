@@ -69,7 +69,7 @@ export const EDGES = Object.freeze([
     expect: { outcome: null, refused: ['locked'], locked: [5] },
   },
   {
-    id: 'lock-at-rest', about: 'The panel rests 0.4 s at each stop (PROPOSED). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.',
+    id: 'lock-at-rest', about: 'The panel rests 0.4 s at each stop (the owner\'s). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.',
     steps: [...up(), press(leaves(5) - 1, 'panel', 'lock')],
     expect: { outcome: null, locked: [5], absent: ['KILLED', 'STOPPED'] },
   },
@@ -79,7 +79,7 @@ export const EDGES = Object.freeze([
     expect: { outcome: { result: 'lost', why: 'not-in-position' }, locked: [6], alive: { winch: false, panel: true } },
   },
   {
-    id: 'press-resolves-on-arrival', about: 'A LOCK pressed while Cleo\'s phone showed the panel resting over 6, near the end of its rest, reaches the server after the panel has snapped on toward 7. It is resolved where the panel is when it arrives: at 7, the cut. The phone had warned: LOCK is striped for the rest\'s last 0.15 s (PROPOSED margin). shownAt, the phone\'s own moment, decides nothing.',
+    id: 'press-resolves-on-arrival', about: 'A LOCK pressed while Cleo\'s phone showed the panel resting over 6, near the end of its rest, reaches the server after the panel has snapped on toward 7. It is resolved where the panel is when it arrives: at 7, the cut. The phone had warned: LOCK is striped for the rest\'s last 0.15 s (the owner\'s margin). shownAt, the phone\'s own moment, decides nothing.',
     steps: [...up(), press(leaves(5) + 80, 'panel', 'lock', { shownAt: leaves(5) - 70 })],
     expect: { outcome: { result: 'lost', why: 'not-in-position' }, locked: [6], present: ['KILLED'] },
   },

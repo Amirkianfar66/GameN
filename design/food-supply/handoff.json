@@ -1,6 +1,6 @@
 {
   "schema": "mothership.design.food-supply-handoff/3",
-  "status": "A design proposal on synthetic fixtures (11 and 12 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules and the owner's crane, and Integration's review of 12 November. Nothing here activates gameplay.",
+  "status": "A design proposal on synthetic fixtures (11 and 12 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules, the owner's crane, the owner's rules for playing the Task (decided on Designer's recommendation, 12 November) and Integration's review of 12 November. Nothing here activates gameplay.",
   "base": {
     "commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
     "ruleset": {
@@ -32,22 +32,22 @@
     {
       "id": "food-warning",
       "rule": "The food warning appears when one package remains.",
-      "design": "FOOD.warnAt 1: the room banner \"Food low: 1 package left\" (PROPOSED: on every phone)."
+      "design": "FOOD.warnAt 1: the banner \"Food low: 1 package left\" on every phone while one package or less remains (a meal takes half a package: \"Food low: ½ package left\")."
     },
     {
       "id": "eating",
       "rule": "Each player consumes one dose at their Eating step. Not eating transfers them to Hospital under the existing Hospital rules.",
-      "design": "Not designed here (ship life shows the eating visits); see the open items."
+      "design": "The Eating step is the end of each player's own ordinary turn, and a package holds two doses (meals, below). Ship life shows the meal after the turn."
     },
     {
       "id": "volunteer-partner",
       "rule": "A volunteer selects a Partner. Tasks happen outside ordinary turns; Task travel is separate from normal movement.",
-      "design": "Tasks sheet outside the turn order, then Choose your Partner; both travel to the Supply Room and back without a move."
+      "design": "Outside ordinary turns: the Food Supply step at the start of each round (food-step, below), from the Tasks sheet, then Choose your Partner; both travel to the Supply Room and back without a move."
     },
     {
       "id": "next-round",
       "rule": "There is no limit of one Task per match. The Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026, replacing the highlight \"Each player may initiate one Task total per match\").",
-      "design": "No Task count is kept. When a Task starts, the server notes the two; in the next round neither can volunteer for food or be asked as a Partner. Their Food Supply row says \"You went for food last round\", and the partner list marks them. From the round after, both can go again. PROPOSED: it holds whether the Task delivers, is lost or is cancelled; a refusal starts no Task, so it does not count."
+      "design": "No Task count is kept. When a Task starts, the server notes the two; in the next round neither can volunteer for food or be asked as a Partner. Their Food Supply row says \"You went for food last round\", and the partner list marks them. From the round after, both can go again. It holds whatever the Task's outcome, and a refusal does not count (next-round-edges, below)."
     },
     {
       "id": "axes",
@@ -82,7 +82,7 @@
     {
       "id": "disconnect",
       "rule": "A participant disconnect cancels the Task.",
-      "design": "Cancelled after the grace (PROPOSED 8 s, see conflict 1). Nothing delivered; both return. Leaving on purpose costs nothing more (the owner, below)."
+      "design": "Cancelled after an 8 s grace (conflict 1). Nothing delivered; both return when the Task's time is up. Leaving on purpose costs nothing more (the owner, below)."
     },
     {
       "id": "visibility",
@@ -92,7 +92,7 @@
     {
       "id": "return",
       "rule": "The ordinary return flow restores participants to their previous positions, accounting for death and cancellation.",
-      "design": "Each returns to the place they left; a dead participant is shown Eliminated there, as the board draws any death."
+      "design": "Each returns to the place they left, when the Task's time is up, whatever happened (food-step and return-place, below); a dead participant is shown Eliminated there, as the board draws any death."
     },
     {
       "id": "experience",
@@ -122,7 +122,7 @@
     {
       "id": "partner-decline",
       "rule": "The Partner can decline.",
-      "design": "The Partner request has Decline and Join. A decline passes the Task to the next volunteer (the owner, below). PROPOSED: 15 s to answer, and no answer is a decline."
+      "design": "The Partner request has Decline and Join. A decline passes the Task to the next volunteer (the owner, below). 15 s to answer, and no answer is a decline (asking, below)."
     },
     {
       "id": "crane-sides",
@@ -157,7 +157,7 @@
     {
       "id": "next-volunteer",
       "rule": "If the asked player declines, the game goes to the next volunteer: anyone who volunteers.",
-      "design": "A decline, or no answer, ends the Volunteer's request, and the Food Supply Task is open to anyone: the first player to ask a Partner goes next. PROPOSED: the refused Volunteer can volunteer again from the next round, and withdrawing a request counts as a refusal."
+      "design": "A decline, or no answer, ends the Volunteer's request, and the Food Supply Task is open to anyone: the first player to ask a Partner goes next. The refused Volunteer can volunteer again from the next round, and withdrawing a request counts as a refusal (asking, below)."
     },
     {
       "id": "random-controls",
@@ -172,26 +172,66 @@
     {
       "id": "leaving-free",
       "rule": "Leaving the Task on purpose costs nothing.",
-      "design": "A participant who goes offline on purpose is treated as any disconnect: after the grace (PROPOSED 8 s) the Task is cancelled, nothing is delivered and both go back, and a kill in the grace still stands (conflict 1)."
+      "design": "A participant who goes offline on purpose is treated as any disconnect: after the 8 s grace the Task is cancelled, nothing is delivered and both go back, and a kill in the grace still stands (conflict 1)."
     },
     {
       "id": "click-stop",
       "rule": "The locking panel clicks from stop to stop.",
-      "design": "Chosen when Integration ruled that a press is resolved when the server receives it: with the panel sliding a stop every 0.22 s, the network's delay alone would have turned a LOCK at 6 into a cut at 7. Now the panel snaps to each stop and rests there (PROPOSED: a 0.1 s snap, a 0.4 s rest), and a LOCK takes the stop it rests at or the one it is snapping to: each stop owns half a second, longer than the delay. A late LOCK at 6 still cuts the Winch operator, and the warning starts 0.15 s before the snap (PROPOSED margin)."
+      "design": "Chosen when Integration ruled that a press is resolved when the server receives it: with the panel sliding a stop every 0.22 s, the network's delay alone would have turned a LOCK at 6 into a cut at 7. Now the panel snaps to each stop and rests there (a 0.1 s snap, a 0.4 s rest), and a LOCK takes the stop it rests at or the one it is snapping to: each stop owns half a second, longer than the delay. A late LOCK at 6 still cuts the Winch operator, and the warning starts 0.15 s before the snap. The owner approved the two numbers and the margin (\"this is fine\", 12 November 2026)."
+    },
+    {
+      "id": "food-step",
+      "rule": "The Food Supply Task runs only in the Food Supply step, at the start of each round, after any Captain election and before the pre-turn window. One Task a round at most; two never run at once. Both participants come back at the same moment whatever happened: when the Task's 30 seconds and its outcome card are over.",
+      "design": "The step opens with 30 s to ask a Partner, and a request made in time keeps its 15 s to answer. If a Partner joins, the Task runs its 30 s, both return 32.5 s after its start (RETURN_AFTER), and the round goes on to the pre-turn window. If no one joins, the step ends when the asking is over; if no two players can go, there is no step. Nothing else happens in it: no turn, move, shot, Hack, vote or Captain command. So how long the two were away tells the others nothing."
+    },
+    {
+      "id": "who-can-go",
+      "rule": "A Volunteer and their Partner are two living players outside the Hospital and the Jail, neither of whom went for food last round.",
+      "design": "The Tasks sheet and the partner list grey out everyone else and say why: \"Went for food last round\", \"Not available now\"."
+    },
+    {
+      "id": "asking",
+      "rule": "One request at a time: the first to reach the server counts, and while it waits no one else can ask. The asked player has 15 seconds; no answer is a decline, and a withdrawn request counts as a refusal. After a refusal anyone else may volunteer while the step lasts; the refused Volunteer cannot ask again this round, but can still be asked. A request and its answer are private to the two.",
+      "design": "While a request waits, everyone else's Food Supply row says \"Someone is asking a Partner\", naming no one. A Join racing a withdrawal or the time goes to whichever reaches the server first."
+    },
+    {
+      "id": "next-round-edges",
+      "rule": "The next-round rule holds once a Task starts, whatever its outcome: delivered, lost or cancelled. A refusal starts no Task and bars no one. It bars the next round's Food Supply step only; the Engine Task is designed separately.",
+      "design": "The server notes the two when the Task starts, once only: a retry notes nothing more."
+    },
+    {
+      "id": "meals",
+      "rule": "A package holds two doses. Each living player outside the Hospital eats one dose at their Eating step, the end of their own ordinary turn (a Pass or a timeout too), in the Jail as well; patients in the Hospital do not eat. With the stock short, the turn order decides who eats. A player who cannot eat goes hungry: at the round's end, with the round's retained actions in recorded turn order, they become Injured and go to the Hospital under its existing rules. Hunger is not an attack: Protection and Clone do not stop it.",
+      "design": "FOOD.dosesPerPackage 2: five packages are ten doses, and one delivery a round feeds up to ten players. The server takes the dose when the turn ends; the ship-life visit after the turn only shows it, and a visit that never played decides nothing (Integration)."
+    },
+    {
+      "id": "return-place",
+      "rule": "Each participant returns to the place the server recorded when the Task started. Nothing else happens in the step, so the place is still theirs, and no forced transfer can come during a Task.",
+      "design": "The return uses the server's record, never a cached fixture. A participant killed on the Task stays at that place, Eliminated, as any body does."
+    },
+    {
+      "id": "no-blackhole",
+      "rule": "No Blackhole is active during a Task: the step comes before the pre-turn window, where a Blackhole is chosen. So everything the Task decides (its deaths, the Protection it reads and uses up, the delivery and who went) comes before any branch, and every reality inherits it. Meals and hunger come in the ordinary turns, so they follow the selected reality like any physical effect: a branch inherits the food count when it is made, Sync keeps the selected reality's count and its hungry players, and a meal in a discarded reality was never eaten.",
+      "design": "Nothing of the Task is ever in a branch, and hunger resolves at the round's end, after Sync."
+    },
+    {
+      "id": "clone",
+      "rule": "Clone does not stop a Task hazard: a kill on the Task is not an attack. Only applicable Protection stops it, besides the catch's luck.",
+      "design": "The server reads the partner's Protection at each lethal press, never Clone."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "1b91a931596439132fdd65a5d11f70de4dd079e58641da347d88166a6dc6c54b",
-    "design/food-supply/layout.mjs": "ea37225d5aa072ea9479cffc1b81705a7e86656c1958fa4dcf84989d99c59b8f",
+    "design/food-supply/task.mjs": "5094fd4f9874d7fdb8dd3f54a42ce87bb875c4d47c85699cfd5d4ddcc33b6e18",
+    "design/food-supply/layout.mjs": "6a0064775c170fa95e48c6ec07c8b13c2a404b79268d67ea427c51f3908b217c",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
     "design/food-supply/machine.mjs": "449e5ac81b9638dcbde254bce30a8c8eb499a682ac79f613150e45a34d0d798a",
     "design/food-supply/scene.mjs": "ae084a4ed6b188050a0d0420464b22ef0f9339b496802eb61463b764481ac6c4",
     "design/food-supply/stage.mjs": "e19cc2dc5afa57faad14dde09aecf4c21b5af53fa71f12908a33a8c7befb7e34",
-    "design/food-supply/boards.mjs": "0551127e1a97bf0cb6667ef69d52a7866acddda4ce62604f948b143ba0c41c47",
-    "design/food-supply/scenarios.mjs": "96bfdd2acce7b08b60592ee2bc94c661ead76cab551e2b07eb8e91a49d536ff0",
+    "design/food-supply/boards.mjs": "b9c762e8885095056cedc6eaf3459330f745cf858902f418bed7b16b4134b41c",
+    "design/food-supply/scenarios.mjs": "ef66408c2cab47ba1f71b80364e3171a799d0031ab64651eed029ca3bdb22fd4",
     "design/food-supply/hints.mjs": "23a5b1d4a6b2371acf662663a01cb2374b4c9d927dc2b2669870b288bbb4c78f",
-    "design/food-supply/rules.mjs": "4d473ea3d5779303a63c8593a9e27278e53335db17704123f72aa77f43e995e3",
-    "design/food-supply/phone.mjs": "12fb223cd2d2cdae889d58c9a2bc91d34fb18367f7b09b6f1f9df1fb34bcffb6",
+    "design/food-supply/rules.mjs": "746eb9b3f196db4adde0c106b9215b7c53303cc2c02bf5bb43f9549b2f10e0d4",
+    "design/food-supply/phone.mjs": "f1c2f430b809aa931b6c97d34ba2cc090b9b2017b11e7a03625bfc4cb3feeea5",
     "design/food-supply/phone.css": "300b2eaa6283db8c7ec0d9ecd72210376ad126f6c3d079cbcf8a47d735a7bde0"
   },
   "fixtures": {
@@ -418,7 +458,7 @@
         884,
         96
       ],
-      "about": "The panel's run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the click is the owner's; the numbers PROPOSED)"
+      "about": "The panel's run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the owner's)"
     }
   },
   "operators": {
@@ -517,13 +557,13 @@
     "sweep": {
       "rule": "sweep(from, dir, dt): the panel clicks from stop to stop, end to end and back: a snap of TIMING.move = 100 ms to the next stop, then a rest of TIMING.rest = 400 ms there (CLICK = 500 ms a stop). n = floor(dt / CLICK), r = dt − n × CLICK, resting when r ≥ move. Unfold the bounce: u0 = (dir > 0 ? from : 12 − from) + n; fold(u) takes u modulo 12 to at = u ≤ 6 ? u : 12 − u, moving right while u ≤ 6. The place is fold(u0 + (resting ? 1 : snap(r / move))), with snap(u) = u²(3 − 2u); the way it goes is fold(u0 + 0.5).dir.",
       "lock": "A LOCK takes the stop the panel rests at, or the one it is snapping to: stop = fold(u0 + 1). Each stop takes a LOCK for one whole click, the snap toward it and the rest at it. A release starts from the locked stop in the direction the panel last moved (right from stop 1, left from stop 7).",
-      "owner": "The click is the owner's (12 November 2026), chosen when a press came to be resolved on its arrival; the snap and the rest are PROPOSED.",
-      "proposed": true
+      "owner": "The owner's (12 November 2026): the click, chosen when a press came to be resolved on its arrival, and its 0.1 s snap and 0.4 s rest (\"this is fine\").",
+      "confirmed": true
     },
     "margin": {
       "ms": 150,
       "rule": "A press made now reaches the server a moment later. So the warnings start TIMING.margin before a danger, and a glow ends TIMING.margin before its chance does: LOCK is striped while the stop it takes now, or the one it would take TIMING.margin later, is the cab's; it glows over the platform only while both are the platform. Lower is striped while the swing could meet the console within the margin, and glows only while the swing holds the crate over the platform for the whole margin. It says where the crate will be at the margin's end. Never a promise: the server decides on arrival.",
-      "proposed": true
+      "confirmed": "The owner, 12 November 2026: 0.15 s (\"this is fine\")."
     },
     "swing": {
       "period": 1300,
@@ -551,8 +591,8 @@
       "The keys work only once the crate has landed; a turned key stays turned (PROPOSED).",
       "A reduced or skipped animation never shortens them: the server keeps every move's full time."
     ],
-    "endings": "The Task ends at the earliest boundary due, whenever the server gets to it: the deadline (lost: time) or a participant's grace running out (cancelled). At the same moment the deadline comes first, then the participant out of contact first, then the Winch before the Panel. An ended Task stays as it ended: a late tick, a reconnect or a press changes nothing, a death already accepted stands, and nothing is delivered twice.",
-    "kills": "A kill on the Task is not an attack (the owner, 12 November 2026): the Task never reads or spends an attack opportunity, and nothing limits how often a player kills on Tasks. A lethal press is stopped by the partner's applicable Protection, read by the server from the game at that moment (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by the block; Clone is not read. Without it, the catch's luck: the server rolls for each lethal press, and below CATCH.luck the catch holds (the owner: 25%). Otherwise it kills.",
+    "endings": "The Task ends at the earliest boundary due, whenever the server gets to it: the deadline (lost: time) or a participant's grace running out (cancelled). At the same moment the deadline comes first, then the participant out of contact first, then the Winch before the Panel. An ended Task stays as it ended: a late tick, a reconnect or a press changes nothing, a death already accepted stands, and nothing is delivered twice. Whatever the outcome, both return at returnsAt, RETURN_AFTER = ${RETURN_AFTER} ms after the start (the owner, on Designer's recommendation, 12 November 2026), so the time the two are away tells the others nothing.",
+    "kills": "A kill on the Task is not an attack (the owner, 12 November 2026): the Task never reads or spends an attack opportunity, and nothing limits how often a player kills on Tasks. A lethal press is stopped by the partner's applicable Protection, read by the server from the game at that moment (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by the block; Clone does not stop it (the owner, on Designer's recommendation, 12 November 2026). Without it, the catch's luck: the server rolls for each lethal press, and below CATCH.luck the catch holds (the owner: 25%). Otherwise it kills.",
     "catch": {
       "luck": 0.25,
       "confirmed": true,
@@ -656,17 +696,17 @@
         {
           "name": "TASK_ASK { commandId, kind: \"food\", partnerSeatId }",
           "from": "the Volunteer",
-          "about": "Ask one player, by seat id (not the number on the screen). Refused if the Volunteer or the player went for food last round (the owner, 12 November 2026), the Volunteer was refused this round (PROPOSED), or the player cannot be asked."
+          "about": "Ask one player, by seat id (not the number on the screen), in the Food Supply step only, one request at a time: the first to reach the server counts. Refused outside the step, while another request waits, once the round's Task has started, if the Volunteer or the player went for food last round (the owner, 12 November 2026), if the Volunteer was refused this round, or if either is not a living player outside the Hospital and the Jail (the owner, on Designer's recommendation, 12 November 2026)."
         },
         {
           "name": "TASK_ANSWER { commandId, requestId, requestRevision, join }",
           "from": "the asked player",
-          "about": "Join or decline, within 15 s (PROPOSED); no answer is a decline. A Join racing the Volunteer's withdrawal, the time running out or another request: the server revalidates both players and the request atomically, and the first to arrive wins. A Join that lost is refused to its sender (withdrawn | expired): \"Too late to join\"."
+          "about": "Join or decline, within 15 s (the owner, on Designer's recommendation, 12 November 2026); no answer is a decline. A Join racing the Volunteer's withdrawal, the time running out or another request: the server revalidates both players and the request atomically, and the first to arrive wins. A Join that lost is refused to its sender (withdrawn | expired): \"Too late to join\"."
         },
         {
           "name": "TASK_ASK_WITHDRAW { commandId, requestId, requestRevision }",
           "from": "the Volunteer",
-          "about": "Cancel while waiting. PROPOSED: the same as a refusal, so the next volunteer goes. A withdrawal that lost the race to a Join is refused to the Volunteer (joined): \"Too late to cancel\", and the Task starts."
+          "about": "Cancel while waiting: the same as a refusal, so the next volunteer goes (the owner, on Designer's recommendation, 12 November 2026). A withdrawal that lost the race to a Join is refused to the Volunteer (joined): \"Too late to cancel\", and the Task starts."
         }
       ],
       "events": [
@@ -678,7 +718,7 @@
         {
           "type": "TASK_DECLINED",
           "to": "the Volunteer",
-          "about": "Declined or no answer. The game goes to the next volunteer: anyone can now ask a Partner (the owner, 12 November 2026)."
+          "about": "Declined or no answer. The game goes to the next volunteer: anyone else can now ask a Partner while the step lasts (the owner, 12 November 2026)."
         },
         {
           "type": "TASK_STARTED",
@@ -687,8 +727,9 @@
         }
       ],
       "receipts": "Every command has a stable command id and a durable receipt. An uncertain retry reuses the id: no second request, no second Task, no second cooldown.",
-      "defaults": "The 15 s answer and the 8 s grace remain PROPOSED gameplay defaults: accepting the command families does not adopt them.",
-      "visibility": "PROPOSED: private to the two. Other players learn nothing until the Task starts, and then only that two players are away (the board shows who)."
+      "window": "The Food Supply step, at the start of each round after any Captain election and before the pre-turn window: 30 s for requests, and a request made in time keeps its 15 s to answer. One Task a round at most, never two at once (the owner, on Designer's recommendation, 12 November 2026).",
+      "defaults": "The 15 s answer, the 8 s grace and the step's 30 s to ask are the owner's (the owner, on Designer's recommendation, 12 November 2026). Accepting the command families did not adopt them; the owner did.",
+      "visibility": "Private to the two (the owner, on Designer's recommendation, 12 November 2026). While a request waits, the others see only that someone is asking; once the Task starts, that two players are away (the board shows who)."
     }
   },
   "timing": {
@@ -702,19 +743,27 @@
     "grace": 8000,
     "ending": 2500,
     "answer": 15000,
+    "asking": 30000,
     "click": 500,
+    "returnAfter": 32500,
     "proposed": true,
     "confirmed": {
       "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start.",
-      "click": "The owner, 12 November 2026: the panel clicks from stop to stop (its snap and rest are PROPOSED)."
+      "click": "The owner, 12 November 2026: the panel clicks from stop to stop, a 0.1 s snap and a 0.4 s rest, and the warnings start 0.15 s early (\"this is fine\").",
+      "play": "The owner, on Designer's recommendation, 12 November 2026: 15 s to answer; an 8 s grace; the Food Supply step's 30 s to ask; both return 32.5 s after the start, whatever happened. The rest is PROPOSED."
     }
   },
   "food": {
     "initial": 5,
     "perDelivery": 5,
     "warnAt": 1,
+    "dosesPerPackage": 2,
     "confirmed": true,
-    "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (confirmed). Whether a dose is one package is open (PROPOSED: yes); no conversion, Eating eligibility or default is taken from the artwork. The Eating step's place in the round and the order of eating are not designed here (see the open items)."
+    "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer's recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player's own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round's end, with the round's retained actions in recorded turn order, and goes to the Hospital under its existing rules. Hunger is not an attack: Protection and Clone do not stop it.",
+    "server": "The server takes each dose when the turn ends. Nothing is taken from the artwork, and a ship-life visit that never played decides nothing.",
+    "shown": "The count on every phone, in packages: a delivery as five more, each meal as half a package less; the warning while one package or less remains.",
+    "sync": "Meals and hunger follow the selected reality, like any physical effect: a branch inherits the count when it is made; Sync keeps the selected reality's count and its hungry players. The Task, and so its delivery, comes before any branch.",
+    "economy": "Five packages are ten doses: one delivery a round feeds up to ten players. Game Balance to check it (open item paths)."
   },
   "motion": {
     "cues": {
@@ -820,8 +869,8 @@
       "seenBy": "participants"
     },
     {
-      "field": "startedAt, runningAt, deadline, endedAt",
-      "holds": "The Task's times on the server's clock: the start, the briefing's end (4 s PROPOSED), the deadline (30 s from the start, the briefing inside it: the owner's), and the end",
+      "field": "startedAt, runningAt, deadline, endedAt, returnsAt",
+      "holds": "The Task's times on the server's clock: the start, the briefing's end (4 s PROPOSED), the deadline (30 s from the start, the briefing inside it: the owner's), the end, and the return (32.5 s after the start for every outcome: the owner, on Designer's recommendation, 12 November 2026)",
       "seenBy": "participants"
     },
     {
@@ -876,7 +925,7 @@
     },
     {
       "field": "(not the Task's) Protection",
-      "holds": "The game's, read by the server at each press that would kill (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by a block. The Task holds none; Clone is not read",
+      "holds": "The game's, read by the server at each press that would kill (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by a block. The Task holds none. Clone does not stop a Task hazard (the owner, on Designer's recommendation, 12 November 2026)",
       "seenBy": "the server only"
     }
   ],
@@ -962,7 +1011,7 @@
     {
       "type": "ENDED",
       "fields": "outcome",
-      "about": "Delivered, lost or cancelled, at the earliest boundary due: the deadline before a grace at the same moment. The outcome card shows, then the return. Never twice.",
+      "about": "Delivered, lost or cancelled, at the earliest boundary due: the deadline before a grace at the same moment. The outcome card shows until the return, at returnsAt for every outcome. Never twice.",
       "seenBy": "both participants"
     },
     {
@@ -994,7 +1043,7 @@
       "about": "Who runs which control; this phone's own role."
     },
     {
-      "fields": "phase, startedAt, runningAt, deadline, endedAt",
+      "fields": "phase, startedAt, runningAt, deadline, endedAt, returnsAt",
       "about": "The Task's phase and times, on the server's clock (the phone keeps the server's clock to draw by; it decides nothing with it)."
     },
     {
@@ -1068,7 +1117,19 @@
     {
       "state": "request withdrawn / too late to cancel",
       "to": "the Volunteer",
-      "shows": "Withdrawn: the next volunteer goes (PROPOSED: as a refusal). Too late: the Partner joined first, and the Task starts.",
+      "shows": "Withdrawn: the next volunteer goes (as a refusal). Too late: the Partner joined first, and the Task starts.",
+      "sheet": "states"
+    },
+    {
+      "state": "another request waiting",
+      "to": "anyone else, in the Food Supply step",
+      "shows": "The Food Supply row is off: \"Someone is asking a Partner\", naming no one. If it is refused, anyone else can ask while the step lasts.",
+      "sheet": "states"
+    },
+    {
+      "state": "Food Supply closed",
+      "to": "anyone, outside the step",
+      "shows": "The Tasks sheet still opens: the Food Supply row is off (\"Opens at the start of each round\"), and How it works stays readable, outside any timed window.",
       "sheet": "states"
     }
   ],
@@ -1080,22 +1141,24 @@
   ],
   "visibility": {
     "participants": "Both see the whole Supply Room and its crane: the panel running or locked, the crate's swing, every press's effect, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
-    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. The result only through the food count: a delivery raises it by five, and nothing says how the Task went (the owner, 12 November 2026).",
-    "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined. The next volunteer needs no message: anyone can open Tasks at any time.",
+    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. They come back at the same moment whatever happened, so the time tells nothing. The result only through the food count: a delivery raises it by five, and nothing says how the Task went (the owner, 12 November 2026).",
+    "ask": "A Partner request and its answer are private to the two players (the owner, on Designer's recommendation): no one else learns who was asked, or that someone declined. While a request waits, the others see only that someone is asking. The next volunteer needs no message: the Food Supply step stays open to anyone else.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
     "protection": "Never shown. The server reads it from the game at each press that would kill, and a block uses it up. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing (the owner, 12 November 2026).",
     "mistakes": "Both participants see a lethal press as it happens (CHOP!, THUD!), and neither phone says whether it was meant: the server cannot tell. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was a mistake.",
-    "foodStock": "Public: the count, so a delivery shows as five more (the owner, 12 November 2026); the ship-life food capsules show it. PROPOSED: every phone shows the new count when it changes, and the warning at one package.",
+    "foodStock": "Public on every phone, in packages: a delivery shows as five more (the owner, 12 November 2026), and each meal as half a package less; the warning while one package or less remains. The ship-life food capsules show it.",
     "server": "Only the server holds Protection, the catch's roll and the reason for a STOPPED (its CATCH record, kept for replay), the role assignment's randomness, the press revisions and the command receipts. A refusal and a receipt go to their presser only."
   },
   "flow": [
-    "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply. Anyone can volunteer, and there is no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026).",
-    "The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task; the owner rules out the two who went for food last round).",
-    "The Partner can join or decline (the owner, 11 November 2026). PROPOSED: 15 s to answer, and no answer is a decline. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026). PROPOSED: the refused Volunteer can volunteer again from the next round, and a withdrawn request counts as a refusal. The request and its answer are private to the two (PROPOSED).",
-    "The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
+    "At the start of each round, after any Captain election and before the pre-turn window, the Food Supply step opens for 30 s (the owner, on Designer's recommendation, 12 November 2026). Nothing else happens in it, and no Blackhole can be active: a Blackhole is chosen later, in the pre-turn window. One Task a round at most; if no two players can go, there is no step.",
+    "A Volunteer opens Tasks and chooses Food Supply. Anyone can volunteer, and there is no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026).",
+    "The Volunteer asks a Partner: both living, outside the Hospital and the Jail, and neither went for food last round. One request at a time; the first to reach the server counts (the owner, on Designer's recommendation, 12 November 2026).",
+    "The Partner can join or decline (the owner, 11 November 2026), within 15 s; no answer is a decline, and a withdrawn request counts as a refusal. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026), while the step lasts. The refused Volunteer cannot ask again this round but can still be asked, and can volunteer again from the next round. The request and its answer are private to the two (the owner, on Designer's recommendation, 12 November 2026).",
+    "The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement, and the server records each one's place. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
     "The whole Task has 30 s from its start, the briefing inside it (the owner). Briefing (4 s PROPOSED): who runs which control, the route, the dangers; the controls do nothing yet.",
     "Running (the remaining 26 s): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
-    "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were. The other players learn the result only through the food count (the owner, 12 November 2026)."
+    "Ended: the outcome card shows until the return, 32.5 s after the Task's start for every outcome (2.5 s after the deadline, PROPOSED; the fixed return is the owner, on Designer's recommendation, 12 November 2026). The ordinary return flow puts each participant back at the place the server recorded, the dead as Eliminated there; nothing else happened in the step, so no forced transfer comes between. The round goes on to the pre-turn window. The other players learn the result only through the food count (the owner, 12 November 2026).",
+    "Then the round: each living player outside the Hospital eats one dose at the end of their own ordinary turn (see food)."
   ],
   "acceptance": [
     {
@@ -1720,10 +1783,7 @@
           "SENT",
           "LOCKED"
         ]
-      },
-      "proposed": [
-        "An 8-second grace before a disconnect cancels"
-      ]
+      }
     },
     {
       "id": "briefing-refused",
@@ -1949,7 +2009,7 @@
     },
     {
       "id": "lock-at-rest",
-      "about": "The panel rests 0.4 s at each stop (PROPOSED). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.",
+      "about": "The panel rests 0.4 s at each stop (the owner's). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2040,7 +2100,7 @@
     },
     {
       "id": "press-resolves-on-arrival",
-      "about": "A LOCK pressed while Cleo's phone showed the panel resting over 6, near the end of its rest, reaches the server after the panel has snapped on toward 7. It is resolved where the panel is when it arrives: at 7, the cut. The phone had warned: LOCK is striped for the rest's last 0.15 s (PROPOSED margin). shownAt, the phone's own moment, decides nothing.",
+      "about": "A LOCK pressed while Cleo's phone showed the panel resting over 6, near the end of its rest, reaches the server after the panel has snapped on toward 7. It is resolved where the panel is when it arrives: at 7, the cut. The phone had warned: LOCK is striped for the rest's last 0.15 s (the owner's margin). shownAt, the phone's own moment, decides nothing.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -3398,7 +3458,7 @@
         "disconnect"
       ],
       "conflict": "If a disconnect cancelled the Task at once, a player could escape an attack by dropping their connection (switching off the network), which \"no escape\" forbids, and a network blip would wipe out a Task.",
-      "solution": "The server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on: the panel keeps running, a cut or a drop in the grace resolves, and a death that resolved before the cancellation stands (a dead participant's connection no longer matters). Back in time, nothing paused. Out longer, the Task is cancelled and both return.",
+      "solution": "The server judges a disconnect only after a grace (8 s) in which the Task runs on: the panel keeps running, a cut or a drop in the grace resolves, and a death that resolved before the cancellation stands (a dead participant's connection no longer matters). Back in time, nothing paused. Out longer, the Task is cancelled and both return.",
       "residual": "A participant can still end a Task they dislike by staying offline. The owner decided that leaving on purpose costs nothing (12 November 2026): nothing left to decide."
     },
     {
@@ -3447,44 +3507,14 @@
   ],
   "openItems": [
     {
-      "id": "dose-package",
-      "owner": "owner",
-      "item": "Whether one dose is one package. PROPOSED: yes."
-    },
-    {
-      "id": "next-round",
-      "owner": "owner",
-      "item": "The edges of the next-round rule. PROPOSED: it holds once a Task starts, whether it delivers, is lost or is cancelled (both went for food); a refusal starts no Task, so it does not count; it covers the Food Supply Task only (the Engine Task is designed separately)."
-    },
-    {
-      "id": "next-volunteer",
-      "owner": "owner",
-      "item": "After a refusal. PROPOSED: the refused Volunteer can volunteer again from the next round; no answer, or a withdrawn request, counts as a refusal; the first player to ask a Partner goes next."
-    },
-    {
-      "id": "partner",
-      "owner": "owner",
-      "item": "Who can be asked as a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task; the owner rules out the two who went for food last round), and how long they have to answer (PROPOSED: 15 s, and no answer is a decline). That a Partner can decline, and that a refusal passes to the next volunteer, are the owner's decisions."
-    },
-    {
-      "id": "when",
-      "owner": "owner, Backend",
-      "item": "When a Task may start (which phases count as outside ordinary turns), how many Food Supply Tasks a round may have, and whether two Tasks may run at once."
-    },
-    {
       "id": "timing",
       "owner": "owner, Game Balance",
-      "item": "The PROPOSED timing (the 30 s deadline and the click are the owner's): the click's 0.1 s snap and 0.4 s rest; the 0.15 s warning margin; a 4 s briefing, an 8 s grace; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall. The rest and the margin need real-network evidence (Integration)."
+      "item": "The PROPOSED timing (the owner's: the 30 s deadline; the click's 0.1 s snap and 0.4 s rest; the 0.15 s warning margin; and, on Designer's recommendation, the 15 s answer, the 8 s grace and the step's 30 s to ask): a 4 s briefing and a 2.5 s outcome card; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall. The rest and the margin need real-network evidence (Integration)."
     },
     {
       "id": "paths",
       "owner": "Game Balance",
-      "item": "The two kill-and-deliver paths (conflict 2) and the food economy: five packages, five per delivery, one dose per player at each Eating step."
-    },
-    {
-      "id": "eating-order",
-      "owner": "owner, Game Balance",
-      "item": "The Eating step's place in the round and its order: with the stock short, the order decides who goes to the Hospital."
+      "item": "The two kill-and-deliver paths (conflict 2), and a check of the food economy the owner set on Designer's recommendation: five packages, five per delivery, two doses a package, one Task a round. With nine players eating, a round without a delivery leaves the next one short, and hunger fills the Hospital's four beds fast; the doses a package holds is the one number to change."
     },
     {
       "id": "press-timing",
@@ -3497,19 +3527,9 @@
       "item": "A Task of timing is harder for some players (slower reactions, motor or sight impairments, a slow network). Whether a player can ask for a slower panel or a calmer swing, which changes the danger for their partner too, is the owner's call; nothing is proposed here. A polite live region is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill, besides the button's own name. Untested with a screen reader."
     },
     {
-      "id": "clone",
-      "owner": "owner",
-      "item": "Whether Clone stops a Task hazard. Not assumed (Integration, 12 November 2026): only applicable Protection is read."
-    },
-    {
       "id": "contract",
       "owner": "Integration, Backend",
-      "item": "Integration accepted the command families TASK_PRESS, TASK_ASK, TASK_ANSWER and TASK_ASK_WITHDRAW for contract design (12 November 2026), not their wire format, the PROPOSED defaults or the timing. Planning target: protocol 3, planet-game-1.4.0, ruleset in-person-planet-food-task-2026-11-12, opt-in, inheriting the 1.3.0 predecessor exactly; historical schemas, matches and payloads unchanged. Backend owns the shared contract; Frontend waits for it."
-    },
-    {
-      "id": "adoption",
-      "owner": "owner, Integration",
-      "item": "Before the Task can be played (Integration, 12 November 2026): the start window and concurrency; who can be asked; the edges of the next-round rule and of a refusal; Eating's units and cadence; return positions and forced transfers; the Blackhole; and how the Task's state, the food, the deaths, Protection and participation history pass through a whole-reality Sync. The public \"away\" must not show guessed room positions, a fixture's origin cannot decide a real return, and a picture that was never played cannot decide whether a meal was eaten."
+      "item": "Integration accepted the command families TASK_PRESS, TASK_ASK, TASK_ANSWER and TASK_ASK_WITHDRAW for contract design (12 November 2026), not their wire format, the PROPOSED defaults or the timing. Planning target: protocol 3, planet-game-1.4.0, ruleset in-person-planet-food-task-2026-11-12, opt-in, inheriting the 1.3.0 predecessor exactly; historical schemas, matches and payloads unchanged. Backend owns the shared contract; Frontend waits for it. The rules for playing the Task (the Food Supply step, who can go, asking, meals, the return, the Blackhole and Sync, Clone) are the owner's (12 November 2026), for Integration to write into that ruleset; this design changes no rule file."
     },
     {
       "id": "engine-task",

@@ -179,10 +179,9 @@ export const BOARDS = Object.freeze([
     cuts: [[0, OUT_AT + 2300], [OUT_AT + TIMING.grace - 2500, OUT_AT + TIMING.grace + 3000]],
     captions: [
       [0, OUT_AT, 'Up and released; the panel clicks along the rail.', OUT_AT - 250],
-      [OUT_AT, OUT_AT + TIMING.grace, 'Cleo\'s phone loses its connection. PROPOSED: the Task runs on for an 8-second grace; the panel clicks on, and Hana\'s phone says Cleo is offline. A cut or a drop that landed now would stand. Leaving on purpose costs nothing more (the owner).', OUT_AT + TIMING.grace - 2000],
-      [OUT_AT + TIMING.grace, OUT_AT + TIMING.grace + 3000, 'Cleo is still out: the Task is cancelled. Nothing is delivered; both return to their places.', OUT_AT + TIMING.grace + 1500],
+      [OUT_AT, OUT_AT + TIMING.grace, 'Cleo\'s phone loses its connection. The Task runs on for an 8-second grace; the panel clicks on, and Hana\'s phone says Cleo is offline. A cut or a drop that landed now would stand. Leaving on purpose costs nothing more (the owner).', OUT_AT + TIMING.grace - 2000],
+      [OUT_AT + TIMING.grace, OUT_AT + TIMING.grace + 3000, 'Cleo is still out: the Task is cancelled. Nothing is delivered; both return to their places at the end of the Task\'s time.', OUT_AT + TIMING.grace + 1500],
     ],
-    proposed: ['An 8-second grace before a disconnect cancels'],
   }),
 ]);
 

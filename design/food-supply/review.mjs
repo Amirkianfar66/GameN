@@ -90,7 +90,7 @@ function layout() {
   s.push(`<line class="sweep" x1="${stopX(0)}" y1="${RAIL.top - 30}" x2="${stopX(STOPS - 1)}" y2="${RAIL.top - 30}"/><path class="sweep-head" d="M${stopX(0) - 4} ${RAIL.top - 30} l16 -9 v18 Z M${stopX(STOPS - 1) + 4} ${RAIL.top - 30} l-16 -9 v18 Z"/>`);
   const callouts = [
     [1, [stopX(0) + 50, DECK - 120], 'Intake hatch', 'The crate starts here. Raise lifts it out; the panel starts locked over it.'],
-    [2, [stopX(2), RAIL.top - 30], 'The rail and the click', `Seven stops, painted 1 to 7. Released, the panel clicks from stop to stop, end to end and back: a ${TIMING.move} ms snap, then a ${TIMING.rest} ms rest at each stop (the click is the owner's; the numbers PROPOSED).`],
+    [2, [stopX(2), RAIL.top - 30], 'The rail and the click', `Seven stops, painted 1 to 7. Released, the panel clicks from stop to stop, end to end and back: a ${TIMING.move} ms snap, then a ${TIMING.rest} ms rest at each stop (the owner's).`],
     [3, [stopX(FIXTURES.platform.stop) - 84, CARRIAGE.bottom - 14], 'The locking panel', 'Rides the rail with the hoist on it. LOCK drops its striped blade at the stop it rests at, or at the one it is snapping to.'],
     [4, [stopX(FIXTURES.console.stop) - 70, DECK - 40], 'Console: the Panel', 'Cleo stands here: RELEASE and LOCK, and a key.'],
     [5, [stopX(FIXTURES.console.stop) - 70, OPERATORS.panel.head - 40], 'Over the console', 'Lowered with its centre in this band, the crate falls on the Panel operator: the drop.'],
@@ -135,7 +135,7 @@ function board(id) {
     const row = el('section', { class: 'beat' });
     const phones = el('div', { class: 'beat-phones wide' });
     phones.append(phone(`s=return&board=${id}&as=winch`, { label: `Back in Room B · ${CAST.winch.name}` }), phone(`s=return&board=${id}&as=panel`, { label: `Back in Room B · ${CAST.panel.name}` }), phone(`s=return&board=${id}&as=other`, { label: 'Another player in Room B' }));
-    row.append(el('div', { class: 'beat-art' }, '<p class="time">Return</p>'), phones, el('p', { class: 'caption' }, 'The ordinary return: each participant back at their place before the Task. A participant killed on the Task is shown at their place as Eliminated, not in the Hospital. Nothing names who killed whom. Another player learns only the food count: a delivery shows the new count (the owner).'));
+    row.append(el('div', { class: 'beat-art' }, '<p class="time">Return</p>'), phones, el('p', { class: 'caption' }, 'The ordinary return, at the end of the Task\'s time whatever happened: each participant back at their place before the Task. A participant killed on the Task is shown at their place as Eliminated, not in the Hospital. Nothing names who killed whom. Another player learns only the food count: a delivery shows the new count (the owner).'));
     list.append(row);
   }
   app.append(list);
@@ -171,14 +171,14 @@ function phones(as) {
 }
 
 function flow() {
-  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). While the two are away, the board shows who is not here. Afterwards everyone is back at their places, and the others learn only the food count.'));
+  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). It all happens in the Food Supply step at the start of each round, before the turns: 30 s to ask, one request at a time, one Task a round (the owner, on Designer\'s recommendation). While the two are away, the board shows who is not here. Both come back at the end of the Task\'s time, whatever happened, and the others learn only the food count.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     ['s=volunteer&step=task', '1 · Volunteer: start a Task'], ['s=volunteer&step=partner', '2 · Volunteer: ask a Partner'], ['s=volunteer&step=asking', '3 · Volunteer: waiting for the answer'],
-    ['s=called', '4 · Partner: Join or Decline (15 s PROPOSED)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, the next volunteer goes'], ['s=called&answer=join', '6 · Partner: joined'],
+    ['s=called', '4 · Partner: Join or Decline (15 s)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, the next volunteer goes'], ['s=called&answer=join', '6 · Partner: joined'],
     ['s=volunteer&step=starting', '7 · Volunteer: starting'], ['s=task&board=cooperation&t=2500&as=panel', '8 · Both: briefing'], ['s=away', '9 · Another player: the board shows who is away'],
     ['s=return&board=cooperation&as=winch', '10 · Return after a delivery'], ['s=return&board=cooperation&as=other', '11 · Another player after a delivery: the food count only'], ['s=return&board=chop&as=other', '12 · Another player after a death, nothing delivered: the board only'],
-    ['s=stock&n=1', '13 · Food warning: one package (PROPOSED public)'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
+    ['s=stock&n=1', '13 · Food warning: one package, on every phone'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }
@@ -223,7 +223,7 @@ function machine() {
 
 // ── Motion: each cue's frames, and its Reduce motion form ─────────────
 function motion() {
-  app.append(header('Motion: each cue and its Reduce motion form', 'Five moments of each cue, then a moment with Reduce motion. The click and the swing are the Task itself, so Reduce motion keeps them, the same stop and the same place at the same moment, and takes away the rest: no slide, no lean, no speed lines, no flashing, effects still. Timings are PROPOSED; a new state always replaces a cue still playing.'));
+  app.append(header('Motion: each cue and its Reduce motion form', 'Five moments of each cue, then a moment with Reduce motion. The click and the swing are the Task itself, so Reduce motion keeps them, the same stop and the same place at the same moment, and takes away the rest: no slide, no lean, no speed lines, no flashing, effects still. The click\'s timing is the owner\'s; the cues\' timings are PROPOSED; a new state always replaces a cue still playing.'));
   const cues = [
     [`The click: a ${TIMING.move} ms snap, then a ${TIMING.rest} ms rest`, 'cooperation', R + 2 * (TIMING.move + TIMING.rest), [0, 30, 60, 100, 400], [0, 30, 1024, 520], CUES.click],
     ['The lock: the blade drops', 'cooperation', PLATFORM_AT, [0, 30, 60, 90, 300], [560, 30, 400, 300], CUES.lock],
@@ -278,7 +278,8 @@ function states() {
     [`s=task&board=cooperation&t=${LOWER_AT}&as=winch&press=sending&act=lower&before=1`, 'Winch: Lower on its way'], [`s=task&board=cooperation&t=${LOWER_AT - 10}&as=winch&press=unknown&act=lower`, 'Winch: the connection dropped; its answer unknown'],
     [`s=task&board=cooperation&t=${LANDED + 200}&as=winch&press=through&act=lower`, 'Winch: recovered; it went through'], [`s=task&board=cooperation&t=${LOWER_AT - 10}&as=winch&press=lost&act=lower`, 'Winch: recovered; it did not go through'],
     ['s=called&answer=joining', 'Partner: Join on its way'], ['s=called&answer=late-withdrawn', 'Partner: too late, Hana had cancelled'], ['s=called&answer=late-expired', 'Partner: too late, the time had run out'],
-    ['s=volunteer&step=withdrawn', 'Volunteer: request withdrawn (PROPOSED: as a refusal)'], ['s=volunteer&step=withdraw-late', 'Volunteer: too late to cancel, Cleo joined first'],
+    ['s=volunteer&step=withdrawn', 'Volunteer: request withdrawn (as a refusal)'], ['s=volunteer&step=withdraw-late', 'Volunteer: too late to cancel, Cleo joined first'],
+    ['s=volunteer&step=busy', 'Anyone else: another request is waiting'], ['s=volunteer&step=closed', 'In an ordinary turn: Food Supply opens at the next round\'s start'],
     ['s=howto', 'Before the Task: how it works, read any time'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
