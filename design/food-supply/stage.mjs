@@ -2,8 +2,8 @@
 //
 // The Food Supply Task in time: a scripted run of presses (a storyboard), its states from the
 // Task's own rules (./task.mjs), and the pose of the Supply Room at any moment of it (./scene.mjs
-// draws a pose). The panel's sweep and the crate's swing are the Task's own (task.mjs sweep() and
-// swingOffset()): the pose only draws them. The rest here is the design's motion specification:
+// draws a pose). The panel's click from stop to stop and the crate's swing are the Task's own (task.mjs
+// sweep() and swingOffset()): the pose only draws them. The rest here is the design's motion specification:
 // what moves when an event arrives, for how long and with what easing, and what Reduce motion shows
 // instead. Presentation only: no animation decides anything, and a new state always wins over a cue
 // still playing.
@@ -14,12 +14,15 @@ import { restPose } from './scene.mjs';
 
 /**
  * Each cue's timing, in milliseconds, and its Reduce motion form. PROPOSED. A cue never delays a
- * press: the next authoritative state replaces it. The sweep and the swing are not decoration: they
- * are what the participants time their presses by, so Reduce motion keeps them (the place along the
- * rail is the game) and takes away everything else that moves.
+ * press: the next authoritative state replaces it. The click and the swing are not decoration: they
+ * are what the participants time their presses by, so Reduce motion keeps them (the stop and the place
+ * along the rail are the game, at the same moments) and takes away everything else that moves. A
+ * reduced pose never shows anything earlier than the state allows: the crate still rises and falls for
+ * its full time (the interlocks), only drawn at once at its end. A phone that comes back from the
+ * background draws the present: it does not replay an impact or restart an outcome card.
  */
 export const CUES = Object.freeze({
-  sweep: { ms: TIMING.stop, reduced: 'The panel moves along the rail exactly as without Reduce motion (its place is the game), with no speed lines and no lean of the crate' },
+  click: { ms: TIMING.move, rest: TIMING.rest, ease: 'in-out', reduced: 'The panel is drawn at the stop it is snapping to from the start of each snap, and rests there: the same stop at the same moment as without Reduce motion (the stop a LOCK takes), with no slide, no speed lines and no lean of the crate' },
   swing: { ms: SWING.period, reduced: 'The crate keeps its place along the rail (the game) but stays upright and level: no tilt, no rise' },
   release: { ms: 90, ease: 'out', reduced: 'The blade up at once' },
   lock: { ms: 90, ease: 'in', reduced: 'The panel at its stop and the blade down at once; a clunk mark for 400 ms' },
@@ -52,8 +55,8 @@ const REST_Y = { intake: REST.intake, deck: REST.deck, fallen: REST.console, lan
  * Returns the states with their events in time order, from the Task's own rules.
  */
 export function run(board) {
-  const start = startTask({ seats: board.seats, protection: board.protection, at: 0 });
-  return simulate(start, board.steps);
+  const start = startTask({ seats: board.seats, at: 0 });
+  return simulate(start, board.steps, { protection: board.protection });
 }
 
 /** The settled state at time t (the last state reached by then). */
@@ -78,12 +81,15 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
   pose.tags = tags;
   pose.alive = { ...s.alive };
   const p = panelAt(s, t);
-  const px = stopX(p.at);
-  pose.panel.at = p.at;
+  // Reduce motion: no slide between stops; the panel is at the stop it is snapping to, as a LOCK would take it.
+  const at = reduced ? p.stop : p.at;
+  const moving = !p.locked && !p.resting && !reduced;
+  const px = stopX(at);
+  pose.panel.at = at;
   pose.panel.blade = p.locked ? BLADE.locked : BLADE.up;
-  pose.panel.lit = Math.round(p.at);
+  pose.panel.lit = p.stop;
   pose.panel.wheel = px / 13;
-  pose.console = { ...pose.console, near: Math.round(p.at), locked: p.locked, key: s.keys.panel };
+  pose.console = { ...pose.console, near: p.stop, locked: p.locked, key: s.keys.panel };
   pose.cab.key = s.keys.winch;
   if (!s.alive.winch) pose.cab.cut = true;
 
@@ -96,7 +102,7 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
       const slide = ease['in-out'](clamp01(u / 0.35));
       pose.crate = { x: lerp(stopX(c.from.x), px, slide), y: lerp(REST_Y[c.from.state] ?? REST.deck, HANG, ease['in-out'](u)), tilt: 0, hooked: true };
     } else if (!p.locked) {
-      pose.crate = { x: px - (reduced ? 0 : p.dir * 10), y: HANG, tilt: reduced ? 0 : p.dir * 0.07, hooked: true };
+      pose.crate = { x: px - (moving ? p.dir * 10 : 0), y: HANG, tilt: moving ? p.dir * 0.07 : 0, hooked: true };
     } else {
       pose.crate = { ...onCable(px, swingOffset(s.swing, t) * STEP, reduced), hooked: true };
     }
@@ -133,7 +139,7 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
       if (e.type === 'LOCKED') {
         if (!reduced && dt < CUES.lock.ms && s.panel.locked) {
           const u = ease.in(dt / CUES.lock.ms);
-          pose.panel.at = lerp(e.at, e.stop, u);
+          pose.panel.at = lerp(e.x, e.stop, u);
           pose.panel.blade = lerp(BLADE.up, BLADE.locked, u);
         }
         if (dt < 400) pose.effects.push({ kind: 'clunk', at: [stopX(e.stop), BLADE.locked + 4], dir: [0, 1], t: reduced ? 1 : clamp01(dt / 180) });
@@ -208,8 +214,8 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
     const to = { platform: BOXES.platform[1] - 8, console: OPERATORS.panel.head, intake: DECK - 10, deck: DECK }[h.zone];
     pose.line = { from: [pose.crate.x, pose.crate.y + CRATE / 2 + 6], to, tone: h.zone };
   }
-  // The speed lines behind the running panel.
-  if (!p.locked && !reduced && s.phase === 'running') pose.effects.push({ kind: 'speed', at: [px - p.dir * 66, CARRIAGE.top + 18], dir: [p.dir, 0], len: 34, spread: 24, n: 3 });
+  // The speed lines behind the panel while it snaps to the next stop.
+  if (moving && s.phase === 'running') pose.effects.push({ kind: 'speed', at: [px - p.dir * 66, CARRIAGE.top + 18], dir: [p.dir, 0], len: 34, spread: 24, n: 3 });
   return pose;
 }
 

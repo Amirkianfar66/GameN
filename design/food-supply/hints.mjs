@@ -21,10 +21,12 @@ export function hintFor(v, recent) {
   if (v.phase === 'briefing') return say('quiet', 'timer', `The controls work in ${v.briefingLeft} s.`);
   if (v.phase === 'ended') return say('quiet', 'info', 'The Task is over.');
   if (v.you === 'down') return say('quiet', 'eliminated', 'You are out.');
-  // The dangers, live: both phones say them while they last.
-  if (v.warnings.includes('panel-at-partner-cab')) return say('hazard', 'warning', `LOCK here cuts ${partner}.`);
-  if (v.warnings.includes('panel-at-your-cab')) return say('hazard', 'warning', 'The panel is over your cab.');
-  if (v.warnings.includes('crate-over-partner')) return say('hazard', 'warning', `Lower now drops it on ${partner}.`);
+  // The dangers, live: both phones say them while they last, from a moment before (the margin for a
+  // press already on its way). Never a promise: the server decides where a press lands when it arrives.
+  const atCab = v.panel.stop === FIXTURES.cab.stop;
+  if (v.warnings.includes('panel-at-partner-cab')) return say('hazard', 'warning', atCab ? `LOCK here cuts ${partner}.` : `Too late for 6: LOCK may cut ${partner}.`);
+  if (v.warnings.includes('panel-at-your-cab')) return say('hazard', 'warning', atCab ? 'The panel is over your cab.' : 'The panel is moving to your cab.');
+  if (v.warnings.includes('crate-over-partner')) return say('hazard', 'warning', `Lower now may drop it on ${partner}.`);
   if (v.warnings.includes('crate-over-you')) return say('hazard', 'warning', 'The crate is swinging over you.');
   const stopped = recent.find(e => e.type === 'STOPPED');
   if (stopped) return say('quiet', 'block', stopped.kind === 'cut' ? "Stopped: the cab's buffer held." : 'Stopped: the winch brake held.');
@@ -52,7 +54,7 @@ export function hintFor(v, recent) {
   }
   if (!c.settled) return say('quiet', 'hourglass', 'Raising…');
   if (!p.locked) return say('quiet', 'hourglass', `Wait for ${partner} to lock it.`);
-  if (v.zone === 'platform') return say('next', 'move', 'Lower now: over the platform.');
+  if (v.buttons.find(b => b.act === 'lower')?.next) return say('next', 'move', 'Lower now: over the platform.');
   if (overPlatform) return say('caution', 'hourglass', 'Wait for the swing over 6.');
   return say('quiet', 'hourglass', `Wait: ${partner} moves the panel.`);
 }

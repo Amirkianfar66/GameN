@@ -32,6 +32,7 @@ export const SHEETS = Object.freeze([
   { name: 'phones-winch', query: 'sheet=phones&as=winch', width: 1500 },
   { name: 'phones-panel', query: 'sheet=phones&as=panel', width: 1500 },
   { name: 'flow', query: 'sheet=flow', width: 1100 },
+  { name: 'states', query: 'sheet=states', width: 1100 },
   { name: 'machine', query: 'sheet=machine', width: 1720 },
   { name: 'motion', query: 'sheet=motion', width: 2080 },
   { name: 'large-text', query: 'sheet=large', width: 1400 },

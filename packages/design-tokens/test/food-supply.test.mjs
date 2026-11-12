@@ -8,12 +8,17 @@
 //    kills at once and never sends anyone to the Hospital; a survivor completes only from over the
 //    platform; a disconnect cancels after the grace and a death before it stands; food is 5, +5, a
 //    warning at 1;
-//  - the owner's crane: the Winch's cab right of the platform, the fast locking panel that cuts at
-//    the cab's stop, the crate's pendulum swing that can drop it on the Panel operator;
+//  - the owner's crane: the Winch's cab right of the platform, the locking panel that clicks from stop
+//    to stop and cuts at the cab's stop, the crate's pendulum swing that can drop it on the Panel
+//    operator;
 //  - the owner's answers of 12 November: a kill on the Task is not an attack, and the safety catch
 //    saves by luck one time in four, so a stop looks the same whether Protection or luck caused it,
 //    and nothing a phone is built from carries Protection or the roll;
-//  - the timing the storyboards rely on: the sweep's beat, the swing's reach and its calming;
+//  - Integration's review of 12 November: a press is resolved when the server receives it, bound to
+//    a revision and a command id (a stale press is refused, a retry changes nothing); Protection is
+//    read at each lethal press and used up by a block; the earliest ending wins; the participant's
+//    projection is enough to draw the phone at any moment and carries nothing server-only;
+//  - the timing the storyboards rely on: the click's rest and margin, the swing's reach and calming;
 //  - every hint fits the largest text; every motion cue has a Reduce motion form;
 //  - the handoff and the room art are what the export tool writes; the review files are recorded;
 //    and nothing in the game's code refers to the package.
@@ -21,9 +26,9 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { test } from 'node:test';
-import { CATCH, FIXTURES, FOOD, ROLES, STOPS, SWING, TIMING, ZONES, act, hazards, landingAt, simulate, startTask, sweep, swingOffset, tick, view } from '../../../design/food-supply/task.mjs';
+import { CATCH, CLICK, FIXTURES, FOOD, ROLES, SERVER_ONLY, STOPS, SWING, TIMING, ZONES, act, atTime, hazards, landingAt, projection, simulate, startTask, sweep, swingOffset, tick, view } from '../../../design/food-supply/task.mjs';
 import { BOXES, CRATE, HANG, OPERATORS, REGIONS, VIEW, stopX } from '../../../design/food-supply/layout.mjs';
-import { BOARDS, CAST } from '../../../design/food-supply/boards.mjs';
+import { BOARDS, CAST, MOMENTS } from '../../../design/food-supply/boards.mjs';
 import { CUES, run } from '../../../design/food-supply/stage.mjs';
 import { EDGES, SCENARIOS, differences, play } from '../../../design/food-supply/scenarios.mjs';
 import { hintFor } from '../../../design/food-supply/hints.mjs';
@@ -35,16 +40,18 @@ const text = path => readFileSync(new URL(path, root), 'utf8');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const SEATS = { winch: CAST.winch.seat, panel: CAST.panel.seat };
 const B = TIMING.briefing;
-const PLATFORM_AT = B + 2700, CAB_AT = B + 2920, OVER_CONSOLE = PLATFORM_AT + 975;
+const { release: R, platform: PLATFORM_AT, cab: CAB_AT, overConsole: OVER_CONSOLE } = MOMENTS;
+/** The moment the panel's rest at a stop ends, on its first run right. */
+const leaves = stop => R + stop * CLICK;
 const start = (o = {}) => startTask({ seats: SEATS, at: 0, ...o });
 const press = (at, role, what, extra = {}) => ({ at, seat: SEATS[role], act: what, ...extra });
-const up = () => [press(B + 600, 'winch', 'raise'), press(B + 1600, 'panel', 'release')];
+const up = () => [press(B + 600, 'winch', 'raise'), press(R, 'panel', 'release')];
 const finalOf = frames => frames[frames.length - 1].state;
 const at = (frames, t) => tick([...frames].reverse().find(f => f.at <= t).state, t).state;
 
 test('every acceptance scenario ends as it says: the nine storyboards and the edge cases', () => {
   assert.deepEqual(BOARDS.map(b => b.id), ['cooperation', 'chop', 'drop', 'standoff', 'protection-cut', 'protection-drop', 'mistakes', 'timeout', 'disconnect']);
-  assert.ok(EDGES.length >= 25, `${EDGES.length} edge cases`);
+  assert.ok(EDGES.length >= 30, `${EDGES.length} edge cases`);
   for (const s of SCENARIOS) assert.deepEqual(differences(s), [], s.id);
 });
 
@@ -118,14 +125,21 @@ test('the owner\'s crane: the cab right of the platform, a lock at the cab\'s st
   assert.equal(landingAt(FIXTURES.platform.stop - 0.5), 'deck');
 });
 
-test('both phones see each danger while it lasts, and the presser\'s button is striped and says it', () => {
-  const sweeping = simulate(start(), up());
-  const atCab = at(sweeping, B + 2860);
-  assert.equal(hazards(atCab, B + 2860).cut, true);
-  assert.deepEqual(view(atCab, SEATS.panel, B + 2860).warnings, ['panel-at-partner-cab']);
-  assert.deepEqual(view(atCab, SEATS.winch, B + 2860).warnings, ['panel-at-your-cab']);
-  assert.equal(view(atCab, SEATS.panel, B + 2860).buttons.find(x => x.act === 'lock').hazard, true);
-  assert.equal(hazards(atCab, B + 2650).cut, false, 'over the platform, no danger');
+test('both phones see each danger while it lasts, from a margin before it, and the presser\'s button is striped and says it', () => {
+  const clicking = simulate(start(), up());
+  const atCab = at(clicking, CAB_AT - 100);
+  assert.equal(hazards(atCab, CAB_AT - 100).cut, true);
+  assert.deepEqual(view(atCab, SEATS.panel, CAB_AT - 100).warnings, ['panel-at-partner-cab']);
+  assert.deepEqual(view(atCab, SEATS.winch, CAB_AT - 100).warnings, ['panel-at-your-cab']);
+  assert.equal(view(atCab, SEATS.panel, CAB_AT - 100).buttons.find(x => x.act === 'lock').hazard, true);
+  // Resting over the platform: no danger, and LOCK glows, until the margin before the panel snaps on.
+  const early = at(clicking, PLATFORM_AT);
+  assert.equal(hazards(early, PLATFORM_AT).cut, false, 'over the platform, no danger');
+  assert.equal(view(early, SEATS.panel, PLATFORM_AT).buttons.find(x => x.act === 'lock').next, true);
+  const late = leaves(5) - TIMING.margin + 10;
+  const leaving = view(at(clicking, late), SEATS.panel, late).buttons.find(x => x.act === 'lock');
+  assert.equal(leaving.stop, FIXTURES.platform.stop, 'still resting over the platform');
+  assert.ok(leaving.hazard && leaving.leaving && !leaving.next, 'but a press now may arrive as it snaps on to the cab: striped, not glowing');
   const locked = simulate(start(), [...up(), press(PLATFORM_AT, 'panel', 'lock')]);
   const swung = at(locked, OVER_CONSOLE);
   assert.equal(hazards(swung, OVER_CONSOLE).drop, true);
@@ -134,16 +148,25 @@ test('both phones see each danger while it lasts, and the presser\'s button is s
   const lower = view(swung, SEATS.winch, OVER_CONSOLE).buttons.find(x => x.act === 'lower');
   assert.equal(lower.hazard, true);
   assert.equal(lower.next, false, 'the glow never asks for a kill');
+  // The drop's warning starts a margin before the swing reaches the console.
+  let first = null;
+  for (let t = PLATFORM_AT; t < OVER_CONSOLE && first === null; t += 5) if (hazards(at(locked, t), t).drop) first = t;
+  let reaches = null;
+  for (let t = PLATFORM_AT; t < OVER_CONSOLE && reaches === null; t += 5) if (hazards(at(locked, t), t).zone === 'console') reaches = t;
+  assert.ok(reaches - first >= TIMING.margin - 10, `warned ${reaches - first} ms before`);
   // No warning for a partner who is already out.
-  assert.equal(hazards({ ...atCab, alive: { winch: false, panel: true } }, B + 2860).cut, false);
+  assert.equal(hazards({ ...atCab, alive: { winch: false, panel: true } }, CAB_AT - 100).cut, false);
 });
 
-test('the timing the storyboards rely on: the sweep\'s beat, the swing\'s reach and its calming', () => {
-  assert.equal(sweep(0, 1, 1100).at, FIXTURES.platform.stop);
-  assert.equal(sweep(0, 1, 1320).at, FIXTURES.cab.stop);
-  assert.deepEqual(sweep(0, 1, 1430), { at: 5.5, dir: -1 });
-  assert.equal(Math.round(sweep(0, 1, 1209).at), FIXTURES.platform.stop);
-  assert.equal(Math.round(sweep(0, 1, 1210).at), FIXTURES.cab.stop, 'the cut begins half way between 6 and 7');
+test('the click and the swing the storyboards rely on: a fast snap, a rest at each stop longer than the margin, the swing\'s reach and its calming', () => {
+  assert.equal(CLICK, TIMING.move + TIMING.rest);
+  assert.ok(TIMING.move < TIMING.rest && TIMING.margin < TIMING.rest, 'a fast snap, a rest longer than the margin');
+  assert.deepEqual(sweep(0, 1, 0), { at: 0, dir: 1, stop: 1, resting: false });
+  assert.deepEqual(sweep(0, 1, TIMING.move), { at: 1, dir: 1, stop: 1, resting: true });
+  // Each stop takes a LOCK for one whole click: the snap toward it and the rest at it.
+  for (let dt = 4 * CLICK; dt < 5 * CLICK; dt += 10) assert.equal(sweep(0, 1, dt).stop, FIXTURES.platform.stop, `${dt}`);
+  assert.equal(sweep(0, 1, 5 * CLICK).stop, FIXTURES.cab.stop, 'then it snaps on to the cab');
+  assert.deepEqual(sweep(0, 1, 6 * CLICK), { at: FIXTURES.cab.stop, dir: -1, stop: FIXTURES.platform.stop, resting: false }, 'and back from the rail\'s end');
   const swing = { since: 0, amp: SWING.lock, dir: 1 };
   // Locked over the platform, the swing reaches the console zone in its first second, then never again.
   assert.equal(landingAt(FIXTURES.platform.stop + swingOffset(swing, 975)), 'console');
@@ -165,13 +188,27 @@ test('a stop looks the same whether Protection or the catch\'s luck caused it, a
   const cut = [...up(), press(CAB_AT, 'panel', 'lock')];
   const drop = [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower')];
   for (const [steps, victim] of [[cut, 'winch'], [drop, 'panel']]) {
-    const protectedRun = simulate(start({ protection: { winch: victim === 'winch', panel: victim === 'panel' } }), steps);
+    const protectedRun = simulate(start(), steps, { protection: { winch: victim === 'winch', panel: victim === 'panel' } });
     const luckyRun = simulate(start(), steps.map((s, i) => (i === steps.length - 1 ? { ...s, roll: 0.1 } : s)));
-    const seen = frames => frames.map(f => ({ events: f.events, winch: view(f.state, SEATS.winch, f.at), panel: view(f.state, SEATS.panel, f.at) }));
+    const seen = frames => frames.map(f => Object.fromEntries(['winch', 'panel'].map(r => [r, { view: view(f.state, SEATS[r], f.at), projection: projection(f.state, SEATS[r], { observedAt: f.at, events: f.events }) }])));
     assert.deepEqual(seen(protectedRun), seen(luckyRun));
     assert.ok(protectedRun.flatMap(f => f.events).some(e => e.type === 'STOPPED'));
-    assert.doesNotMatch(JSON.stringify(seen(protectedRun)), /protect|attack|opportunit|roll/i);
+    assert.doesNotMatch(JSON.stringify(seen(protectedRun)), /protect|attack|opportunit|roll|CATCH|held|receipt/i);
+    // The server keeps its own record of each lethal press: the roll and what held.
+    assert.deepEqual(protectedRun.flatMap(f => f.events).filter(e => e.type === 'CATCH').map(e => e.held), ['protection']);
+    assert.deepEqual(luckyRun.flatMap(f => f.events).filter(e => e.type === 'CATCH').map(e => e.held), ['luck']);
   }
+});
+
+test('Protection is the game\'s: read at each lethal press, and a block uses it up (Integration, 12 November)', () => {
+  assert.ok(!('protection' in start()), 'the Task holds no Protection');
+  assert.deepEqual(differences(SCENARIOS.find(s => s.id === 'protection-used-once')), []);
+  const frames = simulate(start(), [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower', { roll: 0.9 })], { protection: { winch: false, panel: true } });
+  assert.deepEqual(frames[frames.length - 1].game.protection, { winch: false, panel: false }, 'the block used it up');
+  // Read at the press: Protection the game gives later is read then; none is read from the Task's start.
+  const later = act(at(simulate(start(), [...up(), press(PLATFORM_AT, 'panel', 'lock')]), OVER_CONSOLE), { ...press(OVER_CONSOLE, 'winch', 'lower', { roll: 0.9 }), protection: { winch: false, panel: true } });
+  assert.ok(later.events.some(e => e.type === 'STOPPED'));
+  assert.doesNotMatch(text('design/food-supply/task.mjs'), /clone\.active/);
 });
 
 test('a kill on the Task is not an attack, and the catch saves by luck one time in four (the owner, 12 November)', () => {
@@ -181,20 +218,58 @@ test('a kill on the Task is not an attack, and the catch saves by luck one time 
   assert.equal(CATCH.luck, 0.25);
   assert.match(CONFLICTS.find(c => c.id === 'mistake-or-attack').residual, /Settled/);
   assert.ok(!OPEN_ITEMS.some(o => o.id === 'mistakes'), 'decided');
-  // Below 1 in 4 the catch holds; at 1 in 4 it does not; Protection holds whatever the roll.
-  for (const id of ['lucky-catch-cut', 'lucky-catch-drop', 'luck-runs-out', 'blocked-twice']) assert.deepEqual(differences(SCENARIOS.find(s => s.id === id)), [], id);
+  // Below 1 in 4 the catch holds; at 1 in 4 it does not; Protection holds once, whatever the roll.
+  for (const id of ['lucky-catch-cut', 'lucky-catch-drop', 'luck-runs-out', 'protection-used-once']) assert.deepEqual(differences(SCENARIOS.find(s => s.id === id)), [], id);
   // A press that cannot kill never reads the roll: a roll on an ordinary lock changes nothing.
   const plain = simulate(start(), [...up(), press(PLATFORM_AT, 'panel', 'lock')]);
   const rolled = simulate(start(), [...up(), press(PLATFORM_AT, 'panel', 'lock', { roll: 0 })]);
   assert.deepEqual(rolled.map(f => f.events), plain.map(f => f.events));
 });
 
-test('press timing (PROPOSED): a press counts where its phone showed it, within the allowance', () => {
-  assert.deepEqual(differences(SCENARIOS.find(s => s.id === 'press-counts-as-shown')), []);
-  for (const [id, why] of [['late-press', 'late'], ['stale-press', 'stale']]) {
-    assert.ok(play(SCENARIOS.find(s => s.id === id)).events.some(e => e.type === 'REFUSED' && e.why === why), id);
+test('a press is resolved when the server receives it, bound to a revision and a command id (Integration, 12 November)', () => {
+  assert.ok(!('lag' in TIMING) && !('stop' in TIMING), 'no allowance for a phone\'s own time');
+  assert.deepEqual(differences(SCENARIOS.find(s => s.id === 'press-resolves-on-arrival')), []);
+  // The phone's own moment decides nothing.
+  const late = leaves(5) + 80;
+  const a = simulate(start(), [...up(), press(late, 'panel', 'lock', { shownAt: leaves(5) - 70 })]);
+  const b = simulate(start(), [...up(), press(late, 'panel', 'lock', { shownAt: 0 })]);
+  assert.deepEqual(a.map(f => f.events), b.map(f => f.events));
+  // And when it was made, the phone warned: LOCK was striped for the rest's last margin.
+  const shown = leaves(5) - 70;
+  assert.equal(view(at(simulate(start(), up()), shown), SEATS.panel, shown).buttons.find(x => x.act === 'lock').hazard, true);
+  for (const id of ['stale-press', 'retry-same-command', 'retry-keeps-the-roll', 'one-delivery']) assert.deepEqual(differences(SCENARIOS.find(s => s.id === id)), [], id);
+  // A press for another Task is refused; each event has its identity, order and time.
+  const other = act(at(simulate(start(), up()), PLATFORM_AT), press(PLATFORM_AT, 'panel', 'lock', { taskId: 'task-2' }));
+  assert.equal(other.events.at(-1).why, 'not-this-task');
+  const events = simulate(start(), BOARDS[0].steps).flatMap(f => f.events);
+  assert.deepEqual(events.map(e => e.seq), events.map((_, i) => i + 1));
+  for (const e of events) assert.ok(e.id && Number.isFinite(e.t), e.type);
+});
+
+test('the earliest ending wins, at the same moment the deadline first, and an ended Task stays as it ended', () => {
+  for (const id of ['earliest-ending', 'ending-tie', 'no-revival', 'one-delivery']) assert.deepEqual(differences(SCENARIOS.find(s => s.id === id)), [], id);
+  const frames = simulate(start(), SCENARIOS.find(s => s.id === 'earliest-ending').steps);
+  assert.equal(frames[frames.length - 1].state.endedAt, TIMING.deadline, 'ended at the deadline, though processed later');
+  // Idempotent: ticking an ended Task again changes nothing.
+  const ended = frames[frames.length - 1].state;
+  assert.deepEqual(tick(ended, TIMING.deadline + 60000).state.outcome, ended.outcome);
+  assert.deepEqual(tick(ended, TIMING.deadline + 60000).events, []);
+});
+
+test('the participant\'s projection is enough to draw the phone at any moment, and carries nothing server-only', () => {
+  for (const b of BOARDS) {
+    const frames = run(b);
+    for (const [i, f] of frames.entries()) {
+      const until = frames[i + 1]?.at ?? f.at + 2000;
+      for (const seat of Object.values(SEATS)) {
+        const proj = projection(f.state, seat, { observedAt: f.at, events: f.events });
+        const json = JSON.stringify(proj);
+        assert.doesNotMatch(json, /receipts|pressRevision|protection|"CATCH"|"held"|"roll"/, `${b.id} ${f.at}`);
+        for (let t = f.at; t < until; t += 97) assert.deepEqual(view(atTime(proj, t), seat, t), view(tick(f.state, t).state, seat, t), `${b.id} at ${t}`);
+      }
+    }
   }
-  assert.equal(TIMING.lag, 300);
+  assert.deepEqual([...SERVER_ONLY], ['CATCH']);
 });
 
 test('a disconnect cancels after the grace; back in time nothing paused; a death before the cancellation stands', () => {
@@ -204,8 +279,8 @@ test('a disconnect cancels after the grace; back in time nothing paused; a death
   assert.deepEqual(play(SCENARIOS.find(s => s.id === 'death-stands-in-grace')).alive, { winch: true, panel: false });
   assert.equal(TIMING.grace, 8000);
   // A phone out of contact cannot press: its controls are off, and nothing on it is striped.
-  const offline = simulate(start(), [...up(), { at: B + 2000, seat: SEATS.panel, online: false }]);
-  for (const b of view(at(offline, B + 2860), SEATS.panel, B + 2860).buttons) assert.ok(!b.enabled && !b.hazard);
+  const offline = simulate(start(), [...up(), { at: R + 400, seat: SEATS.panel, online: false }]);
+  for (const b of view(at(offline, CAB_AT - 100), SEATS.panel, CAB_AT - 100).buttons) assert.ok(!b.enabled && !b.hazard);
 });
 
 test('every hint fits three lines at 200% text on a 320-pixel phone', () => {
@@ -223,20 +298,20 @@ test('every hint fits three lines at 200% text on a 320-pixel phone', () => {
   for (const h of hints) assert.ok(h.length <= 40, `${h.length}: ${h}`);
 });
 
-test('every motion cue has its timing and a Reduce motion form; the sweep and the swing keep their place', () => {
+test('every motion cue has its timing and a Reduce motion form; the click and the swing keep their stop and place', () => {
   for (const [name, cue] of Object.entries(CUES)) {
     assert.ok(Number.isFinite(cue.ms) && cue.ms > 0, name);
     assert.ok(typeof cue.reduced === 'string' && cue.reduced.length > 3, name);
     assert.doesNotMatch(cue.reduced, /flash(?!ing)/i, `${name}: no flashing with Reduce motion`);
   }
-  assert.match(CUES.sweep.reduced, /place/);
+  assert.match(CUES.click.reduced, /same stop at the same moment/);
   assert.match(CUES.swing.reduced, /place/);
-  assert.ok(CUES.lock.ms < TIMING.stop, 'the blade is down before the panel would have reached the next stop');
+  assert.ok(CUES.lock.ms < TIMING.rest, 'the blade is down before the panel would snap on');
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 30);
-  for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.equal(RULES.length, 31);
+  for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit', 'click-stop']) assert.ok(RULES.some(r => r.id === id), id);
   assert.equal(TIMING.deadline, 30000, 'the owner: 30 seconds to complete the Task');
   const s = start();
   assert.equal(s.deadline - s.startedAt, 30000, 'counted from the Task\'s start: the briefing is inside it');
@@ -289,6 +364,13 @@ test('the handoff and the room art are what the export tool writes', () => {
   assert.equal(h.acceptance.length, SCENARIOS.length);
   assert.deepEqual(h.plane.phoneView.crop, [...VIEW]);
   assert.doesNotMatch(JSON.stringify(h.projection), /"(attack|protection)"/);
+  // Integration's corrections: a dose, not a package; no public outcome; presses on arrival; the version target.
+  assert.match(h.food.eating, /one dose/);
+  assert.doesNotMatch(h.food.eating, /eats one package/);
+  assert.doesNotMatch(JSON.stringify(h.state), /PROPOSED public/);
+  assert.doesNotMatch(JSON.stringify(h.controls.command), /TIMING\.lag|counts at the moment its phone/);
+  assert.match(JSON.stringify(h.controls.command), /commandId/);
+  assert.equal(h.target.rulesetVersion, 'in-person-planet-food-task-2026-11-12');
 });
 
 test('the review files are recorded as rendered', { skip: !existsSync(new URL('design/food-supply/review/renders.json', root)) && 'no renders yet' }, () => {
@@ -299,7 +381,7 @@ test('the review files are recorded as rendered', { skip: !existsSync(new URL('d
   assert.match(record.note, /not a phone/);
   // One sheet and one film per storyboard, and both participants' phones.
   for (const b of BOARDS) for (const f of [`board-${b.id}.png`, `film-${b.id}.mp4`]) assert.ok(files.includes(`design/food-supply/review/${f}`), f);
-  for (const f of ['phones-winch.png', 'phones-panel.png']) assert.ok(files.includes(`design/food-supply/review/${f}`), f);
+  for (const f of ['phones-winch.png', 'phones-panel.png', 'states.png', 'flow.png', 'large-text.png']) assert.ok(files.includes(`design/food-supply/review/${f}`), f);
 });
 
 test('the package is English, dev-only, and nothing in the game refers to it', () => {

@@ -7,24 +7,35 @@
 // design/tools/food-supply-export.mjs writes them into handoff.json. A design reference on the
 // phone pack's invented roster (Hana, seat 8, the Winch; Cleo, seat 3, the Panel), not the engine.
 
-import { TIMING, startTask, simulate } from './task.mjs';
-import { BOARDS, CAST } from './boards.mjs';
+import { CLICK, TIMING, startTask, simulate } from './task.mjs';
+import { BOARDS, CAST, MOMENTS } from './boards.mjs';
 
 const SEATS = Object.freeze({ winch: CAST.winch.seat, panel: CAST.panel.seat });
 const B = TIMING.briefing;
 const press = (at, role, act, extra = {}) => ({ at, seat: SEATS[role], act, ...extra });
 const offline = (at, role) => ({ at, seat: SEATS[role], online: false });
 const online = (at, role) => ({ at, seat: SEATS[role], online: true });
-/** Raise out of the intake, release the panel from stop 1: over the platform at B + 2700, over the cab at B + 2920. */
-const up = () => [press(B + 600, 'winch', 'raise'), press(B + 1600, 'panel', 'release')];
-const PLATFORM_AT = B + 2700, CAB_AT = B + 2920, OVER_CONSOLE = PLATFORM_AT + 975;
-/** Up, locked over the platform, lowered onto it as the swing passes over: landed, the keys free from B + 5600. */
-const land = () => [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(PLATFORM_AT + 2600, 'winch', 'lower')];
+/** Raise out of the intake, release the panel from stop 1 going right (the storyboards' own moments). */
+const R = MOMENTS.release;
+const up = () => [press(B + 600, 'winch', 'raise'), press(R, 'panel', 'release')];
+const PLATFORM_AT = MOMENTS.platform, CAB_AT = MOMENTS.cab, OVER_CONSOLE = MOMENTS.overConsole;
+/** On the panel's first run right: 100 ms into its rest at a stop; the moment its rest at a stop ends and it snaps on. */
+const restingAt = stop => R + (stop - 1) * CLICK + TIMING.move + 100;
+const leaves = stop => R + stop * CLICK;
+/** Up, locked over the platform, lowered when the swing holds it there: landed, the keys free from MOMENTS.landed. */
+const land = () => [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(MOMENTS.lower, 'winch', 'lower')];
+const LANDED = MOMENTS.landed;
+/** The Task's revision after these steps: what a phone shows, and binds its next press to. */
+const revisionAfter = steps => { const f = simulate(startTask({ seats: SEATS }), steps); return f[f.length - 1].state.revision; };
+/** The drop's survivor: raised again and lowered in when steady (the drop storyboard's own moments). */
+const dropBoard = () => BOARDS.find(b => b.id === 'drop');
 
 /**
  * Edge cases. expect: the outcome at the end (null: still running), who is alive, and facts about
- * the events (a type that must appear, one that must not, a refusal's reason, where a lock or a
- * miss happened, how many stops). roll: the server's random number for a press that would kill.
+ * the events (a type that must appear, one that must not, how many of a type, a refusal's reason,
+ * where a lock or a miss happened, how many stops). Each press is timed by the moment the server
+ * receives it. roll: the server's random number for a press that would kill. protection: the game's
+ * applicable Protection when the scenario starts, read at each lethal press and used up by a block.
  */
 export const EDGES = Object.freeze([
   {
@@ -49,7 +60,7 @@ export const EDGES = Object.freeze([
   },
   {
     id: 'lower-needs-the-lock', about: 'While the panel runs, the winch is held: Lower does nothing until the panel is locked.',
-    steps: [...up(), press(B + 2000, 'winch', 'lower')],
+    steps: [...up(), press(R + 400, 'winch', 'lower')],
     expect: { outcome: null, refused: ['unlocked'], absent: ['LOWERED'] },
   },
   {
@@ -58,37 +69,42 @@ export const EDGES = Object.freeze([
     expect: { outcome: null, refused: ['locked'], locked: [5] },
   },
   {
-    id: 'lock-rounds-to-the-platform', about: 'A lock takes the nearest stop: just short of half way between 6 and 7, it locks over the platform.',
-    steps: [...up(), press(B + 1600 + 1209, 'panel', 'lock')],
+    id: 'lock-at-rest', about: 'The panel rests 0.4 s at each stop (PROPOSED). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.',
+    steps: [...up(), press(leaves(5) - 1, 'panel', 'lock')],
     expect: { outcome: null, locked: [5], absent: ['KILLED', 'STOPPED'] },
   },
   {
-    id: 'lock-rounds-to-the-cab', about: 'From half way between 6 and 7 on, a lock takes stop 7: the cut. The danger begins half a stop before the rail\'s end.',
-    steps: [...up(), press(B + 1600 + 1210, 'panel', 'lock')],
+    id: 'lock-in-the-snap', about: 'Once the panel snaps on from the platform toward the cab, a LOCK takes the stop it is snapping to: stop 7, the cut.',
+    steps: [...up(), press(leaves(5) + 1, 'panel', 'lock')],
     expect: { outcome: { result: 'lost', why: 'not-in-position' }, locked: [6], alive: { winch: false, panel: true } },
   },
   {
-    id: 'press-counts-as-shown', about: 'PROPOSED press timing. A LOCK made with the panel over the platform arrives 250 ms later, when the panel is already over the cab: it counts where the phone showed it.',
-    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock', { arrival: PLATFORM_AT + 250 })],
-    expect: { outcome: null, locked: [5], absent: ['KILLED', 'STOPPED'] },
+    id: 'press-resolves-on-arrival', about: 'A LOCK pressed while Cleo\'s phone showed the panel resting over 6, near the end of its rest, reaches the server after the panel has snapped on toward 7. It is resolved where the panel is when it arrives: at 7, the cut. The phone had warned: LOCK is striped for the rest\'s last 0.15 s (PROPOSED margin). shownAt, the phone\'s own moment, decides nothing.',
+    steps: [...up(), press(leaves(5) + 80, 'panel', 'lock', { shownAt: leaves(5) - 70 })],
+    expect: { outcome: { result: 'lost', why: 'not-in-position' }, locked: [6], present: ['KILLED'] },
   },
   {
-    id: 'late-press', about: 'PROPOSED press timing. A press that arrives more than 300 ms after it was made is refused, and the phone shows where the panel is now.',
-    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock', { arrival: PLATFORM_AT + TIMING.lag + 100 })],
-    expect: { outcome: null, refused: ['late'], absent: ['LOCKED'] },
-  },
-  {
-    id: 'stale-press', about: 'PROPOSED press timing. A Lower made on a picture from before the panel was released arrives after the release: refused, never resolved on a picture that is gone.',
-    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(B + 3500, 'panel', 'release'), press(B + 3400, 'winch', 'lower', { arrival: B + 3550 })],
+    id: 'stale-press', about: 'A Lower made on the revision before the panel was released reaches the server after the release: refused as stale, never resolved on a picture that is gone.',
+    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(PLATFORM_AT + 1500, 'panel', 'release'), press(PLATFORM_AT + 1550, 'winch', 'lower', { revision: revisionAfter([...up(), press(PLATFORM_AT, 'panel', 'lock')]) })],
     expect: { outcome: null, refused: ['stale'], absent: ['LOWERED'] },
   },
   {
+    id: 'retry-same-command', about: 'A LOCK retried with the same command id, after its answer was lost: the server returns the first answer and changes nothing. A retry is never a second press.',
+    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock', { commandId: 'cleo-lock-1' }), press(PLATFORM_AT + 400, 'panel', 'lock', { commandId: 'cleo-lock-1' })],
+    expect: { outcome: null, locked: [5], present: ['RECEIPT'], absent: ['REFUSED'] },
+  },
+  {
+    id: 'retry-keeps-the-roll', about: 'A LOCK at the cab that the catch stopped by luck is retried with the same command id: the first answer stands. No second roll, so no second chance to kill.',
+    steps: [...up(), press(CAB_AT, 'panel', 'lock', { commandId: 'cleo-lock-2', roll: 0.1 }), press(CAB_AT + 300, 'panel', 'lock', { commandId: 'cleo-lock-2', roll: 0.9 })],
+    expect: { outcome: null, alive: { winch: true, panel: true }, stops: 1, present: ['STOPPED', 'RECEIPT'], absent: ['KILLED'] },
+  },
+  {
     id: 'drop-from-the-console-stop', about: 'Locked over the console instead of the platform, the crate swings right over the Panel operator. Lowered then, it falls on them, and the panel is not over the platform: the Task is lost.',
-    steps: [...up(), press(B + 2480, 'panel', 'lock'), press(B + 2480 + 650, 'winch', 'lower')],
+    steps: [...up(), press(restingAt(4), 'panel', 'lock'), press(restingAt(4) + 650, 'winch', 'lower')],
     expect: { outcome: { result: 'lost', why: 'not-in-position' }, locked: [4], alive: { winch: true, panel: false } },
   },
   {
-    id: 'lucky-catch-cut', about: 'The owner\'s luck: Hana is not Protected, but the server\'s roll for the lock is under 1 in 4: the roof buffer holds, CLANK!, exactly as Protection would show.',
+    id: 'lucky-catch-cut', about: 'The owner\'s luck: Hana has no Protection, but the server\'s roll for the lock is under 1 in 4: the roof buffer holds, CLANK!, exactly as a Protection block shows.',
     steps: [...up(), press(CAB_AT, 'panel', 'lock', { roll: 0.1 })],
     expect: { outcome: null, alive: { winch: true, panel: true }, present: ['STOPPED'], absent: ['KILLED'] },
   },
@@ -103,10 +119,10 @@ export const EDGES = Object.freeze([
     expect: { outcome: { result: 'lost', why: 'not-in-position' }, alive: { winch: false, panel: true }, present: ['KILLED'] },
   },
   {
-    id: 'blocked-twice', about: 'A Protected Panel operator: the drop is stopped, and again on a second try at once. Protection holds every time, whatever the roll.',
+    id: 'protection-used-once', about: 'Cleo has Protection. The first drop is stopped by it, and the block uses it up, as any block does (packages/engine physical.ts). A second drop at once, with a roll of 1 in 4 or more, kills.',
     protection: { winch: false, panel: true },
     steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower', { roll: 0.9 }), press(OVER_CONSOLE + 25, 'winch', 'lower', { roll: 0.9 })],
-    expect: { outcome: null, alive: { winch: true, panel: true }, stops: 2, absent: ['KILLED'] },
+    expect: { outcome: null, alive: { winch: true, panel: false }, stops: 1, present: ['KILLED'] },
   },
   {
     id: 'back-into-the-intake', about: 'Lowered again at once over the intake, the crate goes back into the hatch: a miss, nothing worse.',
@@ -115,28 +131,33 @@ export const EDGES = Object.freeze([
   },
   {
     id: 'landed-winch-idle', about: 'Landed, the crate is clamped: the Winch cannot raise it off the platform.',
-    steps: [...land(), press(B + 5800, 'winch', 'raise')],
+    steps: [...land(), press(LANDED + 200, 'winch', 'raise')],
     expect: { outcome: null, refused: ['landed'], present: ['LANDED'] },
   },
   {
     id: 'key-before-landing', about: 'The keys work only once the crate has landed.',
-    steps: [...up(), press(B + 2000, 'winch', 'key')],
+    steps: [...up(), press(R + 400, 'winch', 'key')],
     expect: { outcome: null, refused: ['not-landed'], absent: ['KEY'] },
   },
   {
     id: 'key-twice', about: 'A turned key stays turned; a second turn does nothing.',
-    steps: [...land(), press(B + 6000, 'winch', 'key'), press(B + 6300, 'winch', 'key')],
+    steps: [...land(), press(LANDED + 100, 'winch', 'key'), press(LANDED + 400, 'winch', 'key')],
     expect: { outcome: null, refused: ['turned'], present: ['KEY'] },
   },
   {
-    id: 'keys-stay-turned', about: 'PROPOSED. Landed, Hana turns the Winch\'s key; Cleo releases the empty panel and locks it again short of the cab, then turns the Panel\'s key: delivered by both, Hana\'s key still turned.',
-    steps: [...land(), press(B + 6200, 'winch', 'key'), press(B + 6900, 'panel', 'release'), press(B + 7340, 'panel', 'lock'), press(B + 7800, 'panel', 'key')],
+    id: 'keys-stay-turned', about: 'PROPOSED. Landed, Hana turns the Winch\'s key; Cleo releases the empty panel, lets it click past the cab and back, and locks it over the platform again, then turns the Panel\'s key: delivered by both, Hana\'s key still turned.',
+    steps: [...land(), press(LANDED + 300, 'winch', 'key'), press(LANDED + 900, 'panel', 'release'), press(LANDED + 900 + CLICK + TIMING.move + 100, 'panel', 'lock'), press(LANDED + 900 + 2 * CLICK + 300, 'panel', 'key')],
     expect: { outcome: { result: 'delivered', packages: 5, alone: false }, locked: [5, 5], absent: ['KILLED'] },
   },
   {
     id: 'cut-after-own-key', about: 'Landed, Cleo turns the Panel\'s key first, then releases and cuts: Hana dies with the crate on the platform, and Cleo\'s key is already turned, so it goes down at once.',
-    steps: [...land(), press(B + 6200, 'panel', 'key'), press(B + 6900, 'panel', 'release'), press(B + 7120, 'panel', 'lock')],
+    steps: [...land(), press(LANDED + 300, 'panel', 'key'), press(LANDED + 900, 'panel', 'release'), press(LANDED + 900 + TIMING.move + 150, 'panel', 'lock')],
     expect: { outcome: { result: 'delivered', packages: 5, alone: true }, alive: { winch: false, panel: true } },
+  },
+  {
+    id: 'one-delivery', about: 'The last key\'s press is retried with the same command id: the first answer stands. One delivery, five packages, never ten.',
+    steps: [...land(), press(LANDED + 100, 'winch', 'key'), press(LANDED + 400, 'panel', 'key', { commandId: 'cleo-key' }), press(LANDED + 700, 'panel', 'key', { commandId: 'cleo-key' })],
+    expect: { outcome: { result: 'delivered', packages: 5, alone: false }, counts: { SENT: 1 }, present: ['RECEIPT'] },
   },
   {
     id: 'reconnect-in-grace', about: 'Out of contact for less than the grace: the Task never paused, and it goes on.',
@@ -145,17 +166,17 @@ export const EDGES = Object.freeze([
   },
   {
     id: 'death-stands-in-grace', about: 'A drop that lands while its victim is out of contact stands; the panel is over the platform, so the Winch goes on alone and delivers. The dead participant\'s connection no longer matters.',
-    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), offline(B + 3000, 'panel'), press(OVER_CONSOLE, 'winch', 'lower'), press(B + 4600, 'winch', 'raise'), press(B + 6400, 'winch', 'lower'), press(B + 7200, 'winch', 'key'), { at: B + 3000 + TIMING.grace + 500 }],
+    steps: [...dropBoard().steps.slice(0, 4), offline(PLATFORM_AT + 200, 'panel'), ...dropBoard().steps.slice(4), { at: PLATFORM_AT + 200 + TIMING.grace + 500 }].sort((a, b) => a.at - b.at),
     expect: { outcome: { result: 'delivered', packages: 5, alone: true }, alive: { winch: true, panel: false } },
   },
   {
     id: 'offline-victim-cut', about: "Landed; the Winch operator drops out of contact and the Panel operator cuts. The death stands and the Panel's key alone sends the crate.",
-    steps: [...land(), offline(B + 6000, 'winch'), press(B + 6900, 'panel', 'release'), press(B + 7120, 'panel', 'lock'), press(B + 8000, 'panel', 'key'), { at: B + 6000 + TIMING.grace + 500 }],
+    steps: [...land(), offline(LANDED + 100, 'winch'), press(LANDED + 900, 'panel', 'release'), press(LANDED + 900 + TIMING.move + 150, 'panel', 'lock'), press(LANDED + 1900, 'panel', 'key'), { at: LANDED + 100 + TIMING.grace + 500 }],
     expect: { outcome: { result: 'delivered', packages: 5, alone: true }, alive: { winch: false, panel: true } },
   },
   {
     id: 'dead-cannot-press', about: "A killed participant's presses do nothing.",
-    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower'), press(B + 4000, 'panel', 'release')],
+    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower'), press(OVER_CONSOLE + 500, 'panel', 'release')],
     expect: { outcome: null, refused: ['down'], alive: { winch: true, panel: false } },
   },
   {
@@ -168,11 +189,26 @@ export const EDGES = Object.freeze([
     steps: [press(B + 600, 'winch', 'raise'), offline(B + 1000, 'winch'), { at: B + 1000 + TIMING.grace }],
     expect: { outcome: { result: 'cancelled', why: 'disconnect', who: 'winch' }, alive: { winch: true, panel: true } },
   },
+  {
+    id: 'earliest-ending', about: 'The deadline passes at 30 s and a participant\'s grace runs out at 33 s, but the server gets to the Task only at 34 s: the earlier boundary decides. Lost on time at 30 s, not cancelled.',
+    steps: [press(B + 600, 'winch', 'raise'), offline(TIMING.deadline - TIMING.grace + 3000, 'winch'), { at: TIMING.deadline + 4000 }],
+    expect: { outcome: { result: 'lost', why: 'time' }, alive: { winch: true, panel: true } },
+  },
+  {
+    id: 'ending-tie', about: 'The deadline and a participant\'s grace run out at the same moment: the deadline comes first. Lost on time.',
+    steps: [press(B + 600, 'winch', 'raise'), offline(TIMING.deadline - TIMING.grace, 'winch'), { at: TIMING.deadline + 100 }],
+    expect: { outcome: { result: 'lost', why: 'time' } },
+  },
+  {
+    id: 'no-revival', about: 'A participant comes back after the Task was cancelled: the Task stays cancelled, and their press does nothing.',
+    steps: [press(B + 600, 'winch', 'raise'), offline(B + 1000, 'winch'), { at: B + 1000 + TIMING.grace + 10 }, online(B + 1000 + TIMING.grace + 2000, 'winch'), press(B + 1000 + TIMING.grace + 2100, 'winch', 'lower')],
+    expect: { outcome: { result: 'cancelled', why: 'disconnect', who: 'winch' }, refused: ['ended'], absent: ['ONLINE', 'LOWERED'] },
+  },
 ].map(Object.freeze));
 
 /** What a scenario's run gave: the outcome, who is alive, and the events. */
 export function play({ protection = { winch: false, panel: false }, steps }) {
-  const frames = simulate(startTask({ seats: SEATS, protection, at: 0 }), steps);
+  const frames = simulate(startTask({ seats: SEATS, at: 0 }), steps, { protection });
   const last = frames[frames.length - 1].state;
   const events = frames.flatMap(f => f.events);
   return { outcome: last.outcome, alive: { ...last.alive }, events };
@@ -189,6 +225,7 @@ export function differences(scenario) {
   if (e.alive && !same(got.alive, e.alive)) out.push(`alive ${JSON.stringify(got.alive)}`);
   for (const t of e.present ?? []) if (!types.includes(t)) out.push(`no ${t}`);
   for (const t of e.absent ?? []) if (types.includes(t)) out.push(`a ${t}`);
+  for (const [t, n] of Object.entries(e.counts ?? {})) if (types.filter(x => x === t).length !== n) out.push(`${types.filter(x => x === t).length} ${t}`);
   for (const why of e.refused ?? []) if (!got.events.some(x => x.type === 'REFUSED' && x.why === why)) out.push(`no refusal (${why})`);
   if (e.locked && !same(got.events.filter(x => x.type === 'LOCKED').map(x => x.stop), e.locked)) out.push(`locked at ${JSON.stringify(got.events.filter(x => x.type === 'LOCKED').map(x => x.stop))}`);
   if (e.missed && !same(got.events.filter(x => x.type === 'MISSED').map(x => x.on), e.missed)) out.push(`missed ${JSON.stringify(got.events.filter(x => x.type === 'MISSED').map(x => x.on))}`);

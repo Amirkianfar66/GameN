@@ -16,7 +16,8 @@
 //  - A kill on the Task is not an attack, because it can be a mistake: it uses no attack
 //    opportunity, and nothing limits how often a player kills on Tasks (the owner, 12 November).
 //  - The safety catch sometimes saves by luck: an unprotected participant is saved one time in
-//    four, exactly as Protection saves, so a stop never proves Protection (the owner, 12 November).
+//    four, looking exactly as a Protection block looks, so a stop never proves Protection (the owner,
+//    12 November).
 //  - After a partner dies, the survivor can complete the delivery alone if the crate is in the
 //    correct position; otherwise the Task is lost. A disconnect cancels the Task.
 //  - A delivery adds five packages to the food stock.
@@ -32,8 +33,10 @@
 // console under stop 5, the galley lift's landing platform under stop 6, and the Winch operator's
 // cab hangs under the rail at stop 7. The locking panel rides the rail with the crate's hoist on it.
 //  - The Winch (vertical): Raise lifts the crate to its hanging height; Lower lets it fall.
-//  - The Panel (horizontal): RELEASE sets the panel sweeping end to end, fast; LOCK drops its blade
-//    at the stop it is passing. At stop 7 the blade drops into the Winch operator's cab: the cut.
+//  - The Panel (horizontal): RELEASE sets the panel clicking from stop to stop, end to end and back:
+//    a fast snap to the next stop, then a short rest there (the owner, 12 November 2026: "click stop
+//    to stop"). LOCK drops its blade at the stop it rests at, or at the stop it is snapping to. At
+//    stop 7 the blade drops into the Winch operator's cab: the cut.
 //  - A lock with the crate hanging sets it swinging like a pendulum, wide at first, calming but
 //    never still. Lowered, the crate falls where its swing has it: onto the platform it lands; over
 //    the console it falls on the Panel operator, the drop; anywhere else it misses, and the Winch
@@ -41,6 +44,13 @@
 //  - Landed, both turn a key and the lift takes the crate down to the galley.
 // The correct position for a survivor is over the platform: the crate on it, or hanging from the
 // panel locked over it.
+//
+// Authority (Integration's review, 12 November 2026): the server resolves every press at the moment
+// it receives it, on its own clock; a phone's own time is diagnostic only. A press names the Task and
+// the revision its phone showed, and carries a command id: a press made on an older revision is
+// refused as stale, and a retry with the same id returns the first answer and changes nothing.
+// Protection is the game's, read by the server at each lethal resolution and used up by a block, as
+// the existing rules use it (packages/engine/src/planet-game/physical.ts); the Task holds none.
 //
 // Choices marked PROPOSED are the design's, for review; the rest follows the confirmed rules.
 
@@ -59,7 +69,7 @@ export const FIXTURES = Object.freeze({
 /** Who controls what. The axis decides the kill: the Winch drops, the Panel cuts. */
 export const ROLES = Object.freeze({
   winch: Object.freeze({ name: 'Winch', axis: 'vertical', acts: Object.freeze(['raise', 'lower']), station: 'cab', kill: 'drop', about: 'Raises and lowers the crate, from the cab at the right end of the rail' }),
-  panel: Object.freeze({ name: 'Panel', axis: 'horizontal', acts: Object.freeze(['release', 'lock']), station: 'console', kill: 'cut', about: 'Sets the locking panel sweeping along the rail and locks it at a stop, from the console under the rail' }),
+  panel: Object.freeze({ name: 'Panel', axis: 'horizontal', acts: Object.freeze(['release', 'lock']), station: 'console', kill: 'cut', about: 'Sets the locking panel clicking along the rail and locks it at a stop, from the console under the rail' }),
 });
 /** Both participants' key, once the crate has landed. */
 export const KEY = 'key';
@@ -75,17 +85,22 @@ export const ROUTE = Object.freeze([
 ].map(Object.freeze));
 
 /**
- * Timing, in milliseconds. PROPOSED, for Game Balance to tune, except the deadline: the owner set the
- * overall time to complete the Task at 30 seconds, the briefing inside it (12 November 2026).
- * stop: the panel's sweep, per stop (end to end in 1.32 s); raise: the winch lifting the crate to its
- * hanging height; lower: the crate's fall (its outcome is decided on the press); briefing: who
- * controls what, before the controls work; deadline: the whole Task's time, from its start, the
- * briefing included (the controls work for the rest of it); grace: how long a participant may be out of contact before the Task is cancelled (see
- * the rule conflict in food-supply.md); ending: the outcome card before the return; answer: how long
- * an asked Partner has to join or decline; lag: how old a press may be on arrival and still count at
- * the moment its phone showed (see press timing in food-supply.md).
+ * Timing, in milliseconds. PROPOSED, except the deadline: the owner set the overall time to complete
+ * the Task at 30 seconds, the briefing inside it (12 November 2026). The click is the owner's (12
+ * November: the panel clicks from stop to stop); its two numbers are proposed.
+ * move: the panel's snap from one stop to the next; rest: how long it then rests at that stop (a stop
+ * every 0.5 s, end to end in 3 s); margin: how much earlier a warning starts, and a glow ends, than the
+ * danger or the opening itself, so that a press already on its way to the server is covered; raise: the
+ * winch lifting the crate to its hanging height; lower: the crate's fall (its outcome is decided when
+ * the press arrives); briefing: who controls what, before the controls work; deadline: the whole
+ * Task's time, from its start, the briefing included; grace: how long a participant may be out of
+ * contact before the Task is cancelled (see the rule conflict in food-supply.md); ending: the outcome
+ * card before the return; answer: how long an asked Partner has to join or decline.
  */
-export const TIMING = Object.freeze({ stop: 220, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000, lag: 300 });
+export const TIMING = Object.freeze({ move: 100, rest: 400, margin: 150, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000 });
+
+/** One click: the snap and the rest. */
+export const CLICK = TIMING.move + TIMING.rest;
 
 /**
  * The crate's swing, in stops along the rail. PROPOSED. A lock with the crate hanging starts a swing
@@ -100,34 +115,52 @@ export const ZONES = Object.freeze({ platform: 0.3, console: 0.42, intake: 0.42 
 
 /**
  * The safety catch's luck (the owner, 12 November 2026): a press that would kill an unprotected
- * participant is stopped one time in four, by the server's own random number, exactly as Protection
- * stops it. A Protected participant is always stopped. So a stop proves nothing.
+ * participant is stopped one time in four, by the server's own random number, looking exactly as a
+ * Protection block looks. A participant with applicable Protection is stopped by it, and the block
+ * uses it up (the existing rules). So a stop proves nothing.
  */
 export const CATCH = Object.freeze({ luck: 0.25 });
 
 /** Food: five packages to start (shown by the ship-life capsules), five per delivery, a warning at one. Confirmed. */
 export const FOOD = Object.freeze({ initial: 5, perDelivery: 5, warnAt: 1 });
 
+/** Events that never reach a phone: the server's record of each lethal press (the catch's roll, and whether Protection or luck held). */
+export const SERVER_ONLY = Object.freeze(['CATCH']);
+
 const ROLE_KEYS = Object.freeze(['winch', 'panel']);
 const other = role => (role === 'winch' ? 'panel' : 'winch');
 const clone = state => JSON.parse(JSON.stringify(state));
 const r3 = v => Math.round(v * 1000) / 1000;
+/** The snap's easing: slow off the stop, fast across, slow into the next. */
+const snap = u => u * u * (3 - 2 * u);
+
+/** Unfold the rail's bounce: a distance travelled along the path, back to a place on the rail and the way it is going. */
+function fold(u) {
+  const span = STOPS - 1, cycle = 2 * span;
+  const w = ((u % cycle) + cycle) % cycle;
+  return w <= span ? { at: w, dir: 1 } : { at: cycle - w, dir: -1 };
+}
 
 /**
- * The panel's place along the rail, a fractional stop, and the direction it is moving, `dt` ms after
- * it was released at stop `from` going `dir`: it sweeps end to end and back, TIMING.stop ms a stop.
+ * The running panel, `dt` ms after it was released at stop `from` going `dir`: it clicks from stop to
+ * stop, end to end and back. Each click snaps to the next stop in TIMING.move ms, then rests there
+ * TIMING.rest ms. Returns its place along the rail (a fractional stop), the way it is going, `stop`,
+ * the stop a LOCK takes now (the one it rests at, or the one it is snapping to), and whether it rests.
  */
 export function sweep(from, dir, dt) {
   const span = STOPS - 1, cycle = 2 * span;
-  let u = (dir > 0 ? from : cycle - from) + Math.max(0, dt) / TIMING.stop;
-  u = ((u % cycle) + cycle) % cycle;
-  return u <= span ? { at: u, dir: 1 } : { at: cycle - u, dir: -1 };
+  const d = Math.max(0, dt);
+  const n = Math.floor(d / CLICK), r = d - n * CLICK;
+  const resting = r >= TIMING.move;
+  const u0 = (dir > 0 ? from : cycle - from) + n;
+  const place = fold(u0 + (resting ? 1 : snap(r / TIMING.move)));
+  return { at: place.at, dir: fold(u0 + 0.5).dir, stop: Math.round(fold(u0 + 1).at), resting };
 }
 
-/** The panel at time t: locked at a stop, or sweeping. */
+/** The panel at time t: locked at a stop, or clicking along the rail. */
 export function panelAt(state, t) {
   const p = state.panel;
-  if (p.locked) return { at: p.stop, dir: p.dir, locked: true };
+  if (p.locked) return { at: p.stop, dir: p.dir, stop: p.stop, locked: true, resting: true };
   return { ...sweep(p.from, p.dir, t - p.since), locked: false };
 }
 
@@ -172,33 +205,55 @@ export function inPosition(state) {
 }
 
 /**
- * A new Task. seats: { winch, panel } (player numbers). protection: whether each is Protected now,
- * as the existing rules decide. at: the Task's start on the game's clock. No attack opportunity comes
- * in: a kill on the Task is not an attack (the owner, 12 November 2026).
+ * A new Task. id: the Task's identity; seats: { winch, panel } (player numbers, assigned to the controls
+ * at random by the server: the owner, 12 November 2026); at: the Task's start on the game's clock.
+ * No attack opportunity comes in (a kill on the Task is not an attack: the owner, 12 November 2026),
+ * and no Protection: that stays the game's, read by the server when a press would kill.
  */
-export function startTask({ seats, protection = { winch: false, panel: false }, at = 0 } = {}) {
+export function startTask({ id = 'task-1', seats, at = 0 } = {}) {
   if (!seats?.winch || !seats?.panel || seats.winch === seats.panel) throw new Error('A Task needs two different participants');
   return {
+    id, revision: 0, pressRevision: 0, seq: 0,
     phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.deadline,
-    changedAt: at,
     seats: { ...seats },
     alive: { winch: true, panel: true },
     online: { winch: true, panel: true }, offlineSince: { winch: null, panel: null },
-    protection: { ...protection },
     panel: { locked: true, stop: FIXTURES.intake.stop, dir: 1, from: null, since: at },
     crate: { state: 'intake', x: FIXTURES.intake.stop, since: at, from: null },
     swing: null,
     keys: { winch: false, panel: false },
     outcome: null, endedAt: null,
+    receipts: {},
   };
 }
 
 /** The role of a seat in this Task, or null. */
 export const roleOf = (state, seat) => (state.seats.winch === seat ? 'winch' : state.seats.panel === seat ? 'panel' : null);
 
+/**
+ * Close a batch of events: each gets its identity (the Task's id and a sequence number), its order and
+ * its authoritative time, and the Task's revision moves on once. A press is stale if it was made on a
+ * revision older than the last change it depends on: a change of connection alone does not count. The
+ * briefing's end is not a change of revision: every phone knows it from runningAt, so the first press
+ * after it, made on the briefing's revision, is not stale.
+ */
+function commit(state, events, t) {
+  const fresh = events.filter(e => !e.id);
+  const changes = fresh.filter(e => e.type !== 'REFUSED' && e.type !== 'RECEIPT' && e.type !== 'RUNNING');
+  for (const e of fresh) {
+    state.seq += 1;
+    e.id = `${state.id}:${state.seq}`; e.seq = state.seq; e.t = e.t ?? t;
+  }
+  if (changes.length) {
+    state.revision += 1;
+    if (changes.some(e => e.type !== 'OFFLINE' && e.type !== 'ONLINE')) state.pressRevision = state.revision;
+  }
+  return { state, events };
+}
+
 function end(state, outcome, at, events) {
   state.phase = 'ended'; state.outcome = outcome; state.endedAt = at;
-  events.push({ type: 'ENDED', outcome: { ...outcome } });
+  events.push({ type: 'ENDED', outcome: { ...outcome }, t: at });
 }
 
 /** Send when the crate has landed and every living participant has turned their key. */
@@ -220,12 +275,18 @@ function afterDeath(state, at, events) {
 
 /**
  * A press that would kill the partner, whatever the presser meant. It is not an attack and uses
- * nothing (the owner). The safety catch stops it if the partner is Protected, or by luck (CATCH,
- * the server's roll for this press); the stop looks the same either way. Otherwise it kills.
+ * nothing (the owner). The server reads the partner's applicable Protection at this moment from the
+ * game (step.protection: not used up, active this round, as packages/engine physical.ts decides; Clone
+ * is not read): it stops the press, and the block uses it up there (CATCH, cause 'protection'). Without
+ * it, the server's own roll for this press (step.roll) below CATCH.luck stops it by luck. Either stop is
+ * the same STOPPED on both phones; the CATCH record of the roll and the cause stays on the server.
  */
-function lethal(state, role, kind, events, extra = {}, roll = 1) {
+function lethal(state, role, kind, events, extra, step) {
   const victim = other(role);
-  if (state.protection[victim] || roll < CATCH.luck) {
+  const roll = step.roll ?? 1;
+  const cause = step.protection?.[victim] ? 'protection' : roll < CATCH.luck ? 'luck' : null;
+  events.push({ type: 'CATCH', kind, victim, roll, held: cause, server: true });
+  if (cause) {
     events.push({ type: 'STOPPED', kind, by: role, ...extra });
     return false;
   }
@@ -235,156 +296,190 @@ function lethal(state, role, kind, events, extra = {}, roll = 1) {
   return true;
 }
 
-/** The game's clock moves on: the briefing ends, the deadline passes, a participant stays out of contact. */
+/**
+ * The game's clock moves on to `at`: the briefing ends, and the Task ends at the earliest boundary due
+ * by then, whenever the server gets to it: the deadline (lost: time) or a participant's grace running
+ * out (cancelled). At the same moment the deadline comes first, then the participant who went out of
+ * contact first, then the Winch before the Panel. An ended Task stays as it ended: a late tick, a
+ * reconnect or a press changes nothing, and nothing is delivered twice.
+ */
 export function tick(prev, at) {
   const state = clone(prev);
   const events = [];
   state.at = Math.max(state.at, at);
   if (state.phase === 'ended') return { state, events };
-  if (state.phase === 'briefing' && at >= state.runningAt) { state.phase = 'running'; events.push({ type: 'RUNNING' }); }
-  for (const role of ROLE_KEYS) {
+  const due = [];
+  if (at >= state.deadline) due.push({ t: state.deadline, rank: [0, 0], outcome: { result: 'lost', why: 'time' } });
+  ROLE_KEYS.forEach((role, i) => {
     if (state.alive[role] && !state.online[role] && at - state.offlineSince[role] >= TIMING.grace) {
-      end(state, { result: 'cancelled', why: 'disconnect', who: role }, state.offlineSince[role] + TIMING.grace, events);
-      return { state, events };
+      due.push({ t: state.offlineSince[role] + TIMING.grace, rank: [1, state.offlineSince[role] * 2 + i], outcome: { result: 'cancelled', why: 'disconnect', who: role } });
     }
+  });
+  due.sort((a, b) => a.t - b.t || a.rank[0] - b.rank[0] || a.rank[1] - b.rank[1]);
+  const first = due[0] ?? null;
+  if (state.phase === 'briefing' && at >= state.runningAt && (!first || first.t > state.runningAt)) {
+    state.phase = 'running';
+    events.push({ type: 'RUNNING', t: state.runningAt });
   }
-  if (at >= state.deadline) end(state, { result: 'lost', why: 'time' }, state.deadline, events);
-  return { state, events };
+  if (first) end(state, first.outcome, first.t, events);
+  return commit(state, events, at);
 }
 
 /**
- * One participant's press. act: 'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), or
- * 'key' (either, once the crate has landed). at: the moment the press was made on the phone, on the
- * server's clock (what the phone showed then). arrival: when the server receives it (omitted: at).
- * PROPOSED press timing: a press counts at `at` if it arrives within TIMING.lag of it and nothing has
- * changed since; otherwise it is refused (late, or stale), and the phone shows the current state.
- * roll: the server's own random number for the press, in [0, 1), read only if the press would kill:
- * below CATCH.luck the catch holds (omitted: 1, no luck). It never reaches a phone.
- * Returns { state, events }: RAISED, RELEASED, LOCKED, LOWERED, LANDED, MISSED, STOPPED, KILLED,
- * KEY, SENT, ENDED, or REFUSED (why) when the press does nothing at all.
+ * One participant's press, resolved when the server receives it.
+ * step: { at, seat, act, taskId?, revision?, commandId?, shownAt?, protection?, roll? }
+ *  - at: the moment the server receives the press, on its clock: the press is resolved then, wherever
+ *    the panel and the crate are by then (Integration, 12 November 2026). shownAt, the phone's own
+ *    moment, is diagnostic only.
+ *  - act: 'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), or 'key' (either, once
+ *    landed): the act its button showed, never the button's current one.
+ *  - taskId and revision: the Task and the revision the phone showed; a press made on an older
+ *    revision than the last change it depends on is refused as stale.
+ *  - commandId: the press's identity. A retry with the same id returns the first answer (RECEIPT)
+ *    and changes nothing: no second press, no second roll.
+ *  - protection: { winch, panel }, the game's applicable Protection as the server reads it now.
+ *  - roll: the server's own random number for a press that would kill, in [0, 1) (omitted: 1).
+ * Neither protection nor roll ever reaches a phone.
+ * Returns { state, events }: RAISED, RELEASED, LOCKED, LOWERED, LANDED, MISSED, STOPPED, KILLED, KEY,
+ * SENT, ENDED, the server's CATCH, REFUSED (why) to the presser only, or RECEIPT for a retry.
  */
 export function act(prev, step) {
-  const arrival = step.arrival ?? step.at;
-  let { state, events } = tick(prev, arrival);
+  if (step.commandId && prev.receipts?.[step.commandId]) {
+    return { state: prev, events: [{ type: 'RECEIPT', commandId: step.commandId, seat: step.seat, ...prev.receipts[step.commandId] }] };
+  }
+  const t = step.at;
+  let { state, events } = tick(prev, t);
   state = clone(state);
+  const before = events.length;
   const role = roleOf(state, step.seat);
-  const refuse = why => ({ state, events: [...events, { type: 'REFUSED', seat: step.seat, act: step.act, why }] });
+  // The answer, recorded under the press's command id so that a retry gets the same one.
+  const finish = result => {
+    const out = commit(state, events, t);
+    if (step.commandId) out.state.receipts[step.commandId] = { ...result, revision: out.state.revision };
+    return out;
+  };
+  const refuse = why => { events.push({ type: 'REFUSED', seat: step.seat, act: step.act, why }); return finish({ result: 'refused', why }); };
+  const accept = () => finish({ result: 'accepted', events: events.slice(before).filter(e => !e.server).map(e => e.type) });
+  if (step.taskId && step.taskId !== state.id) return refuse('not-this-task');
   if (state.phase === 'ended') return refuse('ended');
   if (!role) return refuse('not-a-participant');
   if (state.phase === 'briefing') return refuse('briefing');
   if (!state.alive[role]) return refuse('down');
-  if (arrival - step.at > TIMING.lag) return refuse('late');
-  if (step.at < state.changedAt) return refuse('stale');
-  const t = step.at;
-  const c = state.crate, p = state.panel;
-  const done = settled(state, t);
+  if (step.revision !== undefined && step.revision < state.pressRevision) return refuse('stale');
   const mine = step.act === KEY || ROLES[role].acts.includes(step.act);
   if (!mine) return refuse('not-your-control');
+  const c = state.crate, p = state.panel;
+  const ready = settled(state, t);
 
   if (step.act === KEY) {
     if (c.state !== 'landed') return refuse('not-landed');
-    if (!done) return refuse('busy');
+    if (!ready) return refuse('busy');
     if (state.keys[role]) return refuse('turned');
     state.keys[role] = true;
     events.push({ type: 'KEY', by: role });
     trySend(state, t, events);
-    return { state, events };
+    return accept();
   }
 
   if (step.act === 'raise') {
     if (c.state === 'landed') return refuse('landed');
     if (!p.locked) return refuse('unlocked');
-    if (!done) return refuse('busy');
+    if (!ready) return refuse('busy');
     if (c.state === 'hanging') return refuse('up');
     // From the intake, the deck or the console, the crate slides under the hook and rises.
     state.crate = { state: 'hanging', x: p.stop, since: t, from: { state: c.state, x: c.x } };
     state.swing = { since: t + TIMING.raise, amp: SWING.lift, dir: 1 };
-    state.changedAt = t;
     events.push({ type: 'RAISED', by: role, from: c.state, x: r3(c.x) });
-    return { state, events };
+    return accept();
   }
 
   if (step.act === 'lower') {
     if (c.state === 'landed') return refuse('landed');
     if (c.state !== 'hanging') return refuse('down-already');
     if (!p.locked) return refuse('unlocked');
-    if (!done) return refuse('busy');
+    if (!ready) return refuse('busy');
     const x = crateX(state, t);
     const where = landingAt(x);
-    state.changedAt = t;
     events.push({ type: 'LOWERED', by: role, x: r3(x), to: where });
     if (where === 'console' && state.alive.panel) {
       // The drop. Stopped, the winch's brake catches the crate and it hangs on, swinging as it was.
-      if (!lethal(state, role, 'drop', events, { x: r3(x) }, step.roll)) return { state, events };
+      if (!lethal(state, role, 'drop', events, { x: r3(x) }, step)) return accept();
       state.crate = { state: 'fallen', x: FIXTURES.console.stop, since: t, from: { state: 'hanging', x } };
       state.swing = null;
       afterDeath(state, t, events);
-      return { state, events };
+      return accept();
     }
     const rest = { platform: 'landed', console: 'fallen', intake: 'intake', deck: 'deck' }[where];
     const at = { landed: FIXTURES.platform.stop, intake: FIXTURES.intake.stop, fallen: FIXTURES.console.stop }[rest] ?? x;
     state.crate = { state: rest, x: at, since: t, from: { state: 'hanging', x } };
     state.swing = null;
     events.push(rest === 'landed' ? { type: 'LANDED' } : { type: 'MISSED', on: rest, x: r3(x) });
-    return { state, events };
+    return accept();
   }
 
   if (step.act === 'release') {
     if (!p.locked) return refuse('unlocked');
-    if (!done) return refuse('busy');
+    if (!ready) return refuse('busy');
     if (c.state !== 'hanging' && c.state !== 'landed') return refuse('crate-down');
     const dir = p.stop === STOPS - 1 ? -1 : p.stop === 0 ? 1 : p.dir;
     state.panel = { locked: false, stop: null, dir, from: p.stop, since: t };
     state.swing = null;
-    state.changedAt = t;
     events.push({ type: 'RELEASED', by: role, from: p.stop, dir });
-    return { state, events };
+    return accept();
   }
 
-  // The lock: the blade drops at the stop the panel is passing.
+  // The lock: the blade drops at the stop the panel rests at, or at the one it is snapping to.
   if (p.locked) return refuse('locked');
   const pos = sweep(p.from, p.dir, t - p.since);
-  const stop = Math.round(pos.at);
+  const stop = pos.stop;
   state.panel = { locked: true, stop, dir: pos.dir, from: null, since: t };
-  state.changedAt = t;
   // The crate swings on in the panel's direction; at either end of the rail it swings back off the end.
   if (c.state === 'hanging') state.swing = { since: t, amp: SWING.lock, dir: stop === STOPS - 1 ? -1 : stop === 0 ? 1 : pos.dir };
-  events.push({ type: 'LOCKED', by: role, stop, dir: pos.dir, at: r3(pos.at) });
+  events.push({ type: 'LOCKED', by: role, stop, dir: pos.dir, x: r3(pos.at), resting: pos.resting });
   if (stop === FIXTURES.cab.stop && state.alive.winch) {
     // The cut. Stopped, the cab's roof buffer catches the blade: the panel stays locked on it.
-    if (lethal(state, role, 'cut', events, {}, step.roll)) afterDeath(state, t, events);
+    if (lethal(state, role, 'cut', events, {}, step)) afterDeath(state, t, events);
   }
-  return { state, events };
+  return accept();
 }
 
 /**
  * A participant's connection, as the server observes it (its detection is Backend's). Out of
- * contact, the Task runs on for TIMING.grace; back in time, it resumes; after that it is cancelled.
- * A death that resolved before the cancellation stands. (A dead participant's connection no longer
- * matters.)
+ * contact, the Task runs on for TIMING.grace; back in time, it resumes; after that it is cancelled
+ * (and a later reconnect changes nothing). A death that resolved before the cancellation stands. (A
+ * dead participant's connection no longer matters.)
  */
 export function connection(prev, { seat, online, at }) {
   let { state, events } = tick(prev, at);
   state = clone(state);
   const role = roleOf(state, seat);
   if (!role || state.phase === 'ended') return { state, events };
-  if (!online && state.online[role]) { state.online[role] = false; state.offlineSince[role] = at; events.push({ type: 'OFFLINE', who: role }); }
-  if (online && !state.online[role]) { state.online[role] = true; state.offlineSince[role] = null; events.push({ type: 'ONLINE', who: role }); }
-  return { state, events };
+  const mine = [];
+  if (!online && state.online[role]) { state.online[role] = false; state.offlineSince[role] = at; mine.push({ type: 'OFFLINE', who: role }); }
+  if (online && !state.online[role]) { state.online[role] = true; state.offlineSince[role] = null; mine.push({ type: 'ONLINE', who: role }); }
+  const out = commit(state, mine, at);
+  return { state: out.state, events: [...events, ...out.events] };
 }
 
 /**
- * Run a list of steps from a start: { at, seat, act } presses (with an arrival, if it differs),
- * { at, seat, online } connection changes and { at } clock ticks, in the order the server receives
- * them. Returns every state with the events that led to it.
+ * Run a list of steps from a start, in the order the server receives them: { at, seat, act } presses
+ * (with a revision, a command id or a roll, if given), { at, seat, online } connection changes and
+ * { at } clock ticks. game: the game's own state around the Task: protection, { winch, panel }, each
+ * participant's applicable Protection. Before each press the server reads it (step.protection), and a
+ * block by Protection uses it up, as the existing rules do. Returns every state with its events.
  */
-export function simulate(start, steps) {
+export function simulate(start, steps, { protection = { winch: false, panel: false } } = {}) {
+  const game = { protection: { ...protection } };
   const frames = [{ at: start.at, state: start, events: [] }];
   let state = start;
   for (const step of steps) {
-    const result = step.act ? act(state, step) : step.online !== undefined ? connection(state, step) : tick(state, step.at);
+    let result;
+    if (step.act) {
+      result = act(state, { ...step, protection: step.protection ?? { ...game.protection } });
+      for (const e of result.events) if (e.type === 'CATCH' && e.held === 'protection') game.protection[e.victim] = false;
+    } else result = step.online !== undefined ? connection(state, step) : tick(state, step.at);
     state = result.state;
-    frames.push({ at: step.at, state, events: result.events, step });
+    frames.push({ at: step.at, state, events: result.events, step, game: { protection: { ...game.protection } } });
   }
   return frames;
 }
@@ -401,30 +496,49 @@ export function next(state, t) {
   if (!settled(state, t) || c.state === 'sent') return out;
   if (c.state !== 'hanging') { if (state.alive.winch) out.winch = 'raise'; return out; }
   if (!p.locked) { if (state.alive.panel) out.panel = 'lock'; return out; }
-  if (p.at === FIXTURES.platform.stop) { if (state.alive.winch) out.winch = 'lower'; return out; }
+  if (p.stop === FIXTURES.platform.stop) { if (state.alive.winch) out.winch = 'lower'; return out; }
   if (state.alive.panel) out.panel = 'release';
   return out;
 }
 
+/** Where the crate's swing takes it over the next TIMING.margin ms: each zone a Lower could meet. */
+function zonesAhead(state, t) {
+  const seen = new Set();
+  for (let dt = 0; dt <= TIMING.margin; dt += 10) seen.add(landingAt(crateX(state, t + dt)));
+  return [...seen];
+}
+
 /**
- * The dangers at time t. cut: the panel sweeping past the cab, where a lock cuts the Winch operator.
- * drop: the crate's swing over the console, where a Lower drops it on the Panel operator. zone: where
- * a Lower would put the crate now, when it can be lowered.
+ * The dangers and openings at time t, with TIMING.margin to spare: a press made now reaches the server
+ * a moment later, so a warning starts that much before a danger, and a glow ends that much before an
+ * opening does. cut: a LOCK now could take the cab's stop, where it cuts the Winch operator. drop: a
+ * Lower now could meet the crate's swing over the console, where it falls on the Panel operator. zone:
+ * where the crate is over now; likely: where it will be when a press made now arrives; steady: the
+ * swing keeps it over the platform the whole time.
  */
 export function hazards(state, t) {
   const running = state.phase === 'running';
-  const p = panelAt(state, t);
-  const cut = running && state.alive.winch && !p.locked && Math.round(p.at) === FIXTURES.cab.stop;
+  const p = panelAt(state, t), soon = panelAt(state, t + TIMING.margin);
+  const cut = running && state.alive.winch && !p.locked && (p.stop === FIXTURES.cab.stop || soon.stop === FIXTURES.cab.stop);
   const lowerable = running && state.crate.state === 'hanging' && p.locked && settled(state, t);
   const zone = lowerable ? landingAt(crateX(state, t)) : null;
-  return { cut, drop: zone === 'console' && state.alive.panel, zone };
+  const ahead = lowerable ? zonesAhead(state, t) : [];
+  return {
+    cut, zone,
+    likely: lowerable ? landingAt(crateX(state, t + TIMING.margin)) : null,
+    drop: lowerable && state.alive.panel && ahead.includes('console'),
+    steady: lowerable && ahead.every(z => z === 'platform'),
+    leaving: !p.locked && soon.stop !== p.stop,
+  };
 }
 
 /**
  * What one participant's phone shows at time t: their role and controls, the dangers their own
  * presses would cause, the warnings both see, the panel and the crate, the keys, the time left and
- * the outcome. Built only from the Task's own state, which both participants share; nothing here
- * reads Protection or the catch's roll, so neither phone can show them.
+ * the outcome. Built from the participant's projection alone (projection(), or the Task's state,
+ * which holds nothing more that this reads): it never reads Protection, the catch's roll or a
+ * refusal of the other participant's, so no phone can show them. Every value is a safe function of
+ * the projection and the time; whether a press is accepted, and what it does, is the server's.
  */
 export function view(state, seat, t = state.at) {
   const role = roleOf(state, seat);
@@ -434,24 +548,24 @@ export function view(state, seat, t = state.at) {
   const n = next(state, t)[role];
   const p = panelAt(state, t);
   const c = state.crate;
-  const done = settled(state, t);
+  const ready = settled(state, t);
   // A phone that has lost its connection cannot send: its controls are off until it is back.
   const live = state.phase === 'running' && state.alive[role] && state.online[role];
   const landed = c.state === 'landed';
-  const key = () => ({ act: KEY, label: state.keys[role] ? 'Key turned' : 'Turn key', enabled: live && done && !state.keys[role], next: live && n === KEY, turned: state.keys[role] });
+  const key = () => ({ act: KEY, label: state.keys[role] ? 'Key turned' : 'Turn key', enabled: live && ready && !state.keys[role], next: live && n === KEY, turned: state.keys[role] });
   let buttons;
   if (role === 'panel') {
     const act = p.locked ? 'release' : 'lock';
-    const near = Math.round(p.at);
-    const enabled = live && (p.locked ? done && (c.state === 'hanging' || landed) : true);
-    const panel = { act, label: p.locked ? 'RELEASE' : 'LOCK', enabled, hazard: enabled && act === 'lock' && h.cut, next: enabled && n === act && (act === 'release' || near === FIXTURES.platform.stop), stop: near };
+    const enabled = live && (p.locked ? ready && (c.state === 'hanging' || landed) : true);
+    const onTime = !h.leaving && p.stop === FIXTURES.platform.stop;
+    const panel = { act, label: p.locked ? 'RELEASE' : 'LOCK', enabled, hazard: enabled && act === 'lock' && h.cut, next: enabled && n === act && (act === 'release' || onTime), stop: p.stop, leaving: act === 'lock' && h.leaving };
     buttons = landed ? [key(), panel] : [panel];
   } else if (landed) {
     buttons = [key()];
   } else {
     buttons = [
-      { act: 'raise', label: 'Raise', enabled: live && p.locked && done && c.state !== 'hanging', next: live && n === 'raise' },
-      { act: 'lower', label: 'Lower', enabled: live && Boolean(h.zone), hazard: live && h.drop, zone: h.zone, next: live && n === 'lower' && h.zone === 'platform' },
+      { act: 'raise', label: 'Raise', enabled: live && p.locked && ready && c.state !== 'hanging', next: live && n === 'raise' },
+      { act: 'lower', label: 'Lower', enabled: live && Boolean(h.zone), hazard: live && h.drop, zone: h.likely, next: live && n === 'lower' && h.steady },
     ];
   }
   const warnings = [];
@@ -459,13 +573,48 @@ export function view(state, seat, t = state.at) {
   if (h.drop) warnings.push(role === 'winch' ? 'crate-over-partner' : 'crate-over-you');
   return {
     role, roleName: ROLES[role].name, axis: ROLES[role].axis, seat, partnerSeat: state.seats[partner],
+    taskId: state.id, revision: state.revision,
     phase: state.phase, you: state.alive[role] ? 'alive' : 'down', partner: state.alive[partner] ? (state.online[partner] ? 'alive' : 'offline') : 'down',
-    panel: { locked: p.locked, at: r3(p.at), stop: Math.round(p.at), dir: p.dir },
-    crate: { state: c.state, x: r3(crateX(state, t)), settled: done },
-    zone: h.zone, buttons, warnings,
+    panel: { locked: p.locked, at: r3(p.at), stop: p.stop, dir: p.dir, resting: p.resting },
+    crate: { state: c.state, x: r3(crateX(state, t)), settled: ready },
+    zone: h.zone, likely: h.likely, buttons, warnings,
     keys: { you: state.keys[role], partner: state.keys[partner], needed: ROLE_KEYS.filter(r => state.alive[r]).length },
     secondsLeft: Math.max(0, Math.ceil((state.deadline - t) / 1000)),
     briefingLeft: state.phase === 'briefing' ? Math.max(0, Math.ceil((state.runningAt - t) / 1000)) : 0,
     outcome: state.outcome,
+  };
+}
+
+/**
+ * The participant's projection at time t between two updates: the briefing ends by the clock, so the
+ * phone may show the controls working from the projection's runningAt. Everything else, the end above
+ * all, waits for the server's next update.
+ */
+export function atTime(projected, t) {
+  return projected.phase === 'briefing' && t >= projected.runningAt ? { ...projected, phase: 'running' } : projected;
+}
+
+/**
+ * One participant's projection: everything their phone needs to draw the Task at any moment between
+ * two updates, and after a recovery, and nothing more. Anchors, not positions: the panel's lock or its
+ * release (from, dir, since), the swing (since, amp, dir), the crate's last move (since, from), the
+ * Task's times and the mechanics' parameters; view(projection, seat, t) gives the phone at any t.
+ * events: the participant's own events since `after` (a sequence number), each with its identity,
+ * order and authoritative time: the cues to play. Never: Protection, the catch's roll or cause (CATCH),
+ * a refusal of the other participant's, or a receipt not theirs.
+ */
+export function projection(state, seat, { observedAt = state.at, events = [], after = 0 } = {}) {
+  const role = roleOf(state, seat);
+  if (!role) return null;
+  const mine = events.filter(e => e.seq > after && !SERVER_ONLY.includes(e.type) && !((e.type === 'REFUSED' || e.type === 'RECEIPT') && e.seat !== seat));
+  return {
+    id: state.id, revision: state.revision, observedAt,
+    seats: { ...state.seats }, role,
+    phase: state.phase, at: observedAt, startedAt: state.startedAt, runningAt: state.runningAt, deadline: state.deadline, endedAt: state.endedAt,
+    alive: { ...state.alive }, online: { ...state.online }, keys: { ...state.keys },
+    panel: { ...state.panel }, swing: state.swing ? { ...state.swing } : null, crate: { ...state.crate, from: state.crate.from ? { ...state.crate.from } : null },
+    outcome: state.outcome ? { ...state.outcome } : null,
+    mechanics: { stops: STOPS, move: TIMING.move, rest: TIMING.rest, margin: TIMING.margin, raise: TIMING.raise, lower: TIMING.lower, swing: SWING, zones: ZONES },
+    events: mine.map(e => ({ ...e })),
   };
 }

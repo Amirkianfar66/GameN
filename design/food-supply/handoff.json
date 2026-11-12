@@ -1,6 +1,6 @@
 {
-  "schema": "mothership.design.food-supply-handoff/2",
-  "status": "A design proposal on synthetic fixtures (11 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules and the owner's crane. Nothing here activates gameplay.",
+  "schema": "mothership.design.food-supply-handoff/3",
+  "status": "A design proposal on synthetic fixtures (11 and 12 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules and the owner's crane, and Integration's review of 12 November. Nothing here activates gameplay.",
   "base": {
     "commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
     "ruleset": {
@@ -10,8 +10,18 @@
       "overlay": "rules/overlays/planet-blackout-before-vote-owner-decision-2026-11-10.json",
       "successor": "rules/planet-successor-authority-2026-11-05.json (in-person-planet-2026-11-05)"
     },
-    "owner": "docs/design/owner-decisions.md, 11 November 2026: the Food Supply Task's confirmed highlights, the owner's answers, and the owner's crane",
-    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11 November decisions are the only rule source for this Task. Backend versions any adoption."
+    "owner": "docs/design/owner-decisions.md, 11 and 12 November 2026: the Food Supply Task's confirmed highlights, the owner's answers, the owner's crane and its click from stop to stop",
+    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11 and 12 November decisions are the only rule source for this Task. Backend versions any adoption."
+  },
+  "target": {
+    "protocol": 3,
+    "engineVersion": "planet-game-1.4.0",
+    "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+    "predecessor": {
+      "engineVersion": "planet-game-1.3.0",
+      "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10"
+    },
+    "note": "Integration's planning allocation (12 November 2026): a new opt-in candidate inheriting the exact 1.3.0 predecessor. Not an authority hash, a registered tuple, a default change or a release. Historical schemas, matches and payloads stay unchanged; if the transport cannot keep them, the question goes back to Integration before implementation."
   },
   "rules": [
     {
@@ -57,7 +67,7 @@
     {
       "id": "no-escape",
       "rule": "There is no escape opportunity. An unblocked attack is lethal and does not send its victim to Hospital. Protection applies.",
-      "design": "A lethal press resolves at once; the victim has nothing to press. KILLED is final (Eliminated). Protection gives STOPPED (CLANK!), and so does the catch by luck, one time in four (the owner)."
+      "design": "A lethal press resolves when the server receives it; the victim has nothing to press. KILLED is final (Eliminated). Applicable Protection gives STOPPED (CLANK!) and the block uses it up, as the existing rules do; the catch also stops it by luck, one time in four (the owner)."
     },
     {
       "id": "one-opportunity",
@@ -107,7 +117,7 @@
     {
       "id": "accidents",
       "rule": "Near each other, a small movement by both can kill one of them by mistake (a chance).",
-      "design": "In the timing, with no dice: the panel runs fast, so a lock meant for 6 can land on 7 and cut the Winch operator; a lock sets the crate swinging, so a Lower a moment too soon can drop it on the Panel operator. Each kill takes both moving the crane, the lock and the Lower. A kill on the Task is not an attack, so a mistake costs the presser nothing (the owner)."
+      "design": "In the timing, with no dice: a LOCK made late in the panel's rest at 6 reaches the server as it snaps on to 7, and cuts the Winch operator; a lock sets the crate swinging, so a Lower a moment too soon can drop it on the Panel operator. Each kill takes both moving the crane, the lock and the Lower. A kill on the Task is not an attack, so a mistake costs the presser nothing (the owner)."
     },
     {
       "id": "partner-decline",
@@ -122,7 +132,7 @@
     {
       "id": "locking-panel",
       "rule": "The horizontal operator works a locking panel that moves fast left and right and must be locked in the correct position; locked at the vertical operator's place, by mistake or not, it cuts them.",
-      "design": "RELEASE sets the panel running end to end, a stop every 0.22 s (PROPOSED); LOCK drops its blade at the stop it is passing. The correct position is stop 6, over the platform; locked at stop 7, the blade drops into the cab."
+      "design": "RELEASE sets the panel clicking from stop to stop, end to end and back: a fast snap, then a rest at each stop (the owner's click, below). LOCK drops its blade at the stop it rests at, or at the one it is snapping to. The correct position is stop 6, over the platform; locked at stop 7, the blade drops into the cab."
     },
     {
       "id": "task-kills",
@@ -132,7 +142,7 @@
     {
       "id": "lucky-catch",
       "rule": "The safety catch sometimes saves by luck: 25%.",
-      "design": "A lethal press on an unprotected participant is stopped one time in four by the server's own roll, exactly as Protection stops it: the roof buffer catches the blade, or the winch's brake catches the crate (CLANK!). A Protected participant is always saved. So a CLANK! proves nothing."
+      "design": "A lethal press on an unprotected participant is stopped one time in four by the server's own roll, looking exactly as a Protection block looks: the roof buffer catches the blade, or the winch's brake catches the crate (CLANK!). A participant with applicable Protection is stopped by it, and the block uses it up (the existing rules). So a CLANK! proves nothing."
     },
     {
       "id": "time-limit",
@@ -163,21 +173,26 @@
       "id": "leaving-free",
       "rule": "Leaving the Task on purpose costs nothing.",
       "design": "A participant who goes offline on purpose is treated as any disconnect: after the grace (PROPOSED 8 s) the Task is cancelled, nothing is delivered and both go back, and a kill in the grace still stands (conflict 1)."
+    },
+    {
+      "id": "click-stop",
+      "rule": "The locking panel clicks from stop to stop.",
+      "design": "Chosen when Integration ruled that a press is resolved when the server receives it: with the panel sliding a stop every 0.22 s, the network's delay alone would have turned a LOCK at 6 into a cut at 7. Now the panel snaps to each stop and rests there (PROPOSED: a 0.1 s snap, a 0.4 s rest), and a LOCK takes the stop it rests at or the one it is snapping to: each stop owns half a second, longer than the delay. A late LOCK at 6 still cuts the Winch operator, and the warning starts 0.15 s before the snap (PROPOSED margin)."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "04565ada8d8d6aeda2bb21c60c68dd5c9e7cce976497f66f94c8060fa77e1bd7",
-    "design/food-supply/layout.mjs": "8979c72608fef5cb162fece7c9fd8e4cf0a30781214121740b727abda534bb51",
+    "design/food-supply/task.mjs": "1b91a931596439132fdd65a5d11f70de4dd079e58641da347d88166a6dc6c54b",
+    "design/food-supply/layout.mjs": "ea37225d5aa072ea9479cffc1b81705a7e86656c1958fa4dcf84989d99c59b8f",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
     "design/food-supply/machine.mjs": "449e5ac81b9638dcbde254bce30a8c8eb499a682ac79f613150e45a34d0d798a",
     "design/food-supply/scene.mjs": "ae084a4ed6b188050a0d0420464b22ef0f9339b496802eb61463b764481ac6c4",
-    "design/food-supply/stage.mjs": "b040684114e14a7f128d4d6a4d8fbd2e24514270190103089e4a6e0ad4841093",
-    "design/food-supply/boards.mjs": "b26e24b562c891453155e1cbb8c587af7f64620d839de1651a755c97ce9105e8",
-    "design/food-supply/scenarios.mjs": "83dc66099f555cd84828619e9fc90e4c3377d7656bef49009d1fb35d5bb4cd65",
-    "design/food-supply/hints.mjs": "f4dd6fc062dafb34ee7d972fd1992af3a0aa6e17e8791d485c80a6569a120272",
-    "design/food-supply/rules.mjs": "e984507a87fa26248066e8299e84bed4766e4baa4a084e34332908f713182387",
-    "design/food-supply/phone.mjs": "ef8f6c8ba4c77d0156f39a4e57fb6113ed85b1da8621e2293e1a90e8fe79fa12",
-    "design/food-supply/phone.css": "8b86c8a56ee3917f6269a96db51df14a7562a7e151c568e2c550e3d6c079b8f6"
+    "design/food-supply/stage.mjs": "e19cc2dc5afa57faad14dde09aecf4c21b5af53fa71f12908a33a8c7befb7e34",
+    "design/food-supply/boards.mjs": "0551127e1a97bf0cb6667ef69d52a7866acddda4ce62604f948b143ba0c41c47",
+    "design/food-supply/scenarios.mjs": "96bfdd2acce7b08b60592ee2bc94c661ead76cab551e2b07eb8e91a49d536ff0",
+    "design/food-supply/hints.mjs": "23a5b1d4a6b2371acf662663a01cb2374b4c9d927dc2b2669870b288bbb4c78f",
+    "design/food-supply/rules.mjs": "4d473ea3d5779303a63c8593a9e27278e53335db17704123f72aa77f43e995e3",
+    "design/food-supply/phone.mjs": "12fb223cd2d2cdae889d58c9a2bc91d34fb18367f7b09b6f1f9df1fb34bcffb6",
+    "design/food-supply/phone.css": "300b2eaa6283db8c7ec0d9ecd72210376ad126f6c3d079cbcf8a47d735a7bde0"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -403,7 +418,7 @@
         884,
         96
       ],
-      "about": "The panel's sweep: end to end and back, a stop every 220 ms (PROPOSED)"
+      "about": "The panel's run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the click is the owner's; the numbers PROPOSED)"
     }
   },
   "operators": {
@@ -500,8 +515,14 @@
       }
     },
     "sweep": {
-      "rule": "sweep(from, dir, dt): the panel runs end to end and back at TIMING.stop = 220 ms a stop. Unfold the bounce: u = (dir > 0 ? from : 12 − from) + dt / 220, taken modulo 12; at = u ≤ 6 ? u : 12 − u, moving right while u ≤ 6.",
-      "lock": "A lock takes the nearest stop, Math.round(at): stop 7 (the cut) from half way between 6 and 7. A release starts from the locked stop in the direction the panel last moved (right from stop 1, left from stop 7).",
+      "rule": "sweep(from, dir, dt): the panel clicks from stop to stop, end to end and back: a snap of TIMING.move = 100 ms to the next stop, then a rest of TIMING.rest = 400 ms there (CLICK = 500 ms a stop). n = floor(dt / CLICK), r = dt − n × CLICK, resting when r ≥ move. Unfold the bounce: u0 = (dir > 0 ? from : 12 − from) + n; fold(u) takes u modulo 12 to at = u ≤ 6 ? u : 12 − u, moving right while u ≤ 6. The place is fold(u0 + (resting ? 1 : snap(r / move))), with snap(u) = u²(3 − 2u); the way it goes is fold(u0 + 0.5).dir.",
+      "lock": "A LOCK takes the stop the panel rests at, or the one it is snapping to: stop = fold(u0 + 1). Each stop takes a LOCK for one whole click, the snap toward it and the rest at it. A release starts from the locked stop in the direction the panel last moved (right from stop 1, left from stop 7).",
+      "owner": "The click is the owner's (12 November 2026), chosen when a press came to be resolved on its arrival; the snap and the rest are PROPOSED.",
+      "proposed": true
+    },
+    "margin": {
+      "ms": 150,
+      "rule": "A press made now reaches the server a moment later. So the warnings start TIMING.margin before a danger, and a glow ends TIMING.margin before its chance does: LOCK is striped while the stop it takes now, or the one it would take TIMING.margin later, is the cab's; it glows over the platform only while both are the platform. Lower is striped while the swing could meet the console within the margin, and glows only while the swing holds the crate over the platform for the whole margin. It says where the crate will be at the margin's end. Never a promise: the server decides on arrival.",
       "proposed": true
     },
     "swing": {
@@ -527,13 +548,15 @@
     "interlocks": [
       "Raise and Lower work only with the panel locked; Lower only with the crate up and settled.",
       "RELEASE works only with the crate up and settled, or once it has landed (the empty hook).",
-      "The keys work only once the crate has landed; a turned key stays turned (PROPOSED)."
+      "The keys work only once the crate has landed; a turned key stays turned (PROPOSED).",
+      "A reduced or skipped animation never shortens them: the server keeps every move's full time."
     ],
-    "kills": "A kill on the Task is not an attack (the owner, 12 November 2026): the Task never reads or spends an attack opportunity, and nothing limits how often a player kills on Tasks. A lethal press is stopped if the partner is Protected, or by the catch's luck: the server rolls for each lethal press, and below CATCH.luck the catch holds (the owner: 25%). Otherwise it kills.",
+    "endings": "The Task ends at the earliest boundary due, whenever the server gets to it: the deadline (lost: time) or a participant's grace running out (cancelled). At the same moment the deadline comes first, then the participant out of contact first, then the Winch before the Panel. An ended Task stays as it ended: a late tick, a reconnect or a press changes nothing, a death already accepted stands, and nothing is delivered twice.",
+    "kills": "A kill on the Task is not an attack (the owner, 12 November 2026): the Task never reads or spends an attack opportunity, and nothing limits how often a player kills on Tasks. A lethal press is stopped by the partner's applicable Protection, read by the server from the game at that moment (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by the block; Clone is not read. Without it, the catch's luck: the server rolls for each lethal press, and below CATCH.luck the catch holds (the owner: 25%). Otherwise it kills.",
     "catch": {
       "luck": 0.25,
       "confirmed": true,
-      "rule": "roll < CATCH.luck: STOPPED, the same CLANK! as Protection; a Protected participant is always stopped, whatever the roll."
+      "rule": "roll < CATCH.luck: STOPPED, the same CLANK! as a Protection block. A participant with applicable Protection is stopped by it whatever the roll, and the block uses it up. The server records each lethal press (CATCH: the roll and what held) for replay; no phone sees it."
     }
   },
   "controls": {
@@ -560,14 +583,14 @@
         }
       ],
       "layout": "Raise above Lower, under the swing meter; once landed, the key in their place.",
-      "hazard": "While the swing has the crate over the Panel operator, Lower is striped and says 'Falls on <name>'.",
-      "says": "Lower says what it would do now: 'Onto the platform' (glowing), 'Falls on <name>' (striped), 'Misses: wait', 'Back into the hatch'."
+      "hazard": "While the swing could meet the console within the margin, Lower is striped and says 'May fall on <name>'.",
+      "says": "Lower says where the crate will be when a press made now arrives, never a promise: 'Over the platform' (glowing only while the swing holds it there for the whole margin), 'May fall on <name>' (striped), 'Over the deck: misses', 'Over the hatch'."
     },
     "panel": {
       "axis": "horizontal",
       "station": "console",
       "kill": "cut",
-      "about": "Sets the locking panel sweeping along the rail and locks it at a stop, from the console under the rail",
+      "about": "Sets the locking panel clicking along the rail and locks it at a stop, from the console under the rail",
       "buttons": [
         {
           "act": "release",
@@ -585,59 +608,72 @@
           "keyboard": "Enter"
         }
       ],
-      "layout": "One big button, RELEASE or LOCK, under the sweep strip; once landed, the key above it and RELEASE smaller.",
-      "hazard": "While the panel passes the cab's stop, LOCK is striped and says 'Here it cuts <name>'.",
-      "says": "LOCK says where it would stop: 'Stops it at 6: the platform' (glowing), 'Here it cuts <name>' (striped), 'Stops it over you', 'Stops it at <n>'."
+      "layout": "One big button, RELEASE or LOCK, under the strip of stops; once landed, the key above it and RELEASE smaller.",
+      "hazard": "While a LOCK could take the cab's stop (resting at it, snapping to it, or the margin before the panel snaps on to it), LOCK is striped and says 'At 7: <name>'s cab' or 'Moving on to <name>'s cab'.",
+      "says": "LOCK says where the panel is: 'At 6: the platform' (glowing), 'Leaving 6', 'At 7: <name>'s cab' or 'Moving on to <name>'s cab' (striped), 'At 5: over you', 'At <n>'."
     },
-    "press": "One press, one act. No hold, drag, swipe or gesture. The phone sends the act its button showed.",
-    "next": "The press the cooperative route asks for now glows (amber); LOCK glows only while the panel is passing stop 6, Lower only while the swing has the crate over the platform.",
-    "keyboard": "Space for RELEASE and LOCK, the up and down arrows for Raise and Lower, Enter for the key; the other participant's keys do nothing.",
-    "accessibility": "Each button's accessible name says what it would do now (\"Lower. Warning: falls on Cleo.\"). The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). The hint is a polite live region that changes only with what to do; the strip and the meter are pictures of what the view and the buttons say. Large text: the controls keep their places and grow; the view gives way; cards scroll. A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
+    "press": "One press, one act, one command id. No hold, drag, swipe or gesture. The phone sends the act its button showed, with the Task's id and the revision it showed. While a press is in flight its control shows it and every control waits; a double tap or a held key sends nothing more, and a disabled control sends nothing. A refusal shows to its presser only. After a lost connection the phone keeps the command id, and on recovery fetches the present state and that command's receipt; it never replays queued taps or a missed animation.",
+    "next": "The press the cooperative route asks for now glows (amber), only while a press made now would still arrive in time: LOCK while the panel snaps to or rests at stop 6, until the margin before it snaps on; Lower while the swing holds the crate over the platform for the whole margin.",
+    "keyboard": "Space for RELEASE and LOCK, the up and down arrows for Raise and Lower, Enter for the key. A key press is bound to the act its button showed at keydown; a held key repeats nothing; the other participant's keys do nothing.",
+    "accessibility": "Each button's accessible name says what it would do now (\"Lower. Warning: may fall on Cleo.\"). The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). Focus stays on the control across state changes (RELEASE and LOCK are one button); a card takes focus when it opens and gives it back when it closes. The hint is a polite live region that changes only with what to do, which is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill. The partner's state (offline, out) stays in the top bar at every text size. Large text: the controls keep their places and grow; the view gives way; the briefing is a reminder that never scrolls, and the instructions are read before the Task (How it works). A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
     "command": {
-      "name": "TASK_PRESS (a proposal for the shared contract; Integration owns packages/contracts/)",
+      "name": "TASK_PRESS (a proposal for the shared contract; Backend owns packages/contracts/, with Integration's review)",
       "fields": [
         {
+          "field": "commandId",
+          "about": "The press's stable identity. A retry after an uncertain answer reuses it: the server returns the first answer (RECEIPT) and changes nothing: no second press, no second roll, no second delivery."
+        },
+        {
           "field": "taskId",
-          "about": "The Task in progress."
+          "about": "The Task in progress (not the ordinary turn's changing phase id)."
+        },
+        {
+          "field": "revision",
+          "about": "The Task revision the phone showed. A press made on a revision older than the last change it depends on is refused as stale (a connection change alone does not count)."
         },
         {
           "field": "act",
-          "about": "'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), 'key' (either, once landed). The phone sends the act its button showed, so a double tap on LOCK never releases the panel."
+          "about": "'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), 'key' (either, once landed): the act its button showed when it was pressed, never the button's current one. A double tap on LOCK never becomes RELEASE."
         },
         {
-          "field": "at",
-          "about": "PROPOSED: the moment of the press on the server's clock, as the phone showed it (the phone keeps the server's clock, as serverTimeMs already lets it). The server resolves the press at `at` if it arrives within TIMING.lag of it and nothing has changed since (changedAt); otherwise REFUSED late or stale."
+          "field": "shownAt (optional)",
+          "about": "The phone's own moment of the press: diagnostic only. It decides nothing."
         },
         {
-          "field": "(no roll)",
-          "about": "The catch's roll is the server's own random number for a press that would kill; the phone never sends or sees it."
+          "field": "(the actor)",
+          "about": "From authentication, never from the command."
+        },
+        {
+          "field": "(no roll, no Protection)",
+          "about": "The catch's roll is the server's own random number for a press that would kill, recorded for replay; Protection is read by the server from the game. The phone never sends or sees either."
         }
       ],
-      "answer": "The new revision of the Task state with the events, to both participants; REFUSED to the presser only."
+      "resolution": "Integration's direction (12 November 2026): the server resolves a press at the moment it receives it, on its own monotonic clock, wherever the panel and the crate are then. Any other lag policy needs its own review and real-network evidence.",
+      "answer": "The new revision of the Task with its events, to both participants; REFUSED or RECEIPT to the presser only."
     },
     "ask": {
       "commands": [
         {
-          "name": "TASK_ASK { kind: \"food\", partner }",
+          "name": "TASK_ASK { commandId, kind: \"food\", partnerSeatId }",
           "from": "the Volunteer",
-          "about": "Ask one player. Refused if the Volunteer or the player went for food last round (the owner, 12 November 2026), the Volunteer was refused this round (PROPOSED), or the player cannot be asked."
+          "about": "Ask one player, by seat id (not the number on the screen). Refused if the Volunteer or the player went for food last round (the owner, 12 November 2026), the Volunteer was refused this round (PROPOSED), or the player cannot be asked."
         },
         {
-          "name": "TASK_ANSWER { askId, join }",
+          "name": "TASK_ANSWER { commandId, requestId, requestRevision, join }",
           "from": "the asked player",
-          "about": "Join or decline, within 15 s (PROPOSED); no answer is a decline."
+          "about": "Join or decline, within 15 s (PROPOSED); no answer is a decline. A Join racing the Volunteer's withdrawal, the time running out or another request: the server revalidates both players and the request atomically, and the first to arrive wins. A Join that lost is refused to its sender (withdrawn | expired): \"Too late to join\"."
         },
         {
-          "name": "TASK_ASK_WITHDRAW { askId }",
+          "name": "TASK_ASK_WITHDRAW { commandId, requestId, requestRevision }",
           "from": "the Volunteer",
-          "about": "Cancel while waiting. PROPOSED: the same as a refusal, so the next volunteer goes."
+          "about": "Cancel while waiting. PROPOSED: the same as a refusal, so the next volunteer goes. A withdrawal that lost the race to a Join is refused to the Volunteer (joined): \"Too late to cancel\", and the Task starts."
         }
       ],
       "events": [
         {
           "type": "TASK_ASKED",
           "to": "the asked player",
-          "about": "Who asks, and the time to answer."
+          "about": "Who asks, the request id and revision, and the time to answer."
         },
         {
           "type": "TASK_DECLINED",
@@ -647,14 +683,18 @@
         {
           "type": "TASK_STARTED",
           "to": "both",
-          "about": "Joined: the roles, assigned at random (the owner, 12 November 2026), then the briefing. Every board now shows the two places empty. The server notes the two: neither can go for food the next round (the owner)."
+          "about": "Joined: the Task's id, the roles assigned at random by the server and recorded for replay (the owner, 12 November 2026), then the briefing. Every board now shows the two places empty. The server notes the two: neither can go for food the next round (the owner), once only, whatever a retry does."
         }
       ],
+      "receipts": "Every command has a stable command id and a durable receipt. An uncertain retry reuses the id: no second request, no second Task, no second cooldown.",
+      "defaults": "The 15 s answer and the 8 s grace remain PROPOSED gameplay defaults: accepting the command families does not adopt them.",
       "visibility": "PROPOSED: private to the two. Other players learn nothing until the Task starts, and then only that two players are away (the board shows who)."
     }
   },
   "timing": {
-    "stop": 220,
+    "move": 100,
+    "rest": 400,
+    "margin": 150,
     "raise": 450,
     "lower": 300,
     "briefing": 4000,
@@ -662,10 +702,11 @@
     "grace": 8000,
     "ending": 2500,
     "answer": 15000,
-    "lag": 300,
+    "click": 500,
     "proposed": true,
     "confirmed": {
-      "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start. The rest is PROPOSED."
+      "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start.",
+      "click": "The owner, 12 November 2026: the panel clicks from stop to stop (its snap and rest are PROPOSED)."
     }
   },
   "food": {
@@ -673,13 +714,15 @@
     "perDelivery": 5,
     "warnAt": 1,
     "confirmed": true,
-    "eating": "Each player eats one package at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (confirmed). The Eating step's place in the round and the order of eating are not designed here (see the open items)."
+    "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (confirmed). Whether a dose is one package is open (PROPOSED: yes); no conversion, Eating eligibility or default is taken from the artwork. The Eating step's place in the round and the order of eating are not designed here (see the open items)."
   },
   "motion": {
     "cues": {
-      "sweep": {
-        "ms": 220,
-        "reduced": "The panel moves along the rail exactly as without Reduce motion (its place is the game), with no speed lines and no lean of the crate"
+      "click": {
+        "ms": 100,
+        "rest": 400,
+        "ease": "in-out",
+        "reduced": "The panel is drawn at the stop it is snapping to from the start of each snap, and rests there: the same stop at the same moment as without Reduce motion (the stop a LOCK takes), with no slide, no speed lines and no lean of the crate"
       },
       "swing": {
         "ms": 1300,
@@ -757,10 +800,15 @@
       }
     },
     "proposed": true,
-    "rule": "Presentation only: a cue never delays a press, and the next authoritative state replaces a cue still playing. The sweep and the swing are the Task itself: Reduce motion keeps them and takes away the rest (each cue's reduced form: no lean, no speed lines, no flashing, effects still).",
+    "rule": "Presentation only: a cue never delays a press, and the next authoritative state replaces a cue still playing. The click and the swing are the Task itself: Reduce motion keeps them, the same stop and the same place at the same moment, and takes away the rest (no slide, lean, speed lines or flashing; effects still). A reduced pose never runs ahead of the state: the crate still takes its full time to rise and fall. A phone back from the background draws the present: it does not replay an impact or restart an outcome card.",
     "cards": "After a kill, the phones hold the outcome card until the impact cue has played, so both participants see the cause before the card covers the view."
   },
   "state": [
+    {
+      "field": "id, revision",
+      "holds": "The Task's identity, and its revision: one more for every batch of changes (a press, the briefing's end, a connection change, the end)",
+      "seenBy": "participants"
+    },
     {
       "field": "phase",
       "holds": "'briefing' | 'running' | 'ended'",
@@ -768,17 +816,22 @@
     },
     {
       "field": "seats",
-      "holds": "{ winch, panel }: the participants' player numbers",
+      "holds": "{ winch, panel }: the participants' player numbers, assigned to the controls at random by the server (the owner, 12 November 2026)",
+      "seenBy": "participants"
+    },
+    {
+      "field": "startedAt, runningAt, deadline, endedAt",
+      "holds": "The Task's times on the server's clock: the start, the briefing's end (4 s PROPOSED), the deadline (30 s from the start, the briefing inside it: the owner's), and the end",
       "seenBy": "participants"
     },
     {
       "field": "panel",
-      "holds": "{ locked, stop } locked at a stop (0 to 6), or { locked: false, from, dir, since } running: its place at time t is sweep(from, dir, t − since)",
+      "holds": "{ locked: true, stop, dir } locked at a stop (0 to 6), or { locked: false, from, dir, since } released: its place at time t is sweep(from, dir, t − since), clicking from stop to stop",
       "seenBy": "participants"
     },
     {
       "field": "crate",
-      "holds": "{ state: 'intake' | 'hanging' | 'deck' | 'fallen' | 'landed' | 'sent', x, since, from }: where it lies (x, a fractional stop), or hanging under the panel; since and from time its last move",
+      "holds": "{ state: 'intake' | 'hanging' | 'deck' | 'fallen' | 'landed' | 'sent', x, since, from }: where it lies (x, a fractional stop), or hanging under the panel; since and from anchor its last move (a raise takes TIMING.raise, a fall TIMING.lower)",
       "seenBy": "participants"
     },
     {
@@ -794,31 +847,36 @@
     {
       "field": "alive",
       "holds": "{ winch, panel }",
-      "seenBy": "participants (deaths become public as any death does, on the return)"
+      "seenBy": "participants (a death becomes public as any death does, on the return)"
     },
     {
-      "field": "online",
-      "holds": "{ winch, panel }: as the server observes the connection",
-      "seenBy": "participants"
-    },
-    {
-      "field": "deadline",
-      "holds": "the game-clock time the Task is lost: TIMING.deadline (30 s, the owner's) after it starts, the briefing included",
-      "seenBy": "participants"
+      "field": "online, offlineSince",
+      "holds": "{ winch, panel }: the connection as the server observes it, and since when it was lost",
+      "seenBy": "participants (online); the server only (offlineSince)"
     },
     {
       "field": "outcome",
       "holds": "{ result: 'delivered' (packages, alone) | 'lost' (why: 'not-in-position' | 'time') | 'cancelled' (why: 'disconnect', who) }",
-      "seenBy": "participants; PROPOSED public: delivered or not"
+      "seenBy": "participants only. Other players learn only the food count (the owner, 12 November 2026): never the outcome or an event of the Task"
     },
     {
-      "field": "changedAt",
-      "holds": "the time of the last change to the crane (a raise, a release, a lock, a lower): a press made on an older picture is stale",
+      "field": "pressRevision",
+      "holds": "The revision of the last change a press depends on (not a connection change alone): a press bound to an older revision is refused as stale",
       "seenBy": "the server only"
     },
     {
-      "field": "protection",
-      "holds": "{ winch, panel }: whether each is Protected, as the existing rules decide",
+      "field": "receipts",
+      "holds": "{ [commandId]: the first answer }: a retry with the same command id gets it again and changes nothing",
+      "seenBy": "the server only; each receipt to its presser"
+    },
+    {
+      "field": "seq",
+      "holds": "The last event's sequence number: every event has an id (task id and number), its order and its authoritative time t",
+      "seenBy": "participants (on the events)"
+    },
+    {
+      "field": "(not the Task's) Protection",
+      "holds": "The game's, read by the server at each press that would kill (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by a block. The Task holds none; Clone is not read",
       "seenBy": "the server only"
     }
   ],
@@ -838,19 +896,19 @@
     {
       "type": "RELEASED",
       "fields": "by, from (stop), dir",
-      "about": "The blade lifts and the panel runs from that stop: both phones animate sweep(from, dir, t − at).",
+      "about": "The blade lifts and the panel clicks on from that stop: both phones draw sweep(from, dir, t − its time).",
       "seenBy": "both participants"
     },
     {
       "type": "LOCKED",
-      "fields": "by, stop, dir, at (where the panel was, a fractional stop)",
-      "about": "The blade drops at the nearest stop; with the crate hanging, it starts to swing: amp SWING.lock, in dir (back off the rail's end at stop 1 or 7).",
+      "fields": "by, stop, dir, x (where the panel was, a fractional stop), resting",
+      "about": "The blade drops at the stop the panel rests at, or the one it is snapping to; with the crate hanging, it starts to swing: amp SWING.lock, in dir (back off the rail's end at stop 1 or 7).",
       "seenBy": "both participants"
     },
     {
       "type": "LOWERED",
       "fields": "by, x, to ('platform' | 'console' | 'intake' | 'deck')",
-      "about": "The winch lets the crate fall from where its swing has it; the result follows at once.",
+      "about": "The winch lets the crate fall from where its swing has it when the press arrives; the result follows at once.",
       "seenBy": "both participants"
     },
     {
@@ -868,7 +926,7 @@
     {
       "type": "STOPPED",
       "fields": "kind ('cut' | 'drop'), by",
-      "about": "A lethal press that did not kill: the partner is Protected, or the catch held by luck (1 in 4). Identical either way, and whether or not it was meant.",
+      "about": "A lethal press that did not kill: the partner's applicable Protection held (and is used up), or the catch held by luck (1 in 4). Identical either way, and whether or not it was meant.",
       "seenBy": "both participants"
     },
     {
@@ -886,7 +944,7 @@
     {
       "type": "SENT",
       "fields": "by (the living participants)",
-      "about": "Every living participant's key is turned: the lift takes the crate down to the galley.",
+      "about": "Every living participant's key is turned: the lift takes the crate down to the galley. Once only.",
       "seenBy": "both participants"
     },
     {
@@ -904,79 +962,131 @@
     {
       "type": "ENDED",
       "fields": "outcome",
-      "about": "Delivered, lost or cancelled. The outcome card shows, then the return.",
+      "about": "Delivered, lost or cancelled, at the earliest boundary due: the deadline before a grace at the same moment. The outcome card shows, then the return. Never twice.",
       "seenBy": "both participants"
     },
     {
       "type": "REFUSED",
-      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-your-control | late | stale | busy | crate-down | unlocked | locked | up | down-already | landed | not-landed | turned)",
-      "about": "The press did nothing; only the presser is told, and the phone shows the current state.",
-      "seenBy": "the presser"
+      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-this-task | stale | not-your-control | busy | crate-down | unlocked | locked | up | down-already | landed | not-landed | turned)",
+      "about": "The press did nothing; only the presser is told, and the phone shows the present state.",
+      "seenBy": "the presser only"
+    },
+    {
+      "type": "RECEIPT",
+      "fields": "commandId, result, revision (and why, or events)",
+      "about": "A retry of a command already answered: the first answer again, nothing changed.",
+      "seenBy": "the presser only"
+    },
+    {
+      "type": "CATCH",
+      "fields": "kind, victim, roll, held (protection | luck | null)",
+      "about": "The server's record of a lethal press, kept for replay. Never sent to a phone.",
+      "seenBy": "the server only"
     }
   ],
   "projection": [
     {
-      "fields": "role, roleName, axis",
-      "about": "Their own control: the Winch (vertical) or the Panel (horizontal)."
+      "fields": "id, revision, observedAt",
+      "about": "The Task, its revision, and the server's time of this projection."
     },
     {
-      "fields": "partnerSeat",
-      "about": "The other participant."
+      "fields": "seats, role",
+      "about": "Who runs which control; this phone's own role."
     },
     {
-      "fields": "phase",
-      "about": "'briefing' | 'running' | 'ended'"
+      "fields": "phase, startedAt, runningAt, deadline, endedAt",
+      "about": "The Task's phase and times, on the server's clock (the phone keeps the server's clock to draw by; it decides nothing with it)."
     },
     {
-      "fields": "you, partner",
-      "about": "'alive' | 'down'; the partner also 'offline'."
+      "fields": "alive, online, keys",
+      "about": "Both participants'."
     },
     {
-      "fields": "panel { locked, at, stop, dir }",
-      "about": "Where the panel is now (a fractional stop), its nearest stop, and its direction."
+      "fields": "panel",
+      "about": "{ locked, stop, dir }, or { locked: false, from, dir, since }: the anchors of the click."
     },
     {
-      "fields": "crate { state, x, settled }",
-      "about": "Where the crate is now along the rail (a fractional stop), and whether its last move has finished."
+      "fields": "swing",
+      "about": "{ since, amp, dir } or null: the anchors of the swing."
     },
     {
-      "fields": "zone",
-      "about": "Where a Lower would put the crate now: 'platform' | 'console' | 'intake' | 'deck', or null when it cannot be lowered."
-    },
-    {
-      "fields": "buttons[]",
-      "about": "{ act, label, enabled, next, hazard, zone, stop, turned }: the participant's own buttons. hazard: this press would kill the partner now. next: the cooperative route asks for it now."
-    },
-    {
-      "fields": "warnings[]",
-      "about": "'panel-at-partner-cab' | 'panel-at-your-cab' | 'crate-over-partner' | 'crate-over-you': both participants see each danger while it lasts."
-    },
-    {
-      "fields": "keys { you, partner, needed }",
-      "about": "The keys; needed counts the living participants."
-    },
-    {
-      "fields": "secondsLeft, briefingLeft",
-      "about": "The Task's time left; the briefing's countdown."
+      "fields": "crate",
+      "about": "{ state, x, since, from }: where it lies, or the anchors of its last move."
     },
     {
       "fields": "outcome",
       "about": "Once ended."
     },
     {
+      "fields": "mechanics",
+      "about": "{ stops, move, rest, margin, raise, lower, swing, zones }: the approved parameters the phone draws with (task.mjs sweep(), swingOffset(), landingAt())."
+    },
+    {
+      "fields": "events[]",
+      "about": "The participant's own events since the last one it had: each with its id, sequence number and authoritative time t, the cues to play in order. A refusal or a receipt only to its presser."
+    },
+    {
+      "fields": "(derived on the phone)",
+      "about": "view(projection, seat, t): the scene, the strip, the meter, the warnings, each button's words, glow and stripes, the time left. Safe functions of the anchors and the time. Whether a press is accepted, and what it does, is the server's alone."
+    },
+    {
       "fields": "(never)",
-      "about": "Protection, the catch's roll, the other participant's refusals, why a STOPPED happened, and whether a lethal press was meant: no phone can show them."
+      "about": "Protection, the catch's roll or cause (CATCH), the role assignment's randomness, the press revisions' bookkeeping, the receipts, the other participant's refusals, and whether a lethal press was meant: no phone can show them."
     }
+  ],
+  "phoneStates": [
+    {
+      "state": "press in flight",
+      "to": "the presser",
+      "shows": "The pressed control sinks and turns busy (\"Sending…\"); every control waits for the answer. Further taps and key repeats send nothing.",
+      "sheet": "states"
+    },
+    {
+      "state": "press refused",
+      "to": "the presser",
+      "shows": "\"Your LOCK was not done. The crane had moved on. Look again, then press.\" The phone draws the present state.",
+      "sheet": "states"
+    },
+    {
+      "state": "answer unknown",
+      "to": "the presser",
+      "shows": "\"Checking your Lower… The connection dropped while it was on its way.\" Controls off. On recovery the phone fetches the present state and the receipt of that command id, then says \"went through\" or \"did not go through\". It never replays queued taps or a missed animation.",
+      "sheet": "states"
+    },
+    {
+      "state": "Join on its way",
+      "to": "the asked player",
+      "shows": "Join turns busy (\"Joining…\"); Decline is off.",
+      "sheet": "states"
+    },
+    {
+      "state": "too late to join",
+      "to": "the asked player",
+      "shows": "The Volunteer had withdrawn, or the time had run out (a decline). \"You stay in Room B.\"",
+      "sheet": "states"
+    },
+    {
+      "state": "request withdrawn / too late to cancel",
+      "to": "the Volunteer",
+      "shows": "Withdrawn: the next volunteer goes (PROPOSED: as a refusal). Too late: the Partner joined first, and the Task starts.",
+      "sheet": "states"
+    }
+  ],
+  "evidence": [
+    "Every state of both participants' phones and of the request flow, the press and request states included, at 390 × 844 and at 320 × 568 with 200% text, side by side with these sheets; Designer's explicit visual acceptance under #224.",
+    "Long permitted names and real safe areas; both motion settings; a tab that returns from the background (it seeks the present, without replaying an impact or restarting the ending card).",
+    "Focus stays on the control across state changes (RELEASE and LOCK are one button); a card takes focus when it opens and gives it back when it closes; disabled controls and key repeats send nothing; each key press is bound to the act shown at keydown.",
+    "Screen reader and timing usability with real people: a polite live region is no channel for a half-second danger (see the open item timing-access). The recorded samples show only that the controls fit, not equal timed access or a physical phone's performance."
   ],
   "visibility": {
     "participants": "Both see the whole Supply Room and its crane: the panel running or locked, the crate's swing, every press's effect, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
     "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. The result only through the food count: a delivery raises it by five, and nothing says how the Task went (the owner, 12 November 2026).",
     "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined. The next volunteer needs no message: anyone can open Tasks at any time.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
-    "protection": "Never shown. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing (the owner, 12 November 2026).",
+    "protection": "Never shown. The server reads it from the game at each press that would kill, and a block uses it up. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing (the owner, 12 November 2026).",
     "mistakes": "Both participants see a lethal press as it happens (CHOP!, THUD!), and neither phone says whether it was meant: the server cannot tell. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was a mistake.",
     "foodStock": "Public: the count, so a delivery shows as five more (the owner, 12 November 2026); the ship-life food capsules show it. PROPOSED: every phone shows the new count when it changes, and the warning at one package.",
-    "server": "Only the server holds Protection, the catch's roll, and the reason for a STOPPED."
+    "server": "Only the server holds Protection, the catch's roll and the reason for a STOPPED (its CATCH record, kept for replay), the role assignment's randomness, the press revisions and the command receipts. A refusal and a receipt go to their presser only."
   },
   "flow": [
     "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply. Anyone can volunteer, and there is no limit of one Task per match; the Volunteer and their Partner cannot go for food the next round (the owner, 12 November 2026).",
@@ -990,7 +1100,7 @@
   "acceptance": [
     {
       "id": "cooperation",
-      "about": "Raise it, release the panel, lock it over the platform, lower it as the swing passes over the platform, both turn a key",
+      "about": "Raise it, release the panel, lock it as it rests over the platform, lower it as the swing holds it over the platform, both turn a key",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1001,7 +1111,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1015,22 +1126,22 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10200,
+          "at": 10885,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10800,
+          "at": 11485,
           "seat": 3,
           "act": "key"
         }
@@ -1061,7 +1172,7 @@
     },
     {
       "id": "chop",
-      "about": "Lock the panel over the Winch operator's cab",
+      "about": "Lock the panel as it rests over the Winch operator's cab",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1072,7 +1183,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1086,7 +1198,7 @@
           "act": "release"
         },
         {
-          "at": 6920,
+          "at": 8300,
           "seat": 3,
           "act": "lock"
         }
@@ -1121,7 +1233,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1135,27 +1248,27 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 8600,
+          "at": 10075,
           "seat": 8,
           "act": "raise"
         },
         {
-          "at": 10400,
+          "at": 10575,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 11200,
+          "at": 11275,
           "seat": 8,
           "act": "key"
         }
@@ -1190,7 +1303,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1204,32 +1318,32 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10200,
+          "at": 10885,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10900,
+          "at": 11585,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11120,
+          "at": 11835,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 12000,
+          "at": 12735,
           "seat": 3,
           "act": "key"
         }
@@ -1257,7 +1371,7 @@
     },
     {
       "id": "protection-cut",
-      "about": "The Winch operator is Protected: the cab's roof buffer catches the blade",
+      "about": "The Winch operator has Protection: the cab's roof buffer catches the blade, and the block uses the Protection up",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1268,7 +1382,8 @@
           "winch": true,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1282,32 +1397,32 @@
           "act": "release"
         },
         {
-          "at": 6920,
+          "at": 8300,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8400,
+          "at": 9600,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 8620,
+          "at": 9850,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 11220,
+          "at": 12335,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 12000,
+          "at": 13035,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 12600,
+          "at": 13635,
           "seat": 3,
           "act": "key"
         }
@@ -1337,7 +1452,7 @@
     },
     {
       "id": "protection-drop",
-      "about": "The Panel operator is Protected: the winch's brake catches the crate",
+      "about": "The Panel operator has Protection: the winch's brake catches the crate, and the block uses the Protection up",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1348,7 +1463,8 @@
           "winch": false,
           "panel": true
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1362,27 +1478,27 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10200,
+          "at": 10885,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10800,
+          "at": 11485,
           "seat": 3,
           "act": "key"
         }
@@ -1419,7 +1535,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1433,42 +1550,42 @@
           "act": "release"
         },
         {
-          "at": 6400,
+          "at": 7300,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7300,
+          "at": 8200,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 7520,
+          "at": 8450,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7845,
+          "at": 8775,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 8600,
+          "at": 9875,
           "seat": 8,
           "act": "raise"
         },
         {
-          "at": 10350,
+          "at": 10375,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 11200,
+          "at": 11075,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 11800,
+          "at": 11675,
           "seat": 3,
           "act": "key"
         }
@@ -1509,7 +1626,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1523,7 +1641,7 @@
           "act": "release"
         },
         {
-          "at": 6000,
+          "at": 6300,
           "seat": 3,
           "act": "lock"
         },
@@ -1562,7 +1680,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1619,7 +1738,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1651,7 +1771,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1680,7 +1801,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1712,7 +1834,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1746,7 +1869,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1788,7 +1912,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1802,12 +1927,12 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 6800,
+          "at": 7900,
           "seat": 3,
           "act": "lock"
         }
@@ -1823,8 +1948,8 @@
       }
     },
     {
-      "id": "lock-rounds-to-the-platform",
-      "about": "A lock takes the nearest stop: just short of half way between 6 and 7, it locks over the platform.",
+      "id": "lock-at-rest",
+      "about": "The panel rests 0.4 s at each stop (PROPOSED). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -1835,7 +1960,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1849,7 +1975,7 @@
           "act": "release"
         },
         {
-          "at": 6809,
+          "at": 8099,
           "seat": 3,
           "act": "lock"
         }
@@ -1866,8 +1992,8 @@
       }
     },
     {
-      "id": "lock-rounds-to-the-cab",
-      "about": "From half way between 6 and 7 on, a lock takes stop 7: the cut. The danger begins half a stop before the rail's end.",
+      "id": "lock-in-the-snap",
+      "about": "Once the panel snaps on from the platform toward the cab, a LOCK takes the stop it is snapping to: stop 7, the cut.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -1878,7 +2004,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1892,7 +2019,7 @@
           "act": "release"
         },
         {
-          "at": 6810,
+          "at": 8101,
           "seat": 3,
           "act": "lock"
         }
@@ -1912,8 +2039,8 @@
       }
     },
     {
-      "id": "press-counts-as-shown",
-      "about": "PROPOSED press timing. A LOCK made with the panel over the platform arrives 250 ms later, when the panel is already over the cab: it counts where the phone showed it.",
+      "id": "press-resolves-on-arrival",
+      "about": "A LOCK pressed while Cleo's phone showed the panel resting over 6, near the end of its rest, reaches the server after the panel has snapped on toward 7. It is resolved where the panel is when it arrives: at 7, the cut. The phone had warned: LOCK is striped for the rest's last 0.15 s (PROPOSED margin). shownAt, the phone's own moment, decides nothing.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -1924,7 +2051,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -1938,69 +2066,28 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 8180,
           "seat": 3,
           "act": "lock",
-          "arrival": 6950
+          "shownAt": 8030
         }
       ],
       "then": {
-        "outcome": null,
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-position"
+        },
         "locked": [
-          5
+          6
         ],
-        "absent": [
-          "KILLED",
-          "STOPPED"
-        ]
-      }
-    },
-    {
-      "id": "late-press",
-      "about": "PROPOSED press timing. A press that arrives more than 300 ms after it was made is refused, and the phone shows where the panel is now.",
-      "kind": "edge",
-      "given": {
-        "seats": {
-          "winch": 8,
-          "panel": 3
-        },
-        "protection": {
-          "winch": false,
-          "panel": false
-        },
-        "briefingEndsAt": 4000
-      },
-      "when": [
-        {
-          "at": 4600,
-          "seat": 8,
-          "act": "raise"
-        },
-        {
-          "at": 5600,
-          "seat": 3,
-          "act": "release"
-        },
-        {
-          "at": 6700,
-          "seat": 3,
-          "act": "lock",
-          "arrival": 7100
-        }
-      ],
-      "then": {
-        "outcome": null,
-        "refused": [
-          "late"
-        ],
-        "absent": [
-          "LOCKED"
+        "present": [
+          "KILLED"
         ]
       }
     },
     {
       "id": "stale-press",
-      "about": "PROPOSED press timing. A Lower made on a picture from before the panel was released arrives after the release: refused, never resolved on a picture that is gone.",
+      "about": "A Lower made on the revision before the panel was released reaches the server after the release: refused as stale, never resolved on a picture that is gone.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2011,7 +2098,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2025,20 +2113,20 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7500,
+          "at": 9300,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 7400,
+          "at": 9350,
           "seat": 8,
           "act": "lower",
-          "arrival": 7550
+          "revision": 3
         }
       ],
       "then": {
@@ -2048,6 +2136,117 @@
         ],
         "absent": [
           "LOWERED"
+        ]
+      }
+    },
+    {
+      "id": "retry-same-command",
+      "about": "A LOCK retried with the same command id, after its answer was lost: the server returns the first answer and changes nothing. A retry is never a second press.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "act": "lock",
+          "commandId": "cleo-lock-1"
+        },
+        {
+          "at": 8200,
+          "seat": 3,
+          "act": "lock",
+          "commandId": "cleo-lock-1"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "locked": [
+          5
+        ],
+        "present": [
+          "RECEIPT"
+        ],
+        "absent": [
+          "REFUSED"
+        ]
+      }
+    },
+    {
+      "id": "retry-keeps-the-roll",
+      "about": "A LOCK at the cab that the catch stopped by luck is retried with the same command id: the first answer stands. No second roll, so no second chance to kill.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 8300,
+          "seat": 3,
+          "act": "lock",
+          "commandId": "cleo-lock-2",
+          "roll": 0.1
+        },
+        {
+          "at": 8600,
+          "seat": 3,
+          "act": "lock",
+          "commandId": "cleo-lock-2",
+          "roll": 0.9
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "alive": {
+          "winch": true,
+          "panel": true
+        },
+        "stops": 1,
+        "present": [
+          "STOPPED",
+          "RECEIPT"
+        ],
+        "absent": [
+          "KILLED"
         ]
       }
     },
@@ -2064,7 +2263,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2078,12 +2278,12 @@
           "act": "release"
         },
         {
-          "at": 6480,
+          "at": 7300,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7130,
+          "at": 7950,
           "seat": 8,
           "act": "lower"
         }
@@ -2104,7 +2304,7 @@
     },
     {
       "id": "lucky-catch-cut",
-      "about": "The owner's luck: Hana is not Protected, but the server's roll for the lock is under 1 in 4: the roof buffer holds, CLANK!, exactly as Protection would show.",
+      "about": "The owner's luck: Hana has no Protection, but the server's roll for the lock is under 1 in 4: the roof buffer holds, CLANK!, exactly as a Protection block shows.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2115,7 +2315,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2129,7 +2330,7 @@
           "act": "release"
         },
         {
-          "at": 6920,
+          "at": 8300,
           "seat": 3,
           "act": "lock",
           "roll": 0.1
@@ -2162,7 +2363,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2176,12 +2378,12 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower",
           "roll": 0.2
@@ -2214,7 +2416,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2228,7 +2431,7 @@
           "act": "release"
         },
         {
-          "at": 6920,
+          "at": 8300,
           "seat": 3,
           "act": "lock",
           "roll": 0.25
@@ -2249,8 +2452,8 @@
       }
     },
     {
-      "id": "blocked-twice",
-      "about": "A Protected Panel operator: the drop is stopped, and again on a second try at once. Protection holds every time, whatever the roll.",
+      "id": "protection-used-once",
+      "about": "Cleo has Protection. The first drop is stopped by it, and the block uses it up, as any block does (packages/engine physical.ts). A second drop at once, with a roll of 1 in 4 or more, kills.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2261,7 +2464,8 @@
           "winch": false,
           "panel": true
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2275,18 +2479,18 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower",
           "roll": 0.9
         },
         {
-          "at": 7700,
+          "at": 8800,
           "seat": 8,
           "act": "lower",
           "roll": 0.9
@@ -2296,10 +2500,10 @@
         "outcome": null,
         "alive": {
           "winch": true,
-          "panel": true
+          "panel": false
         },
-        "stops": 2,
-        "absent": [
+        "stops": 1,
+        "present": [
           "KILLED"
         ]
       }
@@ -2317,7 +2521,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2355,7 +2560,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2369,17 +2575,17 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 9800,
+          "at": 10785,
           "seat": 8,
           "act": "raise"
         }
@@ -2407,7 +2613,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2449,7 +2656,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2463,22 +2671,22 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10000,
+          "at": 10685,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10300,
+          "at": 10985,
           "seat": 8,
           "act": "key"
         }
@@ -2495,7 +2703,7 @@
     },
     {
       "id": "keys-stay-turned",
-      "about": "PROPOSED. Landed, Hana turns the Winch's key; Cleo releases the empty panel and locks it again short of the cab, then turns the Panel's key: delivered by both, Hana's key still turned.",
+      "about": "PROPOSED. Landed, Hana turns the Winch's key; Cleo releases the empty panel, lets it click past the cab and back, and locks it over the platform again, then turns the Panel's key: delivered by both, Hana's key still turned.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2506,7 +2714,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2520,32 +2729,32 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10200,
+          "at": 10885,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10900,
+          "at": 11485,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11340,
+          "at": 12185,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 11800,
+          "at": 12785,
           "seat": 3,
           "act": "key"
         }
@@ -2578,7 +2787,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2592,27 +2802,27 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10200,
+          "at": 10885,
           "seat": 3,
           "act": "key"
         },
         {
-          "at": 10900,
+          "at": 11485,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11120,
+          "at": 11735,
           "seat": 3,
           "act": "lock"
         }
@@ -2630,6 +2840,75 @@
       }
     },
     {
+      "id": "one-delivery",
+      "about": "The last key's press is retried with the same command id: the first answer stands. One delivery, five packages, never ten.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 10285,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 10685,
+          "seat": 8,
+          "act": "key"
+        },
+        {
+          "at": 10985,
+          "seat": 3,
+          "act": "key",
+          "commandId": "cleo-key"
+        },
+        {
+          "at": 11285,
+          "seat": 3,
+          "act": "key",
+          "commandId": "cleo-key"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
+        },
+        "counts": {
+          "SENT": 1
+        },
+        "present": [
+          "RECEIPT"
+        ]
+      }
+    },
+    {
       "id": "reconnect-in-grace",
       "about": "Out of contact for less than the grace: the Task never paused, and it goes on.",
       "kind": "edge",
@@ -2642,7 +2921,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2691,7 +2971,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2705,37 +2986,37 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7000,
+          "at": 8000,
           "seat": 3,
           "online": false
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 8600,
+          "at": 10075,
           "seat": 8,
           "act": "raise"
         },
         {
-          "at": 10400,
+          "at": 10575,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 11200,
+          "at": 11275,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 15500
+          "at": 16500
         }
       ],
       "then": {
@@ -2763,7 +3044,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2777,37 +3059,37 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
+          "at": 10285,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10000,
+          "at": 10685,
           "seat": 8,
           "online": false
         },
         {
-          "at": 10900,
+          "at": 11485,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11120,
+          "at": 11735,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 12000,
+          "at": 12485,
           "seat": 3,
           "act": "key"
         },
         {
-          "at": 18500
+          "at": 19185
         }
       ],
       "then": {
@@ -2835,7 +3117,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2849,17 +3132,17 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 8000,
+          "at": 9275,
           "seat": 3,
           "act": "release"
         }
@@ -2888,7 +3171,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2902,12 +3186,12 @@
           "act": "release"
         },
         {
-          "at": 6700,
+          "at": 7800,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7675,
+          "at": 8775,
           "seat": 8,
           "act": "lower"
         },
@@ -2939,7 +3223,8 @@
           "winch": false,
           "panel": false
         },
-        "briefingEndsAt": 4000
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
       },
       "when": [
         {
@@ -2966,6 +3251,142 @@
           "winch": true,
           "panel": true
         }
+      }
+    },
+    {
+      "id": "earliest-ending",
+      "about": "The deadline passes at 30 s and a participant's grace runs out at 33 s, but the server gets to the Task only at 34 s: the earlier boundary decides. Lost on time at 30 s, not cancelled.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 25000,
+          "seat": 8,
+          "online": false
+        },
+        {
+          "at": 34000
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "time"
+        },
+        "alive": {
+          "winch": true,
+          "panel": true
+        }
+      }
+    },
+    {
+      "id": "ending-tie",
+      "about": "The deadline and a participant's grace run out at the same moment: the deadline comes first. Lost on time.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 22000,
+          "seat": 8,
+          "online": false
+        },
+        {
+          "at": 30100
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "time"
+        }
+      }
+    },
+    {
+      "id": "no-revival",
+      "about": "A participant comes back after the Task was cancelled: the Task stays cancelled, and their press does nothing.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5000,
+          "seat": 8,
+          "online": false
+        },
+        {
+          "at": 13010
+        },
+        {
+          "at": 15000,
+          "seat": 8,
+          "online": true
+        },
+        {
+          "at": 15100,
+          "seat": 8,
+          "act": "lower"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "cancelled",
+          "why": "disconnect",
+          "who": "winch"
+        },
+        "refused": [
+          "ended"
+        ],
+        "absent": [
+          "ONLINE",
+          "LOWERED"
+        ]
       }
     }
   ],
@@ -3000,7 +3421,7 @@
       ],
       "conflict": "Protection applies, but a stopped kill is something both participants see. With a kill on the Task not an attack (the owner, 12 November), nothing else could stop one: every CLANK! would have meant Protection, which \"does not automatically authorize Protection disclosure\".",
       "solution": "The owner's luck: the catch also holds by chance one time in four, by the server's own roll. A CLANK! is the same for Protection and for luck, with no reason on either phone, and no one else learns anything.",
-      "residual": "Settled by the owner (12 November 2026). A presser who is stopped again and again on the same partner may still suspect Protection; the owner had already accepted that inference (11 November)."
+      "residual": "Settled by the owner (12 November 2026). Protection stops once and a block uses it up (Integration, 12 November), so a second stop on the same partner can only be luck; the owner had already accepted that an attacker may infer Protection (11 November)."
     },
     {
       "id": "deduced-attribution",
@@ -3052,8 +3473,8 @@
     },
     {
       "id": "timing",
-      "owner": "Game Balance",
-      "item": "The PROPOSED timing (the 30 s deadline is the owner's): a 4 s briefing, an 8 s grace; the panel at 0.22 s a stop; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall."
+      "owner": "owner, Game Balance",
+      "item": "The PROPOSED timing (the 30 s deadline and the click are the owner's): the click's 0.1 s snap and 0.4 s rest; the 0.15 s warning margin; a 4 s briefing, an 8 s grace; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall. The rest and the margin need real-network evidence (Integration)."
     },
     {
       "id": "paths",
@@ -3068,17 +3489,27 @@
     {
       "id": "press-timing",
       "owner": "Backend, Integration",
-      "item": "PROPOSED: a press counts at the moment its phone showed it, on the server's clock, if it arrives within 300 ms and nothing has changed since; otherwise it is refused (late or stale). The clock sync and the allowance are Backend's; a modified phone could choose its moment inside the allowance."
+      "item": "Integration's direction (12 November 2026): a press is resolved when the server receives it, on the server's monotonic clock; a phone's own time is diagnostic only, and any other lag policy needs its own review and real-network evidence. Backend: the clock sync the phones draw by, finite timestamps, the revisions a press is bound to, command ids and durable receipts (a retry reuses its id: no second press, roll, cooldown or delivery)."
     },
     {
       "id": "timing-access",
       "owner": "owner, Game Balance",
-      "item": "A Task of timing is harder for some players (slower reactions, motor or sight impairments, a slow network). Whether a player can ask for a slower panel or a calmer swing, which changes the danger for their partner too, is the owner's call; nothing is proposed here."
+      "item": "A Task of timing is harder for some players (slower reactions, motor or sight impairments, a slow network). Whether a player can ask for a slower panel or a calmer swing, which changes the danger for their partner too, is the owner's call; nothing is proposed here. A polite live region is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill, besides the button's own name. Untested with a screen reader."
+    },
+    {
+      "id": "clone",
+      "owner": "owner",
+      "item": "Whether Clone stops a Task hazard. Not assumed (Integration, 12 November 2026): only applicable Protection is read."
     },
     {
       "id": "contract",
-      "owner": "Integration",
-      "item": "TASK_PRESS and the Task projection in packages/contracts/, and the ruleset version that adopts this Task."
+      "owner": "Integration, Backend",
+      "item": "Integration accepted the command families TASK_PRESS, TASK_ASK, TASK_ANSWER and TASK_ASK_WITHDRAW for contract design (12 November 2026), not their wire format, the PROPOSED defaults or the timing. Planning target: protocol 3, planet-game-1.4.0, ruleset in-person-planet-food-task-2026-11-12, opt-in, inheriting the 1.3.0 predecessor exactly; historical schemas, matches and payloads unchanged. Backend owns the shared contract; Frontend waits for it."
+    },
+    {
+      "id": "adoption",
+      "owner": "owner, Integration",
+      "item": "Before the Task can be played (Integration, 12 November 2026): the start window and concurrency; who can be asked; the edges of the next-round rule and of a refusal; Eating's units and cadence; return positions and forced transfers; the Blackhole; and how the Task's state, the food, the deaths, Protection and participation history pass through a whole-reality Sync. The public \"away\" must not show guessed room positions, a fixture's origin cannot decide a real return, and a picture that was never played cannot decide whether a meal was eaten."
     },
     {
       "id": "engine-task",

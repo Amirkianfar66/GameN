@@ -7,14 +7,20 @@
 // storyboard's run through the Task's own rules (./task.mjs, ./boards.mjs) at one moment.
 //
 //   phone.html?s=task&board=cooperation&t=9233&as=winch     a participant's Task screen (winch or panel)
+//   …&press=sending|refused|unknown|through|lost&act=lock     the presser's own press: in flight, refused, its answer unknown, recovered
+//   phone.html?s=howto                                       how the Task works: read any time before it, outside its 30 s
 //   phone.html?s=volunteer&step=task|partner|asking|declined|starting   the Volunteer starts a Task
 //   phone.html?s=volunteer&step=rested                      the next round: the two cannot go for food
-//   phone.html?s=called                                      the Partner is chosen
+//   phone.html?s=volunteer&step=withdrawn|withdraw-late      the Volunteer cancels, or is too late to
+//   phone.html?s=called[&answer=join|joining|late-withdrawn|late-expired]   the Partner is asked, and the races
 //   phone.html?s=away                                        another player's phone meanwhile
 //   phone.html?s=return&board=drop&as=winch|panel|other      after the Task, back in Room B
 //   phone.html?s=stock&n=1                                   the food warning (public, PROPOSED)
 //   …&safe=47,34  …&text=2  …&motion=reduced                 as the pack's prototype
+//   …&before=1                                               the moment of a press at t, before the server's answer
 //   …&live=1                                                 the controls play the storyboard's next press
+// The prototype is layout evidence only: live mode steps the storyboard; it does not send a press, hold
+// a command id, enforce a disabled control or recover a receipt. The native phone does all of that.
 
 import { h, ic, topBar, tabs, pill, toast, banner, button, row, list, groupLabel, groupNote, sheet, caption } from '../phone-ui/prototype/ui.mjs';
 import { paintRoom, ROOM_NAMES } from '../phone-ui/prototype/art.mjs';
@@ -37,31 +43,45 @@ function applyEnvironment(p) {
 const ARROWS = { raise: 'M17 4 L30 22 H22 V30 H12 V22 H4 Z', lower: 'M17 30 L30 12 H22 V4 H12 V12 H4 Z' };
 const arrow = act => { const t = document.createElement('template'); t.innerHTML = `<svg class="arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="${ARROWS[act]}" fill="currentColor" stroke="#0A0D14" stroke-width="2" stroke-linejoin="round"/></svg>`; return t.content.firstChild; };
 
-/** What a button would do now, in words: under its label, and in its accessible name. */
-function subOf(b, v) {
+/**
+ * What a button would do now, in words: under its label, and in its accessible name. Never a promise:
+ * the server decides a press when it arrives, a moment later, so the words say where the panel or the
+ * crate is, and a warning starts a little before a danger does (task.mjs hazards()).
+ */
+function subOf(b, v, p = {}) {
   const partner = person(other(v.role)).name;
+  if (p.press === 'sending' && p.act === b.act) return 'Sending…';
   if (v.phase === 'briefing') return 'After the briefing';
   if (v.phase === 'ended') return 'The Task is over';
   if (v.you === 'down') return 'You are out';
   if (!b.enabled && v.offline) return 'Reconnecting…';
   if (b.act === 'key') return b.turned ? 'Waiting for the other key' : 'Sends the crate down';
-  if (b.act === 'release') return b.enabled ? 'Starts the panel running' : (v.crate.state === 'hanging' ? 'Wait: the crate is rising' : `${partner} raises it first`);
-  if (b.act === 'lock') return b.hazard ? `Here it cuts ${partner}` : b.stop === FIXTURES.platform.stop ? 'Stops it at 6: the platform' : b.stop === FIXTURES.console.stop ? 'Stops it over you' : `Stops it at ${b.stop + 1}`;
+  if (b.act === 'release') return b.enabled ? 'Starts the panel clicking' : (v.crate.state === 'hanging' ? 'Wait: the crate is rising' : `${partner} raises it first`);
+  if (b.act === 'lock') {
+    if (b.hazard) return b.stop === FIXTURES.cab.stop ? `At 7: ${partner}'s cab` : `Moving on to ${partner}'s cab`;
+    if (b.stop === FIXTURES.platform.stop) return b.leaving ? 'Leaving 6' : 'At 6: the platform';
+    return b.stop === FIXTURES.console.stop ? 'At 5: over you' : `At ${b.stop + 1}`;
+  }
   if (b.act === 'raise') return b.enabled ? 'Lifts the crate' : v.crate.state === 'hanging' ? 'It is up' : 'Wait for the lock';
   if (!b.enabled) return v.crate.state === 'hanging' ? (v.panel.locked ? 'Wait: it is rising' : 'Wait for the lock') : 'Raise it first';
-  return { platform: 'Onto the platform', console: `Falls on ${partner}`, deck: 'Misses: wait', intake: 'Back into the hatch' }[b.zone];
+  if (b.hazard) return `May fall on ${partner}`;
+  return { platform: 'Over the platform', console: `Over ${partner}`, deck: 'Over the deck: misses', intake: 'Over the hatch' }[b.zone];
 }
 
 /** One big control: its icon, its label and what it would do now; the next press glows; a press that would kill is striped and says so. */
-function control(b, v) {
-  const sub = subOf(b, v);
+function control(b, v, p = {}) {
+  const sub = subOf(b, v, p);
   const label = b.label;
+  // A press in flight: its own control shows it and every control waits for the answer. The press stays
+  // the act it was made as (a double tap on LOCK never becomes RELEASE); a disabled control sends nothing.
+  const sending = p.press === 'sending';
+  const enabled = b.enabled && !sending && p.press !== 'unknown';
   const aria = `${label}. ${b.hazard ? `Warning: ${sub}` : sub}.`;
   const icon = b.act === 'key' ? ic(b.turned ? 'check' : 'key', { filled: true }) : b.act === 'lock' || b.act === 'release' ? ic(b.act === 'lock' ? 'lock' : 'release', { filled: true }) : arrow(b.act);
   return h('button.fs-ctl', {
-    type: 'button', 'data-act': b.act, 'aria-label': aria, 'aria-disabled': b.enabled ? null : 'true',
-    'data-next': b.next ? '' : null, 'data-hazard': b.hazard ? '' : null, 'data-key': b.act === 'key' && !b.turned ? '' : null, 'data-turned': b.turned ? '' : null,
-    'data-zone': b.act === 'lower' && b.enabled ? b.zone : null,
+    type: 'button', 'data-act': b.act, 'aria-label': aria, 'aria-disabled': enabled ? null : 'true', 'aria-busy': sending && p.act === b.act ? 'true' : null,
+    'data-next': b.next && enabled ? '' : null, 'data-hazard': b.hazard && enabled ? '' : null, 'data-key': b.act === 'key' && !b.turned ? '' : null, 'data-turned': b.turned ? '' : null,
+    'data-zone': b.act === 'lower' && enabled ? b.zone : null, 'data-sending': sending && p.act === b.act ? '' : null,
   }, h('span.fs-face', icon, h('span.fs-label', label, h('span.fs-sub', sub))));
 }
 
@@ -69,7 +89,7 @@ function control(b, v) {
 function sweepStrip(v) {
   const cells = Array.from({ length: STOPS }, (_, s) => h('span', {
     'data-goal': s === FIXTURES.platform.stop ? '' : null, 'data-cut': s === FIXTURES.cab.stop ? '' : null,
-    'data-you': s === FIXTURES.console.stop ? '' : null, 'data-at': v.panel.locked && v.panel.stop === s ? '' : null,
+    'data-you': s === FIXTURES.console.stop ? '' : null, 'data-at': v.panel.locked && v.panel.stop === s ? '' : null, 'data-now': !v.panel.locked && v.panel.stop === s ? '' : null,
   }, s === FIXTURES.console.stop ? ic('self', { filled: true }) : h('b', String(s + 1))));
   return h('div.fs-strip', { 'aria-hidden': 'true', 'data-locked': v.panel.locked ? '' : null },
     ...cells, h('i.fs-marker', { style: { left: `${((v.panel.at + 0.5) / STOPS) * 100}%` } }));
@@ -91,8 +111,9 @@ function swingMeter(v) {
 /** The participant's Task screen at time t of a storyboard. */
 function taskScreen(root, p) {
   const board = boardOf(p.board ?? 'cooperation');
-  const frames = run(board);
   const t = Number(p.t ?? TIMING.briefing + 200);
+  // before=1: the phone at the very moment of a press, before the server's answer to it.
+  const frames = run(board).filter((f, i) => !p.before || i === 0 || f.at < t);
   const now = [...frames].reverse().find(f => f.at <= t) ?? frames[0];
   const role = p.as === 'panel' ? 'panel' : 'winch';
   const seat = CAST[role].seat;
@@ -103,7 +124,11 @@ function taskScreen(root, p) {
   const reduced = p.motion === 'reduced';
   const you = person(role), them = person(other(role));
   const pose = poseAt(frames, t, { reduced });
-  root.append(topBar({ kind: 'pair', pair: [you, them], sub: `Food Supply · you run the ${ROLES[role].name}`, seconds: v.phase === 'ended' ? null : v.secondsLeft, urgentAt: 10, menu: {} }));
+  // The partner's state stays in the top bar at every text size: at the largest the role row goes, and the
+  // hint may be busy with a danger, but the player must still know their partner is offline or out.
+  const sub = v.partner === 'offline' ? `${them.name} is offline` : v.partner === 'down' ? `${them.name} is out` : `Food Supply · you run the ${ROLES[role].name}`;
+  root.append(topBar({ kind: 'pair', pair: [you, them], sub, seconds: v.phase === 'ended' ? null : v.secondsLeft, urgentAt: 10, menu: {} }));
+  if (v.partner !== 'alive') root.querySelector('.tb').dataset.partner = v.partner;
   const top = root.querySelector('.tb').offsetHeight;
   // The view's own height at the phone's width; it gives way to the panel when the words need the room (phone.css).
   const viewH = Math.round(root.clientWidth * VIEW[3] / VIEW[2]);
@@ -117,10 +142,10 @@ function taskScreen(root, p) {
     // The Winch's tag ends at the cab's right edge, so a longer tag ("· Out") grows into the room, not off the screen.
     const x = r === 'winch' ? BOXES.cab[0] + BOXES.cab[2] - 6 : tx;
     art.append(h('span.tag', { 'data-self': r === role ? '' : null, 'data-anchor': r === 'winch' ? 'end' : null, style: { left: `${((x - VIEW[0]) / VIEW[2]) * 100}%`, top: `min(${((ty - 14 - VIEW[1]) / VIEW[3]) * 100}%, calc(100% - 30px))` } },
-      h('b.num', String(who.seat)), h('span', r === role ? 'You' : who.name), down ? h('span.status', '· Out') : null));
+      h('b.num', String(who.seat)), h('span', r === role ? 'You' : who.name), down ? h('span.status', '· Out') : r !== role && state.online[r] === false ? h('span.status', '· Offline') : null));
   }
   const hint = hintFor(v, recent);
-  const controls = h('div.fs-controls', { 'data-role': role, 'data-landed': v.crate.state === 'landed' ? '' : null, role: 'group', 'aria-label': `${ROLES[role].name} controls` }, v.buttons.map(b => control(b, v)));
+  const controls = h('div.fs-controls', { 'data-role': role, 'data-landed': v.crate.state === 'landed' ? '' : null, role: 'group', 'aria-label': `${ROLES[role].name} controls` }, v.buttons.map(b => control(b, v, p)));
   const panel = h('section.fs-panel', { 'aria-label': 'Your controls' },
     h('div.fs-role', pill(`${ROLES[role].name} · ${ROLES[role].axis === 'vertical' ? 'up and down' : 'left and right'}`, { icon: role === 'panel' ? 'lock' : 'move', tone: 'accent' }),
       h('span.fs-who', { 'data-state': v.partner }, h('b', `${them.seat} ${them.name}`), ` · ${ROLES[other(role)].name}${v.partner === 'down' ? ' · Out' : v.partner === 'offline' ? ' · Offline' : ''}`)),
@@ -139,6 +164,7 @@ function taskScreen(root, p) {
   const stop = recent.find(e => e.type === 'STOPPED');
   if (stop && v.phase === 'running') root.append(h('div.fs-banner', { style: { top: `${top + 12}px` } }, toast(stop.kind === 'cut' ? "Stopped · the cab's buffer held" : 'Stopped · the winch brake held', 'block')));
   if (state.online[role] === false) root.append(h('div.fs-banner', { style: { top: `${top + 12}px` } }, banner({ icon: 'offline', title: 'Reconnecting…', sub: 'The Task goes on without your presses.' })));
+  pressState(root, p, top);
   wireControls(controls, p);
   window.__fsLayout = measure(root, { viewEl, panel, controls });
 }
@@ -158,6 +184,8 @@ function measure(root, { viewEl, panel, controls }) {
   for (const c of root.querySelectorAll('.fs-card')) {
     if (c.getBoundingClientRect().bottom > box.bottom + 0.5) problems.push('a card runs off the screen');
     if (c.scrollHeight > c.clientHeight + 1) c.dataset.scrolls = '';
+    // The briefing runs inside the Task's 30 seconds: it is a reminder that must never need scrolling.
+    if (c.classList.contains('fs-brief') && c.scrollHeight > c.clientHeight + 1) problems.push('the briefing scrolls');
   }
   for (const t of root.querySelectorAll('.fs-art .tag')) {
     const r = t.getBoundingClientRect(), v = viewEl.getBoundingClientRect();
@@ -166,27 +194,45 @@ function measure(root, { viewEl, panel, controls }) {
   return { view: Math.round(viewEl.getBoundingClientRect().height), hintScrolls: scrolls, problems };
 }
 
+/**
+ * The presser's own press, shown to the presser only (the other phone never sees it): in flight, refused
+ * (the crane had moved on since the picture it was made on), its answer unknown (the connection dropped
+ * while it was on its way), and after the recovery, the answer the server kept for its command id. On
+ * recovery the phone asks for the present state and that answer; it never replays queued taps.
+ */
+function pressState(root, p, top) {
+  const name = { lock: 'LOCK', release: 'RELEASE', raise: 'Raise', lower: 'Lower', key: 'key' }[p.act] ?? 'press';
+  const at = { style: { top: `${top + 12}px` } };
+  if (p.press === 'refused') root.append(h('div.fs-banner', at, banner({ icon: 'info', title: `Your ${name} was not done`, sub: 'The crane had moved on.' })));
+  if (p.press === 'unknown') root.append(h('div.fs-banner', at, banner({ icon: 'offline', title: `Checking your ${name}…`, sub: 'The connection dropped on the way.' })));
+  if (p.press === 'through') root.append(h('div.fs-banner', at, toast(`Your ${name} went through.`, 'check')));
+  if (p.press === 'lost') root.append(h('div.fs-banner', at, toast(`Your ${name} did not go through.`, 'info')));
+}
+
 /** A text equivalent of the Task view, for screen readers. */
 function describe(v) {
-  const panel = v.panel.locked ? `The panel is locked at stop ${v.panel.stop + 1}.` : `The panel is running, now at stop ${v.panel.stop + 1}.`;
+  const panel = v.panel.locked ? `The panel is locked at stop ${v.panel.stop + 1}.` : `The panel is clicking along the rail, now at stop ${v.panel.stop + 1}.`;
   const at = Math.round(v.crate.x) + 1;
   const crate = { intake: 'The crate is in the intake.', deck: `The crate is on the deck by stop ${at}.`, fallen: 'The crate is on the console.', landed: 'The crate is on the platform.', sent: 'The crate has gone down.' }[v.crate.state]
     ?? (v.panel.locked ? `The crate hangs swinging, now over stop ${at}.` : 'The crate hangs under the panel.');
   return `The Supply Room. ${panel} ${crate}${v.warnings.length ? ' Warning shown.' : ''}`;
 }
 
+/**
+ * The briefing: a reminder, not the instructions. It fits without scrolling at the largest text, since
+ * the Task's time runs during it: your control, the one thing to do, the one danger. The instructions
+ * are read before the Task, outside its time (the How it works page, s=howto).
+ */
 function briefingCard(role, v, top) {
   const them = person(other(role));
-  return h('section.fs-card', { role: 'dialog', 'aria-label': 'Food Supply Task', style: { top: `${top + 16}px`, maxHeight: `calc(100% - ${top + 28}px)` } },
-    h('h2', 'Food Supply Task'),
-    h('p', 'Lower the ration crate onto the galley lift: ', h('b', `+${FOOD.perDelivery} packages`), '.'),
-    h('div.fs-roles',
-      h('div', { 'data-you': role === 'winch' ? '' : null }, h('b', role === 'winch' ? 'You' : `${them.seat} ${them.name}`), 'Winch · up and down, from the cab at 7'),
-      h('div', { 'data-you': role === 'panel' ? '' : null }, h('b', role === 'panel' ? 'You' : `${them.seat} ${them.name}`), 'Panel · left and right, from the console at 5')),
+  const lines = role === 'winch'
+    ? ['Raise it, then lower it over 6.', `Over ${them.name}, it falls on ${them.name}.`]
+    : ['Release it, then lock it at 6.', `LOCK at 7 cuts ${them.name}.`];
+  return h('section.fs-card.fs-brief', { role: 'dialog', 'aria-label': `You run the ${ROLES[role].name}`, style: { top: `${top + 16}px`, maxHeight: `calc(100% - ${top + 28}px)` } },
+    h('h2', `You run the ${ROLES[role].name}`),
     h('ul',
-      h('li', ic('move', { filled: true }), h('span', 'Raise it, release the panel, lock it over 6, lower it as it swings over 6, then both turn a key.')),
-      h('li', ic('warning', { filled: true }), h('span', 'LOCK at 7 cuts the Winch\'s cab. Lowered while it swings over the console, it falls on the Panel. Watch the stripes.')),
-      h('li', ic('info', { filled: true }), h('span', 'A mistake can kill: nothing tells it from a betrayal.'))),
+      h('li', ic(role === 'winch' ? 'move' : 'lock', { filled: true }), h('span', lines[0])),
+      h('li', ic('warning', { filled: true }), h('span', lines[1]))),
     h('div', { style: { display: 'flex', alignItems: 'baseline', gap: '10px' } }, h('span.fs-count', String(v.briefingLeft)), h('p', 'Starting')));
 }
 
@@ -245,7 +291,8 @@ function volunteer(root, p) {
         rested
           ? row({ icon: 'supply', title: 'Food Supply', sub: 'You went for food last round', disabled: true })
           : row({ icon: 'supply', title: 'Food Supply', sub: `Lower a ration crate onto the galley lift: +${FOOD.perDelivery} packages`, chevron: true, go: 's=volunteer&step=partner' }),
-        row({ icon: 'panel', title: 'Engine', sub: 'Its own Task, designed separately', disabled: true })),
+        row({ icon: 'panel', title: 'Engine', sub: 'Its own Task, designed separately', disabled: true }),
+        row({ icon: 'info', title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', chevron: true, go: 's=howto' })),
       groupNote(rested ? 'The two who go for food cannot go again the next round. You can go again in round 5.' : 'Anyone can volunteer. You and your Partner cannot go for food again next round.'),
     ] }));
   } else if (step === 'partner') {
@@ -261,7 +308,16 @@ function volunteer(root, p) {
     ], foot: button(`Ask ${asked}`, { icon: 'supply', block: true, go: 's=volunteer&step=asking' }) }));
   } else if (step === 'asking') {
     root.append(...sheet({ title: `Waiting for ${asked}`, sub: 'Food Supply Task', close: false, body: [h('p.group-note', `${asked} can join or decline. If not, the next volunteer goes.`)],
-      foot: [button('Waiting…', { busy: true, block: true, disabled: true }), button('Cancel', { kind: 'plain', block: true })] }));
+      foot: [button('Waiting…', { busy: true, block: true, disabled: true }), button('Cancel', { kind: 'plain', block: true, go: 's=volunteer&step=withdrawn' })] }));
+  } else if (step === 'withdrawn') {
+    // PROPOSED: withdrawing counts as a refusal, so the next volunteer goes.
+    root.append(...sheet({ title: 'Request withdrawn', sub: 'Food Supply Task', detent: 'auto', body: [
+      groupNote('The next volunteer goes: anyone else can start the Task now.'),
+      groupNote('You can volunteer again next round (PROPOSED).'),
+    ], foot: button('OK', { block: true }) }));
+  } else if (step === 'withdraw-late') {
+    // The race: Cancel reached the server after the Partner's Join. The first to arrive wins; the Task starts.
+    root.append(...sheet({ title: 'Too late to cancel', sub: `${asked} joined first`, close: false, body: [h('p.group-note', 'The Task is starting. Going to the Supply Room…')], foot: button('Starting…', { busy: true, block: true, disabled: true }) }));
   } else if (step === 'declined') {
     // The owner, 12 November 2026: after a refusal the game goes to the next volunteer, anyone who volunteers.
     root.append(...sheet({ title: `${asked} declined`, sub: 'Food Supply Task', detent: 'auto', body: [
@@ -273,7 +329,12 @@ function volunteer(root, p) {
   }
 }
 
-/** The Partner is asked: Join or Decline (the owner, 11 November 2026), with a time to answer (PROPOSED). */
+/**
+ * The Partner is asked: Join or Decline (the owner, 11 November 2026), with a time to answer (PROPOSED).
+ * The answer races the Volunteer's Cancel and the time running out: the server takes whichever arrives
+ * first, and the phone shows what it decided. answer: join (joined), joining (the answer on its way),
+ * late-withdrawn (the Volunteer had cancelled), late-expired (the time had run out).
+ */
 function called(root, p) {
   const seats = fixtureBoard({ roster: 9 });
   const { top } = roomView(root, { seats, self: CAST.panel.seat, top: phaseBar('Tasks', 'Outside the turn order') });
@@ -287,13 +348,43 @@ function called(root, p) {
       h('p', h('b', 'Briefing in a moment.'))));
     return;
   }
+  if (p.answer === 'late-withdrawn' || p.answer === 'late-expired') {
+    root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Too late to join', style },
+      h('span.stamp.fs-stamp', 'Too late'),
+      h('h2', 'Too late to join'),
+      h('p', p.answer === 'late-withdrawn' ? `${volunteerName} had withdrawn the request before your answer arrived.` : `The ${Math.round(TIMING.answer / 1000)} seconds ran out before your answer arrived. It counts as a decline.`),
+      h('p', 'You stay in Room B.'),
+      h('div.fs-answer', button('OK', { block: true }))));
+    return;
+  }
+  const joining = p.answer === 'joining';
   root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Asked to join a Task', style },
     h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner request'),
     h('h2', `${volunteerName} asks you to join the Food Supply Task`),
     h('p', 'You would go to the Supply Room together, one of you on each control. Your place in Room B is kept for your return.'),
     h('p', 'If you join, neither of you can go for food next round.'),
-    h('div.fs-answer', button('Decline', { kind: 'secondary', block: true }), button('Join', { icon: 'check', block: true, go: 's=called&answer=join' })),
+    h('div.fs-answer', button('Decline', { kind: 'secondary', block: true, disabled: joining }), button(joining ? 'Joining…' : 'Join', { icon: joining ? null : 'check', block: true, busy: joining, disabled: joining, go: 's=called&answer=join' })),
     h('p.fs-timer', `Answer within ${Math.round(TIMING.answer / 1000)} s. No answer counts as a decline.`)));
+}
+
+/**
+ * How the Task works: the instructions, read any time before the Task, outside its time (from the Tasks
+ * sheet). The briefing inside the Task's 30 seconds is then only a reminder. It scrolls at large text;
+ * nothing is timed here.
+ */
+function howto(root) {
+  const seats = fixtureBoard({ roster: 9 });
+  roomView(root, { seats, self: CAST.winch.seat, top: phaseBar('Tasks', 'Outside the turn order'), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: false });
+  const section = (title, text) => [groupLabel(title), groupNote(text)];
+  root.append(...sheet({ title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', back: 's=volunteer&step=task', detent: 'large', body: [
+    ...section('Two of you, one control each', 'The game picks who runs which control. The Panel moves the crane left and right; the Winch moves the crate up and down.'),
+    ...section('The Panel', 'RELEASE sets the locking panel clicking from stop to stop along the rail. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch\'s cab.'),
+    ...section('The Winch', 'Raise lifts the crate. Locked, the crate swings. Lower drops it where its swing has it: over the platform it lands; over the Panel it falls on them.'),
+    ...section('Then', `Both turn a key: +${FOOD.perDelivery} packages for the ship.`),
+    ...section('The time', '30 seconds for the whole Task, the short briefing included.'),
+    ...section('Mistakes', 'A late LOCK or an early Lower can kill. Nothing tells a mistake from a betrayal. Your press counts when it reaches the ship, a moment after you press: the stripes warn you early for that.'),
+    ...section('Leaving', 'If you lose your connection for 8 seconds, the Task is cancelled. It costs you nothing more.'),
+  ] }));
 }
 
 function away(root) {
@@ -332,7 +423,7 @@ function stock(root, p) {
   root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'warning', title: n === 1 ? 'Food low: 1 package left' : `Food: ${n} packages`, sub: 'PROPOSED public warning. A Food Supply Task adds five.' })));
 }
 
-const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, stock };
+const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, stock, howto };
 
 export function render(p) {
   applyEnvironment(p);
