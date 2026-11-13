@@ -62,6 +62,7 @@ async function tapReady(page,result){
  assert.ok(before.rect.width>0&&before.rect.height>0&&before.point.x>=0&&before.point.x<before.viewport.width&&before.point.y>=0&&before.point.y<before.viewport.height,'Ready outside layout viewport');
  assert.equal(before.hitMatches,true,'Ready hit target is blocked: '+JSON.stringify(before));
  try{
+  assert.equal(before.readyRequestsStarted,0,'no Ready invocation before the visible touch');
   await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[before.point]});await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   const receipt=await waitFor(()=>page.evaluate('planetEmulator.operations.find(o=>o.operation==="ready")??null'),'original visible Ready response',15000);result.readyTap.receipt=receipt;
   assert.equal(receipt.status,200,'Ready HTTP');assert.equal(receipt.ok,true,'Ready: '+receipt.code);
