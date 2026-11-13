@@ -16,7 +16,7 @@
 //   phone.html?s=called[&answer=join|joining|late-withdrawn|late-expired]   the Partner is asked, and the races
 //   phone.html?s=away                                        another player's phone meanwhile
 //   phone.html?s=return&board=drop&as=winch|panel|other      after the Task, back in Room B
-//   phone.html?s=stock&n=1                                   the food warning, on every phone
+//   phone.html?s=stock&n=1                                   the food gauge under the clock, on every phone
 //   …&safe=47,34  …&text=2  …&motion=reduced                 as the pack's prototype
 //   …&before=1                                               the moment of a press at t, before the server's answer
 //   …&live=1                                                 the controls play the storyboard's next press
@@ -28,7 +28,7 @@ import { paintRoom, ROOM_NAMES } from '../phone-ui/prototype/art.mjs';
 import { board as fixtureBoard, seatOf, FIXTURE_LABEL } from '../phone-ui/prototype/fixtures.mjs';
 import { view, tick, ROLES, TIMING, FOOD, FIXTURES, STOPS, ZONES } from './task.mjs';
 import { boardOf, CAST } from './boards.mjs';
-import { hintFor, person, other, nameOperators, packagesText, foodWarning, FOOD_WARNING_SUB } from './hints.mjs';
+import { hintFor, person, other, nameOperators, packagesText, packagesFigure, foodLevel, foodLabel } from './hints.mjs';
 import { CUES, run, poseAt } from './stage.mjs';
 import { sceneSvg } from './scene.mjs';
 import { BOXES, TAGS, VIEW } from './layout.mjs';
@@ -143,7 +143,7 @@ function taskScreen(root, p) {
   // here in the top bar, and at the largest text, where the bar keeps only the names and the role row goes, on
   // the partner's name tag in the view (#222, 13 November 2026).
   const sub = v.partner === 'offline' ? `${them.name} is offline` : v.partner === 'down' ? `${them.name} is out` : `Food Supply · you run the ${ROLES[role].name}`;
-  root.append(topBar({ kind: 'pair', pair: [you, them], sub, seconds: v.phase === 'ended' ? null : v.secondsLeft, urgentAt: 10, menu: {} }));
+  root.append(withFood(topBar({ kind: 'pair', pair: [you, them], sub, seconds: v.phase === 'ended' ? null : v.secondsLeft, urgentAt: 10, menu: {} }), STOCK_DOSES));
   if (v.partner !== 'alive') root.querySelector('.tb').dataset.partner = v.partner;
   const top = root.querySelector('.tb').offsetHeight;
   // The view's own height at the phone's width; it gives way to the panel when the words need the room (phone.css).
@@ -322,15 +322,16 @@ function roomView(root, { room = 'room-b', seats, self, top: bar, tabsCfg = { he
   return { top, bottom };
 }
 
-const phaseBar = (title, sub, seconds = null, round = 3) => topBar({ kind: 'phase', icon: 'supply', title, sub, seconds, round, menu: {} });
+const phaseBar = (title, sub, seconds = null, round = 3, doses = STOCK_DOSES) => withFood(topBar({ kind: 'phase', icon: 'supply', title, sub, seconds, round, menu: {} }), doses);
 // The Food Supply step, at the start of each round before the pre-turn window (the owner, on Designer's
 // recommendation, 12 November 2026): 30 s to ask a Partner, then the Task's 30 s.
 const stepBar = (seconds, round = 3) => phaseBar('Food Supply', 'Who goes for food?', seconds, round);
-const turnBar = () => topBar({ kind: 'turn', who: seatOf(7), round: 3, seconds: 42, menu: {} });
+const turnBar = (doses = STOCK_DOSES) => withFood(topBar({ kind: 'turn', who: seatOf(7), round: 3, seconds: 42, menu: {} }), doses);
 
 // Fixtures for the flow: the two who went for food last round (round 2), and the food stock before this Task.
 const WENT_LAST_ROUND = Object.freeze([1, 7]);
 const STOCK_BEFORE = 1;
+const STOCK_DOSES = STOCK_BEFORE * FOOD.dosesPerPackage;
 
 function volunteer(root, p) {
   const step = p.step ?? 'task';
@@ -480,13 +481,14 @@ function returned(root, p) {
   const seats = fixtureBoard({ roster: 9, health });
   const as = p.as ?? 'winch';
   const self = as === 'other' ? 6 : CAST[as].seat;
-  // Back at the end of the Task's time, whatever happened; the round goes on to the pre-turn window.
-  const { top } = roomView(root, { seats, self, top: topBar({ kind: 'phase', icon: 'hourglass', title: 'Round 3', sub: 'Pre-turn', seconds: 14, round: 3, menu: {} }) });
   const o = end.outcome;
+  const after = STOCK_DOSES + (o.result === 'delivered' ? o.packages * FOOD.dosesPerPackage : 0);
+  // Back at the end of the Task's time, whatever happened; the round goes on to the pre-turn window.
+  const { top } = roomView(root, { seats, self, top: withFood(topBar({ kind: 'phase', icon: 'hourglass', title: 'Round 3', sub: 'Pre-turn', seconds: 14, round: 3, menu: {} }), after) });
   // The owner, 12 November 2026: the other players learn the result only through the food count. A delivery shows
   // as the new count on every phone, naming no Task; otherwise they see only the board.
   if (as === 'other') {
-    if (o.result === 'delivered') root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(`Food stock: ${packagesText((STOCK_BEFORE + o.packages) * FOOD.dosesPerPackage)} (+${o.packages})`, 'supply')));
+    if (o.result === 'delivered') root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(`Food stock: ${packagesText(after)} (+${o.packages})`, 'supply')));
     return;
   }
   const text = !end.alive[as] ? 'You are out: you were killed on the Task.' : o.result === 'delivered' ? `Back in Room B. Delivered: +${o.packages} packages.` : o.result === 'cancelled' ? 'Back in Room B. The Task was cancelled.' : 'Back in Room B. The Task was lost.';
@@ -494,13 +496,38 @@ function returned(root, p) {
 }
 
 
+// The food count on every phone (the owner, 13 November 2026): a gauge beside the clock, always, never a banner.
 function stock(root, p) {
   const doses = Math.round(Number(p.n ?? 1) * FOOD.dosesPerPackage);
   const seats = fixtureBoard({ roster: 9 });
-  const { top } = roomView(root, { seats, self: 4, room: 'room-a', top: turnBar() });
-  // Above one package there is no warning: the count shows only as a delivery's new total.
-  const title = foodWarning(doses);
-  if (title) root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'warning', title, sub: FOOD_WARNING_SUB })));
+  roomView(root, { seats, self: 4, room: 'room-a', top: turnBar(doses) });
+}
+
+/**
+ * The food gauge (the owner, 13 November 2026; #222): the ship's food count, beside the clock in the top bar of
+ * every phone, always. One line a package and a short line for a half (ten lines at most), and the count as a
+ * figure ("4½"); amber while one package or less remains and red at none. It says nothing about any Task: the
+ * count is public. Its words are for screen readers only (hints.mjs foodLabel); at large text the lines go and
+ * the figure stays (phone.css).
+ */
+const GAUGE_LINES = 10;
+function foodGauge(doses) {
+  const whole = Math.floor(doses / FOOD.dosesPerPackage), half = doses % FOOD.dosesPerPackage !== 0;
+  const lines = Array.from({ length: Math.min(whole, GAUGE_LINES) }, () => h('i'));
+  if (half && whole < GAUGE_LINES) lines.push(h('i', { 'data-half': '' }));
+  return h('span.fs-food', { role: 'img', 'aria-label': foodLabel(doses), 'data-level': foodLevel(doses) },
+    ic('supply', { filled: true }), lines.length ? h('span.fs-food-lines', { 'aria-hidden': 'true' }, ...lines) : null, h('b', { 'aria-hidden': 'true' }, packagesFigure(doses)));
+}
+/**
+ * A top bar with the food gauge under its clock, the two in one column, so the bar keeps its width for the names
+ * and titles. Without a clock (an ended Task), the gauge takes the clock's place.
+ */
+function withFood(bar, doses) {
+  const right = bar.querySelector('.tb-right');
+  const clock = right.querySelector('.timer');
+  const stack = h('span.fs-clock', foodGauge(doses));
+  if (clock) { right.insertBefore(stack, clock); stack.prepend(clock); } else right.insertBefore(stack, right.querySelector('.tb-menu'));
+  return bar;
 }
 
 const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, stock, howto };

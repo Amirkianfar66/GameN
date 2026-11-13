@@ -5,7 +5,7 @@
 //   review.html?sheet=layout                 the Supply Room annotated: stops, stations, the zones, the swing, the cut
 //   review.html?sheet=board&id=<storyboard>  a storyboard: each beat's room and both phones, with its caption
 //   review.html?sheet=phones&as=winch|panel  every state of one participant's phone
-//   review.html?sheet=flow                   starting a Task, the Partner's request, other phones, the return, the food warning
+//   review.html?sheet=flow                   starting a Task, the Partner's request, other phones, the return, the food gauge
 //   review.html?sheet=states                 a press in flight, refused, its answer unknown and recovered; the request's races
 //   review.html?sheet=machine                the crane's parts and their states
 //   review.html?sheet=motion                 each cue's frames, and its Reduce motion form
@@ -171,15 +171,15 @@ function phones(as) {
 }
 
 function flow() {
-  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). It all happens in the Food Supply step at the start of each round, before the turns: 30 s to ask, one request at a time, one Task a round (the owner, on Designer\'s recommendation). While the two are away, the board shows who is not here. Both come back at the end of the Task\'s time, whatever happened, and the others learn only the food count.'));
+  app.append(header('Starting a Task, the other phones, the return and the food gauge', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). It all happens in the Food Supply step at the start of each round, before the turns: 30 s to ask, one request at a time, one Task a round (the owner, on Designer\'s recommendation). While the two are away, the board shows who is not here. Both come back at the end of the Task\'s time, whatever happened, and the others learn only the food count.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     ['s=volunteer&step=task', '1 · Volunteer: start a Task'], ['s=volunteer&step=partner', '2 · Volunteer: ask a Partner'], ['s=volunteer&step=asking', '3 · Volunteer: waiting for the answer'],
     ['s=called', '4 · Partner: Join or Decline (15 s)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, the next volunteer goes'], ['s=called&answer=join', '6 · Partner: joined'],
     ['s=volunteer&step=starting', '7 · Volunteer: starting'], ['s=task&board=cooperation&t=2500&as=panel', '8 · Both: briefing'], ['s=away', '9 · Another player: the board shows who is away'],
     ['s=return&board=cooperation&as=winch', '10 · Return after a delivery'], ['s=return&board=cooperation&as=other', '11 · Another player after a delivery: the food count only'], ['s=return&board=chop&as=other', '12 · Another player after a death, nothing delivered: the board only'],
-    ['s=stock&n=1', '13 · Food warning: one package, on every phone'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
-    ['s=stock&n=0.5', '15 · Food warning: half a package'], ['s=stock&n=0', '16 · Food warning: no food left'],
+    ['s=stock&n=1', '13 · The food gauge: one package left, amber, on every phone'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
+    ['s=stock&n=0.5', '15 · The food gauge: half a package'], ['s=stock&n=0', '16 · The food gauge: no food, red'], ['s=stock&n=4.5', '17 · The food gauge: four and a half packages'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }
@@ -270,7 +270,7 @@ function large() {
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK not done'],
     // The longest permitted names (twelve characters) stay whole: on the name tags, in the hint and on the buttons (#222).
     [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch&names=long`, 'Twelve-letter names: the partner offline, the panel at the cab'], [`s=task&board=chop&t=${CAB_AT - 100}&as=panel&names=long`, 'Twelve-letter names: a LOCK would cut'],
-    ['s=called&names=long', 'Twelve-letter names: the Partner request, its answers in sight'], ['s=stock&n=0.5', 'Food warning: half a package'],
+    ['s=called&names=long', 'Twelve-letter names: the Partner request, its answers in sight'], ['s=stock&n=0.5', 'The food gauge: half a package'],
   ]) grid.append(phone(`${q}&text=2`, { width: 320, height: 568, scale: 1, safe: '20,0', label, measured: true }));
   app.append(grid);
 }

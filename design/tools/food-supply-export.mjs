@@ -24,7 +24,7 @@ import { CUES } from '../food-supply/stage.mjs';
 import { BOARDS, CAST } from '../food-supply/boards.mjs';
 import { SCENARIOS } from '../food-supply/scenarios.mjs';
 import { CONFLICTS, OPEN_ITEMS, RULES, VISIBILITY } from '../food-supply/rules.mjs';
-import { FOOD_WARNING_SUB, foodWarning, packagesText } from '../food-supply/hints.mjs';
+import { foodLabel, foodLevel, packagesFigure, packagesText } from '../food-supply/hints.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const ART = 'design/food-supply/art/supply-room.back.svg';
@@ -261,14 +261,16 @@ export function build(artText) {
       eating: 'Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer\'s recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player\'s own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round\'s end, after the retained attacks and actions and before Rescue, in the round\'s turn order, and goes to the Hospital under its existing rules; a player already Injured or Eliminated by then gets nothing more, and a hungry player can be healed from the next round (the owner, 13 November 2026). Hunger is not an attack: Protection and Clone do not stop it.',
       server: 'The server takes each dose when the turn ends. Nothing is taken from the artwork, and a ship-life visit that never played decides nothing.',
       shown: 'The count on every phone, in packages: a delivery as five more, each meal as half a package less; the warning while one package or less remains.',
-      words: {
-        about: 'The exact words (#222, 13 November 2026), from the server\'s dose count; a single dose is half a package, written "½" (hints.mjs packagesText and foodWarning).',
-        count: { 0: packagesText(0), 1: packagesText(1), 2: packagesText(2), 9: packagesText(9), 12: packagesText(12) },
-        warning: { 2: foodWarning(2), 1: foodWarning(1), 0: foodWarning(0), above: 'No warning above one package (2 doses).' },
-        warningSub: FOOD_WARNING_SUB,
-        delivery: `Food stock: ${packagesText(12)} (+${FOOD.perDelivery})`,
-        largeText: 'At the largest text on a small phone (a banner under 12 rem wide) the warning keeps its title; its second line is hidden on screen and still read by screen readers.',
+      gauge: {
+        about: 'The food count on every phone, always (the owner, 13 November 2026; #222): a gauge in the top bar, under the clock, sharing its column so the bar keeps its width. No warning banner and no words on screen.',
+        shows: 'The supply icon; one line a package and a short line for a half, ten lines at most; and the count as a figure. A narrow bar may drop the icon; at large text (a bar under 16 rem) the lines go and the icon and the figure stay.',
+        levels: { ok: 'More than one package: plain.', low: 'One package or less (FOOD.warnAt): amber, as the clock warns.', empty: 'None: red (#B3261E, paper figure).' },
+        figure: { 0: packagesFigure(0), 1: packagesFigure(1), 2: packagesFigure(2), 9: packagesFigure(9), 12: packagesFigure(12) },
+        level: { 0: foodLevel(0), 1: foodLevel(1), 2: foodLevel(2), 3: foodLevel(3) },
+        spoken: { 0: foodLabel(0), 1: foodLabel(1), 2: foodLabel(2), 9: foodLabel(9) },
+        source: 'hints.mjs packagesFigure, foodLevel and foodLabel; phone.mjs foodGauge and withFood; phone.css .fs-clock and .fs-food.',
       },
+      delivery: `On the other phones after a delivery, a toast: "Food stock: ${packagesText(12)} (+${FOOD.perDelivery})".`,
       sync: 'Meals and hunger follow the selected reality, like any physical effect: a branch inherits the count when it is made; Sync keeps the selected reality\'s count and its hungry players. The Task, and so its delivery, comes before any branch.',
       economy: 'Five packages are ten doses: one delivery a round feeds up to ten players. Game Balance to check it (open item paths).',
     },

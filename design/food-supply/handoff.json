@@ -32,7 +32,7 @@
     {
       "id": "food-warning",
       "rule": "The food warning appears when one package remains.",
-      "design": "FOOD.warnAt 1: a banner on every phone while one package or less remains, titled \"Food low: 1 package left\", \"Food low: ½ package left\" (a meal takes half a package) and, with none, \"No food left\"; under it, \"Each meal takes half a package. A Food Supply Task adds five.\" (#222, 13 November 2026)."
+      "design": "FOOD.warnAt 1: the food gauge under the clock on every phone turns amber while one package or less remains, and red at none (the owner, 13 November 2026: no warning banner, no words on screen)."
     },
     {
       "id": "eating",
@@ -254,10 +254,10 @@
     "design/food-supply/stage.mjs": "035006e3392987402f724e8724bf7fe3208e8dae6d8381e75b95674debe7325a",
     "design/food-supply/boards.mjs": "d67bb490883014e825ec7b2c9c4a849687a64d410c5bdaaa6a6ef87e7c3a3916",
     "design/food-supply/scenarios.mjs": "acaa25ced94d1b16d5a5fc9073db92d99e0e46a86a971490ece6f383e797fcfe",
-    "design/food-supply/hints.mjs": "36d6a8b6e6d796fb6af589c3ef9d1e445cc12bffb426d48da689e6eae7e91ddb",
-    "design/food-supply/rules.mjs": "2f2dac13f354ef9a307ffdbd7de2effaa95295e1ec968d8088bea02a3bf1b5ea",
-    "design/food-supply/phone.mjs": "d1d839d8c086053735622e1b38ccdc11f7f3aca744941a9f24e75941ba2f7c4e",
-    "design/food-supply/phone.css": "2813bf6cd8a1be78034cfb25ab0f1d9f915c9027c80a6c0fe49a7ffe4f822965"
+    "design/food-supply/hints.mjs": "a2404b4d0b6a4fa3bb1308ab46de722b554980e93007c92e10ac6ee01d47b4c3",
+    "design/food-supply/rules.mjs": "68c5c1070e2898a547e64f61edad5ff0495cf99dc8a35e4a9073e9f15507153e",
+    "design/food-supply/phone.mjs": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
+    "design/food-supply/phone.css": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -793,25 +793,36 @@
     "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer's recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player's own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round's end, after the retained attacks and actions and before Rescue, in the round's turn order, and goes to the Hospital under its existing rules; a player already Injured or Eliminated by then gets nothing more, and a hungry player can be healed from the next round (the owner, 13 November 2026). Hunger is not an attack: Protection and Clone do not stop it.",
     "server": "The server takes each dose when the turn ends. Nothing is taken from the artwork, and a ship-life visit that never played decides nothing.",
     "shown": "The count on every phone, in packages: a delivery as five more, each meal as half a package less; the warning while one package or less remains.",
-    "words": {
-      "about": "The exact words (#222, 13 November 2026), from the server's dose count; a single dose is half a package, written \"½\" (hints.mjs packagesText and foodWarning).",
-      "count": {
-        "0": "0 packages",
-        "1": "½ package",
-        "2": "1 package",
-        "9": "4½ packages",
-        "12": "6 packages"
+    "gauge": {
+      "about": "The food count on every phone, always (the owner, 13 November 2026; #222): a gauge in the top bar, under the clock, sharing its column so the bar keeps its width. No warning banner and no words on screen.",
+      "shows": "The supply icon; one line a package and a short line for a half, ten lines at most; and the count as a figure. A narrow bar may drop the icon; at large text (a bar under 16 rem) the lines go and the icon and the figure stay.",
+      "levels": {
+        "ok": "More than one package: plain.",
+        "low": "One package or less (FOOD.warnAt): amber, as the clock warns.",
+        "empty": "None: red (#B3261E, paper figure)."
       },
-      "warning": {
+      "figure": {
+        "0": "0",
+        "1": "½",
+        "2": "1",
+        "9": "4½",
+        "12": "6"
+      },
+      "level": {
+        "0": "empty",
+        "1": "low",
+        "2": "low",
+        "3": "ok"
+      },
+      "spoken": {
         "0": "No food left",
         "1": "Food low: ½ package left",
         "2": "Food low: 1 package left",
-        "above": "No warning above one package (2 doses)."
+        "9": "Food: 4½ packages"
       },
-      "warningSub": "Each meal takes half a package. A Food Supply Task adds five.",
-      "delivery": "Food stock: 6 packages (+5)",
-      "largeText": "At the largest text on a small phone (a banner under 12 rem wide) the warning keeps its title; its second line is hidden on screen and still read by screen readers."
+      "source": "hints.mjs packagesFigure, foodLevel and foodLabel; phone.mjs foodGauge and withFood; phone.css .fs-clock and .fs-food."
     },
+    "delivery": "On the other phones after a delivery, a toast: \"Food stock: 6 packages (+5)\".",
     "sync": "Meals and hunger follow the selected reality, like any physical effect: a branch inherits the count when it is made; Sync keeps the selected reality's count and its hungry players. The Task, and so its delivery, comes before any branch.",
     "economy": "Five packages are ten doses: one delivery a round feeds up to ten players. Game Balance to check it (open item paths)."
   },

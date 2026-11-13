@@ -101,12 +101,12 @@
       "duration": 14100
     },
     "design/food-supply/review/flow.png": {
-      "sha256": "625c1e33d1495b5c0fda66fa0f4f58359a013cc870412ee7be337e55b3871910",
+      "sha256": "466177fa4c291a411d5d24165bb1e5f00a353ec38877beb84e133bf67b5aad6b",
       "width": 1720,
       "height": 1675
     },
     "design/food-supply/review/large-text.png": {
-      "sha256": "f8599ae8269f46307a7582bbe8427b03b251fbc70d581db58f285988ca8bf906",
+      "sha256": "32953e4d1aef6c6f2eeccd3dc39bca2f8384823bdcb0ee91fcbb359f252738e5",
       "width": 1400,
       "height": 2745
     },
@@ -126,17 +126,17 @@
       "height": 5209
     },
     "design/food-supply/review/phones-panel.png": {
-      "sha256": "25ed66c949cc631261e6f82c14fba606d7e6209d3cd21fb04fe09126ccfb5f4c",
+      "sha256": "21436617f21b8255ef2d2ec46e8566220688d8eca3ab9ada19c3a5da1daa8dcb",
       "width": 1720,
       "height": 1564
     },
     "design/food-supply/review/phones-winch.png": {
-      "sha256": "50ae859f1274d32b348d9f7b27a8dcebc4a7e3b7ea4e17406ade817b97a3bcf3",
+      "sha256": "b5828f54b8a1b9e9479c1a3b60c8ced08bc7a78f02bb3295d3e2d43018c566be",
       "width": 1720,
       "height": 1636
     },
     "design/food-supply/review/states.png": {
-      "sha256": "ebf704f7be12b79e7e2dfd618f0c225ced311852a51a4a3f890b03a89deac1d2",
+      "sha256": "1824c24dcbec320f1931bcaabaebecf3ea93eacfb195b0dd3ef8a6447d94bd7f",
       "width": 1720,
       "height": 1190
     }

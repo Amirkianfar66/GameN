@@ -117,6 +117,23 @@
 .fs-ctl[data-sending] .fs-face::after { content: ""; width: 18px; height: 18px; margin-left: 8px; border-radius: 50%; border: 3px solid currentColor; border-right-color: transparent; animation: fs-spin 0.8s linear infinite; }
 .ph[data-motion="reduced"] .fs-ctl[data-sending] .fs-face::after { animation: none; border-right-color: currentColor; opacity: 0.6; }
 @keyframes fs-spin { to { transform: rotate(360deg); } }
+/* The food gauge (the owner, 13 November 2026): the ship's food count on every phone, always, under the clock: one
+   line a package (a short line for a half) and a figure. Amber while one package or less remains and red at none,
+   as the clock warns. The clock and the gauge share one column, so the bar's names and titles keep their room. At
+   large text the lines go and the figure stays. */
+.fs-clock { flex: none; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 2px; }
+.fs-clock .timer { height: 26px; }
+.fs-food { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 17px; padding: 0 6px 0 5px; border-radius: 9px; background: var(--surface-3); color: var(--text-primary); font: 700 0.75rem/1 var(--font-ui); font-variant-numeric: tabular-nums; --ic-knock: var(--surface-3); }
+.fs-food .ic { width: 12px; height: 12px; flex: none; color: var(--text-secondary); }
+.fs-food-lines { display: inline-flex; align-items: flex-end; gap: 1.5px; height: 10px; }
+.fs-food-lines i { width: 2px; height: 100%; border-radius: 1px; background: currentColor; }
+.fs-food-lines i[data-half] { height: 50%; }
+.fs-food[data-level="low"] { background: var(--accent); color: var(--on-accent); --ic-knock: var(--accent); }
+.fs-food[data-level="low"] .ic { color: var(--on-accent); }
+.fs-food[data-level="empty"] { background: #B3261E; color: #F4EBDD; --ic-knock: #B3261E; }
+.fs-food[data-level="empty"] .ic { color: #F4EBDD; }
+@container (max-width: 16rem) { .fs-food-lines { display: none; } .fs-food { font-size: min(0.75rem, 18px); height: auto; padding-block: 2px; } .fs-clock .timer { height: auto; padding-block: 3px; } }
+
 /* The partner's state, offline or out, is on screen at every text size: in the top bar, and at the largest text
    (where the bar keeps only the two names) on the partner's name tag in the view, beside any danger in the hint.
    The tag is always whole and inside the view (phone.mjs fitTags). */

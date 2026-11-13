@@ -89,12 +89,23 @@ export function packagesText(doses) {
   return `${whole === 0 && half ? '' : whole}${half ? '½' : ''} ${one ? 'package' : 'packages'}`;
 }
 
-/**
- * The food warning's title on every phone, while one package or less remains (FOOD.warnAt), or null above it
- * (#222, 13 November 2026): "Food low: 1 package left", "Food low: ½ package left", and at none "No food left".
- */
-export function foodWarning(doses) {
-  if (doses > FOOD.warnAt * FOOD.dosesPerPackage) return null;
-  return doses <= 0 ? 'No food left' : `Food low: ${packagesText(doses)} left`;
+/** The count as a figure, for the food gauge: "4½", "½", "1", "0". */
+export function packagesFigure(doses) {
+  const whole = Math.floor(doses / FOOD.dosesPerPackage), half = doses % FOOD.dosesPerPackage !== 0;
+  return `${whole === 0 && half ? '' : whole}${half ? '½' : ''}`;
 }
-export const FOOD_WARNING_SUB = 'Each meal takes half a package. A Food Supply Task adds five.';
+
+/**
+ * The food gauge's level (the owner, 13 November 2026): amber while one package or less remains (FOOD.warnAt),
+ * red at none. The gauge replaces the warning banner: no words on screen.
+ */
+export function foodLevel(doses) {
+  if (doses <= 0) return 'empty';
+  return doses <= FOOD.warnAt * FOOD.dosesPerPackage ? 'low' : 'ok';
+}
+
+/** The gauge's name for screen readers: "Food: 4½ packages", "Food low: ½ package left", "No food left". */
+export function foodLabel(doses) {
+  const level = foodLevel(doses);
+  return level === 'empty' ? 'No food left' : level === 'low' ? `Food low: ${packagesText(doses)} left` : `Food: ${packagesText(doses)}`;
+}
