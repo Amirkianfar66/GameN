@@ -48,7 +48,8 @@ const readyFacts=`(()=>{const n=document.querySelector('#planet-ready'),m=planet
  if(!n||!r)return {present:false,status:m.status,canReady:m.canReady};
  const point={x:Math.round(r.x+r.width/2),y:Math.round(r.y+r.height/2),id:1},hit=document.elementFromPoint(point.x,point.y);
  const visible=(()=>{for(let p=n;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||['hidden','collapse'].includes(s.visibility)||Number(s.opacity)===0)return false;}return true;})();
- return {present:true,visible,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),canReady:m.canReady,status:m.status,busy:m.busy,focused:document.hasFocus(),
+ return {present:true,visible,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),canReady:m.canReady,status:m.status,busy:m.busy,focused:document.hasFocus(),documentVisibility:document.visibilityState,
+ connection:m.connection,mode:m.mode,uncertain:m.uncertain,remainingMs:m.remainingMs,setupFlowVersion:m.setupFlowVersion,clockStatus:m.setupClock.status,ownReady:m.members.find(p=>p.seatId===m.selfSeatId)?.ready??null,
  rect:{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom},point,scroll:{x:scrollX,y:scrollY},
  viewport:{width:innerWidth,height:innerHeight,visual:v?{width:v.width,height:v.height,offsetLeft:v.offsetLeft,offsetTop:v.offsetTop,pageLeft:v.pageLeft,pageTop:v.pageTop,scale:v.scale}:null},
  hit:{tag:hit?.tagName??null,id:hit?.id??null,classes:typeof hit?.className==='string'?hit.className:null},hitMatches:hit===n||n.contains(hit)};})()`;
@@ -57,7 +58,7 @@ async function tapReady(page,result){
  await page.evaluate("document.querySelector('#planet-ready').scrollIntoView({block:'center',behavior:'instant'})");
  await page.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
  const before=await page.evaluate(readyFacts);result.readyTap={before};
- assert.equal(before.visible,true,'actual Ready is not visible');assert.equal(before.canReady,true,'actual Ready eligibility changed');assert.equal(before.disabled,false,'actual Ready disabled');assert.equal(before.ariaDisabled==='true',false,'actual Ready aria-disabled');
+ assert.equal(before.documentVisibility,'visible','Ready document is not visible');assert.equal(before.visible,true,'actual Ready is not visible');assert.equal(before.canReady,true,'actual Ready eligibility changed');assert.equal(before.disabled,false,'actual Ready disabled');assert.equal(before.ariaDisabled==='true',false,'actual Ready aria-disabled');
  assert.ok(before.rect.width>0&&before.rect.height>0&&before.point.x>=0&&before.point.x<before.viewport.width&&before.point.y>=0&&before.point.y<before.viewport.height,'Ready outside layout viewport');
  assert.equal(before.hitMatches,true,'Ready hit target is blocked: '+JSON.stringify(before));
  try{

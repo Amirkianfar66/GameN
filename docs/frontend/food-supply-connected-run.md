@@ -68,3 +68,8 @@ visible button. It requires the original successful Ready response before
 calling a run Ready. It does not use `element.click()`, a direct Ready request,
 a hidden control or an automatic retry. Any blocked/reachable-state failure
 remains evidence, not a bypass. These new diagnostics have not run yet.
+
+Ready diagnostics also retain the own public model's connection/uncertainty,
+setup-clock status, remaining time and own Ready boolean, alongside document
+visibility. No role, UID, token or raw private snapshot is logged. The document
+must be visible before physical touch; no liveness or visibility guard is bypassed.
