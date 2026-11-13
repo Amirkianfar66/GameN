@@ -1,0 +1,8 @@
+{
+  "scope": "An older failure image remained in the reused local smoke output directory. It is retained separately, not presented as output of the final passing four-profile run. No source commit is inferred for the older frame.",
+  "originalPath": "/private/tmp/gamen-food-app-smoke/390-844-text1-normal-failure.png",
+  "originalModified": "2026-11-13T14:36:10.145Z",
+  "finalResultModified": "2026-11-13T20:46:47.426Z",
+  "finalNativeHead": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
+  "sha256": "a932b6e06ed3a5e795a28a5fac29ba9407f676a5bdc730e1f7a02a0ec93f0512"
+}

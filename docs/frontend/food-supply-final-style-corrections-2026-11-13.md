@@ -1,0 +1,19 @@
+# Food test 1: two final native style corrections
+
+This source checkpoint addresses the only two blockers in Designer's [review of native 703 / combined cbf / evidence 6321](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193). Designer accepted the earlier eight corrections, gauge, caption, large-text treatment, waiting Hold and ordinary regressions. This new source still requires browser verification, refreshed captures and Designer's renewed explicit acceptance.
+
+The first correction fixes the deterministic stylesheet adapter. Terminal `::before` and `::after` now follow the scoped `:is(…)` instead of being placed inside it. Exactly 11 kit rules and 3 Food rules change selectors; declaration values, rule order, normal scoping, specificity and animation-name adaptation are retained. This restores the approved busy/sending spinners, round sheet controls, list hairlines, view fade, small-button hit extensions and switch/stamp details. Unsupported pseudo syntax now fails the adapter instead of producing invalid CSS. The component module is byte-identical.
+
+The second correction gives the existing hint-icon wrapper `flex: none`. Text remains free to wrap under the same approved rules. No hint words, icon art, timers, inputs, offers, controller, recovery, crate motion or authority changes.
+
+Only these three native closure paths change:
+
+- `apps/game/hosted/planet/food-kit.css`
+- `apps/game/hosted/planet/food.css`
+- `apps/game/hosted/planet/food-render.mjs`
+
+The other 27 native paths, all 14 Designer source pins at `cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b`, all 37 SVGs and nine reused portraits are unchanged. [Source AST audit](evidence/food-supply-style-corrections-2026-11-13/source-audit.json) proves the 14 selector corrections leave every declaration and rule count intact. The [complete 30-file closure](food-supply-render-closure.json) records the new hashes; Integration alone updates production registration. No owner decision, ruleset/version change, activation, deployment or #227/#228/#230 scope is introduced.
+
+The prepared comparison checks real computed pseudo-element declarations against the unchanged reference, including a small button's extra hit extent and reduced-motion sending indicator. Inert temporary component probes receive no inputs and are removed before screenshots. Actual mounted-screen pseudo-elements and hint SVG width/height/gap are measured separately. The planned refreshed packet covers all 84 Food states at 390×844 and 320×568/200%, normal/reduced motion, plus the 12 ordinary regressions. This is stronger than checking the exported selector text alone. Those browser checks and new captures have **not run** at this source checkpoint because Backend owns the timing slot. Only light syntax/source/copy checks have run.
+
+The two connected-runner failures are separate from these presentation corrections. The first stopped before setup at an unconfirmed second admission. The second admitted both devices but produced no Ready operation and timed out with 6/7 ready; its exact Ready cause remains unclassified. Their original files are retained in distinct local evidence directories. Ready hit/viewport/disabled-state diagnostics and an original-response check are prepared; no direct operation, hidden control, programmatic click or automatic retry is substituted for the normal visible touch control. Neither attempt establishes a connected Food result; 8/9 were not run. See the [connected run record](food-supply-connected-run.md).

@@ -1,0 +1,4001 @@
+{
+  "scope": "Final native source 703 / combined cbf / Designer cd2 review evidence, with labeled historical diagnostics. Covers every evidence file excluding this manifest.",
+  "nativeHead": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
+  "combinedHead": "cbf38a95589db1a83867a48bc6fb2569ccabbd48",
+  "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
+  "foodPairs": 336,
+  "ordinaryPairs": 12,
+  "files": [
+    {
+      "path": "app-smoke/320-568-text2-normal-aborted-recovered.png",
+      "bytes": 15773,
+      "sha256": "12058a010572058b0fb6523c75a7a6642e9b6fdeb17029c737d9693f8c6530c5"
+    },
+    {
+      "path": "app-smoke/320-568-text2-normal-task.png",
+      "bytes": 91925,
+      "sha256": "7951150fa39b070e016f137bde16337b12e18cd843e8a1c2e04b308ddcc1ce1f"
+    },
+    {
+      "path": "app-smoke/320-568-text2-normal-tasks.png",
+      "bytes": 102781,
+      "sha256": "e23722e80691f2a76836eeb71629aef9d3d53988275268ea055dddee3f1f2990"
+    },
+    {
+      "path": "app-smoke/320-568-text2-reduced-aborted-recovered.png",
+      "bytes": 15773,
+      "sha256": "12058a010572058b0fb6523c75a7a6642e9b6fdeb17029c737d9693f8c6530c5"
+    },
+    {
+      "path": "app-smoke/320-568-text2-reduced-task.png",
+      "bytes": 91925,
+      "sha256": "7951150fa39b070e016f137bde16337b12e18cd843e8a1c2e04b308ddcc1ce1f"
+    },
+    {
+      "path": "app-smoke/320-568-text2-reduced-tasks.png",
+      "bytes": 102781,
+      "sha256": "e23722e80691f2a76836eeb71629aef9d3d53988275268ea055dddee3f1f2990"
+    },
+    {
+      "path": "app-smoke/390-844-text1-normal-aborted-recovered.png",
+      "bytes": 11671,
+      "sha256": "d5a186565feba2d4fc1c0c678f6afb463d6b3a4625466131210d27914ba7430a"
+    },
+    {
+      "path": "app-smoke/390-844-text1-normal-task.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "app-smoke/390-844-text1-normal-tasks.png",
+      "bytes": 147474,
+      "sha256": "533172fb72531d90d8d4514b72658ab381695e09adc309c92b630d1462244187"
+    },
+    {
+      "path": "app-smoke/390-844-text1-reduced-aborted-recovered.png",
+      "bytes": 11671,
+      "sha256": "d5a186565feba2d4fc1c0c678f6afb463d6b3a4625466131210d27914ba7430a"
+    },
+    {
+      "path": "app-smoke/390-844-text1-reduced-task.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "app-smoke/390-844-text1-reduced-tasks.png",
+      "bytes": 147648,
+      "sha256": "c6e490130a69c7313da1aed291a9c770ba7e1087043b9f50da74dc123647deec"
+    },
+    {
+      "path": "app-smoke/result.json",
+      "bytes": 8272,
+      "sha256": "fde10de7b91c33ca7dacbbefc9e81d4a5422110e37786e79af8328fb26848d57"
+    },
+    {
+      "path": "checks/app-771.txt",
+      "bytes": 190085,
+      "sha256": "4684ee889ce461f96b5718a42869191acab14a232f53a67a99e9c3d29dcf8d4e"
+    },
+    {
+      "path": "checks/app-smoke.txt",
+      "bytes": 69,
+      "sha256": "444e6615271e2e9ddd5a328c68668ed4b012c5769291e3c94bfae1f7da44ab35"
+    },
+    {
+      "path": "checks/food-build.txt",
+      "bytes": 8575,
+      "sha256": "87509bd8b12561b81af15bc856c878b1cfd211d6c827e47b781960529534e98d"
+    },
+    {
+      "path": "checks/food-comparison.txt",
+      "bytes": 641,
+      "sha256": "0b65054f6b9509512957c99d2aa3a3ba3eca7893d4d8cd951d153120f54ae479"
+    },
+    {
+      "path": "checks/ordinary-build.txt",
+      "bytes": 4337,
+      "sha256": "6b78d711c4dfd38ed7d549e955f57a2597b281d586862553aa0fa07c8e481284"
+    },
+    {
+      "path": "checks/ordinary-comparison.txt",
+      "bytes": 84,
+      "sha256": "8c7af4220bd24cc8f1eb47c5321d305f4d43584d662f3cc9ae3f51ccbf3c7d6c"
+    },
+    {
+      "path": "checks/packet-regeneration.txt",
+      "bytes": 103,
+      "sha256": "42c3ea40b67b43f0e264646035626341851d2157c1534f5b485db898d2c24868"
+    },
+    {
+      "path": "checks/presentation-226.txt",
+      "bytes": 56716,
+      "sha256": "c52b18fb2a9b87041e07f328a3eec26ee8fbb0a0104626f48b69674311743387"
+    },
+    {
+      "path": "comparison/food-flow-01-320-568-text2-normal-native.png",
+      "bytes": 102781,
+      "sha256": "e23722e80691f2a76836eeb71629aef9d3d53988275268ea055dddee3f1f2990"
+    },
+    {
+      "path": "comparison/food-flow-01-320-568-text2-normal-reference.png",
+      "bytes": 107426,
+      "sha256": "09f8e3a9d049bea3aeba4f70c4f1c22a8710466097fac82348658c6b8acfdefd"
+    },
+    {
+      "path": "comparison/food-flow-01-320-568-text2-reduced-native.png",
+      "bytes": 102781,
+      "sha256": "e23722e80691f2a76836eeb71629aef9d3d53988275268ea055dddee3f1f2990"
+    },
+    {
+      "path": "comparison/food-flow-01-320-568-text2-reduced-reference.png",
+      "bytes": 108281,
+      "sha256": "19421974e2724294ab813efa39f1cf5adf000843bc8cef975ad9240cb7ec85b3"
+    },
+    {
+      "path": "comparison/food-flow-01-390-844-text1-normal-native.png",
+      "bytes": 147446,
+      "sha256": "ef5476393502de66ce3720f75b3371405b719c40c971ce021c217b3be7bc7e79"
+    },
+    {
+      "path": "comparison/food-flow-01-390-844-text1-normal-reference.png",
+      "bytes": 142556,
+      "sha256": "06f262a6f490ed6de44ddc2ae3447273d3507a16810178ab9867e28261c642b6"
+    },
+    {
+      "path": "comparison/food-flow-01-390-844-text1-reduced-native.png",
+      "bytes": 147648,
+      "sha256": "c6e490130a69c7313da1aed291a9c770ba7e1087043b9f50da74dc123647deec"
+    },
+    {
+      "path": "comparison/food-flow-01-390-844-text1-reduced-reference.png",
+      "bytes": 148064,
+      "sha256": "53e6a00d07204560d7dfda3decdc6adfba7e35f811ebc1f83a5fb54bea929e06"
+    },
+    {
+      "path": "comparison/food-flow-02-320-568-text2-normal-native.png",
+      "bytes": 108308,
+      "sha256": "145e3604344058a86e857ee320ce856a15b1888848634ad67842e089f95e5a69"
+    },
+    {
+      "path": "comparison/food-flow-02-320-568-text2-normal-reference.png",
+      "bytes": 109197,
+      "sha256": "dce535774dd39609fb2b7c52b836bd0e2a95402526e3f89814151202ac014052"
+    },
+    {
+      "path": "comparison/food-flow-02-320-568-text2-reduced-native.png",
+      "bytes": 108264,
+      "sha256": "d8f54c89aa9ac64fa067bd474ff6e6bed96cc889c28bbdcc563a118784ee8f5a"
+    },
+    {
+      "path": "comparison/food-flow-02-320-568-text2-reduced-reference.png",
+      "bytes": 109643,
+      "sha256": "41e3e7eb7f0a056b55f132ae42141a7db98a4e8b7eb8c49d94a6181d6f71fc53"
+    },
+    {
+      "path": "comparison/food-flow-02-390-844-text1-normal-native.png",
+      "bytes": 102573,
+      "sha256": "bd26ce045f0765a1c0dbdb2da34786be9a54aeaf666e0d12672af60f0c46884e"
+    },
+    {
+      "path": "comparison/food-flow-02-390-844-text1-normal-reference.png",
+      "bytes": 140064,
+      "sha256": "fc49db7545cdd54d57865e112c3c98556ad7f395cdfdc2214e836f1d0424728f"
+    },
+    {
+      "path": "comparison/food-flow-02-390-844-text1-reduced-native.png",
+      "bytes": 102573,
+      "sha256": "bd26ce045f0765a1c0dbdb2da34786be9a54aeaf666e0d12672af60f0c46884e"
+    },
+    {
+      "path": "comparison/food-flow-02-390-844-text1-reduced-reference.png",
+      "bytes": 139912,
+      "sha256": "845164a330bbb592a81cd599827d45e2119cebbbc17f0ce75b3dbbfd7a566153"
+    },
+    {
+      "path": "comparison/food-flow-03-320-568-text2-normal-native.png",
+      "bytes": 130100,
+      "sha256": "4196ba092d445d426c11aedc4d32662a4d0aaee036fdd61b6e33146f27f2387d"
+    },
+    {
+      "path": "comparison/food-flow-03-320-568-text2-normal-reference.png",
+      "bytes": 144085,
+      "sha256": "6a81b54efff0a919c08e47ceb41213dbe1502a55f57259af4d421d99e2c0f1ce"
+    },
+    {
+      "path": "comparison/food-flow-03-320-568-text2-reduced-native.png",
+      "bytes": 130084,
+      "sha256": "95633ea1f90919bba800574eb43371a430469c583a95962165f337f2945afe23"
+    },
+    {
+      "path": "comparison/food-flow-03-320-568-text2-reduced-reference.png",
+      "bytes": 145834,
+      "sha256": "db7d478cec6729cceac474fd36d8f33d26f6fe3ebccb85bade4df94b719cde20"
+    },
+    {
+      "path": "comparison/food-flow-03-390-844-text1-normal-native.png",
+      "bytes": 133632,
+      "sha256": "bf7b9fb8923663bd837db6ee5275fe3aaf40192fc534e43ab907917aaffb8d79"
+    },
+    {
+      "path": "comparison/food-flow-03-390-844-text1-normal-reference.png",
+      "bytes": 164072,
+      "sha256": "a27c84a14a1886985b1fbcc291eb0ddb9072c7debac53063ffe3ad58a5380656"
+    },
+    {
+      "path": "comparison/food-flow-03-390-844-text1-reduced-native.png",
+      "bytes": 133799,
+      "sha256": "d5fb09456d275a18f65efcecceca42a80e006bb890ba7b4356638a52864e93be"
+    },
+    {
+      "path": "comparison/food-flow-03-390-844-text1-reduced-reference.png",
+      "bytes": 169105,
+      "sha256": "65f6362ca9ab239c43965c1aa87ed4df9c235a410002212bad5a1bd329d9f40b"
+    },
+    {
+      "path": "comparison/food-flow-04-320-568-text2-normal-native.png",
+      "bytes": 47138,
+      "sha256": "a146a0585d0d8900e0f6cfe7d6dbbf30509845fe1c005e6b66137f51340f46cf"
+    },
+    {
+      "path": "comparison/food-flow-04-320-568-text2-normal-reference.png",
+      "bytes": 50678,
+      "sha256": "2bdb5ea71d56bc2d4f1a3403f0d206d5251171975834482911b5b9f1dd995233"
+    },
+    {
+      "path": "comparison/food-flow-04-320-568-text2-reduced-native.png",
+      "bytes": 47138,
+      "sha256": "a146a0585d0d8900e0f6cfe7d6dbbf30509845fe1c005e6b66137f51340f46cf"
+    },
+    {
+      "path": "comparison/food-flow-04-320-568-text2-reduced-reference.png",
+      "bytes": 50676,
+      "sha256": "f717127cd4c715adb7623250e59ae9a8e026c6d4bc24f3f1fa5d5b3b480a5c7e"
+    },
+    {
+      "path": "comparison/food-flow-04-390-844-text1-normal-native.png",
+      "bytes": 104427,
+      "sha256": "a904cef26d34682d06500cc3b5a9c1091b8dae23b98a57585fd6c65b63ebf214"
+    },
+    {
+      "path": "comparison/food-flow-04-390-844-text1-normal-reference.png",
+      "bytes": 148501,
+      "sha256": "3e9e84cfc6221e70c31c98a4c2f9b2fef8bc5b875d26a681bb38c2c8cf9814fe"
+    },
+    {
+      "path": "comparison/food-flow-04-390-844-text1-reduced-native.png",
+      "bytes": 104430,
+      "sha256": "c213a4b29f5b530eefd166328bb65b50f76e382b3d7436d1d507850f8acd48d8"
+    },
+    {
+      "path": "comparison/food-flow-04-390-844-text1-reduced-reference.png",
+      "bytes": 147372,
+      "sha256": "5085bcc92f15f67e08084948a18540da86f265cea887ec1f641fe877e95d0307"
+    },
+    {
+      "path": "comparison/food-flow-05-320-568-text2-normal-native.png",
+      "bytes": 140551,
+      "sha256": "fafdef15572019864d668c78ab9140bb094a9d218b77a8804f220b58c0140b23"
+    },
+    {
+      "path": "comparison/food-flow-05-320-568-text2-normal-reference.png",
+      "bytes": 153844,
+      "sha256": "5bc8dba4c03304f481b9810d4c8019d7d1f7dedc2df1c0be13c62305a7aaad06"
+    },
+    {
+      "path": "comparison/food-flow-05-320-568-text2-reduced-native.png",
+      "bytes": 140629,
+      "sha256": "a3f12574414b8e14f47af24da12a3e67d62cc5f2026d27bf277c63b7a52f6ad8"
+    },
+    {
+      "path": "comparison/food-flow-05-320-568-text2-reduced-reference.png",
+      "bytes": 154865,
+      "sha256": "a51cc28f43dce805b096b683716b08326c8944a93fe3066b76c963e23dd38d74"
+    },
+    {
+      "path": "comparison/food-flow-05-390-844-text1-normal-native.png",
+      "bytes": 131755,
+      "sha256": "50177c921494da6cbcbc6d8c04f5e33b349463cc1c5e96672916290874567e95"
+    },
+    {
+      "path": "comparison/food-flow-05-390-844-text1-normal-reference.png",
+      "bytes": 160119,
+      "sha256": "9a5e01f322edb45420f7d6f03a1c15053c9fc3cc8e90d3b7acd84a364bb41c2a"
+    },
+    {
+      "path": "comparison/food-flow-05-390-844-text1-reduced-native.png",
+      "bytes": 131902,
+      "sha256": "b09ec1ba2b400309d9586834a926f42be6160967afa8e4b440f2aa547e5c8b16"
+    },
+    {
+      "path": "comparison/food-flow-05-390-844-text1-reduced-reference.png",
+      "bytes": 165376,
+      "sha256": "bb74b89d27872727fdcd22aad303e6b97c29832af99e59865c1b4f97cc463448"
+    },
+    {
+      "path": "comparison/food-flow-06-320-568-text2-normal-native.png",
+      "bytes": 60975,
+      "sha256": "9328e405171f11a73695eeed04c41d8f6244c8dfcd2931c9aa55414d1cecb8ec"
+    },
+    {
+      "path": "comparison/food-flow-06-320-568-text2-normal-reference.png",
+      "bytes": 63831,
+      "sha256": "ab3f4004f87243663fce0227a8801618bc7044e6e52389c4eefd116b207380b3"
+    },
+    {
+      "path": "comparison/food-flow-06-320-568-text2-reduced-native.png",
+      "bytes": 60975,
+      "sha256": "9328e405171f11a73695eeed04c41d8f6244c8dfcd2931c9aa55414d1cecb8ec"
+    },
+    {
+      "path": "comparison/food-flow-06-320-568-text2-reduced-reference.png",
+      "bytes": 63831,
+      "sha256": "81da5f9f06fff38bd23630ebfcd0f247321c286fa09c7287ed6fec3c07b02e66"
+    },
+    {
+      "path": "comparison/food-flow-06-390-844-text1-normal-native.png",
+      "bytes": 121163,
+      "sha256": "a533cce9416d3e1949b6710efd1af0cc9663a2d8be790698c045b2f4fb20d4e7"
+    },
+    {
+      "path": "comparison/food-flow-06-390-844-text1-normal-reference.png",
+      "bytes": 155808,
+      "sha256": "e8489bbf7917ee202a29bc75cf45e3b69d219de35dbe56658677fb3a66b57f83"
+    },
+    {
+      "path": "comparison/food-flow-06-390-844-text1-reduced-native.png",
+      "bytes": 121313,
+      "sha256": "d51747519d38bbed3c5b2c33cfb89547e50bd950ee04d2543b1fe3f573917b76"
+    },
+    {
+      "path": "comparison/food-flow-06-390-844-text1-reduced-reference.png",
+      "bytes": 154847,
+      "sha256": "f8c7729949beb42d9df77d2721052805de9c038c497c032cec289e3f630ac959"
+    },
+    {
+      "path": "comparison/food-flow-07-320-568-text2-normal-native.png",
+      "bytes": 119783,
+      "sha256": "c36722e6de34e1e5238cfc7608335d6229dbae57155ccbd383cf3d8849413f79"
+    },
+    {
+      "path": "comparison/food-flow-07-320-568-text2-normal-reference.png",
+      "bytes": 138369,
+      "sha256": "6f385e39185cba5c8fa7d0370b7dc02f92ef09c1221f1aa3db19fa07d62e26d8"
+    },
+    {
+      "path": "comparison/food-flow-07-320-568-text2-reduced-native.png",
+      "bytes": 119762,
+      "sha256": "ca3dd89f47a9975436c7cddd7c02f435debc1af79309e3a89159bb00dd6ffb0d"
+    },
+    {
+      "path": "comparison/food-flow-07-320-568-text2-reduced-reference.png",
+      "bytes": 139500,
+      "sha256": "cc46dc620189196742518f4463b5177244016c006d95a7036e522dff608dd257"
+    },
+    {
+      "path": "comparison/food-flow-07-390-844-text1-normal-native.png",
+      "bytes": 115257,
+      "sha256": "5c138b1054157b59e88224647837107fc5d5f239a029b8c637a9a3062b9843c0"
+    },
+    {
+      "path": "comparison/food-flow-07-390-844-text1-normal-reference.png",
+      "bytes": 160959,
+      "sha256": "c902cb7627e1a5c65bd711cf607c5ff5ecc79d4283f2310d41ec1f10ce8d8049"
+    },
+    {
+      "path": "comparison/food-flow-07-390-844-text1-reduced-native.png",
+      "bytes": 115309,
+      "sha256": "6d4d792438063ea62b8b25492bbce1b78c04a1c1010b701c81cf9b49af214888"
+    },
+    {
+      "path": "comparison/food-flow-07-390-844-text1-reduced-reference.png",
+      "bytes": 166036,
+      "sha256": "0f12bf0ac6214e942dc6a66af2fc81a4be07854150346ae7c2196f359d617289"
+    },
+    {
+      "path": "comparison/food-flow-08-320-568-text2-normal-native.png",
+      "bytes": 45914,
+      "sha256": "ea70dfcb82c3f4ce28a62b3253b37971dae0398f2efbb3de682762db195af0df"
+    },
+    {
+      "path": "comparison/food-flow-08-320-568-text2-normal-reference.png",
+      "bytes": 47532,
+      "sha256": "1da644582a63b8bcb3477ffafd7b1b3c4cbc6bf51bc8d7ae3aa550295bd10f1e"
+    },
+    {
+      "path": "comparison/food-flow-08-320-568-text2-reduced-native.png",
+      "bytes": 45914,
+      "sha256": "ea70dfcb82c3f4ce28a62b3253b37971dae0398f2efbb3de682762db195af0df"
+    },
+    {
+      "path": "comparison/food-flow-08-320-568-text2-reduced-reference.png",
+      "bytes": 47532,
+      "sha256": "1da644582a63b8bcb3477ffafd7b1b3c4cbc6bf51bc8d7ae3aa550295bd10f1e"
+    },
+    {
+      "path": "comparison/food-flow-08-390-844-text1-normal-native.png",
+      "bytes": 106800,
+      "sha256": "a1b5b14cdddf62586b33443f01844120c9b58c6a91f430c348bd10df6d4c4cf6"
+    },
+    {
+      "path": "comparison/food-flow-08-390-844-text1-normal-reference.png",
+      "bytes": 106321,
+      "sha256": "9df1600aac43a71f8359952342861685231c905f658ab409aa78dbf1e4024f3e"
+    },
+    {
+      "path": "comparison/food-flow-08-390-844-text1-reduced-native.png",
+      "bytes": 106800,
+      "sha256": "a1b5b14cdddf62586b33443f01844120c9b58c6a91f430c348bd10df6d4c4cf6"
+    },
+    {
+      "path": "comparison/food-flow-08-390-844-text1-reduced-reference.png",
+      "bytes": 106321,
+      "sha256": "9df1600aac43a71f8359952342861685231c905f658ab409aa78dbf1e4024f3e"
+    },
+    {
+      "path": "comparison/food-flow-09-320-568-text2-normal-native.png",
+      "bytes": 86301,
+      "sha256": "d3035e99f5968f5973172f2ace9a075fa42ec050c8aaaaf8e7f6ed3623d6ca8e"
+    },
+    {
+      "path": "comparison/food-flow-09-320-568-text2-normal-reference.png",
+      "bytes": 95660,
+      "sha256": "838a9cc8addf75ca9fb945d5850e6fc6826229b43eeeb45bc543f354fc8f6854"
+    },
+    {
+      "path": "comparison/food-flow-09-320-568-text2-reduced-native.png",
+      "bytes": 86369,
+      "sha256": "64a40d2914620158bb4782e250dca57dd0c38e5a07230d879eee2a7b00eddeec"
+    },
+    {
+      "path": "comparison/food-flow-09-320-568-text2-reduced-reference.png",
+      "bytes": 95424,
+      "sha256": "fca93f2d864749218bdaef87d13b8bbf44307bbc1669eb018c4c16221fbe44c0"
+    },
+    {
+      "path": "comparison/food-flow-09-390-844-text1-normal-native.png",
+      "bytes": 116843,
+      "sha256": "7cf258497488f2313c0aed741f963d09c63e47ac3221eb2bc48c0bbc9ae86928"
+    },
+    {
+      "path": "comparison/food-flow-09-390-844-text1-normal-reference.png",
+      "bytes": 130345,
+      "sha256": "1c62826bb260416ede7e51c21fac3af67dcd22f6bd1eb4bf1e12a418167e27b7"
+    },
+    {
+      "path": "comparison/food-flow-09-390-844-text1-reduced-native.png",
+      "bytes": 116945,
+      "sha256": "40b38d0cf5e6df71c7ebed5cd2ef1dd283fb67f1ede95912577562ef3282c09d"
+    },
+    {
+      "path": "comparison/food-flow-09-390-844-text1-reduced-reference.png",
+      "bytes": 133481,
+      "sha256": "7c32df9b45e70f1e8bf7ae45807fe6b8970d97e8096bc0aa01a516e2896db2e8"
+    },
+    {
+      "path": "comparison/food-flow-10-320-568-text2-normal-native.png",
+      "bytes": 95197,
+      "sha256": "f6e4bd477ef10b929c5d601c7eaad0d7b53c8a5769b4b304272f2fdc164e0220"
+    },
+    {
+      "path": "comparison/food-flow-10-320-568-text2-normal-reference.png",
+      "bytes": 111882,
+      "sha256": "3700b8a2080f2f7fa41212c174d27a5af445531bf612bad8cc7873a00f176c92"
+    },
+    {
+      "path": "comparison/food-flow-10-320-568-text2-reduced-native.png",
+      "bytes": 95176,
+      "sha256": "14e4ce5c5261c34faf8904101ed328d6bb6946b21ab91dd624af3994158383d2"
+    },
+    {
+      "path": "comparison/food-flow-10-320-568-text2-reduced-reference.png",
+      "bytes": 111591,
+      "sha256": "f1d5d120c36e70de49f5452cf31cb4d211d381d23acfd0437bed582fd98ac193"
+    },
+    {
+      "path": "comparison/food-flow-10-390-844-text1-normal-native.png",
+      "bytes": 120384,
+      "sha256": "89e80438a55d752a53a21d35819c99f047076a039962ae1bf63ada82d7eaa231"
+    },
+    {
+      "path": "comparison/food-flow-10-390-844-text1-normal-reference.png",
+      "bytes": 152697,
+      "sha256": "103aa696daf2e4357d4bd677c6b34930387b59808d38720f421cdf36d059e70d"
+    },
+    {
+      "path": "comparison/food-flow-10-390-844-text1-reduced-native.png",
+      "bytes": 120580,
+      "sha256": "cc255b66f1bd89ff4365c53f64bb8753944aaa378eda7b8631f0a7ab0f71cae0"
+    },
+    {
+      "path": "comparison/food-flow-10-390-844-text1-reduced-reference.png",
+      "bytes": 156106,
+      "sha256": "139a50c45ac55610927dd6173a8125182f64142e7c9bffdde811442fccb29278"
+    },
+    {
+      "path": "comparison/food-flow-11-320-568-text2-normal-native.png",
+      "bytes": 99065,
+      "sha256": "32f01c1f97f41cdd7c3cf7798eeb678e91c0613c87ef49c57aff816a1c53d2a7"
+    },
+    {
+      "path": "comparison/food-flow-11-320-568-text2-normal-reference.png",
+      "bytes": 114163,
+      "sha256": "a7cdaaf966a7ebab24f37032ebdd76f223fbb0ee0b3f957c66e436b67fa66a9b"
+    },
+    {
+      "path": "comparison/food-flow-11-320-568-text2-reduced-native.png",
+      "bytes": 99112,
+      "sha256": "f6081ec582b572211378ed98143b838042fd970275cdeec253b41c31b9bd6132"
+    },
+    {
+      "path": "comparison/food-flow-11-320-568-text2-reduced-reference.png",
+      "bytes": 113799,
+      "sha256": "763a30cad0fcc0297f7a58d87b476493cde7196e72d144a2df5221745f78b5a5"
+    },
+    {
+      "path": "comparison/food-flow-11-390-844-text1-normal-native.png",
+      "bytes": 119803,
+      "sha256": "777fdfc2fddd620b5583a784c535fe80f2035cc7636df93d436d911a256601b6"
+    },
+    {
+      "path": "comparison/food-flow-11-390-844-text1-normal-reference.png",
+      "bytes": 152124,
+      "sha256": "3ef7d12e1ceeb38ad58f0510e0cf52bc04f80e8b2428bfb21bb3ea2b807b3466"
+    },
+    {
+      "path": "comparison/food-flow-11-390-844-text1-reduced-native.png",
+      "bytes": 120004,
+      "sha256": "a066c579dd758bf318f45af599a3cc3a4e486fcaf105172c2754a4326ca51270"
+    },
+    {
+      "path": "comparison/food-flow-11-390-844-text1-reduced-reference.png",
+      "bytes": 155738,
+      "sha256": "b74d2bdf29dbc5ea2fcec817604db43e3b3873f8bfecca8feda1bc8f92c56a5b"
+    },
+    {
+      "path": "comparison/food-flow-12-320-568-text2-normal-native.png",
+      "bytes": 99171,
+      "sha256": "4304d67c94450960081177355c50c3463ee75121d3bd31e959e08f39e988e3c6"
+    },
+    {
+      "path": "comparison/food-flow-12-320-568-text2-normal-reference.png",
+      "bytes": 107996,
+      "sha256": "d0662b2e7e5397daa21896fe26888c14ca988e1c6a94d32b8d899a5c7f7cbdad"
+    },
+    {
+      "path": "comparison/food-flow-12-320-568-text2-reduced-native.png",
+      "bytes": 99236,
+      "sha256": "2dc82a6e55ac88d7bce76958e9a375aabf78d0e084af6fdf2670410f653d5fdf"
+    },
+    {
+      "path": "comparison/food-flow-12-320-568-text2-reduced-reference.png",
+      "bytes": 109960,
+      "sha256": "b5a8f56d616215bd25e1ae8897ef14cbdfecd19f5600d54fe26333aefe59b72d"
+    },
+    {
+      "path": "comparison/food-flow-12-390-844-text1-normal-native.png",
+      "bytes": 112676,
+      "sha256": "02cd1c9a3ab1cbda2b56009586fbcd4940d70c66f2552752d3de077f6b5141e5"
+    },
+    {
+      "path": "comparison/food-flow-12-390-844-text1-normal-reference.png",
+      "bytes": 143607,
+      "sha256": "97e7538dd61c0d61049291938ea940b9a4620a6692920838c905137a75ffecc2"
+    },
+    {
+      "path": "comparison/food-flow-12-390-844-text1-reduced-native.png",
+      "bytes": 112775,
+      "sha256": "91e301e13cf3bdf39b08bb6a97dd6e5ab3ced60334f39a8d4814b13139e2f842"
+    },
+    {
+      "path": "comparison/food-flow-12-390-844-text1-reduced-reference.png",
+      "bytes": 146521,
+      "sha256": "2841077186927238d51ef2893c87eeeb1399943d5356539f944b4e42df3e1df3"
+    },
+    {
+      "path": "comparison/food-flow-13-320-568-text2-normal-native.png",
+      "bytes": 107173,
+      "sha256": "c044192563d93234c878555a636a35a59b8994a14cd6285c7492b95c553c0844"
+    },
+    {
+      "path": "comparison/food-flow-13-320-568-text2-normal-reference.png",
+      "bytes": 130866,
+      "sha256": "44d8ba60dc74efcbac094471a9f9bd6e68b156e5f55b951d6387bdc5d4b512f4"
+    },
+    {
+      "path": "comparison/food-flow-13-320-568-text2-reduced-native.png",
+      "bytes": 107257,
+      "sha256": "7b02ea4902bb72dd98a86209b410bc74ad954644b4342b85c531c9806d982de7"
+    },
+    {
+      "path": "comparison/food-flow-13-320-568-text2-reduced-reference.png",
+      "bytes": 132244,
+      "sha256": "9d2d0a6656d85a2386b9d06fc888a76acaf76cc5ef8aec875840a4c1527a9a9e"
+    },
+    {
+      "path": "comparison/food-flow-13-390-844-text1-normal-native.png",
+      "bytes": 136025,
+      "sha256": "e02a4b343742d55bb43703711b5a2062f3c8f746296795a4031ce11b194dfa25"
+    },
+    {
+      "path": "comparison/food-flow-13-390-844-text1-normal-reference.png",
+      "bytes": 185843,
+      "sha256": "c8faa4f9420a677167212f23eb313ff78997a0a7e1664781295b85027ceb3951"
+    },
+    {
+      "path": "comparison/food-flow-13-390-844-text1-reduced-native.png",
+      "bytes": 135985,
+      "sha256": "958e89d2f2dff271a9d93d26ba90b7f9930c81e9d2895aa773fd36b1f0834ca5"
+    },
+    {
+      "path": "comparison/food-flow-13-390-844-text1-reduced-reference.png",
+      "bytes": 188441,
+      "sha256": "8bd78c6b4d99d47d2dd6a2fa28d4b9696a9c56e0157e68483ea73da5a2fa2958"
+    },
+    {
+      "path": "comparison/food-flow-14-320-568-text2-normal-native.png",
+      "bytes": 99993,
+      "sha256": "ef355d8d30b95be68dc5850289b8bb7347cb2f96fea804f7ebdc9352d0cfb7cd"
+    },
+    {
+      "path": "comparison/food-flow-14-320-568-text2-normal-reference.png",
+      "bytes": 104670,
+      "sha256": "c0ddf00b76781c835363edf49958de743837e40ab85c9ad30f12b5fed198b0eb"
+    },
+    {
+      "path": "comparison/food-flow-14-320-568-text2-reduced-native.png",
+      "bytes": 99993,
+      "sha256": "ef355d8d30b95be68dc5850289b8bb7347cb2f96fea804f7ebdc9352d0cfb7cd"
+    },
+    {
+      "path": "comparison/food-flow-14-320-568-text2-reduced-reference.png",
+      "bytes": 105495,
+      "sha256": "40a8d7fe7779638e56b0a200b44dd27d6e7cd8d56935451c2189a0ac53befd29"
+    },
+    {
+      "path": "comparison/food-flow-14-390-844-text1-normal-native.png",
+      "bytes": 150161,
+      "sha256": "367c32539af0847d83c611106bf8404c423a3667d8a705cf68cb4fd0279fc090"
+    },
+    {
+      "path": "comparison/food-flow-14-390-844-text1-normal-reference.png",
+      "bytes": 146213,
+      "sha256": "c46ce01d4536b9a1652e3c37569e4ec13bbd289561e3a98078c634b9cbcfd648"
+    },
+    {
+      "path": "comparison/food-flow-14-390-844-text1-reduced-native.png",
+      "bytes": 150271,
+      "sha256": "9783db1d38b2ea9f6c26e5d12f365104b5b6a845596e450150f9325ea7d64ddd"
+    },
+    {
+      "path": "comparison/food-flow-14-390-844-text1-reduced-reference.png",
+      "bytes": 152264,
+      "sha256": "7c806d851ca86805d198b33684c94e39731ecedd75e881842e812160276c4e41"
+    },
+    {
+      "path": "comparison/food-flow-15-320-568-text2-normal-native.png",
+      "bytes": 107519,
+      "sha256": "968c599a1393a51356b4dbd03572789a382566f6e2f72f9aad947bd6356c3f08"
+    },
+    {
+      "path": "comparison/food-flow-15-320-568-text2-normal-reference.png",
+      "bytes": 131223,
+      "sha256": "b58d0a7065cf25f4718506aa6c83ab27bdcae9e5dd2f3f5745ef0b8a210f5792"
+    },
+    {
+      "path": "comparison/food-flow-15-320-568-text2-reduced-native.png",
+      "bytes": 107583,
+      "sha256": "a1555fdbeecc2c2fc01b10d4108f1d6027ef800760c001ee0ba1aaef514b73f3"
+    },
+    {
+      "path": "comparison/food-flow-15-320-568-text2-reduced-reference.png",
+      "bytes": 132585,
+      "sha256": "10143e0c2fa730e6b3c7ee96982b919b8afa69cf3a677bfd7a3f9fdf27ff6ca6"
+    },
+    {
+      "path": "comparison/food-flow-15-390-844-text1-normal-native.png",
+      "bytes": 136251,
+      "sha256": "f22cd63b1be06be87d1f2a5848e1162fc03ab9fff92e581c4af7f33c4982d37d"
+    },
+    {
+      "path": "comparison/food-flow-15-390-844-text1-normal-reference.png",
+      "bytes": 186024,
+      "sha256": "5304cabf8ff8a68885a97379f8bc638f5a25a751f5a91a1faa9edc2b2a104a79"
+    },
+    {
+      "path": "comparison/food-flow-15-390-844-text1-reduced-native.png",
+      "bytes": 136202,
+      "sha256": "46eae0fd154dc4d5fd452a117a5bb9cc1757cb8b492b003648cab038f511030c"
+    },
+    {
+      "path": "comparison/food-flow-15-390-844-text1-reduced-reference.png",
+      "bytes": 188601,
+      "sha256": "26e1c83d6235c723393ace66f274fe91e40181ed0ffa12a9813e69ca17fddead"
+    },
+    {
+      "path": "comparison/food-flow-16-320-568-text2-normal-native.png",
+      "bytes": 107432,
+      "sha256": "fca6ca250d5822ccab2fe6a43d2175501857997f7fc25e9941b6545fc79f0d8c"
+    },
+    {
+      "path": "comparison/food-flow-16-320-568-text2-normal-reference.png",
+      "bytes": 131086,
+      "sha256": "a9451f275da91e157064212ca1ac1269ecd4fb836397837b867e44f9125231a8"
+    },
+    {
+      "path": "comparison/food-flow-16-320-568-text2-reduced-native.png",
+      "bytes": 107511,
+      "sha256": "6ffc8ed2c3f4d0ef0cfe9ce3062d7b5b7c34c2960dd8b0d53a15c3cbfa4e8211"
+    },
+    {
+      "path": "comparison/food-flow-16-320-568-text2-reduced-reference.png",
+      "bytes": 132463,
+      "sha256": "c47afde925929f27507d21b7013b92cf08445fc8fa0ebf65d789de5c0b7fa634"
+    },
+    {
+      "path": "comparison/food-flow-16-390-844-text1-normal-native.png",
+      "bytes": 136146,
+      "sha256": "09e4e6108e183d4f95541da600f7a2dc95c9b5cdd0208e664697ab9252edcacf"
+    },
+    {
+      "path": "comparison/food-flow-16-390-844-text1-normal-reference.png",
+      "bytes": 185832,
+      "sha256": "b5cf086f175d2e1401f73949523c64cec4d1d47f4d2543363786e5c5d606bb4e"
+    },
+    {
+      "path": "comparison/food-flow-16-390-844-text1-reduced-native.png",
+      "bytes": 136101,
+      "sha256": "37906189c79a6533c5c89df3504613c289dd6b99c572ea24c573b92796b49715"
+    },
+    {
+      "path": "comparison/food-flow-16-390-844-text1-reduced-reference.png",
+      "bytes": 188510,
+      "sha256": "a19722b22dbdf3f07b834ea1ce4359a73b2a4d16d9b79b448b590eba73045f03"
+    },
+    {
+      "path": "comparison/food-large-01-320-568-text2-normal-native.png",
+      "bytes": 47465,
+      "sha256": "05f782d7766616a63c83405bf8d612e050361511b2aa04a946266ba7b3143d01"
+    },
+    {
+      "path": "comparison/food-large-01-320-568-text2-normal-reference.png",
+      "bytes": 48998,
+      "sha256": "0c275a465e44e7640bc8a3567c26f26b74199397bf2e7c48c844ef78401d8acf"
+    },
+    {
+      "path": "comparison/food-large-01-320-568-text2-reduced-native.png",
+      "bytes": 47465,
+      "sha256": "05f782d7766616a63c83405bf8d612e050361511b2aa04a946266ba7b3143d01"
+    },
+    {
+      "path": "comparison/food-large-01-320-568-text2-reduced-reference.png",
+      "bytes": 48998,
+      "sha256": "0c275a465e44e7640bc8a3567c26f26b74199397bf2e7c48c844ef78401d8acf"
+    },
+    {
+      "path": "comparison/food-large-01-390-844-text1-normal-native.png",
+      "bytes": 107177,
+      "sha256": "fb6c72debda4eb03882ebe7774dc5bf638d4106f21e339bc7530f2c31132f8f9"
+    },
+    {
+      "path": "comparison/food-large-01-390-844-text1-normal-reference.png",
+      "bytes": 106750,
+      "sha256": "3506c4e50b96b7962aeba4fab6e6348c611f4fbbd08db4cd81d67471ce19b403"
+    },
+    {
+      "path": "comparison/food-large-01-390-844-text1-reduced-native.png",
+      "bytes": 107177,
+      "sha256": "fb6c72debda4eb03882ebe7774dc5bf638d4106f21e339bc7530f2c31132f8f9"
+    },
+    {
+      "path": "comparison/food-large-01-390-844-text1-reduced-reference.png",
+      "bytes": 106750,
+      "sha256": "3506c4e50b96b7962aeba4fab6e6348c611f4fbbd08db4cd81d67471ce19b403"
+    },
+    {
+      "path": "comparison/food-large-02-320-568-text2-normal-native.png",
+      "bytes": 91925,
+      "sha256": "7951150fa39b070e016f137bde16337b12e18cd843e8a1c2e04b308ddcc1ce1f"
+    },
+    {
+      "path": "comparison/food-large-02-320-568-text2-normal-reference.png",
+      "bytes": 93148,
+      "sha256": "93805b1fa2140aeec29ab77e68d8d6e4cc5b83c14b5b0c345c9e463dbf7e14f3"
+    },
+    {
+      "path": "comparison/food-large-02-320-568-text2-reduced-native.png",
+      "bytes": 91925,
+      "sha256": "7951150fa39b070e016f137bde16337b12e18cd843e8a1c2e04b308ddcc1ce1f"
+    },
+    {
+      "path": "comparison/food-large-02-320-568-text2-reduced-reference.png",
+      "bytes": 93149,
+      "sha256": "23c02e34f10edd115c67e15ac800b5b2e117a14e4ebe09fa9f3149caa3bd5603"
+    },
+    {
+      "path": "comparison/food-large-02-390-844-text1-normal-native.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "comparison/food-large-02-390-844-text1-normal-reference.png",
+      "bytes": 156237,
+      "sha256": "0d721f0d161b74ec3a2dc1c2af71ca7da7d4a7e428c97d62d3280a73aeb40c90"
+    },
+    {
+      "path": "comparison/food-large-02-390-844-text1-reduced-native.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "comparison/food-large-02-390-844-text1-reduced-reference.png",
+      "bytes": 156237,
+      "sha256": "0d721f0d161b74ec3a2dc1c2af71ca7da7d4a7e428c97d62d3280a73aeb40c90"
+    },
+    {
+      "path": "comparison/food-large-03-320-568-text2-normal-native.png",
+      "bytes": 92659,
+      "sha256": "455566d524669b5ccae7201cdc9a27b01ca0938c19a1d8868839272f40c610a1"
+    },
+    {
+      "path": "comparison/food-large-03-320-568-text2-normal-reference.png",
+      "bytes": 93108,
+      "sha256": "6ec73fce99c4f235058dae28a4d476616caf66d418b7425090fe991b163f8e78"
+    },
+    {
+      "path": "comparison/food-large-03-320-568-text2-reduced-native.png",
+      "bytes": 92357,
+      "sha256": "ab0a1c1f7ff44ec5bd2794b3b999a1579c1680150cee5570fbe5d5a49d84315e"
+    },
+    {
+      "path": "comparison/food-large-03-320-568-text2-reduced-reference.png",
+      "bytes": 93266,
+      "sha256": "ef37098bb2bbfb3f7ef1ea7cfe84ccf8519df57634a5422a27b9a87a93714c5a"
+    },
+    {
+      "path": "comparison/food-large-03-390-844-text1-normal-native.png",
+      "bytes": 165193,
+      "sha256": "b039d8c405e7ad47f85532f58ca2cce53cb06f23550c0bf3739fc49238c16582"
+    },
+    {
+      "path": "comparison/food-large-03-390-844-text1-normal-reference.png",
+      "bytes": 164535,
+      "sha256": "4421d368666f2249026f3c2663a20e23a822dae322c18211d5c7827a51497145"
+    },
+    {
+      "path": "comparison/food-large-03-390-844-text1-reduced-native.png",
+      "bytes": 164041,
+      "sha256": "96746bd6ed5b2244a4f805d066206751dce37a733b9608355846d0894058c258"
+    },
+    {
+      "path": "comparison/food-large-03-390-844-text1-reduced-reference.png",
+      "bytes": 164055,
+      "sha256": "d8febb813e747c96deb5d0577add1220587068f63d64c3f2b1244924c84b3bd6"
+    },
+    {
+      "path": "comparison/food-large-04-320-568-text2-normal-native.png",
+      "bytes": 81425,
+      "sha256": "7234e60226ab943d6e51d0be2fab6583a19568af36078aabe4196f66844f5c1b"
+    },
+    {
+      "path": "comparison/food-large-04-320-568-text2-normal-reference.png",
+      "bytes": 82926,
+      "sha256": "980c7af383bed70c0f274b44d3185634bc5ecfd9ddaf94cc66dceca8f97aa5c4"
+    },
+    {
+      "path": "comparison/food-large-04-320-568-text2-reduced-native.png",
+      "bytes": 81586,
+      "sha256": "b8a2ee3b3cbb53038cae7de51104d1281d5c340c83da9971c9ec45de99d423d0"
+    },
+    {
+      "path": "comparison/food-large-04-320-568-text2-reduced-reference.png",
+      "bytes": 82924,
+      "sha256": "96b9add034d208c3890905ad12c249dfde23992e2c066d111ea4639f887795cd"
+    },
+    {
+      "path": "comparison/food-large-04-390-844-text1-normal-native.png",
+      "bytes": 159407,
+      "sha256": "a4ebd02c267e1f959c58cb38cdac9a845a0bbbf0e59d3fc8f510c92d8a096775"
+    },
+    {
+      "path": "comparison/food-large-04-390-844-text1-normal-reference.png",
+      "bytes": 159606,
+      "sha256": "dbd89b8bab99d766390633977fb8bfef9ff27919273de04b2cc709ce6e918f91"
+    },
+    {
+      "path": "comparison/food-large-04-390-844-text1-reduced-native.png",
+      "bytes": 159722,
+      "sha256": "b26e97bf130ef127e999cc53f4e7bfdd6a93e65fbd192962a974f38ecc7cacb7"
+    },
+    {
+      "path": "comparison/food-large-04-390-844-text1-reduced-reference.png",
+      "bytes": 159606,
+      "sha256": "dbd89b8bab99d766390633977fb8bfef9ff27919273de04b2cc709ce6e918f91"
+    },
+    {
+      "path": "comparison/food-large-05-320-568-text2-normal-native.png",
+      "bytes": 86696,
+      "sha256": "39dec9ea99f0864b832df0d897d298050d2c4f409a8af0fe0ccbd4b6dc68e790"
+    },
+    {
+      "path": "comparison/food-large-05-320-568-text2-normal-reference.png",
+      "bytes": 87303,
+      "sha256": "e14d8dcbac3534b033bb9b24d7595c39a56342750f7ee9ddc0868c58671ad16e"
+    },
+    {
+      "path": "comparison/food-large-05-320-568-text2-reduced-native.png",
+      "bytes": 86696,
+      "sha256": "39dec9ea99f0864b832df0d897d298050d2c4f409a8af0fe0ccbd4b6dc68e790"
+    },
+    {
+      "path": "comparison/food-large-05-320-568-text2-reduced-reference.png",
+      "bytes": 87299,
+      "sha256": "d87bf5702cf1fd0a2f7a9c1c9823d15433aed7f93fe5fbfaeb37c873ccca34c8"
+    },
+    {
+      "path": "comparison/food-large-05-390-844-text1-normal-native.png",
+      "bytes": 159209,
+      "sha256": "e08d4bcdbb57bb699283605e9cbe2073a7948a718ab0e6768bbcbf120b8390bd"
+    },
+    {
+      "path": "comparison/food-large-05-390-844-text1-normal-reference.png",
+      "bytes": 159085,
+      "sha256": "e910d5a8d98389fa1390492d5ba22bd2d7b8142b5def1fa483cb29816d0d3322"
+    },
+    {
+      "path": "comparison/food-large-05-390-844-text1-reduced-native.png",
+      "bytes": 159209,
+      "sha256": "e08d4bcdbb57bb699283605e9cbe2073a7948a718ab0e6768bbcbf120b8390bd"
+    },
+    {
+      "path": "comparison/food-large-05-390-844-text1-reduced-reference.png",
+      "bytes": 159085,
+      "sha256": "e910d5a8d98389fa1390492d5ba22bd2d7b8142b5def1fa483cb29816d0d3322"
+    },
+    {
+      "path": "comparison/food-large-06-320-568-text2-normal-native.png",
+      "bytes": 67001,
+      "sha256": "074f4e859fb8f9b4efa17016c423a2dbb28b89ea56f3c8f40aae4dc98bd1aa07"
+    },
+    {
+      "path": "comparison/food-large-06-320-568-text2-normal-reference.png",
+      "bytes": 73076,
+      "sha256": "0bc82f201bd14c353274d9c53a739b62a55923f7e6522d4410740894d3802507"
+    },
+    {
+      "path": "comparison/food-large-06-320-568-text2-reduced-native.png",
+      "bytes": 67005,
+      "sha256": "586004b241b82742828dbff2c4ff2b37a8db87de0b1a3088653780bc6e7d5019"
+    },
+    {
+      "path": "comparison/food-large-06-320-568-text2-reduced-reference.png",
+      "bytes": 73100,
+      "sha256": "614aa38beb037322cd3e8ef1f5cfb6aa76dba670732ad5714e4e43bd44f8bacc"
+    },
+    {
+      "path": "comparison/food-large-06-390-844-text1-normal-native.png",
+      "bytes": 159327,
+      "sha256": "9968b33720dbd3a5511dba538d2d1d4bcaa63734a374997f3bb81dd05393d64e"
+    },
+    {
+      "path": "comparison/food-large-06-390-844-text1-normal-reference.png",
+      "bytes": 159104,
+      "sha256": "18f3d7b1df455a88ecf2c7ffe4746e1995090a5b346fa43614466ca14e7d58fd"
+    },
+    {
+      "path": "comparison/food-large-06-390-844-text1-reduced-native.png",
+      "bytes": 159276,
+      "sha256": "a92140a99583b38644766f0f4f960c115f9f6fe594acb735eba4a1349720accc"
+    },
+    {
+      "path": "comparison/food-large-06-390-844-text1-reduced-reference.png",
+      "bytes": 159054,
+      "sha256": "e3963c664dc7db8a750d7517218c73e6cdf16cac8b9298ac154724ac007ae4fb"
+    },
+    {
+      "path": "comparison/food-large-07-320-568-text2-normal-native.png",
+      "bytes": 78851,
+      "sha256": "f5077c37f8554c6e5b35f4c36fcfe539dc4af043ebf5037174cff83e016b0b14"
+    },
+    {
+      "path": "comparison/food-large-07-320-568-text2-normal-reference.png",
+      "bytes": 80562,
+      "sha256": "b737f229b46a2368c0018bda27e0e7738773eaa6b652e5e694c85d81eedc0f30"
+    },
+    {
+      "path": "comparison/food-large-07-320-568-text2-reduced-native.png",
+      "bytes": 78990,
+      "sha256": "0594cdbf1ab9eb825a8fafc924b3ab2d320020607cabe0ab2e34616efc479f3d"
+    },
+    {
+      "path": "comparison/food-large-07-320-568-text2-reduced-reference.png",
+      "bytes": 80564,
+      "sha256": "22811f81a3b9a7e8f93b78718e499a18222263e43fce82581c0c13c79648a10f"
+    },
+    {
+      "path": "comparison/food-large-07-390-844-text1-normal-native.png",
+      "bytes": 159209,
+      "sha256": "c750e1d781ee613ea59c2dedafa4106b970697e2276e947c5161ffe9c45d5f5e"
+    },
+    {
+      "path": "comparison/food-large-07-390-844-text1-normal-reference.png",
+      "bytes": 159318,
+      "sha256": "e4aa9da5e2741b7ead3d3141b1f18c765b4d04b1380a61b53830db56ef059664"
+    },
+    {
+      "path": "comparison/food-large-07-390-844-text1-reduced-native.png",
+      "bytes": 159523,
+      "sha256": "022ded1263c732185cbe3326a1b227deefa43e80c3e79a8199f3861ab3606d19"
+    },
+    {
+      "path": "comparison/food-large-07-390-844-text1-reduced-reference.png",
+      "bytes": 159318,
+      "sha256": "7e41e121b9133ee1f6582c6dc84e26ad26025d69ea37d1341e649d774d874bd6"
+    },
+    {
+      "path": "comparison/food-large-08-320-568-text2-normal-native.png",
+      "bytes": 56122,
+      "sha256": "d0cbaf80059c78256d2d4fc565426ae6ef8078251173c23e4ac588b6bf081b8e"
+    },
+    {
+      "path": "comparison/food-large-08-320-568-text2-normal-reference.png",
+      "bytes": 56567,
+      "sha256": "8d812b0a7e861c3ea1df58b1b12966bfa9d7b75abc9390cf556134d4439f7159"
+    },
+    {
+      "path": "comparison/food-large-08-320-568-text2-reduced-native.png",
+      "bytes": 56051,
+      "sha256": "3f01264c9d60f3dac61902ed97f025b9e7c5a15bb4a70d23c36f8a7c6cc21f81"
+    },
+    {
+      "path": "comparison/food-large-08-320-568-text2-reduced-reference.png",
+      "bytes": 56462,
+      "sha256": "d771c86a00272f9d23e3943cfddbe9049641f8dc0426afabc66a8ab7d70e4a5e"
+    },
+    {
+      "path": "comparison/food-large-08-390-844-text1-normal-native.png",
+      "bytes": 73909,
+      "sha256": "985ccb4d70360e02b95663c6c3d59992abb2aa1dec0ae15d88ffe0fb88c6e4fa"
+    },
+    {
+      "path": "comparison/food-large-08-390-844-text1-normal-reference.png",
+      "bytes": 69190,
+      "sha256": "d38708e318b774d2bf217631a35ee28e9d3ad6188d4089b30d9b27916b7bcd53"
+    },
+    {
+      "path": "comparison/food-large-08-390-844-text1-reduced-native.png",
+      "bytes": 73745,
+      "sha256": "a5f218cfc84a3feb2c9b1d9da0cf3363bf29f6b63120bc7ac6c8c7356f1201ea"
+    },
+    {
+      "path": "comparison/food-large-08-390-844-text1-reduced-reference.png",
+      "bytes": 69070,
+      "sha256": "b6cb81a204046ab4c68cee494ec8413c6b7594f8eefd339ce00b274e4793b2f9"
+    },
+    {
+      "path": "comparison/food-large-09-320-568-text2-normal-native.png",
+      "bytes": 84647,
+      "sha256": "49105c42604a253807d822bff2f680c7293fee97ee2045e124bdaa7c0c1081f1"
+    },
+    {
+      "path": "comparison/food-large-09-320-568-text2-normal-reference.png",
+      "bytes": 86047,
+      "sha256": "66df1c2be2481d7f8178f5786232388b0fded73fea1069f1429280d457a10fae"
+    },
+    {
+      "path": "comparison/food-large-09-320-568-text2-reduced-native.png",
+      "bytes": 84647,
+      "sha256": "49105c42604a253807d822bff2f680c7293fee97ee2045e124bdaa7c0c1081f1"
+    },
+    {
+      "path": "comparison/food-large-09-320-568-text2-reduced-reference.png",
+      "bytes": 85958,
+      "sha256": "038429a8675b430a0abb69ae96f915fcbab0a56fddac11ca51e1ca8b8742ef01"
+    },
+    {
+      "path": "comparison/food-large-09-390-844-text1-normal-native.png",
+      "bytes": 157728,
+      "sha256": "9bc06ac1e78e35bf36c0a74abd3aa999d72fa627366ab644473e6890fcc75bfa"
+    },
+    {
+      "path": "comparison/food-large-09-390-844-text1-normal-reference.png",
+      "bytes": 158258,
+      "sha256": "6f174f1e0e53d6f0f386da782f270df5b8b756bc5d5631ebf5426d4bbb911b12"
+    },
+    {
+      "path": "comparison/food-large-09-390-844-text1-reduced-native.png",
+      "bytes": 157728,
+      "sha256": "9bc06ac1e78e35bf36c0a74abd3aa999d72fa627366ab644473e6890fcc75bfa"
+    },
+    {
+      "path": "comparison/food-large-09-390-844-text1-reduced-reference.png",
+      "bytes": 158221,
+      "sha256": "635ebd08fbba27261d22ba67dbcebc8d61a67fd62d187437969c8dfa600df863"
+    },
+    {
+      "path": "comparison/food-large-10-320-568-text2-normal-native.png",
+      "bytes": 65183,
+      "sha256": "0194801e1e40b726ac686877884e2a6f2b9106a887fe7fd0fec34b1a58a637bf"
+    },
+    {
+      "path": "comparison/food-large-10-320-568-text2-normal-reference.png",
+      "bytes": 66000,
+      "sha256": "aabca79e7548c0798182c61452c2e921972c63575a29659eefc1df19580ff673"
+    },
+    {
+      "path": "comparison/food-large-10-320-568-text2-reduced-native.png",
+      "bytes": 65293,
+      "sha256": "9aed358e8b4744d0e2c00663963db70d5323bd883cf7d845a3242f5ba52ec2fd"
+    },
+    {
+      "path": "comparison/food-large-10-320-568-text2-reduced-reference.png",
+      "bytes": 66093,
+      "sha256": "5822ab055ec36920487e719d83be29703c95caf2f4f47aa0ddfe0d271bf4a30b"
+    },
+    {
+      "path": "comparison/food-large-10-390-844-text1-normal-native.png",
+      "bytes": 156819,
+      "sha256": "8f401101504185dccafd20c66b07c5ed85c9de1bae125e69d48046262cabf467"
+    },
+    {
+      "path": "comparison/food-large-10-390-844-text1-normal-reference.png",
+      "bytes": 156094,
+      "sha256": "882290adfd8bed161753486bb4269714bd8e4b241905e3bbcf21243cc3a81b16"
+    },
+    {
+      "path": "comparison/food-large-10-390-844-text1-reduced-native.png",
+      "bytes": 157209,
+      "sha256": "5b10fa2401cc5ed0a6293dd0b589fe3cbbf1fc7ebe153892e9f1ce4cb6a46906"
+    },
+    {
+      "path": "comparison/food-large-10-390-844-text1-reduced-reference.png",
+      "bytes": 156470,
+      "sha256": "d7854f1edfc0f83ec1ec596f0ce4f22e30c6b543640954a34d9e8b72b3f55619"
+    },
+    {
+      "path": "comparison/food-large-11-320-568-text2-normal-native.png",
+      "bytes": 78877,
+      "sha256": "82f5a21defd0aaf2908a37d9d79ecc86b19e5d843d755f90ede6d20d1c9d9c72"
+    },
+    {
+      "path": "comparison/food-large-11-320-568-text2-normal-reference.png",
+      "bytes": 80548,
+      "sha256": "08e3ee8f2ed74f7977facd118ace91f317625ca4e61e71effe56ad34a62b2b24"
+    },
+    {
+      "path": "comparison/food-large-11-320-568-text2-reduced-native.png",
+      "bytes": 79032,
+      "sha256": "9c3919ca8ddb99c61d9c9b170391b03b2bef1adf3584012e0320e54e4b185883"
+    },
+    {
+      "path": "comparison/food-large-11-320-568-text2-reduced-reference.png",
+      "bytes": 80537,
+      "sha256": "2f17eb371c9d3af59a0dd0795a6272b99f607754fc285c54b4524e13674a674b"
+    },
+    {
+      "path": "comparison/food-large-11-390-844-text1-normal-native.png",
+      "bytes": 160081,
+      "sha256": "f145b906dd04887079409fc2f960dff23812a30b7004c1808b7c3be3a8af9dd4"
+    },
+    {
+      "path": "comparison/food-large-11-390-844-text1-normal-reference.png",
+      "bytes": 160069,
+      "sha256": "e7191a9a031cc6c687c8d6c7d22644fa6e8bbfcb6fddf31cbf179325ff10b06b"
+    },
+    {
+      "path": "comparison/food-large-11-390-844-text1-reduced-native.png",
+      "bytes": 160425,
+      "sha256": "b32848a31f3b3bf5c2bb124477ae2e1e8d3339ef2fe952b61bd5119b28420fc9"
+    },
+    {
+      "path": "comparison/food-large-11-390-844-text1-reduced-reference.png",
+      "bytes": 160072,
+      "sha256": "9ccd6f6d7d092fabb38d476f599f61aacaaed6749a78e1d4cae6bf63d87542a3"
+    },
+    {
+      "path": "comparison/food-large-12-320-568-text2-normal-native.png",
+      "bytes": 55315,
+      "sha256": "dad0c050f12b12c733f32c87d817dc16625e723d6e54c1f80552749b841967a4"
+    },
+    {
+      "path": "comparison/food-large-12-320-568-text2-normal-reference.png",
+      "bytes": 56639,
+      "sha256": "227cac6b05d35e0db8b19fda11b1ea76a29e2136c0ac0e56f2437302e914951f"
+    },
+    {
+      "path": "comparison/food-large-12-320-568-text2-reduced-native.png",
+      "bytes": 55339,
+      "sha256": "409b64f89347de909639e8e94e193c5a8f521895dd84aa34e999903bbf488111"
+    },
+    {
+      "path": "comparison/food-large-12-320-568-text2-reduced-reference.png",
+      "bytes": 56639,
+      "sha256": "227cac6b05d35e0db8b19fda11b1ea76a29e2136c0ac0e56f2437302e914951f"
+    },
+    {
+      "path": "comparison/food-large-12-390-844-text1-normal-native.png",
+      "bytes": 162785,
+      "sha256": "f8c8de36e1f1fd36edb814eb5f22e7c7c31912a613e4b29aa5bcaf9a02145fe1"
+    },
+    {
+      "path": "comparison/food-large-12-390-844-text1-normal-reference.png",
+      "bytes": 162678,
+      "sha256": "fbee04653852985bc031548b8bec910aa93a45075be99e0591bba7bfa548fb56"
+    },
+    {
+      "path": "comparison/food-large-12-390-844-text1-reduced-native.png",
+      "bytes": 163087,
+      "sha256": "a3ef3de895b4ec9ebe9c158c9fc0bbb30e3dcc9b5d5dc45cc78d43feb00215c1"
+    },
+    {
+      "path": "comparison/food-large-12-390-844-text1-reduced-reference.png",
+      "bytes": 162678,
+      "sha256": "fbee04653852985bc031548b8bec910aa93a45075be99e0591bba7bfa548fb56"
+    },
+    {
+      "path": "comparison/food-large-13-320-568-text2-normal-native.png",
+      "bytes": 44074,
+      "sha256": "a79661c43967a17f75d6a2238052dff06c434c5bc12fb671ae7d93079546d7aa"
+    },
+    {
+      "path": "comparison/food-large-13-320-568-text2-normal-reference.png",
+      "bytes": 47732,
+      "sha256": "a2b9873597aaaeb6460c01a12a949d6c1d599d1196462bd419315688233dda9b"
+    },
+    {
+      "path": "comparison/food-large-13-320-568-text2-reduced-native.png",
+      "bytes": 44074,
+      "sha256": "a79661c43967a17f75d6a2238052dff06c434c5bc12fb671ae7d93079546d7aa"
+    },
+    {
+      "path": "comparison/food-large-13-320-568-text2-reduced-reference.png",
+      "bytes": 47713,
+      "sha256": "9a6693b1331feb9d81294714360093c2458496cdab34c45967f3e1423bad62c4"
+    },
+    {
+      "path": "comparison/food-large-13-390-844-text1-normal-native.png",
+      "bytes": 105822,
+      "sha256": "cbfc4fc0667283682962cbc123f254ca1918bf842b9bc186a14eb3a468e629d5"
+    },
+    {
+      "path": "comparison/food-large-13-390-844-text1-normal-reference.png",
+      "bytes": 149931,
+      "sha256": "d6ae9379f324f5078a0f7a0868b56cd86fcc908de3439860a4b6fb90c53682fd"
+    },
+    {
+      "path": "comparison/food-large-13-390-844-text1-reduced-native.png",
+      "bytes": 105818,
+      "sha256": "9865b494e0115a5d59ae796ed59ee4ea5e6813704335a92906830bf7ceb2a0f3"
+    },
+    {
+      "path": "comparison/food-large-13-390-844-text1-reduced-reference.png",
+      "bytes": 148839,
+      "sha256": "f537d8dc4e2fd77d963bc353c4cae1708da8ec838f2ca8c18650a1e5f05e08b4"
+    },
+    {
+      "path": "comparison/food-large-14-320-568-text2-normal-native.png",
+      "bytes": 107518,
+      "sha256": "e68728d9eeda6921d997280bb5e51e29d0dd07cbf318892ea04559b05410dc31"
+    },
+    {
+      "path": "comparison/food-large-14-320-568-text2-normal-reference.png",
+      "bytes": 131209,
+      "sha256": "e4a2a22dd7a968fe1c1f55d176bfdb025b5d2c34c869beee7be49620a91304cb"
+    },
+    {
+      "path": "comparison/food-large-14-320-568-text2-reduced-native.png",
+      "bytes": 107583,
+      "sha256": "a1555fdbeecc2c2fc01b10d4108f1d6027ef800760c001ee0ba1aaef514b73f3"
+    },
+    {
+      "path": "comparison/food-large-14-320-568-text2-reduced-reference.png",
+      "bytes": 132585,
+      "sha256": "10143e0c2fa730e6b3c7ee96982b919b8afa69cf3a677bfd7a3f9fdf27ff6ca6"
+    },
+    {
+      "path": "comparison/food-large-14-390-844-text1-normal-native.png",
+      "bytes": 136234,
+      "sha256": "6f6ecb169be9593a212e512ba35d22cfb49b0eac0d1c8ec4529228cba1002643"
+    },
+    {
+      "path": "comparison/food-large-14-390-844-text1-normal-reference.png",
+      "bytes": 186024,
+      "sha256": "5304cabf8ff8a68885a97379f8bc638f5a25a751f5a91a1faa9edc2b2a104a79"
+    },
+    {
+      "path": "comparison/food-large-14-390-844-text1-reduced-native.png",
+      "bytes": 136202,
+      "sha256": "46eae0fd154dc4d5fd452a117a5bb9cc1757cb8b492b003648cab038f511030c"
+    },
+    {
+      "path": "comparison/food-large-14-390-844-text1-reduced-reference.png",
+      "bytes": 188601,
+      "sha256": "26e1c83d6235c723393ace66f274fe91e40181ed0ffa12a9813e69ca17fddead"
+    },
+    {
+      "path": "comparison/food-large-15-320-568-text2-normal-native.png",
+      "bytes": 99736,
+      "sha256": "8e468028b6ca9f4cbf57a309cd19241d69bf6f9835815b133d36c564fe286e4f"
+    },
+    {
+      "path": "comparison/food-large-15-320-568-text2-normal-reference.png",
+      "bytes": 99898,
+      "sha256": "04d359fc15c5fe0a6de941e28f1bce2503d24b03e908db8c644460edc85281b9"
+    },
+    {
+      "path": "comparison/food-large-15-320-568-text2-reduced-native.png",
+      "bytes": 99739,
+      "sha256": "9eac6a26447060d55d80eeb6fc965230f702d6f39b5c913d7a9d98e4a642383b"
+    },
+    {
+      "path": "comparison/food-large-15-320-568-text2-reduced-reference.png",
+      "bytes": 99892,
+      "sha256": "fdb55a162d54d16f53fea520c5fc20461cf0a20856d00b2be67941dc18ecd81d"
+    },
+    {
+      "path": "comparison/food-large-15-390-844-text1-normal-native.png",
+      "bytes": 163985,
+      "sha256": "52248f5302101e8950528a695c4cea81f9212f4a390f8d4d3e23a6c2708838a6"
+    },
+    {
+      "path": "comparison/food-large-15-390-844-text1-normal-reference.png",
+      "bytes": 163234,
+      "sha256": "964812f5a1371afe28e0ab02d2ce922a2c80710c1f6a1723f2841bdbb1fb4e3b"
+    },
+    {
+      "path": "comparison/food-large-15-390-844-text1-reduced-native.png",
+      "bytes": 163994,
+      "sha256": "d1e54d14850d80101a2ccddc9124d292acce3674af4a96a8c96f203ccd70ba28"
+    },
+    {
+      "path": "comparison/food-large-15-390-844-text1-reduced-reference.png",
+      "bytes": 163252,
+      "sha256": "3c93e9b1e884772040e34f3086de513e85ea30c68f7a259d478894b1a6390eeb"
+    },
+    {
+      "path": "comparison/food-panel-01-320-568-text2-normal-native.png",
+      "bytes": 45914,
+      "sha256": "ea70dfcb82c3f4ce28a62b3253b37971dae0398f2efbb3de682762db195af0df"
+    },
+    {
+      "path": "comparison/food-panel-01-320-568-text2-normal-reference.png",
+      "bytes": 47532,
+      "sha256": "1da644582a63b8bcb3477ffafd7b1b3c4cbc6bf51bc8d7ae3aa550295bd10f1e"
+    },
+    {
+      "path": "comparison/food-panel-01-320-568-text2-reduced-native.png",
+      "bytes": 45914,
+      "sha256": "ea70dfcb82c3f4ce28a62b3253b37971dae0398f2efbb3de682762db195af0df"
+    },
+    {
+      "path": "comparison/food-panel-01-320-568-text2-reduced-reference.png",
+      "bytes": 47532,
+      "sha256": "1da644582a63b8bcb3477ffafd7b1b3c4cbc6bf51bc8d7ae3aa550295bd10f1e"
+    },
+    {
+      "path": "comparison/food-panel-01-390-844-text1-normal-native.png",
+      "bytes": 106800,
+      "sha256": "a1b5b14cdddf62586b33443f01844120c9b58c6a91f430c348bd10df6d4c4cf6"
+    },
+    {
+      "path": "comparison/food-panel-01-390-844-text1-normal-reference.png",
+      "bytes": 106321,
+      "sha256": "9df1600aac43a71f8359952342861685231c905f658ab409aa78dbf1e4024f3e"
+    },
+    {
+      "path": "comparison/food-panel-01-390-844-text1-reduced-native.png",
+      "bytes": 106800,
+      "sha256": "a1b5b14cdddf62586b33443f01844120c9b58c6a91f430c348bd10df6d4c4cf6"
+    },
+    {
+      "path": "comparison/food-panel-01-390-844-text1-reduced-reference.png",
+      "bytes": 106321,
+      "sha256": "9df1600aac43a71f8359952342861685231c905f658ab409aa78dbf1e4024f3e"
+    },
+    {
+      "path": "comparison/food-panel-02-320-568-text2-normal-native.png",
+      "bytes": 85619,
+      "sha256": "ba45ce7a61328a2e8731b1ef8ea9b3939f4e4992f655c2d2416a93a1761ed5ef"
+    },
+    {
+      "path": "comparison/food-panel-02-320-568-text2-normal-reference.png",
+      "bytes": 85807,
+      "sha256": "2111e6271d4274d24818edfe7d72b72240fc5ea988454bbdb3e020cb6a2c07f0"
+    },
+    {
+      "path": "comparison/food-panel-02-320-568-text2-reduced-native.png",
+      "bytes": 85619,
+      "sha256": "ba45ce7a61328a2e8731b1ef8ea9b3939f4e4992f655c2d2416a93a1761ed5ef"
+    },
+    {
+      "path": "comparison/food-panel-02-320-568-text2-reduced-reference.png",
+      "bytes": 85806,
+      "sha256": "bc9dcfb51591e5e5adb90814a2e2b3289c154d032d61c084ab972f58fe6b9fce"
+    },
+    {
+      "path": "comparison/food-panel-02-390-844-text1-normal-native.png",
+      "bytes": 155936,
+      "sha256": "25608b0d90cda2f26043c9a85383fff23fa78388153cf744c4d36a9d706f93e8"
+    },
+    {
+      "path": "comparison/food-panel-02-390-844-text1-normal-reference.png",
+      "bytes": 155456,
+      "sha256": "bf6e6d61600d3170877665c9bcdf4508f19c39e7bf010b054e613cde595eb9ed"
+    },
+    {
+      "path": "comparison/food-panel-02-390-844-text1-reduced-native.png",
+      "bytes": 155936,
+      "sha256": "25608b0d90cda2f26043c9a85383fff23fa78388153cf744c4d36a9d706f93e8"
+    },
+    {
+      "path": "comparison/food-panel-02-390-844-text1-reduced-reference.png",
+      "bytes": 155456,
+      "sha256": "bf6e6d61600d3170877665c9bcdf4508f19c39e7bf010b054e613cde595eb9ed"
+    },
+    {
+      "path": "comparison/food-panel-03-320-568-text2-normal-native.png",
+      "bytes": 72228,
+      "sha256": "c0897ce50d16e199282cd754795fb839935d9a7756bbec25ac1e8c68d6c2b654"
+    },
+    {
+      "path": "comparison/food-panel-03-320-568-text2-normal-reference.png",
+      "bytes": 73451,
+      "sha256": "cbd2efa9aaf0ab861c9e03c1419f007b06378d05725b42b26d327f9d47707c06"
+    },
+    {
+      "path": "comparison/food-panel-03-320-568-text2-reduced-native.png",
+      "bytes": 72023,
+      "sha256": "38095a6192e6fc54be3631d69830c41969cdf21af20ec4351c61cf538fab2e63"
+    },
+    {
+      "path": "comparison/food-panel-03-320-568-text2-reduced-reference.png",
+      "bytes": 73215,
+      "sha256": "0f166a39d974e981ad2b1ee900196da0b555c0e55edcc5ca478bf2ffef9269f1"
+    },
+    {
+      "path": "comparison/food-panel-03-390-844-text1-normal-native.png",
+      "bytes": 158389,
+      "sha256": "8276bdfaeb95f4e09591ed7a2ff3f0b7e8c5d2d64bc2b0ef609443d46220ddc0"
+    },
+    {
+      "path": "comparison/food-panel-03-390-844-text1-normal-reference.png",
+      "bytes": 158237,
+      "sha256": "c6135726713a39c6c7cb58e5d79517b8fc2e449fbd3e48f9a55b2a67d46116dd"
+    },
+    {
+      "path": "comparison/food-panel-03-390-844-text1-reduced-native.png",
+      "bytes": 157809,
+      "sha256": "58a522a1f2f253149a71e8c05340242dc3b283d056025b723585fc189ec32ce3"
+    },
+    {
+      "path": "comparison/food-panel-03-390-844-text1-reduced-reference.png",
+      "bytes": 157646,
+      "sha256": "759849555f33a1375e22f39496bba3d78e6da90c3444511c04534013101935f6"
+    },
+    {
+      "path": "comparison/food-panel-04-320-568-text2-normal-native.png",
+      "bytes": 86696,
+      "sha256": "39dec9ea99f0864b832df0d897d298050d2c4f409a8af0fe0ccbd4b6dc68e790"
+    },
+    {
+      "path": "comparison/food-panel-04-320-568-text2-normal-reference.png",
+      "bytes": 87303,
+      "sha256": "e14d8dcbac3534b033bb9b24d7595c39a56342750f7ee9ddc0868c58671ad16e"
+    },
+    {
+      "path": "comparison/food-panel-04-320-568-text2-reduced-native.png",
+      "bytes": 86696,
+      "sha256": "39dec9ea99f0864b832df0d897d298050d2c4f409a8af0fe0ccbd4b6dc68e790"
+    },
+    {
+      "path": "comparison/food-panel-04-320-568-text2-reduced-reference.png",
+      "bytes": 87299,
+      "sha256": "d87bf5702cf1fd0a2f7a9c1c9823d15433aed7f93fe5fbfaeb37c873ccca34c8"
+    },
+    {
+      "path": "comparison/food-panel-04-390-844-text1-normal-native.png",
+      "bytes": 159209,
+      "sha256": "e08d4bcdbb57bb699283605e9cbe2073a7948a718ab0e6768bbcbf120b8390bd"
+    },
+    {
+      "path": "comparison/food-panel-04-390-844-text1-normal-reference.png",
+      "bytes": 159085,
+      "sha256": "e910d5a8d98389fa1390492d5ba22bd2d7b8142b5def1fa483cb29816d0d3322"
+    },
+    {
+      "path": "comparison/food-panel-04-390-844-text1-reduced-native.png",
+      "bytes": 159209,
+      "sha256": "e08d4bcdbb57bb699283605e9cbe2073a7948a718ab0e6768bbcbf120b8390bd"
+    },
+    {
+      "path": "comparison/food-panel-04-390-844-text1-reduced-reference.png",
+      "bytes": 159085,
+      "sha256": "e910d5a8d98389fa1390492d5ba22bd2d7b8142b5def1fa483cb29816d0d3322"
+    },
+    {
+      "path": "comparison/food-panel-05-320-568-text2-normal-native.png",
+      "bytes": 58149,
+      "sha256": "a5fd7e49d9d58f4b839f7b9d84064f11e89c007ec88a17237ec73722b5abb7d4"
+    },
+    {
+      "path": "comparison/food-panel-05-320-568-text2-normal-reference.png",
+      "bytes": 59251,
+      "sha256": "f6def5a87eb42cb89398ce9d17eca617d8bb97ea39fa753f08599d68bdb852b4"
+    },
+    {
+      "path": "comparison/food-panel-05-320-568-text2-reduced-native.png",
+      "bytes": 58201,
+      "sha256": "1b4beab6877987a273a922c13184de2bfcdfcbd6adf1d968521fa18e76adafb5"
+    },
+    {
+      "path": "comparison/food-panel-05-320-568-text2-reduced-reference.png",
+      "bytes": 59251,
+      "sha256": "f6def5a87eb42cb89398ce9d17eca617d8bb97ea39fa753f08599d68bdb852b4"
+    },
+    {
+      "path": "comparison/food-panel-05-390-844-text1-normal-native.png",
+      "bytes": 161452,
+      "sha256": "5173c9e735038139ccb1448492b85cde78b34f616606ce829ef429c36efa3983"
+    },
+    {
+      "path": "comparison/food-panel-05-390-844-text1-normal-reference.png",
+      "bytes": 161640,
+      "sha256": "2765faa1beedf220f8b8c245eea668f734ccd48790ce8d2970756a42d0ee6d95"
+    },
+    {
+      "path": "comparison/food-panel-05-390-844-text1-reduced-native.png",
+      "bytes": 161772,
+      "sha256": "6dde13360c7f8d99e2a0077930cebe93dbd0ec45771e97ca9fcd674216cd6b0a"
+    },
+    {
+      "path": "comparison/food-panel-05-390-844-text1-reduced-reference.png",
+      "bytes": 161640,
+      "sha256": "2765faa1beedf220f8b8c245eea668f734ccd48790ce8d2970756a42d0ee6d95"
+    },
+    {
+      "path": "comparison/food-panel-06-320-568-text2-normal-native.png",
+      "bytes": 81425,
+      "sha256": "7234e60226ab943d6e51d0be2fab6583a19568af36078aabe4196f66844f5c1b"
+    },
+    {
+      "path": "comparison/food-panel-06-320-568-text2-normal-reference.png",
+      "bytes": 82926,
+      "sha256": "980c7af383bed70c0f274b44d3185634bc5ecfd9ddaf94cc66dceca8f97aa5c4"
+    },
+    {
+      "path": "comparison/food-panel-06-320-568-text2-reduced-native.png",
+      "bytes": 81586,
+      "sha256": "b8a2ee3b3cbb53038cae7de51104d1281d5c340c83da9971c9ec45de99d423d0"
+    },
+    {
+      "path": "comparison/food-panel-06-320-568-text2-reduced-reference.png",
+      "bytes": 82924,
+      "sha256": "96b9add034d208c3890905ad12c249dfde23992e2c066d111ea4639f887795cd"
+    },
+    {
+      "path": "comparison/food-panel-06-390-844-text1-normal-native.png",
+      "bytes": 159407,
+      "sha256": "a4ebd02c267e1f959c58cb38cdac9a845a0bbbf0e59d3fc8f510c92d8a096775"
+    },
+    {
+      "path": "comparison/food-panel-06-390-844-text1-normal-reference.png",
+      "bytes": 159606,
+      "sha256": "dbd89b8bab99d766390633977fb8bfef9ff27919273de04b2cc709ce6e918f91"
+    },
+    {
+      "path": "comparison/food-panel-06-390-844-text1-reduced-native.png",
+      "bytes": 159722,
+      "sha256": "b26e97bf130ef127e999cc53f4e7bfdd6a93e65fbd192962a974f38ecc7cacb7"
+    },
+    {
+      "path": "comparison/food-panel-06-390-844-text1-reduced-reference.png",
+      "bytes": 159606,
+      "sha256": "dbd89b8bab99d766390633977fb8bfef9ff27919273de04b2cc709ce6e918f91"
+    },
+    {
+      "path": "comparison/food-panel-07-320-568-text2-normal-native.png",
+      "bytes": 72145,
+      "sha256": "efe1d4a1792d0bdcc7efe97dbc05386eb52fca6d1ff9faab8bfb7c7679ee079d"
+    },
+    {
+      "path": "comparison/food-panel-07-320-568-text2-normal-reference.png",
+      "bytes": 73088,
+      "sha256": "1246ec5802abeec4f82af37a1e85e8e0f8a092ea3bab512db9349f3b6df5883d"
+    },
+    {
+      "path": "comparison/food-panel-07-320-568-text2-reduced-native.png",
+      "bytes": 72145,
+      "sha256": "efe1d4a1792d0bdcc7efe97dbc05386eb52fca6d1ff9faab8bfb7c7679ee079d"
+    },
+    {
+      "path": "comparison/food-panel-07-320-568-text2-reduced-reference.png",
+      "bytes": 73334,
+      "sha256": "8a3e0ba4bb7011ef1bdefbed366bb2aaf2513a987fc3852462506f0aa6a82fca"
+    },
+    {
+      "path": "comparison/food-panel-07-390-844-text1-normal-native.png",
+      "bytes": 160429,
+      "sha256": "08a2f9844f2f16201f97f041e88e3098108f02610985b73ebcf9c512e10cbcc0"
+    },
+    {
+      "path": "comparison/food-panel-07-390-844-text1-normal-reference.png",
+      "bytes": 159552,
+      "sha256": "75a827e657dbf5cff088e463827af6a2571ec8ac01218e862998c9de6b29e5fc"
+    },
+    {
+      "path": "comparison/food-panel-07-390-844-text1-reduced-native.png",
+      "bytes": 160429,
+      "sha256": "08a2f9844f2f16201f97f041e88e3098108f02610985b73ebcf9c512e10cbcc0"
+    },
+    {
+      "path": "comparison/food-panel-07-390-844-text1-reduced-reference.png",
+      "bytes": 160288,
+      "sha256": "79867f58953a1a0d7eb7a16454780c93a7b2597b6028ee6506a4a235832f0cbf"
+    },
+    {
+      "path": "comparison/food-panel-08-320-568-text2-normal-native.png",
+      "bytes": 72268,
+      "sha256": "5bca066e1799ff07b088a5e9f0f4d76e786027c1fc0c89c866cd387a2dca6d74"
+    },
+    {
+      "path": "comparison/food-panel-08-320-568-text2-normal-reference.png",
+      "bytes": 73232,
+      "sha256": "a3f7ba07f78f8f94215640d0bf1ae20ca03da84b6b6ae06efd0d00c0c7f829b1"
+    },
+    {
+      "path": "comparison/food-panel-08-320-568-text2-reduced-native.png",
+      "bytes": 72233,
+      "sha256": "22f38b85966f9c57828d2cf293ad70c2e93a3ab2388445dd4a81e0bea6434ba0"
+    },
+    {
+      "path": "comparison/food-panel-08-320-568-text2-reduced-reference.png",
+      "bytes": 73429,
+      "sha256": "b231fd8b3e80a838cf8862c59332f56c820b8fcac43f6133b5bc6004caadcaaf"
+    },
+    {
+      "path": "comparison/food-panel-08-390-844-text1-normal-native.png",
+      "bytes": 162354,
+      "sha256": "8234bf5f2b419e6a720a578623015accc10fa8621c8f4040cdf1a773bc5d2e07"
+    },
+    {
+      "path": "comparison/food-panel-08-390-844-text1-normal-reference.png",
+      "bytes": 161555,
+      "sha256": "f27997da96420a7621d9bccd45bea9816421751d389bc2136f8b65f3d9ad6aac"
+    },
+    {
+      "path": "comparison/food-panel-08-390-844-text1-reduced-native.png",
+      "bytes": 161286,
+      "sha256": "f495e445a1f93b7c6cd36f3a97a2c7554c8701583143e2684f41c856c8704bac"
+    },
+    {
+      "path": "comparison/food-panel-08-390-844-text1-reduced-reference.png",
+      "bytes": 161157,
+      "sha256": "3ae146937a0472d2e938b2497dae9e22fb3375e0e18d307710c4eb6eb82d3b88"
+    },
+    {
+      "path": "comparison/food-panel-09-320-568-text2-normal-native.png",
+      "bytes": 75540,
+      "sha256": "94c106618c79dfba118172fbf4c14452b3c6383ee93bffba52d1d55eb9eadd7e"
+    },
+    {
+      "path": "comparison/food-panel-09-320-568-text2-normal-reference.png",
+      "bytes": 75961,
+      "sha256": "898952322311d3deff3801073fbee132b7b38d760211a28116e3ec09da28afbb"
+    },
+    {
+      "path": "comparison/food-panel-09-320-568-text2-reduced-native.png",
+      "bytes": 75475,
+      "sha256": "66e7636acde77941c5d8bb8bba439874b75598ecc2af5a341d33da291d485c11"
+    },
+    {
+      "path": "comparison/food-panel-09-320-568-text2-reduced-reference.png",
+      "bytes": 75911,
+      "sha256": "c25129b5d82434dbb7de1ca1f54267126db412f4181b28089b1019509e3dc971"
+    },
+    {
+      "path": "comparison/food-panel-09-390-844-text1-normal-native.png",
+      "bytes": 161265,
+      "sha256": "5b51b6bb0795f3799003cfe4c7164cd1abc9a3c1006818fca8f1e479a32ac0bf"
+    },
+    {
+      "path": "comparison/food-panel-09-390-844-text1-normal-reference.png",
+      "bytes": 160724,
+      "sha256": "17266065ec3338c19ab4d5b0bb88d79d625d0bdb2b463f4d9b3d32430bfbbe70"
+    },
+    {
+      "path": "comparison/food-panel-09-390-844-text1-reduced-native.png",
+      "bytes": 160642,
+      "sha256": "1c46c1a2c5d9863d324228dc9815049a2e67d6a1bd03e86ebdbcc7765e3eca5f"
+    },
+    {
+      "path": "comparison/food-panel-09-390-844-text1-reduced-reference.png",
+      "bytes": 160079,
+      "sha256": "2537c3d49ef6a7d4add291d667b76ecff17d7f303d2843769db83d5462c33459"
+    },
+    {
+      "path": "comparison/food-panel-10-320-568-text2-normal-native.png",
+      "bytes": 67357,
+      "sha256": "e343181e70cf0ddb487a10cb6814e81b457c5ecf2e4f026cf71f5b3225b590ed"
+    },
+    {
+      "path": "comparison/food-panel-10-320-568-text2-normal-reference.png",
+      "bytes": 68179,
+      "sha256": "97bd21aaf099306e16da9881303d82a2d17b2c6cf0a6e1e84d589914a363496f"
+    },
+    {
+      "path": "comparison/food-panel-10-320-568-text2-reduced-native.png",
+      "bytes": 67336,
+      "sha256": "341cdf961f875592888734da3bfdefa7b5291e5c5dceae7af41eaf24e596ec6d"
+    },
+    {
+      "path": "comparison/food-panel-10-320-568-text2-reduced-reference.png",
+      "bytes": 68157,
+      "sha256": "61fa7f2503180d7777b62b8f2e37ad048da686df693f913cc54027f00b91b12e"
+    },
+    {
+      "path": "comparison/food-panel-10-390-844-text1-normal-native.png",
+      "bytes": 164226,
+      "sha256": "1565602966991e420c194ef27b1c1909428da4e85d6ecc06fd71c2c3ef115852"
+    },
+    {
+      "path": "comparison/food-panel-10-390-844-text1-normal-reference.png",
+      "bytes": 163669,
+      "sha256": "8770142ec88fb0784986e599c32a53ff471848634e22eee95708fc3f7b9a31a7"
+    },
+    {
+      "path": "comparison/food-panel-10-390-844-text1-reduced-native.png",
+      "bytes": 164206,
+      "sha256": "55fba13c9a285fa9692779e0ae9b97fb37baa90fc1afd743f462218485a04ef0"
+    },
+    {
+      "path": "comparison/food-panel-10-390-844-text1-reduced-reference.png",
+      "bytes": 163649,
+      "sha256": "3e41af2228eadee336f457ccf33756a4a72ac878693d8fd473103451f6afe10d"
+    },
+    {
+      "path": "comparison/food-panel-11-320-568-text2-normal-native.png",
+      "bytes": 74747,
+      "sha256": "b496db24e6a86f3993533f32b24e38f4b3c2b059e778bd1943dc1041311155e1"
+    },
+    {
+      "path": "comparison/food-panel-11-320-568-text2-normal-reference.png",
+      "bytes": 75913,
+      "sha256": "20e314b45e527f5e78c826964606e3123d38d16006eac0ae8cefaf35f9eea30e"
+    },
+    {
+      "path": "comparison/food-panel-11-320-568-text2-reduced-native.png",
+      "bytes": 74747,
+      "sha256": "b496db24e6a86f3993533f32b24e38f4b3c2b059e778bd1943dc1041311155e1"
+    },
+    {
+      "path": "comparison/food-panel-11-320-568-text2-reduced-reference.png",
+      "bytes": 75916,
+      "sha256": "f02e4f1a928207384539953744c58713e488db23e63cb776f24fb8b41831c671"
+    },
+    {
+      "path": "comparison/food-panel-11-390-844-text1-normal-native.png",
+      "bytes": 161664,
+      "sha256": "464ccaee3fb5e24b4f27319606405fd82f0816ace2b13fdb1d9137b4a17630b3"
+    },
+    {
+      "path": "comparison/food-panel-11-390-844-text1-normal-reference.png",
+      "bytes": 161562,
+      "sha256": "3b6535189fbb4fd937f01c3b525929796c531b854afa7cde859fe53bc6e794e6"
+    },
+    {
+      "path": "comparison/food-panel-11-390-844-text1-reduced-native.png",
+      "bytes": 161664,
+      "sha256": "464ccaee3fb5e24b4f27319606405fd82f0816ace2b13fdb1d9137b4a17630b3"
+    },
+    {
+      "path": "comparison/food-panel-11-390-844-text1-reduced-reference.png",
+      "bytes": 161562,
+      "sha256": "3b6535189fbb4fd937f01c3b525929796c531b854afa7cde859fe53bc6e794e6"
+    },
+    {
+      "path": "comparison/food-panel-12-320-568-text2-normal-native.png",
+      "bytes": 84097,
+      "sha256": "d2e6fde64afacf87f3a25277069fe807164afcddbe3fe365199fb2bf95949636"
+    },
+    {
+      "path": "comparison/food-panel-12-320-568-text2-normal-reference.png",
+      "bytes": 84978,
+      "sha256": "028204a9b6f0bd6e89aa8f44d3dff76aba4b5c99ad8b34e37337738c2da8f277"
+    },
+    {
+      "path": "comparison/food-panel-12-320-568-text2-reduced-native.png",
+      "bytes": 84097,
+      "sha256": "d2e6fde64afacf87f3a25277069fe807164afcddbe3fe365199fb2bf95949636"
+    },
+    {
+      "path": "comparison/food-panel-12-320-568-text2-reduced-reference.png",
+      "bytes": 84973,
+      "sha256": "83851997083febe173a1072ded692468ab06e068f5e845e4327b579aacf308af"
+    },
+    {
+      "path": "comparison/food-panel-12-390-844-text1-normal-native.png",
+      "bytes": 155707,
+      "sha256": "f49ae1411765bc070f59ad20316662c49ed9ce7b0c7d0168407725dbd9f1f4b3"
+    },
+    {
+      "path": "comparison/food-panel-12-390-844-text1-normal-reference.png",
+      "bytes": 155523,
+      "sha256": "b41879132c4c9ebc1c770b46216024f8beca095fe29f206f4111e537f9595c59"
+    },
+    {
+      "path": "comparison/food-panel-12-390-844-text1-reduced-native.png",
+      "bytes": 155707,
+      "sha256": "f49ae1411765bc070f59ad20316662c49ed9ce7b0c7d0168407725dbd9f1f4b3"
+    },
+    {
+      "path": "comparison/food-panel-12-390-844-text1-reduced-reference.png",
+      "bytes": 155523,
+      "sha256": "b41879132c4c9ebc1c770b46216024f8beca095fe29f206f4111e537f9595c59"
+    },
+    {
+      "path": "comparison/food-panel-13-320-568-text2-normal-native.png",
+      "bytes": 67001,
+      "sha256": "074f4e859fb8f9b4efa17016c423a2dbb28b89ea56f3c8f40aae4dc98bd1aa07"
+    },
+    {
+      "path": "comparison/food-panel-13-320-568-text2-normal-reference.png",
+      "bytes": 73076,
+      "sha256": "0bc82f201bd14c353274d9c53a739b62a55923f7e6522d4410740894d3802507"
+    },
+    {
+      "path": "comparison/food-panel-13-320-568-text2-reduced-native.png",
+      "bytes": 67005,
+      "sha256": "586004b241b82742828dbff2c4ff2b37a8db87de0b1a3088653780bc6e7d5019"
+    },
+    {
+      "path": "comparison/food-panel-13-320-568-text2-reduced-reference.png",
+      "bytes": 73100,
+      "sha256": "614aa38beb037322cd3e8ef1f5cfb6aa76dba670732ad5714e4e43bd44f8bacc"
+    },
+    {
+      "path": "comparison/food-panel-13-390-844-text1-normal-native.png",
+      "bytes": 159327,
+      "sha256": "9968b33720dbd3a5511dba538d2d1d4bcaa63734a374997f3bb81dd05393d64e"
+    },
+    {
+      "path": "comparison/food-panel-13-390-844-text1-normal-reference.png",
+      "bytes": 159104,
+      "sha256": "18f3d7b1df455a88ecf2c7ffe4746e1995090a5b346fa43614466ca14e7d58fd"
+    },
+    {
+      "path": "comparison/food-panel-13-390-844-text1-reduced-native.png",
+      "bytes": 159276,
+      "sha256": "a92140a99583b38644766f0f4f960c115f9f6fe594acb735eba4a1349720accc"
+    },
+    {
+      "path": "comparison/food-panel-13-390-844-text1-reduced-reference.png",
+      "bytes": 159054,
+      "sha256": "e3963c664dc7db8a750d7517218c73e6cdf16cac8b9298ac154724ac007ae4fb"
+    },
+    {
+      "path": "comparison/food-panel-14-320-568-text2-normal-native.png",
+      "bytes": 70631,
+      "sha256": "4ff25feedbf36b4b20d6cad89fd05932c9e7e2089d925cbaec5602dfd24d63d7"
+    },
+    {
+      "path": "comparison/food-panel-14-320-568-text2-normal-reference.png",
+      "bytes": 76528,
+      "sha256": "7db23254ed07ea0f2110bf11959b85445d7cd9a715ffb8a33ffb5394fa350365"
+    },
+    {
+      "path": "comparison/food-panel-14-320-568-text2-reduced-native.png",
+      "bytes": 70631,
+      "sha256": "4ff25feedbf36b4b20d6cad89fd05932c9e7e2089d925cbaec5602dfd24d63d7"
+    },
+    {
+      "path": "comparison/food-panel-14-320-568-text2-reduced-reference.png",
+      "bytes": 76530,
+      "sha256": "7995eee1bc7ec02986844541d57d56d5061450f21b8c305932ec1ff8955b91d8"
+    },
+    {
+      "path": "comparison/food-panel-14-390-844-text1-normal-native.png",
+      "bytes": 162122,
+      "sha256": "f007a8ca71249ca24bae2a862ba9d668d07cf3c0b2b06b7e6f7abb170721d885"
+    },
+    {
+      "path": "comparison/food-panel-14-390-844-text1-normal-reference.png",
+      "bytes": 161838,
+      "sha256": "dedf7a98dddad361777eee562b80509a0840d5883c7d7606e06470ed326d905e"
+    },
+    {
+      "path": "comparison/food-panel-14-390-844-text1-reduced-native.png",
+      "bytes": 162122,
+      "sha256": "f007a8ca71249ca24bae2a862ba9d668d07cf3c0b2b06b7e6f7abb170721d885"
+    },
+    {
+      "path": "comparison/food-panel-14-390-844-text1-reduced-reference.png",
+      "bytes": 161838,
+      "sha256": "dedf7a98dddad361777eee562b80509a0840d5883c7d7606e06470ed326d905e"
+    },
+    {
+      "path": "comparison/food-panel-15-320-568-text2-normal-native.png",
+      "bytes": 56582,
+      "sha256": "d94079fa94a771e9d4ffc77a5211b70b01b2c8efefa9e29233614eb01c5408c4"
+    },
+    {
+      "path": "comparison/food-panel-15-320-568-text2-normal-reference.png",
+      "bytes": 56530,
+      "sha256": "1bcd87651b20cb78304fa3c8bcbbcf56e3f399b7ca65077d81560a1833f4335d"
+    },
+    {
+      "path": "comparison/food-panel-15-320-568-text2-reduced-native.png",
+      "bytes": 55152,
+      "sha256": "2635c31a89396bd2469639a61adfca9ef697a42d1f4cf20f2f8c8161d1bf28b8"
+    },
+    {
+      "path": "comparison/food-panel-15-320-568-text2-reduced-reference.png",
+      "bytes": 55258,
+      "sha256": "c9916ad5bf1973e80995ec2c236544aa6f6583b1405e2060473bc9109fae5a79"
+    },
+    {
+      "path": "comparison/food-panel-15-390-844-text1-normal-native.png",
+      "bytes": 82258,
+      "sha256": "25160fd37ea6c1f3678f2ea818078edd0489ca95a8f66fb49dd0c6444bdfd063"
+    },
+    {
+      "path": "comparison/food-panel-15-390-844-text1-normal-reference.png",
+      "bytes": 77534,
+      "sha256": "a5378d6bcef74c065f750588a41c2309a9d70d7ef0bdbedaeb9163b90b585b69"
+    },
+    {
+      "path": "comparison/food-panel-15-390-844-text1-reduced-native.png",
+      "bytes": 77305,
+      "sha256": "0106ad4f1228bea50c4a6bc258d18d238dffc79f9578dc86ae4b3ea5508c9121"
+    },
+    {
+      "path": "comparison/food-panel-15-390-844-text1-reduced-reference.png",
+      "bytes": 72788,
+      "sha256": "672fafb56af46042df84f242ef569f62b196f8ac69034f81178c1c45963b3257"
+    },
+    {
+      "path": "comparison/food-panel-16-320-568-text2-normal-native.png",
+      "bytes": 69182,
+      "sha256": "2cae4effa47109b6eb65dd24b55d7701cc0d7bc43ab1945e33b9ca37c48aea40"
+    },
+    {
+      "path": "comparison/food-panel-16-320-568-text2-normal-reference.png",
+      "bytes": 71633,
+      "sha256": "5282fdbd101e4f4b42fac0a425fa4dfcf9ce010909dc19592a193059174a3056"
+    },
+    {
+      "path": "comparison/food-panel-16-320-568-text2-reduced-native.png",
+      "bytes": 69182,
+      "sha256": "2cae4effa47109b6eb65dd24b55d7701cc0d7bc43ab1945e33b9ca37c48aea40"
+    },
+    {
+      "path": "comparison/food-panel-16-320-568-text2-reduced-reference.png",
+      "bytes": 71633,
+      "sha256": "5282fdbd101e4f4b42fac0a425fa4dfcf9ce010909dc19592a193059174a3056"
+    },
+    {
+      "path": "comparison/food-panel-16-390-844-text1-normal-native.png",
+      "bytes": 87463,
+      "sha256": "3feb647c07456beb2bbf9a6f7f13607c832aede7abb1d0fe5fc581ddfc6ab5b1"
+    },
+    {
+      "path": "comparison/food-panel-16-390-844-text1-normal-reference.png",
+      "bytes": 86517,
+      "sha256": "7a5e9eb30fa8af554f81167728648fe0243843d4f90e7f2dc39237880680d1ce"
+    },
+    {
+      "path": "comparison/food-panel-16-390-844-text1-reduced-native.png",
+      "bytes": 87463,
+      "sha256": "3feb647c07456beb2bbf9a6f7f13607c832aede7abb1d0fe5fc581ddfc6ab5b1"
+    },
+    {
+      "path": "comparison/food-panel-16-390-844-text1-reduced-reference.png",
+      "bytes": 86517,
+      "sha256": "7a5e9eb30fa8af554f81167728648fe0243843d4f90e7f2dc39237880680d1ce"
+    },
+    {
+      "path": "comparison/food-panel-17-320-568-text2-normal-native.png",
+      "bytes": 56122,
+      "sha256": "d0cbaf80059c78256d2d4fc565426ae6ef8078251173c23e4ac588b6bf081b8e"
+    },
+    {
+      "path": "comparison/food-panel-17-320-568-text2-normal-reference.png",
+      "bytes": 56567,
+      "sha256": "8d812b0a7e861c3ea1df58b1b12966bfa9d7b75abc9390cf556134d4439f7159"
+    },
+    {
+      "path": "comparison/food-panel-17-320-568-text2-reduced-native.png",
+      "bytes": 56051,
+      "sha256": "3f01264c9d60f3dac61902ed97f025b9e7c5a15bb4a70d23c36f8a7c6cc21f81"
+    },
+    {
+      "path": "comparison/food-panel-17-320-568-text2-reduced-reference.png",
+      "bytes": 56462,
+      "sha256": "d771c86a00272f9d23e3943cfddbe9049641f8dc0426afabc66a8ab7d70e4a5e"
+    },
+    {
+      "path": "comparison/food-panel-17-390-844-text1-normal-native.png",
+      "bytes": 73909,
+      "sha256": "985ccb4d70360e02b95663c6c3d59992abb2aa1dec0ae15d88ffe0fb88c6e4fa"
+    },
+    {
+      "path": "comparison/food-panel-17-390-844-text1-normal-reference.png",
+      "bytes": 69190,
+      "sha256": "d38708e318b774d2bf217631a35ee28e9d3ad6188d4089b30d9b27916b7bcd53"
+    },
+    {
+      "path": "comparison/food-panel-17-390-844-text1-reduced-native.png",
+      "bytes": 73745,
+      "sha256": "a5f218cfc84a3feb2c9b1d9da0cf3363bf29f6b63120bc7ac6c8c7356f1201ea"
+    },
+    {
+      "path": "comparison/food-panel-17-390-844-text1-reduced-reference.png",
+      "bytes": 69070,
+      "sha256": "b6cb81a204046ab4c68cee494ec8413c6b7594f8eefd339ce00b274e4793b2f9"
+    },
+    {
+      "path": "comparison/food-panel-18-320-568-text2-normal-native.png",
+      "bytes": 68703,
+      "sha256": "9d278b58745f620f3a5cf3ac8ff3b4cb5bd3c3506fc6e109b8886041859355c3"
+    },
+    {
+      "path": "comparison/food-panel-18-320-568-text2-normal-reference.png",
+      "bytes": 69519,
+      "sha256": "a4b24cc3144302b7d7d789198ba714caf7c28938780617055316d3441524abde"
+    },
+    {
+      "path": "comparison/food-panel-18-320-568-text2-reduced-native.png",
+      "bytes": 68703,
+      "sha256": "9d278b58745f620f3a5cf3ac8ff3b4cb5bd3c3506fc6e109b8886041859355c3"
+    },
+    {
+      "path": "comparison/food-panel-18-320-568-text2-reduced-reference.png",
+      "bytes": 69721,
+      "sha256": "e5a913eac56222310d950875a5641e8a5c36d060181db20522626b4577582e2e"
+    },
+    {
+      "path": "comparison/food-panel-18-390-844-text1-normal-native.png",
+      "bytes": 154575,
+      "sha256": "f0183fbf511339e775dae0486aac40866f6c6d9e79358ad3cc4011d73158ac6d"
+    },
+    {
+      "path": "comparison/food-panel-18-390-844-text1-normal-reference.png",
+      "bytes": 153722,
+      "sha256": "a9b7161a89b7241586071f54fe1de0c733ebd128a820f43821c1274492b6b258"
+    },
+    {
+      "path": "comparison/food-panel-18-390-844-text1-reduced-native.png",
+      "bytes": 154575,
+      "sha256": "f0183fbf511339e775dae0486aac40866f6c6d9e79358ad3cc4011d73158ac6d"
+    },
+    {
+      "path": "comparison/food-panel-18-390-844-text1-reduced-reference.png",
+      "bytes": 154351,
+      "sha256": "5b706354846e8fd90b6196543b270692befe7c7836bdd901ff44550e7e558891"
+    },
+    {
+      "path": "comparison/food-states-01-320-568-text2-normal-native.png",
+      "bytes": 84647,
+      "sha256": "49105c42604a253807d822bff2f680c7293fee97ee2045e124bdaa7c0c1081f1"
+    },
+    {
+      "path": "comparison/food-states-01-320-568-text2-normal-reference.png",
+      "bytes": 86130,
+      "sha256": "88b03c45280eb6b7937ac381062b1ba755a1c283c7ff26b4118d8e36d176e248"
+    },
+    {
+      "path": "comparison/food-states-01-320-568-text2-reduced-native.png",
+      "bytes": 84647,
+      "sha256": "49105c42604a253807d822bff2f680c7293fee97ee2045e124bdaa7c0c1081f1"
+    },
+    {
+      "path": "comparison/food-states-01-320-568-text2-reduced-reference.png",
+      "bytes": 85958,
+      "sha256": "038429a8675b430a0abb69ae96f915fcbab0a56fddac11ca51e1ca8b8742ef01"
+    },
+    {
+      "path": "comparison/food-states-01-390-844-text1-normal-native.png",
+      "bytes": 157728,
+      "sha256": "9bc06ac1e78e35bf36c0a74abd3aa999d72fa627366ab644473e6890fcc75bfa"
+    },
+    {
+      "path": "comparison/food-states-01-390-844-text1-normal-reference.png",
+      "bytes": 158380,
+      "sha256": "baa1ba76e6b4299e31b78fa14a028b42861c3491190a8aa67817d16ff2a8bdbc"
+    },
+    {
+      "path": "comparison/food-states-01-390-844-text1-reduced-native.png",
+      "bytes": 157728,
+      "sha256": "9bc06ac1e78e35bf36c0a74abd3aa999d72fa627366ab644473e6890fcc75bfa"
+    },
+    {
+      "path": "comparison/food-states-01-390-844-text1-reduced-reference.png",
+      "bytes": 158221,
+      "sha256": "635ebd08fbba27261d22ba67dbcebc8d61a67fd62d187437969c8dfa600df863"
+    },
+    {
+      "path": "comparison/food-states-02-320-568-text2-normal-native.png",
+      "bytes": 65183,
+      "sha256": "0194801e1e40b726ac686877884e2a6f2b9106a887fe7fd0fec34b1a58a637bf"
+    },
+    {
+      "path": "comparison/food-states-02-320-568-text2-normal-reference.png",
+      "bytes": 66000,
+      "sha256": "aabca79e7548c0798182c61452c2e921972c63575a29659eefc1df19580ff673"
+    },
+    {
+      "path": "comparison/food-states-02-320-568-text2-reduced-native.png",
+      "bytes": 65293,
+      "sha256": "9aed358e8b4744d0e2c00663963db70d5323bd883cf7d845a3242f5ba52ec2fd"
+    },
+    {
+      "path": "comparison/food-states-02-320-568-text2-reduced-reference.png",
+      "bytes": 66094,
+      "sha256": "d4b2acdf90aae3c988ed57f5152a96a1adbb5a74e1c37ed29609becf8d589036"
+    },
+    {
+      "path": "comparison/food-states-02-390-844-text1-normal-native.png",
+      "bytes": 156819,
+      "sha256": "8f401101504185dccafd20c66b07c5ed85c9de1bae125e69d48046262cabf467"
+    },
+    {
+      "path": "comparison/food-states-02-390-844-text1-normal-reference.png",
+      "bytes": 156094,
+      "sha256": "882290adfd8bed161753486bb4269714bd8e4b241905e3bbcf21243cc3a81b16"
+    },
+    {
+      "path": "comparison/food-states-02-390-844-text1-reduced-native.png",
+      "bytes": 157209,
+      "sha256": "5b10fa2401cc5ed0a6293dd0b589fe3cbbf1fc7ebe153892e9f1ce4cb6a46906"
+    },
+    {
+      "path": "comparison/food-states-02-390-844-text1-reduced-reference.png",
+      "bytes": 156470,
+      "sha256": "d7854f1edfc0f83ec1ec596f0ce4f22e30c6b543640954a34d9e8b72b3f55619"
+    },
+    {
+      "path": "comparison/food-states-03-320-568-text2-normal-native.png",
+      "bytes": 89816,
+      "sha256": "c3aadfdc8c1039f0b2ed365e46390ef82e841fee51947f04a4d997509b1e1901"
+    },
+    {
+      "path": "comparison/food-states-03-320-568-text2-normal-reference.png",
+      "bytes": 92064,
+      "sha256": "7a1a396bc3bfa757f314c13da1096390d3f4a8d971432a96ce1440c1812a35ef"
+    },
+    {
+      "path": "comparison/food-states-03-320-568-text2-reduced-native.png",
+      "bytes": 89816,
+      "sha256": "c3aadfdc8c1039f0b2ed365e46390ef82e841fee51947f04a4d997509b1e1901"
+    },
+    {
+      "path": "comparison/food-states-03-320-568-text2-reduced-reference.png",
+      "bytes": 91777,
+      "sha256": "bfaeb635190d24d7dfd6b85e3e9c531c27b01ec6d219da3e9622f81388951254"
+    },
+    {
+      "path": "comparison/food-states-03-390-844-text1-normal-native.png",
+      "bytes": 154746,
+      "sha256": "ba05e88f5647b66d8797080b5f492628b07e12597b4c965d9b0b1998f948b576"
+    },
+    {
+      "path": "comparison/food-states-03-390-844-text1-normal-reference.png",
+      "bytes": 155792,
+      "sha256": "567a6a20b8bf20ca6d32e31a372829044164a905ff1088a880fabc9a0fd4fbf5"
+    },
+    {
+      "path": "comparison/food-states-03-390-844-text1-reduced-native.png",
+      "bytes": 154746,
+      "sha256": "ba05e88f5647b66d8797080b5f492628b07e12597b4c965d9b0b1998f948b576"
+    },
+    {
+      "path": "comparison/food-states-03-390-844-text1-reduced-reference.png",
+      "bytes": 155593,
+      "sha256": "8a3306651f47f54af268586a3a07b54c8fc21e953134c368223aea0779d07946"
+    },
+    {
+      "path": "comparison/food-states-04-320-568-text2-normal-native.png",
+      "bytes": 82891,
+      "sha256": "3ea1e992404fff1c3a984c5ee6c604c191c4c40adf013ef936ec957ab67b2efa"
+    },
+    {
+      "path": "comparison/food-states-04-320-568-text2-normal-reference.png",
+      "bytes": 66884,
+      "sha256": "a6447f55f92c6918d73772ac7c8dbf4154422495bd6ffb32f034a89e34280f16"
+    },
+    {
+      "path": "comparison/food-states-04-320-568-text2-reduced-native.png",
+      "bytes": 82929,
+      "sha256": "b1f1c9154d31606aba476509fdbf297b080500a4f41b4a2fa14bb8c78b3e600d"
+    },
+    {
+      "path": "comparison/food-states-04-320-568-text2-reduced-reference.png",
+      "bytes": 66892,
+      "sha256": "a70da48f5f4b4fe36e9b7a73f2b67444753537c4415b8795f2095bc1d923fb37"
+    },
+    {
+      "path": "comparison/food-states-04-390-844-text1-normal-native.png",
+      "bytes": 160465,
+      "sha256": "1192bcad4087436deafcfe347d01b014a5c9d44b4f50c72689a74066da248b7b"
+    },
+    {
+      "path": "comparison/food-states-04-390-844-text1-normal-reference.png",
+      "bytes": 159885,
+      "sha256": "8b4d2fdd8050e91c13f7b45158329a124a2725dc765ab3dc5fe8c08780ecc602"
+    },
+    {
+      "path": "comparison/food-states-04-390-844-text1-reduced-native.png",
+      "bytes": 160656,
+      "sha256": "a0967c64760eebbb4951a5f6d7ccedcb6476e910c192ce207a11a427efa60c0b"
+    },
+    {
+      "path": "comparison/food-states-04-390-844-text1-reduced-reference.png",
+      "bytes": 160089,
+      "sha256": "cac4a19f3c04d6f312cd705e5464b26947cdb67f95345f008bab6e8845a7faad"
+    },
+    {
+      "path": "comparison/food-states-05-320-568-text2-normal-native.png",
+      "bytes": 77597,
+      "sha256": "9cf606118a0df9639ba2bd5181532ce95f87c8f27c65e334ff204195f3366da5"
+    },
+    {
+      "path": "comparison/food-states-05-320-568-text2-normal-reference.png",
+      "bytes": 84068,
+      "sha256": "3936d0d2d1bcdd30a8b8310bad8f0843c4ca0d305be95303d19de9ae3a37fee0"
+    },
+    {
+      "path": "comparison/food-states-05-320-568-text2-reduced-native.png",
+      "bytes": 77597,
+      "sha256": "9cf606118a0df9639ba2bd5181532ce95f87c8f27c65e334ff204195f3366da5"
+    },
+    {
+      "path": "comparison/food-states-05-320-568-text2-reduced-reference.png",
+      "bytes": 84072,
+      "sha256": "dd4dde5b3e285418c64b33636e816bc2afd8624897cf52488591b5503acd089f"
+    },
+    {
+      "path": "comparison/food-states-05-390-844-text1-normal-native.png",
+      "bytes": 156333,
+      "sha256": "00433d594f55ddb51eb63bd9c059aa919dd4dabc86743ed49f304070463f23c5"
+    },
+    {
+      "path": "comparison/food-states-05-390-844-text1-normal-reference.png",
+      "bytes": 156151,
+      "sha256": "f644fc4323b6a1a30c5f41dcf9113653d939a57603ddf86c9c5cf381766f9a07"
+    },
+    {
+      "path": "comparison/food-states-05-390-844-text1-reduced-native.png",
+      "bytes": 156320,
+      "sha256": "ed37ecfaabf0c5e7c3f767f6c52c93e02947fb797b446d211cc9d8b5858b363c"
+    },
+    {
+      "path": "comparison/food-states-05-390-844-text1-reduced-reference.png",
+      "bytes": 156122,
+      "sha256": "6557b2e5a6e225b6c2dff2dd77b33b58ec9ec83f568ed20608fe3720cd3e501b"
+    },
+    {
+      "path": "comparison/food-states-06-320-568-text2-normal-native.png",
+      "bytes": 73536,
+      "sha256": "1a4ae943f2a3393c37c4872c6e575aab8dd2d6a66d61b361b4d4cbae6928c656"
+    },
+    {
+      "path": "comparison/food-states-06-320-568-text2-normal-reference.png",
+      "bytes": 74125,
+      "sha256": "de29e923ba6018b62b1a19adaeff2fd58de979b08b7fd4a2db24d1040de85f51"
+    },
+    {
+      "path": "comparison/food-states-06-320-568-text2-reduced-native.png",
+      "bytes": 73536,
+      "sha256": "1a4ae943f2a3393c37c4872c6e575aab8dd2d6a66d61b361b4d4cbae6928c656"
+    },
+    {
+      "path": "comparison/food-states-06-320-568-text2-reduced-reference.png",
+      "bytes": 74123,
+      "sha256": "4001a32dcf7304aac2ecf3ba1ac4d727b00fa89e6a970cb1f0f9fee93937b92b"
+    },
+    {
+      "path": "comparison/food-states-06-390-844-text1-normal-native.png",
+      "bytes": 158218,
+      "sha256": "c5f107f88982d067358291f00ca2851df635a41f0db78c892c972319837d1044"
+    },
+    {
+      "path": "comparison/food-states-06-390-844-text1-normal-reference.png",
+      "bytes": 158005,
+      "sha256": "3fa470f016e534829529c65c66d89d786db23c61509be70a3ab9327f53522a65"
+    },
+    {
+      "path": "comparison/food-states-06-390-844-text1-reduced-native.png",
+      "bytes": 158218,
+      "sha256": "c5f107f88982d067358291f00ca2851df635a41f0db78c892c972319837d1044"
+    },
+    {
+      "path": "comparison/food-states-06-390-844-text1-reduced-reference.png",
+      "bytes": 158005,
+      "sha256": "3fa470f016e534829529c65c66d89d786db23c61509be70a3ab9327f53522a65"
+    },
+    {
+      "path": "comparison/food-states-07-320-568-text2-normal-native.png",
+      "bytes": 45250,
+      "sha256": "78bb443ef349f992f047b0909b46629ec0b2bb740c2dc8de028b65c87e83451c"
+    },
+    {
+      "path": "comparison/food-states-07-320-568-text2-normal-reference.png",
+      "bytes": 49505,
+      "sha256": "5ba53785dad8dbc9a1c6ad47a3a849195e27e4ff1849066efb41bd48cfb8c86b"
+    },
+    {
+      "path": "comparison/food-states-07-320-568-text2-reduced-native.png",
+      "bytes": 45250,
+      "sha256": "78bb443ef349f992f047b0909b46629ec0b2bb740c2dc8de028b65c87e83451c"
+    },
+    {
+      "path": "comparison/food-states-07-320-568-text2-reduced-reference.png",
+      "bytes": 49477,
+      "sha256": "8dfa3ac03a8bbffa30dc6de268a4ed7f393178ce838d7d0799968b6e4ca28387"
+    },
+    {
+      "path": "comparison/food-states-07-390-844-text1-normal-native.png",
+      "bytes": 103271,
+      "sha256": "291ac88381f6885de2cee426651e1605ee024ebea24d3c1a5204401539f536c2"
+    },
+    {
+      "path": "comparison/food-states-07-390-844-text1-normal-reference.png",
+      "bytes": 148129,
+      "sha256": "98e48ebeacb1c1a081424504a76ddb02dda14c90dca2cac1a5adcf9b813cfc20"
+    },
+    {
+      "path": "comparison/food-states-07-390-844-text1-reduced-native.png",
+      "bytes": 103276,
+      "sha256": "30131217830ce5baf604048aa3ed96627b3a799bec6cb191c1efa966514bd6b8"
+    },
+    {
+      "path": "comparison/food-states-07-390-844-text1-reduced-reference.png",
+      "bytes": 147013,
+      "sha256": "e8a4cfeac1e48197f1350c74ed0e259d1e947d5c0bee84ae8328e8de7ea156e8"
+    },
+    {
+      "path": "comparison/food-states-08-320-568-text2-normal-native.png",
+      "bytes": 49855,
+      "sha256": "ad5c9c7b50ce328ce6a2e0fa0aaa4d7138822a6fdaeab3b5adb603adf3525d63"
+    },
+    {
+      "path": "comparison/food-states-08-320-568-text2-normal-reference.png",
+      "bytes": 52777,
+      "sha256": "5465408cfc0f6b1c627ddc1b9ceb471b41a40b5f001d0377329d7dc8f3ad1df9"
+    },
+    {
+      "path": "comparison/food-states-08-320-568-text2-reduced-native.png",
+      "bytes": 49855,
+      "sha256": "ad5c9c7b50ce328ce6a2e0fa0aaa4d7138822a6fdaeab3b5adb603adf3525d63"
+    },
+    {
+      "path": "comparison/food-states-08-320-568-text2-reduced-reference.png",
+      "bytes": 52758,
+      "sha256": "aff6085a97a12fd58eb99636b571ec3611d34fe6715b7271ccd3ff87b84d3015"
+    },
+    {
+      "path": "comparison/food-states-08-390-844-text1-normal-native.png",
+      "bytes": 111287,
+      "sha256": "e50aaedf5166069b808ca0d14dda62f17c4a053d57cd930a7e9f1718f413781e"
+    },
+    {
+      "path": "comparison/food-states-08-390-844-text1-normal-reference.png",
+      "bytes": 145979,
+      "sha256": "e73f12e128f10ab82a050859966ecb66dcae3ea88e57aa6f0904dd00c54827d0"
+    },
+    {
+      "path": "comparison/food-states-08-390-844-text1-reduced-native.png",
+      "bytes": 111466,
+      "sha256": "aca4fa93d0b040f421df5a17dd5de2a430cce55009b5deedcb126b3733a9b5ff"
+    },
+    {
+      "path": "comparison/food-states-08-390-844-text1-reduced-reference.png",
+      "bytes": 144941,
+      "sha256": "fef8164c689ec84fd483211b40aee2e97c289632d7bad95aa27fae471fe97873"
+    },
+    {
+      "path": "comparison/food-states-09-320-568-text2-normal-native.png",
+      "bytes": 53267,
+      "sha256": "c4140318de3867ee8c04e92bc650ef2b2fea1d3167c1dfc3db2fb2bb45ebd33b"
+    },
+    {
+      "path": "comparison/food-states-09-320-568-text2-normal-reference.png",
+      "bytes": 56553,
+      "sha256": "6657010b1eddd6e6fb2efb7bf2786f3d40c0e61fdc2657f5a1a2d9d0e89142df"
+    },
+    {
+      "path": "comparison/food-states-09-320-568-text2-reduced-native.png",
+      "bytes": 53267,
+      "sha256": "c4140318de3867ee8c04e92bc650ef2b2fea1d3167c1dfc3db2fb2bb45ebd33b"
+    },
+    {
+      "path": "comparison/food-states-09-320-568-text2-reduced-reference.png",
+      "bytes": 56531,
+      "sha256": "c31e3ea4230052307730457450f81503d45589c32c8a9d04159fd2e64343e81d"
+    },
+    {
+      "path": "comparison/food-states-09-390-844-text1-normal-native.png",
+      "bytes": 111926,
+      "sha256": "ba703f7b8830c383584861e9a2da333820e9f59db0a272934a1542cd69abf8aa"
+    },
+    {
+      "path": "comparison/food-states-09-390-844-text1-normal-reference.png",
+      "bytes": 146932,
+      "sha256": "b7359d28c2f9ad8d703fd80005400e774e366017bb0929ce1b0efa3c36240068"
+    },
+    {
+      "path": "comparison/food-states-09-390-844-text1-reduced-native.png",
+      "bytes": 112113,
+      "sha256": "bcc2a99c434cd3715d48ef88820acfd96ed4b411187aae086c2c9dfe371b0b4f"
+    },
+    {
+      "path": "comparison/food-states-09-390-844-text1-reduced-reference.png",
+      "bytes": 145885,
+      "sha256": "24789ef95c65c94b4479aad5a21b2ec28eccd9621b994daaf08e130668a56038"
+    },
+    {
+      "path": "comparison/food-states-10-320-568-text2-normal-native.png",
+      "bytes": 141780,
+      "sha256": "394ff5c0e07c606370aff1974797ce268e5bb67308011dc369abc531371492b5"
+    },
+    {
+      "path": "comparison/food-states-10-320-568-text2-normal-reference.png",
+      "bytes": 155792,
+      "sha256": "80533dc53ee9a10f2063e73a42b5b0c394aa05f839a1502eaf231b798fdf8a42"
+    },
+    {
+      "path": "comparison/food-states-10-320-568-text2-reduced-native.png",
+      "bytes": 141848,
+      "sha256": "4492a0c0aa21fdebd1ab203616c43f96003259744f4342a1357d2dfcb5be118e"
+    },
+    {
+      "path": "comparison/food-states-10-320-568-text2-reduced-reference.png",
+      "bytes": 156180,
+      "sha256": "f815bf108caf69d20e6c679e7980c132eee153c05270e5f6f7e15fec60f7876d"
+    },
+    {
+      "path": "comparison/food-states-10-390-844-text1-normal-native.png",
+      "bytes": 133461,
+      "sha256": "3c1aedd03fc655394b48b2022cd922ec4b1579c2c5244b59fe042f9425a570be"
+    },
+    {
+      "path": "comparison/food-states-10-390-844-text1-normal-reference.png",
+      "bytes": 160934,
+      "sha256": "c3702250847ec134896a5ed12fccb650b19419cc35b8cdc2dd9d953e3e4fc85e"
+    },
+    {
+      "path": "comparison/food-states-10-390-844-text1-reduced-native.png",
+      "bytes": 133656,
+      "sha256": "8397283961dec2de4d1b3de4ebaf4447e3da9c10aedec350414cbc46edb5c75f"
+    },
+    {
+      "path": "comparison/food-states-10-390-844-text1-reduced-reference.png",
+      "bytes": 166255,
+      "sha256": "db41fe0b500d14eb22ac6e84f6485bb53017359c8faf1ce65026ade797afa44c"
+    },
+    {
+      "path": "comparison/food-states-11-320-568-text2-normal-native.png",
+      "bytes": 126310,
+      "sha256": "8344a66289310430894ec74a279cda0b0b0c7d4980d1acba1782cafb56c1237b"
+    },
+    {
+      "path": "comparison/food-states-11-320-568-text2-normal-reference.png",
+      "bytes": 138854,
+      "sha256": "bd561944a0e311e73d8c50fb434f005bbf728a4eba0830f40f38daafc75ffeef"
+    },
+    {
+      "path": "comparison/food-states-11-320-568-text2-reduced-native.png",
+      "bytes": 126242,
+      "sha256": "869f1203c2b046cd9d6b47f69a993c312eb5bd95364baddf33ba4bdd858ceef8"
+    },
+    {
+      "path": "comparison/food-states-11-320-568-text2-reduced-reference.png",
+      "bytes": 140768,
+      "sha256": "671b46818e02a840c0952f8cca38b98c27b51cdd01621a0edf5512336bbb825a"
+    },
+    {
+      "path": "comparison/food-states-11-390-844-text1-normal-native.png",
+      "bytes": 130957,
+      "sha256": "92b870afc0d12feb88cfea8a83d7cd80ecfd20694fe4f229dd85c57d425fe75b"
+    },
+    {
+      "path": "comparison/food-states-11-390-844-text1-normal-reference.png",
+      "bytes": 160678,
+      "sha256": "97982032dedba8874f80d817ee4a1c49520ffd0431248cb77dfd7e7ccecceeb6"
+    },
+    {
+      "path": "comparison/food-states-11-390-844-text1-reduced-native.png",
+      "bytes": 131150,
+      "sha256": "71f39adc841774999a10ca004e4637d36f04108ebc4e54d8c9fca4399980648d"
+    },
+    {
+      "path": "comparison/food-states-11-390-844-text1-reduced-reference.png",
+      "bytes": 165581,
+      "sha256": "7d437d63c0102ca9f3933d3a8ba753ec695c9cfb5040f391220104d0fc451527"
+    },
+    {
+      "path": "comparison/food-states-12-320-568-text2-normal-native.png",
+      "bytes": 100310,
+      "sha256": "a39b0ad58ba45c2d05cd6d23b788bf1180f43a22cc3ab296cf0543a6ad3f3cb6"
+    },
+    {
+      "path": "comparison/food-states-12-320-568-text2-normal-reference.png",
+      "bytes": 104939,
+      "sha256": "9514fb267033dd922b4893fb2137d04435049786dcce624ea5bedb3e22934b51"
+    },
+    {
+      "path": "comparison/food-states-12-320-568-text2-reduced-native.png",
+      "bytes": 100310,
+      "sha256": "a39b0ad58ba45c2d05cd6d23b788bf1180f43a22cc3ab296cf0543a6ad3f3cb6"
+    },
+    {
+      "path": "comparison/food-states-12-320-568-text2-reduced-reference.png",
+      "bytes": 105768,
+      "sha256": "7e5d1c7fc986ee5b1c872a45dedd1f83e750c7bac4fd5154297e78f8d3b06c81"
+    },
+    {
+      "path": "comparison/food-states-12-390-844-text1-normal-native.png",
+      "bytes": 149219,
+      "sha256": "8b6ec0bb8e034ab4a8b9e571a84bad0b811e566bd16826f72e2601970027803f"
+    },
+    {
+      "path": "comparison/food-states-12-390-844-text1-normal-reference.png",
+      "bytes": 145744,
+      "sha256": "7b0d71f99e1a62974e5f97d959d4043bc1dd51a7a4b1026caaaae40b7e9bd617"
+    },
+    {
+      "path": "comparison/food-states-12-390-844-text1-reduced-native.png",
+      "bytes": 149391,
+      "sha256": "f5fd3c1a7c2defacea5c2ad90272996252a220c312069ad4a1528d5e20caf7d7"
+    },
+    {
+      "path": "comparison/food-states-12-390-844-text1-reduced-reference.png",
+      "bytes": 151730,
+      "sha256": "92ffcd44662093b348aaac27d7d7bd412065e526817b1372742bb66e9b744830"
+    },
+    {
+      "path": "comparison/food-states-13-320-568-text2-normal-native.png",
+      "bytes": 98175,
+      "sha256": "010f8a1ec0445ebd3496c0bc06b8fc12dc308e18512576e06c0589a87764b3d1"
+    },
+    {
+      "path": "comparison/food-states-13-320-568-text2-normal-reference.png",
+      "bytes": 102340,
+      "sha256": "52cb2852143c664f5e3aa8e04c52334e85fa1245642456054c64562886f6c79d"
+    },
+    {
+      "path": "comparison/food-states-13-320-568-text2-reduced-native.png",
+      "bytes": 98175,
+      "sha256": "010f8a1ec0445ebd3496c0bc06b8fc12dc308e18512576e06c0589a87764b3d1"
+    },
+    {
+      "path": "comparison/food-states-13-320-568-text2-reduced-reference.png",
+      "bytes": 103287,
+      "sha256": "4bed547962f1b7b98e54c37a9d07258298eca35f1386f319decc023814be2d2c"
+    },
+    {
+      "path": "comparison/food-states-13-390-844-text1-normal-native.png",
+      "bytes": 149782,
+      "sha256": "f145e692917e96ae3a1297b3eec0efa501cc5ad89b50a4ed65bf767423233d63"
+    },
+    {
+      "path": "comparison/food-states-13-390-844-text1-normal-reference.png",
+      "bytes": 145414,
+      "sha256": "a4f76f7f874f37e99b968e354059ce9a9bc3124bb13eb33482fd51bf2d5a4782"
+    },
+    {
+      "path": "comparison/food-states-13-390-844-text1-reduced-native.png",
+      "bytes": 149941,
+      "sha256": "cae1197a433446ca5486e8b1f5cbc2c53688b5b61adc077c0ab2f07d015f6e7a"
+    },
+    {
+      "path": "comparison/food-states-13-390-844-text1-reduced-reference.png",
+      "bytes": 151440,
+      "sha256": "31df2c56a03d2619f59dbd55b5edb370613bf6051d6df9c363e192e1133f25a9"
+    },
+    {
+      "path": "comparison/food-states-14-320-568-text2-normal-native.png",
+      "bytes": 155372,
+      "sha256": "9b20ae456cc31e0d3e8d77de147f1293c4851d298e15eb6b258b1c1ec51b78d4"
+    },
+    {
+      "path": "comparison/food-states-14-320-568-text2-normal-reference.png",
+      "bytes": 165120,
+      "sha256": "6c906bb09a3a847e47e9db16b703f28e11e38c986cd6feee9b4283f1848468e6"
+    },
+    {
+      "path": "comparison/food-states-14-320-568-text2-reduced-native.png",
+      "bytes": 155288,
+      "sha256": "17c877590906aba5ca3754478d13c477d302ab2a3762a64b646ef852bf8942fd"
+    },
+    {
+      "path": "comparison/food-states-14-320-568-text2-reduced-reference.png",
+      "bytes": 165563,
+      "sha256": "8122a7279ac9181bbef6bc53d9923d0cfb4680839fee1b7f7d68dec0668cfdb8"
+    },
+    {
+      "path": "comparison/food-states-14-390-844-text1-normal-native.png",
+      "bytes": 283491,
+      "sha256": "ac6ba39ac45eb7a4013e7333d6d0d77ae037b3d36132c19f0115961fdea295f6"
+    },
+    {
+      "path": "comparison/food-states-14-390-844-text1-normal-reference.png",
+      "bytes": 321371,
+      "sha256": "d4f8cf7700a47868d433379fb968628de328b89d1b4b29dc094fda569b6ff5a8"
+    },
+    {
+      "path": "comparison/food-states-14-390-844-text1-reduced-native.png",
+      "bytes": 283453,
+      "sha256": "a18699db96d9115cdf7f4538cba18af83ed96b08803c7a4ccf8f660c90fbddd5"
+    },
+    {
+      "path": "comparison/food-states-14-390-844-text1-reduced-reference.png",
+      "bytes": 323796,
+      "sha256": "12ea24fd352018cc99797338ccf005b15d3afafbd74cd8b5cbb9d0b82eca00c7"
+    },
+    {
+      "path": "comparison/food-states-15-320-568-text2-normal-native.png",
+      "bytes": 99736,
+      "sha256": "8e468028b6ca9f4cbf57a309cd19241d69bf6f9835815b133d36c564fe286e4f"
+    },
+    {
+      "path": "comparison/food-states-15-320-568-text2-normal-reference.png",
+      "bytes": 99898,
+      "sha256": "04d359fc15c5fe0a6de941e28f1bce2503d24b03e908db8c644460edc85281b9"
+    },
+    {
+      "path": "comparison/food-states-15-320-568-text2-reduced-native.png",
+      "bytes": 99739,
+      "sha256": "9eac6a26447060d55d80eeb6fc965230f702d6f39b5c913d7a9d98e4a642383b"
+    },
+    {
+      "path": "comparison/food-states-15-320-568-text2-reduced-reference.png",
+      "bytes": 99893,
+      "sha256": "7a3be8fd5e0f6db9c7803c4b0433bcb5f3d5e9c399f7a0cad30327a76ad2e4d0"
+    },
+    {
+      "path": "comparison/food-states-15-390-844-text1-normal-native.png",
+      "bytes": 163985,
+      "sha256": "52248f5302101e8950528a695c4cea81f9212f4a390f8d4d3e23a6c2708838a6"
+    },
+    {
+      "path": "comparison/food-states-15-390-844-text1-normal-reference.png",
+      "bytes": 163234,
+      "sha256": "964812f5a1371afe28e0ab02d2ce922a2c80710c1f6a1723f2841bdbb1fb4e3b"
+    },
+    {
+      "path": "comparison/food-states-15-390-844-text1-reduced-native.png",
+      "bytes": 163994,
+      "sha256": "d1e54d14850d80101a2ccddc9124d292acce3674af4a96a8c96f203ccd70ba28"
+    },
+    {
+      "path": "comparison/food-states-15-390-844-text1-reduced-reference.png",
+      "bytes": 163252,
+      "sha256": "3c93e9b1e884772040e34f3086de513e85ea30c68f7a259d478894b1a6390eeb"
+    },
+    {
+      "path": "comparison/food-stock-01-320-568-text2-normal-native.png",
+      "bytes": 107478,
+      "sha256": "ee137a9cec53bbe718ae8e460310a0d6d2c6138720a30f7a52d814dd70e033e0"
+    },
+    {
+      "path": "comparison/food-stock-01-320-568-text2-normal-reference.png",
+      "bytes": 131208,
+      "sha256": "db5f923b407bb05273868642484f90a77f9ea36ef63cb274a6f4d963948a9cb9"
+    },
+    {
+      "path": "comparison/food-stock-01-320-568-text2-reduced-native.png",
+      "bytes": 107583,
+      "sha256": "a1555fdbeecc2c2fc01b10d4108f1d6027ef800760c001ee0ba1aaef514b73f3"
+    },
+    {
+      "path": "comparison/food-stock-01-320-568-text2-reduced-reference.png",
+      "bytes": 132585,
+      "sha256": "10143e0c2fa730e6b3c7ee96982b919b8afa69cf3a677bfd7a3f9fdf27ff6ca6"
+    },
+    {
+      "path": "comparison/food-stock-01-390-844-text1-normal-native.png",
+      "bytes": 136236,
+      "sha256": "dcb6e62c14e0dd45463c6d3d6c36740196a1905a576cf20968834e7ce2b6dc86"
+    },
+    {
+      "path": "comparison/food-stock-01-390-844-text1-normal-reference.png",
+      "bytes": 186023,
+      "sha256": "60ac848272dec301bf2bd430b3ddc392d5224de3ca20d96cf9e3d4f7598533f5"
+    },
+    {
+      "path": "comparison/food-stock-01-390-844-text1-reduced-native.png",
+      "bytes": 136202,
+      "sha256": "46eae0fd154dc4d5fd452a117a5bb9cc1757cb8b492b003648cab038f511030c"
+    },
+    {
+      "path": "comparison/food-stock-01-390-844-text1-reduced-reference.png",
+      "bytes": 188601,
+      "sha256": "26e1c83d6235c723393ace66f274fe91e40181ed0ffa12a9813e69ca17fddead"
+    },
+    {
+      "path": "comparison/food-stock-02-320-568-text2-normal-native.png",
+      "bytes": 107416,
+      "sha256": "808c603bd2c3723eabfcf7b6c9ab8004eda5549b9628693f55e152b0585eead4"
+    },
+    {
+      "path": "comparison/food-stock-02-320-568-text2-normal-reference.png",
+      "bytes": 131098,
+      "sha256": "24256220d2bdd3bfd8550ed2c3531505f4198a16b15259f22096aa042971540e"
+    },
+    {
+      "path": "comparison/food-stock-02-320-568-text2-reduced-native.png",
+      "bytes": 107511,
+      "sha256": "6ffc8ed2c3f4d0ef0cfe9ce3062d7b5b7c34c2960dd8b0d53a15c3cbfa4e8211"
+    },
+    {
+      "path": "comparison/food-stock-02-320-568-text2-reduced-reference.png",
+      "bytes": 132463,
+      "sha256": "c47afde925929f27507d21b7013b92cf08445fc8fa0ebf65d789de5c0b7fa634"
+    },
+    {
+      "path": "comparison/food-stock-02-390-844-text1-normal-native.png",
+      "bytes": 136139,
+      "sha256": "88937d8b1d40405c801573fbf7d70441811d5ee44a5adc6e5b5a187ce0a00c1e"
+    },
+    {
+      "path": "comparison/food-stock-02-390-844-text1-normal-reference.png",
+      "bytes": 185930,
+      "sha256": "2e8240282caa2544ce4b855b4d9e3bf5b0421929b76205328abfe5de9cbd9a9b"
+    },
+    {
+      "path": "comparison/food-stock-02-390-844-text1-reduced-native.png",
+      "bytes": 136101,
+      "sha256": "37906189c79a6533c5c89df3504613c289dd6b99c572ea24c573b92796b49715"
+    },
+    {
+      "path": "comparison/food-stock-02-390-844-text1-reduced-reference.png",
+      "bytes": 188510,
+      "sha256": "a19722b22dbdf3f07b834ea1ce4359a73b2a4d16d9b79b448b590eba73045f03"
+    },
+    {
+      "path": "comparison/food-winch-01-320-568-text2-normal-native.png",
+      "bytes": 47465,
+      "sha256": "05f782d7766616a63c83405bf8d612e050361511b2aa04a946266ba7b3143d01"
+    },
+    {
+      "path": "comparison/food-winch-01-320-568-text2-normal-reference.png",
+      "bytes": 48998,
+      "sha256": "0c275a465e44e7640bc8a3567c26f26b74199397bf2e7c48c844ef78401d8acf"
+    },
+    {
+      "path": "comparison/food-winch-01-320-568-text2-reduced-native.png",
+      "bytes": 47465,
+      "sha256": "05f782d7766616a63c83405bf8d612e050361511b2aa04a946266ba7b3143d01"
+    },
+    {
+      "path": "comparison/food-winch-01-320-568-text2-reduced-reference.png",
+      "bytes": 48998,
+      "sha256": "0c275a465e44e7640bc8a3567c26f26b74199397bf2e7c48c844ef78401d8acf"
+    },
+    {
+      "path": "comparison/food-winch-01-390-844-text1-normal-native.png",
+      "bytes": 107177,
+      "sha256": "fb6c72debda4eb03882ebe7774dc5bf638d4106f21e339bc7530f2c31132f8f9"
+    },
+    {
+      "path": "comparison/food-winch-01-390-844-text1-normal-reference.png",
+      "bytes": 106750,
+      "sha256": "3506c4e50b96b7962aeba4fab6e6348c611f4fbbd08db4cd81d67471ce19b403"
+    },
+    {
+      "path": "comparison/food-winch-01-390-844-text1-reduced-native.png",
+      "bytes": 107177,
+      "sha256": "fb6c72debda4eb03882ebe7774dc5bf638d4106f21e339bc7530f2c31132f8f9"
+    },
+    {
+      "path": "comparison/food-winch-01-390-844-text1-reduced-reference.png",
+      "bytes": 106750,
+      "sha256": "3506c4e50b96b7962aeba4fab6e6348c611f4fbbd08db4cd81d67471ce19b403"
+    },
+    {
+      "path": "comparison/food-winch-02-320-568-text2-normal-native.png",
+      "bytes": 91925,
+      "sha256": "7951150fa39b070e016f137bde16337b12e18cd843e8a1c2e04b308ddcc1ce1f"
+    },
+    {
+      "path": "comparison/food-winch-02-320-568-text2-normal-reference.png",
+      "bytes": 93148,
+      "sha256": "93805b1fa2140aeec29ab77e68d8d6e4cc5b83c14b5b0c345c9e463dbf7e14f3"
+    },
+    {
+      "path": "comparison/food-winch-02-320-568-text2-reduced-native.png",
+      "bytes": 91925,
+      "sha256": "7951150fa39b070e016f137bde16337b12e18cd843e8a1c2e04b308ddcc1ce1f"
+    },
+    {
+      "path": "comparison/food-winch-02-320-568-text2-reduced-reference.png",
+      "bytes": 93149,
+      "sha256": "23c02e34f10edd115c67e15ac800b5b2e117a14e4ebe09fa9f3149caa3bd5603"
+    },
+    {
+      "path": "comparison/food-winch-02-390-844-text1-normal-native.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "comparison/food-winch-02-390-844-text1-normal-reference.png",
+      "bytes": 156237,
+      "sha256": "0d721f0d161b74ec3a2dc1c2af71ca7da7d4a7e428c97d62d3280a73aeb40c90"
+    },
+    {
+      "path": "comparison/food-winch-02-390-844-text1-reduced-native.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "comparison/food-winch-02-390-844-text1-reduced-reference.png",
+      "bytes": 156237,
+      "sha256": "0d721f0d161b74ec3a2dc1c2af71ca7da7d4a7e428c97d62d3280a73aeb40c90"
+    },
+    {
+      "path": "comparison/food-winch-03-320-568-text2-normal-native.png",
+      "bytes": 82462,
+      "sha256": "f6f31fbaa045a3b79c256bbe59478fafe03ec58793c83173f028c8bb6276a391"
+    },
+    {
+      "path": "comparison/food-winch-03-320-568-text2-normal-reference.png",
+      "bytes": 82719,
+      "sha256": "6d3c0f80da0b14f3b2c8fe34c388f5a4260a30ee922b3bcc256811a4268aeefb"
+    },
+    {
+      "path": "comparison/food-winch-03-320-568-text2-reduced-native.png",
+      "bytes": 82463,
+      "sha256": "57aa6301d19cb1a910a21cb5530c3296027a663f8c0b572add10f05fee8319ad"
+    },
+    {
+      "path": "comparison/food-winch-03-320-568-text2-reduced-reference.png",
+      "bytes": 82723,
+      "sha256": "81b9f1edd20cdf80116c9c5ab3a0a1f9d2df0cc4f9779b7af91a23abf94860e5"
+    },
+    {
+      "path": "comparison/food-winch-03-390-844-text1-normal-native.png",
+      "bytes": 161111,
+      "sha256": "1117d9aa62711ca7b529cdae7e17f9a709a2b24c26bca8b01b5990ba03a0b3b7"
+    },
+    {
+      "path": "comparison/food-winch-03-390-844-text1-normal-reference.png",
+      "bytes": 160461,
+      "sha256": "84c84fcb4383bad73bdc788350d39b1cc652dbac2f50f287d803459163b92cdb"
+    },
+    {
+      "path": "comparison/food-winch-03-390-844-text1-reduced-native.png",
+      "bytes": 161115,
+      "sha256": "4b33b77ef715fa8155aa189baa9216a9922d0d8e480a20bd17f79458481bd7ac"
+    },
+    {
+      "path": "comparison/food-winch-03-390-844-text1-reduced-reference.png",
+      "bytes": 160457,
+      "sha256": "e20ed4f9e2572dc4128c82a492f51f3e56c7cba5847db0343b114edf95964486"
+    },
+    {
+      "path": "comparison/food-winch-04-320-568-text2-normal-native.png",
+      "bytes": 61792,
+      "sha256": "49fd9e80df463e1c71f97233b3d505c08268cb75fd55db1a7343e9e9617ab9e7"
+    },
+    {
+      "path": "comparison/food-winch-04-320-568-text2-normal-reference.png",
+      "bytes": 63219,
+      "sha256": "76633dc57b0a4cbda3cb4053026de0f798059e30b7dcb8faa4a3aefc6292325c"
+    },
+    {
+      "path": "comparison/food-winch-04-320-568-text2-reduced-native.png",
+      "bytes": 61903,
+      "sha256": "d08d87abc9de3a41e249891b031791aef3827448e506fded7452d208a98c1a9f"
+    },
+    {
+      "path": "comparison/food-winch-04-320-568-text2-reduced-reference.png",
+      "bytes": 63227,
+      "sha256": "9abc565328c20af217ab10773d2e33f44bd00e199eb3052fa607eef7ee77c411"
+    },
+    {
+      "path": "comparison/food-winch-04-390-844-text1-normal-native.png",
+      "bytes": 160966,
+      "sha256": "e09c330f0df43afa9c06353c5033cc2d8b43c93891fa3b1e0c2b7f806bbb4fff"
+    },
+    {
+      "path": "comparison/food-winch-04-390-844-text1-normal-reference.png",
+      "bytes": 161214,
+      "sha256": "5b9ed35580e10438dfdb5272395ea4cd180aa0a071da3bbc7fc940ef4b854914"
+    },
+    {
+      "path": "comparison/food-winch-04-390-844-text1-reduced-native.png",
+      "bytes": 161283,
+      "sha256": "1a2a0c455553df864b3020778fc4c001c129abb98d11a7870b198f3b032aa002"
+    },
+    {
+      "path": "comparison/food-winch-04-390-844-text1-reduced-reference.png",
+      "bytes": 161215,
+      "sha256": "cce7bb3273872c965e720668e98754c9c28ae4174b7497447935343f71e782c7"
+    },
+    {
+      "path": "comparison/food-winch-05-320-568-text2-normal-native.png",
+      "bytes": 79632,
+      "sha256": "4e6cc7d6614492de8cf33b45b1313890b35e38219e98a08a3191402e2f39faa8"
+    },
+    {
+      "path": "comparison/food-winch-05-320-568-text2-normal-reference.png",
+      "bytes": 81241,
+      "sha256": "04ccb94ec6c98a02b93ac0a340e7f0211dcb37bbf6a46b6bba5ea20dc9909a30"
+    },
+    {
+      "path": "comparison/food-winch-05-320-568-text2-reduced-native.png",
+      "bytes": 79785,
+      "sha256": "46288f5c25dbd6acd263b073b7ed839d450906d8f19063dfeae0589fa289cb34"
+    },
+    {
+      "path": "comparison/food-winch-05-320-568-text2-reduced-reference.png",
+      "bytes": 81247,
+      "sha256": "a6e5e72b9f205979f5a9e3c46159e09c1b8dda1e19e2cd92d15d83c5d296e97f"
+    },
+    {
+      "path": "comparison/food-winch-05-390-844-text1-normal-native.png",
+      "bytes": 159693,
+      "sha256": "a3b436963f4cce27b397c8169a3d1ef33301c89e136c760f854ca2c36384ed6e"
+    },
+    {
+      "path": "comparison/food-winch-05-390-844-text1-normal-reference.png",
+      "bytes": 159996,
+      "sha256": "6abe69f7db5addf63b329ce5baeadd0383fae370e59ad98f14bb930d13c5d5d2"
+    },
+    {
+      "path": "comparison/food-winch-05-390-844-text1-reduced-native.png",
+      "bytes": 160014,
+      "sha256": "6965899cc19fe131e074ebd1b239546b234955b1a2c6089ce7c9e852b960bae2"
+    },
+    {
+      "path": "comparison/food-winch-05-390-844-text1-reduced-reference.png",
+      "bytes": 159999,
+      "sha256": "ed25b0b8c90ce870bbb38b38abfd14440a9d14db51bb9b22493c8154996568ea"
+    },
+    {
+      "path": "comparison/food-winch-06-320-568-text2-normal-native.png",
+      "bytes": 92659,
+      "sha256": "455566d524669b5ccae7201cdc9a27b01ca0938c19a1d8868839272f40c610a1"
+    },
+    {
+      "path": "comparison/food-winch-06-320-568-text2-normal-reference.png",
+      "bytes": 93108,
+      "sha256": "6ec73fce99c4f235058dae28a4d476616caf66d418b7425090fe991b163f8e78"
+    },
+    {
+      "path": "comparison/food-winch-06-320-568-text2-reduced-native.png",
+      "bytes": 92357,
+      "sha256": "ab0a1c1f7ff44ec5bd2794b3b999a1579c1680150cee5570fbe5d5a49d84315e"
+    },
+    {
+      "path": "comparison/food-winch-06-320-568-text2-reduced-reference.png",
+      "bytes": 93266,
+      "sha256": "ef37098bb2bbfb3f7ef1ea7cfe84ccf8519df57634a5422a27b9a87a93714c5a"
+    },
+    {
+      "path": "comparison/food-winch-06-390-844-text1-normal-native.png",
+      "bytes": 165193,
+      "sha256": "b039d8c405e7ad47f85532f58ca2cce53cb06f23550c0bf3739fc49238c16582"
+    },
+    {
+      "path": "comparison/food-winch-06-390-844-text1-normal-reference.png",
+      "bytes": 164535,
+      "sha256": "4421d368666f2249026f3c2663a20e23a822dae322c18211d5c7827a51497145"
+    },
+    {
+      "path": "comparison/food-winch-06-390-844-text1-reduced-native.png",
+      "bytes": 164041,
+      "sha256": "96746bd6ed5b2244a4f805d066206751dce37a733b9608355846d0894058c258"
+    },
+    {
+      "path": "comparison/food-winch-06-390-844-text1-reduced-reference.png",
+      "bytes": 164055,
+      "sha256": "d8febb813e747c96deb5d0577add1220587068f63d64c3f2b1244924c84b3bd6"
+    },
+    {
+      "path": "comparison/food-winch-07-320-568-text2-normal-native.png",
+      "bytes": 84793,
+      "sha256": "55902a7448fbf698c7f023e5b7525f49bb86be4f90a553037c10ba8b69d99a1b"
+    },
+    {
+      "path": "comparison/food-winch-07-320-568-text2-normal-reference.png",
+      "bytes": 65709,
+      "sha256": "bbae88ef11fc71f7d91f80d91824b852070ad18c1891ccd95a9ccbb7d2023df0"
+    },
+    {
+      "path": "comparison/food-winch-07-320-568-text2-reduced-native.png",
+      "bytes": 84843,
+      "sha256": "fbda479dae7e72aa7b73f2fc172802e3276f22de3d08ecdcabc7b155a90c7a5d"
+    },
+    {
+      "path": "comparison/food-winch-07-320-568-text2-reduced-reference.png",
+      "bytes": 65759,
+      "sha256": "edfb2599de17e84c028bfe870a774c2f232e288894abc6cb09652a008cc24baa"
+    },
+    {
+      "path": "comparison/food-winch-07-390-844-text1-normal-native.png",
+      "bytes": 163683,
+      "sha256": "a2e42c0c9849305f21ccc0c79b18dfa8eb41de8a2b6e7e83c2fc90fb0a50d00f"
+    },
+    {
+      "path": "comparison/food-winch-07-390-844-text1-normal-reference.png",
+      "bytes": 163118,
+      "sha256": "f2f6b687cc4ce3c4dc0582e91b5eb62eef1a309fe6db8bb752779837fc845ef3"
+    },
+    {
+      "path": "comparison/food-winch-07-390-844-text1-reduced-native.png",
+      "bytes": 163086,
+      "sha256": "def07878166b5ff0431dca0e82b16842ce0ba4cad51dc53ae247de0d47ca6f69"
+    },
+    {
+      "path": "comparison/food-winch-07-390-844-text1-reduced-reference.png",
+      "bytes": 162519,
+      "sha256": "35828273f2127085c8c83e7a08111ec3e8f2174ac7ba250998cff76085b11445"
+    },
+    {
+      "path": "comparison/food-winch-08-320-568-text2-normal-native.png",
+      "bytes": 96189,
+      "sha256": "b85a12461e77a3d5aa1392bfd2e602de6f125097a593f7231434f0a88f7321a1"
+    },
+    {
+      "path": "comparison/food-winch-08-320-568-text2-normal-reference.png",
+      "bytes": 97350,
+      "sha256": "62734b3454eae0a84c3469a6d490b1ff6d368d47cb0fd2a8cbc5331222b95a48"
+    },
+    {
+      "path": "comparison/food-winch-08-320-568-text2-reduced-native.png",
+      "bytes": 96077,
+      "sha256": "5b95e801732e2e53a2e79a0c319f9764f01ea572e227afbe8b4cfaf3e1d167c8"
+    },
+    {
+      "path": "comparison/food-winch-08-320-568-text2-reduced-reference.png",
+      "bytes": 97218,
+      "sha256": "40f95dd59ea68e184c0f439e4cd01e627e40a55146ff203e9a554d6c47e0a66f"
+    },
+    {
+      "path": "comparison/food-winch-08-390-844-text1-normal-native.png",
+      "bytes": 162060,
+      "sha256": "e4b3a6e8245846fa29864dcaea3e654bccca6c192e782d6aef1af7b58b85818b"
+    },
+    {
+      "path": "comparison/food-winch-08-390-844-text1-normal-reference.png",
+      "bytes": 162084,
+      "sha256": "3ce8202f0e1dbb205afe6256dd29b9fa1a0f232b5079ab5f86c4bc65d206a7be"
+    },
+    {
+      "path": "comparison/food-winch-08-390-844-text1-reduced-native.png",
+      "bytes": 161301,
+      "sha256": "06a59fca43f3b96b47a5aeebd9fdd33d60b74ac18654fc97f53646b4de95a066"
+    },
+    {
+      "path": "comparison/food-winch-08-390-844-text1-reduced-reference.png",
+      "bytes": 161307,
+      "sha256": "7effe7f8cb3469e19c0e818f743a6ab42563264557a9e2cd04522ff18fc8c39e"
+    },
+    {
+      "path": "comparison/food-winch-09-320-568-text2-normal-native.png",
+      "bytes": 82058,
+      "sha256": "8eee037010d239abc40c154301bdbf00b7cfa66f87a3ff2c667ac2c291cbdcd9"
+    },
+    {
+      "path": "comparison/food-winch-09-320-568-text2-normal-reference.png",
+      "bytes": 82260,
+      "sha256": "2eba7c61e9ad7c661414179fd7cec01fe41ea1aa575dff2a11c32bc77cd9f36c"
+    },
+    {
+      "path": "comparison/food-winch-09-320-568-text2-reduced-native.png",
+      "bytes": 81748,
+      "sha256": "85ec3192af9d5b94bb97640b263394a0cfba083c25c42ba259246d3f3c1fa08f"
+    },
+    {
+      "path": "comparison/food-winch-09-320-568-text2-reduced-reference.png",
+      "bytes": 81933,
+      "sha256": "7bc798f852305f8532c765da6ce4d38de0c035b579e428033514ab0a889e08fc"
+    },
+    {
+      "path": "comparison/food-winch-09-390-844-text1-normal-native.png",
+      "bytes": 164100,
+      "sha256": "2582ea9385ae4f18d696e525f8f1e6b57bff4d6b1db8403457777895c91aea7a"
+    },
+    {
+      "path": "comparison/food-winch-09-390-844-text1-normal-reference.png",
+      "bytes": 163477,
+      "sha256": "9e5acc2f125a3d59ec402bca33d7b946ae912f982d4d52b66a8e7cedf93b5340"
+    },
+    {
+      "path": "comparison/food-winch-09-390-844-text1-reduced-native.png",
+      "bytes": 163605,
+      "sha256": "7e48689d3aef023b018efa55f5ad8ac09268db4645715dc53524e4e16244200c"
+    },
+    {
+      "path": "comparison/food-winch-09-390-844-text1-reduced-reference.png",
+      "bytes": 162967,
+      "sha256": "def8e2125478fa31244e146c7aa391ba7be26a89027060e2b2069c0e838d707e"
+    },
+    {
+      "path": "comparison/food-winch-10-320-568-text2-normal-native.png",
+      "bytes": 64524,
+      "sha256": "f77224cc6679fd037fb6f154936b8e7bec3c1c3f749d203120b376cb97db39b0"
+    },
+    {
+      "path": "comparison/food-winch-10-320-568-text2-normal-reference.png",
+      "bytes": 64543,
+      "sha256": "1b5691ac462dbed58cbff812e9301be6965706839a1720ce764a83df123aeaa5"
+    },
+    {
+      "path": "comparison/food-winch-10-320-568-text2-reduced-native.png",
+      "bytes": 64529,
+      "sha256": "d7d363f241308a23a05cdc649a3110bf88d493325ca89d8c9afe972d33a10ca7"
+    },
+    {
+      "path": "comparison/food-winch-10-320-568-text2-reduced-reference.png",
+      "bytes": 64545,
+      "sha256": "678f2d2bcd5ec055b17e40e1db1ab59b10acffbc9ae46c26737332dbfd33a7fc"
+    },
+    {
+      "path": "comparison/food-winch-10-390-844-text1-normal-native.png",
+      "bytes": 162356,
+      "sha256": "2bf578f59d34e3d144e2229abdb84bcb03f756ac995ecb6f014208442fb84c8b"
+    },
+    {
+      "path": "comparison/food-winch-10-390-844-text1-normal-reference.png",
+      "bytes": 161685,
+      "sha256": "4883203f2060a0340f862fea7a5193e00b6fca5ec89b189081d9a7a54e61dee6"
+    },
+    {
+      "path": "comparison/food-winch-10-390-844-text1-reduced-native.png",
+      "bytes": 162361,
+      "sha256": "e8f686efa0ed5df6988c016c4fb1742fd2291eb72d195b00aad5f894a57145bf"
+    },
+    {
+      "path": "comparison/food-winch-10-390-844-text1-reduced-reference.png",
+      "bytes": 161701,
+      "sha256": "06a77ced0fe7446bee519d0a56e5df4d4ffa1a6a233fdd1693a81ff62767f68e"
+    },
+    {
+      "path": "comparison/food-winch-11-320-568-text2-normal-native.png",
+      "bytes": 92101,
+      "sha256": "37e0d6bce07a8949ed5d776221b967f9f0d2ddaf268ce54a78c2aaeb7e65010a"
+    },
+    {
+      "path": "comparison/food-winch-11-320-568-text2-normal-reference.png",
+      "bytes": 93186,
+      "sha256": "b7f5aad29ef88bd1eaf70c91badb7954e7df5e0e45ad6cbb7eeb5d817fe419de"
+    },
+    {
+      "path": "comparison/food-winch-11-320-568-text2-reduced-native.png",
+      "bytes": 92101,
+      "sha256": "37e0d6bce07a8949ed5d776221b967f9f0d2ddaf268ce54a78c2aaeb7e65010a"
+    },
+    {
+      "path": "comparison/food-winch-11-320-568-text2-reduced-reference.png",
+      "bytes": 93188,
+      "sha256": "d8577bba7ddd90948785bd81b6ed3bc28486430e300ef94c38179fad03eb0273"
+    },
+    {
+      "path": "comparison/food-winch-11-390-844-text1-normal-native.png",
+      "bytes": 157203,
+      "sha256": "9fffa5cd1a34154cd9af8a28fb031d3e6b5778bcf7815e17bd05c3b4924cfff6"
+    },
+    {
+      "path": "comparison/food-winch-11-390-844-text1-normal-reference.png",
+      "bytes": 156995,
+      "sha256": "9aec4c2e1d01c152cf9cb291658bd43cd12802a82c48363a0c15574877850e85"
+    },
+    {
+      "path": "comparison/food-winch-11-390-844-text1-reduced-native.png",
+      "bytes": 157203,
+      "sha256": "9fffa5cd1a34154cd9af8a28fb031d3e6b5778bcf7815e17bd05c3b4924cfff6"
+    },
+    {
+      "path": "comparison/food-winch-11-390-844-text1-reduced-reference.png",
+      "bytes": 156995,
+      "sha256": "9aec4c2e1d01c152cf9cb291658bd43cd12802a82c48363a0c15574877850e85"
+    },
+    {
+      "path": "comparison/food-winch-12-320-568-text2-normal-native.png",
+      "bytes": 96402,
+      "sha256": "0a0b93eb65d3abd9f3dc0bf7315c426ae0749f7c55dc6cb1f8f61367561c2df5"
+    },
+    {
+      "path": "comparison/food-winch-12-320-568-text2-normal-reference.png",
+      "bytes": 103973,
+      "sha256": "3b4c473ea13850f370f5939735c69c6a55709b28a059ae5bba2cdcbef946c507"
+    },
+    {
+      "path": "comparison/food-winch-12-320-568-text2-reduced-native.png",
+      "bytes": 96475,
+      "sha256": "ae26261158ed4128d42c4faae55cd4d72b674b8d45c5c364cc77d66103857d5c"
+    },
+    {
+      "path": "comparison/food-winch-12-320-568-text2-reduced-reference.png",
+      "bytes": 104001,
+      "sha256": "4f6e491da78bfa46c7aa1bd156289b6700fda2e96eafb569f623e89ed2bcff86"
+    },
+    {
+      "path": "comparison/food-winch-12-390-844-text1-normal-native.png",
+      "bytes": 154606,
+      "sha256": "9b8244c6a8bc4c1c248b80af5f35ac194abeb1aa9eee83639b6d1a1c3ce8b615"
+    },
+    {
+      "path": "comparison/food-winch-12-390-844-text1-normal-reference.png",
+      "bytes": 154437,
+      "sha256": "86915d1758a3844599e9a7586f4e60c274d32db2b99ca8416f11b449b54e4c05"
+    },
+    {
+      "path": "comparison/food-winch-12-390-844-text1-reduced-native.png",
+      "bytes": 154547,
+      "sha256": "7d3f69f3681fdadb654bdc7a36157b1bae01ead14bec19c764aabbf94f4289d9"
+    },
+    {
+      "path": "comparison/food-winch-12-390-844-text1-reduced-reference.png",
+      "bytes": 154400,
+      "sha256": "d1b9c043432ff9e32b13835334a89e9b350f0678fb463c2dd55bdc87882a03b6"
+    },
+    {
+      "path": "comparison/food-winch-13-320-568-text2-normal-native.png",
+      "bytes": 100321,
+      "sha256": "8a4c0093c54104893b0ad81c9ba24ce3c5c2b98aff9109523ede55a8280113fb"
+    },
+    {
+      "path": "comparison/food-winch-13-320-568-text2-normal-reference.png",
+      "bytes": 106761,
+      "sha256": "420e7d83d2dbdcfa40226efa2809d5bb87bc94aa5146b6089cc7e0d196b78d4b"
+    },
+    {
+      "path": "comparison/food-winch-13-320-568-text2-reduced-native.png",
+      "bytes": 100321,
+      "sha256": "8a4c0093c54104893b0ad81c9ba24ce3c5c2b98aff9109523ede55a8280113fb"
+    },
+    {
+      "path": "comparison/food-winch-13-320-568-text2-reduced-reference.png",
+      "bytes": 106765,
+      "sha256": "f66c1ab5b2c8520a40fbc42f0088c6c877ffd299feefae55a60cb938b6436df5"
+    },
+    {
+      "path": "comparison/food-winch-13-390-844-text1-normal-native.png",
+      "bytes": 156130,
+      "sha256": "bf3ce51c5f4d707b2c6ac6d837a34e62dd335495174c03f0880cbf3516ef06c6"
+    },
+    {
+      "path": "comparison/food-winch-13-390-844-text1-normal-reference.png",
+      "bytes": 155443,
+      "sha256": "6c8daf5b3bf8825a577718d3978991ff8312032dc3809a16f188df07c55ed7ae"
+    },
+    {
+      "path": "comparison/food-winch-13-390-844-text1-reduced-native.png",
+      "bytes": 156130,
+      "sha256": "bf3ce51c5f4d707b2c6ac6d837a34e62dd335495174c03f0880cbf3516ef06c6"
+    },
+    {
+      "path": "comparison/food-winch-13-390-844-text1-reduced-reference.png",
+      "bytes": 155443,
+      "sha256": "6c8daf5b3bf8825a577718d3978991ff8312032dc3809a16f188df07c55ed7ae"
+    },
+    {
+      "path": "comparison/food-winch-14-320-568-text2-normal-native.png",
+      "bytes": 65437,
+      "sha256": "3b785d7c32402f9c249e67cba0b5c6870a0d16838de75475cc51f577b075b1db"
+    },
+    {
+      "path": "comparison/food-winch-14-320-568-text2-normal-reference.png",
+      "bytes": 68145,
+      "sha256": "ce1f25d0f4eba042209341c8bd06d919c3fffa6959ac68dccef73f4a8f8df04a"
+    },
+    {
+      "path": "comparison/food-winch-14-320-568-text2-reduced-native.png",
+      "bytes": 60547,
+      "sha256": "cc4d253c1e01d2f09f54e8dfa6c5ce135d15c4a687a0b7ff424d0515365abcf5"
+    },
+    {
+      "path": "comparison/food-winch-14-320-568-text2-reduced-reference.png",
+      "bytes": 60954,
+      "sha256": "1781f2a5bbc9cb560d10fd5fae3ed3716d9ac71e687e7f9cbab6f7a579aefe2e"
+    },
+    {
+      "path": "comparison/food-winch-14-390-844-text1-normal-native.png",
+      "bytes": 93222,
+      "sha256": "4bbd7aba3c7c431d7e583e23a328afc61efd806d7dd52e243999942424e608ea"
+    },
+    {
+      "path": "comparison/food-winch-14-390-844-text1-normal-reference.png",
+      "bytes": 92823,
+      "sha256": "edc8542a6640fb85ee2b798e2e8cce9f7d9bd3396b5afe0b27f552eb41c1624e"
+    },
+    {
+      "path": "comparison/food-winch-14-390-844-text1-reduced-native.png",
+      "bytes": 78091,
+      "sha256": "97277eb76555be291d5aca425a9c6f7264dd77bf6568f0c091a3bf23ef619a41"
+    },
+    {
+      "path": "comparison/food-winch-14-390-844-text1-reduced-reference.png",
+      "bytes": 73537,
+      "sha256": "ad1b93f57087c807ca047ec92e7225a9dfac2eb2d8d5d80fa2edaad61077ff80"
+    },
+    {
+      "path": "comparison/food-winch-15-320-568-text2-normal-native.png",
+      "bytes": 56352,
+      "sha256": "717acca38094be2324cf014aafacea032bc50b3a17c60256edd1340b61ef3233"
+    },
+    {
+      "path": "comparison/food-winch-15-320-568-text2-normal-reference.png",
+      "bytes": 56287,
+      "sha256": "edace84ef728389a1f471f49e9a3c7723bc38350696631a3c6979d5b7cf178ec"
+    },
+    {
+      "path": "comparison/food-winch-15-320-568-text2-reduced-native.png",
+      "bytes": 54949,
+      "sha256": "9ce5d77be31f717c902dd565afde5c32817afb23c7e5ff1856ab67acdbfc3074"
+    },
+    {
+      "path": "comparison/food-winch-15-320-568-text2-reduced-reference.png",
+      "bytes": 54972,
+      "sha256": "34b120b3de0d2922140126fde675437c05d28aa1d52e72fb0c11f38da9e490dc"
+    },
+    {
+      "path": "comparison/food-winch-15-390-844-text1-normal-native.png",
+      "bytes": 71651,
+      "sha256": "c8b1151449f887962b35391077ea8d8f5edf1ac877b3b83d4cb48fd5bc5450cb"
+    },
+    {
+      "path": "comparison/food-winch-15-390-844-text1-normal-reference.png",
+      "bytes": 68127,
+      "sha256": "fcb743745c3da067b758a4829b8a845463723f5eb1d34ff88360f9a483d969ff"
+    },
+    {
+      "path": "comparison/food-winch-15-390-844-text1-reduced-native.png",
+      "bytes": 67604,
+      "sha256": "5d40aae61c2671e3a94bd282df6f96d46ed034f30144a02df0a2e649c013106c"
+    },
+    {
+      "path": "comparison/food-winch-15-390-844-text1-reduced-reference.png",
+      "bytes": 64589,
+      "sha256": "23d0b4ae0adcd84216997052ffa56c6d8ebd1d0211f62009f3d8753659ff766d"
+    },
+    {
+      "path": "comparison/food-winch-16-320-568-text2-normal-native.png",
+      "bytes": 82523,
+      "sha256": "27b8d8fd01b9e06f23203bf4f155337fdb8f4b45a30a4401c6aa87e4a739f05f"
+    },
+    {
+      "path": "comparison/food-winch-16-320-568-text2-normal-reference.png",
+      "bytes": 64356,
+      "sha256": "0695cc126dfce28ea9fbbf6ebf0003c034d2f54e0b037aacad0e3f5e665af8d5"
+    },
+    {
+      "path": "comparison/food-winch-16-320-568-text2-reduced-native.png",
+      "bytes": 82524,
+      "sha256": "bd6325f8b5b3f54ce9c98a76d0a31ec77ffdba5595178e1ff9e3f35747cd3ee9"
+    },
+    {
+      "path": "comparison/food-winch-16-320-568-text2-reduced-reference.png",
+      "bytes": 64370,
+      "sha256": "1e07859c50f21ec1c798a0203d244e3d3f431b7f3b06be09b30a647125fce527"
+    },
+    {
+      "path": "comparison/food-winch-16-390-844-text1-normal-native.png",
+      "bytes": 160706,
+      "sha256": "4ac882053d537dd47bafce6278f2253bd9d55b10cc95906bde3b63bcbdb43111"
+    },
+    {
+      "path": "comparison/food-winch-16-390-844-text1-normal-reference.png",
+      "bytes": 159823,
+      "sha256": "f378ac746b83803e93106105027700d1a86695090a35cf57b020e05dad4dc78e"
+    },
+    {
+      "path": "comparison/food-winch-16-390-844-text1-reduced-native.png",
+      "bytes": 160710,
+      "sha256": "871dcafc8998e7473d97ed381391705ccbd97f62f2ac725cc350cb4c53f30ff1"
+    },
+    {
+      "path": "comparison/food-winch-16-390-844-text1-reduced-reference.png",
+      "bytes": 159824,
+      "sha256": "db9950708ac7c37b3e81cda897212b46b5313ecaa6b2b1e42ffe4db9d3728c8c"
+    },
+    {
+      "path": "comparison/food-winch-17-320-568-text2-normal-native.png",
+      "bytes": 54414,
+      "sha256": "aeb14dfb34b348f43d5f13c655694ae3fc7289589e4964f52dc171cb0cde32cb"
+    },
+    {
+      "path": "comparison/food-winch-17-320-568-text2-normal-reference.png",
+      "bytes": 54901,
+      "sha256": "695e764f6d6a9eff67d99df072db4173769e71f905c8d112139f6b367f2ff9cc"
+    },
+    {
+      "path": "comparison/food-winch-17-320-568-text2-reduced-native.png",
+      "bytes": 54414,
+      "sha256": "aeb14dfb34b348f43d5f13c655694ae3fc7289589e4964f52dc171cb0cde32cb"
+    },
+    {
+      "path": "comparison/food-winch-17-320-568-text2-reduced-reference.png",
+      "bytes": 54901,
+      "sha256": "695e764f6d6a9eff67d99df072db4173769e71f905c8d112139f6b367f2ff9cc"
+    },
+    {
+      "path": "comparison/food-winch-17-390-844-text1-normal-native.png",
+      "bytes": 71030,
+      "sha256": "7f2cb645108fbb5f02e84ae3d3a94ce7fcffbd61a45506b6a81703b31e788b4f"
+    },
+    {
+      "path": "comparison/food-winch-17-390-844-text1-normal-reference.png",
+      "bytes": 67678,
+      "sha256": "ca731165fd1539e37989da69a850a82f88bdf01f906bd04fc715fd7d309c0a7f"
+    },
+    {
+      "path": "comparison/food-winch-17-390-844-text1-reduced-native.png",
+      "bytes": 71030,
+      "sha256": "7f2cb645108fbb5f02e84ae3d3a94ce7fcffbd61a45506b6a81703b31e788b4f"
+    },
+    {
+      "path": "comparison/food-winch-17-390-844-text1-reduced-reference.png",
+      "bytes": 67678,
+      "sha256": "ca731165fd1539e37989da69a850a82f88bdf01f906bd04fc715fd7d309c0a7f"
+    },
+    {
+      "path": "comparison/food-winch-18-320-568-text2-normal-native.png",
+      "bytes": 52029,
+      "sha256": "4cebc26713ddd80fff7ebaa4e73f4d41bc67c2ddbc207d98c73d4c574784918d"
+    },
+    {
+      "path": "comparison/food-winch-18-320-568-text2-normal-reference.png",
+      "bytes": 52239,
+      "sha256": "50d0d22eb675c9f9eb8f9a743544ae407c4073a735d124755675f6a24a83362a"
+    },
+    {
+      "path": "comparison/food-winch-18-320-568-text2-reduced-native.png",
+      "bytes": 52029,
+      "sha256": "4cebc26713ddd80fff7ebaa4e73f4d41bc67c2ddbc207d98c73d4c574784918d"
+    },
+    {
+      "path": "comparison/food-winch-18-320-568-text2-reduced-reference.png",
+      "bytes": 52239,
+      "sha256": "50d0d22eb675c9f9eb8f9a743544ae407c4073a735d124755675f6a24a83362a"
+    },
+    {
+      "path": "comparison/food-winch-18-390-844-text1-normal-native.png",
+      "bytes": 74281,
+      "sha256": "e89b3b1ff578d08b7b16e14e23afaeeb7f7852ac4f946ccce8e785c27974112d"
+    },
+    {
+      "path": "comparison/food-winch-18-390-844-text1-normal-reference.png",
+      "bytes": 69517,
+      "sha256": "6a696eac6ec5c804522db1bde45ec4c86b1db0dc599d28669ab43bc6970c328c"
+    },
+    {
+      "path": "comparison/food-winch-18-390-844-text1-reduced-native.png",
+      "bytes": 74281,
+      "sha256": "e89b3b1ff578d08b7b16e14e23afaeeb7f7852ac4f946ccce8e785c27974112d"
+    },
+    {
+      "path": "comparison/food-winch-18-390-844-text1-reduced-reference.png",
+      "bytes": 69517,
+      "sha256": "6a696eac6ec5c804522db1bde45ec4c86b1db0dc599d28669ab43bc6970c328c"
+    },
+    {
+      "path": "comparison/index.html",
+      "bytes": 168627,
+      "sha256": "4c8ff6aa6195de7240db724f11cb48b9fc568f9fd14ab275b1df2498b615fef7"
+    },
+    {
+      "path": "comparison/result.json",
+      "bytes": 1457966,
+      "sha256": "3b7825675f21908dbf3939e4027d03510872b3aaba984fdda95d9eb5315b8eb3"
+    },
+    {
+      "path": "diagnostics/README.md",
+      "bytes": 1116,
+      "sha256": "79ce0eb0d06488fae16b34cc51eeaba89b27c0acf41093f172438961378333a1"
+    },
+    {
+      "path": "diagnostics/app-tests-first-local-listener-refusal.txt",
+      "bytes": 193775,
+      "sha256": "c144401d349783aff79dc11fa8ed1474443353d0346c5dacfe2e8aec697e83d5"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-01-390-844-text1-normal-native.png",
+      "bytes": 106800,
+      "sha256": "a1b5b14cdddf62586b33443f01844120c9b58c6a91f430c348bd10df6d4c4cf6"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-01-390-844-text1-normal-reference.png",
+      "bytes": 106321,
+      "sha256": "9df1600aac43a71f8359952342861685231c905f658ab409aa78dbf1e4024f3e"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-02-390-844-text1-normal-native.png",
+      "bytes": 155936,
+      "sha256": "25608b0d90cda2f26043c9a85383fff23fa78388153cf744c4d36a9d706f93e8"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-02-390-844-text1-normal-reference.png",
+      "bytes": 155456,
+      "sha256": "bf6e6d61600d3170877665c9bcdf4508f19c39e7bf010b054e613cde595eb9ed"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-03-390-844-text1-normal-native.png",
+      "bytes": 158389,
+      "sha256": "8276bdfaeb95f4e09591ed7a2ff3f0b7e8c5d2d64bc2b0ef609443d46220ddc0"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-03-390-844-text1-normal-reference.png",
+      "bytes": 158237,
+      "sha256": "c6135726713a39c6c7cb58e5d79517b8fc2e449fbd3e48f9a55b2a67d46116dd"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-04-390-844-text1-normal-native.png",
+      "bytes": 159209,
+      "sha256": "e08d4bcdbb57bb699283605e9cbe2073a7948a718ab0e6768bbcbf120b8390bd"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-04-390-844-text1-normal-reference.png",
+      "bytes": 159085,
+      "sha256": "e910d5a8d98389fa1390492d5ba22bd2d7b8142b5def1fa483cb29816d0d3322"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-05-390-844-text1-normal-native.png",
+      "bytes": 161452,
+      "sha256": "5173c9e735038139ccb1448492b85cde78b34f616606ce829ef429c36efa3983"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-05-390-844-text1-normal-reference.png",
+      "bytes": 161640,
+      "sha256": "2765faa1beedf220f8b8c245eea668f734ccd48790ce8d2970756a42d0ee6d95"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-06-390-844-text1-normal-native.png",
+      "bytes": 159407,
+      "sha256": "a4ebd02c267e1f959c58cb38cdac9a845a0bbbf0e59d3fc8f510c92d8a096775"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-06-390-844-text1-normal-reference.png",
+      "bytes": 159606,
+      "sha256": "dbd89b8bab99d766390633977fb8bfef9ff27919273de04b2cc709ce6e918f91"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-07-390-844-text1-normal-native.png",
+      "bytes": 160429,
+      "sha256": "08a2f9844f2f16201f97f041e88e3098108f02610985b73ebcf9c512e10cbcc0"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-07-390-844-text1-normal-reference.png",
+      "bytes": 159552,
+      "sha256": "75a827e657dbf5cff088e463827af6a2571ec8ac01218e862998c9de6b29e5fc"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-08-390-844-text1-normal-native.png",
+      "bytes": 162354,
+      "sha256": "8234bf5f2b419e6a720a578623015accc10fa8621c8f4040cdf1a773bc5d2e07"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-08-390-844-text1-normal-reference.png",
+      "bytes": 161555,
+      "sha256": "f27997da96420a7621d9bccd45bea9816421751d389bc2136f8b65f3d9ad6aac"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-09-390-844-text1-normal-native.png",
+      "bytes": 161265,
+      "sha256": "5b51b6bb0795f3799003cfe4c7164cd1abc9a3c1006818fca8f1e479a32ac0bf"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-09-390-844-text1-normal-reference.png",
+      "bytes": 160724,
+      "sha256": "17266065ec3338c19ab4d5b0bb88d79d625d0bdb2b463f4d9b3d32430bfbbe70"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-10-390-844-text1-normal-native.png",
+      "bytes": 164226,
+      "sha256": "1565602966991e420c194ef27b1c1909428da4e85d6ecc06fd71c2c3ef115852"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-10-390-844-text1-normal-reference.png",
+      "bytes": 163669,
+      "sha256": "8770142ec88fb0784986e599c32a53ff471848634e22eee95708fc3f7b9a31a7"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-11-390-844-text1-normal-native.png",
+      "bytes": 161664,
+      "sha256": "464ccaee3fb5e24b4f27319606405fd82f0816ace2b13fdb1d9137b4a17630b3"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-11-390-844-text1-normal-reference.png",
+      "bytes": 161562,
+      "sha256": "3b6535189fbb4fd937f01c3b525929796c531b854afa7cde859fe53bc6e794e6"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-12-390-844-text1-normal-native.png",
+      "bytes": 155707,
+      "sha256": "f49ae1411765bc070f59ad20316662c49ed9ce7b0c7d0168407725dbd9f1f4b3"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-12-390-844-text1-normal-reference.png",
+      "bytes": 155523,
+      "sha256": "b41879132c4c9ebc1c770b46216024f8beca095fe29f206f4111e537f9595c59"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-13-390-844-text1-normal-native.png",
+      "bytes": 159327,
+      "sha256": "9968b33720dbd3a5511dba538d2d1d4bcaa63734a374997f3bb81dd05393d64e"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-13-390-844-text1-normal-reference.png",
+      "bytes": 159104,
+      "sha256": "18f3d7b1df455a88ecf2c7ffe4746e1995090a5b346fa43614466ca14e7d58fd"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-14-390-844-text1-normal-native.png",
+      "bytes": 162122,
+      "sha256": "f007a8ca71249ca24bae2a862ba9d668d07cf3c0b2b06b7e6f7abb170721d885"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-14-390-844-text1-normal-reference.png",
+      "bytes": 161838,
+      "sha256": "dedf7a98dddad361777eee562b80509a0840d5883c7d7606e06470ed326d905e"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-15-390-844-text1-normal-native.png",
+      "bytes": 82258,
+      "sha256": "25160fd37ea6c1f3678f2ea818078edd0489ca95a8f66fb49dd0c6444bdfd063"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-panel-15-390-844-text1-normal-reference.png",
+      "bytes": 77534,
+      "sha256": "a5378d6bcef74c065f750588a41c2309a9d70d7ef0bdbedaeb9163b90b585b69"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-01-390-844-text1-normal-native.png",
+      "bytes": 107177,
+      "sha256": "fb6c72debda4eb03882ebe7774dc5bf638d4106f21e339bc7530f2c31132f8f9"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-01-390-844-text1-normal-reference.png",
+      "bytes": 106750,
+      "sha256": "3506c4e50b96b7962aeba4fab6e6348c611f4fbbd08db4cd81d67471ce19b403"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-02-390-844-text1-normal-native.png",
+      "bytes": 156207,
+      "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-02-390-844-text1-normal-reference.png",
+      "bytes": 156237,
+      "sha256": "0d721f0d161b74ec3a2dc1c2af71ca7da7d4a7e428c97d62d3280a73aeb40c90"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-03-390-844-text1-normal-native.png",
+      "bytes": 161111,
+      "sha256": "1117d9aa62711ca7b529cdae7e17f9a709a2b24c26bca8b01b5990ba03a0b3b7"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-03-390-844-text1-normal-reference.png",
+      "bytes": 160461,
+      "sha256": "84c84fcb4383bad73bdc788350d39b1cc652dbac2f50f287d803459163b92cdb"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-04-390-844-text1-normal-native.png",
+      "bytes": 160966,
+      "sha256": "e09c330f0df43afa9c06353c5033cc2d8b43c93891fa3b1e0c2b7f806bbb4fff"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-04-390-844-text1-normal-reference.png",
+      "bytes": 161214,
+      "sha256": "5b9ed35580e10438dfdb5272395ea4cd180aa0a071da3bbc7fc940ef4b854914"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-05-390-844-text1-normal-native.png",
+      "bytes": 159693,
+      "sha256": "a3b436963f4cce27b397c8169a3d1ef33301c89e136c760f854ca2c36384ed6e"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-05-390-844-text1-normal-reference.png",
+      "bytes": 159996,
+      "sha256": "6abe69f7db5addf63b329ce5baeadd0383fae370e59ad98f14bb930d13c5d5d2"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-06-390-844-text1-normal-native.png",
+      "bytes": 165193,
+      "sha256": "b039d8c405e7ad47f85532f58ca2cce53cb06f23550c0bf3739fc49238c16582"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-06-390-844-text1-normal-reference.png",
+      "bytes": 164535,
+      "sha256": "4421d368666f2249026f3c2663a20e23a822dae322c18211d5c7827a51497145"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-07-390-844-text1-normal-native.png",
+      "bytes": 163683,
+      "sha256": "a2e42c0c9849305f21ccc0c79b18dfa8eb41de8a2b6e7e83c2fc90fb0a50d00f"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-07-390-844-text1-normal-reference.png",
+      "bytes": 163118,
+      "sha256": "f2f6b687cc4ce3c4dc0582e91b5eb62eef1a309fe6db8bb752779837fc845ef3"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-08-390-844-text1-normal-native.png",
+      "bytes": 162060,
+      "sha256": "e4b3a6e8245846fa29864dcaea3e654bccca6c192e782d6aef1af7b58b85818b"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-08-390-844-text1-normal-reference.png",
+      "bytes": 162084,
+      "sha256": "3ce8202f0e1dbb205afe6256dd29b9fa1a0f232b5079ab5f86c4bc65d206a7be"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-09-390-844-text1-normal-native.png",
+      "bytes": 164100,
+      "sha256": "2582ea9385ae4f18d696e525f8f1e6b57bff4d6b1db8403457777895c91aea7a"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-09-390-844-text1-normal-reference.png",
+      "bytes": 163477,
+      "sha256": "9e5acc2f125a3d59ec402bca33d7b946ae912f982d4d52b66a8e7cedf93b5340"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-10-390-844-text1-normal-native.png",
+      "bytes": 161842,
+      "sha256": "62a1c1c515069389a29f3c21c2af7e883605800bd4bd3172b1047ff3e979b0e8"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-10-390-844-text1-normal-reference.png",
+      "bytes": 160784,
+      "sha256": "996eb472fd3e3286aa2d9784eb2b2c2e464ee3a3f917e9eba0b5d1e01e26f6df"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-11-390-844-text1-normal-native.png",
+      "bytes": 157203,
+      "sha256": "9fffa5cd1a34154cd9af8a28fb031d3e6b5778bcf7815e17bd05c3b4924cfff6"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-11-390-844-text1-normal-reference.png",
+      "bytes": 156995,
+      "sha256": "9aec4c2e1d01c152cf9cb291658bd43cd12802a82c48363a0c15574877850e85"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-12-390-844-text1-normal-native.png",
+      "bytes": 154606,
+      "sha256": "9b8244c6a8bc4c1c248b80af5f35ac194abeb1aa9eee83639b6d1a1c3ce8b615"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-12-390-844-text1-normal-reference.png",
+      "bytes": 154437,
+      "sha256": "86915d1758a3844599e9a7586f4e60c274d32db2b99ca8416f11b449b54e4c05"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-13-390-844-text1-normal-native.png",
+      "bytes": 156130,
+      "sha256": "bf3ce51c5f4d707b2c6ac6d837a34e62dd335495174c03f0880cbf3516ef06c6"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-13-390-844-text1-normal-reference.png",
+      "bytes": 155443,
+      "sha256": "6c8daf5b3bf8825a577718d3978991ff8312032dc3809a16f188df07c55ed7ae"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-14-390-844-text1-normal-native.png",
+      "bytes": 93222,
+      "sha256": "4bbd7aba3c7c431d7e583e23a328afc61efd806d7dd52e243999942424e608ea"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-14-390-844-text1-normal-reference.png",
+      "bytes": 92823,
+      "sha256": "edc8542a6640fb85ee2b798e2e8cce9f7d9bd3396b5afe0b27f552eb41c1624e"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-15-390-844-text1-normal-native.png",
+      "bytes": 71651,
+      "sha256": "c8b1151449f887962b35391077ea8d8f5edf1ac877b3b83d4cb48fd5bc5450cb"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-15-390-844-text1-normal-reference.png",
+      "bytes": 68127,
+      "sha256": "fcb743745c3da067b758a4829b8a845463723f5eb1d34ff88360f9a483d969ff"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-16-390-844-text1-normal-native.png",
+      "bytes": 160706,
+      "sha256": "4ac882053d537dd47bafce6278f2253bd9d55b10cc95906bde3b63bcbdb43111"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-16-390-844-text1-normal-reference.png",
+      "bytes": 159823,
+      "sha256": "f378ac746b83803e93106105027700d1a86695090a35cf57b020e05dad4dc78e"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-17-390-844-text1-normal-native.png",
+      "bytes": 71030,
+      "sha256": "7f2cb645108fbb5f02e84ae3d3a94ce7fcffbd61a45506b6a81703b31e788b4f"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-17-390-844-text1-normal-reference.png",
+      "bytes": 67678,
+      "sha256": "ca731165fd1539e37989da69a850a82f88bdf01f906bd04fc715fd7d309c0a7f"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-18-390-844-text1-normal-native.png",
+      "bytes": 74281,
+      "sha256": "e89b3b1ff578d08b7b16e14e23afaeeb7f7852ac4f946ccce8e785c27974112d"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/food-winch-18-390-844-text1-normal-reference.png",
+      "bytes": 69517,
+      "sha256": "6a696eac6ec5c804522db1bde45ec4c86b1db0dc599d28669ab43bc6970c328c"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/index.html",
+      "bytes": 17046,
+      "sha256": "7a967b0b794fee51e93531a7e1b006d342c4b69d6445330a1154b7b31a8eca2d"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/result.json",
+      "bytes": 202108,
+      "sha256": "74248d9da2179bcc851012a05ac9d46466cfa15b9f0ea7a99663fed1bcaf281f"
+    },
+    {
+      "path": "diagnostics/failed-count-compare-33/runner.txt",
+      "bytes": 569,
+      "sha256": "6aa5df8a06b12d001d2ffa1d284c58451c428fc5f445ebc6557031bb114a6cf2"
+    },
+    {
+      "path": "diagnostics/gauge-paint-audit.json",
+      "bytes": 2905,
+      "sha256": "52d3f67c31c2faf08edc419360483031452b59eaf744153c7c0a0896b61e45a8"
+    },
+    {
+      "path": "diagnostics/preexisting-smoke-failure-1436.png",
+      "bytes": 108821,
+      "sha256": "a932b6e06ed3a5e795a28a5fac29ba9407f676a5bdc730e1f7a02a0ec93f0512"
+    },
+    {
+      "path": "diagnostics/preexisting-smoke-frame.json",
+      "bytes": 569,
+      "sha256": "41ed442ac347ea8621899a5ce04e68198d215dbf288c643147eae8b0c8468ba6"
+    },
+    {
+      "path": "diagnostics/prior-328-result.json",
+      "bytes": 1413438,
+      "sha256": "93a9bdb05153d00ddd942099a66262da0cb280b0bf739d200d70c27a2ddfe71a"
+    },
+    {
+      "path": "diagnostics/prior-328-runner.txt",
+      "bytes": 640,
+      "sha256": "0dc191afb94287203464fc35d799bb53c5bbc88ae6c42b244a9074510552d7f5"
+    },
+    {
+      "path": "diagnostics/prior-4a-source-equivalence.json",
+      "bytes": 5868,
+      "sha256": "f0bcf565a64160bf601887818e7fddfce03cd9f78e0b718cea4e3e1a65d34c21"
+    },
+    {
+      "path": "ordinary-parts/actions-320-568-text2-native.png",
+      "bytes": 94499,
+      "sha256": "a0d5d14a83584812ecd0110e5d9f86bb2b90ec6742c9393dfe5438e82efa8d25"
+    },
+    {
+      "path": "ordinary-parts/actions-320-568-text2-reference.png",
+      "bytes": 160044,
+      "sha256": "48e232cc65a64f2625ed509bd9c75839dc3d018c7c5b0e11d5dc346cf071db58"
+    },
+    {
+      "path": "ordinary-parts/actions-390-844-text1-native.png",
+      "bytes": 112494,
+      "sha256": "b7e48cd4f4fbccb7ad3622d51268abd22e7d4ac7e0d81350861dd6fc9b1e397e"
+    },
+    {
+      "path": "ordinary-parts/actions-390-844-text1-reference.png",
+      "bytes": 226969,
+      "sha256": "dd05ee2cae5fe67f011e2d23cf413f6dd97c352d3a664dd47c9cc4a0ab694fa4"
+    },
+    {
+      "path": "ordinary-parts/board-320-568-text2-native.png",
+      "bytes": 87975,
+      "sha256": "3dae042be5498d23f678eb5d0f4683b90730e442a6ac632babcec47f47c1a0ec"
+    },
+    {
+      "path": "ordinary-parts/board-320-568-text2-reference.png",
+      "bytes": 130035,
+      "sha256": "638ae543de5e51e8223efc59d1e38859fbc38c5ef8c0cb23f553c2bd2fcc6d9d"
+    },
+    {
+      "path": "ordinary-parts/board-390-844-text1-native.png",
+      "bytes": 232135,
+      "sha256": "a7763a3037e02aa43e7c3ed35cee8ec9c451af9c5a5e09d1e11b3143e3c55723"
+    },
+    {
+      "path": "ordinary-parts/board-390-844-text1-reference.png",
+      "bytes": 242063,
+      "sha256": "5f889f39212406e06cac5811b902a0ee79444a97720346d47348e85a80e46413"
+    },
+    {
+      "path": "ordinary-parts/largest-text-320-568-text2-native.png",
+      "bytes": 115468,
+      "sha256": "96974cb6ddc90e644d9eafa789b26af9401f0118f569c8fa077195d5a6703a59"
+    },
+    {
+      "path": "ordinary-parts/largest-text-320-568-text2-reference.png",
+      "bytes": 68328,
+      "sha256": "b83b9db4de0ef0cf3f3d25352daa70c07e1982a8bf89f984846867760c52ea59"
+    },
+    {
+      "path": "ordinary-parts/largest-text-390-844-text1-native.png",
+      "bytes": 174093,
+      "sha256": "bdb5300fa0adc987eedfb91872b6717ed9bec7b67eb732dbc55bf26f60123b3c"
+    },
+    {
+      "path": "ordinary-parts/largest-text-390-844-text1-reference.png",
+      "bytes": 125024,
+      "sha256": "60f2426d9de5771d23c0b61db750db8588d958c7f6a8238122d6bb0c01f0d179"
+    },
+    {
+      "path": "ordinary-parts/panels-320-568-text2-native.png",
+      "bytes": 91309,
+      "sha256": "739847078cd4ed4ba894ca85a2651324c9444ecf29197f3b17a38fbbb805477b"
+    },
+    {
+      "path": "ordinary-parts/panels-320-568-text2-reference.png",
+      "bytes": 81782,
+      "sha256": "126fa4f3615350e35bb14ef36c2f61982996c47b363a72bb23ae451ad5dbb351"
+    },
+    {
+      "path": "ordinary-parts/panels-390-844-text1-native.png",
+      "bytes": 112341,
+      "sha256": "48bd64f5cfa25e4dba0463a7969b5abfb1119165d55904fd50bf3c3205c21a36"
+    },
+    {
+      "path": "ordinary-parts/panels-390-844-text1-reference.png",
+      "bytes": 162556,
+      "sha256": "984c8915110b2ad2634f53030242231a67117920dc6c0b42dd32253e7f912462"
+    },
+    {
+      "path": "ordinary-parts/reconnecting-320-568-text2-native.png",
+      "bytes": 28956,
+      "sha256": "d8a55becb44738b41fddb1c6dafc19cec1e69548b821f9a2e82d568cb1967560"
+    },
+    {
+      "path": "ordinary-parts/reconnecting-320-568-text2-reference.png",
+      "bytes": 83932,
+      "sha256": "97a1ed849332fa37f9efc65c3256ecfefd8da012f23d4709a401eba3ea104e3b"
+    },
+    {
+      "path": "ordinary-parts/reconnecting-390-844-text1-native.png",
+      "bytes": 17335,
+      "sha256": "7dd65397f9fa69aec672e0e54f3c5cc1892cae2481cafeae34c5d6ebf54c34fa"
+    },
+    {
+      "path": "ordinary-parts/reconnecting-390-844-text1-reference.png",
+      "bytes": 175396,
+      "sha256": "82864d1d31b2ec91d2fb4d8b11279c0c1518a1754515548b7500bfd73245d121"
+    },
+    {
+      "path": "ordinary-parts/result.json",
+      "bytes": 55420,
+      "sha256": "d938f40623ef501fcc5fa91a1b2f43f6129c1904002b19fc3111fda9a6a36f75"
+    },
+    {
+      "path": "ordinary-parts/round-order-320-568-text2-native.png",
+      "bytes": 118593,
+      "sha256": "121f95b92f5288e42991013af887decb968e8a36ea33268146dd75e81e36ed2c"
+    },
+    {
+      "path": "ordinary-parts/round-order-320-568-text2-reference.png",
+      "bytes": 119643,
+      "sha256": "7608891b53a71254f207b10a64fbdaa547fd185e498427a2cf6143b35bc2ea41"
+    },
+    {
+      "path": "ordinary-parts/round-order-390-844-text1-native.png",
+      "bytes": 154287,
+      "sha256": "98cc8c32166dfc2603d5f31616adbfeeef856e8c4b9010d862f55c956f244ad7"
+    },
+    {
+      "path": "ordinary-parts/round-order-390-844-text1-reference.png",
+      "bytes": 188522,
+      "sha256": "b009f2057c61492fffe7e13ea1ee0268564e91801768c1d6b94d0539a25fad37"
+    },
+    {
+      "path": "source-equivalence.json",
+      "bytes": 6391,
+      "sha256": "9661b65ffb72df24df76a7f610a80614aa464dba825ce8fca605b84fa2df2ae2"
+    }
+  ],
+  "logFormatting": "Only trailing whitespace from the two final Vite build logs is removed; historical diagnostics and exact screenshot/source records are unchanged."
+}

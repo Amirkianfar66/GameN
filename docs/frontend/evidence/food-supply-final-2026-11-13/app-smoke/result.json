@@ -1,0 +1,350 @@
+{
+  "scope": "Full native app on synthetic candidate-engine snapshots. Desktop Chromium only; no API/emulator, physical-device or Designer acceptance.",
+  "cases": [
+    {
+      "profile": "390-844-text1-normal",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      },
+      "pendingHold": {
+        "waiting": {
+          "label": "Hold. Waiting for the hook.",
+          "pressed": "true",
+          "pending": true,
+          "glow": false,
+          "outline": "dashed",
+          "offset": "-9px",
+          "transform": "matrix(1, 0, 0, 1, 0, 3)",
+          "physical": true,
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          }
+        },
+        "afterOriginalUp": {
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          },
+          "edges": [
+            "DOWN",
+            "UP"
+          ],
+          "pressed": "false"
+        }
+      }
+    },
+    {
+      "profile": "390-844-text1-reduced",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      },
+      "pendingHold": {
+        "waiting": {
+          "label": "Hold. Waiting for the hook.",
+          "pressed": "true",
+          "pending": true,
+          "glow": false,
+          "outline": "dashed",
+          "offset": "-9px",
+          "transform": "none",
+          "physical": true,
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          }
+        },
+        "afterOriginalUp": {
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          },
+          "edges": [
+            "DOWN",
+            "UP"
+          ],
+          "pressed": "false"
+        }
+      }
+    },
+    {
+      "profile": "320-568-text2-normal",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      },
+      "pendingHold": {
+        "waiting": {
+          "label": "Hold. Waiting for the hook.",
+          "pressed": "true",
+          "pending": true,
+          "glow": false,
+          "outline": "dashed",
+          "offset": "-9px",
+          "transform": "matrix(1, 0, 0, 1, 0, 3)",
+          "physical": true,
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          }
+        },
+        "afterOriginalUp": {
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          },
+          "edges": [
+            "DOWN",
+            "UP"
+          ],
+          "pressed": "false"
+        }
+      }
+    },
+    {
+      "profile": "320-568-text2-reduced",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      },
+      "pendingHold": {
+        "waiting": {
+          "label": "Hold. Waiting for the hook.",
+          "pressed": "true",
+          "pending": true,
+          "glow": false,
+          "outline": "dashed",
+          "offset": "-9px",
+          "transform": "none",
+          "physical": true,
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          }
+        },
+        "afterOriginalUp": {
+          "crate": {
+            "id": "food-crate-1",
+            "generation": 1,
+            "state": "INTAKE",
+            "holder": null,
+            "x": 0,
+            "height": 0,
+            "anchorAt": 108225,
+            "motion": null
+          },
+          "edges": [
+            "DOWN",
+            "UP"
+          ],
+          "pressed": "false"
+        }
+      }
+    }
+  ],
+  "errors": []
+}

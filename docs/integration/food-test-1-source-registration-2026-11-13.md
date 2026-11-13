@@ -15,15 +15,23 @@ films and further gameplay features.
   planned-Lock expiry and read-only warning classifier. Canonical warnings still
   resolve before the admitted command. The probe-before-CLOCK correction passed
   all three actual-time 7/8/9 journeys on this frozen code. The separate
-  historical boarding/concurrent-deadline emulator failure remains under
-  investigation; the native connected journey is still pending.
-- Frontend: `703acc2026998b5db89bee3ce5b5382d5c6f6211`, PR #239.
-  It includes the seven independent native review corrections and the approved
-  gauge, neutral return caption and large-text port. The complete closure is
-  17 render modules plus 13 host/client inputs. The final pending-Hold port
-  changes only the Food display, renderer and scoped CSS. Its 84-state plan
-  requires 336 refreshed Food pairs. The previous 328-pair batch passed but
-  remains diagnostic evidence for the pre-amendment inputs.
+  historical boarding/concurrent-deadline emulator failure now has a narrow
+  pre-commit read recovery candidate in #243 at `1ee85abd253ad1490737edb274ef99b2050971dc`.
+  Its exact-source Integration review found no blocker. It has 24 focused,
+  16 original boarding/service and 570 broad database cases passing, with
+  zero failures in the broad run. It is not merged here: the actual-time
+  7/8/9 matrix, native connected journey and final CI remain required.
+- Frontend: `643b6a236cad19f3d40770b973fa7e2ec4cc1cb7`, PR #239.
+  The complete closure is 17 render modules plus 13 host/client inputs.
+  Native `ed4e1b1c5fab5043dbbc49797168bb0e1850b34b` corrects the two
+  [remaining Designer findings](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193):
+  terminal pseudo-elements now sit outside scoped `:is()` selectors, and
+  the hint icon wrapper cannot shrink. Only three native files changed; the
+  other 27 files, 14 Designer pins and 37 SVGs are unchanged. The subsequent
+  commit adds development-only Ready touch diagnostics, not a bypass.
+  Integration reviewed both corrections. New computed-style assertions,
+  336 Food comparisons, 12 ordinary comparisons and full-app smoke checks
+  must run on these exact bytes before renewed Designer acceptance.
 - Designer Food reference: `cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b`, PR #241,
   over merged #231. Its owner record selects the gauge instead of the withdrawn
   warning banner. The owner explicitly approved the focused exceptions in this
@@ -131,9 +139,30 @@ The seven independent native fixes and approved #241 port are now source-reviewe
 The early-Hold reference and native port now match the already-approved server
 offer. The focused input audit checks original DOWN/UP receipts, no lift/fall
 while pending, and unchanged normalized Partner projections.
-Refreshed comparisons and explicit Designer acceptance remain pending. Synthetic
-desktop captures do not establish human playtest, physical-phone, screen-reader
-or connected-worker acceptance.
+The first refreshed packet at native `703acc20` / evidence `6321ac77` passed
+336 Food pairs, 12 ordinary pairs and four full-app smoke profiles. Designer
+accepted the previous corrections and found only the two style defects above;
+that packet is historical evidence for the previous native bytes, not acceptance
+of the corrected source. The seven/eight/nine-player native connected journey
+has not passed: two preserved seven-player runs stopped before Food. Admission
+ordering is corrected in the runner. The second run reached Ready but emitted no
+Ready operation; its cause remains unclassified. The new runner waits for the
+actual visible control to be enabled and records hit-testing around one normal
+touch, without direct command submission or hidden-control bypasses.
+
+All nine GitHub checks passed at combined predecessor
+`cbf38a95589db1a83867a48bc6fb2569ccabbd48`. They must pass again on the final
+combined release; this is not a claim about the untested successor.
+
+Current registration hashes:
+
+- Source record: `6c884201b9f82fcc47fc5618d0a2573db4358c1ef23effbe0b2e5f9aefa1ecf1`.
+- Art 0.9 manifest: `2c87809e4c5ed8933acaf80b4438d0c3893eff78506925726ea70de74a0bd474`.
+- Drawing policy: `cfae73e372430d69e3537ed11d04506cdf1245029bbefedeac3aa2f8ed85a51a`.
+- Static art inventory remains `28c52bf83716003f410f6594d667bb9a8833d7fd6e072056b5c2fe0c1543c7b3`.
+
+Synthetic desktop captures do not establish human playtest, physical-phone,
+screen-reader or connected-worker acceptance.
 
 ## Remaining release gates
 

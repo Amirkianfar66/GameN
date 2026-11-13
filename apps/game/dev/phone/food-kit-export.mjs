@@ -28,7 +28,11 @@ const scopeCss=(text,source)=>{
   for(const original of rule.selectors){
    if(original==='#app'||original.includes('.ph-status')||original.includes('.ph-home')||original.includes('.fs-label-fixture'))continue;
    const s=[':root','html','body'].includes(original)?'.planet-food':original;
-   selectors.push(`.planet-food:is(${s})`,`.planet-food :is(${s})`);
+   // CSS forbids pseudo-elements inside :is(). Keep the existing scope and
+   // selector specificity, with the terminal pseudo-element outside the group.
+   const pseudo=s.match(/::(?:before|after)$/)?.[0]??'',target=pseudo?s.slice(0,-pseudo.length):s;
+   if(target.includes('::'))throw Error('Unsupported scoped pseudo-element: '+original);
+   selectors.push(`.planet-food:is(${target})${pseudo}`,`.planet-food :is(${target})${pseudo}`);
   }
   if(selectors.length)rule.selectors=selectors;else rule.remove();
  });

@@ -609,13 +609,13 @@
     "apps/game/hosted/planet/food-scene.mjs": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
     "apps/game/hosted/planet/food-icons.mjs": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
     "apps/game/hosted/planet/food-ui.mjs": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
-    "apps/game/hosted/planet/food-kit.css": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
-    "apps/game/hosted/planet/food.css": "c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
+    "apps/game/hosted/planet/food-kit.css": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+    "apps/game/hosted/planet/food.css": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
     "apps/game/hosted/planet/food-host.css": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
     "apps/game/hosted/planet/food-pose.mjs": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
     "apps/game/hosted/planet/food-display.mjs": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
     "apps/game/hosted/planet/food-assets.mjs": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
-    "apps/game/hosted/planet/food-render.mjs": "f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
+    "apps/game/hosted/planet/food-render.mjs": "f9a173c7c1d1264ff666ebc2612fd33fb242abd2bab950eba7d7e0861a490d83",
     "apps/game/hosted/planet/food-app.mjs": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
     "packages/presentation/src/planet/food.ts": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
     "apps/game/hosted/planet/food-gauge.mjs": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
@@ -833,7 +833,7 @@
   "registrationScope": "source-ports",
   "foodSourceRegistration": {
     "path": "docs/integration/food-consumer-source-2026-11-13.json",
-    "sha256": "03e036c8586f2bfaccd7dc3b1b7be0db77b7283fb6341dd66eb45b6003de2e96"
+    "sha256": "6c884201b9f82fcc47fc5618d0a2573db4358c1ef23effbe0b2e5f9aefa1ecf1"
   },
   "foodStaticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",

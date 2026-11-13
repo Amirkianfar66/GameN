@@ -1,0 +1,87 @@
+vite v8.3.3 building client environment for production...
+transforming...
+✓ 284 modules transformed.
+rendering chunks...
+computing gzip size...
+../gamen-food-preview/app.html                                                    0.58 kB │ gzip:   0.33 kB
+../gamen-food-preview/index.html                                                  0.73 kB │ gzip:   0.44 kB
+../gamen-food-preview/art/planet-library/transit.poster.cd2ee84274.webp          21.34 kB
+../gamen-food-preview/art/planet-library/arrival-red.poster.32f9127d58.webp      24.94 kB
+../gamen-food-preview/art/planet-library/blackhole.poster.dfa7e8141b.webp        25.70 kB
+../gamen-food-preview/art/planet-library/rescue.poster.dffbce3adf.webp           26.50 kB
+../gamen-food-preview/art/planet-library/arrival-blue.poster.4ca9e33913.webp     27.99 kB
+../gamen-food-preview/food-review-provenance.json                                51.20 kB │ gzip:  15.25 kB
+../gamen-food-preview/art/food-supply/operators/c8-winch-out.svg                 59.82 kB │ gzip:  17.37 kB
+../gamen-food-preview/art/food-supply/operators/c1-winch-out.svg                 59.85 kB │ gzip:  17.22 kB
+../gamen-food-preview/art/food-supply/operators/c7-winch-out.svg                 62.49 kB │ gzip:  17.67 kB
+../gamen-food-preview/art/food-supply/operators/c4-winch-out.svg                 62.82 kB │ gzip:  18.01 kB
+../gamen-food-preview/art/food-supply/operators/c3-winch-out.svg                 63.48 kB │ gzip:  17.86 kB
+../gamen-food-preview/art/food-supply/operators/c6-winch-out.svg                 63.67 kB │ gzip:  17.80 kB
+../gamen-food-preview/art/food-supply/operators/c5-winch-out.svg                 64.84 kB │ gzip:  18.20 kB
+../gamen-food-preview/art/food-supply/operators/c2-winch-out.svg                 65.80 kB │ gzip:  18.45 kB
+../gamen-food-preview/art/food-supply/operators/c9-winch-out.svg                 74.44 kB │ gzip:  21.32 kB
+../gamen-food-preview/art/food-supply/operators/c4-panel-out.svg                 85.68 kB │ gzip:  25.61 kB
+../gamen-food-preview/art/food-supply/operators/c6-panel-out.svg                 86.72 kB │ gzip:  26.22 kB
+../gamen-food-preview/art/food-supply/operators/c4-panel-alive.svg               87.82 kB │ gzip:  26.59 kB
+../gamen-food-preview/art/food-supply/operators/c8-panel-out.svg                 88.72 kB │ gzip:  26.78 kB
+../gamen-food-preview/art/food-supply/operators/c6-panel-alive.svg               88.78 kB │ gzip:  27.10 kB
+../gamen-food-preview/art/food-supply/operators/c8-panel-alive.svg               91.07 kB │ gzip:  27.86 kB
+../gamen-food-preview/art/food-supply/operators/c9-panel-out.svg                 93.70 kB │ gzip:  28.01 kB
+../gamen-food-preview/art/food-supply/operators/c3-panel-out.svg                 95.17 kB │ gzip:  28.97 kB
+../gamen-food-preview/art/food-supply/operators/c9-panel-alive.svg               95.54 kB │ gzip:  28.94 kB
+../gamen-food-preview/art/food-supply/operators/c3-panel-alive.svg               97.21 kB │ gzip:  29.86 kB
+../gamen-food-preview/art/food-supply/operators/c7-panel-out.svg                 99.63 kB │ gzip:  29.25 kB
+../gamen-food-preview/art/food-supply/operators/c4-winch-alive.svg               99.84 kB │ gzip:  29.52 kB
+../gamen-food-preview/art/food-supply/operators/c6-winch-alive.svg              100.73 kB │ gzip:  29.88 kB
+../gamen-food-preview/art/food-supply/operators/c7-panel-alive.svg              101.71 kB │ gzip:  30.16 kB
+../gamen-food-preview/art/food-supply/operators/c5-panel-out.svg                102.74 kB │ gzip:  30.00 kB
+../gamen-food-preview/art/food-supply/operators/c8-winch-alive.svg              102.83 kB │ gzip:  30.46 kB
+../gamen-food-preview/art/food-supply/operators/c5-panel-alive.svg              104.47 kB │ gzip:  30.86 kB
+../gamen-food-preview/art/food-supply/operators/c9-winch-alive.svg              108.00 kB │ gzip:  31.74 kB
+../gamen-food-preview/art/food-supply/operators/c3-winch-alive.svg              109.16 kB │ gzip:  32.57 kB
+../gamen-food-preview/art/food-supply/operators/c1-panel-out.svg                110.50 kB │ gzip:  32.04 kB
+../gamen-food-preview/art/food-supply/operators/c1-panel-alive.svg              112.75 kB │ gzip:  33.10 kB
+../gamen-food-preview/art/food-supply/operators/c7-winch-alive.svg              113.62 kB │ gzip:  32.86 kB
+../gamen-food-preview/art/food-supply/operators/c2-panel-out.svg                115.88 kB │ gzip:  32.52 kB
+../gamen-food-preview/art/food-supply/operators/c5-winch-alive.svg              116.29 kB │ gzip:  33.40 kB
+../gamen-food-preview/art/food-supply/operators/c2-panel-alive.svg              117.70 kB │ gzip:  33.38 kB
+../gamen-food-preview/art/food-supply/operators/c1-winch-alive.svg              124.49 kB │ gzip:  35.63 kB
+../gamen-food-preview/art/food-supply/operators/c2-winch-alive.svg              129.44 kB │ gzip:  35.91 kB
+../gamen-food-preview/art/food-supply/supply-room.back.svg                      255.76 kB │ gzip:  79.98 kB
+../gamen-food-preview/art/planet-library/rescue.eccab99be1.mp4                  412.51 kB
+../gamen-food-preview/art/planet-library/transit.6e338df52f.mp4                 510.05 kB
+../gamen-food-preview/art/planet-library/arrival-red.11cc978817.mp4             962.50 kB
+../gamen-food-preview/art/planet-library/blackhole.1f1aa0ee1a.mp4             1,065.33 kB
+../gamen-food-preview/art/planet-library/arrival-blue.5a905ac795.mp4          1,089.17 kB
+../gamen-food-preview/art/setup.art.f196649c9c.css                                3.95 kB │ gzip:   1.01 kB
+../gamen-food-preview/art/planet-library/successor.art.676b8d3fd6.css             5.05 kB │ gzip:   1.45 kB
+../gamen-food-preview/art/player-ui.art.fc4830756c.css                            6.09 kB │ gzip:   1.16 kB
+../gamen-food-preview/art/planet-library/windows.art.767ae8ccdc.css               6.57 kB │ gzip:   1.27 kB
+../gamen-food-preview/art/planet-library/offices.art.6d780e7fff.css               7.52 kB │ gzip:   1.22 kB
+../gamen-food-preview/art/planet-library/hospital-panel.art.e6b5bddef6.css       10.03 kB │ gzip:   1.90 kB
+../gamen-food-preview/art/planet-library/promises.art.0298ebef8d.css             10.69 kB │ gzip:   2.04 kB
+../gamen-food-preview/art/planet-library/end.art.717e2dcc59.css                  13.85 kB │ gzip:   2.70 kB
+../gamen-food-preview/art/planet-library/navigation.art.b583b8bc4e.css           15.09 kB │ gzip:   2.49 kB
+../gamen-food-preview/art/planet-library/hack-engineer.art.15e5c98ff2.css        20.60 kB │ gzip:   2.94 kB
+../gamen-food-preview/art/roles.art.14e56b5e3e.css                               25.21 kB │ gzip:   3.00 kB
+../gamen-food-preview/art/abilities.art.f7ff31a86d.css                           35.38 kB │ gzip:   5.25 kB
+../gamen-food-preview/art/crew-roles.9bfc1dc3b2.css                              36.29 kB │ gzip:   3.08 kB
+../gamen-food-preview/assets/art-Cn_xsFQf.css                                    89.66 kB │ gzip:  17.26 kB
+../gamen-food-preview/art/scenes.art.0ff8b3c930.css                             117.85 kB │ gzip:  14.30 kB
+../gamen-food-preview/assets/app-xwB5EqNs.css                                   166.80 kB │ gzip:  31.99 kB
+../gamen-food-preview/art/board-v2.art.5dedbf2450.css                           206.83 kB │ gzip:  15.90 kB
+../gamen-food-preview/art/public-board.art.1f47b9f920.css                       236.17 kB │ gzip:  21.69 kB
+../gamen-food-preview/art/crew-board-v2-films-art.b30ecdebc3.css                262.26 kB │ gzip:  21.61 kB
+../gamen-food-preview/art/board-v2-motion.art.7793869d6b.css                    312.97 kB │ gzip:  31.85 kB
+../gamen-food-preview/art/board-v2-films.art.9e6abdef0f.css                   1,462.18 kB │ gzip: 115.32 kB
+../gamen-food-preview/art/crew-public-board.332a656b4b.css                    2,807.45 kB │ gzip: 674.32 kB
+../gamen-food-preview/assets/component-CsbUmBU5.js                               51.07 kB │ gzip:   5.36 kB
+../gamen-food-preview/assets/art-4EwAqk8Z.js                                    744.30 kB │ gzip: 221.90 kB
+../gamen-food-preview/assets/app-CmTVijY0.js                                  1,638.03 kB │ gzip: 188.17 kB
+
+✓ built in 882ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

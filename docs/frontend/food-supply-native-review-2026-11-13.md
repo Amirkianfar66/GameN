@@ -1,5 +1,7 @@
 # Native Food Supply review packet
 
+> Historical initial 304-pair review packet. The [final 336-pair native review packet](food-supply-native-final-review-2026-11-13.md) records the completed run and current approval gates.
+
 Consumer #235, fixed release #237. Stacked dependency: Backend #238; accepted shared
 seam `d0a12f252d9d076c0978b97cfcdf942e5f0e4a75`. Shared main baseline is
 `f9e7e11bd6c23671f96832bf45d79146e6fd855c`. Native source checkpoint

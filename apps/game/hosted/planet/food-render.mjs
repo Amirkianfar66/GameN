@@ -59,7 +59,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  }
  function taskSkeleton(task){
   hold.releaseAll();taskId=task.taskId;screen=null;selected=null;lastStructure=null;lastHeader=null;replace(frame);
-  const art=h('div.fs-art'),view=h('div.fs-view',{role:'img'},art),hintText=h('span'),hintIcon=h('span');
+  const art=h('div.fs-art'),view=h('div.fs-view',{role:'img'},art),hintText=h('span'),hintIcon=h('span',{style:{flex:'none'}});
   const hint=h('p.fs-hint',{role:'status','aria-live':'polite'},hintIcon,hintText);
   const controls=h('div.fs-controls',{role:'group','aria-label':`${task.selfControl==='WINCH'?'Winch':'Panel'} controls`});
   const role=h('div.fs-role'),instrument=h('div.food-instrument'),dock=h('div.fs-dock',instrument,controls),panel=h('section.fs-panel',{'aria-label':'Your controls'},role,hint,dock);

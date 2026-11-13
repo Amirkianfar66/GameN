@@ -1,7 +1,7 @@
 {
   "schema": "mothership.food-consumer-source/1",
   "status": "reviewed-source-candidate",
-  "candidateHead": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
+  "candidateHead": "643b6a236cad19f3d40770b973fa7e2ec4cc1cb7",
   "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
   "scope": "Exact technical source compatibility for Food test 1. This is not Designer visual acceptance, production adoption, creation enablement or deployment.",
   "target": {
@@ -25,8 +25,8 @@
   },
   "closure": {
     "path": "docs/frontend/food-supply-render-closure.json",
-    "sha256": "326e58f5ee220636bcde184a03ed80ec7bce24bd99286dd85e012d41ff5338a6",
-    "bytes": 11061
+    "sha256": "30d8c3fb1d848c8a6bde3c928a4710799f97aaf45a72cd3e9a0e6c00e488183a",
+    "bytes": 11189
   },
   "staticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
@@ -142,16 +142,16 @@
     },
     "apps/game/hosted/planet/food-kit.css": {
       "previousSha256": null,
-      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "sha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
       "bytes": 57285,
-      "candidateBlob": "design/releases/candidate-blobs/a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "candidateBlob": "design/releases/candidate-blobs/5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food.css": {
       "previousSha256": null,
-      "sha256": "c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
+      "sha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
       "bytes": 30798,
-      "candidateBlob": "design/releases/candidate-blobs/c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
+      "candidateBlob": "design/releases/candidate-blobs/5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-host.css": {
@@ -184,9 +184,9 @@
     },
     "apps/game/hosted/planet/food-render.mjs": {
       "previousSha256": null,
-      "sha256": "f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
-      "bytes": 35626,
-      "candidateBlob": "design/releases/candidate-blobs/f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
+      "sha256": "f9a173c7c1d1264ff666ebc2612fd33fb242abd2bab950eba7d7e0861a490d83",
+      "bytes": 35648,
+      "candidateBlob": "design/releases/candidate-blobs/f9a173c7c1d1264ff666ebc2612fd33fb242abd2bab950eba7d7e0861a490d83",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-app.mjs": {
