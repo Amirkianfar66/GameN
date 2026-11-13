@@ -80,6 +80,7 @@ function shuffle<T>(values:readonly T[],samples:number[]):T[] {
 /** No Firebase globals: the same transactional orchestration is exercised by emulator and unit tests. */
 export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:{
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock?:()=>number;newId?:()=>string;
+  waitForBotWake?:(delayMs:number)=>Promise<void>;
   randomSamples?:()=>number[];newRecoveryCode?:()=>string;assetManifestVersion?:string;enabled?:boolean;setupFlowVersion?:1|2|3;
   engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE|typeof PLANET_FOOD_TASK_ENGINE_PROFILE;
 }){
@@ -487,7 +488,8 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});
   }
   const food=createPlanetFoodCoordinator<S,Session<S>>({store,engine,clock,newId,newContext:foodContext,newRecoveryCode,
-    load,publish,record,snapshot,chooseOrdinaryBot:choosePlanetBotCommand,reject,limit});
+    load,publish,record,snapshot,chooseOrdinaryBot:choosePlanetBotCommand,reject,limit,
+    ...(dependencies.waitForBotWake?{waitForBotWake:dependencies.waitForBotWake}:{})});
   return {handle,runDeadline,repairDeadlines,dispatchDeadline,runBots};
 }
 

@@ -1,4 +1,5 @@
 import {createHash} from 'node:crypto';
+import {performance} from 'node:perf_hooks';
 import {parseFoodTaskReceipt,PlanetReceiptSchema,PLANET_FOOD_TASK_PINS,FOOD_TASK_TRANSPORT} from '@mothership/contracts';
 import type {FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskPlayerView,
   PlanetCommandRequest,PlanetReceipt,PlanetServiceRequest,PlanetServiceResponse,PlanetSessionSnapshot,PlanetVersions,SeatId} from '@mothership/contracts';
@@ -10,6 +11,7 @@ export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
 export const FOOD_SNAPSHOT_INTERVAL_MS=FOOD_TASK_TRANSPORT.snapshotMs;
 /** Technical single-driver lease, independent of gameplay deadlines and human presence. */
 export const FOOD_BOT_WORKER_LEASE_MS=8_000;
+export const FOOD_BOT_WALL_BUDGET_MS=20_000;
 const MAX_BOUNDARIES_PER_COMMIT=32,MAX_PREFIX_COMMITS=128,MAX_BOT_INPUTS=32;
 type FailureCode=Extract<PlanetServiceResponse,{ok:false}>['error']['code'];
 type Request=PlanetServiceRequest;
@@ -58,6 +60,7 @@ const uuid=(value:unknown)=>{const h=hash(value);return `${h.slice(0,8)}-${h.sli
 export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T extends FoodServiceSession<S>>(d:{
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock:()=>number;newId:()=>string;
   newContext:()=>PlanetContext;newRecoveryCode:()=>string;
+  waitForBotWake?:(delayMs:number)=>Promise<void>;
   load:(tx:PlanetTransaction,matchId:string)=>Promise<T>;
   publish:(tx:PlanetTransaction,s:T,ctx?:PlanetContext)=>Promise<void>;
   record:(tx:PlanetTransaction,s:T,event:Record<string,unknown>)=>void;
@@ -463,39 +466,54 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     return {status:result.ok&&(result.result as {advanced:boolean}).advanced?'advanced':'unchanged'};
   }
   async function runBots(matchId:string):Promise<{accepted:number}>{
-    let accepted=0;
+    let accepted=0,waitedMs=0,workPasses=0,inputs=0;
+    const started=performance.now();
+    const remaining=()=>Math.floor(Math.min(FOOD_BOT_WALL_BUDGET_MS-(performance.now()-started),FOOD_BOT_WALL_BUDGET_MS-waitedMs));
     const probe=()=>store.transaction(async tx=>{
         const s=await d.load(tx,matchId),control=await tx.get<Control>(controlKey(matchId));
-        if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false};
-        if(s.status!=='running'||!s.state)return {prefix:null,work:false};
+        if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false,nextWakeAt:null};
+        if(s.status!=='running'||!s.state)return {prefix:null,work:false,nextWakeAt:null};
         const at=clock(),f=service(s),due=engine().planetDeadlineAt(s.state);
         if(due!==null&&due<=at||Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at)
-          ||Object.values(f.botWakes).some(wake=>wake!==undefined&&wake<=at))return {prefix:null,work:true};
+          ||Object.values(f.botWakes).some(wake=>wake!==undefined&&wake<=at))return {prefix:null,work:true,nextWakeAt:null};
+        let nextWakeAt:number|null=null;
         for(const bot of s.members.filter(m=>m.controller==='bot')){
           const intent=await tx.get<BotIntent>(key('foodBotIntent',[matchId,bot.seatId]));
-          if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at)continue;
+          if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at){
+            nextWakeAt=Math.min(nextWakeAt??Infinity,intent.retryAt);continue;
+          }
           const view=engine().projectPlanetFoodPlayer(s.state,bot.seatId,at);
-          if(chooseFoodBotInput(view).command||view.step===null&&d.chooseOrdinaryBot(engine().projectPlanetPlayer(s.state,bot.seatId)))return {prefix:null,work:true};
+          const decision=chooseFoodBotInput(view);
+          if(decision.command||view.step===null&&d.chooseOrdinaryBot(engine().projectPlanetPlayer(s.state,bot.seatId)))return {prefix:null,work:true,nextWakeAt:null};
+          if(decision.nextWakeAt!==null&&decision.nextWakeAt>at)nextWakeAt=Math.min(nextWakeAt??Infinity,decision.nextWakeAt);
         }
-        return {prefix:null,work:false};
+        return {prefix:null,work:false,nextWakeAt};
       });
     // Do not create a lease or scheduler write for an idle session trigger.
     const initial=await probe();
-    if(initial.prefix===null&&!initial.work)return {accepted};
+    if(initial.prefix===null&&!initial.work&&(!d.waitForBotWake||initial.nextWakeAt===null))return {accepted};
     const owner=await acquireWorker(matchId);
     if(owner===null)return {accepted};
-    try{for(let pass=0;pass<MAX_BOT_INPUTS;pass++){
+    try{while(workPasses<MAX_BOT_INPUTS&&inputs<MAX_BOT_INPUTS&&remaining()>0){
       if(!await refreshWorker(matchId,owner))break;
       const pending=await probe();
-      if(pending.prefix!==null){await drainThrough(matchId,pending.prefix);continue;}
+      if(pending.prefix!==null){workPasses++;await drainThrough(matchId,pending.prefix);continue;}
       // A session trigger that finds no due work must perform no writes, or it retriggers itself forever.
-      if(!pending.work)break;
+      if(!pending.work){
+        if(!d.waitForBotWake||pending.nextWakeAt===null)break;
+        const delay=Math.min(1000,Math.max(0,pending.nextWakeAt-clock()),remaining());
+        if(delay<=0)continue;
+        waitedMs+=delay;await d.waitForBotWake(delay);
+        continue; // Waiting never consumes an input/work pass or supplies an admission timestamp.
+      }
+      workPasses++;
       const clockInput=await admit(matchId,null,null,{workerOwner:owner});
       await drainThrough(matchId,clockInput.sequence);
       const s=await store.transaction(tx=>d.load(tx,matchId));
       if(!s.state||s.status!=='running')break;
       let progressed=false;
       for(const bot of s.members.filter(m=>m.controller==='bot')){
+        if(inputs>=MAX_BOT_INPUTS||remaining()<=0)break;
         const intentPath=key('foodBotIntent',[matchId,bot.seatId]);
         const intent=await store.transaction(tx=>tx.get<BotIntent>(intentPath));
         if(intent&&!intent.done){const result=await drainThrough(matchId,intent.sequence);
@@ -518,13 +536,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const request:Request=foodCommand?{operation:'foodCommand',request:{schemaVersion:1,protocolVersion:3,
           matchId,phaseId:food.phaseId,foodStepId:food.step!.stepId,round:food.round,commandId:d.newId(),command:foodCommand}}:
           {operation:'command',request:{protocolVersion:3,matchId,phaseId:state.state.phase.id,commandId:d.newId(),command:ordinary!}};
+        inputs++;
         const admitted=await admit(matchId,null,request,{bot:bot.seatId,workerOwner:owner});
         const result=admitted.response??await drainThrough(matchId,admitted.sequence);
         const receipt=result.ok?(result.result as {receipt?:{status:string}}).receipt:null;
         if(receipt?.status==='accepted')accepted++;
         progressed=true;
       }
-      if(!progressed)break;
+      if(!progressed&&!d.waitForBotWake)break;
     }}catch(error){if(!(error instanceof LostBotWorkerLease))throw error;}
     finally{await releaseWorker(matchId,owner);}
     return {accepted};

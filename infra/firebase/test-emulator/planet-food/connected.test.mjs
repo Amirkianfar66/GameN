@@ -70,7 +70,8 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
         if(taskId&&food.step?.kind!=='AWAY')break;
         // Local animation time can plan a tap from the last authorized anchors;
         // only the server's later durable admission decides its actual result.
-        const decision=chooseFoodBotInput({...food,serverNowMs:Math.min(Date.now(),t?.deadlineAt??Infinity)});
+        const decision=t&&Date.now()>=t.deadlineAt?{command:null,nextWakeAt:null}
+          :chooseFoodBotInput({...food,serverNowMs:Date.now()});
         if(decision.command){
           const request={schemaVersion:1,protocolVersion:3,matchId,phaseId:food.phaseId,foodStepId:food.step.stepId,
             round:food.round,commandId:randomUUID(),command:decision.command};
