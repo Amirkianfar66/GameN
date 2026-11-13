@@ -12,6 +12,8 @@ export const FOOD_SNAPSHOT_INTERVAL_MS=FOOD_TASK_TRANSPORT.snapshotMs;
 /** Technical single-driver lease, independent of gameplay deadlines and human presence. */
 export const FOOD_BOT_WORKER_LEASE_MS=8_000;
 export const FOOD_BOT_WALL_BUDGET_MS=20_000;
+export const FOOD_PREFIX_WORKER_LEASE_MS=8_000;
+const PREFIX_WAIT_BUDGET_MS=20_000,PREFIX_POLL_MS=50;
 const MAX_BOUNDARIES_PER_COMMIT=32,MAX_PREFIX_COMMITS=128,MAX_BOT_INPUTS=32;
 type FailureCode=Extract<PlanetServiceResponse,{ok:false}>['error']['code'];
 type Request=PlanetServiceRequest;
@@ -46,12 +48,15 @@ interface Pending {sequence:number;fingerprint:string}
 interface AdmissionResult {sequence:number;response:PlanetServiceResponse|null;refresh?:true}
 interface BotIntent {sequence:number;request:Request;retryAt:number|null;done:boolean}
 interface BotWorkerLease {owner:string;expiresAt:number}
+interface PrefixWorkerLease {owner:string;expiresAt:number;throughSequence:number;wakeTaskId:string}
 class LostBotWorkerLease extends Error {}
+class LostPrefixWorkerLease extends Error {}
 const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const key=(scope:string,value:unknown)=>scope+'/'+hash(value);
 const controlKey=(matchId:string)=>'foodIngressControl/'+matchId;
 const workerKey=(matchId:string)=>'foodBotWorker/'+matchId;
 const contactKey=(matchId:string)=>'foodContact/'+matchId;
+const prefixWorkerKey=(matchId:string)=>'foodPrefixWorker/'+matchId;
 const entryKey=(matchId:string,n:number)=>'foodIngress/'+matchId+'/'+String(n).padStart(16,'0');
 const freshControl=():Control=>({nextSequence:1,processedSequence:0,lastAdmittedAt:0,advancedThroughAt:0});
 const isFood=(s:{versions:PlanetVersions})=>s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion;
@@ -157,6 +162,46 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       tx.delete(workerKey(matchId));
       // Re-arm any bot window suppressed while owned, in the same commit as release.
       await d.publish(tx,s,technicalContext(owner,clock()));
+    });
+  }
+  async function acquirePrefixWorker(matchId:string,throughSequence:number):Promise<{owner:string|null;expiresAt:number}>{
+    const owner=d.newId();
+    return store.transaction(async tx=>{
+      const previous=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)),now=clock();
+      if(previous&&previous.expiresAt>now)return {owner:null,expiresAt:previous.expiresAt};
+      const expiresAt=now+FOOD_PREFIX_WORKER_LEASE_MS;
+      if(!Number.isSafeInteger(now)||!Number.isSafeInteger(expiresAt))throw new Error('Invalid prefix lease clock');
+      const phaseId=uuid(['food-prefix-worker',matchId,owner,'phase']),deadlineToken=uuid(['food-prefix-worker',matchId,owner,'deadline']);
+      const taskId=hash([matchId,phaseId,deadlineToken]);
+      tx.set(prefixWorkerKey(matchId),{owner,expiresAt,throughSequence,wakeTaskId:taskId} satisfies PrefixWorkerLease);
+      // Exactly one expiry wake per owner; it remains durable if acquisition's ACK
+      // is lost or the owner dies before touching Session. No gameplay context is minted.
+      tx.set('deadline/'+taskId,{matchId,phaseId,deadlineToken,kind:'game',taskId,endsAt:expiresAt,status:'pending',
+        nextAttemptAt:expiresAt,ingressSequence:throughSequence} satisfies PlanetDeadlineJob);
+      return {owner,expiresAt};
+    });
+  }
+  async function refreshPrefixWorker(matchId:string,owner:string):Promise<boolean>{
+    return store.transaction(async tx=>{
+      const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)),now=clock();
+      if(!lease||lease.owner!==owner||lease.expiresAt<=now)return false;
+      if(lease.expiresAt-now>FOOD_PREFIX_WORKER_LEASE_MS/2)return true;
+      tx.set(prefixWorkerKey(matchId),{...lease,expiresAt:now+FOOD_PREFIX_WORKER_LEASE_MS});
+      // The original wake can wait for this refreshed lease; its identity/time is
+      // never rewritten, so an already dispatched task remains a recovery path.
+      return true;
+    });
+  }
+  async function releasePrefixWorker(matchId:string,owner:string):Promise<void>{
+    await store.transaction(async tx=>{
+      const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
+      if(!lease||lease.owner!==owner)return;
+      const target=await tx.get<Entry>(entryKey(matchId,lease.throughSequence));
+      const wake=await tx.get<PlanetDeadlineJob>('deadline/'+lease.wakeTaskId);
+      tx.delete(prefixWorkerKey(matchId));
+      // A failed/bounded attempt must retain its independent recovery wake even
+      // after yielding ownership; only a durable target response retires it.
+      if(target?.response&&wake&&wake.status!=='complete')tx.set('deadline/'+lease.wakeTaskId,{...wake,status:'complete'});
     });
   }
   async function limitFood(tx:PlanetTransaction,uid:string,q:Request|null,at:number):Promise<void>{
@@ -465,11 +510,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       else delete f.botWakes[m.seatId];
     }
   }
-  async function processOne(matchId:string):Promise<void>{
+  async function processOne(matchId:string,owner:string,throughSequence:number):Promise<void>{
     await store.transaction(async tx=>{
       const s=await d.load(tx,matchId);
       const control=await tx.get<Control>(controlKey(matchId));
-      if(!control||control.processedSequence===control.nextSequence-1)return;
+      if(!control||control.processedSequence>=throughSequence)return;
+      const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
+      if(!lease||lease.owner!==owner||lease.expiresAt<=clock()||lease.throughSequence!==throughSequence)throw new LostPrefixWorkerLease();
+      if(control.processedSequence===control.nextSequence-1)return;
       const path=entryKey(matchId,control.processedSequence+1),entry=await tx.get<Entry>(path);
       if(!entry||entry.response)throw new Error('Invalid Food ingress prefix');
       service(s).leases=effectiveLeases(s,await contacts(tx,matchId),entry.context.now);
@@ -499,12 +547,30 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     });
   }
   async function drainThrough(matchId:string,sequence:number):Promise<PlanetServiceResponse>{
-    for(let n=0;n<MAX_PREFIX_COMMITS;n++){
-      const entry=await readOnly(tx=>tx.get<Entry>(entryKey(matchId,sequence)));
-      if(entry?.response)return entry.response;
-      await processOne(matchId);
-    }
-    throw new Error('Food prefix requires a later durable continuation');
+    let owner:string|null=null,commits=0;
+    const started=performance.now();
+    try{
+      while(commits<MAX_PREFIX_COMMITS&&performance.now()-started<PREFIX_WAIT_BUDGET_MS){
+        const observed=await readOnly(async tx=>{
+          const entry=await tx.get<Entry>(entryKey(matchId,sequence));
+          return {entry,lease:entry?.response||owner!==null?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId))};
+        });
+        if(observed.entry?.response)return observed.entry.response;
+        if(owner===null&&(!observed.lease||observed.lease.expiresAt<=clock())){
+          const claim=await acquirePrefixWorker(matchId,sequence);owner=claim.owner;
+          if(owner!==null)continue; // The target may have committed between the RO probe and this claim.
+        }
+        if(owner===null){
+          // Receipt waiting is technical only. No Session transaction or gameplay
+          // timestamp is left running after the caller observes its committed entry.
+          await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;
+        }
+        if(!await refreshPrefixWorker(matchId,owner)){owner=null;continue;}
+        try{await processOne(matchId,owner,sequence);commits++;}
+        catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;owner=null;}
+      }
+      throw new Error('Food prefix requires a later durable continuation');
+    }finally{if(owner!==null)await releasePrefixWorker(matchId,owner);}
   }
   async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
     const observed=await readOnly(async tx=>{
@@ -581,7 +647,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(!stored||stored.status==='complete')return {status:'unchanged'};
     if(stored.ingressSequence!==undefined){
       if(!Number.isSafeInteger(stored.ingressSequence)||stored.ingressSequence<1)throw new Error('Invalid ingress wake');
+      const now=clock();if(now<stored.endsAt)return {status:'too-early',retryAfterMs:stored.endsAt-now};
       await drainThrough(job.matchId,stored.ingressSequence);
+      await store.transaction(async tx=>{
+        const current=await tx.get<PlanetDeadlineJob>('deadline/'+stored.taskId);
+        if(current&&current.status!=='complete')tx.set('deadline/'+stored.taskId,{...current,status:'complete'});
+      });
       await runBots(job.matchId);
       return {status:'advanced'};
     }
