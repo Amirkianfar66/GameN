@@ -1,7 +1,7 @@
 import {createHash} from 'node:crypto';
 import {Buffer} from 'node:buffer';
-import type {Firestore} from 'firebase-admin/firestore';
-import type {PlanetPersistence,PlanetTransaction} from './planet-game.js';
+import type {Firestore,Transaction} from 'firebase-admin/firestore';
+import type {PlanetPersistence,PlanetReadTransaction,PlanetTransaction} from './planet-game.js';
 
 const hash=(key:string)=>createHash('sha256').update(key).digest('hex');
 const CHUNK_BYTES=48*1024;
@@ -15,27 +15,35 @@ interface Metadata {key:string;namespace:string;chunks:number;digest:string;sche
 export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
   const meta=(key:string)=>db.collection('planetDocuments').doc(hash(key));
   const chunk=(key:string,index:number)=>db.collection('planetChunks').doc(hash(key)+'-'+index);
+  // Both modes use the same authenticated JSON envelope and the same SDK transaction
+  // for metadata plus every chunk. Read-only mode supplies no write surface.
+  const reader=(transaction:Pick<Transaction,'get'|'getAll'>,
+    cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>())=>
+    async<T>(key:string):Promise<T|null>=>{
+      if(writes.has(key))return structuredClone(writes.get(key)) as T|null;
+      if(cached.has(key))return structuredClone(cached.get(key)) as T|null;
+      const head=await transaction.get(meta(key));
+      if(!head.exists){metadata.set(key,null);cached.set(key,null);return null;}
+      const info=head.data() as Metadata;
+      if(info.schemaVersion!==1||info.key!==key||!Number.isInteger(info.chunks)||info.chunks<1||info.chunks>MAX_CHUNKS)
+        throw new Error('Invalid private state envelope');
+      const fragments=await transaction.getAll(...Array.from({length:info.chunks},(_,i)=>chunk(key,i)));
+      const bytes=Buffer.concat(fragments.map(part=>{
+        const value=part.get('data');if(typeof value!=='string')throw new Error('Missing private state fragment');
+        return Buffer.from(value,'base64');
+      }));
+      if(createHash('sha256').update(bytes).digest('hex')!==info.digest)throw new Error('Private state digest mismatch');
+      const value:unknown=JSON.parse(bytes.toString('utf8'));metadata.set(key,info);cached.set(key,value);
+      return structuredClone(value) as T;
+    };
   return {
+    async readOnly<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>{
+      return db.runTransaction(transaction=>operation(Object.freeze({get:reader(transaction)})),{readOnly:true});
+    },
     async transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>{
       return db.runTransaction(async transaction=>{
         const cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>();
-        const read=async<T>(key:string):Promise<T|null>=>{
-          if(writes.has(key))return structuredClone(writes.get(key)) as T|null;
-          if(cached.has(key))return structuredClone(cached.get(key)) as T|null;
-          const head=await transaction.get(meta(key));
-          if(!head.exists){metadata.set(key,null);cached.set(key,null);return null;}
-          const info=head.data() as Metadata;
-          if(info.schemaVersion!==1||info.key!==key||!Number.isInteger(info.chunks)||info.chunks<1||info.chunks>MAX_CHUNKS)
-            throw new Error('Invalid private state envelope');
-          const fragments=await transaction.getAll(...Array.from({length:info.chunks},(_,i)=>chunk(key,i)));
-          const bytes=Buffer.concat(fragments.map(part=>{
-            const value=part.get('data');if(typeof value!=='string')throw new Error('Missing private state fragment');
-            return Buffer.from(value,'base64');
-          }));
-          if(createHash('sha256').update(bytes).digest('hex')!==info.digest)throw new Error('Private state digest mismatch');
-          const value:unknown=JSON.parse(bytes.toString('utf8'));metadata.set(key,info);cached.set(key,value);
-          return structuredClone(value) as T;
-        };
+        const read=reader(transaction,cached,metadata,writes);
         const tx:PlanetTransaction={get:read,set:(key,value)=>{if(value===undefined)throw new Error('Undefined authority');writes.set(key,structuredClone(value));},delete:key=>{writes.set(key,null);}};
         const result=await operation(tx);
         // Read old chunk counts for every affected key before applying any write.

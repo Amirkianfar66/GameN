@@ -542,3 +542,28 @@ test('historical snapshots keep their old payload and rate bucket',async()=>{
   assert.equal((await h.handle('read',{matchId:'food-match'})).error.code,'RATE_LIMITED');
   assert.equal(ingress(h).length,0);assert.equal(h.store.export().some(([key])=>key.startsWith('foodTransportRate/')),false);
 });
+test('optional read-only port handles only pure Food lookups while fast reads and authority remain read-write',async()=>{
+  const h=harness({bots:true}),modes=[],transaction=h.store.transaction.bind(h.store);
+  h.store.readOnly=operation=>transaction(async tx=>{
+    const reads=[];modes.push({mode:'readOnly',reads});
+    return operation(Object.freeze({get:async key=>{reads.push(key);return tx.get(key);}}));
+  });
+  h.store.transaction=operation=>transaction(async tx=>{
+    const reads=[];modes.push({mode:'readWrite',reads});
+    return operation({...tx,get:async key=>{reads.push(key);return tx.get(key);}});
+  });
+  h.restart();assert.equal((await h.command()).ok,true);
+  assert.equal((await h.handle('foodReceipt',{matchId:'food-match',commandId:'input-1'})).ok,true);
+  assert.ok(modes.some(m=>m.mode==='readOnly'&&m.reads.some(key=>key.startsWith('food-command/'))));
+  assert.ok(modes.some(m=>m.mode==='readOnly'&&m.reads.length===1&&m.reads[0].startsWith('foodIngress/')));
+  assert.ok(modes.some(m=>m.mode==='readWrite'&&m.reads.includes('foodIngressControl/food-match')));
+  const start=modes.length;h.setNow(6500);assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
+  assert.ok(modes.slice(start).some(m=>m.mode==='readWrite'&&m.reads.includes('foodIngressControl/food-match')));
+  assert.ok(modes.slice(start).some(m=>m.mode==='readOnly'&&m.reads[0]==='session/food-match'));
+});
+test('Food setup classification stays on the candidate path without creating legacy bot context',async()=>{
+  const h=harness();await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match');s.state=null;s.status='reading';tx.set('session/food-match',s);
+  });
+  const before=h.draws();assert.deepEqual(await h.api().runBots('food-match'),{accepted:0});assert.equal(h.draws(),before);
+});

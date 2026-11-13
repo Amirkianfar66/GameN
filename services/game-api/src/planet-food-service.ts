@@ -3,7 +3,7 @@ import {performance} from 'node:perf_hooks';
 import {parseFoodTaskReceipt,PlanetReceiptSchema,PLANET_FOOD_TASK_PINS,FOOD_TASK_TRANSPORT} from '@mothership/contracts';
 import type {FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskPlayerView,
   PlanetCommandRequest,PlanetReceipt,PlanetServiceRequest,PlanetServiceResponse,PlanetSessionSnapshot,PlanetVersions,SeatId} from '@mothership/contracts';
-import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,PlanetStateEnvelope,PlanetTransaction} from './planet-game.js';
+import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,PlanetReadTransaction,PlanetStateEnvelope,PlanetTransaction} from './planet-game.js';
 import {chooseFoodBotInput} from './food-bot-policy.js';
 
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
@@ -61,7 +61,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock:()=>number;newId:()=>string;
   newContext:()=>PlanetContext;newRecoveryCode:()=>string;
   waitForBotWake?:(delayMs:number)=>Promise<void>;
-  load:(tx:PlanetTransaction,matchId:string)=>Promise<T>;
+  load:(tx:PlanetReadTransaction,matchId:string)=>Promise<T>;
   publish:(tx:PlanetTransaction,s:T,ctx?:PlanetContext)=>Promise<void>;
   record:(tx:PlanetTransaction,s:T,event:Record<string,unknown>)=>void;
   snapshot:(s:T,uid:string,serverNowMs?:number)=>PlanetSessionSnapshot;
@@ -70,6 +70,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   reject:(code:FailureCode)=>never;
 }){
   const {store,clock}=d;
+  const readOnly=<R>(operation:(tx:PlanetReadTransaction)=>Promise<R>):Promise<R>=>
+    store.readOnly?store.readOnly(operation):store.transaction(operation);
   const engine=()=>{
     for(const name of ['applyPlanetFoodCommand','setPlanetFoodPresence','projectPlanetFoodPublic','projectPlanetFoodPlayer'] as const)
       if(typeof d.engine[name]!=='function')throw new Error('Food runtime ports required');
@@ -91,7 +93,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       foodIds:{requestId:uuid([...base,'request']),taskId:uuid([...base,'task']),
         winchControlSessionId:uuid([...base,'winch']),panelControlSessionId:uuid([...base,'panel'])}};
   }
-  async function inspect(matchId:string):Promise<T|null>{return store.transaction(tx=>tx.get<T>('session/'+matchId));}
+  async function inspect(matchId:string):Promise<T|null>{return readOnly(tx=>tx.get<T>('session/'+matchId));}
   const technicalContext=(owner:string,now:number):PlanetContext=>({now,nextPhaseId:owner,nextDeadlineToken:d.newId(),random:[]});
   async function acquireWorker(matchId:string):Promise<string|null>{
     const owner=d.newId();
@@ -422,7 +424,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function drainThrough(matchId:string,sequence:number):Promise<PlanetServiceResponse>{
     for(let n=0;n<MAX_PREFIX_COMMITS;n++){
-      const entry=await store.transaction(tx=>tx.get<Entry>(entryKey(matchId,sequence)));
+      const entry=await readOnly(tx=>tx.get<Entry>(entryKey(matchId,sequence)));
       if(entry?.response)return entry.response;
       await processOne(matchId);
     }
@@ -467,7 +469,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(!initial.state||!['running','finished','aborted'].includes(initial.status)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
-    if(q.operation==='foodReceipt'||q.operation==='receipt')return store.transaction(async tx=>{
+    if(q.operation==='foodReceipt'||q.operation==='receipt')return readOnly(async tx=>{
       const s=await d.load(tx,matchId),actor=own(s,uid);
       const stored=await tx.get<Stored>(key(q.operation==='foodReceipt'?'food-command':'command',[matchId,actor.seatId,q.commandId]));
       return response({receipt:stored?.response.ok?(stored.response.result as {receipt:unknown}).receipt:null},clock());
@@ -484,7 +486,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     status:'advanced'|'unchanged'|'too-early';retryAfterMs?:number;
   }|undefined>{
     const s=await inspect(job.matchId);if(!s||!isFood(s)||!s.state)return undefined;
-    const stored=await store.transaction(tx=>tx.get<PlanetDeadlineJob>('deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken])));
+    const stored=await readOnly(tx=>tx.get<PlanetDeadlineJob>('deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken])));
     if(!stored||stored.status==='complete')return {status:'unchanged'};
     const schedule=service(s).scheduler;
     if(!schedule||schedule.phaseId!==job.phaseId||schedule.token!==job.deadlineToken){
@@ -501,7 +503,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     let accepted=0,waitedMs=0,workPasses=0,inputs=0;
     const started=performance.now();
     const remaining=()=>Math.floor(Math.min(FOOD_BOT_WALL_BUDGET_MS-(performance.now()-started),FOOD_BOT_WALL_BUDGET_MS-waitedMs));
-    const probe=()=>store.transaction(async tx=>{
+    const probe=()=>readOnly(async tx=>{
         const s=await d.load(tx,matchId),control=await tx.get<Control>(controlKey(matchId));
         if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false,nextWakeAt:null};
         if(s.status!=='running'||!s.state)return {prefix:null,work:false,nextWakeAt:null};
@@ -541,13 +543,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       workPasses++;
       const clockInput=await admit(matchId,null,null,{workerOwner:owner});
       await drainThrough(matchId,clockInput.sequence);
-      const s=await store.transaction(tx=>d.load(tx,matchId));
+      const s=await readOnly(tx=>d.load(tx,matchId));
       if(!s.state||s.status!=='running')break;
       let progressed=false;
       for(const bot of s.members.filter(m=>m.controller==='bot')){
         if(inputs>=MAX_BOT_INPUTS||remaining()<=0)break;
         const intentPath=key('foodBotIntent',[matchId,bot.seatId]);
-        const intent=await store.transaction(tx=>tx.get<BotIntent>(intentPath));
+        const intent=await readOnly(tx=>tx.get<BotIntent>(intentPath));
         if(intent&&!intent.done){const result=await drainThrough(matchId,intent.sequence);
           if(result.ok&&(result.result as {receipt?:{status:string}}).receipt?.status==='accepted')accepted++;progressed=true;continue;}
         const state=await inspect(matchId);if(!state?.state||state.status!=='running')break;
