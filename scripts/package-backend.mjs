@@ -73,7 +73,7 @@ const indexes = {
   },
 };
 if (planetOnly) {
-  const engine = "export { createPlanetGame, applyPlanetCommand, advancePlanetDeadline, planetDeadlineAt, abortPlanetGame } from './planet-game/lifecycle.js';\nexport { projectPlanetPublic, projectPlanetPlayer } from './planet-game/projection.js';\nexport { assertPlanetGameState, encodePlanetGameState, decodePlanetGameState } from './planet-game/validation.js';\n";
+  const engine = "export { createPlanetGame, applyPlanetCommand, advancePlanetDeadline, planetDeadlineAt, abortPlanetGame, applyPlanetFoodCommand, setPlanetFoodPresence } from './planet-game/lifecycle.js';\nexport { projectPlanetPublic, projectPlanetPlayer } from './planet-game/projection.js';\nexport { projectPlanetFoodPublic, projectPlanetFoodPlayer } from './planet-game/food.js';\nexport { assertPlanetGameState, encodePlanetGameState, decodePlanetGameState } from './planet-game/validation.js';\n";
   const service = "export * from './planet-game.js';\nexport * from './planet-store.js';\nexport * from './planet-engine.js';\n";
   indexes['packages/engine'] = { js: engine, dts: engine + "export type { PlanetGameState, PlanetGameSetup, PlanetGameContext } from './planet-game/model.js';\n" };
   indexes['services/game-api'] = { js: service, dts: service };
@@ -87,7 +87,7 @@ try {
       : location === 'packages/engine' ? file => planetOnly
         ? file.startsWith('planet-game/') || /^full-game\/votes\.(?:js|d\.ts)$/.test(file)
         : file.startsWith('full-game/')
-      : file => planetOnly ? /^(?:planet-game|planet-store|planet-engine)\.(?:js|d\.ts)$/.test(file)
+      : file => planetOnly ? /^(?:planet-game|planet-store|planet-engine|planet-food-service|food-bot-policy)\.(?:js|d\.ts)$/.test(file)
         : /^(?:full-game|practice-bot-policy|joint-starting-rooms|prepared-art)\.(?:js|d\.ts)$/.test(file);
     copyDist(join(root, location, 'dist'), join(stage, 'dist'), include);
     if (indexes[location] !== undefined) {
@@ -136,6 +136,11 @@ try {
       import assert from 'node:assert/strict';
       const contracts=await import('@mothership/contracts');assert.ok(contracts.PlanetSessionSnapshotSchema);assert.equal(contracts.PLANET_GAME_PINS.engineVersion,'planet-game-1.1.0');
       const engine=await import('@mothership/engine'),api=await import('@mothership/game-api');
+      for(const name of ['applyPlanetFoodCommand','setPlanetFoodPresence','projectPlanetFoodPublic','projectPlanetFoodPlayer'])
+        assert.equal(typeof engine[name],'function',name);
+      const food=api.createProductionPlanetService({store:{transaction:async()=>{throw Error('Packaging must not access state');},listKeys:async()=>[]},
+        enabled:false,assetManifestVersion:'design-0.9.0',engineProfile:contracts.PLANET_FOOD_TASK_ENGINE_PROFILE,setupFlowVersion:3});
+      assert.equal(typeof food.handle,'function');
       assert.equal(typeof engine.createPlanetGame,'function');assert.equal(typeof engine.assertPlanetGameState,'function');
       assert.equal(typeof api.createProductionPlanetService,'function');assert.equal(typeof api.createFirestorePlanetStore,'function');
       assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.createV1Service,undefined);
