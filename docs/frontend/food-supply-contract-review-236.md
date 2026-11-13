@@ -9,6 +9,15 @@ Integration's acceptance. This review approves neither runtime implementation,
 executable authority registration, new-match defaults, artwork admission,
 native visuals nor deployment.
 
+The subsequent exact-sheet end-card trace found an additional render-data
+requirement: `endCard()` in the approved `design/food-supply/phone.mjs` uses
+the loss reason and the connection whose absence cancelled the Task. The
+current participant outcome supplies only kind/time. Input/recovery interface
+acceptance stands, but those cards need authoritative participant-only detail
+before wiring. The phone will not infer the cause from timestamps or current
+online flags. This gap was sent to Integration and recorded on PR #236 and
+Designer issue #222; no alternative card has been built.
+
 The seven preliminary consumer findings are addressed:
 
 | Requirement | Committed resolution |
