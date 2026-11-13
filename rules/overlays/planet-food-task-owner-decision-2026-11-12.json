@@ -3,15 +3,17 @@
   "status": "owner-confirmed-candidate-awaiting-contract-and-implementation",
   "recorded_on": "2026-11-12",
   "integration_base_commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
-  "design_reference_commit": "4e329bbb31c916a4c722b8a5d2eb0de4182bb2eb",
+  "design_reference_commit": "9bb497948861521030c37a8d2c60a6318f1745c9",
   "protocol_version": 3,
   "engine_version": "planet-game-1.4.0",
   "ruleset_version": "in-person-planet-food-task-2026-11-12",
   "authority": {
     "conversation_id": "01a0de94-e774-7a53-80fd-5897c518c9bf",
-    "owner_confirmation": "I asked Designer to decide them, and Designer's recommendations are now my decisions",
+    "owner_confirmation": "12 November: Designer recommendations adopted. 13 November: one Hold button, breakage costs time not food, 50/200/150 ms timing, and an unblocked drop onto the Panel operator loses the Task; only Panel can kill and still deliver.",
     "record_path": "docs/specifications/planet-successor/food-task-owner-decision-2026-11-12.md",
-    "designer_reply": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6830762961"
+    "designer_reply": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6830762961",
+    "latest_designer_command_note": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6845979867",
+    "latest_recorded_owner_decisions": "docs/design/owner-decisions.md at 9bb497948861521030c37a8d2c60a6318f1745c9; includes hunger order, remaining timing, and no slower mode for now."
   },
   "parent": {
     "path": "rules/planet-successor-blackout-before-vote-authority-2026-11-10.json",
@@ -40,15 +42,15 @@
     },
     {
       "id": "FOOD-05",
-      "rule": "The server assigns Winch and Panel randomly when the Task starts. Winch controls vertical Raise/Lower; Panel controls horizontal Release/Lock. Task travel does not consume voluntary movement. No separate attack button, arming trigger, confirmation or escape input is added. The Supply Room is a Task scene, not a new ordinary movement destination."
+      "rule": "The server assigns Winch and Panel randomly when the Task starts. The Winch has one Hold button: finger down lifts/holds the crate and finger up releases it. The prototype calls these inputs raise/lower; it does not authorize two separate buttons or a production command schema. Panel controls horizontal Release/Lock. A wrong-place release breaks the crate; a replacement must be fetched from the intake within the remaining Task time. Breakage consumes no food and does not reset the deadline. Task travel consumes no voluntary movement. No separate attack, arming, confirmation or escape input is added. The Supply Room is not an ordinary movement destination."
     },
     {
       "id": "FOOD-06",
-      "rule": "The complete Task lasts 30000 ms from its authoritative start, including briefing. The locking panel clicks stop to stop: 100 ms snap then 400 ms rest. Lock takes the stop at rest or the destination stop during its snap. The warning margin is 150 ms. These approved numbers are not evidence of real-network safety or equivalent timing access."
+      "rule": "The complete Task lasts 30000 ms from authoritative start, including a 4000 ms briefing. The panel clicks stop to stop: 50 ms snap then 200 ms rest, with 150 ms warning margin. Lock takes the stop at rest or the destination stop during its snap. The approved lift, fall, swing and collision constants are in approved_parameters. These numbers are not evidence of real-network safety or equivalent timing access. There is no slower mode for now, as the owner decided after practice; revisit through playtesting, not a per-client timing change."
     },
     {
       "id": "FOOD-07",
-      "rule": "Task hazards arise from the ordinary crane controls: a drop on the Panel operator or a Lock at the Winch cab. An unblocked lethal press eliminates immediately without Hospital admission. Task kills, including mistakes, are not attacks and never read or spend an ordinary attack opportunity; repeated participation creates no Task kill quota."
+      "rule": "Task hazards arise from ordinary crane controls: letting the crate drop on the Panel operator or a Lock at the Winch cab. An unblocked lethal input eliminates immediately without Hospital admission. Task kills, including mistakes, are not attacks and never read or spend an ordinary attack opportunity; repeated participation creates no Task kill quota."
     },
     {
       "id": "FOOD-08",
@@ -56,7 +58,7 @@
     },
     {
       "id": "FOOD-09",
-      "rule": "After a partner dies, the survivor may deliver only from the correct platform position; otherwise the Task is lost. The design's accepted recovery paths include the Winch re-raising after a drop with the panel still locked over the platform, and the Panel turning its own key after the crate has landed and the Winch dies. Both living operators turn their keys for ordinary delivery; a legitimate survivor uses their own key. This records the design solution without approving its still-proposed swing and collision constants."
+      "rule": "An unblocked crate drop onto the Panel operator breaks the crate and loses the Task. The Winch has no kill-and-deliver recovery path. Only the Panel can kill and still deliver: cut after the crate has landed and then turn the surviving Panel operator's key. Other deaths without a valid delivery position lose the Task. Both living operators turn their keys for ordinary delivery; a legitimate survivor uses their own key. Applicable Protection or lucky stops remain stops, not kills. This intentionally supersedes the previous two-sided survivor paths; the proposed brake continuation is not automatically adopted."
     },
     {
       "id": "FOOD-10",
@@ -80,7 +82,7 @@
     },
     {
       "id": "FOOD-15",
-      "rule": "A player unable to eat becomes hungry. At round end after whole-reality Sync, process retained hunger with the round's retained actions in recorded turn order, causing Injury and Hospital consequences under inherited medical rules. Hunger is not an attack; Protection and Clone do not stop it. Preserve the four-bed limit, permanent overflow elimination, detention, retained Rescue eligibility and full following-round rescue deadline. Do not revive an Eliminated player or extend an existing injury deadline by inference."
+      "rule": "A player unable to eat becomes hungry. At the end of the round, after whole-reality Sync and the retained attacks/actions, but before Rescue, process retained hunger in recorded turn order. A living Healthy hungry player becomes Injured and enters Hospital under inherited rules. An already Injured or Eliminated player receives no additional consequence: no extra hit, revival or injury-deadline extension. Hunger is not an attack; Protection and Clone do not stop it. A newly hunger-injured player can receive Rescue from the next round; do not create a same-round post-hunger Rescue opportunity. Existing valid Rescue for an already Injured patient remains governed by inherited rules. Preserve four beds, permanent overflow elimination, detention and the full following-round rescue deadline."
     },
     {
       "id": "FOOD-16",
@@ -101,8 +103,8 @@
     "task_total_ms_including_briefing": 30000,
     "return_offset_ms": 32500,
     "disconnect_grace_ms": 8000,
-    "snap_ms": 100,
-    "rest_ms": 400,
+    "snap_ms": 50,
+    "rest_ms": 200,
     "warning_margin_ms": 150,
     "unprotected_catch_probability": 0.25,
     "initial_packages": 5,
@@ -110,13 +112,11 @@
     "doses_per_package": 2,
     "doses_per_eligible_ordinary_turn": 1,
     "warning_at_or_below_packages": 1,
-    "maximum_started_tasks_per_round": 1
-  },
-  "remaining_unapproved_tuning": {
-    "status": "proposals-in-pinned-design-not-adopted-by-this-record",
+    "maximum_started_tasks_per_round": 1,
     "briefing_ms": 4000,
     "raise_ms": 450,
     "fall_ms": 300,
+    "outcome_allocation_ms": 2500,
     "swing": {
       "period_ms": 1300,
       "settle_ms": 2200,
@@ -129,7 +129,7 @@
       "console": 0.42,
       "intake": 0.42
     },
-    "accessible_slower_mode": "not-decided"
+    "accessible_slower_mode": false
   },
   "activation_boundary": {
     "runtime_implemented": false,
@@ -138,5 +138,14 @@
     "existing_matches_migrated": false,
     "artwork_adopted": false,
     "deployment_authorized": false
-  }
+  },
+  "revised_on": "2026-11-13",
+  "remaining_proposed_hold_behaviors": {
+    "status": "explicit-proposals-in-pinned-design-not-adopted-by-this-record",
+    "intake_return": "Release over the intake returns the crate intact rather than breaking it.",
+    "moving_platform": "Landing requires the panel to be locked; a release over a moving platform breaks the crate.",
+    "early_hold": "A finger already down lifts automatically as soon as the hook is eligible over the crate.",
+    "stopped_drop_brake": "After a protected or lucky stopped drop the brake holds the crate until the next Hold takes it back."
+  },
+  "contract_review_requirement": "Do not port the blanket lower-is-never-stale exception. Support release during an unacknowledged Hold with durable gesture identity/order, crate/task binding and idempotent receipts. A release received first must prevent an older late Hold from resurrecting it. A release for an old gesture must not release a new one. Exact payload and presence/recovery semantics remain subject to contract acceptance."
 }

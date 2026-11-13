@@ -13,45 +13,47 @@
     "engine_version": "planet-game-1.3.0",
     "ruleset_version": "in-person-planet-blackout-before-vote-2026-11-10"
   },
-  "precedence": "The focused owner-confirmed Food overlay supersedes only incompatible Food proposals and adds the Food step, Task, meals and hunger. All unsuperseded parent rules and original source pins remain inherited. Do not combine superseded highlights with current decisions or activate proposed mechanics constants.",
+  "precedence": "The focused owner-confirmed Food overlay supersedes incompatible Food proposals and adds the Food step, Task, meals and hunger. The 13 November Hold, 50/200/150 ms timing, single kill-and-deliver path, hunger order and remaining timing approvals supersede earlier Food drafts. All unsuperseded parent rules and original source pins remain inherited. Explicitly proposed Hold details and prototype wire semantics are not executable authority.",
   "sources": [
     {
       "path": "docs/specifications/planet-successor/food-task-owner-decision-2026-11-12.md",
-      "sha256": "361bdd55b3f99920a384b3427b4dfc00c0f43d79dda123d3b309b992a5505eed"
+      "sha256": "8100b82918a386030d578a826a13a18f47e0b238911ebb556f49db994433456d"
     },
     {
       "path": "rules/overlays/planet-food-task-owner-decision-2026-11-12.json",
-      "sha256": "a3011b893a64809d76e56b8d90d1d1baa24b0401b6e28d18ee59b33b8aa4a36c"
+      "sha256": "a991ee5043a733364180b2f621dece21ba5586c7de29195a8a46b82107e9fc51"
     }
   ],
   "pinned_design_evidence": {
     "repository": "Amirkianfar66/GameN",
     "pull_request": 231,
-    "commit": "4e329bbb31c916a4c722b8a5d2eb0de4182bb2eb",
+    "commit": "9bb497948861521030c37a8d2c60a6318f1745c9",
     "designer_response": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6830762961",
     "files": [
       {
         "path": "docs/design/owner-decisions.md",
-        "sha256": "813a71ff4619c2790e7a614ba9333b70c7043a0e7527fd082e9b8abe92fbb153"
+        "sha256": "b66f392e51c0c940db2402eb522f069d5989a1a39f1df519610922d44ce2688a"
       },
       {
         "path": "docs/design/food-supply.md",
-        "sha256": "945a466ff19df732eb8b1e8196f2d7498e38f27d44bb1554b553f1b6abafcbb4"
+        "sha256": "b7bc253831e307313e76dbb519d31e35889585002cdbf880b3e83a001ab57f88"
       },
       {
         "path": "design/food-supply/rules.mjs",
-        "sha256": "746eb9b3f196db4adde0c106b9215b7c53303cc2c02bf5bb43f9549b2f10e0d4"
+        "sha256": "c3f8322f5f4d41d65e8bc6e7e3cc8a4a4cebe1da95dfcecfd6725a0df62dbb93"
       },
       {
         "path": "design/food-supply/handoff.json",
-        "sha256": "7b32dd342f1c53cdf8898629347cfcadc3b3315ee0d1155bcf9d87e22a74a120"
+        "sha256": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1"
       },
       {
         "path": "design/food-supply/task.mjs",
-        "sha256": "5094fd4f9874d7fdb8dd3f54a42ce87bb875c4d47c85699cfd5d4ddcc33b6e18"
+        "sha256": "2688a4f121af0a2886a269dd944edebb8034a0840b297002a6464061f56ca4c4"
       }
     ],
-    "interpretation": "Read these bytes at the pinned design commit. They need not exist on the candidate base checkout before PR231 merges, and later edits to living design documents do not rewrite this record. Design code and handoff defaults are evidence, not executable authority."
+    "interpretation": "Read these bytes at the pinned design commit. They need not exist on the candidate base checkout before PR231 merges, and later edits to living design documents do not rewrite this record. Design code and handoff defaults are evidence, not executable authority.",
+    "designer_command_update": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6845979867",
+    "prior_reviewed_commit": "4e329bbb31c916a4c722b8a5d2eb0de4182bb2eb"
   },
   "source_hash_policy": "The parent and its transitive historical authorities/manifests remain byte-identical. Local source hashes bind the owner record and focused overlay. Design evidence hashes bind Git objects at the exact reviewed commit, not mutable latest files. This document has no self-hash; do not register its external digest as an executable ruleset until its open contract/rule precision gates are resolved and reviewed.",
   "contract_families_for_design_only": [
@@ -63,18 +65,17 @@
   "implementation_gate": {
     "readiness_handoff": "docs/backend/food-task-candidate-2026-11-12.md",
     "remaining_rule_precision": [
-      "Still-proposed briefing split, swing/collision and raise/fall constants",
-      "Exact hunger sub-order and already-injured/eliminated hunger behavior where not determined by the inherited rules",
-      "Any alternative accessible timing mode"
+      "Explicitly proposed intact intake return, locked-panel landing requirement, pre-held automatic lift, and brake continuation after a stopped drop"
     ],
     "technical_review": [
-      "Strict authenticated candidate-only commands and durable receipts",
-      "Request, Task, presence, deadline and fixed-return state machine",
-      "Audience-scoped event cursors and authorized branch/finalized-stock projections",
-      "Whole-reality food inventory, hunger and once-only ordinary-turn meals",
-      "Historical version isolation and replay/reconnect checks"
+      "Strict authenticated candidate-only commands, durable idempotent receipts, and gesture/crate identities for reordered Hold/release and stale cancellation",
+      "Request, Task, presence, deadline and fixed-return state machine; no fabricated release on connection loss",
+      "Audience-scoped event cursors and authorized branch/finalized-stock projections; preserve the corrected design cursor behavior",
+      "Whole-reality food inventory, hunger checkpoint and once-only ordinary-turn meals",
+      "Historical version isolation and real-network, replay, reconnect and physical-phone evidence"
     ],
-    "runtime_construction_accepted": false
+    "runtime_construction_accepted": false,
+    "closed_owner_decisions": "Hunger order, already-injured/eliminated handling, briefing/swing/collision/lift/fall timings, no slower mode for now, 50/200/150 ms click and Panel-only kill-and-deliver are approved and must not be re-asked."
   },
   "activation_boundary": {
     "runtime_implemented_by_this_record": false,
@@ -84,5 +85,6 @@
     "setup_flow_changed_by_this_record": false,
     "artwork_adopted_by_this_record": false,
     "deployment_authorized_by_this_record": false
-  }
+  },
+  "revised_on": "2026-11-13"
 }
