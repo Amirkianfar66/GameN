@@ -6,6 +6,7 @@ import {PLANET_FOOD_TASK_PINS,PLANET_FOOD_TASK_ENGINE_PROFILE,PLANET_BLACKOUT_PI
   PlanetSessionSnapshotSchema,FoodTaskPlayerViewSchema,FoodTaskPublicViewSchema} from '@mothership/contracts';
 import {createPlanetGame,projectPlanetPublic,projectPlanetPlayer} from '@mothership/engine';
 import {createPlanetService} from '../dist/planet-game.js';
+import {FOOD_BOT_WORKER_LEASE_MS} from '../dist/planet-food-service.js';
 import {chooseFoodBotInput} from '../dist/food-bot-policy.js';
 const clone=v=>structuredClone(v),hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const fixture=JSON.parse(readFileSync(new URL('./fixtures/food-views.json',import.meta.url),'utf8'))['task-winch-initial'];
@@ -14,10 +15,14 @@ const roles=['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker'
 
 /** Retry/lost-ACK fake, not a claim of Firestore emulator coverage. Hooks target actual write namespaces. */
 function memory(seed){
-  let records=new Map(clone(seed)),tail=Promise.resolve(),retry=null,lost=null;
+  let records=new Map(clone(seed)),tail=Promise.resolve(),retry=null,lost=null,hold=null;
   const attempts=[];
   const store={attempts,export:()=>clone([...records]),setRetry:(prefix,mutate)=>{retry={prefix,mutate};},
     loseAck:prefix=>{lost=prefix;},
+    pauseNext(prefix){
+      let entered,resume;const reached=new Promise(resolve=>{entered=resolve;}),gate=new Promise(resolve=>{resume=resolve;});
+      hold={prefix,entered,gate};return {reached,resume};
+    },
     listKeys:async(namespace,limit)=>[...records].filter(([k,v])=>k.startsWith(namespace+'/')&&(namespace!=='deadline'||v.status!=='complete')).slice(0,limit).map(([k])=>k),
     transaction(operation){
       const run=async()=>{
@@ -29,13 +34,16 @@ function memory(seed){
         };
         const first=await attempt(false);
         let selected=first;
-        if(retry&&first.writes.some(k=>k.startsWith(retry.prefix))){const r=retry;retry=null;r.mutate?.();selected=await attempt(true);}
+        if(retry&&first.writes.some(k=>k.startsWith(retry.prefix))){const r=retry;retry=null;r.mutate?.(records);selected=await attempt(true);}
         else attempts.at(-1).commit=true;
         records=selected.draft;
         if(lost&&selected.writes.some(k=>k.startsWith(lost))){lost=null;throw new Error('Synthetic committed ACK loss');}
-        return selected.result;
+        let gate=null;
+        if(hold&&selected.writes.some(k=>k.startsWith(hold.prefix))){const paused=hold;hold=null;gate=paused.gate;paused.entered();}
+        return {value:selected.result,gate};
       };
-      const p=tail.then(run,run);tail=p.catch(()=>{});return p;
+      const p=tail.then(run,run);tail=p.catch(()=>{});
+      return p.then(async result=>{if(result.gate)await result.gate;return result.value;});
     }};
   return store;
 }
@@ -377,4 +385,90 @@ test('a human excluded by the server offer does not block an eligible bot partne
   const s=await h.current(),ask=s.state.trace.find(c=>c.kind==='food'&&c.request.command.type==='TASK_ASK');
   assert.equal(ask.request.command.partnerSeatId,'seat-3');
   assert.deepEqual([...s.state.task.participantSeatIds].sort(),['seat-2','seat-3']);
+});
+
+const workerPath='foodBotWorker/food-match';
+const ingress=h=>h.store.export().filter(([path])=>path.startsWith('foodIngress/'));
+const workerJob=s=>({matchId:s.matchId,phaseId:s.foodService.scheduler.phaseId,deadlineToken:s.foodService.scheduler.token,kind:'game'});
+test('concurrent session triggers coalesce behind one driver without busy writes',async()=>{
+  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
+  const first=h.api().runBots('food-match');await paused.reached;
+  const before=h.store.export();
+  const followers=await Promise.all(Array.from({length:20},()=>h.api().runBots('food-match')));
+  assert.ok(followers.every(r=>r.accepted===0));assert.deepEqual(h.store.export(),before);
+  paused.resume();await first;
+  const downs=(await h.current()).state.trace.filter(c=>c.kind==='food'&&c.request.command.input?.edge==='DOWN');
+  assert.equal(downs.length,1);assert.equal(h.store.export().some(([key])=>key===workerPath),false);
+});
+for(const prefix of ['foodIngress/','foodBotIntent/'])test(`expired owner is fenced inside ${prefix} admission and cannot release its successor`,async()=>{
+  const h=harness({bots:true});
+  h.store.setRetry(prefix,records=>{
+    h.setNow(6000+FOOD_BOT_WORKER_LEASE_MS);
+    records.set(workerPath,{owner:'successor',expiresAt:h.getNow()+FOOD_BOT_WORKER_LEASE_MS});
+  });
+  await h.api().runBots('food-match');
+  assert.equal((await h.current()).state.trace.some(c=>c.kind==='food'),false);
+  assert.equal(h.store.export().find(([key])=>key===workerPath)[1].owner,'successor');
+  assert.equal(ingress(h).length,prefix==='foodIngress/'?0:1,'only an already-admitted CLOCK may remain');
+});
+test('a paused owner recovers at its durable expiry and preserves a committed bot input time once',async()=>{
+  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotIntent/');
+  const old=h.api().runBots('food-match');await paused.reached;
+  const pending=ingress(h).find(([,e])=>e.botIntentPath)[1];assert.equal(pending.context.now,6000);assert.equal(pending.response,null);
+  const expiry=6000+FOOD_BOT_WORKER_LEASE_MS;h.setNow(expiry);
+  const s=await h.current();await h.api().runDeadline(workerJob(s));
+  paused.resume();await old;
+  const downs=(await h.current()).state.trace.filter(c=>c.kind==='food'&&c.request.command.input?.edge==='DOWN');
+  assert.equal(downs.length,1);assert.equal(downs[0].context.now,6000);
+  const admitted=ingress(h).find(([,e])=>e.sequence===pending.sequence)[1];
+  assert.deepEqual(admitted.context,pending.context);assert.equal(admitted.response.result.receipt.receivedAt,6000);
+});
+test('lease expiry has a durable wake even when no bot input was admitted before a pause',async()=>{
+  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
+  const old=h.api().runBots('food-match');await paused.reached;
+  const before=await h.current();assert.equal(before.foodService.scheduler.endsAt,6000+FOOD_BOT_WORKER_LEASE_MS);
+  h.setNow(before.foodService.scheduler.endsAt);await h.api().runDeadline(workerJob(before));
+  paused.resume();await old;
+  const down=(await h.current()).state.trace.find(c=>c.kind==='food'&&c.request.command.input?.edge==='DOWN');
+  assert.equal(down.context.now,6000+FOOD_BOT_WORKER_LEASE_MS);
+});
+test('a racing live owner atomically coalesces a bot-only job instead of minting another CLOCK',async()=>{
+  const h=harness({bots:true});assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
+  const before=await h.current(),count=ingress(h).length;assert.equal(before.foodService.scheduler.endsAt,6000);
+  h.store.setRetry('foodIngress/',records=>records.set(workerPath,{owner:'racing-owner',expiresAt:6000+FOOD_BOT_WORKER_LEASE_MS}));
+  await h.api().runDeadline(workerJob(before));
+  assert.equal(ingress(h).length,count);
+  const after=await h.current();assert.equal(after.foodService.scheduler.endsAt,6000+FOOD_BOT_WORKER_LEASE_MS);
+  const oldJob='deadline/'+hash([before.matchId,before.foodService.scheduler.phaseId,before.foodService.scheduler.token]);
+  assert.equal(h.store.export().find(([key])=>key===oldJob)[1].status,'complete');
+  const next='deadline/'+hash([after.matchId,after.foodService.scheduler.phaseId,after.foodService.scheduler.token]);
+  assert.notEqual(next,oldJob);assert.equal(h.store.export().find(([key])=>key===next)[1].status,'pending');
+});
+test('a live bot owner never coalesces a human presence expiry and does not lose its recovery wake',async()=>{
+  const h=harness({presence:true});
+  await h.store.transaction(tx=>{tx.set(workerPath,{owner:'busy-owner',expiresAt:6000+FOOD_BOT_WORKER_LEASE_MS});return Promise.resolve();});
+  assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
+  const before=await h.current();assert.equal(before.foodService.scheduler.endsAt,8000);
+  h.setNow(8000);await h.api().runDeadline(workerJob(before));
+  assert.ok((await h.current()).state.trace.some(c=>c.kind==='presence'&&c.context.now===8000&&!c.online));
+  const after=await h.current();assert.equal(after.foodService.scheduler.endsAt,6000+FOOD_BOT_WORKER_LEASE_MS);
+});
+test('host abort stops an active owner without scheduling a bot expiry in the aborted match',async()=>{
+  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
+  const old=h.api().runBots('food-match');await paused.reached;
+  const aborted=await h.handle('abort',{matchId:'food-match',requestId:'abort-busy-owner'},'host');assert.equal(aborted.ok,true);
+  assert.equal((await h.current()).foodService.scheduler,null);
+  paused.resume();await old;
+  assert.equal((await h.current()).status,'aborted');assert.equal((await h.current()).foodService.scheduler,null);
+  assert.equal((await h.current()).state.trace.some(c=>c.kind==='food'),false);
+  assert.equal(h.store.export().some(([key])=>key===workerPath),false);
+});
+test('a stop racing the initial work probe prevents a new lease claim',async()=>{
+  const h=harness({bots:true});
+  h.store.setRetry('foodBotWorker/',records=>{
+    const s=records.get('session/food-match');s.status='aborted';
+    s.state.phase={id:'abort-phase',kind:'ABORTED',startedAt:6000,endsAt:null};records.set('session/food-match',s);
+  });
+  assert.deepEqual(await h.api().runBots('food-match'),{accepted:0});
+  assert.equal(h.store.export().some(([key])=>key===workerPath),false);assert.equal(ingress(h).length,0);
 });

@@ -8,6 +8,8 @@ import {chooseFoodBotInput} from './food-bot-policy.js';
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
 export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
 export const FOOD_SNAPSHOT_INTERVAL_MS=FOOD_TASK_TRANSPORT.snapshotMs;
+/** Technical single-driver lease, independent of gameplay deadlines and human presence. */
+export const FOOD_BOT_WORKER_LEASE_MS=8_000;
 const MAX_BOUNDARIES_PER_COMMIT=32,MAX_PREFIX_COMMITS=128,MAX_BOT_INPUTS=32;
 type FailureCode=Extract<PlanetServiceResponse,{ok:false}>['error']['code'];
 type Request=PlanetServiceRequest;
@@ -38,9 +40,12 @@ interface Entry {
 }
 interface Pending {sequence:number;fingerprint:string}
 interface BotIntent {sequence:number;request:Request;retryAt:number|null;done:boolean}
+interface BotWorkerLease {owner:string;expiresAt:number}
+class LostBotWorkerLease extends Error {}
 const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const key=(scope:string,value:unknown)=>scope+'/'+hash(value);
 const controlKey=(matchId:string)=>'foodIngressControl/'+matchId;
+const workerKey=(matchId:string)=>'foodBotWorker/'+matchId;
 const entryKey=(matchId:string,n:number)=>'foodIngress/'+matchId+'/'+String(n).padStart(16,'0');
 const freshControl=():Control=>({nextSequence:1,processedSequence:0,lastAdmittedAt:0,advancedThroughAt:0});
 const isFood=(s:{versions:PlanetVersions})=>s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion;
@@ -84,6 +89,41 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         winchControlSessionId:uuid([...base,'winch']),panelControlSessionId:uuid([...base,'panel'])}};
   }
   async function inspect(matchId:string):Promise<T|null>{return store.transaction(tx=>tx.get<T>('session/'+matchId));}
+  const technicalContext=(owner:string,now:number):PlanetContext=>({now,nextPhaseId:owner,nextDeadlineToken:d.newId(),random:[]});
+  async function acquireWorker(matchId:string):Promise<string|null>{
+    const owner=d.newId();
+    return store.transaction(async tx=>{
+      const previous=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
+      if(previous&&previous.expiresAt>now)return null;
+      const s=await d.load(tx,matchId);
+      if(s.status!=='running'||!s.state)return null;
+      tx.set(workerKey(matchId),{owner,expiresAt:now+FOOD_BOT_WORKER_LEASE_MS} satisfies BotWorkerLease);
+      // Acquiring and its recovery wake commit together; this namespace does not trigger runBots.
+      await d.publish(tx,s,technicalContext(owner,now));
+      return owner;
+    });
+  }
+  async function refreshWorker(matchId:string,owner:string):Promise<boolean>{
+    return store.transaction(async tx=>{
+      const lease=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
+      if(!lease||lease.owner!==owner||lease.expiresAt<=now)return false;
+      const s=await d.load(tx,matchId);
+      if(s.status!=='running'||!s.state)return false;
+      if(lease.expiresAt-now>FOOD_BOT_WORKER_LEASE_MS/2)return true;
+      tx.set(workerKey(matchId),{owner,expiresAt:now+FOOD_BOT_WORKER_LEASE_MS} satisfies BotWorkerLease);
+      await d.publish(tx,s,technicalContext(owner,now));
+      return true;
+    });
+  }
+  async function releaseWorker(matchId:string,owner:string):Promise<void>{
+    await store.transaction(async tx=>{
+      const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
+      if(!lease||lease.owner!==owner)return;
+      const s=await d.load(tx,matchId);tx.delete(workerKey(matchId));
+      // Re-arm any bot window suppressed while owned, in the same commit as release.
+      await d.publish(tx,s,technicalContext(owner,clock()));
+    });
+  }
   async function limitFood(tx:PlanetTransaction,uid:string,q:Request|null,at:number):Promise<void>{
     const c=q?.operation==='foodCommand'?q.request.command:null;
     const closure=c?.type==='TASK_PRESS'&&(c.input.kind==='HOLD_RECOVER_OFF'||c.input.kind==='HOLD'&&c.input.edge==='UP');
@@ -111,8 +151,11 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   async function schedule(tx:PlanetTransaction,s:T,ctx:PlanetContext):Promise<void>{
     if(!isFood(s)||!s.state)return;
     const f=service(s),control=await tx.get<Control>(controlKey(s.matchId));
+    const worker=await tx.get<BotWorkerLease>(workerKey(s.matchId)),technicalNow=clock();
+    const live=s.status==='running'&&worker!==null&&worker.expiresAt>technicalNow;
     const times=[...(s.status==='running'?[d.engine.planetDeadlineAt(s.state),...Object.values(f.leases).filter(l=>l&&!l.offline).map(l=>l!.expiresAt),
-      ...Object.values(f.botWakes)]:[]),...(control&&control.processedSequence<control.nextSequence-1?[ctx.now]:[])]
+      ...Object.values(f.botWakes).filter(at=>!live||at!==undefined&&at>technicalNow)]:[]),
+      ...(live?[worker.expiresAt]:[]),...(control&&control.processedSequence<control.nextSequence-1?[ctx.now]:[])]
       .filter((v):v is number=>typeof v==='number');
     const at=times.length?Math.min(...times):null;
     if(at===null){f.scheduler=null;return;}
@@ -134,7 +177,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     return member(s,uid)?.seatId??null;
   }
   async function admit(matchId:string,uid:string|null,q:Request|null,options:{
-    bot?:SeatId;job?:Entry['job'];dedup?:string;
+    bot?:SeatId;job?:Entry['job'];dedup?:string;workerOwner?:string;
   }={}):Promise<{sequence:number;response:PlanetServiceResponse|null}>{
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
     return store.transaction(async tx=>{
@@ -160,15 +203,34 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const entry=await tx.get<Entry>(entryKey(matchId,previous.sequence));
         if(!entry)throw new Error('Missing admitted Food input');
         return {sequence:previous.sequence,response:entry.response};}}
+      let sourceJob:PlanetDeadlineJob|null=null;
       if(options.job){
-        const current=service(s).scheduler,job=await tx.get<PlanetDeadlineJob>('deadline/'+hash([matchId,options.job.phaseId,options.job.deadlineToken]));
-        if(!job||job.status==='complete'||!s.state||!current
+        const current=service(s).scheduler;
+        sourceJob=await tx.get<PlanetDeadlineJob>('deadline/'+hash([matchId,options.job.phaseId,options.job.deadlineToken]));
+        if(!sourceJob||sourceJob.status==='complete'||!s.state||!current
           ||current.phaseId!==options.job.phaseId||current.token!==options.job.deadlineToken)
           return {sequence:0,response:response({advanced:false},clock())};
       }
       const control=await tx.get<Control>(controlKey(matchId))??freshControl();
       // Only a committed attempt's sample becomes authority. A failed SDK attempt has no receipt point.
       const at=clock();if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt)throw new Error('Backward Food admission clock');
+      if(options.workerOwner!==undefined){
+        const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
+        if(!lease||lease.owner!==options.workerOwner||lease.expiresAt<=at)throw new LostBotWorkerLease();
+      }
+      if(sourceJob){
+        const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
+        const physical=s.state?engine().planetDeadlineAt(s.state):null;
+        const presenceDue=Object.values(service(s).leases).some(l=>l&&!l.offline&&l.expiresAt<=at);
+        if(lease&&lease.expiresAt>at&&!(physical!==null&&physical<=at)&&!presenceDue){
+          // Atomic with the lease check: a bot-only delivery cannot race a newly
+          // acquired owner and amplify the queue with another redundant CLOCK.
+          tx.set('deadline/'+sourceJob.taskId,{...sourceJob,status:'complete'});
+          await d.publish(tx,s,technicalContext(lease.owner,at));
+          const pending=control.processedSequence<control.nextSequence-1;
+          return {sequence:pending?control.nextSequence-1:0,response:pending?null:response({advanced:false},at)};
+        }
+      }
       // Exact own retries/lookup have already returned; only a genuinely new authenticated admission spends rate budget.
       if(uid!==null)await limitFood(tx,uid,q,at);
       sampled??=d.newContext();
@@ -402,8 +464,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function runBots(matchId:string):Promise<{accepted:number}>{
     let accepted=0;
-    for(let pass=0;pass<MAX_BOT_INPUTS;pass++){
-      const pending=await store.transaction(async tx=>{
+    const probe=()=>store.transaction(async tx=>{
         const s=await d.load(tx,matchId),control=await tx.get<Control>(controlKey(matchId));
         if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false};
         if(s.status!=='running'||!s.state)return {prefix:null,work:false};
@@ -418,10 +479,18 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         }
         return {prefix:null,work:false};
       });
+    // Do not create a lease or scheduler write for an idle session trigger.
+    const initial=await probe();
+    if(initial.prefix===null&&!initial.work)return {accepted};
+    const owner=await acquireWorker(matchId);
+    if(owner===null)return {accepted};
+    try{for(let pass=0;pass<MAX_BOT_INPUTS;pass++){
+      if(!await refreshWorker(matchId,owner))break;
+      const pending=await probe();
       if(pending.prefix!==null){await drainThrough(matchId,pending.prefix);continue;}
       // A session trigger that finds no due work must perform no writes, or it retriggers itself forever.
       if(!pending.work)break;
-      const clockInput=await admit(matchId,null,null);
+      const clockInput=await admit(matchId,null,null,{workerOwner:owner});
       await drainThrough(matchId,clockInput.sequence);
       const s=await store.transaction(tx=>d.load(tx,matchId));
       if(!s.state||s.status!=='running')break;
@@ -449,14 +518,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const request:Request=foodCommand?{operation:'foodCommand',request:{schemaVersion:1,protocolVersion:3,
           matchId,phaseId:food.phaseId,foodStepId:food.step!.stepId,round:food.round,commandId:d.newId(),command:foodCommand}}:
           {operation:'command',request:{protocolVersion:3,matchId,phaseId:state.state.phase.id,commandId:d.newId(),command:ordinary!}};
-        const admitted=await admit(matchId,null,request,{bot:bot.seatId});
+        const admitted=await admit(matchId,null,request,{bot:bot.seatId,workerOwner:owner});
         const result=admitted.response??await drainThrough(matchId,admitted.sequence);
         const receipt=result.ok?(result.result as {receipt?:{status:string}}).receipt:null;
         if(receipt?.status==='accepted')accepted++;
         progressed=true;
       }
       if(!progressed)break;
-    }
+    }}catch(error){if(!(error instanceof LostBotWorkerLease))throw error;}
+    finally{await releaseWorker(matchId,owner);}
     return {accepted};
   }
   return {tryHandle,tryRunDeadline,runBots,schedule};

@@ -143,6 +143,7 @@ Actual checks on Node22.21.1/npm10.9.4:
 | Final native service controls | 10 passed; latest combined mock/native rerun41/41 passed |
 | All bootstrap contract/version test files | 367 passed; zero failures/skips |
 | Genuine Firestore normal-setup journeys | 6 passed:7/8/9 players, both human controls |
+| Latest historical replay/version rerun | 45 passed; original hashes/assertions unchanged |
 
 The native and Firestore journeys use normal timed setup/boarding, an eligible
 bot's invitation, the human's own view and real engine commands. Each samples all
@@ -168,7 +169,9 @@ Whole-workspace type checking currently fails at
 map lacks `FOOD_RETURNED`. The focused Backend build passes; the connected consumer
 must supply that label in the combined candidate. Full `npm run verify` and
 physical-device checks are not claimed. The capacity playout timeout remains
-Integration-owned and unchanged.
+Integration-owned and unchanged. All nine GitHub checks at runtime head
+`67b7ea5a2c65a9b2f4c09527c9b2f2d53b902ed4` stop at this same missing mapping;
+their emulator/test stages have not established a passing result.
 
 Real Functions/Tasks connected acceptance is still under investigation: the first
 three-match cooperative script reached return without delivery. The deterministic
@@ -177,6 +180,17 @@ check or establish a gameplay change. Record the reproducible diagnosis and fina
 result before requesting runtime approval. Source-only/mock checks do not prove
 hosted multiplayer correctness, real-network speed or human social-deduction
 balance.
+
+The isolated real seven-player rerun also exposed API calls taking2.6–4.2seconds,
+and the corrected timed-input driver reached its240-second test limit. Raw
+Firestore trigger counts include immediate namespace-filtered no-ops and are not
+counts of actual bot evaluations. Source inspection does establish that multiple
+bot workers can separately decide work exists and then admit redundant CLOCKs.
+The narrowly scoped correction is being reviewed as private per-match worker
+coalescing with fenced admissions and durable expiry/rearming; human commands,
+causal UP, engine boundaries and committed-prefix processing keep their authority.
+Reproduction and exit check:
+https://github.com/Amirkianfar66/GameN/issues/237#issuecomment-6855462405.
 
 ## Finite remaining review checklist
 
