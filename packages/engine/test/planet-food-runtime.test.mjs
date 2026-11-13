@@ -78,6 +78,10 @@ for(const n of [7,8,9]) {
     assert.equal(projectPlanetFoodPublic(aborted).step,null);
     for(const id of d.ids){const v=projectPlanetFoodPlayer(aborted,id);assert.equal(v.participantTask,null);assert.deepEqual(v.offers,[]);}
     assert.deepEqual(decodePlanetGameState(encodePlanetGameState(aborted)),aborted);
+    if(stage==='ASKING')for(const startedAt of [-100,1_000_000_000]){
+      const corrupt=copy(aborted);corrupt.food.step.startedAt=startedAt;corrupt.food.step.askingEndsAt=startedAt+30000;
+      assert.throws(()=>decodePlanetGameState(encodePlanetGameState(corrupt)),/step context/);
+    }
   });
   test(`${n}: native final-millisecond request keeps all15 answer seconds and common return`,()=>{
     const d=driver(n);assert.equal(d.state.phase.kind,'FOOD_SUPPLY');

@@ -15,7 +15,7 @@ function assertBlackoutBatch(s:PlanetGameState,ids:SeatId[]):void {
   if(!candidate){fail(!Object.hasOwn(s,'blackoutBatch')&&!Object.hasOwn(s.finalized,'checkpoint'),'historical Blackout shape');return;}
   fail(Object.hasOwn(s,'blackoutBatch')&&s.blackoutBatch!==undefined,'candidate Blackout ledger');
   const checkpoint=PlanetBlackoutCheckpointSchema.parse(s.finalized.checkpoint);
-  fail(planetCheckpointMatchesPhase(checkpoint,s.finalized.round,s.round,s.phase.kind),'shared physical publication checkpoint');
+  fail(planetCheckpointMatchesPhase(checkpoint,s.finalized.round,s.round,s.phase.kind,s.versions),'shared physical publication checkpoint');
   const batch=s.blackoutBatch;
   if(batch===null){fail(!['BLACKOUT','JAIL_VOTE'].includes(s.phase.kind)&&checkpoint!=='AFTER_BLACKOUT','unopened Blackout');return;}
   fail(batch!==undefined&&batch.round===s.round&&IdentifierSchema.safeParse(batch.windowId).success,'Blackout identity');

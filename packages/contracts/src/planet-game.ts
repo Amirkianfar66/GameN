@@ -173,7 +173,8 @@ const boardSeats = z.array(PlanetSeatViewSchema).min(7).max(9).superRefine((seat
 export const PlanetBlackoutCheckpointSchema = z.enum(['INITIAL','FOOD_RETURNED','PRE_BLACKOUT','AFTER_BLACKOUT','ROUND_FINALIZED']);
 export type PlanetBlackoutCheckpoint = z.infer<typeof PlanetBlackoutCheckpointSchema>;
 /** Candidate publication identity, not proof that a PLAYER_CURRENT board is globally resolved. */
-export function planetCheckpointMatchesPhase(checkpoint:PlanetBlackoutCheckpoint,publicationRound:number,round:number,kind:PlanetPhaseKind):boolean {
+export function planetCheckpointMatchesPhase(checkpoint:PlanetBlackoutCheckpoint,publicationRound:number,round:number,kind:PlanetPhaseKind,versions?:PlanetVersions):boolean {
+  if((kind==='FOOD_SUPPLY'||checkpoint==='FOOD_RETURNED')&&versions?.engineVersion!==PLANET_FOOD_TASK_PINS.engineVersion)return false;
   if(checkpoint==='FOOD_RETURNED')return publicationRound===round&&['PRE_TURN','ORDINARY_TURN','HACK_DECLARE','HACK_RESULT','HACK','ABORTED'].includes(kind);
   if(checkpoint==='INITIAL')return publicationRound===0&&round===1&&['FOOD_SUPPLY','PRE_TURN','ORDINARY_TURN','HACK_DECLARE','HACK_RESULT','HACK','ABORTED'].includes(kind);
   if(checkpoint==='PRE_BLACKOUT')return publicationRound===round&&['BLACKHOLE_PRESENTATION','BLACKOUT','ABORTED'].includes(kind);
@@ -238,7 +239,7 @@ function validateBlackoutCheckpoint(v:{versions:PlanetVersions;round:number;phas
   if(v.board.checkpoint==='FOOD_RETURNED'&&!food)ctx.addIssue({code:'custom',message:'Food return checkpoint is exact-version bound'});
   if(candidate ? v.board.checkpoint===undefined : Object.hasOwn(v.board,'checkpoint'))
     ctx.addIssue({code:'custom',message:'Blackout checkpoint metadata is exact-version bound'});
-  if(candidate&&v.board.checkpoint!==undefined&&!planetCheckpointMatchesPhase(v.board.checkpoint,v.board.finalizedRound,v.round,v.phase.kind))
+  if(candidate&&v.board.checkpoint!==undefined&&!planetCheckpointMatchesPhase(v.board.checkpoint,v.board.finalizedRound,v.round,v.phase.kind,v.versions))
     ctx.addIssue({code:'custom',message:'Shared checkpoint publication round and phase must agree'});
 }
 export const PlanetPublicViewSchema = z.strictObject(commonView).superRefine((v,ctx)=>{

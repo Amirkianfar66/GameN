@@ -1,6 +1,7 @@
 import {createHash,randomBytes,randomInt,randomUUID} from 'node:crypto';
 import {
   PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_PHONE_ENGINE_PROFILE,PLANET_BLACKOUT_PINS,PLANET_BLACKOUT_ENGINE_PROFILE,PLANET_SETUP_FLOW_VERSION,PLANET_BOARDING_DURATION_MS,
+  PLANET_FOOD_TASK_PINS,PLANET_FOOD_TASK_ENGINE_PROFILE,
   PLANET_TIMED_READING_SETUP_FLOW_VERSION,PLANET_ROLE_CARD_DURATION_MS,PLANET_ROLE_FILM_DURATION_MS,PLANET_READING_DURATION_MS,IdentifierSchema,
   PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetReceiptSchema,
   PlanetPublicViewSchema,PlanetPlayerViewSchema,PlanetVersionsSchema,PlanetRecoveryResultSchema,CrewCharacterIdSchema,
@@ -8,14 +9,18 @@ import {
 import type {
   PlanetCommandRequest,PlanetReceipt,PlanetPublicView,PlanetPlayerView,PlanetRole,PlanetVersions,
   PlanetServiceRequest,PlanetServiceResponse,PlanetServiceFailure,PlanetSessionSnapshot,SeatId,
+  FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskPlayerView,
 } from '@mothership/contracts';
+import {createPlanetFoodCoordinator} from './planet-food-service.js';
+import type {FoodServiceState} from './planet-food-service.js';
 
 export interface PlanetStateEnvelope {matchId:string;versions:PlanetVersions;round:number;phase:{id:string;kind:string;startedAt:number;endsAt:number|null};deadlineToken:string|null}
 export interface PlanetSetup {
   matchId:string;playerCount:7|8|9;roleOrder:PlanetRole[];initialRooms:Record<string,'Room A'|'Room B'>;
   initialTurnOrder:SeatId[];assetManifestVersion:string;versions?:PlanetVersions;
 }
-export interface PlanetContext {now:number;nextPhaseId:string;nextDeadlineToken:string;random:number[];phaseId?:string;deadlineToken?:string}
+export interface PlanetContext {now:number;nextPhaseId:string;nextDeadlineToken:string;random:number[];phaseId?:string;deadlineToken?:string;
+  foodIds?:{requestId:string;taskId:string;winchControlSessionId:string;panelControlSessionId:string}}
 export interface PlanetEnginePort<S extends PlanetStateEnvelope> {
   createPlanetGame(setup:PlanetSetup,context:PlanetContext):S;
   applyPlanetCommand(state:S,actor:SeatId,request:PlanetCommandRequest,context:PlanetContext):{state:S;receipt:PlanetReceipt};
@@ -25,6 +30,10 @@ export interface PlanetEnginePort<S extends PlanetStateEnvelope> {
   abortPlanetGame(state:S,context:PlanetContext):S;
   projectPlanetPublic(state:S):PlanetPublicView;
   projectPlanetPlayer(state:S,seatId:SeatId):PlanetPlayerView;
+  applyPlanetFoodCommand?(state:S,actor:SeatId,request:FoodTaskCommandRequest,context:PlanetContext):{state:S;receipt:FoodTaskReceipt};
+  setPlanetFoodPresence?(state:S,actor:SeatId,online:boolean,context:PlanetContext):S;
+  projectPlanetFoodPublic?(state:S,serverNowMs:number):FoodTaskPublicView;
+  projectPlanetFoodPlayer?(state:S,actor:SeatId,serverNowMs:number):FoodTaskPlayerView;
 }
 export interface PlanetTransaction {
   get<T>(key:string):Promise<T|null>;
@@ -43,6 +52,7 @@ interface Admission {id:string;requestId:string;uid:string;kind:'player'|'displa
 interface Session<S> {
   matchId:string;roomCode:string;hostUid:string;versions:PlanetVersions;playerCount:7|8|9;journalSequence:number;
   setupFlowVersion?:2|3;
+  foodService?:FoodServiceState;
   status:PlanetSessionSnapshot['status'];members:Member[];displays:string[];admissions:Admission[];
   setup:{id:string;endsAt:number;token:string;startedAt?:number;roleFilmStartsAt?:number}|null;prepared:PlanetSetup|null;preparedState:S|null;state:S|null;
 }
@@ -71,21 +81,29 @@ function shuffle<T>(values:readonly T[],samples:number[]):T[] {
 export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:{
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock?:()=>number;newId?:()=>string;
   randomSamples?:()=>number[];newRecoveryCode?:()=>string;assetManifestVersion?:string;enabled?:boolean;setupFlowVersion?:1|2|3;
-  engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE;
+  engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE|typeof PLANET_FOOD_TASK_ENGINE_PROFILE;
 }){
   if(dependencies.setupFlowVersion!==undefined&&dependencies.setupFlowVersion!==1&&dependencies.setupFlowVersion!==2&&dependencies.setupFlowVersion!==3)
     throw new Error('Unsupported Planet setup flow version');
-  if(dependencies.engineProfile!==undefined&&dependencies.engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE)
+  if(dependencies.engineProfile!==undefined&&dependencies.engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_FOOD_TASK_ENGINE_PROFILE)
     throw new Error('Unsupported Planet engine profile');
   const engine:PlanetEnginePort<S>=dependencies.engine;
+  if(dependencies.engineProfile===PLANET_FOOD_TASK_ENGINE_PROFILE)
+    for(const name of ['applyPlanetFoodCommand','setPlanetFoodPresence','projectPlanetFoodPublic','projectPlanetFoodPlayer'] as const)
+      if(typeof engine[name]!=='function')throw new Error('Food runtime ports required for Food profile');
   const {store}=dependencies,clock=dependencies.clock??Date.now,newId=dependencies.newId??randomUUID;
   const randomSamples=dependencies.randomSamples??(()=>Array.from({length:64},()=>randomInt(0x1_0000_0000)/0x1_0000_0000));
   const newRecoveryCode=dependencies.newRecoveryCode??(()=>randomBytes(24).toString('base64url'));
-  const pins=dependencies.engineProfile===PLANET_BLACKOUT_ENGINE_PROFILE?PLANET_BLACKOUT_PINS:
+  const pins=dependencies.engineProfile===PLANET_FOOD_TASK_ENGINE_PROFILE?PLANET_FOOD_TASK_PINS:dependencies.engineProfile===PLANET_BLACKOUT_ENGINE_PROFILE?PLANET_BLACKOUT_PINS:
     dependencies.engineProfile===PLANET_PHONE_ENGINE_PROFILE?PLANET_PHONE_OFFER_PINS:PLANET_GAME_PINS;
   const versions=PlanetVersionsSchema.parse({...pins,assetManifestVersion:dependencies.assetManifestVersion??'design-0.5.0'});
   const context=():PlanetContext=>({now:clock(),nextPhaseId:newId(),nextDeadlineToken:newId(),random:randomSamples()});
-  const success=(result:unknown):PlanetServiceResponse=>({ok:true,serverTimeMs:clock(),result});
+  const foodContext=():PlanetContext=>({...context(),foodIds:{requestId:newId(),taskId:newId(),winchControlSessionId:newId(),panelControlSessionId:newId()}});
+  const success=(result:unknown):PlanetServiceResponse=>{
+    const snapshotClock=result!==null&&typeof result==='object'&&'foodPublicView' in result
+      ?(result as Partial<PlanetSessionSnapshot>).foodPublicView?.serverNowMs:undefined;
+    return {ok:true,serverTimeMs:snapshotClock??clock(),result};
+  };
   const failure=(code:FailureCode):PlanetServiceResponse=>({ok:false,serverTimeMs:clock(),error:{code}});
   const member=(s:Session<S>,uid:string)=>s.members.find(m=>m.controller==='human' && m.uid===uid);
   const isParticipant=(s:Session<S>,uid:string)=>s.hostUid===uid || member(s,uid)!==undefined || s.displays.includes(uid);
@@ -132,8 +150,12 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     tx.set('journal/'+s.matchId+'/'+String(s.journalSequence).padStart(12,'0'),{...event,matchId:s.matchId,sequence:s.journalSequence,versions:s.versions,
       ...(s.setupFlowVersion===undefined?{}:{setupFlowVersion:s.setupFlowVersion})});
   }
-  async function publish(tx:PlanetTransaction,s:Session<S>):Promise<void>{
+  async function publish(tx:PlanetTransaction,s:Session<S>,ctx?:PlanetContext):Promise<void>{
     // Keep full authority server-only. The HTTP read path constructs the caller's audience.
+    if(s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion&&s.state){
+      if(!ctx)throw new Error('Food publication needs its recorded context');
+      await food.schedule(tx,s,ctx);tx.set(matchKey(s.matchId),s);return;
+    }
     tx.set(matchKey(s.matchId),s);
     const timer=s.status==='choosing'||s.status==='reading'||s.status==='boarding'
       ? s.setup && {phaseId:s.setup.id,deadlineToken:s.setup.token,endsAt:s.setup.endsAt,kind:'setup' as const}
@@ -146,7 +168,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       if(!prior){const job:PlanetDeadlineJob={...timer,matchId:s.matchId,taskId,status:'pending',nextAttemptAt:Math.min(clock(),timer.endsAt)};tx.set(path,job);}
     }
   }
-  function snapshot(s:Session<S>,uid:string):PlanetSessionSnapshot{
+  function snapshot(s:Session<S>,uid:string,serverNowMs?:number):PlanetSessionSnapshot{
     const own=member(s,uid),isHost=s.hostUid===uid;
     const admission=s.admissions.find(a=>a.uid===uid),participant=isParticipant(s,uid);
     if(!participant&&!admission)reject('FORBIDDEN');
@@ -155,6 +177,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     const denied=!participant;
     const running=!denied&&s.state!==null&&['running','finished'].includes(s.status);
     const prepared=!denied&&s.status==='reading'&&own&&s.preparedState?engine.projectPlanetPlayer(s.preparedState,own.seatId):null;
+    const foodNow=s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion?(serverNowMs??clock()):undefined;
     return PlanetSessionSnapshotSchema.parse({
       matchId:s.matchId,roomCode:s.roomCode,versions:s.versions,status:s.status,playerCount:s.playerCount,isHost:!denied&&isHost,selfSeatId:denied?null:own?.seatId??null,
       ...(s.setupFlowVersion===undefined?{}:{setupFlowVersion:s.setupFlowVersion}),
@@ -167,6 +190,10 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       privateRole:prepared?{role:prepared.self.role,faction:prepared.self.faction,knowledge:prepared.knowledge}:null,
       publicView:running?PlanetPublicViewSchema.parse(engine.projectPlanetPublic(s.state!)):null,
       playerView:running&&own?PlanetPlayerViewSchema.parse(engine.projectPlanetPlayer(s.state!,own.seatId)):null,
+      ...(s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion?{
+        foodPublicView:running?engine.projectPlanetFoodPublic!(s.state!,foodNow!):null,
+        foodPlayerView:running&&own?engine.projectPlanetFoodPlayer!(s.state!,own.seatId,foodNow!):null,
+      }:{}),
     });
   }
   function prepare(s:Session<S>,ctx:PlanetContext,tx:PlanetTransaction):void{
@@ -215,8 +242,11 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     const parsed=PlanetServiceRequestSchema.safeParse(raw);
     if(!parsed.success)return failure('INVALID_REQUEST');
     const request=parsed.data;
+    try{const result=await food.tryHandle(uid,request);if(result!==undefined)return result;}
+    catch(error){return failure(error instanceof Rejected?error.code:'UNAVAILABLE');}
+    if(request.operation==='foodCommand'||request.operation==='foodReceipt'||request.operation==='foodHeartbeat')return failure('NOT_ALLOWED');
     // Sample once outside transaction retries, and journal only private server evidence.
-    const ctx=context(),generatedId=newId(),recoveryCode=newRecoveryCode(),fingerprint=hash(request);
+    const ctx=dependencies.engineProfile===PLANET_FOOD_TASK_ENGINE_PROFILE?foodContext():context(),generatedId=newId(),recoveryCode=newRecoveryCode(),fingerprint=hash(request);
     try{
       // Failure must not roll back the caller's rate counter.
       await store.transaction(tx=>limit(tx,uid,ctx.now));
@@ -231,7 +261,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         const s:Session<S>={matchId,roomCode,hostUid:uid,versions,playerCount:request.playerCount,journalSequence:0,status:'lobby',members:[],displays:[],admissions:[],setup:null,prepared:null,preparedState:null,state:null,
           ...(dependencies.setupFlowVersion===2||dependencies.setupFlowVersion===3?{setupFlowVersion:dependencies.setupFlowVersion}:{})};
         const response=success({matchId,roomCode});
-        tx.set('room/'+roomCode,{matchId});record(tx,s,{kind:'CREATE',context:ctx});await publish(tx,s);tx.set(receiptKey,{fingerprint,response});
+        tx.set('room/'+roomCode,{matchId});record(tx,s,{kind:'CREATE',context:ctx});await publish(tx,s,ctx);tx.set(receiptKey,{fingerprint,response});
         return response;
       }
       if(request.operation==='requestAdmission'){
@@ -249,7 +279,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
           s.admissions.push(admission);
         }
         const response=success({matchId:s.matchId,admissionId:admission.id});
-        await publish(tx,s);tx.set(rk,{fingerprint,response});return response;
+        await publish(tx,s,ctx);tx.set(rk,{fingerprint,response});return response;
       }
       const matchId=request.operation==='command'?request.request.matchId:request.matchId;
       const s=await load(tx,matchId);
@@ -265,7 +295,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         s.admissions=s.admissions.filter(a=>a.uid!==oldUid&&a.uid!==uid);
         s.displays=s.displays.filter(id=>id!==oldUid&&id!==uid);
         if(s.hostUid===oldUid)s.hostUid=uid;
-        token.used=true;tx.set(recoveryKey,token);record(tx,s,{kind:'RECOVER',seatId:seat.seatId,bindingRevision:seat.bindingRevision});await publish(tx,s);
+        token.used=true;tx.set(recoveryKey,token);record(tx,s,{kind:'RECOVER',seatId:seat.seatId,bindingRevision:seat.bindingRevision});await publish(tx,s,ctx);
         const response=success(PlanetRecoveryResultSchema.parse({matchId:s.matchId,seatId:seat.seatId}));tx.set(rk,{fingerprint,response});return response;
       }
       if(request.operation==='read')return success(snapshot(s,uid));
@@ -285,17 +315,17 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         s.state=applied.state;if(s.state.phase.kind==='FINISHED')s.status='finished';
         const response=success({receipt});
         record(tx,s,{actorSeatId:actor.seatId,kind:'COMMAND',request:request.request,context:ctx,receipt});
-        await publish(tx,s);tx.set(rk,{fingerprint,response});
+        await publish(tx,s,ctx);tx.set(rk,{fingerprint,response});
         return response;
       }
       if(request.operation==='advance'){
         requireHost(s,uid);const advanced=advanceSession(s,ctx,tx);
-        if(advanced)await publish(tx,s);
+        if(advanced)await publish(tx,s,ctx);
         return success({advanced});
       }
       if(request.operation==='runBots'){
         requireHost(s,uid);const count=await driveBots(s,ctx,tx);
-        if(count)await publish(tx,s);
+        if(count)await publish(tx,s,ctx);
         return success({accepted:count});
       }
       const rk=key('operation',[uid,request.requestId]),previous=await tx.get<StoredReceipt>(rk);
@@ -347,7 +377,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         }
       }
       record(tx,s,{kind:'OPERATION',operation:request.operation,requestId:request.requestId,context:ctx});
-      await publish(tx,s);const response=success(result);tx.set(rk,{fingerprint,response});return response;
+      await publish(tx,s,ctx);const response=success(result);tx.set(rk,{fingerprint,response});return response;
     });}catch(error){return failure(error instanceof Rejected?error.code:'UNAVAILABLE');}
   }
   function advanceSession(s:Session<S>,ctx:PlanetContext,tx:PlanetTransaction):boolean{
@@ -399,7 +429,8 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     }return accepted;
   }
   async function runDeadline(job:Pick<PlanetDeadlineJob,'matchId'|'phaseId'|'deadlineToken'|'kind'>):Promise<{status:'advanced'|'unchanged'|'too-early';retryAfterMs?:number}>{
-    const ctx=context();
+    const candidate=await food.tryRunDeadline(job);if(candidate!==undefined)return candidate;
+    const ctx=dependencies.engineProfile===PLANET_FOOD_TASK_ENGINE_PROFILE?foodContext():context();
     return store.transaction(async tx=>{
       ctx.now=clock();
       const jobKey='deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken]);
@@ -412,8 +443,11 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       const timer=job.kind==='setup'?s.setup:s.state?{id:s.state.phase.id,token:s.state.deadlineToken,endsAt:deadlineAt(s.state)}:null;
       if(!timer||timer.id!==job.phaseId||timer.token!==job.deadlineToken||timer.endsAt===null){complete();return {status:'unchanged' as const};}
       if(ctx.now<timer.endsAt)return {status:'too-early' as const,retryAfterMs:timer.endsAt-ctx.now};
-      const advanced=advanceSession(s,ctx,tx);await driveBots(s,{...ctx,nextPhaseId:ctx.nextPhaseId+'-bots',nextDeadlineToken:ctx.nextDeadlineToken+'-bots'},tx);
-      await publish(tx,s);
+      const advanced=advanceSession(s,ctx,tx);
+      // Setup may have just initialized 1.4; its first bot input must enter the durable queue too.
+      if(s.versions.engineVersion!==PLANET_FOOD_TASK_PINS.engineVersion)
+        await driveBots(s,{...ctx,nextPhaseId:ctx.nextPhaseId+'-bots',nextDeadlineToken:ctx.nextDeadlineToken+'-bots'},tx);
+      await publish(tx,s,ctx);
       complete();
       return {status:advanced?'advanced' as const:'unchanged' as const};
     });
@@ -447,9 +481,13 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     await store.transaction(async tx=>{const current=await tx.get<PlanetDeadlineJob>(path);if(current&&current.status!=='complete')tx.set(path,{...current,status:'dispatched',nextAttemptAt:job.endsAt+10_000});});
   }
   async function runBots(matchId:string):Promise<{accepted:number}>{
+    const existing=await store.transaction(tx=>tx.get<Session<S>>(matchKey(matchId)));
+    if(existing?.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion&&existing.state)return food.runBots(matchId);
     const ctx=context();return store.transaction(async tx=>{ctx.now=clock();const s=await load(tx,matchId);
-      const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s);return {accepted};});
+      const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});
   }
+  const food=createPlanetFoodCoordinator<S,Session<S>>({store,engine,clock,newId,newContext:foodContext,newRecoveryCode,
+    load,publish,record,snapshot,chooseOrdinaryBot:choosePlanetBotCommand,reject,limit});
   return {handle,runDeadline,repairDeadlines,dispatchDeadline,runBots};
 }
 

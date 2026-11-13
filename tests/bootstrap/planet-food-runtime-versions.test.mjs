@@ -3,7 +3,7 @@ import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {PLANET_FOOD_TASK_PINS,PLANET_BLACKOUT_PINS,PLANET_GAME_PINS,PlanetVersionsSchema,
-  PlanetPublicViewSchema} from '../../packages/contracts/dist/index.js';
+  PlanetPublicViewSchema,planetCheckpointMatchesPhase} from '../../packages/contracts/dist/index.js';
 import {createPlanetGame,projectPlanetPublic,decodePlanetGameState} from '../../packages/engine/dist/index.js';
 const read=path=>readFileSync(new URL('../../'+path,import.meta.url));
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -17,6 +17,11 @@ test('Food runtime tuple binds its own reviewed source authority and immutable p
   assert.ok(Object.values(a.activation_boundary).every(v=>v===false));
   assert.equal(PLANET_GAME_PINS.engineVersion,'planet-game-1.1.0');
   const version={...PLANET_FOOD_TASK_PINS,assetManifestVersion:'food-test'};PlanetVersionsSchema.parse(version);
+  assert.equal(planetCheckpointMatchesPhase('INITIAL',0,1,'FOOD_SUPPLY'),false);
+  assert.equal(planetCheckpointMatchesPhase('INITIAL',0,1,'FOOD_SUPPLY',{...PLANET_BLACKOUT_PINS,assetManifestVersion:'food-test'}),false);
+  assert.equal(planetCheckpointMatchesPhase('INITIAL',0,1,'FOOD_SUPPLY',version),true);
+  assert.equal(planetCheckpointMatchesPhase('FOOD_RETURNED',1,1,'PRE_TURN'),false);
+  assert.equal(planetCheckpointMatchesPhase('FOOD_RETURNED',1,1,'PRE_TURN',version),true);
   assert.equal(PlanetVersionsSchema.safeParse({...version,rulesetHash:'a'.repeat(64)}).success,false);
 });
 for(const n of [7,8,9])test(`${n}: predecessors reject Food fields and same-round Food-return checkpoints`,()=>{
