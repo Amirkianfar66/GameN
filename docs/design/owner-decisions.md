@@ -112,6 +112,21 @@ The owner asked what the other two questions meant. Designer put them in plain w
 | "Is the faster panel too hard after your test? I approve its okay" | **The panel stays twice as fast:** the 0.05 s snap and the 0.2 s rest are the owner's, with the 0.15 s margin | The rules record (`panel-speed`); `TIMING` |
 | "If a crate falls on Cleo, should it stay whole, so the Winch can still kill and deliver? … Task will lost" | **A drop loses the Task:** the crate breaks, and with the Panel operator dead no one can fetch another. Only the Panel can kill and still deliver, by the cut after the landing. Conflict 2 is settled | The rules record (`hold-release`, conflict `survivor-paths`); [Hold and let go](food-supply.md#hold-and-let-go) |
 
+
+**On #233 the owner adopted the practice's four Hold behaviours** (13 November 2026, [#233](https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539); Integration recorded it in `rules/overlays/planet-food-task-owner-decision-2026-11-12.json`, `adopted_hold_continuations`). Designer had marked them PROPOSED:
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Adopt all four practice behaviors (Recommended)" | **Let go over the hatch, it drops back in, whole. It lands only from a locked panel. After a stopped drop the brake holds the crate until the next Hold. The early Hold:** Hold works whenever a crate waits in the intake; a hold made before the hook can lift the crate waits, lifting nothing, and the hook lifts the crate the moment the panel is locked over stop 1 and the crate is in. The Winch's phone shows Hold pressed in and "Waiting for the hook", never lifted; the waiting hold is the Winch's alone | [Hold and let go](food-supply.md#hold-and-let-go); the rules record (`hold-release`); `canLift` in `design/food-supply/task.mjs` |
+
+**Then, for Food test 1, the owner answered Designer's #222 questions** (13 November 2026, [#240](https://github.com/Amirkianfar66/GameN/pull/240)):
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "no lets just visually show the food number maybe with some lines on the device something integrated with device", then "(a) Recommended" | **The food count is a gauge, not a warning.** It is on every phone, always, in the top bar with the clock, under it in the clock's column so the bar keeps its width. It shows the supply icon, one line a package with a short line for a half, and the figure ("4½"). It is amber at one package or less and red at none. There is no warning banner and no words on screen; screen readers hear "Food low: ½ package left" | `phone.mjs` `foodGauge`; the handoff's `food.gauge`; the rules record (`food-warning`) |
+| "After the Task, the board caption reads 'After Food Supply · Round N' … Yes" | **The return's caption** is "After Food Supply · Round N", or "Current board · shared: …" on a phone's own current board. It names the step only: never a delivery, a death or a cause | The Visibility table in [food-supply.md](food-supply.md#visibility); `VISIBILITY.others` |
+| "small phones as you recommended" | **Small phones at the largest text:** Join and Decline stay in sight; banners keep their title; names stay whole, and a tag may take two lines; a sheet's buttons stack; the room's name sits under menus | The Large text section of [food-supply.md](food-supply.md#the-phones); `phone.css` |
+
 **What it does not decide:**
 - **The proposals.** What is still marked PROPOSED (the cues' animation timings, a turned key staying turned, the room's colours, the vibration on danger) waits for the owner. The food economy and all the Task's timing are the owner's; Game Balance can check the economy with a simulation, and a playtest may change the timing. How a press is timed is Integration's direction, not the owner's: the server resolves it on arrival. The catch's 25% is the owner's number. The [open items](food-supply.md#open-items) list them.
 - **The game.** No rule, contract, engine or ruleset changes here. Backend implements the rules, Integration owns the contract, and a ruleset version adopts the Task; until then nothing is playable.

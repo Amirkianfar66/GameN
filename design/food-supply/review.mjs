@@ -5,7 +5,7 @@
 //   review.html?sheet=layout                 the Supply Room annotated: stops, stations, the zones, the swing, the cut
 //   review.html?sheet=board&id=<storyboard>  a storyboard: each beat's room and both phones, with its caption
 //   review.html?sheet=phones&as=winch|panel  every state of one participant's phone
-//   review.html?sheet=flow                   starting a Task, the Partner's request, other phones, the return, the food warning
+//   review.html?sheet=flow                   starting a Task, the Partner's request, other phones, the return, the food gauge
 //   review.html?sheet=states                 a press in flight, refused, its answer unknown and recovered; the request's races
 //   review.html?sheet=machine                the crane's parts and their states
 //   review.html?sheet=motion                 each cue's frames, and its Reduce motion form
@@ -171,14 +171,15 @@ function phones(as) {
 }
 
 function flow() {
-  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). It all happens in the Food Supply step at the start of each round, before the turns: 30 s to ask, one request at a time, one Task a round (the owner, on Designer\'s recommendation). While the two are away, the board shows who is not here. Both come back at the end of the Task\'s time, whatever happened, and the others learn only the food count.'));
+  app.append(header('Starting a Task, the other phones, the return and the food gauge', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). A refusal passes to the next volunteer; the game picks the controls at random; the two who went cannot go for food the next round (the owner, 12 November 2026). It all happens in the Food Supply step at the start of each round, before the turns: 30 s to ask, one request at a time, one Task a round (the owner, on Designer\'s recommendation). While the two are away, the board shows who is not here. Both come back at the end of the Task\'s time, whatever happened, and the others learn only the food count.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     ['s=volunteer&step=task', '1 · Volunteer: start a Task'], ['s=volunteer&step=partner', '2 · Volunteer: ask a Partner'], ['s=volunteer&step=asking', '3 · Volunteer: waiting for the answer'],
     ['s=called', '4 · Partner: Join or Decline (15 s)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, the next volunteer goes'], ['s=called&answer=join', '6 · Partner: joined'],
     ['s=volunteer&step=starting', '7 · Volunteer: starting'], ['s=task&board=cooperation&t=2500&as=panel', '8 · Both: briefing'], ['s=away', '9 · Another player: the board shows who is away'],
     ['s=return&board=cooperation&as=winch', '10 · Return after a delivery'], ['s=return&board=cooperation&as=other', '11 · Another player after a delivery: the food count only'], ['s=return&board=chop&as=other', '12 · Another player after a death, nothing delivered: the board only'],
-    ['s=stock&n=1', '13 · Food warning: one package, on every phone'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
+    ['s=stock&n=1', '13 · The food gauge: one package left, amber, on every phone'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
+    ['s=stock&n=0.5', '15 · The food gauge: half a package'], ['s=stock&n=0', '16 · The food gauge: no food, red'], ['s=stock&n=4.5', '17 · The food gauge: four and a half packages'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }
@@ -259,7 +260,7 @@ function motion() {
 }
 
 function large() {
-  app.append(header('Phones at 320 x 568 with the Largest text', 'The game\'s 200% text on the smallest phone the pack reviews. The view gives way to the words, down to a letterboxed strip; the controls keep their places (the Winch\'s one Hold button; the Panel\'s one big button); the role row and the meter\'s legend go, and the partner\'s state moves into the top bar; the briefing is a reminder that never scrolls. Each phone reports its own layout below it.'));
+  app.append(header('Phones at 320 x 568 with the Largest text', 'The game\'s 200% text on the smallest phone the pack reviews. The view gives way to the words, down to a letterboxed strip; the controls keep their places (the Winch\'s one Hold button; the Panel\'s one big button); the role row and the meter\'s legend go, and the top bar keeps only the names, so the partner\'s state shows on their name tag in the view, beside any danger in the hint; the briefing is a reminder that never scrolls. Names stay whole up to the longest permitted, twelve letters; a banner keeps its title; the Partner\'s answers stay in sight. Each phone reports its own layout below it.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     ['s=task&board=cooperation&t=2500&as=winch', 'Briefing: no scrolling'], [`s=task&board=cooperation&t=${B + 300}&as=winch`, 'Winch: Hold next'],
@@ -267,13 +268,17 @@ function large() {
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel`, 'Panel: LOCK now'], [`s=task&board=cooperation&t=${LANDED + 200}&as=panel`, 'Panel: landed'],
     [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch`, 'Winch: Cleo offline and the panel at the cab'], [`s=task&board=chop&t=${CAB_AT + 2300}&as=panel`, 'Lost'],
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK not done'],
+    // The longest permitted names (twelve characters) stay whole: on the name tags, in the hint and on the buttons (#222).
+    [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch&names=long`, 'Twelve-letter names: the partner offline, the panel at the cab'], [`s=task&board=chop&t=${CAB_AT - 100}&as=panel&names=long`, 'Twelve-letter names: a LOCK would cut'],
+    ['s=called&names=long', 'Twelve-letter names: the Partner request, its answers in sight'], ['s=stock&n=0.5', 'The food gauge: half a package'],
+    [`s=task&board=mistakes&t=${stepAt('mistakes', 5) + 500}&as=winch&hold=early`, 'Winch: held early, waiting for the hook'],
   ]) grid.append(phone(`${q}&text=2`, { width: 320, height: 568, scale: 1, safe: '20,0', label, measured: true }));
   app.append(grid);
 }
 
 /** A press in flight, refused, its answer unknown and recovered; the request's races. Each shown to its own player only. */
 function states() {
-  app.append(header('A press, and a request, in flight', 'What the presser\'s own phone shows while a press is on its way, when the server refuses it (the crane had moved on), when the connection drops before its answer, and after the recovery; and the races between a Join, a Cancel and the time running out. The server takes whichever arrives first; nothing here is shown to the other player. A double tap or a held key never sends a second press, and a press stays the act it was made as; a finger lifting off Hold always sends its let-go.'));
+  app.append(header('A press, and a request, in flight', 'What the presser\'s own phone shows while a press is on its way, when the server refuses it (the crane had moved on), when the connection drops before its answer, and after the recovery; the races between a Join, a Cancel and the time running out; and a hold made before the hook can lift the crate, which waits. The server takes whichever arrives first; nothing here is shown to the other player. A double tap or a held key never sends a second press, and a press stays the act it was made as; a finger lifting off Hold always sends its let-go.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way; every control waits'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK refused, the crane had moved on'],
@@ -283,6 +288,8 @@ function states() {
     ['s=volunteer&step=withdrawn', 'Volunteer: request withdrawn (as a refusal)'], ['s=volunteer&step=withdraw-late', 'Volunteer: too late to cancel, Cleo joined first'],
     ['s=volunteer&step=busy', 'Anyone else: another request is waiting'], ['s=volunteer&step=closed', 'In an ordinary turn: Food Supply opens at the next round\'s start'],
     ['s=howto', 'Before the Task: how it works, read any time'],
+    // The early Hold (the owner, 13 November 2026): held before the hook can lift the crate, the hold waits; nothing is lifted.
+    [`s=task&board=mistakes&t=${stepAt('mistakes', 5) + 500}&as=winch&hold=early`, 'Winch: held early, waiting for the hook'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }

@@ -78,10 +78,27 @@ export const EDGES = Object.freeze([
     expect: { outcome: null, missed: ['intake'], absent: ['REFUSED', 'BROKEN'] },
   },
   {
-    id: 'fetch-a-new-crate', about: 'A crate breaks; the new one waits in the intake. Hold does nothing until the hook is over the hatch; Cleo releases the empty hook and locks it over stop 1, and Hana\'s hold lifts the new crate.',
+    id: 'fetch-a-new-crate', about: 'The early Hold (the owner, 13 November 2026). A crate breaks; the new one waits in the intake. Hana holds at once, with the hook away over the platform: the hold waits, and nothing is lifted. Cleo releases the empty hook and locks it over stop 1, and the waiting hold lifts the new crate then.',
     steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(TOO_SOON, 'winch', 'lower'), press(TOO_SOON + 600, 'winch', 'raise'),
-      press(TOO_SOON + 700, 'panel', 'release'), press(restsAt(TOO_SOON + 700, 5, 1, 0), 'panel', 'lock'), press(restsAt(TOO_SOON + 700, 5, 1, 0) + 300, 'winch', 'raise')],
-    expect: { outcome: null, refused: ['not-over-crate'], broken: ['deck'], locked: [5, 0], counts: { RAISED: 2 } },
+      press(TOO_SOON + 700, 'panel', 'release'), press(restsAt(TOO_SOON + 700, 5, 1, 0), 'panel', 'lock')],
+    expect: { outcome: null, broken: ['deck'], locked: [5, 0], present: ['PENDING'], absent: ['REFUSED', 'PENDING_OFF'], counts: { RAISED: 2 } },
+  },
+  {
+    id: 'early-hold-let-go', about: 'Held early, then let go before the hook comes: the waiting hold ends, nothing was lifted, and nothing falls. The hook locked over stop 1 then lifts nothing until Hana holds again.',
+    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(TOO_SOON, 'winch', 'lower'), press(TOO_SOON + 600, 'winch', 'raise'), press(TOO_SOON + 650, 'winch', 'lower'),
+      press(TOO_SOON + 700, 'panel', 'release'), press(restsAt(TOO_SOON + 700, 5, 1, 0), 'panel', 'lock')],
+    expect: { outcome: null, broken: ['deck'], locked: [5, 0], present: ['PENDING', 'PENDING_OFF'], absent: ['REFUSED'], counts: { RAISED: 1, BROKEN: 1 } },
+  },
+  {
+    id: 'early-hold-waits-for-the-crate', about: 'Let go over the hatch, the crate drops back in. Held again while it is still settling, under the hook locked over stop 1, the hold waits, and lifts the crate the moment it is in.',
+    steps: [press(B + 600, 'winch', 'raise'), press(B + 800, 'winch', 'lower'), press(B + 900, 'winch', 'raise'), press(B + 1800, 'panel', 'release')],
+    expect: { outcome: null, missed: ['intake'], present: ['PENDING', 'RELEASED'], absent: ['REFUSED', 'PENDING_OFF'], counts: { RAISED: 2 } },
+  },
+  {
+    id: 'hold-never-stale', about: 'A hold is never stale. Made on the picture before Cleo\'s LOCK over stop 1, it reaches the server after it and lifts the new crate: the finger is on Hold, and the server lifts, takes back or waits by what it holds when the hold arrives.',
+    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(TOO_SOON, 'winch', 'lower'), press(TOO_SOON + 700, 'panel', 'release'),
+      press(restsAt(TOO_SOON + 700, 5, 1, 0), 'panel', 'lock'), press(restsAt(TOO_SOON + 700, 5, 1, 0) + 50, 'winch', 'raise', { revision: 5 })],
+    expect: { outcome: null, broken: ['deck'], locked: [5, 0], absent: ['REFUSED', 'PENDING'], counts: { RAISED: 2 } },
   },
   {
     id: 'lock-twice', about: 'A second LOCK on a locked panel does nothing: the button sends what it showed, so a double tap never releases it.',

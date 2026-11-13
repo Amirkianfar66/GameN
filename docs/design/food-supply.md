@@ -46,12 +46,13 @@ The owner played the practice ([Play it](#play-it)) and changed two things (13 N
 - **The Winch is one button: Hold.** "There is 1 button user keeps pressing it to package be up and not press it package release down; if user release it in wrong position the package will break and user should pick an other package." The finger down on Hold lifts the crate out of the intake (with the hook over it) and keeps it up while the panel carries it and it swings; the finger off lets it fall. Over the platform, with the panel locked, it lands. Over the console it falls on the Panel operator: the drop, and the crate breaks. Anywhere else it breaks, CRASH!, and a new crate rises into the intake: Cleo brings the empty hook back and locks it over stop 1, and Hana holds again. A broken crate costs time, not food.
 - **The panel is twice as fast,** "so it would be harder for the user to react": a 0.05 s snap and a 0.2 s rest, four stops a second, end to end in 1.5 s.
 
-**Designer's choices inside it (PROPOSED):**
+**Inside it, adopted by the owner** (13 November 2026: "Adopt all four practice behaviors", [#233](https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539); `rules/overlays/planet-food-task-owner-decision-2026-11-12.json`). Designer had proposed them:
 - Let go over the intake hatch, or a quick tap at the start, and the crate drops back in, whole: the hatch is where it came from.
 - It lands only from a locked panel: let go while the panel clicks, and it breaks even over the platform. Otherwise the Panel's lock would not be needed.
-- A finger already on Hold when the hook reaches the crate lifts it then: the phone sends the hold as soon as Hold works.
-- A let-go is never stale: the finger is off, whatever the phone showed, so the crate falls from wherever it is when the let-go arrives.
+- **The early Hold.** Hold works whenever a crate waits in the intake. A hold made before the hook can lift the crate (the panel not locked over stop 1, or the crate still rising into the intake) waits on the server, and nothing is lifted. The hook lifts the crate the moment it can: on the LOCK over stop 1, or when the crate has risen. A let-go first ends the waiting hold, and nothing falls. The waiting hold is the Winch's alone: the Panel's phone never learns of it, and it changes no revision. The Winch's phone shows it pressed in, waiting, never lifted ([The phones](#the-phones)).
 - After a stopped drop the winch's brake holds the crate up until Hana's finger takes it back with Hold.
+
+With them, as in the engine: neither a let-go nor a hold is ever stale. The finger is off, or on, whatever the phone showed, so the crate falls from wherever it is when the let-go arrives, and a hold lifts, takes back or waits by what the server holds when it arrives.
 
 **What it changes:**
 - **Only the Panel can kill and still deliver now.** The drop breaks the crate, and with the Panel operator dead no one can bring the hook to a new one: a drop always loses the Task. The Panel's cut after the landing still delivers ([The correct position](#the-correct-position)). Asked whether a crate that falls on the Panel operator should stay whole instead, so the Winch could still finish alone, the owner said no: "Task will lost" (13 November 2026).
@@ -124,6 +125,12 @@ Integration listed what the Task still needed before it could be played (12 Nove
   - Hunger is not an attack: Protection and Clone do not stop it.
   - The server takes the dose when the turn ends. The ship-life visit after the turn ([#230](https://github.com/Amirkianfar66/GameN/pull/230)) only shows it, and a visit that never played decides nothing.
 - **The food count** is public on every phone, in packages: a delivery shows as five more, a meal as half a package less. The warning shows while one package or less remains. Five packages are ten doses, so one delivery a round feeds up to ten players.
+  - **The food gauge** (the owner, 13 November 2026). The count is on every phone, always, in the top bar with the clock, under it in the clock's column.
+    - It shows the supply icon, one line a package (a short line for a half, ten lines at most), and the figure: "4½", "½", "0".
+    - It is amber while one package or less remains and red at none. There is no warning banner and no words on screen.
+    - Screen readers hear "Food: 4½ packages", "Food low: ½ package left" or "No food left".
+    - At large text the lines go and the icon and the figure stay.
+  - A delivery, on the other phones: "Food stock: 6 packages (+5)".
 - **The Blackhole and Sync:**
   - No Blackhole is active during a Task: the step comes before the pre-turn window, where a Blackhole is chosen.
   - So everything the Task decides comes before any branch, and every reality inherits it: its deaths, the Protection it reads and uses up, the delivery, and who went.
@@ -146,7 +153,7 @@ Both participants' phones are built on the phone pack's own components (its top 
   - **Once landed**, the key comes above it, and RELEASE stays, smaller.
 - **Hana, the Winch:**
   - **The swing meter**: the crate's place along the rail from stop 4 to stop 7, the console's band striped, the platform's in amber.
-  - **One big button: Hold** (the owner, 13 November 2026). Pressed and held, it lifts the crate and keeps it up, and shows pressed in ("Holding"). It glows amber when it is time to press it (the hook is over the crate) and when it is time to let go (the swing holds the crate over the platform: "Let go now: it lands"). Under its label it says what letting go would do when a let-go made now arrives: "Let go: falls on Cleo" (striped), "Keep holding: it breaks", "Let go: back in the hatch". Disabled, it says why: "Wait for the hook at 1".
+  - **One big button: Hold** (the owner, 13 November 2026). Pressed and held, it lifts the crate and keeps it up, and shows pressed in ("Holding"). It glows amber when it is time to press it (the hook is over the crate) and when it is time to let go (the swing holds the crate over the platform: "Let go now: it lands"). Under its label it says what letting go would do when a let-go made now arrives: "Let go: falls on Cleo" (striped), "Keep holding: it breaks", "Let go: back in the hatch". It works whenever a crate waits in the intake (the early Hold): with the hook away it says "Lifts when the hook stops at 1", and under the hook while the crate rises, "Lifts when the crate is in". Held early, it waits: pressed in, with an hourglass and a dashed amber ring, still labelled Hold, "Waiting for the hook" (or "Waiting for the crate"); the hint says "Keep holding till the hook comes." It never says the crate is up before it is. Disabled (the briefing, the end, out, offline), it says why.
   - **Once landed**, the key takes its place.
 - **Both:** a hint line (40 characters at most) with the next press, a wait or a warning; the timer; the partner's state, in the top bar and on their name tag ("Cleo · Offline", "· Out"); and cards for the briefing, a death, and the outcome. The briefing is a reminder (your control, the one thing to do, the one danger) that never scrolls, because the Task's time runs during it; the instructions are read before the Task. After a kill the card waits for the impact to play, so both see the cause first.
 - **A press in flight** (the presser's phone only): the control sinks and turns busy, and every control waits for the answer; a double tap or a held key sends nothing more. The let-go is the exception: a finger coming off Hold always sends it, even while its hold is still on its way. **Refused**, the phone says so ("Your LOCK was not done: the crane had moved on") and shows the present. **Answer unknown** (the connection dropped on the way): "Checking your LOCK…", controls off; on recovery the phone fetches the present state and that command's receipt, then says whether it went through. It never replays queued taps.
@@ -164,6 +171,13 @@ Both participants' phones are built on the phone pack's own components (its top 
 - The meter's legend and the role row go. The top bar keeps only the names, so the partner's state shows on their name tag in the view: the danger and "Cleo · Offline" are both on screen.
 - The landed RELEASE becomes small.
 - The briefing reminder fits without scrolling (a render fails if it scrolls); other cards scroll.
+- Corrected for Food test 1 (#222), all at the largest text on a small phone unless said; the owner approved them on 13 November 2026, with the return's caption and the food gauge:
+  - **Names stay whole**, up to the longest permitted (twelve characters, such as WWWWWWWWWWWW), at every size. Hana's name tag ends at the cab's right edge and grows left, at most to 4 px from the view's edge; Cleo's is centred on the console, at most 8 px narrower than twice the room on its nearer side. A tag wider than that puts its state ("· Offline", "· Out") on a second line, and moves up if it would leave the view. Hints, button lines, cards, sheets and banners wrap between words and break inside a name only when the name alone is wider than the line. The top bar's title, the two names, may end in "…": the names are whole on the tags.
+  - **The hint** keeps two lines and scrolls past them when the words need more room, so the controls stay whole.
+  - **A banner** over a Food screen keeps its title; its second line is hidden on screen and still read by screen readers (a banner under 12 rem wide). It sits just under its place: the room's name, or the top of the Task's view. A toast wraps instead of running off both sides.
+  - **The Partner's request** starts right under the top bar and leaves its stamp out (the title says the same). Its words scroll; Decline, Join and the time to answer stay in sight at its foot. "Too late to join" keeps OK in sight the same way.
+  - **A sheet's two buttons** stand one above the other when they do not fit side by side ("Waiting…" and "Cancel").
+  - **The room's name** sits under every banner, card and sheet.
 
 Every control is whole and no word is cut; each phone reports its own layout on the sheet.
 
@@ -182,7 +196,7 @@ Every control is whole and no word is cut; each phone reports its own layout on 
 - **The other players learn the result only through the food count:** a delivery shows the new count on every phone, naming no Task; nothing else says how it went.
 - **Leaving on purpose costs nothing:** it is a disconnect like any other.
 
-![Starting a Task, the other phones, the return and the food warning](../../design/food-supply/review/flow.png)
+![Starting a Task, the other phones, the return and the food gauge](../../design/food-supply/review/flow.png)
 
 ## Storyboards
 
@@ -259,16 +273,22 @@ A reduced pose never runs ahead of the state: the crate is drawn at once where i
   - Send the act the button showed, with the Task's id, the revision the phone showed and a command id (`TASK_PRESS`, below). The press stays the act it was made as: a double tap on LOCK never becomes RELEASE.
   - While a press is in flight, its control shows it and every control waits; disabled controls and key repeats send nothing. A refusal shows to its presser only. After a lost connection, keep the command id; on recovery fetch the present state and that command's receipt, never replaying queued taps or a missed animation. The states sheet shows each.
   - Keyboard: Space for RELEASE and LOCK; Space or the Up arrow held down for Hold (keydown holds, keyup lets go); Enter for the key. A key press is bound to the act its button showed at keydown.
-- **States to draw**, from `view()`: the buttons (`act`, `enabled`, `next`, `hazard`, `zone`, `stop`, `leaving`, `turned`; Hold's `holding`, `fall`, `down` and `up`), `panel`, `crate` (with `holder`), `goal`, `broken`, `zone`, `likely`, `warnings`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The phone sheets show each.
+- **States to draw**, from `view()`: the buttons (`act`, `enabled`, `next`, `hazard`, `zone`, `stop`, `leaving`, `turned`; Hold's `holding`, `pending`, `fall`, `down` and `up`), `panel`, `crate` (with `holder`, and on the Winch's phone `pending`), `goal`, `broken`, `zone`, `likely`, `warnings`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The phone sheets show each.
 - **The prototype is layout evidence only.** `phone.mjs`'s live mode steps the storyboard on a click or a key; it does not send a press, hold a command id, enforce a disabled control or recover a receipt. The native phone implements all of that.
 - **Never show** Protection, the catch's roll, a reason for a stop, or whether a kill was meant. "Stopped" is the same words whichever caused it.
+- **The food gauge** (the owner, 13 November 2026), on every phone, always, the Task's screen included:
+  - The clock and the gauge share one column at the right of the top bar: the clock on top, the gauge under it (`.fs-clock`).
+  - The gauge (`.fs-food`) shows the supply icon, one line a package with a short line for a half (ten at most), and the figure.
+  - It is amber at one package or less and red at none. Its name for screen readers is `foodLabel()`; it is not a live region.
+  - Under 16 rem of bar the lines go, and the figure stops growing at 18 px.
+  - It takes its count from the public food stock in doses, the same as every phone sees, and says nothing about any Task.
 - **Outside the Task:** the Food Supply step has its own top bar with its time to ask. Outside the step, the Tasks sheet's Food Supply row says "Opens at the start of each round"; in it, while another request waits, "Someone is asking a Partner" (the states sheet). The partner list marks the two who went for food last round and anyone in the Hospital or the Jail. The outcome card stays until both go back, at the end of the Task's time. After the Task, the other players' phones show the new food count on a delivery and nothing else; only the participants' own toasts name the result.
 - **Accessibility:**
-  - Each button's name says what it would do now ("Holding. Warning: let go: falls on Cleo."); Hold is a toggle button for assistive technology (`aria-pressed` while the crate is held).
+  - Each button's name says what it would do now ("Holding. Warning: let go: falls on Cleo."); Hold is a toggle button for assistive technology (`aria-pressed` while the crate is held, or while the early hold waits: "Hold. Waiting for the hook.").
   - The view has a text equivalent: where the panel and the crate are, and whether a warning shows.
   - Focus stays on the control across state changes (RELEASE and LOCK are one button). A card takes focus when it opens and gives it back when it closes.
   - The hint is a polite live region that changes only with what to do. That is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill, besides the button's own name.
-  - The partner's state stays visible at every text size: in the top bar, and at the largest text on their name tag.
+  - The partner's state stays visible at every text size: in the top bar, and at the largest text, where the bar keeps only the names, on their name tag in the view, beside any danger in the hint. The tag is always whole and inside the view, with names up to twelve characters.
   - Large text and Reduce motion as above.
   - A Task of timing cannot be made fully equal without sight or quick hands: see the open item on timing access.
 - **Before a native build is accepted** (the handoff's `evidence`): every state of both phones, the press and request states included, at 390 × 844 and at 320 × 568 with 200% text, side by side with these sheets, with Designer's explicit visual acceptance under #224; long permitted names, real safe areas, both motion settings, a tab back from the background; and screen-reader and timing usability with real people. The sheets here show that the controls fit, not equal timed access or a physical phone's performance.
@@ -279,12 +299,12 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 
 - **State** (`state` in the handoff): the Task's id and revision, phase, seats, its times, the panel (locked at a stop, or released from a stop in a direction at a time), the crate (waiting in the intake, hanging and held by the Winch or by the brake, landed or sent, with its last move), the crates broken so far, the swing, keys, alive, online and the outcome, seen by both participants. The press revisions' bookkeeping, the receipts and the moment a participant went offline are the server's.
 - **Time:** the server resolves a press **when it receives it**, on its own monotonic clock; a phone's own time (`shownAt`) is diagnostic and decides nothing (Integration, 12 November 2026). Any other lag policy needs its own review and real-network evidence.
-- **One press** (`act`): either refused, or one of RAISED, TAKEN, RELEASED, LOCKED, LOWERED, LANDED, MISSED, BROKEN, STOPPED, KILLED, KEY, SENT and ENDED. Every event has an id, a sequence number and its authoritative time: the phones play cues in that order. Each participant's events are numbered in a sequence of their own, so no gap shows them the other's refusals (Integration, 12 November 2026).
-  - Refusals: briefing, ended, down, not a participant, not this Task, stale, not your control, busy, crate down, unlocked, locked, holding, not over the crate, not holding, down already, landed, not landed, turned. Only the presser is told.
-  - **Stale:** a press is bound to the revision its phone showed; made on a revision older than the last change it depends on, it is refused. A change of connection alone does not count, nor the briefing's end (every phone knows it from the clock), so the first press after the briefing is never stale. Nor does the other participant's key: no other press depends on it, so both can turn their keys at once (found by the playable test, 13 November 2026). A let-go is never stale: the finger is off, and the crate falls from wherever it is when the let-go arrives.
+- **One press** (`act`): either refused, or one of RAISED, PENDING, PENDING_OFF, TAKEN, RELEASED, LOCKED, LOWERED, LANDED, MISSED, BROKEN, STOPPED, KILLED, KEY, SENT and ENDED. PENDING and PENDING_OFF, the early Hold waiting and ended, go to the Winch alone and change no revision (in the engine, the Winch's own Hold state). Every event has an id, a sequence number and its authoritative time: the phones play cues in that order. Each participant's events are numbered in a sequence of their own, so no gap shows them the other's refusals (Integration, 12 November 2026).
+  - Refusals: briefing, ended, down, not a participant, not this Task, stale, not your control, busy, crate down, unlocked, locked, holding, not holding, down already, landed, not landed, turned. Only the presser is told.
+  - **Stale:** a press is bound to the revision its phone showed; made on a revision older than the last change it depends on, it is refused. A change of connection alone does not count, nor the briefing's end (every phone knows it from the clock), so the first press after the briefing is never stale. Nor does the other participant's key: no other press depends on it, so both can turn their keys at once (found by the playable test, 13 November 2026). A let-go is never stale: the finger is off, and the crate falls from wherever it is when the let-go arrives. Nor is a hold (the early Hold, as in the engine): the finger is on Hold, and the server lifts, takes back or waits by what it holds when the hold arrives.
   - **Retries:** every press has a command id and a durable receipt. A retry with the same id gets the first answer (`RECEIPT`) and changes nothing: no second press, no second roll, no second delivery.
   - After a KILLED, the Task is lost unless the crate is in the correct position.
-- **The hold** (the owner, 13 November 2026): `raise` lifts the crate waiting in the intake when the panel is locked over the hatch (otherwise refused: not over the crate, unlocked, busy), or takes a crate on the brake back. `lower` lets it fall from where it is when it arrives (`fallOf()`): over the platform from a locked panel, LANDED; over the hatch, MISSED into the intake, whole; over the console, the drop; anywhere else, or from a moving panel, BROKEN. A break records where the crate fell, and a new crate rises into the intake, settled after 0.3 s: the Panel brings the hook back over stop 1 (RELEASE works then with the crate waiting in the intake), and the Winch holds again. A disconnect does not let go: the crate stays held until a let-go arrives.
+- **The hold** (the owner, 13 November 2026): `raise` lifts the crate waiting in the intake when the panel is locked over the hatch and the crate is in, or takes a crate on the brake back. Otherwise, with a crate in the intake, it waits (PENDING, the early Hold, adopted by the owner on 13 November 2026) and lifts the crate the moment it can: on the LOCK over stop 1, or when the crate has risen. A `lower` while it waits ends it (PENDING_OFF): nothing was lifted, nothing falls. Otherwise `lower` lets it fall from where it is when it arrives (`fallOf()`): over the platform from a locked panel, LANDED; over the hatch, MISSED into the intake, whole; over the console, the drop; anywhere else, or from a moving panel, BROKEN. A break records where the crate fell, and a new crate rises into the intake, settled after 0.3 s: the Panel brings the hook back over stop 1 (RELEASE works then with the crate waiting in the intake), and the Winch holds again. A disconnect does not let go: the crate stays held until a let-go arrives.
 - **Lethal presses:** a LOCK that takes stop 7 (the cut), or a let-go whose landing is the console (the drop; the crate breaks). The server reads the partner's applicable Protection from the game at that moment (not used up, active this round: `packages/engine/src/planet-game/physical.ts`); it stops the press, and the block uses it up there. Clone is not read. Without Protection, the server's own roll below 0.25 stops it by luck (the owner). Otherwise it kills. Either way it uses nothing, and the server keeps a `CATCH` record of the roll and what held, for replay; it never reaches a phone.
 - **Endings:** the earliest boundary due wins, whenever the server gets to it: the deadline (lost: time) or a grace running out (cancelled). At the same moment the deadline comes first, then the participant out of contact first, then the Winch before the Panel. An ended Task stays as it ended: a late tick, a reconnect or a press changes nothing, a death already accepted stands, and nothing is delivered twice.
 - **Connection:** out of contact, the Task runs on through the 8 s grace and the panel keeps clicking; back in time, nothing paused; out longer, cancelled. A phone out of contact shows its controls off.
@@ -312,6 +332,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 | --- | --- |
 | The two participants | The whole Supply Room: the panel clicking or locked, the swing, every press's effect, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Their own refused presses and receipts. Never an attack opportunity, Protection, the catch's roll, the other's refused presses, or whether a kill was meant |
 | Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. The result only through the food count, never how it went (the owner's decision). Both participants come back at the same moment whatever happened, so the time tells nothing. Not who was asked or who declined: while a request waits, only that someone is asking |
+| The return | The board's checkpoint after the Task, FOOD_RETURNED, is captioned "After Food Supply · Round N" ("Current board · shared: After Food Supply · Round N" on a phone's own current board), N being the round the Task ran in (#222, 13 November 2026). It names the step only: never a delivery, a death or a cause |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
 | Protection | Never shown. Read by the server from the game at each lethal press, and used up by a block. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing |
 | Mistakes | Both participants see a lethal press as it happens (CHOP!, THUD!); neither phone says whether it was meant. Everyone else sees only the death, with no cause |
@@ -320,7 +341,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 
 ## Acceptance scenarios
 
-Forty-seven scenarios, each a start, a list of presses and what must follow, in the handoff (`acceptance`) and in `design/food-supply/scenarios.mjs`. Each press is timed by the server's receipt of it. The design's tests play every one through the mechanics model. The nine storyboards are the first nine. The edge cases:
+Fifty scenarios, each a start, a list of presses and what must follow, in the handoff (`acceptance`) and in `design/food-supply/scenarios.mjs`. Each press is timed by the server's receipt of it. The design's tests play every one through the mechanics model. The nine storyboards are the first nine. The edge cases:
 
 | Scenario | Given and done | Then |
 | --- | --- | --- |
@@ -331,7 +352,10 @@ Forty-seven scenarios, each a start, a list of presses and what must follow, in 
 | let-go-while-moving | A let-go while the panel clicks along, over the deck | BROKEN on the deck; a new crate in the intake |
 | no-landing-on-the-move | A let-go as the moving panel rests over the platform | BROKEN on the platform: it lands only from a locked panel |
 | let-go-never-stale | A hold and, at once, a let-go made on the picture before the hold | Not stale: the crate, still rising, drops back into the hatch |
-| fetch-a-new-crate | A let-go too soon breaks it; Hold with the hook away; RELEASE, LOCK over stop 1, Hold | Refused (not over the crate); then locked at 1 and the new crate raised |
+| fetch-a-new-crate | A let-go too soon breaks it; Hold at once, with the hook away; RELEASE, LOCK over stop 1 | The hold waits (PENDING), nothing lifted; locked at 1, the waiting hold lifts the new crate |
+| early-hold-let-go | As above, but the finger comes off before the hook comes | The hold ends (PENDING_OFF); nothing lifted, nothing falls; locked at 1, nothing lifted |
+| early-hold-waits-for-the-crate | Let go over the hatch; Hold again while the crate settles under the hook at 1 | The hold waits, and lifts the crate the moment it is in |
+| hold-never-stale | A hold made on the picture before the LOCK over stop 1 arrives after it | Not stale: it lifts the new crate |
 | lock-twice | A second LOCK on a locked panel | Refused (locked); the panel stays at 6 |
 | lock-at-rest | A LOCK received in the last moment of the rest at 6 | Locked at 6 |
 | lock-in-the-snap | A LOCK received as the panel snaps on from 6 toward 7 | Locked at 7: the cut; lost |
@@ -420,7 +444,7 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 | [review/layout.png](../../design/food-supply/review/layout.png) | The room annotated: stops, zones, the swing, the click, the cut, callouts |
 | `review/board-<id>.png` (9) | Each storyboard, beat by beat, with both phones and the return |
 | [review/phones-winch.png](../../design/food-supply/review/phones-winch.png), [review/phones-panel.png](../../design/food-supply/review/phones-panel.png) | Every state of each participant's phone (18 each) |
-| [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, a refusal, the other phones, the return, the food warning, the next round (14 phones) |
+| [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, a refusal, the other phones, the return, the food gauge, the next round (14 phones) |
 | [review/states.png](../../design/food-supply/review/states.png) | A press in flight (a LOCK, and a hold), refused, its answer unknown and recovered (a let-go, a LOCK); the request's races; How it works (14 phones) |
 | [review/machine.png](../../design/food-supply/review/machine.png) | The crane's parts and their states |
 | [review/motion.png](../../design/food-supply/review/motion.png) | Each cue's frames and its Reduce motion form |

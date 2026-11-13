@@ -6,11 +6,16 @@
 // phone (packages/design-tokens/test/food-supply.test.mjs holds them to 40 characters).
 
 import { seatOf } from '../phone-ui/prototype/fixtures.mjs';
-import { FIXTURES } from './task.mjs';
+import { FIXTURES, FOOD } from './task.mjs';
 import { CAST } from './boards.mjs';
 
+// Review fixtures only: the two operators drawn under other names, such as the widest permitted twelve-character
+// name, to check that every name stays whole (phone.html?…&names=long). Null draws the fixtures' own names.
+let renamed = null;
+export function nameOperators(names = null) { renamed = names; }
+
 /** A participant from the fixtures, with their crew character. */
-export const person = role => ({ ...seatOf(CAST[role].seat), character: CAST[role].character });
+export const person = role => ({ ...seatOf(CAST[role].seat), ...(renamed?.[role] ? { name: renamed[role] } : {}), character: CAST[role].character });
 export const other = role => (role === 'winch' ? 'panel' : 'winch');
 
 const say = (tone, icon, text) => ({ tone, icon, text });
@@ -59,6 +64,8 @@ export function hintFor(v, recent) {
   // The Winch: one button, Hold.
   const hold = v.buttons.find(b => b.act === 'hold');
   if (c.state === 'intake') {
+    // The early Hold, waiting (the owner, 13 November 2026): nothing is lifted yet.
+    if (c.pending) return say('quiet', 'hourglass', hookHome ? 'Keep holding till the crate is in.' : 'Keep holding till the hook comes.');
     if (!c.settled) return say('quiet', 'hourglass', broke ? 'It broke. A new crate comes up.' : 'Back in the hatch.');
     if (hookHome) return say('next', 'move', broke ? 'Hold to lift the new crate.' : back ? 'Hold again to lift it.' : 'Press and hold to lift it.');
     return say('quiet', 'hourglass', broke ? `Broken. ${partner} fetches a new one.` : `Wait: ${partner} brings the hook.`);
@@ -69,4 +76,38 @@ export function hintFor(v, recent) {
   if (hold?.next) return say('next', 'move', 'Let go now: over the platform.');
   if (overPlatform) return say('caution', 'hourglass', 'Keep holding: wait for the swing.');
   return say('quiet', 'hourglass', `Keep holding. ${partner} moves it.`);
+}
+
+// ── The food count's words, on every phone ─────────────────────────────
+
+/**
+ * The food count in words: packages, as the owner decided (12 November 2026), from the server's count of doses
+ * (two a package). A single dose is half a package, written "½": "½ package", "1 package", "4½ packages",
+ * "0 packages".
+ */
+export function packagesText(doses) {
+  const whole = Math.floor(doses / FOOD.dosesPerPackage), half = doses % FOOD.dosesPerPackage !== 0;
+  const one = doses === FOOD.dosesPerPackage || (whole === 0 && half);
+  return `${whole === 0 && half ? '' : whole}${half ? '½' : ''} ${one ? 'package' : 'packages'}`;
+}
+
+/** The count as a figure, for the food gauge: "4½", "½", "1", "0". */
+export function packagesFigure(doses) {
+  const whole = Math.floor(doses / FOOD.dosesPerPackage), half = doses % FOOD.dosesPerPackage !== 0;
+  return `${whole === 0 && half ? '' : whole}${half ? '½' : ''}`;
+}
+
+/**
+ * The food gauge's level (the owner, 13 November 2026): amber while one package or less remains (FOOD.warnAt),
+ * red at none. The gauge replaces the warning banner: no words on screen.
+ */
+export function foodLevel(doses) {
+  if (doses <= 0) return 'empty';
+  return doses <= FOOD.warnAt * FOOD.dosesPerPackage ? 'low' : 'ok';
+}
+
+/** The gauge's name for screen readers: "Food: 4½ packages", "Food low: ½ package left", "No food left". */
+export function foodLabel(doses) {
+  const level = foodLevel(doses);
+  return level === 'empty' ? 'No food left' : level === 'low' ? `Food low: ${packagesText(doses)} left` : `Food: ${packagesText(doses)}`;
 }
