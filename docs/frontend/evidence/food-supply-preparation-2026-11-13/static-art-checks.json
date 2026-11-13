@@ -1,0 +1,14 @@
+{
+  "scope": "Unimported static asset preparation only",
+  "baseSha": "1f795366a27b17f46ac195debe491954a27d8ae0",
+  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "staticCandidates": 37,
+  "sourceOperatorByteEquivalence": 36,
+  "hashesAndByteSizes": true,
+  "validXml": true,
+  "noDuplicateIds": true,
+  "localReferencesOnly": true,
+  "nativeRuntimeImplemented": false,
+  "nativeVisualApproval": false,
+  "deviceOrNetworkEvidence": false
+}
