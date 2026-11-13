@@ -51,6 +51,8 @@ An apparent missing-gauge concern in the image viewer was checked against exact 
 
 The earlier equal-count harness assertion failed after 33 pairs on clean 4a. Its [complete diagnostic gallery](evidence/food-supply-final-2026-11-13/diagnostics/failed-count-compare-33/index.html), [facts](evidence/food-supply-final-2026-11-13/diagnostics/failed-count-compare-33/result.json) and runner log are preserved; this interrupted run is not counted as passing. The later clean a06 / native 4a diagnostic completed 328 pairs before final cd2, with zero exceptions/measured problems and four explicit input differences. Its [result](evidence/food-supply-final-2026-11-13/diagnostics/prior-328-result.json), [log](evidence/food-supply-final-2026-11-13/diagnostics/prior-328-runner.txt) and [then-source equivalence](evidence/food-supply-final-2026-11-13/diagnostics/prior-4a-source-equivalence.json) are retained. Its PNGs remain at `/private/tmp/gamen-food-native-241-full`; the final 336 gallery is the review target.
 
+An older failure frame left in the reused smoke output directory is retained separately as a [historical diagnostic](evidence/food-supply-final-2026-11-13/diagnostics/preexisting-smoke-frame.json), not as an image from the final passing smoke run.
+
 ## Required next verdict
 
 Designer must explicitly approve **native 703 / combined cbf / reference cd2** and these captures on #240 before a phone-interface merge. Accepted #241 reference work is not native approval. Native connected acceptance and Integration's final CI/production-acceptance record remain separate gates in #237. No phase is waited for, extended or shortened, and no outcome, return location, hidden information or rule is inferred on the phone.

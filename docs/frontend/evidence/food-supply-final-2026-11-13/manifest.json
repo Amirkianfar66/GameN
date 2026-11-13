@@ -42,11 +42,6 @@
       "sha256": "d5a186565feba2d4fc1c0c678f6afb463d6b3a4625466131210d27914ba7430a"
     },
     {
-      "path": "app-smoke/390-844-text1-normal-failure.png",
-      "bytes": 108821,
-      "sha256": "a932b6e06ed3a5e795a28a5fac29ba9407f676a5bdc730e1f7a02a0ec93f0512"
-    },
-    {
       "path": "app-smoke/390-844-text1-normal-task.png",
       "bytes": 156207,
       "sha256": "33fd8ecf5dc0b59d3f46033754364be8007087abb5eaa3673998aecff04f02f5"
@@ -3488,8 +3483,8 @@
     },
     {
       "path": "diagnostics/README.md",
-      "bytes": 752,
-      "sha256": "81b6e3e2dea8af0136174508bc852302ba5e9dc77485f178ea72b466f7273829"
+      "bytes": 1116,
+      "sha256": "79ce0eb0d06488fae16b34cc51eeaba89b27c0acf41093f172438961378333a1"
     },
     {
       "path": "diagnostics/app-tests-first-local-listener-refusal.txt",
@@ -3845,6 +3840,16 @@
       "path": "diagnostics/gauge-paint-audit.json",
       "bytes": 2905,
       "sha256": "52d3f67c31c2faf08edc419360483031452b59eaf744153c7c0a0896b61e45a8"
+    },
+    {
+      "path": "diagnostics/preexisting-smoke-failure-1436.png",
+      "bytes": 108821,
+      "sha256": "a932b6e06ed3a5e795a28a5fac29ba9407f676a5bdc730e1f7a02a0ec93f0512"
+    },
+    {
+      "path": "diagnostics/preexisting-smoke-frame.json",
+      "bytes": 569,
+      "sha256": "41ed442ac347ea8621899a5ce04e68198d215dbf288c643147eae8b0c8468ba6"
     },
     {
       "path": "diagnostics/prior-328-result.json",
