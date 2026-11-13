@@ -124,6 +124,12 @@ Integration listed what the Task still needed before it could be played (12 Nove
   - Hunger is not an attack: Protection and Clone do not stop it.
   - The server takes the dose when the turn ends. The ship-life visit after the turn ([#230](https://github.com/Amirkianfar66/GameN/pull/230)) only shows it, and a visit that never played decides nothing.
 - **The food count** is public on every phone, in packages: a delivery shows as five more, a meal as half a package less. The warning shows while one package or less remains. Five packages are ten doses, so one delivery a round feeds up to ten players.
+  - **The food gauge** (the owner, 13 November 2026). The count is on every phone, always, in the top bar with the clock, under it in the clock's column.
+    - It shows the supply icon, one line a package (a short line for a half, ten lines at most), and the figure: "4½", "½", "0".
+    - It is amber while one package or less remains and red at none. There is no warning banner and no words on screen.
+    - Screen readers hear "Food: 4½ packages", "Food low: ½ package left" or "No food left".
+    - At large text the lines go and the icon and the figure stay.
+  - A delivery, on the other phones: "Food stock: 6 packages (+5)".
 - **The Blackhole and Sync:**
   - No Blackhole is active during a Task: the step comes before the pre-turn window, where a Blackhole is chosen.
   - So everything the Task decides comes before any branch, and every reality inherits it: its deaths, the Protection it reads and uses up, the delivery, and who went.
@@ -164,6 +170,13 @@ Both participants' phones are built on the phone pack's own components (its top 
 - The meter's legend and the role row go. The top bar keeps only the names, so the partner's state shows on their name tag in the view: the danger and "Cleo · Offline" are both on screen.
 - The landed RELEASE becomes small.
 - The briefing reminder fits without scrolling (a render fails if it scrolls); other cards scroll.
+- Corrected for Food test 1 (#222), all at the largest text on a small phone unless said; the owner approved them on 13 November 2026, with the return's caption and the food gauge:
+  - **Names stay whole**, up to the longest permitted (twelve characters, such as WWWWWWWWWWWW), at every size. Hana's name tag ends at the cab's right edge and grows left, at most to 4 px from the view's edge; Cleo's is centred on the console, at most 8 px narrower than twice the room on its nearer side. A tag wider than that puts its state ("· Offline", "· Out") on a second line, and moves up if it would leave the view. Hints, button lines, cards, sheets and banners wrap between words and break inside a name only when the name alone is wider than the line. The top bar's title, the two names, may end in "…": the names are whole on the tags.
+  - **The hint** keeps two lines and scrolls past them when the words need more room, so the controls stay whole.
+  - **A banner** over a Food screen keeps its title; its second line is hidden on screen and still read by screen readers (a banner under 12 rem wide). It sits just under its place: the room's name, or the top of the Task's view. A toast wraps instead of running off both sides.
+  - **The Partner's request** starts right under the top bar and leaves its stamp out (the title says the same). Its words scroll; Decline, Join and the time to answer stay in sight at its foot. "Too late to join" keeps OK in sight the same way.
+  - **A sheet's two buttons** stand one above the other when they do not fit side by side ("Waiting…" and "Cancel").
+  - **The room's name** sits under every banner, card and sheet.
 
 Every control is whole and no word is cut; each phone reports its own layout on the sheet.
 
@@ -182,7 +195,7 @@ Every control is whole and no word is cut; each phone reports its own layout on 
 - **The other players learn the result only through the food count:** a delivery shows the new count on every phone, naming no Task; nothing else says how it went.
 - **Leaving on purpose costs nothing:** it is a disconnect like any other.
 
-![Starting a Task, the other phones, the return and the food warning](../../design/food-supply/review/flow.png)
+![Starting a Task, the other phones, the return and the food gauge](../../design/food-supply/review/flow.png)
 
 ## Storyboards
 
@@ -262,13 +275,19 @@ A reduced pose never runs ahead of the state: the crate is drawn at once where i
 - **States to draw**, from `view()`: the buttons (`act`, `enabled`, `next`, `hazard`, `zone`, `stop`, `leaving`, `turned`; Hold's `holding`, `fall`, `down` and `up`), `panel`, `crate` (with `holder`), `goal`, `broken`, `zone`, `likely`, `warnings`, `keys`, `you`, `partner`, `secondsLeft`, `briefingLeft`, `outcome`. The phone sheets show each.
 - **The prototype is layout evidence only.** `phone.mjs`'s live mode steps the storyboard on a click or a key; it does not send a press, hold a command id, enforce a disabled control or recover a receipt. The native phone implements all of that.
 - **Never show** Protection, the catch's roll, a reason for a stop, or whether a kill was meant. "Stopped" is the same words whichever caused it.
+- **The food gauge** (the owner, 13 November 2026), on every phone, always, the Task's screen included:
+  - The clock and the gauge share one column at the right of the top bar: the clock on top, the gauge under it (`.fs-clock`).
+  - The gauge (`.fs-food`) shows the supply icon, one line a package with a short line for a half (ten at most), and the figure.
+  - It is amber at one package or less and red at none. Its name for screen readers is `foodLabel()`; it is not a live region.
+  - Under 16 rem of bar the lines go, and the figure stops growing at 18 px.
+  - It takes its count from the public food stock in doses, the same as every phone sees, and says nothing about any Task.
 - **Outside the Task:** the Food Supply step has its own top bar with its time to ask. Outside the step, the Tasks sheet's Food Supply row says "Opens at the start of each round"; in it, while another request waits, "Someone is asking a Partner" (the states sheet). The partner list marks the two who went for food last round and anyone in the Hospital or the Jail. The outcome card stays until both go back, at the end of the Task's time. After the Task, the other players' phones show the new food count on a delivery and nothing else; only the participants' own toasts name the result.
 - **Accessibility:**
   - Each button's name says what it would do now ("Holding. Warning: let go: falls on Cleo."); Hold is a toggle button for assistive technology (`aria-pressed` while the crate is held).
   - The view has a text equivalent: where the panel and the crate are, and whether a warning shows.
   - Focus stays on the control across state changes (RELEASE and LOCK are one button). A card takes focus when it opens and gives it back when it closes.
   - The hint is a polite live region that changes only with what to do. That is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill, besides the button's own name.
-  - The partner's state stays visible at every text size: in the top bar, and at the largest text on their name tag.
+  - The partner's state stays visible at every text size: in the top bar, and at the largest text, where the bar keeps only the names, on their name tag in the view, beside any danger in the hint. The tag is always whole and inside the view, with names up to twelve characters.
   - Large text and Reduce motion as above.
   - A Task of timing cannot be made fully equal without sight or quick hands: see the open item on timing access.
 - **Before a native build is accepted** (the handoff's `evidence`): every state of both phones, the press and request states included, at 390 × 844 and at 320 × 568 with 200% text, side by side with these sheets, with Designer's explicit visual acceptance under #224; long permitted names, real safe areas, both motion settings, a tab back from the background; and screen-reader and timing usability with real people. The sheets here show that the controls fit, not equal timed access or a physical phone's performance.
@@ -312,6 +331,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 | --- | --- |
 | The two participants | The whole Supply Room: the panel clicking or locked, the swing, every press's effect, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Their own refused presses and receipts. Never an attack opportunity, Protection, the catch's roll, the other's refused presses, or whether a kill was meant |
 | Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. The result only through the food count, never how it went (the owner's decision). Both participants come back at the same moment whatever happened, so the time tells nothing. Not who was asked or who declined: while a request waits, only that someone is asking |
+| The return | The board's checkpoint after the Task, FOOD_RETURNED, is captioned "After Food Supply · Round N" ("Current board · shared: After Food Supply · Round N" on a phone's own current board), N being the round the Task ran in (#222, 13 November 2026). It names the step only: never a delivery, a death or a cause |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
 | Protection | Never shown. Read by the server from the game at each lethal press, and used up by a block. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing |
 | Mistakes | Both participants see a lethal press as it happens (CHOP!, THUD!); neither phone says whether it was meant. Everyone else sees only the death, with no cause |
@@ -420,7 +440,7 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 | [review/layout.png](../../design/food-supply/review/layout.png) | The room annotated: stops, zones, the swing, the click, the cut, callouts |
 | `review/board-<id>.png` (9) | Each storyboard, beat by beat, with both phones and the return |
 | [review/phones-winch.png](../../design/food-supply/review/phones-winch.png), [review/phones-panel.png](../../design/food-supply/review/phones-panel.png) | Every state of each participant's phone (18 each) |
-| [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, a refusal, the other phones, the return, the food warning, the next round (14 phones) |
+| [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, a refusal, the other phones, the return, the food gauge, the next round (14 phones) |
 | [review/states.png](../../design/food-supply/review/states.png) | A press in flight (a LOCK, and a hold), refused, its answer unknown and recovered (a let-go, a LOCK); the request's races; How it works (14 phones) |
 | [review/machine.png](../../design/food-supply/review/machine.png) | The crane's parts and their states |
 | [review/motion.png](../../design/food-supply/review/motion.png) | Each cue's frames and its Reduce motion form |
