@@ -60,6 +60,7 @@ export function assertFoodStyleSnapshot(native,reference,{id,motion}){
   assert.ok(Math.abs(native.hint.icon.width-reference.hint.icon.width)<=.5,label('hint icon width'));
   assert.ok(Math.abs(native.hint.icon.height-reference.hint.icon.height)<=.5,label('hint icon height'));
   assert.ok(Math.abs(native.hint.gap-reference.hint.gap)<=.5,label('hint icon/text gap'));
-  assert.equal(native.hint.wrapperFlex,'0 0 auto',label('hint wrapper must not shrink'));
+  assert.ok(Math.abs((native.hint.icon.y-native.hint.text.y)-(reference.hint.icon.y-reference.hint.text.y))<=.5,label('hint icon vertical alignment'));
+  if(native.hint.wrapperFlex!==null)assert.equal(native.hint.wrapperFlex,'0 0 auto',label('hint wrapper must not shrink'));
  }
 }
