@@ -3477,8 +3477,8 @@
     },
     {
       "path": "diagnostics/README.md",
-      "bytes": 1925,
-      "sha256": "962af056911d4b24a5f053ed4cfea525f49d846cb190d1e02d733e11a82c0fd3"
+      "bytes": 2013,
+      "sha256": "a54ff2f474af429f65bdbe26cf828747e10edec00333c80a0a4fcf1c5245da17"
     },
     {
       "path": "diagnostics/connected-14682e85/backend-preflight.json",

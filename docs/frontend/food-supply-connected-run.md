@@ -52,7 +52,8 @@ phase timing or alter native/Backend source. This preparation is not a passing
 connected result; each rerun uses a new evidence directory.
 
 The second attempt (`14682e85`, same native 703 and frozen Backend) admitted both
-devices and reached reading, but no Ready operation was emitted by its tap.
+devices and reached reading, but no completed Ready response was recorded after its tap. The adapter then
+logged only completed responses, so actual request dispatch remains unknown.
 The invitation wait timed out with 6/7 players ready; no Food command ran and 8/9
 were not attempted. Its evidence remains at
 `/private/tmp/gamen-food-native-connected-14682e85`. The cause is **unclassified**:
@@ -73,3 +74,9 @@ Ready diagnostics also retain the own public model's connection/uncertainty,
 setup-clock status, remaining time and own Ready boolean, alongside document
 visibility. No role, UID, token or raw private snapshot is logged. The document
 must be visible before physical touch; no liveness or visibility guard is bypassed.
+
+The excluded emulator adapter now keeps request-start operation names/sequences
+separately from completed responses, without bodies, IDs, tokens or headers.
+The next runner records both streams and verifies one original Ready invocation
+and response. Its held-network check compares actual Food-command starts, not
+only successful responses. This logging changes no request, retry or game action.

@@ -48,7 +48,7 @@ const readyFacts=`(()=>{const n=document.querySelector('#planet-ready'),m=planet
  if(!n||!r)return {present:false,status:m.status,canReady:m.canReady};
  const point={x:Math.round(r.x+r.width/2),y:Math.round(r.y+r.height/2),id:1},hit=document.elementFromPoint(point.x,point.y);
  const visible=(()=>{for(let p=n;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||['hidden','collapse'].includes(s.visibility)||Number(s.opacity)===0)return false;}return true;})();
- return {present:true,visible,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),canReady:m.canReady,status:m.status,busy:m.busy,focused:document.hasFocus(),documentVisibility:document.visibilityState,
+ return {present:true,visible,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),canReady:m.canReady,status:m.status,busy:m.busy,readyRequestsStarted:planetEmulator.requestStarts.filter(r=>r.operation==='ready').length,focused:document.hasFocus(),documentVisibility:document.visibilityState,
  connection:m.connection,mode:m.mode,uncertain:m.uncertain,remainingMs:m.remainingMs,setupFlowVersion:m.setupFlowVersion,clockStatus:m.setupClock.status,ownReady:m.members.find(p=>p.seatId===m.selfSeatId)?.ready??null,
  rect:{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom},point,scroll:{x:scrollX,y:scrollY},
  viewport:{width:innerWidth,height:innerHeight,visual:v?{width:v.width,height:v.height,offsetLeft:v.offsetLeft,offsetTop:v.offsetTop,pageLeft:v.pageLeft,pageTop:v.pageTop,scale:v.scale}:null},
@@ -65,6 +65,7 @@ async function tapReady(page,result){
   await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[before.point]});await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   const receipt=await waitFor(()=>page.evaluate('planetEmulator.operations.find(o=>o.operation==="ready")??null'),'original visible Ready response',15000);result.readyTap.receipt=receipt;
   assert.equal(receipt.status,200,'Ready HTTP');assert.equal(receipt.ok,true,'Ready: '+receipt.code);
+  result.readyTap.requestsStarted=await page.evaluate('planetEmulator.requestStarts.filter(r=>r.operation==="ready").length');assert.equal(result.readyTap.requestsStarted,1,'one original visible Ready request');
  }finally{result.readyTap.after=await page.evaluate(readyFacts).catch(()=>null);}
 }
 async function point(page,id){return page.evaluate(`(()=>{const n=document.querySelector(${JSON.stringify('#'+id)});if(!n||n.getAttribute('aria-disabled')==='true')return null;const r=n.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2,id:1};})()`);}
@@ -108,9 +109,9 @@ try{
     // Stop only this phone's network briefly after an admitted Hold. The user
     // keeps the same real browser contact; no release may be fabricated.
     if(!networkChecked&&held&&m.pendingCount===0&&t.ownGesture?.currentHolder){
-     const before=await page.evaluate('planetEmulator.operations.filter(o=>o.operation==="foodCommand").length');
+     const before=await page.evaluate('planetEmulator.requestStarts.filter(o=>o.operation==="foodCommand").length');
      await page.send('Network.enable');await page.send('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:-1,uploadThroughput:-1});await sleep(650);
-     const after=await page.evaluate('planetEmulator.operations.filter(o=>o.operation==="foodCommand").length');assert.equal(after,before);
+     const after=await page.evaluate('planetEmulator.requestStarts.filter(o=>o.operation==="foodCommand").length');assert.equal(after,before);
      assert.equal(await page.evaluate('planetEmulator.app.food.getModel().physicalHolding'),true,'network loss must retain the same physical contact, even when a failed request has no HTTP log');
      await page.send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});networkChecked=true;caseResult.networkDropWithoutRelease=true;
      await sleep(100);continue;
@@ -133,8 +134,8 @@ try{
    const paths=urls=>[...new Set(urls.map(u=>new URL(u).pathname))].sort();assert.equal(paths(assets).length,37);assert.deepEqual(paths(assets),paths(displayAssets));caseResult.uniformAssets=37;
    await waitFor(()=>page.evaluate('planetEmulator.app.game?.getModel().canPass'),'own ordinary Pass',100000);await page.tap('#planet-pass');await page.waitFor('document.querySelector("#planet-confirm")','Pass confirmation');await page.tap('#planet-confirm');
    const meal=await waitFor(async()=>{const m=await foodModel(page);return m?.view?.ownMeals.at(-1);},'authorized own meal',15000);assert.equal(meal.result,'ATE');assert.equal(meal.dosesConsumed,1);caseResult.ownMeal='ATE_ONCE';stage('MEAL');
-   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
-  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
+   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts');caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
+  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts').catch(()=>[]);caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
   finally{if(held)await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});await page.close();await display.close();}
  }
  report.errors=[...browser.events,...displayBrowser.events].filter(e=>e.method==='Runtime.exceptionThrown').map(e=>({text:e.params.exceptionDetails?.text}));assert.deepEqual(report.errors,[]);
