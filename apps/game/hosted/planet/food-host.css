@@ -1,0 +1,8 @@
+/* Native mounting/input rules; the drawn components remain in the scoped pack copies. */
+.planet-food-host { position: absolute; inset: 0; z-index: 7000; pointer-events: none; }
+.planet-food.ph { position: absolute; inset: 0; background: transparent; pointer-events: none; }
+.planet-food :is(.tb,.tabs,.sheet,.scrim,.fs-card,.fs-screen,.fs-banner) { pointer-events: auto; }
+.planet-food [hidden] { display: none !important; }
+.planet-food .fs-ctl[data-act="hold"] { touch-action: none; -webkit-user-select: none; user-select: none; }
+.planet-food .fs-ctl { -webkit-touch-callout: none; }
+.planet-food .food-portrait { background-image: var(--food-portrait); background-size: contain; background-repeat: no-repeat; background-position: center; }

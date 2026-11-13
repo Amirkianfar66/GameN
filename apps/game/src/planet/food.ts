@@ -1,4 +1,4 @@
-import {FoodTaskCommandRequestSchema, foodTaskHoldRelease, foodTaskRevisionBody, parseFoodTaskView, parseFoodTaskReceipt} from '@mothership/contracts';
+import {FoodTaskCommandRequestSchema, foodTaskHoldRelease, foodTaskRevisionBody, parseFoodTaskView, parseFoodTaskReceipt,TimestampSchema} from '@mothership/contracts';
 import type {FoodTaskCommand, FoodTaskCommandRequest, FoodTaskParticipant, FoodTaskPlayerView, FoodTaskReceipt, FoodTaskVersions, SeatId} from '@mothership/contracts';
 import type {ClientPorts, IdSource, UnresolvedCommandStore} from '../ports.js';
 import type {ClockReading} from '../clock/server-clock.js';
@@ -15,7 +15,7 @@ export interface FoodTaskTransport {
 export interface FoodTaskPorts extends ClientPorts {readonly ids:IdSource;readonly recovery:UnresolvedCommandStore}
 export interface FoodSnapshotContext {readonly matchId:string;readonly versions:FoodTaskVersions;readonly phaseId:string;readonly round:number;readonly serverNowMs:number}
 export type FoodPressName = 'Hold'|'let-go'|'LOCK'|'RELEASE'|'key'|'request'|'Join'|'Decline'|'Cancel';
-export interface FoodFeedback {readonly commandId:string;readonly name:FoodPressName;readonly status:'sending'|'unknown'|'accepted'|'rejected';readonly receipt:FoodTaskReceipt|null}
+export interface FoodFeedback {readonly commandId:string;readonly name:FoodPressName;readonly status:'sending'|'unknown'|'accepted'|'rejected';readonly receipt:FoodTaskReceipt|null;readonly recovered:boolean}
 export interface FoodTaskModel {
  readonly visible:boolean;readonly fresh:boolean;readonly message:string|null;readonly view:FoodTaskPlayerView|null;
  readonly clock:ClockReading;readonly feedback:FoodFeedback|null;readonly pendingCount:number;
@@ -32,7 +32,7 @@ export interface FoodTaskController {
  checkReceipts():Promise<void>;retry():Promise<void>;
  setVisible(visible:boolean):void;disconnect():void;dispose():void;
 }
-interface Entry {original:FoodStoredRequest;request:FoodTaskCommandRequest|null;status:'sending'|'unknown'|'checking';order:number;closedByRecovery:boolean}
+interface Entry {original:FoodStoredRequest;request:FoodTaskCommandRequest|null;status:'sending'|'unknown'|'checking';order:number;closedByRecovery:boolean;observedRevision:number}
 const isHold=(q:FoodStoredRequest)=>q.command.type==='TASK_PRESS'&&q.command.input.kind==='HOLD';
 function pressName(q:FoodStoredRequest):FoodPressName {
  const c=q.command;
@@ -50,6 +50,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  let view:FoodTaskPlayerView|null=null,context:FoodSnapshotContext|null=null,visible=true,fresh=false,disposed=false,storageBlocked=false;
  let message:string|null=null,contact:FoodContactMemory|null=null,down:FoodTaskCommandRequest|null=null;
  let feedback:FoodFeedback|null=null,feedbackOrder=-1,order=0,checking:Promise<void>|null=null,recovering=false;
+ let accepted:{phaseId:string;revision:number}|null=null;
  const finishes=new Set<()=>void>();
  const auth=()=>!disposed&&transport.currentUid()===binding.uid;
  const time=()=>options.readClock();
@@ -63,7 +64,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    &&r.status==='synced'&&r.serverNowMs+r.uncertaintyMs<t.deadlineAt;
  };
  const pending=()=>entries.some(e=>!e.closedByRecovery&&e.original.phaseId===view?.phaseId);
- const base=()=>live()&&!storageBlocked&&!pending()&&entries.length<FOOD_RECOVERY_LIMIT-2;
+ const base=()=>live()&&!storageBlocked&&!pending()&&!(accepted&&accepted.phaseId===view?.phaseId&&view.viewRevision<=accepted.revision)&&entries.length<FOOD_RECOVERY_LIMIT-2;
  const pressOffer=()=>view?.offers.find(o=>o.type==='TASK_PRESS');
  const offered=(kind:'HOLD'|'PANEL_RELEASE'|'PANEL_LOCK'|'KEY')=>{const r=time();return base()&&taskOpen()&&!!pressOffer()?.inputs.includes(kind)
   &&(kind==='HOLD'||r.status==='synced'&&r.serverNowMs-r.uncertaintyMs>=task()!.runningAt);};
@@ -79,8 +80,8 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  try{
   const raw=ports.recovery.load();
   if(raw!==null){const saved=readFoodRecovery(raw,binding);contact=saved.contact;
-   for(const original of saved.entries)entries.push({original,request:null,status:'unknown',order:++order,closedByRecovery:false});
-   if(entries.length){const e=entries.at(-1)!;feedback={commandId:e.original.commandId,name:pressName(e.original),status:'unknown',receipt:null};feedbackOrder=e.order;}}
+   for(const original of saved.entries)entries.push({original,request:null,status:'unknown',order:++order,closedByRecovery:false,observedRevision:-1});
+   if(entries.length){const e=entries.at(-1)!;feedback={commandId:e.original.commandId,name:pressName(e.original),status:'unknown',receipt:null,recovered:false};feedbackOrder=e.order;}}
  }catch{storageBlocked=true;message='Command recovery could not be verified. Reconnect the original seat.';}
  function getModel():FoodTaskModel {
   const open=shown(),r=time(),v=open?view:null,now=r.status==='synced'?r.serverNowMs+r.uncertaintyMs:Infinity;
@@ -105,34 +106,41 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   return FoodTaskCommandRequestSchema.parse({schemaVersion:1,protocolVersion:3,matchId:binding.matchId,
    commandId:ports.ids.next(),phaseId:view.phaseId,foodStepId:view.step.stepId,round:view.round,command});
  }
- function announce(e:Entry,status:FoodFeedback['status'],receipt:FoodTaskReceipt|null=null){
-  if(e.order<feedbackOrder)return;feedbackOrder=e.order;feedback={commandId:e.original.commandId,name:pressName(e.original),status,receipt};
+ function announce(e:Entry,status:FoodFeedback['status'],receipt:FoodTaskReceipt|null=null,recovered=false){
+  if(e.order<feedbackOrder)return;feedbackOrder=e.order;feedback={commandId:e.original.commandId,name:pressName(e.original),status,receipt,recovered};
  }
- function settle(e:Entry,payload:unknown){
+ function settle(e:Entry,payload:unknown,serverTimeMs:number,recovered=false){
   if(!auth()||!entries.includes(e))return;
   try{
    const receipt=e.request?parseFoodTaskReceipt(payload,e.request,binding.seatId):readFoodRecoveryReceipt(payload,e.original,binding.seatId);
+   if(!TimestampSchema.safeParse(serverTimeMs).success||receipt&&receipt.receivedAt>serverTimeMs)throw TypeError('Invalid original receipt time');
    if(receipt===null){e.status='unknown';announce(e,'unknown');save();emit();return;}
    if(receipt.status==='accepted'&&receipt.result.kind==='INPUT'&&receipt.result.effect==='RECOVERED_CLOSED'){
     const q=e.original.command,through=receipt.result.closedThroughSequence!;
     if(q.type==='TASK_PRESS')for(const old of entries){const c=old.original.command;
      if(c.type==='TASK_PRESS'&&c.taskId===q.taskId&&c.controlSessionId===q.controlSessionId&&c.input.kind==='HOLD'&&c.input.gestureSequence<=through)old.closedByRecovery=true;}
    }
-   entries.splice(entries.indexOf(e),1);announce(e,receipt.status==='accepted'?'accepted':'rejected',receipt);save();
+   if(receipt.status==='accepted'&&!isHold(e.original)&&!(e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF')
+    &&(receipt.result.kind==='REQUEST'||receipt.result.effect==='APPLIED')&&view?.phaseId===e.original.phaseId){
+    const c=e.original.command,stillOffered=view.offers.some(o=>o.type===c.type&&(o.type!=='TASK_PRESS'||c.type==='TASK_PRESS'&&o.controlRevision===c.expectedControlRevision)
+     &&(o.type!=='TASK_ANSWER'&&o.type!=='TASK_ASK_WITHDRAW'||'requestId' in c&&o.requestId===c.requestId&&o.requestRevision===c.requestRevision));
+    if(e.observedRevision>=0||stillOffered)accepted={phaseId:e.original.phaseId,revision:e.observedRevision>=0?e.observedRevision:view.viewRevision};
+   }
+   entries.splice(entries.indexOf(e),1);announce(e,receipt.status==='accepted'?'accepted':'rejected',receipt,recovered);save();
    transport.refresh();emit();
   }catch{e.status='unknown';message='The original command answer could not be verified.';announce(e,'unknown');save();emit();}
  }
  async function send(e:Entry){
   if(!auth()||e.request===null)return;
   e.status='sending';announce(e,'sending');emit();
-  const answer=await bounded(()=>transport.command(e.request!));
+  const answer=await bounded(()=>transport.command(structuredClone(e.request!)));
   if(!auth())return;
   if(!answer||!Number.isFinite(answer.serverTimeMs)){e.status='unknown';announce(e,'unknown');save();emit();return;}
-  settle(e,answer.receipt);
+  settle(e,answer.receipt,answer.serverTimeMs);
  }
  function enqueue(q:FoodTaskCommandRequest,release=false):Promise<void> {
   if(!auth()||entries.length>=FOOD_RECOVERY_LIMIT&&!release)return Promise.resolve();
-  const e:Entry={original:foodStoredRequest(q),request:q,status:'sending',order:++order,closedByRecovery:false};entries.push(e);
+  const e:Entry={original:foodStoredRequest(q),request:q,status:'sending',order:++order,closedByRecovery:false,observedRevision:view?.viewRevision??-1};entries.push(e);
   // A storage failure closes new inputs. An already-held finger still releases.
   if(!save()&&!release){entries.splice(entries.indexOf(e),1);emit();return Promise.resolve();}
   return send(e);
@@ -142,9 +150,11 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   checking=(async()=>{
    for(const e of [...entries]){
     if(!auth()||!visible)break;if(e.status!=='unknown')continue;e.status='checking';emit();
-    const answer=await bounded(()=>transport.receipt(e.original));
+    const q=e.original,receiptContext:FoodReceiptContext={schemaVersion:q.schemaVersion,protocolVersion:q.protocolVersion,matchId:q.matchId,
+     phaseId:q.phaseId,foodStepId:q.foodStepId,round:q.round,commandId:q.commandId};
+    const answer=await bounded(()=>transport.receipt(receiptContext));
     if(!auth())break;
-    if(answer&&Number.isFinite(answer.serverTimeMs))settle(e,answer.receipt);
+    if(answer&&Number.isFinite(answer.serverTimeMs))settle(e,answer.receipt,answer.serverTimeMs,true);
     else {e.status='unknown';announce(e,'unknown');emit();}
    }
   })().finally(()=>{checking=null;});return checking;
@@ -193,9 +203,13 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
      ||next.viewRevision===view.viewRevision&&JSON.stringify(foodTaskRevisionBody(next))!==JSON.stringify(foodTaskRevisionBody(view))))throw TypeError('Conflicting Food revision');
     const old=task();
     if(old&&next.participantTask?.taskId===old.taskId&&(next.participantTask.controlSessionId!==old.controlSessionId
+     ||next.participantTask.selfControl!==old.selfControl||JSON.stringify(next.participantTask.participantSeatIds)!==JSON.stringify(old.participantSeatIds)
      ||next.participantTask.startedAt!==old.startedAt||next.participantTask.runningAt!==old.runningAt||next.participantTask.deadlineAt!==old.deadlineAt
      ||next.participantTask.returnsAt!==old.returnsAt))throw TypeError('Changed Task assignment or interval');
+    if(old&&next.participantTask?.taskId===old.taskId&&(old.outcome&&JSON.stringify(old.outcome)!==JSON.stringify(next.participantTask.outcome)
+     ||old.people.some(p=>p.death&&JSON.stringify(next.participantTask!.people.find(n=>n.seatId===p.seatId)?.death)!==JSON.stringify(p.death))))throw TypeError('Changed terminal Task fact');
     view=next;context=nextContext;fresh=true;message=storageBlocked?message:null;
+    if(accepted&&(accepted.phaseId!==next.phaseId||next.viewRevision>accepted.revision))accepted=null;
     if(contact&&next.participantTask&&!sameContact(next.participantTask)&&down===null)contact=null;
     emit();if(contact?.offObserved)void recoverOff();return true;
    }catch{fresh=false;message='This Food view could not be verified.';emit();return false;}

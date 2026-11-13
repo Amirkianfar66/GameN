@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: all Food audiences use one root catalogue even on /planet/ with recovery query parameters
+ok 1 - all Food audiences use one root catalogue even on /planet/ with recovery query parameters
+  ---
+  duration_ms: 3.087
+  type: 'test'
+  ...
+# Subtest: a stalled drawing does not block loading the other uniform assets or require an audience-specific retry
+ok 2 - a stalled drawing does not block loading the other uniform assets or require an audience-specific retry
+  ---
+  duration_ms: 0.443875
+  type: 'test'
+  ...
+# Subtest: causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+ok 3 - causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+  ---
+  duration_ms: 8.711083
+  type: 'test'
+  ...
+# Subtest: release retains original Task/session/context after offers and crate generation change
+ok 4 - release retains original Task/session/context after offers and crate generation change
+  ---
+  duration_ms: 1.456667
+  type: 'test'
+  ...
+# Subtest: connection loss alone sends no release; observed backgrounding sends UP before conceal
+ok 5 - connection loss alone sends no release; observed backgrounding sends UP before conceal
+  ---
+  duration_ms: 0.696208
+  type: 'test'
+  ...
+# Subtest: wrong authentication cannot release an original contact or expose its view
+ok 6 - wrong authentication cannot release an original contact or expose its view
+  ---
+  duration_ms: 0.759125
+  type: 'test'
+  ...
+# Subtest: unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+ok 7 - unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+  ---
+  duration_ms: 0.743
+  type: 'test'
+  ...
+# Subtest: reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+ok 8 - reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+  ---
+  duration_ms: 1.357959
+  type: 'test'
+  ...
+# Subtest: recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+ok 9 - recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+  ---
+  duration_ms: 1.466125
+  type: 'test'
+  ...
+# Subtest: saved unacknowledged high-water participates in fresh explicit off recovery
+ok 10 - saved unacknowledged high-water participates in fresh explicit off recovery
+  ---
+  duration_ms: 2.051583
+  type: 'test'
+  ...
+# Subtest: only the original matching receipt can settle; a foreign Task/session or command remains unknown
+ok 11 - only the original matching receipt can settle; a foreign Task/session or command remains unknown
+  ---
+  duration_ms: 0.981125
+  type: 'test'
+  ...
+# Subtest: clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+ok 12 - clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+  ---
+  duration_ms: 1.371458
+  type: 'test'
+  ...
+# Subtest: server time unavailability and deadline shut inputs without advancing or extending the Task
+ok 13 - server time unavailability and deadline shut inputs without advancing or extending the Task
+  ---
+  duration_ms: 0.370083
+  type: 'test'
+  ...
+# Subtest: a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+ok 14 - a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+  ---
+  duration_ms: 0.482333
+  type: 'test'
+  ...
+# Subtest: one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+ok 15 - one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+  ---
+  duration_ms: 0.26325
+  type: 'test'
+  ...
+# Subtest: assistive activation releases a recovered pressed Hold through the same single control
+ok 16 - assistive activation releases a recovered pressed Hold through the same single control
+  ---
+  duration_ms: 0.064583
+  type: 'test'
+  ...
+# Subtest: accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+ok 17 - accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+  ---
+  duration_ms: 0.315791
+  type: 'test'
+  ...
+# Subtest: a same-Task death or outcome cannot be rewritten by a later view revision
+ok 18 - a same-Task death or outcome cannot be rewritten by a later view revision
+  ---
+  duration_ms: 0.613416
+  type: 'test'
+  ...
+# Subtest: an adapter cannot mutate the original DOWN that a later UP must close
+ok 19 - an adapter cannot mutate the original DOWN that a later UP must close
+  ---
+  duration_ms: 0.404417
+  type: 'test'
+  ...
+# Subtest: future original receipt time stays unknown and lookup sends only its strict identity context
+ok 20 - future original receipt time stays unknown and lookup sends only its strict identity context
+  ---
+  duration_ms: 0.692541
+  type: 'test'
+  ...
+# Subtest: the 50ms snap/200ms rest and end reversal retain one logical LOCK stop in both preferences
+ok 21 - the 50ms snap/200ms rest and end reversal retain one logical LOCK stop in both preferences
+  ---
+  duration_ms: 0.738292
+  type: 'test'
+  ...
+# Subtest: partial-lift falls keep their actual vertical origin, distinguish destinations and seek the current time
+ok 22 - partial-lift falls keep their actual vertical origin, distinguish destinations and seek the current time
+  ---
+  duration_ms: 1.850833
+  type: 'test'
+  ...
+# Subtest: a reduced swing keeps physical rail position while removing tilt and vertical motion
+ok 23 - a reduced swing keeps physical rail position while removing tilt and vertical motion
+  ---
+  duration_ms: 0.270125
+  type: 'test'
+  ...
+# Subtest: integer doses format half packages without floating point stock arithmetic
+ok 24 - integer doses format half packages without floating point stock arithmetic
+  ---
+  duration_ms: 0.485291
+  type: 'test'
+  ...
+# Subtest: a new Food return publication never falls back to an old finalized-round result caption
+ok 25 - a new Food return publication never falls back to an old finalized-round result caption
+  ---
+  duration_ms: 0.241125
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 185.212958

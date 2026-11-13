@@ -111,3 +111,20 @@ test('one Hold follows only its own pointer/key contact and closes on cancel, bl
 test('assistive activation releases a recovered pressed Hold through the same single control',()=>{
  const log=[],input=createFoodHoldInput({held:()=>true,down:()=>{log.push('down');return false;},up:()=>log.push('up')});input.assistiveClick();assert.deepEqual(log,['up']);input.dispose();
 });
+test('accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent',async()=>{
+ const r=rig();r.observe(asking());await r.controller.ask('seat-4');await r.controller.ask('seat-5');assert.equal(r.sent.length,1);assert.equal(r.controller.getModel().canAsk,false);
+ const next=asking();next.viewRevision++;assert.equal(r.observe(next),true);assert.equal(r.controller.getModel().canAsk,true);r.controller.dispose();
+});
+test('a same-Task death or outcome cannot be rewritten by a later view revision',()=>{
+ const r=rig(),v=playerView(7);v.offers=[];v.serverNowMs=9500;v.participantTask.people[0].alive=false;
+ v.participantTask.people[0].death={at:9000,mechanism:'CUT',actorSeatId:'seat-2'};v.participantTask.stage='ENDED';v.participantTask.outcome={kind:'LOST',at:9000,reason:'NOT_OVER_PLATFORM'};
+ assert.equal(r.observe(v),true);const changed=copy(v);changed.viewRevision++;changed.participantTask.outcome.reason='CRATE_BROKEN_NO_FETCHER';assert.equal(r.observe(changed),false);r.controller.dispose();
+});
+test('an adapter cannot mutate the original DOWN that a later UP must close',async()=>{
+ const r=rig({send:async q=>{q.command.input.gestureSequence=99;q.phaseId='mutated-phase';return null;}});r.observe();r.controller.holdDown();await flush();r.controller.holdUp();await flush();
+ assert.equal(r.sent[1].phaseId,r.sent[0].phaseId);assert.equal(r.sent[1].command.input.gestureSequence,1);r.controller.dispose();
+});
+test('future original receipt time stays unknown and lookup sends only its strict identity context',async()=>{
+ const r=rig({send:async q=>({receipt:{...receipt(q),receivedAt:6001},serverTimeMs:6000})});r.observe();r.controller.holdDown();await flush();
+ assert.equal(r.controller.getModel().feedback.status,'unknown');await r.controller.checkReceipts();assert.ok(r.lookups.length);assert.equal(Object.hasOwn(r.lookups[0],'command'),false);r.controller.dispose();
+});

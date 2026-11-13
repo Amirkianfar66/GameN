@@ -54,3 +54,4 @@ export { publicCapsuleProps } from './model/public-capsule.js';
 export * from './planet/model.js';
 export * from './planet/stage.js';
 export * from './planet/library.js';
+export * from './planet/food.js';

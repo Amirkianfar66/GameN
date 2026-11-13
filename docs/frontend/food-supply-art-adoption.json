@@ -153,7 +153,7 @@
     "apps/game/hosted/planet/food-ink.mjs",
     "apps/game/hosted/planet/food-icons.mjs"
   ],
-  "notYetCreated": "The eight render-only foundation modules/styles listed in nativeModuleOutputHashes now exist. food-render.mjs, the authoritative pose adapter and API/native wiring are in progress; this is a partial helper closure, not release admission.",
+  "notYetCreated": "The native renderer, global-axis pose adapter and uniform loader now exist as candidates. API/native application wiring, exact tuple dispatch, complete comparison and final guarded admission remain in progress; the eight output hashes below remain the partial reviewed foundation.",
   "excludedRuntime": [
     "design/food-supply/task.mjs",
     "design/food-supply/stage.mjs",
@@ -544,10 +544,10 @@
     ],
     "productionImported": false,
     "remaining": [
-      "food-render.mjs",
-      "accepted-anchor pose adapter",
-      "uniform asset loader and catalogue hook",
-      "API/native application wiring"
+      "final consumer/source closure after native checks",
+      "API/heartbeat/native application wiring",
+      "exact Food tuple/catalogue dispatch",
+      "76 native comparison states and visual acceptance"
     ]
   }
 }
