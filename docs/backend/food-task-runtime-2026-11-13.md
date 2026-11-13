@@ -1,204 +1,208 @@
 # Food Task runtime candidate
 
-Work item #234. Runtime worktree `/private/tmp/gamen-backend-food-task-runtime`,
-branch `codex/backend-food-task-runtime`, actual starting SHA
-`5a5bb9068cd4fb085cb2482cd969058221d2c870`. This starts from the exact contract
-accepted by Integration and Frontend on 13 November 2026. Contract PR #236 is
-merged. The runtime branch fast-forwarded safely to shared baseline
-`f9e7e11bd6c23671f96832bf45d79146e6fd855c`; its committed tree was identical to
-the actual starting contract. This separately reviewable implementation retains
-all local work and the original starting SHA above.
+Part of [#234](https://github.com/Amirkianfar66/GameN/issues/234), fixed release
+[Food test 1 / #237](https://github.com/Amirkianfar66/GameN/issues/237).
+The implementation and exact-head acceptance record are in
+[PR #238](https://github.com/Amirkianfar66/GameN/pull/238). A component checkpoint
+is not a deployed or activated release.
 
-The candidate targets protocol 3 / planet-game-1.4.0 /
-in-person-planet-food-task-2026-11-12. Existing creation defaults, saved tuples,
-old packets and replay semantics remain unchanged. No deployment, IAM or live
-cloud configuration change is part of this implementation.
+Runtime worktree: `/private/tmp/gamen-backend-food-task-runtime`, branch
+`codex/backend-food-task-runtime`. Actual starting SHA:
+`5a5bb9068cd4fb085cb2482cd969058221d2c870`, the contract accepted by Integration
+and Frontend. The branch fast-forwarded to identical-tree merged baseline
+`f9e7e11bd6c23671f96832bf45d79146e6fd855c`. The original Backend checkout and
+its local work were preserved. Reviewed executable code through
+`18f25ab2690350e3313c1dee5f9ff3c211a443c9` includes the final narrow
+probe-before-CLOCK correction. The PR records the final tested documentation/code
+head and its actual results; no result below silently transfers to different code.
 
-## Candidate service seam for affected-role review
+## Version and authority
 
-The existing ordinary snapshot remains the source for names, characters,
-original room/slot and ordinary phase. The candidate adds `foodPublicView` and
-`foodPlayerView` to the same response, gated to the exact Food tuple. The Food
-subtree uses that response's single serverTimeMs sample; it never combines
-unrelated asynchronous reads. Historical snapshots omit both fields.
+Explicit new matches selecting `food-task-1.4` use protocol3 /
+`planet-game-1.4.0` / `in-person-planet-food-task-2026-11-12`. Ruleset SHA256:
+`7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333`.
+Existing matches retain their exact saved tuples, fields, packets and replay
+semantics. Creation defaults remain unchanged. No cloud configuration, IAM,
+deployment, artwork publication or default activation is included.
 
-New authenticated operations are `foodCommand` (strict reviewed request),
-`foodReceipt` (own original command lookup) and `foodHeartbeat` (own server
-presence lease). No actor, assignment, client time, death, defense or food grant
-is accepted from the caller. Heartbeats renew a server lease; expiration records
-absence and then the approved full eight-second grace. Losing a connection
-never fabricates a Hold release.
+The owner-approved killed-Captain exception is recorded in
+`docs/specifications/planet-successor/food-task-captain-return-owner-decision-2026-11-13.md`
+and its matching overlay. At the original Task-start+32,500ms common return,
+a Captain killed after leaving Command returns to the last ordinary room,
+otherwise the other if full, using existing body-inclusive capacity and canonical
+slot order. C1 is freed at this return. No early public relocation, capacity
+change or mid-round election is added. All other participants retain their
+recorded places. No owner gameplay decision remains open for this component.
 
-While a Task is privately active, an authenticated own snapshot or command also
-renews that living participant's two-second lease. It cannot renew another seat.
-An offline participant reconnects only after due original boundaries are drained;
-an elapsed eight-second grace cannot be undone by a later read. Original command
-receipt recovery performs no new presence or gameplay mutation.
+## Engine and disclosure
 
-The candidate transport policy is exported as `FOOD_TASK_TRANSPORT`: one in-flight
-snapshot every 500ms through the entire 32.5-second public AWAY interval; coalesce an
-accepted-command refresh and reset that timer. Use a one-second heartbeat only
-when a fresh snapshot has not renewed the connection. Stop heartbeats at the
-private terminal outcome, while continuing snapshots until common return.
-Separate authenticated UID budgets per minute are snapshot 180, presence 90,
-input 120, closure 120 and control 30. HOLD UP and HOLD_RECOVER_OFF use the closure
-bucket; snapshot/presence/input exhaustion cannot consume it. Exact stored
-command retries and own receipt lookup precede fresh limits. Historical profiles
-retain their existing 120-per-minute limit. These are transport bounds, not
-physics, role eligibility or additional actions.
+The pure engine implements the exclusive Food step, invitation races and refusal
+rules, random control assignment,30s Task including4s briefing, approved panel
+and Hold continuations, hazards/Protection/luck, crate replacement, eight-second
+disconnect grace and fixed32.5s return. Registered inputs retain immutable
+contexts and effects across retries. Clone does not protect a Food hazard.
 
-Task input receipt time is the **successful durable admission** point, not an
-HTTP arrival timestamp that could race an earlier uncommitted request. The
-admission transaction deduplicates, assigns the per-match sequence and a
-monotonic server time, and persists the exact input/context/random stream.
-Processing drains the committed prefix in sequence order using those immutable
-times. Processing retries never retime a press or reroll a hazard. A deadline
-worker fences admission, drains that prefix, then advances the clock. These
-candidate-only internals do not change predecessor transaction semantics or
-weaken #206 assertions.
+Integer food starts at10; delivery adds10 once. An ordinary turn consumes its
+one meal once; Hack adds no second meal. Food, meal costs and hunger follow the
+whole selected reality without refill. Hunger resolves after retained attacks
+and before Rescue, using the approved eligibility and inherited medical rules.
+New hunger cannot be rescued at that same checkpoint.
 
-Public phase/absence timing stays independent of private motion and terminal
-boundaries. The private outbox uses the earliest pending boundary and fresh
-private deadline token; it does not publish that private deadline through the
-ordinary phase. Reconnect and late workers drain all due Task boundaries before
-admitting a new input, retaining the original Task and common-return times.
+Ordinary rooms, office facts and other donor state stay at the frozen publication
+world until common return. Participant-only events and private terminal outcomes
+do not become a public death, cause, cinematic or early return. An abort archives
+the private step, clears live controls/deadlines and retains the publication mask;
+JSON restore and original receipt recovery remain valid. Existing predecessor
+checkpoint assertions remain unchanged.
 
-One current participant's `participantTask.ownReturnPlacement` is server-computed
-from the recorded original place and the narrow Captain exception below. It is
-required in the exact runtime snapshot, optional in the standalone generic
-contract, absent for nonparticipants, and never includes the partner's fallback.
-Frontend must consume it rather than infer a destination from the frozen board.
-Integration accepted the shared field/transport seam at exact commit
-`d0a12f252d9d076c0978b97cfcdf942e5f0e4a75`, independently rebuilding and passing
-209 focused runtime/contract checks. The native consumer/visual review remains
-part of the combined release gate.
+## Reviewed service contract
 
-An abort archives the private Food step without a live deadline or controls. The
-ordinary publication mask is retained, so aborting cannot prematurely publish a
-private death or officer loss. The archived authority survives JSON restore;
-aborted snapshots follow the existing service's null-view behavior. No return,
-meal, delivery or press is generated by abort cleanup.
+The existing ordinary snapshot remains authoritative for roster, characters,
+rooms and slots. Exact Food snapshots add `foodPublicView` and nullable
+`foodPlayerView` in the same response using one server-time sample. Historical
+snapshots omit them. The current participant receives only their own
+`participantTask.ownReturnPlacement`, computed on a copy with the approved
+Captain fallback. Frontend consumes it instead of inferring from frozen C1.
+Integration accepted the seam at `d0a12f252d9d076c0978b97cfcdf942e5f0e4a75`
+with209 focused checks. No later public placement field was added.
 
-## Recorded Captain-return decision
+Authenticated operations are `foodCommand`, `foodReceipt` and `foodHeartbeat`.
+Callers cannot supply actor, role, health, client time, death, defense or food.
+A living online participant's own read/input renews a two-second server lease;
+expiry starts the original eight-second grace. Offline reads drain original
+boundaries before reconnecting. No disconnect fabricates Hold-UP. Recovery
+checks current UID/seat/binding before returning private results, including
+midflight ordinary-command receipt discovery; a revoked caller cannot receive a
+successor's same-ID receipt or conflict information.
 
-A Captain can participate from Command Room under Food eligibility. If killed,
-the latest Food record returns participants to their recorded place at the
-common boundary. C1 would then be occupied by the body, and eliminated occupants
-count toward its capacity of one. The inherited capacity-resolution owner
-decision instead returns an eliminated former Captain to their last ordinary
-room (or the other if full), and existing elections place the new Captain in C1.
+`FOOD_TASK_TRANSPORT` specifies one in-flight500ms snapshot throughout the full
+32.5s AWAY interval and1s fallback heartbeat when reads have not renewed contact.
+Accepted-command refreshes coalesce. Separate per-UID minute budgets are
+snapshot180, presence90, input120, closure120 and control30. Hold-UP/recovery
+closure cannot be starved by other buckets. Original receipts and pending-input
+recovery precede fresh budgets/context. Historical profiles retain120/minute.
 
-Evidence: Food owner record, “Both participants return” paragraph;
-`rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json`,
-Captain-loss decision and unchanged capacity; engine `voteClosed` assigns C1.
-The owner explicitly selected the inherited Captain-loss return on 13 November 2026.
-The focused owner record/overlay added in this PR binds that exception: last
-ordinary room, otherwise the other if full, at the unchanged 32.5-second common
-return. All other participants retain their recorded places. No eligibility
-exception or mid-round election is added.
+## Durable processing and cooperation
 
-## First engine review checkpoint
+The successful durable admission assigns a match sequence and monotonic server
+time, then persists the exact request, binding, entropy and identities. This is
+not a backdated HTTP timestamp. Processing drains the committed prefix and every
+earlier/equal engine/presence boundary at its original time before the input.
+Private scheduler deadlines never replace the public phase/return deadline.
 
-This checkpoint contains the candidate authority/tuple, exclusive Food phase,
-pure Task machine, selected-world ledger, fixed-return masking, hunger/medical
-integration and same-response service contract. The transactional service and
-worker are being integrated separately; this checkpoint is not ready to merge
-or activate by itself. Frontend owns the new checkpoint's presentation label.
+A fenced eight-second bot-driver lease coalesces workers. Nearby bot wakes use
+bounded real-time waits and fresh own-view projection, with a20s driver budget;
+longer gaps retain durable scheduling. New speculative presses are checked at
+actual admission after SDK retry. Already admitted contexts are never retimed.
 
-Actual local checks on Node22.21.1:
+A separate eight-second ownership lease guards all live Food Session writers.
+Positive owners have fixed target sequences; zero owners cover admission and bot
+metadata, release before downstream draining, and retain technical recovery
+wakes on error/ACK loss. Followers poll original entries read-only with awaited
+50ms sleeps and a20s wall bound. There is no unawaited mutation race after a
+caller returns. Stale owners cannot clear successors. A current-state handoff
+prevents setup-classified requests mutating a newly running Food match outside
+its coordinator; its separately committed historical rate charge occurs once.
 
-- Contracts and engine project build passed.
-- Pure Task/food ledger suites:81/81 passed.
-- Constructed physical-stage suite:41/41 passed.
-- Native lifecycle/journey controls:18/18 passed; subsequent targeted recovery,
-  Protection/luck and Hack checks:12/12 passed (three repeat cooperative cases).
-- Native fork/whole-reality Sync/hunger histories:3/3 passed, with exact replay.
-- Historical golden replay/version suites:45/45 passed, retaining original
-  state/public/player checkpoint hashes and old-field absence.
-- Accepted Food contract conformance suites:159/159 passed.
-- Runtime authority/old-tuple rejection checks:4/4 passed.
+Pure lookups use a strong read-only metadata/chunk snapshot. Guarded effect-free
+reads fence their captured Session against the full current Control and renew
+private contact metadata without Session locks/publication. Contact hydration
+checks Task/binding/living-online status and original entry time before absence
+and scheduling. Old expiry wakes rearm to valid later contacts. Heartbeats keep
+their existing queued journal path. Pure authorization, original lookup and rate
+checks prevent known-denied callers creating writer work. SDK mutation retry
+policy and the existing #206 assertions remain unchanged.
 
-These results describe the first engine checkpoint; the completed service checks
-below supersede its earlier unrun service boundary.
+Bot Lock planning retains its100ms advisory margin. Actual admission separately
+checks the full approved250ms destination click, exact Panel revision, Task,
+session, offer and original click expiry. Only an unchanged, definitively
+uncommitted Lock may be retained locally;250ms/3000ms late cases cannot revive an
+old ID on another rail pass. UP and all other fresh-input safeguards are unchanged.
 
-## Service integration and verification
+The pure internal `hasOnlyDuePlanetFoodWarnings` query checks **all** outstanding
+Task boundaries through actual time, including ties; it requires a nonempty,
+warning-only set and the exact Food tuple/phase. It changes no state or RNG.
+Only an otherwise valid Lock may enter ahead of those warnings; normal processing
+still journals every warning before the input. Missing optional support keeps
+the conservative fallback. Presence, pending-prefix, physical deadlines, worker
+fencing and original click bounds remain mandatory.
 
-The explicit `food-task-1.4` profile wires the real engine through the existing
-authenticated endpoint, private Firestore authority, bot trigger, deadline Task
-and repair outbox. The infrastructure accepts this opt-in profile without changing
-the creation switch, default profile, setup flow or asset selection. No cloud
-environment has been changed. Practice bots use only their own authorized Food
-view; they prefer an eligible human Partner using existing public controller
-metadata. Roles and personality presets do not select partners or Task controls.
+The final narrow driver correction preserves the first actionable bot's own-view
+Lock proposal before an unnecessary preliminary CLOCK round trip. It honors
+existing stored member order, unfinished intent and retry timing, creates no
+command ID before ownership, and rechecks the proposal in the owned loop. It
+uses the same fenced admission/drain path. Earlier UP/other actions retain their
+order; non-Lock and non-warning work retains the previous CLOCK path.
 
-Actual checks on Node22.21.1/npm10.9.4:
+Private `ingressSequence` and `sessionWriterRecovery` outbox fields are not client
+fields. Task dispatch still emits the same four-field payload. Packaging reuses
+Integration's reviewed Food closure from2343cc6a and includes the internal
+classifier in the isolated Planet export. Neither packaging profile accesses
+match state during its disabled-service smoke check.
 
-| Check | Actual result |
+## Verification evidence and final gates
+
+Pinned toolchain: Node22.21.1/npm10.9.4; local emulators use Java21 and
+`demo-mothership`. Detailed final results, exact source SHA and latency matrix
+belong to PR #238 and release issue #237. These earlier measured checkpoints
+remain evidence with their actual scope:
+
+| Checkpoint | Actual result |
 | --- | --- |
-| Contracts/engine/service/Firebase project build | Passed |
-| Workspace/source/toolchain integrity | Passed |
-| All engine test files | 1,697 passed; zero failures/skips |
-| Latest abort/return projection controls | 18 passed, including killed participant and pre-return JSON restore;12 latest archive/corruption controls passed |
-| All backend/Firebase unit test files | 451 passed; zero failures/skips |
-| Final native service controls | 10 passed; latest combined mock/native rerun41/41 passed |
-| All bootstrap contract/version test files | 367 passed; zero failures/skips |
-| Genuine Firestore normal-setup journeys | 6 passed:7/8/9 players, both human controls |
-| Latest historical replay/version rerun | 45 passed; original hashes/assertions unchanged |
+| Classifier engine tree c615465e | All1,706 engine tests passed; original historical hashes/assertions retained |
+| Full Backend/Firebase at0f2c8c79 | 518 passed, zero failed/skipped |
+| Bootstrap contracts/versions | 367 passed, zero failed/skipped |
+| Genuine Firestore at0f2c8c79 | 7 passed:7/8/9 × both human controls plus overlapping snapshot/worker/timer/receipt/UP lanes |
+| Isolated classic and Planet packages at0f2c8c79 | Both clean installs, forbidden-source scans and runtime/private-task export smoke checks passed |
+| Independent exact-source audits | Auth, recovery, canonical order, original click expiry, classifier and direct-probe correction accepted; final matrix still required |
+| New direct-probe checks at18f25ab2 | Four light cases passed in0.57s; no heavy tests run during Frontend's capture slot |
 
-The native and Firestore journeys use normal timed setup/boarding, an eligible
-bot's invitation, the human's own view and real engine commands. Each samples all
-66 snapshots at500ms and attempts33 heartbeats at1s through the full32.5-second
-AWAY interval; private-terminal heartbeats correctly reject while polling
-continues. They verify delivery once, fixed return, service restart/original
-receipt time, and one ordinary meal despite retries. Native controls additionally
-saturate real snapshot/input budgets before a causal UP, and prove that a fresh
-offline DOWN journals COMMAND before reconnect PRESENCE with exact encoded-state
-replay. A host can abort the active Task and recover the original own receipt.
+Normal real HTTP/private-trigger/Tasks journeys use Auth admission, ordinary
+setup/boarding, one human and bots. They use no seeded authority, injected clock,
+manual advance/runBots or direct Task callback. Native and data-only suites
+explicitly use controlled clocks; they do not replace connected acceptance.
 
-The independent service audit found that reconnect presence was initially
-journaled ahead of the command that actually preceded it; the record order is now
-corrected and the exact replay control passes. The independent rule audit found
-the Food-abort validation failure; the archival fix and privacy controls above
-address it. Its separate six Captain controls and source-hash audit passed.
-The unversioned historical checkpoint helper also keeps its predecessor phase
-matrix; Food extensions require the explicit versions argument. The original
-Blackout contract assertion remains unchanged.
+At0f2c8c79 the isolated7/8 journeys delivered once, retained the original common
+return, finalized stock20 and recovered exact receipts. Control reply maxima
+were155/151ms; read p95 values259/250ms, with maxima2270/3736ms. Nine failed TIME:
+its bot Lock arrived only35ms before the30s deadline; replies max220ms, read p95
+385ms/max3641ms. These are historical results, not the final matrix for the
+probe-before-CLOCK correction. Earlier failures and the finite exit check remain
+in [#237](https://github.com/Amirkianfar66/GameN/issues/237#issuecomment-6860476862).
+An artificial48-request single-phone burst also returned a lock timeout; no
+arbitrary burst/load/scalability claim is made.
 
-Whole-workspace type checking currently fails at
-`packages/presentation/src/planet/library.ts:28` because the Frontend-owned label
-map lacks `FOOD_RETURNED`. The focused Backend build passes; the connected consumer
-must supply that label in the combined candidate. Full `npm run verify` and
-physical-device checks are not claimed. The capacity playout timeout remains
-Integration-owned and unchanged. All nine GitHub checks at runtime head
-`67b7ea5a2c65a9b2f4c09527c9b2f2d53b902ed4` stop at this same missing mapping;
-their emulator/test stages have not established a passing result.
+The final same-source7/8/9 acceptance must establish delivery once, original
+return, receipt/reconnect recovery and actual latency without competing local
+batches. Frontend's static-capture slot and Backend's actual-time slot are
+explicitly handed over; an idle task is not an implied release.
 
-Real Functions/Tasks connected acceptance is still under investigation: the first
-three-match cooperative script reached return without delivery. The deterministic
-and genuine Firestore controls pass; this does not waive the real connected exit
-check or establish a gameplay change. Record the reproducible diagnosis and final
-result before requesting runtime approval. Source-only/mock checks do not prove
-hosted multiplayer correctness, real-network speed or human social-deduction
-balance.
+Integration also recorded predecessor e132341e's historical9-player delayed
+boarding failure at `planet-boarding.test.mjs:40`: a Firestore code3 streamed-read
+error, not an assertion failure. The +91,000ms injected game clock is not wall
+transaction expiry. The SDK does not classify this message as retryable, and the
+log lacks enough transaction context to establish its cause. Assertions and
+retry policy stay unchanged. Retain its exact-case and full-file final-head
+rerun/diagnosis, followed by required combined CI; do not call it fixed from
+unrelated passing counts.
 
-The isolated real seven-player rerun also exposed API calls taking2.6–4.2seconds,
-and the corrected timed-input driver reached its240-second test limit. Raw
-Firestore trigger counts include immediate namespace-filtered no-ops and are not
-counts of actual bot evaluations. Source inspection does establish that multiple
-bot workers can separately decide work exists and then admit redundant CLOCKs.
-The narrowly scoped correction is being reviewed as private per-match worker
-coalescing with fenced admissions and durable expiry/rearming; human commands,
-causal UP, engine boundaries and committed-prefix processing keep their authority.
-Reproduction and exit check:
-https://github.com/Amirkianfar66/GameN/issues/237#issuecomment-6855462405.
+The standalone Backend tree still lacks Frontend's reviewed `FOOD_RETURNED`
+label map; whole-workspace typecheck/verify is not claimed here. Integration's
+combined consumer supplies it and owns exact-head required CI, art selection,
+Designer acceptance, release pinning and any staging activation. Capacity playout
+timeout remains Integration-owned. Physical-device, hosted-network, staging and
+human social-deduction balance acceptance are not established by these tests.
+No deployment or default activation was performed by this component.
 
-## Finite remaining review checklist
+## Redacted command and original receipt
 
-- Complete the real HTTP/private-trigger/Tasks connected acceptance or document
-  its concrete blocker with reproduction and exit check in release issue #237.
-- Obtain final exact-head adapter/worker review. Integration has accepted the
-  committed field/transport seam; no further owner rule vote is open.
-- Integrate the Frontend-owned checkpoint label and connected consumer, admit the
-  exact artwork closure, then run combined CI/connected/Designer release gates.
-- Integration alone pins and activates the combined Food test1 artifact after
-  those gates. This Backend PR performs no deployment or default activation.
+Synthetic example only. The authenticated identity supplies the actor; exact own
+retries/lookup retain the stored receivedAt and result.
+
+```json
+{"operation":"foodCommand","request":{"schemaVersion":1,"protocolVersion":3,"matchId":"test-match","phaseId":"food-phase","foodStepId":"food-phase","round":1,"commandId":"own-id","command":{"type":"TASK_ASK","partnerSeatId":"seat-2"}}}
+```
+
+```json
+{"schemaVersion":1,"protocolVersion":3,"matchId":"test-match","phaseId":"food-phase","foodStepId":"food-phase","round":1,"commandId":"own-id","status":"accepted","receivedAt":1800000000000,"result":{"kind":"REQUEST","requestId":"opaque-request","requestRevision":0,"state":"PENDING"}}
+```
