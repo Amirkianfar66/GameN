@@ -20,91 +20,91 @@
       "path": "apps/game/hosted/planet/food-geometry.mjs",
       "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
       "bytes": 1443,
-      "gzipBytes": 634
+      "gzipBytes": 641
     },
     {
       "path": "apps/game/hosted/planet/food-ink.mjs",
       "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
       "bytes": 2408,
-      "gzipBytes": 1080
+      "gzipBytes": 1092
     },
     {
       "path": "apps/game/hosted/planet/food-machine.mjs",
       "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
       "bytes": 24394,
-      "gzipBytes": 8112
+      "gzipBytes": 8134
     },
     {
       "path": "apps/game/hosted/planet/food-scene.mjs",
       "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
       "bytes": 3694,
-      "gzipBytes": 1686
+      "gzipBytes": 1699
     },
     {
       "path": "apps/game/hosted/planet/food-icons.mjs",
       "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
       "bytes": 18628,
-      "gzipBytes": 5887
+      "gzipBytes": 5921
     },
     {
       "path": "apps/game/hosted/planet/food-ui.mjs",
       "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
       "bytes": 14436,
-      "gzipBytes": 4625
+      "gzipBytes": 4630
     },
     {
       "path": "apps/game/hosted/planet/food-kit.css",
       "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
       "bytes": 57285,
-      "gzipBytes": 11003
+      "gzipBytes": 11064
     },
     {
       "path": "apps/game/hosted/planet/food.css",
       "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
       "bytes": 22648,
-      "gzipBytes": 4656
+      "gzipBytes": 4654
     },
     {
       "path": "apps/game/hosted/planet/food-host.css",
-      "sha256": "0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
-      "bytes": 847,
-      "gzipBytes": 405
+      "sha256": "ef09f47dd56916ba7f10b7aff386aff75a5a89805bf833e7b15bd64766c79139",
+      "bytes": 1190,
+      "gzipBytes": 533
     },
     {
       "path": "apps/game/hosted/planet/food-pose.mjs",
       "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
       "bytes": 6888,
-      "gzipBytes": 2666
+      "gzipBytes": 2685
     },
     {
       "path": "apps/game/hosted/planet/food-display.mjs",
-      "sha256": "978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
-      "bytes": 9317,
-      "gzipBytes": 3227
+      "sha256": "dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
+      "bytes": 9337,
+      "gzipBytes": 3251
     },
     {
       "path": "apps/game/hosted/planet/food-assets.mjs",
       "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
       "bytes": 1823,
-      "gzipBytes": 942
+      "gzipBytes": 947
     },
     {
       "path": "apps/game/hosted/planet/food-render.mjs",
-      "sha256": "dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
-      "bytes": 34921,
-      "gzipBytes": 11564
+      "sha256": "3ed84ca5f60ced1f35bcdeb9083e9aa07dcd6bdc56f7d3b2826ee000f409f160",
+      "bytes": 35070,
+      "gzipBytes": 11644
     },
     {
       "path": "apps/game/hosted/planet/food-app.mjs",
       "sha256": "9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
       "bytes": 3284,
-      "gzipBytes": 1433
+      "gzipBytes": 1430
     },
     {
       "path": "packages/presentation/src/planet/food.ts",
       "sha256": "5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
       "bytes": 3079,
-      "gzipBytes": 1393
+      "gzipBytes": 1394
     }
   ],
   "existingConsumersAndClientGlue": [
@@ -112,79 +112,79 @@
       "path": "apps/game/hosted/planet/app.mjs",
       "sha256": "71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
       "bytes": 25234,
-      "gzipBytes": 7775
+      "gzipBytes": 7810
     },
     {
       "path": "apps/game/hosted/planet/render.mjs",
-      "sha256": "3e93b023fc331c58601003a21045508579e1c659ea5fb95b98993e626fd2b20a",
-      "bytes": 52291,
-      "gzipBytes": 15553
+      "sha256": "b147aecf764ee8f4bba0e3bbc12a76957128c7a1acdc6ac6c212a37802c9f954",
+      "bytes": 52500,
+      "gzipBytes": 15750
     },
     {
       "path": "apps/game/hosted/crew-runtime.mjs",
       "sha256": "227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
       "bytes": 11738,
-      "gzipBytes": 3740
+      "gzipBytes": 3730
     },
     {
       "path": "apps/game/src/planet/controller.ts",
       "sha256": "728ad00df7318235a3dd40e77d7cf393bfa9e20b7c5ede518f54790b4caddb00",
       "bytes": 31492,
-      "gzipBytes": 8893
+      "gzipBytes": 8923
     },
     {
       "path": "apps/game/src/planet/session.ts",
       "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
       "bytes": 27860,
-      "gzipBytes": 7872
+      "gzipBytes": 7925
     },
     {
       "path": "apps/game/src/planet/transport.ts",
       "sha256": "2568a7750f59eef9ef0abaddff04e067492f97ce81a72eb48506e710ab37b044",
       "bytes": 6616,
-      "gzipBytes": 2220
+      "gzipBytes": 2215
     },
     {
       "path": "apps/game/src/planet/food.ts",
       "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
       "bytes": 18812,
-      "gzipBytes": 5516
+      "gzipBytes": 5537
     },
     {
       "path": "apps/game/src/planet/food-input.ts",
       "sha256": "030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
       "bytes": 1469,
-      "gzipBytes": 606
+      "gzipBytes": 607
     },
     {
       "path": "apps/game/src/planet/food-recovery.ts",
       "sha256": "aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
       "bytes": 3917,
-      "gzipBytes": 1417
+      "gzipBytes": 1425
     },
     {
       "path": "packages/presentation/src/planet/library.ts",
       "sha256": "c45d1e3e478320a50356987d4534714f9cc0a72ba12570a51c9690895914cc0c",
       "bytes": 4696,
-      "gzipBytes": 1829
+      "gzipBytes": 1833
     },
     {
       "path": "packages/presentation/src/planet/model.ts",
       "sha256": "012324bd4e310a16011b1d0b97632c118e94d3b9fcd9a508c699fb3a1e8b1672",
       "bytes": 13271,
-      "gzipBytes": 4583
+      "gzipBytes": 4597
     },
     {
       "path": "apps/game/src/index.ts",
       "sha256": "11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
       "bytes": 5077,
-      "gzipBytes": 1574
+      "gzipBytes": 1562
     },
     {
       "path": "packages/presentation/src/index.ts",
       "sha256": "fcc6f5733a59a195cfa2144e984d8eb7c31d6428fdf7756f9a6c52fd306b8df0",
       "bytes": 3497,
-      "gzipBytes": 1251
+      "gzipBytes": 1243
     }
   ],
   "staticAssets": {
@@ -267,5 +267,11 @@
     "Designer #222 narrow wording/layout decisions and native visual acceptance",
     "Integration exact production registration and combined build checks",
     "Backend committed real API/worker/bot connected acceptance"
-  ]
+  ],
+  "reviewCorrections": {
+    "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6859626835",
+    "nativeBase": "45415db6d97ae6a34e2047c902da0a78c7e29cbd",
+    "status": "Existing-sheet source corrections; refreshed captures pending quiet slot. winch-10 source conflict and Designer #241 departures pending agreement.",
+    "report": "docs/frontend/food-supply-review-corrections-2026-11-13.md"
+  }
 }

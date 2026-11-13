@@ -53,7 +53,19 @@ function driver(boardName='cooperation'){
   publicView:projectPlanetPublic(state),playerView:seatId?projectPlanetPlayer(state,seatId):null,foodPublicView:projectPlanetFoodPublic(state,now),foodPlayerView:seatId?projectPlanetFoodPlayer(state,seatId,now):null};
   return {now,value:PlanetSessionSnapshotSchema.parse(value)};
  }
- return {board,ask,answer,food,packet,advance,press,get state(){return state;}};
+ function rejectedLock(seatId,now){
+  const t=projectPlanetFoodPlayer(state,seatId,now).participantTask;
+  assert.ok(t.controlRevision>0);
+  // Explicit synthetic recovery setup: an original LOCK carrying an older
+  // control revision. The real candidate engine, rather than the capture
+  // transport, determines and stores its rejection. This is not a claim that
+  // the current phone submitted that stale revision through its controls.
+  const result=food(seatId,{type:'TASK_PRESS',taskId:t.taskId,controlSessionId:t.controlSessionId,
+   expectedControlRevision:t.controlRevision-1,input:{kind:'PANEL_LOCK'}},now);
+  assert.equal(result.receipt.status,'rejected');assert.equal(result.receipt.code,'STALE_CONTEXT');
+  return {...result,construction:'Constructed original stale-revision LOCK, rejected by the actual candidate engine. The native recovery store first has no receipt, then reads this exact authoritative receipt; no rejection is synthesized in the capture transport.'};
+ }
+ return {board,ask,answer,food,packet,advance,press,rejectedLock,get state(){return state;}};
 }
 
 export function nativeFoodCase(query){
@@ -64,6 +76,10 @@ export function nativeFoodCase(query){
   const prior=s==='return'?(as==='other'?nativeFoodCase(`s=task&board=${board}&t=6000&as=other`).initial:d.packet(seat,T+32000)):null;
   const current=prior??d.packet(s==='away'?'seat-6':seat,T+target);
   if(p.get('press')==='refused')return {initial:nativeFoodCase(`s=task&board=${board}&t=6650&as=${as}`).initial,next:current,screen:null,feedback:'refused',act:p.get('act')};
+  if(p.get('press')==='lost'){
+   const recovery=d.rejectedLock(seat,T+target);
+   return {initial:d.packet(seat,T+target),next:null,screen:null,recovery};
+  }
   return {initial:current,next:s==='return'?d.packet(seat,T+target):null,screen:null,feedback:p.get('press'),act:p.get('act')};
  }
  if(s==='stock'||s==='howto'){

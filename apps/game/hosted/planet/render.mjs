@@ -341,6 +341,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove]);
   if(key!==uiKey){uiKey=key;renderUI();}renderTargets();
   if(foodSurface.active){sheet.hidden=true;targetBar.hidden=true;}sheet.inert=foodSurface.active;rosterText.hidden=foodSurface.exclusive;
+  // The shared board skin forces data-open=true sheets to display, even when
+  // hidden. Keep that marker aligned for this Food consumer's ordinary shell.
+  if(food)sheet.dataset.open=String(!sheet.hidden);
   // Scroll clearance lets every board target move above the prompt without moving
   // any room, figure or fixed-slot coordinates. Darkness keeps only the frozen scene.
   const clearance=targetBar.hidden?0:targetBar.getBoundingClientRect().height+16;

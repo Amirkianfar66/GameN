@@ -39,7 +39,7 @@ export function foodDisplay(model,now,{reduced=false,names=()=>''}={}) {
  const key=()=>({act:'key',label:own?.keyTurned?'Key turned':'Turn key',enabled:enabled&&model.canKey,next:enabled&&model.canKey,turned:!!own?.keyTurned});
  if(role==='panel'){
   const act=task.panel.locked?'release':'lock',available=act==='release'?model.canPanelRelease:model.canPanelLock;
-  const next=state==='intake'?act==='release'||p.stop===0:act==='release'?p.stop!==5:p.stop===5&&!v.guide.leaving;
+  const next=state!=='landed'&&(state==='intake'?act==='release'||p.stop===0:act==='release'?p.stop!==5:p.stop===5&&!v.guide.leaving);
   const button={act,label:task.panel.locked?'RELEASE':'LOCK',enabled:enabled&&available,hazard:available&&act==='lock'&&cut,next:available&&next,stop:p.stop,leaving:act==='lock'&&v.guide.leaving};
   v.buttons=state==='landed'?[key(),button]:[button];
  }else if(state==='landed')v.buttons=[key()];
