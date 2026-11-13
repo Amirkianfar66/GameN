@@ -8,7 +8,9 @@ films and further gameplay features.
 ## Reviewed inputs
 
 - Main baseline: `f9e7e11bd6c23671f96832bf45d79146e6fd855c`.
-- Backend: `cd41a74ae36d370e89bf6c1688a8fb697436b18a`, PR #238.
+- Backend: `7c24f97b89a6f669ac599ee4b12e371ef690a8f2`, PR #238.
+  Its read-only persistence correction follows the failed isolated real-time
+  run at `cd41a74a`; connected acceptance is still pending.
 - Frontend: `50441cf4fd65589925c14e3574b8618d27ac434e`, PR #239.
   Last runtime correction: `d8b92b33c8ed7a03d7304db6b19fb45775dca4ef`.
 - Designer Food reference: `9bb497948861521030c37a8d2c60a6318f1745c9`, merged #231.
@@ -43,7 +45,9 @@ Integration has independently checked:
 - The 15 render modules remain identical to capture commit `30e52bcb`; later
   client changes preserve predecessor clock probes and conceal Food immediately
   after an explicit authorization refusal. The current closure pins those changes.
-- The latest combined Food session/service/worker regressions pass 59/59.
+- At Backend `cd41a74a`, the combined Food session/service/worker regressions
+  pass 59/59. Backend reports 56 focused checks at `7c24f97b`; Integration
+  reviewed that narrow source correction, with final combined CI pending.
 - The design suite completed 356/357 checks; its sole failure was an engine
   source comment matching the historical prototype-reference ban. The comment
   now cites Designer #231 and its exact source head without a prototype import
@@ -60,6 +64,10 @@ Integration has independently checked:
   base outputs, 27 each for art 0.6/0.7/0.8, and 64 for art 0.9 (including the
   37 Food SVGs). Production exclusion passes. This was repeated with Frontend `50441cf4` and Backend `cd41a74a`
   assembled. Final release metadata still has to be recorded before publication.
+- At combined head `2343cc6a`, both classic and Planet isolated package install
+  and import checks pass. The Planet package now includes the two Food service
+  dependencies and four engine ports. This evidence precedes `7c24f97b`; final
+  packaging validation must include the updated runtime.
 
 The Frontend [native review packet](../frontend/food-supply-native-review-2026-11-13.md)
 contains 304 Food pairs and 12 ordinary-interface pairs, with provenance and
