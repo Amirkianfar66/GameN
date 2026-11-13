@@ -1,0 +1,2 @@
+ok   board
+1 parts drawn into /private/tmp/gamen-phone-229-current-compare-board

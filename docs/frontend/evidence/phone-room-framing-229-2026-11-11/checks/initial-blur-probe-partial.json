@@ -1,0 +1,12 @@
+{
+  "scope": "Designer #229 canonical cold fallback, bounded reflow, pointer cancellation and authority/offer guards. Explicit synthetic authority, desktop Chromium only.",
+  "candidate": "2a350d02425961a95869cf2ee7a353ddc9ecabd3",
+  "reduced": true,
+  "cases": [],
+  "failure": {
+    "case": "7-390-100-public",
+    "error": "Error: Page script failed: TypeError: Cannot read properties of null (reading 'getModel')\n    at <anonymous>:1:31\n    at Object.evaluate (file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/capture/browser.mjs:120:33)\n    at async file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/cold-framing-capture.mjs:51:17"
+  },
+  "sourcesUnchanged": true,
+  "runtimeErrors": []
+}

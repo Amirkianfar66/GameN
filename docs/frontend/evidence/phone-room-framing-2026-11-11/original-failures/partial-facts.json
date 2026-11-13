@@ -1,0 +1,469 @@
+{
+  "scope": "T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.",
+  "candidate": "ec6e3060646d38c8f6c441051770a69d0d56716c",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "rooms": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "paintedPixels": 26564,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 49.14664840698242,
+            "width": 86.29999542236328,
+            "height": 190.8533477783203
+          },
+          "bounds": {
+            "left": 161.458984375,
+            "right": 245.04293823242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "paintedPixels": 26564,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 49.14664840698242,
+            "width": 86.29999542236328,
+            "height": 190.8533477783203
+          },
+          "bounds": {
+            "left": 159.787109375,
+            "right": 243.37106323242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "paintedPixels": 37346,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.8590617179870605,
+            "width": 93.06465911865234,
+            "height": 247.4590606689453
+          },
+          "bounds": {
+            "left": 29.23651123046875,
+            "right": 120.27914428710938,
+            "top": 335.8481750488281,
+            "bottom": 581.3695983886719,
+            "width": 91.04263305664062,
+            "height": 245.52142333984375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "paintedPixels": 33807,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.80171585083008,
+            "width": 175.70071411132812,
+            "height": 190.14723205566406
+          },
+          "bounds": {
+            "left": 271.5147705078125,
+            "right": 446.8782958984375,
+            "top": 456.611083984375,
+            "bottom": 646.6904296875,
+            "width": 175.363525390625,
+            "height": 190.079345703125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.6756549244106481,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "paintedPixels": 34219,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 3.9291093349456787,
+            "width": 101.97549438476562,
+            "height": 237.6708984375
+          },
+          "bounds": {
+            "left": 290.5921325683594,
+            "right": 383.1406555175781,
+            "top": 231.36474609375,
+            "bottom": 449.6703796386719,
+            "width": 92.54852294921875,
+            "height": 218.30563354492188
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "paintedPixels": 37226,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 4.393521308898926,
+            "width": 98.30000305175781,
+            "height": 237.20648193359375
+          },
+          "bounds": {
+            "left": 2.9243469238281286,
+            "right": 91.26553344726562,
+            "top": 219.89013671875,
+            "bottom": 435.8951110839844,
+            "width": 88.3411865234375,
+            "height": 216.00497436523438
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-7-room-a-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "paintedPixels": 36816,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.9701948165893555,
+            "width": 87.80000305175781,
+            "height": 236.6298065185547
+          },
+          "bounds": {
+            "left": 142.85675048828125,
+            "right": 235.69122314453125,
+            "top": 452.884033203125,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 246.32080078125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "paintedPixels": 36816,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.9701948165893555,
+            "width": 87.80000305175781,
+            "height": 236.6298065185547
+          },
+          "bounds": {
+            "left": 162.32550048828125,
+            "right": 255.15997314453125,
+            "top": 452.884033203125,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 246.32080078125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "paintedPixels": 28423,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.82842254638672,
+            "width": 105.27196502685547,
+            "height": 191.97158813476562
+          },
+          "bounds": {
+            "left": 11.532104492187486,
+            "right": 114.90795898437497,
+            "top": 503.4075012207031,
+            "bottom": 700.7041015625,
+            "width": 103.37585449218749,
+            "height": 197.29660034179688
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "paintedPixels": 34631,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -10.083185195922852,
+            "width": 92.69999694824219,
+            "height": 251.68319702148438
+          },
+          "bounds": {
+            "left": 301.402099609375,
+            "right": 399.806640625,
+            "top": 430.314453125,
+            "bottom": 693.345458984375,
+            "width": 98.404541015625,
+            "height": 263.031005859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9003436170344733,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "paintedPixels": 32361,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.399999618530273,
+            "width": 82.36001586914062,
+            "height": 211.40000915527344
+          },
+          "bounds": {
+            "left": 185.25234985351562,
+            "right": 258.74676513671875,
+            "top": 324.8580322265625,
+            "bottom": 521.3875427246094,
+            "width": 73.49441528320312,
+            "height": 196.52951049804688
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "paintedPixels": 34994,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.083065986633301,
+            "width": 105.5999984741211,
+            "height": 226.71694946289062
+          },
+          "bounds": {
+            "left": -4.267395019531247,
+            "right": 91.07644653320312,
+            "top": 316.121337890625,
+            "bottom": 520.8143310546875,
+            "width": 95.34384155273438,
+            "height": 204.6929931640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9552420486731598,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-7-room-b-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "paintedPixels": 30496,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 25.23999786376953,
+            "width": 79.10000610351562,
+            "height": 215.56002807617188
+          },
+          "bounds": {
+            "left": 153.43661499023438,
+            "right": 244.8944091796875,
+            "top": 359.7513122558594,
+            "bottom": 613.4951171875,
+            "width": 91.45779418945312,
+            "height": 253.74380493164062
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    }
+  ],
+  "blackout": [],
+  "figureFailures": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"A3\",\"room\":\"room-a\",\"paintedPixels\":33807,\"rawSvgBounds\":{\"x\":-32.363521575927734,\"y\":57.80171585083008,\"width\":175.70071411132812,\"height\":190.14723205566406},\"bounds\":{\"left\":271.5147705078125,\"right\":446.8782958984375,\"top\":456.611083984375,\"bottom\":646.6904296875,\"width\":175.363525390625,\"height\":190.079345703125},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.6756549244106481,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-b",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"B3\",\"room\":\"room-b\",\"paintedPixels\":34631,\"rawSvgBounds\":{\"x\":18.400001525878906,\"y\":-10.083185195922852,\"width\":92.69999694824219,\"height\":251.68319702148438},\"bounds\":{\"left\":301.402099609375,\"right\":399.806640625,\"top\":430.314453125,\"bottom\":693.345458984375,\"width\":98.404541015625,\"height\":263.031005859375},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9003436170344733,\"opacity\":1}"
+    }
+  ],
+  "failure": {
+    "case": "390-844-100-7",
+    "error": "AssertionError [ERR_ASSERTION]: Expected visible crew SVG content\n    at checkCrewArt (file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/art-checks.mjs:17:14)\n    at async file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/room-framing-capture.mjs:57:32"
+  },
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}

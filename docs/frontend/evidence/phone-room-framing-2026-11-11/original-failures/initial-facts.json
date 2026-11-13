@@ -1,0 +1,60 @@
+{
+  "scope": "T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.",
+  "candidate": "59415533d89d6e807295efc44eef8f2e3724f512",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "rooms": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "paintedPixels": 26564,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 49.14664840698242,
+            "width": 86.29999542236328,
+            "height": 190.8533477783203
+          },
+          "bounds": {
+            "left": 161.458984375,
+            "right": 245.04293823242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "capture": null
+    }
+  ],
+  "blackout": [],
+  "failure": {
+    "case": "390-844-100-7",
+    "error": "AssertionError [ERR_ASSERTION]: Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"A3\",\"room\":\"room-a\",\"paintedPixels\":33807,\"rawSvgBounds\":{\"x\":-32.363521575927734,\"y\":57.80171585083008,\"width\":175.70071411132812,\"height\":190.14723205566406},\"bounds\":{\"left\":271.5147705078125,\"right\":446.8782958984375,\"top\":456.611083984375,\"bottom\":646.6904296875,\"width\":175.363525390625,\"height\":190.079345703125},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.6756549244106481,\"opacity\":1}\n    at checkRoomFigures (file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/art-checks.mjs:39:161)\n    at async file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/room-framing-capture.mjs:57:65"
+  },
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}

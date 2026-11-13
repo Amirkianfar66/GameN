@@ -1,0 +1,1 @@
+{"rooms":54,"blackout":6,"figureFailures":0,"out":"/private/tmp/gamen-phone-229-current-rooms-reduced"}

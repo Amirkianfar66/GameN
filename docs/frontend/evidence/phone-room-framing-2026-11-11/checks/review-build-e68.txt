@@ -1,0 +1,46 @@
+vite v8.3.3 building client environment for production...
+transforming...
+✓ 258 modules transformed.
+rendering chunks...
+computing gzip size...
+../gamen-phone-room-preview-e68cdcb9/index.html                                                  0.53 kB │ gzip:   0.35 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/transit.poster.cd2ee84274.webp          21.34 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/arrival-red.poster.32f9127d58.webp      24.94 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/blackhole.poster.dfa7e8141b.webp        25.70 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/rescue.poster.dffbce3adf.webp           26.50 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/arrival-blue.poster.4ca9e33913.webp     27.99 kB
+../gamen-phone-room-preview-e68cdcb9/review-provenance.json                                     41.74 kB │ gzip:  11.91 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/rescue.eccab99be1.mp4                  412.51 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/transit.6e338df52f.mp4                 510.05 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/arrival-red.11cc978817.mp4             962.50 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/blackhole.1f1aa0ee1a.mp4             1,065.33 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/arrival-blue.5a905ac795.mp4          1,089.17 kB
+../gamen-phone-room-preview-e68cdcb9/art/setup.art.f196649c9c.css                                3.95 kB │ gzip:   1.01 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/successor.art.676b8d3fd6.css             5.05 kB │ gzip:   1.45 kB
+../gamen-phone-room-preview-e68cdcb9/art/player-ui.art.fc4830756c.css                            6.09 kB │ gzip:   1.16 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/windows.art.767ae8ccdc.css               6.57 kB │ gzip:   1.27 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/offices.art.6d780e7fff.css               7.52 kB │ gzip:   1.22 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/hospital-panel.art.e6b5bddef6.css       10.03 kB │ gzip:   1.90 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/promises.art.0298ebef8d.css             10.69 kB │ gzip:   2.04 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/end.art.717e2dcc59.css                  13.85 kB │ gzip:   2.70 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/navigation.art.b583b8bc4e.css           15.09 kB │ gzip:   2.49 kB
+../gamen-phone-room-preview-e68cdcb9/art/planet-library/hack-engineer.art.15e5c98ff2.css        20.60 kB │ gzip:   2.94 kB
+../gamen-phone-room-preview-e68cdcb9/art/roles.art.14e56b5e3e.css                               25.21 kB │ gzip:   3.00 kB
+../gamen-phone-room-preview-e68cdcb9/art/abilities.art.f7ff31a86d.css                           35.38 kB │ gzip:   5.25 kB
+../gamen-phone-room-preview-e68cdcb9/art/crew-roles.9bfc1dc3b2.css                              36.29 kB │ gzip:   3.08 kB
+../gamen-phone-room-preview-e68cdcb9/art/scenes.art.0ff8b3c930.css                             117.85 kB │ gzip:  14.30 kB
+../gamen-phone-room-preview-e68cdcb9/assets/index-xwB5EqNs.css                                 166.80 kB │ gzip:  31.99 kB
+../gamen-phone-room-preview-e68cdcb9/art/board-v2.art.5dedbf2450.css                           206.83 kB │ gzip:  15.90 kB
+../gamen-phone-room-preview-e68cdcb9/art/public-board.art.1f47b9f920.css                       236.17 kB │ gzip:  21.69 kB
+../gamen-phone-room-preview-e68cdcb9/art/crew-board-v2-films-art.b30ecdebc3.css                262.26 kB │ gzip:  21.61 kB
+../gamen-phone-room-preview-e68cdcb9/art/board-v2-motion.art.7793869d6b.css                    312.97 kB │ gzip:  31.85 kB
+../gamen-phone-room-preview-e68cdcb9/art/board-v2-films.art.9e6abdef0f.css                   1,462.18 kB │ gzip: 115.32 kB
+../gamen-phone-room-preview-e68cdcb9/art/crew-public-board.332a656b4b.css                    2,807.45 kB │ gzip: 674.32 kB
+../gamen-phone-room-preview-e68cdcb9/assets/index-vYNmJVh6.js                                1,035.74 kB │ gzip: 317.88 kB
+
+✓ built in 407ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

@@ -1,0 +1,11 @@
+{
+  "designerHead": "835fcf73ea252dbafeaf4b7184edced29fdeac59",
+  "sourceFiles": {
+    "design/phone-ui/prototype/art.mjs": "8525806f0f4e17664562bb25bff04040a0305f2ce21f7ef38359cd82dc7704d8",
+    "design/phone-ui/prototype/figure-extents.mjs": "a45e01ac797626b6873638518b7f81a18afbb44f817c74dfb4ab842f1e69803e"
+  },
+  "sourceFramingBlockSha256": "0ed7c01611e213b1dd4fba2801f5d95a7690b5ce737adaf8ae67238d3482b329",
+  "runtimeFramingBlockSha256": "2b5ddde8dd1cca8600cf992923c0cb901d235b7837de3a21add781d4794554db",
+  "runtimeTableBodySha256": "8c200c626d54c10ab0201154d5186977ae3248de4607b68de032fc0f97695dfb",
+  "adaptation": "Only optional numeric min/max input seam for the same formula; no positions/identities stored for dark viewport reflow. Tests compare source-normalized block, data, measured-module hashes and all subset/panel outputs."
+}

@@ -1,0 +1,10 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+Error: Page script failed: TypeError: Cannot read properties of null (reading 'getModel')
+    at <anonymous>:1:31
+    at Object.evaluate (file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/capture/browser.mjs:120:33)
+    at async file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/cold-framing-capture.mjs:51:17
+
+Node.js v22.21.1

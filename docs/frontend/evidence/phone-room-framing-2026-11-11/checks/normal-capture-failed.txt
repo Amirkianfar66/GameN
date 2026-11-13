@@ -1,0 +1,294 @@
+{"rooms":54,"blackout":6,"figureFailures":15,"out":"/private/tmp/gamen-phone-room-framing-motion"}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Every shown figure must be whole; failures require Designer agreement in #222 before changing the camera
++ actual - expected
+
++ [
++   {
++     count: 7,
++     error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","clinical":false,"paintedPixels":33796,"rawSvgBounds":{"x":-32.363521575927734,"y":57.4911003112793,"width":175.70071411132812,"height":190.4578399658203},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}',
++     height: 844,
++     room: 'room-a',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 7,
++     error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"B3","room":"room-b","clinical":false,"paintedPixels":34624,"rawSvgBounds":{"x":18.400001525878906,"y":-9.71316146850586,"width":92.69999694824219,"height":251.31317138671875},"bounds":{"left":301.402099609375,"right":399.806640625,"top":430.314453125,"bottom":693.345458984375,"width":98.404541015625,"height":263.031005859375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9003436170344733,"opacity":1}',
++     height: 844,
++     room: 'room-b',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 7,
++     error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"H1","room":"hospital","clinical":true,"paintedPixels":16163,"rawSvgBounds":{"x":-200,"y":-200,"width":600,"height":600},"bounds":{"left":-3.418212890625007,"right":85.27734374999999,"top":611.82470703125,"bottom":759.921875,"width":88.695556640625,"height":148.09716796875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9614612837430531,"opacity":1}',
++     height: 844,
++     room: 'hospital',
++     size: 4,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 7,
++     error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"J1","room":"jail","clinical":false,"paintedPixels":24689,"rawSvgBounds":{"x":18.899999618530273,"y":78.53677368164062,"width":88.00000762939453,"height":166.2632293701172},"bounds":{"left":-2.4418945312500018,"right":52.35351562499999,"top":333.5335693359375,"bottom":438.311279296875,"width":54.79541015624999,"height":104.7777099609375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9554361483144865,"opacity":1}',
++     height: 844,
++     room: 'jail',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 7,
++     error: 'Drawn figure is clipped: {"seat":"seat-1","slot":"H2","room":"hospital","clinical":true,"paintedPixels":23920,"rawSvgBounds":{"x":31.30000114440918,"y":98.45891571044922,"width":79.57377624511719,"height":166.44107055664062},"bounds":{"left":205.86062622070312,"right":255.85610961914062,"top":362.6671142578125,"bottom":467.203125,"width":49.9954833984375,"height":104.5360107421875},"clip":{"left":0,"right":320,"top":129.390625,"bottom":464.8125},"visibleRatio":0.9771310863784931,"opacity":1}',
++     height: 568,
++     room: 'hospital',
++     size: 4,
++     text: 2,
++     width: 320
++   },
++   {
++     count: 8,
++     error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","clinical":false,"paintedPixels":33797,"rawSvgBounds":{"x":-32.363521575927734,"y":57.401641845703125,"width":175.70071411132812,"height":190.54730224609375},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}',
++     height: 844,
++     room: 'room-a',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 8,
++     error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"B3","room":"room-b","clinical":false,"paintedPixels":34626,"rawSvgBounds":{"x":18.400001525878906,"y":-9.794239044189453,"width":92.69999694824219,"height":251.3942413330078},"bounds":{"left":301.402099609375,"right":399.806640625,"top":430.314453125,"bottom":693.345458984375,"width":98.404541015625,"height":263.031005859375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9003436170344733,"opacity":1}',
++     height: 844,
++     room: 'room-b',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 8,
++     error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"H1","room":"hospital","clinical":true,"paintedPixels":16143,"rawSvgBounds":{"x":-200,"y":-200,"width":600,"height":600},"bounds":{"left":-3.418212890625007,"right":85.27734374999999,"top":611.85595703125,"bottom":759.953125,"width":88.695556640625,"height":148.09716796875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9614612837430531,"opacity":1}',
++     height: 844,
++     room: 'hospital',
++     size: 4,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 8,
++     error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"J1","room":"jail","clinical":false,"paintedPixels":24670,"rawSvgBounds":{"x":18.899999618530273,"y":78.80473327636719,"width":88.00000762939453,"height":165.99526977539062},"bounds":{"left":-2.4418945312500018,"right":52.35351562499999,"top":333.5335693359375,"bottom":438.311279296875,"width":54.79541015624999,"height":104.7777099609375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9554361483144865,"opacity":1}',
++     height: 844,
++     room: 'jail',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 8,
++     error: 'Drawn figure is clipped: {"seat":"seat-1","slot":"H2","room":"hospital","clinical":true,"paintedPixels":23917,"rawSvgBounds":{"x":31.30000114440918,"y":98.53073120117188,"width":79.57762145996094,"height":166.3692626953125},"bounds":{"left":205.86062622070312,"right":255.85610961914062,"top":362.6671142578125,"bottom":467.203125,"width":49.9954833984375,"height":104.5360107421875},"clip":{"left":0,"right":320,"top":129.390625,"bottom":464.8125},"visibleRatio":0.9771310863784931,"opacity":1}',
++     height: 568,
++     room: 'hospital',
++     size: 4,
++     text: 2,
++     width: 320
++   },
++   {
++     count: 9,
++     error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","clinical":false,"paintedPixels":33795,"rawSvgBounds":{"x":-32.363521575927734,"y":57.53097152709961,"width":175.70071411132812,"height":190.41796875},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}',
++     height: 844,
++     room: 'room-a',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 9,
++     error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"B3","room":"room-b","clinical":false,"paintedPixels":34626,"rawSvgBounds":{"x":18.400001525878906,"y":-9.623015403747559,"width":92.69999694824219,"height":251.2230224609375},"bounds":{"left":301.402099609375,"right":399.806640625,"top":430.314453125,"bottom":693.345458984375,"width":98.404541015625,"height":263.031005859375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9003436170344733,"opacity":1}',
++     height: 844,
++     room: 'room-b',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 9,
++     error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"H1","room":"hospital","clinical":true,"paintedPixels":16224,"rawSvgBounds":{"x":-200,"y":-200,"width":600,"height":600},"bounds":{"left":-3.418212890625007,"right":85.27734374999999,"top":610.901611328125,"bottom":759.8125,"width":88.695556640625,"height":148.910888671875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9614612837430531,"opacity":1}',
++     height: 844,
++     room: 'hospital',
++     size: 4,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 9,
++     error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"J1","room":"jail","clinical":false,"paintedPixels":24707,"rawSvgBounds":{"x":18.899999618530273,"y":77.87873840332031,"width":88.00000762939453,"height":166.9212646484375},"bounds":{"left":-2.4418945312500018,"right":52.35351562499999,"top":333.163330078125,"bottom":438.311279296875,"width":54.79541015624999,"height":105.14794921875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9554361483144865,"opacity":1}',
++     height: 844,
++     room: 'jail',
++     size: 5,
++     text: 1,
++     width: 390
++   },
++   {
++     count: 9,
++     error: 'Drawn figure is clipped: {"seat":"seat-1","slot":"H2","room":"hospital","clinical":true,"paintedPixels":23899,"rawSvgBounds":{"x":31.30000114440918,"y":98.4885482788086,"width":81.05039978027344,"height":166.41143798828125},"bounds":{"left":205.10311889648438,"right":255.85610961914062,"top":362.8583679199219,"bottom":467.015625,"width":50.75299072265625,"height":104.15725708007812},"clip":{"left":0,"right":320,"top":129.390625,"bottom":464.8125},"visibleRatio":0.978848089304942,"opacity":1}',
++     height: 568,
++     room: 'hospital',
++     size: 4,
++     text: 2,
++     width: 320
++   }
++ ]
+- []
+
+    at file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/room-framing-capture.mjs:90:49
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 7,
+      room: 'room-a',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","clinical":false,"paintedPixels":33796,"rawSvgBounds":{"x":-32.363521575927734,"y":57.4911003112793,"width":175.70071411132812,"height":190.4578399658203},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 7,
+      room: 'room-b',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"B3","room":"room-b","clinical":false,"paintedPixels":34624,"rawSvgBounds":{"x":18.400001525878906,"y":-9.71316146850586,"width":92.69999694824219,"height":251.31317138671875},"bounds":{"left":301.402099609375,"right":399.806640625,"top":430.314453125,"bottom":693.345458984375,"width":98.404541015625,"height":263.031005859375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9003436170344733,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 7,
+      room: 'hospital',
+      size: 4,
+      error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"H1","room":"hospital","clinical":true,"paintedPixels":16163,"rawSvgBounds":{"x":-200,"y":-200,"width":600,"height":600},"bounds":{"left":-3.418212890625007,"right":85.27734374999999,"top":611.82470703125,"bottom":759.921875,"width":88.695556640625,"height":148.09716796875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9614612837430531,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 7,
+      room: 'jail',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"J1","room":"jail","clinical":false,"paintedPixels":24689,"rawSvgBounds":{"x":18.899999618530273,"y":78.53677368164062,"width":88.00000762939453,"height":166.2632293701172},"bounds":{"left":-2.4418945312500018,"right":52.35351562499999,"top":333.5335693359375,"bottom":438.311279296875,"width":54.79541015624999,"height":104.7777099609375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9554361483144865,"opacity":1}'
+    },
+    {
+      width: 320,
+      height: 568,
+      text: 2,
+      count: 7,
+      room: 'hospital',
+      size: 4,
+      error: 'Drawn figure is clipped: {"seat":"seat-1","slot":"H2","room":"hospital","clinical":true,"paintedPixels":23920,"rawSvgBounds":{"x":31.30000114440918,"y":98.45891571044922,"width":79.57377624511719,"height":166.44107055664062},"bounds":{"left":205.86062622070312,"right":255.85610961914062,"top":362.6671142578125,"bottom":467.203125,"width":49.9954833984375,"height":104.5360107421875},"clip":{"left":0,"right":320,"top":129.390625,"bottom":464.8125},"visibleRatio":0.9771310863784931,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 8,
+      room: 'room-a',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","clinical":false,"paintedPixels":33797,"rawSvgBounds":{"x":-32.363521575927734,"y":57.401641845703125,"width":175.70071411132812,"height":190.54730224609375},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 8,
+      room: 'room-b',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"B3","room":"room-b","clinical":false,"paintedPixels":34626,"rawSvgBounds":{"x":18.400001525878906,"y":-9.794239044189453,"width":92.69999694824219,"height":251.3942413330078},"bounds":{"left":301.402099609375,"right":399.806640625,"top":430.314453125,"bottom":693.345458984375,"width":98.404541015625,"height":263.031005859375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9003436170344733,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 8,
+      room: 'hospital',
+      size: 4,
+      error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"H1","room":"hospital","clinical":true,"paintedPixels":16143,"rawSvgBounds":{"x":-200,"y":-200,"width":600,"height":600},"bounds":{"left":-3.418212890625007,"right":85.27734374999999,"top":611.85595703125,"bottom":759.953125,"width":88.695556640625,"height":148.09716796875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9614612837430531,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 8,
+      room: 'jail',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"J1","room":"jail","clinical":false,"paintedPixels":24670,"rawSvgBounds":{"x":18.899999618530273,"y":78.80473327636719,"width":88.00000762939453,"height":165.99526977539062},"bounds":{"left":-2.4418945312500018,"right":52.35351562499999,"top":333.5335693359375,"bottom":438.311279296875,"width":54.79541015624999,"height":104.7777099609375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9554361483144865,"opacity":1}'
+    },
+    {
+      width: 320,
+      height: 568,
+      text: 2,
+      count: 8,
+      room: 'hospital',
+      size: 4,
+      error: 'Drawn figure is clipped: {"seat":"seat-1","slot":"H2","room":"hospital","clinical":true,"paintedPixels":23917,"rawSvgBounds":{"x":31.30000114440918,"y":98.53073120117188,"width":79.57762145996094,"height":166.3692626953125},"bounds":{"left":205.86062622070312,"right":255.85610961914062,"top":362.6671142578125,"bottom":467.203125,"width":49.9954833984375,"height":104.5360107421875},"clip":{"left":0,"right":320,"top":129.390625,"bottom":464.8125},"visibleRatio":0.9771310863784931,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 9,
+      room: 'room-a',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","clinical":false,"paintedPixels":33795,"rawSvgBounds":{"x":-32.363521575927734,"y":57.53097152709961,"width":175.70071411132812,"height":190.41796875},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 9,
+      room: 'room-b',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-3","slot":"B3","room":"room-b","clinical":false,"paintedPixels":34626,"rawSvgBounds":{"x":18.400001525878906,"y":-9.623015403747559,"width":92.69999694824219,"height":251.2230224609375},"bounds":{"left":301.402099609375,"right":399.806640625,"top":430.314453125,"bottom":693.345458984375,"width":98.404541015625,"height":263.031005859375},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9003436170344733,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 9,
+      room: 'hospital',
+      size: 4,
+      error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"H1","room":"hospital","clinical":true,"paintedPixels":16224,"rawSvgBounds":{"x":-200,"y":-200,"width":600,"height":600},"bounds":{"left":-3.418212890625007,"right":85.27734374999999,"top":610.901611328125,"bottom":759.8125,"width":88.695556640625,"height":148.910888671875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9614612837430531,"opacity":1}'
+    },
+    {
+      width: 390,
+      height: 844,
+      text: 1,
+      count: 9,
+      room: 'jail',
+      size: 5,
+      error: 'Drawn figure is clipped: {"seat":"seat-2","slot":"J1","room":"jail","clinical":false,"paintedPixels":24707,"rawSvgBounds":{"x":18.899999618530273,"y":77.87873840332031,"width":88.00000762939453,"height":166.9212646484375},"bounds":{"left":-2.4418945312500018,"right":52.35351562499999,"top":333.163330078125,"bottom":438.311279296875,"width":54.79541015624999,"height":105.14794921875},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.9554361483144865,"opacity":1}'
+    },
+    {
+      width: 320,
+      height: 568,
+      text: 2,
+      count: 9,
+      room: 'hospital',
+      size: 4,
+      error: 'Drawn figure is clipped: {"seat":"seat-1","slot":"H2","room":"hospital","clinical":true,"paintedPixels":23899,"rawSvgBounds":{"x":31.30000114440918,"y":98.4885482788086,"width":81.05039978027344,"height":166.41143798828125},"bounds":{"left":205.10311889648438,"right":255.85610961914062,"top":362.8583679199219,"bottom":467.015625,"width":50.75299072265625,"height":104.15725708007812},"clip":{"left":0,"right":320,"top":129.390625,"bottom":464.8125},"visibleRatio":0.978848089304942,"opacity":1}'
+    }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

@@ -5,6 +5,8 @@ import {createServerClock} from '../clock/server-clock.js';
 import type {ClockReading} from '../clock/server-clock.js';
 import {planetSupportsAssets} from '@mothership/presentation';
 import type {PlanetTransport,PlanetSnapshot} from './transport.js';
+import {readPlanetBlackoutFrameInput,readTrustedBlackoutContext} from './blackout-framing.js';
+import type {PlanetBlackoutFramingContext,PlanetBlackoutFrameInput} from './blackout-framing.js';
 
 export interface PlanetServiceConnection {
  readonly mode:'authenticated'|'synthetic';
@@ -40,6 +42,9 @@ export interface PlanetSessionController {
  revealRole(open:boolean):void;
  setVisible(visible:boolean):void;
  gameTransport(surface:'player'|'display'):PlanetTransport;
+ /** The callback consumes same-response public positions transiently; return coordinates only. */
+ withBlackoutFraming<T>(context:PlanetBlackoutFramingContext|null,prepare:(input:PlanetBlackoutFrameInput)=>T):T|null;
+ ownsBlackoutFraming(context:PlanetBlackoutFramingContext|null):boolean;
  dispose():void;
 }
 interface Answer {ok:boolean;serverTimeMs:number;result:unknown;code:string|null}
@@ -257,6 +262,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
     identities:()=>admitted()?snapshot?.members.map(m=>({seatId:m.seatId,characterId:m.characterId,displayName:m.displayName}))??[]:[],
    };
   },
+ withBlackoutFraming(context,prepare){const input=admitted()?readPlanetBlackoutFrameInput(snapshot,context,clock.read()):null;return input?prepare(input):null;},
+ ownsBlackoutFraming(context){return !disposed&&auth()&&knownAdmitted()&&connectionState!=='error'&&readTrustedBlackoutContext(snapshot,context,clock.read())!==null;},
   dispose(){disposed=true;generation++;if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);for(const timer of timeouts)ports.scheduler.clearTimeout(timer);timeouts.clear();listeners.clear();feeds.clear();snapshot=null;pending=null;code=null;},
  };
 }
