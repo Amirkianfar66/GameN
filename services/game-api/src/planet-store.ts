@@ -7,6 +7,8 @@ const hash=(key:string)=>createHash('sha256').update(key).digest('hex');
 const CHUNK_BYTES=48*1024;
 const MAX_CHUNKS=80; // Below Firestore transaction/document limits; no truncation of accepted state.
 interface Metadata {key:string;namespace:string;chunks:number;digest:string;schemaVersion:1}
+type SdkRead=<T>(read:Promise<T>)=>Promise<T>;
+const directSdkRead:SdkRead=read=>read;
 
 /** Server-only JSON chunks support nested stroke/round arrays without Firestore's nested-array restriction.
  * Writes are buffered until every authority read finishes. All chunks, metadata, journals and outbox
@@ -18,16 +20,17 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
   // Both modes use the same authenticated JSON envelope and the same SDK transaction
   // for metadata plus every chunk. Read-only mode supplies no write surface.
   const reader=(transaction:Pick<Transaction,'get'|'getAll'>,
-    cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>())=>
+    cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>(),
+    readSdk:SdkRead=directSdkRead)=>
     async<T>(key:string):Promise<T|null>=>{
       if(writes.has(key))return structuredClone(writes.get(key)) as T|null;
       if(cached.has(key))return structuredClone(cached.get(key)) as T|null;
-      const head=await transaction.get(meta(key));
+      const head=await readSdk(transaction.get(meta(key)));
       if(!head.exists){metadata.set(key,null);cached.set(key,null);return null;}
       const info=head.data() as Metadata;
       if(info.schemaVersion!==1||info.key!==key||!Number.isInteger(info.chunks)||info.chunks<1||info.chunks>MAX_CHUNKS)
         throw new Error('Invalid private state envelope');
-      const fragments=await transaction.getAll(...Array.from({length:info.chunks},(_,i)=>chunk(key,i)));
+      const fragments=await readSdk(transaction.getAll(...Array.from({length:info.chunks},(_,i)=>chunk(key,i))));
       const bytes=Buffer.concat(fragments.map(part=>{
         const value=part.get('data');if(typeof value!=='string')throw new Error('Missing private state fragment');
         return Buffer.from(value,'base64');
@@ -41,14 +44,29 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
       return db.runTransaction(transaction=>operation(Object.freeze({get:reader(transaction)})),{readOnly:true});
     },
     async transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>{
+      // Keep this boundary across SDK attempts, including empty commits. Once
+      // crossed, no later read may enable an additional retry of this invocation.
+      let sdkAttemptMayCommit=false;
+      const readBeforeCommit:SdkRead=async read=>{
+        try{return await read;}catch(error){
+          if(!sdkAttemptMayCommit&&error instanceof Error
+            &&'code' in error&&error.code===3&&'details' in error
+            &&error.details==='Transaction is invalid or closed.'){
+            // Only a rejected SDK read before any write/possible commit qualifies.
+            // Preserve its cause and use the SDK's existing bounded ABORTED retry.
+            throw Object.assign(new Error('Firestore transaction closed during a read before any SDK write or commit.',{cause:error}),{code:10});
+          }
+          throw error;
+        }
+      };
       return db.runTransaction(async transaction=>{
         const cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>();
-        const read=reader(transaction,cached,metadata,writes);
+        const read=reader(transaction,cached,metadata,writes,readBeforeCommit);
         const tx:PlanetTransaction={get:read,set:(key,value)=>{if(value===undefined)throw new Error('Undefined authority');writes.set(key,structuredClone(value));},delete:key=>{writes.set(key,null);}};
         const result=await operation(tx);
         // Read old chunk counts for every affected key before applying any write.
         for(const key of writes.keys())if(!metadata.has(key)){
-          const snapshot=await transaction.get(meta(key));metadata.set(key,snapshot.exists?snapshot.data() as Metadata:null);
+          const snapshot=await readBeforeCommit(transaction.get(meta(key)));metadata.set(key,snapshot.exists?snapshot.data() as Metadata:null);
         }
         let totalWrites=0,totalBytes=0;
         const prepared=[...writes].map(([key,value])=>{
@@ -63,6 +81,7 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
         });
         if(totalWrites>450||totalBytes>6*1024*1024)throw new Error('Transaction budget exceeded');
         for(const {key,bytes,chunks,deadlineDueAt} of prepared){
+          sdkAttemptMayCommit=true;
           const previous=metadata.get(key)?.chunks??0;
           if(bytes===null)transaction.delete(meta(key));
           else{
@@ -70,7 +89,9 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
             for(let i=0;i<chunks;i++)transaction.set(chunk(key,i),{data:bytes.subarray(i*CHUNK_BYTES,(i+1)*CHUNK_BYTES).toString('base64')});
           }
           for(let i=chunks;i<previous;i++)transaction.delete(chunk(key,i));
-        }return result;
+        }
+        sdkAttemptMayCommit=true;
+        return result;
       });
     },
     async listKeys(namespace:string,limit:number):Promise<string[]>{
