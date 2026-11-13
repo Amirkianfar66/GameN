@@ -153,7 +153,7 @@
     "apps/game/hosted/planet/food-ink.mjs",
     "apps/game/hosted/planet/food-icons.mjs"
   ],
-  "notYetCreated": "Native UI and drawing-helper modules await the accepted packet contract. The 37 unimported static candidates are generated and hashed; no source admission is implied.",
+  "notYetCreated": "The eight render-only foundation modules/styles listed in nativeModuleOutputHashes now exist. food-render.mjs, the authoritative pose adapter and API/native wiring are in progress; this is a partial helper closure, not release admission.",
   "excludedRuntime": [
     "design/food-supply/task.mjs",
     "design/food-supply/stage.mjs",
@@ -167,7 +167,40 @@
     "design/food-supply/film.mjs",
     "design/phone-ui/prototype/fixtures.mjs"
   ],
-  "nativeModuleOutputHashes": null,
+  "nativeModuleOutputHashes": {
+    "apps/game/hosted/planet/food-geometry.mjs": {
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443
+    },
+    "apps/game/hosted/planet/food-icons.mjs": {
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628
+    },
+    "apps/game/hosted/planet/food-ink.mjs": {
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "bytes": 2408
+    },
+    "apps/game/hosted/planet/food-machine.mjs": {
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394
+    },
+    "apps/game/hosted/planet/food-scene.mjs": {
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694
+    },
+    "apps/game/hosted/planet/food-ui.mjs": {
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436
+    },
+    "apps/game/hosted/planet/food-kit.css": {
+      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "bytes": 57285
+    },
+    "apps/game/hosted/planet/food.css": {
+      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+      "bytes": 22648
+    }
+  },
   "baseSha": "1f795366a27b17f46ac195debe491954a27d8ae0",
   "assetManifestVersion": "design-0.9.0",
   "tokensVersion": "0.5.0",
@@ -496,5 +529,25 @@
     "noActiveOrExternalContent": true,
     "nativeVisualApproval": false,
     "runtimeAdmission": false
+  },
+  "renderFoundation": {
+    "status": "partial-render-only-closure-for-integration-review",
+    "contractHead": "5a5bb9068cd4fb085cb2482cd969058221d2c870",
+    "existingInk": {
+      "path": "apps/game/hosted/crew-drawing/ink.mjs",
+      "sha256": "53787159af457c1c4e41cc9ce7567f14b154149fcdbe986b27b6aae3b8f2966e",
+      "sourceEquivalentAfterDevMarkerRemoval": true
+    },
+    "generators": [
+      "apps/game/dev/phone/food-art-export.mjs",
+      "apps/game/dev/phone/food-kit-export.mjs"
+    ],
+    "productionImported": false,
+    "remaining": [
+      "food-render.mjs",
+      "accepted-anchor pose adapter",
+      "uniform asset loader and catalogue hook",
+      "API/native application wiring"
+    ]
   }
 }
