@@ -15,13 +15,17 @@ const roles=['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker'
 
 /** Retry/lost-ACK fake, not a claim of Firestore emulator coverage. Hooks target actual write namespaces. */
 function memory(seed){
-  let records=new Map(clone(seed)),tail=Promise.resolve(),retry=null,lost=null,hold=null;
+  let records=new Map(clone(seed)),tail=Promise.resolve(),retry=null,lost=null,hold=null,holdRead=null;
   const attempts=[];
   const store={attempts,export:()=>clone([...records]),setRetry:(prefix,mutate)=>{retry={prefix,mutate};},
     loseAck:prefix=>{lost=prefix;},
     pauseNext(prefix){
       let entered,resume;const reached=new Promise(resolve=>{entered=resolve;}),gate=new Promise(resolve=>{resume=resolve;});
       hold={prefix,entered,gate};return {reached,resume};
+    },
+    pauseReadNext(prefix){
+      let entered,resume;const reached=new Promise(resolve=>{entered=resolve;}),gate=new Promise(resolve=>{resume=resolve;});
+      holdRead={prefix,entered,gate};return {reached,resume};
     },
     listKeys:async(namespace,limit)=>[...records].filter(([k,v])=>k.startsWith(namespace+'/')&&(namespace!=='deadline'||v.status!=='complete')).slice(0,limit).map(([k])=>k),
     transaction(operation){
@@ -30,7 +34,7 @@ function memory(seed){
           const draft=new Map(clone([...records])),writes=[],reads=[];
           const tx={get:async key=>{reads.push(key);return clone(draft.get(key)??null);},set:(key,value)=>{draft.set(key,clone(value));writes.push(key);},delete:key=>{draft.delete(key);writes.push(key);}};
           const result=await operation(tx);attempts.push({commit,writes,reads});
-          return {result,draft,writes};
+          return {result,draft,writes,reads};
         };
         const first=await attempt(false);
         let selected=first;
@@ -40,6 +44,7 @@ function memory(seed){
         if(lost&&selected.writes.some(k=>k.startsWith(lost))){lost=null;throw new Error('Synthetic committed ACK loss');}
         let gate=null;
         if(hold&&selected.writes.some(k=>k.startsWith(hold.prefix))){const paused=hold;hold=null;gate=paused.gate;paused.entered();}
+        if(holdRead&&selected.writes.length===0&&selected.reads.some(k=>k.startsWith(holdRead.prefix))){const paused=holdRead;holdRead=null;gate=paused.gate;paused.entered();}
         return {value:selected.result,gate};
       };
       const p=tail.then(run,run);tail=p.catch(()=>{});
@@ -595,4 +600,44 @@ for(const kind of ['UP','PANEL_LOCK'])test(`fresh bot ${kind} is rechecked when 
   const applied=presses().find(([,e])=>e.request.request.command.input.kind===(kind==='UP'?'HOLD':'PANEL_LOCK'))?.[1];
   assert.ok(applied);assert.equal(applied.context.now,later);assert.equal(applied.response.result.receipt.receivedAt,later);
   assert.equal(applied.response.result.receipt.status,'accepted');
+});
+for(const successor of ['same','different'])test(`a captured old owner cannot receive a successor's ${successor} seat-scoped receipt`,async()=>{
+  const h=harness({asking:true}),request={schemaVersion:1,protocolVersion:3,matchId:'food-match',commandId:'shared-recovery-canary',
+    phaseId:'food-phase',foodStepId:'food-step-2',round:1,command:{type:'TASK_ASK',partnerSeatId:'seat-2'}};
+  const paused=h.store.pauseReadNext('session/food-match');
+  const old=h.handle('foodCommand',{request});await paused.reached;
+  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'issue-canary'},'host');assert.equal(issued.ok,true);
+  const recovered=await h.handle('redeemRecovery',{matchId:'food-match',requestId:'redeem-canary',recoveryCode:issued.result.recoveryCode},'replacement');assert.equal(recovered.ok,true);
+  const nextRequest=successor==='same'?request:{...request,command:{type:'TASK_ASK',partnerSeatId:'seat-3'}};
+  const next=await h.handle('foodCommand',{request:nextRequest},'replacement');assert.equal(next.ok,true);
+  const canary=next.result.receipt.result.requestId;assert.ok(canary);
+  paused.resume();const denied=await old;
+  assert.equal(denied.ok,false);assert.equal(denied.error.code,'FORBIDDEN');
+  assert.equal(JSON.stringify(denied).includes(canary),false);assert.equal(Object.hasOwn(denied,'result'),false);
+  const own=await h.handle('foodReceipt',{matchId:'food-match',commandId:request.commandId},'replacement');
+  assert.deepEqual(own.result.receipt,next.result.receipt);
+});
+test('detached human admission has no Session lock/publication and its lost-ACK wake survives a changed phase',async()=>{
+  const h=harness(),paused=h.store.pauseReadNext('session/food-match');
+  const old=h.command('late-human-ingress');await paused.reached;
+  h.setNow(33500);assert.equal((await h.handle('advance',{matchId:'food-match'},'host')).ok,true);
+  const before=await h.current(),start=h.store.attempts.length;assert.equal(before.state.phase.kind,'PRE_TURN');
+  h.store.loseAck('foodIngress/');paused.resume();assert.equal((await old).ok,false);
+  assert.deepEqual(await h.current(),before,'admission itself does not publish or modify Session');
+  const admitted=ingress(h).find(([,e])=>e.request?.request?.commandId==='late-human-ingress')[1];
+  assert.equal(admitted.context.now,33500);assert.equal(admitted.response,null);
+  const stage=h.store.attempts.slice(start).find(a=>a.commit&&a.writes.some(k=>k.startsWith('foodIngress/')));
+  assert.equal(stage.reads[0],'foodIngressControl/food-match');
+  assert.equal(stage.reads.includes('session/food-match'),false);assert.equal(stage.writes.includes('session/food-match'),false);
+  const wake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.ingressSequence===admitted.sequence)[1];
+  assert.notEqual(wake.phaseId,before.state.phase.id);assert.equal(wake.status,'pending');
+  assert.equal(wake.deadlineToken,admitted.job.deadlineToken);
+  const result=await h.api().runDeadline({matchId:wake.matchId,phaseId:wake.phaseId,deadlineToken:wake.deadlineToken,kind:'game'});
+  assert.equal(result.status,'advanced');
+  const restored=ingress(h).find(([,e])=>e.sequence===admitted.sequence)[1];
+  assert.deepEqual(restored.context,admitted.context);assert.equal(restored.response.result.receipt.receivedAt,33500);
+  assert.equal(restored.response.result.receipt.code,'PHASE_CLOSED');
+  assert.deepEqual((await h.current()).foodService.scheduler,before.foodService.scheduler);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
+  assert.equal((await h.api().runDeadline({matchId:wake.matchId,phaseId:wake.phaseId,deadlineToken:wake.deadlineToken,kind:'game'})).status,'unchanged');
 });

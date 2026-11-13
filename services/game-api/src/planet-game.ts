@@ -63,6 +63,8 @@ interface StoredReceipt {fingerprint:string;response:PlanetServiceResponse}
 export interface PlanetDeadlineJob {
   matchId:string;phaseId:string;deadlineToken:string;endsAt:number;kind:'setup'|'game';
   taskId:string;status:'pending'|'dispatched'|'complete';nextAttemptAt:number;
+  /** Private committed ingress wake; the dispatched four-field payload is unchanged. */
+  ingressSequence?:number;
 }
 type FailureCode=PlanetServiceFailure['error']['code'];
 class Rejected extends Error {constructor(readonly code:FailureCode){super(code);}}

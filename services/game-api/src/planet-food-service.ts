@@ -186,12 +186,17 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function admit(matchId:string,uid:string|null,q:Request|null,options:{
     bot?:SeatId;job?:Entry['job'];dedup?:string;workerOwner?:string;
+    human?:{session:T;seatId:SeatId;bindingRevision:number};
   }={}):Promise<AdmissionResult>{
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
     return store.transaction(async tx=>{
-      const s=await d.load(tx,matchId);if(!isFood(s))d.reject('NOT_ALLOWED');engine();
+      const s=options.human?.session??await d.load(tx,matchId);if(!isFood(s))d.reject('NOT_ALLOWED');engine();
+      // Detached human admission never locks Session. All admissions take Control
+      // before receipt/pending/rate records, matching processing's lock order.
+      const control=await tx.get<Control>(controlKey(matchId))??freshControl();
       let actor:SeatId|null=null,binding:number|null=null;
-      if(options.bot){
+      if(options.human){actor=options.human.seatId;binding=options.human.bindingRevision;
+      }else if(options.bot){
         const bot=s.members.find(m=>m.controller==='bot'&&m.seatId===options.bot)??d.reject('FORBIDDEN');
         actor=bot.seatId;binding=bot.bindingRevision;
         const prior=await tx.get<BotIntent>(key('foodBotIntent',[matchId,options.bot]));
@@ -219,7 +224,6 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           ||current.phaseId!==options.job.phaseId||current.token!==options.job.deadlineToken)
           return {sequence:0,response:response({advanced:false},clock())};
       }
-      const control=await tx.get<Control>(controlKey(matchId))??freshControl();
       // Only a committed attempt's sample becomes authority. A failed SDK attempt has no receipt point.
       const at=clock();if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt)throw new Error('Backward Food admission clock');
       if(options.workerOwner!==undefined){
@@ -266,14 +270,42 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const entry:Entry={sequence,matchId,uid,actorSeatId:actor,bindingRevision:binding,request:q,fingerprint,context:ctx,
         boundaryOrdinal:0,receiptPath:rk,botIntentPath:options.bot?key('foodBotIntent',[matchId,options.bot]):null,
         recoveryCode:recoveryCode??null,job:options.job??null,response:null};
+      if(options.human&&q?.operation==='foodCommand'){
+        entry.job={phaseId:q.request.phaseId,deadlineToken:uuid(['food-ingress',ctx.nextDeadlineToken,sequence]),kind:'game'};
+        const taskId=hash([matchId,entry.job.phaseId,entry.job.deadlineToken]);
+        tx.set('deadline/'+taskId,{matchId,...entry.job,taskId,endsAt:at,status:'pending',nextAttemptAt:at,
+          ingressSequence:sequence} satisfies PlanetDeadlineJob);
+      }
       tx.set(entryKey(matchId,sequence),entry);
       tx.set(controlKey(matchId),{...control,nextSequence:sequence+1,lastAdmittedAt:at});
       if(dk)tx.set(dk,{sequence,fingerprint} satisfies Pending);
       if(entry.botIntentPath&&q)tx.set(entry.botIntentPath,{sequence,request:q,retryAt:null,done:false} satisfies BotIntent);
       // Admission itself has no gameplay publication; the private pending prefix still gets a durable wake.
-      await d.publish(tx,s,ctx);
+      if(!options.human)await d.publish(tx,s,ctx);
       return {sequence,response:null};
     });
+  }
+  async function humanFoodCommand(matchId:string,uid:string,q:Extract<Request,{operation:'foodCommand'}>,initial:T):Promise<PlanetServiceResponse>{
+    let binding:{session:T;seatId:SeatId;bindingRevision:number}|undefined,failed=false,failure:unknown;
+    try{
+      const actor=own(initial,uid);
+      binding={session:initial,seatId:actor.seatId,bindingRevision:actor.bindingRevision};
+      const admitted=await admit(matchId,uid,q,{human:binding});
+      if(admitted.response===null)await drainThrough(matchId,admitted.sequence);
+    }catch(error){failed=true;failure=error;}
+    // Recheck even duplicate/conflict/error paths. A recovered seat can now have
+    // another owner and another private receipt at the same seat-scoped key.
+    const final=await readOnly(async tx=>{
+      const current=await d.load(tx,matchId),actor=own(current,uid);
+      if(binding&&(actor.seatId!==binding.seatId||actor.bindingRevision!==binding.bindingRevision))d.reject('FORBIDDEN');
+      const stored=await tx.get<Stored>(key('food-command',[matchId,actor.seatId,q.request.commandId]));
+      if(!binding)return null;
+      if(stored&&stored.fingerprint!==hash(q))d.reject('COMMAND_ID_CONFLICT');
+      return stored?.response??null;
+    });
+    if(failed)throw failure;
+    if(final===null)throw new Error('Original Food receipt is not yet available');
+    return final;
   }
 
   function syncParticipants(s:T,at:number):void{
@@ -480,6 +512,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(!initial.state||!['running','finished','aborted'].includes(initial.status)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
+    if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
     if(q.operation==='foodReceipt'||q.operation==='receipt')return readOnly(async tx=>{
       const s=await d.load(tx,matchId),actor=own(s,uid);
       const stored=await tx.get<Stored>(key(q.operation==='foodReceipt'?'food-command':'command',[matchId,actor.seatId,q.commandId]));
@@ -499,6 +532,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const s=await inspect(job.matchId);if(!s||!isFood(s)||!s.state)return undefined;
     const stored=await readOnly(tx=>tx.get<PlanetDeadlineJob>('deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken])));
     if(!stored||stored.status==='complete')return {status:'unchanged'};
+    if(stored.ingressSequence!==undefined){
+      if(!Number.isSafeInteger(stored.ingressSequence)||stored.ingressSequence<1)throw new Error('Invalid ingress wake');
+      await drainThrough(job.matchId,stored.ingressSequence);
+      await runBots(job.matchId);
+      return {status:'advanced'};
+    }
     const schedule=service(s).scheduler;
     if(!schedule||schedule.phaseId!==job.phaseId||schedule.token!==job.deadlineToken){
       await store.transaction(tx=>{tx.set('deadline/'+stored.taskId,{...stored,status:'complete'});return Promise.resolve();});
