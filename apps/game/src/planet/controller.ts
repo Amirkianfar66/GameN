@@ -1,10 +1,10 @@
-import { PlanetCommandSchema, PlanetCommandRequestSchema, PlanetDrawingSchema } from '@mothership/contracts';
-import type { PlanetCommand, PlanetCommandRequest, PlanetDrawing, PlanetOffer, PlanetPlayerView, SeatId } from '@mothership/contracts';
+import { PlanetCommandSchema, PlanetCommandRequestSchema, PlanetDrawingSchema,foodTaskRevisionBody } from '@mothership/contracts';
+import type { PlanetCommand, PlanetCommandRequest, PlanetDrawing, PlanetOffer, PlanetPlayerView, SeatId,FoodTaskPublicView } from '@mothership/contracts';
 import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms,planetPlayerNumberChoices,planetRegistrationText,planetHasPrivateOffers,planetHasPrivateFeedback,planetBoardLabel } from '@mothership/presentation';
 import type { PlanetActionModel, PlanetCommandType, PlanetPanel, PlanetScreenModel, PlanetView } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import { createServerClock } from '../clock/server-clock.js';
-import { readPlanetReceipt, readPlanetView } from './transport.js';
+import { readPlanetReceipt, readPlanetView,readPlanetFood } from './transport.js';
 import type { PlanetBinding, PlanetReceiptContext, PlanetSnapshot, PlanetTransport } from './transport.js';
 
 export interface PlanetController {
@@ -38,6 +38,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  const clock=createServerClock(ports.clock);
  const listeners=new Set<(model:PlanetScreenModel)=>void>();
  let binding:PlanetBinding|null=null, view:PlanetView|null=null;
+ let food:FoodTaskPublicView|undefined;
  let visible=true, disposed=false, fresh=false, connecting=true, failed=false, message:string|null=null;
  let interactionOpen=false;
  let panel:PlanetPanel='board', draft:Draft|null=null, unsettled:Unsettled|null=null;
@@ -53,7 +54,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   Promise.resolve().then(run).then(finish,()=>finish(null));
  });
  const authValid=()=>binding!==null&&transport.currentUid()===binding.uid;
- const reading=()=>clock.read();
+ const reading=()=>transport.readClock?.()??clock.read();
  const usable=()=>{
   const time=reading();
   return !disposed&&visible&&fresh&&authValid()&&view!==null&&time.status==='synced'&&
@@ -107,6 +108,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   if(valid&&interactionOpen&&accepted)action={type:accepted.type,label:PLANET_ACTION_LABELS[accepted.type],step:'accepted',selected:[],choices:[],prompt:planetRegistrationText(accepted.type),confirmation:null,canConfirm:false};
   const currentBoard=dark?null:current?.board??null;
   return {
+   ...(shown&&food?{food}:{}),
    protocolVersion:3,versions:current?.versions??null,surface:expected.surface,mode:transport.mode,connection:failed?'error':connecting?'connecting':shown?'live':'stale',message,
    matchId:expected.matchId,playerCount:current?.playerCount??null,round:current?.round??null,revision:current?.viewRevision??null,
    board:currentBoard&&frozen&&current?.blackout?.windowId===frozen.id?frozen.board:currentBoard,
@@ -125,6 +127,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  }
  async function syncTime(){
   if(syncing||disposed||!visible)return;syncing=true;
+  if(transport.readClock?.().status==='synced'){lastSync=ports.clock.now();syncing=false;scheduleTick();emit();return;}
   const requestedAt=ports.clock.now(), token=generation;
   try{const serverTimeMs=await bounded(()=>transport.serverTime());if(serverTimeMs===null)throw new Error('no server time');if(token!==generation||disposed||!visible)return;
    if(!authValid())return invalidate('Your signed-in identity changed. Reconnect this seat.',true);
@@ -155,6 +158,10 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   if(!snapshot.fresh)return invalidate('Reconnecting. Waiting for a fresh authorized view.');
   const next=readPlanetView(snapshot.value,expected.matchId,binding!.seatId);
   if(!next)return invalidate('This view could not be verified.',true);
+  const nextFood=readPlanetFood(snapshot,next,binding!.seatId);
+  if(nextFood===null)return invalidate('The Food snapshot could not be verified.',true);
+  if(food&&nextFood&&(nextFood.publicView.viewRevision<food.viewRevision||nextFood.publicView.viewRevision===food.viewRevision
+   &&JSON.stringify(foodTaskRevisionBody(nextFood.publicView))!==JSON.stringify(foodTaskRevisionBody(food))))return invalidate('Conflicting Food view revision. Reconnect this seat.',true);
   if(view){
    if(planetIsPlayer(view)&&planetIsPlayer(next)){
     const oldDrawings=new Map(view.windows.flatMap(w=>w.drawings).map(d=>[d.id,JSON.stringify(d)]));
@@ -172,7 +179,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   if(next.blackout&&frozen?.id!==next.blackout.windowId)frozen={id:next.blackout.windowId,board:next.board};
   if(!next.blackout)frozen=null;
   if(!panelRejection||panelRejection.phaseId!==next.phase.id||panelRejection.revision!==next.viewRevision){panelRejection=null;message=null;}
-  view=next;fresh=true;connecting=false;failed=false;
+  view=next;food=nextFood?.publicView;fresh=true;connecting=false;failed=false;
   if(draft&&(!offer(draft.type)||draft.command&&!commandAllowed(draft.command)))draft=null;
   scheduleTick();emit();
  }

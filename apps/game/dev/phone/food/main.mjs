@@ -31,7 +31,7 @@ const controller=createFoodTaskController({currentUid:()=>uid,refresh(){},
  {binding:{uid,matchId:value.matchId,seatId:value.seatId},readClock:()=>({status:'synced',serverNowMs:currentNow(),uncertaintyMs:0})});
 const observe=()=>controller.observe(value,{matchId:value.matchId,versions:value.versions,phaseId:value.phaseId,round:value.round,serverNowMs:value.serverNowMs});
 const identities=value.rosterSeatIds.map((seatId,i)=>({seatId,displayName:i===0?'Hana':i===1?'Cleo':`Player ${i+1}`,characterId:`c${i+1}`}));
-const ordinary={board:{seats:value.rosterSeatIds.map((seatId,i)=>({seatId,location:'Room B',slotId:`B${i+1}`}))},phase:{kind:'FOOD_SUPPLY',remainingMs:24000},activeSeatId:null,panel:'room'};
+const ordinary={board:{seats:value.rosterSeatIds.map((seatId,i)=>({seatId,location:'Room B',slotId:`B${i+1}`}))},phase:{kind:'FOOD_SUPPLY',remainingMs:24000},activeSeatId:null,panel:'board'};
 const assets=createFoodAssets(document);void assets.load();
 document.documentElement.style.fontSize=`${Number(q.get('text')??1)*100}%`;
 const renderer=mountFoodRenderer(document.querySelector('#food-root'),controller,{identities:()=>identities,ordinary:()=>ordinary,assets,preferences:()=>({reduced:q.get('motion')==='reduced'})});

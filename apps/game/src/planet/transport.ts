@@ -1,12 +1,14 @@
-import { PlanetPlayerViewSchema, PlanetPublicViewSchema, PlanetReceiptSchema, PlanetDrawingSchema } from '@mothership/contracts';
-import type { PlanetCommandRequest, PlanetPlayerView, PlanetPublicView, PlanetReceipt, SeatId } from '@mothership/contracts';
-import {planetIsPlayer,planetSupportsAssets} from '@mothership/presentation';
+import { PlanetPlayerViewSchema, PlanetPublicViewSchema, PlanetReceiptSchema, PlanetDrawingSchema, FoodTaskPlayerViewSchema, FoodTaskPublicViewSchema } from '@mothership/contracts';
+import type { PlanetCommandRequest, PlanetPlayerView, PlanetPublicView, PlanetReceipt, SeatId, FoodTaskPublicView, FoodTaskPlayerView } from '@mothership/contracts';
+import {planetIsPlayer,planetSupportsAssets,planetHasFood} from '@mothership/presentation';
 import type { PlanetIdentity, PlanetView } from '@mothership/presentation';
+import type {ClockReading} from '../clock/server-clock.js';
 
 export const PLANET_SUPPORTED_ASSET_MANIFEST='design-0.5.0';
 
 /** Firebase/Auth implementation is supplied by Integration. No endpoint or credential is inferred here. */
-export interface PlanetSnapshot { readonly value: unknown; readonly fresh: boolean }
+export interface PlanetFoodSnapshot {readonly publicView:FoodTaskPublicView;readonly playerView?:FoodTaskPlayerView;readonly serverTimeMs:number}
+export interface PlanetSnapshot { readonly value: unknown; readonly fresh: boolean; readonly food?:PlanetFoodSnapshot }
 export interface PlanetBinding { readonly uid: string; readonly matchId: string; readonly seatId: SeatId | null }
 export type PlanetReceiptContext = Pick<PlanetCommandRequest,'protocolVersion'|'matchId'|'phaseId'|'commandId'>;
 export interface PlanetTransport {
@@ -14,10 +16,26 @@ export interface PlanetTransport {
  currentUid(): string | null;
  authenticate(): Promise<PlanetBinding>;
  serverTime(): Promise<number>;
- listen(audience: {readonly matchId:string;readonly seatId:SeatId|null},listener:{snapshot(value:PlanetSnapshot):void;error():void}):()=>void;
+ /** Exact Food sessions reuse the clock calibrated by this same snapshot read. */
+ readClock?():ClockReading;
+ listen(audience: {readonly matchId:string;readonly seatId:SeatId|null},listener:{snapshot(value:PlanetSnapshot):void;error(kind?:'network'|'authorization'):void}):()=>void;
  command(request:PlanetCommandRequest):Promise<{readonly receipt:unknown;readonly serverTimeMs:number}|null>;
  receipt(context:PlanetReceiptContext):Promise<{readonly receipt:unknown|null;readonly serverTimeMs:number}|null>;
  identities?():readonly PlanetIdentity[];
+}
+/** Reject a mixed read, wrong audience or stale tuple before either surface sees it. */
+export function readPlanetFood(snapshot:PlanetSnapshot,view:PlanetView,seatId:SeatId|null):PlanetFoodSnapshot|null|undefined {
+ if(!planetHasFood(view.versions))return snapshot.food===undefined?undefined:null;
+ const f=snapshot.food,pub=FoodTaskPublicViewSchema.safeParse(f?.publicView);
+ if(!pub.success||!f||!Number.isSafeInteger(f.serverTimeMs)||f.serverTimeMs<0)return null;
+ const values:Array<FoodTaskPublicView|FoodTaskPlayerView>=[pub.data];let own:FoodTaskPlayerView|undefined;
+ if(seatId===null){if(Object.hasOwn(f,'playerView'))return null;}
+ else{const p=FoodTaskPlayerViewSchema.safeParse(f.playerView);if(!p.success||p.data.seatId!==seatId||p.data.participantTask&&!p.data.participantTask.ownReturnPlacement)return null;own=p.data;values.push(own);}
+ const roster=view.board.seats.map(s=>s.seatId).sort();
+ if(values.some(v=>v.matchId!==view.matchId||v.phaseId!==view.phase.id||v.round!==view.round||v.serverNowMs!==f.serverTimeMs||v.playerCount!==view.playerCount
+  ||JSON.stringify(v.versions)!==JSON.stringify(view.versions)||JSON.stringify([...v.rosterSeatIds].sort())!==JSON.stringify(roster)))return null;
+ if(own&&JSON.stringify(own.step)!==JSON.stringify(pub.data.step))return null;
+ return {publicView:pub.data,...(own?{playerView:own}:{}),serverTimeMs:f.serverTimeMs};
 }
 export function readPlanetView(payload:unknown,matchId:string,seatId:SeatId|null):PlanetView|null {
  const parsed=seatId===null?PlanetPublicViewSchema.safeParse(payload):PlanetPlayerViewSchema.safeParse(payload);

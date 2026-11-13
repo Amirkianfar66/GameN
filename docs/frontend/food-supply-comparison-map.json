@@ -1,6 +1,6 @@
 {
   "schema": "mothership.food-supplemental-comparison-plan/1",
-  "status": "reference-mapping-native-packets-pending",
+  "status": "native-packet-mapping-implemented-capture-evidence-separate",
   "issue": 235,
   "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
   "referencePins": {
@@ -46,7 +46,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=2500&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-02",
@@ -55,7 +59,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=4300&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-03",
@@ -64,7 +72,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6000&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-04",
@@ -73,7 +85,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=6740&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-05",
@@ -82,7 +98,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=6900&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-06",
@@ -91,7 +111,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=7650&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-07",
@@ -100,7 +124,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=8375&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-08",
@@ -109,7 +137,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=9235&as=winch&before=1"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-09",
@@ -118,7 +150,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=protection-drop&t=7900&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-10",
@@ -127,7 +163,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=mistakes&t=8425&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-11",
@@ -136,7 +176,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=mistakes&t=10475&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-12",
@@ -145,7 +189,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=9735&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-13",
@@ -154,7 +202,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=standoff&t=10135&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-14",
@@ -163,7 +215,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=8200&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-15",
@@ -172,7 +228,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=drop&t=9025&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-16",
@@ -181,7 +241,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=disconnect&t=12200&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-16",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-17",
@@ -190,7 +254,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=disconnect&t=15800&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-17",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-winch-18",
@@ -199,7 +267,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=timeout&t=31500&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-18",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-01",
@@ -208,7 +280,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=2500&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-02",
@@ -217,7 +293,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=4300&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-03",
@@ -226,7 +306,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=5300&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-04",
@@ -235,7 +319,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6650&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-05",
@@ -244,7 +332,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=6750&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-06",
@@ -253,7 +345,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=6900&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-07",
@@ -262,7 +358,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=mistakes&t=7150&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-08",
@@ -271,7 +371,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=7650&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-09",
@@ -280,7 +384,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=8250&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-10",
@@ -289,7 +397,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=protection-cut&t=7250&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-11",
@@ -298,7 +410,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=mistakes&t=8525&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-12",
@@ -307,7 +423,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=mistakes&t=10175&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-13",
@@ -316,7 +436,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=9735&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-14",
@@ -325,7 +449,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=standoff&t=11235&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-15",
@@ -334,7 +462,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=drop&t=9025&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-16",
@@ -343,7 +475,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=standoff&t=12735&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-16",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-17",
@@ -352,7 +488,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=9300&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-17",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-panel-18",
@@ -361,7 +501,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=disconnect&t=12300&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-18",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-01",
@@ -370,7 +514,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=task"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-02",
@@ -379,7 +527,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=partner"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-03",
@@ -388,7 +540,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=asking"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-04",
@@ -397,7 +553,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=called"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-05",
@@ -406,7 +566,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=declined"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-06",
@@ -415,7 +579,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=called&answer=join"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-07",
@@ -424,7 +592,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=starting"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-08",
@@ -433,7 +605,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=2500&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-09",
@@ -442,7 +618,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=away"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-10",
@@ -451,7 +631,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=return&board=cooperation&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-11",
@@ -460,7 +644,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=return&board=cooperation&as=other"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-12",
@@ -469,7 +657,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=return&board=chop&as=other"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-13",
@@ -478,7 +670,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=stock&n=1"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-flow-14",
@@ -487,7 +683,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=rested"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-01",
@@ -496,7 +696,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6650&as=panel&press=sending&act=lock"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-02",
@@ -505,7 +709,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6800&as=panel&press=refused&act=lock"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-03",
@@ -514,7 +722,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=4600&as=winch&press=sending&act=raise&before=1"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-04",
@@ -523,7 +735,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=9225&as=winch&press=unknown&act=lower"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-05",
@@ -532,7 +748,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=9735&as=winch&press=through&act=lower"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-06",
@@ -541,7 +761,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6650&as=panel&press=lost&act=lock"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-07",
@@ -550,7 +774,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=called&answer=joining"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-08",
@@ -559,7 +787,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=called&answer=late-withdrawn"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-09",
@@ -568,7 +800,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=called&answer=late-expired"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-10",
@@ -577,7 +813,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=withdrawn"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-11",
@@ -586,7 +826,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=withdraw-late"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-12",
@@ -595,7 +839,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=busy"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-13",
@@ -604,7 +852,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=volunteer&step=closed"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-states-14",
@@ -613,7 +865,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=howto"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-01",
@@ -622,7 +878,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=2500&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-02",
@@ -631,7 +891,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=4300&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-03",
@@ -640,7 +904,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=7650&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-04",
@@ -649,7 +917,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=6900&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-05",
@@ -658,7 +930,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6650&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-06",
@@ -667,7 +943,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=9735&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-07",
@@ -676,7 +956,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=disconnect&t=6900&as=winch"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-08",
@@ -685,7 +969,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=chop&t=9300&as=panel"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-09",
@@ -694,7 +982,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6650&as=panel&press=sending&act=lock"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-large-10",
@@ -703,7 +995,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=task&board=cooperation&t=6800&as=panel&press=refused&act=lock"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-stock-01",
@@ -712,7 +1008,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=stock&n=0.5"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-stock-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     },
     {
       "id": "food-stock-02",
@@ -721,7 +1021,11 @@
         "page": "design/food-supply/phone.html",
         "query": "s=stock&n=0"
       },
-      "nativeScenario": null
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-stock-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
     }
   ]
 }

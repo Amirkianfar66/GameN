@@ -54,13 +54,13 @@ const large=[
  [`s=task&board=cooperation&t=${PLATFORM_AT-100}&as=panel&press=sending&act=lock`,'Panel: LOCK sending'],[`s=task&board=cooperation&t=${R+1200}&as=panel&press=refused&act=lock`,'Panel: LOCK refused'],
 ];
 const cases=[];
-function rows(group,items){items.forEach(([query,title],i)=>cases.push({id:`food-${group}-${String(i+1).padStart(2,'0')}`,title,reference:{page:'design/food-supply/phone.html',query},nativeScenario:null}));}
+function rows(group,items){items.forEach(([query,title],i)=>cases.push({id:`food-${group}-${String(i+1).padStart(2,'0')}`,title,reference:{page:'design/food-supply/phone.html',query},nativeScenario:{page:'apps/game/dev/phone/food/app.html',query:`case=food-${group}-${String(i+1).padStart(2,'0')}`,packets:'apps/game/dev/phone/food/native-fixtures.json'}}));}
 for(const role of ['winch','panel'])rows(role,taskRows[role].map(([board,t,title,extra=''])=>[`s=task&board=${board}&t=${t}&as=${role}${extra}`,title]));
 rows('flow',flow);rows('states',states);rows('large',large);rows('stock',[['s=stock&n=0.5','Half a package'],['s=stock&n=0','No packages']]);
 if(cases.length!==76||new Set(cases.map(c=>c.id)).size!==76)throw Error('Exact named reference coverage required');
 const pins=Object.fromEntries(['design/food-supply/review.mjs','design/food-supply/phone.mjs','design/food-supply/phone.css','design/food-supply/handoff.json'].map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
-const plan={schema:'mothership.food-supplemental-comparison-plan/1',status:'reference-mapping-native-packets-pending',issue:235,designerHead:'9bb497948861521030c37a8d2c60a6318f1745c9',referencePins:pins,scope:'Food-specific supplement; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.',profiles:[{width:390,height:844,textScale:1,safeTop:47,safeBottom:34},{width:320,height:568,textScale:2,safeTop:20,safeBottom:0}],motion:['normal','reduced'],existingPartsToRecheck:['actions','panels','board','round-order','reconnecting','largest-text'],cases};
+const plan={schema:'mothership.food-supplemental-comparison-plan/1',status:'native-packet-mapping-implemented-capture-evidence-separate',issue:235,designerHead:'9bb497948861521030c37a8d2c60a6318f1745c9',referencePins:pins,scope:'Food-specific supplement; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.',profiles:[{width:390,height:844,textScale:1,safeTop:47,safeBottom:34},{width:320,height:568,textScale:2,safeTop:20,safeBottom:0}],motion:['normal','reduced'],existingPartsToRecheck:['actions','panels','board','round-order','reconnecting','largest-text'],cases};
 const target=resolve(root,'docs/frontend/food-supply-comparison-map.json'),bytes=JSON.stringify(plan,null,2)+'\n';
 if(process.argv.includes('--check')){if(readFileSync(target,'utf8')!==bytes)throw Error('Food comparison reference plan differs');}
 else writeFileSync(target,bytes);
-console.log(`Food reference mapping: ${cases.length} named states; native packet mappings pending.`);
+console.log(`Food reference mapping: ${cases.length} named states; typed native packet mappings present; capture/acceptance evidence remains separate.`);
