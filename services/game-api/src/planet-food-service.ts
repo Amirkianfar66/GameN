@@ -779,6 +779,10 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function runBots(matchId:string):Promise<{accepted:number}>{
     let accepted=0,waitedMs=0,workPasses=0,inputs=0;
+    type LockProposal={seatId:SeatId;view:FoodTaskPlayerView;command:FoodTaskCommandRequest['command'];endsAt:number;
+      request:Extract<Request,{operation:'foodCommand'}>|null};
+    type Probe={prefix:number|null;work:boolean;nextWakeAt:number|null;lock:LockProposal|null};
+    const botsInOrder=(s:T)=>s.members.filter(m=>m.controller==='bot');
     const plannedLocks=new Map<SeatId,{request:Extract<Request,{operation:'foodCommand'}>;endsAt:number}>();
     const currentPlannedLock=(seat:SeatId,view:FoodTaskPlayerView)=>{
       const planned=plannedLocks.get(seat);if(!planned)return null;const request=planned.request;
@@ -788,33 +792,63 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     };
     const started=performance.now();
     const remaining=()=>Math.floor(Math.min(FOOD_BOT_WALL_BUDGET_MS-(performance.now()-started),FOOD_BOT_WALL_BUDGET_MS-waitedMs));
-    const probe=()=>readOnly(async tx=>{
+    const probe=():Promise<Probe>=>readOnly(async tx=>{
         const s=await d.load(tx,matchId),control=await tx.get<Control>(controlKey(matchId));
-        if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false,nextWakeAt:null};
-        if(s.status!=='running'||!s.state)return {prefix:null,work:false,nextWakeAt:null};
+        if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false,nextWakeAt:null,lock:null};
+        if(s.status!=='running'||!s.state)return {prefix:null,work:false,nextWakeAt:null,lock:null};
         const renewals=await contacts(tx,matchId),at=clock(),f=service(s),due=engine().planetDeadlineAt(s.state);
         f.leases=effectiveLeases(s,renewals,at);
-        if(due!==null&&due<=at||Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at)
-          ||Object.values(f.botWakes).some(wake=>wake!==undefined&&wake<=at))return {prefix:null,work:true,nextWakeAt:null};
+        const engineDue=due!==null&&due<=at;
+        if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at)
+          ||engineDue&&d.engine.hasOnlyDuePlanetFoodWarnings?.(s.state,at)!==true)return {prefix:null,work:true,nextWakeAt:null,lock:null};
         let nextWakeAt:number|null=null;
-        for(const bot of s.members.filter(m=>m.controller==='bot')){
+        for(const bot of botsInOrder(s)){
           const intent=await tx.get<BotIntent>(key('foodBotIntent',[matchId,bot.seatId]));
+          if(intent&&!intent.done)return {prefix:intent.sequence,work:false,nextWakeAt:null,lock:null};
           if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at){
             nextWakeAt=Math.min(nextWakeAt??Infinity,intent.retryAt);continue;
           }
           const view=engine().projectPlanetFoodPlayer(s.state,bot.seatId,at);
-          const decision=chooseFoodBotInput(view);
-          if(currentPlannedLock(bot.seatId,view)||decision.command||view.step===null&&d.chooseOrdinaryBot(engine().projectPlanetPlayer(s.state,bot.seatId)))return {prefix:null,work:true,nextWakeAt:null};
+          const decision=chooseFoodBotInput(view),planned=currentPlannedLock(bot.seatId,view),command=planned?.request.request.command??decision.command;
+          if(command||view.step===null&&d.chooseOrdinaryBot(engine().projectPlanetPlayer(s.state,bot.seatId))){
+            const end=command?planned?.endsAt??foodBotPanelLockWindowEnd(view,command):null;
+            // Stop at the first actionable bot. A later Lock never jumps an earlier UP or other input.
+            const lock=command&&end!==null?{seatId:bot.seatId,view,command,endsAt:end,request:planned?.request??null}:null;
+            return {prefix:null,work:true,nextWakeAt:null,lock};
+          }
           if(decision.nextWakeAt!==null&&decision.nextWakeAt>at)nextWakeAt=Math.min(nextWakeAt??Infinity,decision.nextWakeAt);
         }
-        return {prefix:null,work:false,nextWakeAt};
+        if(engineDue||Object.values(f.botWakes).some(wake=>wake!==undefined&&wake<=at))return {prefix:null,work:true,nextWakeAt:null,lock:null};
+        return {prefix:null,work:false,nextWakeAt,lock:null};
       });
     // Do not create a lease or scheduler write for an idle session trigger.
     const initial=await probe();
     if(initial.prefix===null&&!initial.work&&(!d.waitForBotWake||initial.nextWakeAt===null))return {accepted};
     const owner=await acquireWorker(matchId);
     if(owner===null)return {accepted};
-    try{while(workPasses<MAX_BOT_INPUTS&&inputs<MAX_BOT_INPUTS&&remaining()>0){
+    const materializeLock=(proposal:LockProposal)=>{
+      if(clock()>=proposal.endsAt)return null;
+      const request=proposal.request??{operation:'foodCommand' as const,request:{schemaVersion:1 as const,protocolVersion:3 as const,
+        matchId,phaseId:proposal.view.phaseId,foodStepId:proposal.view.step!.stepId,round:proposal.view.round,commandId:d.newId(),command:proposal.command}};
+      return {request,endsAt:proposal.endsAt};
+    };
+    // The proposal has no command ID until ownership is established. The owned
+    // probe still rechecks earlier bots and the original current-window bound.
+    const submit=async(seat:SeatId,request:Request,lockWindowEndsAt:number|null):Promise<boolean>=>{
+      const admitted=await admit(matchId,null,request,{bot:seat,workerOwner:owner,...(lockWindowEndsAt===null?{}:{lockWindowEndsAt})});
+      if(admitted.refresh){
+        if(request.operation==='foodCommand'&&request.request.command.type==='TASK_PRESS'&&request.request.command.input.kind==='PANEL_LOCK'&&lockWindowEndsAt!==null)
+          plannedLocks.set(seat,{request,endsAt:lockWindowEndsAt});
+        return false;
+      }
+      plannedLocks.delete(seat);inputs++;
+      const result=admitted.response??await drainThrough(matchId,admitted.sequence);
+      if(result.ok&&(result.result as {receipt?:{status:string}}).receipt?.status==='accepted')accepted++;
+      return true;
+    };
+    try{
+      if(initial.lock){const planned=materializeLock(initial.lock);if(planned)plannedLocks.set(initial.lock.seatId,planned);}
+      while(workPasses<MAX_BOT_INPUTS&&inputs<MAX_BOT_INPUTS&&remaining()>0){
       if(!await refreshWorker(matchId,owner))break;
       const pending=await probe();
       if(pending.prefix!==null){workPasses++;await drainThrough(matchId,pending.prefix);continue;}
@@ -827,12 +861,17 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         continue; // Waiting never consumes an input/work pass or supplies an admission timestamp.
       }
       workPasses++;
+      if(pending.lock){
+        const planned=materializeLock(pending.lock);
+        if(planned)await submit(pending.lock.seatId,planned.request,planned.endsAt);
+        continue; // Normal ordered admission itself drains any due warnings before this Lock.
+      }
       const clockInput=await admit(matchId,null,null,{workerOwner:owner});
       await drainThrough(matchId,clockInput.sequence);
       const s=await readOnly(tx=>d.load(tx,matchId));
       if(!s.state||s.status!=='running')break;
       let progressed=false,needsRefresh=false;
-      for(const bot of s.members.filter(m=>m.controller==='bot')){
+      for(const bot of botsInOrder(s)){
         if(inputs>=MAX_BOT_INPUTS||remaining()<=0)break;
         const intentPath=key('foodBotIntent',[matchId,bot.seatId]);
         const intent=await readOnly(tx=>tx.get<BotIntent>(intentPath));
@@ -857,19 +896,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           matchId,phaseId:food.phaseId,foodStepId:food.step!.stepId,round:food.round,commandId:d.newId(),command:foodCommand}}:
           {operation:'command',request:{protocolVersion:3,matchId,phaseId:state.state.phase.id,commandId:d.newId(),command:ordinary!}});
         const lockWindowEndsAt=planned?.endsAt??(foodCommand?foodBotPanelLockWindowEnd(food,foodCommand):null);
-        const admitted=await admit(matchId,null,request,{bot:bot.seatId,workerOwner:owner,...(lockWindowEndsAt===null?{}:{lockWindowEndsAt})});
-        if(admitted.refresh){
-          // Keep only this uncommitted Lock through canonical warning/prefix drain.
-          // It is discarded as soon as its current goal/binding is no longer safe.
-          if(request.operation==='foodCommand'&&request.request.command.type==='TASK_PRESS'&&request.request.command.input.kind==='PANEL_LOCK'&&lockWindowEndsAt!==null)
-            plannedLocks.set(bot.seatId,{request,endsAt:lockWindowEndsAt});
-          needsRefresh=true;break;
-        }
-        plannedLocks.delete(bot.seatId);
-        inputs++;
-        const result=admitted.response??await drainThrough(matchId,admitted.sequence);
-        const receipt=result.ok?(result.result as {receipt?:{status:string}}).receipt:null;
-        if(receipt?.status==='accepted')accepted++;
+        if(!await submit(bot.seatId,request,lockWindowEndsAt)){needsRefresh=true;break;}
         progressed=true;
       }
       if(needsRefresh)continue;

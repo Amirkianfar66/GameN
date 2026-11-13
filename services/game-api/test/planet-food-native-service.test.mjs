@@ -39,7 +39,7 @@ test(`native planned Lock delayed${age}ms drains real warnings then keeps only a
  const before=await h.current();assert.equal(before.state.food.step.task.panel.locked,false);
  const goalAt=before.state.food.step.task.panel.anchorAt+1000;h.setTime(goalAt);armed=true;
  const result=await h.service.runBots(h.matchId);assert.ok(proposal);assert.equal(proposal.plannedAt,goalAt);
- assert.ok(proposal.dueAt>goalAt&&proposal.dueAt<=goalAt+age,'a real warning boundary becomes due during transport');
+ assert.ok(proposal.dueAt<=goalAt+age,'real warning boundaries are due before the actual admission');
  const current=await h.current(),view=projectPlanetFoodPlayer(current.state,task.panelSeatId,h.now());
  assert.ok(planetDeadlineAt(current.state)>h.now(),'canonical warning was drained before the next proposal');
  const journal=await currentPlanetJournal(h),locks=journal.filter(r=>r.kind==='FOOD_COMMAND'&&r.request.command.input?.kind==='PANEL_LOCK');
@@ -67,6 +67,32 @@ test(`native planned Lock delayed${age}ms drains real warnings then keeps only a
  context.diagnostic(JSON.stringify({proposalAgeMs:age,warningQuery,plannedOffset:goalAt-task.startedAt,warningOffset:proposal.dueAt-task.startedAt,
   actualOffset:goalAt+age-task.startedAt,drainedOffsets:journal.filter(r=>r.kind==='DEADLINE'&&r.context.now>goalAt).map(r=>r.context.now-task.startedAt),
   warningDrained:true,retainedRequestAccepted:age<250,lockInputs:locks.length}));
+});
+
+for(const delayKind of ['CLOCK','BOT_OWNER'])test(`direct-probe Lock preserves its hint through a150ms ${delayKind} acknowledgment delay`,async context=>{
+ const store=memoryPlanetStore(),transaction=store.transaction.bind(store);let h,armed=false,delays=0;
+ store.transaction=operation=>transaction(async tx=>{
+  let target=false;const result=await operation({...tx,set:(key,value)=>{
+   if(armed&&(delayKind==='CLOCK'?key.startsWith('foodIngress/')&&value.request===null&&value.response===null:key.startsWith('foodBotWorker/')))target=true;
+   tx.set(key,value);
+  }});return {result,target};
+ }).then(({result,target})=>{if(armed&&target){armed=false;delays++;h.setTime(h.now()+150);}return result;});
+ const setup=await setupNativeHumanFood({control:'WINCH',store});h=setup.h;const task=setup.task;
+ await runNativeFoodWorkersThrough(h,task.runningAt);h.setTime(task.runningAt);
+ const live=await h.read(h.players[0]);await sendNativeFood(h,live.foodPlayerView,chooseFoodBotInput(live.foodPlayerView).command);
+ await runNativeFoodWorkersThrough(h,task.runningAt+450);h.setTime(task.runningAt+450);await h.service.runBots(h.matchId);
+ const before=await h.current(),goalAt=before.state.food.step.task.panel.anchorAt+1000;
+ const last=(await currentPlanetJournal(h)).at(-1).sequence;h.setTime(goalAt);armed=true;
+ const result=await h.service.runBots(h.matchId),current=await h.current(),records=(await currentPlanetJournal(h)).filter(r=>r.sequence>last);
+ const locks=records.filter(r=>r.kind==='FOOD_COMMAND'&&r.request.command.input?.kind==='PANEL_LOCK');
+ assert.ok(result.accepted>0);assert.equal(locks.length,1);assert.equal(current.state.food.step.task.panel.stop,5);
+ assert.equal(delays,delayKind==='CLOCK'?0:1);
+ const actualAt=goalAt+(delayKind==='BOT_OWNER'?150:0);assert.equal(locks[0].receipt.receivedAt,actualAt);assert.equal(locks[0].context.now,actualAt);
+ const warnings=records.filter(r=>r.kind==='DEADLINE');assert.ok(warnings.length>0);
+ assert.ok(warnings.every(r=>r.sequence<locks[0].sequence&&r.ingressSequence===locks[0].ingressSequence));
+ const admitted=store.export().filter(([key,e])=>key.startsWith('foodIngress/')&&e.sequence===locks[0].ingressSequence)[0][1];
+ assert.equal(admitted.request.operation,'foodCommand','the first actionable Lock itself carries canonical warning drain');
+ context.diagnostic(JSON.stringify({delayKind,delays,plannedOffset:goalAt-task.startedAt,actualOffset:actualAt-task.startedAt,locks:locks.length}));
 });
 
 

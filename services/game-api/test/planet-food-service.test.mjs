@@ -403,6 +403,23 @@ const workerPath='foodBotWorker/food-match';
 const prefixPath='foodPrefixWorker/food-match';
 const ingress=h=>h.store.export().filter(([path])=>path.startsWith('foodIngress/'));
 const workerJob=s=>({matchId:s.matchId,phaseId:s.foodService.scheduler.phaseId,deadlineToken:s.foodService.scheduler.token,kind:'game'});
+for(const reverse of [false,true])test(`direct Lock probing preserves existing member order (${reverse?'reversed fixture':'normal fixture'})`,async()=>{
+  const h=harness({bots:true});await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match'),t=s.state.task;
+    Object.assign(t.crate,{state:'HELD',holder:'WINCH',height:Y.raised,motion:null});
+    Object.assign(t.ownGesture,{highestSequence:2,recoveryRevision:2,currentHolder:{sequence:1,crateId:t.crate.id},pendingIntent:{sequence:2,crateId:t.crate.id}});
+    Object.assign(t.panel,{locked:false,stop:0,direction:1,anchorAt:6000,swing:null});if(reverse)s.members.reverse();tx.set('session/food-match',s);
+  });
+  h.setNow(7000);await h.api().runBots('food-match');
+  const entries=ingress(h).map(([,e])=>e),presses=entries.filter(e=>e.request?.operation==='foodCommand');
+  if(reverse){assert.equal(entries[0].request.operation,'foodCommand');assert.equal(presses[0].actorSeatId,'seat-3');
+    assert.equal(presses[0].request.request.command.input.kind,'PANEL_LOCK');
+  }else{
+    assert.equal(entries[0].request,null,'the earlier non-Lock keeps the existing CLOCK path');
+    assert.equal(presses[0].actorSeatId,'seat-2');assert.equal(presses[0].request.request.command.input.kind,'HOLD');
+    assert.equal(presses[0].request.request.command.input.edge,'UP');
+  }
+});
 test('regular read, heartbeat and bot metadata wait outside Session behind the positive prefix owner',async()=>{
   const h=harness(),paused=h.store.pauseNext(prefixPath),first=h.command('positive-owner');await paused.reached;
   const start=h.store.attempts.length,reading=h.store.pauseReadNext(prefixPath);
