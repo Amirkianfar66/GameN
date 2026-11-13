@@ -271,13 +271,14 @@ function large() {
     // The longest permitted names (twelve characters) stay whole: on the name tags, in the hint and on the buttons (#222).
     [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch&names=long`, 'Twelve-letter names: the partner offline, the panel at the cab'], [`s=task&board=chop&t=${CAB_AT - 100}&as=panel&names=long`, 'Twelve-letter names: a LOCK would cut'],
     ['s=called&names=long', 'Twelve-letter names: the Partner request, its answers in sight'], ['s=stock&n=0.5', 'The food gauge: half a package'],
+    [`s=task&board=mistakes&t=${stepAt('mistakes', 5) + 500}&as=winch&hold=early`, 'Winch: held early, waiting for the hook'],
   ]) grid.append(phone(`${q}&text=2`, { width: 320, height: 568, scale: 1, safe: '20,0', label, measured: true }));
   app.append(grid);
 }
 
 /** A press in flight, refused, its answer unknown and recovered; the request's races. Each shown to its own player only. */
 function states() {
-  app.append(header('A press, and a request, in flight', 'What the presser\'s own phone shows while a press is on its way, when the server refuses it (the crane had moved on), when the connection drops before its answer, and after the recovery; and the races between a Join, a Cancel and the time running out. The server takes whichever arrives first; nothing here is shown to the other player. A double tap or a held key never sends a second press, and a press stays the act it was made as; a finger lifting off Hold always sends its let-go.'));
+  app.append(header('A press, and a request, in flight', 'What the presser\'s own phone shows while a press is on its way, when the server refuses it (the crane had moved on), when the connection drops before its answer, and after the recovery; the races between a Join, a Cancel and the time running out; and a hold made before the hook can lift the crate, which waits. The server takes whichever arrives first; nothing here is shown to the other player. A double tap or a held key never sends a second press, and a press stays the act it was made as; a finger lifting off Hold always sends its let-go.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way; every control waits'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK refused, the crane had moved on'],
@@ -287,6 +288,8 @@ function states() {
     ['s=volunteer&step=withdrawn', 'Volunteer: request withdrawn (as a refusal)'], ['s=volunteer&step=withdraw-late', 'Volunteer: too late to cancel, Cleo joined first'],
     ['s=volunteer&step=busy', 'Anyone else: another request is waiting'], ['s=volunteer&step=closed', 'In an ordinary turn: Food Supply opens at the next round\'s start'],
     ['s=howto', 'Before the Task: how it works, read any time'],
+    // The early Hold (the owner, 13 November 2026): held before the hook can lift the crate, the hold waits; nothing is lifted.
+    [`s=task&board=mistakes&t=${stepAt('mistakes', 5) + 500}&as=winch&hold=early`, 'Winch: held early, waiting for the hook'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }
