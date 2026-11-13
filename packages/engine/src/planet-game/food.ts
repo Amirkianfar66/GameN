@@ -1,6 +1,6 @@
 import {
   FoodTaskCommandRequestSchema, FoodTaskReceiptSchema, FoodTaskPublicViewSchema, FoodTaskPlayerViewSchema, FoodTaskRequestViewSchema, FoodTaskRequestClosureSchema, IdentifierSchema,
-  FOOD_TASK_PARAMETERS as P,
+  FOOD_TASK_PARAMETERS as P, PlanetVersionsSchema,
   type FoodTaskCommandRequest, type FoodTaskReceipt,
   type FoodTaskPublicView, type FoodTaskPlayerView, type FoodTaskParticipant, type SeatId,
 } from '@mothership/contracts';
@@ -12,7 +12,7 @@ import {clearPlanetOffices,restorePlanetFoodCaptainLoss} from './physical.js';
 import {addFoodDeliveryOnce, finishFoodOrdinaryTurn, ownFoodMeals, assertFoodWorldLedger} from './food-meals.js';
 import {
   createFoodTaskMachine, applyFoodTaskPress, advanceFoodTaskMachine, projectFoodTaskParticipant,
-  foodTaskMachineDeadlineAt, foodTaskMachineInputs, setFoodTaskPresence,
+  foodTaskMachineDeadlineAt, foodTaskMachineInputs, setFoodTaskPresence, hasOnlyDueFoodTaskWarnings,
   type FoodTaskMachine, type FoodTaskMachineEffect,
 } from './food-machine.js';
 
@@ -99,6 +99,13 @@ export function planetFoodDeadlineAt(state:PlanetGameState):number|null {
   if(step.task)return foodTaskMachineDeadlineAt(step.task);
   if(step.askingClosed&&!step.invitation)return step.completedAt??step.askingEndsAt;
   return Math.min(...[!step.askingClosed?step.askingEndsAt:Infinity,step.invitation?.answerEndsAt??Infinity]);
+}
+/** Candidate-only query; it never advances state or consumes a boundary. */
+export function hasOnlyDuePlanetFoodWarnings(state:PlanetGameState,at:number):boolean {
+  if(!Number.isSafeInteger(at)||at<0||at<state.evaluatedAt||!planetHasFoodTask(state.versions)
+    ||!PlanetVersionsSchema.safeParse(state.versions).success||state.phase.kind!=='FOOD_SUPPLY')return false;
+  const task=state.food?.step?.task;
+  return task!==null&&task!==undefined&&hasOnlyDueFoodTaskWarnings(task,at);
 }
 /** Drains each due original boundary, returning its common return time for the lifecycle to publish. */
 export function advancePlanetFood(state:PlanetGameState,ctx:PlanetGameContext):{completedAt:number|null} {

@@ -6,7 +6,7 @@ import {PLANET_FOOD_TASK_PINS,PLANET_FOOD_TASK_ENGINE_PROFILE,PLANET_BLACKOUT_PI
   PlanetSessionSnapshotSchema,FoodTaskPlayerViewSchema,FoodTaskPublicViewSchema} from '@mothership/contracts';
 import {createPlanetGame,projectPlanetPublic,projectPlanetPlayer} from '@mothership/engine';
 import {createPlanetService} from '../dist/planet-game.js';
-import {FOOD_BOT_WORKER_LEASE_MS} from '../dist/planet-food-service.js';
+import {FOOD_BOT_WORKER_LEASE_MS,FOOD_PREFIX_WORKER_LEASE_MS} from '../dist/planet-food-service.js';
 import {chooseFoodBotInput} from '../dist/food-bot-policy.js';
 const clone=v=>structuredClone(v),hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const fixture=JSON.parse(readFileSync(new URL('./fixtures/food-views.json',import.meta.url),'utf8'))['task-winch-initial'];
@@ -15,22 +15,29 @@ const roles=['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker'
 
 /** Retry/lost-ACK fake, not a claim of Firestore emulator coverage. Hooks target actual write namespaces. */
 function memory(seed){
-  let records=new Map(clone(seed)),tail=Promise.resolve(),retry=null,lost=null,hold=null;
+  let records=new Map(clone(seed)),tail=Promise.resolve(),retry=null,lost=null,hold=null,holdRead=null,blockedSession=false;
   const attempts=[];
   const store={attempts,export:()=>clone([...records]),setRetry:(prefix,mutate)=>{retry={prefix,mutate};},
+    blockSessionWrites:value=>{blockedSession=value;},
     loseAck:prefix=>{lost=prefix;},
-    pauseNext(prefix){
+    pauseNext(prefix,remaining=1){
       let entered,resume;const reached=new Promise(resolve=>{entered=resolve;}),gate=new Promise(resolve=>{resume=resolve;});
-      hold={prefix,entered,gate};return {reached,resume};
+      hold={prefix,entered,gate,remaining};return {reached,resume};
+    },
+    pauseReadNext(prefix){
+      let entered,resume;const reached=new Promise(resolve=>{entered=resolve;}),gate=new Promise(resolve=>{resume=resolve;});
+      holdRead={prefix,entered,gate};return {reached,resume};
     },
     listKeys:async(namespace,limit)=>[...records].filter(([k,v])=>k.startsWith(namespace+'/')&&(namespace!=='deadline'||v.status!=='complete')).slice(0,limit).map(([k])=>k),
-    transaction(operation){
+    readOnly:operation=>store.transaction(operation,true),
+    transaction(operation,readOnly=false){
       const run=async()=>{
         const attempt=async(commit)=>{
           const draft=new Map(clone([...records])),writes=[],reads=[];
-          const tx={get:async key=>{reads.push(key);return clone(draft.get(key)??null);},set:(key,value)=>{draft.set(key,clone(value));writes.push(key);},delete:key=>{draft.delete(key);writes.push(key);}};
-          const result=await operation(tx);attempts.push({commit,writes,reads});
-          return {result,draft,writes};
+          const tx={get:async key=>{reads.push(key);if(blockedSession&&!readOnly&&key.startsWith('session/'))throw new Error('Unrelated Session write lock is blocked');
+            return clone(draft.get(key)??null);},set:(key,value)=>{draft.set(key,clone(value));writes.push(key);},delete:key=>{draft.delete(key);writes.push(key);}};
+          const result=await operation(tx);attempts.push({commit,writes,reads,readOnly,prefixLease:clone(draft.get('foodPrefixWorker/food-match'))});
+          return {result,draft,writes,reads};
         };
         const first=await attempt(false);
         let selected=first;
@@ -39,7 +46,8 @@ function memory(seed){
         records=selected.draft;
         if(lost&&selected.writes.some(k=>k.startsWith(lost))){lost=null;throw new Error('Synthetic committed ACK loss');}
         let gate=null;
-        if(hold&&selected.writes.some(k=>k.startsWith(hold.prefix))){const paused=hold;hold=null;gate=paused.gate;paused.entered();}
+        if(hold&&selected.writes.some(k=>k.startsWith(hold.prefix))&&--hold.remaining===0){const paused=hold;hold=null;gate=paused.gate;paused.entered();}
+        if(holdRead&&selected.writes.length===0&&selected.reads.some(k=>k.startsWith(holdRead.prefix))){const paused=holdRead;holdRead=null;gate=paused.gate;paused.entered();}
         return {value:selected.result,gate};
       };
       const p=tail.then(run,run);tail=p.catch(()=>{});
@@ -254,6 +262,10 @@ test('server lease expires, grace runs from that expiry, and heartbeat at the cl
   const restored=h.store.export().filter(([key,value])=>key.startsWith('journal/')&&value.kind==='FOOD_PRESENCE'&&value.online===true&&value.actorSeatId==='seat-1');
   assert.equal(restored.length,1,'journal only the actual engine reconnect, not an already-online lease renewal');
   assert.equal(restored[0][1].context.now,15000);
+  const beats=h.store.export().filter(([key,value])=>key.startsWith('journal/')&&value.kind==='FOOD_HEARTBEAT'&&value.actorSeatId==='seat-1');
+  assert.equal(beats.length,2,'both reconnect and already-online heartbeats retain their ordered journal records');
+  for(const [,beat] of beats){assert.equal(beat.context.now,15000);assert.equal(beat.leaseExpiresAt,17000);
+    assert.ok(ingress(h).some(([,entry])=>entry.sequence===beat.ingressSequence&&entry.request?.operation==='foodHeartbeat'));}
   assert.equal((await h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'},'p2')).ok,true);
   h.setNow(17000);await h.handle('read',{matchId:'food-match'},'p2');
   assert.ok((await h.current()).state.trace.some(c=>c.kind==='presence'&&c.actor==='seat-1'&&!c.online&&c.context.now===17000));
@@ -388,8 +400,215 @@ test('a human excluded by the server offer does not block an eligible bot partne
 });
 
 const workerPath='foodBotWorker/food-match';
+const prefixPath='foodPrefixWorker/food-match';
 const ingress=h=>h.store.export().filter(([path])=>path.startsWith('foodIngress/'));
 const workerJob=s=>({matchId:s.matchId,phaseId:s.foodService.scheduler.phaseId,deadlineToken:s.foodService.scheduler.token,kind:'game'});
+test('regular read, heartbeat and bot metadata wait outside Session behind the positive prefix owner',async()=>{
+  const h=harness(),paused=h.store.pauseNext(prefixPath),first=h.command('positive-owner');await paused.reached;
+  const start=h.store.attempts.length,reading=h.store.pauseReadNext(prefixPath);
+  const read=h.handle('read',{matchId:'food-match'}),beat=h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'}),bots=h.api().runBots('food-match');
+  await reading.reached;
+  assert.equal(h.store.attempts.slice(start).some(a=>!a.readOnly&&a.reads.includes('session/food-match')),false);
+  reading.resume();paused.resume();const results=await Promise.all([first,read,beat,bots]);assert.ok(results.slice(0,3).every(r=>r.ok));
+  const writers=h.store.attempts.filter(a=>a.commit&&!a.readOnly&&a.writes.includes('session/food-match'));
+  assert.ok(writers.some(a=>a.prefixLease.throughSequence===0));
+  for(const a of writers){assert.ok(a.prefixLease);assert.equal(a.reads[0],'session/food-match');
+    assert.ok(a.reads.indexOf('foodIngressControl/food-match')<a.reads.indexOf(prefixPath));}
+});
+test('known unauthorized, invalid recovery and exhausted fresh requests create no writer lease or wake',async()=>{
+  const h=harness();await h.handle('read',{matchId:'food-match'});const before=h.store.export();
+  for(const [uid,operation,fields,code] of [
+    ['stranger','foodHeartbeat',{matchId:'food-match',taskId:'task-2'},'FORBIDDEN'],
+    ['p1','abort',{matchId:'food-match',requestId:'not-host'},'FORBIDDEN'],
+    ['replacement','redeemRecovery',{matchId:'food-match',requestId:'bad-token',recoveryCode:'invalid-recovery-code'},'FORBIDDEN'],
+  ]){const result=await h.handle(operation,fields,uid);assert.equal(result.ok,false);assert.equal(result.error.code,code);}
+  await h.store.transaction(async tx=>tx.set('foodTransportRate/'+hash(['p1','presence']),{since:6000,count:90}));
+  assert.equal((await h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'})).error.code,'RATE_LIMITED');
+  assert.deepEqual(h.store.export().filter(([key])=>key.startsWith('deadline/')||key===prefixPath),before.filter(([key])=>key.startsWith('deadline/')||key===prefixPath));
+});
+test('a rate budget filled after RO preflight rejects in the fresh claim before lease or wake writes',async()=>{
+  const h=harness();await h.handle('read',{matchId:'food-match'});const before=h.store.export().filter(([key])=>key.startsWith('deadline/')||key===prefixPath);
+  const paused=h.store.pauseReadNext('foodTransportRate/'),request={protocolVersion:3,matchId:'food-match',commandId:'rate-after-preflight',phaseId:'food-phase',command:{type:'PASS_TURN'}};
+  const pending=h.handle('command',{request});await paused.reached;
+  await h.store.transaction(async tx=>tx.set('foodTransportRate/'+hash(['p1','input']),{since:6000,count:120}));
+  paused.resume();const result=await pending;assert.equal(result.ok,false);assert.equal(result.error.code,'RATE_LIMITED');
+  assert.deepEqual(h.store.export().filter(([key])=>key.startsWith('deadline/')||key===prefixPath),before);
+});
+for(const successor of ['same','different'])test(`ordinary midflight receipt recovery rechecks ownership before the successor's ${successor} fingerprint`,async()=>{
+  const h=harness(),request={protocolVersion:3,matchId:'food-match',commandId:'ordinary-recovery-canary',phaseId:'food-phase',command:{type:'PASS_TURN'}};
+  const paused=h.store.pauseReadNext('foodTransportRate/'),old=h.handle('command',{request});await paused.reached;
+  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'ordinary-canary-issue'},'host');assert.equal(issued.ok,true);
+  assert.equal((await h.handle('redeemRecovery',{matchId:'food-match',requestId:'ordinary-canary-redeem',recoveryCode:issued.result.recoveryCode},'replacement')).ok,true);
+  const nextRequest=successor==='same'?request:{...request,phaseId:'successor-phase'};
+  const next=await h.handle('command',{request:nextRequest},'replacement');assert.equal(next.ok,true);
+  paused.resume();const denied=await old;assert.equal(denied.ok,false);assert.equal(denied.error.code,'FORBIDDEN');assert.equal(Object.hasOwn(denied,'result'),false);
+  const own=await h.handle('receipt',{matchId:'food-match',commandId:request.commandId},'replacement');assert.deepEqual(own.result.receipt,next.result.receipt);
+});
+test('an original redeem appearing after preflight recovers before used-token and exhausted-rate checks without a new writer wake',async()=>{
+  const h=harness(),issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'redeem-race-issue'},'host');assert.equal(issued.ok,true);
+  const fields={matchId:'food-match',requestId:'redeem-race',recoveryCode:issued.result.recoveryCode};
+  const paused=h.store.pauseReadNext('foodTransportRate/'),old=h.handle('redeemRecovery',fields,'replacement');await paused.reached;
+  const completed=await h.handle('redeemRecovery',fields,'replacement');assert.equal(completed.ok,true);
+  await h.store.transaction(async tx=>tx.set('foodTransportRate/'+hash(['replacement','control']),{since:6000,count:30}));
+  const before=h.store.export().filter(([key])=>key.startsWith('deadline/')||key===prefixPath);
+  paused.resume();assert.deepEqual(await old,completed);
+  assert.deepEqual(h.store.export().filter(([key])=>key.startsWith('deadline/')||key===prefixPath),before);
+});
+test('a lost metadata admission ACK retains a recovery-only wake that drains original input before a busy bot lease',async()=>{
+  const h=harness();h.store.loseAck('foodIngress/');
+  assert.equal((await h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'})).ok,false);
+  const original=ingress(h)[0][1],wake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.sessionWriterRecovery&&j.status==='pending')[1];
+  assert.equal(wake.ingressSequence,undefined);assert.equal((await h.api().runDeadline(wake)).status,'too-early');
+  h.setNow(wake.endsAt);await h.store.transaction(async tx=>tx.set(workerPath,{owner:'busy-bot-owner',expiresAt:wake.endsAt+8000}));
+  await h.api().runDeadline(wake);
+  const restored=ingress(h).find(([,e])=>e.sequence===original.sequence)[1];assert.deepEqual(restored.context,original.context);assert.equal(restored.response.ok,true);
+  assert.equal(ingress(h).length,1,'busy bot ownership cannot suppress recovery or fabricate another input');
+  assert.equal(restored.context.now,6000);assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
+});
+test('a lost metadata claim ACK with no Control has a recovery probe without ingress zero',async()=>{
+  const h=harness({bots:true});h.store.loseAck(prefixPath);await assert.rejects(h.api().runBots('food-match'));
+  assert.equal(ingress(h).length,0);assert.equal(h.store.export().some(([key])=>key==='foodIngressControl/food-match'),false);
+  const wake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.sessionWriterRecovery&&j.status==='pending')[1];
+  assert.equal(wake.ingressSequence,undefined);assert.equal((await h.api().runDeadline(wake)).status,'too-early');
+  h.setNow(wake.endsAt);await h.api().runDeadline(wake);
+  assert.ok(ingress(h).length>0);for(const [,entry] of ingress(h)){assert.ok(entry.sequence>0);assert.equal(entry.context.now,wake.endsAt);}
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
+});
+test('an SDK metadata retry fences a superseded zero writer before Session or ingress commit',async()=>{
+  const h=harness();let noticed;const replaced=new Promise(resolve=>{noticed=resolve;});
+  h.store.setRetry('session/',records=>{
+    const lease=records.get(prefixPath);assert.equal(lease.throughSequence,0);h.setNow(lease.expiresAt);
+    records.set(prefixPath,{...lease,owner:'zero-writer-successor',expiresAt:h.getNow()+8000});noticed();
+  });
+  const pending=h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'});await replaced;
+  await h.store.transaction(async tx=>{
+    const lease=await tx.get(prefixPath),s=await tx.get('session/food-match');assert.equal(lease.owner,'zero-writer-successor');
+    assert.equal(s.state.trace.length,0);assert.equal(ingress(h).length,0);tx.delete(prefixPath);
+  });
+  const result=await pending;assert.equal(result.ok,true);assert.equal(ingress(h)[0][1].context.now,14000);
+});
+for(const operation of ['abort','read','redeemRecovery'])test(`stale setup classification hands ${operation} to current Food ordering`,async()=>{
+  const h=harness();let fields={matchId:'food-match'},uid=operation==='abort'?'host':'p1';
+  if(operation==='abort')fields.requestId='late-setup-abort';
+  if(operation==='redeemRecovery'){
+    const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'late-setup-issue'},'host');assert.equal(issued.ok,true);
+    fields={...fields,requestId:'late-setup-redeem',recoveryCode:issued.result.recoveryCode};uid='replacement';
+  }
+  const live=await h.current();await h.store.transaction(async tx=>tx.set('session/food-match',{...live,state:null,status:'lobby'}));
+  const paused=h.store.pauseReadNext('session/food-match'),pending=h.handle(operation,fields,uid);await paused.reached;
+  await h.store.transaction(async tx=>tx.set('session/food-match',live));h.store.loseAck('foodIngress/');assert.equal((await h.command('before-handoff')).ok,false);
+  const admitted=ingress(h).find(([,e])=>e.request?.request?.commandId==='before-handoff')[1];
+  paused.resume();const result=await pending;assert.equal(result.ok,true,JSON.stringify(result));
+  const restored=ingress(h).find(([,e])=>e.sequence===admitted.sequence)[1];assert.deepEqual(restored.context,admitted.context);assert.equal(restored.response.result.receipt.status,'accepted');
+  if(operation==='abort')assert.equal((await h.current()).status,'aborted');
+  if(operation==='read')assert.equal(result.result.foodPlayerView.participantTask.ownGesture.currentHolder.sequence,1);
+  if(operation==='redeemRecovery'){
+    assert.equal((await h.current()).members.find(m=>m.seatId==='seat-1').uid,'replacement');
+    assert.deepEqual(await h.handle(operation,fields,uid),result,'already-used token retry recovers before token/rate checks');
+  }
+  const genericRate=h.store.export().find(([key])=>key==='rate/'+hash(uid))[1];assert.equal(genericRate.count,1,'handoff does not rerun generic rate charging');
+});
+test('running Food admission-only reads retain their denied snapshot without a handoff loop',async()=>{
+  const h=harness();await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match');s.admissions.push({id:'admission-1',requestId:'admission-request',uid:'waiting',kind:'player',displayName:'Waiting',approved:false});
+    tx.set('session/food-match',s);
+  });
+  const result=await h.handle('read',{matchId:'food-match'},'waiting');assert.equal(result.ok,true);
+  for(const field of ['publicView','playerView','foodPublicView','foodPlayerView'])assert.equal(result.result[field],null);
+  assert.equal(result.result.admission.status,'closed');assert.equal(ingress(h).length,0);
+});
+test('concurrent prefix followers wait read-only behind one Session processor',async()=>{
+  const h=harness(),paused=h.store.pauseNext(prefixPath),first=h.command('one-prefix-owner');await paused.reached;
+  const start=h.store.attempts.length,reading=h.store.pauseReadNext(prefixPath);
+  const followers=Array.from({length:6},()=>h.command('one-prefix-owner'));await reading.reached;
+  assert.equal(h.store.attempts.slice(start).some(a=>!a.readOnly&&a.reads.includes('session/food-match')),false);
+  reading.resume();paused.resume();const results=await Promise.all([first,...followers]);
+  assert.ok(results.every(r=>r.ok));for(const r of results)assert.deepEqual(r,results[0]);
+  const processors=h.store.attempts.filter(a=>a.commit&&!a.readOnly&&a.reads.includes('session/food-match'));
+  assert.equal(processors.length,1);assert.equal(processors[0].prefixLease.throughSequence,1);
+  assert.equal((await h.current()).state.trace.filter(c=>c.kind==='food').length,1);
+  assert.equal(h.store.export().some(([key])=>key===prefixPath),false);
+});
+test('a higher target promptly claims after a lower target owner releases before expiry',{timeout:3000},async()=>{
+  const h=harness(),paused=h.store.pauseNext(prefixPath),lower=h.command('prefix-low');await paused.reached;
+  const reading=h.store.pauseReadNext(prefixPath),higher=h.command('prefix-high');await reading.reached;
+  reading.resume();paused.resume();const [a,b]=await Promise.all([lower,higher]);assert.ok(a.ok&&b.ok);
+  assert.equal(h.getNow(),6000,'no lease-expiry clock advance is needed to process the later target');
+  const processors=h.store.attempts.filter(a=>a.commit&&!a.readOnly&&a.writes.includes('session/food-match'));
+  assert.deepEqual(processors.map(a=>a.prefixLease.throughSequence),[1,2]);
+  assert.notEqual(processors[0].prefixLease.owner,processors[1].prefixLease.owner);
+});
+test('a target committed between its RO probe and new lease claim returns without an unrelated Session lock',async()=>{
+  const h=harness(),reading=h.store.pauseReadNext('foodIngress/'),original=h.command('committed-target');await reading.reached;
+  const completed=await h.command('committed-target');assert.equal(completed.ok,true);
+  h.store.blockSessionWrites(true);reading.resume();const result=await original;
+  assert.deepEqual(result,completed);assert.equal(h.store.export().some(([key])=>key===prefixPath),false);
+  assert.equal(h.store.export().filter(([key,j])=>key.startsWith('deadline/')&&j.ingressSequence===1&&j.status!=='complete').length,0);
+});
+test('lost prefix acquisition ACK keeps an early-gated expiry wake and recovers the original admitted context',async()=>{
+  const h=harness();h.store.loseAck(prefixPath);assert.equal((await h.command('lost-prefix-claim')).ok,false);
+  const admitted=ingress(h)[0][1],lease=h.store.export().find(([key])=>key===prefixPath)[1];
+  assert.equal(admitted.response,null);assert.equal(lease.expiresAt,6000+FOOD_PREFIX_WORKER_LEASE_MS);
+  const wake=h.store.export().find(([key])=>key==='deadline/'+lease.wakeTaskId)[1];
+  assert.equal(wake.ingressSequence,admitted.sequence);assert.equal((await h.api().runDeadline(wake)).status,'too-early');
+  assert.equal(ingress(h)[0][1].response,null);
+  h.setNow(lease.expiresAt);await h.api().runDeadline(wake);
+  const restored=ingress(h).find(([,e])=>e.sequence===admitted.sequence)[1];assert.deepEqual(restored.context,admitted.context);
+  assert.equal(restored.response.result.receipt.receivedAt,6000);
+  assert.equal((await h.current()).state.trace.filter(c=>c.kind==='food'&&c.request.commandId==='lost-prefix-claim').length,1);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
+  assert.equal((await h.api().runDeadline(wake)).status,'unchanged');
+});
+test('a stale prefix owner cannot release its successor or complete the successor expiry wake',async()=>{
+  const h=harness(),committed=h.store.pauseNext('food-command/'),lower=h.command('prefix-old-owner');await committed.reached;
+  const old=h.store.export().find(([key])=>key===prefixPath)[1];h.setNow(old.expiresAt);
+  const acquired=h.store.pauseNext(prefixPath),higher=h.command('prefix-successor');await acquired.reached;
+  const successor=h.store.export().find(([key])=>key===prefixPath)[1];assert.notEqual(successor.owner,old.owner);
+  committed.resume();assert.equal((await lower).ok,true);
+  assert.deepEqual(h.store.export().find(([key])=>key===prefixPath)[1],successor);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+successor.wakeTaskId)[1].status,'pending');
+  acquired.resume();assert.equal((await higher).ok,true);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+successor.wakeTaskId)[1].status,'complete');
+});
+test('an SDK processing retry fences a superseded prefix owner before any committed engine effect',async()=>{
+  const h=harness();let noticed;const replaced=new Promise(resolve=>{noticed=resolve;});
+  h.store.setRetry('session/',records=>{
+    const old=records.get(prefixPath);h.setNow(old.expiresAt);
+    records.set(prefixPath,{...old,owner:'superseding-prefix-owner',expiresAt:h.getNow()+FOOD_PREFIX_WORKER_LEASE_MS});noticed();
+  });
+  const pending=h.command('prefix-sdk-fence');await replaced;
+  await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match'),lease=await tx.get(prefixPath);
+    assert.equal(s.state.trace.some(c=>c.kind==='food'),false);assert.equal(lease.owner,'superseding-prefix-owner');
+    tx.delete(prefixPath); // The simulated successor releases; the real caller may then claim again.
+  });
+  const result=await pending;assert.equal(result.ok,true);assert.equal(result.result.receipt.receivedAt,6000);
+  assert.equal((await h.current()).state.trace.filter(c=>c.kind==='food').length,1);
+});
+test('a refreshed prefix lease preserves its original wake and the admitted input time',async()=>{
+  const h=harness(),acquired=h.store.pauseNext(prefixPath),pending=h.command('prefix-refreshed');await acquired.reached;
+  const first=h.store.export().find(([key])=>key===prefixPath)[1],wake=h.store.export().find(([key])=>key==='deadline/'+first.wakeTaskId)[1];
+  h.setNow(6000+FOOD_PREFIX_WORKER_LEASE_MS/2+1);
+  const refreshed=h.store.pauseNext(prefixPath);acquired.resume();await refreshed.reached;
+  const current=h.store.export().find(([key])=>key===prefixPath)[1];assert.ok(current.expiresAt>first.expiresAt);
+  assert.equal(current.wakeTaskId,first.wakeTaskId);assert.deepEqual(h.store.export().find(([key])=>key==='deadline/'+first.wakeTaskId)[1],wake);
+  h.setNow(first.expiresAt);const reading=h.store.pauseReadNext(prefixPath),delivery=h.api().runDeadline(wake);await reading.reached;
+  reading.resume();refreshed.resume();assert.equal((await pending).ok,true);await delivery;
+  const restored=ingress(h).find(([,e])=>e.request?.request?.commandId==='prefix-refreshed')[1];
+  assert.equal(restored.context.now,6000);assert.equal(restored.response.result.receipt.receivedAt,6000);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+first.wakeTaskId)[1].status,'complete');
+});
+test('refresh ACK loss yields the prefix lease while retaining a pending target recovery wake',async()=>{
+  const h=harness(),acquired=h.store.pauseNext(prefixPath),pending=h.command('prefix-refresh-ack');await acquired.reached;
+  const lease=h.store.export().find(([key])=>key===prefixPath)[1],wake=h.store.export().find(([key])=>key==='deadline/'+lease.wakeTaskId)[1];
+  h.setNow(6000+FOOD_PREFIX_WORKER_LEASE_MS/2+1);h.store.loseAck(prefixPath);acquired.resume();
+  assert.equal((await pending).ok,false);assert.equal(h.store.export().some(([key])=>key===prefixPath),false);
+  assert.equal(ingress(h)[0][1].response,null);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'pending');
+  h.setNow(wake.endsAt);await h.api().runDeadline(wake);
+  assert.equal(ingress(h).find(([,e])=>e.request?.request?.commandId==='prefix-refresh-ack')[1].response.result.receipt.receivedAt,6000);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
+});
 test('concurrent session triggers coalesce behind one driver without busy writes',async()=>{
   const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
   const first=h.api().runBots('food-match');await paused.reached;
@@ -454,7 +673,7 @@ test('a live bot owner never coalesces a human presence expiry and does not lose
   const after=await h.current();assert.equal(after.foodService.scheduler.endsAt,6000+FOOD_BOT_WORKER_LEASE_MS);
 });
 test('host abort stops an active owner without scheduling a bot expiry in the aborted match',async()=>{
-  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
+  const h=harness({bots:true}),paused=h.store.pauseNext(prefixPath,2);
   const old=h.api().runBots('food-match');await paused.reached;
   const aborted=await h.handle('abort',{matchId:'food-match',requestId:'abort-busy-owner'},'host');assert.equal(aborted.ok,true);
   assert.equal((await h.current()).foodService.scheduler,null);
@@ -473,7 +692,7 @@ test('a stop racing the initial work probe prevents a new lease claim',async()=>
   assert.equal(h.store.export().some(([key])=>key===workerPath),false);assert.equal(ingress(h).length,0);
 });
 test('worker ownership, concurrent admission and prefix processing all read the session first',async()=>{
-  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
+  const h=harness({bots:true}),paused=h.store.pauseNext(prefixPath,2);
   const owner=h.api().runBots('food-match');await paused.reached;
   await Promise.all([h.api().runBots('food-match'),h.handle('read',{matchId:'food-match'})]);
   h.setNow(10500);paused.resume();await owner;
@@ -500,15 +719,63 @@ test('eligible nonparticipant snapshots skip ingress and session writes with one
   assert.equal(after.nextSequence,controlBefore.nextSequence);assert.equal(after.processedSequence,controlBefore.processedSequence);
   assert.equal(after.lastAdmittedAt,6500);assert.equal(after.advancedThroughAt,6500);
 });
-test('an eligible own snapshot renews metadata and publishes once without an engine transition',async()=>{
+test('an eligible own snapshot renews private contact metadata without a Session lock or publication',async()=>{
   const h=harness();assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
   const before=await h.current(),entries=ingress(h).length,start=h.store.attempts.length;
   h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,true);
-  const after=await h.current();assert.deepEqual(after.state,before.state);
-  assert.equal(after.foodService.leases['seat-1'].expiresAt,8500);
-  assert.deepEqual(after.foodService.leases['seat-2'],before.foodService.leases['seat-2']);
-  assert.equal(h.store.attempts.slice(start).filter(a=>a.commit).flatMap(a=>a.writes).filter(key=>key==='session/food-match').length,1);
+  const after=await h.current();assert.deepEqual(after,before);
+  const contact=h.store.export().find(([key])=>key==='foodContact/food-match')[1]['seat-1'];
+  assert.deepEqual(contact,{taskId:'task-2',bindingRevision:1,admittedAt:6500,expiresAt:8500});
+  const stages=h.store.attempts.slice(start).filter(a=>a.commit&&a.writes.length>0);
+  assert.ok(stages.length>0);for(const a of stages){assert.equal(a.reads.includes('session/food-match'),false);
+    assert.equal(a.writes.includes('session/food-match'),false);assert.equal(a.reads[0],'foodIngressControl/food-match');}
   assert.equal(ingress(h).length,entries);assert.equal(result.result.foodPlayerView.serverNowMs,result.serverTimeMs);
+});
+test('the prior durable expiry wake hydrates contacts and rearms their later exact absence boundary',async()=>{
+  const h=harness({presence:true});await h.handle('read',{matchId:'food-match'});
+  const oldWake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8000&&j.status!=='complete')[1];
+  h.setNow(6500);await h.handle('read',{matchId:'food-match'});
+  h.setNow(6750);await h.handle('read',{matchId:'food-match'},'p2');
+  h.setNow(7750);await h.handle('read',{matchId:'food-match'});
+  h.setNow(8250);await h.handle('read',{matchId:'food-match'});
+  assert.equal((await h.current()).foodService.leases['seat-1'].expiresAt,8000,'Session remains a cached lease baseline');
+  assert.equal(h.store.export().find(([key])=>key==='foodContact/food-match')[1]['seat-1'].expiresAt,10250,
+    'repeated live contacts continue beyond the original cached expiry');
+  await h.api().runDeadline(oldWake);
+  const renewed=await h.current();assert.equal(renewed.state.trace.some(c=>c.kind==='presence'&&!c.online),false);
+  assert.equal(renewed.foodService.leases['seat-1'].expiresAt,10250);assert.equal(renewed.foodService.leases['seat-2'].expiresAt,8750);
+  const next=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8750&&j.status!=='complete')[1];
+  h.setNow(8750);await h.api().runDeadline(next);
+  assert.deepEqual((await h.current()).state.trace.filter(c=>c.kind==='presence'&&!c.online).map(c=>[c.actor,c.context.now]),[['seat-2',8750]]);
+});
+test('a captured fast snapshot is fenced when recovery changes its owner before renewal',async()=>{
+  const h=harness();await h.handle('read',{matchId:'food-match'});h.setNow(6500);
+  const paused=h.store.pauseReadNext('foodIngressControl/food-match'),old=h.handle('read',{matchId:'food-match'});await paused.reached;
+  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'read-recover-issue'},'host');
+  assert.equal(issued.ok,true);
+  assert.equal((await h.handle('redeemRecovery',{matchId:'food-match',requestId:'read-recover-redeem',recoveryCode:issued.result.recoveryCode},'replacement')).ok,true);
+  paused.resume();const denied=await old;assert.equal(denied.ok,false);assert.equal(denied.error.code,'FORBIDDEN');
+  assert.equal(Object.hasOwn(denied,'result'),false);
+  assert.equal((await h.handle('read',{matchId:'food-match'},'replacement')).ok,true);
+});
+test('coalescing the old presence wake under a live worker rearms the effective contact expiry',async()=>{
+  const h=harness({presence:true});await h.handle('read',{matchId:'food-match'});
+  const oldWake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8000&&j.status!=='complete')[1];
+  h.setNow(6500);await h.handle('read',{matchId:'food-match'});
+  h.setNow(6750);await h.handle('read',{matchId:'food-match'},'p2');
+  await h.store.transaction(async tx=>tx.set(workerPath,{owner:'contact-owner',expiresAt:14000}));
+  const entries=ingress(h).length;h.setNow(8000);await h.api().runDeadline(oldWake);
+  assert.equal(ingress(h).length,entries,'no redundant CLOCK is minted for the now-extended expiry');
+  assert.equal((await h.current()).state.trace.some(c=>c.kind==='presence'&&!c.online),false);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+oldWake.taskId)[1].status,'complete');
+  assert.equal((await h.current()).foodService.scheduler.endsAt,8500);
+  assert.ok(h.store.export().some(([key,j])=>key.startsWith('deadline/')&&j.status!=='complete'&&j.endsAt===8500));
+});
+test('invalid contact metadata fails closed without spending snapshot rate or moving Control',async()=>{
+  const h=harness();await h.handle('read',{matchId:'food-match'});const before=h.store.export();
+  await h.store.transaction(async tx=>tx.set('foodContact/food-match',{'seat-1':{taskId:'task-2',bindingRevision:1,admittedAt:6500,expiresAt:9000}}));
+  h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,false);
+  for(const namespace of ['foodIngressControl/','foodTransportRate/'])assert.deepEqual(h.store.export().filter(([k])=>k.startsWith(namespace)),before.filter(([k])=>k.startsWith(namespace)));
 });
 test('pending and due work falls back without charging the fast probe or skipping its original input',async()=>{
   const h=harness();h.store.loseAck('foodIngress/');assert.equal((await h.command()).ok,false);
@@ -582,7 +849,7 @@ for(const kind of ['UP','PANEL_LOCK'])test(`fresh bot ${kind} is rechecked when 
   let at=(await decision(6000)).nextWakeAt;assert.ok(at>6000);h.setNow(at);
   const planned=(await decision(at)).command;assert.equal(planned.input.kind,kind==='UP'?'HOLD':'PANEL_LOCK');
   if(kind==='UP')assert.equal(planned.input.edge,'UP');
-  let late=at+200;
+  let late=at+(kind==='PANEL_LOCK'?250:200);
   while(late<at+1300&&(await decision(late)).command!==null)late+=10;
   assert.equal((await decision(late)).command,null);
   h.store.setRetry('foodBotIntent/',()=>h.setNow(late));
@@ -595,4 +862,59 @@ for(const kind of ['UP','PANEL_LOCK'])test(`fresh bot ${kind} is rechecked when 
   const applied=presses().find(([,e])=>e.request.request.command.input.kind===(kind==='UP'?'HOLD':'PANEL_LOCK'))?.[1];
   assert.ok(applied);assert.equal(applied.context.now,later);assert.equal(applied.response.result.receipt.receivedAt,later);
   assert.equal(applied.response.result.receipt.status,'accepted');
+});
+for(const count of [7,8,9])test(`${count}: a planned bot Panel Lock admitted200ms later still locks the actual safe goal`,async()=>{
+  const h=harness({bots:true,count});await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match'),t=s.state.task;
+    Object.assign(t.crate,{state:'HELD',holder:'WINCH',height:Y.raised,motion:null});
+    Object.assign(t.ownGesture,{highestSequence:1,recoveryRevision:1,currentHolder:{sequence:1,crateId:t.crate.id},pendingIntent:null});
+    Object.assign(t.panel,{locked:false,stop:0,direction:1,anchorAt:6000,swing:null});tx.set('session/food-match',s);
+  });
+  h.setNow(7000);h.store.setRetry('foodBotIntent/',records=>{
+    h.setNow(7200);assert.equal(chooseFoodBotInput(h.engine.projectPlanetFoodPlayer(records.get('session/food-match').state,'seat-3',7200)).command,null);
+  });
+  await h.api().runBots('food-match');
+  const entry=ingress(h).find(([,e])=>e.request?.request?.command?.input?.kind==='PANEL_LOCK')[1];
+  assert.equal(entry.context.now,7200);assert.equal(entry.response.result.receipt.receivedAt,7200);assert.equal(entry.response.result.receipt.status,'accepted');
+  assert.equal((await h.current()).state.task.panel.stop,5);
+});
+for(const successor of ['same','different'])test(`a captured old owner cannot receive a successor's ${successor} seat-scoped receipt`,async()=>{
+  const h=harness({asking:true}),request={schemaVersion:1,protocolVersion:3,matchId:'food-match',commandId:'shared-recovery-canary',
+    phaseId:'food-phase',foodStepId:'food-step-2',round:1,command:{type:'TASK_ASK',partnerSeatId:'seat-2'}};
+  const paused=h.store.pauseReadNext('session/food-match');
+  const old=h.handle('foodCommand',{request});await paused.reached;
+  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'issue-canary'},'host');assert.equal(issued.ok,true);
+  const recovered=await h.handle('redeemRecovery',{matchId:'food-match',requestId:'redeem-canary',recoveryCode:issued.result.recoveryCode},'replacement');assert.equal(recovered.ok,true);
+  const nextRequest=successor==='same'?request:{...request,command:{type:'TASK_ASK',partnerSeatId:'seat-3'}};
+  const next=await h.handle('foodCommand',{request:nextRequest},'replacement');assert.equal(next.ok,true);
+  const canary=next.result.receipt.result.requestId;assert.ok(canary);
+  paused.resume();const denied=await old;
+  assert.equal(denied.ok,false);assert.equal(denied.error.code,'FORBIDDEN');
+  assert.equal(JSON.stringify(denied).includes(canary),false);assert.equal(Object.hasOwn(denied,'result'),false);
+  const own=await h.handle('foodReceipt',{matchId:'food-match',commandId:request.commandId},'replacement');
+  assert.deepEqual(own.result.receipt,next.result.receipt);
+});
+test('detached human admission has no Session lock/publication and its lost-ACK wake survives a changed phase',async()=>{
+  const h=harness(),paused=h.store.pauseReadNext('session/food-match');
+  const old=h.command('late-human-ingress');await paused.reached;
+  h.setNow(33500);assert.equal((await h.handle('advance',{matchId:'food-match'},'host')).ok,true);
+  const before=await h.current(),start=h.store.attempts.length;assert.equal(before.state.phase.kind,'PRE_TURN');
+  h.store.loseAck('foodIngress/');paused.resume();assert.equal((await old).ok,false);
+  assert.deepEqual(await h.current(),before,'admission itself does not publish or modify Session');
+  const admitted=ingress(h).find(([,e])=>e.request?.request?.commandId==='late-human-ingress')[1];
+  assert.equal(admitted.context.now,33500);assert.equal(admitted.response,null);
+  const stage=h.store.attempts.slice(start).find(a=>a.commit&&a.writes.some(k=>k.startsWith('foodIngress/')));
+  assert.equal(stage.reads[0],'foodIngressControl/food-match');
+  assert.equal(stage.reads.includes('session/food-match'),false);assert.equal(stage.writes.includes('session/food-match'),false);
+  const wake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.ingressSequence===admitted.sequence)[1];
+  assert.notEqual(wake.phaseId,before.state.phase.id);assert.equal(wake.status,'pending');
+  assert.equal(wake.deadlineToken,admitted.job.deadlineToken);
+  const result=await h.api().runDeadline({matchId:wake.matchId,phaseId:wake.phaseId,deadlineToken:wake.deadlineToken,kind:'game'});
+  assert.equal(result.status,'advanced');
+  const restored=ingress(h).find(([,e])=>e.sequence===admitted.sequence)[1];
+  assert.deepEqual(restored.context,admitted.context);assert.equal(restored.response.result.receipt.receivedAt,33500);
+  assert.equal(restored.response.result.receipt.code,'PHASE_CLOSED');
+  assert.deepEqual((await h.current()).foodService.scheduler,before.foodService.scheduler);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
+  assert.equal((await h.api().runDeadline({matchId:wake.matchId,phaseId:wake.phaseId,deadlineToken:wake.deadlineToken,kind:'game'})).status,'unchanged');
 });

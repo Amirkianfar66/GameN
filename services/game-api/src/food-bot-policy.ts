@@ -1,4 +1,4 @@
-import { FoodTaskPlayerViewSchema, FOOD_TASK_PARAMETERS as P } from '@mothership/contracts';
+import { FoodTaskCommandSchema, FoodTaskPlayerViewSchema, FOOD_TASK_PARAMETERS as P } from '@mothership/contracts';
 import type { FoodTaskCommand, FoodTaskParticipant, FoodTaskPlayerView } from '@mothership/contracts';
 
 /** Candidate-only cooperation heuristic, never an engine transition or balance model. */
@@ -49,6 +49,29 @@ function nextReleaseWindow(t: FoodTaskParticipant, now: number): number {
   for (let dt = 10; dt <= 2 * P.swingPeriodMs; dt += 10)
     if (safeReleaseWindow(t, now + dt)) return now + dt;
   return t.deadlineAt;
+}
+
+/** Recheck an already planned LOCK at its actual admission time. The planning
+ * margin below reserves transport time; it is not a limit on a safe current stop.
+ * This never retargets the command or replaces authoritative engine validation.
+ */
+export function foodBotPanelLockWindowEnd(input: FoodTaskPlayerView, proposed: FoodTaskCommand): number | null {
+  const v = FoodTaskPlayerViewSchema.parse(input), parsed = FoodTaskCommandSchema.safeParse(proposed);
+  if (!parsed.success || parsed.data.type !== 'TASK_PRESS' || parsed.data.input.kind !== 'PANEL_LOCK') return null;
+  const c = parsed.data, t = v.participantTask, now = v.serverNowMs;
+  if (!t || t.selfControl !== 'PANEL' || t.stage !== 'ACTIVE' || now < t.runningAt || now >= t.deadlineAt
+    || c.taskId !== t.taskId || c.controlSessionId !== t.controlSessionId || c.expectedControlRevision !== t.controlRevision) return null;
+  const me = t.people.find(p => p.seatId === v.seatId), offer = v.offers.find(o => o.type === 'TASK_PRESS');
+  if (!me?.alive || !me.online || !offer || !offer.inputs.includes('PANEL_LOCK')
+    || offer.taskId !== t.taskId || offer.controlSessionId !== t.controlSessionId || offer.controlRevision !== t.controlRevision
+    || t.panel.locked || t.crate.motion !== null) return null;
+  const goal = t.crate.state === 'INTAKE' && t.crate.holder === null ? 0
+    : t.crate.state === 'HELD' && t.crate.holder === 'WINCH' ? 5 : null;
+  const click = panelClick(t, now);
+  return goal !== null && click.stop === goal ? click.beganAt + clickMs : null;
+}
+export function canAdmitFoodBotPanelLock(input: FoodTaskPlayerView, proposed: FoodTaskCommand): boolean {
+  return foodBotPanelLockWindowEnd(input, proposed) !== null;
 }
 
 /**

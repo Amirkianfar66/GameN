@@ -352,6 +352,14 @@ function boundaries(m: FoodTaskMachine): Boundary[] {
 }
 /** Earliest outstanding timer; root scheduling remains durable and version-pinned. */
 export function foodTaskMachineDeadlineAt(m: FoodTaskMachine): number | null {return boundaries(m)[0]?.at ?? null;}
+/** Read-only witness for ordered admission. Warning consumption changes no
+ * control geometry, presence, RNG or physical state; every due tie is included.
+ */
+export function hasOnlyDueFoodTaskWarnings(m: FoodTaskMachine, at: number): boolean {
+  if (!Number.isSafeInteger(at) || at < 0 || at < m.evaluatedAt) return false;
+  const due = boundaries(m).filter(boundary => boundary.at <= at);
+  return due.length > 0 && due.every(boundary => boundary.kind === 'WARNING');
+}
 function advanceMutable(m: FoodTaskMachine, now: number, effects: FoodTaskMachineEffect[]): boolean {
   time(now); if (now < m.evaluatedAt) throw Error('Food Task server time moved backward');
   const before = JSON.stringify([m.stage, m.sharedRevision, m.hold.recoveryRevision, m.returnedAt]);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {FoodTaskParticipantSchema, parseFoodTaskReceipt} from '@mothership/contracts';
 import {createFoodTaskMachine, applyFoodTaskPress, advanceFoodTaskMachine, projectFoodTaskParticipant,
-  foodTaskMachineDeadlineAt, foodTaskMachineInputs, setFoodTaskPresence, sampleFoodTaskCrate, sampleFoodTaskPanel} from '../dist/planet-game/food-machine.js';
+  foodTaskMachineDeadlineAt, foodTaskMachineInputs, setFoodTaskPresence, sampleFoodTaskCrate, sampleFoodTaskPanel,hasOnlyDueFoodTaskWarnings} from '../dist/planet-game/food-machine.js';
 
 const options = {matchId:'match-food',phaseId:'phase-food',foodStepId:'food-step',round:1,taskId:'food-task',
   winchSeatId:'seat-1',panelSeatId:'seat-2',winchControlSessionId:'winch-session',panelControlSessionId:'panel-session',startedAt:0};
@@ -29,6 +29,30 @@ function held(){return tick(down(create(),4000).machine,4450);}
 function locked(stop){let m=panel(held(),4450,'PANEL_RELEASE').machine;return panel(m,4450+(stop-1)*250,'PANEL_LOCK').machine;}
 function landed(){let m=locked(5);m=up(m,5450).machine;return tick(m,5750);}
 function emptyEvents(m){const v=structuredClone(m);v.events=[];return v;}
+
+test('warning-only query includes every due timer, is nonempty and never changes authority',()=>{
+  const m=tick(panel(held(),4450,'PANEL_RELEASE').machine,5450),before=JSON.stringify(m);
+  assert.equal(hasOnlyDueFoodTaskWarnings(m,5450),false);
+  assert.equal(hasOnlyDueFoodTaskWarnings(m,5473),true);assert.equal(hasOnlyDueFoodTaskWarnings(m,5650),true);
+  for(const at of [5450-1,-1,NaN,Infinity,5650.5])assert.equal(hasOnlyDueFoodTaskWarnings(m,at),false);
+  assert.equal(hasOnlyDueFoodTaskWarnings(m,30000),false,'later due TIME defeats earlier warnings');
+  assert.equal(hasOnlyDueFoodTaskWarnings(m,32500),false,'RETURN/TIME cannot be hidden behind warning timers');
+  assert.equal(JSON.stringify(m),before);
+});
+test('warning-only query rejects a real grace tie even when earlier due timers are warnings',()=>{
+  const m=tick(panel(held(),4450,'PANEL_RELEASE').machine,5450);
+  const warningAt=m.warningWindows.flatMap(w=>[w.startsAt,w.endsAt]).filter(at=>at>=m.evaluatedAt+8000&&at<m.deadlineAt).sort((a,b)=>a-b)[0];
+  assert.ok(warningAt);const offline=setFoodTaskPresence(m,'seat-1',false,warningAt-8000).machine;
+  assert.equal(hasOnlyDueFoodTaskWarnings(offline,warningAt-1),true);
+  assert.equal(hasOnlyDueFoodTaskWarnings(offline,warningAt),false,'WARNING and GRACE at the same time remain non-warning-only');
+});
+for(const kind of ['MOTION','BRIEFING','TIME'])test(`warning-only timer classification rejects a ${kind} tie`,()=>{
+  // A defensive timer fixture tests classification, without applying synthetic warnings as gameplay.
+  const m=structuredClone(kind==='MOTION'?down(create(),4000).machine:create()),at=kind==='MOTION'?m.crate.motion.endsAt:kind==='BRIEFING'?m.runningAt:m.deadlineAt;
+  if(kind==='TIME')m.stage='ACTIVE';
+  m.warningWindows=[{mechanism:'CUT',actorSeatId:'seat-2',victimSeatId:'seat-1',startsAt:at-100,endsAt:at}];
+  assert.equal(hasOnlyDueFoodTaskWarnings(m,at-1),true);assert.equal(hasOnlyDueFoodTaskWarnings(m,at),false);
+});
 
 for(const count of [7,8,9]) test(`${count} seats: exact pair/context and canonical contract for both randomized control assignments`,()=>{
   const m=create({winchSeatId:`seat-${count}`,panelSeatId:'seat-1'});

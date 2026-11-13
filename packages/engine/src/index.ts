@@ -224,4 +224,4 @@ export { assertPlanetGameState, encodePlanetGameState, decodePlanetGameState } f
 export { PLANET_GAME_PINS } from '@mothership/contracts';
 
 export {applyPlanetFoodCommand,setPlanetFoodPresence} from './planet-game/lifecycle.js';
-export {projectPlanetFoodPublic,projectPlanetFoodPlayer} from './planet-game/food.js';
+export {projectPlanetFoodPublic,projectPlanetFoodPlayer,hasOnlyDuePlanetFoodWarnings} from './planet-game/food.js';

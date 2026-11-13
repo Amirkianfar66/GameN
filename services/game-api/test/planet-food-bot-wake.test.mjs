@@ -42,9 +42,12 @@ test('trusted waits reach the bot Panel LOCK window without punctual Tasks or ba
 });
 
 test('waiting is chunked, refreshes the lease, consumes no input budget and releases at its cap',async()=>{
-  const {h,task}=await setupNativeHumanFood({control:'WINCH'}),waits=[];
+  const {h,task}=await setupNativeHumanFood({control:'WINCH'}),waits=[];let initialWriterWakes;
   h.reload({waitForBotWake:async ms=>{
     assert.ok(Number.isInteger(ms)&&ms>0&&ms<=1000);waits.push(ms);h.setTime(h.now()+ms);
+    const writerWakes=h.store.export().filter(([key,j])=>key.startsWith('deadline/')&&j.sessionWriterRecovery).length;
+    if(waits.length===1)initialWriterWakes=writerWakes;
+    if(waits.length===2)assert.equal(writerWakes,initialWriterWakes,'no-op bot refresh creates no private writer lease/wake');
     await h.read(h.players[0]);
   }});
   await h.service.runBots(h.matchId);
