@@ -6,6 +6,22 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 13 November 2026: Food test 1 correction approval
+
+The owner answered Integration's focused approval request for [#241](https://github.com/Amirkianfar66/GameN/pull/241):
+
+> Approve the focused #241 changes (Recommended)
+
+The request named the half/empty-food wording, the neutral `After Food Supply · Round N` caption, and the small-phone fixes that keep names and controls visible. Designer's agreement and exact reference changes are in [the #240 review](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6859626835) and #241. The reviewed reference is now `3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594`.
+
+| Sheet/state | Approved departure and reason |
+| --- | --- |
+| Food stock, including `food-stock-01`, `food-stock-02`, `food-flow-13`, and the Food-profile phone top bars | The owner's separately recorded gauge decision below replaces the earlier warning-banner proposal: a compact public food gauge beneath the clock, amber at one package or less and red at zero. Half/empty wording is retained for screen readers. This confirmation does not restore the superseded banner. |
+| `FOOD_RETURNED` board checkpoint | Use `After Food Supply · Round N`, with the existing `Current board · shared:` prefix on a phone's current board. N is the Task round; the caption names the step, never the outcome or cause. |
+| Food states at 320 × 568 / 200% text, including long names, Partner requests, sheets, banners and toasts | Keep complete names and partner state inside the view; allow wrapping and the specified scrolling; retain reachable Join/Decline/Cancel controls; stack sheet buttons when needed; keep room labels beneath overlays. The exact layouts are #241's sheets and handoff. |
+
+This is the owner's and Designer's agreement to these focused presentation exceptions before the native port. It changes no gameplay, timing, resources or disclosure permission. It does not authorize the general #228 redesign or #230 ship life. Frontend must still provide refreshed native comparisons, and Designer must explicitly accept the implemented candidate in #240 before merge and deployment.
+
 ## 11 November 2026: the Food Supply Task
 
 **The owner asked Designer to design Mothership's two-player Food Supply Task** from confirmed highlights, developing the design solution itself: the room, the operators, the mechanical paths, the hazard regions, the controls, the feedback and the crate's position for survivor completion. Designer's design is [food-supply.md](food-supply.md), a proposal.
