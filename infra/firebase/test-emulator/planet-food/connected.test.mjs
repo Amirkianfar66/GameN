@@ -89,6 +89,7 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
       }
       const saved=await store.transaction(tx=>tx.get('session/'+matchId));
       const actualDelivery=Object.values(saved.state.worlds).every(world=>world.food.deliveredTaskIds.includes(taskId));
+      stage('TASK_FINISHED',{control:lastTask?.selfControl,outcome:lastTask?.outcome,actualDelivery});
       assert.ok(taskId);assert.ok(actualDelivery,JSON.stringify({count,control:lastTask?.selfControl,outcome:lastTask?.outcome,observedDelivery:delivered,
         crate:lastTask?.crate,panel:lastTask?.panel,commands:receipts.map(r=>({command:r.request.command,receipt:r.receipt}))}));
       assert.equal(view.foodPlayerView.step,null);assert.ok(view.foodPlayerView.serverNowMs>=returnsAt);
@@ -108,7 +109,9 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
       assert.ok(journal.some(r=>r.kind==='FOOD_COMMAND'&&r.controller==='bot'&&r.receipt.status==='accepted'));
       assert.ok(journal.some(r=>r.kind==='DEADLINE'),'Private Tasks ran without a client advance');
     }));
-    for(const outcome of outcomes)if(outcome.status==='rejected')throw outcome.reason;
+    const failures=outcomes.filter(outcome=>outcome.status==='rejected');
+    for(const failure of failures)context.diagnostic(String(failure.reason.stack??failure.reason));
+    if(failures.length)throw new AggregateError(failures.map(failure=>failure.reason),'Connected Food journeys failed');
   }finally{
     scenarioSignal=undefined;
     context.diagnostic(JSON.stringify({transport:Object.fromEntries([...new Set(requestTimings.map(r=>r.operation))].map(operation=>{

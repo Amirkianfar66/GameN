@@ -428,6 +428,35 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
     throw new Error('Food prefix requires a later durable continuation');
   }
+  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
+    return store.transaction(async tx=>{
+      const s=await d.load(tx,matchId);
+      if(!isFood(s)||s.status!=='running'||!s.state)return null;
+      const actor=authorize(s,uid,{operation:'read',matchId});
+      const control=await tx.get<Control>(controlKey(matchId));
+      // The first processed entry initializes bot wakes. Never bypass it or an admitted prefix.
+      if(!control||control.processedSequence===0||control.processedSequence!==control.nextSequence-1)return null;
+      const at=clock(),due=engine().planetDeadlineAt(s.state),f=s.foodService;
+      if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt
+        ||due!==null&&due<=at||!f)return null;
+      if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at))return null;
+      const lease=actor===null?undefined:f.leases[actor];
+      const task=actor===null?null:engine().projectPlanetFoodPlayer(s.state,actor,at).participantTask;
+      const person=task?.people.find(p=>p.seatId===actor);
+      const livingActive=task!==null&&task.stage!=='ENDED'&&person?.alive===true;
+      if(lease&&(lease.offline||lease.expiresAt<=at||!livingActive||!person?.online||lease.taskId!==task!.taskId)
+        ||!lease&&livingActive)return null;
+      // No engine boundary or online transition is skipped: only transport watermarks and
+      // an already-online own lease change. Fallbacks above spend no rate budget or writes.
+      await limitFood(tx,uid,{operation:'read',matchId},at);
+      tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
+      if(lease&&actor!==null){
+        f.leases[actor]={...lease,expiresAt:at+FOOD_PRESENCE_LEASE_MS};
+        await d.publish(tx,s,technicalContext('food-read',at));
+      }
+      return response(d.snapshot(s,uid,at),at);
+    });
+  }
   async function tryHandle(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
     const matchId=matchOf(q);if(matchId===null)return undefined;
     const initial=await inspect(matchId);
@@ -444,6 +473,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       return response({receipt:stored?.response.ok?(stored.response.result as {receipt:unknown}).receipt:null},clock());
     });
     if(q.operation==='read'&&!participant(initial,uid))return undefined;
+    if(q.operation==='read'){const fast=await fastRead(matchId,uid);if(fast!==null)return fast;}
     if(!['read','command','foodCommand','foodHeartbeat','advance','runBots','abort','issueRecovery','redeemRecovery'].includes(q.operation))d.reject('NOT_ALLOWED');
     const admitted=await admit(matchId,uid,q);
     const result=admitted.response??await drainThrough(matchId,admitted.sequence);

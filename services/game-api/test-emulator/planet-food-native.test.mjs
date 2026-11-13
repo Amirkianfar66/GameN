@@ -24,14 +24,18 @@ test('9: concurrent Firestore reads, private workers, deadline delivery and rece
   h.setTime(task.runningAt+450);
   const s=await h.current(),scheduled=s.foodService.scheduler;
   const job={matchId:h.matchId,phaseId:scheduled.phaseId,deadlineToken:scheduled.token,kind:'game'};
-  await Promise.all(Array.from({length:12},async()=>{
-    await Promise.all([
+  let up;
+  // One in-flight snapshot plus independent worker, timer and receipt lanes.
+  // Repeat the legitimate overlap; this is not a 48-request single-phone burst.
+  for(let round=0;round<12;round++){
+    const results=await Promise.allSettled([
       h.read(h.players[0]),h.service.runBots(h.matchId),h.service.runDeadline(job),
       h.invoke(h.players[0],'foodReceipt',{matchId:h.matchId,commandId:down.request.commandId}).then(r=>assert.deepEqual(ok(r).receipt,down.receipt)),
+      ...(round===11?[sendNativeFood(h,view,{...down.request.command,input:{...down.request.command.input,edge:'UP'}}).then(r=>{up=r;})]:[]),
     ]);
-  }));
-  view=(await h.read(h.players[0])).foodPlayerView;
-  const up=await sendNativeFood(h,view,{...down.request.command,input:{...down.request.command.input,edge:'UP'}});
+    for(const result of results)if(result.status==='rejected')throw result.reason;
+  }
+  assert.ok(up);
   assert.equal(up.receipt.status,'accepted');assert.equal(up.receipt.result.effect,'APPLIED');
   assert.deepEqual(await h.invoke(h.players[0],'foodCommand',{request:up.request}),up.response);
   const after=await h.current();assert.equal(after.state.food.step.task.hold.holderSequence,null);
