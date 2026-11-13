@@ -1,0 +1,22 @@
+{
+  "decision_id": "planet-food-task-captain-return-owner-decision-2026-11-13",
+  "status": "owner-confirmed",
+  "recorded_on": "2026-11-13",
+  "evidence": {
+    "source": "Explicit game-owner answer in the Backend chat for issue #234 on 13 November 2026",
+    "owner_answer": "Use the existing Captain-loss return: last ordinary room, or the other if full (Recommended)",
+    "record_path": "docs/specifications/planet-successor/food-task-captain-return-owner-decision-2026-11-13.md"
+  },
+  "scope": {
+    "protocol_version": 3,
+    "engine_version": "planet-game-1.4.0",
+    "ruleset_version": "in-person-planet-food-task-2026-11-12"
+  },
+  "precedence": "Narrow exception to the Food recorded-place return for a Captain killed after leaving Command. Reuse the inherited Captain-loss ordinary-room fallback. All other Food and parent rules remain unchanged.",
+  "decision": "At the unchanged common return, Task start plus 32,500 ms, a Captain killed after leaving Command returns to the last ordinary room, otherwise the other ordinary room if full. Count eliminated occupants and use canonical free-slot order. Free C1 at this return. No early public relocation, capacity change or mid-round election.",
+  "activation_boundary": {
+    "existing_matches_migrated": false,
+    "creation_default_activated": false,
+    "deployment_authorized": false
+  }
+}

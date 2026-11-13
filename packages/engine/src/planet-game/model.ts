@@ -1,7 +1,9 @@
-import { PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS } from '@mothership/contracts';
+import type {PlanetFoodData,PlanetFoodIds} from './food.js';
+import type {FoodWorldLedger} from './food-meals.js';
+import { PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS, PLANET_FOOD_TASK_PINS } from '@mothership/contracts';
 import type { PlanetVersions, PlanetRole, PlanetFaction, PlanetPhase, PlanetCommand, PlanetPromise, PlanetWindowDrawing, PlanetEvent, PlanetDirection, PlanetRoutePosition, PlanetResult, PlanetTally, PlanetSeatView, PlanetEngineerCapture, PlanetPanelRequest, SeatId } from '@mothership/contracts';
 export type { SeatId } from '@mothership/contracts';
-export interface PlanetGameContext { now:number; nextPhaseId:string; nextDeadlineToken:string; random:readonly number[]; phaseId?:string; deadlineToken?:string }
+export interface PlanetGameContext { foodIds?:PlanetFoodIds; now:number; nextPhaseId:string; nextDeadlineToken:string; random:readonly number[]; phaseId?:string; deadlineToken?:string }
 export interface PlanetGameSetup { matchId:string; playerCount:7|8|9; roleOrder:PlanetRole[]; initialRooms:Record<SeatId,'Room A'|'Room B'>; initialTurnOrder:SeatId[]; assetManifestVersion:string; versions?:PlanetVersions }
 export interface PlanetPhysicalSeat {
   seatId:SeatId; health:'Healthy'|'Injured'|'Eliminated'; location:'Room A'|'Room B'|'Command Room'|'Hospital'|'Jail'|null;
@@ -22,6 +24,7 @@ export interface PlanetBlackoutBatch {
 }
 export interface PlanetStoredEvent { event:PlanetEvent; recipients:SeatId[]|null }
 export interface PlanetWorld {
+  food?:FoodWorldLedger;
   seats:PlanetPhysicalSeat[]; actions:PlanetRegisteredAction[]; injectionsRemaining:number;
   captainSeatId:SeatId|null; officerSeatId:SeatId|null; releaseUsed:boolean; ejectUsed:boolean;
   shipHackSpent:boolean; shipHackOverride:boolean; suppressedSeatIds:SeatId[]; events:PlanetStoredEvent[];
@@ -40,6 +43,7 @@ export interface PlanetGlobal {
   drawings:PlanetWindowDrawing[]; roundOrders:Record<string,SeatId[]>;
 }
 export interface PlanetGameState {
+  food?:PlanetFoodData;
   matchId:string; versions:PlanetVersions; playerCount:7|8|9; round:number; evaluatedAt:number; phase:PlanetPhase; deadlineToken:string|null;
   roles:Record<SeatId,PlanetRole>; code:SeatId[]; worlds:Record<string,PlanetWorld>; realityOf:Record<SeatId,string>; currentWorldId:string;
   blackholeActive:boolean; blackoutPreviewComplete:boolean; nextWorldNumber:number; global:PlanetGlobal;
@@ -80,4 +84,7 @@ export const planetHasPrivateFeedback = (versions:PlanetVersions):boolean => ver
 /** Private offer metadata only; saved predecessors retain their exact packet bytes. */
 export const planetHasPhoneOffers = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_PHONE_OFFER_PINS.engineVersion||planetHasPreVoteBlackout(versions);
 
-export const planetHasPreVoteBlackout = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_BLACKOUT_PINS.engineVersion;
+export const planetHasPreVoteBlackout = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_BLACKOUT_PINS.engineVersion||planetHasFoodTask(versions);
+
+/** Never infer Food behavior from a deployment default or an unrecognized successor. */
+export const planetHasFoodTask = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion;

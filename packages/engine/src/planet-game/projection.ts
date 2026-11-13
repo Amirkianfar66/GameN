@@ -1,3 +1,4 @@
+import {planetFoodPublicationWorld} from './food.js';
 import { PlanetPublicViewSchema, PlanetPlayerViewSchema, PlanetEventSchema, validClinicalAnchorForPlayerCount } from '@mothership/contracts';
 import type { PlanetEvent, PlanetPlayerView, PlanetPublicView, SeatId } from '@mothership/contracts';
 import { copyPlanet, freeHealthy, planetFaction, planetSeat, planetSeatView, planetWorld, planetHasPrivateFeedback, planetHasPreVoteBlackout } from './model.js';
@@ -18,7 +19,7 @@ function factDigest(value: string): string {
 }
 function visibleSources(state: PlanetGameState, seatId?: SeatId): PlanetStoredEvent[] {
   const records = seatId === undefined ? state.finalized.events
-    : [...state.finalized.events, ...planetWorld(state, seatId).events].filter(r => r.event.round === state.round);
+    : [...state.finalized.events, ...planetFoodPublicationWorld(state, seatId).events].filter(r => r.event.round === state.round);
   const seen = new Set<string>();
   return records.filter(stored => {
     if (stored.event.kind === 'ATTACK_BLOCKED' && stored.recipients === null) throw Error('Room defense requires frozen player recipients');
@@ -129,7 +130,7 @@ function blackoutTargeting(state: PlanetGameState, world: PlanetWorld, id: SeatI
 /** Copy each permitted field explicitly; an assigned reality is an authority boundary, never a wire label. */
 export function projectPlanetPlayer(state: PlanetGameState, id: SeatId): PlanetPlayerView {
   if (!Object.hasOwn(state.roles, id)) throw Error('Unknown planet player');
-  const world = planetWorld(state, id), self = planetSeat(world, id), role = state.roles[id]!;
+  const world = planetFoodPublicationWorld(state, id), self = planetSeat(world, id), role = state.roles[id]!;
   const hacker = role === 'Hacker', alien = role === 'Alien';
   const office = world.captainSeatId === id || world.officerSeatId === id;
   const available = freeHealthy(self), privateFeedback = planetHasPrivateFeedback(state.versions);
