@@ -1,0 +1,331 @@
+{
+  "schema": "mothership.food-supply-static-art/1",
+  "status": "reviewed-static-source-candidate",
+  "artVersion": "design-0.9.0",
+  "tokensVersion": "0.5.0",
+  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "integrationBase": "f9e7e11bd6c23671f96832bf45d79146e6fd855c",
+  "scope": "Static source bytes only. This record does not admit the native consumer, select new matches, or publish a release.",
+  "inputs": {
+    "design/board-motion/figures/body.mjs": {
+      "sha256": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+      "bytes": 11194
+    },
+    "design/board-motion/figures/crew.mjs": {
+      "sha256": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
+      "bytes": 12703
+    },
+    "design/board-motion/figures/gestures.mjs": {
+      "sha256": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
+      "bytes": 19192
+    },
+    "design/board-motion/figures/parts.mjs": {
+      "sha256": "7c3d34f0b35856ad9287f32d525a612cc40b37feb3e6d26344b9b7de794c2a7e",
+      "bytes": 5611
+    },
+    "design/board-motion/figures/rig.mjs": {
+      "sha256": "b7fd681bb392f0104785fda3c838a2ca2d749c04278e05c8bbec5bb6379da45c",
+      "bytes": 8506
+    },
+    "design/board-motion/figures/wardrobe.mjs": {
+      "sha256": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+      "bytes": 22959
+    },
+    "design/crew-drawing/source/crew.mjs": {
+      "sha256": "ac1634f0ac43a8c0a8e1b3adf0cd2803b983d7c2c868f0497724e108795ff043",
+      "bytes": 4484
+    },
+    "design/crew-drawing/source/figure.mjs": {
+      "sha256": "d61e1ee54161829fcb812b72e57c965523de6da6c84702ee848a84372fc23a90",
+      "bytes": 21986
+    },
+    "design/crew-drawing/source/head.mjs": {
+      "sha256": "c03fb04cafc1b3d27d8fc5e7edfbf8b2fc8969ab370f9d92d8f8b65bac996891",
+      "bytes": 17497
+    },
+    "design/crew-drawing/source/heads/atlas.mjs": {
+      "sha256": "1909d4a10c5bc28f4e7e44406c8f06d5130dd287bfde8fb3f153070fd5fe0cd1",
+      "bytes": 30530
+    },
+    "design/crew-drawing/source/heads/echo.mjs": {
+      "sha256": "3c8f99652e244b9f8c6b98f13f21249795c4fd106dfb5485695558488d5b0abf",
+      "bytes": 40053
+    },
+    "design/crew-drawing/source/heads/juno.mjs": {
+      "sha256": "b9da5c07018ff73f7f222e056b8d7236eb2034b8cfc48ff7d56a6b4ca89942cb",
+      "bytes": 46636
+    },
+    "design/crew-drawing/source/heads/lyra.mjs": {
+      "sha256": "dc9271377889eaf171812ef306c5fc30bc2467b26f0100e60188c6aac5cd7ab7",
+      "bytes": 42172
+    },
+    "design/crew-drawing/source/heads/mira.mjs": {
+      "sha256": "21244acd174f1728b405c28086a0c9df50f89a214f8ff00d076397e7b3ccd523",
+      "bytes": 35237
+    },
+    "design/crew-drawing/source/heads/nova.mjs": {
+      "sha256": "4380e7e76071ba74f6db2f69600ba239fa13d3907b914523704191dcadf5338f",
+      "bytes": 34054
+    },
+    "design/crew-drawing/source/heads/orion.mjs": {
+      "sha256": "a37e4340d38f46d5c618746f424e7992339645b0f63e27d887b04d29cce5151e",
+      "bytes": 49108
+    },
+    "design/crew-drawing/source/heads/rigel.mjs": {
+      "sha256": "803a3c768d8eb21634d0a3f37953fb4788008f471bd7f4a14f1526aa76289898",
+      "bytes": 61877
+    },
+    "design/crew-drawing/source/heads/vega.mjs": {
+      "sha256": "ee61eaad800b04631ab4dbbfffda62dc792bcef8c876f7504a2d44e478165656",
+      "bytes": 56761
+    },
+    "design/crew-drawing/source/ink.mjs": {
+      "sha256": "48c881a03cfbfaf383aedacc2d8f91818279655b3737416d93f36373b95be34d",
+      "bytes": 16615
+    },
+    "design/crew-drawing/source/wardrobe.mjs": {
+      "sha256": "5ce2a7530cfb7d3cfc41153d29a33894ed4a74afbd9b88cb30a6e38d9eadca17",
+      "bytes": 17954
+    },
+    "design/room-pilot/ink-room.mjs": {
+      "sha256": "24e66b332cc7e98683659ad7940f3013ed8a6da67a9c2eb048536f3a5ae8e071",
+      "bytes": 29471
+    },
+    "design/food-supply/handoff.json": {
+      "sha256": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1",
+      "bytes": 145836
+    },
+    "design/food-supply/art/supply-room.back.svg": {
+      "sha256": "d993437538cd046625d712c21664fa6895c82a0be98540de70e8962f93ba20d1",
+      "bytes": 255763
+    },
+    "packages/design-tokens/src/tokens-0.5.0.json": {
+      "sha256": "cfd8604611196fa6799367e1b438570ec96e914f937859199629317a4ac8ac5d",
+      "bytes": 18061
+    }
+  },
+  "assets": [
+    {
+      "source": "apps/game/candidates/food-supply/assets/supply-room.back.svg",
+      "url": "/art/food-supply/supply-room.back.svg",
+      "sha256": "d993437538cd046625d712c21664fa6895c82a0be98540de70e8962f93ba20d1",
+      "bytes": 255763
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c1-panel-alive.svg",
+      "url": "/art/food-supply/operators/c1-panel-alive.svg",
+      "sha256": "c1716c25d622e7e695cb43d76f83d91acc4cb0db6dcc7b75b26040f5eee321c8",
+      "bytes": 112758
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c1-panel-out.svg",
+      "url": "/art/food-supply/operators/c1-panel-out.svg",
+      "sha256": "9732e92078184a74aa4d88c5a44e862356bac5a2ec4d7c9ccaefc4c86a78a03d",
+      "bytes": 110507
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c1-winch-alive.svg",
+      "url": "/art/food-supply/operators/c1-winch-alive.svg",
+      "sha256": "6c7374e71f799b8c27f22b42e215ba4a005d661f745db4fd9e500d7e76289177",
+      "bytes": 124490
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c1-winch-out.svg",
+      "url": "/art/food-supply/operators/c1-winch-out.svg",
+      "sha256": "f6f604797a81e3d6d657d0e69525ee164c8ce38eee84fbb54c0934b70dd82dd6",
+      "bytes": 59855
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c2-panel-alive.svg",
+      "url": "/art/food-supply/operators/c2-panel-alive.svg",
+      "sha256": "2da9e452fc32239f87d48fa5d424970520366fafc38f0af9f38d9be3cfe5c2e3",
+      "bytes": 117700
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c2-panel-out.svg",
+      "url": "/art/food-supply/operators/c2-panel-out.svg",
+      "sha256": "467e2354e8b255cb3f40de763119d09e49718935e4ec54d158d8a258324bc2b5",
+      "bytes": 115880
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c2-winch-alive.svg",
+      "url": "/art/food-supply/operators/c2-winch-alive.svg",
+      "sha256": "fbf3163881a7e8b06d041ac71380c41730348e84b840216a4f2d069b1a8eacb7",
+      "bytes": 129447
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c2-winch-out.svg",
+      "url": "/art/food-supply/operators/c2-winch-out.svg",
+      "sha256": "6a4824465ced84886f92cf930bf696c3fdc87ef96a13d6ac96a4d92a21a78288",
+      "bytes": 65800
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c3-panel-alive.svg",
+      "url": "/art/food-supply/operators/c3-panel-alive.svg",
+      "sha256": "0386705503a06add6c3567e821a2fb6a012eb7aa7fe45cf4ba3e326f252959e6",
+      "bytes": 97219
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c3-panel-out.svg",
+      "url": "/art/food-supply/operators/c3-panel-out.svg",
+      "sha256": "472f8df6e44b98e37476c14f5e28dd009229ffde116d64e19abb6ab9f85f0b68",
+      "bytes": 95170
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c3-winch-alive.svg",
+      "url": "/art/food-supply/operators/c3-winch-alive.svg",
+      "sha256": "4b4201d8d0d8ec7db811f2b4aaa61bb57822b8e2059d89991f48d1f6c56c8609",
+      "bytes": 109167
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c3-winch-out.svg",
+      "url": "/art/food-supply/operators/c3-winch-out.svg",
+      "sha256": "576b6396e82869509cb8eac0f6d9c9e586d4c93e15f959ba2870ef917b35f42e",
+      "bytes": 63483
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c4-panel-alive.svg",
+      "url": "/art/food-supply/operators/c4-panel-alive.svg",
+      "sha256": "501ecce4fd3b9988487768cf329e1c40b17ef81d43aa9399722c00b1a44a6082",
+      "bytes": 87820
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c4-panel-out.svg",
+      "url": "/art/food-supply/operators/c4-panel-out.svg",
+      "sha256": "d7da020d00d4ce1afe718d52eaeac1ef5d8388e474479d9499d2b899667caed1",
+      "bytes": 85681
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c4-winch-alive.svg",
+      "url": "/art/food-supply/operators/c4-winch-alive.svg",
+      "sha256": "529771621476361e3e56c756c3d759f0e6f5dbdcb57cd2492e074fa9ac52ab83",
+      "bytes": 99844
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c4-winch-out.svg",
+      "url": "/art/food-supply/operators/c4-winch-out.svg",
+      "sha256": "8e13e8bf09b9728e89bd645cacf43b74a43b6477a6d71db67f121fd04cd032ad",
+      "bytes": 62828
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c5-panel-alive.svg",
+      "url": "/art/food-supply/operators/c5-panel-alive.svg",
+      "sha256": "66121644b71573a7765e9c3d2c29102c768e2342ed6a73ee505884ca7a5c3ee0",
+      "bytes": 104474
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c5-panel-out.svg",
+      "url": "/art/food-supply/operators/c5-panel-out.svg",
+      "sha256": "3869a75398c623ee42bf94e65c3a26869a214d684453f30e722b5675a97f2cfa",
+      "bytes": 102744
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c5-winch-alive.svg",
+      "url": "/art/food-supply/operators/c5-winch-alive.svg",
+      "sha256": "30032140a7fcc321f6b4b742f77c06bf96348b8f6fa6a2b26cf6b474f4be09a6",
+      "bytes": 116293
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c5-winch-out.svg",
+      "url": "/art/food-supply/operators/c5-winch-out.svg",
+      "sha256": "adad70e2906344f51cf39db44aedf6c5b710ec7e36f22c8af86cb790243eb37e",
+      "bytes": 64840
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c6-panel-alive.svg",
+      "url": "/art/food-supply/operators/c6-panel-alive.svg",
+      "sha256": "de326a54be60faffe8292f01133c64e7d4a1003a7aa1cf179d6b458f29c0b625",
+      "bytes": 88787
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c6-panel-out.svg",
+      "url": "/art/food-supply/operators/c6-panel-out.svg",
+      "sha256": "28d6c30c26e6f7c537cf4157c5aa8f734921d03e317dabd6f4de1a962810c3ab",
+      "bytes": 86727
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c6-winch-alive.svg",
+      "url": "/art/food-supply/operators/c6-winch-alive.svg",
+      "sha256": "43d3b41932b78b69d3bea95332534764d09ea8b5b58ee531e11b68e82f056005",
+      "bytes": 100734
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c6-winch-out.svg",
+      "url": "/art/food-supply/operators/c6-winch-out.svg",
+      "sha256": "44f9367862b487f309af40cb8e49e9c130867ad649019a1b8a8328cc7a32e35e",
+      "bytes": 63671
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c7-panel-alive.svg",
+      "url": "/art/food-supply/operators/c7-panel-alive.svg",
+      "sha256": "3f443f91e60f1f61739216bc26fd0f5145f64eff6088ac3d514cea205b70fced",
+      "bytes": 101710
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c7-panel-out.svg",
+      "url": "/art/food-supply/operators/c7-panel-out.svg",
+      "sha256": "21b3f130912513e9ed9e75fc4b782a796909de2267acb755b4354918037aae81",
+      "bytes": 99634
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c7-winch-alive.svg",
+      "url": "/art/food-supply/operators/c7-winch-alive.svg",
+      "sha256": "fe7a13b45bddd01a4f9aa130d6ac70a1fcc9808e8ddb3076a8a1cce2c3eace69",
+      "bytes": 113629
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c7-winch-out.svg",
+      "url": "/art/food-supply/operators/c7-winch-out.svg",
+      "sha256": "4b214702628c23d24a5a8c64237f6881049badbeccbfb94517a2071a1949f0b0",
+      "bytes": 62494
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c8-panel-alive.svg",
+      "url": "/art/food-supply/operators/c8-panel-alive.svg",
+      "sha256": "3f1ebd50a467fcdd900eb35eae7050e13e058218005af8b393d7669050c5f1f1",
+      "bytes": 91072
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c8-panel-out.svg",
+      "url": "/art/food-supply/operators/c8-panel-out.svg",
+      "sha256": "c47a8184effbca843a4e4b6cfb79ff1903c2d5411eac7163cb2b0eb7190221e3",
+      "bytes": 88721
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c8-winch-alive.svg",
+      "url": "/art/food-supply/operators/c8-winch-alive.svg",
+      "sha256": "0f9f70b64f8c46b5253ff424f18e1030454875f1170b7d85234943fd0078017e",
+      "bytes": 102838
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c8-winch-out.svg",
+      "url": "/art/food-supply/operators/c8-winch-out.svg",
+      "sha256": "7b276ede1257218747a3a981674a22537aa670255c8ddff4ae0cc70e0f30bb12",
+      "bytes": 59828
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c9-panel-alive.svg",
+      "url": "/art/food-supply/operators/c9-panel-alive.svg",
+      "sha256": "31d60ad0bd5cf85561e3aca0149d50676cb514499ddc7b109f530a16c0b0020c",
+      "bytes": 95547
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c9-panel-out.svg",
+      "url": "/art/food-supply/operators/c9-panel-out.svg",
+      "sha256": "f98c16c167cf4e1530c99516b40fda492b281aba8beaf33d9e3a88dcfc3bdaf0",
+      "bytes": 93709
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c9-winch-alive.svg",
+      "url": "/art/food-supply/operators/c9-winch-alive.svg",
+      "sha256": "9aed2b7b0e233da908b72b58bac1657dcaccedc51d87569607038f495f99e59e",
+      "bytes": 108009
+    },
+    {
+      "source": "apps/game/candidates/food-supply/assets/operators/c9-winch-out.svg",
+      "url": "/art/food-supply/operators/c9-winch-out.svg",
+      "sha256": "2d186cf75c52c6173ca8ee1d99d53558316f7897cf2ae40dc4845f06e3df78c9",
+      "bytes": 74446
+    }
+  ]
+}
