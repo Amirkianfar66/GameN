@@ -1,0 +1,20 @@
+{"count":7,"trace":"4e97d3ffc7f7","stage":"CREATED"}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1 !== 2
+
+    at file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:56:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 2,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

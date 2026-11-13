@@ -1,0 +1,60 @@
+{
+  "handoff": "https://github.com/Amirkianfar66/GameN/pull/239#issuecomment-6864986902",
+  "backendRoot": "/private/tmp/gamen-backend-food-task-runtime",
+  "backendHead": "6a2a78d7b8c750395f6d4cefb432b0b2fbbadf06",
+  "backendDirty": false,
+  "executableCode": "18f25ab2690350e3313c1dee5f9ff3c211a443c9",
+  "nativeEvidenceHead": "6321ac77e28df2a2a2882068ac4ec8b2d7b67629",
+  "nativeRenderHead": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
+  "compiledModules": [
+    {
+      "path": "services/game-api/dist/planet-food-service.js",
+      "sha256": "c6820d91907ee0d7aeec25be980ebf0a46d42ac487446c8f45e01774d2fc0f81",
+      "bytes": 70793
+    },
+    {
+      "path": "services/game-api/dist/planet-game.js",
+      "sha256": "b734cee0c5aa4d4c4c23ba73eb0287b6cc3721a5b396cbd67cf0eaaf04662560",
+      "bytes": 44931
+    },
+    {
+      "path": "services/game-api/dist/planet-store.js",
+      "sha256": "c53180786ef8241e09bb186046f35cda961579bc034704cea5d0524cade96009",
+      "bytes": 5980
+    },
+    {
+      "path": "infra/firebase/dist/planet.js",
+      "sha256": "a2fdd2d2a8f57e94389c4e672eb474adcfd7d9b132761e1763ce397174f54ad0",
+      "bytes": 11169
+    },
+    {
+      "path": "infra/firebase/dist/planet-runtime.js",
+      "sha256": "596fcb451edaf2ff20475314b7648f5c1175360e5183aa1ade206797df4ce4cd",
+      "bytes": 2315
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food.js",
+      "sha256": "53d579ef3b2c7ff9c455582a5c5d735ec3998bb0e6ad9ad218c006546e24130f",
+      "bytes": 25600
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-machine.js",
+      "sha256": "f18d70cf0a80487f12e5bb589489e79eff3578277856086c24a7c2a993a7fe7e",
+      "bytes": 31828
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-meals.js",
+      "sha256": "2eaf4222198f48b1f51ded0851ea416890d543751c8c282bba72c02e48111de3",
+      "bytes": 15776
+    }
+  ],
+  "ownViewOnlyNodePolicy": {
+    "path": "services/game-api/dist/food-bot-policy.js",
+    "sha256": "93f373ddfc9471798b2aaa6654fa06b359a6a67299fef150b926933ea0411e8f",
+    "bytes": 8358
+  },
+  "scope": "Read-only preflight of the persistent local stack source/compiled identity; no Backend rebuild, cloud change or historical-regression waiver. Original-admission-response wait is dev-only; the two-admission assertion is unchanged.",
+  "driverHead": "14682e85b0343fc8ce7e3f00781041b71a106ed0",
+  "nativeClosurePathsVerified": 30,
+  "priorFailedAttempt": "/private/tmp/gamen-food-native-connected-6321"
+}
