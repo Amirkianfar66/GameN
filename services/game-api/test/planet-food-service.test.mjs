@@ -484,3 +484,61 @@ test('worker ownership, concurrent admission and prefix processing all read the 
   assert.ok(multi.filter(a=>a.writes.includes(workerPath)).length>=3,'acquire, refresh and release are traced');
   for(const a of multi)assert.equal(a.reads[0],'session/food-match',JSON.stringify(a.reads));
 });
+test('eligible nonparticipant snapshots skip ingress and session writes with one actual clock',async()=>{
+  const h=harness({bots:true});assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
+  const before=await h.current(),entries=ingress(h).length,start=h.store.attempts.length;
+  const controlBefore=h.store.export().find(([key])=>key==='foodIngressControl/food-match')[1];
+  h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,true);
+  assert.deepEqual(result.result.foodPublicView,h.engine.projectPlanetFoodPublic(before.state,6500));
+  assert.deepEqual(result.result.foodPlayerView,h.engine.projectPlanetFoodPlayer(before.state,'seat-1',6500));
+  assert.equal(result.serverTimeMs,6500);assert.equal(result.result.foodPublicView.serverNowMs,6500);
+  assert.equal(result.result.foodPlayerView.serverNowMs,6500);
+  const writes=h.store.attempts.slice(start).filter(a=>a.commit).flatMap(a=>a.writes);
+  assert.ok(writes.length>0);assert.ok(writes.every(key=>key.startsWith('foodTransportRate/')||key==='foodIngressControl/food-match'));
+  assert.equal(ingress(h).length,entries);assert.deepEqual(await h.current(),before);
+  const after=h.store.export().find(([key])=>key==='foodIngressControl/food-match')[1];
+  assert.equal(after.nextSequence,controlBefore.nextSequence);assert.equal(after.processedSequence,controlBefore.processedSequence);
+  assert.equal(after.lastAdmittedAt,6500);assert.equal(after.advancedThroughAt,6500);
+});
+test('an eligible own snapshot renews metadata and publishes once without an engine transition',async()=>{
+  const h=harness();assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
+  const before=await h.current(),entries=ingress(h).length,start=h.store.attempts.length;
+  h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,true);
+  const after=await h.current();assert.deepEqual(after.state,before.state);
+  assert.equal(after.foodService.leases['seat-1'].expiresAt,8500);
+  assert.deepEqual(after.foodService.leases['seat-2'],before.foodService.leases['seat-2']);
+  assert.equal(h.store.attempts.slice(start).filter(a=>a.commit).flatMap(a=>a.writes).filter(key=>key==='session/food-match').length,1);
+  assert.equal(ingress(h).length,entries);assert.equal(result.result.foodPlayerView.serverNowMs,result.serverTimeMs);
+});
+test('pending and due work falls back without charging the fast probe or skipping its original input',async()=>{
+  const h=harness();h.store.loseAck('foodIngress/');assert.equal((await h.command()).ok,false);
+  h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,true);
+  const entries=ingress(h).map(([,entry])=>entry);assert.equal(entries.length,2);
+  assert.equal(entries[0].response.result.receipt.receivedAt,6000);
+  const trace=(await h.current()).state.trace;
+  assert.ok(trace.some(c=>c.kind==='food'&&c.context.now===6000));
+  assert.ok(trace.some(c=>c.kind==='boundary'&&c.context.now===6450));
+  const budget=h.store.export().find(([key])=>key==='foodTransportRate/'+hash(['p1','snapshot']))[1];assert.equal(budget.count,1);
+});
+test('engine, presence and own reconnect boundaries keep the ordered read path',async()=>{
+  const h=harness({presence:true});await h.handle('read',{matchId:'food-match'});
+  h.setNow(8000);await h.handle('read',{matchId:'food-match'},'host');
+  assert.ok((await h.current()).state.trace.some(c=>c.kind==='presence'&&!c.online&&c.context.now===8000));
+  const before=ingress(h).length;h.setNow(9000);
+  assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);assert.equal(ingress(h).length,before+1);
+  assert.ok((await h.current()).state.trace.some(c=>c.kind==='presence'&&c.online&&c.context.now===9000));
+  const other=harness({bots:true});await other.handle('read',{matchId:'food-match'});other.setNow(31000);
+  assert.equal((await other.handle('read',{matchId:'food-match'})).ok,true);
+  assert.equal(ingress(other).length,2);assert.equal((await other.current()).state.task.outcome.reason,'TIME');
+});
+test('historical snapshots keep their old payload and rate bucket',async()=>{
+  const h=harness();await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match');s.versions={...PLANET_BLACKOUT_PINS,assetManifestVersion:versions.assetManifestVersion};
+    s.state.versions=s.versions;s.state.phase={id:'historical-phase',kind:'PRE_TURN',startedAt:1000,endsAt:16000};
+    tx.set('session/food-match',s);tx.set('rate/'+hash('p1'),{since:6000,count:119});
+  });
+  const first=await h.handle('read',{matchId:'food-match'});assert.equal(first.ok,true);
+  assert.equal(Object.hasOwn(first.result,'foodPublicView'),false);assert.equal(Object.hasOwn(first.result,'foodPlayerView'),false);
+  assert.equal((await h.handle('read',{matchId:'food-match'})).error.code,'RATE_LIMITED');
+  assert.equal(ingress(h).length,0);assert.equal(h.store.export().some(([key])=>key.startsWith('foodTransportRate/')),false);
+});
