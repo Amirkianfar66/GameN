@@ -54,7 +54,7 @@ Nothing can tell a mistake from a betrayal: not the server, not the phones. The 
 
 ### The crane in numbers
 
-All PROPOSED, except the click (its snap, its rest and the 0.15 s margin) and the 30 seconds, which are the owner's:
+All the owner's: the 30 seconds and the click with its margin (12 November 2026), the rest as designed (13 November). A playtest may still change them:
 
 | | |
 | --- | --- |
@@ -101,7 +101,7 @@ Integration listed what the Task still needed before it could be played (12 Nove
   - A package holds **two doses**.
   - Each living player outside the Hospital eats one dose at their **Eating step: the end of their own ordinary turn** (a Pass or a timeout too). Players in the Jail eat too; patients in the Hospital do not.
   - With the stock short, the turn order (random each round) decides who eats.
-  - A player who cannot eat goes hungry. At the round's end, with the round's retained actions in recorded turn order, they become Injured and go to the Hospital under its existing rules: four beds, and eliminated if the next round's Rescue does not heal them.
+  - A player who cannot eat goes hungry. At the round's end, after the retained attacks and actions are resolved and before Rescue, in the round's turn order, they become Injured and go to the Hospital under its existing rules: four beds, and eliminated if the next round's Rescue does not heal them. A player already Injured or Eliminated by then gets nothing more (the owner, 13 November 2026).
   - Hunger is not an attack: Protection and Clone do not stop it.
   - The server takes the dose when the turn ends. The ship-life visit after the turn ([#230](https://github.com/Amirkianfar66/GameN/pull/230)) only shows it, and a visit that never played decides nothing.
 - **The food count** is public on every phone, in packages: a delivery shows as five more, a meal as half a package less. The warning shows while one package or less remains. Five packages are ten doses, so one delivery a round feeds up to ten players.
@@ -257,9 +257,9 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 
 - **State** (`state` in the handoff): the Task's id and revision, phase, seats, its times, the panel (locked at a stop, or released from a stop in a direction at a time), the crate (where it lies, or hanging, with its last move), the swing, keys, alive, online and the outcome, seen by both participants. The press revisions' bookkeeping, the receipts and the moment a participant went offline are the server's.
 - **Time:** the server resolves a press **when it receives it**, on its own monotonic clock; a phone's own time (`shownAt`) is diagnostic and decides nothing (Integration, 12 November 2026). Any other lag policy needs its own review and real-network evidence.
-- **One press** (`act`): either refused, or one of RAISED, RELEASED, LOCKED, LOWERED, LANDED, MISSED, STOPPED, KILLED, KEY, SENT and ENDED. Every event has an id, a sequence number and its authoritative time: the phones play cues in that order.
+- **One press** (`act`): either refused, or one of RAISED, RELEASED, LOCKED, LOWERED, LANDED, MISSED, STOPPED, KILLED, KEY, SENT and ENDED. Every event has an id, a sequence number and its authoritative time: the phones play cues in that order. Each participant's events are numbered in a sequence of their own, so no gap shows them the other's refusals (Integration, 12 November 2026).
   - Refusals: briefing, ended, down, not a participant, not this Task, stale, not your control, busy, crate down, unlocked, locked, up, down already, landed, not landed, turned. Only the presser is told.
-  - **Stale:** a press is bound to the revision its phone showed; made on a revision older than the last change it depends on, it is refused. A change of connection alone does not count, and neither does the briefing's end (every phone knows it from the clock), so the first press after the briefing is never stale.
+  - **Stale:** a press is bound to the revision its phone showed; made on a revision older than the last change it depends on, it is refused. A change of connection alone does not count, nor the briefing's end (every phone knows it from the clock), so the first press after the briefing is never stale. Nor does the other participant's key: no other press depends on it, so both can turn their keys at once (found by the playable test, 13 November 2026).
   - **Retries:** every press has a command id and a durable receipt. A retry with the same id gets the first answer (`RECEIPT`) and changes nothing: no second press, no second roll, no second delivery.
   - After a KILLED, the Task is lost unless the crate is in the correct position.
 - **Lethal presses:** a LOCK that takes stop 7 (the cut), or a Lower whose landing is the console (the drop). The server reads the partner's applicable Protection from the game at that moment (not used up, active this round: `packages/engine/src/planet-game/physical.ts`); it stops the press, and the block uses it up there. Clone is not read. Without Protection, the server's own roll below 0.25 stops it by luck (the owner). Otherwise it kills. Either way it uses nothing, and the server keeps a `CATCH` record of the roll and what held, for replay; it never reaches a phone.
@@ -279,7 +279,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 ## For Game Balance
 
 - **The two kill-and-deliver paths** (conflict 2): the Winch's drop from the platform stop, which can pass as a mistake, against the Panel's cut in the standoff, which cannot. Is either more tempting? The server assigns the controls at random (the owner, 12 November 2026).
-- **The timing:** the swing (0.9, settling to 0.38, 2.2 s, 1.3 s) and the zones (0.3 and 0.42). The click (a 0.1 s snap, a 0.4 s rest) and the 0.15 s margin are the owner's. A shorter rest or a wider swing means more mistakes, and more cover for betrayal; the rest must stay longer than a press's travel with real networks. A cooperative run takes about 11 seconds from the start; the owner set the whole Task's time at 30 seconds, the briefing inside it.
+- **The timing:** all the owner's now (12 and 13 November 2026): the click (a 0.1 s snap, a 0.4 s rest), the 0.15 s margin, the swing (0.9, settling to 0.38, 2.2 s, 1.3 s) and the zones (0.3 and 0.42). A playtest may still change them. A shorter rest or a wider swing means more mistakes, and more cover for betrayal; the rest must stay longer than a press's travel with real networks. A cooperative run takes about 11 seconds from the start; the owner set the whole Task's time at 30 seconds, the briefing inside it.
 - **Mistakes:** each costs time (a lock in the wrong place, a miss) or a life (a lock at 7, a Lower over the console). A kill is not an attack and costs its presser nothing (the owner); the catch saves one in four.
 - **The food economy** (the owner's, on Designer's recommendation): five packages, five per delivery, two doses a package, a dose for each player at the end of their turn, and one Task a round. Nine players eat 4½ packages a round, so the crew needs a delivery almost every round: two failed rounds in a row starve most of the crew, and hunger fills the Hospital's four beds. Check it with `tools/balance`; the doses a package holds is the one number to change.
 
@@ -297,7 +297,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 
 ## Acceptance scenarios
 
-Forty-two scenarios, each a start, a list of presses and what must follow, in the handoff (`acceptance`) and in `design/food-supply/scenarios.mjs`. Each press is timed by the server's receipt of it. The design's tests play every one through the mechanics model. The nine storyboards are the first nine. The edge cases:
+Forty-three scenarios, each a start, a list of presses and what must follow, in the handoff (`acceptance`) and in `design/food-supply/scenarios.mjs`. Each press is timed by the server's receipt of it. The design's tests play every one through the mechanics model. The nine storyboards are the first nine. The edge cases:
 
 | Scenario | Given and done | Then |
 | --- | --- | --- |
@@ -323,6 +323,7 @@ Forty-two scenarios, each a start, a list of presses and what must follow, in th
 | key-before-landing | A key before the landing | Refused (not landed) |
 | key-twice | A key turned twice | Refused (turned) |
 | keys-stay-turned | Hana's key; Cleo releases, lets the panel click past the cab and back, locks it over 6 again; Cleo's key | Delivered by both (PROPOSED) |
+| keys-together | Both keys at almost the same moment, each made before the other's arrived | Delivered by both: neither key is refused |
 | cut-after-own-key | Cleo's key first, then release and cut | Delivered alone at once |
 | one-delivery | The last key retried with the same command id | One SENT, five packages |
 | reconnect-in-grace | Cleo offline for less than the grace | The Task goes on |
@@ -364,12 +365,25 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 
 | Item | For |
 | --- | --- |
-| The timing: the 4 s briefing, the 2.5 s outcome card, the swing, the zones, the raise and the fall. The owner's: the 30 s deadline; the click's snap and rest; the 0.15 s margin; and, on Designer's recommendation, the 15 s answer, the 8 s grace and the step's 30 s to ask. The rest and the margin still need real-network evidence | The owner, Game Balance |
+| What only real use can show (Integration): real-network latency, which the 0.15 s margin is no guarantee against; physical phones; screen readers; and a human playtest of shortage, sabotage, refusals and disconnects, and both survivor paths. A playtest may change the timing, and decides again whether a slower mode is needed (the owner: none for now). PROPOSED for the danger itself: a short vibration on the presser's phone. The playable test is one phone against a bot, not this evidence | The owner, Game Balance, Integration |
 | The two kill-and-deliver paths, and a check of the food economy: two doses a package, one Task a round | Game Balance |
-| Press timing: presses resolved on arrival (Integration's direction); the clock sync the phones draw by, revisions, command ids and durable receipts | Backend, Integration |
-| Timing access: whether a player who cannot react in time can ask for a slower panel or a calmer swing, which changes the danger for their partner too. Nothing is proposed. PROPOSED for the danger itself: a short vibration on the presser's phone; untested with a screen reader | The owner, Game Balance |
-| The contract: the accepted command families' wire format, the projection, and the planning target protocol 3 / `planet-game-1.4.0` / `in-person-planet-food-task-2026-11-12`; and writing the owner's rules for playing the Task into that ruleset | Integration, Backend |
+| Press timing: presses resolved on arrival (Integration's direction); the clock sync the phones draw by, revisions, command ids, durable receipts, and each participant's own event numbering | Backend, Integration |
+| The contract: the accepted command families' wire format, the projection, and the planning target protocol 3 / `planet-game-1.4.0` / `in-person-planet-food-task-2026-11-12`. Integration recorded the owner's rules for playing the Task in #233; the hunger order, the final timing and no slower mode (13 November) are to be added there | Integration, Backend |
 | The Engine Task (not designed here) | The owner |
+
+## Play it
+
+**A practice run on one phone:** [design/food-supply/play.html](../../design/food-supply/play.html), for the owner to feel the timing (13 November 2026).
+- **You choose:**
+  - your control (the Panel or the Winch);
+  - your partner, a bot that runs the other control on what its own phone would show: careful, clumsy (its hand sometimes early or late), a betrayer (it takes its control's one kill-and-deliver path once), or a surprise revealed at the end;
+  - the connection: each press reaches the ship after 0.04, 0.12 or 0.25 s.
+- **How it plays:** the design's own model plays the server (`practice.mjs`), so every press, yours and the bot's, is resolved when it arrives. The screen is the design's phone screen (`phone.mjs`). After the Task, a result page says what happened.
+- **How it draws:** the room is drawn once, the cab, console and operators again only when they change, and the carriage, hook and crate are moved, not redrawn.
+- **A self-contained copy** for a phone: `node design/tools/food-supply-play-export.mjs <file>` (review output only, outside the repository).
+- **Not the game:** no server, no other player, nothing sent.
+
+**What the playable test found:** when both participants turned their keys at nearly the same moment, the second key was refused as stale, in about one run in four. A turned key changes nothing another press depends on, so it no longer makes a press stale (scenario `keys-together`).
 
 ## Review files
 

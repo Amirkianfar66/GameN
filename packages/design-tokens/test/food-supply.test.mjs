@@ -34,6 +34,8 @@ import { EDGES, SCENARIOS, differences, play } from '../../../design/food-supply
 import { hintFor } from '../../../design/food-supply/hints.mjs';
 import { CONFLICTS, OPEN_ITEMS, RULES, VISIBILITY } from '../../../design/food-supply/rules.mjs';
 import { build, roomArt } from '../../../design/tools/food-supply-export.mjs';
+import { NETS, createPractice, surprise } from '../../../design/food-supply/practice.mjs';
+import { PERSONAS, decide } from '../../../design/food-supply/bot.mjs';
 
 const root = new URL('../../../', import.meta.url);
 const text = path => readFileSync(new URL(path, root), 'utf8');
@@ -272,6 +274,28 @@ test('the participant\'s projection is enough to draw the phone at any moment, a
   assert.deepEqual([...SERVER_ONLY], ['CATCH']);
 });
 
+test('each participant numbers their own events: a hidden refusal leaves no gap (Integration, 12 November)', () => {
+  // Integration's case: the other participant's ordinary RAISED must not move from :2 to :3 because of a refusal it never sees.
+  const plain = [press(B + 600, 'winch', 'raise'), press(R, 'panel', 'release')];
+  const withRefusal = [press(B + 100, 'panel', 'lock'), ...plain];
+  const seen = (steps, role) => {
+    const frames = simulate(start(), steps);
+    const all = frames.flatMap(f => f.events);
+    return projection(finalOf(frames), SEATS[role], { events: all }).events.map(e => ({ type: e.type, id: e.id, seq: e.seq }));
+  };
+  const a = seen(plain, 'winch'), b = seen(withRefusal, 'winch');
+  assert.deepEqual(b, a, 'the Winch sees the same events with the same identities');
+  assert.deepEqual(a.map(e => e.seq), a.map((_, i) => i + 1), 'numbered 1, 2, 3… with no gap');
+  assert.ok(a.every(e => /:winch:\d+$/.test(e.id)), 'an identity of their own');
+  const panel = seen(withRefusal, 'panel');
+  assert.ok(panel.some(e => e.type === 'REFUSED'), 'the presser sees its own refusal');
+  assert.equal(panel.length, a.length + 1, 'and nothing else more than the Winch');
+  assert.deepEqual(panel.map(e => e.seq), panel.map((_, i) => i + 1));
+  // The server keeps its own global order for replay.
+  const frames = simulate(start(), withRefusal);
+  assert.ok(frames.flatMap(f => f.events).every(e => Number.isInteger(e.seq) && e.n), 'every event keeps its global seq and its audience numbers');
+});
+
 test('a disconnect cancels after the grace; back in time nothing paused; a death before the cancellation stands', () => {
   const disconnect = play(SCENARIOS.find(s => s.id === 'disconnect'));
   assert.deepEqual(disconnect.outcome, { result: 'cancelled', why: 'disconnect', who: 'panel' });
@@ -310,7 +334,7 @@ test('every motion cue has its timing and a Reduce motion form; the click and th
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 39);
+  assert.equal(RULES.length, 42);
   for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit', 'click-stop']) assert.ok(RULES.some(r => r.id === id), id);
   assert.equal(TIMING.deadline, 30000, 'the owner: 30 seconds to complete the Task');
   const s = start();
@@ -355,7 +379,7 @@ test('playing the Task: the owner\'s rules on Designer\'s recommendation (12 Nov
   const decided = ['food-step', 'who-can-go', 'asking', 'next-round-edges', 'meals', 'return-place', 'no-blackhole', 'clone'];
   for (const id of decided) assert.ok(RULES.some(r => r.id === id), id);
   for (const id of ['dose-package', 'next-round', 'next-volunteer', 'partner', 'when', 'eating-order', 'clone', 'adoption']) assert.ok(!OPEN_ITEMS.some(o => o.id === id), `${id} is decided`);
-  assert.deepEqual(OPEN_ITEMS.map(o => o.id), ['timing', 'paths', 'press-timing', 'timing-access', 'contract', 'engine-task']);
+  assert.deepEqual(OPEN_ITEMS.map(o => o.id), ['evidence', 'paths', 'press-timing', 'contract', 'engine-task']);
   for (const r of RULES) assert.doesNotMatch(r.rule, /PROPOSED/, `${r.id}: a rule is the owner's`);
   // When, and how many: the Food Supply step before the pre-turn window, where a Blackhole is chosen.
   assert.equal(TIMING.asking, 30000, 'the step\'s 30 s to ask');
@@ -388,6 +412,62 @@ test('playing the Task: the owner\'s rules on Designer\'s recommendation (12 Nov
   for (const state of ['another request waiting', 'Food Supply closed']) assert.ok(h.phoneStates.some(s => s.state === state), state);
   assert.match(text('design/food-supply/phone.mjs'), /at the end of the Task's time/);
   assert.doesNotMatch(text('design/food-supply/phone.mjs'), /Outside the turn order|Returning to/);
+});
+
+test('the owner\'s last answers (13 November): the hunger order, the timing as designed, no slower mode', () => {
+  for (const id of ['hunger-order', 'timing-final', 'no-slow-mode']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.match(RULES.find(r => r.id === 'hunger-order').rule, /after the retained attacks and actions are resolved and before Rescue/);
+  assert.match(RULES.find(r => r.id === 'hunger-order').rule, /already Injured or Eliminated by then gets nothing more/);
+  for (const [k, v] of Object.entries({ briefing: 4000, raise: 450, lower: 300, ending: 2500 })) assert.equal(TIMING[k], v, k);
+  assert.deepEqual({ ...SWING }, { period: 1300, settle: 2200, least: 0.38, lock: 0.9, lift: 0.25 });
+  assert.deepEqual({ ...ZONES }, { platform: 0.3, console: 0.42, intake: 0.42 });
+  const h = JSON.parse(text('design/food-supply/handoff.json'));
+  assert.ok(!('proposed' in h.timing), 'no timing is proposed now');
+  assert.ok(h.mechanics.swing.confirmed && h.mechanics.landing.confirmed);
+  assert.match(h.timing.confirmed.rest, /No slower mode for now/);
+  assert.match(h.food.eating, /before Rescue/);
+  for (const r of RULES) assert.doesNotMatch(r.design, /PROPOSED (4 s|: 0\.9)/, r.id);
+});
+
+// The playable test (play.html): the practice loop and the bot partner, driven here by a careful bot in the player's seat.
+const seeded = seed => { let x = seed >>> 0; return () => ((x = (x * 1664525 + 1013904223) >>> 0) / 2 ** 32); };
+function practise({ role, persona, net, seed }) {
+  const random = seeded(seed);
+  const run = createPractice({ role, persona, net, random });
+  const me = { scheduled: null, readyAt: 0, memory: {} };
+  for (let t = 0; t <= run.returnsAt; t += 10) {
+    const { state } = run.advance(t);
+    if (state.phase !== 'running' || !state.alive[role] || run.inFlight) continue;
+    if (me.scheduled && t >= me.scheduled.at) { run.press(me.scheduled.act, t); me.scheduled = null; me.readyAt = t + run.delay + 120; }
+    else if (!me.scheduled && t >= me.readyAt) { const d = decide({ state, seat: run.seats[role], t, persona: 'careful', delay: run.delay, memory: me.memory, random }); if (d) me.scheduled = { act: d.act, at: t + d.reaction }; }
+  }
+  return run.summary();
+}
+
+test('the playable test: presses resolve on arrival after the delay; a careful pair delivers on every connection; a betrayer kills and still delivers', () => {
+  assert.deepEqual(Object.keys(PERSONAS), ['careful', 'clumsy', 'betrayer']);
+  assert.deepEqual(Object.fromEntries(Object.entries(NETS).map(([k, n]) => [k, n.delay])), { fast: 40, normal: 120, slow: 250 });
+  // A press leaves at t and is resolved when it arrives, t + the delay; while it travels, nothing more is sent.
+  const run = createPractice({ role: 'winch', persona: 'careful', net: 'slow', random: seeded(1) });
+  run.advance(B + 500);
+  const sent = run.press('raise', B + 500);
+  assert.equal(sent.at, B + 500 + 250);
+  assert.equal(run.press('raise', B + 520), null, 'one press at a time');
+  run.advance(B + 740);
+  assert.ok(!run.frames.some(f => f.events.some(e => e.type === 'RAISED')), 'not before it arrives');
+  run.advance(B + 760);
+  assert.ok(run.frames.some(f => f.events.some(e => e.type === 'RAISED' && e.t === B + 750)), 'resolved at its arrival');
+  for (const role of ['winch', 'panel']) for (const net of Object.keys(NETS)) for (const seed of [1, 2, 3]) {
+    const s = practise({ role, persona: 'careful', net, seed });
+    assert.equal(s.outcome?.result, 'delivered', `${role} ${net} ${seed}`);
+    assert.equal(s.refused, 0, `${role} ${net} ${seed}: a careful player is never refused, the two keys included`);
+  }
+  const betrayed = [1, 2, 3, 4, 5, 6].map(seed => practise({ role: 'panel', persona: 'betrayer', net: 'normal', seed }));
+  assert.ok(betrayed.some(s => s.kills.some(k => k.victim === 'panel') && s.outcome?.result === 'delivered'), 'the Winch drops the crate on the Panel from the platform stop, and still delivers');
+  const cut = [1, 2, 3, 4, 5, 6].map(seed => practise({ role: 'winch', persona: 'betrayer', net: 'normal', seed }));
+  assert.ok(cut.some(s => s.kills.some(k => k.kind === 'cut' && k.victim === 'winch') && s.outcome?.result === 'delivered'), 'the Panel cuts after the landing, and still delivers');
+  assert.ok(['careful', 'clumsy', 'betrayer'].includes(surprise(seeded(9))));
+  for (const f of ['play.mjs', 'practice.mjs', 'bot.mjs']) assert.doesNotMatch(text(`design/food-supply/${f}`), /fetch\(|WebSocket|firebase|localStorage\.(?!getItem|setItem)/, `${f}: no server, nothing sent`);
 });
 
 test('the handoff and the room art are what the export tool writes', () => {

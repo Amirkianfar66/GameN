@@ -147,12 +147,12 @@
     {
       "id": "time-limit",
       "rule": "The overall time to complete the Task is 30 seconds, the briefing inside it.",
-      "design": "The timer on both phones counts down from 0:30 from the Task's start; the briefing (PROPOSED 4 s) runs inside it, so the controls work for the last 26 s. At 0:00 the Task is lost and nothing is delivered. A cooperative run takes about 11 seconds from the start."
+      "design": "The timer on both phones counts down from 0:30 from the Task's start; the 4 s briefing runs inside it, so the controls work for the last 26 s. At 0:00 the Task is lost and nothing is delivered. A cooperative run takes about 11 seconds from the start."
     },
     {
       "id": "pendulum",
       "rule": "The crate swings like a pendulum, so lowering it without killing the partner takes attention.",
-      "design": "A lock sets the crate swinging, wide at first and calming but never still (PROPOSED: 0.9 of a stop, settling to 0.38, a swing every 1.3 s). Lowered, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, anywhere else it misses."
+      "design": "A lock sets the crate swinging, wide at first and calming but never still (0.9 of a stop, settling to 0.38, a swing every 1.3 s: the owner's, as designed). Lowered, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, anywhere else it misses."
     },
     {
       "id": "next-volunteer",
@@ -201,7 +201,7 @@
     },
     {
       "id": "meals",
-      "rule": "A package holds two doses. Each living player outside the Hospital eats one dose at their Eating step, the end of their own ordinary turn (a Pass or a timeout too), in the Jail as well; patients in the Hospital do not eat. With the stock short, the turn order decides who eats. A player who cannot eat goes hungry: at the round's end, with the round's retained actions in recorded turn order, they become Injured and go to the Hospital under its existing rules. Hunger is not an attack: Protection and Clone do not stop it.",
+      "rule": "A package holds two doses. Each living player outside the Hospital eats one dose at their Eating step, the end of their own ordinary turn (a Pass or a timeout too), in the Jail as well; patients in the Hospital do not eat. With the stock short, the turn order decides who eats. A player who cannot eat goes hungry: at the round's end, after the retained actions and before Rescue, in turn order, they become Injured and go to the Hospital under its existing rules (hunger-order, below). Hunger is not an attack: Protection and Clone do not stop it.",
       "design": "FOOD.dosesPerPackage 2: five packages are ten doses, and one delivery a round feeds up to ten players. The server takes the dose when the turn ends; the ship-life visit after the turn only shows it, and a visit that never played decides nothing (Integration)."
     },
     {
@@ -218,20 +218,35 @@
       "id": "clone",
       "rule": "Clone does not stop a Task hazard: a kill on the Task is not an attack. Only applicable Protection stops it, besides the catch's luck.",
       "design": "The server reads the partner's Protection at each lethal press, never Clone."
+    },
+    {
+      "id": "hunger-order",
+      "rule": "At the round's end, after the retained attacks and actions are resolved and before Rescue, each player who went hungry becomes Injured, in the round's turn order, and goes to the Hospital under its existing rules. A player already Injured or Eliminated by then gets nothing more. A hungry player can be healed from the next round, like any injury.",
+      "design": "Hunger is recorded at the turn's end and resolved after Sync, with the reality the Sync selected. Rescue this round cannot reach a hungry player: no Rescue was registered for them while they were not a patient."
+    },
+    {
+      "id": "timing-final",
+      "rule": "The rest of the timing is the owner's, as designed: a 4 s briefing; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the landing zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise and 0.3 s to fall; and the 2.5 s outcome card inside the 32.5 s return. A playtest may still change them.",
+      "design": "TIMING, SWING and ZONES in task.mjs; nothing in the timing is PROPOSED now."
+    },
+    {
+      "id": "no-slow-mode",
+      "rule": "No slower mode for now. A player who cannot play the Task's timing can decline, or not volunteer. Decided again after a playtest.",
+      "design": "The panel and the swing run at one speed for every pair."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "5094fd4f9874d7fdb8dd3f54a42ce87bb875c4d47c85699cfd5d4ddcc33b6e18",
+    "design/food-supply/task.mjs": "d735ab162be5e41c7dd29cce6f8676cd7f22dc723314b363464443da6dcd1ba1",
     "design/food-supply/layout.mjs": "6a0064775c170fa95e48c6ec07c8b13c2a404b79268d67ea427c51f3908b217c",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
     "design/food-supply/machine.mjs": "449e5ac81b9638dcbde254bce30a8c8eb499a682ac79f613150e45a34d0d798a",
     "design/food-supply/scene.mjs": "ae084a4ed6b188050a0d0420464b22ef0f9339b496802eb61463b764481ac6c4",
     "design/food-supply/stage.mjs": "e19cc2dc5afa57faad14dde09aecf4c21b5af53fa71f12908a33a8c7befb7e34",
     "design/food-supply/boards.mjs": "b9c762e8885095056cedc6eaf3459330f745cf858902f418bed7b16b4134b41c",
-    "design/food-supply/scenarios.mjs": "ef66408c2cab47ba1f71b80364e3171a799d0031ab64651eed029ca3bdb22fd4",
+    "design/food-supply/scenarios.mjs": "3235c41961a4b057f0a83ac28ec3fcab7cb7089a90c2784cb30a05bb9c93e263",
     "design/food-supply/hints.mjs": "23a5b1d4a6b2371acf662663a01cb2374b4c9d927dc2b2669870b288bbb4c78f",
-    "design/food-supply/rules.mjs": "746eb9b3f196db4adde0c106b9215b7c53303cc2c02bf5bb43f9549b2f10e0d4",
-    "design/food-supply/phone.mjs": "f1c2f430b809aa931b6c97d34ba2cc090b9b2017b11e7a03625bfc4cb3feeea5",
+    "design/food-supply/rules.mjs": "6a55183004ecda421f6a8ff873bda068c2f2cd0c55bc89fa686b2ad5617c8e97",
+    "design/food-supply/phone.mjs": "e6aad18cb0b502fc8c479689091ef11c4c09c43ddacf05b946bb1df9c1abf41d",
     "design/food-supply/phone.css": "300b2eaa6283db8c7ec0d9ecd72210376ad126f6c3d079cbcf8a47d735a7bde0"
   },
   "fixtures": {
@@ -573,7 +588,7 @@
       "lift": 0.25,
       "rule": "swingOffset(t) = dir × a × sin(2π (t − since) / period), with a = least + (amp − least) × e^(−(t − since) / settle), in stops along the rail. A lock with the crate hanging starts amp = SWING.lock in the panel's direction (back off the rail's end at stop 1 or 7); a raise ends in amp = SWING.lift, starting when it settles.",
       "drawing": "The crate on its cable from the sheave at y 140: a pendulum 268 px long, angle asin(offset × 128 / 268), the crate tilted with its cable. Reduce motion: the same offset along the rail, upright and level.",
-      "proposed": true
+      "confirmed": "The owner, 13 November 2026: as designed. A playtest may still change it."
     },
     "landing": {
       "zones": {
@@ -582,7 +597,7 @@
         "intake": 0.42
       },
       "rule": "landingAt(x): within ZONES.platform of stop 6 'platform' (lands), within ZONES.console of stop 5 'console' (the drop), within ZONES.intake of stop 1 'intake', otherwise 'deck' (a miss).",
-      "proposed": true
+      "confirmed": "The owner, 13 November 2026: as designed. A playtest may still change them."
     },
     "correctPosition": "Over the platform: the crate landed, or still on the hook of the panel locked at stop 6. A death anywhere else loses the Task at once.",
     "interlocks": [
@@ -746,11 +761,11 @@
     "asking": 30000,
     "click": 500,
     "returnAfter": 32500,
-    "proposed": true,
     "confirmed": {
       "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start.",
       "click": "The owner, 12 November 2026: the panel clicks from stop to stop, a 0.1 s snap and a 0.4 s rest, and the warnings start 0.15 s early (\"this is fine\").",
-      "play": "The owner, on Designer's recommendation, 12 November 2026: 15 s to answer; an 8 s grace; the Food Supply step's 30 s to ask; both return 32.5 s after the start, whatever happened. The rest is PROPOSED."
+      "play": "The owner, on Designer's recommendation, 12 November 2026: 15 s to answer; an 8 s grace; the Food Supply step's 30 s to ask; both return 32.5 s after the start, whatever happened.",
+      "rest": "The owner, 13 November 2026, as designed: a 4 s briefing, 0.45 s to raise, 0.3 s to fall, the 2.5 s outcome card; and the swing and the zones (mechanics). A playtest may still change them. No slower mode for now (the owner)."
     }
   },
   "food": {
@@ -759,7 +774,7 @@
     "warnAt": 1,
     "dosesPerPackage": 2,
     "confirmed": true,
-    "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer's recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player's own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round's end, with the round's retained actions in recorded turn order, and goes to the Hospital under its existing rules. Hunger is not an attack: Protection and Clone do not stop it.",
+    "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer's recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player's own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round's end, after the retained attacks and actions and before Rescue, in the round's turn order, and goes to the Hospital under its existing rules; a player already Injured or Eliminated by then gets nothing more, and a hungry player can be healed from the next round (the owner, 13 November 2026). Hunger is not an attack: Protection and Clone do not stop it.",
     "server": "The server takes each dose when the turn ends. Nothing is taken from the artwork, and a ship-life visit that never played decides nothing.",
     "shown": "The count on every phone, in packages: a delivery as five more, each meal as half a package less; the warning while one package or less remains.",
     "sync": "Meals and hunger follow the selected reality, like any physical effect: a branch inherits the count when it is made; Sync keeps the selected reality's count and its hungry players. The Task, and so its delivery, comes before any branch.",
@@ -870,7 +885,7 @@
     },
     {
       "field": "startedAt, runningAt, deadline, endedAt, returnsAt",
-      "holds": "The Task's times on the server's clock: the start, the briefing's end (4 s PROPOSED), the deadline (30 s from the start, the briefing inside it: the owner's), the end, and the return (32.5 s after the start for every outcome: the owner, on Designer's recommendation, 12 November 2026)",
+      "holds": "The Task's times on the server's clock: the start, the briefing's end (4 s), the deadline (30 s from the start, the briefing inside it: the owner's), the end, and the return (32.5 s after the start for every outcome: the owner, on Designer's recommendation, 12 November 2026)",
       "seenBy": "participants"
     },
     {
@@ -920,8 +935,13 @@
     },
     {
       "field": "seq",
-      "holds": "The last event's sequence number: every event has an id (task id and number), its order and its authoritative time t",
-      "seenBy": "participants (on the events)"
+      "holds": "The last event's sequence number in the server's own order: every event has an id (task id and number), its order and its authoritative time t",
+      "seenBy": "the server only (for replay)"
+    },
+    {
+      "field": "seen",
+      "holds": "{ winch, panel }: each participant's own count of the events they may see. Each event carries n: { winch, panel }, its number in each sequence that includes it, so a gap never shows an event a participant may not see (Integration, 12 November 2026)",
+      "seenBy": "each participant their own (as the events' seq)"
     },
     {
       "field": "(not the Task's) Protection",
@@ -1072,7 +1092,7 @@
     },
     {
       "fields": "events[]",
-      "about": "The participant's own events since the last one it had: each with its id, sequence number and authoritative time t, the cues to play in order. A refusal or a receipt only to its presser."
+      "about": "The participant's own events since the last one it had (after: a cursor in their own sequence): each with an id and a number in that sequence alone, never the server's global one, whose gaps would show the other participant's refusals; and its authoritative time t: the cues to play in order. A refusal or a receipt only to its presser."
     },
     {
       "fields": "(derived on the phone)",
@@ -1155,9 +1175,9 @@
     "The Volunteer asks a Partner: both living, outside the Hospital and the Jail, and neither went for food last round. One request at a time; the first to reach the server counts (the owner, on Designer's recommendation, 12 November 2026).",
     "The Partner can join or decline (the owner, 11 November 2026), within 15 s; no answer is a decline, and a withdrawn request counts as a refusal. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026), while the step lasts. The refused Volunteer cannot ask again this round but can still be asked, and can volunteer again from the next round. The request and its answer are private to the two (the owner, on Designer's recommendation, 12 November 2026).",
     "The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement, and the server records each one's place. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
-    "The whole Task has 30 s from its start, the briefing inside it (the owner). Briefing (4 s PROPOSED): who runs which control, the route, the dangers; the controls do nothing yet.",
+    "The whole Task has 30 s from its start, the briefing inside it (the owner). Briefing (4 s): who runs which control, the route, the dangers; the controls do nothing yet.",
     "Running (the remaining 26 s): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
-    "Ended: the outcome card shows until the return, 32.5 s after the Task's start for every outcome (2.5 s after the deadline, PROPOSED; the fixed return is the owner, on Designer's recommendation, 12 November 2026). The ordinary return flow puts each participant back at the place the server recorded, the dead as Eliminated there; nothing else happened in the step, so no forced transfer comes between. The round goes on to the pre-turn window. The other players learn the result only through the food count (the owner, 12 November 2026).",
+    "Ended: the outcome card shows until the return, 32.5 s after the Task's start for every outcome (2.5 s after the deadline; the fixed return is the owner, on Designer's recommendation, 12 November 2026). The ordinary return flow puts each participant back at the place the server recorded, the dead as Eliminated there; nothing else happened in the step, so no forced transfer comes between. The round goes on to the pre-turn window. The other players learn the result only through the food count (the owner, 12 November 2026).",
     "Then the round: each living player outside the Hospital eats one dose at the end of their own ordinary turn (see food)."
   ],
   "acceptance": [
@@ -2835,6 +2855,68 @@
       }
     },
     {
+      "id": "keys-together",
+      "about": "Landed, both turn their keys at the same moment, each on the picture before the other's key: both count, and the crate goes down. A turned key changes nothing another press depends on (found by the playable test, 13 November 2026).",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 10285,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 11185,
+          "seat": 8,
+          "act": "key",
+          "revision": 4
+        },
+        {
+          "at": 11225,
+          "seat": 3,
+          "act": "key",
+          "revision": 4
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
+        },
+        "absent": [
+          "REFUSED",
+          "KILLED"
+        ]
+      }
+    },
+    {
       "id": "cut-after-own-key",
       "about": "Landed, Cleo turns the Panel's key first, then releases and cuts: Hana dies with the crate on the platform, and Cleo's key is already turned, so it goes down at once.",
       "kind": "edge",
@@ -3507,9 +3589,9 @@
   ],
   "openItems": [
     {
-      "id": "timing",
-      "owner": "owner, Game Balance",
-      "item": "The PROPOSED timing (the owner's: the 30 s deadline; the click's 0.1 s snap and 0.4 s rest; the 0.15 s warning margin; and, on Designer's recommendation, the 15 s answer, the 8 s grace and the step's 30 s to ask): a 4 s briefing and a 2.5 s outcome card; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall. The rest and the margin need real-network evidence (Integration)."
+      "id": "evidence",
+      "owner": "owner, Game Balance, Integration",
+      "item": "What only real use can show (Integration, 12 November 2026): real-network latency (the 0.15 s margin is no guarantee against it), physical phones, screen readers, and a human playtest of shortage, sabotage, refusals and disconnects and both survivor paths. A playtest may change the timing, and decides again whether a slower mode is needed (the owner: none for now). PROPOSED for the danger itself: a short vibration on the presser's phone while their press would kill. The playable test (design/food-supply/play.html) is a single phone against a bot partner, not this evidence."
     },
     {
       "id": "paths",
@@ -3519,17 +3601,12 @@
     {
       "id": "press-timing",
       "owner": "Backend, Integration",
-      "item": "Integration's direction (12 November 2026): a press is resolved when the server receives it, on the server's monotonic clock; a phone's own time is diagnostic only, and any other lag policy needs its own review and real-network evidence. Backend: the clock sync the phones draw by, finite timestamps, the revisions a press is bound to, command ids and durable receipts (a retry reuses its id: no second press, roll, cooldown or delivery)."
-    },
-    {
-      "id": "timing-access",
-      "owner": "owner, Game Balance",
-      "item": "A Task of timing is harder for some players (slower reactions, motor or sight impairments, a slow network). Whether a player can ask for a slower panel or a calmer swing, which changes the danger for their partner too, is the owner's call; nothing is proposed here. A polite live region is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill, besides the button's own name. Untested with a screen reader."
+      "item": "Integration's direction (12 November 2026): a press is resolved when the server receives it, on the server's monotonic clock; a phone's own time is diagnostic only, and any other lag policy needs its own review and real-network evidence. Backend: the clock sync the phones draw by, finite timestamps, the revisions a press is bound to, command ids and durable receipts (a retry reuses its id: no second press, roll, cooldown or delivery). Each participant's events carry an identity and number of their own, never the server's global sequence (Integration, 12 November 2026; the reference model does so)."
     },
     {
       "id": "contract",
       "owner": "Integration, Backend",
-      "item": "Integration accepted the command families TASK_PRESS, TASK_ASK, TASK_ANSWER and TASK_ASK_WITHDRAW for contract design (12 November 2026), not their wire format, the PROPOSED defaults or the timing. Planning target: protocol 3, planet-game-1.4.0, ruleset in-person-planet-food-task-2026-11-12, opt-in, inheriting the 1.3.0 predecessor exactly; historical schemas, matches and payloads unchanged. Backend owns the shared contract; Frontend waits for it. The rules for playing the Task (the Food Supply step, who can go, asking, meals, the return, the Blackhole and Sync, Clone) are the owner's (12 November 2026), for Integration to write into that ruleset; this design changes no rule file."
+      "item": "Integration accepted the command families TASK_PRESS, TASK_ASK, TASK_ANSWER and TASK_ASK_WITHDRAW for contract design (12 November 2026), not their wire format, the PROPOSED defaults or the timing. Planning target: protocol 3, planet-game-1.4.0, ruleset in-person-planet-food-task-2026-11-12, opt-in, inheriting the 1.3.0 predecessor exactly; historical schemas, matches and payloads unchanged. Backend owns the shared contract; Frontend waits for it. The rules for playing the Task (the Food Supply step, who can go, asking, meals, the return, the Blackhole and Sync, Clone) are the owner's (12 and 13 November 2026). Integration recorded the first of them in #233 (the candidate ruleset); the hunger order, the final timing and no slower mode (13 November) are for Integration to add there. This design changes no rule file."
     },
     {
       "id": "engine-task",
@@ -3543,7 +3620,8 @@
     "pages": [
       "design/food-supply/review.html",
       "design/food-supply/phone.html",
-      "design/food-supply/film.html"
+      "design/food-supply/film.html",
+      "design/food-supply/play.html (a practice run against a bot partner: node design/tools/food-supply-play-export.mjs <file> makes a self-contained copy)"
     ],
     "storyboards": [
       {

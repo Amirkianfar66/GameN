@@ -54,7 +54,7 @@ const STATE = [
   ['id, revision', 'The Task\'s identity, and its revision: one more for every batch of changes (a press, the briefing\'s end, a connection change, the end)', 'participants'],
   ['phase', "'briefing' | 'running' | 'ended'", 'participants'],
   ['seats', '{ winch, panel }: the participants\' player numbers, assigned to the controls at random by the server (the owner, 12 November 2026)', 'participants'],
-  ['startedAt, runningAt, deadline, endedAt, returnsAt', `The Task\'s times on the server\'s clock: the start, the briefing\'s end (${TIMING.briefing / 1000} s PROPOSED), the deadline (${TIMING.deadline / 1000} s from the start, the briefing inside it: the owner\'s), the end, and the return (${RETURN_AFTER / 1000} s after the start for every outcome: the owner, on Designer\'s recommendation, 12 November 2026)`, 'participants'],
+  ['startedAt, runningAt, deadline, endedAt, returnsAt', `The Task\'s times on the server\'s clock: the start, the briefing\'s end (${TIMING.briefing / 1000} s), the deadline (${TIMING.deadline / 1000} s from the start, the briefing inside it: the owner\'s), the end, and the return (${RETURN_AFTER / 1000} s after the start for every outcome: the owner, on Designer\'s recommendation, 12 November 2026)`, 'participants'],
   ['panel', '{ locked: true, stop, dir } locked at a stop (0 to 6), or { locked: false, from, dir, since } released: its place at time t is sweep(from, dir, t − since), clicking from stop to stop', 'participants'],
   ['crate', "{ state: 'intake' | 'hanging' | 'deck' | 'fallen' | 'landed' | 'sent', x, since, from }: where it lies (x, a fractional stop), or hanging under the panel; since and from anchor its last move (a raise takes TIMING.raise, a fall TIMING.lower)", 'participants'],
   ['swing', '{ since, amp, dir } while the crate hangs under a locked panel: its offset at time t is swingOffset(swing, t)', 'participants'],
@@ -64,7 +64,8 @@ const STATE = [
   ['outcome', "{ result: 'delivered' (packages, alone) | 'lost' (why: 'not-in-position' | 'time') | 'cancelled' (why: 'disconnect', who) }", 'participants only. Other players learn only the food count (the owner, 12 November 2026): never the outcome or an event of the Task'],
   ['pressRevision', 'The revision of the last change a press depends on (not a connection change alone): a press bound to an older revision is refused as stale', 'the server only'],
   ['receipts', '{ [commandId]: the first answer }: a retry with the same command id gets it again and changes nothing', 'the server only; each receipt to its presser'],
-  ['seq', 'The last event\'s sequence number: every event has an id (task id and number), its order and its authoritative time t', 'participants (on the events)'],
+  ['seq', 'The last event\'s sequence number in the server\'s own order: every event has an id (task id and number), its order and its authoritative time t', 'the server only (for replay)'],
+  ['seen', '{ winch, panel }: each participant\'s own count of the events they may see. Each event carries n: { winch, panel }, its number in each sequence that includes it, so a gap never shows an event a participant may not see (Integration, 12 November 2026)', 'each participant their own (as the events\' seq)'],
   ['(not the Task\'s) Protection', 'The game\'s, read by the server at each press that would kill (not used up, active this round: packages/engine/src/planet-game/physical.ts) and used up by a block. The Task holds none. Clone does not stop a Task hazard (the owner, on Designer\'s recommendation, 12 November 2026)', 'the server only'],
 ].map(([field, holds, seenBy]) => ({ field, holds, seenBy }));
 
@@ -103,7 +104,7 @@ const PROJECTION = [
   ['crate', '{ state, x, since, from }: where it lies, or the anchors of its last move.'],
   ['outcome', 'Once ended.'],
   ['mechanics', '{ stops, move, rest, margin, raise, lower, swing, zones }: the approved parameters the phone draws with (task.mjs sweep(), swingOffset(), landingAt()).'],
-  ['events[]', 'The participant\'s own events since the last one it had: each with its id, sequence number and authoritative time t, the cues to play in order. A refusal or a receipt only to its presser.'],
+  ['events[]', 'The participant\'s own events since the last one it had (after: a cursor in their own sequence): each with an id and a number in that sequence alone, never the server\'s global one, whose gaps would show the other participant\'s refusals; and its authoritative time t: the cues to play in order. A refusal or a receipt only to its presser.'],
   ['(derived on the phone)', 'view(projection, seat, t): the scene, the strip, the meter, the warnings, each button\'s words, glow and stripes, the time left. Safe functions of the anchors and the time. Whether a press is accepted, and what it does, is the server\'s alone.'],
 ].map(([fields, about]) => ({ fields, about })).concat([{ fields: '(never)', about: 'Protection, the catch\'s roll or cause (CATCH), the role assignment\'s randomness, the press revisions\' bookkeeping, the receipts, the other participant\'s refusals, and whether a lethal press was meant: no phone can show them.' }]);
 
@@ -163,9 +164,9 @@ const MECHANICS = {
     ...SWING,
     rule: 'swingOffset(t) = dir × a × sin(2π (t − since) / period), with a = least + (amp − least) × e^(−(t − since) / settle), in stops along the rail. A lock with the crate hanging starts amp = SWING.lock in the panel\'s direction (back off the rail\'s end at stop 1 or 7); a raise ends in amp = SWING.lift, starting when it settles.',
     drawing: `The crate on its cable from the sheave at y ${CARRIAGE.pivot}: a pendulum ${PENDULUM} px long, angle asin(offset × ${STEP} / ${PENDULUM}), the crate tilted with its cable. Reduce motion: the same offset along the rail, upright and level.`,
-    proposed: true,
+    confirmed: 'The owner, 13 November 2026: as designed. A playtest may still change it.',
   },
-  landing: { zones: ZONES, rule: "landingAt(x): within ZONES.platform of stop 6 'platform' (lands), within ZONES.console of stop 5 'console' (the drop), within ZONES.intake of stop 1 'intake', otherwise 'deck' (a miss).", proposed: true },
+  landing: { zones: ZONES, rule: "landingAt(x): within ZONES.platform of stop 6 'platform' (lands), within ZONES.console of stop 5 'console' (the drop), within ZONES.intake of stop 1 'intake', otherwise 'deck' (a miss).", confirmed: 'The owner, 13 November 2026: as designed. A playtest may still change them.' },
   correctPosition: 'Over the platform: the crate landed, or still on the hook of the panel locked at stop 6. A death anywhere else loses the Task at once.',
   interlocks: [
     'Raise and Lower work only with the panel locked; Lower only with the crate up and settled.',
@@ -244,10 +245,10 @@ export function build(artText) {
       command: COMMAND,
       ask: ASK,
     },
-    timing: { ...TIMING, click: CLICK, returnAfter: RETURN_AFTER, proposed: true, confirmed: { deadline: 'The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task\'s start.', click: 'The owner, 12 November 2026: the panel clicks from stop to stop, a 0.1 s snap and a 0.4 s rest, and the warnings start 0.15 s early ("this is fine").', play: `The owner, on Designer\'s recommendation, 12 November 2026: ${TIMING.answer / 1000} s to answer; an ${TIMING.grace / 1000} s grace; the Food Supply step\'s ${TIMING.asking / 1000} s to ask; both return ${RETURN_AFTER / 1000} s after the start, whatever happened. The rest is PROPOSED.` } },
+    timing: { ...TIMING, click: CLICK, returnAfter: RETURN_AFTER, confirmed: { deadline: 'The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task\'s start.', click: 'The owner, 12 November 2026: the panel clicks from stop to stop, a 0.1 s snap and a 0.4 s rest, and the warnings start 0.15 s early ("this is fine").', play: `The owner, on Designer\'s recommendation, 12 November 2026: ${TIMING.answer / 1000} s to answer; an ${TIMING.grace / 1000} s grace; the Food Supply step\'s ${TIMING.asking / 1000} s to ask; both return ${RETURN_AFTER / 1000} s after the start, whatever happened.`, rest: `The owner, 13 November 2026, as designed: a ${TIMING.briefing / 1000} s briefing, ${TIMING.raise / 1000} s to raise, ${TIMING.lower / 1000} s to fall, the ${TIMING.ending / 1000} s outcome card; and the swing and the zones (mechanics). A playtest may still change them. No slower mode for now (the owner).` } },
     food: {
       ...FOOD, confirmed: true,
-      eating: 'Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer\'s recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player\'s own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round\'s end, with the round\'s retained actions in recorded turn order, and goes to the Hospital under its existing rules. Hunger is not an attack: Protection and Clone do not stop it.',
+      eating: 'Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer\'s recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player\'s own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round\'s end, after the retained attacks and actions and before Rescue, in the round\'s turn order, and goes to the Hospital under its existing rules; a player already Injured or Eliminated by then gets nothing more, and a hungry player can be healed from the next round (the owner, 13 November 2026). Hunger is not an attack: Protection and Clone do not stop it.',
       server: 'The server takes each dose when the turn ends. Nothing is taken from the artwork, and a ship-life visit that never played decides nothing.',
       shown: 'The count on every phone, in packages: a delivery as five more, each meal as half a package less; the warning while one package or less remains.',
       sync: 'Meals and hunger follow the selected reality, like any physical effect: a branch inherits the count when it is made; Sync keeps the selected reality\'s count and its hungry players. The Task, and so its delivery, comes before any branch.',
@@ -266,9 +267,9 @@ export function build(artText) {
       'The Volunteer asks a Partner: both living, outside the Hospital and the Jail, and neither went for food last round. One request at a time; the first to reach the server counts (the owner, on Designer\'s recommendation, 12 November 2026).',
       `The Partner can join or decline (the owner, 11 November 2026), within ${TIMING.answer / 1000} s; no answer is a decline, and a withdrawn request counts as a refusal. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026), while the step lasts. The refused Volunteer cannot ask again this round but can still be asked, and can volunteer again from the next round. The request and its answer are private to the two (the owner, on Designer\'s recommendation, 12 November 2026).`,
       'The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement, and the server records each one\'s place. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).',
-      `The whole Task has ${TIMING.deadline / 1000} s from its start, the briefing inside it (the owner). Briefing (${TIMING.briefing / 1000} s PROPOSED): who runs which control, the route, the dangers; the controls do nothing yet.`,
+      `The whole Task has ${TIMING.deadline / 1000} s from its start, the briefing inside it (the owner). Briefing (${TIMING.briefing / 1000} s): who runs which control, the route, the dangers; the controls do nothing yet.`,
       `Running (the remaining ${(TIMING.deadline - TIMING.briefing) / 1000} s): raise, release, lock over the platform, lower as the swing passes over it, the keys.`,
-      `Ended: the outcome card shows until the return, ${RETURN_AFTER / 1000} s after the Task\'s start for every outcome (${TIMING.ending / 1000} s after the deadline, PROPOSED; the fixed return is the owner, on Designer\'s recommendation, 12 November 2026). The ordinary return flow puts each participant back at the place the server recorded, the dead as Eliminated there; nothing else happened in the step, so no forced transfer comes between. The round goes on to the pre-turn window. The other players learn the result only through the food count (the owner, 12 November 2026).`,
+      `Ended: the outcome card shows until the return, ${RETURN_AFTER / 1000} s after the Task\'s start for every outcome (${TIMING.ending / 1000} s after the deadline; the fixed return is the owner, on Designer\'s recommendation, 12 November 2026). The ordinary return flow puts each participant back at the place the server recorded, the dead as Eliminated there; nothing else happened in the step, so no forced transfer comes between. The round goes on to the pre-turn window. The other players learn the result only through the food count (the owner, 12 November 2026).`,
       'Then the round: each living player outside the Hospital eats one dose at the end of their own ordinary turn (see food).',
     ],
     acceptance: SCENARIOS.map(s => ({
@@ -283,7 +284,7 @@ export function build(artText) {
     review: {
       sheets: 'design/food-supply/review/*.png (design/tools/food-supply-render.mjs --sheets)',
       films: 'design/food-supply/review/film-*.mp4, silent (design/tools/food-supply-render.mjs --films)',
-      pages: ['design/food-supply/review.html', 'design/food-supply/phone.html', 'design/food-supply/film.html'],
+      pages: ['design/food-supply/review.html', 'design/food-supply/phone.html', 'design/food-supply/film.html', 'design/food-supply/play.html (a practice run against a bot partner: node design/tools/food-supply-play-export.mjs <file> makes a self-contained copy)'],
       storyboards: BOARDS.map(b => ({ id: b.id, title: b.title })),
     },
   };

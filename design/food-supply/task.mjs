@@ -85,10 +85,12 @@ export const ROUTE = Object.freeze([
 ].map(Object.freeze));
 
 /**
- * Timing, in milliseconds. PROPOSED, except what the owner set (12 November 2026): the overall time to
- * complete the Task, 30 seconds with the briefing inside it; the click from stop to stop, with its 0.1 s
- * snap and 0.4 s rest; the warnings' 0.15 s margin ("this is fine"); and, on Designer's recommendation,
- * the 15 s answer, the 8 s grace and the Food Supply step's 30 s to ask.
+ * Timing, in milliseconds: all the owner's. The overall time to complete the Task, 30 seconds with the
+ * briefing inside it; the click from stop to stop, with its 0.1 s snap and 0.4 s rest; the warnings'
+ * 0.15 s margin ("this is fine", 12 November 2026); on Designer's recommendation, the 15 s answer, the
+ * 8 s grace and the Food Supply step's 30 s to ask (12 November); and the rest as designed, the 4 s
+ * briefing, 0.45 s to raise, 0.3 s to fall and the 2.5 s outcome card (13 November). A playtest may
+ * still change them.
  * move: the panel's snap from one stop to the next; rest: how long it then rests at that stop (a stop
  * every 0.5 s, end to end in 3 s); margin: how much earlier a warning starts, and a glow ends, than the
  * danger or the opening itself, so that a press already on its way to the server is covered; raise: the
@@ -112,14 +114,14 @@ export const RETURN_AFTER = TIMING.deadline + TIMING.ending;
 export const CLICK = TIMING.move + TIMING.rest;
 
 /**
- * The crate's swing, in stops along the rail. PROPOSED. A lock with the crate hanging starts a swing
+ * The crate's swing, in stops along the rail: the owner's, as designed (13 November 2026). A lock with the crate hanging starts a swing
  * of `lock` in the panel's direction of travel; a raise ends in a small one of `lift`. Either way the
  * swing tends to `least` with a time constant of `settle` ms and never stops; one swing, there and
  * back, takes `period` ms.
  */
 export const SWING = Object.freeze({ period: 1300, settle: 2200, least: 0.38, lock: 0.9, lift: 0.25 });
 
-/** Where a lowered crate falls, in stops either side of each place. PROPOSED. */
+/** Where a lowered crate falls, in stops either side of each place: the owner's, as designed (13 November 2026). */
 export const ZONES = Object.freeze({ platform: 0.3, console: 0.42, intake: 0.42 });
 
 /**
@@ -227,7 +229,7 @@ export function inPosition(state) {
 export function startTask({ id = 'task-1', seats, at = 0 } = {}) {
   if (!seats?.winch || !seats?.panel || seats.winch === seats.panel) throw new Error('A Task needs two different participants');
   return {
-    id, revision: 0, pressRevision: 0, seq: 0,
+    id, revision: 0, pressRevision: 0, seq: 0, seen: { winch: 0, panel: 0 },
     phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.deadline, returnsAt: at + RETURN_AFTER,
     seats: { ...seats },
     alive: { winch: true, panel: true },
@@ -244,9 +246,20 @@ export function startTask({ id = 'task-1', seats, at = 0 } = {}) {
 /** The role of a seat in this Task, or null. */
 export const roleOf = (state, seat) => (state.seats.winch === seat ? 'winch' : state.seats.panel === seat ? 'panel' : null);
 
+/** Who may see an event: no one (the server's own record), its presser only (a refusal), or both participants. */
+function audienceOf(state, e) {
+  if (SERVER_ONLY.includes(e.type)) return [];
+  if (e.type === 'REFUSED' || e.type === 'RECEIPT') return [roleOf(state, e.seat)].filter(Boolean);
+  return ROLE_KEYS;
+}
+
 /**
  * Close a batch of events: each gets its identity (the Task's id and a sequence number), its order and
- * its authoritative time, and the Task's revision moves on once. A press is stale if it was made on a
+ * its authoritative time, and the Task's revision moves on once. A turned key does not make the other
+ * participant's press stale: no other press depends on it, so both can turn their keys at once (the
+ * playable test found the two keys refusing each other, 13 November 2026). Each participant also numbers the
+ * events they may see in a sequence of their own (n: { winch, panel }), so that no gap in it can tell
+ * one participant that the other's press was refused (Integration, 12 November 2026). A press is stale if it was made on a
  * revision older than the last change it depends on: a change of connection alone does not count. The
  * briefing's end is not a change of revision: every phone knows it from runningAt, so the first press
  * after it, made on the briefing's revision, is not stale.
@@ -257,10 +270,12 @@ function commit(state, events, t) {
   for (const e of fresh) {
     state.seq += 1;
     e.id = `${state.id}:${state.seq}`; e.seq = state.seq; e.t = e.t ?? t;
+    e.n = {};
+    for (const role of audienceOf(state, e)) { state.seen[role] += 1; e.n[role] = state.seen[role]; }
   }
   if (changes.length) {
     state.revision += 1;
-    if (changes.some(e => e.type !== 'OFFLINE' && e.type !== 'ONLINE')) state.pressRevision = state.revision;
+    if (changes.some(e => !['OFFLINE', 'ONLINE', 'KEY'].includes(e.type))) state.pressRevision = state.revision;
   }
   return { state, events };
 }
@@ -613,14 +628,16 @@ export function atTime(projected, t) {
  * two updates, and after a recovery, and nothing more. Anchors, not positions: the panel's lock or its
  * release (from, dir, since), the swing (since, amp, dir), the crate's last move (since, from), the
  * Task's times and the mechanics' parameters; view(projection, seat, t) gives the phone at any t.
- * events: the participant's own events since `after` (a sequence number), each with its identity,
- * order and authoritative time: the cues to play. Never: Protection, the catch's roll or cause (CATCH),
- * a refusal of the other participant's, or a receipt not theirs.
+ * events: the participant's own events since `after`, a cursor in their own sequence: each with its
+ * identity and number in that sequence (never the server's global one, whose gaps would show the other
+ * participant's refusals), its order and its authoritative time: the cues to play. Never: Protection,
+ * the catch's roll or cause (CATCH), a refusal of the other participant's, or a receipt not theirs.
  */
 export function projection(state, seat, { observedAt = state.at, events = [], after = 0 } = {}) {
   const role = roleOf(state, seat);
   if (!role) return null;
-  const mine = events.filter(e => e.seq > after && !SERVER_ONLY.includes(e.type) && !((e.type === 'REFUSED' || e.type === 'RECEIPT') && e.seat !== seat));
+  const mine = events.filter(e => e.n?.[role] !== undefined && e.n[role] > after)
+    .map(({ n, id: _id, seq: _seq, ...e }) => ({ ...e, id: `${state.id}:${role}:${n[role]}`, seq: n[role] }));
   return {
     id: state.id, revision: state.revision, observedAt,
     seats: { ...state.seats }, role,

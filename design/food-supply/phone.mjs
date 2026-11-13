@@ -445,6 +445,9 @@ function stock(root, p) {
 
 const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, stock, howto };
 
+// The screen's parts, for the playable test (./play.mjs), which draws the same screen live.
+export { subOf, control, sweepStrip, swingMeter, briefingCard, outcomeCard, endCard, describe };
+
 export function render(p) {
   applyEnvironment(p);
   const root = h('div.ph', { 'data-screen': `food-${p.s}`, 'data-motion': p.motion === 'reduced' ? 'reduced' : null });
@@ -463,4 +466,5 @@ export function render(p) {
   window.__phoneReady = true;
 }
 
-render(read());
+// A page without the #app element (the playable test) draws its own screens.
+if (app) render(read());

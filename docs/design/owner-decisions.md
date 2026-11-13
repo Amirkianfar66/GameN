@@ -88,8 +88,17 @@ The owner asked what the other two questions meant. Designer put them in plain w
 | Clone (Integration's review) | Clone does not stop a Task hazard: only applicable Protection, besides the catch's luck | `clone` |
 | The disconnect grace (Integration's review) | 8 s | `disconnect`; conflict 1 |
 
+**On 13 November 2026 the owner answered what Integration's re-review left ([#231](https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6837524713)), on Designer's recommendation**, and asked for "a test playable version for me":
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Hunger details approved" | **The hunger order:** at the round's end, after the retained attacks and actions are resolved and before Rescue, each player who went hungry becomes Injured, in the round's turn order, and goes to the Hospital under its existing rules. A player already Injured or Eliminated by then gets nothing more. A hungry player can be healed from the next round, like any injury | The rules record (`hunger-order`) |
+| "The last timing numbers approved" | **The rest of the timing is the owner's, as designed:** the 4 s briefing; the swing (0.9 of a stop, settling to 0.38, a swing every 1.3 s; 0.25 after a raise); the landing zones (0.3 and 0.42 of a stop); 0.45 s to raise and 0.3 s to fall; the 2.5 s outcome card inside the 32.5 s return. A playtest may still change them | The rules record (`timing-final`); `TIMING`, `SWING` and `ZONES` in `design/food-supply/task.mjs` |
+| "A slower mode for players who react slowly … none for now" | **No slower mode for now.** A player who cannot play the timing can decline, or not volunteer. Decided again after a playtest | The rules record (`no-slow-mode`) |
+| "have a test playable version for me" | **A practice run on one phone** against a bot partner (careful, clumsy, a betrayer or a surprise), with a chosen connection delay; the design's own model plays the server. It found the two keys refusing each other when turned together, now fixed | [Play it](food-supply.md#play-it); `design/food-supply/play.html` |
+
 **What it does not decide:**
-- **The proposals.** Everything still marked PROPOSED in the design (the swing, the zones, the 4 s briefing, the raise and the fall, the outcome card) waits for the owner and Game Balance. The food economy is now the owner's, for Game Balance to check with a simulation. How a press is timed is Integration's direction, not the owner's: the server resolves it on arrival. The catch's 25% is the owner's number. The [open items](food-supply.md#open-items) list them.
+- **The proposals.** What is still marked PROPOSED (the cues' animation timings, a turned key staying turned, the room's colours, the vibration on danger) waits for the owner. The food economy and all the Task's timing are the owner's; Game Balance can check the economy with a simulation, and a playtest may change the timing. How a press is timed is Integration's direction, not the owner's: the server resolves it on arrival. The catch's 25% is the owner's number. The [open items](food-supply.md#open-items) list them.
 - **The game.** No rule, contract, engine or ruleset changes here. Backend implements the rules, Integration owns the contract, and a ruleset version adopts the Task; until then nothing is playable.
 - **The owner's detailed handoff file.** `docs/design/food-supply-requirements-2026-11-11.md` and its concept images were on the owner's computer, not in the repository; the design follows the highlights above and will be reconciled with that file.
 

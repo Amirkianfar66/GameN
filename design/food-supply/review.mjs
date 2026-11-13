@@ -96,16 +96,16 @@ function layout() {
     [5, [stopX(FIXTURES.console.stop) - 70, OPERATORS.panel.head - 40], 'Over the console', 'Lowered with its centre in this band, the crate falls on the Panel operator: the drop.'],
     [6, [stopX(FIXTURES.platform.stop) + 30, BOXES.platform[1] - 40], 'Platform: the correct position', 'Lowered with its centre in this band, the crate lands and the jaws close. Then both keys send it down.'],
     [7, [stopX(FIXTURES.cab.stop) - 90, BOXES.cab[1] + 40], 'Cab: the Winch', 'Hana sits here: Raise and Lower, and a key. LOCK at stop 7 drops the blade into the cab: the cut.'],
-    [8, [stopX(FIXTURES.platform.stop) + 150, HANG + 4], 'The swing', 'After a lock the crate swings 0.9 of a stop each way, calming to 0.38 but never still, a swing every 1.3 s (PROPOSED).'],
+    [8, [stopX(FIXTURES.platform.stop) + 150, HANG + 4], 'The swing', 'After a lock the crate swings 0.9 of a stop each way, calming to 0.38 but never still, a swing every 1.3 s (the owner\'s).'],
   ];
   for (const [n, [x, y]] of callouts) s.push(`<g class="callout"><circle cx="${x}" cy="${y}" r="17"/><text x="${x}" y="${y + 6}">${n}</text></g>`);
   art.append(el('div', { class: 'overlay' }, `<svg viewBox="0 0 ${BOX[0]} ${BOX[1] + 40}">${s.join('')}</svg>`));
   const legend = el('ol', { class: 'legend' });
   for (const [n, , title, text] of callouts) legend.append(el('li', {}, `<b>${n} · ${title}</b> ${text}`));
   const keys = el('ul', { class: 'keys' }, [
-    `<i class="k drop"></i> The drop: the crate lowered over the console (${ZONES.console} of a stop either side, PROPOSED)`,
+    `<i class="k drop"></i> The drop: the crate lowered over the console (${ZONES.console} of a stop either side, the owner\'s)`,
     '<i class="k cut"></i> The cut: the panel locked at stop 7, over the cab (resting there, or snapping to it)',
-    `<i class="k goal"></i> The platform: the correct position (${ZONES.platform} of a stop either side, PROPOSED)`,
+    `<i class="k goal"></i> The platform: the correct position (${ZONES.platform} of a stop either side, the owner\'s)`,
     '<i class="k start"></i> The intake: where the crate starts; lowered here it goes back in',
     '<i class="k swing"></i> The swing from the platform stop: just after a lock, and at its calmest',
     '<i class="k route"></i> The click: the panel\'s run along the rail, stop to stop',

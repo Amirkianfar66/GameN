@@ -150,6 +150,11 @@ export const EDGES = Object.freeze([
     expect: { outcome: { result: 'delivered', packages: 5, alone: false }, locked: [5, 5], absent: ['KILLED'] },
   },
   {
+    id: 'keys-together', about: 'Landed, both turn their keys at the same moment, each on the picture before the other\'s key: both count, and the crate goes down. A turned key changes nothing another press depends on (found by the playable test, 13 November 2026).',
+    steps: [...land(), press(LANDED + 600, 'winch', 'key', { revision: revisionAfter(land()) }), press(LANDED + 640, 'panel', 'key', { revision: revisionAfter(land()) })],
+    expect: { outcome: { result: 'delivered', packages: 5, alone: false }, absent: ['REFUSED', 'KILLED'] },
+  },
+  {
     id: 'cut-after-own-key', about: 'Landed, Cleo turns the Panel\'s key first, then releases and cuts: Hana dies with the crate on the platform, and Cleo\'s key is already turned, so it goes down at once.',
     steps: [...land(), press(LANDED + 300, 'panel', 'key'), press(LANDED + 900, 'panel', 'release'), press(LANDED + 900 + TIMING.move + 150, 'panel', 'lock')],
     expect: { outcome: { result: 'delivered', packages: 5, alone: true }, alive: { winch: false, panel: true } },
