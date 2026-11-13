@@ -4,7 +4,7 @@ import {planetSeatView} from '../dist/planet-game/model.js';
 import {PLANET_FOOD_TASK_PINS,FOOD_TASK_VERTICAL} from '@mothership/contracts';
 import {createPlanetGame,applyPlanetCommand,advancePlanetDeadline,planetDeadlineAt,applyPlanetFoodCommand,
   projectPlanetPublic,projectPlanetPlayer,projectPlanetFoodPublic,projectPlanetFoodPlayer,
-  encodePlanetGameState,decodePlanetGameState,assertPlanetGameState} from '../dist/index.js';
+  encodePlanetGameState,decodePlanetGameState,assertPlanetGameState,abortPlanetGame} from '../dist/index.js';
 
 const copy=v=>structuredClone(v);
 const foodBody=v=>{const x=copy(v);delete x.serverNowMs;return x;};
@@ -57,6 +57,28 @@ function driver(n) {
   return {ids,food,ordinary,deadline,press,start,until,replay,installConstructedState(value){state=value;assertPlanetGameState(state);},get state(){return state;}};
 }
 for(const n of [7,8,9]) {
+  for(const stage of ['ASKING','RUNNING','ENDED','KILLED'])test(`${n}: abort archives ${stage} without early ordinary disclosure or active Food controls`,()=>{
+    const d=driver(n);
+    if(stage!=='ASKING'){
+      const m=d.start();
+      if(stage==='RUNNING')d.deadline(m.runningAt);
+      else if(stage==='KILLED'){
+        const t=m.options.startedAt,w=m.options.winchSeatId,p=m.options.panelSeatId;
+        d.press(w,{kind:'HOLD',edge:'DOWN',gestureSequence:1,crateId:null},t+4000);d.deadline(t+4450);
+        d.press(p,{kind:'PANEL_RELEASE'},t+4500);d.press(p,{kind:'PANEL_LOCK'},t+5251);
+        d.press(w,{kind:'HOLD',edge:'UP',gestureSequence:1,crateId:null},t+5252);
+        assert.equal(d.state.worlds[d.state.currentWorldId].seats.find(s=>s.seatId===p).health,'Eliminated');
+      }else d.deadline(m.deadlineAt);
+    }
+    const before=projectPlanetPublic(d.state),saved=copy(d.state),now=d.state.evaluatedAt+1;
+    const aborted=abortPlanetGame(d.state,{now,nextPhaseId:'abort-food',nextDeadlineToken:'abort-token',random:Array(64).fill(.99)});
+    assert.deepEqual(d.state,saved);assert.equal(aborted.phase.kind,'ABORTED');assert.equal(planetDeadlineAt(aborted),null);
+    assert.deepEqual(projectPlanetPublic(aborted).board,before.board);
+    assert.deepEqual(projectPlanetPublic(aborted).offices,before.offices);
+    assert.equal(projectPlanetFoodPublic(aborted).step,null);
+    for(const id of d.ids){const v=projectPlanetFoodPlayer(aborted,id);assert.equal(v.participantTask,null);assert.deepEqual(v.offers,[]);}
+    assert.deepEqual(decodePlanetGameState(encodePlanetGameState(aborted)),aborted);
+  });
   test(`${n}: native final-millisecond request keeps all15 answer seconds and common return`,()=>{
     const d=driver(n);assert.equal(d.state.phase.kind,'FOOD_SUPPLY');
     assert.deepEqual(projectPlanetPlayer(d.state,'seat-6').offers,[]);
@@ -125,6 +147,15 @@ for(const n of [7,8,9])for(const full of [false,true])test(`${n}: constructed Ta
   d.press(w,{kind:'HOLD',edge:'UP',gestureSequence:1,crateId:null},t+5252);
   assert.equal(projectPlanetPublic(d.state).board.seats.find(p=>p.seatId==='seat-1').location,'Command Room');
   assert.equal(projectPlanetPublic(d.state).offices.captainSeatId,'seat-1');
+  const beforeProjection=copy(d.state),own=projectPlanetFoodPlayer(d.state,'seat-1').participantTask.ownReturnPlacement;
+  assert.equal(own.location,full?'Room B':'Room A');assert.ok(own.slotId.startsWith(full?'B':'A'));
+  const reconnected=decodePlanetGameState(encodePlanetGameState(d.state));
+  assert.deepEqual(projectPlanetFoodPlayer(reconnected,'seat-1'),projectPlanetFoodPlayer(d.state,'seat-1'));
+  assert.deepEqual(projectPlanetPublic(reconnected),projectPlanetPublic(d.state));
+  assert.deepEqual(d.state,beforeProjection,'Return preview is a read-only engine projection');
+  assert.equal(projectPlanetFoodPlayer(d.state,'seat-2').participantTask.ownReturnPlacement.location,'Room A');
+  assert.equal(projectPlanetFoodPlayer(d.state,'seat-3').participantTask,null);
+  assert.equal(Object.hasOwn(projectPlanetFoodPlayer(d.state,'seat-3'),'ownReturnPlacement'),false);
   const end=d.state.food.step.task.returnsAt;d.deadline(end);
   const returned=d.state.worlds[d.state.currentWorldId].seats.find(p=>p.seatId==='seat-1');
   assert.equal(d.state.phase.startedAt,end);assert.equal(returned.health,'Eliminated');

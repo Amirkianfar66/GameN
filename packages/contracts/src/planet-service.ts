@@ -69,6 +69,7 @@ export const PlanetSessionSnapshotSchema=z.strictObject({
   }
   if(food) {
     const publicFood=value.foodPublicView,privateFood=value.foodPlayerView;
+    if(privateFood?.participantTask&&!privateFood.participantTask.ownReturnPlacement)ctx.addIssue({code:'custom',message:'Runtime participant requires its server-computed own return place'});
     if((value.publicView!==null)!==(publicFood!==null&&publicFood!==undefined)
       ||(value.playerView!==null)!==(privateFood!==null&&privateFood!==undefined))
       ctx.addIssue({code:'custom',message:'Food audiences match ordinary snapshot admission'});

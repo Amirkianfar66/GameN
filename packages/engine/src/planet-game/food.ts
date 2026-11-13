@@ -8,7 +8,7 @@ import {
   copyPlanet, seatIds, planetWorld, planetSeat, planetSeatView, planetHasFoodTask,
   type PlanetGameContext, type PlanetGameState, type PlanetWorld,
 } from './model.js';
-import {clearPlanetOffices} from './physical.js';
+import {clearPlanetOffices,restorePlanetFoodCaptainLoss} from './physical.js';
 import {addFoodDeliveryOnce, finishFoodOrdinaryTurn, ownFoodMeals, assertFoodWorldLedger} from './food-meals.js';
 import {
   createFoodTaskMachine, applyFoodTaskPress, advanceFoodTaskMachine, projectFoodTaskParticipant,
@@ -196,7 +196,7 @@ export function finishPlanetFoodMeal(state:PlanetGameState,ctx:PlanetGameContext
 function header(state:PlanetGameState,now:number){return {schemaVersion:1 as const,versions:state.versions,matchId:state.matchId,round:state.round,
   phaseId:state.phase.id,serverNowMs:now,playerCount:state.playerCount,rosterSeatIds:seatIds(state).sort(numeric),turnEnds:state.food!.turnEnds.slice(-18)};}
 function publicStep(state:PlanetGameState):FoodTaskPublicView['step'] {
-  const s=state.food!.step;if(!s)return null;
+  const s=state.food!.step;if(!s||state.phase.kind!=='FOOD_SUPPLY')return null;
   return s.task?{kind:'AWAY',stepId:s.id,startedAt:s.task.options.startedAt,returnsAt:s.task.returnsAt,
     awaySeatIds:[s.task.options.winchSeatId,s.task.options.panelSeatId].sort(numeric) as [SeatId,SeatId]}
     :{kind:'ASKING',stepId:s.id,startedAt:s.startedAt,askingEndsAt:s.askingEndsAt,someoneAsking:s.invitation!==null};
@@ -207,13 +207,13 @@ export function projectPlanetFoodPublic(state:PlanetGameState,now=state.evaluate
     step:publicStep(state),stock:{...f.publicStock,basis:'FINALIZED'}});
 }
 function ownAvailability(state:PlanetGameState,id:SeatId,now:number):FoodTaskPlayerView['ownAvailability'] {
-  const f=state.food!,s=f.step;
+  const f=state.food!,s=state.phase.kind==='FOOD_SUPPLY'?f.step:null;
   const reason=s?.task?'TASK_ALREADY_STARTED':!s||s.askingClosed||now>=s.askingEndsAt?'NOT_IN_STEP':s.invitation?'REQUEST_PENDING'
     :f.lastTaskRound[id]===state.round-1?'WENT_LAST_ROUND':f.refusedRound[id]===state.round?'REFUSED_THIS_ROUND':!eligible(state,id)?'NOT_AVAILABLE_NOW':null;
   return {canAsk:reason===null,reason};
 }
 export function projectPlanetFoodPlayer(state:PlanetGameState,id:SeatId,now=state.evaluatedAt):FoodTaskPlayerView {
-  const f=state.food!,s=f.step,world=planetWorld(state,id),availability=ownAvailability(state,id,now);
+  const f=state.food!,s=state.phase.kind==='FOOD_SUPPLY'?f.step:null,world=planetWorld(state,id),availability=ownAvailability(state,id,now);
   const choices=seatIds(state).sort(numeric).filter(other=>other!==id).map(other=>{
     const p=planetSeat(world,other);
     const reason=s?.task||!s||s.invitation||s.askingClosed||now>=s.askingEndsAt?'NOT_AVAILABLE_NOW':p.health==='Eliminated'?'ELIMINATED'
@@ -221,12 +221,21 @@ export function projectPlanetFoodPlayer(state:PlanetGameState,id:SeatId,now=stat
     return {seatId:other,available:reason===null,reason};
   });
   const task=s?.task?.people.some(p=>p.seatId===id)?copyPlanet(projectFoodTaskParticipant(s.task,id)):null;
-  if(task)task.revision=f.revisions.players[id];
+  if(task){
+    task.revision=f.revisions.players[id];
+    const original=s!.frozenWorld!,before=planetSeat(original,id);
+    let returning=before;
+    if(original.captainSeatId===id&&before.location==='Command Room'&&planetSeat(world,id).health==='Eliminated'){
+      const preview=copyPlanet(world);restorePlanetFoodCaptainLoss(state,preview,original.seats.map(p=>planetSeatView(original,p)));returning=planetSeat(preview,id);
+    }
+    if(returning.location===null||returning.slotId===null)throw Error('Missing authorized Task return place');
+    task.ownReturnPlacement={location:returning.location,slotId:returning.slotId};
+  }
   const r=s?.invitation,pairRequest=r&&[r.volunteerSeatId,r.partnerSeatId].includes(id)?r:null;
   const offers:FoodTaskPlayerView['offers']=[];
   if(availability.canAsk&&choices.some(p=>p.available))offers.push({type:'TASK_ASK',partnerSeatIds:choices.filter(p=>p.available).map(p=>p.seatId)});
   if(pairRequest&&now<pairRequest.answerEndsAt)offers.push({type:pairRequest.partnerSeatId===id?'TASK_ANSWER':'TASK_ASK_WITHDRAW',requestId:pairRequest.requestId,requestRevision:pairRequest.revision});
-  if(task&&task.stage!=='ENDED'&&task.people.some(p=>p.seatId===id&&p.alive)){
+  if(task&&task.stage!=='ENDED'&&now<task.deadlineAt&&task.people.some(p=>p.seatId===id&&p.alive)){
     const inputs=foodTaskMachineInputs(s!.task!,id);
     if(inputs.length)offers.push({type:'TASK_PRESS',taskId:task.taskId,controlSessionId:task.controlSessionId,controlRevision:task.controlRevision,inputs,crateId:task.crate.id});
   }
@@ -275,24 +284,27 @@ export function assertPlanetFoodAuthority(state:PlanetGameState):void {
     const unfinalized=settled?0:w.food!.meals.filter(m=>m.round===state.round&&m.result==='ATE').length;
     fail(w.food!.doses+unfinalized===f.publicStock.doses,'whole-world stock follows the finalized publication');
   }
-  const step=f.step;fail((state.phase.kind==='FOOD_SUPPLY')===(step!==null),'exclusive phase/step');
+  // An abort archives the private step and its frozen ordinary publication. It has
+  // no offers/deadline and must not disclose a pending Task death by dropping that mask.
+  const step=f.step,archived=state.phase.kind==='ABORTED'&&step!==null;
+  fail(archived||(state.phase.kind==='FOOD_SUPPLY')===(step!==null),'exclusive phase/step');
   if(step){
-    fail(IdentifierSchema.safeParse(step.id).success&&step.id===state.phase.id&&step.round===state.round
-      &&step.startedAt===state.phase.startedAt&&step.askingEndsAt-step.startedAt===P.askingMs,'step context');
+    fail(IdentifierSchema.safeParse(step.id).success&&(archived||step.id===state.phase.id)&&step.round===state.round
+      &&(archived||step.startedAt===state.phase.startedAt)&&step.askingEndsAt-step.startedAt===P.askingMs,'step context');
     fail(!state.blackholeActive&&Object.keys(state.worlds).length===1&&!state.panelOpen&&state.activeSeatId===null,'pre-fork exclusivity');
     fail((step.task===null)===(step.frozenWorld===null)&&!(step.task&&step.invitation),'one Task or original request');
     if(step.invitation){FoodTaskRequestViewSchema.parse(step.invitation);fail(step.invitation.state==='PENDING'&&step.invitation.foodStepId===step.id
       &&step.invitation.round===state.round&&step.invitation.askedAt<step.askingEndsAt&&step.invitation.askedAt<=state.evaluatedAt,'timely outstanding request');}
     if(step.task){
-      const m=step.task,world=planetWorld(state);fail(m.options.matchId===state.matchId&&m.options.phaseId===state.phase.id
+      const m=step.task,world=planetWorld(state);fail(m.options.matchId===state.matchId&&m.options.phaseId===step.id
         &&m.options.foodStepId===step.id&&m.options.round===state.round&&m.evaluatedAt<=state.evaluatedAt,'Task binding');
       fail(m.people.every(p=>ids.includes(p.seatId)&&p.alive===(planetSeat(world,p.seatId).health!=='Eliminated')),'Task/world living facts');
       fail(ids.every(id=>step.frozenWorld!.seats.some(s=>s.seatId===id)),'complete reserved original places');
       assertFoodWorldLedger(step.frozenWorld!.food);
       for(const p of m.people)projectFoodTaskParticipant(m,p.seatId);
-      fail(state.phase.endsAt===m.returnsAt,'fixed public return deadline');
-    }else fail(state.phase.endsAt===step.askingEndsAt,'original public asking deadline');
-    fail(Number.isSafeInteger(planetFoodDeadlineAt(state)),'finite pending work');
+      fail(archived||state.phase.endsAt===m.returnsAt,'fixed public return deadline');
+    }else fail(archived||state.phase.endsAt===step.askingEndsAt,'original public asking deadline');
+    fail(archived?planetFoodDeadlineAt(state)===null:Number.isSafeInteger(planetFoodDeadlineAt(state)),'finite pending work');
   }
   projectPlanetFoodPublic(state);for(const id of ids)projectPlanetFoodPlayer(state,id);
 }

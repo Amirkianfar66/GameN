@@ -35,11 +35,7 @@ function sealClinicalAnchors(state:PlanetGameState,world:PlanetWorld,offset:numb
     record.event.clinicalAnchor={kind:'CLINICAL_VIGNETTE',batchId:`${state.phase.id.slice(0,100)}-clinical`,anchorId,slotCount:state.playerCount} as ClinicalPresentationAnchor;
   }
 }
-/**
- * Publication only. The caller owns the fixed common return boundary and durable once-only guard,
- * and has already restored current physical placements under the approved return rules. In
- * particular, this helper chooses no Captain-loss return placement and changes no seat/resource.
- */
+/** Owner-confirmed Captain-loss exception, called at common return or on a private preview copy. */
 export function restorePlanetFoodCaptainLoss(state:PlanetGameState,world:PlanetWorld,originalSeats:PlanetSeatView[]):void {
   if(!planetHasFoodTask(state.versions))throw Error('Food Captain return requires Food ruleset');
   for(const original of originalSeats)if(original.captain&&original.location==='Command Room'){
@@ -49,6 +45,7 @@ export function restorePlanetFoodCaptainLoss(state:PlanetGameState,world:PlanetW
     }
   }
 }
+/** Publication only; caller owns the common-return/once guard and has restored approved placements. */
 export function publishPlanetFoodReturnDeaths(state:PlanetGameState,world:PlanetWorld,originalSeats:PlanetSeatView[]):void {
   if(!planetHasFoodTask(state.versions))throw Error('Food return publication requires Food ruleset');
   const original=new Map(originalSeats.map(seat=>[seat.seatId,seat]));
