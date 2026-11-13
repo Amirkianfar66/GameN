@@ -36,6 +36,10 @@ async function join(page,roomCode,name,kind='player'){
  await page.tap('#planet-entry-join');await fill(page,'#planet-room-code',roomCode);await fill(page,'#planet-display-name',name);
  if(kind==='display')await page.evaluate(`(()=>{const n=document.querySelector('#planet-join-kind');n.value='display';n.dispatchEvent(new Event('change',{bubbles:true}));})()`);
  await page.tap('#planet-join');
+ // A browser tap starts the asynchronous admission. Wait for that original
+ // authorized response before the host reads its committed pending list.
+ const receipt=await waitFor(()=>page.evaluate('planetEmulator.operations.find(o=>o.operation==="requestAdmission")??null'),kind+' admission response',15000);
+ assert.equal(receipt.status,200,kind+' admission HTTP');assert.equal(receipt.ok,true,kind+' admission: '+receipt.code);
 }
 async function point(page,id){return page.evaluate(`(()=>{const n=document.querySelector(${JSON.stringify('#'+id)});if(!n||n.getAttribute('aria-disabled')==='true')return null;const r=n.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2,id:1};})()`);}
 async function tapInput(page,id){const p=await point(page,id);if(!p)return false;await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});return true;}
@@ -103,8 +107,8 @@ try{
    const paths=urls=>[...new Set(urls.map(u=>new URL(u).pathname))].sort();assert.equal(paths(assets).length,37);assert.deepEqual(paths(assets),paths(displayAssets));caseResult.uniformAssets=37;
    await waitFor(()=>page.evaluate('planetEmulator.app.game?.getModel().canPass'),'own ordinary Pass',100000);await page.tap('#planet-pass');await page.waitFor('document.querySelector("#planet-confirm")','Pass confirmation');await page.tap('#planet-confirm');
    const meal=await waitFor(async()=>{const m=await foodModel(page);return m?.view?.ownMeals.at(-1);},'authorized own meal',15000);assert.equal(meal.result,'ATE');assert.equal(meal.dosesConsumed,1);caseResult.ownMeal='ATE_ONCE';stage('MEAL');
-   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
-  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});throw error;}
+   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
+  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
   finally{if(held)await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});await page.close();await display.close();}
  }
  report.errors=[...browser.events,...displayBrowser.events].filter(e=>e.method==='Runtime.exceptionThrown').map(e=>({text:e.params.exceptionDetails?.text}));assert.deepEqual(report.errors,[]);

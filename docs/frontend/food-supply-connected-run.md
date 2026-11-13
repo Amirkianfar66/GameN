@@ -40,3 +40,13 @@ up only these generated emulator matches. Tokens, recovery secrets, complete
 private snapshots and raw network headers are not written into its report.
 Results establish desktop Chromium local-emulator behavior only; staging,
 physical-device, screen-reader usability and Designer approval are separate.
+
+The first native attempt at source `6321ac77` stopped before setup: the host read
+one pending admission immediately after the display's asynchronous Join tap.
+No Food Task ran. Its complete local record is retained at
+`/private/tmp/gamen-food-native-connected-6321`, with the runner log alongside it.
+The runner now waits for each original admission's actual successful response
+before the host reads the pending list. It also retains both devices' sanitized
+operation summaries and failure screenshots. It does not retry admission, change
+phase timing or alter native/Backend source. This preparation is not a passing
+connected result; each rerun uses a new evidence directory.
