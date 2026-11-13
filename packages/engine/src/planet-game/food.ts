@@ -290,6 +290,7 @@ export function assertPlanetFoodAuthority(state:PlanetGameState):void {
   fail(archived||(state.phase.kind==='FOOD_SUPPLY')===(step!==null),'exclusive phase/step');
   if(step){
     fail(IdentifierSchema.safeParse(step.id).success&&(archived||step.id===state.phase.id)&&step.round===state.round
+      &&natural(step.startedAt)&&natural(step.askingEndsAt)&&step.startedAt<=state.phase.startedAt
       &&(archived||step.startedAt===state.phase.startedAt)&&step.askingEndsAt-step.startedAt===P.askingMs,'step context');
     fail(!state.blackholeActive&&Object.keys(state.worlds).length===1&&!state.panelOpen&&state.activeSeatId===null,'pre-fork exclusivity');
     fail((step.task===null)===(step.frozenWorld===null)&&!(step.task&&step.invitation),'one Task or original request');

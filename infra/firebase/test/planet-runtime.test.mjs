@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {assertPlanetRuntimeEnvironment} from '../dist/planet-runtime.js';
-import {PLANET_PHONE_ENGINE_PROFILE} from '@mothership/contracts';
+import {PLANET_PHONE_ENGINE_PROFILE,PLANET_FOOD_TASK_ENGINE_PROFILE} from '@mothership/contracts';
 const emulator={GCLOUD_PROJECT:'demo-mothership',FUNCTIONS_EMULATOR:'true',FIREBASE_AUTH_EMULATOR_HOST:'127.0.0.1:9199',FIRESTORE_EMULATOR_HOST:'127.0.0.1:8180',MOTHERSHIP_FUNCTIONS_EMULATOR_HOST:'127.0.0.1:5101'};
 test('Planet creation is explicitly off by default and independently configures reviewed artwork',()=>{
   assert.equal(assertPlanetRuntimeEnvironment(emulator).creationEnabled,false);
@@ -49,4 +49,14 @@ test('timed reading and the phone engine profile are independent opt-ins and nei
     MOTHERSHIP_PLANET_SETUP_FLOW_VERSION:'3',MOTHERSHIP_PLANET_ENGINE_PROFILE:PLANET_PHONE_ENGINE_PROFILE,
     MOTHERSHIP_ALLOWED_ORIGINS:'["https://staging.example"]'});
   assert.equal(production.setupFlowVersion,3);assert.equal(production.engineProfile,PLANET_PHONE_ENGINE_PROFILE);assert.equal(production.creationEnabled,false);
+});
+
+test('Food runtime remains an explicit profile without changing creation, setup or artwork defaults',()=>{
+  const defaults=assertPlanetRuntimeEnvironment(emulator);
+  assert.equal(Object.hasOwn(defaults,'engineProfile'),false);
+  const selected=assertPlanetRuntimeEnvironment({...emulator,MOTHERSHIP_PLANET_ENGINE_PROFILE:PLANET_FOOD_TASK_ENGINE_PROFILE});
+  assert.equal(selected.engineProfile,PLANET_FOOD_TASK_ENGINE_PROFILE);
+  assert.equal(selected.creationEnabled,false);
+  assert.equal(selected.setupFlowVersion,undefined);
+  assert.equal(selected.assetManifestVersion,defaults.assetManifestVersion);
 });
