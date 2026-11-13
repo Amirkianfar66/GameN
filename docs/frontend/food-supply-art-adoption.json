@@ -2,16 +2,16 @@
   "schema": "mothership.food-supply-art-adoption-candidate/1",
   "status": "unadmitted-render-only-candidate",
   "issue": 235,
-  "designerHead": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+  "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
   "candidateHead": "262f35a63f2afa8dc0918ca86507c00edefabcf8",
   "sourcePins": {
     "docs/design/food-supply.md": {
-      "sha256": "1e9f487f39ba5287fc6ee987357a03bcf59f587baf5f3701558573dfe67f7713",
-      "bytes": 66178
+      "sha256": "f92838f26f5c6f27561e2b69778b3acfaf375f43f2f66084b1dbcf5f21022651",
+      "bytes": 68629
     },
     "design/food-supply/handoff.json": {
-      "sha256": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba",
-      "bytes": 147525
+      "sha256": "f58d750004a3233dc90f0b8a0c9bf557bcbdb33a9843dc2fa004b6bf2eb63d0e",
+      "bytes": 154205
     },
     "design/food-supply/layout.mjs": {
       "sha256": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
@@ -30,12 +30,12 @@
       "bytes": 6470
     },
     "design/food-supply/phone.mjs": {
-      "sha256": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
-      "bytes": 43258
+      "sha256": "070f7604e9ee364f3806712065fb44557b4dbc5523dff886e3a02f1102cbe28d",
+      "bytes": 44320
     },
     "design/food-supply/phone.css": {
-      "sha256": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf",
-      "bytes": 20109
+      "sha256": "849ab0c510f249f3ab79a5c32da3fa52c54f51857aa041675b315ecded3d61b8",
+      "bytes": 20529
     },
     "design/phone-ui/prototype/ui.mjs": {
       "sha256": "75fdf8d081028fb5e403cbd34c2bd1d0e915038a9f57e13755fe03d23add6118",
@@ -58,8 +58,8 @@
       "bytes": 24685
     },
     "design/food-supply/hints.mjs": {
-      "sha256": "a2404b4d0b6a4fa3bb1308ab46de722b554980e93007c92e10ac6ee01d47b4c3",
-      "bytes": 7259
+      "sha256": "11fee66ca9e62066c167bfd4a71e7de679b6159a6039e1588e7a031a177d7110",
+      "bytes": 7484
     }
   },
   "offlineOperatorExportClosure": {
@@ -532,9 +532,8 @@
     "productionImported": true,
     "remaining": [
       "Integration exact asset/source registration",
-      "Backend and native real API/worker/bot connected acceptance",
-      "Designer alignment of the already-approved early-Hold reference",
-      "Designer visual acceptance of the refreshed native PR"
+      "Backend and native connected acceptance including historical regression diagnosis",
+      "Designer visual acceptance of final84-state native packet"
     ]
   }
 }

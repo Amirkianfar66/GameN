@@ -80,9 +80,21 @@ function buildNativeFoodCase(query){
  const p=new URLSearchParams(query),s=p.get('s'),board=p.get('board')??'cooperation',as=p.get('as')??'winch',d=driver(board),seat=as==='panel'?'seat-3':as==='other'?'seat-6':'seat-8';
  if(s==='task'||s==='return'||s==='away'){
   d.ask();d.answer();const target=s==='away'?6900:s==='return'?32501:Number(p.get('t')??6000),limit=target-(p.get('before')==='1'?1:0);
-  for(const row of d.board.steps)if(row.at<=limit)d.press(row);
+  const early=p.get('hold')==='early',steps=early?[...d.board.steps,{at:target-300,seat:8,act:'raise',reviewEarly:true}].sort((a,b)=>a.at-b.at):d.board.steps;
+  let pendingHold=null;
+  for(const row of steps)if(row.at<=limit){
+   if(row.reviewEarly){const initial=d.packet(seat,T+row.at-1),down=d.press(row);pendingHold={initial,down,admitted:d.packet(seat,T+row.at)};}
+   else d.press(row);
+  }
   const prior=s==='return'?(as==='other'?nativeFoodCase(`s=task&board=${board}&t=6000&as=other`).initial:d.packet(seat,T+32000)):null;
   const current=prior??d.packet(s==='away'?'seat-6':seat,T+target);
+  if(pendingHold){
+   assert.ok(current.value.foodPlayerView.participantTask.ownGesture.pendingIntent);
+   const panel=d.packet('seat-3',T+target),release=d.food(seat,null,T+target+1,foodTaskHoldRelease(pendingHold.down.request,'review-early-up'));
+   const off=d.packet(seat,T+target+1),panelAfter=d.packet('seat-3',T+target+1);
+   assert.equal(release.receipt.status,'accepted');assert.equal(off.value.foodPlayerView.participantTask.crate.state,'INTAKE');
+   return {initial:pendingHold.initial,next:current,screen:null,pendingHold:{down:pendingHold.down,admitted:pendingHold.admitted,release,off,panel,panelAfter},construction:'Actual candidate-engine early DOWN at frame-300ms, then authorized own pendingIntent at the frame; original causal UP closes it without a fall. Browser setup uses that same original request and immutable receipts, never a client-created pending outcome.'};
+  }
   if(p.get('press')==='refused')return {initial:nativeFoodCase(`s=task&board=${board}&t=6650&as=${as}`).initial,next:current,screen:null,feedback:'refused',act:p.get('act')};
   if(p.get('press')==='lost'){
    const recovery=d.rejectedLock(seat,T+target);

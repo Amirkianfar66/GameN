@@ -1,0 +1,67 @@
+{
+  "scope": "Node-only synthetic engine-prefix and original-receipt checks. No browser/connected/device/Designer acceptance.",
+  "winch10": {
+    "query": "s=task&board=mistakes&t=8425&as=winch",
+    "at": 8425,
+    "panelStop": 5,
+    "displayStop": 6,
+    "crateState": "intake",
+    "settled": true,
+    "authoritativeOffer": [
+      "HOLD"
+    ],
+    "nativeHoldEnabled": true,
+    "referenceHoldEnabled": true,
+    "conclusion": "Designer cd2b70dd reconciles the existing approved early Hold. The real server offer remains usable, without claiming a lift."
+  },
+  "states06": {
+    "construction": "Constructed original stale-revision LOCK, rejected by the actual candidate engine. The native recovery store first has no receipt, then reads this exact authoritative receipt; no rejection is synthesized in the capture transport.",
+    "authoritativeReceipt": {
+      "status": "rejected",
+      "code": "STALE_CONTEXT"
+    },
+    "transitions": [
+      {
+        "receipt": null,
+        "status": "unknown",
+        "pending": 1,
+        "canPanelLock": false
+      },
+      {
+        "receipt": "original authoritative receipt",
+        "status": "rejected",
+        "recovered": true,
+        "pending": 0,
+        "canPanelLock": true
+      }
+    ],
+    "lookups": 2,
+    "commands": 0
+  },
+  "panel14": {
+    "releaseNext": false,
+    "offeredInputs": [
+      "KEY",
+      "PANEL_RELEASE"
+    ]
+  },
+  "pendingHold": {
+    "originalDownAt": 108125,
+    "frameAt": 108425,
+    "releaseAt": 108426,
+    "label": "Hold",
+    "line": "Waiting for the hook",
+    "hint": "Keep holding till the hook comes.",
+    "glow": false,
+    "holding": false,
+    "physicalContact": true,
+    "originalInputEdges": [
+      "DOWN",
+      "UP"
+    ],
+    "sameGesture": true,
+    "releasedCrateState": "INTAKE",
+    "noFall": true,
+    "panelUnchanged": true
+  }
+}

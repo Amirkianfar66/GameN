@@ -78,9 +78,13 @@
 /* The Winch's one button, Hold (the owner, 13 November 2026): as big as the Panel's, and never scrolled or
    zoomed by the finger on it. Held (the server holds the crate for it, or the finger is down), it stays
    pressed in with an amber rim; amber all over when it is time to press it, or to let go; striped when
-   letting go now may drop the crate on the partner. */
+   letting go now may drop the crate on the partner. Held early, before the hook can lift the crate (the owner's
+   early Hold, 13 November 2026), it stays pressed in, its amber rim inside a dashed amber ring, with an hourglass:
+   waiting, not lifting. */
 .planet-food:is(.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"]), .planet-food :is(.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"]) { min-height: 120px; font-size: 1.5rem; letter-spacing: 0.02em; touch-action: none; -webkit-touch-callout: none; }
-.planet-food:is(.fs-ctl[data-act="hold"]:is([data-holding], [data-pressed]):not([data-hazard])), .planet-food :is(.fs-ctl[data-act="hold"]:is([data-holding], [data-pressed]):not([data-hazard])) { transform: translateY(3px); box-shadow: 0 1px 0 #0A0D14, inset 0 0 0 3px rgba(241, 184, 75, 0.6); background: var(--surface-3); }
+.planet-food:is(.fs-ctl[data-act="hold"]:is([data-holding], [data-pending], [data-pressed]):not([data-hazard])), .planet-food :is(.fs-ctl[data-act="hold"]:is([data-holding], [data-pending], [data-pressed]):not([data-hazard])) { transform: translateY(3px); box-shadow: 0 1px 0 #0A0D14, inset 0 0 0 3px rgba(241, 184, 75, 0.6); background: var(--surface-3); }
+.planet-food:is(.fs-ctl[data-act="hold"][data-pending]), .planet-food :is(.fs-ctl[data-act="hold"][data-pending]) { outline: 3px dashed var(--accent); outline-offset: -9px; }
+.planet-food:is(.fs-ctl[data-act="hold"][data-pending] > .fs-face > .ic), .planet-food :is(.fs-ctl[data-act="hold"][data-pending] > .fs-face > .ic) { color: var(--accent); }
 .planet-food:is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard])), .planet-food :is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard])) { background: var(--accent); color: var(--on-accent); }
 .planet-food:is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) .fs-sub), .planet-food :is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) .fs-sub), .planet-food:is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) svg.arrow), .planet-food :is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) svg.arrow) { color: var(--on-accent); }
 
@@ -140,7 +144,7 @@
 .planet-food:is(.fs-brief ul), .planet-food :is(.fs-brief ul) { margin: 0; }
 
 /* Reduce motion: no press travel, no transitions. */
-.planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-pressed]), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-pressed]), .planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-act="hold"][data-holding]), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-act="hold"][data-holding]) { transform: none; }
+.planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-pressed]), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-pressed]), .planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-act="hold"]:is([data-holding], [data-pending])), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-act="hold"]:is([data-holding], [data-pending])) { transform: none; }
 
 /* Larger text on a narrow phone (the screen under 14rem: a 320 px phone from about 145% text, a 390 px phone from
    about 175%): the controls keep their places (the Winch's one Hold button; the Panel's one big button, the key above it) and

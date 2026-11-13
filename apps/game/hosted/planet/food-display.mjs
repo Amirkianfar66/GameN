@@ -32,7 +32,7 @@ export function foodDisplay(model,now,{reduced=false,names=()=>''}={}) {
  const v={task,role,partnerRole,partnerName:names(partner?.seatId),partnerSeatId:partner?.seatId,phase,
   you:own?.alive?'alive':'down',partner:!partner?.alive?'down':partner.online?'alive':'offline',offline:!model.fresh||!own?.online,
   secondsLeft:Math.max(0,Math.ceil((task.deadlineAt-now)/1000)),briefingLeft:Math.max(0,Math.ceil((task.runningAt-now)/1000)),
-  panel:{...p,locked:task.panel.locked},crate:{...c,state,holder:c.holder==='WINCH'?'winch':c.holder==='BRAKE'?'brake':null,x:physical.x,settled},
+  panel:{...p,locked:task.panel.locked},crate:{...c,state,holder:c.holder==='WINCH'?'winch':c.holder==='BRAKE'?'brake':null,x:physical.x,settled,pending:role==='winch'&&state==='intake'&&!!task.ownGesture?.pendingIntent},
   keys:{you:!!own?.keyTurned,partner:!!partner?.keyTurned},broken:task.broken.length,warnings,goal:state==='intake'?0:5,recent,
   guide:{cut:!!cut,drop:!!drop,zone:currentZone,steady,fall,leaving:!p.locked&&ahead.stop!==p.stop},buttons:[]};
  const enabled=phase==='running'&&model.fresh&&own?.alive&&own.online;
@@ -44,7 +44,7 @@ export function foodDisplay(model,now,{reduced=false,names=()=>''}={}) {
   v.buttons=state==='landed'?[key(),button]:[button];
  }else if(state==='landed')v.buttons=[key()];
  else v.buttons=[{act:'hold',label:enabled&&c.holder==='WINCH'?'Holding':'Hold',enabled:enabled&&(model.canHold||model.physicalHolding||model.needsContactOff),
-  holding:enabled&&c.holder==='WINCH',hazard:enabled&&drop,next:enabled&&(c.holder==='WINCH'?steady&&p.stop===5:state==='intake'?p.locked&&p.stop===0:true),zone:currentZone,fall}];
+  holding:enabled&&c.holder==='WINCH',pending:enabled&&v.crate.pending,hazard:enabled&&drop,next:enabled&&!v.crate.pending&&(c.holder==='WINCH'?steady&&p.stop===5:state==='intake'?p.locked&&p.stop===0&&settled:true),zone:currentZone,fall}];
  v.hint=foodHint(v);return v;
 }
 export function foodControlSub(b,v,{sending=false}={}) {
@@ -65,7 +65,11 @@ export function foodControlSub(b,v,{sending=false}={}) {
   if(b.stop===v.goal)return b.leaving?`Leaving ${v.goal+1}`:v.goal===0?'At 1: the hatch':'At 6: the platform';
   return b.stop===4?'At 5: over you':`At ${b.stop+1}`;
  }
- if(!b.enabled)return v.crate.state==='intake'&&v.crate.settled?'Wait for the hook at 1':'Wait: a new crate';
+ const home=v.panel.locked&&v.panel.stop===0;
+ if(b.pending)return home?'Waiting for the crate':'Waiting for the hook';
+ if(!b.enabled)return 'Wait: a new crate';
+ if(!b.holding&&v.crate.state==='intake'&&!home)return 'Lifts when the hook stops at 1';
+ if(!b.holding&&v.crate.state==='intake'&&!v.crate.settled)return 'Lifts when the crate is in';
  if(!b.holding)return v.crate.state==='hanging'?'Hold to take it back':'Press and hold to lift';
  if(!v.crate.settled)return 'Lifting: keep holding';
  if(b.hazard)return `Let go: falls on ${partner}`;
@@ -105,6 +109,7 @@ function foodHint(v){
   return say('next','release',`Locked at ${p.stop+1}. Release and try again.`);
  }
  if(c.state==='intake'){
+  if(c.pending)return say('quiet','hourglass',home?'Keep holding till the crate is in.':'Keep holding till the hook comes.');
   if(!c.settled)return say('quiet','hourglass',broke?'It broke. A new crate comes up.':'Back in the hatch.');
   if(home)return say('next','move',broke?'Hold to lift the new crate.':back?'Hold again to lift it.':'Press and hold to lift it.');
   return say('quiet','hourglass',broke?`Broken. ${partner} fetches a new one.`:`Wait: ${partner} brings the hook.`);

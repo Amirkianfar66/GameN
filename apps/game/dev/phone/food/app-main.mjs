@@ -2,10 +2,11 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 // Full native app on explicitly synthetic, typed candidate-engine packets.
 import {mountPlanetApp} from '../../../hosted/planet/app.mjs';
+import {FoodTaskCommandRequestSchema} from '@mothership/contracts';
 import fixtures from './native-fixtures.json';
 const q=new URL(location.href).searchParams,entry=fixtures.cases.find(c=>c.id===q.get('case'))??fixtures.cases[0],copy=v=>structuredClone(v),config=entry.native;
-let record=copy(config.initial),uid='food-native-app',lost=false,holdCommands=false,readHold=false,finishRefusal=null;
-const sent=[],lookups=[],receipts=new Map(),clock={now:()=>record.now},ports={clock,scheduler:{setTimeout:(f,ms)=>setTimeout(f,ms),clearTimeout:h=>clearTimeout(h)},ids:{next:()=>crypto.randomUUID()},unresolved:memory()};
+let record=copy(config.initial),uid='food-native-app',lost=false,holdCommands=false,readHold=false,finishRefusal=null,fixtureCommandId=null;
+const sent=[],lookups=[],receipts=new Map(),clock={now:()=>record.now},ports={clock,scheduler:{setTimeout:(f,ms)=>setTimeout(f,ms),clearTimeout:h=>clearTimeout(h)},ids:{next:()=>{const id=fixtureCommandId;fixtureCommandId=null;return id??crypto.randomUUID();}},unresolved:memory()};
 function memory(){let value=null;return {load:()=>value,save:v=>{value=v;},clear:()=>{value=null;}};}
 const foodStore=memory(),stores={resume:memory(),requests:memory(),rolePrivacy:memory(),food:()=>foodStore};
 function reply(request,status='accepted'){
@@ -19,6 +20,12 @@ function reply(request,status='accepted'){
 const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async request(request){
  sent.push(copy(request));if(request.operation==='read'){if(readHold)return new Promise(()=>{});if(lost)return null;return {ok:true,serverTimeMs:record.now,result:copy(record.value)};}
  if(request.operation==='foodCommand'){
+  if(config.pendingHold){
+   const expected=request.request.command.input?.edge==='DOWN'?config.pendingHold.down:config.pendingHold.release;
+   if(JSON.stringify(FoodTaskCommandRequestSchema.parse(request.request))!==JSON.stringify(FoodTaskCommandRequestSchema.parse(expected.request)))throw Error('Pending Hold must use the exact engine-processed original input');
+   record=copy(request.request.command.input.edge==='DOWN'?config.pendingHold.admitted:config.pendingHold.off);
+   receipts.set(request.request.commandId,copy(expected.receipt));return {ok:true,serverTimeMs:record.now,result:{receipt:copy(expected.receipt)}};
+  }
   const receipt=reply(request.request,config.feedback==='refused'||config.replyClosure?'rejected':'accepted');receipts.set(request.request.commandId,receipt);
   if(holdCommands||config.feedback==='sending')return new Promise(()=>{});
   if(config.feedback==='refused')return new Promise(resolve=>{finishRefusal=()=>resolve({ok:true,serverTimeMs:record.now,result:{receipt:reply(request.request,'rejected')}});});
@@ -43,6 +50,12 @@ if(config.recovery){
 const app=await mountPlanetApp(document.querySelector('#app'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
 for(let i=0;i<30&&!app.game?.getModel().phase;i++)await new Promise(r=>setTimeout(r,0));
 const recoveryTransitions=[];
+if(config.pendingHold){
+ fixtureCommandId=config.pendingHold.down.request.commandId;
+ if(!app.food.holdDown())throw Error('Authoritatively offered early Hold was blocked');
+ for(let i=0;i<40&&app.food.getModel().pendingCount;i++)await new Promise(r=>setTimeout(r,0));
+ if(app.food.getModel().pendingCount)throw Error('Early Hold receipt did not settle');
+}
 if(config.recovery){
  await app.food.checkReceipts();
  const before=app.food.getModel();
@@ -73,6 +86,7 @@ if(config.feedback&&config.feedback!=='refused'&&config.act&&!seedRelease&&q.get
 if(config.feedback==='lost'){lost=true;app.food.disconnect('network');}
 applySafe();
 window.foodAppHarness={app,entry,sent,lookups,recoveryTransitions,scope:fixtures.scope,ready:true,
+ prepareEarlyUp(){if(!config.pendingHold)throw Error('Not a pending Hold fixture');fixtureCommandId=config.pendingHold.release.request.commandId;},
  async replace(next){record=copy(next);await app.session.refresh();applySafe();},
  names(text){for(const m of record.value.members)m.displayName=text;return app.session.refresh();},
  setLost:v=>{lost=v;},setHoldCommands:v=>{holdCommands=v;},setReadHold:v=>{readHold=v;},setUid:v=>{uid=v;},

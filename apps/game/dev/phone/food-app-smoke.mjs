@@ -58,7 +58,14 @@ try{
    await page.send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,autoRepeat:true});
    await page.send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
    const panel=await page.evaluate('foodAppHarness.sent.filter(q=>q.operation==="foodCommand").map(q=>q.request.command.input.kind)');assert.deepEqual(panel,['PANEL_RELEASE']);
-   facts.cases.push({profile:prefix,ready,keyboardAssistive,causal,panelKeyboardNoRepeat:panel,abortedRecovery:recovery});
+   await page.goto(`${origin}/app.html?case=food-states-15&text=${text}&safe=${safe}&motion=${motion}`,'window.foodAppHarness?.ready');await sleep(180);
+   const waiting=await page.evaluate('(()=>{const n=document.querySelector("#food-control-hold"),m=foodAppHarness.app.food.getModel(),s=getComputedStyle(n);return {label:n.getAttribute("aria-label"),pressed:n.getAttribute("aria-pressed"),pending:n.hasAttribute("data-pending"),glow:n.hasAttribute("data-next"),outline:s.outlineStyle,offset:s.outlineOffset,transform:s.transform,physical:m.physicalHolding,crate:m.view.participantTask.crate};})()');
+   assert.equal(waiting.label,'Hold. Waiting for the hook.');assert.equal(waiting.pressed,'true');assert.equal(waiting.pending,true);assert.equal(waiting.glow,false);assert.equal(waiting.outline,'dashed');assert.equal(waiting.offset,'-9px');assert.equal(waiting.physical,true);assert.equal(waiting.crate.state,'INTAKE');assert.equal(waiting.crate.motion,null);if(motion==='reduced')assert.equal(waiting.transform,'none');
+   await page.evaluate('foodAppHarness.prepareEarlyUp();document.querySelector("#food-control-hold").click()');
+   await page.waitFor('!foodAppHarness.app.food.getModel().physicalHolding&&foodAppHarness.app.food.getModel().pendingCount===0&&!foodAppHarness.app.food.getModel().view.participantTask.ownGesture.pendingIntent','original pending UP settles without lift');
+   const pendingOff=await page.evaluate('({crate:foodAppHarness.app.food.getModel().view.participantTask.crate,edges:foodAppHarness.sent.filter(q=>q.operation==="foodCommand").map(q=>q.request.command.input.edge),pressed:document.querySelector("#food-control-hold").getAttribute("aria-pressed")})');
+   assert.deepEqual(pendingOff.edges,['DOWN','UP']);assert.deepEqual(pendingOff.crate,waiting.crate);assert.equal(pendingOff.pressed,'false');
+   facts.cases.push({profile:prefix,ready,keyboardAssistive,causal,panelKeyboardNoRepeat:panel,abortedRecovery:recovery,pendingHold:{waiting,afterOriginalUp:pendingOff}});
   }catch(error){facts.failure={message:error.message,state:await page.evaluate('({game:foodAppHarness?.app.game?.getModel(),food:foodAppHarness?.app.food?.getModel(),session:foodAppHarness?.app.session.getModel(),body:document.body.innerText})').catch(()=>null)};await shot(page,prefix+'-failure.png');throw error;}finally{await page.close();}
  }
  facts.errors=browser.events.filter(e=>e.method==='Runtime.exceptionThrown').map(e=>e.params);assert.deepEqual(facts.errors,[]);
