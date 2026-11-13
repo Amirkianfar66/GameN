@@ -120,7 +120,11 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
         if(decision.command){
           const request={schemaVersion:1,protocolVersion:3,matchId,phaseId:food.phaseId,foodStepId:food.step.stepId,
             round:food.round,commandId:randomUUID(),command:decision.command};
-          const {receipt}=await invoke({operation:'foodCommand',request},human);
+          const sentAt=Date.now(),{receipt}=await invoke({operation:'foodCommand',request},human),ackAt=Date.now();
+          stage('INPUT_ACK',{type:request.command.type,
+            ...(request.command.type==='TASK_PRESS'?{input:request.command.input.kind}:{}),
+            sentAt,receivedAt:receipt.receivedAt,ackAt,admissionMs:receipt.receivedAt-sentAt,roundTripMs:ackAt-sentAt,
+            status:receipt.status});
           receipts.push({request,receipt});
           needsSnapshotAfter=Date.now();nextRead=Date.now();
           continue;
@@ -158,7 +162,28 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
     }));
     const failures=outcomes.filter(outcome=>outcome.status==='rejected');
     for(const failure of failures)context.diagnostic(String(failure.reason.stack??failure.reason));
-    if(failures.length)throw new AggregateError(failures.map(failure=>failure.reason),'Connected Food journeys failed');
+    if(failures.length){
+      // Synthetic failure evidence only; these reads never seed or advance authority.
+      // Keep identity, roles, credentials and complete private payloads out of diagnostics.
+      for(const {matchId}of matches)try{
+        const inspect=async tx=>({session:await tx.get('session/'+matchId),control:await tx.get('foodIngressControl/'+matchId)});
+        const {session,control}=await (store.readOnly?store.readOnly(inspect):store.transaction(inspect));
+        const t=session?.state?.food?.step?.task;
+        context.diagnostic(JSON.stringify({stage:'AUTHORITY_DIAGNOSTIC',status:session?.status,phase:session?.state?.phase?.kind,
+          task:t?{stage:t.stage,evaluatedAt:t.evaluatedAt,deadlineAt:t.deadlineAt,outcome:t.outcome,
+            crateState:t.crate.state,panelStop:t.panel.stop,panelLocked:t.panel.locked}:null,control}));
+        const documents=await db.collection('planetDocuments').where('namespace','==','foodIngress').get();
+        const keys=documents.docs.map(doc=>doc.get('key')).filter(key=>key.startsWith('foodIngress/'+matchId+'/'));
+        const inspectEntries=tx=>Promise.all(keys.map(key=>tx.get(key)));
+        const entries=await (store.readOnly?store.readOnly(inspectEntries):store.transaction(inspectEntries));
+        context.diagnostic(JSON.stringify({stage:'INPUT_DIAGNOSTIC',admitted:entries.length,
+          commands:entries.filter(e=>e.request?.operation==='foodCommand').map(e=>({sequence:e.sequence,
+            controller:e.botIntentPath?'bot':'human',at:e.context.now,type:e.request.request.command.type,
+            input:e.request.request.command.input?.kind,ok:e.response?.ok,
+            status:e.response?.result?.receipt?.status,code:e.response?.result?.receipt?.code}))}));
+      }catch(error){context.diagnostic('Failure diagnostics unavailable: '+String(error));}
+      throw new AggregateError(failures.map(failure=>failure.reason),'Connected Food journeys failed');
+    }
   }finally{
     scenarioSignal=undefined;
     context.diagnostic(JSON.stringify({transport:Object.fromEntries([...new Set(requestTimings.map(r=>r.operation))].map(operation=>{
