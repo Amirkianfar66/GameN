@@ -1,0 +1,156 @@
+/* Scoped native Food styles from #231 Food phone; exact source pins in the adoption record. */
+/* The Task screen: the view over the panel. The panel takes the height its words need and the view gives way
+   first, down to a letterboxed strip (min-height), so the controls are never covered and no word is cut. If the
+   words still need more, only the hint scrolls. */
+.planet-food:is(.fs-screen), .planet-food :is(.fs-screen) { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; container: fs / inline-size; }
+.planet-food:is(.fs-view), .planet-food :is(.fs-view) { position: relative; flex: 0 1000 auto; min-height: 112px; overflow: hidden; display: flex; justify-content: center; background: #10141C; }
+.planet-food:is(.fs-art), .planet-food :is(.fs-art) { position: relative; height: 100%; aspect-ratio: 992 / 696; max-width: 100%; }
+.planet-food:is(.fs-art svg), .planet-food :is(.fs-art svg) { display: block; width: 100%; height: 100%; }
+.planet-food:is(.fs-view::after), .planet-food :is(.fs-view::after) { content: ""; position: absolute; inset: auto 0 0; height: 28px; background: linear-gradient(transparent, rgba(13, 17, 24, 0.85)); pointer-events: none; }
+.planet-food:is(.fs-view[data-dim] svg), .planet-food :is(.fs-view[data-dim] svg) { filter: saturate(0.6) brightness(0.65); }
+
+.planet-food:is(.fs-panel), .planet-food :is(.fs-panel) { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 10px; padding: 10px 16px calc(var(--safe-b, 0px) + 16px); background: linear-gradient(rgba(13, 17, 24, 0.94), #0D1118 30%); }
+/* The instrument and the buttons sit together at the bottom, where the thumb is: the eye on the strip or the meter, the thumb on the button under it. */
+.planet-food:is(.fs-dock), .planet-food :is(.fs-dock) { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+.planet-food:is(.fs-role), .planet-food :is(.fs-role) { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; }
+.planet-food:is(.fs-role .pill), .planet-food :is(.fs-role .pill) { flex: none; }
+.planet-food:is(.fs-who), .planet-food :is(.fs-who) { display: flex; align-items: center; gap: 6px; font: 600 0.8125rem/1.2 var(--font-ui); color: var(--text-secondary); min-width: 0; }
+.planet-food:is(.fs-who b), .planet-food :is(.fs-who b) { color: var(--text-primary); }
+.planet-food:is(.fs-who[data-state="down"]), .planet-food :is(.fs-who[data-state="down"]) { color: var(--text-secondary); text-decoration: line-through; }
+
+.planet-food:is(.fs-hint), .planet-food :is(.fs-hint) { flex: 0 1 auto; overflow-y: auto; margin: 0; display: flex; align-items: flex-start; gap: 8px; min-height: 44px; padding: 10px 12px; border-radius: 12px; background: var(--surface-3); font: 600 0.9375rem/1.3 var(--font-ui); color: var(--text-primary); }
+.planet-food:is(.fs-hint .ic), .planet-food :is(.fs-hint .ic) { flex: none; width: 20px; height: 20px; margin-top: 1px; color: var(--text-secondary); }
+.planet-food:is(.fs-hint[data-tone="next"]), .planet-food :is(.fs-hint[data-tone="next"]) { box-shadow: inset 0 0 0 2px var(--accent); }
+.planet-food:is(.fs-hint[data-tone="next"] .ic), .planet-food :is(.fs-hint[data-tone="next"] .ic) { color: var(--accent); }
+.planet-food:is(.fs-hint[data-tone="hazard"]), .planet-food :is(.fs-hint[data-tone="hazard"]) { background: #F4EBDD; color: #151923; }
+.planet-food:is(.fs-hint[data-tone="hazard"] .ic), .planet-food :is(.fs-hint[data-tone="hazard"] .ic) { color: #151923; }
+.planet-food:is(.fs-hint[data-tone="caution"]), .planet-food :is(.fs-hint[data-tone="caution"]) { background: rgba(241, 184, 75, 0.16); box-shadow: inset 0 0 0 2px rgba(241, 184, 75, 0.7); }
+.planet-food:is(.fs-hint[data-tone="caution"] .ic), .planet-food :is(.fs-hint[data-tone="caution"] .ic) { color: var(--accent); }
+.planet-food:is(.fs-hint[data-tone="quiet"]), .planet-food :is(.fs-hint[data-tone="quiet"]) { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline); color: var(--text-secondary); }
+
+/* The instruments: the Panel's strip of stops and the Winch's swing meter. Both are pictures of what the view shows,
+   larger and flatter; what a press would do is said in words on the buttons and in the hint. */
+.planet-food:is(.fs-strip), .planet-food :is(.fs-strip) { position: relative; flex: none; display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.planet-food:is(.fs-strip span), .planet-food :is(.fs-strip span) { display: grid; place-items: center; min-height: 2rem; border-radius: 6px; background: var(--surface-3); color: var(--text-secondary); font: 700 0.8125rem/1 var(--font-ui); overflow: hidden; }
+.planet-food:is(.fs-strip span .ic), .planet-food :is(.fs-strip span .ic) { width: 1.125rem; height: 1.125rem; color: var(--text-primary); }
+.planet-food:is(.fs-strip span[data-you]), .planet-food :is(.fs-strip span[data-you]) { box-shadow: inset 0 0 0 2px var(--text-secondary); }
+.planet-food:is(.fs-strip span[data-goal]), .planet-food :is(.fs-strip span[data-goal]) { background: var(--accent); color: var(--on-accent); }
+.planet-food:is(.fs-strip span[data-cut]), .planet-food :is(.fs-strip span[data-cut]) { background: repeating-linear-gradient(-45deg, #F4EBDD 0 6px, #151923 6px 12px); }
+.planet-food:is(.fs-strip span[data-cut] b), .planet-food :is(.fs-strip span[data-cut] b) { padding: 0 4px; border-radius: 4px; background: #F4EBDD; color: #151923; }
+.planet-food:is(.fs-strip[data-locked] span[data-at]), .planet-food :is(.fs-strip[data-locked] span[data-at]) { box-shadow: inset 0 0 0 3px #F4EBDD; }
+.planet-food:is(.fs-marker), .planet-food :is(.fs-marker) { position: absolute; top: -5px; bottom: -5px; width: 6px; margin-left: -3px; border-radius: 3px; background: #F4EBDD; box-shadow: 0 0 0 2px #0A0D14; pointer-events: none; }
+.planet-food:is(.fs-strip[data-locked] .fs-marker), .planet-food :is(.fs-strip[data-locked] .fs-marker) { width: 10px; margin-left: -5px; }
+
+.planet-food:is(.fs-meter-wrap), .planet-food :is(.fs-meter-wrap) { flex: none; display: grid; gap: 4px; }
+.planet-food:is(.fs-meter), .planet-food :is(.fs-meter) { position: relative; height: 1.75rem; border-radius: 8px; background: var(--surface-3); overflow: hidden; }
+.planet-food:is(.fs-zone), .planet-food :is(.fs-zone) { position: absolute; top: 0; bottom: 0; }
+.planet-food:is(.fs-zone[data-zone="console"]), .planet-food :is(.fs-zone[data-zone="console"]), .planet-food:is(.fs-legend span[data-zone="console"]), .planet-food :is(.fs-legend span[data-zone="console"]) { background: repeating-linear-gradient(-45deg, #F4EBDD 0 6px, #151923 6px 12px); }
+.planet-food:is(.fs-zone[data-zone="platform"]), .planet-food :is(.fs-zone[data-zone="platform"]), .planet-food:is(.fs-legend span[data-zone="platform"]), .planet-food :is(.fs-legend span[data-zone="platform"]) { background: var(--accent); }
+.planet-food:is(.fs-crate), .planet-food :is(.fs-crate) { position: absolute; top: 3px; bottom: 3px; width: 10px; margin-left: -5px; border-radius: 4px; background: #F4EBDD; box-shadow: 0 0 0 2px #0A0D14; }
+.planet-food:is(.fs-crate[data-out]), .planet-food :is(.fs-crate[data-out]) { opacity: 0.4; }
+.planet-food:is(.fs-meter:not([data-live])), .planet-food :is(.fs-meter:not([data-live])) { opacity: 0.55; }
+.planet-food:is(.fs-legend), .planet-food :is(.fs-legend) { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font: 600 0.75rem/1.2 var(--font-ui); color: var(--text-secondary); }
+.planet-food:is(.fs-legend span), .planet-food :is(.fs-legend span) { display: inline-block; width: 18px; height: 10px; border-radius: 3px; margin-right: -4px; }
+
+/* The controls: the participant's own, big. The Panel: one LOCK or RELEASE button (and the key once landed).
+   The Winch: one Hold button, held down (or the key once landed). No drag gesture. */
+.planet-food:is(.fs-controls), .planet-food :is(.fs-controls) { flex: none; display: grid; gap: 10px; grid-template-columns: 1fr; }
+.planet-food:is(.fs-ctl), .planet-food :is(.fs-ctl) { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 76px; padding: 10px 14px; border: 3px solid #0A0D14; border-radius: 16px; background: var(--surface-4); color: var(--text-primary); font: 800 1.125rem/1.15 var(--font-ui); letter-spacing: -0.01em; text-align: center; box-shadow: 0 4px 0 #0A0D14; touch-action: none; user-select: none; -webkit-user-select: none; }
+.planet-food:is(.fs-controls[data-role="panel"] .fs-ctl[data-act="lock"]), .planet-food :is(.fs-controls[data-role="panel"] .fs-ctl[data-act="lock"]), .planet-food:is(.fs-controls[data-role="panel"] .fs-ctl[data-act="release"]), .planet-food :is(.fs-controls[data-role="panel"] .fs-ctl[data-act="release"]) { min-height: 104px; font-size: 1.5rem; letter-spacing: 0.02em; }
+.planet-food:is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"]), .planet-food :is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"]) { min-height: 60px; font-size: 1.125rem; }
+.planet-food:is(.fs-ctl svg.arrow), .planet-food :is(.fs-ctl svg.arrow), .planet-food:is(.fs-ctl > .fs-face > .ic), .planet-food :is(.fs-ctl > .fs-face > .ic) { flex: none; width: 36px; height: 36px; }
+.planet-food:is(.fs-ctl .fs-label), .planet-food :is(.fs-ctl .fs-label) { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.planet-food:is(.fs-ctl .fs-sub), .planet-food :is(.fs-ctl .fs-sub) { display: block; font: 600 0.75rem/1.2 var(--font-ui); color: var(--text-secondary); letter-spacing: 0; }
+.planet-food:is(.fs-ctl[data-next]), .planet-food :is(.fs-ctl[data-next]) { border-color: var(--accent); box-shadow: 0 4px 0 #0A0D14, 0 0 0 3px rgba(241, 184, 75, 0.35); }
+.planet-food:is(.fs-ctl[data-next] svg.arrow), .planet-food :is(.fs-ctl[data-next] svg.arrow), .planet-food:is(.fs-ctl[data-next] > .fs-face > .ic), .planet-food :is(.fs-ctl[data-next] > .fs-face > .ic) { color: var(--accent); }
+.planet-food:is(.fs-ctl[data-act="lock"][data-next]), .planet-food :is(.fs-ctl[data-act="lock"][data-next]), .planet-food:is(.fs-ctl[data-act="release"][data-next]), .planet-food :is(.fs-ctl[data-act="release"][data-next]) { background: var(--accent); color: var(--on-accent); }
+.planet-food:is(.fs-ctl[data-act="lock"][data-next] .fs-sub), .planet-food :is(.fs-ctl[data-act="lock"][data-next] .fs-sub), .planet-food:is(.fs-ctl[data-act="release"][data-next] .fs-sub), .planet-food :is(.fs-ctl[data-act="release"][data-next] .fs-sub), .planet-food:is(.fs-ctl[data-act="lock"][data-next] > .fs-face > .ic), .planet-food :is(.fs-ctl[data-act="lock"][data-next] > .fs-face > .ic), .planet-food:is(.fs-ctl[data-act="release"][data-next] > .fs-face > .ic), .planet-food :is(.fs-ctl[data-act="release"][data-next] > .fs-face > .ic) { color: var(--on-accent); }
+.planet-food:is(.fs-ctl[data-key]), .planet-food :is(.fs-ctl[data-key]) { background: var(--accent); color: var(--on-accent); }
+.planet-food:is(.fs-ctl[data-key] .fs-sub), .planet-food :is(.fs-ctl[data-key] .fs-sub), .planet-food:is(.fs-ctl[data-key] > .fs-face > .ic), .planet-food :is(.fs-ctl[data-key] > .fs-face > .ic) { color: var(--on-accent); opacity: 0.85; }
+.planet-food:is(.fs-ctl[data-turned]), .planet-food :is(.fs-ctl[data-turned]) { background: var(--surface-3); color: var(--text-secondary); box-shadow: none; }
+.planet-food:is(.fs-ctl[aria-disabled="true"]), .planet-food :is(.fs-ctl[aria-disabled="true"]) { background: var(--surface-2); color: var(--text-secondary); border-color: #0A0D14; box-shadow: none; opacity: 0.7; }
+/* A press that would kill the partner now: the room's hazard stripes, the words on paper. No confirmation, no arming: the press itself acts. */
+.planet-food:is(.fs-ctl[data-hazard]), .planet-food :is(.fs-ctl[data-hazard]) { background: repeating-linear-gradient(-45deg, #F4EBDD 0 11px, #151923 11px 22px); color: #151923; border-color: #151923; }
+.planet-food:is(.fs-ctl[data-hazard] .fs-face), .planet-food :is(.fs-ctl[data-hazard] .fs-face) { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 12px; background: #F4EBDD; box-shadow: 0 0 0 2px #151923; }
+.planet-food:is(.fs-ctl .fs-face), .planet-food :is(.fs-ctl .fs-face) { display: contents; }
+.planet-food:is(.fs-ctl[data-hazard] .fs-sub), .planet-food :is(.fs-ctl[data-hazard] .fs-sub), .planet-food:is(.fs-ctl[data-hazard] > .fs-face > .ic), .planet-food :is(.fs-ctl[data-hazard] > .fs-face > .ic) { color: #151923; }
+.planet-food:is(.fs-ctl[data-pressed]), .planet-food :is(.fs-ctl[data-pressed]) { transform: translateY(3px); box-shadow: 0 1px 0 #0A0D14; }
+/* The Winch's one button, Hold (the owner, 13 November 2026): as big as the Panel's, and never scrolled or
+   zoomed by the finger on it. Held (the server holds the crate for it, or the finger is down), it stays
+   pressed in with an amber rim; amber all over when it is time to press it, or to let go; striped when
+   letting go now may drop the crate on the partner. */
+.planet-food:is(.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"]), .planet-food :is(.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"]) { min-height: 120px; font-size: 1.5rem; letter-spacing: 0.02em; touch-action: none; -webkit-touch-callout: none; }
+.planet-food:is(.fs-ctl[data-act="hold"]:is([data-holding], [data-pressed]):not([data-hazard])), .planet-food :is(.fs-ctl[data-act="hold"]:is([data-holding], [data-pressed]):not([data-hazard])) { transform: translateY(3px); box-shadow: 0 1px 0 #0A0D14, inset 0 0 0 3px rgba(241, 184, 75, 0.6); background: var(--surface-3); }
+.planet-food:is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard])), .planet-food :is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard])) { background: var(--accent); color: var(--on-accent); }
+.planet-food:is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) .fs-sub), .planet-food :is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) .fs-sub), .planet-food:is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) svg.arrow), .planet-food :is(.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) svg.arrow) { color: var(--on-accent); }
+
+/* Cards over the view: the briefing, the call, the outcome. */
+.planet-food:is(.fs-card), .planet-food :is(.fs-card) { position: absolute; left: 12px; right: 12px; z-index: 40; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 18px; background: var(--surface-2); box-shadow: 0 0 0 1px var(--hairline), 0 18px 40px rgba(0, 0, 0, 0.55); }
+.planet-food:is(.fs-card h2), .planet-food :is(.fs-card h2) { margin: 0; font: 800 1.375rem/1.15 var(--font-ui); letter-spacing: -0.01em; }
+.planet-food:is(.fs-card p), .planet-food :is(.fs-card p) { margin: 0; font: 500 0.9375rem/1.4 var(--font-ui); color: var(--text-secondary); }
+.planet-food:is(.fs-card p b), .planet-food :is(.fs-card p b) { color: var(--text-primary); }
+.planet-food:is(.fs-card .fs-stamp), .planet-food :is(.fs-card .fs-stamp) { align-self: flex-start; }
+.planet-food:is(.fs-card ul), .planet-food :is(.fs-card ul) { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.planet-food:is(.fs-card li), .planet-food :is(.fs-card li) { display: flex; align-items: flex-start; gap: 10px; font: 500 0.9375rem/1.35 var(--font-ui); color: var(--text-primary); }
+.planet-food:is(.fs-card li .ic), .planet-food :is(.fs-card li .ic) { flex: none; width: 20px; height: 20px; color: var(--accent); margin-top: 1px; }
+.planet-food:is(.fs-count), .planet-food :is(.fs-count) { font: 800 2.5rem/1 var(--font-letter); color: var(--accent); }
+.planet-food:is(.fs-roles), .planet-food :is(.fs-roles) { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.planet-food:is(.fs-roles > div), .planet-food :is(.fs-roles > div) { display: flex; flex-direction: column; gap: 4px; padding: 10px; border-radius: 12px; background: var(--surface-3); font: 600 0.8125rem/1.25 var(--font-ui); color: var(--text-secondary); }
+.planet-food:is(.fs-roles > div[data-you]), .planet-food :is(.fs-roles > div[data-you]) { box-shadow: inset 0 0 0 2px var(--accent); color: var(--text-primary); }
+.planet-food:is(.fs-roles b), .planet-food :is(.fs-roles b) { font: 800 1rem/1.2 var(--font-ui); color: var(--text-primary); }
+
+.planet-food:is(.fs-banner), .planet-food :is(.fs-banner) { position: absolute; left: 12px; right: 12px; z-index: 30; }
+/* The Partner request: Decline and Join side by side, Join last (the thumb's side); they stack when the words need it. */
+.planet-food:is(.fs-answer), .planet-food :is(.fs-answer) { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: 8px; }
+.planet-food:is(.fs-card p.fs-timer), .planet-food :is(.fs-card p.fs-timer) { font-size: 0.8125rem; }
+.planet-food:is(.fs-art .tag), .planet-food :is(.fs-art .tag) { position: absolute; transform: translate(-50%, 0); z-index: 5; }
+.planet-food:is(.fs-art .tag[data-anchor="end"]), .planet-food :is(.fs-art .tag[data-anchor="end"]) { transform: translate(-100%, 0); }
+/* A card longer than the screen scrolls; its last lines fade to say there is more. */
+.planet-food:is(.fs-card[data-scrolls]), .planet-food :is(.fs-card[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 36px), transparent); mask-image: linear-gradient(#000 calc(100% - 36px), transparent); }
+
+/* The strip: while the panel runs, the stop a LOCK would take now is outlined. */
+.planet-food:is(.fs-strip:not([data-locked]) span[data-now]), .planet-food :is(.fs-strip:not([data-locked]) span[data-now]) { box-shadow: inset 0 0 0 3px #F4EBDD; }
+/* A press in flight: its control shows it, every control waits for the answer. */
+.planet-food:is(.fs-ctl[data-sending]), .planet-food :is(.fs-ctl[data-sending]) { box-shadow: 0 1px 0 #0A0D14; transform: translateY(3px); }
+.planet-food:is(.fs-ctl[data-sending] .fs-face::after), .planet-food :is(.fs-ctl[data-sending] .fs-face::after) { content: ""; width: 18px; height: 18px; margin-left: 8px; border-radius: 50%; border: 3px solid currentColor; border-right-color: transparent; animation: food-fs-spin 0.8s linear infinite; }
+.planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-sending] .fs-face::after), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-sending] .fs-face::after) { animation: none; border-right-color: currentColor; opacity: 0.6; }
+@keyframes food-fs-spin { to { transform: rotate(360deg); } }
+/* The partner's state in the top bar: offline or out, at every text size. */
+.planet-food:is(.tb[data-partner] .tb-sub), .planet-food :is(.tb[data-partner] .tb-sub) { color: #F4EBDD; font-weight: 700; }
+/* The briefing reminder: two lines and the count, never scrolled. */
+.planet-food:is(.fs-brief ul), .planet-food :is(.fs-brief ul) { margin: 0; }
+
+/* Reduce motion: no press travel, no transitions. */
+.planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-pressed]), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-pressed]), .planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-act="hold"][data-holding]), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-act="hold"][data-holding]) { transform: none; }
+
+/* Larger text on a narrow phone (the screen under 14rem: a 320 px phone from about 145% text, a 390 px phone from
+   about 175%): the controls keep their places (the Winch's one Hold button; the Panel's one big button, the key above it) and
+   grow with their words; the role row and the meter's legend go, because the buttons, the hint and the name tags
+   already say the same. The name tags are part of the picture: they stop growing at 16 px so they don't cover it,
+   and what they say is in the hint and the top bar. */
+@container fs (max-width: 14rem) {
+  .planet-food:is(.fs-art .tag), .planet-food :is(.fs-art .tag) { font-size: min(0.8125rem, 16px); height: auto; padding-block: 2px; }
+  .planet-food:is(.fs-art .tag .num), .planet-food :is(.fs-art .tag .num) { font-size: min(0.75rem, 15px); }
+  .planet-food:is(.fs-role), .planet-food :is(.fs-role) { display: none; }
+  .planet-food:is(.fs-legend), .planet-food :is(.fs-legend) { display: none; }
+  .planet-food:is(.fs-view), .planet-food :is(.fs-view) { min-height: 84px; }
+  /* The hint keeps two lines: on the Winch's phone it is the only place that says the panel is over the cab. */
+  .planet-food:is(.fs-hint), .planet-food :is(.fs-hint) { padding: 8px 10px; flex-shrink: 0; min-height: calc(2.6em + 16px); }
+  .planet-food:is(.fs-meter), .planet-food :is(.fs-meter) { height: 28px; }
+  .planet-food:is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"]), .planet-food :is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"]) { min-height: 0; padding-block: 4px; font-size: 1rem; }
+  .planet-food:is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"] .fs-sub), .planet-food :is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"] .fs-sub) { display: none; }
+  .planet-food:is(.fs-controls), .planet-food :is(.fs-controls) { gap: 8px; }
+  .planet-food:is(.fs-ctl), .planet-food :is(.fs-ctl) { min-height: 60px; padding: 6px 8px; gap: 6px; }
+  .planet-food:is(.fs-controls[data-role="panel"] .fs-ctl[data-act="lock"]), .planet-food :is(.fs-controls[data-role="panel"] .fs-ctl[data-act="lock"]), .planet-food:is(.fs-controls[data-role="panel"] .fs-ctl[data-act="release"]), .planet-food :is(.fs-controls[data-role="panel"] .fs-ctl[data-act="release"]) { min-height: 72px; font-size: 1.25rem; }
+  .planet-food:is(.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"]), .planet-food :is(.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"]) { min-height: 80px; font-size: 1.25rem; }
+  .planet-food:is(.fs-ctl svg.arrow), .planet-food :is(.fs-ctl svg.arrow), .planet-food:is(.fs-ctl > .fs-face > .ic), .planet-food :is(.fs-ctl > .fs-face > .ic) { width: 28px; height: 28px; }
+  .planet-food:is(.fs-ctl[data-hazard] .fs-face), .planet-food :is(.fs-ctl[data-hazard] .fs-face) { padding: 4px 8px; }
+  .planet-food:is(.fs-strip), .planet-food :is(.fs-strip) { gap: 2px; }
+  .planet-food:is(.fs-strip span), .planet-food :is(.fs-strip span) { min-height: 1.5rem; border-radius: 4px; }
+  /* The briefing reminder fits at the largest text: a smaller title and count, no scrolling. */
+  .planet-food:is(.fs-brief), .planet-food :is(.fs-brief) { gap: 6px; padding: 12px; }
+  .planet-food:is(.fs-brief h2), .planet-food :is(.fs-brief h2) { font-size: 1.125rem; }
+  .planet-food:is(.fs-brief .fs-count), .planet-food :is(.fs-brief .fs-count) { font-size: 1.5rem; }
+  .planet-food:is(.fs-brief li), .planet-food :is(.fs-brief li) { font-size: 0.875rem; }
+}
+
