@@ -44,6 +44,11 @@ Integration has independently checked:
   client changes preserve predecessor clock probes and conceal Food immediately
   after an explicit authorization refusal. The current closure pins those changes.
 - The latest combined Food session/service/worker regressions pass 59/59.
+- The design suite completed 356/357 checks; its sole failure was an engine
+  source comment matching the historical prototype-reference ban. The comment
+  now cites Designer #231 and its exact source head without a prototype import
+  path. The focused guard passes; no executable behavior or test was changed.
+  The full design rerun remains part of exact-head CI.
 - Ten focused source/static-art checks; the full tooling suite passes 332/332.
 - In the combined verification run, bootstrap passes 367/367, engine 1700/1700
   and Backend 470/470. Frontend passes 771/771 and presentation 224/224.

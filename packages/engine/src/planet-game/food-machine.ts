@@ -328,7 +328,7 @@ function rebuildWarnings(m: FoodTaskMachine): void {
   refreshWarning(m, m.evaluatedAt);
 }
 interface Boundary {at: number; kind: 'TIME' | 'GRACE' | 'BRIEFING' | 'MOTION' | 'WARNING' | 'RETURN'; rank: number; seatId?: Seat}
-// Preserve pinned design/food-supply/task.mjs:374-394's technical terminal order:
+// Preserve Designer #231 (9bb49794), task.mjs:374-394's approved terminal order:
 // earliest due time, Task deadline before exact grace tie, then Winch before Panel.
 // Equal grace implies equal first-offline time because both use the same fixed 8 seconds.
 function boundaries(m: FoodTaskMachine): Boundary[] {
