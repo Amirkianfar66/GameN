@@ -62,7 +62,7 @@ test('source checkpoint excludes review artifacts and does not authorize the pen
   const production=readPregameConsumerApproval(root);
   writeFileSync(join(dir,'apps/game/hosted/crew-runtime.mjs'),'// unreviewed consumer');
   for(const version of ['design-0.6.0',CREW_ART_VERSION,PREGAME_ART_VERSION])
-    assert.throws(()=>readRuntimeArtRelease(dir,version),production?/^Error: (?:Pregame consumer candidate|Phone UI production consumer): current content differs:/:/crew consumer content differs/);
+    assert.throws(()=>readRuntimeArtRelease(dir,version),production?/^Error: (?:(?:Pregame consumer candidate|Phone UI production consumer): current content differs:|Food consumer source: content differs:)/:/crew consumer content differs/);
 });
 
 test('source or runtime drift and a self-edited candidate manifest fail independently',t=>{

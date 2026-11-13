@@ -9,7 +9,7 @@ import {HOST_ABORT_CONSUMER_APPROVAL, PHONE_UI_CONSUMER_APPROVAL,
   from '../../scripts/phone-ui-consumer-approval.mjs';
 import {readPregameProductionConsumerApproval, acceptsPregameProductionFile}
   from '../../scripts/pregame-consumer-approval.mjs';
-import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
+import {pregameProductionFixturePaths, restoreBeforeFoodFixture} from './support/pregame-production-fixture.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const copy = (destination, path) => {
@@ -43,7 +43,8 @@ test('host confirmation adoption preserves the parent inventory and accepts only
 });
 
 test('removing the correction cannot silently authorize its source, while genuine predecessor bytes still verify', t => {
-  const destination = seed(t), child = readHostAbortConsumerApproval(destination);
+  const destination = seed(t); restoreBeforeFoodFixture(root, destination);
+  const child = readHostAbortConsumerApproval(destination);
   const phone = readPhoneUiConsumerApproval(destination);
   rmSync(join(destination, HOST_ABORT_CONSUMER_APPROVAL));
   assert.equal(readHostAbortConsumerApproval(destination), null);

@@ -1,0 +1,331 @@
+{
+  "schema": "mothership.food-consumer-source/1",
+  "status": "reviewed-source-candidate",
+  "candidateHead": "50441cf4fd65589925c14e3574b8618d27ac434e",
+  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "scope": "Exact technical source compatibility for Food test 1. This is not Designer visual acceptance, production adoption, creation enablement or deployment.",
+  "target": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.4.0",
+    "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+    "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+    "assetManifestVersion": "design-0.9.0",
+    "tokensVersion": "0.5.0"
+  },
+  "baseline": "f9e7e11bd6c23671f96832bf45d79146e6fd855c",
+  "parentApproval": {
+    "path": "docs/integration/host-abort-production-consumer-approval-2026-11-11.json",
+    "sha256": "501b0e88010c56cd11b62554f17e2ad8ab6eed3a8226142116730f7222c9fcf3",
+    "bytes": 8033
+  },
+  "baseArt": {
+    "path": "design/releases/design-0.8.0.json",
+    "sha256": "c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d",
+    "bytes": 82967
+  },
+  "closure": {
+    "path": "docs/frontend/food-supply-render-closure.json",
+    "sha256": "01a4a2c32dfcf7642f7024b92042fdf526a91af2262a24b67e4ccecb9b641cd6",
+    "bytes": 9892
+  },
+  "staticArt": {
+    "path": "docs/integration/food-supply-static-art-2026-11-13.json",
+    "sha256": "71b42abfd76658de877eacfc8904106696d5d6e81552524c4730ed2e76c64f2c",
+    "bytes": 14150
+  },
+  "predecessorTooling": {
+    "scripts/phone-ui-consumer-approval.mjs": "779f1b06bd7aeb7d5f607580757ee49886bbfc72989ad997af99a70177eb9f92",
+    "scripts/runtime-art-release.mjs": "344ca8df90a22d632704d48d8979b593c36a6b65611e789279215a018a45da9b",
+    "apps/game/hosted/vite.config.mjs": "591d0f4c0bf11cc39b691f0147dd308ba9b4c18bc446b2dc40d5e9d2e72b218b"
+  },
+  "sourcePins": {
+    "docs/design/food-supply.md": {
+      "sha256": "b7bc253831e307313e76dbb519d31e35889585002cdbf880b3e83a001ab57f88",
+      "bytes": 62716
+    },
+    "design/food-supply/handoff.json": {
+      "sha256": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1",
+      "bytes": 145836
+    },
+    "design/food-supply/layout.mjs": {
+      "sha256": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
+      "bytes": 5629
+    },
+    "design/food-supply/room.mjs": {
+      "sha256": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
+      "bytes": 13778
+    },
+    "design/food-supply/machine.mjs": {
+      "sha256": "4c8beb57428bd7bb812ea1ea5c8a8e2132816a8b794dde4fe5bcce5340f8b2dd",
+      "bytes": 26523
+    },
+    "design/food-supply/scene.mjs": {
+      "sha256": "401f52aa92f40540b85bd7f6160c13090ca1f583efa224b1ffdd506a542bcfb9",
+      "bytes": 6470
+    },
+    "design/food-supply/phone.mjs": {
+      "sha256": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
+      "bytes": 37949
+    },
+    "design/food-supply/phone.css": {
+      "sha256": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b",
+      "bytes": 14980
+    },
+    "design/phone-ui/prototype/ui.mjs": {
+      "sha256": "75fdf8d081028fb5e403cbd34c2bd1d0e915038a9f57e13755fe03d23add6118",
+      "bytes": 14741
+    },
+    "design/phone-ui/prototype/kit.css": {
+      "sha256": "b1dbcb4f381458b4ef1cf8a93c670c311cb2753e3df164f5f951e75f0bf6624e",
+      "bytes": 41954
+    },
+    "design/food-supply/art/supply-room.back.svg": {
+      "sha256": "d993437538cd046625d712c21664fa6895c82a0be98540de70e8962f93ba20d1",
+      "bytes": 255763
+    },
+    "design/phone-ui/prototype/icons.mjs": {
+      "sha256": "e2b065615d0b622d73af18e683a105b83d9337fb9c7d5594af2cf60b369cef5b",
+      "bytes": 18582
+    },
+    "design/phone-ui/prototype/art.mjs": {
+      "sha256": "8525806f0f4e17664562bb25bff04040a0305f2ce21f7ef38359cd82dc7704d8",
+      "bytes": 24685
+    }
+  },
+  "files": {
+    "apps/game/hosted/planet/food-geometry.mjs": {
+      "previousSha256": null,
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443,
+      "candidateBlob": "design/releases/candidate-blobs/2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-ink.mjs": {
+      "previousSha256": null,
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "bytes": 2408,
+      "candidateBlob": "design/releases/candidate-blobs/acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-machine.mjs": {
+      "previousSha256": null,
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394,
+      "candidateBlob": "design/releases/candidate-blobs/c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-scene.mjs": {
+      "previousSha256": null,
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694,
+      "candidateBlob": "design/releases/candidate-blobs/807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-icons.mjs": {
+      "previousSha256": null,
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628,
+      "candidateBlob": "design/releases/candidate-blobs/467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-ui.mjs": {
+      "previousSha256": null,
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436,
+      "candidateBlob": "design/releases/candidate-blobs/e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-kit.css": {
+      "previousSha256": null,
+      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "bytes": 57285,
+      "candidateBlob": "design/releases/candidate-blobs/a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food.css": {
+      "previousSha256": null,
+      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+      "bytes": 22648,
+      "candidateBlob": "design/releases/candidate-blobs/b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-host.css": {
+      "previousSha256": null,
+      "sha256": "0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
+      "bytes": 847,
+      "candidateBlob": "design/releases/candidate-blobs/0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-pose.mjs": {
+      "previousSha256": null,
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "bytes": 6888,
+      "candidateBlob": "design/releases/candidate-blobs/8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-display.mjs": {
+      "previousSha256": null,
+      "sha256": "978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
+      "bytes": 9317,
+      "candidateBlob": "design/releases/candidate-blobs/978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-assets.mjs": {
+      "previousSha256": null,
+      "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+      "bytes": 1823,
+      "candidateBlob": "design/releases/candidate-blobs/f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-render.mjs": {
+      "previousSha256": null,
+      "sha256": "dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
+      "bytes": 34921,
+      "candidateBlob": "design/releases/candidate-blobs/dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-app.mjs": {
+      "previousSha256": null,
+      "sha256": "9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
+      "bytes": 3284,
+      "candidateBlob": "design/releases/candidate-blobs/9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
+      "acceptedPreviousHashes": []
+    },
+    "packages/presentation/src/planet/food.ts": {
+      "previousSha256": null,
+      "sha256": "5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
+      "bytes": 3079,
+      "candidateBlob": "design/releases/candidate-blobs/5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/app.mjs": {
+      "previousSha256": "5d1e370917f7f7b55ffe4cf71321384fad9b76a39830682c708e28d51f129aed",
+      "sha256": "71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
+      "bytes": 25234,
+      "candidateBlob": "design/releases/candidate-blobs/71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
+      "acceptedPreviousHashes": [
+        "39f80ec23d3d189865a4a54252a4a7880ad8333ab4257c8ae7963c706623b04e",
+        "5d1e370917f7f7b55ffe4cf71321384fad9b76a39830682c708e28d51f129aed",
+        "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+        "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+        "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1"
+      ]
+    },
+    "apps/game/hosted/planet/render.mjs": {
+      "previousSha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
+      "sha256": "3e93b023fc331c58601003a21045508579e1c659ea5fb95b98993e626fd2b20a",
+      "bytes": 52291,
+      "candidateBlob": "design/releases/candidate-blobs/3e93b023fc331c58601003a21045508579e1c659ea5fb95b98993e626fd2b20a",
+      "acceptedPreviousHashes": [
+        "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+        "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+        "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb",
+        "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3"
+      ]
+    },
+    "apps/game/hosted/crew-runtime.mjs": {
+      "previousSha256": "38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+      "sha256": "227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+      "bytes": 11738,
+      "candidateBlob": "design/releases/candidate-blobs/227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+      "acceptedPreviousHashes": [
+        "38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+        "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+        "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5"
+      ]
+    },
+    "apps/game/src/planet/controller.ts": {
+      "previousSha256": "aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf",
+      "sha256": "728ad00df7318235a3dd40e77d7cf393bfa9e20b7c5ede518f54790b4caddb00",
+      "bytes": 31492,
+      "candidateBlob": "design/releases/candidate-blobs/728ad00df7318235a3dd40e77d7cf393bfa9e20b7c5ede518f54790b4caddb00",
+      "acceptedPreviousHashes": [
+        "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57",
+        "aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf"
+      ]
+    },
+    "apps/game/src/planet/session.ts": {
+      "previousSha256": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+      "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+      "bytes": 27860,
+      "candidateBlob": "design/releases/candidate-blobs/84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+      "acceptedPreviousHashes": [
+        "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+        "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+        "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+      ]
+    },
+    "apps/game/src/planet/transport.ts": {
+      "previousSha256": "c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed",
+      "sha256": "2568a7750f59eef9ef0abaddff04e067492f97ce81a72eb48506e710ab37b044",
+      "bytes": 6616,
+      "candidateBlob": "design/releases/candidate-blobs/2568a7750f59eef9ef0abaddff04e067492f97ce81a72eb48506e710ab37b044",
+      "acceptedPreviousHashes": [
+        "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b",
+        "c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed"
+      ]
+    },
+    "apps/game/src/planet/food.ts": {
+      "previousSha256": null,
+      "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
+      "bytes": 18812,
+      "candidateBlob": "design/releases/candidate-blobs/353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/src/planet/food-input.ts": {
+      "previousSha256": null,
+      "sha256": "030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
+      "bytes": 1469,
+      "candidateBlob": "design/releases/candidate-blobs/030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/src/planet/food-recovery.ts": {
+      "previousSha256": null,
+      "sha256": "aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
+      "bytes": 3917,
+      "candidateBlob": "design/releases/candidate-blobs/aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
+      "acceptedPreviousHashes": []
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "previousSha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+      "sha256": "c45d1e3e478320a50356987d4534714f9cc0a72ba12570a51c9690895914cc0c",
+      "bytes": 4696,
+      "candidateBlob": "design/releases/candidate-blobs/c45d1e3e478320a50356987d4534714f9cc0a72ba12570a51c9690895914cc0c",
+      "acceptedPreviousHashes": [
+        "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+        "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+        "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+        "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68"
+      ]
+    },
+    "packages/presentation/src/planet/model.ts": {
+      "previousSha256": "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
+      "sha256": "012324bd4e310a16011b1d0b97632c118e94d3b9fcd9a508c699fb3a1e8b1672",
+      "bytes": 13271,
+      "candidateBlob": "design/releases/candidate-blobs/012324bd4e310a16011b1d0b97632c118e94d3b9fcd9a508c699fb3a1e8b1672",
+      "acceptedPreviousHashes": [
+        "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
+        "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9"
+      ]
+    },
+    "apps/game/src/index.ts": {
+      "previousSha256": "dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba",
+      "sha256": "11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
+      "bytes": 5077,
+      "candidateBlob": "design/releases/candidate-blobs/11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
+      "acceptedPreviousHashes": [
+        "d0552ddbe10c479f2bfcd24357a2788d31731918b097c67ef086e99f7ca74829",
+        "dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba"
+      ]
+    },
+    "packages/presentation/src/index.ts": {
+      "previousSha256": "a759f562cedc670e36d4ca504e211eb33819fbe29e5fe97b71458d501f0b884c",
+      "sha256": "fcc6f5733a59a195cfa2144e984d8eb7c31d6428fdf7756f9a6c52fd306b8df0",
+      "bytes": 3497,
+      "candidateBlob": "design/releases/candidate-blobs/fcc6f5733a59a195cfa2144e984d8eb7c31d6428fdf7756f9a6c52fd306b8df0",
+      "acceptedPreviousHashes": [
+        "a759f562cedc670e36d4ca504e211eb33819fbe29e5fe97b71458d501f0b884c"
+      ]
+    }
+  }
+}

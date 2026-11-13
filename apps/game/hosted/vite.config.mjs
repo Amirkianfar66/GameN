@@ -3,6 +3,7 @@ import { comicAssetsPlugin } from './comic-assets.mjs';
 import { planetLibraryAssetsPlugin } from './build/planet-library-art.mjs';
 import { crewDrawingAssetsPlugin } from '../../../scripts/crew-drawing-art.mjs';
 import { pregameAssetsPlugin } from '../../../scripts/pregame-art-release.mjs';
+import { foodSupplyAssetsPlugin } from '../../../scripts/food-supply-art.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
 const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/'];
@@ -13,7 +14,7 @@ export default {
   // All Firebase services must register with the client SDK's one app factory.
   // Admin dependencies can otherwise contribute another hoisted @firebase/app.
   resolve: { dedupe: ['@firebase/app'] },
-  plugins: [comicAssetsPlugin(repositoryRoot), planetLibraryAssetsPlugin(repositoryRoot), crewDrawingAssetsPlugin(repositoryRoot), pregameAssetsPlugin(repositoryRoot), {
+  plugins: [comicAssetsPlugin(repositoryRoot), planetLibraryAssetsPlugin(repositoryRoot), crewDrawingAssetsPlugin(repositoryRoot), pregameAssetsPlugin(repositoryRoot), foodSupplyAssetsPlugin(repositoryRoot), {
     name: 'hosted-preview-source-boundary',
     transform(_code, id) {
       const path = id.split('?')[0];

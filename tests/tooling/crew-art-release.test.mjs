@@ -92,10 +92,10 @@ test('compatibility cannot substitute changed current code, erase historical evi
     }
   };
   writeFileSync(join(dir, path), '// unreviewed current consumer');
-  verifyBoth(production ? /^Error: (?:Pregame consumer candidate|Phone UI production consumer): current content differs:/ : /crew consumer content differs/);
+  verifyBoth(production ? /^Error: (?:(?:Pregame consumer candidate|Phone UI production consumer): current content differs:|Food consumer source: content differs:)/ : /crew consumer content differs/);
   cpSync(join(root, path), join(dir, path));
   writeFileSync(join(dir, historical), '// erased historical evidence');
-  verifyBoth(production ? /^Error: (?:Pregame consumer candidate|Phone UI production consumer): preserved previous content differs:/ : /crew consumer content differs/);
+  verifyBoth(production ? /^Error: (?:(?:Pregame consumer candidate|Phone UI production consumer): preserved previous content differs:|Food consumer source: previous content differs:)/ : /crew consumer content differs/);
   cpSync(join(root, historical), join(dir, historical));
   const changed = JSON.parse(readFileSync(join(dir, CREW_CONSUMER_APPROVAL)));
   changed.historicalRuntimeOverrides['design-0.6.0'][path].sha256 = '0'.repeat(64);

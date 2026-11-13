@@ -17,6 +17,8 @@ export const PREGAME_DRAWING_POLICY = 'design/releases/pregame-drawing-approval.
 export const PREGAME_PRODUCTION_DRAWING_POLICY = 'design/releases/pregame-production-drawing-approval.json';
 export const PHONE_UI_PRODUCTION_DRAWING_POLICY = 'design/releases/phone-ui-production-drawing-approval.json';
 export const HOST_ABORT_DRAWING_POLICY = 'design/releases/host-abort-production-drawing-approval.json';
+export const FOOD_SOURCE_DRAWING_POLICY = 'design/releases/food-source-drawing-policy.json';
+const FOOD_SOURCE_DRAWING_POLICY_SHA256 = '7cc2b4c22f787952da72a464e183b58cfab66a117b170c6ee5bb421db104c316';
 const HOST_ABORT_DRAWING_POLICY_SHA256 = '375018d9eb9bdb7fb745bde516e712f3c5b7160cc07e9b60f2b311c702eb84c4';
 const PHONE_UI_PRODUCTION_DRAWING_POLICY_SHA256 = '1ee59db128b1216e8f39e7b4af5893bcb0d01aff3411ae12504859fc0af21039';
 const PREGAME_PRODUCTION_DRAWING_POLICY_SHA256 = '1dafdb0d823f8e561cea94660a02f0cb9a049a92527c92d3f51a2f42e662003b';
@@ -100,9 +102,20 @@ export function readDrawingPolicy(root) {
     throw Error('Host confirmation drawing parent differs');
   // Only exact input hashes are extended. Artwork, ports, styles and metadata stay frozen.
   policy.requiredFiles = { ...policy.requiredFiles, ...abort.requiredFiles };
+  let foodStat;
+  try { foodStat = lstatSync(resolve(root, FOOD_SOURCE_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (foodStat.isSymbolicLink() || !foodStat.isFile()) throw Error('Food drawing policy must be a regular file');
+  const foodBytes = readFileSync(resolve(root, FOOD_SOURCE_DRAWING_POLICY));
+  if (contentSha256(foodBytes) !== FOOD_SOURCE_DRAWING_POLICY_SHA256) throw Error('Food drawing policy content hash differs');
+  const food = JSON.parse(foodBytes);
+  if (food.schema !== 'mothership.food-source-drawing-policy/1' || food.status !== 'technical-source-registration' ||
+    food.parentApprovalSha256 !== HOST_ABORT_DRAWING_POLICY_SHA256) throw Error('Food drawing policy parent differs');
+  for (const key of ['ports', 'requiredFiles', 'sourceHashes', 'buildFiles']) policy[key] = { ...policy[key], ...food[key] };
   return policy;
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/', 'apps/game/hosted/pregame-films/'];
+const isFoodDrawingPath = path => /^apps\/game\/hosted\/planet\/food(?:-|\.)/.test(path);
 const DIRECTORIES = ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src'];
 
 function normalize(value) {
@@ -110,7 +123,7 @@ function normalize(value) {
   return value.replaceAll('\\', '/').replace(/\/+/g, '/').toLowerCase();
 }
 const prototypeLocation = value => /(?:^|\/)(?:board-motion|phone-feedback|phone-kit|board-v2)(?:\/|$)/.test(normalize(value))
-  || /(?:^|\/)design\/pregame-films(?:\/|$)/.test(normalize(value));
+  || /(?:^|\/)design\/(?:pregame-films|food-supply|phone-ui)(?:\/|$)/.test(normalize(value));
 function staticString(node) {
   if (ts.isStringLiteralLike(node)) return node.text;
   if (ts.isParenthesizedExpression(node)) return staticString(node.expression);
@@ -149,7 +162,7 @@ function staticReferences(path, content, location, nonJsPattern) {
 }
 
 export function prototypeReferences(path, content) {
-  return staticReferences(path, content, prototypeLocation, /(?:(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)|design[\\/]pregame-films)[\\/][\w./%\\-]*/gi);
+  return staticReferences(path, content, prototypeLocation, /(?:(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)|design[\\/](?:pregame-films|food-supply|phone-ui))[\\/][\w./%\\-]*/gi);
 }
 export function abilityPrototypeReferences(path, content) {
   return staticReferences(path, content, value => /(?:^|\/)design\/abilities(?:\/|$)/.test(normalize(value)), /design[\\/]abilities[\\/][\w./%\\-]*/gi);
@@ -187,7 +200,7 @@ export async function productionDrawingProblems(root) {
     const entries = await readdir(resolve(root, directory), { withFileTypes: true, recursive: true }).catch(() => []);
     for (const entry of entries) {
       const path = `${entry.parentPath ?? entry.path}/${entry.name}`.replace(`${root}/`, '');
-      if (entry.isSymbolicLink() && DRAWING_DIRECTORIES.some(directory => path === directory.slice(0, -1) || path.startsWith(directory)))
+      if (entry.isSymbolicLink() && (isFoodDrawingPath(path) || DRAWING_DIRECTORIES.some(directory => path === directory.slice(0, -1) || path.startsWith(directory))))
         problems.push(`${path}: symlink in the adopted drawing ports`);
       if (entry.isFile()) files.push(path);
     }
@@ -198,7 +211,7 @@ export async function productionDrawingProblems(root) {
     const port = policy.ports[path], style = policy.styles[path], build = policy.buildFiles[path], metadata = policy.metadataFiles?.[path];
     const reviewedPort = port?.sha256 === hash, reviewedStyle = style?.sha256 === hash, reviewedBuild = build?.sha256 === hash;
     const reviewedMetadata = metadata && acceptedHash(path, metadata.sha256, hash);
-    const drawingPath = DRAWING_DIRECTORIES.some(directory => path.startsWith(directory));
+    const drawingPath = isFoodDrawingPath(path) || DRAWING_DIRECTORIES.some(directory => path.startsWith(directory));
     if (drawingPath) {
       usesDrawingPorts = true;
       if (!port) problems.push(`${path}: unreviewed file in the adopted drawing ports`);
