@@ -1,0 +1,693 @@
+{
+  "scope": "Additional actual hint alignment inspection after the completed95db336-pair run. Width/height/gap checks passed, but wrapper line-box vertical offset differs at200% text. Use Designer's explicitly allowed direct-SVG alternative; native source has not changed during this run.",
+  "source": "95dbfbcef74f5833f2b9a5d0c0742b6e39da4158",
+  "pairs": 336,
+  "exceptions": 0,
+  "measuredOverflow": 0,
+  "verticalMismatches": [
+    {
+      "id": "food-winch-01",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-02",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-03",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-04",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-05",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-06",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-07",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-08",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-09",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-10",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-11",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-12",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-13",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-14",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-15",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-16",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-17",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-18",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-01",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-02",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-03",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-04",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-05",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-06",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-07",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-08",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-09",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-10",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-11",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-12",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-13",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-14",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-15",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-16",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-17",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-18",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-flow-08",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-01",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-02",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-03",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-04",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-05",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-06",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-15",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-01",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-02",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-03",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-04",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-05",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-06",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-07",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-08",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-09",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-10",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-11",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-12",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-15",
+      "profile": "320-568-text2-normal",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-01",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-02",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-03",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-04",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-05",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-06",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-07",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-08",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-09",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-10",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-11",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-12",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-13",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-14",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-15",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-16",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-17",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-winch-18",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-01",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-02",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-03",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-04",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-05",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-06",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-07",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-08",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-09",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-10",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-11",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-12",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-13",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-14",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-15",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-16",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-17",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-panel-18",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-flow-08",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-01",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-02",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-03",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-04",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-05",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-06",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-states-15",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-01",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-02",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-03",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-04",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-05",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-06",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-07",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-08",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-09",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-10",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-11",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-12",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    },
+    {
+      "id": "food-large-15",
+      "profile": "320-568-text2-reduced",
+      "nativeOffset": 11,
+      "referenceOffset": 1
+    }
+  ]
+}

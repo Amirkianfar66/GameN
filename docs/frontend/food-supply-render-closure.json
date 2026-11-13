@@ -90,9 +90,9 @@
     },
     {
       "path": "apps/game/hosted/planet/food-render.mjs",
-      "sha256": "f9a173c7c1d1264ff666ebc2612fd33fb242abd2bab950eba7d7e0861a490d83",
-      "bytes": 35648,
-      "gzipBytes": 11792
+      "sha256": "1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
+      "bytes": 35681,
+      "gzipBytes": 11798
     },
     {
       "path": "apps/game/hosted/planet/food-app.mjs",
@@ -278,7 +278,7 @@
     "design/phone-ui/prototype/fixtures.mjs"
   ],
   "priorFoundationReview": "https://github.com/Amirkianfar66/GameN/issues/235#issuecomment-6854574801",
-  "changesAfterFoundation": "Designer source, UI/icons/drawings/geometry and all 37 SVGs are unchanged. The scoped kit/phone CSS adapter now puts 14 terminal pseudo-elements outside :is(), preserving declarations and specificity. The hint icon wrapper alone gains flex:none. Gauge/tag modules and the existing 17-render/13-host closure remain complete.",
+  "changesAfterFoundation": "Designer source, UI/icons/drawings/geometry and all 37 SVGs are unchanged. Scoped kit/phone CSS puts 14 terminal pseudo-elements outside :is(), preserving declarations and specificity. The hint SVG is the direct flex child, as in the reference. The complete 17-render/13-host closure and gauge/tag modules are retained.",
   "pending": [
     "Designer visual acceptance of the final84-state native packet",
     "Integration exact production registration and combined checks",
@@ -287,7 +287,7 @@
   "reviewCorrections": {
     "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193",
     "nativeBase": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
-    "status": "Source-only correction of the two remaining Designer findings: terminal pseudo-elements outside :is() and a nonshrinking hint-icon wrapper. Browser computed-style/icon checks and refreshed captures await the next timing-slot handoff.",
+    "status": "The two Designer corrections use 14 valid terminal pseudo rules and the explicitly approved direct-SVG hint child, avoiding the wrapper line-box vertical offset at 200% text. Refreshed browser/alignment checks and final capture are pending.",
     "report": "docs/frontend/food-supply-final-style-corrections-2026-11-13.md",
     "designerSource": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
     "ownerApproval": "8caa059629a99908808c939e6a2cfdbf13d18ad2"

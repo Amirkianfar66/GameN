@@ -21,17 +21,23 @@ films and further gameplay features.
   16 original boarding/service and 570 broad database cases passing, with
   zero failures in the broad run. It is not merged here: the actual-time
   7/8/9 matrix, native connected journey and final CI remain required.
-- Frontend: `643b6a236cad19f3d40770b973fa7e2ec4cc1cb7`, PR #239.
+- Frontend: `f34a8c876ab8f3f5265ad48a05f116de9dec80c9`, PR #239.
   The complete closure is 17 render modules plus 13 host/client inputs.
   Native `ed4e1b1c5fab5043dbbc49797168bb0e1850b34b` corrects the two
   [remaining Designer findings](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193):
   terminal pseudo-elements now sit outside scoped `:is()` selectors, and
-  the hint icon wrapper cannot shrink. Only three native files changed; the
+  the hint SVG is the direct flex child, matching the reference. The initial
+  nonshrinking wrapper still sat 10px too low at 200% text; the direct-SVG
+  refinement is the other option explicitly offered by Designer. Only three
+  native files changed from703; the
   other 27 files, 14 Designer pins and 37 SVGs are unchanged. The subsequent
   commit adds development-only Ready touch diagnostics, not a bypass.
   Integration reviewed both corrections. New computed-style assertions,
   336 Food comparisons, 12 ordinary comparisons and full-app smoke checks
-  must run on these exact bytes before renewed Designer acceptance.
+  must run on these exact bytes before renewed Designer acceptance. The
+  intermediate95db336-pair run had zero exceptions/overflow but retained114
+  large-text vertical mismatches; it is preserved as diagnostic evidence.
+  The checker now compares actual icon-versus-text Y alignment as well.
 - Designer Food reference: `cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b`, PR #241,
   over merged #231. Its owner record selects the gauge instead of the withdrawn
   warning banner. The owner explicitly approved the focused exceptions in this
@@ -156,9 +162,9 @@ combined release; this is not a claim about the untested successor.
 
 Current registration hashes:
 
-- Source record: `6c884201b9f82fcc47fc5618d0a2573db4358c1ef23effbe0b2e5f9aefa1ecf1`.
-- Art 0.9 manifest: `2c87809e4c5ed8933acaf80b4438d0c3893eff78506925726ea70de74a0bd474`.
-- Drawing policy: `cfae73e372430d69e3537ed11d04506cdf1245029bbefedeac3aa2f8ed85a51a`.
+- Source record: `e4bcaae511a8924b9248c72c8ef98278be56ecd99bb588861a4a8c6671ff2685`.
+- Art 0.9 manifest: `56d981157f1bcb76155e382859a8886b8f8c164c8cb7b6339a089d4d2533a706`.
+- Drawing policy: `ab7409fca6712df0896a1ef6cc20a6fea0c252c262c3cfff814cc3f39b96c26f`.
 - Static art inventory remains `28c52bf83716003f410f6594d667bb9a8833d7fd6e072056b5c2fe0c1543c7b3`.
 
 Synthetic desktop captures do not establish human playtest, physical-phone,

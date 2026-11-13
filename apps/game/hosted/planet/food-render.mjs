@@ -59,7 +59,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  }
  function taskSkeleton(task){
   hold.releaseAll();taskId=task.taskId;screen=null;selected=null;lastStructure=null;lastHeader=null;replace(frame);
-  const art=h('div.fs-art'),view=h('div.fs-view',{role:'img'},art),hintText=h('span'),hintIcon=h('span',{style:{flex:'none'}});
+  const art=h('div.fs-art'),view=h('div.fs-view',{role:'img'},art),hintText=h('span'),hintIcon=ic('info',{filled:true});
   const hint=h('p.fs-hint',{role:'status','aria-live':'polite'},hintIcon,hintText);
   const controls=h('div.fs-controls',{role:'group','aria-label':`${task.selfControl==='WINCH'?'Winch':'Panel'} controls`});
   const role=h('div.fs-role'),instrument=h('div.food-instrument'),dock=h('div.fs-dock',instrument,controls),panel=h('section.fs-panel',{'aria-label':'Your controls'},role,hint,dock);
@@ -117,7 +117,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   if(roleKey!==nodes.roleKey){nodes.roleKey=roleKey;replace(nodes.role,pill(`${v.role==='winch'?'Winch':'Panel'} · ${v.role==='winch'?'up and down':'left and right'}`,{icon:v.role==='panel'?'lock':'move',tone:'accent'}),
    h('span.fs-who',{'data-state':v.partner},h('b',`${person(v.partnerSeatId).seat} ${v.partnerName}`),` · ${v.partnerRole==='winch'?'Winch':'Panel'}${v.partner==='down'?' · Out':v.partner==='offline'?' · Offline':''}`));}
   nodes.controls.dataset.role=v.role;attr(nodes.controls,'data-landed',v.crate.state==='landed'?'':null);
-  put(nodes.hintText,v.hint.text);if(nodes.hint.dataset.icon!==v.hint.icon){replace(nodes.hintIcon,ic(v.hint.icon,{filled:true}));nodes.hint.dataset.icon=v.hint.icon;}nodes.hint.dataset.tone=v.hint.tone;
+  put(nodes.hintText,v.hint.text);if(nodes.hint.dataset.icon!==v.hint.icon){const icon=ic(v.hint.icon,{filled:true});nodes.hintIcon.replaceWith(icon);nodes.hintIcon=icon;nodes.hint.dataset.icon=v.hint.icon;}nodes.hint.dataset.tone=v.hint.tone;
   const liveIds=new Set(v.buttons.map(b=>control(b,v)));for(const [id,node]of nodes.buttons)node.hidden=!liveIds.has(id);
   replace(nodes.instrument,instrument(v));
   const pose=foodPoseAt(v.task,now,{reduced,guide:v.guide}),art=h('span',{html:foodSceneSvg(pose,{assets,characters:{winch:person(v.task.winchSeatId).character,panel:person(v.task.panelSeatId).character},prefix:'food-native'})});
