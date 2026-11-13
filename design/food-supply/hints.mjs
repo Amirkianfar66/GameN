@@ -64,6 +64,8 @@ export function hintFor(v, recent) {
   // The Winch: one button, Hold.
   const hold = v.buttons.find(b => b.act === 'hold');
   if (c.state === 'intake') {
+    // The early Hold, waiting (the owner, 13 November 2026): nothing is lifted yet.
+    if (c.pending) return say('quiet', 'hourglass', hookHome ? 'Keep holding till the crate is in.' : 'Keep holding till the hook comes.');
     if (!c.settled) return say('quiet', 'hourglass', broke ? 'It broke. A new crate comes up.' : 'Back in the hatch.');
     if (hookHome) return say('next', 'move', broke ? 'Hold to lift the new crate.' : back ? 'Hold again to lift it.' : 'Press and hold to lift it.');
     return say('quiet', 'hourglass', broke ? `Broken. ${partner} fetches a new one.` : `Wait: ${partner} brings the hook.`);

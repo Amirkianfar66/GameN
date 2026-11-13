@@ -113,6 +113,12 @@ The owner asked what the other two questions meant. Designer put them in plain w
 | "If a crate falls on Cleo, should it stay whole, so the Winch can still kill and deliver? … Task will lost" | **A drop loses the Task:** the crate breaks, and with the Panel operator dead no one can fetch another. Only the Panel can kill and still deliver, by the cut after the landing. Conflict 2 is settled | The rules record (`hold-release`, conflict `survivor-paths`); [Hold and let go](food-supply.md#hold-and-let-go) |
 
 
+**On #233 the owner adopted the practice's four Hold behaviours** (13 November 2026, [#233](https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539); Integration recorded it in `rules/overlays/planet-food-task-owner-decision-2026-11-12.json`, `adopted_hold_continuations`). Designer had marked them PROPOSED:
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Adopt all four practice behaviors (Recommended)" | **Let go over the hatch, it drops back in, whole. It lands only from a locked panel. After a stopped drop the brake holds the crate until the next Hold. The early Hold:** Hold works whenever a crate waits in the intake; a hold made before the hook can lift the crate waits, lifting nothing, and the hook lifts the crate the moment the panel is locked over stop 1 and the crate is in. The Winch's phone shows Hold pressed in and "Waiting for the hook", never lifted; the waiting hold is the Winch's alone | [Hold and let go](food-supply.md#hold-and-let-go); the rules record (`hold-release`); `canLift` in `design/food-supply/task.mjs` |
+
 **Then, for Food test 1, the owner answered Designer's #222 questions** (13 November 2026, [#240](https://github.com/Amirkianfar66/GameN/pull/240)):
 
 | What the owner said | What it decides | Where |

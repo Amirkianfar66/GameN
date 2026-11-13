@@ -235,7 +235,7 @@ function setup() {
 
 // ── The Task, live ──────────────────────────────────────────────────────
 const NAMES = { lock: 'LOCK', release: 'RELEASE', raise: 'Hold', lower: 'let-go', key: 'key' };
-const WHY = { stale: 'The crane had moved on.', busy: 'The crate was still moving.', ended: 'The Task was over.', briefing: 'The briefing was still on.', unlocked: 'The panel was moving.', 'not-over-crate': 'The hook was not over the crate.', 'down-already': 'The crate was already down.', 'not-holding': 'The brake had the crate.' };
+const WHY = { stale: 'The crane had moved on.', busy: 'The crate was still moving.', ended: 'The Task was over.', briefing: 'The briefing was still on.', unlocked: 'The panel was moving.', 'down-already': 'The crate was already down.', 'not-holding': 'The brake had the crate.' };
 /** Keys, for a desk: the Panel's Space presses RELEASE or LOCK; the Winch's Space or Up arrow is Hold, held down; Enter turns the key. */
 const KEYS = { ' ': ['release', 'lock', 'hold'], ArrowUp: ['hold'], Enter: ['key'] };
 
@@ -375,7 +375,7 @@ function play() {
     if (g) dock.insertBefore(g, controls);
     gauge = g;
     const p = run.inFlight ? { press: 'sending', act: run.inFlight.act } : {};
-    const sig = JSON.stringify([p.press ?? '', p.act ?? '', run.holding, v.crate.state === 'landed', v.buttons.map(b => [b.act, b.label, b.enabled, b.next, b.hazard, b.zone, b.turned, b.holding, subOf(b, v, p)])]);
+    const sig = JSON.stringify([p.press ?? '', p.act ?? '', run.holding, v.crate.state === 'landed', v.buttons.map(b => [b.act, b.label, b.enabled, b.next, b.hazard, b.zone, b.turned, b.holding, b.pending, subOf(b, v, p)])]);
     if (sig !== last.controls) {
       last.controls = sig;
       if (v.crate.state === 'landed') controls.dataset.landed = ''; else delete controls.dataset.landed;

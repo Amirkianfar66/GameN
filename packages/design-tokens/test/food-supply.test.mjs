@@ -511,7 +511,7 @@ test('the owner\'s changes after the playable test (13 November): one Hold butto
   assert.equal(fallOf(at(moving, leaves(5) - 100), leaves(5) - 100).result, 'break');
   assert.equal(fallOf(at(moving, leaves(2) - 100), leaves(2) - 100).result, 'break');
   // A broken crate: a new one waits in the intake, the hook must fetch it, and the food still comes (mistakes).
-  for (const id of ['let-go-while-moving', 'no-landing-on-the-move', 'let-go-never-stale', 'fetch-a-new-crate', 'brake-holds-it']) assert.ok(EDGES.some(e => e.id === id), id);
+  for (const id of ['let-go-while-moving', 'no-landing-on-the-move', 'let-go-never-stale', 'fetch-a-new-crate', 'early-hold-let-go', 'early-hold-waits-for-the-crate', 'hold-never-stale', 'brake-holds-it']) assert.ok(EDGES.some(e => e.id === id), id);
   const mistakes = run(BOARDS.find(b => b.id === 'mistakes'));
   assert.deepEqual(finalOf(mistakes).broken.map(b => b.on), ['deck']);
   assert.deepEqual(finalOf(mistakes).outcome, { result: 'delivered', packages: FOOD.perDelivery, alone: false });
@@ -562,6 +562,49 @@ test('Food test 1 (#222, 13 November): the food gauge, the return\'s caption, lo
   const css = text('design/food-supply/phone.css');
   for (const rule of ['.fs-clock { flex: none; display: flex; flex-direction: column;', '.fs-food[data-level="empty"] { background: #B3261E;', '.fs-art .tag { width: max-content; flex-wrap: wrap;', '.fs-card:has(> .fs-card-foot) { overflow: hidden; }', '@container fsb (max-width: 12rem)', '.ph > .room-label { z-index: 20; }', '.fs-banner .toast { left: 0; right: 0; width: fit-content;'])
     assert.ok(css.includes(rule), rule);
+});
+
+test('the early Hold (the owner, 13 November, #233): Hold works while a crate waits; held early it waits, the Winch\'s alone', () => {
+  for (const id of ['fetch-a-new-crate', 'early-hold-let-go', 'early-hold-waits-for-the-crate', 'hold-never-stale']) assert.deepEqual(differences(SCENARIOS.find(s => s.id === id)), [], id);
+  // The mistakes board at 0.5 s after its sixth press (the native packet's winch-10): a new crate waits in the
+  // intake, the hook locked over the platform. Hold works, does not glow, and lifts nothing yet.
+  const mistakes = BOARDS.find(b => b.id === 'mistakes');
+  const t = mistakes.steps[5].at + 500;
+  const before = at(run(mistakes), t);
+  assert.equal(before.crate.state, 'intake');
+  assert.deepEqual([before.panel.locked, before.panel.stop], [true, FIXTURES.platform.stop]);
+  const hold0 = view(before, SEATS.winch, t).buttons.find(b => b.act === 'hold');
+  assert.deepEqual([hold0.enabled, hold0.next, hold0.pending, hold0.holding, hold0.label], [true, false, false, false, 'Hold']);
+  // Held now: the hold waits (PENDING) on the Winch's phone alone, and no revision changes; nothing is lifted.
+  const early = act(before, { at: t, seat: SEATS.winch, act: 'raise' });
+  const waiting = early.events.find(e => e.type === 'PENDING');
+  assert.deepEqual(Object.keys(waiting.n), ['winch']);
+  assert.equal(early.state.revision, before.revision);
+  assert.equal(early.state.crate.state, 'intake');
+  const mine = view(early.state, SEATS.winch, t);
+  const hold1 = mine.buttons.find(b => b.act === 'hold');
+  assert.deepEqual([hold1.enabled, hold1.next, hold1.pending, hold1.holding, hold1.label], [true, false, true, false, 'Hold']);
+  assert.equal(hintFor(mine, early.events).text, 'Keep holding till the hook comes.');
+  assert.deepEqual(act(early.state, { at: t + 50, seat: SEATS.winch, act: 'raise' }).events.map(e => e.why), ['holding']);
+  // The Panel's phone never learns of it: not in its view, not in its projection.
+  assert.equal(view(early.state, SEATS.panel, t).crate.pending, false);
+  assert.equal('pending' in projection(early.state, SEATS.panel).crate, false);
+  assert.equal(projection(early.state, SEATS.winch).crate.pending, true);
+  // Let go first: the hold ends (PENDING_OFF); nothing was lifted, so nothing falls or breaks.
+  const off = act(early.state, { at: t + 100, seat: SEATS.winch, act: 'lower' });
+  assert.deepEqual(off.events.map(e => e.type), ['PENDING_OFF']);
+  assert.deepEqual([off.state.crate.state, off.state.broken.length, off.state.revision], ['intake', before.broken.length, before.revision]);
+  // Held on: the LOCK over stop 1 lifts it at once; under the hook, a rising crate is lifted the moment it is in.
+  const fetch = play(SCENARIOS.find(s => s.id === 'fetch-a-new-crate')).events;
+  const atOne = fetch.find(e => e.type === 'LOCKED' && e.stop === FIXTURES.intake.stop);
+  assert.equal(fetch.filter(e => e.type === 'RAISED').at(-1).t, atOne.t);
+  const settling = play(SCENARIOS.find(s => s.id === 'early-hold-waits-for-the-crate')).events;
+  assert.equal(settling.filter(e => e.type === 'RAISED').at(-1).t, settling.find(e => e.type === 'MISSED').t + TIMING.lower);
+  // The handoff: the two events, the Winch's only.
+  const h = JSON.parse(text('design/food-supply/handoff.json'));
+  for (const type of ['PENDING', 'PENDING_OFF']) assert.equal(h.events.find(e => e.type === type)?.seenBy, 'the Winch only', type);
+  assert.ok(!JSON.stringify(h.events).includes('not-over-crate'));
+  assert.match(text('design/food-supply/phone.mjs'), /'Waiting for the hook'/);
 });
 
 test('the handoff and the room art are what the export tool writes', () => {

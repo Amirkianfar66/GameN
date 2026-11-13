@@ -237,7 +237,7 @@
     {
       "id": "hold-release",
       "rule": "The Winch has one button: holding it keeps the crate up; letting go drops it. Let go in the wrong position, the crate breaks, and another must be picked.",
-      "design": "Hold: the finger down sends raise, the finger off sends lower, each resolved when it reaches the server. Over the platform from a locked panel, the let-go lands it; over the console it falls on the Panel operator, the drop, and breaks; anywhere else it breaks, CRASH!, and a new crate rises into the intake: the Panel brings the hook back and locks it over stop 1 (RELEASE works then), and the Winch holds again. A broken crate costs time, not food. PROPOSED inside it: over the hatch it drops back in, whole (a tap at the start costs nothing); from a panel still moving it breaks even over the platform (the landing needs the lock); a finger already down lifts the crate as soon as the hook is over it; a let-go is never stale; after a stopped drop the brake holds the crate until the Winch holds again. It leaves only the Panel a way to kill and still deliver, and the owner keeps it so: a drop loses the Task (\"Task will lost\", 13 November 2026; conflict 2)."
+      "design": "Hold: the finger down sends raise, the finger off sends lower, each resolved when it reaches the server. Over the platform from a locked panel, the let-go lands it; over the console it falls on the Panel operator, the drop, and breaks; anywhere else it breaks, CRASH!, and a new crate rises into the intake: the Panel brings the hook back and locks it over stop 1 (RELEASE works then), and the Winch holds again. A broken crate costs time, not food. Adopted by the owner inside it (13 November 2026, #233): over the hatch it drops back in, whole (a tap at the start costs nothing); from a panel still moving it breaks even over the platform (the landing needs the lock); the early Hold: Hold works whenever a crate waits in the intake, and a hold made before the hook can lift the crate waits on the server, lifting nothing, until the panel is locked over stop 1 and the crate is in; after a stopped drop the brake holds the crate until the Winch holds again. As in the engine, neither a hold nor a let-go is ever stale. It leaves only the Panel a way to kill and still deliver, and the owner keeps it so: a drop loses the Task (\"Task will lost\", 13 November 2026; conflict 2)."
     },
     {
       "id": "panel-speed",
@@ -246,18 +246,18 @@
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "2688a4f121af0a2886a269dd944edebb8034a0840b297002a6464061f56ca4c4",
+    "design/food-supply/task.mjs": "5284e14b0d06952a8f6c66f8eff2506f6cd609d8a45c82404236daa5d047d32e",
     "design/food-supply/layout.mjs": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
     "design/food-supply/machine.mjs": "4c8beb57428bd7bb812ea1ea5c8a8e2132816a8b794dde4fe5bcce5340f8b2dd",
     "design/food-supply/scene.mjs": "401f52aa92f40540b85bd7f6160c13090ca1f583efa224b1ffdd506a542bcfb9",
     "design/food-supply/stage.mjs": "035006e3392987402f724e8724bf7fe3208e8dae6d8381e75b95674debe7325a",
     "design/food-supply/boards.mjs": "d67bb490883014e825ec7b2c9c4a849687a64d410c5bdaaa6a6ef87e7c3a3916",
-    "design/food-supply/scenarios.mjs": "acaa25ced94d1b16d5a5fc9073db92d99e0e46a86a971490ece6f383e797fcfe",
-    "design/food-supply/hints.mjs": "a2404b4d0b6a4fa3bb1308ab46de722b554980e93007c92e10ac6ee01d47b4c3",
-    "design/food-supply/rules.mjs": "68c5c1070e2898a547e64f61edad5ff0495cf99dc8a35e4a9073e9f15507153e",
-    "design/food-supply/phone.mjs": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
-    "design/food-supply/phone.css": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf"
+    "design/food-supply/scenarios.mjs": "bade3b4d0c7f2d7d81de6f31e3152c91a494ba75bd3ce50f4bced506e5a8ebcc",
+    "design/food-supply/hints.mjs": "11fee66ca9e62066c167bfd4a71e7de679b6159a6039e1588e7a031a177d7110",
+    "design/food-supply/rules.mjs": "fc1af2898e6ef5f96b54fd4882e82f8c5b26de50a3d4f635aa288a95b167119b",
+    "design/food-supply/phone.mjs": "070f7604e9ee364f3806712065fb44557b4dbc5523dff886e3a02f1102cbe28d",
+    "design/food-supply/phone.css": "849ab0c510f249f3ab79a5c32da3fa52c54f51857aa041675b315ecded3d61b8"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -682,10 +682,10 @@
       "hazard": "While a LOCK could take the cab's stop (resting at it, snapping to it, or the margin before the panel snaps on to it), LOCK is striped and says 'At 7: <name>'s cab' or 'Moving on to <name>'s cab'.",
       "says": "LOCK says where the panel is: 'At 6: the platform' (glowing), 'At 1: the hatch' (glowing, to fetch a new crate), 'Leaving 6', 'At 7: <name>'s cab' or 'Moving on to <name>'s cab' (striped), 'At 5: over you', 'At <n>'."
     },
-    "press": "The Panel and the keys: one press, one act, one command id; no drag, swipe or gesture. The Winch's Hold (the owner, 13 November 2026): the finger down sends raise and the finger off sends lower, each with its own command id, the finger followed on the whole screen (a finger sliding off the button, or the page losing focus, lets go); a finger already down when Hold starts to work sends the hold then, once per revision; the let-go is sent at once, even while its hold is still on its way, whenever the crate may be held for it; back online with the finger off while the projection shows the crate held, the let-go is sent then. The phone sends the act its button showed, with the Task's id and the revision it showed. While a press is in flight its control shows it and every control waits; a double tap or a held key sends nothing more, and a disabled control sends nothing. A refusal shows to its presser only. After a lost connection the phone keeps the command id, and on recovery fetches the present state and that command's receipt; it never replays queued taps or a missed animation.",
+    "press": "The Panel and the keys: one press, one act, one command id; no drag, swipe or gesture. The Winch's Hold (the owner, 13 November 2026): the finger down sends raise and the finger off sends lower, each with its own command id, the finger followed on the whole screen (a finger sliding off the button, or the page losing focus, lets go); Hold works whenever a crate waits in the intake (the early Hold, adopted by the owner, 13 November 2026, #233): a finger down before the hook can lift the crate sends the hold at once, and the server keeps it waiting (PENDING) until the panel is locked over stop 1 and the crate is in, then lifts it; until then the button shows pressed with an hourglass, labelled Hold, and says \"Waiting for the hook\" (or \"Waiting for the crate\"), never that the crate is up. A finger already down when Hold starts to work sends the hold then, once per revision. The let-go is sent at once, even while its hold is still on its way, whenever the crate may be held, or the hold be waiting, for it; back online with the finger off while the projection shows the crate held, the let-go is sent then. The phone sends the act its button showed, with the Task's id and the revision it showed. While a press is in flight its control shows it and every control waits; a double tap or a held key sends nothing more, and a disabled control sends nothing. A refusal shows to its presser only. After a lost connection the phone keeps the command id, and on recovery fetches the present state and that command's receipt; it never replays queued taps or a missed animation.",
     "next": "The press the cooperative route asks for now glows (amber), only while a press made now would still arrive in time: LOCK while the panel snaps to or rests at the goal (stop 6, or stop 1 to fetch a new crate), until the margin before it snaps on; Hold when the hook is over the crate, and, held, while a let-go lands the crate whenever it arrives in the margin.",
     "keyboard": "Space for RELEASE and LOCK; Space or the up arrow held down for Hold (keydown holds, keyup lets go); Enter for the key. A key press is bound to the act its button showed at keydown; a held key repeats nothing; the other participant's keys do nothing.",
-    "accessibility": "Each button's accessible name says what it would do now (\"Holding. Warning: let go: falls on Cleo.\"); Hold is a toggle button for assistive technology, aria-pressed while the crate is held. The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). Focus stays on the control across state changes (RELEASE and LOCK are one button); a card takes focus when it opens and gives it back when it closes. The hint is a polite live region that changes only with what to do, which is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill. The partner's state (offline, out) stays in the top bar at every text size. Large text: the controls keep their places and grow; the view gives way; the briefing is a reminder that never scrolls, and the instructions are read before the Task (How it works). A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
+    "accessibility": "Each button's accessible name says what it would do now (\"Holding. Warning: let go: falls on Cleo.\"); Hold is a toggle button for assistive technology, aria-pressed while the crate is held or the hold waits (\"Hold. Waiting for the hook.\"). The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). Focus stays on the control across state changes (RELEASE and LOCK are one button); a card takes focus when it opens and gives it back when it closes. The hint is a polite live region that changes only with what to do, which is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill. The partner's state (offline, out) stays on screen at every text size: in the top bar, and at the largest text, where the bar keeps only the names, on the partner's name tag in the view. Large text: the controls keep their places and grow; the view gives way; the briefing is a reminder that never scrolls, and the instructions are read before the Task (How it works). A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
     "command": {
       "name": "TASK_PRESS (a proposal for the shared contract; Backend owns packages/contracts/, with Integration's review)",
       "fields": [
@@ -1016,8 +1016,20 @@
     {
       "type": "RAISED",
       "fields": "by, from (intake), x",
-      "about": "The finger down on Hold, with the panel locked over the hatch: the crate rises out of the intake on the hook; it hangs, settled, TIMING.raise later, with a small swing, and stays up while the finger stays down (the owner, 13 November 2026).",
+      "about": "The finger down on Hold, with the panel locked over the hatch and the crate in: the crate rises out of the intake on the hook; it hangs, settled, TIMING.raise later, with a small swing, and stays up while the finger stays down (the owner, 13 November 2026). A hold that was waiting (PENDING) lifts it the same way the moment it can: on the LOCK over stop 1, or when the crate has risen into the intake.",
       "seenBy": "both participants"
+    },
+    {
+      "type": "PENDING",
+      "fields": "by",
+      "about": "The early Hold (adopted by the owner, 13 November 2026, #233): the finger down on Hold before the hook can lift the crate (the panel not locked over stop 1, or the crate still rising). The server keeps the hold waiting and nothing is lifted; the Winch's phone shows Hold pressed, \"Waiting for the hook\" or \"Waiting for the crate\", never lifted. The Winch's alone: no revision changes.",
+      "seenBy": "the Winch only"
+    },
+    {
+      "type": "PENDING_OFF",
+      "fields": "by",
+      "about": "The finger off Hold while its hold waits: the hold ends. Nothing was lifted, so nothing falls. The Winch's alone: no revision changes.",
+      "seenBy": "the Winch only"
     },
     {
       "type": "TAKEN",
@@ -1052,13 +1064,13 @@
     {
       "type": "MISSED",
       "fields": "on ('intake'), x",
-      "about": "Over the hatch: CLUNK, it drops back in, whole. The Winch holds again to lift it (PROPOSED: a tap at the start costs nothing).",
+      "about": "Over the hatch: CLUNK, it drops back in, whole. The Winch holds again to lift it (adopted by the owner, 13 November 2026: a tap at the start costs nothing).",
       "seenBy": "both participants"
     },
     {
       "type": "BROKEN",
       "fields": "on ('deck' | 'console' | 'platform'), x, count",
-      "about": "Anywhere else, from a panel still moving (even over the platform: PROPOSED), or the drop: the crate breaks, CRASH!, and a new one rises into the intake, settled TIMING.lower later. The Panel brings the hook back over stop 1 and the Winch holds again. A broken crate costs time, not food (the owner, 13 November 2026).",
+      "about": "Anywhere else, from a panel still moving (even over the platform: adopted by the owner, 13 November 2026), or the drop: the crate breaks, CRASH!, and a new one rises into the intake, settled TIMING.lower later. The Panel brings the hook back over stop 1 and the Winch holds again. A broken crate costs time, not food (the owner, 13 November 2026).",
       "seenBy": "both participants"
     },
     {
@@ -1105,7 +1117,7 @@
     },
     {
       "type": "REFUSED",
-      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-this-task | stale | not-your-control | busy | crate-down | unlocked | locked | holding | not-over-crate | not-holding | down-already | landed | not-landed | turned)",
+      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-this-task | stale | not-your-control | busy | crate-down | unlocked | locked | holding | not-holding | down-already | landed | not-landed | turned)",
       "about": "The press did nothing; only the presser is told, and the phone shows the present state.",
       "seenBy": "the presser only"
     },
@@ -2162,7 +2174,7 @@
     },
     {
       "id": "fetch-a-new-crate",
-      "about": "A crate breaks; the new one waits in the intake. Hold does nothing until the hook is over the hatch; Cleo releases the empty hook and locks it over stop 1, and Hana's hold lifts the new crate.",
+      "about": "The early Hold (the owner, 13 November 2026). A crate breaks; the new one waits in the intake. Hana holds at once, with the hook away over the platform: the hold waits, and nothing is lifted. Cleo releases the empty hook and locks it over stop 1, and the waiting hold lifts the new crate then.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2211,24 +2223,231 @@
           "at": 9425,
           "seat": 3,
           "act": "lock"
-        },
-        {
-          "at": 9725,
-          "seat": 8,
-          "act": "raise"
         }
       ],
       "then": {
         "outcome": null,
-        "refused": [
-          "not-over-crate"
-        ],
         "broken": [
           "deck"
         ],
         "locked": [
           5,
           0
+        ],
+        "present": [
+          "PENDING"
+        ],
+        "absent": [
+          "REFUSED",
+          "PENDING_OFF"
+        ],
+        "counts": {
+          "RAISED": 2
+        }
+      }
+    },
+    {
+      "id": "early-hold-let-go",
+      "about": "Held early, then let go before the hook comes: the waiting hold ends, nothing was lifted, and nothing falls. The hook locked over stop 1 then lifts nothing until Hana holds again.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6750,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7075,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 7675,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 7725,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 7775,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 9425,
+          "seat": 3,
+          "act": "lock"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "broken": [
+          "deck"
+        ],
+        "locked": [
+          5,
+          0
+        ],
+        "present": [
+          "PENDING",
+          "PENDING_OFF"
+        ],
+        "absent": [
+          "REFUSED"
+        ],
+        "counts": {
+          "RAISED": 1,
+          "BROKEN": 1
+        }
+      }
+    },
+    {
+      "id": "early-hold-waits-for-the-crate",
+      "about": "Let go over the hatch, the crate drops back in. Held again while it is still settling, under the hook locked over stop 1, the hold waits, and lifts the crate the moment it is in.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 4800,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 4900,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5800,
+          "seat": 3,
+          "act": "release"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "missed": [
+          "intake"
+        ],
+        "present": [
+          "PENDING",
+          "RELEASED"
+        ],
+        "absent": [
+          "REFUSED",
+          "PENDING_OFF"
+        ],
+        "counts": {
+          "RAISED": 2
+        }
+      }
+    },
+    {
+      "id": "hold-never-stale",
+      "about": "A hold is never stale. Made on the picture before Cleo's LOCK over stop 1, it reaches the server after it and lifts the new crate: the finger is on Hold, and the server lifts, takes back or waits by what it holds when the hold arrives.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6750,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7075,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 7775,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 9425,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9475,
+          "seat": 8,
+          "act": "raise",
+          "revision": 5
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "broken": [
+          "deck"
+        ],
+        "locked": [
+          5,
+          0
+        ],
+        "absent": [
+          "REFUSED",
+          "PENDING"
         ],
         "counts": {
           "RAISED": 2
