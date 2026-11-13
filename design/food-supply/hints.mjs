@@ -6,11 +6,16 @@
 // phone (packages/design-tokens/test/food-supply.test.mjs holds them to 40 characters).
 
 import { seatOf } from '../phone-ui/prototype/fixtures.mjs';
-import { FIXTURES } from './task.mjs';
+import { FIXTURES, FOOD } from './task.mjs';
 import { CAST } from './boards.mjs';
 
+// Review fixtures only: the two operators drawn under other names, such as the widest permitted twelve-character
+// name, to check that every name stays whole (phone.html?…&names=long). Null draws the fixtures' own names.
+let renamed = null;
+export function nameOperators(names = null) { renamed = names; }
+
 /** A participant from the fixtures, with their crew character. */
-export const person = role => ({ ...seatOf(CAST[role].seat), character: CAST[role].character });
+export const person = role => ({ ...seatOf(CAST[role].seat), ...(renamed?.[role] ? { name: renamed[role] } : {}), character: CAST[role].character });
 export const other = role => (role === 'winch' ? 'panel' : 'winch');
 
 const say = (tone, icon, text) => ({ tone, icon, text });
@@ -70,3 +75,26 @@ export function hintFor(v, recent) {
   if (overPlatform) return say('caution', 'hourglass', 'Keep holding: wait for the swing.');
   return say('quiet', 'hourglass', `Keep holding. ${partner} moves it.`);
 }
+
+// ── The food count's words, on every phone ─────────────────────────────
+
+/**
+ * The food count in words: packages, as the owner decided (12 November 2026), from the server's count of doses
+ * (two a package). A single dose is half a package, written "½": "½ package", "1 package", "4½ packages",
+ * "0 packages".
+ */
+export function packagesText(doses) {
+  const whole = Math.floor(doses / FOOD.dosesPerPackage), half = doses % FOOD.dosesPerPackage !== 0;
+  const one = doses === FOOD.dosesPerPackage || (whole === 0 && half);
+  return `${whole === 0 && half ? '' : whole}${half ? '½' : ''} ${one ? 'package' : 'packages'}`;
+}
+
+/**
+ * The food warning's title on every phone, while one package or less remains (FOOD.warnAt), or null above it
+ * (#222, 13 November 2026): "Food low: 1 package left", "Food low: ½ package left", and at none "No food left".
+ */
+export function foodWarning(doses) {
+  if (doses > FOOD.warnAt * FOOD.dosesPerPackage) return null;
+  return doses <= 0 ? 'No food left' : `Food low: ${packagesText(doses)} left`;
+}
+export const FOOD_WARNING_SUB = 'Each meal takes half a package. A Food Supply Task adds five.';

@@ -32,7 +32,7 @@
     {
       "id": "food-warning",
       "rule": "The food warning appears when one package remains.",
-      "design": "FOOD.warnAt 1: the banner \"Food low: 1 package left\" on every phone while one package or less remains (a meal takes half a package: \"Food low: ½ package left\")."
+      "design": "FOOD.warnAt 1: a banner on every phone while one package or less remains, titled \"Food low: 1 package left\", \"Food low: ½ package left\" (a meal takes half a package) and, with none, \"No food left\"; under it, \"Each meal takes half a package. A Food Supply Task adds five.\" (#222, 13 November 2026)."
     },
     {
       "id": "eating",
@@ -254,10 +254,10 @@
     "design/food-supply/stage.mjs": "035006e3392987402f724e8724bf7fe3208e8dae6d8381e75b95674debe7325a",
     "design/food-supply/boards.mjs": "d67bb490883014e825ec7b2c9c4a849687a64d410c5bdaaa6a6ef87e7c3a3916",
     "design/food-supply/scenarios.mjs": "acaa25ced94d1b16d5a5fc9073db92d99e0e46a86a971490ece6f383e797fcfe",
-    "design/food-supply/hints.mjs": "e91fad0698fcbc238b3255dd98f003cdac3ff0d6573457369a6758741fc67ff9",
-    "design/food-supply/rules.mjs": "c3f8322f5f4d41d65e8bc6e7e3cc8a4a4cebe1da95dfcecfd6725a0df62dbb93",
-    "design/food-supply/phone.mjs": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
-    "design/food-supply/phone.css": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b"
+    "design/food-supply/hints.mjs": "36d6a8b6e6d796fb6af589c3ef9d1e445cc12bffb426d48da689e6eae7e91ddb",
+    "design/food-supply/rules.mjs": "2f2dac13f354ef9a307ffdbd7de2effaa95295e1ec968d8088bea02a3bf1b5ea",
+    "design/food-supply/phone.mjs": "d1d839d8c086053735622e1b38ccdc11f7f3aca744941a9f24e75941ba2f7c4e",
+    "design/food-supply/phone.css": "2813bf6cd8a1be78034cfb25ab0f1d9f915c9027c80a6c0fe49a7ffe4f822965"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -793,6 +793,25 @@
     "eating": "Each player consumes one dose at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (the owner, 11 November 2026). The owner set the rest on Designer's recommendation (12 November 2026): a package holds two doses; the Eating step is the end of each player's own ordinary turn (a Pass or a timeout too), in the Jail as well, and patients in the Hospital do not eat; with the stock short, the turn order decides who eats; a player who goes hungry becomes Injured at the round's end, after the retained attacks and actions and before Rescue, in the round's turn order, and goes to the Hospital under its existing rules; a player already Injured or Eliminated by then gets nothing more, and a hungry player can be healed from the next round (the owner, 13 November 2026). Hunger is not an attack: Protection and Clone do not stop it.",
     "server": "The server takes each dose when the turn ends. Nothing is taken from the artwork, and a ship-life visit that never played decides nothing.",
     "shown": "The count on every phone, in packages: a delivery as five more, each meal as half a package less; the warning while one package or less remains.",
+    "words": {
+      "about": "The exact words (#222, 13 November 2026), from the server's dose count; a single dose is half a package, written \"½\" (hints.mjs packagesText and foodWarning).",
+      "count": {
+        "0": "0 packages",
+        "1": "½ package",
+        "2": "1 package",
+        "9": "4½ packages",
+        "12": "6 packages"
+      },
+      "warning": {
+        "0": "No food left",
+        "1": "Food low: ½ package left",
+        "2": "Food low: 1 package left",
+        "above": "No warning above one package (2 doses)."
+      },
+      "warningSub": "Each meal takes half a package. A Food Supply Task adds five.",
+      "delivery": "Food stock: 6 packages (+5)",
+      "largeText": "At the largest text on a small phone (a banner under 12 rem wide) the warning keeps its title; its second line is hidden on screen and still read by screen readers."
+    },
     "sync": "Meals and hunger follow the selected reality, like any physical effect: a branch inherits the count when it is made; Sync keeps the selected reality's count and its hungry players. The Task, and so its delivery, comes before any branch.",
     "economy": "Five packages are ten doses: one delivery a round feeds up to ten players. Game Balance to check it (open item paths)."
   },
@@ -1204,7 +1223,7 @@
   ],
   "visibility": {
     "participants": "Both see the whole Supply Room and its crane: the panel running or locked, the crate's swing, every press's effect, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
-    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. They come back at the same moment whatever happened, so the time tells nothing. The result only through the food count: a delivery raises it by five, and nothing says how the Task went (the owner, 12 November 2026).",
+    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. They come back at the same moment whatever happened, so the time tells nothing. The result only through the food count: a delivery raises it by five, and nothing says how the Task went (the owner, 12 November 2026). On the common return the board's checkpoint (FOOD_RETURNED) is captioned \"After Food Supply · Round N\" (\"Current board · shared: After Food Supply · Round N\" on a phone's own current board): N is the round the Task ran in, and the caption names the step only, never a delivery, a death or a cause (#222, 13 November 2026).",
     "ask": "A Partner request and its answer are private to the two players (the owner, on Designer's recommendation): no one else learns who was asked, or that someone declined. While a request waits, the others see only that someone is asking. The next volunteer needs no message: the Food Supply step stays open to anyone else.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
     "protection": "Never shown. The server reads it from the game at each press that would kill, and a block uses it up. A stop is the same CLANK! whether Protection or the catch's luck (1 in 4) caused it, so it proves nothing (the owner, 12 November 2026).",

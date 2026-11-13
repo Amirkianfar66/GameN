@@ -22,6 +22,8 @@
 //  - the owner's changes after the playable test (13 November): the Winch's one Hold button (a let-go
 //    never stale, a crate let go in the wrong place broken and a new one fetched) and the click twice
 //    as fast;
+//  - Food test 1's interface items (#222, 13 November): the food count's words, the return's caption,
+//    and names up to twelve characters drawn whole at the largest text;
 //  - every hint fits the largest text; every motion cue has a Reduce motion form;
 //  - the handoff and the room art are what the export tool writes; the review files are recorded;
 //    and nothing in the game's code refers to the package.
@@ -34,7 +36,7 @@ import { BOXES, CRATE, HANG, OPERATORS, REGIONS, VIEW, stopX } from '../../../de
 import { BOARDS, CAST, MOMENTS } from '../../../design/food-supply/boards.mjs';
 import { CUES, run } from '../../../design/food-supply/stage.mjs';
 import { EDGES, SCENARIOS, differences, play } from '../../../design/food-supply/scenarios.mjs';
-import { hintFor } from '../../../design/food-supply/hints.mjs';
+import { FOOD_WARNING_SUB, foodWarning, hintFor, nameOperators, packagesText } from '../../../design/food-supply/hints.mjs';
 import { CONFLICTS, OPEN_ITEMS, RULES, VISIBILITY } from '../../../design/food-supply/rules.mjs';
 import { build, roomArt } from '../../../design/tools/food-supply-export.mjs';
 import { NETS, createPractice, surprise } from '../../../design/food-supply/practice.mjs';
@@ -527,6 +529,37 @@ test('the owner\'s changes after the playable test (13 November): one Hold butto
   assert.match(h.timing.confirmed.hold, /one button/);
   assert.match(h.timing.confirmed.click, /twice as fast/);
   assert.ok(h.events.some(e => e.type === 'BROKEN') && h.events.some(e => e.type === 'TAKEN'));
+});
+
+test('Food test 1 (#222, 13 November): the food count\'s words, the return\'s caption, long names', () => {
+  // The count in packages from the server's doses (two a package); a single dose is "½".
+  assert.deepEqual([0, 1, 2, 3, 9, 10, 12].map(packagesText), ['0 packages', '½ package', '1 package', '1½ packages', '4½ packages', '5 packages', '6 packages']);
+  // The warning, on every phone while one package or less remains, and none above it.
+  assert.equal(FOOD.warnAt * FOOD.dosesPerPackage, 2);
+  assert.deepEqual([2, 1, 0].map(foodWarning), ['Food low: 1 package left', 'Food low: ½ package left', 'No food left']);
+  assert.equal(foodWarning(3), null);
+  assert.equal(FOOD_WARNING_SUB, 'Each meal takes half a package. A Food Supply Task adds five.');
+  const phone = text('design/food-supply/phone.mjs');
+  assert.doesNotMatch(phone, /On every phone\. Each meal|Food: \$\{n\} packages/, 'no build note or decimal count on the phone');
+  // The handoff carries the exact words, and the return's caption names the step only.
+  const handoff = JSON.parse(text('design/food-supply/handoff.json'));
+  assert.equal(handoff.food.words.warning[1], 'Food low: ½ package left');
+  assert.equal(handoff.food.words.warning[0], 'No food left');
+  assert.equal(handoff.food.words.delivery, 'Food stock: 6 packages (+5)');
+  assert.match(VISIBILITY.others, /captioned "After Food Supply · Round N" \("Current board · shared: After Food Supply · Round N"/);
+  // Names up to twelve characters: the review fixture draws both operators so, and every hint names them whole.
+  nameOperators({ winch: 'WWWWWWWWWWWW', panel: 'WWWWWWWWWWWW' });
+  try {
+    for (const id of Object.keys(BOARDS)) for (const role of ['winch', 'panel']) for (const f of run(BOARDS[id])) {
+      const v = view(f.state, SEATS[role], f.at);
+      const words = hintFor(v, f.events).text;
+      if (words.includes('WWW')) assert.match(words, /WWWWWWWWWWWW/, `${id} ${role}: the name whole`);
+    }
+  } finally { nameOperators(null); }
+  // The large-text rules the phones rely on (phone.css): tags that wrap their state, pinned answers, banners that keep their title.
+  const css = text('design/food-supply/phone.css');
+  for (const rule of ['.fs-art .tag { width: max-content; flex-wrap: wrap;', '.fs-card:has(> .fs-card-foot) { overflow: hidden; }', '@container fsb (max-width: 12rem)', '.ph > .room-label { z-index: 20; }', '.fs-banner .toast { left: 0; right: 0; width: fit-content;'])
+    assert.ok(css.includes(rule), rule);
 });
 
 test('the handoff and the room art are what the export tool writes', () => {

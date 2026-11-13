@@ -179,6 +179,7 @@ function flow() {
     ['s=volunteer&step=starting', '7 · Volunteer: starting'], ['s=task&board=cooperation&t=2500&as=panel', '8 · Both: briefing'], ['s=away', '9 · Another player: the board shows who is away'],
     ['s=return&board=cooperation&as=winch', '10 · Return after a delivery'], ['s=return&board=cooperation&as=other', '11 · Another player after a delivery: the food count only'], ['s=return&board=chop&as=other', '12 · Another player after a death, nothing delivered: the board only'],
     ['s=stock&n=1', '13 · Food warning: one package, on every phone'], ['s=volunteer&step=rested', '14 · Next round: the two cannot go for food'],
+    ['s=stock&n=0.5', '15 · Food warning: half a package'], ['s=stock&n=0', '16 · Food warning: no food left'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }
@@ -259,7 +260,7 @@ function motion() {
 }
 
 function large() {
-  app.append(header('Phones at 320 x 568 with the Largest text', 'The game\'s 200% text on the smallest phone the pack reviews. The view gives way to the words, down to a letterboxed strip; the controls keep their places (the Winch\'s one Hold button; the Panel\'s one big button); the role row and the meter\'s legend go, and the partner\'s state moves into the top bar; the briefing is a reminder that never scrolls. Each phone reports its own layout below it.'));
+  app.append(header('Phones at 320 x 568 with the Largest text', 'The game\'s 200% text on the smallest phone the pack reviews. The view gives way to the words, down to a letterboxed strip; the controls keep their places (the Winch\'s one Hold button; the Panel\'s one big button); the role row and the meter\'s legend go, and the top bar keeps only the names, so the partner\'s state shows on their name tag in the view, beside any danger in the hint; the briefing is a reminder that never scrolls. Names stay whole up to the longest permitted, twelve letters; a banner keeps its title; the Partner\'s answers stay in sight. Each phone reports its own layout below it.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     ['s=task&board=cooperation&t=2500&as=winch', 'Briefing: no scrolling'], [`s=task&board=cooperation&t=${B + 300}&as=winch`, 'Winch: Hold next'],
@@ -267,6 +268,9 @@ function large() {
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel`, 'Panel: LOCK now'], [`s=task&board=cooperation&t=${LANDED + 200}&as=panel`, 'Panel: landed'],
     [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch`, 'Winch: Cleo offline and the panel at the cab'], [`s=task&board=chop&t=${CAB_AT + 2300}&as=panel`, 'Lost'],
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK not done'],
+    // The longest permitted names (twelve characters) stay whole: on the name tags, in the hint and on the buttons (#222).
+    [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch&names=long`, 'Twelve-letter names: the partner offline, the panel at the cab'], [`s=task&board=chop&t=${CAB_AT - 100}&as=panel&names=long`, 'Twelve-letter names: a LOCK would cut'],
+    ['s=called&names=long', 'Twelve-letter names: the Partner request, its answers in sight'], ['s=stock&n=0.5', 'Food warning: half a package'],
   ]) grid.append(phone(`${q}&text=2`, { width: 320, height: 568, scale: 1, safe: '20,0', label, measured: true }));
   app.append(grid);
 }

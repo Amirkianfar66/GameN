@@ -28,7 +28,7 @@ import { paintRoom, ROOM_NAMES } from '../phone-ui/prototype/art.mjs';
 import { board as fixtureBoard, seatOf, FIXTURE_LABEL } from '../phone-ui/prototype/fixtures.mjs';
 import { view, tick, ROLES, TIMING, FOOD, FIXTURES, STOPS, ZONES } from './task.mjs';
 import { boardOf, CAST } from './boards.mjs';
-import { hintFor, person, other } from './hints.mjs';
+import { hintFor, person, other, nameOperators, packagesText, foodWarning, FOOD_WARNING_SUB } from './hints.mjs';
 import { CUES, run, poseAt } from './stage.mjs';
 import { sceneSvg } from './scene.mjs';
 import { BOXES, TAGS, VIEW } from './layout.mjs';
@@ -139,8 +139,9 @@ function taskScreen(root, p) {
   const reduced = p.motion === 'reduced';
   const you = person(role), them = person(other(role));
   const pose = poseAt(frames, t, { reduced });
-  // The partner's state stays in the top bar at every text size: at the largest the role row goes, and the
-  // hint may be busy with a danger, but the player must still know their partner is offline or out.
+  // The partner's state, offline or out, stays on screen at every text size, even while the hint shows a danger:
+  // here in the top bar, and at the largest text, where the bar keeps only the names and the role row goes, on
+  // the partner's name tag in the view (#222, 13 November 2026).
   const sub = v.partner === 'offline' ? `${them.name} is offline` : v.partner === 'down' ? `${them.name} is out` : `Food Supply · you run the ${ROLES[role].name}`;
   root.append(topBar({ kind: 'pair', pair: [you, them], sub, seconds: v.phase === 'ended' ? null : v.secondsLeft, urgentAt: 10, menu: {} }));
   if (v.partner !== 'alive') root.querySelector('.tb').dataset.partner = v.partner;
@@ -167,6 +168,9 @@ function taskScreen(root, p) {
     h('p.fs-hint', { 'data-tone': hint.tone, role: 'status', 'aria-live': 'polite' }, ic(hint.icon, { filled: true }), h('span', hint.text)),
     h('div.fs-dock', v.crate.state === 'landed' || v.phase === 'ended' ? null : role === 'panel' ? sweepStrip(v) : swingMeter(v), controls));
   root.append(h('div.fs-screen', { style: { top: `${top}px` } }, viewEl, panel));
+  // The tags are fitted again once the fonts have loaded and whenever the view changes size.
+  fitTags(art, viewEl);
+  if (typeof ResizeObserver === 'function') new ResizeObserver(() => fitTags(art, viewEl)).observe(viewEl);
   // Cards: the briefing, the victim's end, the outcome. After a kill, a card waits for the impact to play
   // (CUES.impact), so both participants see the cause before the card covers the view.
   const kill = frames.find(f => f.at <= t && f.events.some(e => e.type === 'KILLED'));
@@ -182,6 +186,7 @@ function taskScreen(root, p) {
   pressState(root, p, top);
   wireControls(controls, p);
   window.__fsLayout = measure(root, { viewEl, panel, controls });
+  document.fonts?.ready.then(() => { fitTags(art, viewEl); window.__fsLayout = measure(root, { viewEl, panel, controls }); });
 }
 
 /** What the layout did at this size: the view's height, whether every control is whole on screen, whether a word is cut. */
@@ -207,6 +212,33 @@ function measure(root, { viewEl, panel, controls }) {
     if (r.left < v.left - 0.5 || r.right > v.right + 0.5 || r.bottom > v.bottom + 0.5) problems.push(`the tag "${t.textContent}" leaves the view`);
   }
   return { view: Math.round(viewEl.getBoundingClientRect().height), hintScrolls: scrolls, problems };
+}
+
+/**
+ * Every name tag stays whole inside the view, at every text size and with the longest permitted name (twelve
+ * characters, such as WWWWWWWWWWWW; #222, 13 November 2026). Hana's tag ends at the cab's right edge and grows to
+ * the left, at most to 4 px from the view's edge; Cleo's is centred on the console, at most 8 px narrower than
+ * twice the room on its nearer side. A tag wider than that puts its state ("· Offline", "· Out") on a second line,
+ * and a name wider than a whole line breaks; a tag that grows taller moves up to stay inside the view. If the two
+ * tags still meet (the smallest view, long names), the player's own "You" tag gives way: the partner's, which
+ * carries their state, stays whole.
+ */
+function fitTags(art, viewEl) {
+  const tags = [...art.querySelectorAll('.tag')];
+  for (const tag of tags) {
+    tag.dataset.top ??= tag.style.top;
+    Object.assign(tag.style, { top: tag.dataset.top, maxWidth: '', display: '' });
+  }
+  const v = viewEl.getBoundingClientRect(), a = art.getBoundingClientRect();
+  for (const tag of tags) {
+    const x = a.left + (parseFloat(tag.style.left) / 100) * a.width;
+    const room = tag.dataset.anchor === 'end' ? x - v.left - 4 : 2 * Math.min(x - v.left, v.right - x) - 8;
+    tag.style.maxWidth = `${Math.max(0, Math.floor(room))}px`;
+    const r = tag.getBoundingClientRect();
+    if (r.bottom > v.bottom - 2) tag.style.top = `${Math.max(0, Math.floor(r.top - a.top - (r.bottom - v.bottom + 2)))}px`;
+  }
+  const [p, q] = tags.map(t => t.getBoundingClientRect());
+  if (p && q && p.left < q.right && q.left < p.right && p.top < q.bottom && q.top < p.bottom) for (const t of tags) if (t.dataset.self !== undefined) t.style.display = 'none';
 }
 
 /**
@@ -306,7 +338,7 @@ function volunteer(root, p) {
   const rested = step === 'rested';
   const closed = step === 'closed';
   roomView(root, { seats, self: CAST.winch.seat, top: closed ? turnBar() : stepBar(24, rested ? 4 : 3), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: step !== 'partner' });
-  const asked = seatOf(CAST.panel.seat).name;
+  const asked = person('panel').name;
   if (closed || step === 'busy') {
     // Outside the step, the sheet still opens: How it works is read here, outside any timed window. In the
     // step, one request at a time: while another waits, the row names no one.
@@ -335,7 +367,7 @@ function volunteer(root, p) {
       list(...choices.map(s => {
         const away = s.location === 'Hospital' || s.location === 'Jail';
         const went = WENT_LAST_ROUND.includes(s.seat);
-        return row({ lead: h('b.num', String(s.seat)), title: s.name, sub: went ? 'Went for food last round' : away ? 'Not available now' : s.location, disabled: away || went, trail: s.seat === CAST.panel.seat ? ic('check', { filled: true }) : null });
+        return row({ lead: h('b.num', String(s.seat)), title: s.seat === CAST.panel.seat ? asked : s.name, sub: went ? 'Went for food last round' : away ? 'Not available now' : s.location, disabled: away || went, trail: s.seat === CAST.panel.seat ? ic('check', { filled: true }) : null });
       })),
       groupNote('If the player you ask declines, the next volunteer goes. Last round\'s two, and anyone in the Hospital or the Jail, cannot go. The game picks the controls at random.'),
     ], foot: button(`Ask ${asked}`, { icon: 'supply', block: true, go: 's=volunteer&step=asking' }) }));
@@ -372,10 +404,15 @@ function volunteer(root, p) {
 function called(root, p) {
   const seats = fixtureBoard({ roster: 9 });
   const { top } = roomView(root, { seats, self: CAST.panel.seat, top: stepBar(21) });
-  const volunteerName = seatOf(CAST.winch.seat).name;
-  const style = { top: `${top + 60}px`, maxHeight: `calc(100% - ${top + 72}px)` };
+  const volunteerName = person('winch').name;
+  // At the largest text on a small phone (the screen under 14 rem wide), a card starts right under the top bar and
+  // leaves its stamp out (its title says the same), so the request's words and both answers fit (#222).
+  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  const tight = root.clientWidth / rem < 14;
+  const style = tight ? { top: `${top + 8}px`, maxHeight: `calc(100% - ${top + 20}px)` } : { top: `${top + 60}px`, maxHeight: `calc(100% - ${top + 72}px)` };
+  const tightAttr = tight ? '' : null;
   if (p.answer === 'join') {
-    root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Joined a Task', style },
+    root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Joined a Task', 'data-tight': tightAttr, style },
       h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner'),
       h('h2', `You joined ${volunteerName}'s Food Supply Task`),
       h('p', 'You are going to the Supply Room. Your place in Room B is kept for your return.'),
@@ -383,22 +420,26 @@ function called(root, p) {
     return;
   }
   if (p.answer === 'late-withdrawn' || p.answer === 'late-expired') {
-    root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Too late to join', style },
-      h('span.stamp.fs-stamp', 'Too late'),
-      h('h2', 'Too late to join'),
-      h('p', p.answer === 'late-withdrawn' ? `${volunteerName} had withdrawn the request before your answer arrived.` : `The ${Math.round(TIMING.answer / 1000)} seconds ran out before your answer arrived. It counts as a decline.`),
-      h('p', 'You stay in Room B.'),
-      h('div.fs-answer', button('OK', { block: true }))));
+    root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Too late to join', 'data-tight': tightAttr, style },
+      h('div.fs-card-body',
+        h('span.stamp.fs-stamp', 'Too late'),
+        h('h2', 'Too late to join'),
+        h('p', p.answer === 'late-withdrawn' ? `${volunteerName} had withdrawn the request before your answer arrived.` : `The ${Math.round(TIMING.answer / 1000)} seconds ran out before your answer arrived. It counts as a decline.`),
+        h('p', 'You stay in Room B.')),
+      h('div.fs-card-foot', h('div.fs-answer', button('OK', { block: true })))));
     return;
   }
   const joining = p.answer === 'joining';
-  root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Asked to join a Task', style },
-    h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner request'),
-    h('h2', `${volunteerName} asks you to join the Food Supply Task`),
-    h('p', 'You would go to the Supply Room together, one of you on each control. Your place in Room B is kept for your return.'),
-    h('p', 'If you join, neither of you can go for food next round.'),
-    h('div.fs-answer', button('Decline', { kind: 'secondary', block: true, disabled: joining }), button(joining ? 'Joining…' : 'Join', { icon: joining ? null : 'check', block: true, busy: joining, disabled: joining, go: 's=called&answer=join' })),
-    h('p.fs-timer', `Answer within ${Math.round(TIMING.answer / 1000)} s. No answer counts as a decline.`)));
+  // The answers stay in sight at every text size: when the words need more room than the card has, they scroll
+  // above Decline and Join, and the time to answer stays under them (#222, 13 November 2026).
+  root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Asked to join a Task', 'data-tight': tightAttr, style },
+    h('div.fs-card-body',
+      h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner request'),
+      h('h2', `${volunteerName} asks you to join the Food Supply Task`),
+      h('p', 'You would go to the Supply Room together, one of you on each control. Your place in Room B is kept for your return.'),
+      h('p', 'If you join, neither of you can go for food next round.')),
+    h('div.fs-card-foot', h('div.fs-answer', button('Decline', { kind: 'secondary', block: true, disabled: joining }), button(joining ? 'Joining…' : 'Join', { icon: joining ? null : 'check', block: true, busy: joining, disabled: joining, go: 's=called&answer=join' })),
+    h('p.fs-timer', `Answer within ${Math.round(TIMING.answer / 1000)} s. No answer counts as a decline.`))));
 }
 
 /**
@@ -445,18 +486,21 @@ function returned(root, p) {
   // The owner, 12 November 2026: the other players learn the result only through the food count. A delivery shows
   // as the new count on every phone, naming no Task; otherwise they see only the board.
   if (as === 'other') {
-    if (o.result === 'delivered') root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(`Food stock: ${STOCK_BEFORE + o.packages} packages (+${o.packages})`, 'supply')));
+    if (o.result === 'delivered') root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(`Food stock: ${packagesText((STOCK_BEFORE + o.packages) * FOOD.dosesPerPackage)} (+${o.packages})`, 'supply')));
     return;
   }
   const text = !end.alive[as] ? 'You are out: you were killed on the Task.' : o.result === 'delivered' ? `Back in Room B. Delivered: +${o.packages} packages.` : o.result === 'cancelled' ? 'Back in Room B. The Task was cancelled.' : 'Back in Room B. The Task was lost.';
   root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, toast(text, o.result === 'delivered' ? 'check' : 'info')));
 }
 
+
 function stock(root, p) {
-  const n = Number(p.n ?? 1);
+  const doses = Math.round(Number(p.n ?? 1) * FOOD.dosesPerPackage);
   const seats = fixtureBoard({ roster: 9 });
   const { top } = roomView(root, { seats, self: 4, room: 'room-a', top: turnBar() });
-  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'warning', title: n === 1 ? 'Food low: 1 package left' : `Food: ${n} packages`, sub: 'On every phone. Each meal takes half a package; a Food Supply Task adds five.' })));
+  // Above one package there is no warning: the count shows only as a delivery's new total.
+  const title = foodWarning(doses);
+  if (title) root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'warning', title, sub: FOOD_WARNING_SUB })));
 }
 
 const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, stock, howto };
@@ -464,8 +508,12 @@ const SCREENS = { task: taskScreen, volunteer, called, away, return: returned, s
 // The screen's parts, for the playable test (./play.mjs), which draws the same screen live.
 export { subOf, control, sweepStrip, swingMeter, briefingCard, outcomeCard, endCard, describe };
 
+// The widest permitted name: twelve characters (#222).
+const LONG_NAME = 'WWWWWWWWWWWW';
+
 export function render(p) {
   applyEnvironment(p);
+  nameOperators(p.names === 'long' ? { winch: LONG_NAME, panel: LONG_NAME } : null);
   const root = h('div.ph', { 'data-screen': `food-${p.s}`, 'data-motion': p.motion === 'reduced' ? 'reduced' : null });
   if (p.safe) {
     const [t, b] = p.safe.split(',').map(Number);
@@ -478,6 +526,8 @@ export function render(p) {
     if (Number(p.safe.split(',')[1]) > 0) root.append(h('div.ph-home', { 'aria-hidden': 'true' }));
   }
   root.append(h('span.fs-label-fixture', FIXTURE_LABEL));
+  // A card, or a card's words, longer than the room they have scroll, and their last lines fade to say so.
+  for (const c of root.querySelectorAll('.fs-card, .fs-card-body')) if (c.scrollHeight > c.clientHeight + 1) c.dataset.scrolls = '';
   document.title = `Food Supply · ${p.s ?? 'task'}`;
   window.__phoneReady = true;
 }

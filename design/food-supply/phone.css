@@ -117,7 +117,9 @@
 .fs-ctl[data-sending] .fs-face::after { content: ""; width: 18px; height: 18px; margin-left: 8px; border-radius: 50%; border: 3px solid currentColor; border-right-color: transparent; animation: fs-spin 0.8s linear infinite; }
 .ph[data-motion="reduced"] .fs-ctl[data-sending] .fs-face::after { animation: none; border-right-color: currentColor; opacity: 0.6; }
 @keyframes fs-spin { to { transform: rotate(360deg); } }
-/* The partner's state in the top bar: offline or out, at every text size. */
+/* The partner's state, offline or out, is on screen at every text size: in the top bar, and at the largest text
+   (where the bar keeps only the two names) on the partner's name tag in the view, beside any danger in the hint.
+   The tag is always whole and inside the view (phone.mjs fitTags). */
 .tb[data-partner] .tb-sub { color: #F4EBDD; font-weight: 700; }
 /* The briefing reminder: two lines and the count, never scrolled. */
 .fs-brief ul { margin: 0; }
@@ -136,8 +138,9 @@
   .fs-role { display: none; }
   .fs-legend { display: none; }
   .fs-view { min-height: 84px; }
-  /* The hint keeps two lines: on the Winch's phone it is the only place that says the panel is over the cab. */
-  .fs-hint { padding: 8px 10px; flex-shrink: 0; min-height: calc(2.6em + 16px); }
+  /* The hint keeps two lines: on the Winch's phone it is the only place that says the panel is over the cab. When
+     the words still need more room (a long name), the hint scrolls past its second line, so the controls stay whole. */
+  .fs-hint { padding: 8px 10px; flex-shrink: 1; min-height: calc(2.6em + 16px); }
   .fs-meter { height: 28px; }
   .fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"] { min-height: 0; padding-block: 4px; font-size: 1rem; }
   .fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"] .fs-sub { display: none; }
@@ -154,4 +157,45 @@
   .fs-brief h2 { font-size: 1.125rem; }
   .fs-brief .fs-count { font-size: 1.5rem; }
   .fs-brief li { font-size: 0.875rem; }
+}
+
+/* ── 320 × 568 with 200% text, and the longest names (#222, 13 November 2026) ─────────────────────────── */
+
+/* Words that carry a name stay whole: they wrap between words, and break inside a name only when the name alone
+   is wider than the line (a permitted name has twelve characters, such as WWWWWWWWWWWW). */
+.fs-hint > span, .fs-ctl .fs-label, .fs-ctl .fs-sub, .fs-card :is(h2, p, li), .fs-who, .fs-banner .banner-text, .fs-banner .toast > span { min-width: 0; overflow-wrap: anywhere; }
+/* A name tag holds a whole name: when the tag would leave the view, its state ("· Offline", "· Out") goes to a
+   second line (phone.mjs fitTags gives each tag the width it has on its side of its anchor). */
+.fs-art .tag { width: max-content; flex-wrap: wrap; height: auto; min-height: 26px; padding-block: 3px; row-gap: 2px; }
+.fs-art .tag > span { min-width: 0; overflow-wrap: anywhere; }
+/* So do the Food sheets and cards, and the top bar's title, which ends in "…" where its two lines run out. */
+.tb-name, .sheet-title :is(h2, p), .row-title, .row-sub, .group-note, .sheet .btn, .fs-card .btn { min-width: 0; overflow-wrap: anywhere; }
+.sheet .btn, .fs-card .btn { white-space: normal; }
+
+/* The room's name sits on the room, under every banner, card and sheet. */
+.ph > .room-label { z-index: 20; }
+
+/* A toast wraps instead of running off both sides of the screen. */
+.fs-banner .toast { left: 0; right: 0; width: fit-content; max-width: 100%; margin-inline: auto; transform: none; white-space: normal; }
+
+/* A sheet's two buttons stand side by side while they fit, one above the other at large text ("Waiting…", "Cancel"). */
+.sheet-foot { flex-wrap: wrap; }
+.sheet-foot .btn { flex: 1 1 8rem; }
+
+/* A card with answers (the Partner's request, "Too late to join"): its words scroll when they need more room than
+   the card has, and the answers stay in sight under them, with the time to answer. */
+.fs-card:has(> .fs-card-foot) { overflow: hidden; }
+.fs-card-body { flex: 0 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.fs-card-foot { flex: none; display: flex; flex-direction: column; gap: 10px; }
+.fs-card[data-tight] .fs-stamp { display: none; }
+.fs-card-body[data-scrolls] { -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent); mask-image: linear-gradient(#000 calc(100% - 28px), transparent); }
+
+/* At the largest text on a small phone (a banner under 12 rem wide: 200% text below 384 px), a banner over a Food
+   screen keeps its title and gives up its second line, which screen readers still read, as the kit's top bar
+   does. It then stays clear of the hint, the strip and the tab bar. */
+.fs-banner { container: fsb / inline-size; }
+@container fsb (max-width: 12rem) {
+  .banner-text span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* It also sits just under its place (the room's name, or the top of the Task's view), not a bar's height lower. */
+  .banner, .toast { top: 12px; }
 }
