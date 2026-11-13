@@ -16,7 +16,7 @@ const facts={scope:'Native Food controller/components on accepted synthetic wire
 const repo=resolve(new URL('../../../../',import.meta.url).pathname);
 async function verifySources(){for(const entry of facts.provenance.modules){const bytes=await readFile(resolve(repo,entry.path));assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256,'Native source changed after build: '+entry.path);}}
 const capture=async(page,file)=>{const {data}=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(resolve(out,file),Buffer.from(data,'base64'));return file;};
-const layout=page=>page.evaluate(`(()=>{const rect=n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}},frame=document.querySelector('.planet-food'),problems=[];
+const layout=page=>page.evaluate(`(()=>{const rect=n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}},frame=document.querySelector('.planet-food.ph'),problems=[];
  for(const node of frame.querySelectorAll('.fs-ctl:not([hidden])')){const r=node.getBoundingClientRect();if(r.left<-.5||r.top<-.5||r.right>innerWidth+.5||r.bottom>innerHeight+.5)problems.push(node.id+' leaves viewport');for(const t of node.querySelectorAll('.fs-label,.fs-sub'))if(t.scrollWidth>t.clientWidth+1)problems.push(node.id+' clips words');}
  for(const card of frame.querySelectorAll('.fs-card')){const r=card.getBoundingClientRect();if(r.bottom>innerHeight+.5)problems.push('card leaves viewport');if(card.classList.contains('fs-brief')&&card.scrollHeight>card.clientHeight+1)problems.push('briefing scrolls');}
  return {width:innerWidth,height:innerHeight,rootWidth:document.documentElement.scrollWidth,header:rect(frame.querySelector('.tb')),controls:[...frame.querySelectorAll('.fs-ctl:not([hidden])')].map(n=>({id:n.id,rect:rect(n),label:n.getAttribute('aria-label')})),problems};})()`);
@@ -30,7 +30,7 @@ try{
    const initialImage=await capture(page,prefix+'-hold.png');
    // Public names are text, even when they contain markup-significant characters.
    await page.evaluate(`window.foodHarness.names(${JSON.stringify('<>&"\'')})`);
-   const escaped=await page.evaluate(`(()=>{const frame=document.querySelector('.planet-food');return {text:frame.querySelector('.tb-name').textContent,tags:[...frame.querySelectorAll('.fs-art .tag')].map(n=>n.textContent),injected:frame.querySelectorAll('script,iframe,object').length};})()`);
+   const escaped=await page.evaluate(`(()=>{const frame=document.querySelector('.planet-food.ph');return {text:frame.querySelector('.tb-name').textContent,tags:[...frame.querySelectorAll('.fs-art .tag')].map(n=>n.textContent),injected:frame.querySelectorAll('script,iframe,object').length};})()`);
    assert.ok(escaped.text.includes('<>&"\''));assert.ok(escaped.tags.some(s=>s.includes('<>&"\'')));assert.equal(escaped.injected,0);
    await page.evaluate("window.foodHarness.setLost(true);window.heldFoodButton=document.querySelector('#food-control-hold')");
    const point=await page.evaluate("(()=>{const r=window.heldFoodButton.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()");

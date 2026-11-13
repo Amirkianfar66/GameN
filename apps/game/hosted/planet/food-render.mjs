@@ -1,12 +1,14 @@
 import {createFoodHoldInput} from '@mothership/game';
 import {foodTaskRevisionBody} from '@mothership/contracts';
-import {foodPackageCount} from '@mothership/presentation';
+import {foodPackageCount,foodPackagesText} from '@mothership/presentation';
 import {crewPortraitVariable} from '../crew-runtime.mjs';
 import {createFoodUi} from './food-ui.mjs';
 import {foodDisplay,foodControlSub} from './food-display.mjs';
 import {foodSceneSvg} from './food-scene.mjs';
 import {foodPoseAt,FOOD_CUES} from './food-pose.mjs';
 import {TAGS,BOXES,VIEW} from './food-geometry.mjs';
+import {withFoodGauge} from './food-gauge.mjs';
+import {fitFoodTags} from './food-tags.mjs';
 import './food-kit.css';
 import './food.css';
 import './food-host.css';
@@ -41,17 +43,17 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const t=v?.task,step=model.view?.step;
   if(t){const own=person(model.view.seatId),them=person(v.partnerSeatId),sub=v.partner==='offline'?`${them.name} is offline`:v.partner==='down'?`${them.name} is out`:`Food Supply · you run the ${v.role==='winch'?'Winch':'Panel'}`;
    const node=topBar({kind:'pair',pair:[own,them],sub,seconds:v.phase==='ended'?null:v.secondsLeft,urgentAt:10,menu:{go:'food:settings'}});
-   if(v.partner!=='alive')node.dataset.partner=v.partner;node.querySelector('[data-tb="menu"]').id='food-settings';return node;
+   if(v.partner!=='alive')node.dataset.partner=v.partner;node.querySelector('[data-tb="menu"]').id='food-settings';return withFoodGauge(ui,node,model.view.stock.doses);
   }
   if(step){const seconds=now===null?null:Math.max(0,Math.ceil(((step.kind==='ASKING'?step.askingEndsAt:step.returnsAt)-now)/1000));
-   const node=topBar({kind:'phase',icon:'supply',title:'Food Supply',sub:step.kind==='ASKING'?'Who goes for food?':'The turns start after it',seconds,round:model.view.round,promises:{go:'food:promises',badge:ordinary()?.promiseOfferCount??0},menu:{go:'food:settings'}});node.querySelector('[data-tb="menu"]').id='food-settings';return node;}
+   const node=topBar({kind:'phase',icon:'supply',title:'Food Supply',sub:step.kind==='ASKING'?'Who goes for food?':'The turns start after it',seconds,round:model.view.round,promises:{go:'food:promises',badge:ordinary()?.promiseOfferCount??0},menu:{go:'food:settings'}});node.querySelector('[data-tb="menu"]').id='food-settings';return withFoodGauge(ui,node,model.view.stock.doses);}
   const ordinaryModel=ordinary(),active=ordinaryModel?.activeSeatId;
   const node=topBar({kind:active?'turn':'phase',who:active?person(active):null,self:active===model.view?.seatId,title:`Round ${model.view?.round??''}`,
    sub:ordinaryModel?.phase?.kind==='PRE_TURN'?'Pre-turn':'',seconds:ordinaryModel?.phase?.remainingMs===null?null:(ordinaryModel?.phase?.remainingMs??0)/1000,round:model.view?.round,promises:{go:'food:promises',badge:ordinaryModel?.promiseOfferCount??0},menu:{go:'food:settings'}});
-  node.querySelector('[data-tb="menu"]').id='food-settings';return node;
+  node.querySelector('[data-tb="menu"]').id='food-settings';return withFoodGauge(ui,node,model.view.stock.doses);
  }
  function updateHeader(v,now){
-  const stamp=JSON.stringify([v?.role,v?.partner,v?.phase,v?.secondsLeft,model.view?.step?.kind,model.view?.round,now===null?null:Math.ceil(now/1000),identities()]);
+  const stamp=JSON.stringify([v?.role,v?.partner,v?.phase,v?.secondsLeft,model.view?.step?.kind,model.view?.round,model.view?.stock.doses,now===null?null:Math.ceil(now/1000),identities()]);
   if(stamp===lastHeader)return;lastHeader=stamp;const old=frame.querySelector(':scope > .tb'),node=sourceHeader(v,now),focus=document.activeElement?.id;
   if(old)old.replaceWith(node);else frame.prepend(node);if(focus==='food-settings')node.querySelector('#food-settings')?.focus({preventScroll:true});
  }
@@ -89,7 +91,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
    h('span.fs-zone',{'data-zone':'console',style:band(4,.42)}),h('span.fs-zone',{'data-zone':'platform',style:band(5,.3)}),h('i.fs-crate',{style:{left:`${f(v.crate.x)}%`},'data-out':v.crate.x<3.2||v.crate.x>6.2?'':null})),
    h('p.fs-legend',h('span',{'data-zone':'console'}),`Over ${name(v.task.panelSeatId)}`,h('span',{'data-zone':'platform'}),'Over the platform'));
  }
- function taskCard(v,top,now){
+ function taskCard(v,now){
   const t=v.task,own=t.people.find(p=>p.seatId===model.view.seatId),where=t.ownReturnPlacement?.location??null,location=where?` ${where}`:'';
   if(t.stage==='BRIEFING'){
    const lines=v.role==='winch'?['Hold it up. Let go over 6.',`Over ${v.partnerName}, it falls on ${v.partnerName}.`]:['Release it, then lock it at 6.',`LOCK at 7 cuts ${v.partnerName}.`];
@@ -123,9 +125,10 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   for(const role of ['winch','panel']){const seatId=role==='winch'?v.task.winchSeatId:v.task.panelSeatId,who=person(seatId),status=v.task.people.find(x=>x.seatId===seatId),[tx,ty]=TAGS[role],x=role==='winch'?BOXES.cab[0]+BOXES.cab[2]-6:tx;
    nodes.art.append(h('span.tag',{'data-self':role===v.role?'':null,'data-anchor':role==='winch'?'end':null,style:{left:`${(x-VIEW[0])/VIEW[2]*100}%`,top:`min(${(ty-14-VIEW[1])/VIEW[3]*100}%, calc(100% - 30px))`}},
     h('b.num',String(who.seat)),h('span',role===v.role?'You':who.name),!status.alive?h('span.status','· Out'):role!==v.role&&!status.online?h('span.status','· Offline'):null));}
+  fitFoodTags(nodes.art,nodes.view);
   const panelDescription=v.panel.locked?`The panel is locked at stop ${v.panel.stop+1}.`:`The panel is clicking along the rail, now at stop ${v.panel.stop+1}.`;
   nodes.view.setAttribute('aria-label',`The Supply Room. ${panelDescription} ${v.crate.state==='intake'?'A crate waits in the intake.':v.crate.state==='landed'?'The crate is on the platform.':v.crate.state==='sent'?'The crate has gone down.':`${v.crate.holder==='winch'?'The Winch':'The brake'} holds the crate up, now over stop ${Math.round(v.crate.x)+1}.`}${v.broken?` ${v.broken} crates have broken.`:''}${v.warnings.length?' Warning shown.':''}`);
-  const card=taskCard(v,top,now),cardChanged=(card?.key??null)!==nodes.cardKey;
+  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;
   if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}
   else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}
   nodes.controls.inert=!!card;
@@ -141,22 +144,21 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
 
  // Outside-Task sheets are built only on a changed state, preserving focused rows
  // and in-flight Join/Cancel controls while the top-bar clock redraws.
- function flow(top){return buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,top,
+ function flow(top,tight){return buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,top,tight,
   locationOf:seatId=>ordinary()?.board?.seats.find(s=>s.seatId===seatId)?.location??null,
   setActive:value=>{activeRequest=value;},actButton});}
  function updateFlow(now,chrome){
   if(taskNodes){hold.releaseAll();taskNodes=null;taskId=null;lastStructure=null;replace(frame);lastHeader=null;}
   frame.dataset.screen=`food-${screen??'room'}`;if(chrome)updateHeader(null,now);else{frame.querySelector(':scope > .tb')?.remove();lastHeader=null;}
-  const signature=JSON.stringify([screen,selected,boardMode(),ordinary()?.board,ordinary()?.phase?.kind,ordinary()?.activeSeatId,foodTaskRevisionBody(model.view),model.canAsk,model.canAnswer,model.canWithdraw,model.feedback,identities(),stockToast,stockToastIcon]);
+  const tight=frame.clientWidth/(parseFloat(win.getComputedStyle(document.documentElement).fontSize)||16)<14;
+  const signature=JSON.stringify([screen,selected,tight,boardMode(),ordinary()?.board,ordinary()?.phase?.kind,ordinary()?.activeSeatId,foodTaskRevisionBody(model.view),model.canAsk,model.canAnswer,model.canWithdraw,model.feedback,identities(),stockToast,stockToastIcon]);
   if(signature===lastStructure)return;lastStructure=signature;
   const focus=document.activeElement?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;
   const flowKey=JSON.stringify([screen,model.view?.invitation?.requestId,model.view?.invitation?.state,model.feedback?.receipt?.status==='rejected'?model.feedback.receipt.requestClosure?.state:null]);
   const header=frame.querySelector(':scope > .tb');replace(frame,header,chrome?tabs({view:boardMode(),open:screen?'actions':null,hero:'pass-off',go:{switch:'food:switch',actions:'food:tasks',card:'food:card',panels:'food:panels'}}):null);
-  const top=header?.offsetHeight??bars().top,nodes=flow(top);frame.append(...nodes);
+  const top=header?.offsetHeight??bars().top,nodes=flow(top,tight);frame.append(...nodes);
   const away=model.view?.step?.kind==='AWAY';if(away&&!screen&&!nodes.length)frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},banner({icon:'supply',title:'Two players are away on the Food Supply Task',sub:'The board shows who. They come back when its time is up; the Task shows on their phones only.'})));
-  if(!screen&&!nodes.length&&!away){const doses=model.view.stock.doses,packages=doses/2;
-   const notice=stockToast?toast(stockToast,stockToastIcon):packages<=1?banner({icon:'warning',title:packages===1?'Food low: 1 package left':`Food: ${packages} packages`,sub:'On every phone. Each meal takes half a package; a Food Supply Task adds five.'}):toast(`Food stock: ${foodPackageCount(doses)} packages`,'supply');
-   frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},notice));}
+  if(!screen&&!nodes.length&&!away&&stockToast)frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},toast(stockToast,stockToastIcon)));
   if(nodes.length){const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey)focusCard();}
   lastFlowKey=flowKey;
  }
@@ -173,7 +175,8 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const feedbackKey=JSON.stringify([model.feedback?.commandId,model.feedback?.status,model.feedback?.recovered]);
   if(feedbackKey!==feedbackSeen){feedbackSeen=feedbackKey;feedbackShownAt=now;}
   const request=view.invitation;if(request?.state==='PENDING')activeRequest=request.requestId;
-  if(lastFoodStock!==null&&view.stock.doses>lastFoodStock){stockToast=`Food stock: ${foodPackageCount(view.stock.doses)} packages (+${foodPackageCount(view.stock.doses-lastFoodStock)})`;stockToastIcon='supply';}
+  if(lastFoodStock!==null&&view.stock.doses>lastFoodStock){stockToast=`Food stock: ${foodPackagesText(view.stock.doses)} (+${foodPackageCount(view.stock.doses-lastFoodStock)})`;stockToastIcon='supply';}
+  else if(lastFoodStock!==null&&view.stock.doses<lastFoodStock)stockToast=null;
   lastFoodStock=view.stock.doses;
   if(hadTask&&!task&&now!==null&&now>=hadTask.returnsAt){
    const own=hadTask.people.find(p=>p.seatId===view.seatId),where=room(),o=hadTask.outcome;
@@ -185,6 +188,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const show=true;
   frame.hidden=!show;if(!show){if(taskNodes){hold.releaseAll();taskNodes=null;taskId=null;replace(frame);lastStructure=null;lastHeader=null;}return;}
   if(taskVisible){hadTask=task;updateTask(foodDisplay(model,now,{reduced,names:name}),now,reduced);}else updateFlow(now,chrome);
+  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body'))attr(node,'data-scrolls',node.scrollHeight>node.clientHeight+1?'':null);
   surface({active:chrome,exclusive:!!taskVisible,top:chrome?frame.querySelector(':scope > .tb')?.offsetHeight??0:null,bottom:chrome?frame.querySelector(':scope > .tabs')?.offsetHeight??0:null});
  }
  function pointerDown(e){const node=e.target.closest?.('.fs-ctl');if(!node||e.button!==0||e.isPrimary===false)return;
@@ -237,12 +241,13 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
    win.removeEventListener('blur',blur,true);win.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',visibility,true);document.removeEventListener('mothership:preferences-change',preferencesChanged);frame.remove();exclusive(false);surface({active:false,exclusive:false,top:null,bottom:null});}};
 }
 
-function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,setActive,actButton,locationOf,top}){
+function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,setActive,actButton,locationOf,top,tight}){
  const {sheet,row,list,groupLabel,groupNote,ic}=ui,v=model.view,r=v.invitation,where=room(),location=where??'';
+ const cardStyle={top:`calc(var(--top) + ${tight?8:60}px)`,maxHeight:`calc(100% - var(--top) - ${tight?20:72}px)`},tightAttr=tight?'':null;
  const f=model.feedback,closure=f?.receipt?.status==='rejected'?f.receipt.requestClosure:v.requestClosures.find(c=>c.requestId===activeRequest&&!closedRequests.has(c.requestId));
  const layout=(title,body,foot,options={})=>sheet({title,sub:'Food Supply Task',body,foot,close:'close',...options});
  const accepted=f?.receipt?.status==='accepted'&&f.receipt.result.kind==='REQUEST'?f.receipt.result:null;
- if(accepted?.state==='JOINED'&&r?.requestId===accepted.requestId&&r.partnerSeatId===v.seatId)return [h('section.fs-card',{role:'alertdialog','aria-label':'Joined a Task',style:{top:`${top+60}px`,maxHeight:`calc(100% - ${top+72}px)`}},
+ if(accepted?.state==='JOINED'&&r?.requestId===accepted.requestId&&r.partnerSeatId===v.seatId)return [h('section.fs-card',{role:'alertdialog','aria-label':'Joined a Task','data-tight':tightAttr,style:cardStyle},
   h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner'),h('h2',`You joined ${name(r.volunteerSeatId)}'s Food Supply Task`),h('p',`You are going to the Supply Room. Your place in ${location} is kept for your return.`),h('p',h('b','Briefing in a moment.')))];
  const closed=closure??(accepted&&r?.requestId===accepted.requestId&&accepted.state!=='PENDING'?{...r,state:accepted.state}:null);
  if(r?.state==='PENDING'&&!closed){
@@ -250,19 +255,19 @@ function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedReques
   if(r.volunteerSeatId===v.seatId)return layout(`Waiting for ${name(r.partnerSeatId)}`,[groupNote(`${name(r.partnerSeatId)} can join or decline. If not, the next volunteer goes.`)],
    [actButton('Waiting…','wait',{busy:true,block:true,disabled:true}),actButton('Cancel','withdraw',{kind:'plain',block:true,disabled:!model.canWithdraw})],{close:false});
   const joining=f?.status==='sending'&&f.name==='Join',title=`${name(r.volunteerSeatId)} asks you to join the Food Supply Task`;
-  return [h('section.fs-card',{role:'alertdialog','aria-label':'Asked to join a Task',style:{top:`${top+60}px`,maxHeight:`calc(100% - ${top+72}px)`}},
-   h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner request'),h('h2',title),
+  return [h('section.fs-card',{role:'alertdialog','aria-label':'Asked to join a Task','data-tight':tightAttr,style:cardStyle},
+   h('div.fs-card-body',h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner request'),h('h2',title),
    h('p',`You would go to the Supply Room together, one of you on each control. Your place in ${location} is kept for your return.`),
-   h('p','If you join, neither of you can go for food next round.'),h('div.fs-answer',actButton('Decline','decline',{kind:'secondary',block:true,disabled:!model.canAnswer}),actButton(joining?'Joining…':'Join','join',{icon:joining?null:'check',block:true,busy:joining,disabled:!model.canAnswer})),
-   h('p.fs-timer','Answer within 15 s. No answer counts as a decline.'))];
+   h('p','If you join, neither of you can go for food next round.')),h('div.fs-card-foot',h('div.fs-answer',actButton('Decline','decline',{kind:'secondary',block:true,disabled:!model.canAnswer}),actButton(joining?'Joining…':'Join','join',{icon:joining?null:'check',block:true,busy:joining,disabled:!model.canAnswer})),
+   h('p.fs-timer','Answer within 15 s. No answer counts as a decline.')))];
  }
  if(closed&&closed.round===v.round&&closed.foodStepId===v.step?.stepId&&!closedRequests.has(closed.requestId)){
   if(closed.volunteerSeatId===v.seatId){
    if(closed.state==='JOINED')return layout(f?.name==='Cancel'?'Too late to cancel':'Starting the Food Supply Task',[groupNote(f?.name==='Cancel'?'The Task is starting. Going to the Supply Room…':'Going to the Supply Room…')],actButton('Starting…','wait',{busy:true,block:true,disabled:true}),{sub:`${name(closed.partnerSeatId)} ${f?.name==='Cancel'?'joined first':'joined'}`,close:false});
    return layout(closed.state==='WITHDRAWN'?'Request withdrawn':`${name(closed.partnerSeatId)} declined`,[groupNote('The next volunteer goes: anyone else can ask while the step lasts.'),groupNote('You can volunteer again next round.')],actButton('OK','ok',{block:true}));
   }
-  if(closed.state==='WITHDRAWN'||closed.state==='EXPIRED')return [h('section.fs-card',{role:'alertdialog','aria-label':'Too late to join',style:{top:`${top+60}px`,maxHeight:`calc(100% - ${top+72}px)`}},
-   h('span.stamp.fs-stamp','Too late'),h('h2','Too late to join'),h('p',closed.state==='WITHDRAWN'?`${name(closed.volunteerSeatId)} had withdrawn the request before your answer arrived.`:'The 15 seconds ran out before your answer arrived. It counts as a decline.'),h('p',`You stay in ${location}.`),h('div.fs-answer',actButton('OK','ok',{block:true})))];
+  if(closed.state==='WITHDRAWN'||closed.state==='EXPIRED')return [h('section.fs-card',{role:'alertdialog','aria-label':'Too late to join','data-tight':tightAttr,style:cardStyle},
+   h('div.fs-card-body',h('span.stamp.fs-stamp','Too late'),h('h2','Too late to join'),h('p',closed.state==='WITHDRAWN'?`${name(closed.volunteerSeatId)} had withdrawn the request before your answer arrived.`:'The 15 seconds ran out before your answer arrived. It counts as a decline.'),h('p',`You stay in ${location}.`)),h('div.fs-card-foot',h('div.fs-answer',actButton('OK','ok',{block:true}))))];
  }
  if(screen==='howto'){
   const sections=[['When','Once a round, at its start, before the turns. The two who go cannot go again the next round.'],['Two of you, one control each','The game picks who runs which control. The Panel moves the crane left and right; the Winch moves the crate up and down.'],['The Panel',"RELEASE sets the locking panel clicking from stop to stop along the rail, fast. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch's cab."],['The Winch','One button: Hold. Press and hold to lift the crate, and keep holding while it moves. Locked, the crate swings. Let go when it swings over the platform: it lands. Over the Panel it falls on them. Anywhere else it breaks, and the hook must fetch a new one from the hatch at 1.'],['Then','Both turn a key: +5 packages for the ship.'],['The time','30 seconds for the whole Task, the short briefing included.'],['Mistakes','A late LOCK or a let-go at the wrong moment can kill. Nothing tells a mistake from a betrayal. Your press counts when it reaches the ship, a moment after you press: the stripes warn you early for that.'],['Leaving',"If you lose your connection for 8 seconds, the Task is cancelled. It costs you nothing more. Whatever happens, you both go back at the end of the Task's time."]];

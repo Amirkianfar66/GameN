@@ -56,7 +56,7 @@ if(config.recovery){
  if(after.feedback?.status!=='rejected'||!after.feedback.recovered||!after.canPanelLock||after.pendingCount!==0)throw Error('Authoritative recovered LOCK did not settle');
  recoveryTransitions.push({status:after.feedback.status,pending:after.pendingCount,canPanelLock:after.canPanelLock});
 }
-const applySafe=()=>{const [top,bottom]=(q.get('safe')??'47,34').split(',').map(Number);for(const n of document.querySelectorAll('.planet-food')){n.style.setProperty('--safe-t',`${top}px`);n.style.setProperty('--safe-b',`${bottom}px`);}};
+const applySafe=()=>{const [top,bottom]=(q.get('safe')??'47,34').split(',').map(Number);for(const n of document.querySelectorAll('.planet-food.ph')){n.style.setProperty('--safe-t',`${top}px`);n.style.setProperty('--safe-b',`${bottom}px`);}};
 applySafe();
 if(config.feedback==='refused'){void app.food.press('PANEL_LOCK');for(let i=0;i<10&&!finishRefusal;i++)await Promise.resolve();}
 if(config.next){record=copy(config.next);await app.session.refresh();finishRefusal?.();}

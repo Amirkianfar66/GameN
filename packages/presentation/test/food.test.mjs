@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {foodPanelAt,foodCrateAt,foodTrajectoryAt,foodPackageCount,planetBoardLabel} from '../dist/index.js';
-import {PLANET_BLACKOUT_PINS} from '@mothership/contracts';
+import {foodPanelAt,foodCrateAt,foodTrajectoryAt,foodPackageCount,foodPackagesText,foodGaugeLevel,foodGaugeLabel,planetBoardLabel} from '../dist/index.js';
+import {PLANET_BLACKOUT_PINS,PLANET_FOOD_TASK_PINS} from '@mothership/contracts';
 
 const panel={locked:false,stop:0,direction:1,anchorAt:1000};
 test('the 50ms snap/200ms rest and end reversal retain one logical LOCK stop in both preferences',()=>{
@@ -27,4 +27,15 @@ test('integer doses format half packages without floating point stock arithmetic
 });
 test('a new Food return publication never falls back to an old finalized-round result caption',()=>{
  assert.equal(planetBoardLabel({versions:{...PLANET_BLACKOUT_PINS,assetManifestVersion:'design-0.8.0'},board:{kind:'FINALIZED',finalizedRound:3,checkpoint:'FOOD_RETURNED'}}),null);
+});
+test('the approved public gauge retains half-dose wording and warning thresholds without a Task cause',()=>{
+ assert.deepEqual([0,1,2,9,12].map(foodPackagesText),['0 packages','½ package','1 package','4½ packages','6 packages']);
+ assert.deepEqual([0,1,2,3,12].map(foodGaugeLevel),['empty','low','low','ok','ok']);
+ assert.deepEqual([0,1,2,9,12].map(foodGaugeLabel),['No food left','Food low: ½ package left','Food low: 1 package left','Food: 4½ packages','Food: 6 packages']);
+});
+test('only the exact Food tuple names its shared return step, using the publication round',()=>{
+ const versions={...PLANET_FOOD_TASK_PINS,assetManifestVersion:'design-0.9.0'},board={kind:'FINALIZED',finalizedRound:3,checkpoint:'FOOD_RETURNED'};
+ assert.equal(planetBoardLabel({versions,board}),'After Food Supply · Round 3');
+ assert.equal(planetBoardLabel({versions,board:{...board,kind:'PLAYER_CURRENT'}}),'Current board · shared: After Food Supply · Round 3');
+ assert.equal(planetBoardLabel({versions:{...versions,assetManifestVersion:'design-0.8.0'},board}),null);
 });

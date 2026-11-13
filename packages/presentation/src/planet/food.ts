@@ -44,3 +44,14 @@ export function foodCrateAt(task:FoodTaskParticipant,nowMs:number,reduced=false)
 export function foodPackageCount(doses:number):string {
  const whole=Math.floor(doses/2);return doses%2?whole?`${whole}½`:'½':String(whole);
 }
+/** #241's public gauge words, from authorized doses only. */
+export function foodPackagesText(doses:number):string {
+ return `${foodPackageCount(doses)} ${doses===1||doses===2?'package':'packages'}`;
+}
+export function foodGaugeLevel(doses:number):'empty'|'low'|'ok' {
+ return doses<=0?'empty':doses<=2?'low':'ok';
+}
+export function foodGaugeLabel(doses:number):string {
+ const level=foodGaugeLevel(doses);
+ return level==='empty'?'No food left':level==='low'?`Food low: ${foodPackagesText(doses)} left`:`Food: ${foodPackagesText(doses)}`;
+}

@@ -38,7 +38,7 @@ const scopeCss=(text,source)=>{
 const outputs={
  'apps/game/hosted/planet/food-ui.mjs':component,
  'apps/game/hosted/planet/food-kit.css':scopeCss(read('design/phone-ui/prototype/kit.css'),'#231 phone kit'),
- 'apps/game/hosted/planet/food.css':scopeCss(read('design/food-supply/phone.css'),'#231 Food phone'),
+ 'apps/game/hosted/planet/food.css':scopeCss(read('design/food-supply/phone.css'),'#241 Food phone'),
 };
 const check=process.argv.includes('--check');
 if(process.argv.slice(2).some(a=>!['--check','--write'].includes(a)))throw Error('Use --check or --write');

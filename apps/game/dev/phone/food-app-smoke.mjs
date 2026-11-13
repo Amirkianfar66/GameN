@@ -44,9 +44,9 @@ try{
    assert.match(await page.evaluate('document.querySelector(".planet-food .sheet").textContent'),/Start a Task/);await shot(page,prefix+'-tasks.png');
    await page.evaluate('document.querySelector("#food-settings")?.click()');
    await page.waitFor('foodAppHarness.app.game.getModel().panel==="settings"','native settings');
-   await page.waitFor('document.querySelector(".planet-food").hidden','Food sheet yields to settings');
-   assert.equal(await page.evaluate('document.querySelector(".planet-food").hidden'),true);
-   await page.evaluate('document.querySelector("#planet-close").click()');await page.waitFor('!document.querySelector(".planet-food").hidden','return from settings');
+   await page.waitFor('document.querySelector(".planet-food.ph").hidden','Food sheet yields to settings');
+   assert.equal(await page.evaluate('document.querySelector(".planet-food.ph").hidden'),true);
+   await page.evaluate('document.querySelector("#planet-close").click()');await page.waitFor('!document.querySelector(".planet-food.ph").hidden','return from settings');
    await page.goto(`${origin}/app.html?case=food-winch-02&abort=1&text=${text}&safe=${safe}&motion=${motion}`,'window.foodAppHarness?.ready');
    await page.waitFor('document.querySelector("#planet-terminal-food-receipts")','Food-only aborted recovery');
    assert.equal(await page.evaluate('foodAppHarness.app.food.getModel().pendingCount'),1);

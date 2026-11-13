@@ -3,7 +3,7 @@
   "status": "unadmitted-candidate",
   "issue": 235,
   "releaseChecklist": 237,
-  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "designerHead": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
   "baseline": "f9e7e11bd6c23671f96832bf45d79146e6fd855c",
   "sharedSeam": "d0a12f252d9d076c0978b97cfcdf942e5f0e4a75",
   "target": {
@@ -60,15 +60,15 @@
     },
     {
       "path": "apps/game/hosted/planet/food.css",
-      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
-      "bytes": 22648,
-      "gzipBytes": 4654
+      "sha256": "ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
+      "bytes": 30174,
+      "gzipBytes": 6412
     },
     {
       "path": "apps/game/hosted/planet/food-host.css",
-      "sha256": "ef09f47dd56916ba7f10b7aff386aff75a5a89805bf833e7b15bd64766c79139",
-      "bytes": 1190,
-      "gzipBytes": 533
+      "sha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "bytes": 1584,
+      "gzipBytes": 686
     },
     {
       "path": "apps/game/hosted/planet/food-pose.mjs",
@@ -90,21 +90,33 @@
     },
     {
       "path": "apps/game/hosted/planet/food-render.mjs",
-      "sha256": "3ed84ca5f60ced1f35bcdeb9083e9aa07dcd6bdc56f7d3b2826ee000f409f160",
-      "bytes": 35070,
-      "gzipBytes": 11644
+      "sha256": "fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
+      "bytes": 35522,
+      "gzipBytes": 11757
     },
     {
       "path": "apps/game/hosted/planet/food-app.mjs",
-      "sha256": "9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
-      "bytes": 3284,
-      "gzipBytes": 1430
+      "sha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "bytes": 3270,
+      "gzipBytes": 1443
     },
     {
       "path": "packages/presentation/src/planet/food.ts",
-      "sha256": "5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
-      "bytes": 3079,
-      "gzipBytes": 1394
+      "sha256": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
+      "bytes": 3621,
+      "gzipBytes": 1566
+    },
+    {
+      "path": "apps/game/hosted/planet/food-gauge.mjs",
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107,
+      "gzipBytes": 595
+    },
+    {
+      "path": "apps/game/hosted/planet/food-tags.mjs",
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024,
+      "gzipBytes": 559
     }
   ],
   "existingConsumersAndClientGlue": [
@@ -116,9 +128,9 @@
     },
     {
       "path": "apps/game/hosted/planet/render.mjs",
-      "sha256": "b147aecf764ee8f4bba0e3bbc12a76957128c7a1acdc6ac6c212a37802c9f954",
-      "bytes": 52500,
-      "gzipBytes": 15750
+      "sha256": "79872afa8216eb74669f798c67427ecaf3bff977ebffed4bdfa323a95b51b248",
+      "bytes": 53361,
+      "gzipBytes": 16056
     },
     {
       "path": "apps/game/hosted/crew-runtime.mjs",
@@ -164,9 +176,9 @@
     },
     {
       "path": "packages/presentation/src/planet/library.ts",
-      "sha256": "c45d1e3e478320a50356987d4534714f9cc0a72ba12570a51c9690895914cc0c",
-      "bytes": 4696,
-      "gzipBytes": 1833
+      "sha256": "3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+      "bytes": 4845,
+      "gzipBytes": 1832
     },
     {
       "path": "packages/presentation/src/planet/model.ts",
@@ -196,12 +208,12 @@
   },
   "pureCopiedInputs": {
     "docs/design/food-supply.md": {
-      "sha256": "b7bc253831e307313e76dbb519d31e35889585002cdbf880b3e83a001ab57f88",
-      "bytes": 62716
+      "sha256": "1e9f487f39ba5287fc6ee987357a03bcf59f587baf5f3701558573dfe67f7713",
+      "bytes": 66178
     },
     "design/food-supply/handoff.json": {
-      "sha256": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1",
-      "bytes": 145836
+      "sha256": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba",
+      "bytes": 147525
     },
     "design/food-supply/layout.mjs": {
       "sha256": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
@@ -220,12 +232,12 @@
       "bytes": 6470
     },
     "design/food-supply/phone.mjs": {
-      "sha256": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
-      "bytes": 37949
+      "sha256": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
+      "bytes": 43258
     },
     "design/food-supply/phone.css": {
-      "sha256": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b",
-      "bytes": 14980
+      "sha256": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf",
+      "bytes": 20109
     },
     "design/phone-ui/prototype/ui.mjs": {
       "sha256": "75fdf8d081028fb5e403cbd34c2bd1d0e915038a9f57e13755fe03d23add6118",
@@ -246,6 +258,10 @@
     "design/phone-ui/prototype/art.mjs": {
       "sha256": "8525806f0f4e17664562bb25bff04040a0305f2ce21f7ef38359cd82dc7704d8",
       "bytes": 24685
+    },
+    "design/food-supply/hints.mjs": {
+      "sha256": "a2404b4d0b6a4fa3bb1308ab46de722b554980e93007c92e10ac6ee01d47b4c3",
+      "bytes": 7259
     }
   },
   "excludedRuntime": [
@@ -262,16 +278,18 @@
     "design/phone-ui/prototype/fixtures.mjs"
   ],
   "priorFoundationReview": "https://github.com/Amirkianfar66/GameN/issues/235#issuecomment-6854574801",
-  "changesAfterFoundation": "Host renderer, trajectory/pose/guide sampling, uniform loader, input/controller wiring and same-response transport. The eight reviewed pure component/drawing/CSS foundation copies are unchanged.",
+  "changesAfterFoundation": "The ui/kit/icons/geometry/ink/machine/scene foundations and37SVGs are unchanged. Scoped Food CSS adopts the owner-approved #241 source. Native gauge and tag-fitting modules, host mounting and neutral caption are included in this complete closure.",
   "pending": [
-    "Designer #222 narrow wording/layout decisions and native visual acceptance",
+    "Designer early-Hold reference alignment and refreshed native visual acceptance",
     "Integration exact production registration and combined build checks",
-    "Backend committed real API/worker/bot connected acceptance"
+    "Backend committed real API/worker/bot and native connected acceptance"
   ],
   "reviewCorrections": {
     "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6859626835",
     "nativeBase": "45415db6d97ae6a34e2047c902da0a78c7e29cbd",
-    "status": "Existing-sheet source corrections; refreshed captures pending quiet slot. winch-10 source conflict and Designer #241 departures pending agreement.",
-    "report": "docs/frontend/food-supply-review-corrections-2026-11-13.md"
+    "status": "Owner-approved #241 gauge/caption/layout port; visual capture and acceptance pending quiet slot. winch-10 remains an offered early contact pending exact reference amendment.",
+    "report": "docs/frontend/food-supply-native-port-241-2026-11-13.md",
+    "designerSource": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+    "ownerApproval": "8caa059629a99908808c939e6a2cfdbf13d18ad2"
   }
 }

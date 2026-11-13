@@ -69,6 +69,14 @@ function driver(boardName='cooperation'){
 }
 
 export function nativeFoodCase(query){
+ const result=buildNativeFoodCase(query);
+ if(new URLSearchParams(query).get('names')==='long')for(const packet of [result.initial,result.next].filter(Boolean)){
+  for(const member of packet.value.members)if(['seat-3','seat-8'].includes(member.seatId))member.displayName='WWWWWWWWWWWW';
+  PlanetSessionSnapshotSchema.parse(packet.value);
+ }
+ return result;
+}
+function buildNativeFoodCase(query){
  const p=new URLSearchParams(query),s=p.get('s'),board=p.get('board')??'cooperation',as=p.get('as')??'winch',d=driver(board),seat=as==='panel'?'seat-3':as==='other'?'seat-6':'seat-8';
  if(s==='task'||s==='return'||s==='away'){
   d.ask();d.answer();const target=s==='away'?6900:s==='return'?32501:Number(p.get('t')??6000),limit=target-(p.get('before')==='1'?1:0);
