@@ -7,23 +7,25 @@
 // player's, and is resolved when it arrives.
 //
 //   careful   presses only when its press, arriving after its reaction and the delay, is right and safe
-//   clumsy    the same aim, but its hand is unsteady: a press can land early or late (and kill you)
-//   betrayer  takes its control's one kill-and-deliver path once (the Winch: the drop from the platform
-//             stop; the Panel: the cut after the landing), then plays on as a careful partner
+//   clumsy    the same aim, but its hand is unsteady: a press can land early or late (and kill you), and
+//             as the Winch its finger sometimes slips off Hold while the crate moves (and it breaks)
+//   betrayer  tries its control's kill once (the Winch: the let-go over the console from the platform
+//             stop, which now also breaks the crate and loses the delivery; the Panel: the cut after the
+//             landing, which still delivers), then plays on as a careful partner
 
 import { FIXTURES, crateX, landingAt, panelAt, view } from './task.mjs';
 
 export const PERSONAS = Object.freeze({
   careful: Object.freeze({ name: 'Careful', about: 'Times every press well.' }),
-  clumsy: Object.freeze({ name: 'Clumsy', about: 'Means well, but sometimes presses too early or too late.' }),
-  betrayer: Object.freeze({ name: 'Betrayer', about: 'Tries once to kill you and still deliver.' }),
+  clumsy: Object.freeze({ name: 'Clumsy', about: 'Means well, but sometimes presses too early or too late, or lets go.' }),
+  betrayer: Object.freeze({ name: 'Betrayer', about: 'Tries once to kill you.' }),
 });
 
 const between = (random, a, b) => a + (b - a) * random();
 /** A clumsy hand: its actual reaction strays from the one it aimed by up to ±0.35 s, more often a little. */
 const stray = random => (random() + random() + random() - 1.5) * 0.47 * 1000 * 0.5;
 
-/** The zone the crate lands in if a Lower arrives at time a, checked a little either side. */
+/** The zone the crate falls in if a let-go arrives at time a, checked a little either side. */
 const landsIn = (state, a, spread = 60) => [a - spread, a, a + spread].map(x => landingAt(crateX(state, x)));
 const all = (list, value) => list.every(x => x === value);
 /** The stop a LOCK arriving at time a takes, checked a little either side. */
@@ -31,8 +33,9 @@ const locksAt = (state, a, spread = 60) => [a - spread, a, a + spread].map(x => 
 
 /**
  * The bot's next press at time t, or null to wait: { act, reaction } (the milliseconds until it presses).
- * state: the server's state at t; seat: the bot's; delay: the connection's delay, which the bot allows
- * for; memory: the bot's own notes across calls; random: a [0, 1) source.
+ * As the Winch, raise is its finger going down on Hold and lower its finger coming off: between the two
+ * it holds, and sends nothing. state: the server's state at t; seat: the bot's; delay: the connection's
+ * delay, which the bot allows for; memory: the bot's own notes across calls; random: a [0, 1) source.
  */
 export function decide({ state, seat, t, persona = 'careful', delay = 120, memory = {}, random = Math.random }) {
   const v = view(state, seat, t);
@@ -54,9 +57,17 @@ export function decide({ state, seat, t, persona = 'careful', delay = 120, memor
   if (b.key?.enabled && !b.key.turned) return { act: 'key', reaction: between(random, 500, 900) };
 
   if (role === 'winch') {
-    if (b.raise?.enabled && b.raise.next) return { act: 'raise', reaction: between(random, 350, 650) };
-    if (!b.lower?.enabled || !(state.panel.locked && state.panel.stop === plat)) return null;
-    // The Winch's betrayal: from the platform stop, the Lower while the swing is over the console. If the
+    const hold = b.hold;
+    if (!hold?.enabled) return null;
+    if (!hold.holding) {
+      if (!hold.next) return null;
+      // A clumsy finger may slip off Hold once while this crate moves.
+      memory.slipAt = persona === 'clumsy' && random() < 0.18 ? t + between(random, 1400, 3400) : null;
+      return { act: 'raise', reaction: between(random, 350, 650) };
+    }
+    if (memory.slipAt && t >= memory.slipAt) { memory.slipAt = null; return { act: 'lower', reaction: 0 }; }
+    if (!(state.panel.locked && state.panel.stop === plat)) return null;
+    // The Winch's betrayal: from the platform stop, the let-go while the swing is over the console. If the
     // swing has calmed before the chance comes, the betrayer gives up and plays on.
     if (persona === 'betrayer' && !memory.done && state.alive.panel) {
       if (t - state.panel.since > 2600) memory.done = true;
@@ -68,7 +79,8 @@ export function decide({ state, seat, t, persona = 'careful', delay = 120, memor
     return all(landsIn(state, arrival), 'platform') ? { act: 'lower', reaction } : null;
   }
 
+  // The Panel: release when it is next; lock where the crate is wanted, over the hatch to fetch one or over the platform.
   if (b.release?.enabled && b.release.next) return { act: 'release', reaction: between(random, 300, 600) };
-  if (b.lock?.enabled && all(locksAt(state, arrival), plat)) return { act: 'lock', reaction };
+  if (b.lock?.enabled && all(locksAt(state, arrival), v.goal)) return { act: 'lock', reaction };
   return null;
 }

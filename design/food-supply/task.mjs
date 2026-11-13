@@ -32,15 +32,18 @@
 // stops (0 to 6 here, painted 1 to 7). The intake hatch is under stop 1, the Panel operator's
 // console under stop 5, the galley lift's landing platform under stop 6, and the Winch operator's
 // cab hangs under the rail at stop 7. The locking panel rides the rail with the crate's hoist on it.
-//  - The Winch (vertical): Raise lifts the crate to its hanging height; Lower lets it fall.
+//  - The Winch (vertical): one button, Hold (the owner, 13 November 2026: "hold and release"). The
+//    finger down on it (raise) lifts the crate out of the intake hatch, with the panel locked over the
+//    hatch, and keeps it up for as long as the finger stays; the finger off it (lower) lets it fall.
 //  - The Panel (horizontal): RELEASE sets the panel clicking from stop to stop, end to end and back:
 //    a fast snap to the next stop, then a short rest there (the owner, 12 November 2026: "click stop
-//    to stop"). LOCK drops its blade at the stop it rests at, or at the stop it is snapping to. At
-//    stop 7 the blade drops into the Winch operator's cab: the cut.
+//    to stop"; twice as fast, 13 November). LOCK drops its blade at the stop it rests at, or at the
+//    stop it is snapping to. At stop 7 the blade drops into the Winch operator's cab: the cut.
 //  - A lock with the crate hanging sets it swinging like a pendulum, wide at first, calming but
-//    never still. Lowered, the crate falls where its swing has it: onto the platform it lands; over
-//    the console it falls on the Panel operator, the drop; anywhere else it misses, and the Winch
-//    raises it again.
+//    never still. Let go, the crate falls where its swing has it: onto the platform it lands; over
+//    the console it falls on the Panel operator, the drop; over the hatch it drops back in, whole;
+//    anywhere else, or from a panel still moving, it breaks (the owner, 13 November 2026), and a new
+//    crate waits in the intake: the Panel brings the hook back over the hatch and the Winch holds again.
 //  - Landed, both turn a key and the lift takes the crate down to the galley.
 // The correct position for a survivor is over the platform: the crate on it, or hanging from the
 // panel locked over it.
@@ -59,22 +62,22 @@ export const STOPS = 7;
 
 /** What stands under each stop, and why it matters. */
 export const FIXTURES = Object.freeze({
-  intake: Object.freeze({ stop: 0, about: 'The intake hatch at the rail\'s left end: the crate starts in it, and rises out of it on the hook. The panel starts locked over it.' }),
-  deck: Object.freeze({ stops: Object.freeze([1, 2, 3]), about: 'Open deck: the crate crosses it on the way to the platform; lowered here, it misses.' }),
-  console: Object.freeze({ stop: 4, about: 'The Panel operator\'s console: they stand at it under the rail, their head just under the crate\'s path. Lowered while its swing has it over here, the crate falls on them: the drop.' }),
-  platform: Object.freeze({ stop: 5, about: 'The galley lift\'s landing platform: lowered over it, the crate lands and the platform\'s clamps hold it. The correct position. Then both turn a key and the lift takes it down to the galley.' }),
+  intake: Object.freeze({ stop: 0, about: 'The intake hatch at the rail\'s left end: the crate starts in it and rises out of it on the hook, with the panel locked over it; after a crate breaks, a new one waits in it. The panel starts locked over it. Let go over it, the crate drops back in, whole.' }),
+  deck: Object.freeze({ stops: Object.freeze([1, 2, 3]), about: 'Open deck: the crate crosses it on the way to the platform; let go here, it breaks.' }),
+  console: Object.freeze({ stop: 4, about: 'The Panel operator\'s console: they stand at it under the rail, their head just under the crate\'s path. Let go while the crate is over here, it falls on them, the drop, and breaks.' }),
+  platform: Object.freeze({ stop: 5, about: 'The galley lift\'s landing platform: let go over it, with the panel locked, the crate lands and the platform\'s clamps hold it. The correct position. Then both turn a key and the lift takes it down to the galley.' }),
   cab: Object.freeze({ stop: 6, about: 'The Winch operator\'s cab, hung under the rail\'s right end, past the platform. The panel locked here drops its blade into the cab: the cut.' }),
 });
 
 /** Who controls what. The axis decides the kill: the Winch drops, the Panel cuts. */
 export const ROLES = Object.freeze({
-  winch: Object.freeze({ name: 'Winch', axis: 'vertical', acts: Object.freeze(['raise', 'lower']), station: 'cab', kill: 'drop', about: 'Raises and lowers the crate, from the cab at the right end of the rail' }),
+  winch: Object.freeze({ name: 'Winch', axis: 'vertical', acts: Object.freeze(['raise', 'lower']), station: 'cab', kill: 'drop', about: 'Holds the crate up with one button, from the cab at the right end of the rail: the finger down lifts it (raise), the finger off lets it fall (lower)' }),
   panel: Object.freeze({ name: 'Panel', axis: 'horizontal', acts: Object.freeze(['release', 'lock']), station: 'console', kill: 'cut', about: 'Sets the locking panel clicking along the rail and locks it at a stop, from the console under the rail' }),
 });
 /** Both participants' key, once the crate has landed. */
 export const KEY = 'key';
 
-/** The cooperative route: raise it, release the panel, lock it over the platform, lower it as the swing passes over the platform, both keys. */
+/** The cooperative route: hold it up (raise), release the panel, lock it over the platform, let go (lower) as the swing passes over the platform, both keys. */
 export const ROUTE = Object.freeze([
   { role: 'winch', act: 'raise' },
   { role: 'panel', act: 'release' },
@@ -86,22 +89,24 @@ export const ROUTE = Object.freeze([
 
 /**
  * Timing, in milliseconds: all the owner's. The overall time to complete the Task, 30 seconds with the
- * briefing inside it; the click from stop to stop, with its 0.1 s snap and 0.4 s rest; the warnings'
- * 0.15 s margin ("this is fine", 12 November 2026); on Designer's recommendation, the 15 s answer, the
- * 8 s grace and the Food Supply step's 30 s to ask (12 November); and the rest as designed, the 4 s
- * briefing, 0.45 s to raise, 0.3 s to fall and the 2.5 s outcome card (13 November). A playtest may
- * still change them.
+ * briefing inside it; the click from stop to stop, twice as fast as first approved, so harder to react
+ * to: a 0.05 s snap and a 0.2 s rest (the owner, 13 November 2026, after the playable test; first a
+ * 0.1 s snap and a 0.4 s rest); the warnings' 0.15 s margin ("this is fine", 12 November 2026); on
+ * Designer's recommendation, the 15 s answer, the 8 s grace and the Food Supply step's 30 s to ask
+ * (12 November); and the rest as designed, the 4 s briefing, 0.45 s to raise, 0.3 s to fall and the
+ * 2.5 s outcome card (13 November). A playtest may still change them.
  * move: the panel's snap from one stop to the next; rest: how long it then rests at that stop (a stop
- * every 0.5 s, end to end in 3 s); margin: how much earlier a warning starts, and a glow ends, than the
+ * every 0.25 s, end to end in 1.5 s); margin: how much earlier a warning starts, and a glow ends, than the
  * danger or the opening itself, so that a press already on its way to the server is covered; raise: the
- * winch lifting the crate to its hanging height; lower: the crate's fall (its outcome is decided when
- * the press arrives); briefing: who controls what, before the controls work; deadline: the whole
+ * winch lifting the crate to its hanging height, once the finger is on Hold; lower: the crate's fall
+ * once the finger is off (its outcome is decided when the let-go arrives), and a broken crate's
+ * replacement rising into the hatch meanwhile; briefing: who controls what, before the controls work; deadline: the whole
  * Task's time, from its start, the briefing included; grace: how long a participant may be out of
  * contact before the Task is cancelled (see the rule conflict in food-supply.md); ending: the outcome
  * card after the deadline, before the return; answer: how long an asked Partner has to join or decline;
  * asking: how long the Food Supply step stays open for a request, at the start of each round.
  */
-export const TIMING = Object.freeze({ move: 100, rest: 400, margin: 150, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000, asking: 30000 });
+export const TIMING = Object.freeze({ move: 50, rest: 200, margin: 150, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000, asking: 30000 });
 
 /**
  * When both participants return, after the Task's start: its 30 seconds, then the outcome card. The same
@@ -121,7 +126,7 @@ export const CLICK = TIMING.move + TIMING.rest;
  */
 export const SWING = Object.freeze({ period: 1300, settle: 2200, least: 0.38, lock: 0.9, lift: 0.25 });
 
-/** Where a lowered crate falls, in stops either side of each place: the owner's, as designed (13 November 2026). */
+/** Where a crate let go falls, in stops either side of each place: the owner's, as designed (13 November 2026). */
 export const ZONES = Object.freeze({ platform: 0.3, console: 0.42, intake: 0.42 });
 
 /**
@@ -204,7 +209,7 @@ export function landingAt(x) {
   return 'deck';
 }
 
-/** Whether the crate has finished its last move (a raise takes TIMING.raise, a fall TIMING.lower). */
+/** Whether the crate has finished its last move (a raise takes TIMING.raise; a fall, and a new crate rising into the hatch, TIMING.lower). */
 export function settled(state, t) {
   const c = state.crate;
   if (c.from === null) return true;
@@ -213,11 +218,36 @@ export function settled(state, t) {
 
 /**
  * The correct position for a survivor: over the platform. The crate on the platform, or still on
- * the hook of a panel locked over it, from where the Winch alone can lower it in.
+ * the hook of a panel locked over it, from where the Winch alone can let it fall in.
  */
 export function inPosition(state) {
   if (state.crate.state === 'landed') return true;
-  return state.panel.locked && state.panel.stop === FIXTURES.platform.stop && state.crate.state !== 'sent';
+  return state.panel.locked && state.panel.stop === FIXTURES.platform.stop && state.crate.state === 'hanging';
+}
+
+/** The stop the Panel locks the panel at next: over the hatch to fetch a crate waiting in the intake, otherwise over the platform. */
+export const goalStop = state => (state.crate.state === 'intake' ? FIXTURES.intake.stop : FIXTURES.platform.stop);
+
+/**
+ * What a let-go at time t does (the Winch's finger off Hold): the crate falls from where it is then
+ * (the owner, 13 November 2026). With the panel locked, over the platform it lands: the one right
+ * place. Over the intake hatch it drops back in, whole (a let-go while it is still rising always does:
+ * it rose from there). Over the console it falls on the Panel operator, the drop, and breaks. Anywhere
+ * else, or over the platform from a panel still moving, it breaks, and a new crate waits in the intake.
+ * Returns { x, zone, result: 'land' | 'back' | 'drop' | 'break', lift }, or null if no crate hangs. lift:
+ * how far up the crate is, from 0 (in the hatch) to 1 (its hanging height), where its fall starts.
+ */
+export function fallOf(state, t) {
+  const c = state.crate;
+  if (c.state !== 'hanging') return null;
+  if (!settled(state, t)) return { x: c.x, zone: 'intake', result: 'back', lift: r3(Math.max(0, Math.min(1, (t - c.since) / TIMING.raise))) };
+  const p = panelAt(state, t);
+  const x = crateX(state, t);
+  const zone = landingAt(x);
+  const result = zone === 'platform' ? (p.locked ? 'land' : 'break')
+    : zone === 'intake' ? 'back'
+      : zone === 'console' && state.alive.panel ? 'drop' : 'break';
+  return { x, zone, result, lift: 1 };
 }
 
 /**
@@ -237,6 +267,8 @@ export function startTask({ id = 'task-1', seats, at = 0 } = {}) {
     panel: { locked: true, stop: FIXTURES.intake.stop, dir: 1, from: null, since: at },
     crate: { state: 'intake', x: FIXTURES.intake.stop, since: at, from: null },
     swing: null,
+    // The crates broken so far: where each fell ('deck', 'console' or 'platform') and when.
+    broken: [],
     keys: { winch: false, panel: false },
     outcome: null, endedAt: null,
     receipts: {},
@@ -294,6 +326,20 @@ function trySend(state, at, events) {
     events.push({ type: 'SENT', by: needed });
     end(state, { result: 'delivered', packages: FOOD.perDelivery, alone: needed.length === 1 }, at, events);
   }
+}
+
+/**
+ * The crate breaks where it falls (the owner, 13 November 2026). It costs time, not food: a new crate
+ * rises into the intake hatch while the broken one falls, and the Panel must bring the hook back over
+ * the hatch, and the Winch hold again, to lift it.
+ */
+function breakCrate(state, fall, t, events) {
+  const on = fall.zone === 'console' ? 'console' : fall.zone === 'platform' ? 'platform' : 'deck';
+  // hoist: where the panel was along the rail, for the drawing of the fall from the cable's end.
+  state.broken.push({ x: r3(fall.x), on, at: t, hoist: r3(panelAt(state, t).at) });
+  state.crate = { state: 'intake', x: FIXTURES.intake.stop, since: t, from: { state: 'new', x: FIXTURES.intake.stop } };
+  state.swing = null;
+  events.push({ type: 'BROKEN', on, x: r3(fall.x), count: state.broken.length });
 }
 
 /** After a death: the survivor goes on only from the correct position; otherwise the Task is lost. */
@@ -360,17 +406,19 @@ export function tick(prev, at) {
  *  - at: the moment the server receives the press, on its clock: the press is resolved then, wherever
  *    the panel and the crate are by then (Integration, 12 November 2026). shownAt, the phone's own
  *    moment, is diagnostic only.
- *  - act: 'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), or 'key' (either, once
- *    landed): the act its button showed, never the button's current one.
+ *  - act: 'raise' | 'lower' (the Winch: the finger down on Hold, and off it), 'release' | 'lock' (the
+ *    Panel), or 'key' (either, once landed): the act its button showed, never the button's current one.
  *  - taskId and revision: the Task and the revision the phone showed; a press made on an older
- *    revision than the last change it depends on is refused as stale.
+ *    revision than the last change it depends on is refused as stale. A let-go never is: the finger is
+ *    off, and the crate falls from wherever it is when the let-go arrives (its own hold, still on its
+ *    way when the finger came off, is the change it would otherwise be stale to).
  *  - commandId: the press's identity. A retry with the same id returns the first answer (RECEIPT)
  *    and changes nothing: no second press, no second roll.
  *  - protection: { winch, panel }, the game's applicable Protection as the server reads it now.
  *  - roll: the server's own random number for a press that would kill, in [0, 1) (omitted: 1).
  * Neither protection nor roll ever reaches a phone.
- * Returns { state, events }: RAISED, RELEASED, LOCKED, LOWERED, LANDED, MISSED, STOPPED, KILLED, KEY,
- * SENT, ENDED, the server's CATCH, REFUSED (why) to the presser only, or RECEIPT for a retry.
+ * Returns { state, events }: RAISED, TAKEN, RELEASED, LOCKED, LOWERED, LANDED, MISSED, BROKEN, STOPPED,
+ * KILLED, KEY, SENT, ENDED, the server's CATCH, REFUSED (why) to the presser only, or RECEIPT for a retry.
  */
 export function act(prev, step) {
   if (step.commandId && prev.receipts?.[step.commandId]) {
@@ -394,7 +442,7 @@ export function act(prev, step) {
   if (!role) return refuse('not-a-participant');
   if (state.phase === 'briefing') return refuse('briefing');
   if (!state.alive[role]) return refuse('down');
-  if (step.revision !== undefined && step.revision < state.pressRevision) return refuse('stale');
+  if (step.act !== 'lower' && step.revision !== undefined && step.revision < state.pressRevision) return refuse('stale');
   const mine = step.act === KEY || ROLES[role].acts.includes(step.act);
   if (!mine) return refuse('not-your-control');
   const c = state.crate, p = state.panel;
@@ -410,46 +458,60 @@ export function act(prev, step) {
     return accept();
   }
 
+  // Hold: the Winch's finger down on the button. The hook lifts the crate waiting in the intake when the
+  // panel is locked over the hatch, and keeps it up while the finger stays down (the owner, 13 November).
   if (step.act === 'raise') {
     if (c.state === 'landed') return refuse('landed');
+    if (c.state === 'hanging') {
+      if (c.holder === 'winch') return refuse('holding');
+      // After a stopped drop the winch's brake holds the crate: the finger takes it back.
+      state.crate = { ...c, holder: 'winch', from: c.from ? { ...c.from } : null };
+      events.push({ type: 'TAKEN', by: role, x: r3(crateX(state, t)) });
+      return accept();
+    }
     if (!p.locked) return refuse('unlocked');
     if (!ready) return refuse('busy');
-    if (c.state === 'hanging') return refuse('up');
-    // From the intake, the deck or the console, the crate slides under the hook and rises.
-    state.crate = { state: 'hanging', x: p.stop, since: t, from: { state: c.state, x: c.x } };
+    if (p.stop !== FIXTURES.intake.stop) return refuse('not-over-crate');
+    state.crate = { state: 'hanging', x: p.stop, since: t, from: { state: c.state, x: c.x }, holder: 'winch' };
     state.swing = { since: t + TIMING.raise, amp: SWING.lift, dir: 1 };
     events.push({ type: 'RAISED', by: role, from: c.state, x: r3(c.x) });
     return accept();
   }
 
+  // Let go: the finger off the button. The crate falls from wherever it is when the let-go arrives.
   if (step.act === 'lower') {
     if (c.state === 'landed') return refuse('landed');
     if (c.state !== 'hanging') return refuse('down-already');
-    if (!p.locked) return refuse('unlocked');
-    if (!ready) return refuse('busy');
-    const x = crateX(state, t);
-    const where = landingAt(x);
-    events.push({ type: 'LOWERED', by: role, x: r3(x), to: where });
-    if (where === 'console' && state.alive.panel) {
-      // The drop. Stopped, the winch's brake catches the crate and it hangs on, swinging as it was.
-      if (!lethal(state, role, 'drop', events, { x: r3(x) }, step)) return accept();
-      state.crate = { state: 'fallen', x: FIXTURES.console.stop, since: t, from: { state: 'hanging', x } };
-      state.swing = null;
+    if (c.holder !== 'winch') return refuse('not-holding');
+    const fall = fallOf(state, t);
+    const x = r3(fall.x);
+    events.push({ type: 'LOWERED', by: role, x, to: fall.zone, ...(fall.lift < 1 ? { lift: fall.lift } : {}) });
+    if (fall.result === 'drop') {
+      // The drop: it falls on the Panel operator, and breaks. Stopped, the winch's brake catches the
+      // crate: it hangs on, swinging as it was, until the Winch's finger takes it back.
+      if (!lethal(state, role, 'drop', events, { x }, step)) {
+        state.crate = { ...c, holder: 'brake', from: c.from ? { ...c.from } : null };
+        return accept();
+      }
+      breakCrate(state, fall, t, events);
       afterDeath(state, t, events);
       return accept();
     }
-    const rest = { platform: 'landed', console: 'fallen', intake: 'intake', deck: 'deck' }[where];
-    const at = { landed: FIXTURES.platform.stop, intake: FIXTURES.intake.stop, fallen: FIXTURES.console.stop }[rest] ?? x;
-    state.crate = { state: rest, x: at, since: t, from: { state: 'hanging', x } };
+    if (fall.result === 'break') { breakCrate(state, fall, t, events); return accept(); }
+    const rest = fall.result === 'land' ? 'landed' : 'intake';
+    const from = { state: 'hanging', x: fall.x, ...(fall.lift < 1 ? { lift: fall.lift } : {}) };
+    state.crate = { state: rest, x: rest === 'landed' ? FIXTURES.platform.stop : FIXTURES.intake.stop, since: t, from };
     state.swing = null;
-    events.push(rest === 'landed' ? { type: 'LANDED' } : { type: 'MISSED', on: rest, x: r3(x) });
+    events.push(rest === 'landed' ? { type: 'LANDED' } : { type: 'MISSED', on: 'intake', x });
     return accept();
   }
 
   if (step.act === 'release') {
     if (!p.locked) return refuse('unlocked');
     if (!ready) return refuse('busy');
-    if (c.state !== 'hanging' && c.state !== 'landed') return refuse('crate-down');
+    // The hook goes with the crate, or empty: after a landing, or to fetch a crate from the intake. Not
+    // off a crate waiting under it, for the Winch to lift.
+    if (c.state === 'intake' && p.stop === FIXTURES.intake.stop) return refuse('crate-down');
     const dir = p.stop === STOPS - 1 ? -1 : p.stop === 0 ? 1 : p.dir;
     state.panel = { locked: false, stop: null, dir, from: p.stop, since: t };
     state.swing = null;
@@ -523,40 +585,52 @@ export function next(state, t) {
     return out;
   }
   if (!settled(state, t) || c.state === 'sent') return out;
-  if (c.state !== 'hanging') { if (state.alive.winch) out.winch = 'raise'; return out; }
+  const goal = goalStop(state);
+  // A crate waiting in the intake: the hook over the hatch, then the finger on Hold.
+  if (c.state === 'intake') {
+    if (p.locked && p.stop === goal) { if (state.alive.winch) out.winch = 'raise'; } else if (state.alive.panel) out.panel = p.locked ? 'release' : 'lock';
+    return out;
+  }
+  // On the brake after a stopped drop: the finger takes it back.
+  if (c.holder !== 'winch') { if (state.alive.winch) out.winch = 'raise'; return out; }
   if (!p.locked) { if (state.alive.panel) out.panel = 'lock'; return out; }
-  if (p.stop === FIXTURES.platform.stop) { if (state.alive.winch) out.winch = 'lower'; return out; }
+  if (p.stop === goal) { if (state.alive.winch) out.winch = 'lower'; return out; }
   if (state.alive.panel) out.panel = 'release';
   return out;
 }
 
-/** Where the crate's swing takes it over the next TIMING.margin ms: each zone a Lower could meet. */
-function zonesAhead(state, t) {
+/** What a let-go meets over the next TIMING.margin ms: each result a let-go made now could have. */
+function fallsAhead(state, t) {
   const seen = new Set();
-  for (let dt = 0; dt <= TIMING.margin; dt += 10) seen.add(landingAt(crateX(state, t + dt)));
+  for (let dt = 0; dt <= TIMING.margin; dt += 10) seen.add(fallOf(state, t + dt).result);
   return [...seen];
 }
 
 /**
  * The dangers and openings at time t, with TIMING.margin to spare: a press made now reaches the server
  * a moment later, so a warning starts that much before a danger, and a glow ends that much before an
- * opening does. cut: a LOCK now could take the cab's stop, where it cuts the Winch operator. drop: a
- * Lower now could meet the crate's swing over the console, where it falls on the Panel operator. zone:
- * where the crate is over now; likely: where it will be when a press made now arrives; steady: the
- * swing keeps it over the platform the whole time.
+ * opening does. cut: a LOCK now could take the cab's stop, where it cuts the Winch operator. While the
+ * Winch holds the crate up: drop, a let-go now could meet the crate over the console, where it falls on
+ * the Panel operator; breaks, a let-go now could break it; steady, a let-go now lands it, whenever it
+ * arrives in the margin; zone, where the crate is over now; likely and fall, where it will be, and what
+ * a let-go would do, when a let-go made now arrives.
  */
 export function hazards(state, t) {
   const running = state.phase === 'running';
   const p = panelAt(state, t), soon = panelAt(state, t + TIMING.margin);
   const cut = running && state.alive.winch && !p.locked && (p.stop === FIXTURES.cab.stop || soon.stop === FIXTURES.cab.stop);
-  const lowerable = running && state.crate.state === 'hanging' && p.locked && settled(state, t);
-  const zone = lowerable ? landingAt(crateX(state, t)) : null;
-  const ahead = lowerable ? zonesAhead(state, t) : [];
+  const held = running && state.crate.state === 'hanging' && state.crate.holder === 'winch';
+  const now = held ? fallOf(state, t) : null;
+  const later = held ? fallOf(state, t + TIMING.margin) : null;
+  const ahead = held ? fallsAhead(state, t) : [];
   return {
-    cut, zone,
-    likely: lowerable ? landingAt(crateX(state, t + TIMING.margin)) : null,
-    drop: lowerable && state.alive.panel && ahead.includes('console'),
-    steady: lowerable && ahead.every(z => z === 'platform'),
+    cut,
+    zone: now?.zone ?? null,
+    likely: later?.zone ?? null,
+    fall: later?.result ?? null,
+    drop: held && state.alive.panel && ahead.includes('drop'),
+    breaks: held && ahead.includes('break'),
+    steady: held && ahead.every(r => r === 'land'),
     leaving: !p.locked && soon.stop !== p.stop,
   };
 }
@@ -582,20 +656,33 @@ export function view(state, seat, t = state.at) {
   const live = state.phase === 'running' && state.alive[role] && state.online[role];
   const landed = c.state === 'landed';
   const key = () => ({ act: KEY, label: state.keys[role] ? 'Key turned' : 'Turn key', enabled: live && ready && !state.keys[role], next: live && n === KEY, turned: state.keys[role] });
+  const goal = goalStop(state);
   let buttons;
   if (role === 'panel') {
     const act = p.locked ? 'release' : 'lock';
-    const enabled = live && (p.locked ? ready && (c.state === 'hanging' || landed) : true);
-    const onTime = !h.leaving && p.stop === FIXTURES.platform.stop;
+    const fetch = c.state === 'intake' && p.stop !== FIXTURES.intake.stop;
+    const enabled = live && (p.locked ? ready && (c.state === 'hanging' || landed || fetch) : true);
+    const onTime = !h.leaving && p.stop === goal;
     const panel = { act, label: p.locked ? 'RELEASE' : 'LOCK', enabled, hazard: enabled && act === 'lock' && h.cut, next: enabled && n === act && (act === 'release' || onTime), stop: p.stop, leaving: act === 'lock' && h.leaving };
     buttons = landed ? [key(), panel] : [panel];
   } else if (landed) {
     buttons = [key()];
   } else {
-    buttons = [
-      { act: 'raise', label: 'Raise', enabled: live && p.locked && ready && c.state !== 'hanging', next: live && n === 'raise' },
-      { act: 'lower', label: 'Lower', enabled: live && Boolean(h.zone), hazard: live && h.drop, zone: h.likely, next: live && n === 'lower' && h.steady },
-    ];
+    // The Winch's one button (the owner, 13 November 2026): the finger down on it sends raise, the
+    // finger off it sends lower. holding: the server's word that the finger holds the crate up, shown
+    // only while the controls work (out, offline or after the end, the button is just off).
+    const holding = live && c.state === 'hanging' && c.holder === 'winch';
+    const lift = c.state === 'intake' && p.locked && p.stop === FIXTURES.intake.stop && ready;
+    const takeBack = c.state === 'hanging' && c.holder === 'brake';
+    buttons = [{
+      act: 'hold', label: holding ? 'Holding' : 'Hold', down: 'raise', up: 'lower', holding,
+      enabled: live && (holding || lift || takeBack),
+      // The glow: hold now (the hook is over the crate), or let go now (it lands, whenever the let-go arrives in the margin).
+      next: live && ((n === 'raise' && (lift || takeBack)) || (n === 'lower' && holding && h.steady)),
+      // Striped: a let-go now may drop it on the partner.
+      hazard: live && holding && h.drop,
+      zone: holding ? h.likely : null, fall: holding ? h.fall : null,
+    }];
   }
   const warnings = [];
   if (h.cut) warnings.push(role === 'panel' ? 'panel-at-partner-cab' : 'panel-at-your-cab');
@@ -605,7 +692,8 @@ export function view(state, seat, t = state.at) {
     taskId: state.id, revision: state.revision,
     phase: state.phase, you: state.alive[role] ? 'alive' : 'down', partner: state.alive[partner] ? (state.online[partner] ? 'alive' : 'offline') : 'down',
     panel: { locked: p.locked, at: r3(p.at), stop: p.stop, dir: p.dir, resting: p.resting },
-    crate: { state: c.state, x: r3(crateX(state, t)), settled: ready },
+    crate: { state: c.state, x: r3(crateX(state, t)), settled: ready, holder: c.state === 'hanging' ? c.holder : null },
+    goal, broken: state.broken.length,
     zone: h.zone, likely: h.likely, buttons, warnings,
     keys: { you: state.keys[role], partner: state.keys[partner], needed: ROLE_KEYS.filter(r => state.alive[r]).length },
     secondsLeft: Math.max(0, Math.ceil((state.deadline - t) / 1000)),
@@ -626,7 +714,8 @@ export function atTime(projected, t) {
 /**
  * One participant's projection: everything their phone needs to draw the Task at any moment between
  * two updates, and after a recovery, and nothing more. Anchors, not positions: the panel's lock or its
- * release (from, dir, since), the swing (since, amp, dir), the crate's last move (since, from), the
+ * release (from, dir, since), the swing (since, amp, dir), the crate's last move (since, from) and
+ * who holds it up (holder: the Winch's finger, or the brake), the crates broken so far (where and when), the
  * Task's times and the mechanics' parameters; view(projection, seat, t) gives the phone at any t.
  * events: the participant's own events since `after`, a cursor in their own sequence: each with its
  * identity and number in that sequence (never the server's global one, whose gaps would show the other
@@ -644,6 +733,7 @@ export function projection(state, seat, { observedAt = state.at, events = [], af
     phase: state.phase, at: observedAt, startedAt: state.startedAt, runningAt: state.runningAt, deadline: state.deadline, endedAt: state.endedAt, returnsAt: state.returnsAt,
     alive: { ...state.alive }, online: { ...state.online }, keys: { ...state.keys },
     panel: { ...state.panel }, swing: state.swing ? { ...state.swing } : null, crate: { ...state.crate, from: state.crate.from ? { ...state.crate.from } : null },
+    broken: state.broken.map(b => ({ ...b })),
     outcome: state.outcome ? { ...state.outcome } : null,
     mechanics: { stops: STOPS, move: TIMING.move, rest: TIMING.rest, margin: TIMING.margin, raise: TIMING.raise, lower: TIMING.lower, swing: SWING, zones: ZONES },
     events: mine.map(e => ({ ...e })),

@@ -26,6 +26,7 @@ export const restPose = () => ({
   console: { lamp: false, key: false, locked: true, near: 0 },
   platform: { drop: 0, clamp: false, lamp: false },
   alive: { winch: true, panel: true },
+  wrecks: [],
   effects: [], line: null, tags: null, dim: 0,
 });
 
@@ -80,6 +81,11 @@ export function sceneSvg(pose, { characters = { winch: 'c2', panel: 'c6' }, pref
     M.hook(cv, px, hy, { engaged: false });
   }
   if (pose.line) M.dropLine(cv, pose.line.from, pose.line.to, { tone: pose.line.tone, t: pose.line.t ?? 1 });
+  // The crates broken so far: falling whole, or lying broken where they fell.
+  for (const w of pose.wrecks ?? []) {
+    if (w.whole) M.crate(cv, w.x, w.y, { tilt: w.tilt });
+    else M.wreck(cv, w.x, w.y, { seed: w.seed, flip: w.flip, compact: w.on === 'console' });
+  }
   if (c) M.crate(cv, c.x, c.y, { tilt: c.tilt });
   M.platform(cv, { drop: pose.platform.drop, clamp: pose.platform.clamp, part: 'jaws' });
   for (const e of pose.effects) {

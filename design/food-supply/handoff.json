@@ -1,6 +1,6 @@
 {
   "schema": "mothership.design.food-supply-handoff/3",
-  "status": "A design proposal on synthetic fixtures (11 and 12 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules, the owner's crane, the owner's rules for playing the Task (decided on Designer's recommendation, 12 November) and Integration's review of 12 November. Nothing here activates gameplay.",
+  "status": "A design proposal on synthetic fixtures (11 to 13 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules, the owner's crane, the owner's rules for playing the Task (decided on Designer's recommendation, 12 November), Integration's review of 12 November, and the owner's changes after the playable test (13 November: the Winch's one Hold button, broken crates, the click twice as fast). Nothing here activates gameplay.",
   "base": {
     "commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
     "ruleset": {
@@ -10,8 +10,8 @@
       "overlay": "rules/overlays/planet-blackout-before-vote-owner-decision-2026-11-10.json",
       "successor": "rules/planet-successor-authority-2026-11-05.json (in-person-planet-2026-11-05)"
     },
-    "owner": "docs/design/owner-decisions.md, 11 and 12 November 2026: the Food Supply Task's confirmed highlights, the owner's answers, the owner's crane and its click from stop to stop",
-    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11 and 12 November decisions are the only rule source for this Task. Backend versions any adoption."
+    "owner": "docs/design/owner-decisions.md, 11, 12 and 13 November 2026: the Food Supply Task's confirmed highlights, the owner's answers, the owner's crane and its click from stop to stop, and the Winch's one Hold button and the faster click after the playable test",
+    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11, 12 and 13 November decisions are the only rule source for this Task. Backend versions any adoption."
   },
   "target": {
     "protocol": 3,
@@ -52,12 +52,12 @@
     {
       "id": "axes",
       "rule": "One participant controls vertical movement; the other controls horizontal movement.",
-      "design": "The Winch: Raise and Lower (vertical). The Panel: RELEASE and LOCK, the locking panel running left and right along the rail (horizontal). Once the crate has landed, a key each; nothing else."
+      "design": "The Winch: one Hold button (vertical): the finger down lifts the crate and keeps it up, the finger off lets it fall (the owner, 13 November 2026). The Panel: RELEASE and LOCK, the locking panel running left and right along the rail (horizontal). Once the crate has landed, a key each; nothing else."
     },
     {
       "id": "betrayal",
       "rule": "Both can betray their partner using movement of the same controller: dropping the crate onto the other player, or driving a moving panel into them.",
-      "design": "The Winch's Lower while the crate's swing has it over the Panel operator drops it on them (the drop); the Panel's LOCK while the panel passes the cab's stop drives its blade into the Winch operator's cab (the cut)."
+      "design": "The Winch's let-go while the crate is over the Panel operator drops it on them, and it breaks (the drop); the Panel's LOCK while the panel passes the cab's stop drives its blade into the Winch operator's cab (the cut)."
     },
     {
       "id": "no-attack-button",
@@ -77,7 +77,7 @@
     {
       "id": "survivor",
       "rule": "After a partner dies, the survivor can complete the delivery alone if the crate is in the correct position. Otherwise the Task is lost.",
-      "design": "The correct position is over the platform: the crate on it, or on the hook of the panel locked over it. A death there: the survivor finishes alone (the Winch lowers it in and turns its key; the Panel turns its key). Anywhere else: lost."
+      "design": "The correct position is over the platform: the crate on it, or on the hook of the panel locked over it. A death there: the survivor finishes alone (the Panel turns its key after the cut on the landed crate). Anywhere else: lost. The drop breaks the crate (hold-release, below), so a death by the drop always loses the Task."
     },
     {
       "id": "disconnect",
@@ -97,7 +97,7 @@
     {
       "id": "experience",
       "rule": "A short, understandable cooperative activity; low puzzle difficulty; coordination and trust are the challenge; both contribute without talking.",
-      "design": "Four presses and two keys: raise, release, lock over the platform, lower as the swing passes over it. The challenge is timing and trust, without talking: the next press glows, and every danger shows on both phones."
+      "design": "A hold, two presses, a let-go and two keys: hold the crate up, release, lock over the platform, let go as the swing passes over it. The challenge is timing and trust, without talking: the next press, and the moment to let go, glow, and every danger shows on both phones."
     },
     {
       "id": "away-visible",
@@ -117,7 +117,7 @@
     {
       "id": "accidents",
       "rule": "Near each other, a small movement by both can kill one of them by mistake (a chance).",
-      "design": "In the timing, with no dice: a LOCK made late in the panel's rest at 6 reaches the server as it snaps on to 7, and cuts the Winch operator; a lock sets the crate swinging, so a Lower a moment too soon can drop it on the Panel operator. Each kill takes both moving the crane, the lock and the Lower. A kill on the Task is not an attack, so a mistake costs the presser nothing (the owner)."
+      "design": "In the timing, with no dice: a LOCK made late in the panel's rest at 6 reaches the server as it snaps on to 7, and cuts the Winch operator; a lock sets the crate swinging, so a let-go a moment too soon can drop it on the Panel operator. Each kill takes both moving the crane, the lock and the let-go. A kill on the Task is not an attack, so a mistake costs the presser nothing (the owner)."
     },
     {
       "id": "partner-decline",
@@ -147,12 +147,12 @@
     {
       "id": "time-limit",
       "rule": "The overall time to complete the Task is 30 seconds, the briefing inside it.",
-      "design": "The timer on both phones counts down from 0:30 from the Task's start; the 4 s briefing runs inside it, so the controls work for the last 26 s. At 0:00 the Task is lost and nothing is delivered. A cooperative run takes about 11 seconds from the start."
+      "design": "The timer on both phones counts down from 0:30 from the Task's start; the 4 s briefing runs inside it, so the controls work for the last 26 s. At 0:00 the Task is lost and nothing is delivered. A cooperative run takes about 10.5 seconds from the start."
     },
     {
       "id": "pendulum",
       "rule": "The crate swings like a pendulum, so lowering it without killing the partner takes attention.",
-      "design": "A lock sets the crate swinging, wide at first and calming but never still (0.9 of a stop, settling to 0.38, a swing every 1.3 s: the owner's, as designed). Lowered, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, anywhere else it misses."
+      "design": "A lock sets the crate swinging, wide at first and calming but never still (0.9 of a stop, settling to 0.38, a swing every 1.3 s: the owner's, as designed). Let go, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, over the hatch it drops back in, anywhere else it breaks."
     },
     {
       "id": "next-volunteer",
@@ -177,7 +177,7 @@
     {
       "id": "click-stop",
       "rule": "The locking panel clicks from stop to stop.",
-      "design": "Chosen when Integration ruled that a press is resolved when the server receives it: with the panel sliding a stop every 0.22 s, the network's delay alone would have turned a LOCK at 6 into a cut at 7. Now the panel snaps to each stop and rests there (a 0.1 s snap, a 0.4 s rest), and a LOCK takes the stop it rests at or the one it is snapping to: each stop owns half a second, longer than the delay. A late LOCK at 6 still cuts the Winch operator, and the warning starts 0.15 s before the snap. The owner approved the two numbers and the margin (\"this is fine\", 12 November 2026)."
+      "design": "Chosen when Integration ruled that a press is resolved when the server receives it: with the panel sliding a stop every 0.22 s, the network's delay alone would have turned a LOCK at 6 into a cut at 7. Now the panel snaps to each stop and rests there (a 0.1 s snap, a 0.4 s rest), and a LOCK takes the stop it rests at or the one it is snapping to: each stop owned half a second, longer than the delay. A late LOCK at 6 still cuts the Winch operator, and the warning starts 0.15 s before the snap. The owner approved the two numbers and the margin (\"this is fine\", 12 November 2026), then made the click twice as fast (panel-speed, below)."
     },
     {
       "id": "food-step",
@@ -233,21 +233,31 @@
       "id": "no-slow-mode",
       "rule": "No slower mode for now. A player who cannot play the Task's timing can decline, or not volunteer. Decided again after a playtest.",
       "design": "The panel and the swing run at one speed for every pair."
+    },
+    {
+      "id": "hold-release",
+      "rule": "The Winch has one button: holding it keeps the crate up; letting go drops it. Let go in the wrong position, the crate breaks, and another must be picked.",
+      "design": "Hold: the finger down sends raise, the finger off sends lower, each resolved when it reaches the server. Over the platform from a locked panel, the let-go lands it; over the console it falls on the Panel operator, the drop, and breaks; anywhere else it breaks, CRASH!, and a new crate rises into the intake: the Panel brings the hook back and locks it over stop 1 (RELEASE works then), and the Winch holds again. A broken crate costs time, not food. PROPOSED inside it: over the hatch it drops back in, whole (a tap at the start costs nothing); from a panel still moving it breaks even over the platform (the landing needs the lock); a finger already down lifts the crate as soon as the hook is over it; a let-go is never stale; after a stopped drop the brake holds the crate until the Winch holds again. It leaves only the Panel a way to kill and still deliver (conflict 2)."
+    },
+    {
+      "id": "panel-speed",
+      "rule": "The locking panel moves twice as fast, so it is harder to react to.",
+      "design": "A 0.05 s snap and a 0.2 s rest: a stop every 0.25 s, end to end in 1.5 s (first 0.1 s and 0.4 s). The 0.15 s margin stays, so LOCK's glow at a stop lasts 0.1 s, and a press made in it arrives in time on a delay under 0.15 s; on a slower connection it can take the next stop."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "d735ab162be5e41c7dd29cce6f8676cd7f22dc723314b363464443da6dcd1ba1",
-    "design/food-supply/layout.mjs": "6a0064775c170fa95e48c6ec07c8b13c2a404b79268d67ea427c51f3908b217c",
+    "design/food-supply/task.mjs": "2688a4f121af0a2886a269dd944edebb8034a0840b297002a6464061f56ca4c4",
+    "design/food-supply/layout.mjs": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
-    "design/food-supply/machine.mjs": "449e5ac81b9638dcbde254bce30a8c8eb499a682ac79f613150e45a34d0d798a",
-    "design/food-supply/scene.mjs": "ae084a4ed6b188050a0d0420464b22ef0f9339b496802eb61463b764481ac6c4",
-    "design/food-supply/stage.mjs": "e19cc2dc5afa57faad14dde09aecf4c21b5af53fa71f12908a33a8c7befb7e34",
-    "design/food-supply/boards.mjs": "b9c762e8885095056cedc6eaf3459330f745cf858902f418bed7b16b4134b41c",
-    "design/food-supply/scenarios.mjs": "3235c41961a4b057f0a83ac28ec3fcab7cb7089a90c2784cb30a05bb9c93e263",
-    "design/food-supply/hints.mjs": "23a5b1d4a6b2371acf662663a01cb2374b4c9d927dc2b2669870b288bbb4c78f",
-    "design/food-supply/rules.mjs": "6a55183004ecda421f6a8ff873bda068c2f2cd0c55bc89fa686b2ad5617c8e97",
-    "design/food-supply/phone.mjs": "e6aad18cb0b502fc8c479689091ef11c4c09c43ddacf05b946bb1df9c1abf41d",
-    "design/food-supply/phone.css": "300b2eaa6283db8c7ec0d9ecd72210376ad126f6c3d079cbcf8a47d735a7bde0"
+    "design/food-supply/machine.mjs": "4c8beb57428bd7bb812ea1ea5c8a8e2132816a8b794dde4fe5bcce5340f8b2dd",
+    "design/food-supply/scene.mjs": "401f52aa92f40540b85bd7f6160c13090ca1f583efa224b1ffdd506a542bcfb9",
+    "design/food-supply/stage.mjs": "035006e3392987402f724e8724bf7fe3208e8dae6d8381e75b95674debe7325a",
+    "design/food-supply/boards.mjs": "d67bb490883014e825ec7b2c9c4a849687a64d410c5bdaaa6a6ef87e7c3a3916",
+    "design/food-supply/scenarios.mjs": "acaa25ced94d1b16d5a5fc9073db92d99e0e46a86a971490ece6f383e797fcfe",
+    "design/food-supply/hints.mjs": "e91fad0698fcbc238b3255dd98f003cdac3ff0d6573457369a6758741fc67ff9",
+    "design/food-supply/rules.mjs": "96173cce7b1e1bee520bf160c7e5719a79e1ee35f95fc3c71b2afe41c00ea4b7",
+    "design/food-supply/phone.mjs": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
+    "design/food-supply/phone.css": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -438,7 +448,7 @@
         107.52,
         344
       ],
-      "about": "Over the console: the crate lowered with its centre here falls on the Panel operator"
+      "about": "Over the console: the crate let go with its centre here falls on the Panel operator, and breaks"
     },
     "platform": {
       "centre": 5,
@@ -449,7 +459,7 @@
         76.8,
         344
       ],
-      "about": "Over the platform: the crate lowered with its centre here lands. The correct position"
+      "about": "Over the platform: the crate let go with its centre here, from a locked panel, lands. The correct position"
     },
     "intake": {
       "centre": 0,
@@ -460,7 +470,7 @@
         107.52,
         344
       ],
-      "about": "The intake hatch, where the crate starts; lowered here it goes back in"
+      "about": "The intake hatch, where the crate starts and a new one waits after a break; let go here, it drops back in, whole"
     },
     "sweep": {
       "stops": [
@@ -473,7 +483,7 @@
         884,
         96
       ],
-      "about": "The panel's run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the owner's)"
+      "about": "The panel's run: it clicks from stop to stop, end to end and back, a stop every 0.25 s (the owner's, twice as fast since 13 November 2026)"
     }
   },
   "operators": {
@@ -545,7 +555,7 @@
       "fixtures": {
         "intake": {
           "stop": 0,
-          "about": "The intake hatch at the rail's left end: the crate starts in it, and rises out of it on the hook. The panel starts locked over it."
+          "about": "The intake hatch at the rail's left end: the crate starts in it and rises out of it on the hook, with the panel locked over it; after a crate breaks, a new one waits in it. The panel starts locked over it. Let go over it, the crate drops back in, whole."
         },
         "deck": {
           "stops": [
@@ -553,15 +563,15 @@
             2,
             3
           ],
-          "about": "Open deck: the crate crosses it on the way to the platform; lowered here, it misses."
+          "about": "Open deck: the crate crosses it on the way to the platform; let go here, it breaks."
         },
         "console": {
           "stop": 4,
-          "about": "The Panel operator's console: they stand at it under the rail, their head just under the crate's path. Lowered while its swing has it over here, the crate falls on them: the drop."
+          "about": "The Panel operator's console: they stand at it under the rail, their head just under the crate's path. Let go while the crate is over here, it falls on them, the drop, and breaks."
         },
         "platform": {
           "stop": 5,
-          "about": "The galley lift's landing platform: lowered over it, the crate lands and the platform's clamps hold it. The correct position. Then both turn a key and the lift takes it down to the galley."
+          "about": "The galley lift's landing platform: let go over it, with the panel locked, the crate lands and the platform's clamps hold it. The correct position. Then both turn a key and the lift takes it down to the galley."
         },
         "cab": {
           "stop": 6,
@@ -570,14 +580,14 @@
       }
     },
     "sweep": {
-      "rule": "sweep(from, dir, dt): the panel clicks from stop to stop, end to end and back: a snap of TIMING.move = 100 ms to the next stop, then a rest of TIMING.rest = 400 ms there (CLICK = 500 ms a stop). n = floor(dt / CLICK), r = dt − n × CLICK, resting when r ≥ move. Unfold the bounce: u0 = (dir > 0 ? from : 12 − from) + n; fold(u) takes u modulo 12 to at = u ≤ 6 ? u : 12 − u, moving right while u ≤ 6. The place is fold(u0 + (resting ? 1 : snap(r / move))), with snap(u) = u²(3 − 2u); the way it goes is fold(u0 + 0.5).dir.",
+      "rule": "sweep(from, dir, dt): the panel clicks from stop to stop, end to end and back: a snap of TIMING.move = 50 ms to the next stop, then a rest of TIMING.rest = 200 ms there (CLICK = 250 ms a stop). n = floor(dt / CLICK), r = dt − n × CLICK, resting when r ≥ move. Unfold the bounce: u0 = (dir > 0 ? from : 12 − from) + n; fold(u) takes u modulo 12 to at = u ≤ 6 ? u : 12 − u, moving right while u ≤ 6. The place is fold(u0 + (resting ? 1 : snap(r / move))), with snap(u) = u²(3 − 2u); the way it goes is fold(u0 + 0.5).dir.",
       "lock": "A LOCK takes the stop the panel rests at, or the one it is snapping to: stop = fold(u0 + 1). Each stop takes a LOCK for one whole click, the snap toward it and the rest at it. A release starts from the locked stop in the direction the panel last moved (right from stop 1, left from stop 7).",
-      "owner": "The owner's (12 November 2026): the click, chosen when a press came to be resolved on its arrival, and its 0.1 s snap and 0.4 s rest (\"this is fine\").",
+      "owner": "The owner's (12 November 2026): the click, chosen when a press came to be resolved on its arrival, first a 0.1 s snap and a 0.4 s rest (\"this is fine\"); twice as fast after the playable test, a 0.05 s snap and a 0.2 s rest, \"so it would be harder for the user to react\" (13 November 2026).",
       "confirmed": true
     },
     "margin": {
       "ms": 150,
-      "rule": "A press made now reaches the server a moment later. So the warnings start TIMING.margin before a danger, and a glow ends TIMING.margin before its chance does: LOCK is striped while the stop it takes now, or the one it would take TIMING.margin later, is the cab's; it glows over the platform only while both are the platform. Lower is striped while the swing could meet the console within the margin, and glows only while the swing holds the crate over the platform for the whole margin. It says where the crate will be at the margin's end. Never a promise: the server decides on arrival.",
+      "rule": "A press made now reaches the server a moment later. So the warnings start TIMING.margin before a danger, and a glow ends TIMING.margin before its chance does: LOCK is striped while the stop it takes now, or the one it would take TIMING.margin later, is the cab's; it glows over the platform only while both are the platform. While held, Hold is striped while a let-go could meet the console within the margin, and glows only while a let-go lands the crate whenever it arrives in the margin. It says what a let-go would do at the margin's end. Never a promise: the server decides on arrival.",
       "confirmed": "The owner, 12 November 2026: 0.15 s (\"this is fine\")."
     },
     "swing": {
@@ -596,13 +606,18 @@
         "console": 0.42,
         "intake": 0.42
       },
-      "rule": "landingAt(x): within ZONES.platform of stop 6 'platform' (lands), within ZONES.console of stop 5 'console' (the drop), within ZONES.intake of stop 1 'intake', otherwise 'deck' (a miss).",
+      "rule": "landingAt(x): within ZONES.platform of stop 6 'platform', within ZONES.console of stop 5 'console' (the drop), within ZONES.intake of stop 1 'intake', otherwise 'deck'.",
       "confirmed": "The owner, 13 November 2026: as designed. A playtest may still change them."
     },
-    "correctPosition": "Over the platform: the crate landed, or still on the hook of the panel locked at stop 6. A death anywhere else loses the Task at once.",
+    "fall": {
+      "rule": "fallOf(state, t): what a let-go arriving at t does, from where the crate is then (crateX). Still rising: 'back' (into the hatch, whole). Otherwise by landingAt(x): 'platform' lands from a locked panel and breaks from a moving one; 'intake' goes back in, whole; 'console' is the drop (lethal, and the crate breaks); 'deck' breaks.",
+      "owner": "The owner, 13 November 2026, after the playable test: one button, held to keep the crate up and let go to drop it; let go in the wrong position, it breaks, and another crate must be picked.",
+      "proposed": "Over the hatch it drops back in, whole; from a moving panel it breaks even over the platform; a finger already down lifts the crate as soon as the hook is over it; a let-go is never stale; after a stopped drop the brake holds the crate until the Winch holds again."
+    },
+    "correctPosition": "Over the platform: the crate landed, or still on the hook of the panel locked at stop 6. A death anywhere else loses the Task at once. The drop breaks the crate, so a death by the drop always loses it (the owner's hold, 13 November 2026).",
     "interlocks": [
-      "Raise and Lower work only with the panel locked; Lower only with the crate up and settled.",
-      "RELEASE works only with the crate up and settled, or once it has landed (the empty hook).",
+      "Hold lifts a crate only out of the intake, with the panel locked over the hatch (stop 1), once the crate there has settled; a let-go works whenever the Winch's finger holds the crate, wherever it is.",
+      "RELEASE works with the crate up and settled, once it has landed (the empty hook), or to fetch a crate waiting in the intake (the hook away from stop 1).",
       "The keys work only once the crate has landed; a turned key stays turned (PROPOSED).",
       "A reduced or skipped animation never shortens them: the server keeps every move's full time."
     ],
@@ -619,17 +634,17 @@
       "axis": "vertical",
       "station": "cab",
       "kill": "drop",
-      "about": "Raises and lowers the crate, from the cab at the right end of the rail",
+      "about": "Holds the crate up with one button, from the cab at the right end of the rail: the finger down lifts it (raise), the finger off lets it fall (lower)",
       "buttons": [
         {
           "act": "raise",
-          "label": "Raise",
-          "keyboard": "ArrowUp"
+          "label": "Hold: the finger down",
+          "keyboard": "Space or ArrowUp, held down (keydown)"
         },
         {
           "act": "lower",
-          "label": "Lower",
-          "keyboard": "ArrowDown"
+          "label": "Hold: the finger off",
+          "keyboard": "Space or ArrowUp, let up (keyup)"
         },
         {
           "act": "key",
@@ -637,9 +652,9 @@
           "keyboard": "Enter"
         }
       ],
-      "layout": "Raise above Lower, under the swing meter; once landed, the key in their place.",
-      "hazard": "While the swing could meet the console within the margin, Lower is striped and says 'May fall on <name>'.",
-      "says": "Lower says where the crate will be when a press made now arrives, never a promise: 'Over the platform' (glowing only while the swing holds it there for the whole margin), 'May fall on <name>' (striped), 'Over the deck: misses', 'Over the hatch'."
+      "layout": "One big button, Hold, under the swing meter; held, it shows pressed in (\"Holding\"); once landed, the key in its place.",
+      "hazard": "While the Winch holds the crate and a let-go could meet the console within the margin, Hold is striped and says 'Let go: falls on <name>'.",
+      "says": "Hold says what a let-go would do when one made now arrives, never a promise: 'Let go now: it lands' (glowing only while a let-go lands it for the whole margin), 'Let go: it lands', 'Let go: falls on <name>' (striped), 'Keep holding: it breaks', 'Let go: back in the hatch', 'Lifting: keep holding'. Not held: 'Press and hold to lift' (glowing when the hook is over the crate), 'Hold to take it back' (the brake has it), 'Wait for the hook at 1', 'Wait: a new crate'."
     },
     "panel": {
       "axis": "horizontal",
@@ -665,12 +680,12 @@
       ],
       "layout": "One big button, RELEASE or LOCK, under the strip of stops; once landed, the key above it and RELEASE smaller.",
       "hazard": "While a LOCK could take the cab's stop (resting at it, snapping to it, or the margin before the panel snaps on to it), LOCK is striped and says 'At 7: <name>'s cab' or 'Moving on to <name>'s cab'.",
-      "says": "LOCK says where the panel is: 'At 6: the platform' (glowing), 'Leaving 6', 'At 7: <name>'s cab' or 'Moving on to <name>'s cab' (striped), 'At 5: over you', 'At <n>'."
+      "says": "LOCK says where the panel is: 'At 6: the platform' (glowing), 'At 1: the hatch' (glowing, to fetch a new crate), 'Leaving 6', 'At 7: <name>'s cab' or 'Moving on to <name>'s cab' (striped), 'At 5: over you', 'At <n>'."
     },
-    "press": "One press, one act, one command id. No hold, drag, swipe or gesture. The phone sends the act its button showed, with the Task's id and the revision it showed. While a press is in flight its control shows it and every control waits; a double tap or a held key sends nothing more, and a disabled control sends nothing. A refusal shows to its presser only. After a lost connection the phone keeps the command id, and on recovery fetches the present state and that command's receipt; it never replays queued taps or a missed animation.",
-    "next": "The press the cooperative route asks for now glows (amber), only while a press made now would still arrive in time: LOCK while the panel snaps to or rests at stop 6, until the margin before it snaps on; Lower while the swing holds the crate over the platform for the whole margin.",
-    "keyboard": "Space for RELEASE and LOCK, the up and down arrows for Raise and Lower, Enter for the key. A key press is bound to the act its button showed at keydown; a held key repeats nothing; the other participant's keys do nothing.",
-    "accessibility": "Each button's accessible name says what it would do now (\"Lower. Warning: may fall on Cleo.\"). The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). Focus stays on the control across state changes (RELEASE and LOCK are one button); a card takes focus when it opens and gives it back when it closes. The hint is a polite live region that changes only with what to do, which is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill. The partner's state (offline, out) stays in the top bar at every text size. Large text: the controls keep their places and grow; the view gives way; the briefing is a reminder that never scrolls, and the instructions are read before the Task (How it works). A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
+    "press": "The Panel and the keys: one press, one act, one command id; no drag, swipe or gesture. The Winch's Hold (the owner, 13 November 2026): the finger down sends raise and the finger off sends lower, each with its own command id, the finger followed on the whole screen (a finger sliding off the button, or the page losing focus, lets go); a finger already down when Hold starts to work sends the hold then, once per revision; the let-go is sent at once, even while its hold is still on its way, whenever the crate may be held for it; back online with the finger off while the projection shows the crate held, the let-go is sent then. The phone sends the act its button showed, with the Task's id and the revision it showed. While a press is in flight its control shows it and every control waits; a double tap or a held key sends nothing more, and a disabled control sends nothing. A refusal shows to its presser only. After a lost connection the phone keeps the command id, and on recovery fetches the present state and that command's receipt; it never replays queued taps or a missed animation.",
+    "next": "The press the cooperative route asks for now glows (amber), only while a press made now would still arrive in time: LOCK while the panel snaps to or rests at the goal (stop 6, or stop 1 to fetch a new crate), until the margin before it snaps on; Hold when the hook is over the crate, and, held, while a let-go lands the crate whenever it arrives in the margin.",
+    "keyboard": "Space for RELEASE and LOCK; Space or the up arrow held down for Hold (keydown holds, keyup lets go); Enter for the key. A key press is bound to the act its button showed at keydown; a held key repeats nothing; the other participant's keys do nothing.",
+    "accessibility": "Each button's accessible name says what it would do now (\"Holding. Warning: let go: falls on Cleo.\"); Hold is a toggle button for assistive technology, aria-pressed while the crate is held. The view is an image with a text equivalent (where the panel and the crate are, and whether a warning shows). Focus stays on the control across state changes (RELEASE and LOCK are one button); a card takes focus when it opens and gives it back when it closes. The hint is a polite live region that changes only with what to do, which is no channel for a danger that lasts half a second: PROPOSED, a short vibration on the presser's phone while their press would kill. The partner's state (offline, out) stays in the top bar at every text size. Large text: the controls keep their places and grow; the view gives way; the briefing is a reminder that never scrolls, and the instructions are read before the Task (How it works). A Task of timing cannot be made equal without sight or quick hands: see the open item timing-access.",
     "command": {
       "name": "TASK_PRESS (a proposal for the shared contract; Backend owns packages/contracts/, with Integration's review)",
       "fields": [
@@ -688,7 +703,7 @@
         },
         {
           "field": "act",
-          "about": "'raise' | 'lower' (the Winch), 'release' | 'lock' (the Panel), 'key' (either, once landed): the act its button showed when it was pressed, never the button's current one. A double tap on LOCK never becomes RELEASE."
+          "about": "'raise' | 'lower' (the Winch: the finger down on Hold, and off it), 'release' | 'lock' (the Panel), 'key' (either, once landed): the act its button showed when it was pressed, never the button's current one. A double tap on LOCK never becomes RELEASE. A 'lower' (a let-go) is never refused as stale: the finger is off."
         },
         {
           "field": "shownAt (optional)",
@@ -748,8 +763,8 @@
     }
   },
   "timing": {
-    "move": 100,
-    "rest": 400,
+    "move": 50,
+    "rest": 200,
     "margin": 150,
     "raise": 450,
     "lower": 300,
@@ -759,13 +774,14 @@
     "ending": 2500,
     "answer": 15000,
     "asking": 30000,
-    "click": 500,
+    "click": 250,
     "returnAfter": 32500,
     "confirmed": {
       "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start.",
-      "click": "The owner, 12 November 2026: the panel clicks from stop to stop, a 0.1 s snap and a 0.4 s rest, and the warnings start 0.15 s early (\"this is fine\").",
+      "click": "The owner, 12 November 2026: the panel clicks from stop to stop, and the warnings start 0.15 s early (\"this is fine\"); 13 November, after the playable test, twice as fast: a 0.05 s snap and a 0.2 s rest (first 0.1 s and 0.4 s).",
+      "hold": "The owner, 13 November 2026: the Winch holds the crate up with one button and lets go to drop it; let go in the wrong position, it breaks (mechanics.fall).",
       "play": "The owner, on Designer's recommendation, 12 November 2026: 15 s to answer; an 8 s grace; the Food Supply step's 30 s to ask; both return 32.5 s after the start, whatever happened.",
-      "rest": "The owner, 13 November 2026, as designed: a 4 s briefing, 0.45 s to raise, 0.3 s to fall, the 2.5 s outcome card; and the swing and the zones (mechanics). A playtest may still change them. No slower mode for now (the owner)."
+      "rest": "The owner, 13 November 2026, as designed: a 4 s briefing, 0.45 s to lift, 0.3 s to fall, the 2.5 s outcome card; and the swing and the zones (mechanics). A playtest may still change them. No slower mode for now (the owner)."
     }
   },
   "food": {
@@ -783,8 +799,8 @@
   "motion": {
     "cues": {
       "click": {
-        "ms": 100,
-        "rest": 400,
+        "ms": 50,
+        "rest": 200,
         "ease": "in-out",
         "reduced": "The panel is drawn at the stop it is snapping to from the start of each snap, and rests there: the same stop at the same moment as without Reduce motion (the stop a LOCK takes), with no slide, no speed lines and no lean of the crate"
       },
@@ -824,6 +840,12 @@
       "miss": {
         "ms": 220,
         "reduced": "CLUNK! shown still for 600 ms"
+      },
+      "break": {
+        "ms": 300,
+        "after": 700,
+        "ease": "in",
+        "reduced": "The broken crate where it fell, at once; CRASH! still for 700 ms; the new crate in the hatch at once"
       },
       "cut": {
         "ms": 120,
@@ -895,7 +917,12 @@
     },
     {
       "field": "crate",
-      "holds": "{ state: 'intake' | 'hanging' | 'deck' | 'fallen' | 'landed' | 'sent', x, since, from }: where it lies (x, a fractional stop), or hanging under the panel; since and from anchor its last move (a raise takes TIMING.raise, a fall TIMING.lower)",
+      "holds": "{ state: 'intake' | 'hanging' | 'landed' | 'sent', x, since, from, holder }: waiting in the intake (a new one after a break rises into the hatch: from.state 'new'), hanging under the panel (holder: 'winch' while the Winch's finger holds it, 'brake' while the brake holds it after a stopped drop), landed or sent; x, a fractional stop; since and from anchor its last move (a lift takes TIMING.raise; a fall, and a new crate's rise, TIMING.lower; from.lift: how far up a crate let go while still rising was)",
+      "seenBy": "participants"
+    },
+    {
+      "field": "broken",
+      "holds": "[{ x, on: 'deck' | 'console' | 'platform', at, hoist }]: the crates broken so far, where each fell and when (hoist: where the panel was, for the drawing of the fall). A broken crate costs time, not food (the owner, 13 November 2026)",
       "seenBy": "participants"
     },
     {
@@ -958,8 +985,14 @@
     },
     {
       "type": "RAISED",
-      "fields": "by, from (intake | deck | fallen), x",
-      "about": "The crate slides under the hook and rises; it hangs, settled, TIMING.raise later, with a small swing.",
+      "fields": "by, from (intake), x",
+      "about": "The finger down on Hold, with the panel locked over the hatch: the crate rises out of the intake on the hook; it hangs, settled, TIMING.raise later, with a small swing, and stays up while the finger stays down (the owner, 13 November 2026).",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "TAKEN",
+      "fields": "by, x",
+      "about": "After a stopped drop, the finger on Hold again takes the crate back from the brake. Nothing moves.",
       "seenBy": "both participants"
     },
     {
@@ -976,20 +1009,26 @@
     },
     {
       "type": "LOWERED",
-      "fields": "by, x, to ('platform' | 'console' | 'intake' | 'deck')",
-      "about": "The winch lets the crate fall from where its swing has it when the press arrives; the result follows at once.",
+      "fields": "by, x, to ('platform' | 'console' | 'intake' | 'deck'), lift (let go while still rising)",
+      "about": "The finger off Hold: the crate falls from where it is when the let-go arrives (fallOf()); the result follows at once. Never stale.",
       "seenBy": "both participants"
     },
     {
       "type": "LANDED",
       "fields": "",
-      "about": "Onto the platform: the jaws close and the hook is free. The correct position. The keys work.",
+      "about": "Onto the platform, from a locked panel: the jaws close and the hook is free. The correct position. The keys work.",
       "seenBy": "both participants"
     },
     {
       "type": "MISSED",
-      "fields": "on ('deck' | 'intake' | 'fallen'), x",
-      "about": "Anywhere else: CLUNK. The crate lies on its hook; the Winch raises it again.",
+      "fields": "on ('intake'), x",
+      "about": "Over the hatch: CLUNK, it drops back in, whole. The Winch holds again to lift it (PROPOSED: a tap at the start costs nothing).",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "BROKEN",
+      "fields": "on ('deck' | 'console' | 'platform'), x, count",
+      "about": "Anywhere else, from a panel still moving (even over the platform: PROPOSED), or the drop: the crate breaks, CRASH!, and a new one rises into the intake, settled TIMING.lower later. The Panel brings the hook back over stop 1 and the Winch holds again. A broken crate costs time, not food (the owner, 13 November 2026).",
       "seenBy": "both participants"
     },
     {
@@ -1001,7 +1040,7 @@
     {
       "type": "KILLED",
       "fields": "kind ('cut' | 'drop'), by, victim",
-      "about": "A lethal press: the cut (a lock at stop 7) or the drop (a Lower over the console). Lethal, no escape, not the Hospital. Not an attack: it uses nothing (the owner).",
+      "about": "A lethal press: the cut (a lock at stop 7) or the drop (a let-go over the console; the crate breaks). Lethal, no escape, not the Hospital. Not an attack: it uses nothing (the owner).",
       "seenBy": "both participants"
     },
     {
@@ -1036,7 +1075,7 @@
     },
     {
       "type": "REFUSED",
-      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-this-task | stale | not-your-control | busy | crate-down | unlocked | locked | up | down-already | landed | not-landed | turned)",
+      "fields": "seat, act, why (briefing | ended | down | not-a-participant | not-this-task | stale | not-your-control | busy | crate-down | unlocked | locked | holding | not-over-crate | not-holding | down-already | landed | not-landed | turned)",
       "about": "The press did nothing; only the presser is told, and the phone shows the present state.",
       "seenBy": "the presser only"
     },
@@ -1080,7 +1119,11 @@
     },
     {
       "fields": "crate",
-      "about": "{ state, x, since, from }: where it lies, or the anchors of its last move."
+      "about": "{ state, x, since, from, holder }: where it lies, or the anchors of its last move, and who holds it up (the Winch's finger, or the brake)."
+    },
+    {
+      "fields": "broken",
+      "about": "The crates broken so far: where each lies."
     },
     {
       "fields": "outcome",
@@ -1119,7 +1162,7 @@
     {
       "state": "answer unknown",
       "to": "the presser",
-      "shows": "\"Checking your Lower… The connection dropped while it was on its way.\" Controls off. On recovery the phone fetches the present state and the receipt of that command id, then says \"went through\" or \"did not go through\". It never replays queued taps or a missed animation.",
+      "shows": "\"Checking your LOCK… The connection dropped while it was on its way.\" Controls off. On recovery the phone fetches the present state and the receipt of that command id, then says \"went through\" or \"did not go through\". It never replays queued taps or a missed animation.",
       "sheet": "states"
     },
     {
@@ -1176,14 +1219,14 @@
     "The Partner can join or decline (the owner, 11 November 2026), within 15 s; no answer is a decline, and a withdrawn request counts as a refusal. After a refusal the game goes to the next volunteer: anyone who volunteers (the owner, 12 November 2026), while the step lasts. The refused Volunteer cannot ask again this round but can still be asked, and can volunteer again from the next round. The request and its answer are private to the two (the owner, on Designer's recommendation, 12 November 2026).",
     "The server assigns the controls at random (the owner, 12 November 2026) and starts the Task: both travel to the Supply Room, separate from normal movement, and the server records each one's place. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
     "The whole Task has 30 s from its start, the briefing inside it (the owner). Briefing (4 s): who runs which control, the route, the dangers; the controls do nothing yet.",
-    "Running (the remaining 26 s): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
+    "Running (the remaining 26 s): hold the crate up, release, lock over the platform, let go as the swing passes over it, the keys. A crate let go in the wrong place breaks, and the hook fetches a new one from the intake (the owner, 13 November 2026).",
     "Ended: the outcome card shows until the return, 32.5 s after the Task's start for every outcome (2.5 s after the deadline; the fixed return is the owner, on Designer's recommendation, 12 November 2026). The ordinary return flow puts each participant back at the place the server recorded, the dead as Eliminated there; nothing else happened in the step, so no forced transfer comes between. The round goes on to the pre-turn window. The other players learn the result only through the food count (the owner, 12 November 2026).",
     "Then the round: each living player outside the Hospital eats one dose at the end of their own ordinary turn (see food)."
   ],
   "acceptance": [
     {
       "id": "cooperation",
-      "about": "Raise it, release the panel, lock it as it rests over the platform, lower it as the swing holds it over the platform, both turn a key",
+      "about": "Hold it up, release the panel, lock it as it rests over the platform, let go as the swing holds it over the platform, both turn a key",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1209,22 +1252,22 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10885,
+          "at": 9835,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 11485,
+          "at": 10435,
           "seat": 3,
           "act": "key"
         }
@@ -1249,7 +1292,8 @@
         "absent": [
           "KILLED",
           "STOPPED",
-          "MISSED"
+          "MISSED",
+          "BROKEN"
         ]
       }
     },
@@ -1281,7 +1325,7 @@
           "act": "release"
         },
         {
-          "at": 8300,
+          "at": 7000,
           "seat": 3,
           "act": "lock"
         }
@@ -1305,7 +1349,7 @@
     },
     {
       "id": "drop",
-      "about": "Lower while the swing has the crate over the Panel operator; the panel stays over the platform, so the Winch finishes alone",
+      "about": "Let go while the swing has the crate over the Panel operator: it falls on them and breaks, and with the Panel out no one can fetch another, so the Task is lost",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1331,43 +1375,32 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 7725,
           "seat": 8,
           "act": "lower"
-        },
-        {
-          "at": 10075,
-          "seat": 8,
-          "act": "raise"
-        },
-        {
-          "at": 10575,
-          "seat": 8,
-          "act": "lower"
-        },
-        {
-          "at": 11275,
-          "seat": 8,
-          "act": "key"
         }
       ],
       "then": {
         "outcome": {
-          "result": "delivered",
-          "packages": 5,
-          "alone": true
+          "result": "lost",
+          "why": "not-in-position"
         },
         "alive": {
           "winch": true,
           "panel": false
         },
+        "broken": [
+          "console"
+        ],
         "present": [
-          "KILLED",
+          "KILLED"
+        ],
+        "absent": [
           "LANDED",
           "SENT"
         ]
@@ -1401,32 +1434,32 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10885,
+          "at": 9835,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 11585,
+          "at": 10535,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11835,
+          "at": 10735,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 12735,
+          "at": 11635,
           "seat": 3,
           "act": "key"
         }
@@ -1480,32 +1513,32 @@
           "act": "release"
         },
         {
-          "at": 8300,
+          "at": 7000,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9600,
+          "at": 8300,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 9850,
+          "at": 8500,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 12335,
+          "at": 10985,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 13035,
+          "at": 11685,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 13635,
+          "at": 12285,
           "seat": 3,
           "act": "key"
         }
@@ -1561,27 +1594,32 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 7725,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10285,
+          "at": 8425,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10885,
+          "at": 9835,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 11485,
+          "at": 10435,
           "seat": 3,
           "act": "key"
         }
@@ -1598,16 +1636,18 @@
         },
         "present": [
           "STOPPED",
+          "TAKEN",
           "SENT"
         ],
         "absent": [
-          "KILLED"
+          "KILLED",
+          "BROKEN"
         ]
       }
     },
     {
       "id": "mistakes",
-      "about": "A lock one stop early, a Lower too soon: each is put right, and the crate still goes down",
+      "about": "A lock one stop early, a let-go too soon: the crate breaks, the hook fetches a new one from the intake, and it still goes down",
       "kind": "storyboard",
       "given": {
         "seats": {
@@ -1633,42 +1673,62 @@
           "act": "release"
         },
         {
-          "at": 7300,
+          "at": 6500,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8200,
+          "at": 7400,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 8450,
+          "at": 7600,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 7925,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 9875,
+          "at": 8625,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 10275,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 10725,
           "seat": 8,
           "act": "raise"
         },
         {
-          "at": 10375,
+          "at": 11625,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 12775,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 15260,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 11075,
+          "at": 15960,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 11675,
+          "at": 16560,
           "seat": 3,
           "act": "key"
         }
@@ -1685,9 +1745,11 @@
         },
         "locked": [
           4,
+          5,
+          0,
           5
         ],
-        "missed": [
+        "broken": [
           "deck"
         ],
         "absent": [
@@ -1724,7 +1786,7 @@
           "act": "release"
         },
         {
-          "at": 6300,
+          "at": 6000,
           "seat": 3,
           "act": "lock"
         },
@@ -1870,7 +1932,7 @@
     },
     {
       "id": "release-needs-the-crate-up",
-      "about": "The panel will not run while the crate is down on its hook: RELEASE first needs the Winch's Raise.",
+      "about": "The panel will not run off a crate waiting under its hook: RELEASE first needs the Winch's Hold.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -1937,8 +1999,8 @@
       }
     },
     {
-      "id": "lower-needs-the-lock",
-      "about": "While the panel runs, the winch is held: Lower does nothing until the panel is locked.",
+      "id": "let-go-while-moving",
+      "about": "The owner's hold (13 November 2026): the Winch keeps the crate up only while the finger is on Hold. Let go while the panel runs, the crate falls off the moving hook: over the deck it breaks, and a new crate waits in the intake.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -1971,12 +2033,176 @@
       ],
       "then": {
         "outcome": null,
-        "refused": [
-          "unlocked"
+        "broken": [
+          "deck"
+        ],
+        "present": [
+          "LOWERED",
+          "BROKEN"
         ],
         "absent": [
-          "LOWERED"
+          "KILLED",
+          "LANDED"
         ]
+      }
+    },
+    {
+      "id": "no-landing-on-the-move",
+      "about": "Even over the platform, a crate let go from a panel still clicking breaks: it lands only from a locked panel.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6750,
+          "seat": 8,
+          "act": "lower"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "broken": [
+          "platform"
+        ],
+        "absent": [
+          "LANDED"
+        ]
+      }
+    },
+    {
+      "id": "let-go-never-stale",
+      "about": "The finger comes off Hold at once, before its hold has reached the server: the let-go, made on the picture before the hold, is never stale. The crate, still rising, drops back into the hatch, whole.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise",
+          "revision": 0
+        },
+        {
+          "at": 4800,
+          "seat": 8,
+          "act": "lower",
+          "revision": 0
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "missed": [
+          "intake"
+        ],
+        "absent": [
+          "REFUSED",
+          "BROKEN"
+        ]
+      }
+    },
+    {
+      "id": "fetch-a-new-crate",
+      "about": "A crate breaks; the new one waits in the intake. Hold does nothing until the hook is over the hatch; Cleo releases the empty hook and locks it over stop 1, and Hana's hold lifts the new crate.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6750,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7075,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 7675,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 7775,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 9425,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 9725,
+          "seat": 8,
+          "act": "raise"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "not-over-crate"
+        ],
+        "broken": [
+          "deck"
+        ],
+        "locked": [
+          5,
+          0
+        ],
+        "counts": {
+          "RAISED": 2
+        }
       }
     },
     {
@@ -2007,12 +2233,12 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7900,
+          "at": 6850,
           "seat": 3,
           "act": "lock"
         }
@@ -2029,7 +2255,7 @@
     },
     {
       "id": "lock-at-rest",
-      "about": "The panel rests 0.4 s at each stop (the owner's). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.",
+      "about": "The panel rests 0.2 s at each stop (the owner's, twice as fast as first approved). A LOCK the server receives at any moment of its rest over the platform, even the last, locks it there.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2055,7 +2281,7 @@
           "act": "release"
         },
         {
-          "at": 8099,
+          "at": 6849,
           "seat": 3,
           "act": "lock"
         }
@@ -2099,7 +2325,7 @@
           "act": "release"
         },
         {
-          "at": 8101,
+          "at": 6851,
           "seat": 3,
           "act": "lock"
         }
@@ -2146,10 +2372,10 @@
           "act": "release"
         },
         {
-          "at": 8180,
+          "at": 6930,
           "seat": 3,
           "act": "lock",
-          "shownAt": 8030
+          "shownAt": 6780
         }
       ],
       "then": {
@@ -2167,7 +2393,7 @@
     },
     {
       "id": "stale-press",
-      "about": "A Lower made on the revision before the panel was released reaches the server after the release: refused as stale, never resolved on a picture that is gone.",
+      "about": "A RELEASE made on the revision before the crate landed reaches the server after the landing: refused as stale, never resolved on a picture that is gone.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2193,19 +2419,19 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 9300,
-          "seat": 3,
-          "act": "release"
+          "at": 9235,
+          "seat": 8,
+          "act": "lower"
         },
         {
-          "at": 9350,
-          "seat": 8,
-          "act": "lower",
+          "at": 9585,
+          "seat": 3,
+          "act": "release",
           "revision": 3
         }
       ],
@@ -2214,8 +2440,11 @@
         "refused": [
           "stale"
         ],
-        "absent": [
-          "LOWERED"
+        "counts": {
+          "RELEASED": 1
+        },
+        "present": [
+          "LANDED"
         ]
       }
     },
@@ -2247,13 +2476,13 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock",
           "commandId": "cleo-lock-1"
         },
         {
-          "at": 8200,
+          "at": 7150,
           "seat": 3,
           "act": "lock",
           "commandId": "cleo-lock-1"
@@ -2300,14 +2529,14 @@
           "act": "release"
         },
         {
-          "at": 8300,
+          "at": 7000,
           "seat": 3,
           "act": "lock",
           "commandId": "cleo-lock-2",
           "roll": 0.1
         },
         {
-          "at": 8600,
+          "at": 7300,
           "seat": 3,
           "act": "lock",
           "commandId": "cleo-lock-2",
@@ -2332,7 +2561,7 @@
     },
     {
       "id": "drop-from-the-console-stop",
-      "about": "Locked over the console instead of the platform, the crate swings right over the Panel operator. Lowered then, it falls on them, and the panel is not over the platform: the Task is lost.",
+      "about": "Locked over the console instead of the platform, the crate swings right over the Panel operator. Let go then, it falls on them and breaks: the Task is lost.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2358,12 +2587,12 @@
           "act": "release"
         },
         {
-          "at": 7300,
+          "at": 6500,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 7950,
+          "at": 7150,
           "seat": 8,
           "act": "lower"
         }
@@ -2375,6 +2604,9 @@
         },
         "locked": [
           4
+        ],
+        "broken": [
+          "console"
         ],
         "alive": {
           "winch": true,
@@ -2410,7 +2642,7 @@
           "act": "release"
         },
         {
-          "at": 8300,
+          "at": 7000,
           "seat": 3,
           "act": "lock",
           "roll": 0.1
@@ -2432,7 +2664,7 @@
     },
     {
       "id": "lucky-catch-drop",
-      "about": "The same luck on the drop: the winch's brake holds and the crate swings on.",
+      "about": "The same luck on the drop: the winch's brake holds and the crate swings on, whole.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2458,12 +2690,12 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 7725,
           "seat": 8,
           "act": "lower",
           "roll": 0.2
@@ -2477,6 +2709,74 @@
         },
         "present": [
           "STOPPED"
+        ],
+        "absent": [
+          "KILLED",
+          "BROKEN"
+        ]
+      }
+    },
+    {
+      "id": "brake-holds-it",
+      "about": "After a stopped drop the brake holds the crate up: a let-go does nothing until Hana's finger takes it back with Hold (TAKEN), and the next let-go drops it from wherever it is then.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "winch": 8,
+          "panel": 3
+        },
+        "protection": {
+          "winch": false,
+          "panel": false
+        },
+        "briefingEndsAt": 4000,
+        "note": "Each step is timed by the server's receipt of it. protection: the game's applicable Protection at the start, read at each lethal press and used up by a block."
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 5600,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 6750,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 7725,
+          "seat": 8,
+          "act": "lower",
+          "roll": 0.2
+        },
+        {
+          "at": 7825,
+          "seat": 8,
+          "act": "lower"
+        },
+        {
+          "at": 7925,
+          "seat": 8,
+          "act": "raise"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "alive": {
+          "winch": true,
+          "panel": true
+        },
+        "refused": [
+          "not-holding"
+        ],
+        "present": [
+          "STOPPED",
+          "TAKEN"
         ],
         "absent": [
           "KILLED"
@@ -2511,7 +2811,7 @@
           "act": "release"
         },
         {
-          "at": 8300,
+          "at": 7000,
           "seat": 3,
           "act": "lock",
           "roll": 0.25
@@ -2533,7 +2833,7 @@
     },
     {
       "id": "protection-used-once",
-      "about": "Cleo has Protection. The first drop is stopped by it, and the block uses it up, as any block does (packages/engine physical.ts). A second drop at once, with a roll of 1 in 4 or more, kills.",
+      "about": "Cleo has Protection. The first drop is stopped by it, and the block uses it up, as any block does (packages/engine physical.ts). Hana holds again and lets go again at once: with a roll of 1 in 4 or more, the second drop kills.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2559,25 +2859,33 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 7725,
           "seat": 8,
           "act": "lower",
           "roll": 0.9
         },
         {
-          "at": 8800,
+          "at": 7735,
+          "seat": 8,
+          "act": "raise"
+        },
+        {
+          "at": 7750,
           "seat": 8,
           "act": "lower",
           "roll": 0.9
         }
       ],
       "then": {
-        "outcome": null,
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-position"
+        },
         "alive": {
           "winch": true,
           "panel": false
@@ -2590,7 +2898,7 @@
     },
     {
       "id": "back-into-the-intake",
-      "about": "Lowered again at once over the intake, the crate goes back into the hatch: a miss, nothing worse.",
+      "about": "Let go over the intake, before the panel moves: the crate drops back into the hatch, whole. Nothing worse.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2623,13 +2931,14 @@
         ],
         "absent": [
           "KILLED",
-          "STOPPED"
+          "STOPPED",
+          "BROKEN"
         ]
       }
     },
     {
       "id": "landed-winch-idle",
-      "about": "Landed, the crate is clamped: the Winch cannot raise it off the platform.",
+      "about": "Landed, the crate is clamped: Hold cannot lift it off the platform.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2655,17 +2964,17 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10785,
+          "at": 9735,
           "seat": 8,
           "act": "raise"
         }
@@ -2751,22 +3060,22 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10685,
+          "at": 9635,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10985,
+          "at": 9935,
           "seat": 8,
           "act": "key"
         }
@@ -2809,32 +3118,32 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10885,
+          "at": 9835,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 11485,
+          "at": 10435,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 12185,
+          "at": 10835,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 12785,
+          "at": 11235,
           "seat": 3,
           "act": "key"
         }
@@ -2882,23 +3191,23 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 11185,
+          "at": 10135,
           "seat": 8,
           "act": "key",
           "revision": 4
         },
         {
-          "at": 11225,
+          "at": 10175,
           "seat": 3,
           "act": "key",
           "revision": 4
@@ -2944,27 +3253,27 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10885,
+          "at": 9835,
           "seat": 3,
           "act": "key"
         },
         {
-          "at": 11485,
+          "at": 10435,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11735,
+          "at": 10635,
           "seat": 3,
           "act": "lock"
         }
@@ -3009,28 +3318,28 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10685,
+          "at": 9635,
           "seat": 8,
           "act": "key"
         },
         {
-          "at": 10985,
+          "at": 9935,
           "seat": 3,
           "act": "key",
           "commandId": "cleo-key"
         },
         {
-          "at": 11285,
+          "at": 10235,
           "seat": 3,
           "act": "key",
           "commandId": "cleo-key"
@@ -3102,7 +3411,7 @@
     },
     {
       "id": "death-stands-in-grace",
-      "about": "A drop that lands while its victim is out of contact stands; the panel is over the platform, so the Winch goes on alone and delivers. The dead participant's connection no longer matters.",
+      "about": "A drop that lands while its victim is out of contact stands: the crate breaks and the Task is lost at once, not cancelled when the grace runs out. The dead participant's connection no longer matters.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -3128,49 +3437,36 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8000,
+          "at": 6950,
           "seat": 3,
           "online": false
         },
         {
-          "at": 8775,
+          "at": 7725,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10075,
-          "seat": 8,
-          "act": "raise"
-        },
-        {
-          "at": 10575,
-          "seat": 8,
-          "act": "lower"
-        },
-        {
-          "at": 11275,
-          "seat": 8,
-          "act": "key"
-        },
-        {
-          "at": 16500
+          "at": 15450
         }
       ],
       "then": {
         "outcome": {
-          "result": "delivered",
-          "packages": 5,
-          "alone": true
+          "result": "lost",
+          "why": "not-in-position"
         },
         "alive": {
           "winch": true,
           "panel": false
-        }
+        },
+        "broken": [
+          "console"
+        ]
       }
     },
     {
@@ -3201,37 +3497,37 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 10285,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 10685,
+          "at": 9635,
           "seat": 8,
           "online": false
         },
         {
-          "at": 11485,
+          "at": 10435,
           "seat": 3,
           "act": "release"
         },
         {
-          "at": 11735,
+          "at": 10635,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 12485,
+          "at": 11435,
           "seat": 3,
           "act": "key"
         },
         {
-          "at": 19185
+          "at": 18135
         }
       ],
       "then": {
@@ -3248,7 +3544,7 @@
     },
     {
       "id": "dead-cannot-press",
-      "about": "A killed participant's presses do nothing.",
+      "about": "A killed participant's presses do nothing: cut with the crate on the platform, Hana's key is refused.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -3274,19 +3570,29 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
         },
         {
-          "at": 9275,
+          "at": 10435,
           "seat": 3,
           "act": "release"
+        },
+        {
+          "at": 10635,
+          "seat": 3,
+          "act": "lock"
+        },
+        {
+          "at": 11235,
+          "seat": 8,
+          "act": "key"
         }
       ],
       "then": {
@@ -3295,14 +3601,14 @@
           "down"
         ],
         "alive": {
-          "winch": true,
-          "panel": false
+          "winch": false,
+          "panel": true
         }
       }
     },
     {
       "id": "survivor-out-of-time",
-      "about": "After the drop, the Winch can finish alone, but only before the deadline: here Hana never lowers it in, and the Task is lost on time.",
+      "about": "After the cut on the landed crate, Cleo can finish alone, but only before the deadline: here Cleo never turns the key, and the Task is lost on time.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -3328,14 +3634,24 @@
           "act": "release"
         },
         {
-          "at": 7800,
+          "at": 6750,
           "seat": 3,
           "act": "lock"
         },
         {
-          "at": 8775,
+          "at": 9235,
           "seat": 8,
           "act": "lower"
+        },
+        {
+          "at": 10435,
+          "seat": 3,
+          "act": "release"
+        },
+        {
+          "at": 10635,
+          "seat": 3,
+          "act": "lock"
         },
         {
           "at": 30000
@@ -3347,8 +3663,8 @@
           "why": "time"
         },
         "alive": {
-          "winch": true,
-          "panel": false
+          "winch": false,
+          "panel": true
         }
       }
     },
@@ -3550,8 +3866,8 @@
         "survivor"
       ],
       "conflict": "Both can betray, but a survivor completes only from the correct position. A betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal: the gantry this crane replaced let only one operator kill and still deliver.",
-      "solution": "The crane gives each operator exactly one way to kill and still deliver. The Winch: from the platform stop, a Lower during the swing over the console, then lowered in alone and its own key. The Panel: after the landing, a cut while the keys wait, then its own key. Every other kill loses the Task. The server assigns the controls at random (the owner, 12 November 2026), and both phones show both dangers equally.",
-      "residual": "Game Balance to judge with tools/balance whether the two paths are equally tempting; the owner accepts them or asks for a change."
+      "solution": "The crane gave each operator one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut after the landing. Since the owner's hold (13 November 2026) the drop breaks the crate, and with the Panel operator dead no one can bring the hook to a new one: only the Panel's cut, while the keys wait, still delivers. Every other kill loses the Task. The server assigns the controls at random (the owner, 12 November 2026), and both phones show both dangers equally.",
+      "residual": "Both can still betray, but only the Panel keeps the food. Game Balance to judge with tools/balance; the owner accepts it, or takes the option of a crate that falls on the Panel operator staying whole, so that the Winch can lift it again and finish alone (PROPOSED option, not done)."
     },
     {
       "id": "blocked-attack-disclosure",
@@ -3591,17 +3907,17 @@
     {
       "id": "evidence",
       "owner": "owner, Game Balance, Integration",
-      "item": "What only real use can show (Integration, 12 November 2026): real-network latency (the 0.15 s margin is no guarantee against it), physical phones, screen readers, and a human playtest of shortage, sabotage, refusals and disconnects and both survivor paths. A playtest may change the timing, and decides again whether a slower mode is needed (the owner: none for now). PROPOSED for the danger itself: a short vibration on the presser's phone while their press would kill. The playable test (design/food-supply/play.html) is a single phone against a bot partner, not this evidence."
+      "item": "What only real use can show (Integration, 12 November 2026): real-network latency (the 0.15 s margin is no guarantee against it, the more so at a quarter second a stop), physical phones and a finger held on Hold for seconds, screen readers, and a human playtest of shortage, sabotage, refusals and disconnects and the survivor path. A playtest may change the timing, and decides again whether a slower mode is needed (the owner: none for now). PROPOSED for the danger itself: a short vibration on the presser's phone while their press would kill. The playable test (design/food-supply/play.html) is a single phone against a bot partner, not this evidence."
     },
     {
       "id": "paths",
-      "owner": "Game Balance",
-      "item": "The two kill-and-deliver paths (conflict 2), and a check of the food economy the owner set on Designer's recommendation: five packages, five per delivery, two doses a package, one Task a round. With nine players eating, a round without a delivery leaves the next one short, and hunger fills the Hospital's four beds fast; the doses a package holds is the one number to change."
+      "owner": "Game Balance, owner",
+      "item": "The kill-and-deliver path left since the hold (conflict 2: only the Panel's; the option of a whole crate on the drop is the owner's), and a check of the food economy the owner set on Designer's recommendation: five packages, five per delivery, two doses a package, one Task a round. With nine players eating, a round without a delivery leaves the next one short, and hunger fills the Hospital's four beds fast; the doses a package holds is the one number to change."
     },
     {
       "id": "press-timing",
       "owner": "Backend, Integration",
-      "item": "Integration's direction (12 November 2026): a press is resolved when the server receives it, on the server's monotonic clock; a phone's own time is diagnostic only, and any other lag policy needs its own review and real-network evidence. Backend: the clock sync the phones draw by, finite timestamps, the revisions a press is bound to, command ids and durable receipts (a retry reuses its id: no second press, roll, cooldown or delivery). Each participant's events carry an identity and number of their own, never the server's global sequence (Integration, 12 November 2026; the reference model does so)."
+      "item": "Integration's direction (12 November 2026): a press is resolved when the server receives it, on the server's monotonic clock; a phone's own time is diagnostic only, and any other lag policy needs its own review and real-network evidence. Backend: the clock sync the phones draw by, finite timestamps, the revisions a press is bound to, command ids and durable receipts (a retry reuses its id: no second press, roll, cooldown or delivery). Each participant's events carry an identity and number of their own, never the server's global sequence (Integration, 12 November 2026; the reference model does so). The hold's two commands (13 November 2026): a let-go is never stale, the phone sends it on the finger lifting whatever is in flight, and a disconnect does not let go."
     },
     {
       "id": "contract",
@@ -3634,7 +3950,7 @@
       },
       {
         "id": "drop",
-        "title": "The drop: the crate lowered over the console"
+        "title": "The drop: the crate let go over the console"
       },
       {
         "id": "standoff",

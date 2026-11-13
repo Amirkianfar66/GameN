@@ -19,6 +19,9 @@
 //    read at each lethal press and used up by a block; the earliest ending wins; the participant's
 //    projection is enough to draw the phone at any moment and carries nothing server-only;
 //  - the timing the storyboards rely on: the click's rest and margin, the swing's reach and calming;
+//  - the owner's changes after the playable test (13 November): the Winch's one Hold button (a let-go
+//    never stale, a crate let go in the wrong place broken and a new one fetched) and the click twice
+//    as fast;
 //  - every hint fits the largest text; every motion cue has a Reduce motion form;
 //  - the handoff and the room art are what the export tool writes; the review files are recorded;
 //    and nothing in the game's code refers to the package.
@@ -26,7 +29,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { test } from 'node:test';
-import { CATCH, CLICK, FIXTURES, FOOD, RETURN_AFTER, ROLES, SERVER_ONLY, STOPS, SWING, TIMING, ZONES, act, atTime, hazards, landingAt, projection, simulate, startTask, sweep, swingOffset, tick, view } from '../../../design/food-supply/task.mjs';
+import { CATCH, CLICK, FIXTURES, FOOD, RETURN_AFTER, ROLES, SERVER_ONLY, STOPS, SWING, TIMING, ZONES, act, atTime, fallOf, hazards, landingAt, projection, simulate, startTask, sweep, swingOffset, tick, view } from '../../../design/food-supply/task.mjs';
 import { BOXES, CRATE, HANG, OPERATORS, REGIONS, VIEW, stopX } from '../../../design/food-supply/layout.mjs';
 import { BOARDS, CAST, MOMENTS } from '../../../design/food-supply/boards.mjs';
 import { CUES, run } from '../../../design/food-supply/stage.mjs';
@@ -66,7 +69,8 @@ test('one control each on its own axis: the Winch vertical, the Panel horizontal
   for (const b of BOARDS) {
     for (const f of run(b)) {
       for (const role of ['winch', 'panel']) {
-        const acts = view(f.state, SEATS[role], f.at).buttons.map(x => x.act);
+        // The Winch's one Hold button sends raise (the finger down) and lower (the finger off).
+        const acts = view(f.state, SEATS[role], f.at).buttons.flatMap(x => (x.act === 'hold' ? [x.down, x.up] : [x.act]));
         for (const a of acts) assert.ok(ROLES[role].acts.includes(a) || a === 'key', `${b.id}: ${role} has ${a}`);
       }
     }
@@ -76,14 +80,19 @@ test('one control each on its own axis: the Winch vertical, the Panel horizontal
   assert.equal(r.events.at(-1).why, 'not-your-control');
 });
 
-test('the cooperative route delivers five packages in four presses and two keys, and the glow follows it', () => {
+test('the cooperative route delivers five packages in a hold, two presses, a let-go and two keys, and the glow follows it', () => {
   const frames = run(BOARDS.find(b => b.id === 'cooperation'));
   for (const [i, f] of frames.entries()) {
     if (!f.step?.act) continue;
-    const before = tick(frames[i - 1].state, f.at).state;
     const role = f.step.seat === SEATS.winch ? 'winch' : 'panel';
-    const button = view(before, f.step.seat, f.at).buttons.find(x => x.act === f.step.act);
-    assert.ok(button?.next, `${role} ${f.step.act} at ${f.at} glows`);
+    // Each press glowed on its phone when it was made, a moment before it arrives: within the margin, which covers its travel.
+    const glowed = [];
+    for (let dt = 0; dt <= TIMING.margin; dt += 10) {
+      const shown = tick(frames[i - 1].state, f.at - dt).state;
+      const button = view(shown, f.step.seat, f.at - dt).buttons.find(x => x.act === f.step.act || (x.act === 'hold' && [x.down, x.up].includes(f.step.act)));
+      if (button?.next) glowed.push(dt);
+    }
+    assert.ok(glowed.length, `${role} ${f.step.act} arriving at ${f.at} glowed when it was made`);
   }
   assert.equal(frames.filter(f => f.step?.act && f.step.act !== 'key').length, 4);
   assert.equal(frames.filter(f => f.step?.act === 'key').length, 2);
@@ -134,10 +143,11 @@ test('both phones see each danger while it lasts, from a margin before it, and t
   assert.deepEqual(view(atCab, SEATS.panel, CAB_AT - 100).warnings, ['panel-at-partner-cab']);
   assert.deepEqual(view(atCab, SEATS.winch, CAB_AT - 100).warnings, ['panel-at-your-cab']);
   assert.equal(view(atCab, SEATS.panel, CAB_AT - 100).buttons.find(x => x.act === 'lock').hazard, true);
-  // Resting over the platform: no danger, and LOCK glows, until the margin before the panel snaps on.
-  const early = at(clicking, PLATFORM_AT);
-  assert.equal(hazards(early, PLATFORM_AT).cut, false, 'over the platform, no danger');
-  assert.equal(view(early, SEATS.panel, PLATFORM_AT).buttons.find(x => x.act === 'lock').next, true);
+  // Snapping to and resting over the platform: no danger, and LOCK glows, until the margin before the panel snaps on.
+  const glowAt = leaves(5) - CLICK + TIMING.move;
+  const early = at(clicking, glowAt);
+  assert.equal(hazards(early, glowAt).cut, false, 'over the platform, no danger');
+  assert.equal(view(early, SEATS.panel, glowAt).buttons.find(x => x.act === 'lock').next, true);
   const late = leaves(5) - TIMING.margin + 10;
   const leaving = view(at(clicking, late), SEATS.panel, late).buttons.find(x => x.act === 'lock');
   assert.equal(leaving.stop, FIXTURES.platform.stop, 'still resting over the platform');
@@ -147,9 +157,9 @@ test('both phones see each danger while it lasts, from a margin before it, and t
   assert.equal(hazards(swung, OVER_CONSOLE).drop, true);
   assert.deepEqual(view(swung, SEATS.winch, OVER_CONSOLE).warnings, ['crate-over-partner']);
   assert.deepEqual(view(swung, SEATS.panel, OVER_CONSOLE).warnings, ['crate-over-you']);
-  const lower = view(swung, SEATS.winch, OVER_CONSOLE).buttons.find(x => x.act === 'lower');
-  assert.equal(lower.hazard, true);
-  assert.equal(lower.next, false, 'the glow never asks for a kill');
+  const hold = view(swung, SEATS.winch, OVER_CONSOLE).buttons.find(x => x.act === 'hold');
+  assert.ok(hold.holding && hold.hazard, 'held, Hold is striped: a let-go now drops it on the partner');
+  assert.equal(hold.next, false, 'the glow never asks for a kill');
   // The drop's warning starts a margin before the swing reaches the console.
   let first = null;
   for (let t = PLATFORM_AT; t < OVER_CONSOLE && first === null; t += 5) if (hazards(at(locked, t), t).drop) first = t;
@@ -179,8 +189,9 @@ test('the click and the swing the storyboards rely on: a fast snap, a rest at ea
   assert.ok(widest > ZONES.platform && widest < SWING.least + 0.01, `${widest}`);
 });
 
-test('a survivor completes only from over the platform; anywhere else a death loses the Task', () => {
-  assert.deepEqual(play(SCENARIOS.find(s => s.id === 'drop')).outcome, { result: 'delivered', packages: 5, alone: true });
+test('a survivor completes only from over the platform; anywhere else a death loses the Task, and the drop always does', () => {
+  // The drop breaks the crate, and with the Panel operator dead no one can bring the hook to a new one (the owner's hold, 13 November).
+  assert.deepEqual(play(SCENARIOS.find(s => s.id === 'drop')).outcome, { result: 'lost', why: 'not-in-position' });
   assert.deepEqual(play(SCENARIOS.find(s => s.id === 'standoff')).outcome, { result: 'delivered', packages: 5, alone: true });
   for (const id of ['chop', 'drop-from-the-console-stop']) assert.equal(play(SCENARIOS.find(s => s.id === id)).outcome.why, 'not-in-position', id);
   assert.equal(play(SCENARIOS.find(s => s.id === 'survivor-out-of-time')).outcome.why, 'time');
@@ -334,7 +345,7 @@ test('every motion cue has its timing and a Reduce motion form; the click and th
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 42);
+  assert.equal(RULES.length, 44);
   for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit', 'click-stop']) assert.ok(RULES.some(r => r.id === id), id);
   assert.equal(TIMING.deadline, 30000, 'the owner: 30 seconds to complete the Task');
   const s = start();
@@ -438,13 +449,18 @@ function practise({ role, persona, net, seed }) {
   for (let t = 0; t <= run.returnsAt; t += 10) {
     const { state } = run.advance(t);
     if (state.phase !== 'running' || !state.alive[role] || run.inFlight) continue;
-    if (me.scheduled && t >= me.scheduled.at) { run.press(me.scheduled.act, t); me.scheduled = null; me.readyAt = t + run.delay + 120; }
+    if (me.scheduled && t >= me.scheduled.at) {
+      // The Winch's hold and let-go are the finger on Hold; every other act a press.
+      const a = me.scheduled.act;
+      if (a === 'raise' || a === 'lower') run.finger(a === 'raise', t); else run.press(a, t);
+      me.scheduled = null; me.readyAt = t + run.delay + 120;
+    }
     else if (!me.scheduled && t >= me.readyAt) { const d = decide({ state, seat: run.seats[role], t, persona: 'careful', delay: run.delay, memory: me.memory, random }); if (d) me.scheduled = { act: d.act, at: t + d.reaction }; }
   }
   return run.summary();
 }
 
-test('the playable test: presses resolve on arrival after the delay; a careful pair delivers on every connection; a betrayer kills and still delivers', () => {
+test('the playable test: presses resolve on arrival after the delay; a careful pair delivers on every connection; a betrayer kills', () => {
   assert.deepEqual(Object.keys(PERSONAS), ['careful', 'clumsy', 'betrayer']);
   assert.deepEqual(Object.fromEntries(Object.entries(NETS).map(([k, n]) => [k, n.delay])), { fast: 40, normal: 120, slow: 250 });
   // A press leaves at t and is resolved when it arrives, t + the delay; while it travels, nothing more is sent.
@@ -463,11 +479,51 @@ test('the playable test: presses resolve on arrival after the delay; a careful p
     assert.equal(s.refused, 0, `${role} ${net} ${seed}: a careful player is never refused, the two keys included`);
   }
   const betrayed = [1, 2, 3, 4, 5, 6].map(seed => practise({ role: 'panel', persona: 'betrayer', net: 'normal', seed }));
-  assert.ok(betrayed.some(s => s.kills.some(k => k.victim === 'panel') && s.outcome?.result === 'delivered'), 'the Winch drops the crate on the Panel from the platform stop, and still delivers');
+  assert.ok(betrayed.some(s => s.kills.some(k => k.victim === 'panel')), 'the Winch drops the crate on the Panel from the platform stop');
+  for (const s of betrayed.filter(x => x.kills.some(k => k.victim === 'panel'))) assert.deepEqual(s.outcome, { result: 'lost', why: 'not-in-position' }, 'the crate broke: the drop never delivers');
+  // A clumsy Winch's finger slips off Hold: the crate breaks, the careful Panel fetches another, and the food still comes.
+  const slipped = [1, 2, 3, 4, 5, 6, 7, 8].map(seed => practise({ role: 'panel', persona: 'clumsy', net: 'normal', seed }));
+  assert.ok(slipped.some(s => s.broken > 0 && s.outcome?.result === 'delivered'), 'a broken crate costs time, not the delivery');
   const cut = [1, 2, 3, 4, 5, 6].map(seed => practise({ role: 'winch', persona: 'betrayer', net: 'normal', seed }));
   assert.ok(cut.some(s => s.kills.some(k => k.kind === 'cut' && k.victim === 'winch') && s.outcome?.result === 'delivered'), 'the Panel cuts after the landing, and still delivers');
   assert.ok(['careful', 'clumsy', 'betrayer'].includes(surprise(seeded(9))));
   for (const f of ['play.mjs', 'practice.mjs', 'bot.mjs']) assert.doesNotMatch(text(`design/food-supply/${f}`), /fetch\(|WebSocket|firebase|localStorage\.(?!getItem|setItem)/, `${f}: no server, nothing sent`);
+});
+
+test('the owner\'s changes after the playable test (13 November): one Hold button, broken crates, the click twice as fast', () => {
+  for (const id of ['hold-release', 'panel-speed']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.deepEqual({ move: TIMING.move, rest: TIMING.rest, margin: TIMING.margin }, { move: 50, rest: 200, margin: 150 });
+  assert.equal(CLICK, 250, 'a stop every quarter second');
+  // One button on the Winch's phone: the finger down sends raise, the finger off sends lower.
+  const s = { ...start(), phase: 'running' };
+  const hold = view(s, SEATS.winch, B + 100).buttons;
+  assert.deepEqual(hold.map(b => [b.act, b.down, b.up, b.enabled, b.next]), [['hold', 'raise', 'lower', true, true]]);
+  // Where a let-go puts the crate: still rising, back in the hatch; from a moving panel, broken even over the platform; over the deck, broken.
+  const rising = simulate(start(), [press(B + 600, 'winch', 'raise')]);
+  assert.equal(fallOf(at(rising, B + 700), B + 700).result, 'back');
+  const moving = simulate(start(), up());
+  assert.equal(fallOf(at(moving, leaves(5) - 100), leaves(5) - 100).zone, 'platform');
+  assert.equal(fallOf(at(moving, leaves(5) - 100), leaves(5) - 100).result, 'break');
+  assert.equal(fallOf(at(moving, leaves(2) - 100), leaves(2) - 100).result, 'break');
+  // A broken crate: a new one waits in the intake, the hook must fetch it, and the food still comes (mistakes).
+  for (const id of ['let-go-while-moving', 'no-landing-on-the-move', 'let-go-never-stale', 'fetch-a-new-crate', 'brake-holds-it']) assert.ok(EDGES.some(e => e.id === id), id);
+  const mistakes = run(BOARDS.find(b => b.id === 'mistakes'));
+  assert.deepEqual(finalOf(mistakes).broken.map(b => b.on), ['deck']);
+  assert.deepEqual(finalOf(mistakes).outcome, { result: 'delivered', packages: FOOD.perDelivery, alone: false });
+  // A let-go is never stale: made on the picture before its own hold, it still drops the crate.
+  const tap = simulate(start(), [press(B + 600, 'winch', 'raise', { revision: 0 }), press(B + 800, 'winch', 'lower', { revision: 0 })]);
+  assert.ok(tap.flatMap(f => f.events).some(e => e.type === 'MISSED' && e.on === 'intake'));
+  // The practice sends the let-go even while its hold is still on its way.
+  const practice = createPractice({ role: 'winch', persona: 'careful', net: 'slow', random: seeded(4) });
+  practice.advance(B + 500);
+  assert.ok(practice.finger(true, B + 500));
+  assert.ok(practice.finger(false, B + 560), 'the let-go goes, the hold still on its way');
+  practice.advance(B + 900);
+  assert.ok(practice.frames.some(f => f.events.some(e => e.type === 'MISSED' && e.on === 'intake')), 'the crate, still rising, dropped back in');
+  const h = JSON.parse(text('design/food-supply/handoff.json'));
+  assert.match(h.timing.confirmed.hold, /one button/);
+  assert.match(h.timing.confirmed.click, /twice as fast/);
+  assert.ok(h.events.some(e => e.type === 'BROKEN') && h.events.some(e => e.type === 'TAKEN'));
 });
 
 test('the handoff and the room art are what the export tool writes', () => {

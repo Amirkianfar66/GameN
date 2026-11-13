@@ -10,8 +10,8 @@
 //
 // Machinarium was the owner's reference for expressive machinery and visible cause and effect:
 // every press moves something you can see. RELEASE lifts the blade and the panel runs; LOCK slams
-// the blade down where it is; Raise and Lower turn the drum; the platform's jaws close; a key turns
-// and its lamp lights. The look stays the ship's: ink, paper, the room's rusted copper, amber only
+// the blade down where it is; holding Hold turns the drum, and letting go lets it run; a crate let go
+// in the wrong place breaks; the platform's jaws close; a key turns and its lamp lights. The look stays the ship's: ink, paper, the room's rusted copper, amber only
 // where a control asks for a press or the crate should go.
 
 import { INK, inkCanvas, shade, tint } from '../crew-drawing/source/ink.mjs';
@@ -268,6 +268,38 @@ export function crate(cv, x, y, { tilt = 0, seed = 120 } = {}) {
   cv.raw(`<g transform="rotate(${r1(tilt * 180 / Math.PI)} ${r1(x)} ${r1(y)})"><path d="M${x - 22} ${y - 2} Q${x} ${y + 26} ${x + 22} ${y - 2} Z" fill="${shade(F.deep, 0.2)}" opacity="0.85"/><path d="M${x + 12} ${y - 10} L${x + 26} ${y - 26}" stroke="${shade(F.deep, 0.2)}" stroke-width="5" stroke-linecap="round" opacity="0.85"/></g>`);
 }
 
+/**
+ * A broken crate where it fell (the owner, 13 November 2026: let go anywhere but over the platform, it
+ * breaks): its body burst open with a torn top, two planks sprung off onto the floor and two ration packs
+ * spilled. x: its centre; y: the floor under it. compact: on the console's top, the planks and packs kept
+ * on it. seed and flip vary each wreck, so that two never look the same.
+ */
+export function wreck(cv, x, y, { seed = 300, flip = false, compact = false } = {}) {
+  const s = CRATE / 2, d = flip ? -1 : 1;
+  const X = v => x + d * v;
+  const plank = (cx, cy, w, h, a, k) => plate(cv, box(cx - w / 2, cy - h / 2, w, h).map(q => rot(q, [cx, cy], a)), PAPER.shade, seed + k, { depth: 4, weight: 2.2 });
+  const pack = (cx, cy, a, k) => {
+    plate(cv, box(cx - 14, cy - 10, 28, 20).map(q => rot(q, [cx, cy], a)), PAPER.plain, seed + k, { depth: 3, weight: 2 });
+    cv.line([rot([cx - 9, cy], [cx, cy], a), rot([cx + 9, cy], [cx, cy], a)], { weight: 3, taper: 'none', seed: seed + k + 1, opacity: 0.7 });
+  };
+  // The planks sprung off, behind the body: on the floor either side, or across the console's top.
+  if (compact) plank(X(-8), y - 6, 92, 12, d * 0.06, 1);
+  else { plank(X(-s - 20), y - 8, 70, 16, d * -0.3, 1); plank(X(s + 24), y - 7, 62, 14, d * 0.16, 2); }
+  // The body: the crate's bottom half splayed open, its top torn into splinters.
+  const h = compact ? 0.8 : 1;
+  plate(cv, [[X(-s - 4), y], [X(-s + 2), y - 36 * h], [X(-s + 18), y - 52 * h], [X(-14), y - 40 * h], [X(0), y - 58 * h], [X(14), y - 42 * h], [X(s - 16), y - 50 * h], [X(s - 2), y - 30 * h], [X(s + 6), y]], PAPER.shade, seed + 3, { depth: 10 });
+  for (let k = 1; k < 3; k += 1) cv.line([[X(-s + 2), y - k * 13 * h], [X(s - 2), y - k * 12 * h]], { weight: 1.4, taper: 'none', seed: seed + 4 + k, opacity: 0.55 });
+  // A corner plate still on, and one lying loose.
+  plate(cv, [[X(-s - 4), y], [X(-s + 18), y], [X(-s - 1), y - 20]], F.mid, seed + 7, { depth: 0, weight: 2 });
+  plate(cv, [[X(s - 4), y - 4], [X(s + 16), y - 10], [X(s + 2), y - 24]], F.mid, seed + 8, { depth: 0, weight: 2 });
+  // The galley's mark, cracked across, on the burst body.
+  cv.raw(`<path d="M${r1(X(-18))} ${r1(y - 26 * h)} Q${r1(X(0))} ${r1(y - 4 * h)} ${r1(X(18))} ${r1(y - 26 * h)} Z" fill="${shade(F.deep, 0.2)}" opacity="0.7"/>`);
+  cv.line([[X(-6), y - 34 * h], [X(2), y - 22 * h], [X(-2), y - 14 * h], [X(6), y - 6 * h]], { weight: 1.8, taper: 'none', tension: 0, seed: seed + 9 });
+  // Two ration packs spilled out.
+  if (compact) pack(X(s - 6), y - 12, d * 0.4, 10);
+  else { pack(X(s + 10), y - 11, d * 0.5, 10); pack(X(-s - 34), y - 10, d * -0.25, 12); }
+}
+
 /** Comic lettering: paper letters in an ink outline, a little tilted. */
 export function letters(cv, text, [x, y], { size = 56, angle = -8, fill = PAPER.plain, opacity = 1 } = {}) {
   cv.raw(`<g transform="translate(${r1(x)} ${r1(y)}) rotate(${angle})" opacity="${opacity}"><text x="0" y="0" text-anchor="middle" font-family="'Arial Black','Helvetica Neue',Impact,sans-serif" font-weight="900" font-size="${size}" fill="${fill}" stroke="${INK}" stroke-width="${r1(size / 7)}" stroke-linejoin="round" paint-order="stroke">${text}</text></g>`);
@@ -313,9 +345,9 @@ export function clunk(cv, [x, y], dir, t = 1) {
 
 /**
  * The drop line: from the crate's underside straight down to where it would fall now, while it can be
- * lowered. tone 'platform': amber dots onto the platform (Lower now lands it); 'console': paper
- * dashes onto the Panel operator's head with a warning mark (Lower now drops it on them); 'deck' or
- * 'intake': faint dots (Lower now misses).
+ * let go. tone 'platform': amber dots onto the platform (a let-go now lands it); 'console': paper
+ * dashes onto the Panel operator's head with a warning mark (a let-go now drops it on them); 'deck' or
+ * 'intake': faint dots (a let-go now breaks it, or drops it back into the hatch).
  */
 export function dropLine(cv, [x, y0], y1, { tone = 'deck', t = 1 } = {}) {
   if (y1 - y0 < 8) return;

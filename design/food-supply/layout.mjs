@@ -51,10 +51,10 @@ export const BOXES = Object.freeze({
 const band = (centre, half, top, bottom) => [stopX(centre - half), top, STEP * half * 2, bottom - top];
 export const REGIONS = Object.freeze({
   cut: Object.freeze({ stops: [FIXTURES.cab.stop], box: [stopX(FIXTURES.cab.stop) - STEP / 2, RAIL.top, STEP, BOXES.cab[1] + BOXES.cab[3] - RAIL.top], about: 'The cab\'s stop: the panel sweeping here has LOCK striped on the Panel phone; locked here, its blade drops into the cab' }),
-  drop: Object.freeze({ centre: FIXTURES.console.stop, half: ZONES.console, box: band(FIXTURES.console.stop, ZONES.console, HANG - CRATE / 2, DECK), about: 'Over the console: the crate lowered with its centre here falls on the Panel operator' }),
-  platform: Object.freeze({ centre: FIXTURES.platform.stop, half: ZONES.platform, box: band(FIXTURES.platform.stop, ZONES.platform, HANG - CRATE / 2, DECK), about: 'Over the platform: the crate lowered with its centre here lands. The correct position' }),
-  intake: Object.freeze({ centre: FIXTURES.intake.stop, half: ZONES.intake, box: band(FIXTURES.intake.stop, ZONES.intake, HANG - CRATE / 2, DECK), about: 'The intake hatch, where the crate starts; lowered here it goes back in' }),
-  sweep: Object.freeze({ stops: [0, STOPS - 1], box: [stopX(0) - CARRIAGE.half, RAIL.top - 30, stopX(STOPS - 1) - stopX(0) + CARRIAGE.half * 2, CARRIAGE.bottom - RAIL.top + 30], about: 'The panel\'s run: it clicks from stop to stop, end to end and back, a stop every 0.5 s (the owner\'s)' }),
+  drop: Object.freeze({ centre: FIXTURES.console.stop, half: ZONES.console, box: band(FIXTURES.console.stop, ZONES.console, HANG - CRATE / 2, DECK), about: 'Over the console: the crate let go with its centre here falls on the Panel operator, and breaks' }),
+  platform: Object.freeze({ centre: FIXTURES.platform.stop, half: ZONES.platform, box: band(FIXTURES.platform.stop, ZONES.platform, HANG - CRATE / 2, DECK), about: 'Over the platform: the crate let go with its centre here, from a locked panel, lands. The correct position' }),
+  intake: Object.freeze({ centre: FIXTURES.intake.stop, half: ZONES.intake, box: band(FIXTURES.intake.stop, ZONES.intake, HANG - CRATE / 2, DECK), about: 'The intake hatch, where the crate starts and a new one waits after a break; let go here, it drops back in, whole' }),
+  sweep: Object.freeze({ stops: [0, STOPS - 1], box: [stopX(0) - CARRIAGE.half, RAIL.top - 30, stopX(STOPS - 1) - stopX(0) + CARRIAGE.half * 2, CARRIAGE.bottom - RAIL.top + 30], about: 'The panel\'s run: it clicks from stop to stop, end to end and back, a stop every 0.25 s (the owner\'s, twice as fast since 13 November 2026)' }),
 });
 
 /**

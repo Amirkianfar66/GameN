@@ -54,7 +54,7 @@
 .fs-legend span { display: inline-block; width: 18px; height: 10px; border-radius: 3px; margin-right: -4px; }
 
 /* The controls: the participant's own, big. The Panel: one LOCK or RELEASE button (and the key once landed).
-   The Winch: Raise above Lower (or the key once landed). No drag gesture. */
+   The Winch: one Hold button, held down (or the key once landed). No drag gesture. */
 .fs-controls { flex: none; display: grid; gap: 10px; grid-template-columns: 1fr; }
 .fs-ctl { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 76px; padding: 10px 14px; border: 3px solid #0A0D14; border-radius: 16px; background: var(--surface-4); color: var(--text-primary); font: 800 1.125rem/1.15 var(--font-ui); letter-spacing: -0.01em; text-align: center; box-shadow: 0 4px 0 #0A0D14; touch-action: none; user-select: none; -webkit-user-select: none; }
 .fs-controls[data-role="panel"] .fs-ctl[data-act="lock"], .fs-controls[data-role="panel"] .fs-ctl[data-act="release"] { min-height: 104px; font-size: 1.5rem; letter-spacing: 0.02em; }
@@ -76,6 +76,14 @@
 .fs-ctl .fs-face { display: contents; }
 .fs-ctl[data-hazard] .fs-sub, .fs-ctl[data-hazard] > .fs-face > .ic { color: #151923; }
 .fs-ctl[data-pressed] { transform: translateY(3px); box-shadow: 0 1px 0 #0A0D14; }
+/* The Winch's one button, Hold (the owner, 13 November 2026): as big as the Panel's, and never scrolled or
+   zoomed by the finger on it. Held (the server holds the crate for it, or the finger is down), it stays
+   pressed in with an amber rim; amber all over when it is time to press it, or to let go; striped when
+   letting go now may drop the crate on the partner. */
+.fs-controls[data-role="winch"] .fs-ctl[data-act="hold"] { min-height: 120px; font-size: 1.5rem; letter-spacing: 0.02em; touch-action: none; -webkit-touch-callout: none; }
+.fs-ctl[data-act="hold"]:is([data-holding], [data-pressed]):not([data-hazard]) { transform: translateY(3px); box-shadow: 0 1px 0 #0A0D14, inset 0 0 0 3px rgba(241, 184, 75, 0.6); background: var(--surface-3); }
+.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) { background: var(--accent); color: var(--on-accent); }
+.fs-ctl[data-act="hold"][data-next]:not([data-hazard]) .fs-sub, .fs-ctl[data-act="hold"][data-next]:not([data-hazard]) svg.arrow { color: var(--on-accent); }
 
 /* Cards over the view: the briefing, the call, the outcome. */
 .fs-card { position: absolute; left: 12px; right: 12px; z-index: 40; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 18px; background: var(--surface-2); box-shadow: 0 0 0 1px var(--hairline), 0 18px 40px rgba(0, 0, 0, 0.55); }
@@ -115,10 +123,10 @@
 .fs-brief ul { margin: 0; }
 
 /* Reduce motion: no press travel, no transitions. */
-.ph[data-motion="reduced"] .fs-ctl[data-pressed] { transform: none; }
+.ph[data-motion="reduced"] .fs-ctl[data-pressed], .ph[data-motion="reduced"] .fs-ctl[data-act="hold"][data-holding] { transform: none; }
 
 /* Larger text on a narrow phone (the screen under 14rem: a 320 px phone from about 145% text, a 390 px phone from
-   about 175%): the controls keep their places (Raise above Lower; the Panel's one big button, the key above it) and
+   about 175%): the controls keep their places (the Winch's one Hold button; the Panel's one big button, the key above it) and
    grow with their words; the role row and the meter's legend go, because the buttons, the hint and the name tags
    already say the same. The name tags are part of the picture: they stop growing at 16 px so they don't cover it,
    and what they say is in the hint and the top bar. */
@@ -136,6 +144,7 @@
   .fs-controls { gap: 8px; }
   .fs-ctl { min-height: 60px; padding: 6px 8px; gap: 6px; }
   .fs-controls[data-role="panel"] .fs-ctl[data-act="lock"], .fs-controls[data-role="panel"] .fs-ctl[data-act="release"] { min-height: 72px; font-size: 1.25rem; }
+  .fs-controls[data-role="winch"] .fs-ctl[data-act="hold"] { min-height: 80px; font-size: 1.25rem; }
   .fs-ctl svg.arrow, .fs-ctl > .fs-face > .ic { width: 28px; height: 28px; }
   .fs-ctl[data-hazard] .fs-face { padding: 4px 8px; }
   .fs-strip { gap: 2px; }

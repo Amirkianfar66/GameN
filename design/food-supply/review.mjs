@@ -71,7 +71,7 @@ function header(title, sub) {
 
 // ── The annotated layout ────────────────────────────────────────────────
 function layout() {
-  app.append(header('The Supply Room, annotated', 'A rail with seven stops across the top. The Panel sets the locking panel clicking along it, stop to stop, and locks it at a stop; the Winch raises and lowers the crate under it. Locked, the crate swings; lowered, it falls where its swing has it.'));
+  app.append(header('The Supply Room, annotated', 'A rail with seven stops across the top. The Panel sets the locking panel clicking along it, stop to stop, and locks it at a stop; the Winch holds the crate up under it with one button. Locked, the crate swings; let go, it falls where its swing has it, and breaks anywhere but the platform or the hatch.'));
   // The crate hanging over the platform, the panel locked there: the correct position.
   const pose = { ...restPose(), tags: TAG_POSE, panel: { ...restPose().panel, at: FIXTURES.platform.stop, lit: FIXTURES.platform.stop }, crate: { x: stopX(FIXTURES.platform.stop), y: HANG, tilt: 0, hooked: true }, console: { ...restPose().console, near: FIXTURES.platform.stop } };
   const wrap = el('div', { class: 'layout' });
@@ -81,7 +81,7 @@ function layout() {
   const r = ([x, y, w, h], cls) => `<rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
   // The stops, under the deck.
   for (let k = 0; k < STOPS; k += 1) s.push(`<line class="stopline" x1="${stopX(k)}" y1="${RAIL.bottom + 6}" x2="${stopX(k)}" y2="${DECK + 8}"/><text class="axis" x="${stopX(k)}" y="${DECK + 52}">${k + 1}</text>`);
-  // The zones a lowered crate falls into, and the cut.
+  // The zones a crate let go falls into, and the cut.
   s.push(r(REGIONS.drop.box, 'drop'), r(REGIONS.platform.box, 'goal'), r(REGIONS.intake.box, 'start'), r(REGIONS.cut.box, 'cut'));
   // The swing's reach from the platform stop: the pendulum's arc, wide after a lock (0.9 of a stop) and at its calmest (0.38).
   const arc = a => { const th = Math.asin(Math.min(0.95, (a * STEP) / PENDULUM)); const px = stopX(FIXTURES.platform.stop); return `M${px - PENDULUM * Math.sin(th)} ${CARRIAGE.pivot + PENDULUM * Math.cos(th)} A${PENDULUM} ${PENDULUM} 0 0 0 ${px + PENDULUM * Math.sin(th)} ${CARRIAGE.pivot + PENDULUM * Math.cos(th)}`; };
@@ -89,13 +89,13 @@ function layout() {
   // The sweep along the rail, end to end.
   s.push(`<line class="sweep" x1="${stopX(0)}" y1="${RAIL.top - 30}" x2="${stopX(STOPS - 1)}" y2="${RAIL.top - 30}"/><path class="sweep-head" d="M${stopX(0) - 4} ${RAIL.top - 30} l16 -9 v18 Z M${stopX(STOPS - 1) + 4} ${RAIL.top - 30} l-16 -9 v18 Z"/>`);
   const callouts = [
-    [1, [stopX(0) + 50, DECK - 120], 'Intake hatch', 'The crate starts here. Raise lifts it out; the panel starts locked over it.'],
+    [1, [stopX(0) + 50, DECK - 120], 'Intake hatch', 'The crate starts here, and a new one waits here after a crate breaks. Hold lifts it out, with the panel locked over it; the panel starts there.'],
     [2, [stopX(2), RAIL.top - 30], 'The rail and the click', `Seven stops, painted 1 to 7. Released, the panel clicks from stop to stop, end to end and back: a ${TIMING.move} ms snap, then a ${TIMING.rest} ms rest at each stop (the owner's).`],
     [3, [stopX(FIXTURES.platform.stop) - 84, CARRIAGE.bottom - 14], 'The locking panel', 'Rides the rail with the hoist on it. LOCK drops its striped blade at the stop it rests at, or at the one it is snapping to.'],
     [4, [stopX(FIXTURES.console.stop) - 70, DECK - 40], 'Console: the Panel', 'Cleo stands here: RELEASE and LOCK, and a key.'],
-    [5, [stopX(FIXTURES.console.stop) - 70, OPERATORS.panel.head - 40], 'Over the console', 'Lowered with its centre in this band, the crate falls on the Panel operator: the drop.'],
-    [6, [stopX(FIXTURES.platform.stop) + 30, BOXES.platform[1] - 40], 'Platform: the correct position', 'Lowered with its centre in this band, the crate lands and the jaws close. Then both keys send it down.'],
-    [7, [stopX(FIXTURES.cab.stop) - 90, BOXES.cab[1] + 40], 'Cab: the Winch', 'Hana sits here: Raise and Lower, and a key. LOCK at stop 7 drops the blade into the cab: the cut.'],
+    [5, [stopX(FIXTURES.console.stop) - 70, OPERATORS.panel.head - 40], 'Over the console', 'Let go with its centre in this band, the crate falls on the Panel operator, the drop, and breaks.'],
+    [6, [stopX(FIXTURES.platform.stop) + 30, BOXES.platform[1] - 40], 'Platform: the correct position', 'Let go with its centre in this band, from a locked panel, the crate lands and the jaws close. Then both keys send it down.'],
+    [7, [stopX(FIXTURES.cab.stop) - 90, BOXES.cab[1] + 40], 'Cab: the Winch', 'Hana sits here: one Hold button, and a key. LOCK at stop 7 drops the blade into the cab: the cut.'],
     [8, [stopX(FIXTURES.platform.stop) + 150, HANG + 4], 'The swing', 'After a lock the crate swings 0.9 of a stop each way, calming to 0.38 but never still, a swing every 1.3 s (the owner\'s).'],
   ];
   for (const [n, [x, y]] of callouts) s.push(`<g class="callout"><circle cx="${x}" cy="${y}" r="17"/><text x="${x}" y="${y + 6}">${n}</text></g>`);
@@ -103,13 +103,13 @@ function layout() {
   const legend = el('ol', { class: 'legend' });
   for (const [n, , title, text] of callouts) legend.append(el('li', {}, `<b>${n} · ${title}</b> ${text}`));
   const keys = el('ul', { class: 'keys' }, [
-    `<i class="k drop"></i> The drop: the crate lowered over the console (${ZONES.console} of a stop either side, the owner\'s)`,
+    `<i class="k drop"></i> The drop: the crate let go over the console (${ZONES.console} of a stop either side, the owner\'s)`,
     '<i class="k cut"></i> The cut: the panel locked at stop 7, over the cab (resting there, or snapping to it)',
     `<i class="k goal"></i> The platform: the correct position (${ZONES.platform} of a stop either side, the owner\'s)`,
-    '<i class="k start"></i> The intake: where the crate starts; lowered here it goes back in',
+    '<i class="k start"></i> The intake: where the crate starts, and a new one after a break; let go here, it drops back in, whole',
     '<i class="k swing"></i> The swing from the platform stop: just after a lock, and at its calmest',
     '<i class="k route"></i> The click: the panel\'s run along the rail, stop to stop',
-    'Anywhere else a lowered crate misses: CLUNK, and the Winch raises it again.',
+    'Anywhere else, or from a moving panel, a crate let go breaks: CRASH!, and the hook fetches a new one from the intake (the owner, 13 November 2026).',
   ].map(t => `<li>${t}</li>`).join(''));
   const side = el('div', { class: 'side' });
   side.append(legend, keys);
@@ -146,25 +146,25 @@ const G = TIMING.grace;
 const OUT = stepAt('disconnect', 2);
 const STATES = {
   winch: [
-    ['cooperation', 2500, 'Briefing: a reminder'], ['cooperation', B + 300, 'Raise: the next press'], ['cooperation', R + 1200, 'Waiting for the lock'],
-    ['chop', R + 2400, 'Warning: the panel moving to your cab'], ['chop', CAB_AT - 100, 'Warning: the panel at your cab'], ['cooperation', OVER - 75, 'Hazard: Lower may drop it on Cleo'],
-    ['cooperation', PLATFORM_AT + 1625, 'Wait: Lower would miss'], ['cooperation', LOWER_AT, 'Lower now: steady over the platform', '&before=1'], ['protection-drop', OVER + 175, 'Stopped: the winch brake'],
-    ['mistakes', stepAt('mistakes', 5) + 500, 'Missed: raise it again'], ['cooperation', LANDED + 200, 'Landed: turn your key'], ['standoff', stepAt('standoff', 4) + 300, 'Key turned: waiting'],
-    ['chop', CAB_AT + 1200, 'Killed: out of the match'], ['drop', stepAt('drop', 5) - 10, 'Cleo out: lower it in alone'], ['drop', stepAt('drop', 6) + 1100, 'Delivered alone'],
-    ['disconnect', OUT + G - 2000, 'Partner offline: the Task goes on'], ['disconnect', OUT + G + 1500, 'Cancelled'], ['timeout', TIMING.deadline + 1500, 'Lost: the time ran out'],
+    ['cooperation', 2500, 'Briefing: a reminder'], ['cooperation', B + 300, 'Hold: the next press'], ['cooperation', R + 400, 'Holding: Cleo moves it'],
+    ['chop', CAB_AT - 260, 'Warning: the panel moving to your cab'], ['chop', CAB_AT - 100, 'Warning: the panel at your cab'], ['cooperation', OVER - 75, 'Hazard: a let-go may drop it on Cleo'],
+    ['cooperation', PLATFORM_AT + 1625, 'Keep holding: it would break'], ['cooperation', LOWER_AT, 'Let go now: steady over the platform', '&before=1'], ['protection-drop', OVER + 175, 'Stopped: the brake has it'],
+    ['mistakes', stepAt('mistakes', 5) + 500, 'Broken: Cleo fetches a new one'], ['mistakes', stepAt('mistakes', 7) + 200, 'The hook at 1: hold to lift'], ['cooperation', LANDED + 200, 'Landed: turn your key'],
+    ['standoff', stepAt('standoff', 4) + 300, 'Key turned: waiting'], ['chop', CAB_AT + 1200, 'Killed: out of the match'], ['drop', OVER + 1300, 'Lost: the crate broke on Cleo'],
+    ['disconnect', OUT + G - 2100, 'Partner offline: the Task goes on'], ['disconnect', OUT + G + 1500, 'Cancelled'], ['timeout', TIMING.deadline + 1500, 'Lost: the time ran out'],
   ],
   panel: [
-    ['cooperation', 2500, 'Briefing: a reminder'], ['cooperation', B + 300, 'Waiting: Hana raises'], ['cooperation', B + 1300, 'RELEASE: the next press'],
-    ['cooperation', R + 1200, 'Clicking: resting at 4'], ['cooperation', PLATFORM_AT - 100, 'Resting at 6: LOCK now'], ['chop', R + 2400, 'Leaving 6: LOCK striped'],
-    ['chop', CAB_AT - 100, 'At 7: LOCK cuts Hana'], ['mistakes', stepAt('mistakes', 2) + 650, 'Locked over you: release'], ['cooperation', OVER - 75, 'Warning: the crate over you'],
-    ['cooperation', PLATFORM_AT + 1500, 'Locked: Hana lowers it in'], ['protection-cut', CAB_AT + 250, "Stopped: the cab's buffer"], ['cooperation', LANDED + 200, 'Landed: turn your key'],
-    ['standoff', stepAt('standoff', 6) + 500, 'Hana out: turn your key alone'], ['drop', OVER + 1300, 'Killed: out of the match'], ['standoff', stepAt('standoff', 7) + 1100, 'Delivered alone'],
-    ['chop', CAB_AT + 2300, 'Lost: not over the platform'], ['disconnect', OUT + G - 2000, 'Own phone reconnecting'], ['disconnect', OUT + G + 1500, 'Cancelled'],
+    ['cooperation', 2500, 'Briefing: a reminder'], ['cooperation', B + 300, 'Waiting: Hana lifts it'], ['cooperation', B + 1300, 'RELEASE: the next press'],
+    ['cooperation', PLATFORM_AT - 100, 'Resting at 6: LOCK now'], ['chop', CAB_AT - 250, 'Leaving 6: LOCK striped'], ['chop', CAB_AT - 100, 'At 7: LOCK cuts Hana'],
+    ['mistakes', stepAt('mistakes', 2) + 650, 'Locked over you: release'], ['cooperation', OVER - 75, 'Warning: the crate over you'], ['cooperation', PLATFORM_AT + 1500, 'Locked: Hana lets go over it'],
+    ['protection-cut', CAB_AT + 250, "Stopped: the cab's buffer"], ['mistakes', stepAt('mistakes', 5) + 600, 'Broken: fetch a new one at 1'], ['mistakes', stepAt('mistakes', 7) - 100, 'At 1: LOCK to fetch it'],
+    ['cooperation', LANDED + 200, 'Landed: turn your key'], ['standoff', stepAt('standoff', 6) + 500, 'Hana out: turn your key alone'], ['drop', OVER + 1300, 'Killed: out of the match'],
+    ['standoff', stepAt('standoff', 7) + 1100, 'Delivered alone'], ['chop', CAB_AT + 2300, 'Lost: not over the platform'], ['disconnect', OUT + G - 2000, 'Own phone reconnecting'],
   ],
 };
 
 function phones(as) {
-  app.append(header(`${ROLES[as].name} · ${CAST[as].name}'s phone, every state`, `${ROLES[as].about}. ${as === 'panel' ? 'One big button, RELEASE or LOCK, and the strip of stops it runs along' : 'Raise above Lower, and the meter of where the swing has the crate'}; the next press glows; a press that would kill is striped and says so; nothing asks to confirm.`));
+  app.append(header(`${ROLES[as].name} · ${CAST[as].name}'s phone, every state`, `${ROLES[as].about}. ${as === 'panel' ? 'One big button, RELEASE or LOCK, and the strip of stops it runs along' : 'One Hold button, and the meter of where the swing has the crate'}; the next press, and the moment to let go, glows; a press or a let-go that would kill is striped and says so; nothing asks to confirm.`));
   const grid = el('div', { class: 'grid' });
   for (const [id, t, label, extra = ''] of STATES[as]) grid.append(phone(`s=task&board=${id}&t=${t}&as=${as}${extra}`, { label }));
   app.append(grid);
@@ -196,7 +196,8 @@ function machine() {
     ["The cab's roof buffer (stopped)", { ...hanging(6, { panel: { ...base.panel, at: 6, blade: BLADE.caught, lit: 6 } }), cab: { ...base.cab, buffer: 1 } }, [700, 30, 324, 440]],
     ['The console: the lever up, the stop light running', { ...base, panel: { ...base.panel, at: 3.4, blade: BLADE.up, lit: 3 }, console: { ...base.console, locked: false, near: 3 } }, [480, 380, 320, 380]],
     ['The console: its lamp, the swing over the operator', { ...hanging(5), crate: { x: stopX(4.2), y: HANG + 10, tilt: 0.3, hooked: true }, console: { ...base.console, lamp: true, near: 5 }, line: { from: [stopX(4.2), HANG + 66], to: OPERATORS.panel.head, tone: 'console' } }, [440, 200, 420, 560]],
-    ['The drop: the crate on the console', { ...hanging(5), crate: { x: stopX(4), y: REST.console, tilt: 0, hooked: true }, slack: 0.35, alive: { winch: true, panel: false } }, [440, 200, 420, 560]],
+    ['The drop: the crate broken on the console', { ...hanging(5), crate: null, hookY: 300, wrecks: [{ whole: false, x: stopX(4), y: REST.console + CRATE / 2, on: 'console', seed: 300 }], alive: { winch: true, panel: false } }, [440, 200, 420, 560]],
+    ['A crate let go anywhere else: broken on the deck; a new one in the hatch', { ...base, panel: { ...base.panel, at: 5, lit: 5 }, crate: { x: stopX(0), y: REST.intake, tilt: 0, hooked: false }, hookY: 300, wrecks: [{ whole: false, x: stopX(2.4), y: DECK, on: 'deck', seed: 317, flip: true }] }, [0, 380, 560, 380]],
     ["The winch's brake (stopped)", { ...hanging(5), effects: [{ kind: 'brake', at: [stopX(5), CARRIAGE.pivot + 60] }] }, [620, 60, 300, 420]],
     ['The platform: open, the crate over it', { ...hanging(5), line: { from: [stopX(5), HANG + 58], to: BOXES.platform[1] - 8, tone: 'platform' } }, [600, 200, 340, 560]],
     ['The platform: landed, jaws shut, lamp lit', { ...base, panel: { ...base.panel, at: 5, lit: 5 }, crate: { x: stopX(5), y: REST.platform, tilt: 0, hooked: false }, hookY: 300, platform: { drop: 0, clamp: true, lamp: true } }, [600, 200, 340, 560]],
@@ -213,10 +214,11 @@ function machine() {
   grid.append(keys);
   const fx = el('figure', { class: 'part wide' });
   fx.append(scene({ ...base, crate: null, effects: [
-    { kind: 'burst', at: [200, 520], r: 70, t: 1 }, { kind: 'letters', text: 'CHOP!', at: [200, 420], size: 56, angle: -10 },
-    { kind: 'burst', at: [440, 540], r: 64, t: 1, seed: 170 }, { kind: 'letters', text: 'THUD!', at: [440, 440], size: 54, angle: -8 },
-    { kind: 'letters', text: 'CLANK!', at: [660, 470], size: 46, angle: -6 }, { kind: 'letters', text: 'CLUNK', at: [850, 470], size: 40, angle: -6 }, { kind: 'clunk', at: [850, 520], dir: [1, 0], t: 1 },
-  ] }, { crop: [40, 330, 980, 300] }), el('figcaption', {}, 'Effects: CHOP! (the cut), THUD! (the drop), CLANK! (a stop), CLUNK (a miss). Lettering is decoration; the phone says the same in words.'));
+    { kind: 'burst', at: [150, 540], r: 60, t: 1 }, { kind: 'letters', text: 'CHOP!', at: [140, 440], size: 44, angle: -10 },
+    { kind: 'burst', at: [355, 550], r: 56, t: 1, seed: 170 }, { kind: 'letters', text: 'THUD!', at: [350, 440], size: 44, angle: -8 },
+    { kind: 'letters', text: 'CLANK!', at: [555, 450], size: 38, angle: -6 }, { kind: 'letters', text: 'CLUNK', at: [745, 450], size: 34, angle: -6 }, { kind: 'clunk', at: [745, 510], dir: [1, 0], t: 1 },
+    { kind: 'letters', text: 'CRASH!', at: [915, 450], size: 38, angle: -8 }, { kind: 'clunk', at: [915, 510], dir: [0, -1], t: 1 },
+  ] }, { crop: [40, 330, 980, 300] }), el('figcaption', {}, 'Effects: CHOP! (the cut), THUD! (the drop), CLANK! (a stop), CLUNK (back in the hatch), CRASH! (a crate breaks). Lettering is decoration; the phone says the same in words.'));
   grid.append(fx);
   app.append(grid);
 }
@@ -225,12 +227,12 @@ function machine() {
 function motion() {
   app.append(header('Motion: each cue and its Reduce motion form', 'Five moments of each cue, then a moment with Reduce motion. The click and the swing are the Task itself, so Reduce motion keeps them, the same stop and the same place at the same moment, and takes away the rest: no slide, no lean, no speed lines, no flashing, effects still. The click\'s timing is the owner\'s; the cues\' timings are PROPOSED; a new state always replaces a cue still playing.'));
   const cues = [
-    [`The click: a ${TIMING.move} ms snap, then a ${TIMING.rest} ms rest`, 'cooperation', R + 2 * (TIMING.move + TIMING.rest), [0, 30, 60, 100, 400], [0, 30, 1024, 520], CUES.click],
+    [`The click: a ${TIMING.move} ms snap, then a ${TIMING.rest} ms rest`, 'cooperation', R + 2 * (TIMING.move + TIMING.rest), [0, 15, 30, 50, 200], [0, 30, 1024, 520], CUES.click],
     ['The lock: the blade drops', 'cooperation', PLATFORM_AT, [0, 30, 60, 90, 300], [560, 30, 400, 300], CUES.lock],
     ['The swing: the first 1.3 s after a lock', 'cooperation', PLATFORM_AT, [0, 325, 650, 975, 1300], [420, 60, 520, 640], CUES.swing],
-    ['Raise', 'cooperation', B + 600, [0, 110, 225, 340, 450], [0, 30, 420, 720], CUES.raise],
-    ['Lower: landing', 'cooperation', LOWER_AT, [0, 100, 200, 300, 460], [560, 120, 400, 620], CUES.lower],
-    ['A miss: CLUNK', 'mistakes', stepAt('mistakes', 5), [0, 150, 300, 400, 600], [600, 120, 424, 620], CUES.miss],
+    ['Hold: the crate lifts', 'cooperation', B + 600, [0, 110, 225, 340, 450], [0, 30, 420, 720], CUES.raise],
+    ['Let go: landing', 'cooperation', LOWER_AT, [0, 100, 200, 300, 460], [560, 120, 400, 620], CUES.lower],
+    ['Let go in the wrong place: CRASH!, a new crate in the hatch', 'mistakes', stepAt('mistakes', 5), [0, 150, 300, 500, 900], [0, 120, 1024, 620], CUES.break],
     ['The cut', 'chop', CAB_AT, [0, 40, 80, 120, 600], [600, 30, 424, 460], CUES.cut],
     ['The drop', 'drop', OVER, [0, 60, 120, 180, 700], [380, 200, 520, 560], CUES.drop],
     ["Stopped: the cab's buffer", 'protection-cut', CAB_AT, [0, 40, 80, 110, 500], [600, 30, 424, 460], CUES.stopped],
@@ -257,13 +259,13 @@ function motion() {
 }
 
 function large() {
-  app.append(header('Phones at 320 x 568 with the Largest text', 'The game\'s 200% text on the smallest phone the pack reviews. The view gives way to the words, down to a letterboxed strip; the controls keep their places (Raise above Lower; the Panel\'s one big button); the role row and the meter\'s legend go, and the partner\'s state moves into the top bar; the briefing is a reminder that never scrolls. Each phone reports its own layout below it.'));
+  app.append(header('Phones at 320 x 568 with the Largest text', 'The game\'s 200% text on the smallest phone the pack reviews. The view gives way to the words, down to a letterboxed strip; the controls keep their places (the Winch\'s one Hold button; the Panel\'s one big button); the role row and the meter\'s legend go, and the partner\'s state moves into the top bar; the briefing is a reminder that never scrolls. Each phone reports its own layout below it.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
-    ['s=task&board=cooperation&t=2500&as=winch', 'Briefing: no scrolling'], [`s=task&board=cooperation&t=${B + 300}&as=winch`, 'Winch: Raise next'],
+    ['s=task&board=cooperation&t=2500&as=winch', 'Briefing: no scrolling'], [`s=task&board=cooperation&t=${B + 300}&as=winch`, 'Winch: Hold next'],
     [`s=task&board=cooperation&t=${OVER - 75}&as=winch`, 'Winch: hazard'], [`s=task&board=chop&t=${CAB_AT - 100}&as=panel`, 'Panel: hazard'],
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel`, 'Panel: LOCK now'], [`s=task&board=cooperation&t=${LANDED + 200}&as=panel`, 'Panel: landed'],
-    [`s=task&board=disconnect&t=${R + 2700}&as=winch`, 'Winch: Cleo offline and the panel at the cab'], [`s=task&board=chop&t=${CAB_AT + 2300}&as=panel`, 'Lost'],
+    [`s=task&board=disconnect&t=${CAB_AT - 100}&as=winch`, 'Winch: Cleo offline and the panel at the cab'], [`s=task&board=chop&t=${CAB_AT + 2300}&as=panel`, 'Lost'],
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK not done'],
   ]) grid.append(phone(`${q}&text=2`, { width: 320, height: 568, scale: 1, safe: '20,0', label, measured: true }));
   app.append(grid);
@@ -271,12 +273,12 @@ function large() {
 
 /** A press in flight, refused, its answer unknown and recovered; the request's races. Each shown to its own player only. */
 function states() {
-  app.append(header('A press, and a request, in flight', 'What the presser\'s own phone shows while a press is on its way, when the server refuses it (the crane had moved on), when the connection drops before its answer, and after the recovery; and the races between a Join, a Cancel and the time running out. The server takes whichever arrives first; nothing here is shown to the other player. A double tap or a held key never sends a second press, and a press stays the act it was made as.'));
+  app.append(header('A press, and a request, in flight', 'What the presser\'s own phone shows while a press is on its way, when the server refuses it (the crane had moved on), when the connection drops before its answer, and after the recovery; and the races between a Join, a Cancel and the time running out. The server takes whichever arrives first; nothing here is shown to the other player. A double tap or a held key never sends a second press, and a press stays the act it was made as; a finger lifting off Hold always sends its let-go.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
     [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=sending&act=lock`, 'Panel: LOCK on its way; every control waits'], [`s=task&board=cooperation&t=${R + 1200}&as=panel&press=refused&act=lock`, 'Panel: LOCK refused, the crane had moved on'],
-    [`s=task&board=cooperation&t=${LOWER_AT}&as=winch&press=sending&act=lower&before=1`, 'Winch: Lower on its way'], [`s=task&board=cooperation&t=${LOWER_AT - 10}&as=winch&press=unknown&act=lower`, 'Winch: the connection dropped; its answer unknown'],
-    [`s=task&board=cooperation&t=${LANDED + 200}&as=winch&press=through&act=lower`, 'Winch: recovered; it went through'], [`s=task&board=cooperation&t=${LOWER_AT - 10}&as=winch&press=lost&act=lower`, 'Winch: recovered; it did not go through'],
+    [`s=task&board=cooperation&t=${B + 600}&as=winch&press=sending&act=raise&before=1`, 'Winch: Hold on its way, the finger down'], [`s=task&board=cooperation&t=${LOWER_AT - 10}&as=winch&press=unknown&act=lower`, 'Winch: the connection dropped after a let-go; its answer unknown'],
+    [`s=task&board=cooperation&t=${LANDED + 200}&as=winch&press=through&act=lower`, 'Winch: recovered; the let-go went through'], [`s=task&board=cooperation&t=${PLATFORM_AT - 100}&as=panel&press=lost&act=lock`, 'Panel: recovered; the LOCK did not go through'],
     ['s=called&answer=joining', 'Partner: Join on its way'], ['s=called&answer=late-withdrawn', 'Partner: too late, Hana had cancelled'], ['s=called&answer=late-expired', 'Partner: too late, the time had run out'],
     ['s=volunteer&step=withdrawn', 'Volunteer: request withdrawn (as a refusal)'], ['s=volunteer&step=withdraw-late', 'Volunteer: too late to cancel, Cleo joined first'],
     ['s=volunteer&step=busy', 'Anyone else: another request is waiting'], ['s=volunteer&step=closed', 'In an ordinary turn: Food Supply opens at the next round\'s start'],

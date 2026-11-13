@@ -51,23 +51,34 @@ const arrow = act => { const t = document.createElement('template'); t.innerHTML
  */
 function subOf(b, v, p = {}) {
   const partner = person(other(v.role)).name;
-  if (p.press === 'sending' && p.act === b.act) return 'Sending…';
+  if (p.press === 'sending' && pressOf(b, p)) return 'Sending…';
   if (v.phase === 'briefing') return 'After the briefing';
   if (v.phase === 'ended') return 'The Task is over';
   if (v.you === 'down') return 'You are out';
   if (!b.enabled && v.offline) return 'Reconnecting…';
   if (b.act === 'key') return b.turned ? 'Waiting for the other key' : 'Sends the crate down';
-  if (b.act === 'release') return b.enabled ? 'Starts the panel clicking' : (v.crate.state === 'hanging' ? 'Wait: the crate is rising' : `${partner} raises it first`);
+  if (b.act === 'release') {
+    if (b.enabled) return 'Starts the panel clicking';
+    if (v.crate.state === 'hanging') return 'Wait: the crate is rising';
+    return v.crate.settled ? `${partner} lifts it first` : 'Wait: a new crate';
+  }
   if (b.act === 'lock') {
     if (b.hazard) return b.stop === FIXTURES.cab.stop ? `At 7: ${partner}'s cab` : `Moving on to ${partner}'s cab`;
-    if (b.stop === FIXTURES.platform.stop) return b.leaving ? 'Leaving 6' : 'At 6: the platform';
+    const goal = v.goal ?? FIXTURES.platform.stop;
+    if (b.stop === goal) return b.leaving ? `Leaving ${goal + 1}` : goal === FIXTURES.intake.stop ? 'At 1: the hatch' : 'At 6: the platform';
     return b.stop === FIXTURES.console.stop ? 'At 5: over you' : `At ${b.stop + 1}`;
   }
-  if (b.act === 'raise') return b.enabled ? 'Lifts the crate' : v.crate.state === 'hanging' ? 'It is up' : 'Wait for the lock';
-  if (!b.enabled) return v.crate.state === 'hanging' ? (v.panel.locked ? 'Wait: it is rising' : 'Wait for the lock') : 'Raise it first';
-  if (b.hazard) return `May fall on ${partner}`;
-  return { platform: 'Over the platform', console: `Over ${partner}`, deck: 'Over the deck: misses', intake: 'Over the hatch' }[b.zone];
+  // The Winch's one button: what the finger on it does now, and what letting go would do.
+  if (!b.enabled) return v.crate.state === 'intake' && v.crate.settled ? 'Wait for the hook at 1' : 'Wait: a new crate';
+  if (!b.holding) return v.crate.state === 'hanging' ? 'Hold to take it back' : 'Press and hold to lift';
+  if (!v.crate.settled) return 'Lifting: keep holding';
+  if (b.hazard) return `Let go: falls on ${partner}`;
+  if (b.next) return 'Let go now: it lands';
+  return { land: 'Let go: it lands', back: 'Let go: back in the hatch', drop: `Let go: falls on ${partner}`, break: 'Keep holding: it breaks' }[b.fall] ?? 'Keep holding';
 }
+
+/** Whether the press in p is this button's: Hold sends raise (the finger down) and lower (the finger off). */
+const pressOf = (b, p) => p.act === b.act || (b.act === 'hold' && (p.act === 'raise' || p.act === 'lower'));
 
 /** One big control: its icon, its label and what it would do now; the next press glows; a press that would kill is striped and says so. */
 function control(b, v, p = {}) {
@@ -78,18 +89,21 @@ function control(b, v, p = {}) {
   const sending = p.press === 'sending';
   const enabled = b.enabled && !sending && p.press !== 'unknown';
   const aria = `${label}. ${b.hazard ? `Warning: ${sub}` : sub}.`;
-  const icon = b.act === 'key' ? ic(b.turned ? 'check' : 'key', { filled: true }) : b.act === 'lock' || b.act === 'release' ? ic(b.act === 'lock' ? 'lock' : 'release', { filled: true }) : arrow(b.act);
+  const icon = b.act === 'key' ? ic(b.turned ? 'check' : 'key', { filled: true }) : b.act === 'lock' || b.act === 'release' ? ic(b.act === 'lock' ? 'lock' : 'release', { filled: true }) : arrow('raise');
+  // Hold: the finger keeps it down; while the server holds the crate for it, it shows pressed (data-holding).
+  const hold = b.act === 'hold';
   return h('button.fs-ctl', {
-    type: 'button', 'data-act': b.act, 'aria-label': aria, 'aria-disabled': enabled ? null : 'true', 'aria-busy': sending && p.act === b.act ? 'true' : null,
-    'data-next': b.next && enabled ? '' : null, 'data-hazard': b.hazard && enabled ? '' : null, 'data-key': b.act === 'key' && !b.turned ? '' : null, 'data-turned': b.turned ? '' : null,
-    'data-zone': b.act === 'lower' && enabled ? b.zone : null, 'data-sending': sending && p.act === b.act ? '' : null,
+    type: 'button', 'data-act': b.act, 'aria-label': aria, 'aria-disabled': (hold ? b.enabled : enabled) ? null : 'true', 'aria-busy': sending && pressOf(b, p) ? 'true' : null,
+    'aria-pressed': hold ? String(Boolean(b.holding)) : null,
+    'data-next': b.next && (hold ? b.enabled : enabled) ? '' : null, 'data-hazard': b.hazard && (hold ? b.enabled : enabled) ? '' : null, 'data-key': b.act === 'key' && !b.turned ? '' : null, 'data-turned': b.turned ? '' : null,
+    'data-zone': hold && b.holding ? b.zone : null, 'data-holding': hold && b.holding ? '' : null, 'data-sending': sending && pressOf(b, p) ? '' : null,
   }, h('span.fs-face', icon, h('span.fs-label', label, h('span.fs-sub', sub))));
 }
 
 /** The Panel's strip: the seven stops, the platform's in amber, the cab's striped, yours marked, and where the panel is now. */
 function sweepStrip(v) {
   const cells = Array.from({ length: STOPS }, (_, s) => h('span', {
-    'data-goal': s === FIXTURES.platform.stop ? '' : null, 'data-cut': s === FIXTURES.cab.stop ? '' : null,
+    'data-goal': s === (v.goal ?? FIXTURES.platform.stop) ? '' : null, 'data-cut': s === FIXTURES.cab.stop ? '' : null,
     'data-you': s === FIXTURES.console.stop ? '' : null, 'data-at': v.panel.locked && v.panel.stop === s ? '' : null, 'data-now': !v.panel.locked && v.panel.stop === s ? '' : null,
   }, s === FIXTURES.console.stop ? ic('self', { filled: true }) : h('b', String(s + 1))));
   return h('div.fs-strip', { 'aria-hidden': 'true', 'data-locked': v.panel.locked ? '' : null },
@@ -102,7 +116,7 @@ function swingMeter(v) {
   const band = (centre, half) => ({ left: `${f(centre - half)}%`, width: `${f(centre + half) - f(centre - half)}%` });
   const x = v.crate.x;
   return h('div.fs-meter-wrap', { 'aria-hidden': 'true' },
-    h('div.fs-meter', { 'data-live': v.crate.state === 'hanging' && v.panel.locked ? '' : null },
+    h('div.fs-meter', { 'data-live': v.crate.state === 'hanging' && v.crate.holder === 'winch' && v.panel.locked ? '' : null },
       h('span.fs-zone', { 'data-zone': 'console', style: band(FIXTURES.console.stop, ZONES.console) }),
       h('span.fs-zone', { 'data-zone': 'platform', style: band(FIXTURES.platform.stop, ZONES.platform) }),
       h('i.fs-crate', { style: { left: `${f(x)}%` }, 'data-out': x < lo || x > hi ? '' : null })),
@@ -202,7 +216,7 @@ function measure(root, { viewEl, panel, controls }) {
  * recovery the phone asks for the present state and that answer; it never replays queued taps.
  */
 function pressState(root, p, top) {
-  const name = { lock: 'LOCK', release: 'RELEASE', raise: 'Raise', lower: 'Lower', key: 'key' }[p.act] ?? 'press';
+  const name = { lock: 'LOCK', release: 'RELEASE', raise: 'Hold', lower: 'let-go', hold: 'Hold', key: 'key' }[p.act] ?? 'press';
   const at = { style: { top: `${top + 12}px` } };
   if (p.press === 'refused') root.append(h('div.fs-banner', at, banner({ icon: 'info', title: `Your ${name} was not done`, sub: 'The crane had moved on.' })));
   if (p.press === 'unknown') root.append(h('div.fs-banner', at, banner({ icon: 'offline', title: `Checking your ${name}…`, sub: 'The connection dropped on the way.' })));
@@ -214,9 +228,10 @@ function pressState(root, p, top) {
 function describe(v) {
   const panel = v.panel.locked ? `The panel is locked at stop ${v.panel.stop + 1}.` : `The panel is clicking along the rail, now at stop ${v.panel.stop + 1}.`;
   const at = Math.round(v.crate.x) + 1;
-  const crate = { intake: 'The crate is in the intake.', deck: `The crate is on the deck by stop ${at}.`, fallen: 'The crate is on the console.', landed: 'The crate is on the platform.', sent: 'The crate has gone down.' }[v.crate.state]
-    ?? (v.panel.locked ? `The crate hangs swinging, now over stop ${at}.` : 'The crate hangs under the panel.');
-  return `The Supply Room. ${panel} ${crate}${v.warnings.length ? ' Warning shown.' : ''}`;
+  const crate = { intake: 'A crate waits in the intake.', landed: 'The crate is on the platform.', sent: 'The crate has gone down.' }[v.crate.state]
+    ?? `${v.crate.holder === 'winch' ? 'The Winch holds the crate up' : 'The brake holds the crate up'}, ${v.panel.locked ? `swinging, now over stop ${at}` : 'under the panel'}.`;
+  const broken = v.broken ? ` ${v.broken === 1 ? 'One crate has' : `${v.broken} crates have`} broken.` : '';
+  return `The Supply Room. ${panel} ${crate}${broken}${v.warnings.length ? ' Warning shown.' : ''}`;
 }
 
 /**
@@ -227,7 +242,7 @@ function describe(v) {
 function briefingCard(role, v, top) {
   const them = person(other(role));
   const lines = role === 'winch'
-    ? ['Raise it, then lower it over 6.', `Over ${them.name}, it falls on ${them.name}.`]
+    ? ['Hold it up. Let go over 6.', `Over ${them.name}, it falls on ${them.name}.`]
     : ['Release it, then lock it at 6.', `LOCK at 7 cuts ${them.name}.`];
   return h('section.fs-card.fs-brief', { role: 'dialog', 'aria-label': `You run the ${ROLES[role].name}`, style: { top: `${top + 16}px`, maxHeight: `calc(100% - ${top + 28}px)` } },
     h('h2', `You run the ${ROLES[role].name}`),
@@ -248,7 +263,8 @@ function endCard(v, role, top) {
   const back = h('p', `You go back to ${ROOM_NAMES[CAST[role].from.room]} at the end of the Task's time.`);
   if (o.result === 'delivered') return outcomeCard({ title: 'Delivered', stamp: `+${o.packages} packages`, tone: 'accent', body: [h('p', 'The crate went down to the galley. The ship\'s food stock rises by five.'), back] }, top + 24);
   if (o.result === 'cancelled') return outcomeCard({ title: 'Task cancelled', stamp: 'Cancelled', body: [h('p', o.who === role ? 'You lost your connection. Nothing was delivered.' : `${person(other(role)).name} lost their connection. Nothing was delivered.`), back] }, top + 24);
-  const lost = o.why === 'time' ? 'The time ran out before the crate went down.' : 'The crate was not over the platform.';
+  // A death with the crate broken and a new one waiting in the intake: no one was left to fetch it (the owner's hold, 13 November 2026).
+  const lost = o.why === 'time' ? 'The time ran out before the crate went down.' : v.crate.state === 'intake' ? 'The crate broke, and no one was left to fetch another.' : 'The crate was not over the platform.';
   return outcomeCard({ title: 'Task lost', stamp: 'Lost', body: [h('p', lost), back] }, top + 24);
 }
 
@@ -307,7 +323,7 @@ function volunteer(root, p) {
       list(
         rested
           ? row({ icon: 'supply', title: 'Food Supply', sub: 'You went for food last round', disabled: true })
-          : row({ icon: 'supply', title: 'Food Supply', sub: `Lower a ration crate onto the galley lift: +${FOOD.perDelivery} packages`, chevron: true, go: 's=volunteer&step=partner' }),
+          : row({ icon: 'supply', title: 'Food Supply', sub: `Land a ration crate on the galley lift: +${FOOD.perDelivery} packages`, chevron: true, go: 's=volunteer&step=partner' }),
         row({ icon: 'panel', title: 'Engine', sub: 'Its own Task, designed separately', disabled: true }),
         row({ icon: 'info', title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', chevron: true, go: 's=howto' })),
       groupNote(rested ? 'The two who go for food cannot go again the next round. You can go again in round 5.' : 'Anyone can volunteer. You and your Partner cannot go for food again next round.'),
@@ -397,11 +413,11 @@ function howto(root) {
   root.append(...sheet({ title: 'How the Food Supply Task works', sub: 'Read it now: the Task itself lasts 30 seconds', back: 's=volunteer&step=closed', detent: 'large', body: [
     ...section('When', 'Once a round, at its start, before the turns. The two who go cannot go again the next round.'),
     ...section('Two of you, one control each', 'The game picks who runs which control. The Panel moves the crane left and right; the Winch moves the crate up and down.'),
-    ...section('The Panel', 'RELEASE sets the locking panel clicking from stop to stop along the rail. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch\'s cab.'),
-    ...section('The Winch', 'Raise lifts the crate. Locked, the crate swings. Lower drops it where its swing has it: over the platform it lands; over the Panel it falls on them.'),
+    ...section('The Panel', 'RELEASE sets the locking panel clicking from stop to stop along the rail, fast. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch\'s cab.'),
+    ...section('The Winch', 'One button: Hold. Press and hold to lift the crate, and keep holding while it moves. Locked, the crate swings. Let go when it swings over the platform: it lands. Over the Panel it falls on them. Anywhere else it breaks, and the hook must fetch a new one from the hatch at 1.'),
     ...section('Then', `Both turn a key: +${FOOD.perDelivery} packages for the ship.`),
     ...section('The time', '30 seconds for the whole Task, the short briefing included.'),
-    ...section('Mistakes', 'A late LOCK or an early Lower can kill. Nothing tells a mistake from a betrayal. Your press counts when it reaches the ship, a moment after you press: the stripes warn you early for that.'),
+    ...section('Mistakes', 'A late LOCK or a let-go at the wrong moment can kill. Nothing tells a mistake from a betrayal. Your press counts when it reaches the ship, a moment after you press: the stripes warn you early for that.'),
     ...section('Leaving', 'If you lose your connection for 8 seconds, the Task is cancelled. It costs you nothing more. Whatever happens, you both go back at the end of the Task\'s time.'),
   ] }));
 }

@@ -31,6 +31,7 @@ export const CUES = Object.freeze({
   land: { ms: 140, reduced: 'The jaws shut and the lamp lit at once' },
   hookUp: { ms: 300, ease: 'out', reduced: 'The empty hook under the panel at once' },
   miss: { ms: 220, reduced: 'CLUNK! shown still for 600 ms' },
+  break: { ms: TIMING.lower, after: 700, ease: 'in', reduced: 'The broken crate where it fell, at once; CRASH! still for 700 ms; the new crate in the hatch at once' },
   cut: { ms: 120, ease: 'in', reduced: 'The blade in the cab at once; CHOP! still' },
   drop: { ms: 180, ease: 'in', reduced: 'The crate on the console at once; THUD! still' },
   stopped: { ms: 320, reduced: 'The catch shown thrown, still, with CLANK! for 600 ms' },
@@ -48,7 +49,10 @@ const ease = {
 };
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const lerp = (a, b, u) => a + (b - a) * u;
-const REST_Y = { intake: REST.intake, deck: REST.deck, fallen: REST.console, landed: REST.platform };
+const REST_Y = { intake: REST.intake, deck: REST.deck, landed: REST.platform };
+/** The floor under a broken crate, by where it fell; and its place along the rail (a fixture's centre, or where it fell on the deck). */
+const FLOOR = { deck: DECK, console: REST.console + CRATE / 2, platform: REST.platform + CRATE / 2 };
+const wreckX = b => stopX(b.on === 'console' ? FIXTURES.console.stop : b.on === 'platform' ? FIXTURES.platform.stop : b.x);
 
 /**
  * A storyboard's run: its start (who is Protected) and its presses.
@@ -71,7 +75,7 @@ function onCable(px, dx, reduced) {
 
 /**
  * The pose of the room at time t of a run. reduced: Reduce motion (each cue's reduced form). guide:
- * the drop line while the crate can be lowered. Returns a pose for ./scene.mjs.
+ * the drop line while the crate hangs held from a locked panel. Returns a pose for ./scene.mjs.
  */
 export function poseAt(frames, t, { reduced = false, tags = null, guide = true } = {}) {
   const now = stateAt(frames, t);
@@ -110,25 +114,42 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
     pose.crate = { x: stopX(FIXTURES.platform.stop), y: REST.platform, tilt: 0, hooked: false };
   } else {
     const rest = { x: stopX(c.x), y: REST_Y[c.state] };
-    pose.crate = { ...rest, tilt: 0, hooked: c.state !== 'landed' };
-    if (c.from?.state === 'hanging' && !reduced) {
-      // Falling: from where its swing had it, straight down; the platform's guides centre a landing.
-      const ms = c.state === 'fallen' && !s.alive.panel ? CUES.drop.ms : TIMING.lower;
-      const dt = t - c.since;
-      if (dt < ms) {
-        const lockStop = s.panel.locked ? s.panel.stop : p.at;
-        const start = onCable(stopX(lockStop), (c.from.x - lockStop) * STEP, false);
-        const u = ease.in(clamp01(dt / ms));
-        pose.crate = { x: lerp(start.x, rest.x, u), y: lerp(start.y, rest.y, u), tilt: lerp(start.tilt, 0, u), hooked: true };
-        pose.slack = 1 - u;
-        if (c.state === 'fallen') pose.alive.panel = true;
-      } else if (c.state === 'deck' && dt < ms + CUES.miss.ms) {
-        pose.crate.y -= Math.sin(clamp01((dt - ms) / CUES.miss.ms) * Math.PI) * 8;
-      }
+    // In the intake, the crate is on the hook only while the panel is locked over the hatch.
+    const hooked = c.state === 'intake' ? p.locked && p.stop === FIXTURES.intake.stop : c.state !== 'landed';
+    pose.crate = { ...rest, tilt: 0, hooked };
+    const dt = t - c.since;
+    if (c.from?.state === 'hanging' && !reduced && dt < TIMING.lower) {
+      // Falling: from where its swing had it (or from part way up, let go while still rising), straight
+      // down; the platform's guides centre a landing.
+      const lockStop = s.panel.locked ? s.panel.stop : p.at;
+      const start = c.from.lift !== undefined
+        ? { x: stopX(c.from.x), y: lerp(REST_Y.intake, HANG, ease['in-out'](c.from.lift)), tilt: 0 }
+        : onCable(stopX(lockStop), (c.from.x - lockStop) * STEP, false);
+      const u = ease.in(clamp01(dt / TIMING.lower));
+      pose.crate = { x: lerp(start.x, rest.x, u), y: lerp(start.y, rest.y, u), tilt: lerp(start.tilt, 0, u), hooked: true };
+      pose.slack = 1 - u;
+    } else if (c.from?.state === 'new' && !reduced && dt < CUES.break.ms) {
+      // A new crate, after one broke: it rises into the hatch while the broken one falls.
+      pose.crate.y += (1 - ease.out(clamp01(dt / CUES.break.ms))) * 46;
     }
     if (c.state !== 'landed') pose.slack = Math.max(pose.slack, 0.35);
   }
   if (!pose.crate.hooked) pose.hookY = 300;
+
+  // The crates broken so far: each falls whole from where the let-go found it, then lies broken where it
+  // fell, for the rest of the Task. On the console, the drop: it falls faster, onto the Panel operator.
+  pose.wrecks = [];
+  for (const [k, b] of (s.broken ?? []).entries()) {
+    const dt = t - b.at;
+    const ms = b.on === 'console' ? CUES.drop.ms : CUES.break.ms;
+    const to = { x: wreckX(b), y: FLOOR[b.on] };
+    if (dt < ms && !reduced) {
+      const start = b.hoist !== undefined ? onCable(stopX(b.hoist), (b.x - b.hoist) * STEP, false) : { x: stopX(b.x), y: HANG, tilt: 0 };
+      const u = ease.in(clamp01(dt / ms));
+      pose.wrecks.push({ whole: true, x: lerp(start.x, to.x, u), y: lerp(start.y, to.y - CRATE / 2, u), tilt: lerp(start.tilt, 0, u) });
+      if (b.on === 'console') pose.alive.panel = true;
+    } else pose.wrecks.push({ whole: false, ...to, on: b.on, seed: 300 + k * 17, flip: k % 2 === 1 });
+  }
 
   // Each event's cue, from the moment it arrived.
   for (const f of frames) {
@@ -180,6 +201,15 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
           pose.effects.push({ kind: 'clunk', at: [stopX(e.x) - 60, DECK - 10], dir: [-1, 0], t: 1 }, { kind: 'clunk', at: [stopX(e.x) + 60, DECK - 10], dir: [1, 0], t: 1 });
         }
       }
+      if (e.type === 'BROKEN' && !f.events.some(x => x.type === 'KILLED')) {
+        const from = reduced ? 0 : CUES.break.ms;
+        if (dt >= from && dt < from + CUES.break.after) {
+          const bx = wreckX(e), fy = FLOOR[e.on];
+          pose.effects.push({ kind: 'letters', text: 'CRASH!', at: [Math.min(BOXES.cab[0] + 60, Math.max(170, bx)), fy - 118], size: 50, angle: -8 });
+          const u = reduced ? 1 : clamp01((dt - from) / 220);
+          pose.effects.push({ kind: 'clunk', at: [bx - 70, fy - 14], dir: [-1, 0], t: u }, { kind: 'clunk', at: [bx + 70, fy - 14], dir: [1, 0], t: u }, { kind: 'clunk', at: [bx, fy - 62], dir: [0, -1], t: u });
+        }
+      }
       if (e.type === 'LANDED' && c.state === 'landed') {
         const at = dt - TIMING.lower;
         pose.platform.clamp = reduced || at >= CUES.land.ms;
@@ -209,8 +239,8 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
   pose.cab.lamp = h.cut && on;
   pose.console.lamp = h.drop && on;
   if (h.cut) pose.effects.push({ kind: 'warn', at: [stopX(FIXTURES.cab.stop) - 96, 196], t: 1 });
-  // The drop line, while the crate can be lowered: where it would fall now.
-  if (guide && h.zone && pose.crate) {
+  // The drop line, while the crate hangs held from a locked panel: where a let-go would drop it now.
+  if (guide && h.zone && p.locked && done && pose.crate) {
     const to = { platform: BOXES.platform[1] - 8, console: OPERATORS.panel.head, intake: DECK - 10, deck: DECK }[h.zone];
     pose.line = { from: [pose.crate.x, pose.crate.y + CRATE / 2 + 6], to, tone: h.zone };
   }

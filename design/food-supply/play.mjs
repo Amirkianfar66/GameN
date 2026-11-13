@@ -44,12 +44,14 @@ const settings = {
 };
 
 let loop = null;
-let onKey = null;
+/** The live screen's listeners on the window and the document, removed when it is left. */
+let unhook = [];
+function listen(target, type, fn) { target.addEventListener(type, fn); unhook.push(() => target.removeEventListener(type, fn)); }
 function leave() {
   if (loop) cancelAnimationFrame(loop);
   loop = null;
-  if (onKey) removeEventListener('keydown', onKey);
-  onKey = null;
+  for (const off of unhook) off();
+  unhook = [];
 }
 function phone(screen) {
   const root = h('div.ph', { 'data-screen': screen, 'data-motion': reduced ? 'reduced' : null });
@@ -140,6 +142,11 @@ class LiveScene {
     }
     out.push(`<g transform="translate(${r1(hook.at[0])} ${r1(hook.at[1])}) rotate(${deg(hook.tilt)})">${this.part(`hook|${hook.engaged}`, () => ink(hook.engaged ? 'lhe' : 'lhf', cv => M.hook(cv, 0, 0, { engaged: hook.engaged })))}</g>`);
     if (pose.line) out.push(ink('ldl', cv => M.dropLine(cv, pose.line.from, pose.line.to, { tone: pose.line.tone, t: pose.line.t ?? 1 })));
+    // The broken crates: falling whole (the crate's own drawing, moved), or lying broken, each drawn once.
+    for (const w of pose.wrecks ?? []) {
+      if (w.whole) out.push(`<g transform="translate(${r1(w.x)} ${r1(w.y)}) rotate(${deg(w.tilt)})">${this.part('crate', () => ink('lcr', cv => M.crate(cv, 0, 0)))}</g>`);
+      else out.push(`<g transform="translate(${r1(w.x)} ${r1(w.y)})">${this.part(`wreck|${w.seed}|${w.flip}|${w.on}`, () => ink(`lwk${w.seed}`, cv => M.wreck(cv, 0, 0, { seed: w.seed, flip: w.flip, compact: w.on === 'console' })))}</g>`);
+    }
     if (c) out.push(`<g transform="translate(${r1(c.x)} ${r1(c.y)}) rotate(${deg(c.tilt)})">${this.part('crate', () => ink('lcr', cv => M.crate(cv, 0, 0)))}</g>`);
     out.push(this.part(`jaws|${r1(pose.platform.drop)}|${pose.platform.clamp}`, () => ink('ljw', cv => M.platform(cv, { drop: pose.platform.drop, clamp: pose.platform.clamp, part: 'jaws' }))));
     if (pose.effects.length) {
@@ -170,7 +177,7 @@ function still(pose, title) {
 const CHOICES = {
   role: [
     ['panel', 'Panel', 'Left and right: RELEASE and LOCK. You are Cleo, at the console.', 'lock'],
-    ['winch', 'Winch', 'Up and down: Raise and Lower. You are Hana, in the cab.', 'move'],
+    ['winch', 'Winch', 'Up and down: one Hold button. You are Hana, in the cab.', 'move'],
   ],
   partner: [
     ...Object.entries(PERSONAS).map(([k, p]) => [k, p.name, p.about, null]),
@@ -180,10 +187,10 @@ const CHOICES = {
 };
 const HOWTO = [
   ['Two of you, one control each', 'The game picks who runs which. The Panel moves the crane left and right; the Winch moves the crate up and down.'],
-  ['The Panel', 'RELEASE sets the locking panel clicking from stop to stop. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch\'s cab.'],
-  ['The Winch', 'Raise lifts the crate. Locked, the crate swings. Lower drops it where its swing has it: over the platform it lands; over the Panel it falls on them.'],
+  ['The Panel', 'RELEASE sets the locking panel clicking from stop to stop, fast. LOCK stops it at the stop it rests at. Lock it at 6, over the platform. At 7 it cuts the Winch\'s cab.'],
+  ['The Winch', 'One button: Hold. Press and hold to lift the crate, and keep holding while it moves. Locked, the crate swings. Let go when it swings over the platform: it lands. Over the Panel it falls on them. Anywhere else it breaks, and the hook must fetch a new one from the hatch at 1.'],
   ['Then', 'Both turn a key: +5 packages for the ship.'],
-  ['The buttons', 'Amber is the next press. Striped means a press now may kill your partner. Your press counts when it reaches the ship, a moment after you press.'],
+  ['The buttons', 'Amber is the next press, or the moment to let go. Striped means a press, or a let-go, now may kill your partner. Your press counts when it reaches the ship, a moment after you press.'],
 ];
 
 function setup() {
@@ -227,9 +234,10 @@ function setup() {
 }
 
 // ── The Task, live ──────────────────────────────────────────────────────
-const NAMES = { lock: 'LOCK', release: 'RELEASE', raise: 'Raise', lower: 'Lower', key: 'key' };
-const WHY = { stale: 'The crane had moved on.', busy: 'The crate was still moving.', ended: 'The Task was over.', briefing: 'The briefing was still on.' };
-const KEYS = { ' ': ['release', 'lock'], ArrowUp: ['raise'], ArrowDown: ['lower'], Enter: ['key'] };
+const NAMES = { lock: 'LOCK', release: 'RELEASE', raise: 'Hold', lower: 'let-go', key: 'key' };
+const WHY = { stale: 'The crane had moved on.', busy: 'The crate was still moving.', ended: 'The Task was over.', briefing: 'The briefing was still on.', unlocked: 'The panel was moving.', 'not-over-crate': 'The hook was not over the crate.', 'down-already': 'The crate was already down.', 'not-holding': 'The brake had the crate.' };
+/** Keys, for a desk: the Panel's Space presses RELEASE or LOCK; the Winch's Space or Up arrow is Hold, held down; Enter turns the key. */
+const KEYS = { ' ': ['release', 'lock', 'hold'], ArrowUp: ['hold'], Enter: ['key'] };
 
 function play() {
   leave();
@@ -278,20 +286,40 @@ function play() {
     if (!b || b.getAttribute('aria-disabled') === 'true') return;
     run.press(act, clock());
   };
+  // Hold (the Winch): the finger down on it is the hold, whether or not the hook is there yet (it lifts as
+  // soon as it can); the finger off it, wherever it is by then, is the let-go. Followed on the window, so
+  // that a finger sliding off the button, or the button drawn again under it, still lets go when it lifts.
+  let holdPointer = null, holdKey = false;
+  const letGo = () => { holdPointer = null; holdKey = false; run.finger(false, clock()); };
   root.addEventListener('pointerdown', e => {
     const b = e.target.closest('.fs-ctl');
-    if (!b || b.getAttribute('aria-disabled') === 'true') return;
+    if (!b) return;
+    if (b.dataset.act === 'hold') {
+      e.preventDefault();
+      if (holdPointer === null && !holdKey) { holdPointer = e.pointerId; run.finger(true, clock()); }
+      return;
+    }
+    if (b.getAttribute('aria-disabled') === 'true') return;
     e.preventDefault();
     run.press(b.dataset.act, clock());
   });
-  onKey = e => {
+  const pointerUp = e => { if (holdPointer !== null && e.pointerId === holdPointer) letGo(); };
+  listen(window, 'pointerup', pointerUp);
+  listen(window, 'pointercancel', pointerUp);
+  listen(window, 'blur', () => { if (holdPointer !== null || holdKey) letGo(); });
+  listen(document, 'visibilitychange', () => { if (document.hidden && (holdPointer !== null || holdKey)) letGo(); });
+  root.addEventListener('contextmenu', e => { if (e.target.closest('.fs-ctl')) e.preventDefault(); });
+  listen(window, 'keydown', e => {
     const acts = KEYS[e.key];
-    if (!acts || e.repeat) return;
+    if (!acts) return;
     e.preventDefault();
+    if (e.repeat) return;
+    const hold = controls.querySelector('.fs-ctl[data-act="hold"]');
+    if (hold && acts.includes('hold')) { if (holdPointer === null && !holdKey) { holdKey = true; run.finger(true, clock()); } return; }
     const b = [...controls.querySelectorAll('.fs-ctl')].find(x => acts.includes(x.dataset.act) && x.getAttribute('aria-disabled') !== 'true');
     if (b) send(b.dataset.act);
-  };
-  addEventListener('keydown', onKey);
+  });
+  listen(window, 'keyup', e => { if (holdKey && (KEYS[e.key] ?? []).includes('hold')) letGo(); });
 
   function frame() {
     const began = performance.now();
@@ -299,7 +327,11 @@ function play() {
     const { state, frames } = run.advance(t);
     if (t >= run.returnsAt) { removeEventListener('resize', fit); result(run, persona); return; }
     if (auto && state.phase === 'running' && state.alive[role] && !run.inFlight) {
-      if (auto.scheduled && t >= auto.scheduled.at) { run.press(auto.scheduled.act, t); auto.scheduled = null; auto.readyAt = t + run.delay + 120; }
+      if (auto.scheduled && t >= auto.scheduled.at) {
+        const a = auto.scheduled.act;
+        if (a === 'raise' || a === 'lower') run.finger(a === 'raise', t); else run.press(a, t);
+        auto.scheduled = null; auto.readyAt = t + run.delay + 120;
+      }
       else if (!auto.scheduled && t >= auto.readyAt) { const d = decide({ state, seat, t, persona: 'careful', delay: run.delay, memory: auto.memory }); if (d) auto.scheduled = { act: d.act, at: t + d.reaction }; }
     }
     const v = { ...view(state, seat, t), offline: false };
@@ -343,11 +375,13 @@ function play() {
     if (g) dock.insertBefore(g, controls);
     gauge = g;
     const p = run.inFlight ? { press: 'sending', act: run.inFlight.act } : {};
-    const sig = JSON.stringify([p.press ?? '', p.act ?? '', v.crate.state === 'landed', v.buttons.map(b => [b.act, b.label, b.enabled, b.next, b.hazard, b.zone, b.turned, subOf(b, v, p)])]);
+    const sig = JSON.stringify([p.press ?? '', p.act ?? '', run.holding, v.crate.state === 'landed', v.buttons.map(b => [b.act, b.label, b.enabled, b.next, b.hazard, b.zone, b.turned, b.holding, subOf(b, v, p)])]);
     if (sig !== last.controls) {
       last.controls = sig;
       if (v.crate.state === 'landed') controls.dataset.landed = ''; else delete controls.dataset.landed;
       controls.replaceChildren(...v.buttons.map(b => control(b, v, p)));
+      // The finger on Hold: the button stays pressed in under it.
+      controls.querySelector('.fs-ctl[data-act="hold"]')?.toggleAttribute('data-pressed', run.holding);
     }
     // A short buzz when your own press would now kill (where the phone can vibrate).
     const danger = v.buttons.some(b => b.hazard && b.enabled);
@@ -397,11 +431,12 @@ function result(run, persona) {
   const o = s.outcome;
   const title = o?.result === 'delivered' ? `Delivered: +${o.packages} packages` : o?.result === 'cancelled' ? 'Cancelled' : 'Lost';
   const lines = [];
-  for (const k of s.kills) lines.push(k.kind === 'cut' ? `${nameOf(k.by, true)} locked the panel over the cab: the blade cut ${nameOf(k.victim)}.` : `${nameOf(k.by, true)} lowered the crate over the console: it fell on ${nameOf(k.victim)}.`);
+  for (const k of s.kills) lines.push(k.kind === 'cut' ? `${nameOf(k.by, true)} locked the panel over the cab: the blade cut ${nameOf(k.victim)}.` : `${nameOf(k.by, true)} let go of the crate over the console: it fell on ${nameOf(k.victim)}.`);
+  if (s.broken) lines.push(`${s.broken === 1 ? 'One crate' : `${s.broken} crates`} broke. A broken crate costs time, not food.`);
   if (s.stops.length) lines.push(`The safety catch held ${s.stops.length === 1 ? 'once' : `${s.stops.length} times`} (CLANK!). Luck or Protection: nobody can tell.`);
   if (o?.result === 'delivered') lines.push(`${o.alone ? 'Delivered alone' : 'Delivered by both'}, the crate down at ${(s.sentAt / 1000).toFixed(1)} s.`);
   else if (o?.why === 'time') lines.push('The time ran out before the crate went down.');
-  else if (o?.why === 'not-in-position') lines.push('A death away from the platform: the Task was lost at once.');
+  else if (o?.why === 'not-in-position') lines.push(s.kills.some(k => k.kind === 'drop') ? 'The crate broke on the console: no one was left to fetch another, so the Task was lost at once.' : 'A death away from the platform: the Task was lost at once.');
   lines.push(`Your presses: ${s.presses}${s.refused ? `, ${s.refused} not done` : ''}.`);
   lines.push(`Your partner was ${PERSONAS[persona].name.toLowerCase()}${settings.partner === 'surprise' ? ' (the surprise)' : ''}. Connection: ${NETS[settings.net].name.toLowerCase()}.`);
   const root = phone('food-play-result');
