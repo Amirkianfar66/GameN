@@ -48,6 +48,21 @@ test('a malformed or symlinked phone fence supplement cannot silently fall back'
   rmSync(path);symlinkSync(join(root,PHONE_UI_PRODUCTION_DRAWING_POLICY),path);
   assert.throws(()=>readDrawingPolicy(target),/Phone UI drawing approval must be a regular file/);
 });
+
+test('Food release-selection tooling stays pinned and predecessor fixtures restore the original selector', async t=>{
+  const target=fixture(t), policy=readDrawingPolicy(root);
+  const digest=path=>createHash('sha256').update(readFileSync(join(target,path))).digest('hex');
+  for(const path of ['scripts/hosted-art-releases.mjs','scripts/food-consumer-approval.mjs']){
+    assert.equal(policy.requiredFiles[path],digest(path),path);
+    append(target,path,'\n// unreviewed release selection change\n');
+    assert.ok((await productionDrawingProblems(target)).includes(`${path}: required candidate drawing input differs`),path);
+    cpSync(join(root,path),join(target,path));
+  }
+  const source=JSON.parse(readFileSync(join(root,'docs/integration/food-consumer-source-2026-11-13.json')));
+  restoreBeforeFoodFixture(root,target);
+  assert.equal(digest('scripts/hosted-art-releases.mjs'),source.predecessorTooling['scripts/hosted-art-releases.mjs']);
+  assert.deepEqual(await productionDrawingProblems(target),[]);
+});
 function candidateFixture(t){
   const target=fixture(t),candidate=JSON.parse(readFileSync(join(target,PREGAME_CONSUMER_CANDIDATE)));
   restoreHistoricalPregameFixture(root,target);

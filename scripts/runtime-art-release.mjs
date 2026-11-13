@@ -91,7 +91,7 @@ releases[PREGAME_ART_VERSION] = { ...releases[CREW_ART_VERSION],
   manifestSha256: 'c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d',
   baseManifest: CREW_ART_MANIFEST, pregame: true };
 releases[FOOD_ART_VERSION] = { ...releases[PREGAME_ART_VERSION],
-  manifestSha256: '8eff093f6bd442ddb47e4b8697b128efba69f70c93b49b1eb87149f07853ead8',
+  manifestSha256: '19e200b72abe91f764c683ed789a10215e07a05b278089acd29b65effa9e1ce0',
   baseManifest: PREGAME_ART_MANIFEST, food: true,
   gameplay: {protocolVersion:3, engineVersion:'planet-game-1.4.0',
     rulesetVersion:'in-person-planet-food-task-2026-11-12',

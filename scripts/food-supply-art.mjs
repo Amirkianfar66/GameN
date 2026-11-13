@@ -6,7 +6,7 @@ import {posix, resolve} from 'node:path';
 
 export const FOOD_ART_VERSION = 'design-0.9.0';
 export const FOOD_STATIC_ART = 'docs/integration/food-supply-static-art-2026-11-13.json';
-export const FOOD_STATIC_ART_SHA256 = '38343bf33b20211451b5f74c9a46d9939d3bdbe858436dd654b44472b59a383c';
+export const FOOD_STATIC_ART_SHA256 = '28c52bf83716003f410f6594d667bb9a8833d7fd6e072056b5c2fe0c1543c7b3';
 const sha = value => createHash('sha256').update(value).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food static art: ${message}`);};
 const names = Object.freeze(['supply-room.back.svg', ...Array.from({length:9}, (_,i) => `c${i+1}`)

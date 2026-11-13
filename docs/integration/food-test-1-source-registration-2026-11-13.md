@@ -8,23 +8,33 @@ films and further gameplay features.
 ## Reviewed inputs
 
 - Main baseline: `f9e7e11bd6c23671f96832bf45d79146e6fd855c`.
-- Backend: `0f2c8c79cd5d7dad48c806e7d082ae3794bd7b96`, PR #238.
+- Backend: `6a2a78d7b8c750395f6d4cefb432b0b2fbbadf06`, PR #238;
+  executable code is `18f25ab2690350e3313c1dee5f9ff3c211a443c9`.
   Integration reviewed the detached human admission, private live-contact
   renewals, durable single-writer processing, original receipt/binding checks,
   planned-Lock expiry and read-only warning classifier. Canonical warnings still
-  resolve before the admitted command. Backend reports passing seven- and
-  eight-player actual-time runs; nine failed with a late bot Lock. This is not
-  connected acceptance, and its correction remains with Backend.
-- Frontend: `4a16b031f4e17b3b7323163f317a5ff27b70a525`, PR #239.
+  resolve before the admitted command. The probe-before-CLOCK correction passed
+  all three actual-time 7/8/9 journeys on this frozen code. The separate
+  historical boarding/concurrent-deadline emulator failure remains under
+  investigation; the native connected journey is still pending.
+- Frontend: `703acc2026998b5db89bee3ce5b5382d5c6f6211`, PR #239.
   It includes the seven independent native review corrections and the approved
   gauge, neutral return caption and large-text port. The complete closure is
-  17 render modules plus 13 host/client inputs. Its 82-state comparison plan
-  requires 328 refreshed Food pairs; the initial screenshots are historical.
-- Designer Food reference: `3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594`, PR #241,
+  17 render modules plus 13 host/client inputs. The final pending-Hold port
+  changes only the Food display, renderer and scoped CSS. Its 84-state plan
+  requires 336 refreshed Food pairs. The previous 328-pair batch passed but
+  remains diagnostic evidence for the pre-amendment inputs.
+- Designer Food reference: `cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b`, PR #241,
   over merged #231. Its owner record selects the gauge instead of the withdrawn
   warning banner. The owner explicitly approved the focused exceptions in this
   Integration chat on 13 November; the approval is recorded in
   `docs/design/owner-decisions.md` and [#241 comment 6862856582](https://github.com/Amirkianfar66/GameN/pull/241#issuecomment-6862856582).
+  The early-Hold amendment aligns the reference with the already-approved #233
+  rule, including a private waiting state without a lift. Integration's
+  [exact-source review](https://github.com/Amirkianfar66/GameN/pull/241#issuecomment-6863901747)
+  found no blocker. All nine checks passed; #241 merged as
+  `093744cad6211c436970c4887ab9162b65988e33`. This source merge is not native
+  visual acceptance or deployment.
 - Candidate tuple: protocol 3, `planet-game-1.4.0`,
   `in-person-planet-food-task-2026-11-12`, rules hash
   `7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333`,
@@ -76,10 +86,29 @@ Integration has independently checked:
   now cites Designer #231 and its exact source head without a prototype import
   path. The focused guard passes; no executable behavior or test was changed.
   The full design rerun remains part of exact-head CI.
-- All ten focused source/static-art checks pass again with the new 30-file
+- All 13 focused source/static-art/approval checks pass with the final 30-file
   registration, including tamper, symlink, predecessor and prototype rejection.
   The 37 SVGs remain byte-identical (3,613,319 bytes). The earlier full tooling
   suite passed 332/332; that count is not a final full-suite rerun.
+- At combined `7d73e4fb`, verify found a missing exact pin for the new
+  `scripts/hosted-art-releases.mjs` selector in the drawing fence. The named
+  supplement now pins both selector and acceptance helper, and preserves the
+  original selector for historical fixtures. All five targeted fence checks,
+  including a new tamper/predecessor regression, pass. No assertion or historical
+  release identity was weakened.
+- The [final Backend matrix](evidence/food-runtime-matrix-2026-11-13.json)
+  records normal authenticated HTTP/Functions/private Tasks journeys for 7/8/9
+  players, delivery once, the original 32.5s return, final stock20 and original
+  receipt recovery. All three random assignments were human WINCH; this is not
+  native-browser or human playtest evidence. Backend also reports 522 service
+  checks, seven genuine-Firestore journeys and both standalone packages passing
+  at the same frozen source.
+- The original delayed-boarding case passed unchanged, but the full historical
+  boarding file was 8/9: the nine-player concurrent Ready duplicate returned
+  UNAVAILABLE. Its isolated diagnostic passed without a source change. Combined
+  `7d73e4fb` CI separately failed the nine-player concurrent deadline case at
+  `planet-service.test.mjs:47` with Firestore code3 invalid/closed transaction.
+  These remain preserved failures under investigation, not a claimed fix.
 - In the combined verification run, bootstrap passes 367/367, engine 1700/1700
   and Backend 470/470. Frontend passes 771/771 and presentation 224/224.
   The restricted first run could not open eight loopback test servers; the
@@ -98,20 +127,21 @@ Integration has independently checked:
 The initial Frontend [native review packet](../frontend/food-supply-native-review-2026-11-13.md)
 contains 304 Food pairs and 12 ordinary-interface pairs. Designer requested eight
 corrections in [the initial review](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6859626835).
-The seven independent native fixes and approved #241 port are now source-reviewed;
-the early-Hold reference must still match the already-approved server offer.
+The seven independent native fixes and approved #241 port are now source-reviewed.
+The early-Hold reference and native port now match the already-approved server
+offer. The focused input audit checks original DOWN/UP receipts, no lift/fall
+while pending, and unchanged normalized Partner projections.
 Refreshed comparisons and explicit Designer acceptance remain pending. Synthetic
 desktop captures do not establish human playtest, physical-phone, screen-reader
 or connected-worker acceptance.
 
 ## Remaining release gates
 
-1. Backend completes the real authenticated Functions/Firestore/Tasks timing
-   journey, followed by Frontend's native connected journey. No seeded private
+1. Resolve the separate historical transaction regression and complete
+   Frontend's native connected journey on the verified Backend. No seeded private
    history, manual phase advance, direct bot callback or client outcome
    substitution can stand in for this evidence.
-2. Designer reconciles the early-Hold reference with the approved rule, then
-   reviews the refreshed native comparisons and gives explicit PR-specific
+2. Designer reviews the final refreshed native comparisons and gives explicit PR-specific
    visual acceptance. The owner has approved the focused #241 exceptions;
    those are no longer unanswered owner decisions.
 3. Integration records that acceptance, completes exact production adoption and

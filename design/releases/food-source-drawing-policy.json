@@ -6,97 +6,97 @@
   "ports": {
     "apps/game/hosted/planet/food-geometry.mjs": {
       "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-ink.mjs": {
       "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-machine.mjs": {
       "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-scene.mjs": {
       "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-icons.mjs": {
       "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-ui.mjs": {
       "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-kit.css": {
       "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food.css": {
-      "sha256": "ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sha256": "c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-host.css": {
       "sha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-pose.mjs": {
       "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-display.mjs": {
-      "sha256": "dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-assets.mjs": {
       "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-render.mjs": {
-      "sha256": "fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sha256": "f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-app.mjs": {
       "sha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-gauge.mjs": {
       "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     },
     "apps/game/hosted/planet/food-tags.mjs": {
       "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
-      "sourceCommit": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+      "sourceCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
       "sourceRegistration": "docs/integration/food-consumer-source-2026-11-13.json",
       "permittedLiterals": []
     }
@@ -116,18 +116,18 @@
     "design/releases/candidate-blobs/e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
     "apps/game/hosted/planet/food-kit.css": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
     "design/releases/candidate-blobs/a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
-    "apps/game/hosted/planet/food.css": "ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
-    "design/releases/candidate-blobs/ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892": "ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
+    "apps/game/hosted/planet/food.css": "c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
+    "design/releases/candidate-blobs/c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23": "c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
     "apps/game/hosted/planet/food-host.css": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
     "design/releases/candidate-blobs/b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
     "apps/game/hosted/planet/food-pose.mjs": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
     "design/releases/candidate-blobs/8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
-    "apps/game/hosted/planet/food-display.mjs": "dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
-    "design/releases/candidate-blobs/dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7": "dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
+    "apps/game/hosted/planet/food-display.mjs": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+    "design/releases/candidate-blobs/b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
     "apps/game/hosted/planet/food-assets.mjs": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
     "design/releases/candidate-blobs/f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
-    "apps/game/hosted/planet/food-render.mjs": "fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
-    "design/releases/candidate-blobs/fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5": "fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
+    "apps/game/hosted/planet/food-render.mjs": "f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
+    "design/releases/candidate-blobs/f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50": "f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
     "apps/game/hosted/planet/food-app.mjs": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
     "design/releases/candidate-blobs/b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
     "packages/presentation/src/planet/food.ts": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
@@ -227,34 +227,37 @@
     "apps/game/candidates/food-supply/assets/operators/c9-panel-out.svg": "f98c16c167cf4e1530c99516b40fda492b281aba8beaf33d9e3a88dcfc3bdaf0",
     "apps/game/candidates/food-supply/assets/operators/c9-winch-alive.svg": "9aed2b7b0e233da908b72b58bac1657dcaccedc51d87569607038f495f99e59e",
     "apps/game/candidates/food-supply/assets/operators/c9-winch-out.svg": "2d186cf75c52c6173ca8ee1d99d53558316f7897cf2ae40dc4845f06e3df78c9",
-    "docs/integration/food-consumer-source-2026-11-13.json": "37f5f42269489e85cc0fadd272a51e2b9f01916f3e03dd0d02c3f837aa81e8ee",
-    "docs/frontend/food-supply-render-closure.json": "c8ed71007f36d0f1ef247ada373e8ba65115f9a0c1ca5d7cf18df238aed61446",
-    "docs/integration/food-supply-static-art-2026-11-13.json": "38343bf33b20211451b5f74c9a46d9939d3bdbe858436dd654b44472b59a383c",
-    "design/releases/design-0.9.0.json": "8eff093f6bd442ddb47e4b8697b128efba69f70c93b49b1eb87149f07853ead8",
-    "scripts/food-consumer-source.mjs": "850fa621276e6d215ae4351f21136be2fe14c95cbfd2852cef7c2f1d94abe451",
-    "scripts/food-supply-art.mjs": "470876efaaa7c967ea6a966e1e8ad3c7713aefb32fc88e1d8a67e8a2ccff4e0e",
+    "docs/integration/food-consumer-source-2026-11-13.json": "03e036c8586f2bfaccd7dc3b1b7be0db77b7283fb6341dd66eb45b6003de2e96",
+    "docs/frontend/food-supply-render-closure.json": "326e58f5ee220636bcde184a03ed80ec7bce24bd99286dd85e012d41ff5338a6",
+    "docs/integration/food-supply-static-art-2026-11-13.json": "28c52bf83716003f410f6594d667bb9a8833d7fd6e072056b5c2fe0c1543c7b3",
+    "design/releases/design-0.9.0.json": "19e200b72abe91f764c683ed789a10215e07a05b278089acd29b65effa9e1ce0",
+    "scripts/food-consumer-source.mjs": "de8b28ceff762a7f0d2a73ade9d690122b70c820a405d5cb428ba243b4ec4581",
+    "scripts/food-supply-art.mjs": "3413b794840ecc8f22c0802617b831a2766c8858d71188ed036d63b7b932b8d1",
+    "scripts/food-consumer-approval.mjs": "eaa84b4ed94a6694d31dfe1cf8c53c6ad2c0f15be6dea2a54829d4f4d3392725",
+    "scripts/hosted-art-releases.mjs": "b294d46dba1e9bcb94961ccdf4092dcc2c3e8a636d67ae4407e115374c765592",
     "scripts/phone-ui-consumer-approval.mjs": "3bfd6f9f69d2d33b09419be1f117a97f5b55dda33748f8209a6a1d3fce80ae78",
-    "scripts/runtime-art-release.mjs": "31188eb5ecfb3de3c8a700c923b92d31b79e6445c3bf70481f28920e3211f117",
+    "scripts/runtime-art-release.mjs": "765ccedcbfcf4fd4111ecefeed17e48cfd480db79b7ac04aca08c2ef6e07b599",
     "apps/game/hosted/vite.config.mjs": "556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314",
     "design/releases/historical-blobs/779f1b06bd7aeb7d5f607580757ee49886bbfc72989ad997af99a70177eb9f92": "779f1b06bd7aeb7d5f607580757ee49886bbfc72989ad997af99a70177eb9f92",
     "design/releases/historical-blobs/344ca8df90a22d632704d48d8979b593c36a6b65611e789279215a018a45da9b": "344ca8df90a22d632704d48d8979b593c36a6b65611e789279215a018a45da9b",
+    "design/releases/historical-blobs/3b5afa004c9bc61db833a4be6c7b9cd371df4b0e4d957082d0124686d0ad4529": "3b5afa004c9bc61db833a4be6c7b9cd371df4b0e4d957082d0124686d0ad4529",
     "design/releases/historical-blobs/591d0f4c0bf11cc39b691f0147dd308ba9b4c18bc446b2dc40d5e9d2e72b218b": "591d0f4c0bf11cc39b691f0147dd308ba9b4c18bc446b2dc40d5e9d2e72b218b"
   },
   "sourceHashes": {
-    "docs/design/food-supply.md": "1e9f487f39ba5287fc6ee987357a03bcf59f587baf5f3701558573dfe67f7713",
-    "design/food-supply/handoff.json": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba",
+    "docs/design/food-supply.md": "f92838f26f5c6f27561e2b69778b3acfaf375f43f2f66084b1dbcf5f21022651",
+    "design/food-supply/handoff.json": "f58d750004a3233dc90f0b8a0c9bf557bcbdb33a9843dc2fa004b6bf2eb63d0e",
     "design/food-supply/layout.mjs": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
     "design/food-supply/machine.mjs": "4c8beb57428bd7bb812ea1ea5c8a8e2132816a8b794dde4fe5bcce5340f8b2dd",
     "design/food-supply/scene.mjs": "401f52aa92f40540b85bd7f6160c13090ca1f583efa224b1ffdd506a542bcfb9",
-    "design/food-supply/phone.mjs": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
-    "design/food-supply/phone.css": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf",
+    "design/food-supply/phone.mjs": "070f7604e9ee364f3806712065fb44557b4dbc5523dff886e3a02f1102cbe28d",
+    "design/food-supply/phone.css": "849ab0c510f249f3ab79a5c32da3fa52c54f51857aa041675b315ecded3d61b8",
     "design/phone-ui/prototype/ui.mjs": "75fdf8d081028fb5e403cbd34c2bd1d0e915038a9f57e13755fe03d23add6118",
     "design/phone-ui/prototype/kit.css": "b1dbcb4f381458b4ef1cf8a93c670c311cb2753e3df164f5f951e75f0bf6624e",
     "design/food-supply/art/supply-room.back.svg": "d993437538cd046625d712c21664fa6895c82a0be98540de70e8962f93ba20d1",
     "design/phone-ui/prototype/icons.mjs": "e2b065615d0b622d73af18e683a105b83d9337fb9c7d5594af2cf60b369cef5b",
     "design/phone-ui/prototype/art.mjs": "8525806f0f4e17664562bb25bff04040a0305f2ce21f7ef38359cd82dc7704d8",
-    "design/food-supply/hints.mjs": "a2404b4d0b6a4fa3bb1308ab46de722b554980e93007c92e10ac6ee01d47b4c3",
+    "design/food-supply/hints.mjs": "11fee66ca9e62066c167bfd4a71e7de679b6159a6039e1588e7a031a177d7110",
     "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
     "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
     "design/board-motion/figures/gestures.mjs": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
@@ -287,7 +290,7 @@
         "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
         "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
         "design/releases/design-0.3.0.json": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
-        "scripts/runtime-art-release.mjs": "31188eb5ecfb3de3c8a700c923b92d31b79e6445c3bf70481f28920e3211f117",
+        "scripts/runtime-art-release.mjs": "765ccedcbfcf4fd4111ecefeed17e48cfd480db79b7ac04aca08c2ef6e07b599",
         "design/releases/board-v2-art-candidate.json": "0412d616c0b6ab37d9f6f80fb34115aad4db6275b042697af1b58634289f577c",
         "scripts/board-v2-art-candidate.mjs": "3a4237520a1dcc10188e375ae3f33c5fb42304fbd28fe227585fe518e2871e8a",
         "design/releases/board-v2-runtime-ports.json": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",

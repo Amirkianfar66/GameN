@@ -1,0 +1,96 @@
+{
+  "schema": "mothership.food-connected-runtime-evidence/1",
+  "date": "2026-11-13",
+  "backendCommit": "6a2a78d7b8c750395f6d4cefb432b0b2fbbadf06",
+  "executableCommit": "18f25ab2690350e3313c1dee5f9ff3c211a443c9",
+  "report": "https://github.com/Amirkianfar66/GameN/issues/237#issuecomment-6864285637",
+  "scope": "Normal authenticated HTTP, one scripted human plus bots, local Auth/Firestore/Functions/private Tasks, actual server time. No seeded authority, injected clock, manual phase advance or direct worker invocation.",
+  "checks": [
+    "Delivery once",
+    "Original common return at Task start plus 32500ms",
+    "Final stock 20 doses",
+    "Exact original receipt recovery"
+  ],
+  "results": [
+    {
+      "players": 7,
+      "pass": true,
+      "control": "WINCH",
+      "deliveryOffsetMs": 8335,
+      "returnOffsetMs": 32500,
+      "read": {
+        "count": 113,
+        "p95Ms": 97,
+        "maxMs": 3706,
+        "unavailable": 0
+      },
+      "foodCommand": {
+        "count": 6,
+        "p95Ms": 144,
+        "maxMs": 144,
+        "unavailable": 0
+      },
+      "foodReceipt": {
+        "count": 2,
+        "p95Ms": 14,
+        "maxMs": 14,
+        "unavailable": 0
+      }
+    },
+    {
+      "players": 8,
+      "pass": true,
+      "control": "WINCH",
+      "deliveryOffsetMs": 8344,
+      "returnOffsetMs": 32500,
+      "read": {
+        "count": 113,
+        "p95Ms": 69,
+        "maxMs": 423,
+        "unavailable": 0
+      },
+      "foodCommand": {
+        "count": 6,
+        "p95Ms": 168,
+        "maxMs": 168,
+        "unavailable": 0
+      },
+      "foodReceipt": {
+        "count": 2,
+        "p95Ms": 15,
+        "maxMs": 15,
+        "unavailable": 0
+      }
+    },
+    {
+      "players": 9,
+      "pass": true,
+      "control": "WINCH",
+      "deliveryOffsetMs": 8479,
+      "returnOffsetMs": 32500,
+      "read": {
+        "count": 112,
+        "p95Ms": 57,
+        "maxMs": 3574,
+        "unavailable": 0
+      },
+      "foodCommand": {
+        "count": 6,
+        "p95Ms": 148,
+        "maxMs": 148,
+        "unavailable": 0
+      },
+      "foodReceipt": {
+        "count": 2,
+        "p95Ms": 16,
+        "maxMs": 16,
+        "unavailable": 0
+      }
+    }
+  ],
+  "limits": [
+    "All three random assignments gave the scripted human WINCH. Both controls were covered separately with genuine Firestore and a controlled clock.",
+    "Not the native browser journey, a staging or physical-phone check, a network load benchmark or human balance evidence.",
+    "Separate historical boarding regression remains unresolved: full file 8/9; original delayed-boarding and isolated Ready diagnostic passed without a code change."
+  ]
+}
