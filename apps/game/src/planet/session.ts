@@ -1,10 +1,11 @@
-import {CrewDisplayNameSchema,IdentifierSchema,PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetRecoveryResultSchema,TimestampSchema} from '@mothership/contracts';
+import {CrewDisplayNameSchema,IdentifierSchema,PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetRecoveryResultSchema,TimestampSchema,FOOD_TASK_TRANSPORT} from '@mothership/contracts';
 import type {PlanetServiceRequest,PlanetSessionSnapshot} from '@mothership/contracts';
 import type {PlayerPorts,UnresolvedCommandStore} from '../ports.js';
 import {createServerClock} from '../clock/server-clock.js';
 import type {ClockReading} from '../clock/server-clock.js';
-import {planetSupportsAssets} from '@mothership/presentation';
+import {planetSupportsAssets,planetHasFood} from '@mothership/presentation';
 import type {PlanetTransport,PlanetSnapshot} from './transport.js';
+import type {FoodTaskTransport} from './food.js';
 
 export interface PlanetServiceConnection {
  readonly mode:'authenticated'|'synthetic';
@@ -14,7 +15,7 @@ export interface PlanetServiceConnection {
  request(request:PlanetServiceRequest):Promise<unknown>;
  dispose?():Promise<void>;
 }
-type SessionAction=Exclude<PlanetServiceRequest,{operation:'read'|'command'|'receipt'}>;
+type SessionAction=Exclude<PlanetServiceRequest,{operation:'read'|'command'|'receipt'|'foodCommand'|'foodReceipt'|'foodHeartbeat'}>;
 export type PlanetSessionAction=SessionAction extends infer R ? R extends {requestId:string} ? Omit<R,'requestId'> : R : never;
 export interface PlanetSessionModel {
  readonly mode:PlanetServiceConnection['mode'];readonly connection:'connecting'|'live'|'stale'|'error';readonly message:string|null;
@@ -40,6 +41,7 @@ export interface PlanetSessionController {
  revealRole(open:boolean):void;
  setVisible(visible:boolean):void;
  gameTransport(surface:'player'|'display'):PlanetTransport;
+ foodTransport():FoodTaskTransport;
  dispose():void;
 }
 interface Answer {ok:boolean;serverTimeMs:number;result:unknown;code:string|null}
@@ -57,13 +59,17 @@ export function readPlanetServiceAnswer(value:unknown):Answer|null {
 /** HTTP snapshots are server-confirmed reads. They are not Firestore cache documents. */
 export function createPlanetSession(connection:PlanetServiceConnection,ports:PlayerPorts,stores:{resume:UnresolvedCommandStore;requests:UnresolvedCommandStore;rolePrivacy?:UnresolvedCommandStore}):PlanetSessionController {
  const clock=createServerClock(ports.clock),listeners=new Set<(value:PlanetSessionModel)=>void>();
- const feeds=new Set<{surface:'player'|'display';seatId:PlanetSessionSnapshot['selfSeatId'];snapshot(value:PlanetSnapshot):void;error():void}>();
+ const feeds=new Set<{surface:'player'|'display';seatId:PlanetSessionSnapshot['selfSeatId'];snapshot(value:PlanetSnapshot):void;error(kind?:'network'|'authorization'):void}>();
  let knownRole:{role:string;faction:string}|null=null;
  let recoveredSeat:PlanetSessionSnapshot['selfSeatId']=null;
  let snapshot:PlanetSessionSnapshot|null=null,matchId:string|null=null,uid:string|null=null,visible=true,disposed=false,fresh=false,revealed=false;
  let join:{matchId:string;kind:'player'|'display';roomCode:string;requestId:string}|null=null;
  let busy=false,uncertain=false,pending:PlanetServiceRequest|null=null,code:string|null=null,message:string|null=null,connectionState:PlanetSessionModel['connection']='connecting';
  let poll:unknown=null,ticker:unknown=null,refreshing:Promise<void>|null=null,generation=0,started=false;
+ let refreshQueued=false,snapshotServerTimeMs:number|null=null,lastFoodReadAt=-Infinity,heartbeat:unknown=null,heartbeating=false;
+ // A local timeout ends waiting, not the underlying network request. Retain its
+ // actual lifetime and original clock window until the adapter settles it.
+ let readFlight:{promise:Promise<unknown>;startedAt:number;receivedAt:number;uid:string|null;matchId:string;generation:number}|null=null;
  let roleReadingContext:string|null=null,explicitRoleConceal=false;
  const readingContext=(s:PlanetSessionSnapshot)=>s.status==='reading'&&s.setup&&s.selfSeatId&&uid?JSON.stringify([uid,s.matchId,s.setup.id,s.selfSeatId]):null;
  function readRolePrivacy(context:string):boolean {
@@ -95,10 +101,19 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    pendingAdmission:visible&&auth()&&join&&!knownAdmitted()?{kind:join.kind,roomCode:join.roomCode,status:snapshot&&standingMatches(snapshot)?snapshot.admission?.status??null:null}:null};
  }
  function emit(){if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);}
- function conceal(text:string,error=false){fresh=false;revealed=false;code=null;message=text;connectionState=error?'error':'stale';for(const feed of feeds)feed.error();emit();}
+ function conceal(text:string,error=false){fresh=false;revealed=false;code=null;message=text;connectionState=error?'error':'stale';for(const feed of feeds)feed.error(error?'authorization':'network');emit();}
  async function request(input:PlanetServiceRequest):Promise<Answer|null>{
-  const startedAt=ports.clock.now();const raw=await bounded(()=>connection.request(input));if(disposed||!auth())return null;
-  const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:startedAt,receivedAt:ports.clock.now(),serverTimeMs:result.serverTimeMs});return result;
+  let flight:NonNullable<typeof readFlight>|null=null;
+  if(input.operation==='read'){
+   if(!readFlight){
+    const next={startedAt:ports.clock.now(),receivedAt:0,uid,matchId:input.matchId,generation,promise:Promise.resolve(null) as Promise<unknown>};
+    next.promise=Promise.resolve().then(()=>connection.request(input)).then(value=>{next.receivedAt=ports.clock.now();return value;}).finally(()=>{if(readFlight===next)readFlight=null;});readFlight=next;
+   }
+   flight=readFlight;
+  }
+  const raw=await bounded(()=>flight?flight.promise:connection.request(input));if(disposed||!auth())return null;
+  if(flight&&(flight.uid!==uid||flight.generation!==generation||flight.matchId!==matchId))return null;
+  const result=readPlanetServiceAnswer(raw);if(result&&flight)clock.addSample({requestedAt:flight.startedAt,receivedAt:flight.receivedAt,serverTimeMs:result.serverTimeMs});return result;
  }
  function saveResume(){if(matchId)try{stores.resume.save(JSON.stringify({protocolVersion:3,matchId,ownerUid:uid,join}));}catch{message='Session resume could not be saved in this tab.';}}
  function projectFeeds(){
@@ -106,7 +121,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   for(const feed of feeds){
    if(feed.surface==='player'&&snapshot.selfSeatId!==feed.seatId){feed.error();continue;}
    const value=feed.surface==='player'?snapshot.playerView:snapshot.publicView;
-   if(value)feed.snapshot({value,fresh:true});else feed.error();
+   if(value)feed.snapshot({value,fresh:true,...(planetHasFood(snapshot.versions)&&snapshot.foodPublicView&&snapshotServerTimeMs!==null?{
+    food:{publicView:snapshot.foodPublicView,...(feed.surface==='player'&&snapshot.foodPlayerView?{playerView:snapshot.foodPlayerView}:{}),serverTimeMs:snapshotServerTimeMs}}:{})});else feed.error('authorization');
   }
  }
  async function read(){
@@ -119,6 +135,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
   if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
   const next=parsed.data;
+  if(planetHasFood(next.versions)&&[next.foodPublicView,next.foodPlayerView].some(v=>v&&v.serverNowMs!==response.serverTimeMs)){
+   conceal('The Food snapshot clock could not be verified.',true);return;
+  }
   if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2&&next.setupFlowVersion!==3){conceal('This setup flow requires an updated app.',true);return;}
   if(recoveredSeat!==null&&next.selfSeatId!==recoveredSeat){conceal('The recovered seat could not be verified.',true);return;}
   if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions)))){conceal('The session view versions could not be verified.',true);return;}
@@ -149,16 +168,30 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   // member clears it only after the verified recovery response, before reading its seat.
   if(!join&&next.admission)join={matchId:next.matchId,roomCode:next.roomCode,requestId:next.admission.requestId,kind:next.admission.kind};
   if(nextRole)knownRole={role:nextRole.role,faction:nextRole.faction};
-  snapshot=next;recoveredSeat=null;fresh=true;connectionState='live';if(!uncertain)message=null;saveResume();projectFeeds();emit();
+  snapshot=next;snapshotServerTimeMs=response.serverTimeMs;lastFoodReadAt=ports.clock.now();recoveredSeat=null;fresh=true;connectionState='live';if(!uncertain)message=null;saveResume();projectFeeds();emit();
  }
- async function refresh(){
+ async function refresh(afterCurrent=false){
   if(!started){await start(matchId??undefined);return;}
-  if(refreshing)return refreshing;
-  refreshing=read().finally(()=>{refreshing=null;});return refreshing;
+  if(refreshing){if(afterCurrent)refreshQueued=true;return refreshing;}
+  refreshing=(async()=>{do{refreshQueued=false;await read();}while(refreshQueued&&visible&&!disposed);})().finally(()=>{refreshing=null;schedule();});return refreshing;
  }
+ const foodAway=()=>{const f=snapshot?.foodPublicView,t=clock.read();return planetHasFood(snapshot?.versions)&&f?.step?.kind==='AWAY'&&(t.status!=='synced'||t.serverNowMs<f.step.returnsAt);};
  function schedule(){
+  if(poll!==null)ports.scheduler.clearTimeout(poll);poll=null;
   if(disposed||!visible)return;
-  poll=ports.scheduler.setTimeout(()=>{void refresh().finally(schedule);},2000);
+  poll=ports.scheduler.setTimeout(()=>{poll=null;void refresh();},foodAway()?FOOD_TASK_TRANSPORT.snapshotMs:2000);
+ }
+ async function presence(){
+  heartbeat=null;if(disposed||!visible)return;
+  const task=snapshot?.foodPlayerView?.participantTask,r=clock.read();
+  // Reads renew the same lease. A slow/lost read does not block this bounded
+  // fallback, or the separate causal UP lane. No partner presence is inferred.
+  if(!heartbeating&&auth()&&knownAdmitted()&&planetHasFood(snapshot?.versions)&&task&&task.stage!=='ENDED'
+   &&task.people.some(p=>p.seatId===snapshot?.selfSeatId&&p.alive)&&r.status==='synced'&&r.serverNowMs<task.deadlineAt
+   &&ports.clock.now()-lastFoodReadAt>=FOOD_TASK_TRANSPORT.heartbeatMs){
+   heartbeating=true;void request({operation:'foodHeartbeat',matchId:snapshot!.matchId,taskId:task.taskId}).finally(()=>{heartbeating=false;});
+  }
+  heartbeat=ports.scheduler.setTimeout(()=>void presence(),FOOD_TASK_TRANSPORT.heartbeatMs);
  }
  function tick(){
   if(disposed||!visible)return;if(!auth()){conceal('Your signed-in identity changed. Reconnect the original session.',true);return;}emit();ticker=ports.scheduler.setTimeout(tick,250);
@@ -179,8 +212,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
      }
     }
    }
-   const recovery=stores.requests.load();if(recovery){const value=JSON.parse(recovery);if(value.ownerUid!==uid)throw new Error('request audience');const parsed=PlanetServiceRequestSchema.safeParse(value.request);if(!parsed.success||['command','receipt','read','redeemRecovery'].includes(parsed.data.operation))throw new Error('invalid request recovery');pending=parsed.data;uncertain=true;message='A previous session request needs an exact retry.';}
-   connectionState='live';await refresh();schedule();tick();emit();
+   const recovery=stores.requests.load();if(recovery){const value=JSON.parse(recovery);if(value.ownerUid!==uid)throw new Error('request audience');const parsed=PlanetServiceRequestSchema.safeParse(value.request);if(!parsed.success||['command','receipt','read','redeemRecovery','foodCommand','foodReceipt','foodHeartbeat'].includes(parsed.data.operation))throw new Error('invalid request recovery');pending=parsed.data;uncertain=true;message='A previous session request needs an exact retry.';}
+   connectionState='live';await refresh();schedule();tick();void presence();emit();
   }catch{started=false;conceal('Authentication or saved session recovery could not be verified.',true);}
  }
  async function sendPending(){
@@ -229,7 +262,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   returnToLobby(){
    if(!canReturnToLobby())return false;
    try{stores.requests.clear();ports.unresolved.clear();stores.resume.clear();}catch{message='The saved session could not be cleared. Try again.';emit();return false;}
-   generation++;snapshot=null;matchId=null;join=null;knownRole=null;recoveredSeat=null;revealed=false;code=null;fresh=false;clock.invalidate();message=null;connectionState='live';
+   generation++;snapshot=null;snapshotServerTimeMs=null;lastFoodReadAt=-Infinity;matchId=null;join=null;knownRole=null;recoveredSeat=null;revealed=false;code=null;fresh=false;clock.invalidate();message=null;connectionState='live';
    for(const feed of feeds)feed.error();emit();return true;
   },
   subscribe(listener){listeners.add(listener);listener(getModel());return()=>listeners.delete(listener);},
@@ -244,19 +277,24 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   },
   setVisible(next){
    if(next===visible||disposed)return;visible=next;generation++;revealed=false;code=null;fresh=false;clock.invalidate();
-   if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);emit();for(const feed of feeds)feed.error();
-   if(next){void refresh().finally(()=>{schedule();tick();});}
+   if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);if(heartbeat!==null)ports.scheduler.clearTimeout(heartbeat);heartbeat=null;emit();for(const feed of feeds)feed.error('authorization');
+   if(next){void refresh(true).finally(()=>{schedule();tick();void presence();});}
   },
   gameTransport(surface){
    return {mode:connection.mode,currentUid:()=>connection.currentUid(),
     async authenticate(){if(!started)await start();if(!matchId||!snapshot||!admitted())throw new Error('session unavailable');const seatId=surface==='player'?snapshot.selfSeatId:null;if(surface==='player'&&seatId===null)throw new Error('not a player');return {uid:uid!,matchId,seatId};},
-    async serverTime(){if(!matchId)throw new Error('session unavailable');const answer=await request({operation:'read',matchId});if(!answer?.ok)throw new Error('server time unavailable');return answer.serverTimeMs;},
+    async serverTime(){if(!matchId)throw new Error('session unavailable');if(planetHasFood(snapshot?.versions)){await refresh();if(!admitted()||snapshotServerTimeMs===null)throw new Error('server time unavailable');return snapshotServerTimeMs;}const answer=await request({operation:'read',matchId});if(!answer?.ok)throw new Error('server time unavailable');return answer.serverTimeMs;},
+    ...(planetHasFood(snapshot?.versions)?{readClock:()=>visible&&auth()?clock.read():{status:'unsynced' as const}}:{}),
     listen(audience,listener){const feed={surface,seatId:audience.seatId,...listener};if(audience.matchId!==matchId){listener.error();return()=>{};}feeds.add(feed);projectFeeds();return()=>feeds.delete(feed);},
-    async command(command){const answer=await request({operation:'command',request:command});if(!answer?.ok)return null;void refresh();return {receipt:(answer.result as {receipt:unknown})?.receipt,serverTimeMs:answer.serverTimeMs};},
+    async command(command){const answer=await request({operation:'command',request:command});if(!answer?.ok)return null;void refresh(planetHasFood(snapshot?.versions));return {receipt:(answer.result as {receipt:unknown})?.receipt,serverTimeMs:answer.serverTimeMs};},
     async receipt(context){const answer=await request({operation:'receipt',matchId:context.matchId,commandId:context.commandId});if(!answer?.ok)return null;return {receipt:(answer.result as {receipt:unknown})?.receipt??null,serverTimeMs:answer.serverTimeMs};},
     identities:()=>admitted()?snapshot?.members.map(m=>({seatId:m.seatId,characterId:m.characterId,displayName:m.displayName}))??[]:[],
    };
   },
-  dispose(){disposed=true;generation++;if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);for(const timer of timeouts)ports.scheduler.clearTimeout(timer);timeouts.clear();listeners.clear();feeds.clear();snapshot=null;pending=null;code=null;},
+  foodTransport(){return {currentUid:()=>connection.currentUid(),
+   async command(input){if(!planetHasFood(snapshot?.versions)||input.matchId!==matchId||!auth())return null;const answer=await request({operation:'foodCommand',request:input});if(!answer?.ok)return null;return {receipt:(answer.result as {receipt:unknown})?.receipt,serverTimeMs:answer.serverTimeMs};},
+   async receipt(context){if(!planetHasFood(snapshot?.versions)||context.matchId!==matchId||!auth())return null;const answer=await request({operation:'foodReceipt',matchId:context.matchId,commandId:context.commandId});if(!answer?.ok)return null;return {receipt:(answer.result as {receipt:unknown})?.receipt??null,serverTimeMs:answer.serverTimeMs};},
+   refresh(){void refresh(true);}};},
+  dispose(){disposed=true;generation++;if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);if(heartbeat!==null)ports.scheduler.clearTimeout(heartbeat);for(const timer of timeouts)ports.scheduler.clearTimeout(timer);timeouts.clear();listeners.clear();feeds.clear();snapshot=null;pending=null;code=null;},
  };
 }

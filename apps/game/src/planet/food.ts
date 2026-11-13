@@ -22,6 +22,7 @@ export interface FoodTaskModel {
  readonly canAsk:boolean;readonly canAnswer:boolean;readonly canWithdraw:boolean;
  readonly canHold:boolean;readonly canPanelRelease:boolean;readonly canPanelLock:boolean;readonly canKey:boolean;
  readonly physicalHolding:boolean;readonly needsContactOff:boolean;readonly canCheck:boolean;
+ readonly recoveryBlocked:boolean;
 }
 export interface FoodTaskController {
  observe(value:unknown,context:FoodSnapshotContext,fresh?:boolean):boolean;
@@ -91,7 +92,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    canAnswer:base()&&!!invite&&now<invite.answerEndsAt&&!!v?.offers.some(o=>o.type==='TASK_ANSWER'),
    canWithdraw:base()&&!!invite&&now<invite.answerEndsAt&&!!v?.offers.some(o=>o.type==='TASK_ASK_WITHDRAW'),
    canHold:offered('HOLD')&&down===null&&!orphan(),canPanelRelease:offered('PANEL_RELEASE'),canPanelLock:offered('PANEL_LOCK'),canKey:offered('KEY'),
-   physicalHolding:down!==null,needsContactOff:open&&orphan(),canCheck:visible&&auth()&&entries.some(e=>e.status==='unknown')};
+   physicalHolding:down!==null,needsContactOff:open&&orphan(),canCheck:visible&&auth()&&entries.some(e=>e.status==='unknown'),recoveryBlocked:storageBlocked};
  }
  function bounded<T>(run:()=>Promise<T>):Promise<T|null>{
   return new Promise(resolve=>{

@@ -13,7 +13,7 @@ import './food-host.css';
 
 /** The native Food surface. It consumes one own-seat controller, public identity
  * and the same-response ordinary board. No review navigation or Task simulator. */
-export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()=>null,assets=null,preferences=()=>({reduced:false}),navigate=()=>{},settings=()=>{},exclusive=()=>{}}={}){
+export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()=>null,assets=null,preferences=()=>({reduced:false}),navigate=()=>{},settings=()=>{},exclusive=()=>{},surface=()=>{},boardMode=()=> 'room',bars=()=>({top:0,bottom:0})}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const ui=createFoodUi(document,{portrait:(character,{size=36,alt=''})=>{
   const node=document.createElement('span');node.className='pt food-portrait';node.style.width=`${size}px`;node.style.height=`${size}px`;
@@ -40,14 +40,14 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  function sourceHeader(v,now){
   const t=v?.task,step=model.view?.step;
   if(t){const own=person(model.view.seatId),them=person(v.partnerSeatId),sub=v.partner==='offline'?`${them.name} is offline`:v.partner==='down'?`${them.name} is out`:`Food Supply · you run the ${v.role==='winch'?'Winch':'Panel'}`;
-   const node=topBar({kind:'pair',pair:[own,them],sub,seconds:v.phase==='ended'?null:v.secondsLeft,urgentAt:10,menu:{go:'food:settings'}});
+   const node=topBar({kind:'pair',pair:[person(t.winchSeatId),person(t.panelSeatId)],sub,seconds:v.phase==='ended'?null:v.secondsLeft,urgentAt:10,menu:{go:'food:settings'}});
    if(v.partner!=='alive')node.dataset.partner=v.partner;node.querySelector('[data-tb="menu"]').id='food-settings';return node;
   }
   if(step){const seconds=now===null?null:Math.max(0,Math.ceil(((step.kind==='ASKING'?step.askingEndsAt:step.returnsAt)-now)/1000));
-   const node=topBar({kind:'phase',icon:'supply',title:'Food Supply',sub:step.kind==='ASKING'?'Who goes for food?':'The turns start after it',seconds,round:model.view.round,menu:{go:'food:settings'}});node.querySelector('[data-tb="menu"]').id='food-settings';return node;}
+   const node=topBar({kind:'phase',icon:'supply',title:'Food Supply',sub:step.kind==='ASKING'?'Who goes for food?':'The turns start after it',seconds,round:model.view.round,promises:{go:'food:promises',badge:ordinary()?.promiseOfferCount??0},menu:{go:'food:settings'}});node.querySelector('[data-tb="menu"]').id='food-settings';return node;}
   const ordinaryModel=ordinary(),active=ordinaryModel?.activeSeatId;
   const node=topBar({kind:active?'turn':'phase',who:active?person(active):null,self:active===model.view?.seatId,title:`Round ${model.view?.round??''}`,
-   sub:ordinaryModel?.phase?.kind==='PRE_TURN'?'Pre-turn':'',seconds:ordinaryModel?.phase?.remainingMs===null?null:(ordinaryModel?.phase?.remainingMs??0)/1000,round:model.view?.round,menu:{go:'food:settings'}});
+   sub:ordinaryModel?.phase?.kind==='PRE_TURN'?'Pre-turn':'',seconds:ordinaryModel?.phase?.remainingMs===null?null:(ordinaryModel?.phase?.remainingMs??0)/1000,round:model.view?.round,promises:{go:'food:promises',badge:ordinaryModel?.promiseOfferCount??0},menu:{go:'food:settings'}});
   node.querySelector('[data-tb="menu"]').id='food-settings';return node;
  }
  function updateHeader(v,now){
@@ -90,7 +90,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
    h('p.fs-legend',h('span',{'data-zone':'console'}),`Over ${name(v.task.panelSeatId)}`,h('span',{'data-zone':'platform'}),'Over the platform'));
  }
  function taskCard(v,top,now){
-  const t=v.task,own=t.people.find(p=>p.seatId===model.view.seatId),where=room(),location=where?` ${where}`:'';
+  const t=v.task,own=t.people.find(p=>p.seatId===model.view.seatId),where=t.ownReturnPlacement?.location??null,location=where?` ${where}`:'';
   if(t.stage==='BRIEFING'){
    const lines=v.role==='winch'?['Hold it up. Let go over 6.',`Over ${v.partnerName}, it falls on ${v.partnerName}.`]:['Release it, then lock it at 6.',`LOCK at 7 cuts ${v.partnerName}.`];
    return {key:'briefing',node:h('section.fs-card.fs-brief',{role:'dialog','aria-label':`You run the ${v.role==='winch'?'Winch':'Panel'}`,style:{top:`${top+16}px`,maxHeight:`calc(100% - ${top+28}px)`}},
@@ -144,17 +144,19 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  function flow(top){return buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,top,
   locationOf:seatId=>ordinary()?.board?.seats.find(s=>s.seatId===seatId)?.location??null,
   setActive:value=>{activeRequest=value;},actButton});}
- function updateFlow(now){
+ function updateFlow(now,chrome){
   if(taskNodes){hold.releaseAll();taskNodes=null;taskId=null;lastStructure=null;replace(frame);lastHeader=null;}
-  frame.dataset.screen=`food-${screen??'room'}`;updateHeader(null,now);
-  const signature=JSON.stringify([screen,selected,foodTaskRevisionBody(model.view),model.canAsk,model.canAnswer,model.canWithdraw,model.feedback,identities(),stockToast]);
+  frame.dataset.screen=`food-${screen??'room'}`;if(chrome)updateHeader(null,now);else{frame.querySelector(':scope > .tb')?.remove();lastHeader=null;}
+  const signature=JSON.stringify([screen,selected,boardMode(),ordinary()?.board,ordinary()?.phase?.kind,ordinary()?.activeSeatId,foodTaskRevisionBody(model.view),model.canAsk,model.canAnswer,model.canWithdraw,model.feedback,identities(),stockToast]);
   if(signature===lastStructure)return;lastStructure=signature;
   const focus=document.activeElement?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;
   const flowKey=JSON.stringify([screen,model.view?.invitation?.requestId,model.view?.invitation?.state,model.feedback?.receipt?.status==='rejected'?model.feedback.receipt.requestClosure?.state:null]);
-  const header=frame.querySelector(':scope > .tb');replace(frame,header,tabs({view:ordinary()?.panel==='board'?'board':'room',open:screen?'actions':null,hero:'pass-off',go:{switch:'food:switch',actions:'food:tasks',card:'food:card',panels:'food:panels'}}));
-  const top=header.offsetHeight,nodes=flow(top);frame.append(...nodes);
+  const header=frame.querySelector(':scope > .tb');replace(frame,header,chrome?tabs({view:boardMode(),open:screen?'actions':null,hero:'pass-off',go:{switch:'food:switch',actions:'food:tasks',card:'food:card',panels:'food:panels'}}):null);
+  const top=header?.offsetHeight??bars().top,nodes=flow(top);frame.append(...nodes);
   const away=model.view?.step?.kind==='AWAY';if(away&&!screen&&!nodes.length)frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},banner({icon:'supply',title:'Two players are away on the Food Supply Task',sub:'The board shows who. They come back when its time is up; the Task shows on their phones only.'})));
-  if(stockToast&&!screen&&!nodes.length)frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},toast(stockToast,'supply')));
+  if(!screen&&!nodes.length&&!away){const doses=model.view.stock.doses,packages=doses/2;
+   const notice=stockToast?toast(stockToast,'supply'):packages<=1?banner({icon:'warning',title:packages===1?'Food low: 1 package left':`Food: ${packages} packages`,sub:'On every phone. Each meal takes half a package; a Food Supply Task adds five.'}):toast(`Food stock: ${foodPackageCount(doses)} packages`,'supply');
+   frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},notice));}
   if(nodes.length){const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey)focusCard();}
   lastFlowKey=flowKey;
  }
@@ -163,8 +165,9 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   frame.dataset.motion=reduced?'reduced':'normal';
   const task=view?.participantTask,taskVisible=task&&now!==null&&now<task.returnsAt;
   exclusive(!!taskVisible);
-  if(!model.visible||!view){frame.hidden=true;return;}
-  if(task&&now===null){frame.hidden=true;return;}
+  if(!model.visible||!view){frame.hidden=true;replace(frame);taskNodes=null;taskId=null;lastStructure=null;lastHeader=null;surface({active:false,exclusive:false,top:null,bottom:null});return;}
+  if(ordinary()?.panel&&ordinary().panel!=='board'){frame.hidden=true;surface({active:false,exclusive:!!taskVisible,top:null,bottom:null});return;}
+  if(task&&now===null){frame.hidden=true;surface({active:false,exclusive:true,top:null,bottom:null});return;}
   const nextStep=view.step?.stepId??null;
   if(lastStepId!==undefined&&lastStepId!==nextStep){selected=null;if(screen==='partners')screen='tasks';lastStructure=null;}lastStepId=nextStep;
   const feedbackKey=JSON.stringify([model.feedback?.commandId,model.feedback?.status,model.feedback?.recovered]);
@@ -178,9 +181,11 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
    else if(o&&where)stockToast=o.kind==='DELIVERED'?`Back in ${where}. Delivered: +${o.dosesAdded/2} packages.`:o.kind==='CANCELLED'?`Back in ${where}. The Task was cancelled.`:`Back in ${where}. The Task was lost.`;
    hadTask=null;
   }
-  const show=taskVisible||screen||request!==null||view.requestClosures.some(c=>c.requestId===activeRequest&&!closedRequests.has(c.requestId))||view.step?.kind==='AWAY'||stockToast;
+  const chrome=!!(taskVisible||screen||request!==null||view.requestClosures.some(c=>c.requestId===activeRequest&&!closedRequests.has(c.requestId))||view.step);
+  const show=true;
   frame.hidden=!show;if(!show){if(taskNodes){hold.releaseAll();taskNodes=null;taskId=null;replace(frame);lastStructure=null;lastHeader=null;}return;}
-  if(taskVisible){hadTask=task;updateTask(foodDisplay(model,now,{reduced,names:name}),now,reduced);}else updateFlow(now);
+  if(taskVisible){hadTask=task;updateTask(foodDisplay(model,now,{reduced,names:name}),now,reduced);}else updateFlow(now,chrome);
+  surface({active:chrome,exclusive:!!taskVisible,top:chrome?frame.querySelector(':scope > .tb')?.offsetHeight??0:null,bottom:chrome?frame.querySelector(':scope > .tabs')?.offsetHeight??0:null});
  }
  function pointerDown(e){const node=e.target.closest?.('.fs-ctl');if(!node||e.button!==0||e.isPrimary===false)return;
   if(node.dataset.act==='hold'){
@@ -215,8 +220,8 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   if(action?.startsWith('food:')){close();navigate(action.slice(5));}
  }
  const release=()=>{hold.releaseAll();panelKeys.clear();};
- const blur=()=>{release();controller.setVisible(false);};
- const visibility=()=>{if(document.visibilityState==='hidden')blur();else resume();};
+ const blur=event=>{if(event?.target!==win)return;release();controller.setVisible(false);};
+ const visibility=()=>{if(document.visibilityState==='hidden'){release();controller.setVisible(false);}else resume();};
  const resume=()=>controller.setVisible(document.visibilityState!=='hidden');
  const preferencesChanged=()=>{lastStructure=null;lastHeader=null;render();};
  frame.addEventListener('pointerdown',pointerDown);frame.addEventListener('keydown',keyDown);frame.addEventListener('click',activate);
@@ -229,7 +234,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   dispose(){if(disposed)return;release();disposed=true;if(raf!==null)win.cancelAnimationFrame(raf);unsubscribe();unart?.();hold.dispose();
    frame.removeEventListener('pointerdown',pointerDown);frame.removeEventListener('keydown',keyDown);frame.removeEventListener('click',activate);
    win.removeEventListener('pointerup',pointerUp,true);win.removeEventListener('pointercancel',pointerUp,true);win.removeEventListener('keyup',keyUp,true);
-   win.removeEventListener('blur',blur,true);win.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',visibility,true);document.removeEventListener('mothership:preferences-change',preferencesChanged);frame.remove();exclusive(false);}};
+   win.removeEventListener('blur',blur,true);win.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',visibility,true);document.removeEventListener('mothership:preferences-change',preferencesChanged);frame.remove();exclusive(false);surface({active:false,exclusive:false,top:null,bottom:null});}};
 }
 
 function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,setActive,actButton,locationOf,top}){
@@ -253,7 +258,7 @@ function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedReques
  }
  if(closed&&closed.round===v.round&&closed.foodStepId===v.step?.stepId&&!closedRequests.has(closed.requestId)){
   if(closed.volunteerSeatId===v.seatId){
-   if(closed.state==='JOINED')return layout(f?.name==='Cancel'?'Too late to cancel':'Starting the Food Supply Task',[groupNote('The Task is starting. Going to the Supply Room…')],actButton('Starting…','wait',{busy:true,block:true,disabled:true}),{sub:`${name(closed.partnerSeatId)} ${f?.name==='Cancel'?'joined first':'joined'}`,close:false});
+   if(closed.state==='JOINED')return layout(f?.name==='Cancel'?'Too late to cancel':'Starting the Food Supply Task',[groupNote(f?.name==='Cancel'?'The Task is starting. Going to the Supply Room…':'Going to the Supply Room…')],actButton('Starting…','wait',{busy:true,block:true,disabled:true}),{sub:`${name(closed.partnerSeatId)} ${f?.name==='Cancel'?'joined first':'joined'}`,close:false});
    return layout(closed.state==='WITHDRAWN'?'Request withdrawn':`${name(closed.partnerSeatId)} declined`,[groupNote('The next volunteer goes: anyone else can ask while the step lasts.'),groupNote('You can volunteer again next round.')],actButton('OK','ok',{block:true}));
   }
   if(closed.state==='WITHDRAWN'||closed.state==='EXPIRED')return [h('section.fs-card',{role:'alertdialog','aria-label':'Too late to join',style:{top:`${top+60}px`,maxHeight:`calc(100% - ${top+72}px)`}},

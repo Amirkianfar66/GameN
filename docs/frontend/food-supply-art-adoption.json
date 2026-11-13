@@ -153,7 +153,7 @@
     "apps/game/hosted/planet/food-ink.mjs",
     "apps/game/hosted/planet/food-icons.mjs"
   ],
-  "notYetCreated": "The native renderer, global-axis pose adapter and uniform loader now exist as candidates. API/native application wiring, exact tuple dispatch, complete comparison and final guarded admission remain in progress; the eight output hashes below remain the partial reviewed foundation.",
+  "notYetCreated": "Native session/API operation wiring and exact candidate tuple dispatch exist. Backend service/worker connected acceptance, Integration production-art/source admission, the narrow #222 decisions and Designer exact-PR visual acceptance remain release gates.",
   "excludedRuntime": [
     "design/food-supply/task.mjs",
     "design/food-supply/stage.mjs",
@@ -168,38 +168,21 @@
     "design/phone-ui/prototype/fixtures.mjs"
   ],
   "nativeModuleOutputHashes": {
-    "apps/game/hosted/planet/food-geometry.mjs": {
-      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
-      "bytes": 1443
-    },
-    "apps/game/hosted/planet/food-icons.mjs": {
-      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
-      "bytes": 18628
-    },
-    "apps/game/hosted/planet/food-ink.mjs": {
-      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
-      "bytes": 2408
-    },
-    "apps/game/hosted/planet/food-machine.mjs": {
-      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
-      "bytes": 24394
-    },
-    "apps/game/hosted/planet/food-scene.mjs": {
-      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
-      "bytes": 3694
-    },
-    "apps/game/hosted/planet/food-ui.mjs": {
-      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
-      "bytes": 14436
-    },
-    "apps/game/hosted/planet/food-kit.css": {
-      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
-      "bytes": 57285
-    },
-    "apps/game/hosted/planet/food.css": {
-      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
-      "bytes": 22648
-    }
+    "apps/game/hosted/planet/food-geometry.mjs": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+    "apps/game/hosted/planet/food-ink.mjs": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+    "apps/game/hosted/planet/food-machine.mjs": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+    "apps/game/hosted/planet/food-scene.mjs": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+    "apps/game/hosted/planet/food-icons.mjs": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+    "apps/game/hosted/planet/food-ui.mjs": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+    "apps/game/hosted/planet/food-kit.css": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+    "apps/game/hosted/planet/food.css": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+    "apps/game/hosted/planet/food-host.css": "0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
+    "apps/game/hosted/planet/food-pose.mjs": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+    "apps/game/hosted/planet/food-display.mjs": "978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
+    "apps/game/hosted/planet/food-assets.mjs": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+    "apps/game/hosted/planet/food-render.mjs": "dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
+    "apps/game/hosted/planet/food-app.mjs": "9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
+    "packages/presentation/src/planet/food.ts": "5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2"
   },
   "baseSha": "1f795366a27b17f46ac195debe491954a27d8ae0",
   "assetManifestVersion": "design-0.9.0",
@@ -531,8 +514,8 @@
     "runtimeAdmission": false
   },
   "renderFoundation": {
-    "status": "partial-render-only-closure-for-integration-review",
-    "contractHead": "5a5bb9068cd4fb085cb2482cd969058221d2c870",
+    "status": "complete-render-and-consumer-source-inventory-for-integration-review",
+    "contractHead": "d0a12f252d9d076c0978b97cfcdf942e5f0e4a75",
     "existingInk": {
       "path": "apps/game/hosted/crew-drawing/ink.mjs",
       "sha256": "53787159af457c1c4e41cc9ce7567f14b154149fcdbe986b27b6aae3b8f2966e",
@@ -542,12 +525,12 @@
       "apps/game/dev/phone/food-art-export.mjs",
       "apps/game/dev/phone/food-kit-export.mjs"
     ],
-    "productionImported": false,
+    "productionImported": true,
     "remaining": [
-      "final consumer/source closure after native checks",
-      "API/heartbeat/native application wiring",
-      "exact Food tuple/catalogue dispatch",
-      "76 native comparison states and visual acceptance"
+      "Integration exact asset/source registration",
+      "Backend real API/worker/bot connected acceptance",
+      "narrow #222 owner/Designer decisions",
+      "Designer visual acceptance of native PR"
     ]
   }
 }

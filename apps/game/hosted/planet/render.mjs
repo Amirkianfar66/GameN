@@ -21,7 +21,7 @@ const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','heigh
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,food=null}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
  const readInsets=()=>{const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);const style=win.getComputedStyle(probe),value={top:parseFloat(style.paddingTop)||0,right:parseFloat(style.paddingRight)||0,bottom:parseFloat(style.paddingBottom)||0,left:parseFloat(style.paddingLeft)||0};probe.remove();return value;};
@@ -51,6 +51,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:cinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,cinematics);
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board',sceneMode='room',currentRoom='room-a',allLayouts=null;
+ let foodSurface={active:false,exclusive:false,top:null,bottom:null};
  const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null;
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
  const drawings=new Map();
@@ -176,8 +177,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    if(model.panel==='settings'){addText('Settings','h2');settings?.(sheetBody);}
    else if(model.dark){addText('Blackout','h2');addText('People and windows are hidden.');if(model.panel==='actions')for(const o of p?.offers??[])sheetBody.append(beginButton(o.type));}
    else if(model.phase?.expired){addText('Waiting for the server','h2');}
-   else if(more||model.panel==='panels'){addText('Panels','h2');for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
-   else if(model.panel==='players'){addText('Players','h2');for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`);}}
+   else if(more||model.panel==='panels'){addText('Panels','h2');if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
+   else if(model.panel==='players'){addText('Players','h2');for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${model.food?.step?.kind==='AWAY'&&model.food.step.awaySeatIds.includes(seat.seatId)?'Away on the Food Supply Task':`${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`}`);}}
    else if(model.panel==='round-order'){addText('Round order','h2');addText('Follow the current phase and the server clock.');addText(planetRoundOrderText(model.versions));}
    else if(model.panel==='card')renderCard(p);
    else if(model.panel==='promises')renderPromises(p);
@@ -191,7 +192,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
     const requestText=planetPanelRequestText(p?.panelRequest);if(requestText)addText(requestText);
     if(p?.panelAttemptSpent){if(!requestText)addText('Your panel attempt is spent.');}else if(p?.offers?.some(o=>o.type==='PANEL_CODE'))sheetBody.append(beginButton('PANEL_CODE'));else addText('The panel is not currently available.');
    }else if(model.panel==='actions'){
-    addText('Actions','h2');
+    addText('Actions','h2');if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));
     if(p?.blackoutTargeting?.selectedSlotId)addText(`Your fixed selection: ${p.blackoutTargeting.selectedSlotId}.`);
     if(p?.ownBallot?.phaseId===model.phase.id)addText(`Your registered ballot: ${p.ownBallot.targetSeatId?number(p.ownBallot.targetSeatId):'Abstain'}.`);
     if(p?.captainCommands)for(const [type,used]of [['CAPTAIN_RELEASE',p.captainCommands.releaseUsed],['CAPTAIN_EJECT',p.captainCommands.ejectUsed]]){const b=beginButton(type),available=p.offers?.some(o=>o.type===type);b.disabled=used||!available;labelPhoneControl(b,`${PLANET_ACTION_LABELS[type]} · ${used?'USED':available?'AVAILABLE':'UNAVAILABLE'}`,phoneActionIcon(type));b.dataset.captainPlate=used?'used':available?'available':'unavailable';b.style.backgroundImage=`var(--board-v2-film-captain-plate-${type==='CAPTAIN_RELEASE'?'release':'eject'}-${b.dataset.captainPlate})`;sheetBody.append(b);}
@@ -277,7 +278,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';root.dataset.phase=model.phase?.kind??'';
   const active=!model.dark&&model.phase?.kind==='ORDINARY_TURN'&&model.activeSeatId?model.identities.find(i=>i.seatId===model.activeSeatId):null;
   header.dataset.kind=active?'turn':'phase';
-  const phaseNames={ORDINARY_TURN:'Turn',CAPTAIN_ELECTION:'Captain vote',JAIL_VOTE:'Jail vote',VOTE_RESULT:'Vote result',BLACKHOLE_PRESENTATION:'Ship synchronized',OFFICER_APPOINTMENT:'New Officer',NAV_SETTING:'Setting course',BLACKOUT:'Blackout',PRE_TURN:'Round begins',HACK:'Private talk',HACK_DECLARE:'Declare side',HACK_RESULT:'Private claim'};
+  const phaseNames={FOOD_SUPPLY:'Food Supply',ORDINARY_TURN:'Turn',CAPTAIN_ELECTION:'Captain vote',JAIL_VOTE:'Jail vote',VOTE_RESULT:'Vote result',BLACKHOLE_PRESENTATION:'Ship synchronized',OFFICER_APPOINTMENT:'New Officer',NAV_SETTING:'Setting course',BLACKOUT:'Blackout',PRE_TURN:'Round begins',HACK:'Private talk',HACK_DECLARE:'Declare side',HACK_RESULT:'Private claim'};
   phase.textContent=active?.displayName??phaseNames[model.phase?.kind]??model.phase?.kind?.replaceAll('_',' ')??'Connecting';
   detail.textContent=model.phase?.kind==='BLACKOUT'?(model.round===null?'':`Round ${model.round}`):active?`${number(model.activeSeatId)} · ${model.activeSeatId===model.ownSeatId?'Your turn':'Turn'}`:model.surface==='display'?(model.round===null?'':`Round ${model.round}`):model.boardLabel??(model.round===null?'':`Round ${model.round}`);
   portrait.hidden=!active?.characterId;if(active?.characterId)portrait.style.backgroundImage=crewPortraitVariable(active.characterId,model.versions);else portrait.style.removeProperty('background-image');
@@ -291,7 +292,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(model.action?.prompt)checkpoint.textContent=model.action.prompt;
   checkpointText=checkpoint.textContent;
   instruction.textContent=model.action?.prompt??(model.dark?'Blackout':model.result?`${model.result.winner??'No team'} · ${model.result.reason.replaceAll('_',' ')}${model.result.alienCoWinner?' · Alien co-victory':''}`:'');
-  rosterText.replaceChildren();for(const seat of model.board?.seats??[]){const identity=model.identities.find(i=>i.seatId===seat.seatId);rosterText.append(el('li',`${number(seat.seatId)}${identity?.displayName?`, ${identity.displayName}`:''}: ${seat.health}, ${seat.location??'off board'}${seat.slotId?`, ${seat.slotId}`:''}${seat.jailed?', detained':''}${model.offices?.captainSeatId===seat.seatId?', Captain':''}${model.offices?.officerSeatId===seat.seatId?', Officer':''}${seat.health==='Injured'&&seat.medical&&seat.medical.rescueOpportunity!=='CLOSED'&&seat.rescueDueAfterRound!==null?`, Rescue possible through Round ${seat.rescueDueAfterRound}`:''}.`));}
+  rosterText.replaceChildren();for(const seat of model.board?.seats??[]){const identity=model.identities.find(i=>i.seatId===seat.seatId);rosterText.append(el('li',`${number(seat.seatId)}${identity?.displayName?`, ${identity.displayName}`:''}: ${seat.health}, ${seat.location??'off board'}${seat.slotId?`, ${seat.slotId}`:''}${seat.jailed?', detained':''}${model.food?.step?.kind==='AWAY'&&model.food.step.awaySeatIds.includes(seat.seatId)?', away on the Food Supply Task':''}${model.offices?.captainSeatId===seat.seatId?', Captain':''}${model.offices?.officerSeatId===seat.seatId?', Officer':''}${seat.health==='Injured'&&seat.medical&&seat.medical.rescueOpportunity!=='CLOSED'&&seat.rescueDueAfterRound!==null?`, Rescue possible through Round ${seat.rescueDueAfterRound}`:''}.`));}
   resultPanel.replaceChildren();resultPanel.hidden=true;
   if(model.phase?.kind==='VOTE_RESULT'&&model.lastTally&&!model.phase.expired){const outcome={CAPTAIN_ELECTED:'Captain elected',RUNOFF_REQUIRED:'Runoff next',NO_CAPTAIN_ELECTED:'No Captain elected',PLAYER_JAILED:'Player detained',JAIL_FULL:'Jail full · no transfer',NO_JAIL_SELECTION:'No player selected'}[model.lastTally.outcome];resultPanel.hidden=false;resultPanel.append(el('h2',model.lastTally.kind==='JAIL_VOTE'?'Jail vote result':'Captain election result'),el('p',outcome),el('p',`${model.lastTally.eligibleVoterCount} eligible voters`),rosterGrid({counts:model.lastTally.counts,result:true}));}
   if(model.result){resultPanel.hidden=false;const side=planetTerminalArrival(model),banner=el('h2',model.result.winner?`${model.result.winner} reached its planet`:'No winner','planet-end-banner');banner.prepend(library.art(`en-banner-${side?side.toLowerCase():'none'}`,'planet-library-fill'));resultPanel.append(banner,el('p',model.result.reason.replaceAll('_',' ')));if(model.result.alienCoWinner)resultPanel.append(el('p','Alien co-victory'));for(const reveal of model.endReveal?.roles??[])resultPanel.append(el('p',`${number(reveal.seatId)} · ${reveal.role}`));if(model.endReveal){const code=el('p',`Original Code: ${model.endReveal.code.map(number).join(', ')}`,'planet-end-code');code.prepend(library.art('en-code'));resultPanel.append(code);}}
@@ -319,23 +320,27 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   }targetKey=nextTargetKey;
   labelPhoneControl(nav.querySelector('#planet-nav-board'),sceneMode==='room'?'Board':'Room',sceneMode==='room'?'board':'room');
   for(const n of nav.querySelectorAll('[data-planet-action="panel"]'))n.setAttribute('aria-pressed',String(n.dataset.value===model.panel&&model.panel!=='board'));
-  const top=header.getBoundingClientRect().height,bottom=model.surface==='display'?safeInsets.bottom:nav.getBoundingClientRect().height;
+  root.dataset.foodChrome=String(foodSurface.active);header.inert=foodSurface.active;nav.inert=foodSurface.active;
+  const top=foodSurface.active?foodSurface.top??0:header.getBoundingClientRect().height,bottom=foodSurface.active?foodSurface.bottom??0:model.surface==='display'?safeInsets.bottom:nav.getBoundingClientRect().height;
   root.style.setProperty('--phone-top',`${top}px`);root.style.setProperty('--phone-nav',`${bottom}px`);
   // Keep this coordinate-only cache through conceal/reconnect. Fresh phase data or
   // disposal retires it; no people, names, identities or private selections enter it.
   allLayouts=model.playerCount?blackoutGeometry.read(model.phase?.kind==='BLACKOUT'?model.presentation?.blackout?.windowId:null,()=>phoneLayouts({width:win.innerWidth,height:win.innerHeight,top,nav:bottom},model.playerCount)):null;
   if(allLayouts){root.style.setProperty('--phone-top',`${allLayouts.top}px`);root.style.setProperty('--phone-nav',`${allLayouts.nav}px`);}
   layout=allLayouts?.[sceneMode]??null;
-  holder.hidden=model.concealed||!layout?.fits;
+  holder.hidden=model.concealed||foodSurface.exclusive||!layout?.fits;stage.inert=foodSurface.exclusive;
   if(layout?.fits){
    holder.style.height=`${layout.contentHeight}px`;holder.style.width=`${allLayouts.width}px`;targets.style.width=`${allLayouts.width}px`;targets.style.height=`${layout.contentHeight}px`;stage.dataset.view=sceneMode;
-   const seats=(model.board?.seats??[]).map(s=>({...s,...model.identities.find(i=>i.seatId===s.seatId),...(s.seatId===model.ownSeatId?{displayName:'You'}:{})}));
+   // Absence filters drawing only; canonical seats, identities and commands stay complete.
+   const away=new Set(model.food?.step?.kind==='AWAY'?model.food.step.awaySeatIds:[]);
+   const seats=(model.board?.seats??[]).filter(s=>!away.has(s.seatId)).map(s=>({...s,...model.identities.find(i=>i.seatId===s.seatId),...(s.seatId===model.ownSeatId?{displayName:'You'}:{})}));
    const frames=sceneMode==='room'?allLayouts.roomFrames:allLayouts.boardFrames,presses=sceneMode==='room'?allLayouts.roomPresses:allLayouts.boardPresses;
    frame=boardV2SceneFrame(model.playerCount,seats,{panels:layout.board.panels,pressAreas:presses,geometry:{sceneOf,slotsOf,frameScene:(_scene,_panel,room)=>frames[room]}});
    if(frame.problems.length){frame=null;holder.replaceChildren(el('p','The authorized board placement could not be drawn.'));}
   }else {frame=null;holder.replaceChildren();}
   const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove]);
   if(key!==uiKey){uiKey=key;renderUI();}renderTargets();
+  if(foodSurface.active){sheet.hidden=true;targetBar.hidden=true;}sheet.inert=foodSurface.active;rosterText.hidden=foodSurface.exclusive;
   // Scroll clearance lets every board target move above the prompt without moving
   // any room, figure or fixed-slot coordinates. Darkness keeps only the frozen scene.
   const clearance=targetBar.hidden?0:targetBar.getBoundingClientRect().height+16;
@@ -354,6 +359,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(target.dataset.moveRoom){if(sceneMode!=='board'||model.dark||!model.canMove||!model.moveRooms.includes(target.dataset.moveRoom))return;if(model.action?.type!=='MOVE')controller.begin('MOVE');controller.choose(target.dataset.moveRoom);return;}
   if(target.dataset.intent==='action/choose'){controller.choose(target.dataset.value);return;}
   const action=target.dataset.planetAction,value=target.dataset.value;
+  if(action==='food-tasks'){controller.dismiss();food?.openTasks();return;}
   if(action==='panel'){if(value==='board'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&!model.action&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;if(model.action)render(controller.getModel());else controller.dismiss();}else {more=false;controller.openPanel(value==='more'?'panels':value);}}
   if(action==='begin'){more=false;controller.begin(value);}
   if(action==='choose')controller.choose(value);
@@ -372,5 +378,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const barsObserver=new win.ResizeObserver(()=>{if(model&&!disposed)render(controller.getModel());});barsObserver.observe(header);barsObserver.observe(nav);
  root.addEventListener('click',onClick);root.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);document.addEventListener('mothership:art-ready',onArt);document.addEventListener('mothership:preferences-change',onResize);media.addEventListener('change',onMotion);win.addEventListener('resize',onResize);win.addEventListener('blur',onBlur);win.addEventListener('focus',onFocus);
  const stop=controller.subscribe(render);
- return {settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
+ return {get view(){return sceneMode;},bars(){return {top:header.getBoundingClientRect().height,bottom:nav.getBoundingClientRect().height};},
+  foodSurface(next){if(JSON.stringify(next)===JSON.stringify(foodSurface))return;foodSurface=next;uiKey=null;if(model)render(controller.getModel());},
+  navigate(next){if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
+  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
 }

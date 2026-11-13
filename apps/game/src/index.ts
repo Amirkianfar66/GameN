@@ -68,3 +68,4 @@ export * from './planet/controller.js';
 export * from './planet/session.js';
 export * from './planet/food.js';
 export * from './planet/food-input.js';
+export {readFoodRecovery} from './planet/food-recovery.js';
