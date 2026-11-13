@@ -13,7 +13,7 @@ export const publicView = n => ({schemaVersion:1,versions:copy(versions),matchId
 export const task = () => ({foodStepId:'food-step-2',round:2,taskId:'task-2',revision:0,controlRevision:0,participantSeatIds:['seat-1','seat-2'],
   winchSeatId:'seat-1',panelSeatId:'seat-2',selfControl:'WINCH',controlSessionId:'winch-session-2',
   startedAt:1000,runningAt:5000,deadlineAt:31000,returnsAt:33500,stage:'ACTIVE',
-  people:[{seatId:'seat-1',alive:true,online:true,keyTurned:false},{seatId:'seat-2',alive:true,online:true,keyTurned:false}],
+  people:[{seatId:'seat-1',alive:true,online:true,keyTurned:false,death:null},{seatId:'seat-2',alive:true,online:true,keyTurned:false,death:null}],
   panel:{locked:true,stop:0,direction:1,anchorAt:1000,blade:{state:'RAISED',stop:0,changedAt:1000},warning:null,swing:null},
   crate:{id:'crate-0',generation:0,state:'INTAKE',holder:null,x:0,height:0,anchorAt:1000,motion:null},
   ownGesture:{controlSessionId:'winch-session-2',highestSequence:0,recoveryRevision:0,currentHolder:null,pendingIntent:null},broken:[],events:{cursor:0,events:[]},outcome:null});

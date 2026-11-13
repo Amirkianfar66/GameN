@@ -185,8 +185,23 @@ checks. This is protocol recovery for the same Hold control, not another button.
 ## Complete machine rendering without cosmetic events
 
 Coordinates are in rail-stop units: intake 0, Panel console 4, platform 5 and
-Winch cab 6. Moving/swing positions are bounded to [-1,7]; vertical height is
-normalized 0 (resting surface) to 1 (fully raised). `crate.x`/`height` describe the
+Winch cab 6. Moving/swing rail positions are bounded to [-1,7]. Every `height`,
+`fromHeight` and `toHeight` is a **crate-centre coordinate on one global axis**,
+not a fraction relative to whichever surface happens to be underneath:
+`designY = 658 - 250 * height`. The fixed approved design centres are:
+
+| Surface | Design Y | Contract height |
+| --- | --- | --- |
+| Intake | 658 | 0 |
+| Deck | 648 | 0.04 |
+| Console | 540 | 0.472 |
+| Platform | 568 | 0.36 |
+| Fully raised, level | 408 | 1 |
+
+`FOOD_TASK_VERTICAL` exports these values and the finite bounds [-0.25,1.5].
+The bounds include replacement entry at Y704 (height -0.184) and the raised
+pendulum arc. They are validation bounds, not new collision margins. Broken
+fragments rest on the corresponding surface at centre Y+52 (half a crate). `crate.x`/`height` describe the
 last authority anchor at `anchorAt`, not a value resampled on each clock poll.
 
 A locked panel's stop is its actual integer stop. A moving panel's stop and
@@ -198,8 +213,30 @@ amplitude and direction, with the approved 1300 ms period and 2200 ms decay
 parameter toward 0.38. A moving panel carries the crate directly; a locked one
 adds that anchored swing. These are presentation coordinates, not permissions.
 
-Every lift/fall trajectory carries horizontal and normalized vertical origin and
-destination with its original start/end times. A partial-lift release starts at
+Every lift/fall trajectory carries horizontal and global vertical origin and
+destination with its original start/end times and explicit `easing`.
+Let `u=clamp((serverNow-startedAt)/(endsAt-startedAt),0,1)`. Vertical interpolation
+is `fromHeight + (toHeight-fromHeight)*e(u)`, with:
+
+- QUADRATIC_IN_OUT: `2*u*u` below 0.5, otherwise `1-(-2*u+2)^2/2` (lift).
+- CUBIC_IN: `u*u*u` (fall).
+- CUBIC_OUT: `1-(1-u)^3` (replacement rising into the hatch).
+
+The motion overrides the anchor during its interval; before/after it clamps to
+origin/destination. A zero-duration motion is already at its destination.
+For a lift, horizontal centring uses QUADRATIC_IN_OUT at `clamp(u/0.35,0,1)`;
+falls use CUBIC_IN for both axes. Replacement normally has equal X endpoints.
+The server records the actual origin from the previous trajectory/swing sample,
+not a default full-height pose. Broken trajectories validate destination height
+against their named surface. LIFTING requires a raised target; FALLING supplies
+an explicit surface target. A settled intake/platform uses its global centre.
+
+For HELD/BRAKED swing without a linear trajectory, the persisted swing and panel
+anchor determine the position. The approved geometry is pivot Y140, cable
+length 268 and 128 pixels per rail stop. For offset `d` stops, the crate-centre
+`Y=140+sqrt(268^2-(128*d)^2)`; convert with the same global height formula.
+A later release records that exact origin. Reduced motion may draw a level
+crate, but it cannot change the authority origin, hazard or interlock deadline. A partial-lift release starts at
 the authoritative partial height; it does not visually jump to full height.
 The active replacement crate has a new ID/generation. Each retained old broken
 crate independently carries its fall trajectory, landing surface and original
@@ -211,7 +248,44 @@ stop/change time and the authoritative warning window. A STOPPED cue explicitly
 names CUT or DROP, actor and victim: CUT's actor is Panel and victim Winch;
 DROP reverses them. Both mechanisms are already participant-visible. No field
 identifies Protection versus luck. Current buffered blade or brake custody
-remains visible even with an empty event suffix; old impacts are not replayed.
+remains visible even with an empty event suffix; old impacts are not replayed. Persist replacement-entry and old-crate fall
+segments independently, and retain a SENT descent segment (platform height0.36
+to -0.12 over its existing 1100ms visual cue) with its original anchor/easing.
+An empty suffix can then draw the current pose directly. The existing panel
+snap remains smoothstep; the new quadratic lift easing does not replace it.
+
+## Participant end-card facts
+
+`FoodTaskOutcomeSchema` is a strict participant-only discriminated union:
+
+| Kind | Required authoritative detail |
+| --- | --- |
+| DELIVERED | `at`, `dosesAdded:10` (five packages) |
+| LOST | `at`, `reason:TIME`, `CRATE_BROKEN_NO_FETCHER` or `NOT_OVER_PLATFORM` |
+| CANCELLED | `at`, `reason:DISCONNECT`, `disconnectedSeatId` from the Task pair |
+
+These map to the approved endCard in pinned `design/food-supply/phone.mjs`
+lines 260–268. The backend chooses the applicable loss message at the terminal
+transition. TIME records the original deadline; a cancellation names the living
+participant whose full grace expired, and cannot precede that grace. The name
+stays the same if that phone later reconnects. No phone infers these facts from
+its current clock, current online flags, crate pose or an absent event suffix.
+All terminal details are immutable across retries, late ticks and reconnect.
+
+Only `participantTask.outcome` carries them, with the existing common return
+interval unchanged. Public and nonparticipant schemas have no result/cause field.
+Each `people` row also requires `death:null` while alive or the original
+`death:{at,mechanism:CUT|DROP,actorSeatId}` when eliminated. The mechanism,
+actor/victim pairing and occurred time are server-authored and remain available
+with an empty cosmetic event suffix. Native cards do not infer the cause from
+control assignment. A recovered snapshot draws the present and shows the right
+card without restarting an old impact; a fresh cue may use that original time.
+The room in that card comes from the same API response's frozen ordinary board
+location/slot, never a copied prototype room or a new return-placement field.
+
+Reason values never identify Protection, luck, Clone, a roll, grantor or secret
+role. Delivered doses are the one authoritative grant, not another food write
+triggered by rendering or receipt recovery.
 
 ## Audiences, canonical roster and private counters
 
@@ -325,9 +399,10 @@ continuations; remaining gates are implementation and review evidence.
 
 Pinned Node 22.21.1 / npm 10.9.4. `npm ci --offline --no-audit --no-fund`,
 `npm run build`, `npm run typecheck`, `npm run test:contracts` (26/26),
-`npm run test:bootstrap` (345/345), and toolchain/workspace/source checks passed.
+`npm run test:bootstrap` (363/363), and toolchain/workspace/source checks passed.
 The bootstrap result includes the four Food suites: strict schemas/adapter,
-Hold ledger, clocks and 23 example packets/two executable ordering traces.
+Hold ledger, clocks and 32 example packets/two executable ordering traces. The four focused
+Food suites total 159 tests after the consolidated sheet-data amendment.
 
 Selected historical engine regressions passed 42/42:
 `planet-version-compat`, `planet-phone-version-compat`, `planet-opportunities`.
@@ -341,3 +416,13 @@ physical phones and future Food runtime paths were **not run** for this
 contract-only change. Hosted CI and Integration/Frontend acceptance remain
 separate gates. The reported capacity subprocess timeout is Integration-owned;
 this PR changes neither its limit nor its playouts/assertions.
+
+The consolidated Frontend sheet trace at `a3b4f16b` identified terminal detail,
+durable death detail and unambiguous vertical trajectories. This amendment
+addresses all three together. It changes no command/receipt or Hold ledger.
+The initial `df52395c` hosted backend-emulator failure is retained at
+[the failed job](https://github.com/Amirkianfar66/GameN/actions/runs/43410007963/job/131833760992):
+the tracked #206 eight-player duplicate transaction returned one accepted
+receipt and one UNAVAILABLE (code3, Transaction is invalid or closed). Integration
+owns its CI handling. The runtime paths and assertion are unchanged; this PR
+adds no retry workaround. Current-head CI is a separate result.

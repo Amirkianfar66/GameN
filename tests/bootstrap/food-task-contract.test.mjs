@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { FoodTaskCommandRequestSchema as Request, FoodTaskReceiptSchema as Receipt,
   FoodTaskPublicViewSchema as Public, FoodTaskPlayerViewSchema as Player,
   FoodTaskStoredReceiptSchema as Stored, FoodTaskMealSchema as Meal,
-  FoodTaskVersionsSchema, FOOD_TASK_PARAMETERS as P, parseFoodTaskView, parseFoodTaskReceipt,
+  FoodTaskVersionsSchema, FOOD_TASK_PARAMETERS as P, FOOD_TASK_VERTICAL as V, parseFoodTaskView, parseFoodTaskReceipt,
   foodTaskHoldInput, foodTaskHoldRecoveryInput, foodTaskRevisionBody, foodTaskHoldRelease } from '../../packages/contracts/dist/planet-food-task.js';
 import {createHoldLedger,admitHoldInput,advancePendingHold,projectHoldRecovery,admitHoldRecoveryOff} from '../../packages/contracts/dist/food-task-hold.js';
 import { PlanetCommandRequestSchema, PlanetVersionsSchema } from '../../packages/contracts/dist/planet-game.js';
@@ -122,8 +122,8 @@ for (const n of [7,8,9]) {
     reject(Player,ask,v=>{v.step=null;});reject(Player,ask,v=>{v.step=publicView(n).step;});
     reject(Player,ask,v=>{v.serverNowMs=31000;});reject(Player,ask,v=>{v.step.someoneAsking=true;});
     const press=playerView(n);
-    reject(Player,press,v=>{v.participantTask.stage='ENDED';v.participantTask.outcome={kind:'LOST',at:6000};});
-    reject(Player,press,v=>{v.participantTask.people[0].alive=false;});
+    reject(Player,press,v=>{v.participantTask.stage='ENDED';v.participantTask.outcome={kind:'LOST',at:6000,reason:'NOT_OVER_PLATFORM'};});
+    reject(Player,press,v=>{v.participantTask.people[0].alive=false;v.participantTask.people[0].death={at:6000,mechanism:'CUT',actorSeatId:'seat-2'};});
     reject(Player,press,v=>{v.serverNowMs=31000;});
     reject(Player,press,v=>{v.participantTask.foodStepId='other-step';});
     reject(Player,press,v=>{v.participantTask.round=1;});
@@ -183,7 +183,7 @@ for (const n of [7,8,9]) {
     const v=playerView(n);v.serverNowMs=6100;v.participantTask.panel.blade={state:'BUFFERED',stop:6,changedAt:6000};
     v.participantTask.crate={id:'crate-1',generation:1,state:'INTAKE',holder:null,x:0,height:0,anchorAt:6000,motion:null};
     v.offers[0].crateId='crate-1';v.participantTask.broken=[{crateId:'crate-0',at:6000,x:2,landing:'DECK',
-      motion:{fromX:2,toX:2,fromHeight:.4,toHeight:0,startedAt:6000,endsAt:6300}}];Player.parse(v);
+      motion:{fromX:2,toX:2,fromHeight:.4,toHeight:.04,easing:'CUBIC_IN',startedAt:6000,endsAt:6300}}];Player.parse(v);
     reject(Player,v,x=>{x.participantTask.crate.x=1e308;});reject(Player,v,x=>{x.offers[0].crateId='crate-0';});
     reject(Player,v,x=>{x.participantTask.broken[0].motion.fromHeight=2;});
     reject(Player,v,x=>{x.participantTask.events={cursor:1,events:[{id:'bad-stop',cursor:1,at:6000,kind:'STOPPED',mechanism:null,actorSeatId:null,victimSeatId:null,crateId:null,x:null}]};});
@@ -253,4 +253,95 @@ for (const n of [7,8,9]) test(`${n}: nonparticipant Partner choices stay uniform
     partnerChoices:publicView(n).rosterSeatIds.filter(id=>id!=='seat-3').map(seatId=>({seatId,available:false,reason:'NOT_AVAILABLE_NOW'}))};
   Player.parse(v);reject(Player,v,x=>{x.partnerChoices[0].reason='ELIMINATED';});
   reject(Player,v,x=>{x.partnerChoices[0].reason='IN_HOSPITAL';});
+});
+
+for (const n of [7,8,9]) test(`${n}: private end cards use strict authoritative reasons and cancellation identity`, () => {
+  const ended = outcome => {
+    const v=playerView(n);v.offers=[];v.serverNowMs=outcome.at;const t=v.participantTask;
+    t.stage='ENDED';t.outcome=outcome;
+    if (outcome.kind==='DELIVERED') {
+      t.crate={...t.crate,state:'SENT',height:V.platform,x:5,anchorAt:outcome.at,
+        motion:{fromX:5,toX:5,fromHeight:V.platform,toHeight:-.12,easing:'QUADRATIC_IN_OUT',startedAt:outcome.at,endsAt:outcome.at+1100}};t.people.forEach(p=>{p.keyTurned=true;});
+    }
+    if (outcome.kind==='LOST' && outcome.reason!=='TIME') {
+      const victim=t.people.find(p=>p.seatId===(outcome.reason==='CRATE_BROKEN_NO_FETCHER'?'seat-2':'seat-1'));
+      victim.alive=false;victim.death={at:outcome.at,mechanism:victim.seatId==='seat-1'?'CUT':'DROP',
+        actorSeatId:victim.seatId==='seat-1'?'seat-2':'seat-1'};
+      if (outcome.reason==='CRATE_BROKEN_NO_FETCHER') t.broken=[{crateId:'old-crate',at:outcome.at,x:4,landing:'CONSOLE',
+        motion:{fromX:4,toX:4,fromHeight:1,toHeight:V.console,easing:'CUBIC_IN',startedAt:outcome.at,endsAt:outcome.at+300}}];
+    }
+    return v;
+  };
+  for (const reason of ['TIME','CRATE_BROKEN_NO_FETCHER','NOT_OVER_PLATFORM']) {
+    const v=ended({kind:'LOST',at:reason==='TIME'?31000:9500,reason});Player.parse(v);
+    reject(Player,v,x=>{delete x.participantTask.outcome.reason;});
+    reject(Player,v,x=>{x.participantTask.outcome.reason='PROTECTION';});
+    reject(Player,v,x=>{x.participantTask.outcome.disconnectedSeatId='seat-1';});
+    reject(Player,v,x=>{x.participantTask.outcome.roll=.1;});
+  }
+  const timed=ended({kind:'LOST',at:31000,reason:'TIME'});
+  reject(Player,timed,x=>{x.participantTask.outcome.at=30999;});
+  for (const seat of ['seat-1','seat-2']) {
+    const v=ended({kind:'CANCELLED',at:10000,reason:'DISCONNECT',disconnectedSeatId:seat});Player.parse(v);
+    // A completed cancellation retains its original identity after that phone reconnects.
+    v.participantTask.people.forEach(p=>{p.online=true;});Player.parse(v);
+    reject(Player,v,x=>{x.participantTask.outcome.disconnectedSeatId='seat-3';});
+    reject(Player,v,x=>{x.participantTask.outcome.reason='TIME';});
+    reject(Player,v,x=>{x.participantTask.outcome.at=8999;});
+    reject(Player,v,x=>{x.participantTask.people.find(p=>p.seatId===seat).alive=false;});
+    reject(Player,v,x=>{delete x.participantTask.outcome.disconnectedSeatId;});
+  }
+  const delivered=ended({kind:'DELIVERED',at:9500,dosesAdded:10});Player.parse(delivered);
+  reject(Player,delivered,x=>{x.participantTask.outcome.dosesAdded=5;});
+  reject(Player,delivered,x=>{x.participantTask.outcome.reason='LUCK';});
+  reject(Player,delivered,x=>{x.participantTask.crate.motion=null;});
+  for (const outcome of [timed.participantTask.outcome,delivered.participantTask.outcome,
+    {kind:'CANCELLED',at:10000,reason:'DISCONNECT',disconnectedSeatId:'seat-1'}]) {
+    reject(Public,publicView(n),x=>{x.outcome=outcome;});
+    const outsider={...playerView(n),seatId:'seat-3',participantTask:null,offers:[],
+      partnerChoices:publicView(n).rosterSeatIds.filter(id=>id!=='seat-3').map(seatId=>({seatId,available:false,reason:'NOT_AVAILABLE_NOW'}))};
+    reject(Player,outsider,x=>{x.outcome=outcome;});
+    reject(Player,outsider,x=>{x.participantTask=ended(outcome).participantTask;});
+  }
+});
+
+for (const n of [7,8,9]) test(`${n}: durable victim facts survive an empty cosmetic suffix without disclosing a defense`, () => {
+  for (const [mechanism,seat,actor] of [['CUT','seat-1','seat-2'],['DROP','seat-2','seat-1']]) {
+    const v=playerView(n);v.serverNowMs=9500;v.offers=[];const t=v.participantTask;
+    const victim=t.people.find(p=>p.seatId===seat);victim.alive=false;
+    victim.death={at:9000,mechanism,actorSeatId:actor};t.events={cursor:5,events:[]};
+    if (mechanism==='CUT') t.crate={...t.crate,state:'LANDED',height:V.platform};
+    else {t.stage='ENDED';t.outcome={kind:'LOST',at:9000,reason:'CRATE_BROKEN_NO_FETCHER'};}
+    Player.parse(v);
+    reject(Player,v,x=>{x.participantTask.people.find(p=>p.seatId===seat).death=null;});
+    reject(Player,v,x=>{x.participantTask.people.find(p=>p.seatId===seat).death.actorSeatId=seat;});
+    reject(Player,v,x=>{x.participantTask.people.find(p=>p.seatId===seat).death.at=9501;});
+    reject(Player,v,x=>{x.participantTask.people.find(p=>p.seatId===seat).death.mechanism=mechanism==='CUT'?'DROP':'CUT';});
+    for (const key of ['cause','roll','protection','donorSeatId'])
+      reject(Player,v,x=>{x.participantTask.people.find(p=>p.seatId===seat).death[key]='hidden';});
+  }
+  const cue=playerView(n);cue.offers=[];cue.participantTask.people[0].alive=false;
+  cue.participantTask.people[0].death={at:6000,mechanism:'CUT',actorSeatId:'seat-2'};
+  cue.participantTask.events={cursor:1,events:[{id:'death-cut',cursor:1,at:6000,kind:'ELIMINATED',mechanism:'CUT',
+    actorSeatId:'seat-2',victimSeatId:'seat-1',crateId:'crate-0',x:6}]};Player.parse(cue);
+  reject(Player,cue,x=>{x.participantTask.events.events[0].at=5999;});
+  const alive=playerView(n);
+  reject(Player,alive,x=>{x.participantTask.people[0].death={at:6000,mechanism:'CUT',actorSeatId:'seat-2'};});
+});
+for (const n of [7,8,9]) test(`${n}: global vertical anchors distinguish partial intake falls, platform and old broken crates`, () => {
+  const v=playerView(n);v.serverNowMs=5325;
+  v.participantTask.crate={...v.participantTask.crate,state:'FALLING',height:.5,anchorAt:5225,
+    motion:{fromX:0,toX:0,fromHeight:.5,toHeight:V.intake,easing:'CUBIC_IN',startedAt:5225,endsAt:5525}};Player.parse(v);
+  const platform=copy(v);platform.participantTask.crate.motion.toHeight=V.platform;Player.parse(platform);
+  assert.equal(658-250*V.intake,658);assert.equal(658-250*V.platform,568);
+  assert.equal(658-250*V.console,540);assert.equal(658-250*V.deck,648);
+  reject(Player,v,x=>{x.participantTask.crate.motion.toHeight=.2;});
+  reject(Player,v,x=>{delete x.participantTask.crate.motion.easing;});
+  reject(Player,v,x=>{x.participantTask.crate.motion.easing='LINEAR';});
+  reject(Player,v,x=>{x.participantTask.crate.motion.fromHeight=V.max+.001;});
+  const broken=copy(v);broken.participantTask.broken=[{crateId:'old-crate',at:5225,x:2,landing:'DECK',
+    motion:{fromX:2,toX:2,fromHeight:.5,toHeight:V.deck,easing:'CUBIC_IN',startedAt:5225,endsAt:5525}}];Player.parse(broken);
+  reject(Player,broken,x=>{x.participantTask.broken[0].motion.toHeight=V.intake;});
+  const landed=playerView(n);landed.participantTask.crate={...landed.participantTask.crate,state:'LANDED',height:V.platform};Player.parse(landed);
+  reject(Player,landed,x=>{x.participantTask.crate.height=V.intake;});
 });

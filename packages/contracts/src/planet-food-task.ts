@@ -21,6 +21,10 @@ const ids = z.array(SeatIdSchema).max(9).refine(v => new Set(v).size === v.lengt
 const pair = z.tuple([SeatIdSchema, SeatIdSchema]).refine(v => v[0] !== v[1], 'Two distinct participants required');
 const orderedPair = pair.refine(v => Number(v[0].slice(5)) < Number(v[1].slice(5)), 'Public absence uses original seat order');
 const sha256 = z.string().regex(/^[a-f0-9]{64}$/);
+/** Shared visual axis, independent of destination: design Y = 658 - 250 * height. */
+export const FOOD_TASK_VERTICAL = Object.freeze({ intake: 0, deck: 0.04, console: 0.472,
+  platform: 0.36, raised: 1, min: -0.25, max: 1.5 });
+const height = finite.min(FOOD_TASK_VERTICAL.min).max(FOOD_TASK_VERTICAL.max);
 export const FoodTaskVersionsSchema = z.strictObject({
   protocolVersion: z.literal(3), engineVersion: z.literal(FOOD_TASK_TARGET.engineVersion),
   rulesetVersion: z.literal(FOOD_TASK_TARGET.rulesetVersion), rulesetHash: sha256,
@@ -188,8 +192,8 @@ export const FoodTaskGestureViewSchema = z.strictObject({ controlSessionId: Iden
   && (v.pendingIntent === null || v.pendingIntent.sequence === v.highestSequence
     && (v.currentHolder === null || v.pendingIntent.sequence > v.currentHolder.sequence)),
   'Actual owner and newest pending contact are independent causal bindings');
-const motion = z.strictObject({ fromX: railX, toX: railX, fromHeight: finite.min(0).max(1), toHeight: finite.min(0).max(1),
-  startedAt: TimestampSchema, endsAt: TimestampSchema })
+const motion = z.strictObject({ fromX: railX, toX: railX, fromHeight: height, toHeight: height,
+  easing: z.enum(['QUADRATIC_IN_OUT', 'CUBIC_IN', 'CUBIC_OUT']), startedAt: TimestampSchema, endsAt: TimestampSchema })
   .refine(v => v.endsAt >= v.startedAt, 'Finite forward motion interval required');
 const panel = z.strictObject({ locked: z.boolean(), stop: z.number().int().min(0).max(6),
   direction: z.union([z.literal(-1), z.literal(1)]), anchorAt: TimestampSchema,
@@ -199,10 +203,20 @@ const panel = z.strictObject({ locked: z.boolean(), stop: z.number().int().min(0
   swing: z.strictObject({ startedAt: TimestampSchema, amplitude: finite.min(0).max(0.9), direction: z.union([z.literal(-1), z.literal(1)]) }).nullable() });
 const crate = z.strictObject({ id: IdentifierSchema, generation: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
   state: z.enum(['INTAKE', 'LIFTING', 'HELD', 'BRAKED', 'FALLING', 'LANDED', 'SENT']),
-  holder: z.enum(['WINCH', 'BRAKE']).nullable(), x: railX, height: finite.min(0).max(1), anchorAt: TimestampSchema,
+  holder: z.enum(['WINCH', 'BRAKE']).nullable(), x: railX, height, anchorAt: TimestampSchema,
   motion: motion.nullable()
 }).refine(v => v.holder === (v.state === 'HELD' || v.state === 'LIFTING' ? 'WINCH' : v.state === 'BRAKED' ? 'BRAKE' : null),
-  'Crate custody matches its state');
+  'Crate custody matches its state').refine(v => v.motion !== null
+    || v.state !== 'INTAKE' && v.state !== 'LANDED' || v.height === (v.state === 'INTAKE'
+      ? FOOD_TASK_VERTICAL.intake : FOOD_TASK_VERTICAL.platform), 'Rest pose uses the shared vertical axis')
+  .refine(v => v.state !== 'LIFTING' || v.motion !== null && v.motion.toHeight === FOOD_TASK_VERTICAL.raised
+    && v.motion.easing === 'QUADRATIC_IN_OUT', 'Lift trajectory reaches the raised anchor')
+  .refine(v => v.state !== 'FALLING' || v.motion !== null && v.motion.easing === 'CUBIC_IN'
+    && new Set<number>([FOOD_TASK_VERTICAL.intake, FOOD_TASK_VERTICAL.deck, FOOD_TASK_VERTICAL.console, FOOD_TASK_VERTICAL.platform]).has(v.motion.toHeight),
+    'Fall names its destination coordinate, never inferred from x')
+  .refine(v => v.state !== 'SENT' || v.motion !== null && v.motion.fromHeight === FOOD_TASK_VERTICAL.platform
+    && v.motion.toHeight === -0.12 && v.motion.easing === 'QUADRATIC_IN_OUT'
+    && v.motion.endsAt - v.motion.startedAt === 1_100, 'Sent descent is complete without a cosmetic event');
 const cue = { id: IdentifierSchema, cursor: sequence, at: TimestampSchema };
 const taskEvent = z.discriminatedUnion('kind', [
   z.strictObject({ ...cue, kind: z.enum(['LIFTED', 'RELEASED', 'LANDED', 'RETURNED_TO_INTAKE', 'BROKEN', 'TAKEN']),
@@ -217,18 +231,32 @@ const eventWindow = z.strictObject({ cursor: z.number().int().min(0).max(Number.
     && (i === 0 || e.cursor === v.events[i - 1]!.cursor + 1 && e.at >= v.events[i - 1]!.at))
     && new Set(v.events.map(e => e.id)).size === v.events.length
     && (v.events.length === 0 || v.events.at(-1)!.cursor === v.cursor), 'Audience-local suffix ends at its published cursor');
+/** Participant-only terminal facts. Never derive these reasons from a sampled drawing or clock. */
+export const FoodTaskOutcomeSchema = z.discriminatedUnion('kind', [
+  z.strictObject({ kind: z.literal('DELIVERED'), at: TimestampSchema,
+    dosesAdded: z.literal(FOOD_TASK_PARAMETERS.deliveryDoses) }),
+  z.strictObject({ kind: z.literal('LOST'), at: TimestampSchema,
+    reason: z.enum(['TIME', 'CRATE_BROKEN_NO_FETCHER', 'NOT_OVER_PLATFORM']) }),
+  z.strictObject({ kind: z.literal('CANCELLED'), at: TimestampSchema,
+    reason: z.literal('DISCONNECT'), disconnectedSeatId: SeatIdSchema }),
+]);
+export type FoodTaskOutcome = z.infer<typeof FoodTaskOutcomeSchema>;
 export const FoodTaskParticipantSchema = z.strictObject({ foodStepId: IdentifierSchema, round: PlanetRoundSchema,
   taskId: IdentifierSchema, revision: RevisionSchema,
   controlRevision: RevisionSchema, participantSeatIds: pair, winchSeatId: SeatIdSchema, panelSeatId: SeatIdSchema,
   selfControl: FoodTaskControlSchema, controlSessionId: IdentifierSchema,
   startedAt: TimestampSchema, runningAt: TimestampSchema, deadlineAt: TimestampSchema, returnsAt: TimestampSchema,
   stage: z.enum(['BRIEFING', 'ACTIVE', 'ENDED']),
-  people: z.array(z.strictObject({ seatId: SeatIdSchema, alive: z.boolean(), online: z.boolean(), keyTurned: z.boolean() })).length(2),
+  people: z.array(z.strictObject({ seatId: SeatIdSchema, alive: z.boolean(), online: z.boolean(), keyTurned: z.boolean(),
+    death: z.strictObject({ at: TimestampSchema, mechanism: z.enum(['CUT', 'DROP']), actorSeatId: SeatIdSchema }).nullable()
+  }).refine(v => v.alive === (v.death === null), 'Persistent death accompanies an eliminated participant')).length(2),
   panel, crate, ownGesture: FoodTaskGestureViewSchema.nullable(),
   broken: z.array(z.strictObject({ crateId: IdentifierSchema, at: TimestampSchema, x: railX,
-    landing: z.enum(['DECK', 'CONSOLE', 'PLATFORM']), motion })).max(64),
+    landing: z.enum(['DECK', 'CONSOLE', 'PLATFORM']), motion }).refine(v => v.motion.easing === 'CUBIC_IN'
+      && v.motion.toHeight === FOOD_TASK_VERTICAL[v.landing.toLowerCase() as 'deck' | 'console' | 'platform'],
+      'Broken crate fall ends at its named surface on the shared axis')).max(64),
   events: eventWindow,
-  outcome: z.strictObject({ kind: z.enum(['DELIVERED', 'LOST', 'CANCELLED']), at: TimestampSchema }).nullable(),
+  outcome: FoodTaskOutcomeSchema.nullable(),
 }).superRefine((v, ctx) => {
   const issue = (ok: boolean, message: string) => { if (!ok) ctx.addIssue({ code: 'custom', message }); };
   issue(v.runningAt - v.startedAt === FOOD_TASK_PARAMETERS.briefingMs
@@ -237,8 +265,22 @@ export const FoodTaskParticipantSchema = z.strictObject({ foodStepId: Identifier
   issue(v.winchSeatId !== v.panelSeatId && v.participantSeatIds.includes(v.winchSeatId)
     && v.participantSeatIds.includes(v.panelSeatId), 'Assignments are the exact pair');
   issue(new Set(v.people.map(p => p.seatId)).size === 2 && v.people.every(p => v.participantSeatIds.includes(p.seatId)), 'Exact participant status pair required');
+  issue(v.people.every(p => !p.death || p.death.at >= v.runningAt && p.death.at <= v.deadlineAt
+    && p.seatId === (p.death.mechanism === 'CUT' ? v.winchSeatId : v.panelSeatId)
+    && p.death.actorSeatId === (p.death.mechanism === 'CUT' ? v.panelSeatId : v.winchSeatId)
+    && p.death.at <= (v.outcome?.at ?? v.deadlineAt)),
+    'Persistent death records its original pair-bound mechanism and time');
   issue((v.stage === 'ENDED') === (v.outcome !== null), 'Private terminal status must have one outcome');
   issue(v.outcome === null || v.outcome.at >= v.startedAt && v.outcome.at <= v.deadlineAt, 'Outcome belongs to Task interval');
+  if (v.outcome?.kind === 'LOST' && v.outcome.reason === 'TIME')
+    issue(v.outcome.at === v.deadlineAt, 'Timeout is the original Task deadline');
+  if (v.outcome?.kind === 'CANCELLED') {
+    const disconnected = v.outcome.disconnectedSeatId;
+    issue(v.participantSeatIds.includes(disconnected) && v.people.some(p => p.seatId === disconnected && p.alive),
+      'Cancellation names a living participant whose absence expired');
+    issue(v.outcome.at >= v.startedAt + FOOD_TASK_PARAMETERS.presenceGraceMs,
+      'Cancellation cannot precede the full presence grace');
+  }
   issue(v.selfControl === 'WINCH' ? v.ownGesture !== null && v.ownGesture.controlSessionId === v.controlSessionId
     : v.ownGesture === null, 'Own Winch recovery state is complete; Panel has none');
   if (v.ownGesture) issue((v.crate.holder === 'WINCH') === (v.ownGesture.currentHolder !== null)
@@ -249,6 +291,11 @@ export const FoodTaskParticipantSchema = z.strictObject({ foodStepId: Identifier
     && (!('victimSeatId' in e) || e.actorSeatId !== e.victimSeatId && e.actorSeatId === (e.mechanism === 'CUT' ? v.panelSeatId : v.winchSeatId)
       && e.victimSeatId === (e.mechanism === 'CUT' ? v.winchSeatId : v.panelSeatId))
     && e.at >= v.startedAt && e.at <= v.returnsAt), 'Task events belong to the pair and its interval');
+  issue(v.events.events.every(e => e.kind !== 'ELIMINATED' || v.people.some(p => p.seatId === e.victimSeatId
+    && p.death?.at === e.at && p.death.mechanism === e.mechanism && p.death.actorSeatId === e.actorSeatId)),
+    'Retained elimination cues agree with persistent death facts');
+  if (v.outcome?.kind === 'DELIVERED') issue(v.crate.state === 'SENT' && v.crate.motion?.startedAt === v.outcome.at,
+    'Delivery and its persisted descent share the original terminal time');
   const w = v.panel.warning;
   issue(!w || w.startsAt < w.endsAt && w.actorSeatId === (w.mechanism === 'CUT' ? v.panelSeatId : v.winchSeatId)
     && w.victimSeatId === (w.mechanism === 'CUT' ? v.winchSeatId : v.panelSeatId), 'Warning describes its visible mechanism, never a defense cause');
@@ -313,6 +360,7 @@ export const FoodTaskPlayerViewSchema = z.strictObject({ ...viewContext, audienc
       && t.foodStepId === v.step.stepId && t.round === v.round
       && v.step.awaySeatIds.every(id => t.participantSeatIds.includes(id)), 'Task and common absence interval agree');
     issue(t.events.events.every(e => e.at <= v.serverNowMs) && (!t.outcome || t.outcome.at <= v.serverNowMs), 'Task occurrences are not future predictions');
+    issue(t.people.every(p => !p.death || p.death.at <= v.serverNowMs), 'Death detail has already occurred');
     issue(t.panel.anchorAt <= v.serverNowMs && t.panel.blade.changedAt <= v.serverNowMs && t.crate.anchorAt <= v.serverNowMs,
       'Current motion/blade anchors are not future occurrences');
     issue(new Set(t.broken.map(b => b.crateId)).size === t.broken.length
