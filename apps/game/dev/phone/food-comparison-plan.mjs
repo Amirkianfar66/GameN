@@ -46,6 +46,7 @@ const states=[
  ['s=called&answer=joining','Partner: Join on its way'],['s=called&answer=late-withdrawn','Partner: too late after withdrawal'],['s=called&answer=late-expired','Partner: too late after expiry'],
  ['s=volunteer&step=withdrawn','Volunteer: request withdrawn'],['s=volunteer&step=withdraw-late','Volunteer: too late to cancel'],['s=volunteer&step=busy','Another request is waiting'],
  ['s=volunteer&step=closed','Food Supply closed'],['s=howto','How it works before the Task'],
+ [`s=task&board=mistakes&t=${stepAt('mistakes',5)+500}&as=winch&hold=early`,'Winch: accepted early Hold waits for the hook'],
 ];
 const large=[
  ['s=task&board=cooperation&t=2500&as=winch','Briefing: no scrolling'],[`s=task&board=cooperation&t=${B+300}&as=winch`,'Winch: Hold next'],
@@ -56,14 +57,15 @@ const large=[
  [`s=task&board=disconnect&t=${CAB_AT-100}&as=winch&names=long`,'Twelve-letter names: offline and cab hazard'],
  [`s=task&board=chop&t=${CAB_AT-100}&as=panel&names=long`,'Twelve-letter names: LOCK hazard'],
  ['s=called&names=long','Twelve-letter names: Partner request'],['s=stock&n=0.5','Food gauge: half a package'],
+ [`s=task&board=mistakes&t=${stepAt('mistakes',5)+500}&as=winch&hold=early`,'Winch: pending Hold, no lift'],
 ];
 const cases=[];
 function rows(group,items){items.forEach(([query,title],i)=>cases.push({id:`food-${group}-${String(i+1).padStart(2,'0')}`,title,reference:{page:'design/food-supply/phone.html',query},nativeScenario:{page:'apps/game/dev/phone/food/app.html',query:`case=food-${group}-${String(i+1).padStart(2,'0')}`,packets:'apps/game/dev/phone/food/native-fixtures.json'}}));}
 for(const role of ['winch','panel'])rows(role,taskRows[role].map(([board,t,title,extra=''])=>[`s=task&board=${board}&t=${t}&as=${role}${extra}`,title]));
 rows('flow',flow);rows('states',states);rows('large',large);rows('stock',[['s=stock&n=0.5','Half a package'],['s=stock&n=0','No packages']]);
-if(cases.length!==82||new Set(cases.map(c=>c.id)).size!==82)throw Error('Exact named reference coverage required');
+if(cases.length!==84||new Set(cases.map(c=>c.id)).size!==84)throw Error('Exact named reference coverage required');
 const pins=Object.fromEntries(['design/food-supply/review.mjs','design/food-supply/phone.mjs','design/food-supply/phone.css','design/food-supply/handoff.json'].map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
-const plan={schema:'mothership.food-supplemental-comparison-plan/1',status:'native-packet-mapping-implemented-capture-evidence-separate',issue:235,designerHead:'3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594',referencePins:pins,scope:'Food-specific supplement including #241 gauge and twelve-character frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.',profiles:[{width:390,height:844,textScale:1,safeTop:47,safeBottom:34},{width:320,height:568,textScale:2,safeTop:20,safeBottom:0}],motion:['normal','reduced'],existingPartsToRecheck:['actions','panels','board','round-order','reconnecting','largest-text'],cases};
+const plan={schema:'mothership.food-supplemental-comparison-plan/1',status:'native-packet-mapping-implemented-capture-evidence-separate',issue:235,designerHead:'cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b',referencePins:pins,scope:'Food-specific supplement including #241 gauge, twelve-character and accepted pending-Hold frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.',profiles:[{width:390,height:844,textScale:1,safeTop:47,safeBottom:34},{width:320,height:568,textScale:2,safeTop:20,safeBottom:0}],motion:['normal','reduced'],existingPartsToRecheck:['actions','panels','board','round-order','reconnecting','largest-text'],cases};
 const target=resolve(root,'docs/frontend/food-supply-comparison-map.json'),bytes=JSON.stringify(plan,null,2)+'\n';
 if(process.argv.includes('--check')){if(readFileSync(target,'utf8')!==bytes)throw Error('Food comparison reference plan differs');}
 else writeFileSync(target,bytes);

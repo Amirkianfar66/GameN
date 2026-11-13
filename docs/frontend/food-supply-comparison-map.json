@@ -2,14 +2,14 @@
   "schema": "mothership.food-supplemental-comparison-plan/1",
   "status": "native-packet-mapping-implemented-capture-evidence-separate",
   "issue": 235,
-  "designerHead": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+  "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
   "referencePins": {
-    "design/food-supply/review.mjs": "35eb59c81de64d9d641e654f5ddbc6994a3d2ff2c461cf8f3c823daa9628505b",
-    "design/food-supply/phone.mjs": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
-    "design/food-supply/phone.css": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf",
-    "design/food-supply/handoff.json": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba"
+    "design/food-supply/review.mjs": "820cc078ca90d26bc6b2d68ce9f6f06963af7d58e9466b669cdeef49d6e3792e",
+    "design/food-supply/phone.mjs": "070f7604e9ee364f3806712065fb44557b4dbc5523dff886e3a02f1102cbe28d",
+    "design/food-supply/phone.css": "849ab0c510f249f3ab79a5c32da3fa52c54f51857aa041675b315ecded3d61b8",
+    "design/food-supply/handoff.json": "f58d750004a3233dc90f0b8a0c9bf557bcbdb33a9843dc2fa004b6bf2eb63d0e"
   },
-  "scope": "Food-specific supplement including #241 gauge and twelve-character frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.",
+  "scope": "Food-specific supplement including #241 gauge, twelve-character and accepted pending-Hold frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.",
   "profiles": [
     {
       "width": 390,
@@ -898,6 +898,19 @@
       }
     },
     {
+      "id": "food-states-15",
+      "title": "Winch: accepted early Hold waits for the hook",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=8425&as=winch&hold=early"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
       "id": "food-large-01",
       "title": "Briefing: no scrolling",
       "reference": {
@@ -1076,6 +1089,19 @@
       "nativeScenario": {
         "page": "apps/game/dev/phone/food/app.html",
         "query": "case=food-large-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-15",
+      "title": "Winch: pending Hold, no lift",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=8425&as=winch&hold=early"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-15",
         "packets": "apps/game/dev/phone/food/native-fixtures.json"
       }
     },

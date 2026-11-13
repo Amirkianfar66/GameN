@@ -71,14 +71,14 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   let node=taskNodes.buttons.get(id);if(!node){node=h('button.fs-ctl',{type:'button',id});taskNodes.buttons.set(id,node);taskNodes.controls.append(node);}
   const f=model.feedback,sending=f?.status==='sending'&&(b.act==='hold'?['Hold','let-go'].includes(f.name):f.name==={key:'key',release:'RELEASE',lock:'LOCK'}[b.act]);
   const sub=foodControlSub(b,v,{sending}),blocked=b.act!=='hold'&&(model.pendingCount>0||f?.status==='unknown');
-  const enabled=b.enabled&&!blocked,signature=JSON.stringify([b.label,sub,b.act,b.turned]);
+  const enabled=b.enabled&&!blocked,signature=JSON.stringify([b.label,sub,b.act,b.turned,b.pending]);
   if(node.dataset.face!==signature){node.dataset.face=signature;
-   const icon=b.act==='hold'?h('span',{html:'<svg class="arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4 L30 22 H22 V30 H12 V22 H4 Z" fill="currentColor" stroke="#0A0D14" stroke-width="2" stroke-linejoin="round"/></svg>'}):ic(b.act==='key'?b.turned?'check':'key':b.act,{filled:true});
+   const icon=b.act==='hold'?b.pending?ic('hourglass',{filled:true}):h('span',{html:'<svg class="arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4 L30 22 H22 V30 H12 V22 H4 Z" fill="currentColor" stroke="#0A0D14" stroke-width="2" stroke-linejoin="round"/></svg>'}):ic(b.act==='key'?b.turned?'check':'key':b.act,{filled:true});
    replace(node,h('span.fs-face',icon,h('span.fs-label',b.label,h('span.fs-sub',sub))));
   }
   node.hidden=false;node.dataset.act=b.act;attr(node,'aria-label',`${b.label}. ${b.hazard?`Warning: ${sub}`:sub}.`);
-  attr(node,'aria-disabled',enabled?null:'true');attr(node,'aria-busy',sending?'true':null);attr(node,'aria-pressed',b.act==='hold'?String(!!b.holding):null);
-  for(const [key,value]of Object.entries({'data-next':enabled&&b.next,'data-hazard':enabled&&b.hazard,'data-key':b.act==='key'&&!b.turned,'data-turned':b.turned,'data-holding':b.act==='hold'&&b.holding,'data-sending':sending}))attr(node,key,value?true:null);
+  attr(node,'aria-disabled',enabled?null:'true');attr(node,'aria-busy',sending?'true':null);attr(node,'aria-pressed',b.act==='hold'?String(!!(b.holding||b.pending)):null);
+  for(const [key,value]of Object.entries({'data-next':enabled&&b.next,'data-hazard':enabled&&b.hazard,'data-key':b.act==='key'&&!b.turned,'data-turned':b.turned,'data-holding':b.act==='hold'&&b.holding,'data-pending':b.act==='hold'&&b.pending,'data-sending':sending}))attr(node,key,value?true:null);
   attr(node,'data-zone',b.act==='hold'&&b.holding?b.zone:null);return id;
  }
  function instrument(v){
