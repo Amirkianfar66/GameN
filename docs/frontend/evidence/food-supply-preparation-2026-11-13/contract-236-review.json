@@ -1,0 +1,53 @@
+{
+  "scope": "Exact committed contract review; schema/conformance only",
+  "head": "df52395c881bbe556797ec03fc0ed0e7fbe920ee",
+  "probes": [
+    {
+      "name": "Ended Task cannot retain actionable Hold",
+      "rejected": true
+    },
+    {
+      "name": "Offer binds current crate generation",
+      "rejected": true
+    },
+    {
+      "name": "Rendering coordinates are bounded",
+      "rejected": true
+    },
+    {
+      "name": "STOPPED needs an explicit safe mechanism",
+      "rejected": true
+    },
+    {
+      "name": "Public absence uses canonical seat order",
+      "rejected": true
+    },
+    {
+      "name": "Early private death cannot enter outsider Partner rows",
+      "rejected": true
+    }
+  ],
+  "sameResponsePhaseBinding": true,
+  "clockOnlyRevisionNormalization": true,
+  "foodSuiteSummary": [
+    "✔ a conflicting recovery fingerprint cannot overwrite its receipt or release a later holder (0.185208ms)",
+    "✔ recovery validates Task/session/control/death/ended/future guards and never invents a release on time alone (0.3255ms)",
+    "ℹ tests 141",
+    "ℹ suites 0",
+    "ℹ pass 141",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 203.923625",
+    ""
+  ],
+  "outsiderPartnerMaskProbe": {
+    "viewer": "seat-3",
+    "privatePair": [
+      "seat-1",
+      "seat-2"
+    ],
+    "earlyDeathReasonRejected": true
+  }
+}
