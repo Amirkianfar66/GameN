@@ -20,6 +20,7 @@ async function invoke(payload,identity){
   const body=await response.json();requestTimings.push({operation:payload.operation,ms:Date.now()-began,status:response.status});
   if(response.status===503&&body.ok===false&&body.error?.code==='UNAVAILABLE')
     throw Object.assign(new Error('Temporary transport unavailable'),{transportUnavailable:true});
+  if(payload.operation==='foodHeartbeat'&&response.status===200&&body.ok===false&&body.error?.code==='NOT_ALLOWED')return {renewed:false};
   assert.equal(response.status,200,JSON.stringify(body));assert.equal(body.ok,true,JSON.stringify(body));return body.result;
 }
 const operation=(operation,matchId,extra={})=>({operation,matchId,requestId:randomUUID(),...extra});
@@ -73,8 +74,36 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
       stage('INVITED');
       assert.deepEqual(view.versions,{...PLANET_FOOD_TASK_PINS,assetManifestVersion:process.env.MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION});
       const receipts=[];let taskId=null,returnsAt=null,delivered=false,nextRead=Date.now()+500,lastTask=null;
+      let lastSnapshotAt=Date.now(),heartbeatInFlight=null,heartbeatFailure=null;
+      let snapshotInFlight=null,snapshotFailure=null,needsSnapshotAfter=null;
+      const startSnapshot=()=>{
+        if(snapshotInFlight)return;
+        const began=Date.now();
+        snapshotInFlight=read(matchId,human).then(next=>{
+          view=next;lastSnapshotAt=Date.now();
+          if(needsSnapshotAfter!==null&&began>=needsSnapshotAfter)needsSnapshotAfter=null;
+          nextRead=needsSnapshotAfter===null?Date.now()+500:Date.now();
+        }).catch(error=>{snapshotFailure=error;}).finally(()=>{snapshotInFlight=null;});
+      };
+      const heartbeatStats={sent:0,renewed:0,unavailable:0};
+      // Connection evidence is independent of the one in-flight snapshot and
+      // timing-critical controls, exactly as the accepted transport policy requires.
+      const heartbeatTimer=setInterval(()=>{
+        const t=view.foodPlayerView?.participantTask,seatId=view.foodPlayerView?.seatId;
+        if(!taskId||!t||t.stage==='ENDED'||!t.people.find(p=>p.seatId===seatId)?.alive
+          ||Date.now()-lastSnapshotAt<1000||heartbeatInFlight)return;
+        heartbeatStats.sent++;
+        heartbeatInFlight=invoke({operation:'foodHeartbeat',matchId,taskId},human)
+          .then(r=>{if(r.renewed)heartbeatStats.renewed++;})
+          .catch(error=>{if(error.transportUnavailable)heartbeatStats.unavailable++;else heartbeatFailure=error;})
+          .finally(()=>{heartbeatInFlight=null;});
+      },1000);
+      heartbeatTimer.unref();
       const finishBy=Date.now()+65000;
-      while(Date.now()<finishBy){
+      try{while(Date.now()<finishBy){
+        if(heartbeatFailure)throw heartbeatFailure;
+        if(snapshotFailure)throw snapshotFailure;
+        if(!snapshotInFlight&&Date.now()>=nextRead)startSnapshot();
         const food=view.foodPlayerView,t=food.participantTask;
         if(t){
           lastTask=t;
@@ -86,22 +115,24 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
         if(taskId&&food.step?.kind!=='AWAY')break;
         // Local animation time can plan a tap from the last authorized anchors;
         // only the server's later durable admission decides its actual result.
-        const decision=t&&Date.now()>=t.deadlineAt?{command:null,nextWakeAt:null}
+        const decision=needsSnapshotAfter!==null||t&&Date.now()>=t.deadlineAt?{command:null,nextWakeAt:null}
           :chooseFoodBotInput({...food,serverNowMs:Date.now()});
         if(decision.command){
           const request={schemaVersion:1,protocolVersion:3,matchId,phaseId:food.phaseId,foodStepId:food.step.stepId,
             round:food.round,commandId:randomUUID(),command:decision.command};
           const {receipt}=await invoke({operation:'foodCommand',request},human);
           receipts.push({request,receipt});
-        }else{
-          const wake=Math.min(nextRead,decision.nextWakeAt??Infinity);
-          await pause(Math.max(0,wake-Date.now()));
-          // A timing-critical press uses the preceding authoritative anchors;
-          // it must not wait for another read or heartbeat round trip at its wake.
-          if(wake<nextRead&&t&&wake<t.deadlineAt)continue;
+          needsSnapshotAfter=Date.now();nextRead=Date.now();
+          continue;
         }
-        view=await read(matchId,human);
-        nextRead=Date.now()+500;
+        // Keep one snapshot in flight, but neither its reply nor heartbeat
+        // delivery blocks a control planned from the last authoritative anchors.
+        const wake=Math.min(snapshotInFlight?Date.now()+500:nextRead,decision.nextWakeAt??Infinity);
+        await Promise.race([...(snapshotInFlight?[snapshotInFlight]:[]),pause(Math.max(1,wake-Date.now()))]);
+      }}finally{
+        clearInterval(heartbeatTimer);
+        await Promise.all([...(heartbeatInFlight?[heartbeatInFlight]:[]),...(snapshotInFlight?[snapshotInFlight]:[])]);
+        stage('HEARTBEAT_FALLBACK',heartbeatStats);
       }
       const saved=await store.transaction(tx=>tx.get('session/'+matchId));
       const actualDelivery=Object.values(saved.state.worlds).every(world=>world.food.deliveredTaskIds.includes(taskId));

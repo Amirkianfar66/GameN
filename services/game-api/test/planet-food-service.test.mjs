@@ -567,3 +567,32 @@ test('Food setup classification stays on the candidate path without creating leg
   });
   const before=h.draws();assert.deepEqual(await h.api().runBots('food-match'),{accepted:0});assert.equal(h.draws(),before);
 });
+for(const kind of ['UP','PANEL_LOCK'])test(`fresh bot ${kind} is rechecked when an SDK admission retry moves beyond its policy window`,async()=>{
+  const h=harness({bots:true});
+  await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match'),t=s.state.task;
+    Object.assign(t.crate,{state:'HELD',holder:'WINCH',height:Y.raised,motion:null});
+    Object.assign(t.ownGesture,{highestSequence:1,recoveryRevision:1,currentHolder:{sequence:1,crateId:t.crate.id},pendingIntent:null});
+    Object.assign(t.panel,{locked:kind==='UP',stop:kind==='UP'?5:0,anchorAt:6000,
+      swing:kind==='UP'?{startedAt:6000,amplitude:.9,direction:1}:null});
+    tx.set('session/food-match',s);
+  });
+  const seat=kind==='UP'?'seat-2':'seat-3';
+  const decision=async at=>chooseFoodBotInput(h.engine.projectPlanetFoodPlayer((await h.current()).state,seat,at));
+  let at=(await decision(6000)).nextWakeAt;assert.ok(at>6000);h.setNow(at);
+  const planned=(await decision(at)).command;assert.equal(planned.input.kind,kind==='UP'?'HOLD':'PANEL_LOCK');
+  if(kind==='UP')assert.equal(planned.input.edge,'UP');
+  let late=at+200;
+  while(late<at+1300&&(await decision(late)).command!==null)late+=10;
+  assert.equal((await decision(late)).command,null);
+  h.store.setRetry('foodBotIntent/',()=>h.setNow(late));
+  const stale=await h.api().runBots('food-match');assert.equal(stale.accepted,0,'refresh is not an accepted input');
+  const presses=()=>h.store.export().filter(([key,e])=>key.startsWith('foodIngress/')&&e.request?.operation==='foodCommand');
+  assert.equal(presses().length,0,'the failed speculative attempt minted no bot input or receipt');
+  assert.equal((await h.current()).state.trace.some(c=>c.kind==='food'),false);
+  const later=(await decision(h.getNow())).nextWakeAt;assert.ok(later>h.getNow());h.setNow(later);
+  await h.api().runBots('food-match');
+  const applied=presses().find(([,e])=>e.request.request.command.input.kind===(kind==='UP'?'HOLD':'PANEL_LOCK'))?.[1];
+  assert.ok(applied);assert.equal(applied.context.now,later);assert.equal(applied.response.result.receipt.receivedAt,later);
+  assert.equal(applied.response.result.receipt.status,'accepted');
+});
