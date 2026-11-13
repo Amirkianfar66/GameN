@@ -96,9 +96,10 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   async function acquireWorker(matchId:string):Promise<string|null>{
     const owner=d.newId();
     return store.transaction(async tx=>{
+      // Every multi-key Food transaction locks the session before worker/control/entry records.
+      const s=await d.load(tx,matchId);
       const previous=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
       if(previous&&previous.expiresAt>now)return null;
-      const s=await d.load(tx,matchId);
       if(s.status!=='running'||!s.state)return null;
       tx.set(workerKey(matchId),{owner,expiresAt:now+FOOD_BOT_WORKER_LEASE_MS} satisfies BotWorkerLease);
       // Acquiring and its recovery wake commit together; this namespace does not trigger runBots.
@@ -108,9 +109,9 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function refreshWorker(matchId:string,owner:string):Promise<boolean>{
     return store.transaction(async tx=>{
+      const s=await d.load(tx,matchId);
       const lease=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
       if(!lease||lease.owner!==owner||lease.expiresAt<=now)return false;
-      const s=await d.load(tx,matchId);
       if(s.status!=='running'||!s.state)return false;
       if(lease.expiresAt-now>FOOD_BOT_WORKER_LEASE_MS/2)return true;
       tx.set(workerKey(matchId),{owner,expiresAt:now+FOOD_BOT_WORKER_LEASE_MS} satisfies BotWorkerLease);
@@ -120,9 +121,10 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function releaseWorker(matchId:string,owner:string):Promise<void>{
     await store.transaction(async tx=>{
+      const s=await d.load(tx,matchId);
       const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
       if(!lease||lease.owner!==owner)return;
-      const s=await d.load(tx,matchId);tx.delete(workerKey(matchId));
+      tx.delete(workerKey(matchId));
       // Re-arm any bot window suppressed while owned, in the same commit as release.
       await d.publish(tx,s,technicalContext(owner,clock()));
     });
@@ -388,11 +390,11 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function processOne(matchId:string):Promise<void>{
     await store.transaction(async tx=>{
+      const s=await d.load(tx,matchId);
       const control=await tx.get<Control>(controlKey(matchId));
       if(!control||control.processedSequence===control.nextSequence-1)return;
       const path=entryKey(matchId,control.processedSequence+1),entry=await tx.get<Entry>(path);
       if(!entry||entry.response)throw new Error('Invalid Food ingress prefix');
-      const s=await d.load(tx,matchId);
       const complete=drainBoundaries(s,entry,tx);
       if(complete){
         try{entry.response=await apply(s,entry,tx);}

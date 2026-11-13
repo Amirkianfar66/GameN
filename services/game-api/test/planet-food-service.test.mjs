@@ -27,9 +27,9 @@ function memory(seed){
     transaction(operation){
       const run=async()=>{
         const attempt=async(commit)=>{
-          const draft=new Map(clone([...records])),writes=[];
-          const tx={get:async key=>clone(draft.get(key)??null),set:(key,value)=>{draft.set(key,clone(value));writes.push(key);},delete:key=>{draft.delete(key);writes.push(key);}};
-          const result=await operation(tx);attempts.push({commit,writes});
+          const draft=new Map(clone([...records])),writes=[],reads=[];
+          const tx={get:async key=>{reads.push(key);return clone(draft.get(key)??null);},set:(key,value)=>{draft.set(key,clone(value));writes.push(key);},delete:key=>{draft.delete(key);writes.push(key);}};
+          const result=await operation(tx);attempts.push({commit,writes,reads});
           return {result,draft,writes};
         };
         const first=await attempt(false);
@@ -471,4 +471,16 @@ test('a stop racing the initial work probe prevents a new lease claim',async()=>
   });
   assert.deepEqual(await h.api().runBots('food-match'),{accepted:0});
   assert.equal(h.store.export().some(([key])=>key===workerPath),false);assert.equal(ingress(h).length,0);
+});
+test('worker ownership, concurrent admission and prefix processing all read the session first',async()=>{
+  const h=harness({bots:true}),paused=h.store.pauseNext('foodBotWorker/');
+  const owner=h.api().runBots('food-match');await paused.reached;
+  await Promise.all([h.api().runBots('food-match'),h.handle('read',{matchId:'food-match'})]);
+  h.setNow(10500);paused.resume();await owner;
+  const multi=h.store.attempts.filter(a=>a.reads.includes('session/food-match')&&a.reads.some(key=>
+    key.startsWith('foodIngressControl/')||key.startsWith('foodIngress/')||key.startsWith('foodBotWorker/')));
+  assert.ok(multi.length>5);
+  assert.ok(multi.some(a=>a.reads.some(key=>key.startsWith('foodIngress/'))),'actual processing is traced');
+  assert.ok(multi.filter(a=>a.writes.includes(workerPath)).length>=3,'acquire, refresh and release are traced');
+  for(const a of multi)assert.equal(a.reads[0],'session/food-match',JSON.stringify(a.reads));
 });
