@@ -8,10 +8,14 @@ films and further gameplay features.
 ## Reviewed inputs
 
 - Main baseline: `f9e7e11bd6c23671f96832bf45d79146e6fd855c`.
-- Backend: `7c24f97b89a6f669ac599ee4b12e371ef690a8f2`, PR #238.
-  Its read-only persistence correction follows the failed isolated real-time
-  run at `cd41a74a`; connected acceptance is still pending.
-- Frontend: `50441cf4fd65589925c14e3574b8618d27ac434e`, PR #239.
+- Backend: `f306a538910b3aa9faa494ae9a18e1da1509aea5`, PR #238.
+  This includes read-only persistence and rechecks uncommitted bot presses at
+  durable admission. The connected driver now runs snapshots, fallback
+  heartbeats and planned controls independently. Earlier failed runs remain
+  evidence; connected acceptance is still pending.
+- Frontend: `45415db6d97ae6a34e2047c902da0a78c7e29cbd`, PR #239.
+  Its consumer files remain byte-identical to `50441cf4`; the additional commit
+  contains only the prepared native connected runner and its documentation.
   Last runtime correction: `d8b92b33c8ed7a03d7304db6b19fb45775dca4ef`.
 - Designer Food reference: `9bb497948861521030c37a8d2c60a6318f1745c9`, merged #231.
 - Candidate tuple: protocol 3, `planet-game-1.4.0`,
@@ -48,6 +52,12 @@ Integration has independently checked:
 - At Backend `cd41a74a`, the combined Food session/service/worker regressions
   pass 59/59. Backend reports 56 focused checks at `7c24f97b`; Integration
   reviewed that narrow source correction, with final combined CI pending.
+- All nine required GitHub checks pass on combined head
+  `14d7e2ed94b0ab008a5d628c6788847d4424a7a8`, including full verification and
+  standalone packaging. This is evidence for that exact predecessor, not a
+  pass for the later bot correction. Backend reports 58 focused checks at
+  `f306a538`; Integration reviewed its source and preserves the separate
+  connected and exact-final-head CI gates.
 - The design suite completed 356/357 checks; its sole failure was an engine
   source comment matching the historical prototype-reference ban. The comment
   now cites Designer #231 and its exact source head without a prototype import
