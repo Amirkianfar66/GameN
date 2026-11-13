@@ -13,15 +13,15 @@
     "engine_version": "planet-game-1.3.0",
     "ruleset_version": "in-person-planet-blackout-before-vote-2026-11-10"
   },
-  "precedence": "The focused owner-confirmed Food overlay supersedes incompatible Food proposals and adds the Food step, Task, meals and hunger. The 13 November Hold, 50/200/150 ms timing, single kill-and-deliver path, hunger order and remaining timing approvals supersede earlier Food drafts. All unsuperseded parent rules and original source pins remain inherited. Explicitly proposed Hold details and prototype wire semantics are not executable authority.",
+  "precedence": "The focused owner-confirmed Food overlay supersedes incompatible Food proposals and adds the Food step, Task, meals and hunger. The 13 November Hold, 50/200/150 ms timing, single kill-and-deliver path, hunger order and remaining timing approvals supersede earlier Food drafts. All unsuperseded parent rules and original source pins remain inherited. The later 13 November owner adoption closes the four Hold continuation proposals. Prototype wire semantics remain design evidence, not executable authority.",
   "sources": [
     {
       "path": "docs/specifications/planet-successor/food-task-owner-decision-2026-11-12.md",
-      "sha256": "8100b82918a386030d578a826a13a18f47e0b238911ebb556f49db994433456d"
+      "sha256": "2fa219fb3db00e19bdcc4b2763e617e9e3d3ae3ae99e9cd78d2f3a037a16e22c"
     },
     {
       "path": "rules/overlays/planet-food-task-owner-decision-2026-11-12.json",
-      "sha256": "a991ee5043a733364180b2f621dece21ba5586c7de29195a8a46b82107e9fc51"
+      "sha256": "8da10e9069cbc379ba78a606704928881e87972d6236318ccbbe8c8985c71e12"
     }
   ],
   "pinned_design_evidence": {
@@ -55,7 +55,7 @@
     "designer_command_update": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6845979867",
     "prior_reviewed_commit": "4e329bbb31c916a4c722b8a5d2eb0de4182bb2eb"
   },
-  "source_hash_policy": "The parent and its transitive historical authorities/manifests remain byte-identical. Local source hashes bind the owner record and focused overlay. Design evidence hashes bind Git objects at the exact reviewed commit, not mutable latest files. This document has no self-hash; do not register its external digest as an executable ruleset until its open contract/rule precision gates are resolved and reviewed.",
+  "source_hash_policy": "The parent and its transitive historical authorities/manifests remain byte-identical. Local source hashes bind the owner record and focused overlay. Design evidence hashes bind Git objects at the exact reviewed commit, not mutable latest files. This document has no self-hash; do not register its external digest as an executable ruleset until its contract and implementation gates are resolved and reviewed.",
   "contract_families_for_design_only": [
     "TASK_ASK",
     "TASK_ANSWER",
@@ -64,9 +64,7 @@
   ],
   "implementation_gate": {
     "readiness_handoff": "docs/backend/food-task-candidate-2026-11-12.md",
-    "remaining_rule_precision": [
-      "Explicitly proposed intact intake return, locked-panel landing requirement, pre-held automatic lift, and brake continuation after a stopped drop"
-    ],
+    "remaining_rule_precision": [],
     "technical_review": [
       "Strict authenticated candidate-only commands, durable idempotent receipts, and gesture/crate identities for reordered Hold/release and stale cancellation",
       "Request, Task, presence, deadline and fixed-return state machine; no fabricated release on connection loss",
@@ -75,7 +73,7 @@
       "Historical version isolation and real-network, replay, reconnect and physical-phone evidence"
     ],
     "runtime_construction_accepted": false,
-    "closed_owner_decisions": "Hunger order, already-injured/eliminated handling, briefing/swing/collision/lift/fall timings, no slower mode for now, 50/200/150 ms click and Panel-only kill-and-deliver are approved and must not be re-asked."
+    "closed_owner_decisions": "Hunger order, already-injured/eliminated handling, briefing/swing/collision/lift/fall timings, no slower mode for now, 50/200/150 ms click and Panel-only kill-and-deliver are approved and must not be re-asked. The later owner answer adopts all four Hold continuations; gesture ordering remains technical contract work."
   },
   "activation_boundary": {
     "runtime_implemented_by_this_record": false,
@@ -86,5 +84,11 @@
     "artwork_adopted_by_this_record": false,
     "deployment_authorized_by_this_record": false
   },
-  "revised_on": "2026-11-13"
+  "revised_on": "2026-11-13",
+  "hold_continuation_adoption": {
+    "recorded_on": "2026-11-13",
+    "evidence": "https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539",
+    "supersedes_pending_labels_at": "262f35a63f2afa8dc0918ca86507c00edefabcf8",
+    "all_four_adopted": true
+  }
 }

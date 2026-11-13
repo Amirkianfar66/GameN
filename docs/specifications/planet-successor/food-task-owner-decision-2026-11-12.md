@@ -83,7 +83,7 @@ Panel operator's key. Other deaths without a valid delivery position lose the
 Task. Both living operators turn their keys for ordinary delivery. This intended
 asymmetry is approved; its effect on social deduction/balance needs human
 multiplayer playtests. A protected or lucky stopped drop is still a stop, not an
-unblocked kill; its proposed brake continuation is identified separately below.
+unblocked kill; its later-approved brake continuation is identified separately below.
 
 The whole Task has 30 seconds, including the approved four-second briefing. The
 panel snaps in 50 ms, rests for 200 ms, and warns 150 ms before danger. Lock
@@ -129,21 +129,31 @@ Meals and hunger are reality-local: branches inherit current inventory without
 refilling it; whole-reality Sync keeps only the selected inventory and hunger.
 An inherited consumption remains consumed. Global does not mean publicly visible.
 
-## What this approval does not settle
+## Hold continuation adoption — 13 November 2026
 
-The owner has settled hunger order, the remaining Task timing/geometry numbers
-and the absence of a slower mode for now. Do not keep asking for those decisions.
-The exact head still labels these *new details within Hold* as proposals:
+After the reviewed candidate was prepared, the owner answered **“Adopt all four
+practice behaviors (Recommended)”** in the Integration chat. The exact adoption
+is recorded in [PR #233 comment 6849280539](https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539).
+This later decision supersedes the proposal labels at candidate `262f35a6` and
+Designer `9bb49794`, without rewriting either historical commit:
 
-- A release over the intake returns the crate intact instead of breaking it.
-- Landing requires a locked panel; releasing over the platform while moving breaks it.
-- Keeping a finger down before the hook arrives automatically lifts when eligible.
-- After a stopped drop, the brake holds the crate until another Hold takes it back.
+- Releasing above the intake returns the crate intact instead of breaking it.
+- Landing on the platform requires the Panel to be locked. A release over a
+  moving platform breaks the crate under the ordinary breakage rule.
+- A finger held before pickup is eligible automatically picks up the crate when
+  the hook arrives and eligibility begins; no second press is required.
+- A protected or lucky stopped drop leaves the crate on the safety brake until
+  the next Hold takes it back. Both causes remain indistinguishable.
 
-They are visible reference-design choices, not additional owner-confirmed rules.
-Confirm/adopt them explicitly before making their outcomes executable. In
-particular, an intact intake return is an exception to the general breakage rule.
-Cosmetic cues and a turned key staying turned retain their documented status.
+No owner gameplay question remains for these four continuations. The production
+contract must still bind each Hold and release to its Task, server-issued control
+session and gesture, and bind a crate generation once acquired. An unbound early
+Hold and its release may name no crate yet. Closing that gesture must prevent
+later pickup. The unsafe blanket stale-release exemption is not adopted.
+
+The approved hunger order, timings and absence of a slower mode remain closed.
+Contract review and implementation are still required before executable adoption;
+this adoption alone activates no runtime, creation profile, artwork or deployment.
 
 The proposed blanket exemption of `lower` from stale checks is a **technical
 proposal**, not a gameplay approval. Integration must support release during an

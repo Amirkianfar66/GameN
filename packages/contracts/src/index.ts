@@ -16,3 +16,7 @@ export * from './blackout.js';
 export * from './clone.js';
 export * from './planet-game.js';
 export * from './planet-service.js';
+
+export * from './planet-food-task.js';
+export * from './food-task-hold.js';
+export * from './food-task-clock.js';
