@@ -5,6 +5,7 @@ import { planetPhysicalOffers, planetSlotIds } from './physical.js';
 import { canPlanetBaseCommand } from './commands.js';
 import { socialPlanetCommand, planetWindows } from './social.js';
 export function planetOffers(state:PlanetGameState,id:SeatId):PlanetOffer[] {
+  if(state.phase.kind==='FOOD_SUPPLY')return [];
   if(!state.roles[id]||state.result||!alive(planetSeat(planetWorld(state,id),id)))return [];
   const out=planetPhysicalOffers(state,id),ids=seatIds(state);
   const add=(type:PlanetOffer['type'],targetSeatIds:SeatId[]=[],slotIds:PlanetOffer['slotIds']=[],windowIds:PlanetOffer['windowIds']=[])=>out.push({type,targetSeatIds,slotIds,windowIds,promiseTargetSeatIds:type==='OFFER_PROMISE'?ids:[]});

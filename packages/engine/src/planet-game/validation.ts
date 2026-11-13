@@ -1,3 +1,4 @@
+import {assertPlanetFoodAuthority} from './food.js';
 import { IdentifierSchema, TimestampSchema, PlanetVersionsSchema, PlanetRoundSchema, PlanetPhaseSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema, PlanetEventSchema, PlanetResultSchema, PlanetTallySchema, PlanetCommandSchema, PlanetBoardViewSchema, validClinicalAnchorForPlayerCount, PlanetEngineerCaptureSchema, PlanetPanelRequestSchema, planetSupportsPhase, PlanetBlackoutCheckpointSchema, planetCheckpointMatchesPhase } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
 import type { PlanetGameContext, PlanetGameState } from './model.js';
@@ -152,7 +153,7 @@ export function assertPlanetGameState(value:unknown):asserts value is PlanetGame
   if(s.ballot)fail(isIds(s.ballot.eligibleVoters)&&isIds(s.ballot.eligibleTargets)&&Object.entries(s.ballot.votes).every(([id,target])=>s.ballot!.eligibleVoters.includes(id as SeatId)&&(target===null||s.ballot!.eligibleTargets.includes(target))),'actual ballots');
   if(s.lastTally)PlanetTallySchema.parse(s.lastTally);if(s.result)PlanetResultSchema.parse(s.result);
   fail(['FINISHED','ABORTED'].includes(s.phase.kind)?s.deadlineToken===null&&s.result!==null:s.result===null&&IdentifierSchema.safeParse(s.deadlineToken).success,'terminal/deadline');
-  fail(s.activeSeatId===null||ids.includes(s.activeSeatId),'active actor');planetWorld(s);
+  fail(s.activeSeatId===null||ids.includes(s.activeSeatId),'active actor');planetWorld(s);assertPlanetFoodAuthority(s);
 }
 export function decodePlanetGameState(value:unknown):PlanetGameState {const parsed=JSON.parse(JSON.stringify(value)) as unknown;assertPlanetGameState(parsed);return parsed;}
 export function encodePlanetGameState(state:PlanetGameState):PlanetGameState {return decodePlanetGameState(state);}
