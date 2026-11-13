@@ -1,0 +1,194 @@
+{
+  "scope": "Full native app on synthetic candidate-engine snapshots. Desktop Chromium only; no API/emulator, physical-device or Designer acceptance.",
+  "cases": [
+    {
+      "profile": "390-844-text1-normal",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      }
+    },
+    {
+      "profile": "390-844-text1-reduced",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      }
+    },
+    {
+      "profile": "320-568-text2-normal",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      }
+    },
+    {
+      "profile": "320-568-text2-reduced",
+      "ready": {
+        "connection": "live",
+        "seats": 9,
+        "identities": 9,
+        "phase": "FOOD_SUPPLY",
+        "canHold": true,
+        "button": true,
+        "crew": "crew-drawing-1.0.0",
+        "hiddenNativeBars": true,
+        "whole": true
+      },
+      "keyboardAssistive": [
+        "DOWN",
+        "UP",
+        "DOWN",
+        "UP"
+      ],
+      "causal": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "gestureSequence": 1,
+          "crateId": "food-crate-0"
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "gestureSequence": 1,
+          "crateId": null
+        }
+      ],
+      "panelKeyboardNoRepeat": [
+        "PANEL_RELEASE"
+      ],
+      "abortedRecovery": {
+        "lookups": [
+          {
+            "operation": "foodReceipt",
+            "matchId": "native-food-review",
+            "commandId": "review-recovered-release"
+          }
+        ],
+        "commands": []
+      }
+    }
+  ],
+  "errors": []
+}
