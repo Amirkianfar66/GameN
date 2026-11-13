@@ -134,9 +134,9 @@
     },
     {
       "path": "apps/game/src/planet/session.ts",
-      "sha256": "d02e2d75dcded073aebee64a7e435e7bb6120464bf0b64fcb0148577d866a89d",
-      "bytes": 27625,
-      "gzipBytes": 7826
+      "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+      "bytes": 27860,
+      "gzipBytes": 7872
     },
     {
       "path": "apps/game/src/planet/transport.ts",

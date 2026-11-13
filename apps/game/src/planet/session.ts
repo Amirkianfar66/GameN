@@ -114,7 +114,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   }
   const raw=await bounded(()=>flight?flight.promise:connection.request(input));if(disposed||!auth())return null;
   if(flight&&(flight.uid!==uid||flight.generation!==generation||flight.matchId!==matchId))return null;
-  const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs});return result;
+  const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs});
+  if(planetHasFood(snapshot?.versions)&&(result?.code==='FORBIDDEN'||result?.code==='UNAUTHENTICATED'))conceal('This identity can no longer read this session.',true);
+  return result;
  }
  function saveResume(){if(matchId)try{stores.resume.save(JSON.stringify({protocolVersion:3,matchId,ownerUid:uid,join}));}catch{message='Session resume could not be saved in this tab.';}}
  function projectFeeds(){
@@ -131,7 +133,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const token=generation,response=await request({operation:'read',matchId});if(token!==generation||disposed)return;
   if(!response?.ok){
    if(join&&auth()&&!knownAdmitted()){conceal('Your request is registered. Waiting for the server to confirm admission.');return;}
-   conceal(response?.code==='FORBIDDEN'?'This identity can no longer read this session.':'Reconnecting to the authorized session.',response?.code==='FORBIDDEN');return;
+   const denied=response?.code==='FORBIDDEN'||response?.code==='UNAUTHENTICATED';
+   conceal(denied?'This identity can no longer read this session.':'Reconnecting to the authorized session.',denied);return;
   }
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
   if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
@@ -187,7 +190,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const task=snapshot?.foodPlayerView?.participantTask,r=clock.read();
   // Reads renew the same lease. A slow/lost read does not block this bounded
   // fallback, or the separate causal UP lane. No partner presence is inferred.
-  if(!heartbeating&&auth()&&knownAdmitted()&&planetHasFood(snapshot?.versions)&&task&&task.stage!=='ENDED'
+  if(!heartbeating&&connectionState!=='error'&&auth()&&knownAdmitted()&&planetHasFood(snapshot?.versions)&&task&&task.stage!=='ENDED'
    &&task.people.some(p=>p.seatId===snapshot?.selfSeatId&&p.alive)&&r.status==='synced'&&r.serverNowMs<task.deadlineAt
    &&ports.clock.now()-lastFoodReadAt>=FOOD_TASK_TRANSPORT.heartbeatMs){
    heartbeating=true;void request({operation:'foodHeartbeat',matchId:snapshot!.matchId,taskId:task.taskId}).finally(()=>{heartbeating=false;});

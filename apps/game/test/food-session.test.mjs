@@ -20,11 +20,12 @@ function snapshot(){
   members:p.board.seats.map((s,i)=>({seatId:s.seatId,displayName:`Crew ${i+1}`,characterId:`c${i+1}`,controller:'human',ready:true})),pendingAdmissions:[],setup:null,privateRole:null,publicView:shared,playerView:p,foodPublicView:pub,foodPlayerView:own});
 }
 function rig(){
- let now=6000,uid='food-session',serial=0,timerId=0,value=snapshot(),readGate=null,commandGate=null,readsInFlight=0,maxReads=0;
+ let now=6000,uid='food-session',serial=0,timerId=0,value=snapshot(),readGate=null,commandGate=null,readsInFlight=0,maxReads=0,denial=null;
  const timers=new Map(),requests=[],stores={resume:memory(),requests:memory()},ports={clock:{now:()=>now},ids:{next:()=>`input-${++serial}`},unresolved:memory(),
   scheduler:{setTimeout(fn,ms){const id=++timerId;timers.set(id,{fn,at:now+ms});return id;},clearTimeout:id=>timers.delete(id)}};
  const answer=(result,at=now)=>({ok:true,serverTimeMs:at,result});
  const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async request(q){requests.push({at:now,...copy(q)});
+  if(denial?.operation===q.operation)return {ok:false,serverTimeMs:now,error:{code:denial.code}};
   if(q.operation==='read'){
    readsInFlight++;maxReads=Math.max(maxReads,readsInFlight);const at=now,out=copy(value);for(const f of [out.foodPublicView,out.foodPlayerView])if(f)f.serverNowMs=at;
    try{if(readGate)await readGate.promise;return answer(out,at);}finally{readsInFlight--;}
@@ -35,7 +36,7 @@ function rig(){
  }};
  const session=createPlanetSession(connection,ports,stores);
  return {session,ports,requests,connection,stores,get value(){return value;},get maxReads(){return maxReads;},set value(v){value=v;},setUid:v=>{uid=v;},
-  gateRead(){return readGate=deferred();},gateCommand(){return commandGate=deferred();},
+  deny(operation,code){denial={operation,code};},gateRead(){return readGate=deferred();},gateCommand(){return commandGate=deferred();},
   async advance(ms){const end=now+ms;for(let n=0;n<500;n++){const due=[...timers].filter(([,t])=>t.at<=end).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;now=due[1].at;timers.delete(due[0]);due[1].fn();await flush();}now=end;await flush();}};
 }
 test('Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering',()=>{
@@ -100,5 +101,19 @@ test('lifecycle recovery cannot admit a Food command, heartbeat or receipt into 
   {operation:'foodCommand',request:{schemaVersion:1,protocolVersion:3,matchId:'native-food-review',phaseId:'old-phase',foodStepId:'old-phase',round:1,commandId:'old-ask',command:{type:'TASK_ASK',partnerSeatId:'seat-3'}}}]){
   const r=rig();r.stores.requests.save(JSON.stringify({ownerUid:'food-session',request}));await r.session.start(r.value.matchId);
   assert.equal(r.session.getModel().connection,'error');await r.session.retry();assert.equal(r.requests.length,0);r.session.dispose();
+ }
+});
+test('explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only',async()=>{
+ for(const code of ['FORBIDDEN','UNAUTHENTICATED'])for(const operation of ['read','foodCommand','foodReceipt','foodHeartbeat']){
+  const r=rig();await r.session.start(r.value.matchId);const t=r.session.gameTransport('player'),food=createFoodTaskController(r.session.foodTransport(),{...r.ports,recovery:memory()},
+   {binding:{uid:'food-session',matchId:r.value.matchId,seatId:'seat-1'},readClock:t.readClock});
+  const stop=t.listen({matchId:r.value.matchId,seatId:'seat-1'},{snapshot:s=>{const v=s.food.playerView;food.observe(v,{matchId:v.matchId,versions:v.versions,phaseId:v.phaseId,round:v.round,serverNowMs:s.food.serverTimeMs});},error:kind=>food.disconnect(kind)});
+  assert.ok(food.getModel().view);r.deny(operation,code);
+  if(operation==='read')await r.session.refresh();
+  else if(operation==='foodCommand'){food.holdDown();await flush();assert.equal(food.getModel().pendingCount,1);}
+  else if(operation==='foodHeartbeat'){const gate=r.gateRead();void r.session.refresh();await flush();await r.advance(1000);r.session.dispose();gate.resolve();await flush();}
+  else await r.session.foodTransport().receipt({matchId:r.value.matchId,commandId:'original-input'});
+  assert.equal(food.getModel().view,null,operation+' '+code+' must not retain a displayable Task');assert.equal(r.session.getModel().connection,'error');
+  stop();food.dispose();r.session.dispose();
  }
 });
