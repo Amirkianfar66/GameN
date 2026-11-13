@@ -19,7 +19,7 @@ function snapshotFoodStyles(){
  try{
   const get=name=>probe.querySelector(`[data-probe="${name}"]`);
   probes={menu:pseudo(get('menu'),'::before'),hero:pseudo(get('hero'),'::after'),icon:pseudo(get('icon'),'::before'),sheetIcon:pseudo(get('sheet-icon'),'::before'),busy:pseudo(get('busy'),'::after'),secondaryBusy:pseudo(get('secondary'),'::after'),small:pseudo(get('small'),'::before'),switchHit:pseudo(get('switch'),'::before'),switchKnob:pseudo(get('switch'),'::after'),checkedKnob:pseudo(get('checked'),'::after'),row:pseudo(get('row'),'::before'),view:pseudo(get('view'),'::after'),sending:pseudo(get('sending'),'::after')};
-  probes.small.controlRect=rect(get('small'));
+  for(const [name,target]of Object.entries({menu:'menu',hero:'hero',icon:'icon',sheetIcon:'sheet-icon',busy:'busy',secondaryBusy:'secondary',small:'small',switchHit:'switch',switchKnob:'switch',checkedKnob:'checked',row:'row',view:'view',sending:'sending'}))probes[name].controlRect=rect(get(target));
  }finally{probe.remove();}
  const actual={
   busy:[...root.querySelectorAll('.btn[aria-busy="true"]')].filter(visible).map(n=>pseudo(n,'::after')),
@@ -41,7 +41,11 @@ export function assertFoodStyleSnapshot(native,reference,{id,motion}){
  for(const [name,n]of Object.entries(native.probes)){
   const r=reference.probes[name];assert.ok(r,label('reference probe '+name));
   assert.equal(n.content,'""',label(name+' pseudo missing'));
-  for(const property of ['position','width','height','top','right','bottom','left','borderTopWidth','borderRightColor','borderRadius','backgroundColor','backgroundImage','animationDuration','opacity'])assert.equal(n[property],r[property],label(name+' '+property));
+  // Compare declarations the reference specifies. Used values of automatic
+  // inset/size depend on the probe's containing box (for example, a centered
+  // spinner in buttons of different heights); those are not style changes.
+  const geometry={menu:['top','right','bottom','left'],hero:['width','height','top','right'],icon:['top','right','bottom','left'],sheetIcon:['top','right','bottom','left'],busy:['width','height'],secondaryBusy:['width','height'],small:['top','right','bottom','left'],switchHit:['top','right','bottom','left'],switchKnob:['width','height','top','left'],checkedKnob:['width','height','top','left'],row:['height','top','right','left'],view:['height','right','bottom','left'],sending:['width','height']};
+  for(const property of ['position','borderTopWidth','borderRightColor','borderRadius','backgroundColor','backgroundImage','animationDuration','opacity',...geometry[name]])assert.equal(n[property],r[property],label(name+' '+property));
   assert.equal(animation(n.animationName),r.animationName,label(name+' animation'));
  }
  assert.equal(native.probes.small.top,'-4px',label('small-button top hit extension'));

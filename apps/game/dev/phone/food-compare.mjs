@@ -51,7 +51,7 @@ try{
    await native.goto(`${origin}/app.html?case=${c.id}&${extra}`,'window.foodAppHarness?.ready');await native.evaluate('Promise.all([foodAppHarness.app.artReady,document.fonts.ready])');await sleep(40);
    await reference.goto(`${origin}/reference/${c.reference.page}?${c.reference.query}&${extra}`,'window.__phoneReady');await reference.evaluate('document.fonts.ready');await sleep(40);
    const n=await measure(native),r=await measure(reference),path=`${c.id}-${profile}`;
-   assertFoodStyleSnapshot(n.styles,r.styles,{id:c.id,motion});
+   try{assertFoodStyleSnapshot(n.styles,r.styles,{id:c.id,motion});}catch(error){facts.failedStyleCase={id:c.id,profile,message:error.message,native:n,reference:r};throw error;}
    assert.equal(n.hidden,false,c.id+' native Food hidden');assert.ok(n.native.game==='live'||c.reference.query.includes('press=lost')&&n.native.game==='stale',c.id+' unexpected game connection');assert.equal(n.native.canonicalSeats,9,c.id+' canonical roster changed');
    assert.equal(n.gauges.length,1,c.id+' requires one visible public Food gauge');assert.equal(r.gauges.length,1,c.id+' reference gauge missing');
    const setup=packets.cases.find(p=>p.id===c.id).native,packet=setup.next??setup.initial,authoritativeStockDoses=packet.value.foodPublicView.stock.doses;
