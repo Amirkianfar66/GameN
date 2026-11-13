@@ -102,9 +102,10 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  }
  function emit(){if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);}
  function conceal(text:string,error=false){fresh=false;revealed=false;code=null;message=text;connectionState=error?'error':'stale';for(const feed of feeds)feed.error(error?'authorization':'network');emit();}
- async function request(input:PlanetServiceRequest):Promise<Answer|null>{
+ async function request(input:PlanetServiceRequest,legacyClockRead=false):Promise<Answer|null>{
+  const requestedAt=ports.clock.now();
   let flight:NonNullable<typeof readFlight>|null=null;
-  if(input.operation==='read'){
+  if(input.operation==='read'&&!legacyClockRead){
    if(!readFlight){
     const next={startedAt:ports.clock.now(),receivedAt:0,uid,matchId:input.matchId,generation,promise:Promise.resolve(null) as Promise<unknown>};
     next.promise=Promise.resolve().then(()=>connection.request(input)).then(value=>{next.receivedAt=ports.clock.now();return value;}).finally(()=>{if(readFlight===next)readFlight=null;});readFlight=next;
@@ -113,7 +114,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   }
   const raw=await bounded(()=>flight?flight.promise:connection.request(input));if(disposed||!auth())return null;
   if(flight&&(flight.uid!==uid||flight.generation!==generation||flight.matchId!==matchId))return null;
-  const result=readPlanetServiceAnswer(raw);if(result&&flight)clock.addSample({requestedAt:flight.startedAt,receivedAt:flight.receivedAt,serverTimeMs:result.serverTimeMs});return result;
+  const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs});return result;
  }
  function saveResume(){if(matchId)try{stores.resume.save(JSON.stringify({protocolVersion:3,matchId,ownerUid:uid,join}));}catch{message='Session resume could not be saved in this tab.';}}
  function projectFeeds(){
@@ -283,7 +284,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   gameTransport(surface){
    return {mode:connection.mode,currentUid:()=>connection.currentUid(),
     async authenticate(){if(!started)await start();if(!matchId||!snapshot||!admitted())throw new Error('session unavailable');const seatId=surface==='player'?snapshot.selfSeatId:null;if(surface==='player'&&seatId===null)throw new Error('not a player');return {uid:uid!,matchId,seatId};},
-    async serverTime(){if(!matchId)throw new Error('session unavailable');if(planetHasFood(snapshot?.versions)){await refresh();if(!admitted()||snapshotServerTimeMs===null)throw new Error('server time unavailable');return snapshotServerTimeMs;}const answer=await request({operation:'read',matchId});if(!answer?.ok)throw new Error('server time unavailable');return answer.serverTimeMs;},
+    async serverTime(){if(!matchId)throw new Error('session unavailable');if(planetHasFood(snapshot?.versions)){await refresh();if(!admitted()||snapshotServerTimeMs===null)throw new Error('server time unavailable');return snapshotServerTimeMs;}const answer=await request({operation:'read',matchId},true);if(!answer?.ok)throw new Error('server time unavailable');return answer.serverTimeMs;},
     ...(planetHasFood(snapshot?.versions)?{readClock:()=>visible&&auth()?clock.read():{status:'unsynced' as const}}:{}),
     listen(audience,listener){const feed={surface,seatId:audience.seatId,...listener};if(audience.matchId!==matchId){listener.error();return()=>{};}feeds.add(feed);projectFeeds();return()=>feeds.delete(feed);},
     async command(command){const answer=await request({operation:'command',request:command});if(!answer?.ok)return null;void refresh(planetHasFood(snapshot?.versions));return {receipt:(answer.result as {receipt:unknown})?.receipt,serverTimeMs:answer.serverTimeMs};},
