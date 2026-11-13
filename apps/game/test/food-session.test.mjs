@@ -4,6 +4,7 @@ import {PLANET_FOOD_TASK_PINS,PlanetSessionSnapshotSchema} from '@mothership/con
 import {createPlanetSession,createPlanetController,createFoodTaskController,readPlanetFood} from '../dist/index.js';
 import {planetHasFood,planetSupportsAssets,planetHasPrivateOffers,planetHasPrivateFeedback,planetRoundOrderText} from '@mothership/presentation';
 import {planetView} from './planet-support.mjs';
+import {sessionScenario} from '../dev/planet/scenarios.mjs';
 import {playerView,publicView} from '../../../tests/bootstrap/support/food-task-contract-fixture.mjs';
 
 const copy=v=>structuredClone(v),flush=async()=>{for(let i=0;i<30;i++)await Promise.resolve();};
@@ -42,6 +43,11 @@ test('Food dispatch is exact for gameplay and artwork; predecessor pins retain t
  assert.match(planetRoundOrderText(v),/^Food Supply/);assert.match(planetRoundOrderText(v),/Blackout .* Jail vote/);
  assert.equal(planetSupportsAssets({...v,assetManifestVersion:'design-0.8.0'}),false);
  const old=planetView().versions;assert.equal(planetHasFood(old),false);assert.equal(planetSupportsAssets(old),true);assert.equal(planetSupportsAssets({...old,assetManifestVersion:'design-0.9.0'}),false);
+});
+test('a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot',async()=>{
+ const r=rig();r.value=sessionScenario('board',{now:6000});await r.session.start(r.value.matchId);const t=r.session.gameTransport('player'),gate=r.gateRead(),pending=r.session.refresh();await flush();
+ await r.advance(1000);const time=t.serverTime();await flush();gate.resolve();await pending;
+ assert.equal(await time,7000,'predecessor clock probe must not return the older snapshot stamp of6000');assert.equal(t.readClock,undefined);r.session.dispose();
 });
 test('one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities',async()=>{
  const r=rig();await r.session.start(r.value.matchId);const t=r.session.gameTransport('player');
