@@ -492,6 +492,9 @@ test('the playable test: presses resolve on arrival after the delay; a careful p
 
 test('the owner\'s changes after the playable test (13 November): one Hold button, broken crates, the click twice as fast', () => {
   for (const id of ['hold-release', 'panel-speed']) assert.ok(RULES.some(r => r.id === id), id);
+  // After the second test: the faster panel kept, and a drop loses the Task (conflict 2 settled).
+  assert.match(RULES.find(r => r.id === 'panel-speed').design, /I approve its okay/);
+  assert.match(CONFLICTS.find(c => c.id === 'survivor-paths').residual, /Settled by the owner/);
   assert.deepEqual({ move: TIMING.move, rest: TIMING.rest, margin: TIMING.margin }, { move: 50, rest: 200, margin: 150 });
   assert.equal(CLICK, 250, 'a stop every quarter second');
   // One button on the Winch's phone: the finger down sends raise, the finger off sends lower.

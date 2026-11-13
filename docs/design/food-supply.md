@@ -54,8 +54,8 @@ The owner played the practice ([Play it](#play-it)) and changed two things (13 N
 - After a stopped drop the winch's brake holds the crate up until Hana's finger takes it back with Hold.
 
 **What it changes:**
-- **Only the Panel can kill and still deliver now.** The drop breaks the crate, and with the Panel operator dead no one can bring the hook to a new one: a drop always loses the Task. The Panel's cut after the landing still delivers ([The correct position](#the-correct-position)). If the owner wants the Winch to keep a path, a crate that falls on the Panel operator could stay whole and be lifted again: an option, not done.
-- **The LOCK glow at a stop lasts 0.1 s** (the quarter second a stop owns, less the 0.15 s margin). A press made in it arrives in time on a delay under 0.15 s; on a slower connection it can take the next stop, and after 6 that is the cut.
+- **Only the Panel can kill and still deliver now.** The drop breaks the crate, and with the Panel operator dead no one can bring the hook to a new one: a drop always loses the Task. The Panel's cut after the landing still delivers ([The correct position](#the-correct-position)). Asked whether a crate that falls on the Panel operator should stay whole instead, so the Winch could still finish alone, the owner said no: "Task will lost" (13 November 2026).
+- **The LOCK glow at a stop lasts 0.1 s** (the quarter second a stop owns, less the 0.15 s margin). A press made in it arrives in time on a delay under 0.15 s; on a slower connection it can take the next stop, and after 6 that is the cut. Asked after the second test whether the faster panel is too hard, the owner kept it: "I approve its okay" (13 November 2026).
 
 ### Presses are judged when they arrive
 
@@ -365,7 +365,7 @@ Forty-seven scenarios, each a start, a list of presses and what must follow, in 
 
 ## Genuine rule conflicts
 
-Five tensions inside the owner's decisions, each with a solution that stays inside them. The owner has decided what four of them left open (1, 3, 4 and 5); conflict 2 waits for Game Balance and the owner, and the owner's hold changed it (13 November 2026).
+Five tensions inside the owner's decisions, each with a solution that stays inside them. The owner has decided what all five left open; for conflict 2, the owner's hold changed it and the owner settled it (13 November 2026), and Game Balance may still check it.
 
 1. **No escape, and a disconnect cancels.**
    - The conflict: if a disconnect cancelled at once, switching off the network would escape an attack.
@@ -375,7 +375,7 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
    - The conflict: a betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal. The gantry let only one operator kill and still deliver.
    - **Solution:** the crane gave each operator one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut in the standoff. The server assigns the controls at random (the owner, 12 November 2026).
    - **Since the hold** (13 November 2026), the drop breaks the crate and no one is left to bring the hook to a new one: only the Panel's path delivers. Both can still betray; only one keeps the food.
-   - *Left open:* whether that is wanted, for Game Balance and the owner. The option, if not: a crate that falls on the Panel operator stays whole, and the Winch can lift it again and finish alone.
+   - *Settled by the owner* (13 November 2026): a drop loses the Task ("Task will lost"); the crate does not stay whole. Game Balance may still check whether the two controls are equally tempting.
 3. **Protection applies, and Protection is not disclosed.**
    - The conflict: a stopped kill is something both participants see. With a kill on the Task not an attack, nothing else could stop one, so every CLANK! would have meant Protection.
    - **Solution, the owner's (12 November 2026):** the catch also holds by luck one time in four. A CLANK! is the same for Protection and for luck, with no reason on either phone, and no one else learns anything.
@@ -394,7 +394,7 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 | Item | For |
 | --- | --- |
 | What only real use can show (Integration): real-network latency, which the 0.15 s margin is no guarantee against, the more so at a quarter second a stop; physical phones, and a finger held on Hold for seconds; screen readers; and a human playtest of shortage, sabotage, refusals and disconnects, and the survivor path. A playtest may change the timing, and decides again whether a slower mode is needed (the owner: none for now). PROPOSED for the danger itself: a short vibration on the presser's phone. The playable test is one phone against a bot, not this evidence | The owner, Game Balance, Integration |
-| The one kill-and-deliver path left since the hold (the option of a whole crate on the drop is the owner's to take), and a check of the food economy: two doses a package, one Task a round | Game Balance, the owner |
+| The one kill-and-deliver path the owner kept since the hold (only the Panel's; a drop loses the Task), and a check of the food economy: two doses a package, one Task a round | Game Balance |
 | Press timing: presses resolved on arrival (Integration's direction); the clock sync the phones draw by, revisions, command ids, durable receipts, and each participant's own event numbering. The hold's two commands: a let-go never stale, and sent on a finger lifting whatever is in flight | Backend, Integration |
 | The contract: the accepted command families' wire format, the projection, and the planning target protocol 3 / `planet-game-1.4.0` / `in-person-planet-food-task-2026-11-12`. Integration recorded the owner's rules for playing the Task in #233; the hunger order, the final timing and no slower mode (13 November) are to be added there | Integration, Backend |
 | The Engine Task (not designed here) | The owner |

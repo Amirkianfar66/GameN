@@ -237,12 +237,12 @@
     {
       "id": "hold-release",
       "rule": "The Winch has one button: holding it keeps the crate up; letting go drops it. Let go in the wrong position, the crate breaks, and another must be picked.",
-      "design": "Hold: the finger down sends raise, the finger off sends lower, each resolved when it reaches the server. Over the platform from a locked panel, the let-go lands it; over the console it falls on the Panel operator, the drop, and breaks; anywhere else it breaks, CRASH!, and a new crate rises into the intake: the Panel brings the hook back and locks it over stop 1 (RELEASE works then), and the Winch holds again. A broken crate costs time, not food. PROPOSED inside it: over the hatch it drops back in, whole (a tap at the start costs nothing); from a panel still moving it breaks even over the platform (the landing needs the lock); a finger already down lifts the crate as soon as the hook is over it; a let-go is never stale; after a stopped drop the brake holds the crate until the Winch holds again. It leaves only the Panel a way to kill and still deliver (conflict 2)."
+      "design": "Hold: the finger down sends raise, the finger off sends lower, each resolved when it reaches the server. Over the platform from a locked panel, the let-go lands it; over the console it falls on the Panel operator, the drop, and breaks; anywhere else it breaks, CRASH!, and a new crate rises into the intake: the Panel brings the hook back and locks it over stop 1 (RELEASE works then), and the Winch holds again. A broken crate costs time, not food. PROPOSED inside it: over the hatch it drops back in, whole (a tap at the start costs nothing); from a panel still moving it breaks even over the platform (the landing needs the lock); a finger already down lifts the crate as soon as the hook is over it; a let-go is never stale; after a stopped drop the brake holds the crate until the Winch holds again. It leaves only the Panel a way to kill and still deliver, and the owner keeps it so: a drop loses the Task (\"Task will lost\", 13 November 2026; conflict 2)."
     },
     {
       "id": "panel-speed",
       "rule": "The locking panel moves twice as fast, so it is harder to react to.",
-      "design": "A 0.05 s snap and a 0.2 s rest: a stop every 0.25 s, end to end in 1.5 s (first 0.1 s and 0.4 s). The 0.15 s margin stays, so LOCK's glow at a stop lasts 0.1 s, and a press made in it arrives in time on a delay under 0.15 s; on a slower connection it can take the next stop."
+      "design": "A 0.05 s snap and a 0.2 s rest: a stop every 0.25 s, end to end in 1.5 s (first 0.1 s and 0.4 s). The 0.15 s margin stays, so LOCK's glow at a stop lasts 0.1 s, and a press made in it arrives in time on a delay under 0.15 s; on a slower connection it can take the next stop. Approved again after the second test (\"I approve its okay\", 13 November 2026)."
     }
   ],
   "sources": {
@@ -255,7 +255,7 @@
     "design/food-supply/boards.mjs": "d67bb490883014e825ec7b2c9c4a849687a64d410c5bdaaa6a6ef87e7c3a3916",
     "design/food-supply/scenarios.mjs": "acaa25ced94d1b16d5a5fc9073db92d99e0e46a86a971490ece6f383e797fcfe",
     "design/food-supply/hints.mjs": "e91fad0698fcbc238b3255dd98f003cdac3ff0d6573457369a6758741fc67ff9",
-    "design/food-supply/rules.mjs": "96173cce7b1e1bee520bf160c7e5719a79e1ee35f95fc3c71b2afe41c00ea4b7",
+    "design/food-supply/rules.mjs": "c3f8322f5f4d41d65e8bc6e7e3cc8a4a4cebe1da95dfcecfd6725a0df62dbb93",
     "design/food-supply/phone.mjs": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
     "design/food-supply/phone.css": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b"
   },
@@ -611,7 +611,7 @@
     },
     "fall": {
       "rule": "fallOf(state, t): what a let-go arriving at t does, from where the crate is then (crateX). Still rising: 'back' (into the hatch, whole). Otherwise by landingAt(x): 'platform' lands from a locked panel and breaks from a moving one; 'intake' goes back in, whole; 'console' is the drop (lethal, and the crate breaks); 'deck' breaks.",
-      "owner": "The owner, 13 November 2026, after the playable test: one button, held to keep the crate up and let go to drop it; let go in the wrong position, it breaks, and another crate must be picked.",
+      "owner": "The owner, 13 November 2026, after the playable test: one button, held to keep the crate up and let go to drop it; let go in the wrong position, it breaks, and another crate must be picked. After the second test: a crate that falls on the Panel operator breaks too, so a drop loses the Task (\"Task will lost\").",
       "proposed": "Over the hatch it drops back in, whole; from a moving panel it breaks even over the platform; a finger already down lifts the crate as soon as the hook is over it; a let-go is never stale; after a stopped drop the brake holds the crate until the Winch holds again."
     },
     "correctPosition": "Over the platform: the crate landed, or still on the hook of the panel locked at stop 6. A death anywhere else loses the Task at once. The drop breaks the crate, so a death by the drop always loses it (the owner's hold, 13 November 2026).",
@@ -778,7 +778,7 @@
     "returnAfter": 32500,
     "confirmed": {
       "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start.",
-      "click": "The owner, 12 November 2026: the panel clicks from stop to stop, and the warnings start 0.15 s early (\"this is fine\"); 13 November, after the playable test, twice as fast: a 0.05 s snap and a 0.2 s rest (first 0.1 s and 0.4 s).",
+      "click": "The owner, 12 November 2026: the panel clicks from stop to stop, and the warnings start 0.15 s early (\"this is fine\"); 13 November, after the playable test, twice as fast: a 0.05 s snap and a 0.2 s rest (first 0.1 s and 0.4 s), kept after the second test (\"I approve its okay\").",
       "hold": "The owner, 13 November 2026: the Winch holds the crate up with one button and lets go to drop it; let go in the wrong position, it breaks (mechanics.fall).",
       "play": "The owner, on Designer's recommendation, 12 November 2026: 15 s to answer; an 8 s grace; the Food Supply step's 30 s to ask; both return 32.5 s after the start, whatever happened.",
       "rest": "The owner, 13 November 2026, as designed: a 4 s briefing, 0.45 s to lift, 0.3 s to fall, the 2.5 s outcome card; and the swing and the zones (mechanics). A playtest may still change them. No slower mode for now (the owner)."
@@ -3867,7 +3867,7 @@
       ],
       "conflict": "Both can betray, but a survivor completes only from the correct position. A betrayal that also takes the crate away from the platform can never deliver, so the rules can make the two betrayals unequal: the gantry this crane replaced let only one operator kill and still deliver.",
       "solution": "The crane gave each operator one way to kill and still deliver: the Winch's drop from the platform stop, the Panel's cut after the landing. Since the owner's hold (13 November 2026) the drop breaks the crate, and with the Panel operator dead no one can bring the hook to a new one: only the Panel's cut, while the keys wait, still delivers. Every other kill loses the Task. The server assigns the controls at random (the owner, 12 November 2026), and both phones show both dangers equally.",
-      "residual": "Both can still betray, but only the Panel keeps the food. Game Balance to judge with tools/balance; the owner accepts it, or takes the option of a crate that falls on the Panel operator staying whole, so that the Winch can lift it again and finish alone (PROPOSED option, not done)."
+      "residual": "Settled by the owner (13 November 2026, asked whether a crate that falls on the Panel operator should stay whole so the Winch could still finish alone: \"Task will lost\"): the drop loses the Task. Both can still betray, but only the Panel keeps the food. Game Balance may still check with tools/balance whether the two controls are equally tempting."
     },
     {
       "id": "blocked-attack-disclosure",
@@ -3911,8 +3911,8 @@
     },
     {
       "id": "paths",
-      "owner": "Game Balance, owner",
-      "item": "The kill-and-deliver path left since the hold (conflict 2: only the Panel's; the option of a whole crate on the drop is the owner's), and a check of the food economy the owner set on Designer's recommendation: five packages, five per delivery, two doses a package, one Task a round. With nine players eating, a round without a delivery leaves the next one short, and hunger fills the Hospital's four beds fast; the doses a package holds is the one number to change."
+      "owner": "Game Balance",
+      "item": "The one kill-and-deliver path the owner kept (conflict 2: only the Panel's; a drop loses the Task, 13 November 2026), and a check of the food economy the owner set on Designer's recommendation: five packages, five per delivery, two doses a package, one Task a round. With nine players eating, a round without a delivery leaves the next one short, and hunger fills the Hospital's four beds fast; the doses a package holds is the one number to change."
     },
     {
       "id": "press-timing",
