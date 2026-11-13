@@ -1,7 +1,7 @@
 import {
   createPlanetGame,applyPlanetCommand,advancePlanetDeadline,planetDeadlineAt,abortPlanetGame,
   projectPlanetPublic,projectPlanetPlayer,assertPlanetGameState,
-  applyPlanetFoodCommand,setPlanetFoodPresence,projectPlanetFoodPublic,projectPlanetFoodPlayer,
+  applyPlanetFoodCommand,setPlanetFoodPresence,projectPlanetFoodPublic,projectPlanetFoodPlayer,hasOnlyDuePlanetFoodWarnings,
 } from '@mothership/engine';
 import {createPlanetService} from './planet-game.js';
 import {PLANET_PHONE_ENGINE_PROFILE,PLANET_BLACKOUT_ENGINE_PROFILE,PLANET_FOOD_TASK_ENGINE_PROFILE} from '@mothership/contracts';
@@ -18,5 +18,5 @@ export function createProductionPlanetService(dependencies:{
   const waitForBotWake=dependencies.waitForBotWake??(dependencies.clock===undefined?async(ms:number)=>{await wait(ms);}:undefined);
   return createPlanetService({...dependencies,...(waitForBotWake?{waitForBotWake}:{}),engine:{createPlanetGame,applyPlanetCommand,
     advancePlanetDeadline,planetDeadlineAt,abortPlanetGame,projectPlanetPublic,projectPlanetPlayer,assertPlanetGameState,
-    applyPlanetFoodCommand,setPlanetFoodPresence,projectPlanetFoodPublic,projectPlanetFoodPlayer}});
+    applyPlanetFoodCommand,setPlanetFoodPresence,projectPlanetFoodPublic,projectPlanetFoodPlayer,hasOnlyDuePlanetFoodWarnings}});
 }

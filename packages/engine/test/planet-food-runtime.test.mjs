@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {planetSeatView} from '../dist/planet-game/model.js';
-import {PLANET_FOOD_TASK_PINS,FOOD_TASK_VERTICAL} from '@mothership/contracts';
+import {PLANET_FOOD_TASK_PINS,PLANET_BLACKOUT_PINS,FOOD_TASK_VERTICAL} from '@mothership/contracts';
 import {createPlanetGame,applyPlanetCommand,advancePlanetDeadline,planetDeadlineAt,applyPlanetFoodCommand,
   projectPlanetPublic,projectPlanetPlayer,projectPlanetFoodPublic,projectPlanetFoodPlayer,
-  encodePlanetGameState,decodePlanetGameState,assertPlanetGameState,abortPlanetGame} from '../dist/index.js';
+  encodePlanetGameState,decodePlanetGameState,assertPlanetGameState,abortPlanetGame,hasOnlyDuePlanetFoodWarnings} from '../dist/index.js';
 
 const copy=v=>structuredClone(v);
 const foodBody=v=>{const x=copy(v);delete x.serverNowMs;return x;};
@@ -56,6 +56,21 @@ function driver(n) {
   };
   return {ids,food,ordinary,deadline,press,start,until,replay,installConstructedState(value){state=value;assertPlanetGameState(state);},get state(){return state;}};
 }
+test('Planet warning-only query is exact-tuple, active-Task scoped and read-only',()=>{
+  const d=driver(7),task=d.start();
+  d.press(task.options.winchSeatId,{kind:'HOLD',edge:'DOWN',gestureSequence:1,crateId:null},task.runningAt);
+  d.deadline(task.runningAt+450);const releaseAt=task.runningAt+450;
+  d.press(task.options.panelSeatId,{kind:'PANEL_RELEASE'},releaseAt);
+  const at=releaseAt+1200,before=encodePlanetGameState(d.state);assert.equal(hasOnlyDuePlanetFoodWarnings(d.state,at),true);
+  assert.deepEqual(encodePlanetGameState(d.state),before);
+  assert.equal(hasOnlyDuePlanetFoodWarnings({...d.state,versions:{...PLANET_BLACKOUT_PINS,assetManifestVersion:d.state.versions.assetManifestVersion}},at),false);
+  assert.equal(hasOnlyDuePlanetFoodWarnings({...d.state,versions:{...d.state.versions,rulesetHash:'f'.repeat(64)}},at),false);
+  assert.equal(hasOnlyDuePlanetFoodWarnings({...d.state,phase:{...d.state.phase,kind:'PRE_TURN'}},at),false);
+  assert.equal(hasOnlyDuePlanetFoodWarnings({...d.state,food:{...d.state.food,step:null}},at),false);
+  assert.equal(hasOnlyDuePlanetFoodWarnings(d.state,d.state.evaluatedAt-1),false);
+  d.deadline(task.deadlineAt);assert.equal(hasOnlyDuePlanetFoodWarnings(d.state,task.deadlineAt),false);
+  d.deadline(task.returnsAt);assert.equal(hasOnlyDuePlanetFoodWarnings(d.state,task.returnsAt),false);
+});
 for(const n of [7,8,9]) {
   for(const stage of ['ASKING','RUNNING','ENDED','KILLED'])test(`${n}: abort archives ${stage} without early ordinary disclosure or active Food controls`,()=>{
     const d=driver(n);

@@ -14,7 +14,8 @@ for(const count of [7,8,9])for(const control of ['WINCH','PANEL']){
  });
 }
 
-for(const age of [150,200,250,3000])test(`native planned Lock delayed${age}ms drains real warnings then keeps only a currently safe request`,async context=>{
+for(const {age,warningQuery=true} of [{age:150},{age:200},{age:250},{age:3000},{age:200,warningQuery:false}])
+test(`native planned Lock delayed${age}ms drains real warnings then keeps only a currently safe request (${warningQuery?'warning query':'conservative fallback'})`,async context=>{
  const store=memoryPlanetStore(),transaction=store.transaction.bind(store),retry=new Error('Synthetic targeted SDK retry');
  let armed=false,h,proposal;
  store.transaction=operation=>transaction(async tx=>{
@@ -31,6 +32,7 @@ for(const age of [150,200,250,3000])test(`native planned Lock delayed${age}ms dr
   return result;
  }).catch(error=>{if(error!==retry)throw error;return transaction(operation);});
  const setup=await setupNativeHumanFood({control:'WINCH',store});h=setup.h;const task=setup.task;
+ if(!warningQuery)h.reload({engine:{...h.options.engine,hasOnlyDuePlanetFoodWarnings:undefined}});
  await runNativeFoodWorkersThrough(h,task.runningAt);h.setTime(task.runningAt);
  const live=await h.read(h.players[0]);await sendNativeFood(h,live.foodPlayerView,chooseFoodBotInput(live.foodPlayerView).command);
  await runNativeFoodWorkersThrough(h,task.runningAt+450);h.setTime(task.runningAt+450);await h.service.runBots(h.matchId);
@@ -47,6 +49,8 @@ for(const age of [150,200,250,3000])test(`native planned Lock delayed${age}ms dr
   assert.equal(locks[0].receipt.receivedAt,goalAt+age);assert.equal(locks[0].context.now,goalAt+age);
   const warnings=journal.filter(r=>r.kind==='DEADLINE'&&r.context.now>goalAt&&r.context.now<=goalAt+age);
   assert.ok(warnings.length>=2);assert.ok(warnings.every(r=>r.sequence<locks[0].sequence),'original warning boundaries precede the admitted Lock');
+  assert.equal(warnings.every(r=>r.ingressSequence===locks[0].ingressSequence),warningQuery,
+   'available query admits warnings in the Lock entry; absent query retains canonical CLOCK fallback');
  }else if(age===3000){
   assert.ok(result.accepted>0);assert.equal(locks.length,1);
   assert.notEqual(locks[0].request.commandId,proposal.request.commandId,'the expired first proposal is not revived on the next rail pass');
@@ -60,7 +64,7 @@ for(const age of [150,200,250,3000])test(`native planned Lock delayed${age}ms dr
   assert.equal(later.length,1);assert.notEqual(later[0].request.commandId,proposal.request.commandId,'a later pass gets a new proposal');
   assert.equal(later[0].receipt.receivedAt,nextGoalAt);
  }
- context.diagnostic(JSON.stringify({proposalAgeMs:age,plannedOffset:goalAt-task.startedAt,warningOffset:proposal.dueAt-task.startedAt,
+ context.diagnostic(JSON.stringify({proposalAgeMs:age,warningQuery,plannedOffset:goalAt-task.startedAt,warningOffset:proposal.dueAt-task.startedAt,
   actualOffset:goalAt+age-task.startedAt,drainedOffsets:journal.filter(r=>r.kind==='DEADLINE'&&r.context.now>goalAt).map(r=>r.context.now-task.startedAt),
   warningDrained:true,retainedRequestAccepted:age<250,lockInputs:locks.length}));
 });

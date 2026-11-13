@@ -392,10 +392,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const presenceDue=Object.values(service(s).leases).some(l=>l&&!l.offline&&l.expiresAt<=at);
         // This is still an uncommitted proposal. Recheck after every SDK retry at
         // the actual admission clock, never retime an already-admitted input.
-        if(!s.state||s.status!=='running'||control.processedSequence<control.nextSequence-1
-          ||due!==null&&due<=at||presenceDue)return {sequence:0,response:null,refresh:true};
+        if(!s.state||s.status!=='running'||control.processedSequence<control.nextSequence-1||presenceDue)return {sequence:0,response:null,refresh:true};
+        const engineDue=due!==null&&due<=at;
+        if(engineDue&&!(q.request.command.input.kind==='PANEL_LOCK'&&d.engine.hasOnlyDuePlanetFoodWarnings?.(s.state,at)===true))
+          return {sequence:0,response:null,refresh:true};
         const current=engine().projectPlanetFoodPlayer(s.state,options.bot,at),fresh=chooseFoodBotInput(current).command;
-        if((fresh===null||hash(fresh)!==hash(q.request.command))&&!canAdmitFoodBotPanelLock(current,q.request.command))return {sequence:0,response:null,refresh:true};
+        const lockCurrent=canAdmitFoodBotPanelLock(current,q.request.command);
+        // Admission is not advancement. processOne still records every original
+        // warning boundary before applying this input in the same ordered entry.
+        if(engineDue&&!lockCurrent||(fresh===null||hash(fresh)!==hash(q.request.command))&&!lockCurrent)return {sequence:0,response:null,refresh:true};
       }
       if(sourceJob){
         const lease=await tx.get<BotWorkerLease>(workerKey(matchId));

@@ -34,6 +34,7 @@ export interface PlanetEnginePort<S extends PlanetStateEnvelope> {
   setPlanetFoodPresence?(state:S,actor:SeatId,online:boolean,context:PlanetContext):S;
   projectPlanetFoodPublic?(state:S,serverNowMs:number):FoodTaskPublicView;
   projectPlanetFoodPlayer?(state:S,actor:SeatId,serverNowMs:number):FoodTaskPlayerView;
+  hasOnlyDuePlanetFoodWarnings?(state:S,serverNowMs:number):boolean;
 }
 export interface PlanetReadTransaction {
   get<T>(key:string):Promise<T|null>;
