@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {FOOD_TASK_TRANSPORT} from '@mothership/contracts';
-import {applyPlanetFoodCommand,setPlanetFoodPresence,advancePlanetDeadline,encodePlanetGameState} from '@mothership/engine';
+import {applyPlanetFoodCommand,setPlanetFoodPresence,advancePlanetDeadline,encodePlanetGameState,planetDeadlineAt,projectPlanetFoodPlayer} from '@mothership/engine';
+import {chooseFoodBotInput,canAdmitFoodBotPanelLock} from '../dist/food-bot-policy.js';
 import {runHumanFoodJourney,setupNativeHumanFood,sendNativeFood,runNativeFoodWorkersThrough} from './planet-food-native-service-control.mjs';
-import {ok} from './planet-service-helper.mjs';
+import {ok,memoryPlanetStore} from './planet-service-helper.mjs';
 import {currentPlanetJournal} from './planet-boarding-helper.mjs';
 
 for(const count of [7,8,9])for(const control of ['WINCH','PANEL']){
@@ -12,6 +13,57 @@ for(const count of [7,8,9])for(const control of ['WINCH','PANEL']){
   assert.equal(result.stats.restarted,true);
  });
 }
+
+for(const age of [150,200,250,3000])test(`native planned Lock delayed${age}ms drains real warnings then keeps only a currently safe request`,async context=>{
+ const store=memoryPlanetStore(),transaction=store.transaction.bind(store),retry=new Error('Synthetic targeted SDK retry');
+ let armed=false,h,proposal;
+ store.transaction=operation=>transaction(async tx=>{
+  let lock;
+  const result=await operation({...tx,set:(key,value)=>{
+   if(armed&&key.startsWith('foodBotIntent/')&&value.request?.request?.command?.input?.kind==='PANEL_LOCK')lock=value.request.request;
+   tx.set(key,value);
+  }});
+  if(lock){
+   armed=false;const s=await tx.get('session/'+h.matchId);
+   proposal={request:structuredClone(lock),plannedAt:h.now(),dueAt:planetDeadlineAt(s.state)};
+   h.setTime(h.now()+age);throw retry;
+  }
+  return result;
+ }).catch(error=>{if(error!==retry)throw error;return transaction(operation);});
+ const setup=await setupNativeHumanFood({control:'WINCH',store});h=setup.h;const task=setup.task;
+ await runNativeFoodWorkersThrough(h,task.runningAt);h.setTime(task.runningAt);
+ const live=await h.read(h.players[0]);await sendNativeFood(h,live.foodPlayerView,chooseFoodBotInput(live.foodPlayerView).command);
+ await runNativeFoodWorkersThrough(h,task.runningAt+450);h.setTime(task.runningAt+450);await h.service.runBots(h.matchId);
+ const before=await h.current();assert.equal(before.state.food.step.task.panel.locked,false);
+ const goalAt=before.state.food.step.task.panel.anchorAt+1000;h.setTime(goalAt);armed=true;
+ const result=await h.service.runBots(h.matchId);assert.ok(proposal);assert.equal(proposal.plannedAt,goalAt);
+ assert.ok(proposal.dueAt>goalAt&&proposal.dueAt<=goalAt+age,'a real warning boundary becomes due during transport');
+ const current=await h.current(),view=projectPlanetFoodPlayer(current.state,task.panelSeatId,h.now());
+ assert.ok(planetDeadlineAt(current.state)>h.now(),'canonical warning was drained before the next proposal');
+ const journal=await currentPlanetJournal(h),locks=journal.filter(r=>r.kind==='FOOD_COMMAND'&&r.request.command.input?.kind==='PANEL_LOCK');
+ if(age<250){
+  assert.ok(result.accepted>0);assert.equal(current.state.food.step.task.panel.locked,true);assert.equal(current.state.food.step.task.panel.stop,5);
+  assert.equal(locks.length,1);assert.deepEqual(locks[0].request,proposal.request,'retry retains the exact uncommitted request and command ID');
+  assert.equal(locks[0].receipt.receivedAt,goalAt+age);assert.equal(locks[0].context.now,goalAt+age);
+  const warnings=journal.filter(r=>r.kind==='DEADLINE'&&r.context.now>goalAt&&r.context.now<=goalAt+age);
+  assert.ok(warnings.length>=2);assert.ok(warnings.every(r=>r.sequence<locks[0].sequence),'original warning boundaries precede the admitted Lock');
+ }else if(age===3000){
+  assert.ok(result.accepted>0);assert.equal(locks.length,1);
+  assert.notEqual(locks[0].request.commandId,proposal.request.commandId,'the expired first proposal is not revived on the next rail pass');
+  assert.equal(locks[0].receipt.receivedAt,goalAt+age);
+  assert.equal(current.state.food.step.task.panel.stop,5);
+ }else{
+  assert.equal(result.accepted,0);assert.equal(current.state.food.step.task.panel.locked,false);assert.equal(locks.length,0);
+  assert.equal(canAdmitFoodBotPanelLock(view,proposal.request.command),false);
+  const nextGoalAt=goalAt+500;h.setTime(nextGoalAt);await h.service.runBots(h.matchId);
+  const later=(await currentPlanetJournal(h)).filter(r=>r.kind==='FOOD_COMMAND'&&r.request.command.input?.kind==='PANEL_LOCK');
+  assert.equal(later.length,1);assert.notEqual(later[0].request.commandId,proposal.request.commandId,'a later pass gets a new proposal');
+  assert.equal(later[0].receipt.receivedAt,nextGoalAt);
+ }
+ context.diagnostic(JSON.stringify({proposalAgeMs:age,plannedOffset:goalAt-task.startedAt,warningOffset:proposal.dueAt-task.startedAt,
+  actualOffset:goalAt+age-task.startedAt,drainedOffsets:journal.filter(r=>r.kind==='DEADLINE'&&r.context.now>goalAt).map(r=>r.context.now-task.startedAt),
+  warningDrained:true,retainedRequestAccepted:age<250,lockInputs:locks.length}));
+});
 
 
 function ownDown(snapshot){

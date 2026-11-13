@@ -4,7 +4,7 @@ import {parseFoodTaskReceipt,PlanetReceiptSchema,PLANET_FOOD_TASK_PINS,FOOD_TASK
 import type {FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskPlayerView,
   PlanetCommandRequest,PlanetReceipt,PlanetServiceRequest,PlanetServiceResponse,PlanetSessionSnapshot,PlanetVersions,SeatId} from '@mothership/contracts';
 import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,PlanetReadTransaction,PlanetStateEnvelope,PlanetTransaction} from './planet-game.js';
-import {chooseFoodBotInput} from './food-bot-policy.js';
+import {chooseFoodBotInput,canAdmitFoodBotPanelLock,foodBotPanelLockWindowEnd} from './food-bot-policy.js';
 
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
 export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
@@ -332,6 +332,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function admit(matchId:string,uid:string|null,q:Request|null,options:{
     bot?:SeatId;job?:Entry['job'];dedup?:string;workerOwner?:string;
+    /** Server-only original planning window; never a command or saved-state field. */
+    lockWindowEndsAt?:number;
     human?:{session:T;seatId:SeatId;bindingRevision:number};
   }={}):Promise<AdmissionResult>{
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
@@ -384,14 +386,16 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         if(!lease||lease.owner!==options.workerOwner||lease.expiresAt<=at)throw new LostBotWorkerLease();
       }
       if(options.bot&&q?.operation==='foodCommand'&&q.request.command.type==='TASK_PRESS'){
+        const end=options.lockWindowEndsAt;
+        if(q.request.command.input.kind==='PANEL_LOCK'&&(end===undefined||!Number.isSafeInteger(end)||at>=end))return {sequence:0,response:null,refresh:true};
         const due=s.state?engine().planetDeadlineAt(s.state):null;
         const presenceDue=Object.values(service(s).leases).some(l=>l&&!l.offline&&l.expiresAt<=at);
         // This is still an uncommitted proposal. Recheck after every SDK retry at
         // the actual admission clock, never retime an already-admitted input.
         if(!s.state||s.status!=='running'||control.processedSequence<control.nextSequence-1
           ||due!==null&&due<=at||presenceDue)return {sequence:0,response:null,refresh:true};
-        const fresh=chooseFoodBotInput(engine().projectPlanetFoodPlayer(s.state,options.bot,at)).command;
-        if(fresh===null||hash(fresh)!==hash(q.request.command))return {sequence:0,response:null,refresh:true};
+        const current=engine().projectPlanetFoodPlayer(s.state,options.bot,at),fresh=chooseFoodBotInput(current).command;
+        if((fresh===null||hash(fresh)!==hash(q.request.command))&&!canAdmitFoodBotPanelLock(current,q.request.command))return {sequence:0,response:null,refresh:true};
       }
       if(sourceJob){
         const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
@@ -770,6 +774,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function runBots(matchId:string):Promise<{accepted:number}>{
     let accepted=0,waitedMs=0,workPasses=0,inputs=0;
+    const plannedLocks=new Map<SeatId,{request:Extract<Request,{operation:'foodCommand'}>;endsAt:number}>();
+    const currentPlannedLock=(seat:SeatId,view:FoodTaskPlayerView)=>{
+      const planned=plannedLocks.get(seat);if(!planned)return null;const request=planned.request;
+      if(view.serverNowMs>=planned.endsAt||request.request.phaseId!==view.phaseId||request.request.foodStepId!==view.step?.stepId||request.request.round!==view.round
+        ||!canAdmitFoodBotPanelLock(view,request.request.command)){plannedLocks.delete(seat);return null;}
+      return planned;
+    };
     const started=performance.now();
     const remaining=()=>Math.floor(Math.min(FOOD_BOT_WALL_BUDGET_MS-(performance.now()-started),FOOD_BOT_WALL_BUDGET_MS-waitedMs));
     const probe=()=>readOnly(async tx=>{
@@ -788,7 +799,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           }
           const view=engine().projectPlanetFoodPlayer(s.state,bot.seatId,at);
           const decision=chooseFoodBotInput(view);
-          if(decision.command||view.step===null&&d.chooseOrdinaryBot(engine().projectPlanetPlayer(s.state,bot.seatId)))return {prefix:null,work:true,nextWakeAt:null};
+          if(currentPlannedLock(bot.seatId,view)||decision.command||view.step===null&&d.chooseOrdinaryBot(engine().projectPlanetPlayer(s.state,bot.seatId)))return {prefix:null,work:true,nextWakeAt:null};
           if(decision.nextWakeAt!==null&&decision.nextWakeAt>at)nextWakeAt=Math.min(nextWakeAt??Infinity,decision.nextWakeAt);
         }
         return {prefix:null,work:false,nextWakeAt};
@@ -824,8 +835,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           if(result.ok&&(result.result as {receipt?:{status:string}}).receipt?.status==='accepted')accepted++;progressed=true;continue;}
         const state=await inspect(matchId);if(!state?.state||state.status!=='running')break;
         const now=clock();if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&now<intent.retryAt)continue;
-        const food=engine().projectPlanetFoodPlayer(state.state,bot.seatId,now),decision=chooseFoodBotInput(food);
-        let foodCommand=decision.command;
+        const food=engine().projectPlanetFoodPlayer(state.state,bot.seatId,now),decision=chooseFoodBotInput(food),planned=currentPlannedLock(bot.seatId,food);
+        let foodCommand=planned?.request.request.command??decision.command;
         if(foodCommand?.type==='TASK_ASK'){
           // Practice preference only: invite an eligible human instead of occupying the
           // sole Task with two bots before that human's phone has finished loading.
@@ -837,11 +848,19 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         }
         const ordinary=food.step===null?d.chooseOrdinaryBot(engine().projectPlanetPlayer(state.state,bot.seatId)):null;
         if(!foodCommand&&!ordinary)continue;
-        const request:Request=foodCommand?{operation:'foodCommand',request:{schemaVersion:1,protocolVersion:3,
+        const request:Request=planned?.request??(foodCommand?{operation:'foodCommand',request:{schemaVersion:1,protocolVersion:3,
           matchId,phaseId:food.phaseId,foodStepId:food.step!.stepId,round:food.round,commandId:d.newId(),command:foodCommand}}:
-          {operation:'command',request:{protocolVersion:3,matchId,phaseId:state.state.phase.id,commandId:d.newId(),command:ordinary!}};
-        const admitted=await admit(matchId,null,request,{bot:bot.seatId,workerOwner:owner});
-        if(admitted.refresh){needsRefresh=true;break;}
+          {operation:'command',request:{protocolVersion:3,matchId,phaseId:state.state.phase.id,commandId:d.newId(),command:ordinary!}});
+        const lockWindowEndsAt=planned?.endsAt??(foodCommand?foodBotPanelLockWindowEnd(food,foodCommand):null);
+        const admitted=await admit(matchId,null,request,{bot:bot.seatId,workerOwner:owner,...(lockWindowEndsAt===null?{}:{lockWindowEndsAt})});
+        if(admitted.refresh){
+          // Keep only this uncommitted Lock through canonical warning/prefix drain.
+          // It is discarded as soon as its current goal/binding is no longer safe.
+          if(request.operation==='foodCommand'&&request.request.command.type==='TASK_PRESS'&&request.request.command.input.kind==='PANEL_LOCK'&&lockWindowEndsAt!==null)
+            plannedLocks.set(bot.seatId,{request,endsAt:lockWindowEndsAt});
+          needsRefresh=true;break;
+        }
+        plannedLocks.delete(bot.seatId);
         inputs++;
         const result=admitted.response??await drainThrough(matchId,admitted.sequence);
         const receipt=result.ok?(result.result as {receipt?:{status:string}}).receipt:null;

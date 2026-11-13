@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { FoodTaskCommandSchema, FOOD_TASK_VERTICAL as Y } from '@mothership/contracts';
-import { chooseFoodBotInput } from '../dist/food-bot-policy.js';
+import { chooseFoodBotInput, canAdmitFoodBotPanelLock, foodBotPanelLockWindowEnd } from '../dist/food-bot-policy.js';
 
 const examples = JSON.parse(readFileSync(new URL('./fixtures/food-views.json', import.meta.url), 'utf8'));
 const clone = v => structuredClone(v);
@@ -46,6 +46,32 @@ function choose(v) {
   if (decision.command) FoodTaskCommandSchema.parse(decision.command);
   return decision;
 }
+
+for (const count of [7, 8, 9]) test(`${count}: a planned Panel Lock uses the actual full-click destination, with exact bindings`, () => {
+  for (const [stop, direction,goal,plannedAt] of [[0,1,5,7000],[6,-1,5,6000],[1,-1,0,6000]]) {
+    const v=view(count,'PANEL'),t=v.participantTask;holding(v);
+    t.controlRevision=2;t.revision=Math.max(t.revision,2);
+    if(goal===0)Object.assign(t.crate,{state:'INTAKE',holder:null,x:0,height:Y.intake,motion:null});
+    Object.assign(t.panel,{locked:false,stop,direction,anchorAt:6000,swing:null});v.serverNowMs=plannedAt;offer(v,['PANEL_LOCK']);
+    const proposal=choose(v).command;assert.equal(proposal.input.kind,'PANEL_LOCK');
+    for(const age of [101,150,249]){
+      v.serverNowMs=plannedAt+age;assert.equal(choose(v).command,null);
+      const before=JSON.stringify(v);assert.equal(canAdmitFoodBotPanelLock(v,proposal),true);assert.equal(JSON.stringify(v),before);
+      assert.equal(foodBotPanelLockWindowEnd(v,proposal),plannedAt+250);
+    }
+    v.serverNowMs=plannedAt+250;assert.equal(canAdmitFoodBotPanelLock(v,proposal),false,'the next destination is not retargeted');
+    v.serverNowMs=plannedAt+150;
+    for(const changed of [{...proposal,taskId:'old-task'},{...proposal,controlSessionId:'old-session'},
+      {...proposal,expectedControlRevision:t.controlRevision-1},{...proposal,expectedControlRevision:t.controlRevision+1}])
+      assert.equal(canAdmitFoodBotPanelLock(v,changed),false);
+    v.offers=[];assert.equal(canAdmitFoodBotPanelLock(v,proposal),false);
+  }
+  const future=view(count,'PANEL');holding(future);Object.assign(future.participantTask.panel,{locked:false,stop:0,direction:1,anchorAt:6000,swing:null});
+  future.serverNowMs=7000;offer(future,['PANEL_LOCK']);const proposal=choose(future).command;
+  future.serverNowMs=6999;assert.equal(canAdmitFoodBotPanelLock(future,proposal),false,'a future goal window does not authorize the current stop');
+  future.serverNowMs=7150;future.participantTask.people.find(p=>p.seatId===future.seatId).online=false;
+  assert.equal(canAdmitFoodBotPanelLock(future,proposal),false);
+});
 
 for (const count of [7, 8, 9]) {
   test(`${count} players: cooperative ask, join, lift, move, lock, release, key, delivered snapshots`, () => {

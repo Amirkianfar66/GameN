@@ -849,7 +849,7 @@ for(const kind of ['UP','PANEL_LOCK'])test(`fresh bot ${kind} is rechecked when 
   let at=(await decision(6000)).nextWakeAt;assert.ok(at>6000);h.setNow(at);
   const planned=(await decision(at)).command;assert.equal(planned.input.kind,kind==='UP'?'HOLD':'PANEL_LOCK');
   if(kind==='UP')assert.equal(planned.input.edge,'UP');
-  let late=at+200;
+  let late=at+(kind==='PANEL_LOCK'?250:200);
   while(late<at+1300&&(await decision(late)).command!==null)late+=10;
   assert.equal((await decision(late)).command,null);
   h.store.setRetry('foodBotIntent/',()=>h.setNow(late));
@@ -862,6 +862,21 @@ for(const kind of ['UP','PANEL_LOCK'])test(`fresh bot ${kind} is rechecked when 
   const applied=presses().find(([,e])=>e.request.request.command.input.kind===(kind==='UP'?'HOLD':'PANEL_LOCK'))?.[1];
   assert.ok(applied);assert.equal(applied.context.now,later);assert.equal(applied.response.result.receipt.receivedAt,later);
   assert.equal(applied.response.result.receipt.status,'accepted');
+});
+for(const count of [7,8,9])test(`${count}: a planned bot Panel Lock admitted200ms later still locks the actual safe goal`,async()=>{
+  const h=harness({bots:true,count});await h.store.transaction(async tx=>{
+    const s=await tx.get('session/food-match'),t=s.state.task;
+    Object.assign(t.crate,{state:'HELD',holder:'WINCH',height:Y.raised,motion:null});
+    Object.assign(t.ownGesture,{highestSequence:1,recoveryRevision:1,currentHolder:{sequence:1,crateId:t.crate.id},pendingIntent:null});
+    Object.assign(t.panel,{locked:false,stop:0,direction:1,anchorAt:6000,swing:null});tx.set('session/food-match',s);
+  });
+  h.setNow(7000);h.store.setRetry('foodBotIntent/',records=>{
+    h.setNow(7200);assert.equal(chooseFoodBotInput(h.engine.projectPlanetFoodPlayer(records.get('session/food-match').state,'seat-3',7200)).command,null);
+  });
+  await h.api().runBots('food-match');
+  const entry=ingress(h).find(([,e])=>e.request?.request?.command?.input?.kind==='PANEL_LOCK')[1];
+  assert.equal(entry.context.now,7200);assert.equal(entry.response.result.receipt.receivedAt,7200);assert.equal(entry.response.result.receipt.status,'accepted');
+  assert.equal((await h.current()).state.task.panel.stop,5);
 });
 for(const successor of ['same','different'])test(`a captured old owner cannot receive a successor's ${successor} seat-scoped receipt`,async()=>{
   const h=harness({asking:true}),request={schemaVersion:1,protocolVersion:3,matchId:'food-match',commandId:'shared-recovery-canary',
