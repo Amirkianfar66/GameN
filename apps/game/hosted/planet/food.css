@@ -1,4 +1,4 @@
-/* Scoped native Food styles from #231 Food phone; exact source pins in the adoption record. */
+/* Scoped native Food styles from #241 Food phone; exact source pins in the adoption record. */
 /* The Task screen: the view over the panel. The panel takes the height its words need and the view gives way
    first, down to a letterboxed strip (min-height), so the controls are never covered and no word is cut. If the
    words still need more, only the hint scrolls. */
@@ -115,7 +115,26 @@
 .planet-food:is(.fs-ctl[data-sending] .fs-face::after), .planet-food :is(.fs-ctl[data-sending] .fs-face::after) { content: ""; width: 18px; height: 18px; margin-left: 8px; border-radius: 50%; border: 3px solid currentColor; border-right-color: transparent; animation: food-fs-spin 0.8s linear infinite; }
 .planet-food:is(.ph[data-motion="reduced"] .fs-ctl[data-sending] .fs-face::after), .planet-food :is(.ph[data-motion="reduced"] .fs-ctl[data-sending] .fs-face::after) { animation: none; border-right-color: currentColor; opacity: 0.6; }
 @keyframes food-fs-spin { to { transform: rotate(360deg); } }
-/* The partner's state in the top bar: offline or out, at every text size. */
+/* The food gauge (the owner, 13 November 2026): the ship's food count on every phone, always, under the clock: one
+   line a package (a short line for a half) and a figure. Amber while one package or less remains and red at none,
+   as the clock warns. The clock and the gauge share one column, so the bar's names and titles keep their room. At
+   large text the lines go and the figure stays. */
+.planet-food:is(.fs-clock), .planet-food :is(.fs-clock) { flex: none; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 2px; }
+.planet-food:is(.fs-clock .timer), .planet-food :is(.fs-clock .timer) { height: 26px; }
+.planet-food:is(.fs-food), .planet-food :is(.fs-food) { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 17px; padding: 0 6px 0 5px; border-radius: 9px; background: var(--surface-3); color: var(--text-primary); font: 700 0.75rem/1 var(--font-ui); font-variant-numeric: tabular-nums; --ic-knock: var(--surface-3); }
+.planet-food:is(.fs-food .ic), .planet-food :is(.fs-food .ic) { width: 12px; height: 12px; flex: none; color: var(--text-secondary); }
+.planet-food:is(.fs-food-lines), .planet-food :is(.fs-food-lines) { display: inline-flex; align-items: flex-end; gap: 1.5px; height: 10px; }
+.planet-food:is(.fs-food-lines i), .planet-food :is(.fs-food-lines i) { width: 2px; height: 100%; border-radius: 1px; background: currentColor; }
+.planet-food:is(.fs-food-lines i[data-half]), .planet-food :is(.fs-food-lines i[data-half]) { height: 50%; }
+.planet-food:is(.fs-food[data-level="low"]), .planet-food :is(.fs-food[data-level="low"]) { background: var(--accent); color: var(--on-accent); --ic-knock: var(--accent); }
+.planet-food:is(.fs-food[data-level="low"] .ic), .planet-food :is(.fs-food[data-level="low"] .ic) { color: var(--on-accent); }
+.planet-food:is(.fs-food[data-level="empty"]), .planet-food :is(.fs-food[data-level="empty"]) { background: #B3261E; color: #F4EBDD; --ic-knock: #B3261E; }
+.planet-food:is(.fs-food[data-level="empty"] .ic), .planet-food :is(.fs-food[data-level="empty"] .ic) { color: #F4EBDD; }
+@container (max-width: 16rem) { .planet-food:is(.fs-food-lines), .planet-food :is(.fs-food-lines) { display: none; } .planet-food:is(.fs-food), .planet-food :is(.fs-food) { font-size: min(0.75rem, 18px); height: auto; padding-block: 2px; } .planet-food:is(.fs-clock .timer), .planet-food :is(.fs-clock .timer) { height: auto; padding-block: 3px; } }
+
+/* The partner's state, offline or out, is on screen at every text size: in the top bar, and at the largest text
+   (where the bar keeps only the two names) on the partner's name tag in the view, beside any danger in the hint.
+   The tag is always whole and inside the view (phone.mjs fitTags). */
 .planet-food:is(.tb[data-partner] .tb-sub), .planet-food :is(.tb[data-partner] .tb-sub) { color: #F4EBDD; font-weight: 700; }
 /* The briefing reminder: two lines and the count, never scrolled. */
 .planet-food:is(.fs-brief ul), .planet-food :is(.fs-brief ul) { margin: 0; }
@@ -134,8 +153,9 @@
   .planet-food:is(.fs-role), .planet-food :is(.fs-role) { display: none; }
   .planet-food:is(.fs-legend), .planet-food :is(.fs-legend) { display: none; }
   .planet-food:is(.fs-view), .planet-food :is(.fs-view) { min-height: 84px; }
-  /* The hint keeps two lines: on the Winch's phone it is the only place that says the panel is over the cab. */
-  .planet-food:is(.fs-hint), .planet-food :is(.fs-hint) { padding: 8px 10px; flex-shrink: 0; min-height: calc(2.6em + 16px); }
+  /* The hint keeps two lines: on the Winch's phone it is the only place that says the panel is over the cab. When
+     the words still need more room (a long name), the hint scrolls past its second line, so the controls stay whole. */
+  .planet-food:is(.fs-hint), .planet-food :is(.fs-hint) { padding: 8px 10px; flex-shrink: 1; min-height: calc(2.6em + 16px); }
   .planet-food:is(.fs-meter), .planet-food :is(.fs-meter) { height: 28px; }
   .planet-food:is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"]), .planet-food :is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"]) { min-height: 0; padding-block: 4px; font-size: 1rem; }
   .planet-food:is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"] .fs-sub), .planet-food :is(.fs-controls[data-role="panel"][data-landed] .fs-ctl[data-act="release"] .fs-sub) { display: none; }
@@ -152,5 +172,46 @@
   .planet-food:is(.fs-brief h2), .planet-food :is(.fs-brief h2) { font-size: 1.125rem; }
   .planet-food:is(.fs-brief .fs-count), .planet-food :is(.fs-brief .fs-count) { font-size: 1.5rem; }
   .planet-food:is(.fs-brief li), .planet-food :is(.fs-brief li) { font-size: 0.875rem; }
+}
+
+/* ── 320 × 568 with 200% text, and the longest names (#222, 13 November 2026) ─────────────────────────── */
+
+/* Words that carry a name stay whole: they wrap between words, and break inside a name only when the name alone
+   is wider than the line (a permitted name has twelve characters, such as WWWWWWWWWWWW). */
+.planet-food:is(.fs-hint > span), .planet-food :is(.fs-hint > span), .planet-food:is(.fs-ctl .fs-label), .planet-food :is(.fs-ctl .fs-label), .planet-food:is(.fs-ctl .fs-sub), .planet-food :is(.fs-ctl .fs-sub), .planet-food:is(.fs-card :is(h2, p, li)), .planet-food :is(.fs-card :is(h2, p, li)), .planet-food:is(.fs-who), .planet-food :is(.fs-who), .planet-food:is(.fs-banner .banner-text), .planet-food :is(.fs-banner .banner-text), .planet-food:is(.fs-banner .toast > span), .planet-food :is(.fs-banner .toast > span) { min-width: 0; overflow-wrap: anywhere; }
+/* A name tag holds a whole name: when the tag would leave the view, its state ("· Offline", "· Out") goes to a
+   second line (phone.mjs fitTags gives each tag the width it has on its side of its anchor). */
+.planet-food:is(.fs-art .tag), .planet-food :is(.fs-art .tag) { width: max-content; flex-wrap: wrap; height: auto; min-height: 26px; padding-block: 3px; row-gap: 2px; }
+.planet-food:is(.fs-art .tag > span), .planet-food :is(.fs-art .tag > span) { min-width: 0; overflow-wrap: anywhere; }
+/* So do the Food sheets and cards, and the top bar's title, which ends in "…" where its two lines run out. */
+.planet-food:is(.tb-name), .planet-food :is(.tb-name), .planet-food:is(.sheet-title :is(h2, p)), .planet-food :is(.sheet-title :is(h2, p)), .planet-food:is(.row-title), .planet-food :is(.row-title), .planet-food:is(.row-sub), .planet-food :is(.row-sub), .planet-food:is(.group-note), .planet-food :is(.group-note), .planet-food:is(.sheet .btn), .planet-food :is(.sheet .btn), .planet-food:is(.fs-card .btn), .planet-food :is(.fs-card .btn) { min-width: 0; overflow-wrap: anywhere; }
+.planet-food:is(.sheet .btn), .planet-food :is(.sheet .btn), .planet-food:is(.fs-card .btn), .planet-food :is(.fs-card .btn) { white-space: normal; }
+
+/* The room's name sits on the room, under every banner, card and sheet. */
+.planet-food:is(.ph > .room-label), .planet-food :is(.ph > .room-label) { z-index: 20; }
+
+/* A toast wraps instead of running off both sides of the screen. */
+.planet-food:is(.fs-banner .toast), .planet-food :is(.fs-banner .toast) { left: 0; right: 0; width: fit-content; max-width: 100%; margin-inline: auto; transform: none; white-space: normal; }
+
+/* A sheet's two buttons stand side by side while they fit, one above the other at large text ("Waiting…", "Cancel"). */
+.planet-food:is(.sheet-foot), .planet-food :is(.sheet-foot) { flex-wrap: wrap; }
+.planet-food:is(.sheet-foot .btn), .planet-food :is(.sheet-foot .btn) { flex: 1 1 8rem; }
+
+/* A card with answers (the Partner's request, "Too late to join"): its words scroll when they need more room than
+   the card has, and the answers stay in sight under them, with the time to answer. */
+.planet-food:is(.fs-card:has(> .fs-card-foot)), .planet-food :is(.fs-card:has(> .fs-card-foot)) { overflow: hidden; }
+.planet-food:is(.fs-card-body), .planet-food :is(.fs-card-body) { flex: 0 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.planet-food:is(.fs-card-foot), .planet-food :is(.fs-card-foot) { flex: none; display: flex; flex-direction: column; gap: 10px; }
+.planet-food:is(.fs-card[data-tight] .fs-stamp), .planet-food :is(.fs-card[data-tight] .fs-stamp) { display: none; }
+.planet-food:is(.fs-card-body[data-scrolls]), .planet-food :is(.fs-card-body[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent); mask-image: linear-gradient(#000 calc(100% - 28px), transparent); }
+
+/* At the largest text on a small phone (a banner under 12 rem wide: 200% text below 384 px), a banner over a Food
+   screen keeps its title and gives up its second line, which screen readers still read, as the kit's top bar
+   does. It then stays clear of the hint, the strip and the tab bar. */
+.planet-food:is(.fs-banner), .planet-food :is(.fs-banner) { container: fsb / inline-size; }
+@container fsb (max-width: 12rem) {
+  .planet-food:is(.banner-text span), .planet-food :is(.banner-text span) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* It also sits just under its place (the room's name, or the top of the Task's view), not a bar's height lower. */
+  .planet-food:is(.banner), .planet-food :is(.banner), .planet-food:is(.toast), .planet-food :is(.toast) { top: 12px; }
 }
 

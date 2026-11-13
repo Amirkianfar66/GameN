@@ -14,6 +14,8 @@ import {createPlanetLibrary} from './library.mjs';
 import {createPlanetCinematic} from './cinematic.mjs';
 import {phoneLayouts,phoneRoom,createBlackoutGeometry} from './phone-layout.mjs';
 import {labelPhoneControl,phoneIcon,phoneActionIcon,phonePanelIcon} from './phone-controls.mjs';
+import {createFoodUi} from './food-ui.mjs';
+import {foodGauge} from './food-gauge.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -33,6 +35,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const portrait=el('span',null,'planet-active-portrait'),identity=el('div',null,'planet-active-identity'),detail=el('span',null,'planet-active-detail');portrait.setAttribute('aria-hidden','true');identity.append(phase,detail);
  const promises=labelPhoneControl(button('Promises','panel','promises'),'Promises','promises'),menu=labelPhoneControl(button('Settings','panel','settings'),'Settings','settings');promises.id='planet-top-promises';menu.id='planet-top-settings';
  instruction.id='ms-action-step';header.append(portrait,identity,promises,timer,menu,offices,checkpoint,instruction);
+ const foodUi=createFoodUi(document),foodClock=foodUi.h('span.planet-food.fs-clock.food-native-clock');let gaugeDoses=null;
  const stage=el('main',null,'planet-stage');stage.setAttribute('aria-label','Ship view');
  const holder=el('div',null,'bv2-mount planet-board'),targets=el('div',null,'planet-targets');
  const nav=el('nav',null,'planet-nav');nav.setAttribute('aria-label','Player controls');
@@ -286,6 +289,13 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   promises.hidden=model.surface==='display'||['VOTE_RESULT','BLACKHOLE_PRESENTATION'].includes(model.phase?.kind);promises.dataset.count=String(model.promiseOfferCount);promises.setAttribute('aria-label',`Promises${model.promiseOfferCount?`, ${model.promiseOfferCount} waiting`:''}`);promises.setAttribute('aria-pressed',String(model.panel==='promises'));
   timer.textContent=model.phase?.remainingMs==null?'—':`${Math.ceil(model.phase.remainingMs/1000)}s`;timer.setAttribute('aria-label','Phase time remaining');
   timer.dataset.urgent=String(model.phase?.remainingMs!==null&&model.phase?.remainingMs<=10000);
+  // Only the exact Food tuple supplies these sanitized public facts. Ordinary
+  // phones and the display get the same gauge; no private Task is consulted.
+  if(model.food&&!model.concealed&&model.connection==='live'){
+   if(timer.parentElement!==foodClock){header.insertBefore(foodClock,timer);foodClock.prepend(timer);}
+   const doses=model.food.stock.doses;
+   if(doses!==gaugeDoses){foodClock.querySelector('.fs-food')?.remove();foodClock.append(foodGauge(foodUi,doses));gaugeDoses=doses;}
+  }else if(foodClock.isConnected){header.insertBefore(timer,foodClock);foodClock.remove();foodClock.querySelector('.fs-food')?.remove();gaugeDoses=null;}
   offices.textContent=model.dark?'':`Captain ${number(model.offices?.captainSeatId)} · Officer ${number(model.offices?.officerSeatId)}${model.offices?.blockedSeatId?` · Move blocked: ${number(model.offices.blockedSeatId)}`:''}`;
   checkpoint.textContent=model.dark?'Blackout':model.boardLabel??'';
   if(model.phase?.kind==='NAV_SETTING')checkpoint.textContent=(model.boardLabel?`${model.boardLabel} · `:'')+'The course is being set.';
@@ -341,6 +351,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove]);
   if(key!==uiKey){uiKey=key;renderUI();}renderTargets();
   if(foodSurface.active){sheet.hidden=true;targetBar.hidden=true;}sheet.inert=foodSurface.active;rosterText.hidden=foodSurface.exclusive;
+  // The shared board skin forces data-open=true sheets to display, even when
+  // hidden. Keep that marker aligned for this Food consumer's ordinary shell.
+  if(food)sheet.dataset.open=String(!sheet.hidden);
   // Scroll clearance lets every board target move above the prompt without moving
   // any room, figure or fixed-slot coordinates. Darkness keeps only the frozen scene.
   const clearance=targetBar.hidden?0:targetBar.getBoundingClientRect().height+16;

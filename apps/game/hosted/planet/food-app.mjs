@@ -1,5 +1,5 @@
 import {createFoodTaskController,readPlanetView,readPlanetFood} from '@mothership/game';
-import {foodPackageCount} from '@mothership/presentation';
+import {foodPackageCount,foodPackagesText} from '@mothership/presentation';
 import {mountFoodRenderer} from './food-render.mjs';
 import {createFoodUi} from './food-ui.mjs';
 
@@ -31,12 +31,12 @@ export function mountFoodPublic(root,game){
  const stop=game.subscribe(model=>{
   if(!model.food||model.concealed||model.connection!=='live'){frame.hidden=true;return;}
   frame.hidden=false;const f=model.food,delta=doses===null?0:f.stock.doses-doses;doses=f.stock.doses;
-  if(delta>0)previous=`Food stock: ${foodPackageCount(doses)} packages (+${foodPackageCount(delta)})`;
+  if(delta>0)previous=`Food stock: ${foodPackagesText(doses)} (+${foodPackageCount(delta)})`;
   else if(delta<0)previous=null;
   const top=root.parentElement?.querySelector('.planet-header')?.getBoundingClientRect().height??0;
   const node=f.step?.kind==='AWAY'?ui.banner({icon:'supply',title:'Two players are away on the Food Supply Task',sub:'The board shows who. They come back when its time is up; the Task shows on their phones only.'})
-   :ui.toast(previous??`Food stock: ${foodPackageCount(doses)} packages`,'supply');
-  frame.replaceChildren(ui.h('div.fs-banner',{style:{top:`${top+44}px`}},node));
+   :previous?ui.toast(previous,'supply'):null;
+  frame.replaceChildren(...(node?[ui.h('div.fs-banner',{style:{top:`${top+44}px`}},node)]:[]));
  });
  return {dispose(){stop();frame.remove();}};
 }

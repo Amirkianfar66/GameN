@@ -37,9 +37,26 @@ if(seedRelease||q.get('abort')==='1'){
  foodStore.save(JSON.stringify({schemaVersion:1,ownerUid:uid,matchId:request.matchId,seatId:record.value.selfSeatId,entries:[request],contact:null}));
 }
 if(q.get('abort')==='1')Object.assign(record.value,{status:'aborted',publicView:null,playerView:null,foodPublicView:null,foodPlayerView:null});
+if(config.recovery){
+ foodStore.save(JSON.stringify({schemaVersion:1,ownerUid:uid,matchId:record.value.matchId,seatId:record.value.selfSeatId,entries:[config.recovery.request],contact:null}));
+}
 const app=await mountPlanetApp(document.querySelector('#app'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
 for(let i=0;i<30&&!app.game?.getModel().phase;i++)await new Promise(r=>setTimeout(r,0));
-const applySafe=()=>{const [top,bottom]=(q.get('safe')??'47,34').split(',').map(Number);for(const n of document.querySelectorAll('.planet-food')){n.style.setProperty('--safe-t',`${top}px`);n.style.setProperty('--safe-b',`${bottom}px`);}};
+const recoveryTransitions=[];
+if(config.recovery){
+ await app.food.checkReceipts();
+ const before=app.food.getModel();
+ if(before.feedback?.status!=='unknown'||before.canPanelLock)throw Error('Missing original receipt must remain unknown with controls closed');
+ recoveryTransitions.push({status:before.feedback.status,pending:before.pendingCount,canPanelLock:before.canPanelLock});
+ // Publish only the exact receipt returned by the candidate engine. A fresh
+ // snapshot or a missing lookup alone must never settle the original input.
+ receipts.set(config.recovery.request.commandId,copy(config.recovery.receipt));
+ await app.food.checkReceipts();await app.session.refresh();
+ const after=app.food.getModel();
+ if(after.feedback?.status!=='rejected'||!after.feedback.recovered||!after.canPanelLock||after.pendingCount!==0)throw Error('Authoritative recovered LOCK did not settle');
+ recoveryTransitions.push({status:after.feedback.status,pending:after.pendingCount,canPanelLock:after.canPanelLock});
+}
+const applySafe=()=>{const [top,bottom]=(q.get('safe')??'47,34').split(',').map(Number);for(const n of document.querySelectorAll('.planet-food.ph')){n.style.setProperty('--safe-t',`${top}px`);n.style.setProperty('--safe-b',`${bottom}px`);}};
 applySafe();
 if(config.feedback==='refused'){void app.food.press('PANEL_LOCK');for(let i=0;i<10&&!finishRefusal;i++)await Promise.resolve();}
 if(config.next){record=copy(config.next);await app.session.refresh();finishRefusal?.();}
@@ -55,7 +72,7 @@ if(config.feedback&&config.feedback!=='refused'&&config.act&&!seedRelease&&q.get
 }
 if(config.feedback==='lost'){lost=true;app.food.disconnect('network');}
 applySafe();
-window.foodAppHarness={app,entry,sent,lookups,scope:fixtures.scope,ready:true,
+window.foodAppHarness={app,entry,sent,lookups,recoveryTransitions,scope:fixtures.scope,ready:true,
  async replace(next){record=copy(next);await app.session.refresh();applySafe();},
  names(text){for(const m of record.value.members)m.displayName=text;return app.session.refresh();},
  setLost:v=>{lost=v;},setHoldCommands:v=>{holdCommands=v;},setReadHold:v=>{readHold=v;},setUid:v=>{uid=v;},

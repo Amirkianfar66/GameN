@@ -2,14 +2,14 @@
   "schema": "mothership.food-supplemental-comparison-plan/1",
   "status": "native-packet-mapping-implemented-capture-evidence-separate",
   "issue": 235,
-  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "designerHead": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
   "referencePins": {
-    "design/food-supply/review.mjs": "0e61ef72a0f2cce64a33615016b20195b00d8db92540037e8099d50bdf1916b6",
-    "design/food-supply/phone.mjs": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
-    "design/food-supply/phone.css": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b",
-    "design/food-supply/handoff.json": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1"
+    "design/food-supply/review.mjs": "35eb59c81de64d9d641e654f5ddbc6994a3d2ff2c461cf8f3c823daa9628505b",
+    "design/food-supply/phone.mjs": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
+    "design/food-supply/phone.css": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf",
+    "design/food-supply/handoff.json": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba"
   },
-  "scope": "Food-specific supplement; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.",
+  "scope": "Food-specific supplement including #241 gauge and twelve-character frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.",
   "profiles": [
     {
       "width": 390,
@@ -665,7 +665,7 @@
     },
     {
       "id": "food-flow-13",
-      "title": "Food warning: one package",
+      "title": "Food gauge: one package",
       "reference": {
         "page": "design/food-supply/phone.html",
         "query": "s=stock&n=1"
@@ -686,6 +686,32 @@
       "nativeScenario": {
         "page": "apps/game/dev/phone/food/app.html",
         "query": "case=food-flow-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-15",
+      "title": "Food gauge: half a package",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0.5"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-16",
+      "title": "Food gauge: empty",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-16",
         "packets": "apps/game/dev/phone/food/native-fixtures.json"
       }
     },
@@ -998,6 +1024,58 @@
       "nativeScenario": {
         "page": "apps/game/dev/phone/food/app.html",
         "query": "case=food-large-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-11",
+      "title": "Twelve-letter names: offline and cab hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=disconnect&t=6900&as=winch&names=long"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-12",
+      "title": "Twelve-letter names: LOCK hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6900&as=panel&names=long"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-13",
+      "title": "Twelve-letter names: Partner request",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called&names=long"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-14",
+      "title": "Food gauge: half a package",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0.5"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-14",
         "packets": "apps/game/dev/phone/food/native-fixtures.json"
       }
     },

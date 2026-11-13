@@ -1,0 +1,48 @@
+{
+  "scope": "Node-only synthetic engine-prefix and original-receipt checks. No browser/connected/device/Designer acceptance.",
+  "winch10": {
+    "query": "s=task&board=mistakes&t=8425&as=winch",
+    "at": 8425,
+    "panelStop": 5,
+    "displayStop": 6,
+    "crateState": "intake",
+    "settled": true,
+    "authoritativeOffer": [
+      "HOLD"
+    ],
+    "nativeHoldEnabled": true,
+    "referenceHoldEnabled": false,
+    "conclusion": "Matching mechanical fixture; source/contract conflict. The approved early held contact is offered by the server and must remain usable pending Designer/owner resolution."
+  },
+  "states06": {
+    "construction": "Constructed original stale-revision LOCK, rejected by the actual candidate engine. The native recovery store first has no receipt, then reads this exact authoritative receipt; no rejection is synthesized in the capture transport.",
+    "authoritativeReceipt": {
+      "status": "rejected",
+      "code": "STALE_CONTEXT"
+    },
+    "transitions": [
+      {
+        "receipt": null,
+        "status": "unknown",
+        "pending": 1,
+        "canPanelLock": false
+      },
+      {
+        "receipt": "original authoritative receipt",
+        "status": "rejected",
+        "recovered": true,
+        "pending": 0,
+        "canPanelLock": true
+      }
+    ],
+    "lookups": 2,
+    "commands": 0
+  },
+  "panel14": {
+    "releaseNext": false,
+    "offeredInputs": [
+      "KEY",
+      "PANEL_RELEASE"
+    ]
+  }
+}

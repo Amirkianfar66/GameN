@@ -35,7 +35,7 @@ const ordinary={board:{seats:value.rosterSeatIds.map((seatId,i)=>({seatId,locati
 const assets=createFoodAssets(document);void assets.load();
 document.documentElement.style.fontSize=`${Number(q.get('text')??1)*100}%`;
 const renderer=mountFoodRenderer(document.querySelector('#food-root'),controller,{identities:()=>identities,ordinary:()=>ordinary,assets,preferences:()=>({reduced:q.get('motion')==='reduced'})});
-const frame=document.querySelector('.planet-food');frame.style.setProperty('--safe-t',`${safe[0]}px`);frame.style.setProperty('--safe-b',`${safe[1]}px`);
+const frame=document.querySelector('.planet-food.ph');frame.style.setProperty('--safe-t',`${safe[0]}px`);frame.style.setProperty('--safe-b',`${safe[1]}px`);
 observe();if(q.get('sheet'))renderer.openTasks();
 const commonArt=loadArt('player',document).catch(()=>{});
 window.foodHarness={controller,renderer,assets,sent,lookups,identities,ordinary,commonArt,

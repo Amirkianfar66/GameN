@@ -36,7 +36,8 @@ const flow=[
  ['s=called','Partner: Join or Decline (15 s)'],['s=volunteer&step=declined','Volunteer: declined, the next volunteer goes'],['s=called&answer=join','Partner: joined'],
  ['s=volunteer&step=starting','Volunteer: starting'],['s=task&board=cooperation&t=2500&as=panel','Both: briefing'],['s=away','Another player: the board shows who is away'],
  ['s=return&board=cooperation&as=winch','Return after a delivery'],['s=return&board=cooperation&as=other','Another player after a delivery: food count only'],['s=return&board=chop&as=other','Another player after a death: board only'],
- ['s=stock&n=1','Food warning: one package'],['s=volunteer&step=rested','Next round: the two cannot go for food'],
+ ['s=stock&n=1','Food gauge: one package'],['s=volunteer&step=rested','Next round: the two cannot go for food'],
+ ['s=stock&n=0.5','Food gauge: half a package'],['s=stock&n=0','Food gauge: empty'],
 ];
 const states=[
  [`s=task&board=cooperation&t=${PLATFORM_AT-100}&as=panel&press=sending&act=lock`,'Panel: LOCK on its way'],[`s=task&board=cooperation&t=${R+1200}&as=panel&press=refused&act=lock`,'Panel: LOCK refused'],
@@ -52,14 +53,17 @@ const large=[
  [`s=task&board=cooperation&t=${PLATFORM_AT-100}&as=panel`,'Panel: LOCK now'],[`s=task&board=cooperation&t=${LANDED+200}&as=panel`,'Panel: landed'],
  [`s=task&board=disconnect&t=${CAB_AT-100}&as=winch`,'Winch: offline and cab hazard'],[`s=task&board=chop&t=${CAB_AT+2300}&as=panel`,'Lost'],
  [`s=task&board=cooperation&t=${PLATFORM_AT-100}&as=panel&press=sending&act=lock`,'Panel: LOCK sending'],[`s=task&board=cooperation&t=${R+1200}&as=panel&press=refused&act=lock`,'Panel: LOCK refused'],
+ [`s=task&board=disconnect&t=${CAB_AT-100}&as=winch&names=long`,'Twelve-letter names: offline and cab hazard'],
+ [`s=task&board=chop&t=${CAB_AT-100}&as=panel&names=long`,'Twelve-letter names: LOCK hazard'],
+ ['s=called&names=long','Twelve-letter names: Partner request'],['s=stock&n=0.5','Food gauge: half a package'],
 ];
 const cases=[];
 function rows(group,items){items.forEach(([query,title],i)=>cases.push({id:`food-${group}-${String(i+1).padStart(2,'0')}`,title,reference:{page:'design/food-supply/phone.html',query},nativeScenario:{page:'apps/game/dev/phone/food/app.html',query:`case=food-${group}-${String(i+1).padStart(2,'0')}`,packets:'apps/game/dev/phone/food/native-fixtures.json'}}));}
 for(const role of ['winch','panel'])rows(role,taskRows[role].map(([board,t,title,extra=''])=>[`s=task&board=${board}&t=${t}&as=${role}${extra}`,title]));
 rows('flow',flow);rows('states',states);rows('large',large);rows('stock',[['s=stock&n=0.5','Half a package'],['s=stock&n=0','No packages']]);
-if(cases.length!==76||new Set(cases.map(c=>c.id)).size!==76)throw Error('Exact named reference coverage required');
+if(cases.length!==82||new Set(cases.map(c=>c.id)).size!==82)throw Error('Exact named reference coverage required');
 const pins=Object.fromEntries(['design/food-supply/review.mjs','design/food-supply/phone.mjs','design/food-supply/phone.css','design/food-supply/handoff.json'].map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
-const plan={schema:'mothership.food-supplemental-comparison-plan/1',status:'native-packet-mapping-implemented-capture-evidence-separate',issue:235,designerHead:'9bb497948861521030c37a8d2c60a6318f1745c9',referencePins:pins,scope:'Food-specific supplement; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.',profiles:[{width:390,height:844,textScale:1,safeTop:47,safeBottom:34},{width:320,height:568,textScale:2,safeTop:20,safeBottom:0}],motion:['normal','reduced'],existingPartsToRecheck:['actions','panels','board','round-order','reconnecting','largest-text'],cases};
+const plan={schema:'mothership.food-supplemental-comparison-plan/1',status:'native-packet-mapping-implemented-capture-evidence-separate',issue:235,designerHead:'3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594',referencePins:pins,scope:'Food-specific supplement including #241 gauge and twelve-character frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.',profiles:[{width:390,height:844,textScale:1,safeTop:47,safeBottom:34},{width:320,height:568,textScale:2,safeTop:20,safeBottom:0}],motion:['normal','reduced'],existingPartsToRecheck:['actions','panels','board','round-order','reconnecting','largest-text'],cases};
 const target=resolve(root,'docs/frontend/food-supply-comparison-map.json'),bytes=JSON.stringify(plan,null,2)+'\n';
 if(process.argv.includes('--check')){if(readFileSync(target,'utf8')!==bytes)throw Error('Food comparison reference plan differs');}
 else writeFileSync(target,bytes);

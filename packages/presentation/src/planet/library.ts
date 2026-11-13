@@ -24,9 +24,12 @@ export function planetSupportsAssets(v:PlanetVersions):boolean{return planetHasF
 /** Publication metadata names the last shared board, including on PLAYER_CURRENT. */
 export function planetBoardLabel(view:Pick<PlanetView,'versions'|'board'>):string|null{
  const board=view.board;
- // The Food-only publication is current-round state, never an old round result.
- // Its new caption is pending Designer #222; do not invent words meanwhile.
- if((board.checkpoint as string|undefined)==='FOOD_RETURNED')return null;
+ // #241's approved caption names only the shared step, never its private result.
+ if((board.checkpoint as string|undefined)==='FOOD_RETURNED'){
+  if(!planetHasFood(view.versions)||!planetHasLibraryArt(view.versions))return null;
+  const shared=`After Food Supply · Round ${board.finalizedRound}`;
+  return board.kind==='FINALIZED'?shared:`Current board · shared: ${shared}`;
+ }
  if(!matches(view.versions,PLANET_BLACKOUT_PINS)&&!planetHasFood(view.versions))return board.kind==='FINALIZED'?`Last finalized board · Round ${board.finalizedRound}`:null;
  if(!board.checkpoint)return null;
  const labels:Readonly<Record<string,string>>={INITIAL:'Initial board',PRE_BLACKOUT:`Before Blackout · Round ${board.finalizedRound}`,AFTER_BLACKOUT:`After Blackout · Round ${board.finalizedRound}`,ROUND_FINALIZED:`Round ${board.finalizedRound} complete`};
