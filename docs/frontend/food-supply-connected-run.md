@@ -50,3 +50,21 @@ before the host reads the pending list. It also retains both devices' sanitized
 operation summaries and failure screenshots. It does not retry admission, change
 phase timing or alter native/Backend source. This preparation is not a passing
 connected result; each rerun uses a new evidence directory.
+
+The second attempt (`14682e85`, same native 703 and frozen Backend) admitted both
+devices and reached reading, but no Ready operation was emitted by its tap.
+The invitation wait timed out with 6/7 players ready; no Food command ran and 8/9
+were not attempted. Its evidence remains at
+`/private/tmp/gamen-food-native-connected-14682e85`. The cause is **unclassified**:
+that attempt did not capture disabled state, hit testing or viewport offsets at
+the tap, so a runner timing issue and a real onboarding obstacle are not yet
+distinguished.
+
+The prepared runner now records the actual Ready button's enabled state, rect,
+layout and visual viewport, scroll offsets, focus and `elementFromPoint` target.
+It waits for the rendered enabled control, scrolls normally into view, lets
+layout settle and uses physical touch input only when the hit target is that
+visible button. It requires the original successful Ready response before
+calling a run Ready. It does not use `element.click()`, a direct Ready request,
+a hidden control or an automatic retry. Any blocked/reachable-state failure
+remains evidence, not a bypass. These new diagnostics have not run yet.
