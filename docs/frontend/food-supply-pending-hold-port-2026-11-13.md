@@ -1,5 +1,7 @@
 # Food test 1: final early-Hold reference port
 
+> Historical final source checkpoint, before its completed captures. The [final 336-pair native review packet](food-supply-native-final-review-2026-11-13.md) records the completed run and current approval gates.
+
 This adopts Designer's exact reconciliation
 `cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b`, reviewed by Integration in
 [#241](https://github.com/Amirkianfar66/GameN/pull/241#issuecomment-6863901747).

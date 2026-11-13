@@ -1,0 +1,22 @@
+20 native/reference pairs captured
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: food-panel-16 gauge differs from authoritative matching fixture
++ actual - expected
+
++ 'Food: 6 packages'
+- 'Food low: 1 package left'
+       ^
+
+    at file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-compare.mjs:38:11 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'Food: 6 packages',
+  expected: 'Food low: 1 package left',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

@@ -1,5 +1,7 @@
 # Food test 1: approved #241 native port
 
+> Historical gauge/text source checkpoint. The [final 336-pair native review packet](food-supply-native-final-review-2026-11-13.md) records the completed run and current approval gates.
+
 This ports Designer source `3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594`,
 including its newer food-gauge decision. Integration confirmed the owner's
 approval and recorded it at `8caa059629a99908808c939e6a2cfdbf13d18ad2`.

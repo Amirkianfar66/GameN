@@ -1,0 +1,164 @@
+{
+  "native": "4a16b031f4e17b3b7323163f317a5ff27b70a525",
+  "combined": "c740af58f67d5b38ff4c9242e9cec5d538c9ce81",
+  "designer": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
+  "scope": "All30 explicitly registered native render/host sources are byte-identical before the refreshed static capture. Any later evidence-only head is identified separately. This does not confer visual or connected acceptance.",
+  "entries": [
+    {
+      "path": "apps/game/hosted/planet/food-geometry.mjs",
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ink.mjs",
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "bytes": 2408
+    },
+    {
+      "path": "apps/game/hosted/planet/food-machine.mjs",
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394
+    },
+    {
+      "path": "apps/game/hosted/planet/food-scene.mjs",
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694
+    },
+    {
+      "path": "apps/game/hosted/planet/food-icons.mjs",
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ui.mjs",
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436
+    },
+    {
+      "path": "apps/game/hosted/planet/food-kit.css",
+      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "bytes": 57285
+    },
+    {
+      "path": "apps/game/hosted/planet/food.css",
+      "sha256": "ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
+      "bytes": 30174
+    },
+    {
+      "path": "apps/game/hosted/planet/food-host.css",
+      "sha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "bytes": 1584
+    },
+    {
+      "path": "apps/game/hosted/planet/food-pose.mjs",
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "bytes": 6888
+    },
+    {
+      "path": "apps/game/hosted/planet/food-display.mjs",
+      "sha256": "dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
+      "bytes": 9337
+    },
+    {
+      "path": "apps/game/hosted/planet/food-assets.mjs",
+      "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+      "bytes": 1823
+    },
+    {
+      "path": "apps/game/hosted/planet/food-render.mjs",
+      "sha256": "fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
+      "bytes": 35522
+    },
+    {
+      "path": "apps/game/hosted/planet/food-app.mjs",
+      "sha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "bytes": 3270
+    },
+    {
+      "path": "packages/presentation/src/planet/food.ts",
+      "sha256": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
+      "bytes": 3621
+    },
+    {
+      "path": "apps/game/hosted/planet/food-gauge.mjs",
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107
+    },
+    {
+      "path": "apps/game/hosted/planet/food-tags.mjs",
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "sha256": "71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
+      "bytes": 25234
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "sha256": "79872afa8216eb74669f798c67427ecaf3bff977ebffed4bdfa323a95b51b248",
+      "bytes": 53361
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.mjs",
+      "sha256": "227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+      "bytes": 11738
+    },
+    {
+      "path": "apps/game/src/planet/controller.ts",
+      "sha256": "728ad00df7318235a3dd40e77d7cf393bfa9e20b7c5ede518f54790b4caddb00",
+      "bytes": 31492
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+      "bytes": 27860
+    },
+    {
+      "path": "apps/game/src/planet/transport.ts",
+      "sha256": "2568a7750f59eef9ef0abaddff04e067492f97ce81a72eb48506e710ab37b044",
+      "bytes": 6616
+    },
+    {
+      "path": "apps/game/src/planet/food.ts",
+      "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
+      "bytes": 18812
+    },
+    {
+      "path": "apps/game/src/planet/food-input.ts",
+      "sha256": "030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
+      "bytes": 1469
+    },
+    {
+      "path": "apps/game/src/planet/food-recovery.ts",
+      "sha256": "aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
+      "bytes": 3917
+    },
+    {
+      "path": "packages/presentation/src/planet/library.ts",
+      "sha256": "3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+      "bytes": 4845
+    },
+    {
+      "path": "packages/presentation/src/planet/model.ts",
+      "sha256": "012324bd4e310a16011b1d0b97632c118e94d3b9fcd9a508c699fb3a1e8b1672",
+      "bytes": 13271
+    },
+    {
+      "path": "apps/game/src/index.ts",
+      "sha256": "11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
+      "bytes": 5077
+    },
+    {
+      "path": "packages/presentation/src/index.ts",
+      "sha256": "fcc6f5733a59a195cfa2144e984d8eb7c31d6428fdf7756f9a6c52fd306b8df0",
+      "bytes": 3497
+    }
+  ],
+  "additionalCombined": "7d73e4fb6dfcb79b7dab5a6910d1b2678b8798b1",
+  "captureToolHead": "a06fb8452ad74abb06036e51872aa57d11ca6f51",
+  "captureOnlyChanges": [
+    "00ccc72c: per-input gauge validation and diagnostic documentation",
+    "a06fb845: exact reference-source pin and scope clarification"
+  ]
+}

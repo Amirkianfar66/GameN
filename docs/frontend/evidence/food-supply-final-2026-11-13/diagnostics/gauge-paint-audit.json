@@ -1,0 +1,105 @@
+{
+  "scope": "Exact screenshot RGB crop at each recorded Food gauge rectangle; no image rewrite or native source change. Amber pixel count is paint evidence, not visual approval.",
+  "facts": [
+    {
+      "id": "food-states-15",
+      "profile": "390-844-text1-normal",
+      "native": {
+        "rect": {
+          "x": 304.609375,
+          "y": 78,
+          "width": 41.390625,
+          "height": 17
+        },
+        "amberPixels": 488,
+        "paintCropRgbSha256": "d33e575d958732473541bbf22525a030064d83549b494e345786ac5f6a911523"
+      },
+      "reference": {
+        "rect": {
+          "x": 304.609375,
+          "y": 78,
+          "width": 41.390625,
+          "height": 17
+        },
+        "amberPixels": 488,
+        "paintCropRgbSha256": "d33e575d958732473541bbf22525a030064d83549b494e345786ac5f6a911523"
+      },
+      "paintCropEqual": true
+    },
+    {
+      "id": "food-states-15",
+      "profile": "390-844-text1-reduced",
+      "native": {
+        "rect": {
+          "x": 304.609375,
+          "y": 78,
+          "width": 41.390625,
+          "height": 17
+        },
+        "amberPixels": 488,
+        "paintCropRgbSha256": "d33e575d958732473541bbf22525a030064d83549b494e345786ac5f6a911523"
+      },
+      "reference": {
+        "rect": {
+          "x": 304.609375,
+          "y": 78,
+          "width": 41.390625,
+          "height": 17
+        },
+        "amberPixels": 488,
+        "paintCropRgbSha256": "d33e575d958732473541bbf22525a030064d83549b494e345786ac5f6a911523"
+      },
+      "paintCropEqual": true
+    },
+    {
+      "id": "food-states-15",
+      "profile": "320-568-text2-normal",
+      "native": {
+        "rect": {
+          "x": 236.875,
+          "y": 70.34375,
+          "width": 39.125,
+          "height": 22
+        },
+        "amberPixels": 629,
+        "paintCropRgbSha256": "ccdd635a8d1efe1e04b33ea45ab32ae1bbf11a1b0f0ff3a5918eace4d651112d"
+      },
+      "reference": {
+        "rect": {
+          "x": 236.875,
+          "y": 70.34375,
+          "width": 39.125,
+          "height": 22
+        },
+        "amberPixels": 629,
+        "paintCropRgbSha256": "ccdd635a8d1efe1e04b33ea45ab32ae1bbf11a1b0f0ff3a5918eace4d651112d"
+      },
+      "paintCropEqual": true
+    },
+    {
+      "id": "food-states-15",
+      "profile": "320-568-text2-reduced",
+      "native": {
+        "rect": {
+          "x": 236.875,
+          "y": 70.34375,
+          "width": 39.125,
+          "height": 22
+        },
+        "amberPixels": 629,
+        "paintCropRgbSha256": "ccdd635a8d1efe1e04b33ea45ab32ae1bbf11a1b0f0ff3a5918eace4d651112d"
+      },
+      "reference": {
+        "rect": {
+          "x": 236.875,
+          "y": 70.34375,
+          "width": 39.125,
+          "height": 22
+        },
+        "amberPixels": 629,
+        "paintCropRgbSha256": "ccdd635a8d1efe1e04b33ea45ab32ae1bbf11a1b0f0ff3a5918eace4d651112d"
+      },
+      "paintCropEqual": true
+    }
+  ]
+}
