@@ -61,6 +61,17 @@ Its phone-frame selector excludes the ordinary gauge's small token/style island.
 
 ## Verification and remaining gates
 
+The first full comparison stopped after 33 pairs at `food-panel-16`: the
+engine's public and own stock both contain 12 doses after the delivery, while
+the reference Task header still passes its initial 2-dose constant. Native six
+packages is retained. The capture harness now validates each side against its
+own independent input: native public doses from the engine packet, and the
+reference's declared stock setup/query/outcome. It records the input difference
+explicitly, rather than requiring unrelated fixture counts to be equal. This
+changes no native byte or gauge value. The failed run is preserved as a
+historical harness diagnostic, and
+[the reference question is recorded in #222](https://github.com/Amirkianfar66/GameN/issues/222#issuecomment-6863654263).
+
 Light checks completed: the presentation package builds; all seven focused Food
 presentation tests pass, including exact-tuple caption gating and package/level
 labels; the Node engine/receipt audit passes. Missing receipts still remain
