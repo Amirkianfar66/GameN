@@ -35,13 +35,16 @@ export interface PlanetEnginePort<S extends PlanetStateEnvelope> {
   projectPlanetFoodPublic?(state:S,serverNowMs:number):FoodTaskPublicView;
   projectPlanetFoodPlayer?(state:S,actor:SeatId,serverNowMs:number):FoodTaskPlayerView;
 }
-export interface PlanetTransaction {
+export interface PlanetReadTransaction {
   get<T>(key:string):Promise<T|null>;
+}
+export interface PlanetTransaction extends PlanetReadTransaction {
   set(key:string,value:unknown):void;
   delete(key:string):void;
 }
 export interface PlanetPersistence {
   transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>;
+  readOnly?<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>;
   listKeys(namespace:string,limit:number):Promise<string[]>;
 }
 interface Member {
@@ -111,7 +114,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
   const requireHost=(s:Session<S>,uid:string)=>{if(s.hostUid!==uid)reject('FORBIDDEN');};
   const requireMember=(s:Session<S>,uid:string)=>member(s,uid)??reject('FORBIDDEN');
   const matchKey=(matchId:string)=>'session/'+matchId;
-  async function load(tx:PlanetTransaction,matchId:string):Promise<Session<S>> {
+  async function load(tx:PlanetReadTransaction,matchId:string):Promise<Session<S>> {
     const s=await tx.get<Session<S>>(matchKey(matchId));
     if(!s)reject('FORBIDDEN');
     if(s.matchId!==matchId)throw new Error('Saved session identity mismatch');
@@ -482,8 +485,9 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     await store.transaction(async tx=>{const current=await tx.get<PlanetDeadlineJob>(path);if(current&&current.status!=='complete')tx.set(path,{...current,status:'dispatched',nextAttemptAt:job.endsAt+10_000});});
   }
   async function runBots(matchId:string):Promise<{accepted:number}>{
-    const existing=await store.transaction(tx=>tx.get<Session<S>>(matchKey(matchId)));
-    if(existing?.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion&&existing.state)return food.runBots(matchId);
+    const classify=(tx:PlanetReadTransaction)=>tx.get<Session<S>>(matchKey(matchId));
+    const existing=await (store.readOnly?store.readOnly(classify):store.transaction(classify));
+    if(existing?.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion)return food.runBots(matchId);
     const ctx=context();return store.transaction(async tx=>{ctx.now=clock();const s=await load(tx,matchId);
       const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});
   }
