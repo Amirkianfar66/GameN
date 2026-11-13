@@ -60,6 +60,18 @@ test('relative traversal and nonliteral imports cannot bypass exact runtime perm
   assert.doesNotThrow(() => check('apps/game', "import './screen.js';"));
 });
 
+test('Food worker waits and monotonic budgets permit only the exact server timing utilities', () => {
+  for (const name of ['node:timers/promises', 'node:perf_hooks']) {
+    assert.doesNotThrow(() => check('services/game-api', `import '${name}';`, 'ts'));
+    for (const workspace of ['apps/game', 'packages/engine', 'packages/contracts', 'packages/presentation']) {
+      assert.throws(() => check(workspace, `import '${name}';`, 'ts'), /Unreviewed source dependency/);
+    }
+  }
+  for (const name of ['node:timers', 'timers/promises', 'perf_hooks', 'node:worker_threads']) {
+    assert.throws(() => check('services/game-api', `import '${name}';`, 'ts'), /Unreviewed source dependency/);
+  }
+});
+
 test('browser gets document while pure programs and package builds reject document', () => {
   const temp = mkdtempSync(resolve(tmpdir(), 'mothership-types-'));
   try {

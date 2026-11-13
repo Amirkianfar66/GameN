@@ -16,6 +16,6 @@ export const developmentDependencies = {
 export const runtimeSpecifiers = {
   ...runtimeDependencies,
   'apps/game': ['@mothership/contracts', '@mothership/presentation', '@mothership/design-tokens', 'react', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom/client', 'firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/app-check', '@noble/hashes/sha2.js'],
-  'services/game-api': ['@mothership/contracts', '@mothership/engine', 'node:crypto', 'node:buffer', 'firebase-admin/firestore'],
+  'services/game-api': ['@mothership/contracts', '@mothership/engine', 'node:crypto', 'node:buffer', 'node:timers/promises', 'node:perf_hooks', 'firebase-admin/firestore'],
   'infra/firebase': ['@mothership/game-api', '@mothership/contracts', 'node:crypto', 'node:buffer', 'firebase-admin/app', 'firebase-admin/auth', 'firebase-admin/app-check', 'firebase-admin/firestore', 'firebase-admin/functions', 'firebase-functions/v2/tasks', 'firebase-functions/v2/https', 'firebase-functions/v2/firestore', 'firebase-functions/v2/scheduler', 'firebase-functions/v2/core'],
 };
