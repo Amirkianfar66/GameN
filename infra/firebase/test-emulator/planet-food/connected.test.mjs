@@ -17,11 +17,23 @@ async function invoke(payload,identity){
   const response=await fetch(`http://${functionsHost}/${projectId}/us-central1/planetApi`,{
     method:'POST',signal:AbortSignal.any([AbortSignal.timeout(10000),...(scenarioSignal?[scenarioSignal]:[])]),headers:{'content-type':'application/json',origin:'http://localhost:5173',
       ...(identity?{authorization:`Bearer ${identity.idToken}`}:{})},body:JSON.stringify(payload)});
-  const body=await response.json();requestTimings.push({operation:payload.operation,ms:Date.now()-began});
+  const body=await response.json();requestTimings.push({operation:payload.operation,ms:Date.now()-began,status:response.status});
+  if(response.status===503&&body.ok===false&&body.error?.code==='UNAVAILABLE')
+    throw Object.assign(new Error('Temporary transport unavailable'),{transportUnavailable:true});
   assert.equal(response.status,200,JSON.stringify(body));assert.equal(body.ok,true,JSON.stringify(body));return body.result;
 }
 const operation=(operation,matchId,extra={})=>({operation,matchId,requestId:randomUUID(),...extra});
-const read=async(matchId,identity)=>PlanetSessionSnapshotSchema.parse(await invoke({operation:'read',matchId},identity));
+async function read(matchId,identity){
+  for(let attempt=0;;attempt++){
+    try{return PlanetSessionSnapshotSchema.parse(await invoke({operation:'read',matchId},identity));}
+    catch(error){
+      // A new snapshot retries transport only. State-changing requests keep their
+      // original IDs and do not receive a blanket server-side retry here.
+      if(error.transportUnavailable!==true||attempt>=3)throw error;
+      await pause(500);
+    }
+  }
+}
 async function waitFor(predicate,label,timeout=120000){
   const end=Date.now()+timeout;
   do{const found=await predicate();if(found)return found;await pause(1000);}while(Date.now()<end);
@@ -53,7 +65,11 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
       await pause(Math.max(0,reading.setup.endsAt-Date.now()));
       await invoke(operation('ready',matchId),human);
       stage('READY');
-      let view=await waitFor(async()=>{const v=await read(matchId,human);return v.foodPlayerView?.offers.some(o=>o.type==='TASK_ANSWER')?v:false;},`${count} automatic human invitation`);
+      let view,lastRead;
+      try{view=await waitFor(async()=>{const v=await read(matchId,human);lastRead=v;return v.foodPlayerView?.offers.some(o=>o.type==='TASK_ANSWER')?v:false;},`${count} automatic human invitation`);}
+      catch(error){stage('INVITATION_FAILED',{status:lastRead?.status,phase:lastRead?.publicView?.phase,round:lastRead?.foodPlayerView?.round,
+        foodStep:lastRead?.foodPlayerView?.step,ownAvailability:lastRead?.foodPlayerView?.ownAvailability,
+        invitation:lastRead?.foodPlayerView?.invitation,offers:lastRead?.foodPlayerView?.offers.map(o=>o.type)});throw error;}
       stage('INVITED');
       assert.deepEqual(view.versions,{...PLANET_FOOD_TASK_PINS,assetManifestVersion:process.env.MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION});
       const receipts=[];let taskId=null,returnsAt=null,delivered=false,nextRead=Date.now()+500,lastTask=null;
@@ -116,7 +132,8 @@ test('7/8/9: normal HTTP setup, lone human and private bot workers deliver and r
     scenarioSignal=undefined;
     context.diagnostic(JSON.stringify({transport:Object.fromEntries([...new Set(requestTimings.map(r=>r.operation))].map(operation=>{
       const times=requestTimings.filter(r=>r.operation===operation).map(r=>r.ms).sort((a,b)=>a-b);
-      return [operation,{count:times.length,p95Ms:times[Math.ceil(times.length*.95)-1],maxMs:times.at(-1)}];
+      return [operation,{count:times.length,p95Ms:times[Math.ceil(times.length*.95)-1],maxMs:times.at(-1),
+        unavailable:requestTimings.filter(r=>r.operation===operation&&r.status===503).length}];
     }))}));
     for(const {host,matchId}of matches)try{await invoke(operation('abort',matchId),host);}catch{}
     await db.terminate();await deleteApp(app);
