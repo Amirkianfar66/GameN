@@ -6,7 +6,7 @@ import {posix, resolve} from 'node:path';
 import {prepareFoodSupplyArt, FOOD_STATIC_ART, FOOD_STATIC_ART_SHA256} from './food-supply-art.mjs';
 
 export const FOOD_CONSUMER_SOURCE = 'docs/integration/food-consumer-source-2026-11-13.json';
-export const FOOD_CONSUMER_SOURCE_SHA256 = 'e0d7e7e9e075ac12083166240e0bb4bfa94735c9cab53c31522f9e60196c2497';
+export const FOOD_CONSUMER_SOURCE_SHA256 = '37f5f42269489e85cc0fadd272a51e2b9f01916f3e03dd0d02c3f837aa81e8ee';
 const verified = new WeakSet();
 const sha = value => createHash('sha256').update(value).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food consumer source: ${message}`);};
@@ -43,7 +43,7 @@ export function readFoodConsumerSource(root) {
   check(sha(bytes) === FOOD_CONSUMER_SOURCE_SHA256, 'independent registration hash differs');
   const source = JSON.parse(bytes);
   check(source.schema === 'mothership.food-consumer-source/1' && source.status === 'reviewed-source-candidate' &&
-    Object.keys(source.files).length === 28, 'complete named source inventory required');
+    Object.keys(source.files).length === 30, 'complete named source inventory required');
   check(source.target.assetManifestVersion === 'design-0.9.0' && source.target.tokensVersion === '0.5.0' &&
     source.target.protocolVersion === 3 && source.target.engineVersion === 'planet-game-1.4.0' &&
     source.target.rulesetVersion === 'in-person-planet-food-task-2026-11-12' &&
@@ -57,7 +57,7 @@ export function readFoodConsumerSource(root) {
     pin(root, reference.path, reference);
   const closure = JSON.parse(read(root, source.closure.path));
   const closureFiles = [...closure.renderModules, ...closure.existingConsumersAndClientGlue];
-  check(closureFiles.length === 28 && new Set(closureFiles.map(entry => entry.path)).size === 28, 'closure is incomplete');
+  check(closureFiles.length === 30 && new Set(closureFiles.map(entry => entry.path)).size === 30, 'closure is incomplete');
   for (const reference of closureFiles) {
     const entry = source.files[reference.path];
     check(entry?.sha256 === reference.sha256 && entry.bytes === reference.bytes, `closure differs: ${reference.path}`);

@@ -1,0 +1,20 @@
+/* Native mounting/input rules; the drawn components remain in the scoped pack copies. */
+.planet-food-host { position: absolute; inset: 0; z-index: 7000; pointer-events: none; }
+.planet-food.ph { position: absolute; inset: 0; background: transparent; pointer-events: none; }
+.planet-food :is(.tb,.tabs,.sheet,.scrim,.fs-card,.fs-screen,.fs-banner) { pointer-events: auto; }
+.planet-food [hidden] { display: none !important; }
+.planet-food .fs-ctl[data-act="hold"] { touch-action: none; -webkit-user-select: none; user-select: none; }
+.planet-food .fs-ctl { -webkit-touch-callout: none; }
+/* Programmatic dialog focus must keep the pack's absolute placement. The
+   ordinary shell's focus rule otherwise changes it to position: relative. */
+.planet-food :is(.sheet,.fs-card):focus-visible { position: absolute; outline: none; }
+.planet-food .sheet:focus-visible { z-index: 45; }
+.planet-food .fs-card:focus-visible { z-index: 40; }
+/* The approved gauge inside the ordinary native clock column uses the same
+   scoped kit tokens without turning the ordinary header into a Food screen. */
+.planet-app .planet-header > .food-native-clock { grid-column: 4; grid-row: 1; height: auto; background: transparent; }
+@container (max-width: 22.5rem) {
+ .planet-app .planet-header > .food-native-clock { grid-column: 3; grid-row: 2; }
+}
+.planet-food .food-portrait { background-image: var(--food-portrait); background-size: contain; background-repeat: no-repeat; background-position: center; }
+.planet-app[data-food-chrome="true"] > :is(.planet-header,.planet-nav) { display: none !important; }

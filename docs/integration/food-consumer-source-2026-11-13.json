@@ -1,8 +1,8 @@
 {
   "schema": "mothership.food-consumer-source/1",
   "status": "reviewed-source-candidate",
-  "candidateHead": "50441cf4fd65589925c14e3574b8618d27ac434e",
-  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "candidateHead": "4a16b031f4e17b3b7323163f317a5ff27b70a525",
+  "designerHead": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
   "scope": "Exact technical source compatibility for Food test 1. This is not Designer visual acceptance, production adoption, creation enablement or deployment.",
   "target": {
     "protocolVersion": 3,
@@ -25,12 +25,12 @@
   },
   "closure": {
     "path": "docs/frontend/food-supply-render-closure.json",
-    "sha256": "01a4a2c32dfcf7642f7024b92042fdf526a91af2262a24b67e4ccecb9b641cd6",
-    "bytes": 9892
+    "sha256": "c8ed71007f36d0f1ef247ada373e8ba65115f9a0c1ca5d7cf18df238aed61446",
+    "bytes": 11077
   },
   "staticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
-    "sha256": "71b42abfd76658de877eacfc8904106696d5d6e81552524c4730ed2e76c64f2c",
+    "sha256": "38343bf33b20211451b5f74c9a46d9939d3bdbe858436dd654b44472b59a383c",
     "bytes": 14150
   },
   "predecessorTooling": {
@@ -40,12 +40,12 @@
   },
   "sourcePins": {
     "docs/design/food-supply.md": {
-      "sha256": "b7bc253831e307313e76dbb519d31e35889585002cdbf880b3e83a001ab57f88",
-      "bytes": 62716
+      "sha256": "1e9f487f39ba5287fc6ee987357a03bcf59f587baf5f3701558573dfe67f7713",
+      "bytes": 66178
     },
     "design/food-supply/handoff.json": {
-      "sha256": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1",
-      "bytes": 145836
+      "sha256": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba",
+      "bytes": 147525
     },
     "design/food-supply/layout.mjs": {
       "sha256": "cfa83b8a5ac09a72817a2d9d80f8a2d7e17552d2fdc36555b8f999c8aa6ce547",
@@ -64,12 +64,12 @@
       "bytes": 6470
     },
     "design/food-supply/phone.mjs": {
-      "sha256": "24c2a45957649c19227ec8f2c418bb78269cd720394336938b54f78a17d84fa0",
-      "bytes": 37949
+      "sha256": "7a01331e705af91c9574f461d8b79e85496ff1b4c2ea98b098947f68ae9c7094",
+      "bytes": 43258
     },
     "design/food-supply/phone.css": {
-      "sha256": "16bd76660ce849dedf0fbbbe632c31c84a70d0da34fa7b6d94da86654664ed0b",
-      "bytes": 14980
+      "sha256": "c797b538aba11cb98ffb1e2601e763bfe0b5d240523036df19b2e5698aba94cf",
+      "bytes": 20109
     },
     "design/phone-ui/prototype/ui.mjs": {
       "sha256": "75fdf8d081028fb5e403cbd34c2bd1d0e915038a9f57e13755fe03d23add6118",
@@ -90,6 +90,10 @@
     "design/phone-ui/prototype/art.mjs": {
       "sha256": "8525806f0f4e17664562bb25bff04040a0305f2ce21f7ef38359cd82dc7704d8",
       "bytes": 24685
+    },
+    "design/food-supply/hints.mjs": {
+      "sha256": "a2404b4d0b6a4fa3bb1308ab46de722b554980e93007c92e10ac6ee01d47b4c3",
+      "bytes": 7259
     }
   },
   "files": {
@@ -144,16 +148,16 @@
     },
     "apps/game/hosted/planet/food.css": {
       "previousSha256": null,
-      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
-      "bytes": 22648,
-      "candidateBlob": "design/releases/candidate-blobs/b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+      "sha256": "ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
+      "bytes": 30174,
+      "candidateBlob": "design/releases/candidate-blobs/ae29eab2cb824e69e04da6a800f9d2197cfff7596d8fc17bd6f3a68f5ab3e892",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-host.css": {
       "previousSha256": null,
-      "sha256": "0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
-      "bytes": 847,
-      "candidateBlob": "design/releases/candidate-blobs/0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
+      "sha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "bytes": 1584,
+      "candidateBlob": "design/releases/candidate-blobs/b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-pose.mjs": {
@@ -165,9 +169,9 @@
     },
     "apps/game/hosted/planet/food-display.mjs": {
       "previousSha256": null,
-      "sha256": "978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
-      "bytes": 9317,
-      "candidateBlob": "design/releases/candidate-blobs/978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
+      "sha256": "dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
+      "bytes": 9337,
+      "candidateBlob": "design/releases/candidate-blobs/dab416f77e4d2fe186fe0001a8b71f553e082143036d5148daf257e83720f7d7",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-assets.mjs": {
@@ -179,23 +183,37 @@
     },
     "apps/game/hosted/planet/food-render.mjs": {
       "previousSha256": null,
-      "sha256": "dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
-      "bytes": 34921,
-      "candidateBlob": "design/releases/candidate-blobs/dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
+      "sha256": "fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
+      "bytes": 35522,
+      "candidateBlob": "design/releases/candidate-blobs/fdaa6cc9e201e4d2a63aff60c71d5b1b711062e2d71400b5536e7e6c04f1bbd5",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-app.mjs": {
       "previousSha256": null,
-      "sha256": "9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
-      "bytes": 3284,
-      "candidateBlob": "design/releases/candidate-blobs/9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
+      "sha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "bytes": 3270,
+      "candidateBlob": "design/releases/candidate-blobs/b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
       "acceptedPreviousHashes": []
     },
     "packages/presentation/src/planet/food.ts": {
       "previousSha256": null,
-      "sha256": "5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
-      "bytes": 3079,
-      "candidateBlob": "design/releases/candidate-blobs/5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
+      "sha256": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
+      "bytes": 3621,
+      "candidateBlob": "design/releases/candidate-blobs/e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-gauge.mjs": {
+      "previousSha256": null,
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107,
+      "candidateBlob": "design/releases/candidate-blobs/ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/food-tags.mjs": {
+      "previousSha256": null,
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024,
+      "candidateBlob": "design/releases/candidate-blobs/65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/app.mjs": {
@@ -213,9 +231,9 @@
     },
     "apps/game/hosted/planet/render.mjs": {
       "previousSha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
-      "sha256": "3e93b023fc331c58601003a21045508579e1c659ea5fb95b98993e626fd2b20a",
-      "bytes": 52291,
-      "candidateBlob": "design/releases/candidate-blobs/3e93b023fc331c58601003a21045508579e1c659ea5fb95b98993e626fd2b20a",
+      "sha256": "79872afa8216eb74669f798c67427ecaf3bff977ebffed4bdfa323a95b51b248",
+      "bytes": 53361,
+      "candidateBlob": "design/releases/candidate-blobs/79872afa8216eb74669f798c67427ecaf3bff977ebffed4bdfa323a95b51b248",
       "acceptedPreviousHashes": [
         "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
         "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
@@ -288,9 +306,9 @@
     },
     "packages/presentation/src/planet/library.ts": {
       "previousSha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
-      "sha256": "c45d1e3e478320a50356987d4534714f9cc0a72ba12570a51c9690895914cc0c",
-      "bytes": 4696,
-      "candidateBlob": "design/releases/candidate-blobs/c45d1e3e478320a50356987d4534714f9cc0a72ba12570a51c9690895914cc0c",
+      "sha256": "3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+      "bytes": 4845,
+      "candidateBlob": "design/releases/candidate-blobs/3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
       "acceptedPreviousHashes": [
         "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
         "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",

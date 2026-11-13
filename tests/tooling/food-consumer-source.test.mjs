@@ -29,7 +29,7 @@ function fixture(t) {
 
 test('Food registration binds the full client closure without selecting it for new matches', () => {
   const source = readFoodConsumerSource(root);
-  assert.equal(Object.keys(source.files).length, 28);
+  assert.equal(Object.keys(source.files).length, 30);
   assert.equal(source.status, 'reviewed-source-candidate');
   const food = readRuntimeArtRelease(root, 'design-0.9.0');
   assert.equal(food.staticAssets.length, 37);

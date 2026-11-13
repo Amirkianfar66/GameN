@@ -50,7 +50,8 @@ static set; no prototype, synthetic review page or simulator ships.
 
 The Planet package must include its two new service dependencies,
 `planet-food-service` and `food-bot-policy`, and export its four engine Food
-ports. The standalone verification imports that isolated package, constructs
+ports plus the read-only `hasOnlyDuePlanetFoodWarnings` classifier. The
+standalone verification imports that isolated package, constructs
 the disabled Food-profile service without reading state, and checks all five
 Firebase exports and private task invocation. A workspace import cannot
 substitute for this packaging check.

@@ -3,7 +3,7 @@
   "status": "reviewed-static-source-candidate",
   "artVersion": "design-0.9.0",
   "tokensVersion": "0.5.0",
-  "designerHead": "9bb497948861521030c37a8d2c60a6318f1745c9",
+  "designerHead": "3f4cb5e78a5e8d4f1bb17eb3487dcec26df6a594",
   "integrationBase": "f9e7e11bd6c23671f96832bf45d79146e6fd855c",
   "scope": "Static source bytes only. This record does not admit the native consumer, select new matches, or publish a release.",
   "inputs": {
@@ -92,8 +92,8 @@
       "bytes": 29471
     },
     "design/food-supply/handoff.json": {
-      "sha256": "9acb23ee19662358cad4f9ec4785e1e86a019fab8cf99d95f3d056db8f5778a1",
-      "bytes": 145836
+      "sha256": "d691eea2a2fbb92472260ca52494646b3ed2706fcf75ae9e9f95bafb1046f3ba",
+      "bytes": 147525
     },
     "design/food-supply/art/supply-room.back.svg": {
       "sha256": "d993437538cd046625d712c21664fa6895c82a0be98540de70e8962f93ba20d1",
