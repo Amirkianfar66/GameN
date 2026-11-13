@@ -13,7 +13,8 @@
     "record_path": "docs/specifications/planet-successor/food-task-owner-decision-2026-11-12.md",
     "designer_reply": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6830762961",
     "latest_designer_command_note": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6845979867",
-    "latest_recorded_owner_decisions": "docs/design/owner-decisions.md at 9bb497948861521030c37a8d2c60a6318f1745c9; includes hunger order, remaining timing, and no slower mode for now."
+    "latest_recorded_owner_decisions": "docs/design/owner-decisions.md at 9bb497948861521030c37a8d2c60a6318f1745c9; includes hunger order, remaining timing, and no slower mode for now.",
+    "hold_continuation_adoption": "https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539"
   },
   "parent": {
     "path": "rules/planet-successor-blackout-before-vote-authority-2026-11-10.json",
@@ -42,7 +43,7 @@
     },
     {
       "id": "FOOD-05",
-      "rule": "The server assigns Winch and Panel randomly when the Task starts. The Winch has one Hold button: finger down lifts/holds the crate and finger up releases it. The prototype calls these inputs raise/lower; it does not authorize two separate buttons or a production command schema. Panel controls horizontal Release/Lock. A wrong-place release breaks the crate; a replacement must be fetched from the intake within the remaining Task time. Breakage consumes no food and does not reset the deadline. Task travel consumes no voluntary movement. No separate attack, arming, confirmation or escape input is added. The Supply Room is not an ordinary movement destination."
+      "rule": "The server assigns Winch and Panel randomly when the Task starts. The Winch has one Hold button: finger down lifts/holds the crate and finger up releases it. The prototype calls these inputs raise/lower; it does not authorize two separate buttons or a production command schema. Panel controls horizontal Release/Lock. A wrong-place release breaks the crate; a replacement must be fetched from the intake within the remaining Task time. Breakage consumes no food and does not reset the deadline. Task travel consumes no voluntary movement. No separate attack, arming, confirmation or escape input is added. The Supply Room is not an ordinary movement destination. Later owner adoption on 13 November: release above intake returns the crate intact; platform landing requires Panel locked; an early held finger auto-picks up at eligibility; a stopped drop remains on its safety brake until the next Hold."
     },
     {
       "id": "FOOD-06",
@@ -58,7 +59,7 @@
     },
     {
       "id": "FOOD-09",
-      "rule": "An unblocked crate drop onto the Panel operator breaks the crate and loses the Task. The Winch has no kill-and-deliver recovery path. Only the Panel can kill and still deliver: cut after the crate has landed and then turn the surviving Panel operator's key. Other deaths without a valid delivery position lose the Task. Both living operators turn their keys for ordinary delivery; a legitimate survivor uses their own key. Applicable Protection or lucky stops remain stops, not kills. This intentionally supersedes the previous two-sided survivor paths; the proposed brake continuation is not automatically adopted."
+      "rule": "An unblocked crate drop onto the Panel operator breaks the crate and loses the Task. The Winch has no kill-and-deliver recovery path. Only the Panel can kill and still deliver: cut after the crate has landed and then turn the surviving Panel operator's key. Other deaths without a valid delivery position lose the Task. Both living operators turn their keys for ordinary delivery; a legitimate survivor uses their own key. Applicable Protection or lucky stops remain stops, not kills. This intentionally supersedes the previous two-sided survivor paths; the later-approved brake continuation retains the crate until the next Hold."
     },
     {
       "id": "FOOD-10",
@@ -140,12 +141,14 @@
     "deployment_authorized": false
   },
   "revised_on": "2026-11-13",
-  "remaining_proposed_hold_behaviors": {
-    "status": "explicit-proposals-in-pinned-design-not-adopted-by-this-record",
-    "intake_return": "Release over the intake returns the crate intact rather than breaking it.",
-    "moving_platform": "Landing requires the panel to be locked; a release over a moving platform breaks the crate.",
-    "early_hold": "A finger already down lifts automatically as soon as the hook is eligible over the crate.",
-    "stopped_drop_brake": "After a protected or lucky stopped drop the brake holds the crate until the next Hold takes it back."
-  },
-  "contract_review_requirement": "Do not port the blanket lower-is-never-stale exception. Support release during an unacknowledged Hold with durable gesture identity/order, crate/task binding and idempotent receipts. A release received first must prevent an older late Hold from resurrecting it. A release for an old gesture must not release a new one. Exact payload and presence/recovery semantics remain subject to contract acceptance."
+  "contract_review_requirement": "Do not port the blanket lower-is-never-stale exception. Support release during an unacknowledged Hold with durable gesture identity/order, crate/task binding and idempotent receipts. A release received first must prevent an older late Hold from resurrecting it. A release for an old gesture must not release a new one. Exact payload and presence/recovery semantics remain subject to contract acceptance.",
+  "adopted_hold_continuations": {
+    "recorded_on": "2026-11-13",
+    "owner_answer": "Adopt all four practice behaviors (Recommended)",
+    "evidence": "https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539",
+    "intake_return": "Release above the intake returns the crate intact.",
+    "moving_platform": "Platform landing requires the Panel to be locked; otherwise the crate breaks.",
+    "early_hold": "A held finger automatically picks up when the hook arrives and pickup becomes eligible.",
+    "stopped_drop_brake": "A protected/lucky stopped drop remains on the safety brake until the next Hold takes it back."
+  }
 }

@@ -13,6 +13,20 @@ record the approved rules. Planned tuple: protocol 3 / planet-game-1.4.0 /
 in-person-planet-food-task-2026-11-12. It remains an inactive candidate, with no
 supported runtime registration, creation-default change or deployment.
 
+## Later owner adoption and contract preparation — 13 November
+
+The owner subsequently adopted all four Hold continuations in
+[comment 6849280539](https://github.com/Amirkianfar66/GameN/pull/233#issuecomment-6849280539):
+intact intake return, locked-panel landing, early held pickup and safety-brake
+custody until the next Hold. The updated owner record and overlay above are the
+current authority. Earlier descriptions below of those proposals preserve what
+was pending at the pinned Designer review; they are no longer owner questions.
+
+The strict contract proposal is in [food-task-contract-v1.md](food-task-contract-v1.md).
+Its exported schemas and pure ordering/clock guards do not register a supported
+runtime tuple, wire the current API, or activate Food. Integration and Frontend
+must accept the concrete packets before the separate engine/API implementation.
+
 ## What changed and what passed review
 
 - One Hold control replaces the Winch's separate Raise/Lower controls. A wrong
@@ -105,9 +119,9 @@ against accepted input state. Never replay obsolete held inputs on recovery.
    detention and the full following-round medical deadline. Do not create a
    same-round rescue opportunity for a newly hunger-injured patient. Handle dead
    office holders using existing succession rules without reopening Food Supply.
-5. **Proposed Hold continuations.** The four gameplay details listed above need
-   explicit adoption or correction before an executable rules hash incorporates
-   them. Do not reopen the confirmed speed, asymmetry, hunger or timing choices.
+5. **Hold continuation adoption.** All four gameplay details were subsequently
+   adopted in comment 6849280539 and are now recorded in the owner record and
+   overlay. No owner question remains for them. Do not reopen confirmed choices.
    Cosmetic cues remain Designer's presentation work within approved disclosure.
 6. **Access and version evidence.** Test real phones and variable connections,
    pointer cancellation, assistive input, two-party timing and reconnect. A
