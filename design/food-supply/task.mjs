@@ -147,6 +147,8 @@ export const FOOD = Object.freeze({ initial: 5, perDelivery: 5, warnAt: 1, doses
 
 /** Events that never reach a phone: the server's record of each lethal press (the catch's roll, and whether Protection or luck held). */
 export const SERVER_ONLY = Object.freeze(['CATCH']);
+/** The Winch's early Hold waiting (PENDING) and ended before a lift (PENDING_OFF): its phone's alone, and no change of revision. */
+export const PRIVATE_HOLD = Object.freeze(['PENDING', 'PENDING_OFF']);
 
 const ROLE_KEYS = Object.freeze(['winch', 'panel']);
 const other = role => (role === 'winch' ? 'panel' : 'winch');
@@ -282,6 +284,8 @@ export const roleOf = (state, seat) => (state.seats.winch === seat ? 'winch' : s
 function audienceOf(state, e) {
   if (SERVER_ONLY.includes(e.type)) return [];
   if (e.type === 'REFUSED' || e.type === 'RECEIPT') return [roleOf(state, e.seat)].filter(Boolean);
+  // The early Hold waiting, and its end: the Winch's own (the engine's ownGesture), never the Panel's.
+  if (PRIVATE_HOLD.includes(e.type)) return [e.by];
   return ROLE_KEYS;
 }
 
@@ -298,7 +302,7 @@ function audienceOf(state, e) {
  */
 function commit(state, events, t) {
   const fresh = events.filter(e => !e.id);
-  const changes = fresh.filter(e => e.type !== 'REFUSED' && e.type !== 'RECEIPT' && e.type !== 'RUNNING');
+  const changes = fresh.filter(e => e.type !== 'REFUSED' && e.type !== 'RECEIPT' && e.type !== 'RUNNING' && !PRIVATE_HOLD.includes(e.type));
   for (const e of fresh) {
     state.seq += 1;
     e.id = `${state.id}:${state.seq}`; e.seq = state.seq; e.t = e.t ?? t;
@@ -340,6 +344,24 @@ function breakCrate(state, fall, t, events) {
   state.crate = { state: 'intake', x: FIXTURES.intake.stop, since: t, from: { state: 'new', x: FIXTURES.intake.stop } };
   state.swing = null;
   events.push({ type: 'BROKEN', on, x: r3(fall.x), count: state.broken.length });
+}
+
+/**
+ * The early Hold (adopted by the owner, 13 November 2026, #233: "A held finger automatically picks up when the
+ * hook arrives and pickup becomes eligible"). Hold works whenever a crate waits in the intake. Held before the
+ * hook can lift it, the hold waits on the server (crate.pending, the Winch's own: no other phone learns of it)
+ * and nothing is lifted; the hook lifts the crate as soon as it can (canLift: the panel locked over the hatch
+ * and the crate settled there), on the LOCK at the hatch or when the crate has risen. A let-go first ends it.
+ */
+function canLift(state, t) {
+  const c = state.crate, p = state.panel;
+  return state.alive.winch && c.state === 'intake' && p.locked && p.stop === FIXTURES.intake.stop && settled(state, t);
+}
+function liftCrate(state, t, events) {
+  const c = state.crate, p = state.panel;
+  state.crate = { state: 'hanging', x: p.stop, since: t, from: { state: c.state, x: c.x }, holder: 'winch' };
+  state.swing = { since: t + TIMING.raise, amp: SWING.lift, dir: 1 };
+  events.push({ type: 'RAISED', by: 'winch', from: c.state, x: r3(c.x) });
 }
 
 /** After a death: the survivor goes on only from the correct position; otherwise the Task is lost. */
@@ -396,6 +418,15 @@ export function tick(prev, at) {
     state.phase = 'running';
     events.push({ type: 'RUNNING', t: state.runningAt });
   }
+  // The early hold, waiting under a hook locked over the hatch: the hook lifts the new crate when it has risen.
+  const c = state.crate;
+  if (state.phase === 'running' && c.state === 'intake' && c.pending && c.from) {
+    const ready = c.since + TIMING.lower;
+    if (ready <= at && (!first || ready < first.t) && canLift(state, ready)) {
+      liftCrate(state, ready, events);
+      events[events.length - 1].t = ready;
+    }
+  }
   if (first) end(state, first.outcome, first.t, events);
   return commit(state, events, at);
 }
@@ -411,13 +442,15 @@ export function tick(prev, at) {
  *  - taskId and revision: the Task and the revision the phone showed; a press made on an older
  *    revision than the last change it depends on is refused as stale. A let-go never is: the finger is
  *    off, and the crate falls from wherever it is when the let-go arrives (its own hold, still on its
- *    way when the finger came off, is the change it would otherwise be stale to).
+ *    way when the finger came off, is the change it would otherwise be stale to). Nor is a hold: the
+ *    finger is on Hold, and the server lifts, takes back or waits by what it holds when the hold arrives
+ *    (the early Hold).
  *  - commandId: the press's identity. A retry with the same id returns the first answer (RECEIPT)
  *    and changes nothing: no second press, no second roll.
  *  - protection: { winch, panel }, the game's applicable Protection as the server reads it now.
  *  - roll: the server's own random number for a press that would kill, in [0, 1) (omitted: 1).
  * Neither protection nor roll ever reaches a phone.
- * Returns { state, events }: RAISED, TAKEN, RELEASED, LOCKED, LOWERED, LANDED, MISSED, BROKEN, STOPPED,
+ * Returns { state, events }: RAISED, PENDING, PENDING_OFF, TAKEN, RELEASED, LOCKED, LOWERED, LANDED, MISSED, BROKEN, STOPPED,
  * KILLED, KEY, SENT, ENDED, the server's CATCH, REFUSED (why) to the presser only, or RECEIPT for a retry.
  */
 export function act(prev, step) {
@@ -442,7 +475,7 @@ export function act(prev, step) {
   if (!role) return refuse('not-a-participant');
   if (state.phase === 'briefing') return refuse('briefing');
   if (!state.alive[role]) return refuse('down');
-  if (step.act !== 'lower' && step.revision !== undefined && step.revision < state.pressRevision) return refuse('stale');
+  if (step.act !== 'lower' && step.act !== 'raise' && step.revision !== undefined && step.revision < state.pressRevision) return refuse('stale');
   const mine = step.act === KEY || ROLES[role].acts.includes(step.act);
   if (!mine) return refuse('not-your-control');
   const c = state.crate, p = state.panel;
@@ -469,18 +502,28 @@ export function act(prev, step) {
       events.push({ type: 'TAKEN', by: role, x: r3(crateX(state, t)) });
       return accept();
     }
-    if (!p.locked) return refuse('unlocked');
-    if (!ready) return refuse('busy');
-    if (p.stop !== FIXTURES.intake.stop) return refuse('not-over-crate');
-    state.crate = { state: 'hanging', x: p.stop, since: t, from: { state: c.state, x: c.x }, holder: 'winch' };
-    state.swing = { since: t + TIMING.raise, amp: SWING.lift, dir: 1 };
-    events.push({ type: 'RAISED', by: role, from: c.state, x: r3(c.x) });
+    if (c.state !== 'intake') return refuse('landed');
+    if (c.pending) return refuse('holding');
+    // Early: the hold waits, pending, and the hook lifts the crate as soon as it can (canLift()).
+    if (!canLift(state, t)) {
+      state.crate = { ...c, pending: true, from: c.from ? { ...c.from } : null };
+      events.push({ type: 'PENDING', by: role });
+      return accept();
+    }
+    liftCrate(state, t, events);
     return accept();
   }
 
   // Let go: the finger off the button. The crate falls from wherever it is when the let-go arrives.
   if (step.act === 'lower') {
     if (c.state === 'landed') return refuse('landed');
+    // An early hold let go before the hook came: nothing was lifted, so nothing falls.
+    if (c.state === 'intake' && c.pending) {
+      const { pending: _pending, ...waiting } = c;
+      state.crate = { ...waiting, from: c.from ? { ...c.from } : null };
+      events.push({ type: 'PENDING_OFF', by: role });
+      return accept();
+    }
     if (c.state !== 'hanging') return refuse('down-already');
     if (c.holder !== 'winch') return refuse('not-holding');
     const fall = fallOf(state, t);
@@ -531,6 +574,8 @@ export function act(prev, step) {
     // The cut. Stopped, the cab's roof buffer catches the blade: the panel stays locked on it.
     if (lethal(state, role, 'cut', events, {}, step)) afterDeath(state, t, events);
   }
+  // Locked over the hatch, with the Winch's early hold waiting: the hook lifts the crate now.
+  if (state.phase === 'running' && state.crate.pending && canLift(state, t)) liftCrate(state, t, events);
   return accept();
 }
 
@@ -672,13 +717,16 @@ export function view(state, seat, t = state.at) {
     // finger off it sends lower. holding: the server's word that the finger holds the crate up, shown
     // only while the controls work (out, offline or after the end, the button is just off).
     const holding = live && c.state === 'hanging' && c.holder === 'winch';
+    // pending: the early hold (owner, 13 November 2026), the finger down before the hook can lift the crate.
+    const pending = live && c.state === 'intake' && Boolean(c.pending);
     const lift = c.state === 'intake' && p.locked && p.stop === FIXTURES.intake.stop && ready;
     const takeBack = c.state === 'hanging' && c.holder === 'brake';
     buttons = [{
-      act: 'hold', label: holding ? 'Holding' : 'Hold', down: 'raise', up: 'lower', holding,
-      enabled: live && (holding || lift || takeBack),
+      act: 'hold', label: holding ? 'Holding' : 'Hold', down: 'raise', up: 'lower', holding, pending,
+      // Offered whenever a crate waits in the intake: held early, it lifts the crate when the hook can.
+      enabled: live && (holding || takeBack || c.state === 'intake'),
       // The glow: hold now (the hook is over the crate), or let go now (it lands, whenever the let-go arrives in the margin).
-      next: live && ((n === 'raise' && (lift || takeBack)) || (n === 'lower' && holding && h.steady)),
+      next: live && !pending && ((n === 'raise' && (lift || takeBack)) || (n === 'lower' && holding && h.steady)),
       // Striped: a let-go now may drop it on the partner.
       hazard: live && holding && h.drop,
       zone: holding ? h.likely : null, fall: holding ? h.fall : null,
@@ -692,7 +740,7 @@ export function view(state, seat, t = state.at) {
     taskId: state.id, revision: state.revision,
     phase: state.phase, you: state.alive[role] ? 'alive' : 'down', partner: state.alive[partner] ? (state.online[partner] ? 'alive' : 'offline') : 'down',
     panel: { locked: p.locked, at: r3(p.at), stop: p.stop, dir: p.dir, resting: p.resting },
-    crate: { state: c.state, x: r3(crateX(state, t)), settled: ready, holder: c.state === 'hanging' ? c.holder : null },
+    crate: { state: c.state, x: r3(crateX(state, t)), settled: ready, holder: c.state === 'hanging' ? c.holder : null, pending: role === 'winch' && c.state === 'intake' && Boolean(c.pending) },
     goal, broken: state.broken.length,
     zone: h.zone, likely: h.likely, buttons, warnings,
     keys: { you: state.keys[role], partner: state.keys[partner], needed: ROLE_KEYS.filter(r => state.alive[r]).length },
@@ -722,6 +770,12 @@ export function atTime(projected, t) {
  * participant's refusals), its order and its authoritative time: the cues to play. Never: Protection,
  * the catch's roll or cause (CATCH), a refusal of the other participant's, or a receipt not theirs.
  */
+/** The crate as one participant's projection carries it: the early Hold waiting is the Winch's alone. */
+function crateFor(c, role) {
+  const { pending, ...shared } = c;
+  return { ...shared, from: c.from ? { ...c.from } : null, ...(pending && role === 'winch' ? { pending: true } : {}) };
+}
+
 export function projection(state, seat, { observedAt = state.at, events = [], after = 0 } = {}) {
   const role = roleOf(state, seat);
   if (!role) return null;
@@ -732,7 +786,7 @@ export function projection(state, seat, { observedAt = state.at, events = [], af
     seats: { ...state.seats }, role,
     phase: state.phase, at: observedAt, startedAt: state.startedAt, runningAt: state.runningAt, deadline: state.deadline, endedAt: state.endedAt, returnsAt: state.returnsAt,
     alive: { ...state.alive }, online: { ...state.online }, keys: { ...state.keys },
-    panel: { ...state.panel }, swing: state.swing ? { ...state.swing } : null, crate: { ...state.crate, from: state.crate.from ? { ...state.crate.from } : null },
+    panel: { ...state.panel }, swing: state.swing ? { ...state.swing } : null, crate: crateFor(state.crate, role),
     broken: state.broken.map(b => ({ ...b })),
     outcome: state.outcome ? { ...state.outcome } : null,
     mechanics: { stops: STOPS, move: TIMING.move, rest: TIMING.rest, margin: TIMING.margin, raise: TIMING.raise, lower: TIMING.lower, swing: SWING, zones: ZONES },

@@ -66,7 +66,7 @@ export function createPractice({ role = 'winch', persona = 'careful', net = 'nor
         if (you.inFlight === p) you.inFlight = null;
       }
     }
-    // The finger still on Hold: it lifts the crate as soon as the hook is over it.
+    // The finger still on Hold: a hold goes out whenever Hold works and none is held or waiting (the early Hold).
     if (you.finger) hold(t);
     const state = stateAt(t);
     if (state.phase === 'running' && state.alive[botRole]) {
@@ -90,21 +90,22 @@ export function createPractice({ role = 'winch', persona = 'careful', net = 'nor
     return you.inFlight;
   }
 
-  /** A hold, while the finger is down and the phone shows Hold ready: sent once per revision the phone shows. */
+  /** A hold, while the finger is down and the phone shows Hold working: sent once per revision the phone shows. */
   function hold(t) {
     if (!you.finger || you.inFlight) return null;
     const state = stateAt(t);
     const b = view(state, seats[role], t)?.buttons.find(x => x.act === 'hold');
-    if (!b?.enabled || b.holding || you.refusedOn === state.revision) return null;
+    if (!b?.enabled || b.holding || b.pending || you.refusedOn === state.revision) return null;
     you.presses += 1;
     you.inFlight = send(seats[role], 'raise', t);
     return you.inFlight;
   }
 
   /**
-   * The Winch player's finger on Hold (the owner, 13 November 2026): down, it sends a hold (or sends it as
-   * soon as the hook is over the crate); off, it sends the let-go at once, even while its hold is still on
-   * its way, whenever the crate may be held for it. A let-go is never held back.
+   * The Winch player's finger on Hold (the owner, 13 November 2026): down, it sends a hold, which the server
+   * keeps waiting until the hook can lift the crate (the early Hold); off, it sends the let-go at once, even
+   * while its hold is still on its way, whenever the crate may be held, or the hold be waiting, for it. A
+   * let-go is never held back.
    */
   function finger(down, t) {
     if (role !== 'winch' || down === you.finger) return null;
@@ -112,7 +113,8 @@ export function createPractice({ role = 'winch', persona = 'careful', net = 'nor
     if (down) { you.refusedOn = null; return hold(t); }
     const state = stateAt(t);
     const holdOnItsWay = pending.some(p => p.seat === seats[role] && p.act === 'raise');
-    if (!holdOnItsWay && !(state.crate.state === 'hanging' && state.crate.holder === 'winch')) return null;
+    const waiting = view(state, seats[role], t)?.crate.pending;
+    if (!holdOnItsWay && !waiting && !(state.crate.state === 'hanging' && state.crate.holder === 'winch')) return null;
     you.presses += 1;
     you.inFlight = send(seats[role], 'lower', t);
     return you.inFlight;

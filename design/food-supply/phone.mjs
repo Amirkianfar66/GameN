@@ -69,7 +69,13 @@ function subOf(b, v, p = {}) {
     return b.stop === FIXTURES.console.stop ? 'At 5: over you' : `At ${b.stop + 1}`;
   }
   // The Winch's one button: what the finger on it does now, and what letting go would do.
-  if (!b.enabled) return v.crate.state === 'intake' && v.crate.settled ? 'Wait for the hook at 1' : 'Wait: a new crate';
+  // The early Hold (the owner, 13 November 2026): Hold works while a crate waits in the intake. Held before the
+  // hook can lift it, the hold waits (b.pending) and nothing is lifted: the words never say the crate is up.
+  const hookHome = v.panel.locked && v.panel.stop === FIXTURES.intake.stop;
+  if (b.pending) return hookHome ? 'Waiting for the crate' : 'Waiting for the hook';
+  if (!b.enabled) return 'Wait: a new crate';
+  if (!b.holding && v.crate.state === 'intake' && !hookHome) return 'Lifts when the hook stops at 1';
+  if (!b.holding && v.crate.state === 'intake' && !v.crate.settled) return 'Lifts when the crate is in';
   if (!b.holding) return v.crate.state === 'hanging' ? 'Hold to take it back' : 'Press and hold to lift';
   if (!v.crate.settled) return 'Lifting: keep holding';
   if (b.hazard) return `Let go: falls on ${partner}`;
@@ -89,14 +95,15 @@ function control(b, v, p = {}) {
   const sending = p.press === 'sending';
   const enabled = b.enabled && !sending && p.press !== 'unknown';
   const aria = `${label}. ${b.hazard ? `Warning: ${sub}` : sub}.`;
-  const icon = b.act === 'key' ? ic(b.turned ? 'check' : 'key', { filled: true }) : b.act === 'lock' || b.act === 'release' ? ic(b.act === 'lock' ? 'lock' : 'release', { filled: true }) : arrow('raise');
-  // Hold: the finger keeps it down; while the server holds the crate for it, it shows pressed (data-holding).
+  const icon = b.act === 'key' ? ic(b.turned ? 'check' : 'key', { filled: true }) : b.act === 'lock' || b.act === 'release' ? ic(b.act === 'lock' ? 'lock' : 'release', { filled: true }) : b.pending ? ic('hourglass', { filled: true }) : arrow('raise');
+  // Hold: the finger keeps it down; while the server holds the crate for it, it shows pressed (data-holding);
+  // while the early hold waits for the hook, pressed with an hourglass, still labelled Hold (data-pending).
   const hold = b.act === 'hold';
   return h('button.fs-ctl', {
     type: 'button', 'data-act': b.act, 'aria-label': aria, 'aria-disabled': (hold ? b.enabled : enabled) ? null : 'true', 'aria-busy': sending && pressOf(b, p) ? 'true' : null,
-    'aria-pressed': hold ? String(Boolean(b.holding)) : null,
+    'aria-pressed': hold ? String(Boolean(b.holding || b.pending)) : null,
     'data-next': b.next && (hold ? b.enabled : enabled) ? '' : null, 'data-hazard': b.hazard && (hold ? b.enabled : enabled) ? '' : null, 'data-key': b.act === 'key' && !b.turned ? '' : null, 'data-turned': b.turned ? '' : null,
-    'data-zone': hold && b.holding ? b.zone : null, 'data-holding': hold && b.holding ? '' : null, 'data-sending': sending && pressOf(b, p) ? '' : null,
+    'data-zone': hold && b.holding ? b.zone : null, 'data-holding': hold && b.holding ? '' : null, 'data-pending': hold && b.pending ? '' : null, 'data-sending': sending && pressOf(b, p) ? '' : null,
   }, h('span.fs-face', icon, h('span.fs-label', label, h('span.fs-sub', sub))));
 }
 
@@ -127,8 +134,10 @@ function swingMeter(v) {
 function taskScreen(root, p) {
   const board = boardOf(p.board ?? 'cooperation');
   const t = Number(p.t ?? TIMING.briefing + 200);
-  // before=1: the phone at the very moment of a press, before the server's answer to it.
-  const frames = run(board).filter((f, i) => !p.before || i === 0 || f.at < t);
+  // before=1: the phone at the very moment of a press, before the server's answer to it. Review only, hold=early:
+  // the Winch's finger went down on Hold 0.3 s before t, before the hook could lift the crate (the early Hold).
+  const early = p.hold === 'early' ? [{ at: t - 300, seat: CAST.winch.seat, act: 'raise' }] : [];
+  const frames = run(early.length ? { ...board, steps: [...board.steps, ...early].sort((x, y) => x.at - y.at) } : board).filter((f, i) => !p.before || i === 0 || f.at < t);
   const now = [...frames].reverse().find(f => f.at <= t) ?? frames[0];
   const role = p.as === 'panel' ? 'panel' : 'winch';
   const seat = CAST[role].seat;
