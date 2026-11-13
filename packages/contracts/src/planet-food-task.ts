@@ -25,6 +25,9 @@ const sha256 = z.string().regex(/^[a-f0-9]{64}$/);
 export const FOOD_TASK_VERTICAL = Object.freeze({ intake: 0, deck: 0.04, console: 0.472,
   platform: 0.36, raised: 1, min: -0.25, max: 1.5 });
 const height = finite.min(FOOD_TASK_VERTICAL.min).max(FOOD_TASK_VERTICAL.max);
+/** Candidate transport policy, separate from Task physics and all predecessor limits. */
+export const FOOD_TASK_TRANSPORT = Object.freeze({ snapshotMs: 500, heartbeatMs: 1_000, presenceLeaseMs: 2_000,
+  requestsPerMinute: Object.freeze({ snapshot: 180, presence: 90, input: 120, closure: 120, control: 30 }) });
 export const FoodTaskVersionsSchema = z.strictObject({
   protocolVersion: z.literal(3), engineVersion: z.literal(FOOD_TASK_TARGET.engineVersion),
   rulesetVersion: z.literal(FOOD_TASK_TARGET.rulesetVersion), rulesetHash: sha256,
@@ -251,6 +254,7 @@ export const FoodTaskParticipantSchema = z.strictObject({ foodStepId: Identifier
     death: z.strictObject({ at: TimestampSchema, mechanism: z.enum(['CUT', 'DROP']), actorSeatId: SeatIdSchema }).nullable()
   }).refine(v => v.alive === (v.death === null), 'Persistent death accompanies an eliminated participant')).length(2),
   panel, crate, ownGesture: FoodTaskGestureViewSchema.nullable(),
+  ownReturnPlacement: placement.refine(v => ['Room A','Room B','Command Room'].includes(v.location), 'Task return stays outside Hospital/Jail').optional(),
   broken: z.array(z.strictObject({ crateId: IdentifierSchema, at: TimestampSchema, x: railX,
     landing: z.enum(['DECK', 'CONSOLE', 'PLATFORM']), motion }).refine(v => v.motion.easing === 'CUBIC_IN'
       && v.motion.toHeight === FOOD_TASK_VERTICAL[v.landing.toLowerCase() as 'deck' | 'console' | 'platform'],
