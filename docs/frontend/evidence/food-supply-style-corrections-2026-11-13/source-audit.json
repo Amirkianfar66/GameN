@@ -1,0 +1,87 @@
+{
+  "scope": "Source-only AST comparison against native703: 14 pseudo-selector rules corrected, with no declaration or rule-count change. Browser validation and visual acceptance are still pending.",
+  "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193",
+  "nativeBase": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
+  "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
+  "files": [
+    {
+      "path": "apps/game/hosted/planet/food-kit.css",
+      "totalRules": 273,
+      "changedRules": 11,
+      "declarationsUnchanged": true,
+      "selectors": [
+        {
+          "before": ".planet-food:is(.tb-menu[aria-expanded=\"true\"]::before), .planet-food :is(.tb-menu[aria-expanded=\"true\"]::before)",
+          "after": ".planet-food:is(.tb-menu[aria-expanded=\"true\"])::before, .planet-food :is(.tb-menu[aria-expanded=\"true\"])::before"
+        },
+        {
+          "before": ".planet-food:is(.hero[data-mode=\"voted\"]::after), .planet-food :is(.hero[data-mode=\"voted\"]::after)",
+          "after": ".planet-food:is(.hero[data-mode=\"voted\"])::after, .planet-food :is(.hero[data-mode=\"voted\"])::after"
+        },
+        {
+          "before": ".planet-food:is(.icon-btn::before), .planet-food :is(.icon-btn::before)",
+          "after": ".planet-food:is(.icon-btn)::before, .planet-food :is(.icon-btn)::before"
+        },
+        {
+          "before": ".planet-food:is(.sheet .pill), .planet-food :is(.sheet .pill), .planet-food:is(.sheet .icon-btn::before), .planet-food :is(.sheet .icon-btn::before)",
+          "after": ".planet-food:is(.sheet .pill), .planet-food :is(.sheet .pill), .planet-food:is(.sheet .icon-btn)::before, .planet-food :is(.sheet .icon-btn)::before"
+        },
+        {
+          "before": ".planet-food:is(.btn[aria-busy=\"true\"]::after), .planet-food :is(.btn[aria-busy=\"true\"]::after)",
+          "after": ".planet-food:is(.btn[aria-busy=\"true\"])::after, .planet-food :is(.btn[aria-busy=\"true\"])::after"
+        },
+        {
+          "before": ".planet-food:is(.btn-secondary[aria-busy=\"true\"]::after), .planet-food :is(.btn-secondary[aria-busy=\"true\"]::after)",
+          "after": ".planet-food:is(.btn-secondary[aria-busy=\"true\"])::after, .planet-food :is(.btn-secondary[aria-busy=\"true\"])::after"
+        },
+        {
+          "before": ".planet-food:is(.btn-sm::before), .planet-food :is(.btn-sm::before)",
+          "after": ".planet-food:is(.btn-sm)::before, .planet-food :is(.btn-sm)::before"
+        },
+        {
+          "before": ".planet-food:is(.switch::before), .planet-food :is(.switch::before)",
+          "after": ".planet-food:is(.switch)::before, .planet-food :is(.switch)::before"
+        },
+        {
+          "before": ".planet-food:is(.switch::after), .planet-food :is(.switch::after)",
+          "after": ".planet-food:is(.switch)::after, .planet-food :is(.switch)::after"
+        },
+        {
+          "before": ".planet-food:is(.switch[aria-checked=\"true\"]::after), .planet-food :is(.switch[aria-checked=\"true\"]::after)",
+          "after": ".planet-food:is(.switch[aria-checked=\"true\"])::after, .planet-food :is(.switch[aria-checked=\"true\"])::after"
+        },
+        {
+          "before": ".planet-food:is(.row + .row::before), .planet-food :is(.row + .row::before), .planet-food:is(.list > li + li > .row::before), .planet-food :is(.list > li + li > .row::before)",
+          "after": ".planet-food:is(.row + .row)::before, .planet-food :is(.row + .row)::before, .planet-food:is(.list > li + li > .row)::before, .planet-food :is(.list > li + li > .row)::before"
+        }
+      ]
+    },
+    {
+      "path": "apps/game/hosted/planet/food.css",
+      "totalRules": 147,
+      "changedRules": 3,
+      "declarationsUnchanged": true,
+      "selectors": [
+        {
+          "before": ".planet-food:is(.fs-view::after), .planet-food :is(.fs-view::after)",
+          "after": ".planet-food:is(.fs-view)::after, .planet-food :is(.fs-view)::after"
+        },
+        {
+          "before": ".planet-food:is(.fs-ctl[data-sending] .fs-face::after), .planet-food :is(.fs-ctl[data-sending] .fs-face::after)",
+          "after": ".planet-food:is(.fs-ctl[data-sending] .fs-face)::after, .planet-food :is(.fs-ctl[data-sending] .fs-face)::after"
+        },
+        {
+          "before": ".planet-food:is(.ph[data-motion=\"reduced\"] .fs-ctl[data-sending] .fs-face::after), .planet-food :is(.ph[data-motion=\"reduced\"] .fs-ctl[data-sending] .fs-face::after)",
+          "after": ".planet-food:is(.ph[data-motion=\"reduced\"] .fs-ctl[data-sending] .fs-face)::after, .planet-food :is(.ph[data-motion=\"reduced\"] .fs-ctl[data-sending] .fs-face)::after"
+        }
+      ]
+    }
+  ],
+  "unchangedNativePaths": 27,
+  "changedNativePaths": [
+    "apps/game/hosted/planet/food-kit.css",
+    "apps/game/hosted/planet/food.css",
+    "apps/game/hosted/planet/food-render.mjs"
+  ],
+  "nativePathsVerified": 30
+}

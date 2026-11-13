@@ -131,7 +131,7 @@
 .planet-food:is(.tb-promises .badge-dot), .planet-food :is(.tb-promises .badge-dot) { position: absolute; top: 2px; right: -5px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--on-accent); font: 700 clamp(11px, 0.6875rem, 12px)/14px var(--font-ui); text-align: center; border: 2px solid #0D1118; }
 .planet-food:is(.tb-menu), .planet-food :is(.tb-menu) { flex: none; position: relative; width: var(--target); height: var(--target); margin: 0 -12px 0 -5px; padding: 0; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--text-primary); }
 .planet-food:is(.tb-menu .ic), .planet-food :is(.tb-menu .ic) { position: relative; width: 22px; height: 22px; }
-.planet-food:is(.tb-menu[aria-expanded="true"]::before), .planet-food :is(.tb-menu[aria-expanded="true"]::before) { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-3); }
+.planet-food:is(.tb-menu[aria-expanded="true"])::before, .planet-food :is(.tb-menu[aria-expanded="true"])::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-3); }
 .planet-food:is(.tb:not([data-kind="turn"]) .tb-pill), .planet-food :is(.tb:not([data-kind="turn"]) .tb-pill) { padding: 0; width: 36px; }
 .planet-food:is(.tb:not([data-kind="turn"]) :is(.tb-pill-label, .tb-div)), .planet-food :is(.tb:not([data-kind="turn"]) :is(.tb-pill-label, .tb-div)) { display: none; }
 @container (max-width: 22.5rem) {
@@ -183,7 +183,7 @@
 .planet-food:is(.hero[aria-disabled="true"]), .planet-food :is(.hero[aria-disabled="true"]) { background: var(--surface-4); color: var(--text-secondary); border-color: #0A0D14; box-shadow: 0 6px 16px rgba(0,0,0,0.45); --ic-knock: var(--surface-4); }
 .planet-food:is(.hero[data-mode="vote"]), .planet-food :is(.hero[data-mode="vote"]) { background: var(--paper); box-shadow: 0 0 0 3px rgba(244, 235, 221, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5); --ic-knock: var(--paper); }
 .planet-food:is(.hero[data-mode="voted"]), .planet-food :is(.hero[data-mode="voted"]) { background: var(--paper-deep); }
-.planet-food:is(.hero[data-mode="voted"]::after), .planet-food :is(.hero[data-mode="voted"]::after) { content: ""; position: absolute; right: -4px; top: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6 10 16.6 18.4 8' fill='none' stroke='%23F1B84B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+.planet-food:is(.hero[data-mode="voted"])::after, .planet-food :is(.hero[data-mode="voted"])::after { content: ""; position: absolute; right: -4px; top: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6 10 16.6 18.4 8' fill='none' stroke='%23F1B84B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
 
 /* ── Sheets ────────────────────────────────────────────────────────────── */
 .planet-food:is(.scrim), .planet-food :is(.scrim) { position: absolute; inset: 0; z-index: 44; background: rgba(4, 6, 10, 0.42); }
@@ -207,7 +207,7 @@
 .planet-food:is(.sheet-title h2), .planet-food :is(.sheet-title h2) { margin: 0; font: 700 1.25rem/1.2 var(--font-ui); letter-spacing: -0.01em; }
 .planet-food:is(.sheet-title p), .planet-food :is(.sheet-title p) { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--font-ui); color: var(--text-secondary); }
 .planet-food:is(.icon-btn), .planet-food :is(.icon-btn) { flex: none; width: var(--target); height: var(--target); border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--text-secondary); position: relative; }
-.planet-food:is(.icon-btn::before), .planet-food :is(.icon-btn::before) { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface-3); }
+.planet-food:is(.icon-btn)::before, .planet-food :is(.icon-btn)::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface-3); }
 .planet-food:is(.icon-btn .ic), .planet-food :is(.icon-btn .ic) { position: relative; width: 18px; height: 18px; }
 .planet-food:is(.sheet-body), .planet-food :is(.sheet-body) { flex: 1; min-height: 0; overflow: auto; padding: 0 16px 16px; }
 .planet-food:is(.sheet-foot), .planet-food :is(.sheet-foot) { flex: none; padding: 10px 16px calc(12px + var(--safe-b)); display: flex; gap: 10px; border-top: 1px solid var(--hairline); background: var(--surface-2); }
@@ -230,7 +230,7 @@
 .planet-food:is(.scrim[data-docked]), .planet-food :is(.scrim[data-docked]) { background: transparent; }
 .planet-food:is(.sheet-foot), .planet-food :is(.sheet-foot) { background: transparent; border-top-color: var(--glass-line); }
 .planet-food:is(.sheet .list), .planet-food :is(.sheet .list), .planet-food:is(.sheet .cell), .planet-food :is(.sheet .cell), .planet-food:is(.sheet .tile), .planet-food :is(.sheet .tile), .planet-food:is(.sheet .key), .planet-food :is(.sheet .key), .planet-food:is(.sheet .input), .planet-food :is(.sheet .input), .planet-food:is(.sheet .stepper), .planet-food :is(.sheet .stepper), .planet-food:is(.sheet .code-boxes b), .planet-food :is(.sheet .code-boxes b), .planet-food:is(.sheet .pt-empty), .planet-food :is(.sheet .pt-empty) { background: var(--glass-fill); box-shadow: inset 0 0 0 1px var(--glass-line); }
-.planet-food:is(.sheet .pill), .planet-food :is(.sheet .pill), .planet-food:is(.sheet .icon-btn::before), .planet-food :is(.sheet .icon-btn::before) { background: var(--glass-fill-2); }
+.planet-food:is(.sheet .pill), .planet-food :is(.sheet .pill), .planet-food:is(.sheet .icon-btn)::before, .planet-food :is(.sheet .icon-btn)::before { background: var(--glass-fill-2); }
 .planet-food:is(.sheet .btn-secondary), .planet-food :is(.sheet .btn-secondary) { background: rgba(8, 11, 18, 0.3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
 .planet-food:is(.sheet .seg), .planet-food :is(.sheet .seg) { background: rgba(0, 0, 0, 0.25); box-shadow: inset 0 0 0 1px var(--glass-line); }
 .planet-food:is(.sheet .seg button[aria-pressed="true"]), .planet-food :is(.sheet .seg button[aria-pressed="true"]), .planet-food:is(.sheet .seg button[aria-checked="true"]), .planet-food :is(.sheet .seg button[aria-checked="true"]) { background: var(--glass-fill-2); }
@@ -252,12 +252,12 @@
 .planet-food:is(.btn-warn), .planet-food :is(.btn-warn) { background: none; color: var(--paper); box-shadow: inset 0 0 0 2px var(--paper); }
 .planet-food:is(.btn[aria-disabled="true"]), .planet-food :is(.btn[aria-disabled="true"]) { opacity: 0.4; }
 .planet-food:is(.btn[aria-busy="true"]), .planet-food :is(.btn[aria-busy="true"]) { color: transparent !important; }
-.planet-food:is(.btn[aria-busy="true"]::after), .planet-food :is(.btn[aria-busy="true"]::after) { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--on-accent); border-right-color: transparent; animation: food-spin 0.8s linear infinite; }
-.planet-food:is(.btn-secondary[aria-busy="true"]::after), .planet-food :is(.btn-secondary[aria-busy="true"]::after) { border-color: var(--text-primary); border-right-color: transparent; }
+.planet-food:is(.btn[aria-busy="true"])::after, .planet-food :is(.btn[aria-busy="true"])::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--on-accent); border-right-color: transparent; animation: food-spin 0.8s linear infinite; }
+.planet-food:is(.btn-secondary[aria-busy="true"])::after, .planet-food :is(.btn-secondary[aria-busy="true"])::after { border-color: var(--text-primary); border-right-color: transparent; }
 .planet-food:is(.btn-block), .planet-food :is(.btn-block) { width: 100%; }
 .planet-food:is(.btn-sm), .planet-food :is(.btn-sm) { min-height: 36px; padding: 0 12px; font-size: 0.9375rem; border-radius: 10px; }
 .planet-food:is(.btn-sm.btn-sm-hit), .planet-food :is(.btn-sm.btn-sm-hit) { position: relative; }
-.planet-food:is(.btn-sm::before), .planet-food :is(.btn-sm::before) { content: ""; position: absolute; inset: -4px 0; }
+.planet-food:is(.btn-sm)::before, .planet-food :is(.btn-sm)::before { content: ""; position: absolute; inset: -4px 0; }
 @keyframes food-spin { to { transform: rotate(360deg); } }
 
 .planet-food:is(.seg), .planet-food :is(.seg) { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; gap: 3px; border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); }
@@ -272,10 +272,10 @@
 .planet-food:is(.stepper output), .planet-food :is(.stepper output) { min-width: 34px; text-align: center; font: 600 1.0625rem/1 var(--font-ui); font-variant-numeric: tabular-nums; }
 
 .planet-food:is(.switch), .planet-food :is(.switch) { flex: none; width: 51px; height: 31px; border-radius: 16px; background: var(--surface-4); position: relative; border: 0; }
-.planet-food:is(.switch::before), .planet-food :is(.switch::before) { content: ""; position: absolute; inset: -7px -2px; }
-.planet-food:is(.switch::after), .planet-food :is(.switch::after) { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #F7F2EA; box-shadow: 0 2px 4px rgba(0,0,0,0.35); transition: transform var(--t-card) var(--ease-standard); }
+.planet-food:is(.switch)::before, .planet-food :is(.switch)::before { content: ""; position: absolute; inset: -7px -2px; }
+.planet-food:is(.switch)::after, .planet-food :is(.switch)::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #F7F2EA; box-shadow: 0 2px 4px rgba(0,0,0,0.35); transition: transform var(--t-card) var(--ease-standard); }
 .planet-food:is(.switch[aria-checked="true"]), .planet-food :is(.switch[aria-checked="true"]) { background: var(--accent); }
-.planet-food:is(.switch[aria-checked="true"]::after), .planet-food :is(.switch[aria-checked="true"]::after) { transform: translateX(20px); }
+.planet-food:is(.switch[aria-checked="true"])::after, .planet-food :is(.switch[aria-checked="true"])::after { transform: translateX(20px); }
 
 /* ── Lists (inset grouped) ────────────────────────────────────────────── */
 .planet-food:is(.group-label), .planet-food :is(.group-label) { margin: 18px 4px 7px; font: 600 0.8125rem/1.2 var(--font-ui); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
@@ -283,7 +283,7 @@
 .planet-food:is(.list), .planet-food :is(.list) { margin: 0; padding: 0; list-style: none; border-radius: var(--radius-group); background: var(--surface-1); overflow: hidden; box-shadow: inset 0 0 0 1px var(--hairline); }
 .planet-food:is(.sheet .list), .planet-food :is(.sheet .list) { background: var(--surface-3); box-shadow: none; }
 .planet-food:is(.row), .planet-food :is(.row) { position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 7px 14px; width: 100%; border: 0; background: none; text-align: left; color: inherit; }
-.planet-food:is(.row + .row::before), .planet-food :is(.row + .row::before), .planet-food:is(.list > li + li > .row::before), .planet-food :is(.list > li + li > .row::before) { content: ""; position: absolute; top: 0; right: 0; left: 52px; height: 1px; background: var(--hairline); }
+.planet-food:is(.row + .row)::before, .planet-food :is(.row + .row)::before, .planet-food:is(.list > li + li > .row)::before, .planet-food :is(.list > li + li > .row)::before { content: ""; position: absolute; top: 0; right: 0; left: 52px; height: 1px; background: var(--hairline); }
 .planet-food:is(.row-icon), .planet-food :is(.row-icon) { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); background: var(--steel-light); --ic-knock: var(--steel-light); }
 .planet-food:is(.row-icon .ic), .planet-food :is(.row-icon .ic) { width: 19px; height: 19px; }
 .planet-food:is(.row-icon[data-tint="amber"]), .planet-food :is(.row-icon[data-tint="amber"]) { background: var(--accent); --ic-knock: var(--accent); }

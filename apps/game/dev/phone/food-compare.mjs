@@ -9,6 +9,7 @@ import {launchBrowser,connect,openPage,sleep} from '../capture/browser.mjs';
 import {foodLabel,packagesFigure} from '../../../../design/food-supply/hints.mjs';
 import {FOOD} from '../../../../design/food-supply/task.mjs';
 import {boardOf} from '../../../../design/food-supply/boards.mjs';
+import {foodStyleSnapshotSource,assertFoodStyleSnapshot} from './food-style-review.mjs';
 import {run} from '../../../../design/food-supply/stage.mjs';
 const repo=resolve(new URL('../../../../',import.meta.url).pathname),directory='/private/tmp/gamen-food-preview',out=process.argv[2]??'/private/tmp/gamen-food-native-comparison';await mkdir(out,{recursive:true});
 const map=JSON.parse(await readFile(resolve(repo,'docs/frontend/food-supply-comparison-map.json'),'utf8')),provenance=JSON.parse(await readFile(resolve(directory,'food-review-provenance.json'),'utf8'));
@@ -39,6 +40,7 @@ const measure=page=>page.evaluate(`(()=>{const food=document.querySelector('.pla
  const tags=[...root.querySelectorAll('.fs-art .tag')].filter(visible).map(n=>{const r=n.getBoundingClientRect(),v=root.querySelector('.fs-view').getBoundingClientRect();if(r.left<v.left-.5||r.right>v.right+.5||r.bottom>v.bottom+.5)problems.push('name tag leaves view');return {text:n.textContent,rect:rect(n)};});
  for(const n of root.querySelectorAll('.fs-card-foot button')){const r=n.getBoundingClientRect();if(r.left<-.5||r.right>innerWidth+.5||r.top<-.5||r.bottom>innerHeight+.5)problems.push('card answer leaves viewport');}
  const subtitle=root.querySelector('.tb-sub');return {width:innerWidth,height:innerHeight,text:root.innerText,screen:root.dataset.screen,hidden:root.hidden,controls,gauges,tags,problems,subtitle:subtitle?{text:subtitle.textContent,rect:rect(subtitle),clip:getComputedStyle(subtitle).clipPath}:null,
+ styles:${foodStyleSnapshotSource},
  native:window.foodAppHarness?{game:foodAppHarness.app.game?.getModel().connection,phase:foodAppHarness.app.game?.getModel().phase?.kind,canonicalSeats:foodAppHarness.app.game?.getModel().board?.seats.length??foodAppHarness.app.food?.getModel().view?.rosterSeatIds.length,participant:!!foodAppHarness.app.food?.getModel().view?.participantTask,feedback:foodAppHarness.app.food?.getModel().feedback,recoveryTransitions:foodAppHarness.recoveryTransitions,construction:foodAppHarness.entry.native.construction??foodAppHarness.entry.native.recovery?.construction??null}:null};})()`);
 async function capture(page,path){const r=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});const b=Buffer.from(r.data,'base64');await writeFile(resolve(out,path),b);return {path,sha256:createHash('sha256').update(b).digest('hex'),bytes:b.length};}
 try{
@@ -49,6 +51,7 @@ try{
    await native.goto(`${origin}/app.html?case=${c.id}&${extra}`,'window.foodAppHarness?.ready');await native.evaluate('Promise.all([foodAppHarness.app.artReady,document.fonts.ready])');await sleep(40);
    await reference.goto(`${origin}/reference/${c.reference.page}?${c.reference.query}&${extra}`,'window.__phoneReady');await reference.evaluate('document.fonts.ready');await sleep(40);
    const n=await measure(native),r=await measure(reference),path=`${c.id}-${profile}`;
+   assertFoodStyleSnapshot(n.styles,r.styles,{id:c.id,motion});
    assert.equal(n.hidden,false,c.id+' native Food hidden');assert.ok(n.native.game==='live'||c.reference.query.includes('press=lost')&&n.native.game==='stale',c.id+' unexpected game connection');assert.equal(n.native.canonicalSeats,9,c.id+' canonical roster changed');
    assert.equal(n.gauges.length,1,c.id+' requires one visible public Food gauge');assert.equal(r.gauges.length,1,c.id+' reference gauge missing');
    const setup=packets.cases.find(p=>p.id===c.id).native,packet=setup.next??setup.initial,authoritativeStockDoses=packet.value.foodPublicView.stock.doses;

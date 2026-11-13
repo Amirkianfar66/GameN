@@ -54,15 +54,15 @@
     },
     {
       "path": "apps/game/hosted/planet/food-kit.css",
-      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "sha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
       "bytes": 57285,
-      "gzipBytes": 11064
+      "gzipBytes": 11065
     },
     {
       "path": "apps/game/hosted/planet/food.css",
-      "sha256": "c83e47a33f72bd5d61556a664e4812e212efb536cdaa34ea2f2a166e83633c23",
+      "sha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
       "bytes": 30798,
-      "gzipBytes": 6538
+      "gzipBytes": 6540
     },
     {
       "path": "apps/game/hosted/planet/food-host.css",
@@ -90,9 +90,9 @@
     },
     {
       "path": "apps/game/hosted/planet/food-render.mjs",
-      "sha256": "f0576b17dd2b4cc9bb3d824cac452c74ccc1480dc8853a193de1ba2dd1325d50",
-      "bytes": 35626,
-      "gzipBytes": 11785
+      "sha256": "f9a173c7c1d1264ff666ebc2612fd33fb242abd2bab950eba7d7e0861a490d83",
+      "bytes": 35648,
+      "gzipBytes": 11792
     },
     {
       "path": "apps/game/hosted/planet/food-app.mjs",
@@ -278,17 +278,17 @@
     "design/phone-ui/prototype/fixtures.mjs"
   ],
   "priorFoundationReview": "https://github.com/Amirkianfar66/GameN/issues/235#issuecomment-6854574801",
-  "changesAfterFoundation": "The ui/kit/icons/geometry/ink/machine/scene foundations and37SVGs are unchanged. Scoped Food CSS adopts the owner-approved #241 source. Native gauge and tag-fitting modules, host mounting and neutral caption are included in this complete closure.",
+  "changesAfterFoundation": "Designer source, UI/icons/drawings/geometry and all 37 SVGs are unchanged. The scoped kit/phone CSS adapter now puts 14 terminal pseudo-elements outside :is(), preserving declarations and specificity. The hint icon wrapper alone gains flex:none. Gauge/tag modules and the existing 17-render/13-host closure remain complete.",
   "pending": [
     "Designer visual acceptance of the final84-state native packet",
     "Integration exact production registration and combined checks",
     "Backend and native real API/worker/bot connected acceptance"
   ],
   "reviewCorrections": {
-    "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6859626835",
-    "nativeBase": "45415db6d97ae6a34e2047c902da0a78c7e29cbd",
-    "status": "Approved cd2b70dd early-Hold presentation port with engine-backed own pending and causal-UP/no-fall audit. Final84-state capture and visual acceptance wait for Backend timing-slot release.",
-    "report": "docs/frontend/food-supply-pending-hold-port-2026-11-13.md",
+    "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193",
+    "nativeBase": "703acc2026998b5db89bee3ce5b5382d5c6f6211",
+    "status": "Source-only correction of the two remaining Designer findings: terminal pseudo-elements outside :is() and a nonshrinking hint-icon wrapper. Browser computed-style/icon checks and refreshed captures await the next timing-slot handoff.",
+    "report": "docs/frontend/food-supply-final-style-corrections-2026-11-13.md",
     "designerSource": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
     "ownerApproval": "8caa059629a99908808c939e6a2cfdbf13d18ad2"
   }

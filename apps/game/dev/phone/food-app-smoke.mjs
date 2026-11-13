@@ -5,7 +5,7 @@ import {createServer} from 'node:http';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,extname,sep} from 'node:path';
 import {launchBrowser,connect,openPage,sleep} from '../capture/browser.mjs';
-const directory='/private/tmp/gamen-food-preview',out='/private/tmp/gamen-food-app-smoke';await mkdir(out,{recursive:true});
+const directory='/private/tmp/gamen-food-preview',out=process.env.GAMEN_FOOD_SMOKE_OUT??'/private/tmp/gamen-food-app-smoke';await mkdir(out,{recursive:true});
 const server=createServer(async(req,res)=>{try{const name=new URL(req.url,'http://local').pathname,path=resolve(directory,'.'+(name==='/'?'/app.html':name));if(!path.startsWith(directory+sep))throw Error('path');
  res.setHeader('content-type',({'.js':'text/javascript','.css':'text/css','.html':'text/html','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp'})[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.statusCode=404;res.end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
