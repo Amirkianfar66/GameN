@@ -30,7 +30,7 @@ export interface FoodTaskController {
  press(input:'PANEL_RELEASE'|'PANEL_LOCK'|'KEY'):Promise<void>;
  holdDown():boolean;holdUp():void;recoverOff():Promise<void>;
  checkReceipts():Promise<void>;retry():Promise<void>;
- setVisible(visible:boolean):void;disconnect():void;dispose():void;
+ setVisible(visible:boolean):void;disconnect(kind?:'network'|'authorization'):void;dispose():void;
 }
 interface Entry {original:FoodStoredRequest;request:FoodTaskCommandRequest|null;status:'sending'|'unknown'|'checking';order:number;closedByRecovery:boolean;observedRevision:number}
 const isHold=(q:FoodStoredRequest)=>q.command.type==='TASK_PRESS'&&q.command.input.kind==='HOLD';
@@ -47,15 +47,15 @@ function pressName(q:FoodStoredRequest):FoodPressName {
 export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodTaskPorts,
  options:{readonly binding:FoodBinding;readonly readClock:()=>ClockReading}):FoodTaskController {
  const {binding}=options,listeners=new Set<(model:FoodTaskModel)=>void>(),entries:Entry[]=[];
- let view:FoodTaskPlayerView|null=null,context:FoodSnapshotContext|null=null,visible=true,fresh=false,disposed=false,storageBlocked=false;
+ let view:FoodTaskPlayerView|null=null,context:FoodSnapshotContext|null=null,visible=true,fresh=false,displayable=false,disposed=false,storageBlocked=false;
  let message:string|null=null,contact:FoodContactMemory|null=null,down:FoodTaskCommandRequest|null=null;
  let feedback:FoodFeedback|null=null,feedbackOrder=-1,order=0,checking:Promise<void>|null=null,recovering=false;
  let accepted:{phaseId:string;revision:number}|null=null;
  const finishes=new Set<()=>void>();
  const auth=()=>!disposed&&transport.currentUid()===binding.uid;
  const time=()=>options.readClock();
- const shown=()=>visible&&fresh&&auth()&&view!==null;
- const live=()=>{const r=time();return shown()&&r.status==='synced'
+ const shown=()=>visible&&displayable&&auth()&&view!==null;
+ const live=()=>{const r=time();return shown()&&fresh&&r.status==='synced'
   &&(view?.step===null||view?.step!==undefined&&r.serverNowMs-r.uncertaintyMs>=view.step.startedAt);};
  const task=():FoodTaskParticipant|null=>view?.participantTask??null;
  const sameContact=(t:FoodTaskParticipant)=>contact?.taskId===t.taskId&&contact.controlSessionId===t.controlSessionId;
@@ -86,7 +86,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  function getModel():FoodTaskModel {
   const open=shown(),r=time(),v=open?view:null,now=r.status==='synced'?r.serverNowMs+r.uncertaintyMs:Infinity;
   const invite=v?.invitation;
-  return {visible:visible&&auth(),fresh:open,message,view:v,clock:open?r:{status:'unsynced'},feedback:visible&&auth()?feedback:null,pendingCount:entries.length,
+  return {visible:visible&&auth(),fresh:open&&fresh,message,view:v,clock:open?r:{status:'unsynced'},feedback:visible&&auth()?feedback:null,pendingCount:entries.length,
    canAsk:base()&&v?.step?.kind==='ASKING'&&now<v.step.askingEndsAt&&v.ownAvailability.canAsk,
    canAnswer:base()&&!!invite&&now<invite.answerEndsAt&&!!v?.offers.some(o=>o.type==='TASK_ANSWER'),
    canWithdraw:base()&&!!invite&&now<invite.answerEndsAt&&!!v?.offers.some(o=>o.type==='TASK_ASK_WITHDRAW'),
@@ -194,8 +194,8 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  }
  const controller:FoodTaskController={
   observe(payload,nextContext,isFresh=true){
-   if(disposed||!visible||!auth()){fresh=false;emit();return false;}
-   if(!isFresh){fresh=false;emit();return false;}
+   if(disposed||!visible||!auth()){fresh=false;displayable=false;emit();return false;}
+   if(!isFresh){fresh=false;displayable=false;emit();return false;}
    try{
     const next=parseFoodTaskView(payload,{...nextContext,seatId:binding.seatId});
     if(next.audience!=='player'||next.matchId!==binding.matchId)throw TypeError('Wrong Food audience');
@@ -208,11 +208,11 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
      ||next.participantTask.returnsAt!==old.returnsAt))throw TypeError('Changed Task assignment or interval');
     if(old&&next.participantTask?.taskId===old.taskId&&(old.outcome&&JSON.stringify(old.outcome)!==JSON.stringify(next.participantTask.outcome)
      ||old.people.some(p=>p.death&&JSON.stringify(next.participantTask!.people.find(n=>n.seatId===p.seatId)?.death)!==JSON.stringify(p.death))))throw TypeError('Changed terminal Task fact');
-    view=next;context=nextContext;fresh=true;message=storageBlocked?message:null;
+    view=next;context=nextContext;fresh=true;displayable=true;message=storageBlocked?message:null;
     if(accepted&&(accepted.phaseId!==next.phaseId||next.viewRevision>accepted.revision))accepted=null;
     if(contact&&next.participantTask&&!sameContact(next.participantTask)&&down===null)contact=null;
     emit();if(contact?.offObserved)void recoverOff();return true;
-   }catch{fresh=false;message='This Food view could not be verified.';emit();return false;}
+   }catch{fresh=false;displayable=false;message='This Food view could not be verified.';emit();return false;}
   },getModel,subscribe(listener){listeners.add(listener);listener(getModel());return()=>listeners.delete(listener);},
   async ask(partnerSeatId){if(!getModel().canAsk||!view?.offers.some(o=>o.type==='TASK_ASK'&&o.partnerSeatIds.includes(partnerSeatId)))return;await enqueue(request({type:'TASK_ASK',partnerSeatId}));},
   async answer(answer){const r=view?.invitation;if(!getModel().canAnswer||!r)return;await enqueue(request({type:'TASK_ANSWER',requestId:r.requestId,requestRevision:r.revision,answer}));},
@@ -223,8 +223,8 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   async retry(){if(!visible||!auth())return;const e=[...entries].reverse().find(e=>e.status==='unknown'&&e.request
    &&!(e.request.command.type==='TASK_PRESS'&&e.request.command.input.kind==='HOLD'&&e.request.command.input.edge==='DOWN'));
    if(e)await send(e);},
-  setVisible(next){if(disposed||next===visible)return;if(!next)holdUp();visible=next;fresh=false;emit();},
-  disconnect(){fresh=false;emit();},
+  setVisible(next){if(disposed||next===visible)return;if(!next)holdUp();visible=next;fresh=false;displayable=false;emit();},
+  disconnect(kind='network'){fresh=false;if(kind==='authorization')displayable=false;emit();},
   dispose(){if(disposed)return;holdUp();disposed=true;for(const finish of [...finishes])finish();listeners.clear();view=null;down=null;},
  };
  return controller;

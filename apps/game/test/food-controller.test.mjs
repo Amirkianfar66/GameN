@@ -128,3 +128,7 @@ test('future original receipt time stays unknown and lookup sends only its stric
  const r=rig({send:async q=>({receipt:{...receipt(q),receivedAt:6001},serverTimeMs:6000})});r.observe();r.controller.holdDown();await flush();
  assert.equal(r.controller.getModel().feedback.status,'unknown');await r.controller.checkReceipts();assert.ok(r.lookups.length);assert.equal(Object.hasOwn(r.lookups[0],'command'),false);r.controller.dispose();
 });
+test('network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it',()=>{
+ const r=rig();r.observe();r.controller.disconnect('network');assert.ok(r.controller.getModel().view);assert.equal(r.controller.getModel().fresh,false);assert.equal(r.controller.getModel().canHold,false);
+ r.controller.disconnect('authorization');assert.equal(r.controller.getModel().view,null);r.observe();r.controller.setVisible(false);assert.equal(r.controller.getModel().view,null);r.controller.dispose();
+});

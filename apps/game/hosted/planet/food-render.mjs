@@ -27,7 +27,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  const room=()=>ordinary()?.board?.seats.find(s=>s.seatId===controller.getModel().view?.seatId)?.location??null;
  let model=controller.getModel(),disposed=false,raf=null,screen=null,selected=null,taskId=null,taskNodes=null,lastStructure=null,lastHeader=null,lastFrame=-Infinity;
  let closedRequests=new Set(),activeRequest=null,lastFoodStock=null,stockToast=null,hadTask=null;
- let lastFlowKey=null,feedbackSeen=null,feedbackShownAt=null;
+ let lastFlowKey=null,feedbackSeen=null,feedbackShownAt=null,lastStepId=undefined;
  const panelKeys=new Set();
  const hold=createFoodHoldInput({down:()=>controller.holdDown(),up:()=>controller.holdUp(),held:()=>controller.getModel().physicalHolding||controller.getModel().needsContactOff});
  const put=(node,text)=>{if(node.textContent!==String(text))node.textContent=String(text);};
@@ -164,6 +164,9 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const task=view?.participantTask,taskVisible=task&&now!==null&&now<task.returnsAt;
   exclusive(!!taskVisible);
   if(!model.visible||!view){frame.hidden=true;return;}
+  if(task&&now===null){frame.hidden=true;return;}
+  const nextStep=view.step?.stepId??null;
+  if(lastStepId!==undefined&&lastStepId!==nextStep){selected=null;if(screen==='partners')screen='tasks';lastStructure=null;}lastStepId=nextStep;
   const feedbackKey=JSON.stringify([model.feedback?.commandId,model.feedback?.status,model.feedback?.recovered]);
   if(feedbackKey!==feedbackSeen){feedbackSeen=feedbackKey;feedbackShownAt=now;}
   const request=view.invitation;if(request?.state==='PENDING')activeRequest=request.requestId;
@@ -186,7 +189,9 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   }else if(node.getAttribute('aria-disabled')!=='true'){e.preventDefault();void controller.press(({release:'PANEL_RELEASE',lock:'PANEL_LOCK',key:'KEY'})[node.dataset.act]);}
  }
  const pointerUp=e=>hold.pointerUp(e.pointerId);
- function keyDown(e){const node=e.target.closest?.('.fs-ctl');if(!node||![' ','Enter'].includes(e.key))return;e.preventDefault();
+ function keyDown(e){
+  if(e.key==='Escape'){if(screen!==null){e.preventDefault();e.stopPropagation();close();}else if(taskNodes||model.view?.invitation){e.preventDefault();e.stopPropagation();}return;}
+  const node=e.target.closest?.('.fs-ctl');if(!node||![' ','Enter'].includes(e.key))return;e.preventDefault();
   if(node.dataset.act==='hold'){if(node.getAttribute('aria-disabled')!=='true'||controller.getModel().physicalHolding||controller.getModel().needsContactOff)hold.keyDown(e.key,e.repeat);}
   else if(!e.repeat&&!panelKeys.has(e.key)&&node.getAttribute('aria-disabled')!=='true'){panelKeys.add(e.key);void controller.press(({release:'PANEL_RELEASE',lock:'PANEL_LOCK',key:'KEY'})[node.dataset.act]);}
  }
@@ -211,7 +216,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  }
  const release=()=>{hold.releaseAll();panelKeys.clear();};
  const blur=()=>{release();controller.setVisible(false);};
- const visibility=()=>{if(document.visibilityState==='hidden')blur();};
+ const visibility=()=>{if(document.visibilityState==='hidden')blur();else resume();};
  const resume=()=>controller.setVisible(document.visibilityState!=='hidden');
  const preferencesChanged=()=>{lastStructure=null;lastHeader=null;render();};
  frame.addEventListener('pointerdown',pointerDown);frame.addEventListener('keydown',keyDown);frame.addEventListener('click',activate);
@@ -260,7 +265,8 @@ function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedReques
  }
  if(screen==='partners')return layout('Choose your Partner',[
   groupLabel('Players'),list(v.partnerChoices.map(p=>{const identity=person(p.seatId),reason=({WENT_LAST_ROUND:'Went for food last round',IN_HOSPITAL:'Not available now',JAILED:'Not available now',ELIMINATED:'Not available now',NOT_AVAILABLE_NOW:'Not available now'})[p.reason];
-   const rowNode=row({lead:h('b.num',String(identity.seat)),title:identity.name,sub:p.available?locationOf(p.seatId):reason??'Not available now',disabled:!p.available,trail:selected===p.seatId?ic('check',{filled:true}):null});rowNode.dataset.partner=p.seatId;rowNode.setAttribute('aria-pressed',String(selected===p.seatId));rowNode.id=`food-partner-${p.seatId}`;return rowNode;})),
+   const offered=model.canAsk&&v.offers.some(o=>o.type==='TASK_ASK'&&o.partnerSeatIds.includes(p.seatId));
+   const rowNode=row({lead:h('b.num',String(identity.seat)),title:identity.name,sub:p.available&&offered?locationOf(p.seatId):reason??'Not available now',disabled:!p.available||!offered,trail:selected===p.seatId?ic('check',{filled:true}):null});rowNode.dataset.partner=p.seatId;rowNode.setAttribute('aria-pressed',String(selected===p.seatId));rowNode.id=`food-partner-${p.seatId}`;return rowNode;})),
   groupNote("If the player you ask declines, the next volunteer goes. Last round's two, and anyone in the Hospital or the Jail, cannot go. The game picks the controls at random.")],actButton(selected?`Ask ${name(selected)}`:'Ask','ask',{icon:'supply',block:true,disabled:!model.canAsk||!selected}),{back:'back',close:'close',detent:'large'});
  if(screen==='tasks'){
   const reason=v.ownAvailability.reason,sub=({NOT_IN_STEP:'Opens at the start of each round',WENT_LAST_ROUND:'You went for food last round',REQUEST_PENDING:'Someone is asking a Partner',REFUSED_THIS_ROUND:'Not available now',TASK_ALREADY_STARTED:'Not available now',NOT_AVAILABLE_NOW:'Not available now'})[reason];

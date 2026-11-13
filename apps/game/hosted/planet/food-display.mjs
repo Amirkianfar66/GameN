@@ -30,12 +30,12 @@ export function foodDisplay(model,now,{reduced=false,names=()=>''}={}) {
  if(drop)warnings.push(role==='winch'?'crate-over-partner':'crate-over-you');
  const recent=task.events.events.filter(e=>e.at<=now&&now-e.at<1500);
  const v={task,role,partnerRole,partnerName:names(partner?.seatId),partnerSeatId:partner?.seatId,phase,
-  you:own?.alive?'alive':'down',partner:!partner?.alive?'down':partner.online?'alive':'offline',offline:!own?.online,
+  you:own?.alive?'alive':'down',partner:!partner?.alive?'down':partner.online?'alive':'offline',offline:!model.fresh||!own?.online,
   secondsLeft:Math.max(0,Math.ceil((task.deadlineAt-now)/1000)),briefingLeft:Math.max(0,Math.ceil((task.runningAt-now)/1000)),
   panel:{...p,locked:task.panel.locked},crate:{...c,state,holder:c.holder==='WINCH'?'winch':c.holder==='BRAKE'?'brake':null,x:physical.x,settled},
   keys:{you:!!own?.keyTurned,partner:!!partner?.keyTurned},broken:task.broken.length,warnings,goal:state==='intake'?0:5,recent,
   guide:{cut:!!cut,drop:!!drop,zone:currentZone,steady,fall,leaving:!p.locked&&ahead.stop!==p.stop},buttons:[]};
- const enabled=phase==='running'&&own?.alive&&own.online;
+ const enabled=phase==='running'&&model.fresh&&own?.alive&&own.online;
  const key=()=>({act:'key',label:own?.keyTurned?'Key turned':'Turn key',enabled:enabled&&model.canKey,next:enabled&&model.canKey,turned:!!own?.keyTurned});
  if(role==='panel'){
   const act=task.panel.locked?'release':'lock',available=act==='release'?model.canPanelRelease:model.canPanelLock;
