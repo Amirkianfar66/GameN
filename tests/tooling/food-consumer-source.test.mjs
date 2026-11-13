@@ -35,7 +35,7 @@ test('Food registration binds the full client closure without selecting it for n
   assert.equal(food.staticAssets.length, 37);
   assert.equal(food.gameplayPins.engineVersion, 'planet-game-1.4.0');
   assert.equal(readHostedArtReleases(root).planetRelease.assetManifestVersion, 'design-0.8.0');
-  assert.throws(() => readHostedArtReleases(root, {engineProfile:'food-task-1.4'}), /Unsupported Planet creation profile/);
+  assert.throws(() => readHostedArtReleases(root, {engineProfile:'food-task-1.4'}), /requires the reviewed production consumer/);
 });
 
 test('only a verified record can accept an exact path, predecessor and current hash', () => {

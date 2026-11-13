@@ -34,6 +34,12 @@ The explicit selection applies only to new matches. Saved matches keep their
 gameplay, setup and artwork pins. The root protocol-2 game and Design Studio
 remain available; the playable Food successor is `/planet/`.
 
+The hosted selector now recognizes the explicit Food profile but refuses it
+until a separately pinned native-acceptance record exists. That record must
+bind the exact source and art identities, Designer’s review of PR #240, visual
+captures and connected evidence. No acceptance record is present at this
+checkpoint, and historical/default selections remain unchanged.
+
 Technical source registration alone does not enable this profile. The final
 consumer-approval record must bind Designer's actual PR verdict, the reviewed
 source/art identities and the native comparison evidence. Hosting selection
