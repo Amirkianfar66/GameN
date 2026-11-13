@@ -259,6 +259,10 @@ test('server lease expires, grace runs from that expiry, and heartbeat at the cl
   const restored=h.store.export().filter(([key,value])=>key.startsWith('journal/')&&value.kind==='FOOD_PRESENCE'&&value.online===true&&value.actorSeatId==='seat-1');
   assert.equal(restored.length,1,'journal only the actual engine reconnect, not an already-online lease renewal');
   assert.equal(restored[0][1].context.now,15000);
+  const beats=h.store.export().filter(([key,value])=>key.startsWith('journal/')&&value.kind==='FOOD_HEARTBEAT'&&value.actorSeatId==='seat-1');
+  assert.equal(beats.length,2,'both reconnect and already-online heartbeats retain their ordered journal records');
+  for(const [,beat] of beats){assert.equal(beat.context.now,15000);assert.equal(beat.leaseExpiresAt,17000);
+    assert.ok(ingress(h).some(([,entry])=>entry.sequence===beat.ingressSequence&&entry.request?.operation==='foodHeartbeat'));}
   assert.equal((await h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'},'p2')).ok,true);
   h.setNow(17000);await h.handle('read',{matchId:'food-match'},'p2');
   assert.ok((await h.current()).state.trace.some(c=>c.kind==='presence'&&c.actor==='seat-1'&&!c.online&&c.context.now===17000));
@@ -505,15 +509,63 @@ test('eligible nonparticipant snapshots skip ingress and session writes with one
   assert.equal(after.nextSequence,controlBefore.nextSequence);assert.equal(after.processedSequence,controlBefore.processedSequence);
   assert.equal(after.lastAdmittedAt,6500);assert.equal(after.advancedThroughAt,6500);
 });
-test('an eligible own snapshot renews metadata and publishes once without an engine transition',async()=>{
+test('an eligible own snapshot renews private contact metadata without a Session lock or publication',async()=>{
   const h=harness();assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
   const before=await h.current(),entries=ingress(h).length,start=h.store.attempts.length;
   h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,true);
-  const after=await h.current();assert.deepEqual(after.state,before.state);
-  assert.equal(after.foodService.leases['seat-1'].expiresAt,8500);
-  assert.deepEqual(after.foodService.leases['seat-2'],before.foodService.leases['seat-2']);
-  assert.equal(h.store.attempts.slice(start).filter(a=>a.commit).flatMap(a=>a.writes).filter(key=>key==='session/food-match').length,1);
+  const after=await h.current();assert.deepEqual(after,before);
+  const contact=h.store.export().find(([key])=>key==='foodContact/food-match')[1]['seat-1'];
+  assert.deepEqual(contact,{taskId:'task-2',bindingRevision:1,admittedAt:6500,expiresAt:8500});
+  const stages=h.store.attempts.slice(start).filter(a=>a.commit&&a.writes.length>0);
+  assert.ok(stages.length>0);for(const a of stages){assert.equal(a.reads.includes('session/food-match'),false);
+    assert.equal(a.writes.includes('session/food-match'),false);assert.equal(a.reads[0],'foodIngressControl/food-match');}
   assert.equal(ingress(h).length,entries);assert.equal(result.result.foodPlayerView.serverNowMs,result.serverTimeMs);
+});
+test('the prior durable expiry wake hydrates contacts and rearms their later exact absence boundary',async()=>{
+  const h=harness({presence:true});await h.handle('read',{matchId:'food-match'});
+  const oldWake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8000&&j.status!=='complete')[1];
+  h.setNow(6500);await h.handle('read',{matchId:'food-match'});
+  h.setNow(6750);await h.handle('read',{matchId:'food-match'},'p2');
+  h.setNow(7750);await h.handle('read',{matchId:'food-match'});
+  h.setNow(8250);await h.handle('read',{matchId:'food-match'});
+  assert.equal((await h.current()).foodService.leases['seat-1'].expiresAt,8000,'Session remains a cached lease baseline');
+  assert.equal(h.store.export().find(([key])=>key==='foodContact/food-match')[1]['seat-1'].expiresAt,10250,
+    'repeated live contacts continue beyond the original cached expiry');
+  await h.api().runDeadline(oldWake);
+  const renewed=await h.current();assert.equal(renewed.state.trace.some(c=>c.kind==='presence'&&!c.online),false);
+  assert.equal(renewed.foodService.leases['seat-1'].expiresAt,10250);assert.equal(renewed.foodService.leases['seat-2'].expiresAt,8750);
+  const next=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8750&&j.status!=='complete')[1];
+  h.setNow(8750);await h.api().runDeadline(next);
+  assert.deepEqual((await h.current()).state.trace.filter(c=>c.kind==='presence'&&!c.online).map(c=>[c.actor,c.context.now]),[['seat-2',8750]]);
+});
+test('a captured fast snapshot is fenced when recovery changes its owner before renewal',async()=>{
+  const h=harness();await h.handle('read',{matchId:'food-match'});h.setNow(6500);
+  const paused=h.store.pauseReadNext('foodIngressControl/food-match'),old=h.handle('read',{matchId:'food-match'});await paused.reached;
+  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'read-recover-issue'},'host');
+  assert.equal(issued.ok,true);
+  assert.equal((await h.handle('redeemRecovery',{matchId:'food-match',requestId:'read-recover-redeem',recoveryCode:issued.result.recoveryCode},'replacement')).ok,true);
+  paused.resume();const denied=await old;assert.equal(denied.ok,false);assert.equal(denied.error.code,'FORBIDDEN');
+  assert.equal(Object.hasOwn(denied,'result'),false);
+  assert.equal((await h.handle('read',{matchId:'food-match'},'replacement')).ok,true);
+});
+test('coalescing the old presence wake under a live worker rearms the effective contact expiry',async()=>{
+  const h=harness({presence:true});await h.handle('read',{matchId:'food-match'});
+  const oldWake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8000&&j.status!=='complete')[1];
+  h.setNow(6500);await h.handle('read',{matchId:'food-match'});
+  h.setNow(6750);await h.handle('read',{matchId:'food-match'},'p2');
+  await h.store.transaction(async tx=>tx.set(workerPath,{owner:'contact-owner',expiresAt:14000}));
+  const entries=ingress(h).length;h.setNow(8000);await h.api().runDeadline(oldWake);
+  assert.equal(ingress(h).length,entries,'no redundant CLOCK is minted for the now-extended expiry');
+  assert.equal((await h.current()).state.trace.some(c=>c.kind==='presence'&&!c.online),false);
+  assert.equal(h.store.export().find(([key])=>key==='deadline/'+oldWake.taskId)[1].status,'complete');
+  assert.equal((await h.current()).foodService.scheduler.endsAt,8500);
+  assert.ok(h.store.export().some(([key,j])=>key.startsWith('deadline/')&&j.status!=='complete'&&j.endsAt===8500));
+});
+test('invalid contact metadata fails closed without spending snapshot rate or moving Control',async()=>{
+  const h=harness();await h.handle('read',{matchId:'food-match'});const before=h.store.export();
+  await h.store.transaction(async tx=>tx.set('foodContact/food-match',{'seat-1':{taskId:'task-2',bindingRevision:1,admittedAt:6500,expiresAt:9000}}));
+  h.setNow(6500);const result=await h.handle('read',{matchId:'food-match'});assert.equal(result.ok,false);
+  for(const namespace of ['foodIngressControl/','foodTransportRate/'])assert.deepEqual(h.store.export().filter(([k])=>k.startsWith(namespace)),before.filter(([k])=>k.startsWith(namespace)));
 });
 test('pending and due work falls back without charging the fast probe or skipping its original input',async()=>{
   const h=harness();h.store.loseAck('foodIngress/');assert.equal((await h.command()).ok,false);

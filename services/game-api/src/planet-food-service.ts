@@ -23,6 +23,8 @@ type Engine<S extends PlanetStateEnvelope>=PlanetEnginePort<S>&{
   projectPlanetFoodPlayer:(state:S,actor:SeatId,serverNowMs:number)=>FoodTaskPlayerView;
 };
 interface Lease {taskId:string;expiresAt:number;offline:boolean}
+interface Contact {taskId:string;bindingRevision:number;admittedAt:number;expiresAt:number}
+type Contacts=Partial<Record<SeatId,Contact>>;
 interface Scheduler {phaseId:string;token:string;endsAt:number}
 export interface FoodServiceState {leases:Partial<Record<SeatId,Lease>>;botWakes:Partial<Record<SeatId,number>>;scheduler:Scheduler|null}
 export interface FoodServiceSession<S extends PlanetStateEnvelope> {
@@ -49,6 +51,7 @@ const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).d
 const key=(scope:string,value:unknown)=>scope+'/'+hash(value);
 const controlKey=(matchId:string)=>'foodIngressControl/'+matchId;
 const workerKey=(matchId:string)=>'foodBotWorker/'+matchId;
+const contactKey=(matchId:string)=>'foodContact/'+matchId;
 const entryKey=(matchId:string,n:number)=>'foodIngress/'+matchId+'/'+String(n).padStart(16,'0');
 const freshControl=():Control=>({nextSequence:1,processedSequence:0,lastAdmittedAt:0,advancedThroughAt:0});
 const isFood=(s:{versions:PlanetVersions})=>s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion;
@@ -84,6 +87,30 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   const participant=(s:T,uid:string)=>s.hostUid===uid||!!member(s,uid)||s.displays.includes(uid);
   const host=(s:T,uid:string)=>{if(s.hostUid!==uid)d.reject('FORBIDDEN');};
   const service=(s:T)=>s.foodService??=( {leases:{},botWakes:{},scheduler:null} );
+  async function contacts(tx:PlanetReadTransaction,matchId:string):Promise<Contacts>{
+    const value=await tx.get<Contacts>(contactKey(matchId));if(value===null)return {};
+    if(typeof value!=='object'||Array.isArray(value))throw new Error('Invalid Food contact metadata');
+    for(const [id,c] of Object.entries(value))if(!/^seat-[1-9]$/.test(id)||!c||typeof c!=='object'
+      ||Object.keys(c).sort().join(',')!=='admittedAt,bindingRevision,expiresAt,taskId'
+      ||typeof c.taskId!=='string'||c.taskId.length===0||!Number.isSafeInteger(c.bindingRevision)||c.bindingRevision<1
+      ||!Number.isSafeInteger(c.admittedAt)||c.admittedAt<0||!Number.isSafeInteger(c.expiresAt)
+      ||c.expiresAt-c.admittedAt!==FOOD_PRESENCE_LEASE_MS)throw new Error('Invalid Food contact metadata');
+    return value;
+  }
+  function effectiveLeases(s:T,renewals:Contacts,at:number):FoodServiceState['leases']{
+    const leases=structuredClone(service(s).leases);
+    if(!s.state||s.status!=='running')return leases;
+    for(const [id,c] of Object.entries(renewals) as [SeatId,Contact][]){
+      const lease=leases[id],m=s.members.find(m=>m.seatId===id&&m.controller==='human');
+      const task=engine().projectPlanetFoodPlayer(s.state,id,at).participantTask,person=task?.people.find(p=>p.seatId===id);
+      // These are authenticated transport renewals, never reconnects. An old task,
+      // revoked binding, future contact or already-offline lease gains no authority.
+      if(lease&&!lease.offline&&m?.bindingRevision===c.bindingRevision&&lease.taskId===c.taskId
+        &&task?.taskId===c.taskId&&task.stage!=='ENDED'&&person?.alive&&person.online
+        &&c.admittedAt<=at&&c.expiresAt>lease.expiresAt)leases[id]={...lease,expiresAt:c.expiresAt};
+    }
+    return leases;
+  }
   const receiptPath=(q:Request,uid:string,actor:SeatId|null):string|null=>q.operation==='foodCommand'
     ?key('food-command',[q.request.matchId,actor,q.request.commandId]):q.operation==='command'
       ?key('command',[q.request.matchId,actor,q.request.commandId]):'requestId' in q?key('operation',[uid,q.requestId]):null;
@@ -160,6 +187,9 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(!isFood(s)||!s.state)return;
     const f=service(s),control=await tx.get<Control>(controlKey(s.matchId));
     const worker=await tx.get<BotWorkerLease>(workerKey(s.matchId)),technicalNow=clock();
+    // Technical worker publications must also see private renewals, otherwise an
+    // old cached expiry would continually rearm an already elapsed presence wake.
+    f.leases=effectiveLeases(s,await contacts(tx,s.matchId),ctx.now);
     const live=s.status==='running'&&worker!==null&&worker.expiresAt>technicalNow;
     const times=[...(s.status==='running'?[d.engine.planetDeadlineAt(s.state),...Object.values(f.leases).filter(l=>l&&!l.offline).map(l=>l!.expiresAt),
       ...Object.values(f.botWakes).filter(at=>!live||at!==undefined&&at>technicalNow)]:[]),
@@ -194,6 +224,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       // Detached human admission never locks Session. All admissions take Control
       // before receipt/pending/rate records, matching processing's lock order.
       const control=await tx.get<Control>(controlKey(matchId))??freshControl();
+      const renewals=options.bot||options.job?await contacts(tx,matchId):null;
       let actor:SeatId|null=null,binding:number|null=null;
       if(options.human){actor=options.human.seatId;binding=options.human.bindingRevision;
       }else if(options.bot){
@@ -226,6 +257,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       }
       // Only a committed attempt's sample becomes authority. A failed SDK attempt has no receipt point.
       const at=clock();if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt)throw new Error('Backward Food admission clock');
+      if(renewals)service(s).leases=effectiveLeases(s,renewals,at);
       if(options.workerOwner!==undefined){
         const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
         if(!lease||lease.owner!==options.workerOwner||lease.expiresAt<=at)throw new LostBotWorkerLease();
@@ -440,6 +472,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(!control||control.processedSequence===control.nextSequence-1)return;
       const path=entryKey(matchId,control.processedSequence+1),entry=await tx.get<Entry>(path);
       if(!entry||entry.response)throw new Error('Invalid Food ingress prefix');
+      service(s).leases=effectiveLeases(s,await contacts(tx,matchId),entry.context.now);
       const complete=drainBoundaries(s,entry,tx);
       if(complete){
         try{entry.response=await apply(s,entry,tx);}
@@ -474,19 +507,30 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     throw new Error('Food prefix requires a later durable continuation');
   }
   async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
-    return store.transaction(async tx=>{
+    const observed=await readOnly(async tx=>{
       const s=await d.load(tx,matchId);
       if(!isFood(s)||s.status!=='running'||!s.state)return null;
       const actor=authorize(s,uid,{operation:'read',matchId});
       const control=await tx.get<Control>(controlKey(matchId));
       // The first processed entry initializes bot wakes. Never bypass it or an admitted prefix.
       if(!control||control.processedSequence===0||control.processedSequence!==control.nextSequence-1)return null;
-      const at=clock(),due=engine().planetDeadlineAt(s.state),f=s.foodService;
-      if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt
+      return {s,actor,control};
+    });
+    if(observed===null)return null;
+    return store.transaction(async tx=>{
+      // Only small private documents are locked. Every gameplay/membership effect
+      // changes this control in the same commit as Session; worker scheduler-only
+      // publications do not affect the captured audience projection.
+      const control=await tx.get<Control>(controlKey(matchId));
+      if(!control||hash(control)!==hash(observed.control))return null;
+      const renewals=await contacts(tx,matchId),{s,actor}=observed;
+      const at=clock(),due=engine().planetDeadlineAt(s.state!),f=s.foodService;
+      if(!Number.isSafeInteger(at)||!Number.isSafeInteger(at+FOOD_PRESENCE_LEASE_MS)||at<control.lastAdmittedAt||at<control.advancedThroughAt
         ||due!==null&&due<=at||!f)return null;
+      f.leases=effectiveLeases(s,renewals,at);
       if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at))return null;
       const lease=actor===null?undefined:f.leases[actor];
-      const task=actor===null?null:engine().projectPlanetFoodPlayer(s.state,actor,at).participantTask;
+      const task=actor===null?null:engine().projectPlanetFoodPlayer(s.state!,actor,at).participantTask;
       const person=task?.people.find(p=>p.seatId===actor);
       const livingActive=task!==null&&task.stage!=='ENDED'&&person?.alive===true;
       if(lease&&(lease.offline||lease.expiresAt<=at||!livingActive||!person?.online||lease.taskId!==task!.taskId)
@@ -496,8 +540,11 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       await limitFood(tx,uid,{operation:'read',matchId},at);
       tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
       if(lease&&actor!==null){
-        f.leases[actor]={...lease,expiresAt:at+FOOD_PRESENCE_LEASE_MS};
-        await d.publish(tx,s,technicalContext('food-read',at));
+        const binding=s.members.find(m=>m.seatId===actor)!.bindingRevision;
+        tx.set(contactKey(matchId),{...renewals,[actor]:{taskId:lease.taskId,bindingRevision:binding,
+          admittedAt:at,expiresAt:at+FOOD_PRESENCE_LEASE_MS}} satisfies Contacts);
+        // Renewal only extends a live expiry. Its already-durable earlier wake
+        // remains responsible for hydrating and rearming the later deadline.
       }
       return response(d.snapshot(s,uid,at),at);
     });
@@ -557,7 +604,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const s=await d.load(tx,matchId),control=await tx.get<Control>(controlKey(matchId));
         if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false,nextWakeAt:null};
         if(s.status!=='running'||!s.state)return {prefix:null,work:false,nextWakeAt:null};
-        const at=clock(),f=service(s),due=engine().planetDeadlineAt(s.state);
+        const renewals=await contacts(tx,matchId),at=clock(),f=service(s),due=engine().planetDeadlineAt(s.state);
+        f.leases=effectiveLeases(s,renewals,at);
         if(due!==null&&due<=at||Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at)
           ||Object.values(f.botWakes).some(wake=>wake!==undefined&&wake<=at))return {prefix:null,work:true,nextWakeAt:null};
         let nextWakeAt:number|null=null;
