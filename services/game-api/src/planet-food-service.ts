@@ -46,6 +46,7 @@ interface Entry {
 }
 interface Pending {sequence:number;fingerprint:string}
 interface AdmissionResult {sequence:number;response:PlanetServiceResponse|null;refresh?:true}
+class RecoveredAdmission extends Error {}
 interface BotIntent {sequence:number;request:Request;retryAt:number|null;done:boolean}
 interface BotWorkerLease {owner:string;expiresAt:number}
 interface PrefixWorkerLease {owner:string;expiresAt:number;throughSequence:number;wakeTaskId:string}
@@ -129,55 +130,90 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   async function inspect(matchId:string):Promise<T|null>{return readOnly(tx=>tx.get<T>('session/'+matchId));}
   const technicalContext=(owner:string,now:number):PlanetContext=>({now,nextPhaseId:owner,nextDeadlineToken:d.newId(),random:[]});
   async function acquireWorker(matchId:string):Promise<string|null>{
+    const live=await readOnly(tx=>tx.get<BotWorkerLease>(workerKey(matchId)));
+    if(live&&live.expiresAt>clock())return null;
     const owner=d.newId();
-    return store.transaction(async tx=>{
+    return withSessionWriter(matchId,writer=>store.transaction(async tx=>{
       // Every multi-key Food transaction locks the session before worker/control/entry records.
       const s=await d.load(tx,matchId);
+      await tx.get<Control>(controlKey(matchId));
+      const guard=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));requirePrefixOwner(guard,writer,0,clock());
       const previous=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
+      requirePrefixOwner(guard,writer,0,now);
       if(previous&&previous.expiresAt>now)return null;
       if(s.status!=='running'||!s.state)return null;
       tx.set(workerKey(matchId),{owner,expiresAt:now+FOOD_BOT_WORKER_LEASE_MS} satisfies BotWorkerLease);
       // Acquiring and its recovery wake commit together; this namespace does not trigger runBots.
       await d.publish(tx,s,technicalContext(owner,now));
       return owner;
-    });
+    }));
   }
   async function refreshWorker(matchId:string,owner:string):Promise<boolean>{
-    return store.transaction(async tx=>{
+    const unchanged=await readOnly(async tx=>{
+      const s=await d.load(tx,matchId),lease=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
+      if(!lease||lease.owner!==owner||lease.expiresAt<=now||s.status!=='running'||!s.state)return false;
+      return lease.expiresAt-now>FOOD_BOT_WORKER_LEASE_MS/2?true:null;
+    });
+    if(unchanged!==null)return unchanged;
+    return withSessionWriter(matchId,writer=>store.transaction(async tx=>{
       const s=await d.load(tx,matchId);
+      await tx.get<Control>(controlKey(matchId));
+      const guard=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));requirePrefixOwner(guard,writer,0,clock());
       const lease=await tx.get<BotWorkerLease>(workerKey(matchId)),now=clock();
+      requirePrefixOwner(guard,writer,0,now);
       if(!lease||lease.owner!==owner||lease.expiresAt<=now)return false;
       if(s.status!=='running'||!s.state)return false;
       if(lease.expiresAt-now>FOOD_BOT_WORKER_LEASE_MS/2)return true;
       tx.set(workerKey(matchId),{owner,expiresAt:now+FOOD_BOT_WORKER_LEASE_MS} satisfies BotWorkerLease);
       await d.publish(tx,s,technicalContext(owner,now));
       return true;
-    });
+    }));
   }
   async function releaseWorker(matchId:string,owner:string):Promise<void>{
-    await store.transaction(async tx=>{
+    const current=await readOnly(tx=>tx.get<BotWorkerLease>(workerKey(matchId)));if(!current||current.owner!==owner)return;
+    await withSessionWriter(matchId,writer=>store.transaction(async tx=>{
       const s=await d.load(tx,matchId);
+      await tx.get<Control>(controlKey(matchId));
+      const guard=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));requirePrefixOwner(guard,writer,0,clock());
       const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
       if(!lease||lease.owner!==owner)return;
+      const at=clock();requirePrefixOwner(guard,writer,0,at);
       tx.delete(workerKey(matchId));
       // Re-arm any bot window suppressed while owned, in the same commit as release.
-      await d.publish(tx,s,technicalContext(owner,clock()));
-    });
+      await d.publish(tx,s,technicalContext(owner,at));
+    }));
   }
-  async function acquirePrefixWorker(matchId:string,throughSequence:number):Promise<{owner:string|null;expiresAt:number}>{
+  function requirePrefixOwner(lease:PrefixWorkerLease|null,owner:string,throughSequence:number,at:number):void{
+    if(!lease||lease.owner!==owner||!Number.isSafeInteger(at)||lease.expiresAt<=at||lease.throughSequence!==throughSequence)throw new LostPrefixWorkerLease();
+  }
+  async function withSessionWriter<R>(matchId:string,operation:(owner:string)=>Promise<R>,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>):Promise<R>{
+    const started=performance.now();
+    while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
+      const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
+      if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
+      const claim=await acquirePrefixWorker(matchId,0,beforeClaim);if(claim.owner===null)continue;
+      let committed=false;
+      try{const result=await operation(claim.owner);committed=true;return result;}
+      catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
+      finally{await releasePrefixWorker(matchId,claim.owner,committed);}
+    }
+    throw new Error('Food Session writer requires a later durable continuation');
+  }
+  async function acquirePrefixWorker(matchId:string,throughSequence:number,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>):Promise<{owner:string|null;expiresAt:number}>{
     const owner=d.newId();
     return store.transaction(async tx=>{
       const previous=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)),now=clock();
       if(previous&&previous.expiresAt>now)return {owner:null,expiresAt:previous.expiresAt};
       const expiresAt=now+FOOD_PREFIX_WORKER_LEASE_MS;
       if(!Number.isSafeInteger(now)||!Number.isSafeInteger(expiresAt))throw new Error('Invalid prefix lease clock');
+      if(beforeClaim)await beforeClaim(tx,now);
       const phaseId=uuid(['food-prefix-worker',matchId,owner,'phase']),deadlineToken=uuid(['food-prefix-worker',matchId,owner,'deadline']);
       const taskId=hash([matchId,phaseId,deadlineToken]);
       tx.set(prefixWorkerKey(matchId),{owner,expiresAt,throughSequence,wakeTaskId:taskId} satisfies PrefixWorkerLease);
       // Exactly one expiry wake per owner; it remains durable if acquisition's ACK
       // is lost or the owner dies before touching Session. No gameplay context is minted.
       tx.set('deadline/'+taskId,{matchId,phaseId,deadlineToken,kind:'game',taskId,endsAt:expiresAt,status:'pending',
-        nextAttemptAt:expiresAt,ingressSequence:throughSequence} satisfies PlanetDeadlineJob);
+        nextAttemptAt:expiresAt,...(throughSequence===0?{sessionWriterRecovery:true}:{ingressSequence:throughSequence})} satisfies PlanetDeadlineJob);
       return {owner,expiresAt};
     });
   }
@@ -192,19 +228,19 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       return true;
     });
   }
-  async function releasePrefixWorker(matchId:string,owner:string):Promise<void>{
+  async function releasePrefixWorker(matchId:string,owner:string,committed=false):Promise<void>{
     await store.transaction(async tx=>{
       const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
       if(!lease||lease.owner!==owner)return;
-      const target=await tx.get<Entry>(entryKey(matchId,lease.throughSequence));
+      const complete=lease.throughSequence===0?committed:(await tx.get<Entry>(entryKey(matchId,lease.throughSequence)))?.response;
       const wake=await tx.get<PlanetDeadlineJob>('deadline/'+lease.wakeTaskId);
       tx.delete(prefixWorkerKey(matchId));
       // A failed/bounded attempt must retain its independent recovery wake even
       // after yielding ownership; only a durable target response retires it.
-      if(target?.response&&wake&&wake.status!=='complete')tx.set('deadline/'+lease.wakeTaskId,{...wake,status:'complete'});
+      if(complete&&wake&&wake.status!=='complete')tx.set('deadline/'+lease.wakeTaskId,{...wake,status:'complete'});
     });
   }
-  async function limitFood(tx:PlanetTransaction,uid:string,q:Request|null,at:number):Promise<void>{
+  async function foodRate(tx:PlanetReadTransaction,uid:string,q:Request|null,at:number){
     const c=q?.operation==='foodCommand'?q.request.command:null;
     const closure=c?.type==='TASK_PRESS'&&(c.input.kind==='HOLD_RECOVER_OFF'||c.input.kind==='HOLD'&&c.input.edge==='UP');
     const budget=q?.operation==='read'?'snapshot':q?.operation==='foodHeartbeat'?'presence':closure?'closure'
@@ -212,7 +248,42 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const path=key('foodTransportRate',[uid,budget]),old=await tx.get<{since:number;count:number}>(path);
     const current=!old||at-old.since>=60_000?{since:at,count:0}:old;
     if(current.count>=FOOD_TASK_TRANSPORT.requestsPerMinute[budget])d.reject('RATE_LIMITED');
+    return {path,current};
+  }
+  async function limitFood(tx:PlanetTransaction,uid:string,q:Request|null,at:number):Promise<void>{
+    const {path,current}=await foodRate(tx,uid,q,at);
     tx.set(path,{...current,count:current.count+1});
+  }
+  async function preflightAdmission(matchId:string,uid:string,q:Request,expected?:{seatId:SeatId;bindingRevision:number}){
+    return readOnly(async tx=>{
+      const s=await d.load(tx,matchId),actor=authorize(s,uid,q),bindingRevision=actor?s.members.find(m=>m.seatId===actor)!.bindingRevision:null;
+      if(expected&&(actor!==expected.seatId||bindingRevision!==expected.bindingRevision))d.reject('FORBIDDEN');
+      const rk=receiptPath(q,uid,actor),fingerprint=hash(q);
+      const original=async(reader:PlanetReadTransaction):Promise<AdmissionResult|null>=>{
+        if(!rk)return null;
+        const stored=await reader.get<Stored>(rk);
+        if(stored){if(stored.fingerprint!==fingerprint)d.reject(q.operation==='command'?'COMMAND_ID_CONFLICT':'REQUEST_ID_CONFLICT');
+          return {sequence:0,response:stored.response};}
+        const pending=await reader.get<Pending>(key('foodPending',rk));
+        if(!pending)return null;if(pending.fingerprint!==fingerprint)d.reject('COMMAND_ID_CONFLICT');
+        const entry=await reader.get<Entry>(entryKey(matchId,pending.sequence));if(!entry)throw new Error('Missing admitted Food input');
+        return {sequence:pending.sequence,response:entry.response};
+      };
+      const token=async(reader:PlanetReadTransaction,at:number)=>{
+        if(q.operation!=='redeemRecovery')return;
+        const value=await reader.get<{seatId:SeatId;bindingRevision:number;expiresAt:number;used:boolean}>(key('recovery',[matchId,q.recoveryCode]));
+        if(!value||value.used||at>=value.expiresAt||member(s,uid)
+          ||!s.members.some(m=>m.seatId===value.seatId&&m.controller==='human'&&m.bindingRevision===value.bindingRevision))d.reject('FORBIDDEN');
+      };
+      const prior=await original(tx);
+      if(prior===null){const at=clock();await token(tx,at);await foodRate(tx,uid,q,at);}
+      return {prior,actor,bindingRevision,beforeClaim:async(reader:PlanetReadTransaction,at:number)=>{
+        // Presence is only a signal. Never return a receipt/conflict using this
+        // captured seat key without a fresh same-snapshot authorization below.
+        if(rk&&(await reader.get<Stored>(rk)||await reader.get<Pending>(key('foodPending',rk))))throw new RecoveredAdmission();
+        await token(reader,at);await foodRate(reader,uid,q,at);
+      }};
+    });
   }
   function renewOwnConnection(s:T,actor:SeatId|null,ctx:PlanetContext,tx:PlanetTransaction,sequence:number):void{
     if(actor===null||!s.state||s.status!=='running')return;
@@ -264,11 +335,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     human?:{session:T;seatId:SeatId;bindingRevision:number};
   }={}):Promise<AdmissionResult>{
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
-    return store.transaction(async tx=>{
+    const preflight=!options.human&&uid!==null&&q?await preflightAdmission(matchId,uid,q):null;
+    if(preflight?.prior)return preflight.prior;
+    const perform=(writer?:string):Promise<AdmissionResult>=>store.transaction(async tx=>{
       const s=options.human?.session??await d.load(tx,matchId);if(!isFood(s))d.reject('NOT_ALLOWED');engine();
       // Detached human admission never locks Session. All admissions take Control
       // before receipt/pending/rate records, matching processing's lock order.
       const control=await tx.get<Control>(controlKey(matchId))??freshControl();
+      const guard=writer===undefined?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
+      if(writer!==undefined)requirePrefixOwner(guard,writer,0,clock());
       const renewals=options.bot||options.job?await contacts(tx,matchId):null;
       let actor:SeatId|null=null,binding:number|null=null;
       if(options.human){actor=options.human.seatId;binding=options.human.bindingRevision;
@@ -302,6 +377,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       }
       // Only a committed attempt's sample becomes authority. A failed SDK attempt has no receipt point.
       const at=clock();if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt)throw new Error('Backward Food admission clock');
+      if(writer!==undefined)requirePrefixOwner(guard,writer,0,at);
       if(renewals)service(s).leases=effectiveLeases(s,renewals,at);
       if(options.workerOwner!==undefined){
         const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
@@ -361,6 +437,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(!options.human)await d.publish(tx,s,ctx);
       return {sequence,response:null};
     });
+    try{return options.human?await perform():await withSessionWriter(matchId,owner=>perform(owner),preflight?.beforeClaim);}
+    catch(error){
+      if(error instanceof RecoveredAdmission&&preflight&&uid!==null&&q){
+        const expected=q.operation==='command'&&preflight.actor!==null?{seatId:preflight.actor,bindingRevision:preflight.bindingRevision!}:undefined;
+        const current=await preflightAdmission(matchId,uid,q,expected);if(current.prior)return current.prior;
+        throw new Error('Previously observed Food admission disappeared');
+      }
+      throw error;
+    }
   }
   async function humanFoodCommand(matchId:string,uid:string,q:Extract<Request,{operation:'foodCommand'}>,initial:T):Promise<PlanetServiceResponse>{
     let binding:{session:T;seatId:SeatId;bindingRevision:number}|undefined,failed=false,failure:unknown;
@@ -516,7 +601,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const control=await tx.get<Control>(controlKey(matchId));
       if(!control||control.processedSequence>=throughSequence)return;
       const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
-      if(!lease||lease.owner!==owner||lease.expiresAt<=clock()||lease.throughSequence!==throughSequence)throw new LostPrefixWorkerLease();
+      requirePrefixOwner(lease,owner,throughSequence,clock());
       if(control.processedSequence===control.nextSequence-1)return;
       const path=entryKey(matchId,control.processedSequence+1),entry=await tx.get<Entry>(path);
       if(!entry||entry.response)throw new Error('Invalid Food ingress prefix');
@@ -645,6 +730,22 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const s=await inspect(job.matchId);if(!s||!isFood(s)||!s.state)return undefined;
     const stored=await readOnly(tx=>tx.get<PlanetDeadlineJob>('deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken])));
     if(!stored||stored.status==='complete')return {status:'unchanged'};
+    if(stored.sessionWriterRecovery!==undefined){
+      if(stored.sessionWriterRecovery!==true||stored.ingressSequence!==undefined)throw new Error('Invalid Session writer recovery wake');
+      const now=clock();if(now<stored.endsAt)return {status:'too-early',retryAfterMs:stored.endsAt-now};
+      const active=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(job.matchId)));
+      if(active?.wakeTaskId===stored.taskId&&active.expiresAt>now)return {status:'too-early',retryAfterMs:active.expiresAt-now};
+      const control=await readOnly(tx=>tx.get<Control>(controlKey(job.matchId)));
+      if(control&&control.processedSequence<control.nextSequence-1)await drainThrough(job.matchId,control.nextSequence-1);
+      // This is a technical probe, never a fabricated input. Any subsequent bot
+      // or deadline work uses the normal current-clock admission path.
+      await runBots(job.matchId);
+      await store.transaction(async tx=>{
+        const current=await tx.get<PlanetDeadlineJob>('deadline/'+stored.taskId);
+        if(current&&current.status!=='complete')tx.set('deadline/'+stored.taskId,{...current,status:'complete'});
+      });
+      return {status:'advanced'};
+    }
     if(stored.ingressSequence!==undefined){
       if(!Number.isSafeInteger(stored.ingressSequence)||stored.ingressSequence<1)throw new Error('Invalid ingress wake');
       const now=clock();if(now<stored.endsAt)return {status:'too-early',retryAfterMs:stored.endsAt-now};

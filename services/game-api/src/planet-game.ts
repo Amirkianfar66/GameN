@@ -65,9 +65,12 @@ export interface PlanetDeadlineJob {
   taskId:string;status:'pending'|'dispatched'|'complete';nextAttemptAt:number;
   /** Private committed ingress wake; the dispatched four-field payload is unchanged. */
   ingressSequence?:number;
+  /** Private technical recovery probe, without a fabricated ingress sequence. */
+  sessionWriterRecovery?:true;
 }
 type FailureCode=PlanetServiceFailure['error']['code'];
 class Rejected extends Error {constructor(readonly code:FailureCode){super(code);}}
+class FoodHandoff extends Error {}
 function reject(code:FailureCode):never{throw new Rejected(code);}
 const safeUid=(uid:unknown):uid is string=>typeof uid==='string' && /^[A-Za-z0-9_-]{1,128}$/.test(uid);
 const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -289,6 +292,10 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       }
       const matchId=request.operation==='command'?request.request.matchId:request.matchId;
       const s=await load(tx,matchId);
+      // Setup classification can become stale while this transaction starts.
+      // Abort before effects and re-enter the current candidate path outside it.
+      if(s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion&&s.state
+        &&!(request.operation==='read'&&!isParticipant(s,uid)))throw new FoodHandoff();
       if(request.operation==='redeemRecovery'){
         const rk=key('operation',[uid,request.requestId]),previous=await tx.get<StoredReceipt>(rk);
         if(previous){if(previous.fingerprint!==fingerprint)reject('REQUEST_ID_CONFLICT');return previous.response;}
@@ -384,7 +391,14 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       }
       record(tx,s,{kind:'OPERATION',operation:request.operation,requestId:request.requestId,context:ctx});
       await publish(tx,s,ctx);const response=success(result);tx.set(rk,{fingerprint,response});return response;
-    });}catch(error){return failure(error instanceof Rejected?error.code:'UNAVAILABLE');}
+    });}catch(error){
+      if(error instanceof FoodHandoff){
+        try{const result=await food.tryHandle(uid,request);if(result!==undefined)return result;}
+        catch(next){return failure(next instanceof Rejected?next.code:'UNAVAILABLE');}
+        return failure('UNAVAILABLE');
+      }
+      return failure(error instanceof Rejected?error.code:'UNAVAILABLE');
+    }
   }
   function advanceSession(s:Session<S>,ctx:PlanetContext,tx:PlanetTransaction):boolean{
     if(s.status==='choosing'&&s.setup&&ctx.now>=s.setup.endsAt){prepare(s,ctx,tx);return true;}
@@ -437,7 +451,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
   async function runDeadline(job:Pick<PlanetDeadlineJob,'matchId'|'phaseId'|'deadlineToken'|'kind'>):Promise<{status:'advanced'|'unchanged'|'too-early';retryAfterMs?:number}>{
     const candidate=await food.tryRunDeadline(job);if(candidate!==undefined)return candidate;
     const ctx=dependencies.engineProfile===PLANET_FOOD_TASK_ENGINE_PROFILE?foodContext():context();
-    return store.transaction(async tx=>{
+    try{return await store.transaction(async tx=>{
       ctx.now=clock();
       const jobKey='deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken]);
       const stored=await tx.get<PlanetDeadlineJob>(jobKey);
@@ -445,6 +459,10 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       const complete=()=>tx.set(jobKey,{...stored,status:'complete'});
       const exists=await tx.get<Session<S>>(matchKey(job.matchId));
       const s=exists?await load(tx,job.matchId):null;
+      if(s?.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion&&s.state){
+        if(job.kind==='setup'){complete();return {status:'unchanged' as const};}
+        throw new FoodHandoff();
+      }
       if(!s||!['choosing','reading','boarding','running'].includes(s.status)){complete();return {status:'unchanged' as const};}
       const timer=job.kind==='setup'?s.setup:s.state?{id:s.state.phase.id,token:s.state.deadlineToken,endsAt:deadlineAt(s.state)}:null;
       if(!timer||timer.id!==job.phaseId||timer.token!==job.deadlineToken||timer.endsAt===null){complete();return {status:'unchanged' as const};}
@@ -456,7 +474,10 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       await publish(tx,s,ctx);
       complete();
       return {status:advanced?'advanced' as const:'unchanged' as const};
-    });
+    });}catch(error){
+      if(error instanceof FoodHandoff){const result=await food.tryRunDeadline(job);if(result!==undefined)return result;}
+      throw error;
+    }
   }
   async function repairDeadlines(enqueue:(job:PlanetDeadlineJob)=>Promise<void>):Promise<{dispatched:number;advanced:number;failed:number}>{
     const counts={dispatched:0,advanced:0,failed:0};
@@ -490,8 +511,10 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     const classify=(tx:PlanetReadTransaction)=>tx.get<Session<S>>(matchKey(matchId));
     const existing=await (store.readOnly?store.readOnly(classify):store.transaction(classify));
     if(existing?.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion)return food.runBots(matchId);
-    const ctx=context();return store.transaction(async tx=>{ctx.now=clock();const s=await load(tx,matchId);
-      const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});
+    const ctx=context();try{return await store.transaction(async tx=>{ctx.now=clock();const s=await load(tx,matchId);
+      if(s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion&&s.state)throw new FoodHandoff();
+      const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});}
+    catch(error){if(error instanceof FoodHandoff)return food.runBots(matchId);throw error;}
   }
   const food=createPlanetFoodCoordinator<S,Session<S>>({store,engine,clock,newId,newContext:foodContext,newRecoveryCode,
     load,publish,record,snapshot,chooseOrdinaryBot:choosePlanetBotCommand,reject,limit,
