@@ -62,7 +62,18 @@ test('native ordinary reads renew a living participant lease without heartbeat o
   await h.service.runBots(h.matchId);
  }
  let current=await h.current();assert.equal(current.state.food.step.task.hold.holderSequence,holder);
- assert.equal(current.foodService.leases['seat-1'].expiresAt,task.startedAt+14000);
+ const contact=await h.store.transaction(tx=>tx.get('foodContact/'+h.matchId)),renewedUntil=task.startedAt+14000;
+ assert.deepEqual(contact['seat-1'],{taskId:task.taskId,bindingRevision:current.members.find(m=>m.seatId==='seat-1').bindingRevision,
+  admittedAt:task.startedAt+12000,expiresAt:renewedUntil});
+ assert.ok(current.foodService.leases['seat-1'].expiresAt<=renewedUntil,'Session is a cached baseline, private contact is the live renewal');
+ await runNativeFoodWorkersThrough(h,renewedUntil-1);h.setTime(renewedUntil-1);
+ current=await h.current();assert.equal(current.state.food.step.task.people.find(p=>p.seatId==='seat-1').online,true);
+ assert.equal(current.state.food.step.task.hold.holderSequence,holder);
+ await runNativeFoodWorkersThrough(h,renewedUntil);h.setTime(renewedUntil);
+ current=await h.current();assert.equal(current.state.food.step.task.people.find(p=>p.seatId==='seat-1').online,false);
+ assert.equal(current.state.food.step.task.hold.holderSequence,holder,'technical absence never fabricates a release');
+ const absences=(await currentPlanetJournal(h)).filter(r=>r.kind==='FOOD_PRESENCE'&&r.actorSeatId==='seat-1'&&!r.online);
+ assert.equal(absences.length,1);assert.equal(absences[0].context.now,renewedUntil,'canonical absence is recorded at the renewed expiry');
  await runNativeFoodWorkersThrough(h,task.startedAt+15000);h.setTime(task.startedAt+15000);
  current=await h.current();assert.equal(current.state.food.step.task.people.find(p=>p.seatId==='seat-1').online,false);
  const rejoined=await h.read(h.players[0]),t=rejoined.foodPlayerView.participantTask;
