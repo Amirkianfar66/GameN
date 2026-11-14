@@ -16,8 +16,8 @@ function receipt(q,{status='accepted',effect='APPLIED',code='NOT_ALLOWED',closur
    requestRevision:c.type==='TASK_ASK'?0:c.requestRevision+1,state:c.type==='TASK_ASK'?'PENDING':c.type==='TASK_ASK_WITHDRAW'?'WITHDRAWN':c.answer==='JOIN'?'JOINED':'DECLINED'};
  return {...context,status,receivedAt:6000,result};
 }
-function rig({saved=null,send=null,lookup=null,storeFailure=false}={}){
- let uid='food-owner',now=6000,synced=true,sequence=0,stored=saved,failStore=storeFailure;
+function rig({saved=null,send=null,lookup=null,storeFailure=false,idStart=0}={}){
+ let uid='food-owner',now=6000,synced=true,sequence=idStart,stored=saved,failStore=storeFailure;
  const sent=[],lookups=[],timers=new Map();let timerId=0;
  const ports={clock:{now:()=>now},ids:{next:()=>`native-command-${++sequence}`},scheduler:{setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,at:now+ms});return id;},clearTimeout:id=>timers.delete(id)},
   recovery:{load:()=>stored,save:value=>{if(failStore)throw Error('store unavailable');stored=value;},clear:()=>{if(failStore)throw Error('store unavailable');stored=null;}}};
@@ -83,7 +83,7 @@ test('recovered Hold never replays DOWN; explicit finger-off closes actual older
 });
 test('saved unacknowledged high-water participates in fresh explicit off recovery',async()=>{
  const first=rig({send:async()=>null});first.observe();first.controller.holdDown();first.controller.holdUp();await flush();const saved=first.saved();first.controller.dispose();
- const r=rig({saved});r.observe();await flush();
+ const r=rig({saved,idStart:2});r.observe();await flush();
  assert.equal(r.sent.length,1);assert.equal(r.sent[0].command.input.kind,'HOLD_RECOVER_OFF');assert.equal(r.sent[0].command.input.throughSequence,1);
  assert.ok(r.lookups.length>=2);assert.equal(r.sent.some(q=>q.command.input.kind==='HOLD'&&q.command.input.edge==='DOWN'),false);r.controller.dispose();
 });
@@ -99,7 +99,7 @@ test('verified finger-off closure retires never-delivered Hold originals, enable
  assert.equal(r.observe(landed()),true);await flush();assert.equal(r.controller.getModel().canKey,true);
  const saved=r.saved();assert.deepEqual(JSON.parse(saved).entries,[]);assert.equal(JSON.parse(saved).contact.highestSequence,1);
  r.controller.dispose();
- const reloaded=rig({saved});assert.equal(reloaded.observe(landed()),true);await flush();
+ const reloaded=rig({saved,idStart:3});assert.equal(reloaded.observe(landed()),true);await flush();
  assert.equal(reloaded.controller.getModel().pendingCount,0);assert.equal(reloaded.controller.getModel().canKey,true);
  await reloaded.controller.checkReceipts();assert.equal(reloaded.lookups.length,0);
  await reloaded.controller.press('KEY');assert.deepEqual(reloaded.sent.map(q=>q.command.input.kind),['KEY']);
@@ -118,7 +118,7 @@ test('verified closure preserves unknown commands outside its exact original con
  for(const [name,change]of Object.entries(variants))await t.test(name,async()=>{
   const first=rig({send:async()=>null});first.observe();first.controller.holdDown();first.controller.holdUp();await flush();
   const saved=JSON.parse(first.saved()),unrelated=copy(first.sent[0]);unrelated.commandId='unrelated-original';change(unrelated);saved.entries.push(unrelated);first.controller.dispose();
-  const r=rig({saved:JSON.stringify(saved)});r.observe();await flush();
+  const r=rig({saved:JSON.stringify(saved),idStart:2});r.observe();await flush();
   assert.equal(r.sent.length,1);assert.equal(r.sent[0].command.input.kind,'HOLD_RECOVER_OFF');
   assert.equal(r.controller.getModel().pendingCount,1);assert.deepEqual(JSON.parse(r.saved()).entries,[unrelated]);
   assert.equal(r.controller.getModel().canCheck,true);r.controller.dispose();
