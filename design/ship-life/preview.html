@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- mothership:dev-only. Ship life's design preview (design/ship-life/preview.mjs): ?take=stocked (the default), empty, unknown or reduced; &t=<ms> holds one moment; &live=1 runs it. A design preview with labelled fixtures, not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ship life preview</title>
+<style>
+  :root { --ink: #151923; --paper: #F4EBDD; --muted: #B9C4D3; --glow: #F7DFA3; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--ink); color: var(--paper); font: 15px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .bar { height: 64px; padding: 9px 18px 0; display: grid; grid-template-columns: 1fr auto; column-gap: 16px; align-items: start; }
+  .bar h1 { margin: 0; font-size: 17px; font-weight: 650; letter-spacing: 0.01em; }
+  .bar p { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; min-height: 18px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .tag { border: 1.5px solid currentColor; border-radius: 999px; padding: 1px 9px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .tag.fixture { color: var(--glow); }
+  .tag.note { color: var(--muted); }
+  .clock { color: var(--muted); font-size: 12px; text-align: right; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .stage { position: relative; width: 1024px; height: 768px; overflow: hidden; }
+  .scene { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; }
+  .scene > img { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; display: block; }
+  .scene > .amb { position: absolute; left: 0; top: 0; }
+  .capsule { position: absolute; }
+  .capsule svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .piece { position: absolute; }
+  .piece .layer, .piece .layer > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .piece[data-mirror="true"] { transform: scaleX(-1); }
+</style>
+<link rel="stylesheet" href="../phone-ui/prototype/ambient.css">
+</head>
+<body>
+<div class="bar"><div><h1 id="title"></h1><p id="caption"></p></div><div><div class="tags" id="tags"></div><div class="clock" id="clock"></div></div></div>
+<div id="root"></div>
+<script type="module" src="./preview.mjs"></script>
+</body>
+</html>
