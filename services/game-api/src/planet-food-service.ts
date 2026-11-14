@@ -781,7 +781,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     let accepted=0,waitedMs=0,workPasses=0,inputs=0;
     type LockProposal={seatId:SeatId;view:FoodTaskPlayerView;command:FoodTaskCommandRequest['command'];endsAt:number;
       request:Extract<Request,{operation:'foodCommand'}>|null};
-    type Probe={prefix:number|null;work:boolean;nextWakeAt:number|null;lock:LockProposal|null};
+    type UpProposal=Pick<LockProposal,'seatId'|'view'|'command'>;
+    type Probe={prefix:number|null;work:boolean;nextWakeAt:number|null;lock:LockProposal|null;up?:UpProposal};
     const botsInOrder=(s:T)=>s.members.filter(m=>m.controller==='bot');
     const plannedLocks=new Map<SeatId,{request:Extract<Request,{operation:'foodCommand'}>;endsAt:number}>();
     const currentPlannedLock=(seat:SeatId,view:FoodTaskPlayerView)=>{
@@ -814,7 +815,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
             const end=command?planned?.endsAt??foodBotPanelLockWindowEnd(view,command):null;
             // Stop at the first actionable bot. A later Lock never jumps an earlier UP or other input.
             const lock=command&&end!==null?{seatId:bot.seatId,view,command,endsAt:end,request:planned?.request??null}:null;
-            return {prefix:null,work:true,nextWakeAt:null,lock};
+            const holder=view.participantTask?.ownGesture?.currentHolder;
+            // Only the first actual holder's currently planned UP can avoid CLOCK.
+            // No engine boundary (including warnings) may be bypassed on this path.
+            const up=!engineDue&&view.participantTask?.selfControl==='WINCH'&&holder
+              &&command?.type==='TASK_PRESS'&&command.input.kind==='HOLD'&&command.input.edge==='UP'
+              &&command.input.gestureSequence===holder.sequence&&command.input.crateId===holder.crateId
+              &&holder.crateId===view.participantTask.crate.id?{seatId:bot.seatId,view,command}:undefined;
+            return {prefix:null,work:true,nextWakeAt:null,lock,...(up?{up}:{})};
           }
           if(decision.nextWakeAt!==null&&decision.nextWakeAt>at)nextWakeAt=Math.min(nextWakeAt??Infinity,decision.nextWakeAt);
         }
@@ -861,6 +869,16 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         continue; // Waiting never consumes an input/work pass or supplies an admission timestamp.
       }
       workPasses++;
+      if(pending.up){
+        // This owned probe supplies no authority: ordinary admission rechecks the
+        // actual clock, policy, holder/context and all prefix/presence/worker fences.
+        // A rejected uncommitted UP is discarded; no window/request is retained.
+        const proposal=pending.up;
+        await submit(proposal.seatId,{operation:'foodCommand',request:{schemaVersion:1,protocolVersion:3,
+          matchId,phaseId:proposal.view.phaseId,foodStepId:proposal.view.step!.stepId,round:proposal.view.round,
+          commandId:d.newId(),command:proposal.command}},null);
+        continue;
+      }
       if(pending.lock){
         const planned=materializeLock(pending.lock);
         if(planned)await submit(pending.lock.seatId,planned.request,planned.endsAt);
