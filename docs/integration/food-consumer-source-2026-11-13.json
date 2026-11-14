@@ -1,7 +1,7 @@
 {
   "schema": "mothership.food-consumer-source/1",
   "status": "reviewed-source-candidate",
-  "candidateHead": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
+  "candidateHead": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
   "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
   "scope": "Exact technical source compatibility for Food test 1. This is not Designer visual acceptance, production adoption, creation enablement or deployment.",
   "target": {
@@ -25,8 +25,8 @@
   },
   "closure": {
     "path": "docs/frontend/food-supply-render-closure.json",
-    "sha256": "b260eea51594dc804930754c8602b31455ecf30297d01beed6a2f970612923b7",
-    "bytes": 11192
+    "sha256": "76a9b84c2c141c174375561f9e7f6121208a7f9b681cabd4838d1464131975c1",
+    "bytes": 14029
   },
   "staticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
@@ -184,9 +184,9 @@
     },
     "apps/game/hosted/planet/food-render.mjs": {
       "previousSha256": null,
-      "sha256": "1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
-      "bytes": 35681,
-      "candidateBlob": "design/releases/candidate-blobs/1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
+      "sha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
+      "bytes": 35737,
+      "candidateBlob": "design/releases/candidate-blobs/0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
       "acceptedPreviousHashes": []
     },
     "apps/game/hosted/planet/food-app.mjs": {
@@ -286,9 +286,9 @@
     },
     "apps/game/src/planet/food.ts": {
       "previousSha256": null,
-      "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
-      "bytes": 18812,
-      "candidateBlob": "design/releases/candidate-blobs/353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
+      "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+      "bytes": 19238,
+      "candidateBlob": "design/releases/candidate-blobs/b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
       "acceptedPreviousHashes": []
     },
     "apps/game/src/planet/food-input.ts": {

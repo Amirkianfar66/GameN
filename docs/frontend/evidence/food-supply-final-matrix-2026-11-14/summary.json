@@ -1,0 +1,459 @@
+{
+  "scope": "Sanitized derived record of one first generated match per roster after one separate zero-case startup failure. Official uninstrumented d5 API; unchanged excluded client timing capture. No retry, reroll, hidden-state read, seeded history, injected time or assertion relaxation.",
+  "acceptance": "FAILED: final7 CANCELLED/DISCONNECT; final8 and final9 passed.",
+  "sourceHead": "99c585157f4ccd99846785149fd5f7da4fe5e3ca",
+  "nativeApprovedHead": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "backendHead": "d5a57af049c5ac8abb57754855099fa0468abd37",
+  "driverSha256": "3cbf1d86ce5b20ff55a34929d00512019d729e56b76a0348a46d2774bd57fe85",
+  "connectedProvenanceSha256": "9d31955c6e669c9af6a9411efe5a630befb59aeb7d7dc240a2943a3f27a27fc1",
+  "caseCount": 3,
+  "cases": [
+    {
+      "count": 7,
+      "profile": {
+        "width": 390,
+        "height": 844,
+        "text": 1,
+        "reduced": false
+      },
+      "control": "PANEL",
+      "result": "FAIL",
+      "failure": {
+        "assertedExpected": "DELIVERED",
+        "actualOutcome": "CANCELLED",
+        "actualReason": "DISCONNECT"
+      },
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10101
+        },
+        {
+          "stage": "READY",
+          "atMs": 74032
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 90573
+        },
+        {
+          "stage": "TASK",
+          "atMs": 90851,
+          "control": "PANEL"
+        }
+      ],
+      "readyOriginalRequests": 1,
+      "readyReceipt": {
+        "operation": "ready",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      "foodOutcome": "CANCELLED",
+      "returnChecks": "UNRUN",
+      "stockDosesAfterReturn": null,
+      "returnCheckpointAssertion": "UNRUN",
+      "ownReturnPlacementPresent": null,
+      "uniformAssets": null,
+      "ownPassAndConfirmation": "UNRUN",
+      "ordinaryCommandCount": 0,
+      "ownMeal": null,
+      "ownOfferAfterObservedReturnMs": null,
+      "ownMealAfterObservedReturnMs": null,
+      "completedPublicPrivacyCheckpoints": 18,
+      "completePrivacyGuard": false,
+      "cleanupAbortOk": true,
+      "browserExceptionsCaptured": true,
+      "capturedBrowserExceptionCount": 0,
+      "droppedPhoneObservations": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "foodRequests": [
+        {
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "totalMs": 188,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "totalMs": 182,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "totalMs": 26881,
+          "status": 503,
+          "ok": false,
+          "code": "UNAVAILABLE",
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        }
+      ],
+      "ordinaryRequests": [],
+      "readTimings": {
+        "phone": {
+          "completed": 59,
+          "minimumMs": 32,
+          "p95Ms": 531,
+          "maximumMs": 24256,
+          "excludedIncompleteOrUnsuccessful": 0
+        },
+        "display": {
+          "completed": 47,
+          "minimumMs": 25,
+          "p95Ms": 113,
+          "maximumMs": 852,
+          "excludedIncompleteOrUnsuccessful": 1
+        }
+      }
+    },
+    {
+      "count": 8,
+      "profile": {
+        "width": 320,
+        "height": 568,
+        "text": 2,
+        "reduced": false
+      },
+      "control": "PANEL",
+      "result": "PASS",
+      "failure": null,
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10043
+        },
+        {
+          "stage": "READY",
+          "atMs": 72675
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 89219
+        },
+        {
+          "stage": "TASK",
+          "atMs": 93006,
+          "control": "PANEL"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 122268
+        },
+        {
+          "stage": "MEAL",
+          "atMs": 280805
+        }
+      ],
+      "readyOriginalRequests": 1,
+      "readyReceipt": {
+        "operation": "ready",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      "foodOutcome": "DELIVERED",
+      "returnChecks": "PASSED",
+      "stockDosesAfterReturn": 20,
+      "returnCheckpointAssertion": "FOOD_RETURNED",
+      "ownReturnPlacementPresent": true,
+      "uniformAssets": 37,
+      "ownPassAndConfirmation": "PASSED",
+      "ordinaryCommandCount": 1,
+      "ownMeal": "ATE_ONCE",
+      "ownOfferAfterObservedReturnMs": 153923,
+      "ownMealAfterObservedReturnMs": 158537,
+      "completedPublicPrivacyCheckpoints": 16,
+      "completePrivacyGuard": true,
+      "cleanupAbortOk": true,
+      "browserExceptionsCaptured": true,
+      "capturedBrowserExceptionCount": 0,
+      "droppedPhoneObservations": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "foodRequests": [
+        {
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "totalMs": 132,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "totalMs": 177,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "totalMs": 149,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "totalMs": 284,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        }
+      ],
+      "ordinaryRequests": [
+        {
+          "totalMs": 348,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null
+        }
+      ],
+      "readTimings": {
+        "phone": {
+          "completed": 163,
+          "minimumMs": 22,
+          "p95Ms": 313,
+          "maximumMs": 4028,
+          "excludedIncompleteOrUnsuccessful": 0
+        },
+        "display": {
+          "completed": 163,
+          "minimumMs": 22,
+          "p95Ms": 346,
+          "maximumMs": 3164,
+          "excludedIncompleteOrUnsuccessful": 0
+        }
+      }
+    },
+    {
+      "count": 9,
+      "profile": {
+        "width": 390,
+        "height": 844,
+        "text": 1,
+        "reduced": true
+      },
+      "control": "PANEL",
+      "result": "PASS",
+      "failure": null,
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10029
+        },
+        {
+          "stage": "READY",
+          "atMs": 72419
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 88790
+        },
+        {
+          "stage": "TASK",
+          "atMs": 89044,
+          "control": "PANEL"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 121670
+        },
+        {
+          "stage": "MEAL",
+          "atMs": 286565
+        }
+      ],
+      "readyOriginalRequests": 1,
+      "readyReceipt": {
+        "operation": "ready",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      "foodOutcome": "DELIVERED",
+      "returnChecks": "PASSED",
+      "stockDosesAfterReturn": 20,
+      "returnCheckpointAssertion": "FOOD_RETURNED",
+      "ownReturnPlacementPresent": true,
+      "uniformAssets": 37,
+      "ownPassAndConfirmation": "PASSED",
+      "ordinaryCommandCount": 1,
+      "ownMeal": "ATE_ONCE",
+      "ownOfferAfterObservedReturnMs": 160398,
+      "ownMealAfterObservedReturnMs": 164895,
+      "completedPublicPrivacyCheckpoints": 17,
+      "completePrivacyGuard": true,
+      "cleanupAbortOk": true,
+      "browserExceptionsCaptured": true,
+      "capturedBrowserExceptionCount": 0,
+      "droppedPhoneObservations": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "foodRequests": [
+        {
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "totalMs": 144,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "totalMs": 146,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "totalMs": 3311,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "totalMs": 3473,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "totalMs": 2109,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "totalMs": 3517,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        }
+      ],
+      "ordinaryRequests": [
+        {
+          "totalMs": 450,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null
+        }
+      ],
+      "readTimings": {
+        "phone": {
+          "completed": 149,
+          "minimumMs": 24,
+          "p95Ms": 1122,
+          "maximumMs": 3852,
+          "excludedIncompleteOrUnsuccessful": 0
+        },
+        "display": {
+          "completed": 140,
+          "minimumMs": 21,
+          "p95Ms": 554,
+          "maximumMs": 7069,
+          "excludedIncompleteOrUnsuccessful": 0
+        }
+      }
+    }
+  ],
+  "limits": [
+    "All three generated human assignments were PANEL; no final WINCH/contact-loss check ran.",
+    "Returned placement presence was asserted, but the two exact returned board positions were not compared.",
+    "Browser timing domains are kept separate; DOM callbacks do not prove paint.",
+    "No new server observer; the earlier diagnostic remains separate and does not clear read/input tails.",
+    "No physical-device, Safari, VoiceOver, production, activation or deployment acceptance."
+  ]
+}

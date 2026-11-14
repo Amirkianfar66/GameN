@@ -11,12 +11,15 @@ import {resolve,sep,extname} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {launchBrowser,connect,openPage,sleep} from '../capture/browser.mjs';
 import {assertLocalEmulators,createEmulatorIdentity,projectId} from '../../../../infra/firebase/test/helpers.mjs';
+import {foodPolicyObservation} from './food-connected-observation.mjs';
+import {createOrdinaryProgress} from './food-connected-progress.mjs';
+import {chooseRenderedPanelInput,touchRenderedPanel} from './food-connected-panel.mjs';
 const repo=resolve(new URL('../../../../',import.meta.url).pathname),backend=process.env.GAMEN_FOOD_BACKEND_ROOT??repo;
 const {chooseFoodBotInput}=await import(pathToFileURL(resolve(backend,'services/game-api/dist/food-bot-policy.js')));
 const hosts=assertLocalEmulators();assert.equal(hosts.authHost,'127.0.0.1:9199');assert.equal(hosts.functionsHost,'127.0.0.1:5101');
 const build='/private/tmp/gamen-food-connected-preview',out=process.env.GAMEN_FOOD_CONNECTED_OUT??'/private/tmp/gamen-food-connected-journey';await mkdir(out,{recursive:true});
 const counts=process.env.GAMEN_FOOD_CONNECTED_COUNTS?process.env.GAMEN_FOOD_CONNECTED_COUNTS.split(',').map(Number):[7,8,9];assert.ok(counts.every(n=>[7,8,9].includes(n)));
-const report={scope:'Real local authenticated native app on normal setup, own-view-only automated human taps and authoritative partner workers. No seeded history, injected clock, manual advance/runBots, direct worker call or private-state read. Desktop Chromium only; no staging/device/Designer acceptance.',
+const report={scope:'Real local authenticated native app on normal setup, actual rendered PANEL guidance, own-view-only Winch policy and authoritative partner workers. No seeded history, injected clock, manual advance/runBots, direct worker call or private-state read. Desktop Chromium only; no staging/device/Designer acceptance.',
  candidateProvenance:JSON.parse(await readFile(resolve(build,'food-review-provenance.json'),'utf8')),cases:[],errors:[]};
 const server=createServer(async(req,res)=>{try{const name=new URL(req.url,'http://local').pathname,path=resolve(build,'.'+(name==='/'?'/index.html':name));if(!path.startsWith(build+sep))throw Error('path');
  res.setHeader('content-type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp','.json':'application/json'})[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.statusCode=404;res.end();}});
@@ -27,8 +30,10 @@ async function invoke(identity,body){const began=performance.now(),response=awai
  const answer=await response.json();assert.equal(response.status,200,'HTTP '+body.operation);assert.equal(answer.ok,true,body.operation+': '+answer.error?.code);return {value:answer.result,ms:performance.now()-began};}
 const operation=(operation,matchId,extra={})=>({operation,matchId,requestId:randomUUID(),...extra});
 async function waitFor(fn,label,limit=120000){const end=performance.now()+limit;while(performance.now()<end){const value=await fn();if(value)return value;await sleep(250);}throw Error('Timed out: '+label);}
-const foodModel=page=>page.evaluate(`(()=>{const f=planetEmulator.app.food?.getModel();return f?{view:f.view,clock:f.clock,fresh:f.fresh,pendingCount:f.pendingCount,
- canAnswer:f.canAnswer,canHold:f.canHold,canPanelRelease:f.canPanelRelease,canPanelLock:f.canPanelLock,canKey:f.canKey,physicalHolding:f.physicalHolding,needsContactOff:f.needsContactOff,feedback:f.feedback?.status??null}:null;})()`);
+const foodModel=page=>page.evaluate(`(()=>{const f=planetEmulator.app.food?.getModel();return f?{browserModelObservedAtMs:performance.now(),view:f.view,clock:f.clock,visible:f.visible,fresh:f.fresh,live:planetEmulator.app.session.getModel().connection==='live',pendingCount:f.pendingCount,
+ canAnswer:f.canAnswer,canHold:f.canHold,canPanelRelease:f.canPanelRelease,canPanelLock:f.canPanelLock,canKey:f.canKey,physicalHolding:f.physicalHolding,needsContactOff:f.needsContactOff,canCheck:f.canCheck,recoveryBlocked:f.recoveryBlocked,feedback:f.feedback?.status??null,feedbackName:f.feedback?.name??null,feedbackRecovered:f.feedback?.recovered??false,receiptStatus:f.feedback?.receipt?.status??null,receiptReceivedAt:f.feedback?.receipt?.receivedAt??null,receiptEffect:f.feedback?.receipt?.result?.effect??null,receiptCode:f.feedback?.receipt?.code??null,
+ controls:[...document.querySelectorAll('.planet-food.ph .fs-ctl')].map(n=>({id:n.id,action:n.dataset.act,visible:n.getBoundingClientRect().height>0,disabled:n.getAttribute('aria-disabled')==='true',busy:n.getAttribute('aria-busy')==='true',sending:n.hasAttribute('data-sending'),next:n.hasAttribute('data-next'),hazard:n.hasAttribute('data-hazard'),inert:!!n.closest('[inert]')})),
+ panelUI:(()=>{const strip=document.querySelector('.planet-food.ph .fs-strip');return strip?{locked:strip.hasAttribute('data-locked'),paintedStop:[...strip.children].findIndex(n=>n.hasAttribute('data-at')||n.hasAttribute('data-now')),paintedGoal:[...strip.children].findIndex(n=>n.hasAttribute('data-goal'))}:null;})()}:null;})()`);
 const capture=async(page,name)=>{const r=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(resolve(out,name),Buffer.from(r.data,'base64'));return name;};
 async function fill(page,selector,value){await page.evaluate(`(()=>{const n=document.querySelector(${JSON.stringify(selector)});n.value=${JSON.stringify(value)};n.dispatchEvent(new Event('input',{bubbles:true}));})()`);}
 async function join(page,roomCode,name,kind='player'){
@@ -48,7 +53,8 @@ const readyFacts=`(()=>{const n=document.querySelector('#planet-ready'),m=planet
  if(!n||!r)return {present:false,status:m.status,canReady:m.canReady};
  const point={x:Math.round(r.x+r.width/2),y:Math.round(r.y+r.height/2),id:1},hit=document.elementFromPoint(point.x,point.y);
  const visible=(()=>{for(let p=n;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||['hidden','collapse'].includes(s.visibility)||Number(s.opacity)===0)return false;}return true;})();
- return {present:true,visible,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),canReady:m.canReady,status:m.status,busy:m.busy,focused:document.hasFocus(),
+ return {present:true,visible,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),canReady:m.canReady,status:m.status,busy:m.busy,readyRequestsStarted:planetEmulator.requestStarts.filter(r=>r.operation==='ready').length,focused:document.hasFocus(),documentVisibility:document.visibilityState,
+ connection:m.connection,mode:m.mode,uncertain:m.uncertain,remainingMs:m.remainingMs,setupFlowVersion:m.setupFlowVersion,clockStatus:m.setupClock.status,ownReady:m.members.find(p=>p.seatId===m.selfSeatId)?.ready??null,
  rect:{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom},point,scroll:{x:scrollX,y:scrollY},
  viewport:{width:innerWidth,height:innerHeight,visual:v?{width:v.width,height:v.height,offsetLeft:v.offsetLeft,offsetTop:v.offsetTop,pageLeft:v.pageLeft,pageTop:v.pageTop,scale:v.scale}:null},
  hit:{tag:hit?.tagName??null,id:hit?.id??null,classes:typeof hit?.className==='string'?hit.className:null},hitMatches:hit===n||n.contains(hit)};})()`;
@@ -57,26 +63,48 @@ async function tapReady(page,result){
  await page.evaluate("document.querySelector('#planet-ready').scrollIntoView({block:'center',behavior:'instant'})");
  await page.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
  const before=await page.evaluate(readyFacts);result.readyTap={before};
- assert.equal(before.visible,true,'actual Ready is not visible');assert.equal(before.canReady,true,'actual Ready eligibility changed');assert.equal(before.disabled,false,'actual Ready disabled');assert.equal(before.ariaDisabled==='true',false,'actual Ready aria-disabled');
+ assert.equal(before.documentVisibility,'visible','Ready document is not visible');assert.equal(before.visible,true,'actual Ready is not visible');assert.equal(before.canReady,true,'actual Ready eligibility changed');assert.equal(before.disabled,false,'actual Ready disabled');assert.equal(before.ariaDisabled==='true',false,'actual Ready aria-disabled');
  assert.ok(before.rect.width>0&&before.rect.height>0&&before.point.x>=0&&before.point.x<before.viewport.width&&before.point.y>=0&&before.point.y<before.viewport.height,'Ready outside layout viewport');
  assert.equal(before.hitMatches,true,'Ready hit target is blocked: '+JSON.stringify(before));
  try{
+  assert.equal(before.readyRequestsStarted,0,'no Ready invocation before the visible touch');
   await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[before.point]});await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   const receipt=await waitFor(()=>page.evaluate('planetEmulator.operations.find(o=>o.operation==="ready")??null'),'original visible Ready response',15000);result.readyTap.receipt=receipt;
   assert.equal(receipt.status,200,'Ready HTTP');assert.equal(receipt.ok,true,'Ready: '+receipt.code);
+  result.readyTap.requestsStarted=await page.evaluate('planetEmulator.requestStarts.filter(r=>r.operation==="ready").length');assert.equal(result.readyTap.requestsStarted,1,'one original visible Ready request');
  }finally{result.readyTap.after=await page.evaluate(readyFacts).catch(()=>null);}
 }
 async function point(page,id){return page.evaluate(`(()=>{const n=document.querySelector(${JSON.stringify('#'+id)});if(!n||n.getAttribute('aria-disabled')==='true')return null;const r=n.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2,id:1};})()`);}
 async function tapInput(page,id){const p=await point(page,id);if(!p)return false;await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});return true;}
+async function waitForOwnPass(page,result,observedAt,count){
+ const progress=createOrdinaryProgress(count,performance.now());result.ordinaryWait={budget:progress.budget,checkpoints:[]};
+ let previous=null,lastRecordedAt=-Infinity;
+ while(true){
+  const model=await page.evaluate(`(()=>{const m=planetEmulator.app.game?.getModel();return m?{round:m.round,ownSeatId:m.ownSeatId,activeSeatId:m.activeSeatId,canPass:m.canPass,connection:m.connection,phase:m.phase,completedReads:planetEmulator.operations.filter(o=>o.operation==='read').length}:null;})()`);
+  const now=performance.now(),state=progress.observe(model,now),signature=JSON.stringify({...state.facts,observedServerNowMs:undefined,completedReads:undefined});
+  if(signature!==previous||now-lastRecordedAt>=10000||state.state!=='waiting'){
+   const checkpoint={atMs:Math.round(now-observedAt),...state.facts,state:state.state,reason:state.reason};result.ordinaryWait.checkpoints.push(checkpoint);lastRecordedAt=now;previous=signature;
+   console.log(JSON.stringify({count,trace:result.trace,stage:'ORDINARY_OBSERVATION',...checkpoint}));
+  }
+  if(state.state==='ready')return;
+  if(state.state==='failed')throw Error('Own ordinary Pass observation failed: '+state.reason);
+  await sleep(250);
+ }
+}
 try{
  for(const count of counts){
   const host=await createEmulatorIdentity(),created=(await invoke(host,{operation:'create',requestId:randomUUID(),playerCount:count})).value;
-  matches.push({host,matchId:created.matchId});const trace=createHash('sha256').update(created.matchId).digest('hex').slice(0,12),stage=(name,fields={})=>console.log(JSON.stringify({count,trace,stage:name,...fields}));
-  stage('CREATED');const width=count===8?320:390,height=count===8?568:844,text=count===8?2:1,reduced=count===9;
+  matches.push({host,matchId:created.matchId});const trace=createHash('sha256').update(created.matchId).digest('hex').slice(0,12);
+  const width=count===8?320:390,height=count===8?568:844,text=count===8?2:1,reduced=count===9;
   // Separate headless browser processes model two devices without a focus change
   // on the display concealing the participant's held contact.
   const page=await openPage(browser,{width,height,mobile:true,ownContext:true}),display=await openPage(displayBrowser,{width:390,height:844,mobile:true,ownContext:true});
-  let held=false,networkChecked=false,caseResult={count,trace,profile:{width,height,text,reduced},stages:[],commands:[]};
+  let held=false,networkChecked=false,caseResult={count,trace,profile:{width,height,text,reduced},stages:[],commands:[],responsiveness:[],policyObservations:[],panelObservations:[]};
+  const observedAt=performance.now();let taskStartedAt=null,lastObservation=null,lastPolicyObservation=null,lastPanelObservation=null;
+  caseResult.nodeTimingContext='atMs is driver performance.now relative to case start; it is separate from both pages and server time. Command server-clock estimates are sampled before the touch, not durable admission or dispatch times.';
+  const stage=(name,fields={})=>{const value={stage:name,atMs:Math.round(performance.now()-observedAt),...fields};caseResult.stages.push(value);console.log(JSON.stringify({count,trace,...value}));};
+  stage('CREATED');
+  const observe=m=>{if(!m)return;const value={fresh:m.fresh,clock:m.clock.status,pendingCount:m.pendingCount,feedback:m.feedback,feedbackName:m.feedbackName,recovered:m.feedbackRecovered,canCheck:m.canCheck,recoveryBlocked:m.recoveryBlocked,canHold:m.canHold,canPanelRelease:m.canPanelRelease,canPanelLock:m.canPanelLock,canKey:m.canKey,physicalHolding:m.physicalHolding,needsContactOff:m.needsContactOff,receiptStatus:m.receiptStatus,receiptEffect:m.receiptEffect,receiptCode:m.receiptCode,receiptOffsetMs:taskStartedAt!==null&&m.receiptReceivedAt!==null?m.receiptReceivedAt-taskStartedAt:null,controls:m.controls};const signature=JSON.stringify(value);if(signature!==lastObservation){caseResult.responsiveness.push({atMs:Math.round(performance.now()-observedAt),serverTaskOffsetMs:taskStartedAt!==null&&m.clock.status==='synced'?Math.round(m.clock.serverNowMs-taskStartedAt):null,...value});lastObservation=signature;}};
   try{
    await page.send('Page.addScriptToEvaluateOnNewDocument',{source:`performance.setResourceTimingBufferSize(5000);localStorage.setItem('mothership:planet:presentation-preferences',JSON.stringify({textScale:${text},reduced:${reduced}}))`});
    await display.send('Page.addScriptToEvaluateOnNewDocument',{source:'performance.setResourceTimingBufferSize(5000)'});
@@ -86,20 +114,24 @@ try{
    await invoke(host,operation('setBots',created.matchId,{count:count-1}));await invoke(host,operation('beginSetup',created.matchId));stage('SETUP');
    await waitFor(()=>page.evaluate('planetEmulator.app.session.getModel().status==="reading"'),'normal role reading');
    await tapReady(page,caseResult);stage('READY');
-   await waitFor(async()=>{const m=await foodModel(page);return m?.canAnswer;},'automatic private invitation',60000);
+   await waitFor(async()=>{const m=await foodModel(page);observe(m);return m?.canAnswer;},'automatic private invitation',60000);
    await page.tap('#food-action-join');stage('JOIN_SENT');
    const first=await waitFor(async()=>{const m=await foodModel(page);return m?.view?.participantTask?m:false;},'private Task',15000),task=first.view.participantTask;
-   assert.equal(task.returnsAt-task.startedAt,32500);caseResult.control=task.selfControl;caseResult.taskDurationMs=task.returnsAt-task.startedAt;stage('TASK',{control:task.selfControl});
+   taskStartedAt=task.startedAt;observe(first);assert.equal(task.returnsAt-task.startedAt,32500);caseResult.control=task.selfControl;caseResult.taskDurationMs=task.returnsAt-task.startedAt;stage('TASK',{control:task.selfControl});
    await display.waitFor('planetEmulator.app.game?.getModel().connection==="live"','authorized public display');
    await capture(page,`task-${count}-${task.selfControl.toLowerCase()}.png`);
-   let outcome=null,lastTask=task,returned=null;const finishBy=performance.now()+65000;
+   const checkPublic=async label=>{const publicState=await display.evaluate('({foodController:planetEmulator.app.food!==null,privateArt:document.querySelectorAll(".fs-art,.fs-card").length,own:planetEmulator.app.game?.getModel().ownSeatId,roster:planetEmulator.app.game?.getModel().food?.rosterSeatIds.length})');
+    assert.equal(publicState.foodController,false);assert.equal(publicState.privateArt,0);assert.equal(publicState.own,null);if(publicState.roster!==undefined)assert.equal(publicState.roster,count);
+    caseResult.publicCheckpoints??=[];caseResult.publicCheckpoints.push({atMs:Math.round(performance.now()-observedAt),label,...publicState});};
+   let outcome=null,lastTask=task,returned=null,nextPublicCheckAt=0;const finishBy=performance.now()+65000;
    while(performance.now()<finishBy){
-    const m=await foodModel(page),t=m?.view?.participantTask;
-    if(m?.view&&m.view.step===null){returned=m;break;}
+    // Read the separate display before taking the next fresh own-phone sample,
+    // so cross-page CDP work never sits between PANEL observation and touch.
+    if(performance.now()>=nextPublicCheckAt){await checkPublic('TASK');nextPublicCheckAt=performance.now()+2000;}
+    const m=await foodModel(page),t=m?.view?.participantTask;observe(m);
+    if(m?.view&&m.view.step===null){returned=m;await checkPublic('RETURN');break;}
     if(!t||m.clock.status!=='synced'){await sleep(50);continue;}
     assert.equal(t.taskId,task.taskId);assert.equal(t.returnsAt,task.returnsAt);lastTask=t;outcome=t.outcome??outcome;
-    const publicState=await display.evaluate('({foodController:planetEmulator.app.food!==null,privateArt:document.querySelectorAll(".fs-art,.fs-card").length,own:planetEmulator.app.game?.getModel().ownSeatId,roster:planetEmulator.app.game?.getModel().food?.rosterSeatIds.length})');
-    assert.equal(publicState.foodController,false);assert.equal(publicState.privateArt,0);assert.equal(publicState.own,null);if(publicState.roster!==undefined)assert.equal(publicState.roster,count);
     if(t.stage==='ENDED'){
      if(held){await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});held=false;}
      await sleep(100);continue;
@@ -107,20 +139,34 @@ try{
     // Stop only this phone's network briefly after an admitted Hold. The user
     // keeps the same real browser contact; no release may be fabricated.
     if(!networkChecked&&held&&m.pendingCount===0&&t.ownGesture?.currentHolder){
-     const before=await page.evaluate('planetEmulator.operations.filter(o=>o.operation==="foodCommand").length');
+     const before=await page.evaluate('planetEmulator.requestStarts.filter(o=>o.operation==="foodCommand").length');
      await page.send('Network.enable');await page.send('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:-1,uploadThroughput:-1});await sleep(650);
-     const after=await page.evaluate('planetEmulator.operations.filter(o=>o.operation==="foodCommand").length');assert.equal(after,before);
+     const after=await page.evaluate('planetEmulator.requestStarts.filter(o=>o.operation==="foodCommand").length');assert.equal(after,before);
      assert.equal(await page.evaluate('planetEmulator.app.food.getModel().physicalHolding'),true,'network loss must retain the same physical contact, even when a failed request has no HTTP log');
      await page.send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});networkChecked=true;caseResult.networkDropWithoutRelease=true;
      await sleep(100);continue;
     }
-    const decision=chooseFoodBotInput({...m.view,serverNowMs:Math.floor(m.clock.serverNowMs)}),input=decision.command?.type==='TASK_PRESS'?decision.command.input:null;
+    const validation=foodPolicyObservation(m),signature=JSON.stringify({...validation,originalTaskOffsetMs:undefined,observedTaskOffsetMs:undefined});
+    if(signature!==lastPolicyObservation){caseResult.policyObservations.push({atMs:Math.round(performance.now()-observedAt),...validation});lastPolicyObservation=signature;}
+    if(!m.fresh){await sleep(50);continue;}
+    assert.equal(validation.originalValid,true,'Unmodified authorized Food view is invalid');
+    // PANEL follows what this native phone actually draws now. Winch retains
+    // its unchanged own-projection policy and independent causal contact lane.
+    const panelChoice=t.selfControl==='PANEL'?chooseRenderedPanelInput(m):null;
+    let decision;try{decision=t.selfControl==='PANEL'?{command:null,nextWakeAt:null}:chooseFoodBotInput(m.view);}catch(error){caseResult.policyValidationFailure=validation;throw error;}
+    const input=panelChoice?{kind:panelChoice.kind}:decision.command?.type==='TASK_PRESS'?decision.command.input:null;
+    if(t.selfControl==='PANEL'){
+     const value={panelUI:m.panelUI,controls:m.controls,policyInput:input?.kind??null},signature=JSON.stringify(value);
+     if(signature!==lastPanelObservation){caseResult.panelObservations.push({atMs:Math.round(performance.now()-observedAt),browserModelObservedAtMs:m.browserModelObservedAtMs,originalViewTaskOffsetMs:m.view.serverNowMs-task.startedAt,
+      estimatedServerTaskOffsetAtModelMs:Math.round(m.clock.serverNowMs-task.startedAt),estimatedProjectionAgeMs:Math.round(m.clock.serverNowMs-m.view.serverNowMs),clockUncertaintyMs:m.clock.uncertaintyMs,...value});lastPanelObservation=signature;}
+    }
     let acted=false;
     if(m.fresh&&input?.kind==='HOLD'&&input.edge==='DOWN'&&m.canHold&&!held){const p=await point(page,'food-control-hold');if(p){await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});held=true;acted=true;}}
     else if(input?.kind==='HOLD'&&input.edge==='UP'&&held){await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});held=false;acted=true;}
+    else if(panelChoice){const touch=await touchRenderedPanel(page,panelChoice);acted=touch.acted;caseResult.panelTouches??=[];caseResult.panelTouches.push({atMs:Math.round(performance.now()-observedAt),expected:panelChoice,...touch});}
     else if(m.fresh&&input?.kind==='KEY'&&m.canKey)acted=await tapInput(page,'food-control-key');
     else if(m.fresh&&input?.kind==='PANEL_RELEASE'&&m.canPanelRelease||m.fresh&&input?.kind==='PANEL_LOCK'&&m.canPanelLock)acted=await tapInput(page,'food-panel-main');
-    if(acted)caseResult.commands.push({kind:input.kind,...(input.kind==='HOLD'?{edge:input.edge}:{})});
+    if(acted)caseResult.commands.push({kind:input.kind,atMs:Math.round(performance.now()-observedAt),browserModelObservedAtMs:m.browserModelObservedAtMs,originalViewTaskOffsetMs:m.view.serverNowMs-task.startedAt,estimatedServerTaskOffsetAtModelMs:Math.round(m.clock.serverNowMs-task.startedAt),estimatedProjectionAgeMs:Math.round(m.clock.serverNowMs-m.view.serverNowMs),clockUncertaintyMs:m.clock.uncertaintyMs,panelUI:m.panelUI,controls:m.controls,...(input.kind==='HOLD'?{edge:input.edge}:{})});
     const delay=decision.nextWakeAt===null?75:Math.max(5,Math.min(100,decision.nextWakeAt-m.clock.serverNowMs));await sleep(acted?10:delay);
    }
    assert.ok(returned,'authoritative common return');assert.ok(returned.clock.serverNowMs>=task.returnsAt);assert.equal(outcome?.kind,'DELIVERED',JSON.stringify({count,control:task.selfControl,outcome:outcome?.kind,reason:outcome?.reason,commands:caseResult.commands}));
@@ -130,15 +176,20 @@ try{
    const assets=await page.evaluate('performance.getEntriesByType("resource").map(r=>r.name).filter(n=>new URL(n).pathname.startsWith("/art/food-supply/"))');
    const displayAssets=await display.evaluate('performance.getEntriesByType("resource").map(r=>r.name).filter(n=>new URL(n).pathname.startsWith("/art/food-supply/"))');
    const paths=urls=>[...new Set(urls.map(u=>new URL(u).pathname))].sort();assert.equal(paths(assets).length,37);assert.deepEqual(paths(assets),paths(displayAssets));caseResult.uniformAssets=37;
-   await waitFor(()=>page.evaluate('planetEmulator.app.game?.getModel().canPass'),'own ordinary Pass',100000);await page.tap('#planet-pass');await page.waitFor('document.querySelector("#planet-confirm")','Pass confirmation');await page.tap('#planet-confirm');
+   await waitForOwnPass(page,caseResult,observedAt,count);await page.tap('#planet-pass');await page.waitFor('document.querySelector("#planet-confirm")','Pass confirmation');await page.tap('#planet-confirm');
    const meal=await waitFor(async()=>{const m=await foodModel(page);return m?.view?.ownMeals.at(-1);},'authorized own meal',15000);assert.equal(meal.result,'ATE');assert.equal(meal.dosesConsumed,1);caseResult.ownMeal='ATE_ONCE';stage('MEAL');
-   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
-  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
-  finally{if(held)await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});await page.close();await display.close();}
+   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts');caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts');caseResult.transportTimings=await page.evaluate('planetEmulator.transportTimings');caseResult.displayTransportTimings=await display.evaluate('planetEmulator.transportTimings');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
+  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts').catch(()=>[]);caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts').catch(()=>[]);caseResult.transportTimings=await page.evaluate('planetEmulator.transportTimings').catch(()=>[]);caseResult.displayTransportTimings=await display.evaluate('planetEmulator.transportTimings').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
+  finally{
+   if(held){await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});held=false;}
+   caseResult.browserTimings=await page.evaluate('({context:planetEmulator.timingContext,pointerEvents:planetEmulator.pointerEvents,modelUpdates:planetEmulator.foodModelUpdates,domUpdates:planetEmulator.foodDomUpdates,dropped:planetEmulator.observationDrops})').catch(()=>null);
+   caseResult.displayBrowserTimings=await display.evaluate('({context:planetEmulator.timingContext,pointerEvents:planetEmulator.pointerEvents,modelUpdates:planetEmulator.foodModelUpdates,domUpdates:planetEmulator.foodDomUpdates,dropped:planetEmulator.observationDrops})').catch(()=>null);
+   await page.close();await display.close();caseResult.cleanupAbortOk=await invoke(host,operation('abort',created.matchId)).then(()=>true,()=>false);const match=matches.find(m=>m.matchId===created.matchId);if(match&&caseResult.cleanupAbortOk)match.aborted=true;if(!caseResult.cleanupAbortOk&&!caseResult.error)throw Error('Generated match cleanup failed; next count not started');}
  }
  report.errors=[...browser.events,...displayBrowser.events].filter(e=>e.method==='Runtime.exceptionThrown').map(e=>({text:e.params.exceptionDetails?.text}));assert.deepEqual(report.errors,[]);
 }finally{
- for(const m of matches)await invoke(m.host,operation('abort',m.matchId)).catch(()=>{});
+ for(const m of matches.filter(m=>!m.aborted))await invoke(m.host,operation('abort',m.matchId)).catch(()=>{});
+ report.errors=[...browser.events,...displayBrowser.events].filter(e=>e.method==='Runtime.exceptionThrown').map(e=>({text:e.params.exceptionDetails?.text}));report.browserExceptionsCaptured=true;
  await writeFile(resolve(out,'result.json'),JSON.stringify(report,null,2));browser.close();displayBrowser.close();await chrome.close();await displayChrome.close();server.close();
 }
 console.log(`Real native Food journeys: ${report.cases.length}; ${out}`);

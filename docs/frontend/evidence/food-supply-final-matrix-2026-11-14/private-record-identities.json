@@ -1,0 +1,96 @@
+{
+  "scope": "Identities of original private files retained locally for authorized correlation; no raw packets/logs/screenshots are published. The frozen runner retains hashed match trace/local sequence, not full match or command IDs.",
+  "root": "/private/tmp/gamen-food-native-connected-final-restored-99c",
+  "files": [
+    {
+      "path": "7/failure-7.png",
+      "sha256": "1c4c2530f92b75cc3ca59607b1ca4bef7ca8608a656b09dd13549439a2716751",
+      "bytes": 124575,
+      "mode": "0o600"
+    },
+    {
+      "path": "7/failure-display-7.png",
+      "sha256": "5f541404ccf3504deb4d481ff06f017aaaff86bee412b27229c4ac0f86146dbe",
+      "bytes": 10969,
+      "mode": "0o600"
+    },
+    {
+      "path": "7/result.json",
+      "sha256": "755ad4d9e7aeb2a8c7a8be37ee8817c8db0cb59bdb708fe46fac91c2a38c32bd",
+      "bytes": 230640,
+      "mode": "0o600"
+    },
+    {
+      "path": "7/task-7-panel.png",
+      "sha256": "6e3a19e502bd007a4290308203458b1da983f329307e746af35c9198f40609d3",
+      "bytes": 105936,
+      "mode": "0o600"
+    },
+    {
+      "path": "7-run.txt",
+      "sha256": "ce55b0a4f1c7730858560c92d64f45efb6f0ea6a48f2c20ac7f328891131c986",
+      "bytes": 1719,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/display-return-8.png",
+      "sha256": "e005a3780753d22bb8f8e2cc8cc6a8004cafa354637ba84a4381bd0281bd92e4",
+      "bytes": 212168,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/result.json",
+      "sha256": "23f6002b4884587aa5767848387939d9ee04554a167e5f08d515a30d9b52753d",
+      "bytes": 404313,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/return-8.png",
+      "sha256": "5bb0367bec27a4c2d8f0691500673ee89574dceaa8a64810855979d4c840e01f",
+      "bytes": 85366,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/task-8-panel.png",
+      "sha256": "17795cfc398de641c1993fc22692fb70aa635014458ea1701fc2590fc0b80fe3",
+      "bytes": 50360,
+      "mode": "0o600"
+    },
+    {
+      "path": "8-run.txt",
+      "sha256": "2d09f10522406f9d969d2279cc03e0961231281b76d1169b3c83d440d27eae79",
+      "bytes": 10115,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/display-return-9.png",
+      "sha256": "ec95eaa290fc53493c8e4f4f9e924600b7ddee018569ee25c1cd4169bd985c77",
+      "bytes": 214071,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/result.json",
+      "sha256": "84b3cefcbf29898dd2a5723900877fb18a5cd9224b890fca82a8c6b8c1eaf0b4",
+      "bytes": 430917,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/return-9.png",
+      "sha256": "a7044fbdc092ace7a4aa4ca8a6ad91b139c5e92381cb69dcd0ff7d8239320f73",
+      "bytes": 148267,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/task-9-panel.png",
+      "sha256": "478c2f3adc53164d30e0a91d76a9b27e809b1b660c07368ff7487cd4ddfc109f",
+      "bytes": 106067,
+      "mode": "0o600"
+    },
+    {
+      "path": "9-run.txt",
+      "sha256": "cf41ebe66055e342032fde33e21348ec168fcfc8cc898bc21fd20b3f7eca0f53",
+      "bytes": 12200,
+      "mode": "0o600"
+    }
+  ]
+}

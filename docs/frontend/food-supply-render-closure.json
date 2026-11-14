@@ -90,9 +90,9 @@
     },
     {
       "path": "apps/game/hosted/planet/food-render.mjs",
-      "sha256": "1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
-      "bytes": 35681,
-      "gzipBytes": 11798
+      "sha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
+      "bytes": 35737,
+      "gzipBytes": 11812
     },
     {
       "path": "apps/game/hosted/planet/food-app.mjs",
@@ -158,9 +158,9 @@
     },
     {
       "path": "apps/game/src/planet/food.ts",
-      "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
-      "bytes": 18812,
-      "gzipBytes": 5537
+      "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+      "bytes": 19238,
+      "gzipBytes": 5713
     },
     {
       "path": "apps/game/src/planet/food-input.ts",
@@ -280,9 +280,8 @@
   "priorFoundationReview": "https://github.com/Amirkianfar66/GameN/issues/235#issuecomment-6854574801",
   "changesAfterFoundation": "Designer source, UI/icons/drawings/geometry and all 37 SVGs are unchanged. Scoped kit/phone CSS puts 14 terminal pseudo-elements outside :is(), preserving declarations and specificity. The hint SVG is the direct flex child, as in the reference. The complete 17-render/13-host closure and gauge/tag modules are retained.",
   "pending": [
-    "Designer visual acceptance of the final84-state native packet",
-    "Integration exact production registration and combined checks",
-    "Backend and native real API/worker/bot connected acceptance"
+    "Integration final source registration and combined release checks",
+    "Connected release acceptance: final7 CANCELLED/DISCONNECT; final8/9 passed, timing issue remains open"
   ],
   "reviewCorrections": {
     "review": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6865126193",
@@ -291,5 +290,33 @@
     "report": "docs/frontend/food-supply-final-style-corrections-2026-11-13.md",
     "designerSource": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
     "ownerApproval": "8caa059629a99908808c939e6a2cfdbf13d18ad2"
+  },
+  "contactRecoveryCorrection": {
+    "nativeBase": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
+    "scope": "Only apps/game/src/planet/food.ts changes among the30 native inputs. A verified RECOVERED_CLOSED retires covered original Hold requests for the same phase/step/round/Task/control session through its acknowledged sequence; unrelated unknown commands retain original-receipt recovery. No individual Hold outcome is inferred, no abandoned DOWN is resent and late completions cannot restore retired requests.",
+    "status": "Designer explicitly accepted native952/evidence149 at comment6869904727 after44 focused/1012 client regressions and both four-profile browser packets. The subsequent frozen d5 first7/8/9 native packet fails full connected acceptance; no visual change.",
+    "report": "docs/frontend/food-supply-contact-recovery-2026-11-14.md",
+    "sourceHead": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+    "designerAcceptance": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6869904727"
+  },
+  "chromeOwnershipCorrection": {
+    "nativeBase": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+    "scope": "Only a current round/current Food step request closure can own Food chrome; retained historical receipts/closures are unchanged. This matches the existing current-card guard and releases ordinary navigation after the step.",
+    "status": "Designer accepted exact native8ff/evidencea09 with no blocker at comment6876930457. Native inputs remain unchanged; final connected7 failed CANCELLED/DISCONNECT,8/9 passed. See separate mount supplement and final matrix; no activation/deployment.",
+    "report": "docs/frontend/food-supply-chrome-ownership-2026-11-14.md",
+    "sourceHead": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+    "designerAcceptance": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6876930457"
+  },
+  "reviewMountCorrection": {
+    "sourceHead": "99c585157f4ccd99846785149fd5f7da4fe5e3ca",
+    "scope": "Three development-only files align the full-app Food review and its observation selector with the live #planet-root mount. All30 native inputs remain exact8ff; every original assertion remains.",
+    "status": "12 lifecycle and4 standard app profiles passed, zero captured browser exceptions. First33cd selector assertion failure preserved; no product/artwork change.",
+    "report": "docs/frontend/food-supply-live-mount-2026-11-14.md"
+  },
+  "connectedAcceptanceFinal": {
+    "sourceHead": "99c585157f4ccd99846785149fd5f7da4fe5e3ca",
+    "backendHead": "d5a57af049c5ac8abb57754855099fa0468abd37",
+    "status": "FAILED: first7 CANCELLED/DISCONNECT; first8 and9 completed delivery/return/physical own Pass/ATE1/privacy/cleanup. AllPANEL, no rerolls. Earlier zero-case service startup failure retained separately.",
+    "report": "docs/frontend/food-supply-final-matrix-2026-11-14.md"
   }
 }

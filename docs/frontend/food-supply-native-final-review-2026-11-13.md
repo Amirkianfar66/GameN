@@ -1,5 +1,7 @@
 # Food test 1: final native visual review packet
 
+> Historical native703 packet. The [refreshed final direct-SVG packet](food-supply-final-style-corrections-2026-11-13.md) supersedes this as the current visual-review target.
+
 This is the refreshed native packet for [#239](https://github.com/Amirkianfar66/GameN/pull/239) and combined [#240](https://github.com/Amirkianfar66/GameN/pull/240), following Designer's [initial review](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6859626835). It supersedes the initial 304-pair packet as visual evidence. **Designer has not yet accepted this native candidate.** No merge, activation, creation-default change or deployment is claimed.
 
 ## Exact candidate

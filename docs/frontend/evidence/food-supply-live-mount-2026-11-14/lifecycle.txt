@@ -1,0 +1,1 @@
+Native closure chrome: 12 profiles; expectStale=false; /private/tmp/gamen-food-mount-chrome-99c

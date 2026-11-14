@@ -1,0 +1,138 @@
+{
+  "scope": "Preserved first d5 native7/8/9 attempts; full connected gate failed. No retry, source or phase change.",
+  "frontendSource": "14901c69afdfdc439d51343cf68541482f933a72",
+  "nativeApprovedSource": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+  "backendSource": "d5a57af049c5ac8abb57754855099fa0468abd37",
+  "files": [
+    {
+      "path": "7/backend-postflight.json",
+      "bytes": 1050,
+      "sha256": "b129bd3654811db7047c7e27b21963f5234256a9c57e78d6a0d8d783295450e9"
+    },
+    {
+      "path": "7/failure-7.png",
+      "bytes": 126326,
+      "sha256": "c0c5ccf81331a0c8ffdb62929a0889f55b1c08ec9c5f1473a227a87ee8b0f7eb"
+    },
+    {
+      "path": "7/failure-display-7.png",
+      "bytes": 214693,
+      "sha256": "7ac32623388b9c0bce64947630e0e34f0afc7b72e3f8beb6b3db827593d53f21"
+    },
+    {
+      "path": "7/result.json",
+      "bytes": 164735,
+      "sha256": "bc5aef27243dcbec5b70804fd4cb3edd8be3905abb342fff001d4fa8da7902b9"
+    },
+    {
+      "path": "7/run.txt",
+      "bytes": 1289,
+      "sha256": "3aed6d8314f72a74419f7d491f5e6d507b85483f4f13e08e86aa51477041537a"
+    },
+    {
+      "path": "7/task-7-panel.png",
+      "bytes": 106071,
+      "sha256": "0dd8f0422719bc1d9b14ecebadfab830d761f961b69ba50d58a68e1d20e9e8db"
+    },
+    {
+      "path": "8/backend-postflight.json",
+      "bytes": 1050,
+      "sha256": "b129bd3654811db7047c7e27b21963f5234256a9c57e78d6a0d8d783295450e9"
+    },
+    {
+      "path": "8/display-return-8.png",
+      "bytes": 212220,
+      "sha256": "e599449f57a0318fd5788bd63694250ee4bfcea9736890f96a48a85ce9569489"
+    },
+    {
+      "path": "8/failure-8.png",
+      "bytes": 109609,
+      "sha256": "c140376bb6f22cc7643cbde04cc7d24d82fb4d4d2e7f454363db77df3e649ca8"
+    },
+    {
+      "path": "8/failure-display-8.png",
+      "bytes": 219387,
+      "sha256": "be4e6ca888da774604772c01010115cb445ea10e81bed74067ee55850eb44e46"
+    },
+    {
+      "path": "8/result.json",
+      "bytes": 245150,
+      "sha256": "d7abdd30bf1da9ce9a3be8036d9d0e1dd5fcba8b0fec715eaa2a5ab4c2ddf1e7"
+    },
+    {
+      "path": "8/return-8.png",
+      "bytes": 103410,
+      "sha256": "82b3fc6c3e939bb4f19b9ae47e6f1a20812baaddfc36c6f1888a2e4761538b40"
+    },
+    {
+      "path": "8/run.txt",
+      "bytes": 1152,
+      "sha256": "29b028f12fb7b7cef5d25f25913194ef8add6c2cd3e478aced33bb7e82b794db"
+    },
+    {
+      "path": "8/task-8-winch.png",
+      "bytes": 53258,
+      "sha256": "3106ba71b7aea733a16ee8514f0d1ecdf3906113ddac79656904a0677657b01e"
+    },
+    {
+      "path": "9/backend-postflight.json",
+      "bytes": 1890,
+      "sha256": "d0532d8500fefc1dfc4cfca71527033421f88058ba4c275d4983be4559dda83e"
+    },
+    {
+      "path": "9/display-return-9.png",
+      "bytes": 221737,
+      "sha256": "91bf932d4b9edf464dd2ff18d124077bef152690803338c9746e7546942c9b79"
+    },
+    {
+      "path": "9/failure-9.png",
+      "bytes": 136379,
+      "sha256": "20ce75034c9d724a6df830ccf062f0f3b81f9b53c4a1a4c9c7dc46bffac6f5f7"
+    },
+    {
+      "path": "9/failure-display-9.png",
+      "bytes": 221637,
+      "sha256": "facc869f8c788dc111fc0ebda629238891d9675990cc5b6483f21b5d50f45808"
+    },
+    {
+      "path": "9/result.json",
+      "bytes": 249816,
+      "sha256": "aa9dd4d9152fc2540246f7feca3ac41a4fc35704879e6566f5ecabd7ecf22797"
+    },
+    {
+      "path": "9/return-9.png",
+      "bytes": 131641,
+      "sha256": "e2d04acd3d64eca1e080fa9515fa8d218c75d2c40f268a78caf7600e03a69633"
+    },
+    {
+      "path": "9/run.txt",
+      "bytes": 1152,
+      "sha256": "ae1721239c2abdc8f5b022c4d03eace1d6995033e1b2632c0645cc0ba719949b"
+    },
+    {
+      "path": "9/task-9-winch.png",
+      "bytes": 105543,
+      "sha256": "71f70a8bf53253b5d4e9ad47ba9ee1e3a9cab2c5b85ebeec9e398a9b020a199e"
+    },
+    {
+      "path": "backend-postflight.json",
+      "bytes": 20358,
+      "sha256": "8c06f0bb7401633b12981676f42c086bcf34db3ea89a8e0efd890aa5558b3ceb"
+    },
+    {
+      "path": "backend-preflight.json",
+      "bytes": 8012,
+      "sha256": "70603a8ace2bd1416f3fe19609d28efb5c4f062a3cdf778969f7defd924cf605"
+    },
+    {
+      "path": "checks/build.txt",
+      "bytes": 8846,
+      "sha256": "4d85ce52531166628c7100227ef828e6af3cb23df057e9534df7288dc7d2b4b4"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 39792,
+      "sha256": "83b46ad8880b16da219d825f6b557642f03589a0f2fda115f8f04e3a6067105b"
+    }
+  ]
+}

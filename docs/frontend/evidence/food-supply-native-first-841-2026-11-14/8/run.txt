@@ -1,0 +1,19 @@
+{"count":8,"trace":"be9abc5dc157","stage":"CREATED","atMs":0}
+{"count":8,"trace":"be9abc5dc157","stage":"SETUP","atMs":9986}
+{"count":8,"trace":"be9abc5dc157","stage":"READY","atMs":72121}
+{"count":8,"trace":"be9abc5dc157","stage":"JOIN_SENT","atMs":88429}
+{"count":8,"trace":"be9abc5dc157","stage":"TASK","atMs":88683,"control":"PANEL"}
+{"count":8,"trace":"be9abc5dc157","stage":"RETURNED","atMs":121614}
+{"count":8,"trace":"be9abc5dc157","stage":"ORDINARY_OBSERVATION","atMs":121770,"phaseNumber":1,"round":1,"kind":"PRE_TURN","activeSeatId":null,"ownSeatId":"seat-1","phaseStartedAt":1794627221786,"phaseEndsAt":1794627236786,"observedServerNowMs":1794627222619.85,"phaseTrusted":true,"phaseExpired":false,"connection":"live","canPass":false,"ownTurnSeen":false,"completedReads":64,"state":"waiting","reason":null}
+{"count":8,"trace":"be9abc5dc157","stage":"ORDINARY_OBSERVATION","atMs":131854,"phaseNumber":1,"round":1,"kind":"PRE_TURN","activeSeatId":null,"ownSeatId":"seat-1","phaseStartedAt":1794627221786,"phaseEndsAt":1794627236786,"observedServerNowMs":1794627232704.45,"phaseTrusted":true,"phaseExpired":false,"connection":"live","canPass":false,"ownTurnSeen":false,"completedReads":69,"state":"waiting","reason":null}
+{"count":8,"trace":"be9abc5dc157","stage":"ORDINARY_OBSERVATION","atMs":136138,"phaseNumber":1,"round":1,"kind":"PRE_TURN","activeSeatId":null,"ownSeatId":"seat-1","phaseStartedAt":1794627221786,"phaseEndsAt":1794627236786,"observedServerNowMs":1794627236988.15,"phaseTrusted":true,"phaseExpired":true,"connection":"live","canPass":false,"ownTurnSeen":false,"completedReads":71,"state":"waiting","reason":null}
+{"count":8,"trace":"be9abc5dc157","stage":"ORDINARY_OBSERVATION","atMs":138411,"phaseNumber":2,"round":1,"kind":"ORDINARY_TURN","activeSeatId":"seat-1","ownSeatId":"seat-1","phaseStartedAt":1794627236786,"phaseEndsAt":1794627296786,"observedServerNowMs":1794627239260.75,"phaseTrusted":true,"phaseExpired":false,"connection":"live","canPass":true,"ownTurnSeen":true,"completedReads":72,"state":"ready","reason":null}
+file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/capture/browser.mjs:129
+    throw new Error(`Timed out waiting for: ${label}`);
+          ^
+
+Error: Timed out waiting for: Pass confirmation
+    at Object.waitFor (file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/capture/browser.mjs:129:11)
+    at async file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:179:90
+
+Node.js v22.21.1

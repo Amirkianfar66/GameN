@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {createFoodTaskController,createFoodHoldInput} from '../dist/index.js';
+import {FOOD_TASK_VERTICAL} from '@mothership/contracts';
 import {playerView} from '../../../tests/bootstrap/support/food-task-contract-fixture.mjs';
 
 const copy=v=>structuredClone(v),flush=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
@@ -15,8 +16,8 @@ function receipt(q,{status='accepted',effect='APPLIED',code='NOT_ALLOWED',closur
    requestRevision:c.type==='TASK_ASK'?0:c.requestRevision+1,state:c.type==='TASK_ASK'?'PENDING':c.type==='TASK_ASK_WITHDRAW'?'WITHDRAWN':c.answer==='JOIN'?'JOINED':'DECLINED'};
  return {...context,status,receivedAt:6000,result};
 }
-function rig({saved=null,send=null,lookup=null,storeFailure=false}={}){
- let uid='food-owner',now=6000,synced=true,sequence=0,stored=saved,failStore=storeFailure;
+function rig({saved=null,send=null,lookup=null,storeFailure=false,idStart=0}={}){
+ let uid='food-owner',now=6000,synced=true,sequence=idStart,stored=saved,failStore=storeFailure;
  const sent=[],lookups=[],timers=new Map();let timerId=0;
  const ports={clock:{now:()=>now},ids:{next:()=>`native-command-${++sequence}`},scheduler:{setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,at:now+ms});return id;},clearTimeout:id=>timers.delete(id)},
   recovery:{load:()=>stored,save:value=>{if(failStore)throw Error('store unavailable');stored=value;},clear:()=>{if(failStore)throw Error('store unavailable');stored=null;}}};
@@ -30,6 +31,9 @@ function rig({saved=null,send=null,lookup=null,storeFailure=false}={}){
 }
 function asking(){const v=playerView(7);v.participantTask=null;v.step={kind:'ASKING',stepId:'food-step-2',startedAt:1000,askingEndsAt:31000,someoneAsking:false};
  v.ownAvailability={canAsk:true,reason:null};v.partnerChoices=v.partnerChoices.map(p=>({...p,available:true,reason:null}));v.offers=[{type:'TASK_ASK',partnerSeatIds:v.partnerChoices.map(p=>p.seatId)}];return v;}
+function landed(){const v=playerView(7),t=v.participantTask;v.viewRevision++;t.revision++;t.controlRevision++;
+ t.crate={...t.crate,state:'LANDED',x:5,height:FOOD_TASK_VERTICAL.platform};t.ownGesture.highestSequence=1;t.ownGesture.recoveryRevision++;
+ v.offers=[{...v.offers[0],controlRevision:t.controlRevision,inputs:['KEY']}];return v;}
 
 test('causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate',async()=>{
  const a=deferred(),b=deferred(),r=rig({send:q=>q.command.input.edge==='DOWN'?a.promise:b.promise});assert.equal(r.observe(),true);
@@ -79,9 +83,64 @@ test('recovered Hold never replays DOWN; explicit finger-off closes actual older
 });
 test('saved unacknowledged high-water participates in fresh explicit off recovery',async()=>{
  const first=rig({send:async()=>null});first.observe();first.controller.holdDown();first.controller.holdUp();await flush();const saved=first.saved();first.controller.dispose();
- const r=rig({saved});r.observe();await flush();
+ const r=rig({saved,idStart:2});r.observe();await flush();
  assert.equal(r.sent.length,1);assert.equal(r.sent[0].command.input.kind,'HOLD_RECOVER_OFF');assert.equal(r.sent[0].command.input.throughSequence,1);
  assert.ok(r.lookups.length>=2);assert.equal(r.sent.some(q=>q.command.input.kind==='HOLD'&&q.command.input.edge==='DOWN'),false);r.controller.dispose();
+});
+test('verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload',async()=>{
+ const recovery=deferred(),r=rig({send:q=>q.command.input.kind==='HOLD'?Promise.resolve(null):recovery.promise});r.observe();
+ r.controller.holdDown();r.controller.holdUp();await flush();const originals=r.sent.slice();
+ assert.equal(r.controller.getModel().pendingCount,2);const off=r.controller.recoverOff();await flush();
+ const q=r.sent.at(-1);assert.equal(q.command.input.kind,'HOLD_RECOVER_OFF');assert.equal(q.command.input.throughSequence,1);
+ assert.deepEqual(r.lookups.map(q=>q.commandId),originals.map(q=>q.commandId));
+ recovery.resolve({receipt:receipt(q),serverTimeMs:6000});await off;
+ assert.equal(r.controller.getModel().pendingCount,0);assert.equal(r.controller.getModel().canCheck,false);
+ assert.equal(r.controller.getModel().feedback.receipt.result.effect,'RECOVERED_CLOSED');
+ assert.equal(r.observe(landed()),true);await flush();assert.equal(r.controller.getModel().canKey,true);
+ const saved=r.saved();assert.deepEqual(JSON.parse(saved).entries,[]);assert.equal(JSON.parse(saved).contact.highestSequence,1);
+ r.controller.dispose();
+ const reloaded=rig({saved,idStart:3});assert.equal(reloaded.observe(landed()),true);await flush();
+ assert.equal(reloaded.controller.getModel().pendingCount,0);assert.equal(reloaded.controller.getModel().canKey,true);
+ await reloaded.controller.checkReceipts();assert.equal(reloaded.lookups.length,0);
+ await reloaded.controller.press('KEY');assert.deepEqual(reloaded.sent.map(q=>q.command.input.kind),['KEY']);
+ assert.equal(reloaded.sent.some(q=>q.command.input.kind==='HOLD'),false);reloaded.controller.dispose();
+});
+test('verified closure preserves unknown commands outside its exact original contact boundary',async t=>{
+ const variants={
+  'other Task':q=>{q.command.taskId='other-task';},
+  'other control session':q=>{q.command.controlSessionId='other-session';},
+  'higher sequence':q=>{q.command.input.gestureSequence=2;},
+  'other phase':q=>{q.phaseId='other-phase';},
+  'other Food step':q=>{q.foodStepId='other-step';},
+  'other round':q=>{q.round=1;},
+  'non-Hold input':q=>{q.command.input={kind:'KEY'};},
+ };
+ for(const [name,change]of Object.entries(variants))await t.test(name,async()=>{
+  const first=rig({send:async()=>null});first.observe();first.controller.holdDown();first.controller.holdUp();await flush();
+  const saved=JSON.parse(first.saved()),unrelated=copy(first.sent[0]);unrelated.commandId='unrelated-original';change(unrelated);saved.entries.push(unrelated);first.controller.dispose();
+  const r=rig({saved:JSON.stringify(saved),idStart:2});r.observe();await flush();
+  assert.equal(r.sent.length,1);assert.equal(r.sent[0].command.input.kind,'HOLD_RECOVER_OFF');
+  assert.equal(r.controller.getModel().pendingCount,1);assert.deepEqual(JSON.parse(r.saved()).entries,[unrelated]);
+  assert.equal(r.controller.getModel().canCheck,true);r.controller.dispose();
+ });
+});
+test('rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN',async t=>{
+ for(const invalid of ['rejected','wrong boundary'])await t.test(invalid,async()=>{
+  const r=rig({send:async q=>q.command.input.kind==='HOLD'?null:{receipt:invalid==='rejected'?receipt(q,{status:'rejected',code:'STALE_RECOVERY'}):
+   {...receipt(q),result:{...receipt(q).result,closedThroughSequence:q.command.input.throughSequence+1}},serverTimeMs:6000}});
+  r.observe();r.controller.holdDown();r.controller.holdUp();await flush();await r.controller.recoverOff();
+  assert.equal(r.controller.getModel().pendingCount,invalid==='rejected'?2:3);assert.equal(r.controller.holdDown(),false);
+  assert.equal(JSON.parse(r.saved()).entries.filter(q=>q.command.input.kind==='HOLD').length,2);
+  assert.deepEqual(r.sent.filter(q=>q.command.input.kind==='HOLD').map(q=>q.command.input.edge),['DOWN','UP']);r.controller.dispose();
+ });
+});
+test('a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt',async()=>{
+ const a=deferred(),b=deferred(),r=rig({send:q=>q.command.input.kind==='HOLD'?(q.command.input.edge==='DOWN'?a.promise:b.promise):Promise.resolve({receipt:receipt(q),serverTimeMs:6000})});
+ r.observe();r.controller.holdDown();r.controller.holdUp();await r.controller.recoverOff();const recoveryId=r.sent.at(-1).commandId;
+ assert.equal(r.controller.getModel().pendingCount,0);r.observe(landed());
+ a.resolve(null);b.resolve({receipt:receipt(r.sent[1],{effect:'GESTURE_CLOSED'}),serverTimeMs:6000});await flush();
+ const m=r.controller.getModel();assert.equal(m.pendingCount,0);assert.equal(m.canCheck,false);assert.equal(m.canKey,true);
+ assert.equal(m.feedback.commandId,recoveryId);assert.equal(m.feedback.receipt.result.effect,'RECOVERED_CLOSED');assert.deepEqual(JSON.parse(r.saved()).entries,[]);r.controller.dispose();
 });
 test('only the original matching receipt can settle; a foreign Task/session or command remains unknown',async()=>{
  const r=rig({send:async q=>({receipt:{...receipt(q),commandId:'other-command'},serverTimeMs:6000})});r.observe();r.controller.holdDown();await flush();

@@ -1,0 +1,1530 @@
+{
+  "scope": "All first7/8/9 attempts on frozen official d5 normal-clock local stack. No retry, phase advancement, seeding or source change. This packet fails full connected acceptance.",
+  "backendHead": "d5a57af049c5ac8abb57754855099fa0468abd37",
+  "backendClean": true,
+  "frontendHead": "14901c69afdfdc439d51343cf68541482f933a72",
+  "frontendBuildClean": true,
+  "nativeApprovedHead": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+  "compiledModules": [
+    {
+      "path": "services/game-api/dist/planet-game.js",
+      "sha256": "b734cee0c5aa4d4c4c23ba73eb0287b6cc3721a5b396cbd67cf0eaaf04662560",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-store.js",
+      "sha256": "e7cca7d56519b0c025fc4ff996174de73afdfb9c03251d8e5302e4c03abbaf11",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-food-service.js",
+      "sha256": "cfc394df88cb2f746a53192afc64849a157227bf3556c9ff3849408c98475d1e",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-persistence-errors.js",
+      "sha256": "5b5e4a6762fb0406fd035c256c98c42a0f53010fb0236b01dcda7758d50e464e",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/food-bot-policy.js",
+      "sha256": "93f373ddfc9471798b2aaa6654fa06b359a6a67299fef150b926933ea0411e8f",
+      "matches": true
+    },
+    {
+      "path": "infra/firebase/dist/planet.js",
+      "sha256": "a2fdd2d2a8f57e94389c4e672eb474adcfd7d9b132761e1763ce397174f54ad0",
+      "matches": true
+    },
+    {
+      "path": "infra/firebase/dist/runtime.js",
+      "sha256": "fb831199790b103769d3eab1ca8f448907a2ffbaf241519a9f638a0d22e804e0",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food.js",
+      "sha256": "53d579ef3b2c7ff9c455582a5c5d735ec3998bb0e6ad9ad218c006546e24130f",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-machine.js",
+      "sha256": "2bdec5120284585b571f88f5a0c0b3979015676fc87ff4157a1344ec4af7cf8e",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-meals.js",
+      "sha256": "2eaf4222198f48b1f51ded0851ea416890d543751c8c282bba72c02e48111de3",
+      "matches": true
+    }
+  ],
+  "buildInputs": [
+    {
+      "path": "apps/game/dev/phone/connected/index.html",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dev/planet-emulator/main.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/clock/server-clock.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/command/shot-flow.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/action-flow.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/api.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/comic-feeds.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/outcome-feed.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/paths.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/readers.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/screens.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/session.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/connected/setup-feed.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/index.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/controller.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/food-input.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/food-recovery.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/food.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/pregame.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/session.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/planet/transport.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/screens/player-screen.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/screens/screen.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/screens/table-screen.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/session/audience-session.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/snapshot/snapshot-store.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/dist/transport/api-client.js",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/art.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-blackout.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-capsule.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/blackout-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/blocked-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/blocked-fx.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/capsule-figures.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/capsule-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/capsule-scene.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/captain-figures.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/captain-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/captain-fx.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/clone-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/clone-fx.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/fit-four.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/fit.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/hospital-ward-four.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/hospital-ward.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/label-box.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/lighting.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/medical-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/medical-four.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/medical-fx.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/overflow-film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/overflow-fx.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/scene-kit.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/slots-four.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/slots.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/turns-four.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-films.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2-scene.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/board-v2.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/claude-phone-kit.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/comic-layout.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/comic-tokens.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/comic.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/crew.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/figure.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/head.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/atlas.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/echo.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/juno.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/lyra.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/mira.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/nova.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/orion.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/rigel.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/heads/vega.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/ink.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/motion.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/mount.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-drawing/wardrobe.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/art.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/cinematic.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-app.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-assets.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-display.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-gauge.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-geometry.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-host.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-icons.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ink.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-kit.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-machine.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-pose.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-render.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-scene.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-tags.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ui.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/library-assets.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/library.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/motion.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone-controls.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone-layout.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/planet.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/preferences.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/pregame-scene.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/pregame.css",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/pregame.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/planet/rescue.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/boarding/boarding.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/boarding/clock.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/boarding/roster.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/brand/brand.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/cast.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/fx.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/letters.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/math.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/alien.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/briefing.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/clock.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/common.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/disabler.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/doctor.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/engineer.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/film.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/hacker.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/insider.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/page.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/roles.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/supplier.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/roles/undercover.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/body.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/crew.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/frame.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/gestures.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/motion.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/parts.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/rig.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/scenes.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/hosted/scene-drawing/wardrobe.mjs",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/controller.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/food-input.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/food-recovery.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/food.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/pregame.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/request.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "matches": true
+    },
+    {
+      "path": "apps/game/src/planet/transport.ts",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/blackout.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/board-medical.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/captain-outcomes.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/clone.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/food-task-clock.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/food-task-hold.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/full-game-versions.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/full-game.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/index.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/lobby-identity.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/own-acknowledgments.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/planet-food-task.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/planet-game.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/planet-service.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/practice-bots.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/presentation.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/protocol.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/room-capacity.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/staged-start.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/v1-service.js",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/dist/views.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/index.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/actions.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/announcements.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/common.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/connected-player.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/hack-feedback.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/intent.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/knowledge.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/phase-feedback.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/player-shell.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/public-board.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/public-capsule.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/result.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/shot.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/table-shell.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/model/votes.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/planet/food.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/planet/library.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/planet/model.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/dist/planet/stage.js",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/src/planet/food.ts",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/src/planet/library.ts",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/src/planet/model.ts",
+      "matches": true
+    },
+    {
+      "path": "packages/presentation/src/planet/stage.ts",
+      "matches": true
+    }
+  ],
+  "cases": [
+    {
+      "count": 7,
+      "trace": "2266d73018d8",
+      "profile": {
+        "width": 390,
+        "height": 844,
+        "text": 1,
+        "reduced": false
+      },
+      "control": "PANEL",
+      "ready": {
+        "beforeStarts": 0,
+        "afterStarts": 1,
+        "response": {
+          "operation": "ready",
+          "status": 200,
+          "ok": true,
+          "code": null
+        },
+        "enabled": true
+      },
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10061
+        },
+        {
+          "stage": "READY",
+          "atMs": 73877
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 90161
+        },
+        {
+          "stage": "TASK",
+          "atMs": 90447,
+          "control": "PANEL"
+        }
+      ],
+      "taskDurationMs": 32500,
+      "foodOutcome": "LOST",
+      "foodReason": "NOT_OVER_PLATFORM",
+      "commonReturnChecksReached": true,
+      "returnStockDoses": null,
+      "ownReturnPlacementPresent": null,
+      "uniformArtURLs": null,
+      "networkDropWithoutRelease": null,
+      "meal": null,
+      "error": "{\"count\":7,\"control\":\"PANEL\",\"outcome\":\"LOST\",\"reason\":\"NOT_OVER_PLATFORM\",\"commands\":[{\"kind\":\"PANEL_RELEASE\",\"atMs\":95770,\"estimatedServerTaskOffsetMs\":5527,\"clockUncertaintyMs\":13.299999952316284},{\"kind\":\"PANEL_LOCK\",\"atMs\":97685,\"estimatedServerTaskOffsetMs\":7463,\"clockUncertaintyMs\":13.299999952316284},{\"kind\":\"PANEL_RELEASE\",\"atMs\":102027,\"estimatedServerTaskOffsetMs\":11782,\"clockUncertaintyMs\":13.299999952316284},{\"kind\":\"PANEL_LOCK\",\"atMs\":114287,\"estimatedServerTaskOffsetMs\":24054,\"clockUncertaintyMs\":13.299999952316284}]}\n+ actual - expected\n\n+ 'LOST'\n- 'DELIVERED'\n",
+      "foodResponses": [
+        {
+          "operation": "foodCommand",
+          "sequence": 46,
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 192,
+          "totalMs": 192,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794623882083,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 56,
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "httpMs": 346,
+          "totalMs": 346,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794623887674,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 60,
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "httpMs": 3755,
+          "totalMs": 3755,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794623891583,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 64,
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "httpMs": 3004,
+          "totalMs": 3004,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794623893915,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 77,
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "httpMs": 3562,
+          "totalMs": 3562,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794623906189,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        }
+      ],
+      "heartbeatResponses": [
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 55,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 259,
+          "totalMs": 260,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 62,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 2386,
+          "totalMs": 2386,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 65,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 3301,
+          "totalMs": 3301,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 79,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 2822,
+          "totalMs": 2822,
+          "status": 200,
+          "ok": false,
+          "code": "NOT_ALLOWED",
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 80,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 3417,
+          "totalMs": 3417,
+          "status": 200,
+          "ok": false,
+          "code": "NOT_ALLOWED",
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        }
+      ],
+      "pendingEpisodes": [
+        {
+          "name": "RELEASE",
+          "fromMs": 95782,
+          "toMs": 96104,
+          "sampledDurationMs": 322,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "LOCK",
+          "fromMs": 97697,
+          "toMs": 101467,
+          "sampledDurationMs": 3770,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "RELEASE",
+          "fromMs": 102040,
+          "toMs": 105025,
+          "sampledDurationMs": 2985,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "LOCK",
+          "fromMs": 114299,
+          "toMs": 117876,
+          "sampledDurationMs": 3577,
+          "settled": "accepted",
+          "recovered": false
+        }
+      ],
+      "openPendingEpisode": null,
+      "unknownSamples": 0,
+      "originalPolicyAllValid": true,
+      "policyValidationFailure": null,
+      "maxCompletedReadMs": 4129,
+      "maxCompletedHeartbeatMs": 3417,
+      "maxCompletedInputMs": 3755,
+      "uncompletedInvocationsAtCapture": [],
+      "cleanupAbortOk": true,
+      "browserExceptionAssertionReached": false,
+      "placementLimit": "Only own return-placement presence is recorded after successful delivery; both exact returned board positions are not compared."
+    },
+    {
+      "count": 8,
+      "trace": "6f4ec37a1652",
+      "profile": {
+        "width": 320,
+        "height": 568,
+        "text": 2,
+        "reduced": false
+      },
+      "control": "WINCH",
+      "ready": {
+        "beforeStarts": 0,
+        "afterStarts": 1,
+        "response": {
+          "operation": "ready",
+          "status": 200,
+          "ok": true,
+          "code": null
+        },
+        "enabled": true
+      },
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 9999
+        },
+        {
+          "stage": "READY",
+          "atMs": 72032
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 88331
+        },
+        {
+          "stage": "TASK",
+          "atMs": 88584,
+          "control": "WINCH"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 121276
+        }
+      ],
+      "taskDurationMs": 32500,
+      "foodOutcome": "DELIVERED",
+      "foodReason": null,
+      "commonReturnChecksReached": true,
+      "returnStockDoses": 20,
+      "ownReturnPlacementPresent": true,
+      "uniformArtURLs": 37,
+      "networkDropWithoutRelease": true,
+      "meal": null,
+      "error": "Timed out: own ordinary Pass",
+      "foodResponses": [
+        {
+          "operation": "foodCommand",
+          "sequence": 46,
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 137,
+          "totalMs": 137,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624071113,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 55,
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "DOWN",
+          "httpMs": 3714,
+          "totalMs": 3714,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624078582,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 72,
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "UP",
+          "httpMs": 146,
+          "totalMs": 146,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624088819,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 75,
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "httpMs": 155,
+          "totalMs": 155,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624089646,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        }
+      ],
+      "heartbeatResponses": [
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 57,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 2900,
+          "totalMs": 2900,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 60,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 2477,
+          "totalMs": 2477,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        }
+      ],
+      "pendingEpisodes": [
+        {
+          "name": "Hold",
+          "fromMs": 92803,
+          "toMs": 96565,
+          "sampledDurationMs": 3762,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "let-go",
+          "fromMs": 106054,
+          "toMs": 106218,
+          "sampledDurationMs": 164,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "key",
+          "fromMs": 106898,
+          "toMs": 107066,
+          "sampledDurationMs": 168,
+          "settled": "accepted",
+          "recovered": false
+        }
+      ],
+      "openPendingEpisode": null,
+      "unknownSamples": 0,
+      "originalPolicyAllValid": true,
+      "policyValidationFailure": null,
+      "maxCompletedReadMs": 2065,
+      "maxCompletedHeartbeatMs": 2900,
+      "maxCompletedInputMs": 3714,
+      "uncompletedInvocationsAtCapture": [],
+      "cleanupAbortOk": true,
+      "browserExceptionAssertionReached": false,
+      "placementLimit": "Only own return-placement presence is recorded after successful delivery; both exact returned board positions are not compared."
+    },
+    {
+      "count": 9,
+      "trace": "2ea51ce1f3d3",
+      "profile": {
+        "width": 390,
+        "height": 844,
+        "text": 1,
+        "reduced": true
+      },
+      "control": "WINCH",
+      "ready": {
+        "beforeStarts": 0,
+        "afterStarts": 1,
+        "response": {
+          "operation": "ready",
+          "status": 200,
+          "ok": true,
+          "code": null
+        },
+        "enabled": true
+      },
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 9977
+        },
+        {
+          "stage": "READY",
+          "atMs": 72004
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 88255
+        },
+        {
+          "stage": "TASK",
+          "atMs": 88509,
+          "control": "WINCH"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 121274
+        }
+      ],
+      "taskDurationMs": 32500,
+      "foodOutcome": "DELIVERED",
+      "foodReason": null,
+      "commonReturnChecksReached": true,
+      "returnStockDoses": 20,
+      "ownReturnPlacementPresent": true,
+      "uniformArtURLs": 37,
+      "networkDropWithoutRelease": true,
+      "meal": null,
+      "error": "Timed out: own ordinary Pass",
+      "foodResponses": [
+        {
+          "operation": "foodCommand",
+          "sequence": 46,
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 136,
+          "totalMs": 136,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624372921,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 55,
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "DOWN",
+          "httpMs": 3603,
+          "totalMs": 3603,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624380838,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 69,
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "UP",
+          "httpMs": 155,
+          "totalMs": 155,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624386966,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        },
+        {
+          "operation": "foodCommand",
+          "sequence": 73,
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "httpMs": 170,
+          "totalMs": 172,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptReceivedAt": 1794624390622,
+          "receiptEffect": "APPLIED",
+          "receiptCode": null
+        }
+      ],
+      "heartbeatResponses": [
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 57,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 1574,
+          "totalMs": 1574,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 71,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 666,
+          "totalMs": 666,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        },
+        {
+          "operation": "foodHeartbeat",
+          "sequence": 72,
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "httpMs": 416,
+          "totalMs": 417,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptReceivedAt": null,
+          "receiptEffect": null,
+          "receiptCode": null
+        }
+      ],
+      "pendingEpisodes": [
+        {
+          "name": "Hold",
+          "fromMs": 92760,
+          "toMs": 96373,
+          "sampledDurationMs": 3613,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "let-go",
+          "fromMs": 102319,
+          "toMs": 102474,
+          "sampledDurationMs": 155,
+          "settled": "accepted",
+          "recovered": false
+        },
+        {
+          "name": "key",
+          "fromMs": 105993,
+          "toMs": 106153,
+          "sampledDurationMs": 160,
+          "settled": "accepted",
+          "recovered": false
+        }
+      ],
+      "openPendingEpisode": null,
+      "unknownSamples": 0,
+      "originalPolicyAllValid": true,
+      "policyValidationFailure": null,
+      "maxCompletedReadMs": 3401,
+      "maxCompletedHeartbeatMs": 1574,
+      "maxCompletedInputMs": 3603,
+      "uncompletedInvocationsAtCapture": [],
+      "cleanupAbortOk": true,
+      "browserExceptionAssertionReached": false,
+      "placementLimit": "Only own return-placement presence is recorded after successful delivery; both exact returned board positions are not compared."
+    }
+  ],
+  "limits": [
+    "The final browser-exception assertion was not reached in any failed process; raw errors:[] is not a zero-exceptions pass.",
+    "Request invocation, HTTP completion and durable server admission are separate. Pre-admission heartbeat delay remains unresolved.",
+    "Sampled pending intervals are observer intervals, not exact state transition timestamps.",
+    "No physical phone/Safari/VoiceOver/real-network or balance acceptance."
+  ]
+}

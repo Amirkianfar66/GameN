@@ -2,13 +2,17 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 // Full native app on explicitly synthetic, typed candidate-engine packets.
 import {mountPlanetApp} from '../../../hosted/planet/app.mjs';
-import {FoodTaskCommandRequestSchema} from '@mothership/contracts';
+import {FoodTaskCommandRequestSchema,PlanetCommandRequestSchema} from '@mothership/contracts';
 import fixtures from './native-fixtures.json';
-const q=new URL(location.href).searchParams,entry=fixtures.cases.find(c=>c.id===q.get('case'))??fixtures.cases[0],copy=v=>structuredClone(v),config=entry.native;
+import chromeFixtures from './chrome-fixtures.json';
+const q=new URL(location.href).searchParams,entry=fixtures.cases.find(c=>c.id===q.get('case'))??fixtures.cases[0],copy=v=>structuredClone(v),chromeCase=chromeFixtures.cases.find(c=>c.state===q.get('chromeLifecycle')),config=chromeCase?{initial:chromeCase.initial}:entry.native;
+const closureMode=q.get('holdClosure')==='1',closureRecordKey='mothership:dev:food-closure-record',closureStoreKey='mothership:dev:food-closure-originals';
 let record=copy(config.initial),uid='food-native-app',lost=false,holdCommands=false,readHold=false,finishRefusal=null,fixtureCommandId=null;
+if(closureMode&&sessionStorage.getItem(closureRecordKey))record=JSON.parse(sessionStorage.getItem(closureRecordKey));
 const sent=[],lookups=[],receipts=new Map(),clock={now:()=>record.now},ports={clock,scheduler:{setTimeout:(f,ms)=>setTimeout(f,ms),clearTimeout:h=>clearTimeout(h)},ids:{next:()=>{const id=fixtureCommandId;fixtureCommandId=null;return id??crypto.randomUUID();}},unresolved:memory()};
 function memory(){let value=null;return {load:()=>value,save:v=>{value=v;},clear:()=>{value=null;}};}
-const foodStore=memory(),stores={resume:memory(),requests:memory(),rolePrivacy:memory(),food:()=>foodStore};
+const foodStore=closureMode?{load:()=>sessionStorage.getItem(closureStoreKey),save:v=>sessionStorage.setItem(closureStoreKey,v),clear:()=>sessionStorage.removeItem(closureStoreKey)}:memory();
+const stores={resume:memory(),requests:memory(),rolePrivacy:memory(),food:()=>foodStore};
 function reply(request,status='accepted'){
  const {command,...context}=request,c=command;
  if(status==='rejected')return {...context,status,receivedAt:record.now,code:config.replyClosure?'REQUEST_CLOSED':'NOT_ALLOWED',requestClosure:config.replyClosure??null};
@@ -19,7 +23,18 @@ function reply(request,status='accepted'){
 }
 const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async request(request){
  sent.push(copy(request));if(request.operation==='read'){if(readHold)return new Promise(()=>{});if(lost)return null;return {ok:true,serverTimeMs:record.now,result:copy(record.value)};}
+ if(chromeCase&&request.operation==='command'){
+  if(JSON.stringify(PlanetCommandRequestSchema.parse(request.request))!==JSON.stringify(PlanetCommandRequestSchema.parse(chromeCase.pass.request)))throw Error('Physical Pass must send the exact candidate-engine original');
+  record=copy(chromeCase.pass.after);receipts.set(request.request.commandId,copy(chromeCase.pass.receipt));return {ok:true,serverTimeMs:record.now,result:{receipt:copy(chromeCase.pass.receipt)}};
+ }
  if(request.operation==='foodCommand'){
+  if(chromeCase){
+   if(JSON.stringify(FoodTaskCommandRequestSchema.parse(request.request))!==JSON.stringify(FoodTaskCommandRequestSchema.parse(chromeCase.transition.request)))throw Error('Physical request action must send the exact candidate-engine original');
+   record=copy(chromeCase.current);receipts.set(request.request.commandId,copy(chromeCase.transition.receipt));return {ok:true,serverTimeMs:record.now,result:{receipt:copy(chromeCase.transition.receipt)}};
+  }
+  // This explicit synthetic boundary drops originals before any receipt is
+  // created. A later exact recovery receipt closes contacts, not their outcomes.
+  if(closureMode&&request.request.command.type==='TASK_PRESS'&&['HOLD','HOLD_RECOVER_OFF'].includes(request.request.command.input.kind))return null;
   if(config.pendingHold){
    const expected=request.request.command.input?.edge==='DOWN'?config.pendingHold.down:config.pendingHold.release;
    if(JSON.stringify(FoodTaskCommandRequestSchema.parse(request.request))!==JSON.stringify(FoodTaskCommandRequestSchema.parse(expected.request)))throw Error('Pending Hold must use the exact engine-processed original input');
@@ -47,7 +62,7 @@ if(q.get('abort')==='1')Object.assign(record.value,{status:'aborted',publicView:
 if(config.recovery){
  foodStore.save(JSON.stringify({schemaVersion:1,ownerUid:uid,matchId:record.value.matchId,seatId:record.value.selfSeatId,entries:[config.recovery.request],contact:null}));
 }
-const app=await mountPlanetApp(document.querySelector('#app'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
+const app=await mountPlanetApp(document.querySelector('#planet-root'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
 for(let i=0;i<30&&!app.game?.getModel().phase;i++)await new Promise(r=>setTimeout(r,0));
 const recoveryTransitions=[];
 if(config.pendingHold){
@@ -86,6 +101,23 @@ if(config.feedback&&config.feedback!=='refused'&&config.act&&!seedRelease&&q.get
 if(config.feedback==='lost'){lost=true;app.food.disconnect('network');}
 applySafe();
 window.foodAppHarness={app,entry,sent,lookups,recoveryTransitions,scope:fixtures.scope,ready:true,
+ chromeCase,
+ prepareChromeAction(){if(!chromeCase)throw Error('Not a closure lifecycle');fixtureCommandId=chromeCase.transition.request.commandId;},
+ prepareChromePass(){if(!chromeCase)throw Error('Not a closure lifecycle');fixtureCommandId=chromeCase.pass.request.commandId;},
+ async chromeStage(stage){if(!chromeCase||!['current','returned','ownTurn'].includes(stage))throw Error('Not a closure lifecycle stage');record=copy(chromeCase[stage]);await app.session.refresh();applySafe();},
+ async stageClosureLanded(){
+  if(!closureMode)throw Error('Not a synthetic Hold-closure case');
+  // Unchanged canonical landed packet, used as a presentation boundary; this
+  // does not claim its engine history delivered the deliberately dropped taps.
+  record=copy(fixtures.cases.find(c=>c.id==='food-winch-12').native.initial);
+  sessionStorage.setItem(closureRecordKey,JSON.stringify(record));await app.session.refresh();applySafe();
+ },
+ async settleClosureReceipt(){
+  if(!closureMode)throw Error('Not a synthetic Hold-closure case');
+  for(const q of sent.filter(q=>q.operation==='foodCommand'&&q.request.command.type==='TASK_PRESS'&&q.request.command.input.kind==='HOLD_RECOVER_OFF'))receipts.set(q.request.commandId,reply(q.request));
+  await app.food.checkReceipts();await app.session.refresh();applySafe();
+ },
+ closureStored(){if(!closureMode)throw Error('Not a synthetic Hold-closure case');const value=foodStore.load();return value?JSON.parse(value):null;},
  prepareEarlyUp(){if(!config.pendingHold)throw Error('Not a pending Hold fixture');fixtureCommandId=config.pendingHold.release.request.commandId;},
  async replace(next){record=copy(next);await app.session.refresh();applySafe();},
  names(text){for(const m of record.value.members)m.displayName=text;return app.session.refresh();},
