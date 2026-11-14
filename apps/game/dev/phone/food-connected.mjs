@@ -28,7 +28,8 @@ async function invoke(identity,body){const began=performance.now(),response=awai
 const operation=(operation,matchId,extra={})=>({operation,matchId,requestId:randomUUID(),...extra});
 async function waitFor(fn,label,limit=120000){const end=performance.now()+limit;while(performance.now()<end){const value=await fn();if(value)return value;await sleep(250);}throw Error('Timed out: '+label);}
 const foodModel=page=>page.evaluate(`(()=>{const f=planetEmulator.app.food?.getModel();return f?{view:f.view,clock:f.clock,fresh:f.fresh,pendingCount:f.pendingCount,
- canAnswer:f.canAnswer,canHold:f.canHold,canPanelRelease:f.canPanelRelease,canPanelLock:f.canPanelLock,canKey:f.canKey,physicalHolding:f.physicalHolding,needsContactOff:f.needsContactOff,feedback:f.feedback?.status??null}:null;})()`);
+ canAnswer:f.canAnswer,canHold:f.canHold,canPanelRelease:f.canPanelRelease,canPanelLock:f.canPanelLock,canKey:f.canKey,physicalHolding:f.physicalHolding,needsContactOff:f.needsContactOff,canCheck:f.canCheck,recoveryBlocked:f.recoveryBlocked,feedback:f.feedback?.status??null,feedbackName:f.feedback?.name??null,feedbackRecovered:f.feedback?.recovered??false,receiptStatus:f.feedback?.receipt?.status??null,receiptReceivedAt:f.feedback?.receipt?.receivedAt??null,receiptEffect:f.feedback?.receipt?.result?.effect??null,receiptCode:f.feedback?.receipt?.code??null,
+ controls:[...document.querySelectorAll('.planet-food.ph .fs-ctl')].map(n=>({id:n.id,action:n.dataset.act,visible:n.getBoundingClientRect().height>0,disabled:n.getAttribute('aria-disabled')==='true',busy:n.getAttribute('aria-busy')==='true',sending:n.hasAttribute('data-sending')}))}:null;})()`);
 const capture=async(page,name)=>{const r=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(resolve(out,name),Buffer.from(r.data,'base64'));return name;};
 async function fill(page,selector,value){await page.evaluate(`(()=>{const n=document.querySelector(${JSON.stringify(selector)});n.value=${JSON.stringify(value)};n.dispatchEvent(new Event('input',{bubbles:true}));})()`);}
 async function join(page,roomCode,name,kind='player'){
@@ -79,7 +80,9 @@ try{
   // Separate headless browser processes model two devices without a focus change
   // on the display concealing the participant's held contact.
   const page=await openPage(browser,{width,height,mobile:true,ownContext:true}),display=await openPage(displayBrowser,{width:390,height:844,mobile:true,ownContext:true});
-  let held=false,networkChecked=false,caseResult={count,trace,profile:{width,height,text,reduced},stages:[],commands:[]};
+  let held=false,networkChecked=false,caseResult={count,trace,profile:{width,height,text,reduced},stages:[],commands:[],responsiveness:[]};
+  const observedAt=performance.now();let taskStartedAt=null,lastObservation=null;
+  const observe=m=>{if(!m)return;const value={fresh:m.fresh,clock:m.clock.status,pendingCount:m.pendingCount,feedback:m.feedback,feedbackName:m.feedbackName,recovered:m.feedbackRecovered,canCheck:m.canCheck,recoveryBlocked:m.recoveryBlocked,canHold:m.canHold,canPanelRelease:m.canPanelRelease,canPanelLock:m.canPanelLock,canKey:m.canKey,physicalHolding:m.physicalHolding,needsContactOff:m.needsContactOff,receiptStatus:m.receiptStatus,receiptEffect:m.receiptEffect,receiptCode:m.receiptCode,receiptOffsetMs:taskStartedAt!==null&&m.receiptReceivedAt!==null?m.receiptReceivedAt-taskStartedAt:null,controls:m.controls};const signature=JSON.stringify(value);if(signature!==lastObservation){caseResult.responsiveness.push({atMs:Math.round(performance.now()-observedAt),serverTaskOffsetMs:taskStartedAt!==null&&m.clock.status==='synced'?Math.round(m.clock.serverNowMs-taskStartedAt):null,...value});lastObservation=signature;}};
   try{
    await page.send('Page.addScriptToEvaluateOnNewDocument',{source:`performance.setResourceTimingBufferSize(5000);localStorage.setItem('mothership:planet:presentation-preferences',JSON.stringify({textScale:${text},reduced:${reduced}}))`});
    await display.send('Page.addScriptToEvaluateOnNewDocument',{source:'performance.setResourceTimingBufferSize(5000)'});
@@ -89,15 +92,15 @@ try{
    await invoke(host,operation('setBots',created.matchId,{count:count-1}));await invoke(host,operation('beginSetup',created.matchId));stage('SETUP');
    await waitFor(()=>page.evaluate('planetEmulator.app.session.getModel().status==="reading"'),'normal role reading');
    await tapReady(page,caseResult);stage('READY');
-   await waitFor(async()=>{const m=await foodModel(page);return m?.canAnswer;},'automatic private invitation',60000);
+   await waitFor(async()=>{const m=await foodModel(page);observe(m);return m?.canAnswer;},'automatic private invitation',60000);
    await page.tap('#food-action-join');stage('JOIN_SENT');
    const first=await waitFor(async()=>{const m=await foodModel(page);return m?.view?.participantTask?m:false;},'private Task',15000),task=first.view.participantTask;
-   assert.equal(task.returnsAt-task.startedAt,32500);caseResult.control=task.selfControl;caseResult.taskDurationMs=task.returnsAt-task.startedAt;stage('TASK',{control:task.selfControl});
+   taskStartedAt=task.startedAt;observe(first);assert.equal(task.returnsAt-task.startedAt,32500);caseResult.control=task.selfControl;caseResult.taskDurationMs=task.returnsAt-task.startedAt;stage('TASK',{control:task.selfControl});
    await display.waitFor('planetEmulator.app.game?.getModel().connection==="live"','authorized public display');
    await capture(page,`task-${count}-${task.selfControl.toLowerCase()}.png`);
    let outcome=null,lastTask=task,returned=null;const finishBy=performance.now()+65000;
    while(performance.now()<finishBy){
-    const m=await foodModel(page),t=m?.view?.participantTask;
+    const m=await foodModel(page),t=m?.view?.participantTask;observe(m);
     if(m?.view&&m.view.step===null){returned=m;break;}
     if(!t||m.clock.status!=='synced'){await sleep(50);continue;}
     assert.equal(t.taskId,task.taskId);assert.equal(t.returnsAt,task.returnsAt);lastTask=t;outcome=t.outcome??outcome;
@@ -123,7 +126,7 @@ try{
     else if(input?.kind==='HOLD'&&input.edge==='UP'&&held){await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});held=false;acted=true;}
     else if(m.fresh&&input?.kind==='KEY'&&m.canKey)acted=await tapInput(page,'food-control-key');
     else if(m.fresh&&input?.kind==='PANEL_RELEASE'&&m.canPanelRelease||m.fresh&&input?.kind==='PANEL_LOCK'&&m.canPanelLock)acted=await tapInput(page,'food-panel-main');
-    if(acted)caseResult.commands.push({kind:input.kind,...(input.kind==='HOLD'?{edge:input.edge}:{})});
+    if(acted)caseResult.commands.push({kind:input.kind,atMs:Math.round(performance.now()-observedAt),estimatedServerTaskOffsetMs:Math.round(m.clock.serverNowMs-task.startedAt),clockUncertaintyMs:m.clock.uncertaintyMs,...(input.kind==='HOLD'?{edge:input.edge}:{})});
     const delay=decision.nextWakeAt===null?75:Math.max(5,Math.min(100,decision.nextWakeAt-m.clock.serverNowMs));await sleep(acted?10:delay);
    }
    assert.ok(returned,'authoritative common return');assert.ok(returned.clock.serverNowMs>=task.returnsAt);assert.equal(outcome?.kind,'DELIVERED',JSON.stringify({count,control:task.selfControl,outcome:outcome?.kind,reason:outcome?.reason,commands:caseResult.commands}));
@@ -135,13 +138,13 @@ try{
    const paths=urls=>[...new Set(urls.map(u=>new URL(u).pathname))].sort();assert.equal(paths(assets).length,37);assert.deepEqual(paths(assets),paths(displayAssets));caseResult.uniformAssets=37;
    await waitFor(()=>page.evaluate('planetEmulator.app.game?.getModel().canPass'),'own ordinary Pass',100000);await page.tap('#planet-pass');await page.waitFor('document.querySelector("#planet-confirm")','Pass confirmation');await page.tap('#planet-confirm');
    const meal=await waitFor(async()=>{const m=await foodModel(page);return m?.view?.ownMeals.at(-1);},'authorized own meal',15000);assert.equal(meal.result,'ATE');assert.equal(meal.dosesConsumed,1);caseResult.ownMeal='ATE_ONCE';stage('MEAL');
-   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts');caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
-  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts').catch(()=>[]);caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
-  finally{if(held)await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});await page.close();await display.close();}
+   caseResult.operations=await page.evaluate('planetEmulator.operations');caseResult.displayOperations=await display.evaluate('planetEmulator.operations');caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts');caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts');caseResult.transportTimings=await page.evaluate('planetEmulator.transportTimings');caseResult.displayTransportTimings=await display.evaluate('planetEmulator.transportTimings');caseResult.publicStayedPrivate=true;report.cases.push(caseResult);
+  }catch(error){caseResult.error=error.message;caseResult.operations=await page.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.displayOperations=await display.evaluate('planetEmulator.operations').catch(()=>[]);caseResult.requestStarts=await page.evaluate('planetEmulator.requestStarts').catch(()=>[]);caseResult.displayRequestStarts=await display.evaluate('planetEmulator.requestStarts').catch(()=>[]);caseResult.transportTimings=await page.evaluate('planetEmulator.transportTimings').catch(()=>[]);caseResult.displayTransportTimings=await display.evaluate('planetEmulator.transportTimings').catch(()=>[]);report.cases.push(caseResult);await capture(page,`failure-${count}.png`).catch(()=>{});await capture(display,`failure-display-${count}.png`).catch(()=>{});throw error;}
+  finally{if(held)await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});await page.close();await display.close();caseResult.cleanupAbortOk=await invoke(host,operation('abort',created.matchId)).then(()=>true,()=>false);const match=matches.find(m=>m.matchId===created.matchId);if(match&&caseResult.cleanupAbortOk)match.aborted=true;if(!caseResult.cleanupAbortOk&&!caseResult.error)throw Error('Generated match cleanup failed; next count not started');}
  }
  report.errors=[...browser.events,...displayBrowser.events].filter(e=>e.method==='Runtime.exceptionThrown').map(e=>({text:e.params.exceptionDetails?.text}));assert.deepEqual(report.errors,[]);
 }finally{
- for(const m of matches)await invoke(m.host,operation('abort',m.matchId)).catch(()=>{});
+ for(const m of matches.filter(m=>!m.aborted))await invoke(m.host,operation('abort',m.matchId)).catch(()=>{});
  await writeFile(resolve(out,'result.json'),JSON.stringify(report,null,2));browser.close();displayBrowser.close();await chrome.close();await displayChrome.close();server.close();
 }
 console.log(`Real native Food journeys: ${report.cases.length}; ${out}`);

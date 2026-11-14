@@ -80,3 +80,12 @@ separately from completed responses, without bodies, IDs, tokens or headers.
 The next runner records both streams and verifies one original Ready invocation
 and response. Its held-network check compares actual Food-command starts, not
 only successful responses. This logging changes no request, retry or game action.
+
+For the 984f1b21 handoff, the runner also observes scalar transport timings and
+own-UI responsiveness. It records pending/unknown/recovered states, clock
+freshness, enabled/busy/sending controls and own receipt status/time/effect,
+without request bodies, IDs, tokens, headers or raw private views. These are
+observations, not injected game times. Admission/acknowledgement delays remain
+separate from the delivery result. Each generated match is aborted after its
+own case finishes so its bots cannot overlap the following count; no tested
+Task is shortened or advanced for a pass.
