@@ -303,7 +303,8 @@
   "chromeOwnershipCorrection": {
     "nativeBase": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
     "scope": "Only a current round/current Food step request closure can own Food chrome; retained historical receipts/closures are unchanged. This matches the existing current-card guard and releases ordinary navigation after the step.",
-    "status": "Actual native baseline reproduced12 blocked profiles; renewed native validation and Designer approval pending.",
-    "report": "docs/frontend/food-supply-chrome-ownership-2026-11-14.md"
+    "status": "Clean8ff passed1021/1021 client tests,12/12 physical native lifecycle profiles and4/4 standard Food app profiles, zero captured browser exceptions. Retained history, one exact original ordinary command per fixed case, joined ATE/dose1. Renewed focused Designer approval and connected acceptance remain pending.",
+    "report": "docs/frontend/food-supply-chrome-ownership-2026-11-14.md",
+    "sourceHead": "8ffce95a0cfe92facc75d8cf0a86f3686608f176"
   }
 }
