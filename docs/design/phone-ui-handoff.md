@@ -6,8 +6,8 @@ This maps each sheet to its components, states, assets, audience and the data it
 - the game model, `PlanetScreenModel`, in `packages/presentation/src/planet/model.ts`;
 - the session model, in `apps/game/src/planet/session.ts`.
 
-It is a design to build from, not an adoption:
-- The pack's code (`design/phone-ui/prototype`) is a dev-only reference; port the look, not the modules.
+The pack specifies the interface; it is not, by itself, runtime adoption. The owner's [14 November workflow](../architecture/visual-component-ownership.md) replaces the earlier instruction to "port the look, not the modules" for new work:
+- The historical pack (`design/phone-ui/prototype`) remains dev-only. Do not ship its simulator or fixture data. For new or separately scoped component work, Designer and Frontend agree a runtime-safe canonical visual source consumed by both preview and game, directly or through a verified generated port. Do not recreate the appearance in a second maintained implementation. This does not require a rewrite of the frozen Food release.
 - The server's offers still decide every control.
 - What needs Backend or Integration first is in [DSN-REQ-19 to 22](integration-requests.md#dsn-req-19). The rooms' ambient motion, not yet in the native interface, is requested from Frontend as [DSN-REQ-23](integration-requests.md#dsn-req-23).
 

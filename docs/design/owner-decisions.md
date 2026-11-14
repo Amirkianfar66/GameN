@@ -6,6 +6,21 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 14 November 2026: one visual source and clear ownership
+
+**Recorded by Integration from the owner's Integration chat.** The owner identified duplicated visual work: "I feel like In the current workflow, some visual work is being implemented twice, and the ownership boundaries need to be clearer between Designer agent and Frontend agent, what do you think?" After Integration recommended the workflow below, the owner approved it: **"Yes all as you recommended"**.
+
+The approved recommendation is summarized here; the bullets are not additional verbatim owner quotations:
+
+- Designer owns the canonical reusable visual implementation: layout, styles, artwork, responsive composition, component states and motion. Preview and game use the same visual source.
+- Frontend owns authorized-data wiring, user interaction, screen/navigation lifecycle, recovery, accessibility behavior and runtime performance. It consumes the visual source instead of rebuilding its appearance independently.
+- Backend owns rules, permissions, outcomes, authoritative timing and disclosure. Integration coordinates the small component interface first, versioned adoption, technical review and release checks.
+- Agree inputs/events, audiences and source ownership early; integrate one representative component before completing a large prototype. If packaging needs copies, generate and verify them from the canonical source rather than maintaining divergent visual code.
+- Preserve the existing Designer visual approval gate. Recheck changed visible states and dependencies; reuse evidence only when Integration demonstrates that approved rendered inputs remain unchanged. Sheet exceptions still need Designer and owner agreement.
+- Finish the frozen Food release without a new visual or architecture rewrite. Apply the workflow to subsequent new work or separately scoped component changes; preserve historical sources and pinned releases.
+
+The detailed working agreement is [visual-component-ownership.md](../architecture/visual-component-ownership.md). This is a workflow decision, not approval of a new sheet, game rule, runtime import, framework change or deployment. Historical dev-only prototypes and fixtures remain excluded from production until a specifically reviewed runtime-safe component is adopted.
+
 ## 11 November 2026: the Food Supply Task
 
 **The owner asked Designer to design Mothership's two-player Food Supply Task** from confirmed highlights, developing the design solution itself: the room, the operators, the mechanical paths, the hazard regions, the controls, the feedback and the crate's position for survivor completion. Designer's design is [food-supply.md](food-supply.md), a proposal.
