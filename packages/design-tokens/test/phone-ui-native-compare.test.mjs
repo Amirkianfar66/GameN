@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { PARTS, STAGES, buildAddress, catalogProblems } from '../../../design/tools/lib/phone-ui-native-parts.mjs';
-import { dayName, designAddress, pageHtml, parseArgs, readFindings, selectParts } from '../../../design/tools/phone-ui-native-compare.mjs';
+import { dayName, designAddress, pageHtml, parseArgs, parseView, readFindings, selectParts, withView } from '../../../design/tools/phone-ui-native-compare.mjs';
 import { SHEETS, SIZES } from '../../../design/phone-ui/sheets/catalog.mjs';
 import { screenRegistry } from '../../../design/phone-ui/prototype/screens.mjs';
 
@@ -45,6 +45,23 @@ test('a run draws the parts named, one stage, or all; unknown names are refused'
   assert.throws(() => selectParts(parseArgs(['--only', 'nope'])), /No part nope/);
   assert.throws(() => selectParts(parseArgs(['--stage', 'nope'])), /No stage nope/);
   assert.throws(() => parseArgs(['--count', '6']), /7, 8 or 9/);
+});
+
+test('a run can draw every part at the smallest phone with the Largest text, as the merge gate asks', () => {
+  assert.equal(parseArgs([]).view, null);
+  assert.deepEqual(parseArgs(['--view', '320x568@2']).view, { size: '320x568', text: 2 });
+  assert.deepEqual(parseView('430x932'), { size: '430x932', text: 1 });
+  assert.deepEqual(parseView('390x844@1.5'), { size: '390x844', text: 1.5 });
+  for (const wrong of ['320x568@3', '999x999', '320x568@', 'phone']) assert.throws(() => parseView(wrong), /--view is a phone size/, wrong);
+  const drawn = withView(selectParts(parseArgs(['--only', 'room-b,jail-result'])), parseView('320x568@2'));
+  assert.ok(drawn.every(part => part.view.size === '320x568' && part.view.text === 2));
+  assert.equal(designAddress(drawn[0]), '/design/phone-ui/prototype/index.html?room=room-b&s=room&state=own&safe=20%2C0&text=2');
+  assert.deepEqual(PARTS.find(part => part.id === 'room-b').view, { size: '390x844', text: 1 }, 'the catalog itself is unchanged');
+  assert.equal(withView(PARTS, null), PARTS);
+  const one = drawn.slice(0, 1).map(part => ({ ...part, pack: { address: designAddress(part), image: null, reason: 'Not drawn', problems: [] }, build: { address: '/', steps: [], image: null, reason: 'Not drawn', problems: [] }, now: null }));
+  const page = pageHtml({ parts: one, pack: { commit: 'abc', dirty: false }, build: { head: 'def', dirty: false }, view: 'Every part drawn at 320 × 568 with 200 % text', viewOverride: { size: '320x568', text: 2 }, findingsDate: null });
+  assert.match(page, /Every part drawn at 320 × 568 with 200 % text/);
+  assert.match(page, /made at each part&#39;s own phone size|made at each part's own phone size/);
 });
 
 test('findings from a later review are checked before they are shown', () => {
