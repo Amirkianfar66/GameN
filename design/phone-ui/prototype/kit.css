@@ -95,6 +95,10 @@ button { cursor: pointer; }
   position: relative; width: 100%; height: 100%; overflow: hidden; isolation: isolate;
   background: var(--canvas);
 }
+/* The phone is a size container: its width and height in em, the player's text size included, say when
+   the larger-text layouts apply (each `@container phone` rule below). At 100% text every phone of 320 px
+   or wider is 20 em or more across, so none of them applies there. */
+#app > .ph { container: phone / size; }
 .ph[data-chrome="none"] { --bar-h: 0px; --tab-h: 0px; }
 .ph-status { position: absolute; inset: 0 0 auto; height: var(--safe-t); z-index: 60; display: flex; align-items: center; justify-content: space-between; padding: 0 26px 0 30px; font: 600 15px/1 var(--font-ui); letter-spacing: -0.01em; pointer-events: none; }
 .ph-status i { display: inline-block; width: 26px; height: 12px; border: 1.5px solid currentColor; border-radius: 4px; position: relative; opacity: 0.9; }
@@ -108,7 +112,7 @@ button { cursor: pointer; }
   display: flex; align-items: center; gap: 5px;
   background: var(--material); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
   border-bottom: 1px solid var(--hairline);
-  container-type: inline-size;
+  container: topbar / inline-size;
 }
 .tb[data-tone="dark"] { background: rgba(5, 7, 11, 0.86); }
 .tb-who { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
@@ -147,7 +151,7 @@ button { cursor: pointer; }
 .tb-menu[aria-expanded="true"]::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-3); }
 .tb:not([data-kind="turn"]) .tb-pill { padding: 0; width: 36px; }
 .tb:not([data-kind="turn"]) :is(.tb-pill-label, .tb-div) { display: none; }
-@container (max-width: 22.5rem) {
+@container topbar (max-width: 22.5rem) {
   .tb-pill { padding: 0; width: 36px; }
   .tb-pill-label, .tb-div, .timer > svg.ic, .tb[data-kind="phase"] .tb-glyph { display: none; }
   .tb-who .pt-pair .pt + .pt { margin-left: -20px; }
@@ -155,14 +159,14 @@ button { cursor: pointer; }
 /* Larger text (the bar under 16 rem: 150% text below 384 px, 200% below 512 px). The round leaves the bar
    (the Actions sheet and a result's foot name it) and a phase with a short title shows it ("Vote result" for
    "Jail vote · result"), so the title reads whole; the full title stays for screen readers. */
-@container (max-width: 16rem) {
+@container topbar (max-width: 16rem) {
   .tb-round { display: none; }
   .tb-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .tb-short { display: inline; }
 }
 /* The largest text on the smallest phones (the bar under 12 rem: 200% text below 384 px). The time stops
    growing at 22 px, and a phase's title takes two lines instead of its subtitle, so it reads whole. */
-@container (max-width: 12rem) {
+@container topbar (max-width: 12rem) {
   .timer { font-size: min(1rem, 22px); }
   .tb-name { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.1; }
   /* The subtitle (whose turn, the player's number) makes way for the second line, read still by screen readers. */
@@ -223,9 +227,23 @@ button { cursor: pointer; }
 .icon-btn::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface-3); }
 .icon-btn .ic { position: relative; width: 18px; height: 18px; }
 .sheet-body { flex: 1; min-height: 0; overflow: auto; padding: 0 16px 16px; }
+/* The title and the content (.sheet-main). Short phones with the Largest text (the phone under 19 em across
+   and 21 em high: 320 × 568, and 390 × 664 in Safari with its toolbars): the title scrolls with the content,
+   so the content gets the height; the buttons at the foot stay in place. */
+.sheet-main { display: contents; }
+@container phone (max-width: 19em) and (max-height: 21em) {
+  .sheet-main { display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+  .sheet-main > .sheet-body { overflow: visible; }
+}
 .sheet-foot { flex: none; padding: 10px 16px calc(12px + var(--safe-b)); display: flex; gap: 10px; border-top: 1px solid var(--hairline); background: var(--surface-2); }
 .sheet[data-over="tabs"] .sheet-foot { padding-bottom: 12px; border-radius: 0 0 var(--radius-sheet) var(--radius-sheet); }
 .sheet-foot .btn { flex: 1; }
+/* Larger text on a narrow phone (the phone under 19 em: the Large or Largest text on any phone up to
+   456 px wide). Buttons that no longer fit side by side take a row each, in the same order, at full width;
+   a label that still doesn't fit wraps inside its button. Buttons that fit stay side by side. */
+@container phone (max-width: 19em) {
+  .sheet-foot { flex-wrap: wrap; }
+}
 
 /* ── Glass sheets ──────────────────────────────────────────────────────── */
 /* Every sheet is clear glass: the room shows through it, almost sharp and darkened, and above it
@@ -277,6 +295,12 @@ button { cursor: pointer; }
 .seg button { min-height: 44px; border: 0; border-radius: 9px; background: none; color: var(--text-secondary); font: 600 1rem/1.1 var(--font-ui); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .seg button .ic { width: 18px; height: 18px; }
 .seg button[aria-pressed="true"], .seg button[aria-checked="true"] { background: var(--surface-4); color: var(--text-primary); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); }
+/* The largest text on any phone, or Large on the smallest (the phone under 15 em): a control whose words
+   no longer fit side by side (data-stack: the Card tab's Card · Knowledge · Resources, the text size's
+   Standard · Large · Largest) stacks its options, one per row, each still 44 px. 7 · 8 · 9 stays a row. */
+@container phone (max-width: 15em) {
+  .seg[data-stack] { grid-auto-flow: row; }
+}
 
 .stepper { display: inline-flex; align-items: center; border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); }
 .stepper button { width: var(--target); height: var(--target); border: 0; background: none; display: grid; place-items: center; color: var(--text-primary); }
@@ -311,6 +335,14 @@ button { cursor: pointer; }
 .row-chev { flex: none; width: 16px; height: 16px; color: var(--steel-mid); }
 .row .pt { width: 36px; height: 36px; flex: none; }
 .row[aria-disabled="true"] .row-main, .row[aria-disabled="true"] .row-icon { opacity: 0.45; }
+/* Larger text on a narrow phone (the phone under 19 em): a row's value goes under its title instead of
+   beside it, the icon or portrait centred beside both, so neither covers the other ("Your quota", then
+   "Given 0/1 · Received 1/1"). A long value wraps. */
+@container phone (max-width: 19em) {
+  .row:has(> .row-value) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; row-gap: 2px; }
+  .row:has(> .row-value) > :first-child:not(.row-main) { grid-row: span 2; }
+  .row > .row-value { justify-self: start; text-align: left; }
+}
 
 /* ── Fields ────────────────────────────────────────────────────────────── */
 .field { display: block; margin-bottom: 14px; }
@@ -321,6 +353,12 @@ button { cursor: pointer; }
 .input .ph-text { color: var(--text-tertiary); }
 .input .caret { display: inline-block; width: 2px; height: 1.2em; background: var(--accent); margin-left: 1px; vertical-align: -0.2em; }
 .input .count { margin-left: auto; color: var(--text-tertiary); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+/* Larger text on a narrow phone: a value with no spaces (the recovery code's dots) wraps onto another line
+   inside the field, which grows; one line keeps its height. */
+@container phone (max-width: 19em) {
+  .input { padding-block: 5px; }
+  .input > span:not(.count, .caret) { min-width: 0; overflow-wrap: anywhere; }
+}
 .code-boxes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
 /* Tall enough for a letter's tail at any text size (Q at 200%): 56 px, or 1.75 of the letter's own size. */
 .code-boxes b { height: max(56px, 1.75em); border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); display: grid; place-items: center; font: 700 1.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; }
@@ -390,17 +428,34 @@ button { cursor: pointer; }
 /* ── Toasts and banners ───────────────────────────────────────────────── */
 .toast { position: absolute; left: 50%; top: calc(var(--top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--paper); color: var(--ink); font: 600 0.9375rem/1.2 var(--font-ui); box-shadow: var(--shadow-soft); white-space: nowrap; --ic-knock: var(--paper); }
 .toast .ic { width: 20px; height: 20px; }
+/* Larger text on a narrow phone: a toast wraps inside the phone's width (16 px clear each side) instead of
+   running past it; one line keeps its capsule, two lines get rounded corners. */
+@container phone (max-width: 19em) {
+  .toast { width: max-content; max-width: calc(100% - 32px); white-space: normal; border-radius: calc(0.6em + 9px); }
+}
 .banner { position: absolute; left: 10px; right: 10px; top: calc(var(--top) + 8px); z-index: 42; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--hairline), var(--shadow-soft); }
 .banner .ic { width: 22px; height: 22px; color: var(--accent); flex: none; }
 .banner-text { flex: 1; min-width: 0; }
 .banner-text b { display: block; font: 600 1rem/1.2 var(--font-ui); }
 .banner-text span { display: block; font: 500 0.8125rem/1.25 var(--font-ui); color: var(--text-secondary); }
 .banner .btn { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
+/* Larger text on a narrow phone: a banner's button takes its own line, at the right, so its words keep
+   the bar's width ("Connection lost · Controls return when the match is current", then Retry). */
+@container phone (max-width: 19em) {
+  .banner:has(> .btn) { flex-wrap: wrap; }
+  .banner:has(> .btn) > .banner-text { flex-basis: calc(100% - 32px); }
+  .banner > .btn { margin-left: auto; }
+}
 .pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 999px; background: var(--surface-3); color: var(--text-secondary); font: 600 0.8125rem/1 var(--font-ui); white-space: nowrap; }
 .pill .ic { width: 15px; height: 15px; }
 .pill[data-tone="amber"] { background: rgba(241, 184, 75, 0.16); color: var(--accent); }
 .pill[data-tone="paper"] { background: var(--paper); color: var(--ink); --ic-knock: var(--paper); }
 .pill[data-tone="accent"] { background: var(--accent); color: var(--on-accent); --ic-knock: var(--accent); }
+/* Larger text on a narrow phone: a pill that no longer fits its place wraps onto two lines, a status
+   line ("Detained · you can still vote") or a result ("Condition not met") included, instead of being cut. */
+@container phone (max-width: 19em) {
+  .pill { max-width: 100%; height: auto; min-height: 28px; padding-block: 3px; white-space: normal; line-height: 1.15; border-radius: max(14px, calc(0.575em + 3px)); }
+}
 
 /* ── Screens without a scene (entry, setup) ───────────────────────────── */
 .screen { position: absolute; inset: 0; display: flex; flex-direction: column; padding: calc(var(--safe-t) + 8px) 16px calc(var(--safe-b) + 16px); overflow: auto; }
@@ -445,6 +500,14 @@ button { cursor: pointer; }
 .slot-mark[data-picked] { border: 3px solid var(--accent); background: rgba(241, 184, 75, 0.25); color: var(--accent); }
 .scene-veil { position: absolute; inset: 0; z-index: 2900; pointer-events: none; }
 .offroom { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--bottom) + 32px); white-space: nowrap; }
+.offroom > .btn { min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--paper); color: var(--ink); box-shadow: var(--shadow-soft); --ic-knock: var(--paper); }
+.offroom > .btn[data-tone="surface"] { background: var(--surface-3); color: var(--text-primary); }
+/* Larger text on a narrow phone: a chip or status pill keeps 16 px clear of each side and wraps its words
+   ("Other rooms on the Board" on two lines); a one-line chip keeps its capsule (44 px high, 22 px radius). */
+@container phone (max-width: 19em) {
+  .offroom { width: max-content; max-width: calc(100% - 32px); white-space: normal; text-align: center; }
+  .offroom > .btn { padding-block: 4px; border-radius: 22px; }
+}
 
 /* Board view: five panels and the capsule */
 .board-panel { position: absolute; isolation: isolate; z-index: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 0 0 2px #05070B, 0 0 0 3px rgba(244, 235, 221, 0.08); background: #07090F; }
@@ -454,6 +517,16 @@ button { cursor: pointer; }
 .board-panel .here { position: absolute; right: 6px; top: 6px; z-index: 3300; }
 .board-panel .tag { height: 22px; font-size: 0.6875rem; padding: 0 6px 0 2px; }
 .board-panel .tag .num { min-width: calc(17em / 11); height: calc(17em / 11); font-size: 0.6875rem; }
+/* The board's six panels are a map at a fixed scale. Larger text on a narrow phone: the tags and room
+   captions stop growing at the Large size (16.5 and 18 px), so a tag stays inside its panel; the room view
+   and the List give the same names at full size. Your room's You badge keeps its icon and amber, and drops
+   its word, so it doesn't cover the room's name: the amber outline and your own tag ("4 You") say it too. */
+@container phone (max-width: 19em) {
+  .board-panel .tag, .board-panel .tag .num { font-size: min(0.6875rem, 16.5px); }
+  .board-panel .room-label .caption-tag { font-size: min(0.75rem, 18px); }
+  .board-panel .here .pill { width: 28px; padding: 0; justify-content: center; }
+  .board-panel .here .pill > span { display: none; }
+}
 
 /* Film and full-bleed media */
 .media { position: absolute; inset: 0; border: 0; width: 100%; height: 100%; background: #07090F; }

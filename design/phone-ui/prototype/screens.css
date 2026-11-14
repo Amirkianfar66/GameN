@@ -17,13 +17,28 @@
 .entry[data-tone="primary"] .row-chev { color: var(--ink); }
 .entry-plain { align-self: center; }
 .menu-settings { position: absolute; top: calc(var(--safe-t) + 4px); right: 8px; z-index: 5; }
+/* Larger text on a narrow phone: the menu's actions stay at the foot, but when they are taller than the
+   phone (an offline note above them) they scroll below the settings button instead of running off the top. */
+@container phone (max-width: 19em) {
+  .ph[data-screen="menu"] .menu-actions { top: calc(var(--safe-t) + 52px); overflow-y: auto; }
+  .ph[data-screen="menu"] .menu-actions > * { flex-shrink: 0; }
+  .ph[data-screen="menu"] .menu-actions > :first-child { margin-top: auto; }
+  /* The offline note can now lie over the brand film: it is drawn solid, the same colour as before. */
+  .ph[data-screen="menu"] .menu-actions > .error { background: color-mix(in srgb, var(--paper) 8%, var(--canvas)); }
+}
 
 /* Room code card */
-.code-card { padding: 16px 16px 14px; border-radius: 18px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); }
+.code-card { padding: 16px 16px 14px; border-radius: 18px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); container: code / inline-size; }
 .code-card .code-label { font: 600 0.8125rem/1.2 var(--font-ui); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
 .code-card .code-row { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
 .code-card .code { flex: 1; font: 800 2.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; letter-spacing: 0.12em; color: var(--paper); }
 .code-card .meta { margin-top: 10px; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font: 500 0.875rem/1.2 var(--font-ui); }
+/* Larger text on a narrow phone: the code takes the card's whole width, all six characters inside it
+   (it stops growing at 22.5% of the card's width), and Copy goes under it. */
+@container phone (max-width: 19em) {
+  .code-card .code-row { flex-wrap: wrap; }
+  .code-card .code { flex-basis: 100%; font-size: min(2.5rem, 22.5cqi); }
+}
 .progress { flex: 1; height: 6px; border-radius: 3px; background: var(--surface-3); overflow: hidden; }
 .progress i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
 
@@ -68,6 +83,11 @@
 .rolecard[data-art="missing"] .rc-art { display: grid; place-items: center; background: var(--paper-shade); }
 .rolecard .rc-missing { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--steel-shadow); font: 700 0.875rem/1.2 var(--font-ui); text-align: center; }
 .rolecard .rc-missing .ic { width: 40px; height: 40px; }
+/* Larger text on a narrow phone, where the card is small: the missing-picture words stop growing at 12% of
+   the card's width (never under 11 px), as the card's other words are sized by the card, so they stay inside. */
+@container phone (max-width: 19em) {
+  .rolecard .rc-missing { font-size: clamp(11px, 12cqw, 0.875rem); }
+}
 .cardback { position: relative; width: 100%; max-width: 330px; aspect-ratio: 5 / 7; margin: 0 auto; border-radius: 18px; border: 3px solid var(--ink); background: repeating-linear-gradient(45deg, #1B2333 0 10px, #202A3D 10px 20px); box-shadow: 6px 6px 0 #05070B; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); gap: 10px; }
 .cardback .ic { width: 44px; height: 44px; }
 .cardback p { margin: 0; font: 600 1rem/1.2 var(--font-ui); text-align: center; }
@@ -75,12 +95,29 @@
 .card-area .rolecard, .card-area .cardback { max-height: 100%; width: auto; height: 100%; max-width: 100%; }
 .stage-foot { position: absolute; left: 16px; right: 16px; bottom: calc(var(--safe-b) + 14px); display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
 .stage-foot .note { text-align: center; font: 500 0.875rem/1.3 var(--font-ui); color: var(--text-secondary); }
+/* The card and its foot. Larger text on a narrow phone: they share the height as one column, so a foot
+   grown with the text (its note on two or three lines) never covers the card's last lines. */
+.stage-body { display: contents; }
+@container phone (max-width: 19em) {
+  .stage-body { position: absolute; left: 16px; right: 16px; top: calc(var(--top) + 20px); bottom: calc(var(--safe-b) + 14px); display: flex; flex-direction: column; gap: 12px; }
+  .stage-body > .card-area { position: relative; inset: auto; flex: 1; min-height: 0; }
+  .stage-body > .stage-foot { position: static; }
+  .stage-body > .stage-foot .note { margin: 0; }
+}
 .film-skip { position: absolute; right: 14px; bottom: calc(var(--safe-b) + 14px); z-index: 30; }
 .film-top { position: absolute; inset: 0 0 auto; z-index: 30; height: var(--top); padding: var(--safe-t) 12px 0; display: flex; align-items: center; gap: 10px; background: linear-gradient(to bottom, rgba(5,7,11,0.8), rgba(5,7,11,0)); }
 .film-top .tb-lines { flex: 1; }
 
 /* ── Actions ──────────────────────────────────────────────────────────── */
-.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; container-type: inline-size; }
+/* Larger text on a narrow phone: three columns cannot hold a tile's words, so each tile becomes a row,
+   its icon beside its name and state, as ballots and results become rows. Ordinary sizes keep the grid. */
+@container (max-width: 17em) {
+  .tiles > .tile { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; text-align: left; min-height: 0; padding: 10px 46px 10px 12px; }
+  .tiles > .tile .tile-icon { grid-row: span 2; }
+  /* REGISTERED goes under the tile's name and state, not over them. */
+  .tiles > .tile .mini-stamp { position: static; grid-column: 2; margin-top: 4px; transform: rotate(-6deg); }
+}
 .tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 104px; padding: 12px 6px 10px; border: 0; border-radius: 16px; background: var(--surface-3); color: var(--text-primary); text-align: center; }
 .tile .tile-icon { position: relative; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--paper); color: var(--ink); --ic-knock: var(--paper); }
 .tile .tile-icon .ic { width: 28px; height: 28px; }
@@ -104,6 +141,13 @@
 .target-bar .tile-icon .ic { width: 22px; height: 22px; }
 .target-bar .banner-text b { font: 700 1rem/1.2 var(--font-ui); }
 .target-bar .btn { min-height: 40px; }
+/* Larger text on a narrow phone: Cancel takes its own line, at the right, so the action's words get the
+   bar's width instead of a word a line. */
+@container phone (max-width: 19em) {
+  .target-bar { flex-wrap: wrap; }
+  .target-bar > .banner-text { flex-basis: calc(100% - 48px); }
+  .target-bar > .btn { margin-left: auto; }
+}
 .confirm-who { display: flex; align-items: center; gap: 14px; padding: 4px 0 6px; }
 .confirm-who .pt { width: 64px; height: 64px; }
 .confirm-who b { display: block; font: 700 1.25rem/1.2 var(--font-ui); }
@@ -138,6 +182,12 @@
 .registered { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 0 8px; text-align: center; }
 .registered p { margin: 0; color: var(--text-secondary); font: 500 0.9375rem/1.35 var(--font-ui); }
 .offroom-list .row .pt { width: 40px; height: 40px; }
+/* Two buttons side by side (the private talk's Promises and My card). The largest text on any phone, or
+   Large on the smallest (the phone under 15 em): one under the other. */
+.btn-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@container phone (max-width: 15em) {
+  .btn-pair { grid-template-columns: 1fr; }
+}
 
 /* ── Vote and results ─────────────────────────────────────────────────── */
 .vote-grid .cell { padding-top: 7px; }
@@ -209,11 +259,40 @@
 .reveal-row { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--hairline); }
 .reveal-row .pt { width: 34px; height: 34px; }
 .reveal-row b { flex: 1; font: 600 0.9375rem/1.2 var(--font-ui); }
+/* The poster, the title and the roles, then Return to lobby. Larger text on a narrow phone: the first three
+   become one column that scrolls above Return to lobby, so the title never covers the roles. The title
+   stops growing where its longest word still fits the phone (13% of its width), the stamp at 28 px, and a
+   role moves under its name when the two don't fit on one line. */
+.end-page, .end-scroll { display: contents; }
+@container phone (max-width: 19em) {
+  .end-page { position: absolute; inset: 0; display: flex; flex-direction: column; }
+  .end-scroll { display: block; flex: 1; min-height: 0; overflow-y: auto; }
+  .end-scroll > .end-hero { position: relative; inset: auto; height: 42%; }
+  .end-scroll > .end-title { position: relative; inset: auto; margin: -56px 16px 0; }
+  .end-scroll > .end-list { position: static; overflow: visible; margin: 18px 12px 0; }
+  .end-page > .menu-actions { position: static; margin: 12px 16px calc(var(--safe-b) + 18px); }
+  .end-title .stamp { font-size: min(1.375rem, 28px); }
+  .end-title h1 { font-size: min(2rem, 13cqi); }
+  .reveal-row { flex-wrap: wrap; row-gap: 4px; }
+  .reveal-row b { flex: 1 1 auto; }
+  .reveal-row .team-chip { height: auto; min-height: 26px; margin-left: 44px; }
+}
 .team-chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 13px; font: 700 0.8125rem/1 var(--font-ui); background: var(--surface-3); }
 .team-chip i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
 .team-chip[data-team="Blue"] { --c: var(--faction-blue); }
 .team-chip[data-team="Red"] { --c: var(--faction-red); }
 .team-chip[data-team="Alien"] { --c: var(--faction-alien); }
+
+/* ── Room art unavailable ─────────────────────────────────────────────── */
+/* The people of the room as cards, under the banner. Larger text on a narrow phone: the banner and the
+   cards become one column between the bars that scrolls, so the banner never covers a card. */
+.asset-fallback { display: contents; }
+.asset-grid { position: absolute; left: 16px; right: 16px; top: calc(var(--top) + 60px); z-index: 40; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@container phone (max-width: 19em) {
+  .asset-fallback { position: absolute; left: 10px; right: 10px; top: calc(var(--top) + 8px); bottom: calc(var(--bottom) + 8px); z-index: 42; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+  .asset-fallback > .banner { position: relative; inset: auto; flex: none; }
+  .asset-fallback > .asset-grid { position: static; margin: 0 6px; }
+}
 
 /* ── Component sheets (bars shown one under another) ─────────────────── */
 .specimen { position: relative; height: var(--h, 64px); border-bottom: 8px solid #05070B; overflow: hidden; }
@@ -256,3 +335,11 @@ html[data-motion="reduced"]::view-transition-old(root), html[data-motion="reduce
 .sheet-body:has(> .card-fit) { display: flex; flex-direction: column; }
 .card-fit { flex: 1; min-height: 0; display: flex; justify-content: center; padding: 2px 0 2px; }
 .card-fit .rolecard { height: 100%; width: auto; max-width: 100%; max-height: 440px; }
+/* Where the segmented control stacks, or the title scrolls with the content (kit.css), the card keeps 260 px
+   of height and the sheet scrolls to the control, rather than the card shrinking to a sliver. */
+@container phone (max-width: 15em) {
+  .card-fit { flex: none; height: 260px; }
+}
+@container phone (max-width: 19em) and (max-height: 21em) {
+  .card-fit { flex: none; height: 260px; }
+}
