@@ -25,8 +25,8 @@
   },
   "closure": {
     "path": "docs/frontend/food-supply-render-closure.json",
-    "sha256": "d4abbfe7bc208d1b1d31bc0efa52f058191bb9bb48f734eef784eda2b874b513",
-    "bytes": 13036
+    "sha256": "76a9b84c2c141c174375561f9e7f6121208a7f9b681cabd4838d1464131975c1",
+    "bytes": 14029
   },
   "staticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",

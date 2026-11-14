@@ -35,10 +35,17 @@ hash-pinned Vite build logs; those evidence bytes are deliberately preserved.
 The check excluding the immutable evidence directory passes.
 The refreshed source identities are:
 
-- Registration: `04eff4ebef972c1e64d8f82f121709bd90461b4db42a8beb47be22c6b3e2b665`.
-- Closure: `d4abbfe7bc208d1b1d31bc0efa52f058191bb9bb48f734eef784eda2b874b513`.
-- Art 0.9 manifest: `4e30fcae9a8aa0899cb35d6f002b2d81f63f6548f11d937f6a55f214140bcd3c`.
-- Drawing policy: `939a66779b206f1115ad051fc90d8499192710790b7edef53ba49583920115b7`.
+- Registration: `1d8adae166454ae901d0e10586b389ee2c9a2226cc106be0acaec90cf428b1a9`.
+- Closure: `76a9b84c2c141c174375561f9e7f6121208a7f9b681cabd4838d1464131975c1`.
+- Art 0.9 manifest: `26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b`.
+- Drawing policy: `3132a1c63e297914dcf0219631ad712a159cffbe0f2e892029b9fc7963b466e2`.
+
+The evidence merge at `eadca9d6` updated only closure review/status metadata,
+including the truthful failed connected result. CI correctly rejected its
+stale registration. Integration verified both native inventories are identical
+to the prior closure, all 30 native files and all 14 Designer pins still match,
+then refreshed only the closure and dependent registration/art/tooling hashes.
+No approval status, checker logic, visual input or runtime behavior changed.
 
 The first combined verification on `777a67b8` correctly rejected six stale
 entries in the drawing-policy supplement. Integration refreshed only those
@@ -53,6 +60,10 @@ After that correction, the six existing tooling files (`food-consumer-source`,
 under pinned Node 22.21.1 with test concurrency 1. This includes the original
 negative hash/port/approval assertions; none was weakened. Combined CI remains
 a separate exact-head gate.
+
+After registering the later evidence metadata, `check-sources.mjs` passed and
+the same six suites passed **49/49**, zero skipped, in 28,838 ms. Native source
+and static art did not change; the failed connected case remains unresolved.
 
 The separately instrumented Backend WINCH diagnostic completed delivery,
 return, physical Pass/meal and cleanup, and restored official d5. It is not

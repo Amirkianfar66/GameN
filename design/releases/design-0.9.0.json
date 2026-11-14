@@ -833,7 +833,7 @@
   "registrationScope": "source-ports",
   "foodSourceRegistration": {
     "path": "docs/integration/food-consumer-source-2026-11-13.json",
-    "sha256": "04eff4ebef972c1e64d8f82f121709bd90461b4db42a8beb47be22c6b3e2b665"
+    "sha256": "1d8adae166454ae901d0e10586b389ee2c9a2226cc106be0acaec90cf428b1a9"
   },
   "foodStaticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
