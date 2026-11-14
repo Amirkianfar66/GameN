@@ -90,9 +90,9 @@
     },
     {
       "path": "apps/game/hosted/planet/food-render.mjs",
-      "sha256": "1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
-      "bytes": 35681,
-      "gzipBytes": 11798
+      "sha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
+      "bytes": 35737,
+      "gzipBytes": 11812
     },
     {
       "path": "apps/game/hosted/planet/food-app.mjs",
@@ -280,6 +280,7 @@
   "priorFoundationReview": "https://github.com/Amirkianfar66/GameN/issues/235#issuecomment-6854574801",
   "changesAfterFoundation": "Designer source, UI/icons/drawings/geometry and all 37 SVGs are unchanged. Scoped kit/phone CSS puts 14 terminal pseudo-elements outside :is(), preserving declarations and specificity. The hint SVG is the direct flex child, as in the reference. The complete 17-render/13-host closure and gauge/tag modules are retained.",
   "pending": [
+    "Designer exact-input approval of the focused Food chrome ownership correction",
     "Integration exact production registration and combined checks",
     "Backend and native real API/worker/bot connected acceptance"
   ],
@@ -298,5 +299,11 @@
     "report": "docs/frontend/food-supply-contact-recovery-2026-11-14.md",
     "sourceHead": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
     "designerAcceptance": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6869904727"
+  },
+  "chromeOwnershipCorrection": {
+    "nativeBase": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+    "scope": "Only a current round/current Food step request closure can own Food chrome; retained historical receipts/closures are unchanged. This matches the existing current-card guard and releases ordinary navigation after the step.",
+    "status": "Actual native baseline reproduced12 blocked profiles; renewed native validation and Designer approval pending.",
+    "report": "docs/frontend/food-supply-chrome-ownership-2026-11-14.md"
   }
 }

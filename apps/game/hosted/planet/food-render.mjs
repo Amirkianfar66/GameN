@@ -184,7 +184,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
    else if(o&&where){stockToast=o.kind==='DELIVERED'?`Back in ${where}. Delivered: +${o.dosesAdded/2} packages.`:o.kind==='CANCELLED'?`Back in ${where}. The Task was cancelled.`:`Back in ${where}. The Task was lost.`;stockToastIcon=o.kind==='DELIVERED'?'check':'info';}
    hadTask=null;
   }
-  const chrome=!!(taskVisible||screen||request!==null||view.requestClosures.some(c=>c.requestId===activeRequest&&!closedRequests.has(c.requestId))||view.step);
+  const chrome=!!(taskVisible||screen||request!==null||view.requestClosures.some(c=>c.requestId===activeRequest&&c.round===view.round&&c.foodStepId===view.step?.stepId&&!closedRequests.has(c.requestId))||view.step);
   const show=true;
   frame.hidden=!show;if(!show){if(taskNodes){hold.releaseAll();taskNodes=null;taskId=null;replace(frame);lastStructure=null;lastHeader=null;}return;}
   if(taskVisible){hadTask=task;updateTask(foodDisplay(model,now,{reduced,names:name}),now,reduced);}else updateFlow(now,chrome);
