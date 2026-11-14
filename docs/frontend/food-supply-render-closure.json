@@ -280,7 +280,7 @@
   "priorFoundationReview": "https://github.com/Amirkianfar66/GameN/issues/235#issuecomment-6854574801",
   "changesAfterFoundation": "Designer source, UI/icons/drawings/geometry and all 37 SVGs are unchanged. Scoped kit/phone CSS puts 14 terminal pseudo-elements outside :is(), preserving declarations and specificity. The hint SVG is the direct flex child, as in the reference. The complete 17-render/13-host closure and gauge/tag modules are retained.",
   "pending": [
-    "Designer visual acceptance of the final84-state native packet",
+    "Designer exact-input visual recheck of contact-recovery interaction states; earlier f34 rendering acceptance retained",
     "Integration exact production registration and combined checks",
     "Backend and native real API/worker/bot connected acceptance"
   ],
@@ -295,7 +295,8 @@
   "contactRecoveryCorrection": {
     "nativeBase": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
     "scope": "Only apps/game/src/planet/food.ts changes among the30 native inputs. A verified RECOVERED_CLOSED retires covered original Hold requests for the same phase/step/round/Task/control session through its acknowledged sequence; unrelated unknown commands retain original-receipt recovery. No individual Hold outcome is inferred, no abandoned DOWN is resent and late completions cannot restore retired requests.",
-    "status": "Focused compiled tests, pending/recovered/reload captures and exact-input Designer recheck pending. Earlier f34 visual acceptance does not approve this altered native input.",
-    "report": "docs/frontend/food-supply-contact-recovery-2026-11-14.md"
+    "status": "Compiled44 focused and1012 full client regressions passed; four focused recovery/reload profiles and four full-app smoke profiles passed. Exact-source Designer recheck remains required; prior f34 acceptance covers the unchanged rendering only.",
+    "report": "docs/frontend/food-supply-contact-recovery-2026-11-14.md",
+    "sourceHead": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa"
   }
 }
