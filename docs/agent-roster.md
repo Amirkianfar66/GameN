@@ -1,5 +1,15 @@
 # Agreed development team
 
+## Current allocation and visual ownership — 14 November 2026
+
+The owner moved Frontend to an existing Codex chat; Backend and Integration also run in Codex. Visual and Motion Design remains in the owner's Claude Code session, as does the separate Game Design and Balance workstream. No session or model is created or changed by this document.
+
+The approved [single-source visual workflow](architecture/visual-component-ownership.md) now governs handoffs: Designer owns canonical visual components and their preview; Frontend owns app integration, screen lifecycle, accessibility behavior and performance; Backend owns authority; Integration coordinates component contracts, adoption and release checks. Verified generated copies are permitted, independent visual reimplementations are not. The phone visual merge gate remains mandatory. The frozen Food release is not a migration project.
+
+The launch plan below is retained as historical evidence. Its bootstrap status, initial runner allocation and proposed handoff no longer describe current delivery. Read the current PR and pinned task baseline rather than restarting these assignments.
+
+## Original allocation — 26 September 2026
+
 **Confirmed by the game owner:** 26 September 2026.
 **Repository:** [Amirkianfar66/GameN](https://github.com/Amirkianfar66/GameN).
 **Status:** Assignment and launch instructions; implementation has not started.

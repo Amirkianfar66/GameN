@@ -2,7 +2,7 @@
 
 All new code, documentation, game strings and GitHub work items are in English. Preserve historical source artifacts as evidence.
 
-Start with `CODEX_START_HERE.md`. The user selected `Amirkianfar66/GameN` for Mothership and will continue with Codex Astra and three Claude Code sessions. `Amirkianfar66/planet-a` is excluded. Use this repository and the actual committed baseline. The destination is settled; do not ask the user to select or create a repository again.
+Start with `CODEX_START_HERE.md`. The user selected `Amirkianfar66/GameN` for Mothership; the current agent allocation is below. `Amirkianfar66/planet-a` is excluded. Use this repository and the actual committed baseline. The destination is settled; do not ask the user to select or create a repository again.
 
 Read `docs/project-context.md`, `docs/architecture/rendering-direction.md`, and your role brief in `agents/` before implementation. Read the applicable rule sources rather than relying on a historical summary.
 
@@ -17,16 +17,26 @@ Do not blindly merge the source JSON files. Superseded mechanics remain present 
 
 ## Four workstreams
 
-The agreed runner allocation is recorded in [docs/agent-roster.md](docs/agent-roster.md). Codex Astra handles Backend and Integration; Claude handles Frontend, Visual and Motion Design, and Game Design and Balance in three independent sessions. Claude starts with `CLAUDE.md`, which imports this shared instruction file.
+The original bootstrap allocation and the current session allocation are recorded in [docs/agent-roster.md](docs/agent-roster.md). Backend/Integration and Frontend currently run in separate Codex chats; Visual and Motion Design and Game Design and Balance use Claude Code. Claude starts with `CLAUDE.md`, which imports this shared instruction file. The first-branch names below are historical launch references, not instructions to restart completed work.
 
 | Agent | Runner | Proposed implementation ownership | First branch |
 | --- | --- | --- | --- |
 | Backend and Integration | Codex Astra | `services/game-api/`, `packages/engine/`, `infra/firebase/`, `docs/backend/` | `agent/backend-foundation` |
-| Frontend | Claude Code | `apps/game/`, `packages/presentation/`, `docs/frontend/` | `agent/frontend-tabletop` |
+| Frontend | Codex | `apps/game/`, `packages/presentation/`, `docs/frontend/` | `agent/frontend-tabletop` |
 | Visual and Motion Designer | Claude Code | `design/`, `packages/design-tokens/`, `docs/design/` | `agent/designer-art-direction` |
 | Game Design and Balance | Claude Code | `tools/balance/`, `tests/scenarios/`, `docs/balance/` | `agent/game-balance-baseline` |
 
 Shared files (`packages/contracts/`, canonical rule definitions, root manifests/lockfiles, CI and architecture decisions) are owned by Codex Astra in its integration role. Shared contracts still require review by affected roles. Propose cross-boundary changes explicitly and integrate them through a focused PR; do not let several agents rewrite the same files concurrently.
+
+## Visual implementation ownership
+
+The owner's **14 November 2026** decision establishes [one canonical visual source](docs/architecture/visual-component-ownership.md): Designer owns reusable visual components, layout/styles, artwork, responsive composition and motion; Frontend owns authorized-data adapters, user intent, screen lifecycle, accessibility behavior and runtime performance. Backend owns gameplay authority; Integration coordinates the interface, versioned adoption and technical review.
+
+Agree component inputs, events, audiences, lifecycle and exact source ownership before large visual work. The design preview and game reuse that component. Where packaging requires a copy, generate and verify an explicitly defined port; never maintain a second hand-redrawn visual implementation. Existing dev-only prototypes and synthetic fixtures remain excluded from production. Frontend alone controls which screen owns the app's bars and input at each phase.
+
+Integrate one representative state early, then extend it. The phone visual merge gate below remains unchanged. Apply this workflow without adding a rewrite to the frozen Food release; existing pinned releases and historical source artifacts remain intact.
+
+This dated ownership agreement supersedes conflicting handoff wording in the original `agents/` briefs, which remain byte-preserved under `docs/bootstrap-source-lock.json` as historical evidence.
 
 ## Collaboration protocol
 
@@ -61,7 +71,9 @@ The PR template records this gate. It is a required human merge review, not a cl
 
 The already-approved T1–T3 are not open questions: fill the room between the bars and zoom out only enough for the visible crowd, freezing framing and targets from lights-out to lights-on; keep Cancel in the targeting bar; show all of the viewer's role-action tiles, enable only server offers, and use the server's unavailable reason or **Not available now**. Never derive an unavailable reason from gameplay rules on the phone. T1 supersedes #208's geometry-only framing.
 
-## Current delivery status
+## Historical bootstrap delivery status
+
+The following records the initial bootstrap scope, not current game readiness. Bootstrap is complete; do not rerun it. Use the current task's pinned base, reviewed contracts and release evidence for subsequent work.
 
 The source/context transfer is imported into `Amirkianfar66/GameN` on `main`. GitHub Issues track the bootstrap and four implementation workstreams. The bootstrap adds the eight workspace shells and draft shared contracts; it does not implement the production game or create background agents. Its contract and review/merge gate are in `docs/integration-baseline.md`. The existing Canvas/facilitator source remains under `reference/design-canvas/`.
 
