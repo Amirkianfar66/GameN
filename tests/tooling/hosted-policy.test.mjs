@@ -24,3 +24,16 @@ test('cinematic playback is limited to same-origin media without weakening the d
   assert.deepEqual(directives.get('default-src'), ["'none'"]);
   assert.deepEqual(directives.get('object-src'), ["'none'"]);
 });
+
+test('Food object URLs are permitted only as images, without adding remote image hosts or executable blobs', () => {
+  const directives = new Map(createHostedPreviewCsp('gamen-mothership-staging').split('; ').map(value => {
+    const [name, ...sources] = value.split(' '); return [name, sources];
+  }));
+  assert.deepEqual(directives.get('img-src'), ["'self'", 'data:', 'blob:']);
+  for (const [name, sources] of directives) {
+    if (name !== 'img-src') assert.equal(sources.includes('blob:'), false, `${name} must not permit object URLs`);
+  }
+  assert.deepEqual(directives.get('default-src'), ["'none'"]);
+  assert.deepEqual(directives.get('object-src'), ["'none'"]);
+  assert.deepEqual(directives.get('frame-ancestors'), ["'none'"]);
+});
