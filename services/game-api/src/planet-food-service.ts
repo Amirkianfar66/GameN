@@ -15,6 +15,7 @@ export const FOOD_BOT_WORKER_LEASE_MS=8_000;
 export const FOOD_BOT_WALL_BUDGET_MS=20_000;
 export const FOOD_PREFIX_WORKER_LEASE_MS=8_000;
 const PREFIX_WAIT_BUDGET_MS=20_000,PREFIX_POLL_MS=50;
+const MAX_HEARTBEAT_SNAPSHOT_ATTEMPTS=8;
 const MAX_BOUNDARIES_PER_COMMIT=32,MAX_PREFIX_COMMITS=128,MAX_BOT_INPUTS=32;
 type FailureCode=Extract<PlanetServiceResponse,{ok:false}>['error']['code'];
 type Request=PlanetServiceRequest;
@@ -81,6 +82,9 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   reject:(code:FailureCode)=>never;
 }){
   const {store,clock}=d;
+  type HumanBinding={session:T;seatId:SeatId;bindingRevision:number};
+  type DetachedHuman=HumanBinding&({operation:'foodCommand'}
+    |{operation:'foodHeartbeat';observedControl:Control|null});
   const readOnly=<R>(operation:(tx:PlanetReadTransaction)=>Promise<R>):Promise<R>=>
     store.readOnly?store.readOnly(operation):store.transaction(operation);
   const engine=()=>{
@@ -344,8 +348,9 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     bot?:SeatId;job?:Entry['job'];dedup?:string;workerOwner?:string;
     /** Server-only original planning window; never a command or saved-state field. */
     lockWindowEndsAt?:number;
-    human?:{session:T;seatId:SeatId;bindingRevision:number};
+    human?:DetachedHuman;
   }={}):Promise<AdmissionResult>{
+    if(options.human&&options.human.operation!==q?.operation)throw new Error('Invalid detached Food operation');
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
     const preflight=!options.human&&uid!==null&&q?await preflightAdmission(matchId,uid,q):null;
     if(preflight?.prior)return preflight.prior;
@@ -353,7 +358,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const s=options.human?.session??await d.load(tx,matchId);if(!isFood(s))d.reject('NOT_ALLOWED');engine();
       // Detached human admission never locks Session. All admissions take Control
       // before receipt/pending/rate records, matching processing's lock order.
-      const control=await tx.get<Control>(controlKey(matchId))??freshControl();
+      const observedControl=await tx.get<Control>(controlKey(matchId));
+      // The consistent capture is authority only while Control is unchanged.
+      // A pending prefix is allowed; its earlier recovery is checked again at apply.
+      if(options.human?.operation==='foodHeartbeat'&&hash(observedControl)!==hash(options.human.observedControl))
+        return {sequence:0,response:null,refresh:true};
+      const control=observedControl??freshControl();
       const guard=writer===undefined?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
       if(writer!==undefined)requirePrefixOwner(guard,writer,0,clock());
       const renewals=options.bot||options.job?await contacts(tx,matchId):null;
@@ -442,8 +452,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const entry:Entry={sequence,matchId,uid,actorSeatId:actor,bindingRevision:binding,request:q,fingerprint,context:ctx,
         boundaryOrdinal:0,receiptPath:rk,botIntentPath:options.bot?key('foodBotIntent',[matchId,options.bot]):null,
         recoveryCode:recoveryCode??null,job:options.job??null,response:null};
-      if(options.human&&q?.operation==='foodCommand'){
-        entry.job={phaseId:q.request.phaseId,deadlineToken:uuid(['food-ingress',ctx.nextDeadlineToken,sequence]),kind:'game'};
+      if(options.human&&(q?.operation==='foodCommand'||q?.operation==='foodHeartbeat')){
+        const phaseId=q.operation==='foodCommand'?q.request.phaseId:s.state?.phase.id;
+        if(!phaseId)throw new Error('Missing detached Food phase');
+        // Heartbeat has no client phase/request ID. The captured phase names only
+        // this technical wake; its saved Task identity is still checked at apply.
+        entry.job={phaseId,deadlineToken:uuid(['food-ingress',ctx.nextDeadlineToken,sequence]),kind:'game'};
         const taskId=hash([matchId,entry.job.phaseId,entry.job.deadlineToken]);
         tx.set('deadline/'+taskId,{matchId,...entry.job,taskId,endsAt:at,status:'pending',nextAttemptAt:at,
           ingressSequence:sequence} satisfies PlanetDeadlineJob);
@@ -467,11 +481,11 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
   }
   async function humanFoodCommand(matchId:string,uid:string,q:Extract<Request,{operation:'foodCommand'}>,initial:T):Promise<PlanetServiceResponse>{
-    let binding:{session:T;seatId:SeatId;bindingRevision:number}|undefined,failed=false,failure:unknown;
+    let binding:HumanBinding|undefined,failed=false,failure:unknown;
     try{
       const actor=own(initial,uid);
       binding={session:initial,seatId:actor.seatId,bindingRevision:actor.bindingRevision};
-      const admitted=await admit(matchId,uid,q,{human:binding});
+      const admitted=await admit(matchId,uid,q,{human:{...binding,operation:'foodCommand'}});
       if(admitted.response===null)await drainThrough(matchId,admitted.sequence);
     }catch(error){failed=true;failure=error;}
     // Recheck even duplicate/conflict/error paths. A recovered seat can now have
@@ -484,9 +498,28 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(stored&&stored.fingerprint!==hash(q))d.reject('COMMAND_ID_CONFLICT');
       return stored?.response??null;
     });
+    // The freshly authorized, exact original remains authoritative after an earlier technical failure.
+    if(final!==null)return final;
     if(failed)throw failure;
-    if(final===null)throw new Error('Original Food receipt is not yet available');
-    return final;
+    throw new Error('Original Food receipt is not yet available');
+  }
+
+  async function humanFoodHeartbeat(matchId:string,uid:string,q:Extract<Request,{operation:'foodHeartbeat'}>):Promise<PlanetServiceResponse>{
+    const started=performance.now();
+    for(let attempt=0;attempt<MAX_HEARTBEAT_SNAPSHOT_ATTEMPTS&&performance.now()-started<PREFIX_WAIT_BUDGET_MS;attempt++){
+      const captured=await readOnly(async tx=>{
+        const session=await d.load(tx,matchId);
+        if(!isFood(session)||!session.state||!['running','finished','aborted'].includes(session.status))d.reject('NOT_ALLOWED');
+        const actor=own(session,uid),observedControl=await tx.get<Control>(controlKey(matchId));
+        return {session,seatId:actor.seatId,bindingRevision:actor.bindingRevision,observedControl};
+      });
+      const admitted=await admit(matchId,uid,q,{human:{...captured,operation:'foodHeartbeat'}});
+      // Only a proven pre-write fence mismatch permits another capture. Storage
+      // or acknowledgement errors propagate; an ambiguous admission is not retried.
+      if(admitted.refresh)continue;
+      return admitted.response??await drainThrough(matchId,admitted.sequence);
+    }
+    throw new Error('Food heartbeat requires a later fresh admission snapshot');
   }
 
   function syncParticipants(s:T,at:number):void{
@@ -742,6 +775,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       });
     }
     if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
+    if(q.operation==='foodHeartbeat')return humanFoodHeartbeat(matchId,uid,q);
     if(q.operation==='foodReceipt'||q.operation==='receipt')return readOnly(async tx=>{
       const s=await d.load(tx,matchId),actor=own(s,uid);
       const stored=await tx.get<Stored>(key(q.operation==='foodReceipt'?'food-command':'command',[matchId,actor.seatId,q.commandId]));
