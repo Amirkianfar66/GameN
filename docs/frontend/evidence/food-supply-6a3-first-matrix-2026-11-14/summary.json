@@ -1,0 +1,734 @@
+{
+  "scope": "New first-generated7/8/9 normal matrix on exact6a3, unchanged native8ff/dev99c/driver3cbf. Sanitized derived record only; raw originals stay private.",
+  "functionalMatrix": "PASSED: all three first generated journeys completed the unchanged assertions.",
+  "performance": "NOT_CLEARED: long request/read tails remain measured and unattributed.",
+  "backendHead": "6a3bee398be7b433c0cce634fdfd4e2449243069",
+  "frontendHead": "9561784a10a564d5d57ace7d1e56d3ac6983fc95",
+  "nativeApprovedHead": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "buildSource": "99c585157f4ccd99846785149fd5f7da4fe5e3ca",
+  "driverSha256": "3cbf1d86ce5b20ff55a34929d00512019d729e56b76a0348a46d2774bd57fe85",
+  "connectedProvenanceSha256": "9d31955c6e669c9af6a9411efe5a630befb59aeb7d7dc240a2943a3f27a27fc1",
+  "closureMetadataSha256": "76a9b84c2c141c174375561f9e7f6121208a7f9b681cabd4838d1464131975c1",
+  "cases": [
+    {
+      "count": 7,
+      "profile": {
+        "width": 390,
+        "height": 844,
+        "text": 1,
+        "reduced": false
+      },
+      "control": "WINCH",
+      "result": "PASS",
+      "outcome": "DELIVERED",
+      "taskDurationMs": 32500,
+      "commonReturnAndClockAssertions": "PASSED",
+      "stockDosesAfterReturn": 20,
+      "returnCheckpointAssertion": "FOOD_RETURNED",
+      "ownReturnPlacementPresent": true,
+      "uniformAssets": 37,
+      "physicalOwnPassAndConfirmation": "PASSED",
+      "ordinaryCommandCount": 1,
+      "ownMeal": "ATE_ONCE",
+      "completePrivacyGuard": true,
+      "publicPrivacyCheckpoints": 17,
+      "cleanupAbortOk": true,
+      "browserExceptionsCaptured": true,
+      "capturedBrowserExceptions": 0,
+      "phoneObservationDrops": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "displayObservationDrops": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "networkDropWithoutRelease": true,
+      "qualifiedWinchContactCoverage": true,
+      "winchCoverageStatus": "VERIFIED",
+      "physicalTaskInputs": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "atMs": 98440
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "atMs": 104614
+        },
+        {
+          "kind": "KEY",
+          "edge": null,
+          "atMs": 105419
+        }
+      ],
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10028
+        },
+        {
+          "stage": "READY",
+          "atMs": 73943
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 93753
+        },
+        {
+          "stage": "TASK",
+          "atMs": 94007,
+          "control": "WINCH"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 126823
+        },
+        {
+          "stage": "MEAL",
+          "atMs": 144019
+        }
+      ],
+      "ownOfferAfterObservedReturnMs": 16570,
+      "ownMealAfterObservedReturnMs": 17196,
+      "foodRequests": [
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 163.0,
+          "recordedRoundedTotalMs": 163
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "DOWN",
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 189.4,
+          "recordedRoundedTotalMs": 189
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "UP",
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 159.8,
+          "recordedRoundedTotalMs": 160
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 3565.5,
+          "recordedRoundedTotalMs": 3566
+        }
+      ],
+      "ordinaryRequests": [
+        {
+          "operation": "command",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": "REGISTERED",
+          "fetchToJsonMs": 305.1,
+          "recordedRoundedTotalMs": 305
+        }
+      ],
+      "heartbeatRequests": [
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 1621.2,
+          "recordedRoundedTotalMs": 1621
+        },
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": false,
+          "code": "NOT_ALLOWED",
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 226.8,
+          "recordedRoundedTotalMs": 227
+        }
+      ],
+      "readTimings": {
+        "phone": {
+          "completed": 107,
+          "minimumMs": 28.5,
+          "p95Ms": 226.0,
+          "maximumMs": 1833.4,
+          "excludedIncompleteOrUnsuccessful": 1
+        },
+        "display": {
+          "completed": 97,
+          "minimumMs": 22.6,
+          "p95Ms": 274.6,
+          "maximumMs": 3675.6,
+          "excludedIncompleteOrUnsuccessful": 0
+        }
+      }
+    },
+    {
+      "count": 8,
+      "profile": {
+        "width": 320,
+        "height": 568,
+        "text": 2,
+        "reduced": false
+      },
+      "control": "WINCH",
+      "result": "PASS",
+      "outcome": "DELIVERED",
+      "taskDurationMs": 32500,
+      "commonReturnAndClockAssertions": "PASSED",
+      "stockDosesAfterReturn": 20,
+      "returnCheckpointAssertion": "FOOD_RETURNED",
+      "ownReturnPlacementPresent": true,
+      "uniformAssets": 37,
+      "physicalOwnPassAndConfirmation": "PASSED",
+      "ordinaryCommandCount": 1,
+      "ownMeal": "ATE_ONCE",
+      "completePrivacyGuard": true,
+      "publicPrivacyCheckpoints": 18,
+      "cleanupAbortOk": true,
+      "browserExceptionsCaptured": true,
+      "capturedBrowserExceptions": 0,
+      "phoneObservationDrops": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "displayObservationDrops": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "networkDropWithoutRelease": true,
+      "qualifiedWinchContactCoverage": true,
+      "winchCoverageStatus": "VERIFIED",
+      "physicalTaskInputs": [
+        {
+          "kind": "HOLD",
+          "edge": "DOWN",
+          "atMs": 93136
+        },
+        {
+          "kind": "HOLD",
+          "edge": "UP",
+          "atMs": 105747
+        },
+        {
+          "kind": "KEY",
+          "edge": null,
+          "atMs": 106531
+        }
+      ],
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10036
+        },
+        {
+          "stage": "READY",
+          "atMs": 72436
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 88776
+        },
+        {
+          "stage": "TASK",
+          "atMs": 89047,
+          "control": "WINCH"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 122384
+        },
+        {
+          "stage": "MEAL",
+          "atMs": 287197
+        }
+      ],
+      "ownOfferAfterObservedReturnMs": 164243,
+      "ownMealAfterObservedReturnMs": 164813,
+      "foodRequests": [
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 166.1,
+          "recordedRoundedTotalMs": 166
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "DOWN",
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 3731.6,
+          "recordedRoundedTotalMs": 3732
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "HOLD",
+          "inputEdge": "UP",
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 156.4,
+          "recordedRoundedTotalMs": 156
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 141.7,
+          "recordedRoundedTotalMs": 142
+        }
+      ],
+      "ordinaryRequests": [
+        {
+          "operation": "command",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": "REGISTERED",
+          "fetchToJsonMs": 363.3,
+          "recordedRoundedTotalMs": 363
+        }
+      ],
+      "heartbeatRequests": [
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 2497.3,
+          "recordedRoundedTotalMs": 2497
+        },
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 3527.7,
+          "recordedRoundedTotalMs": 3528
+        },
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": false,
+          "code": "NOT_ALLOWED",
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 6651.1,
+          "recordedRoundedTotalMs": 6651
+        }
+      ],
+      "readTimings": {
+        "phone": {
+          "completed": 155,
+          "minimumMs": 26.0,
+          "p95Ms": 346.1,
+          "maximumMs": 8312.4,
+          "excludedIncompleteOrUnsuccessful": 0
+        },
+        "display": {
+          "completed": 142,
+          "minimumMs": 24.7,
+          "p95Ms": 480.5,
+          "maximumMs": 11362.5,
+          "excludedIncompleteOrUnsuccessful": 0
+        }
+      }
+    },
+    {
+      "count": 9,
+      "profile": {
+        "width": 390,
+        "height": 844,
+        "text": 1,
+        "reduced": true
+      },
+      "control": "PANEL",
+      "result": "PASS",
+      "outcome": "DELIVERED",
+      "taskDurationMs": 32500,
+      "commonReturnAndClockAssertions": "PASSED",
+      "stockDosesAfterReturn": 20,
+      "returnCheckpointAssertion": "FOOD_RETURNED",
+      "ownReturnPlacementPresent": true,
+      "uniformAssets": 37,
+      "physicalOwnPassAndConfirmation": "PASSED",
+      "ordinaryCommandCount": 1,
+      "ownMeal": "ATE_ONCE",
+      "completePrivacyGuard": true,
+      "publicPrivacyCheckpoints": 18,
+      "cleanupAbortOk": true,
+      "browserExceptionsCaptured": true,
+      "capturedBrowserExceptions": 0,
+      "phoneObservationDrops": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "displayObservationDrops": {
+        "pointerEvents": 0,
+        "foodModelUpdates": 0,
+        "foodDomUpdates": 0
+      },
+      "networkDropWithoutRelease": null,
+      "qualifiedWinchContactCoverage": false,
+      "winchCoverageStatus": "NOT_ASSIGNED",
+      "physicalTaskInputs": [
+        {
+          "kind": "PANEL_RELEASE",
+          "edge": null,
+          "atMs": 94379
+        },
+        {
+          "kind": "PANEL_LOCK",
+          "edge": null,
+          "atMs": 95456
+        },
+        {
+          "kind": "PANEL_RELEASE",
+          "edge": null,
+          "atMs": 103074
+        },
+        {
+          "kind": "PANEL_LOCK",
+          "edge": null,
+          "atMs": 110988
+        },
+        {
+          "kind": "KEY",
+          "edge": null,
+          "atMs": 118338
+        }
+      ],
+      "stages": [
+        {
+          "stage": "CREATED",
+          "atMs": 0
+        },
+        {
+          "stage": "SETUP",
+          "atMs": 10017
+        },
+        {
+          "stage": "READY",
+          "atMs": 72656
+        },
+        {
+          "stage": "JOIN_SENT",
+          "atMs": 89035
+        },
+        {
+          "stage": "TASK",
+          "atMs": 89291,
+          "control": "PANEL"
+        },
+        {
+          "stage": "RETURNED",
+          "atMs": 122214
+        },
+        {
+          "stage": "MEAL",
+          "atMs": 305264
+        }
+      ],
+      "ownOfferAfterObservedReturnMs": 182347,
+      "ownMealAfterObservedReturnMs": 183050,
+      "foodRequests": [
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_ANSWER",
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 146,
+          "recordedRoundedTotalMs": 146
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 165.0,
+          "recordedRoundedTotalMs": 165
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 7452.6,
+          "recordedRoundedTotalMs": 7453
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_RELEASE",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 7213.5,
+          "recordedRoundedTotalMs": 7214
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "PANEL_LOCK",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 2272.8,
+          "recordedRoundedTotalMs": 2273
+        },
+        {
+          "operation": "foodCommand",
+          "commandType": "TASK_PRESS",
+          "inputKind": "KEY",
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": "APPLIED",
+          "receiptCode": null,
+          "fetchToJsonMs": 134,
+          "recordedRoundedTotalMs": 134
+        }
+      ],
+      "ordinaryRequests": [
+        {
+          "operation": "command",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": "accepted",
+          "receiptEffect": null,
+          "receiptCode": "REGISTERED",
+          "fetchToJsonMs": 423.1,
+          "recordedRoundedTotalMs": 423
+        }
+      ],
+      "heartbeatRequests": [
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 2259.9,
+          "recordedRoundedTotalMs": 2260
+        },
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 2523.9,
+          "recordedRoundedTotalMs": 2524
+        },
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 12443.9,
+          "recordedRoundedTotalMs": 12444
+        },
+        {
+          "operation": "foodHeartbeat",
+          "commandType": null,
+          "inputKind": null,
+          "inputEdge": null,
+          "status": 200,
+          "ok": true,
+          "code": null,
+          "receiptStatus": null,
+          "receiptEffect": null,
+          "receiptCode": null,
+          "fetchToJsonMs": 4462.8,
+          "recordedRoundedTotalMs": 4463
+        }
+      ],
+      "readTimings": {
+        "phone": {
+          "completed": 153,
+          "minimumMs": 25.2,
+          "p95Ms": 508.8,
+          "maximumMs": 7372.1,
+          "excludedIncompleteOrUnsuccessful": 0
+        },
+        "display": {
+          "completed": 148,
+          "minimumMs": 21.9,
+          "p95Ms": 506.8,
+          "maximumMs": 7506.7,
+          "excludedIncompleteOrUnsuccessful": 0
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Prior d5 failures and diagnostic outcomes are unchanged, not relabeled as passing.",
+    "Scheduled planetRepairDeadlines is absent locally without Pub/Sub. Normal automatic continuation was observed; repair and unique trigger delivery are not established.",
+    "Returned placement presence was asserted; the two exact returned board positions were not compared.",
+    "Existing offline test is a 650 ms phone-only interval. It does not prove long-outage, heartbeat-expiry, reload or recovery behavior.",
+    "HTTP200 is not by itself a successful heartbeat renewal; ok/code semantics are preserved.",
+    "Same-document fetch/JSON timing only; no server/Firestore/admission cause or paint measurement is inferred.",
+    "No physical-device, Safari, VoiceOver, production network, merge, deployment or activation approval."
+  ],
+  "qualifiedWinchCases": [
+    7,
+    8
+  ]
+}
