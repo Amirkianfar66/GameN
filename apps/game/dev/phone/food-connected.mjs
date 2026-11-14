@@ -11,6 +11,7 @@ import {resolve,sep,extname} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {launchBrowser,connect,openPage,sleep} from '../capture/browser.mjs';
 import {assertLocalEmulators,createEmulatorIdentity,projectId} from '../../../../infra/firebase/test/helpers.mjs';
+import {foodPolicyObservation} from './food-connected-observation.mjs';
 const repo=resolve(new URL('../../../../',import.meta.url).pathname),backend=process.env.GAMEN_FOOD_BACKEND_ROOT??repo;
 const {chooseFoodBotInput}=await import(pathToFileURL(resolve(backend,'services/game-api/dist/food-bot-policy.js')));
 const hosts=assertLocalEmulators();assert.equal(hosts.authHost,'127.0.0.1:9199');assert.equal(hosts.functionsHost,'127.0.0.1:5101');
@@ -75,13 +76,15 @@ async function tapInput(page,id){const p=await point(page,id);if(!p)return false
 try{
  for(const count of counts){
   const host=await createEmulatorIdentity(),created=(await invoke(host,{operation:'create',requestId:randomUUID(),playerCount:count})).value;
-  matches.push({host,matchId:created.matchId});const trace=createHash('sha256').update(created.matchId).digest('hex').slice(0,12),stage=(name,fields={})=>console.log(JSON.stringify({count,trace,stage:name,...fields}));
-  stage('CREATED');const width=count===8?320:390,height=count===8?568:844,text=count===8?2:1,reduced=count===9;
+  matches.push({host,matchId:created.matchId});const trace=createHash('sha256').update(created.matchId).digest('hex').slice(0,12);
+  const width=count===8?320:390,height=count===8?568:844,text=count===8?2:1,reduced=count===9;
   // Separate headless browser processes model two devices without a focus change
   // on the display concealing the participant's held contact.
   const page=await openPage(browser,{width,height,mobile:true,ownContext:true}),display=await openPage(displayBrowser,{width:390,height:844,mobile:true,ownContext:true});
-  let held=false,networkChecked=false,caseResult={count,trace,profile:{width,height,text,reduced},stages:[],commands:[],responsiveness:[]};
-  const observedAt=performance.now();let taskStartedAt=null,lastObservation=null;
+  let held=false,networkChecked=false,caseResult={count,trace,profile:{width,height,text,reduced},stages:[],commands:[],responsiveness:[],policyObservations:[]};
+  const observedAt=performance.now();let taskStartedAt=null,lastObservation=null,lastPolicyObservation=null;
+  const stage=(name,fields={})=>{const value={stage:name,atMs:Math.round(performance.now()-observedAt),...fields};caseResult.stages.push(value);console.log(JSON.stringify({count,trace,...value}));};
+  stage('CREATED');
   const observe=m=>{if(!m)return;const value={fresh:m.fresh,clock:m.clock.status,pendingCount:m.pendingCount,feedback:m.feedback,feedbackName:m.feedbackName,recovered:m.feedbackRecovered,canCheck:m.canCheck,recoveryBlocked:m.recoveryBlocked,canHold:m.canHold,canPanelRelease:m.canPanelRelease,canPanelLock:m.canPanelLock,canKey:m.canKey,physicalHolding:m.physicalHolding,needsContactOff:m.needsContactOff,receiptStatus:m.receiptStatus,receiptEffect:m.receiptEffect,receiptCode:m.receiptCode,receiptOffsetMs:taskStartedAt!==null&&m.receiptReceivedAt!==null?m.receiptReceivedAt-taskStartedAt:null,controls:m.controls};const signature=JSON.stringify(value);if(signature!==lastObservation){caseResult.responsiveness.push({atMs:Math.round(performance.now()-observedAt),serverTaskOffsetMs:taskStartedAt!==null&&m.clock.status==='synced'?Math.round(m.clock.serverNowMs-taskStartedAt):null,...value});lastObservation=signature;}};
   try{
    await page.send('Page.addScriptToEvaluateOnNewDocument',{source:`performance.setResourceTimingBufferSize(5000);localStorage.setItem('mothership:planet:presentation-preferences',JSON.stringify({textScale:${text},reduced:${reduced}}))`});
@@ -120,7 +123,13 @@ try{
      await page.send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});networkChecked=true;caseResult.networkDropWithoutRelease=true;
      await sleep(100);continue;
     }
-    const decision=chooseFoodBotInput({...m.view,serverNowMs:Math.floor(m.clock.serverNowMs)}),input=decision.command?.type==='TASK_PRESS'?decision.command.input:null;
+    const validation=foodPolicyObservation(m),signature=JSON.stringify({...validation,originalTaskOffsetMs:undefined,observedTaskOffsetMs:undefined});
+    if(signature!==lastPolicyObservation){caseResult.policyObservations.push({atMs:Math.round(performance.now()-observedAt),...validation});lastPolicyObservation=signature;}
+    if(!m.fresh){await sleep(50);continue;}
+    // The policy consumes the unchanged authorized projection. Local estimated
+    // time schedules the next observation; it cannot re-date an old offer.
+    let decision;try{decision=chooseFoodBotInput(m.view);}catch(error){caseResult.policyValidationFailure=validation;throw error;}
+    const input=decision.command?.type==='TASK_PRESS'?decision.command.input:null;
     let acted=false;
     if(m.fresh&&input?.kind==='HOLD'&&input.edge==='DOWN'&&m.canHold&&!held){const p=await point(page,'food-control-hold');if(p){await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});held=true;acted=true;}}
     else if(input?.kind==='HOLD'&&input.edge==='UP'&&held){await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});held=false;acted=true;}

@@ -158,9 +158,9 @@
     },
     {
       "path": "apps/game/src/planet/food.ts",
-      "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
-      "bytes": 18812,
-      "gzipBytes": 5537
+      "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+      "bytes": 19238,
+      "gzipBytes": 5713
     },
     {
       "path": "apps/game/src/planet/food-input.ts",
@@ -291,5 +291,11 @@
     "report": "docs/frontend/food-supply-final-style-corrections-2026-11-13.md",
     "designerSource": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
     "ownerApproval": "8caa059629a99908808c939e6a2cfdbf13d18ad2"
+  },
+  "contactRecoveryCorrection": {
+    "nativeBase": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
+    "scope": "Only apps/game/src/planet/food.ts changes among the30 native inputs. A verified RECOVERED_CLOSED retires covered original Hold requests for the same phase/step/round/Task/control session through its acknowledged sequence; unrelated unknown commands retain original-receipt recovery. No individual Hold outcome is inferred, no abandoned DOWN is resent and late completions cannot restore retired requests.",
+    "status": "Focused compiled tests, pending/recovered/reload captures and exact-input Designer recheck pending. Earlier f34 visual acceptance does not approve this altered native input.",
+    "report": "docs/frontend/food-supply-contact-recovery-2026-11-14.md"
   }
 }
