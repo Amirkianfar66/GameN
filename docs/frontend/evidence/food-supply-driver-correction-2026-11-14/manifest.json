@@ -1,0 +1,41 @@
+{
+  "source": "dcb79bcd3faa16c971a1005d3125c8ff11d543e8",
+  "scope": "Development driver validation only; native952 unchanged, no corrected connected journey yet.",
+  "files": [
+    {
+      "path": "connected-build.txt",
+      "bytes": 8846,
+      "sha256": "d5bfbd97fb17c3268f56057d680547136b86bd3b02d6e131fc10fd539ba1ef43"
+    },
+    {
+      "path": "fixture-build-provenance.json",
+      "bytes": 51205,
+      "sha256": "a7b3735a9b2a2da318f01eb0195dfdbafb5c048ee8a9626f4fa6b453a427b288"
+    },
+    {
+      "path": "fixture-build.txt",
+      "bytes": 8576,
+      "sha256": "68d67ca5f4511564840c68c3383019a75bde93da09100f2b7364dddac973f348"
+    },
+    {
+      "path": "focused-tests.txt",
+      "bytes": 2898,
+      "sha256": "f1eccad95975b1264a48ab5c99cfdeffb15f1f5342c00c26abe6f38bde7b8469"
+    },
+    {
+      "path": "native-panel-touch.json",
+      "bytes": 9285,
+      "sha256": "a3fe27f78602c431a1f4aa83a1af06d7f411f8c1a9432ed4a0df135897cf0f06"
+    },
+    {
+      "path": "native-panel-touch.txt",
+      "bytes": 88,
+      "sha256": "1844c77c844539c75a9b0bc964e38ff5295e60f7ca4cee1e36c4695643089b49"
+    },
+    {
+      "path": "production-exclusion.txt",
+      "bytes": 193,
+      "sha256": "41f4efab4247b7a16a5ade057ee4c3dd7d2f73a429e0dcfcc0bde88def150f20"
+    }
+  ]
+}
