@@ -1,0 +1,213 @@
+{
+  "source": "c236e1539a0b7f4c1cb963bfa74ec39bb759aa78",
+  "backend": "984f1b213f195239fb8093b8c0feaff7e7bbc80f",
+  "native": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
+  "countsRequested": [
+    7,
+    8,
+    9
+  ],
+  "countsReached": [
+    7
+  ],
+  "ready": {
+    "before": {
+      "present": true,
+      "visible": true,
+      "disabled": false,
+      "ariaDisabled": null,
+      "canReady": true,
+      "status": "reading",
+      "busy": false,
+      "readyRequestsStarted": 0,
+      "focused": true,
+      "documentVisibility": "visible",
+      "connection": "live",
+      "mode": "authenticated",
+      "uncertain": false,
+      "remainingMs": 0,
+      "setupFlowVersion": 3,
+      "clockStatus": "synced",
+      "ownReady": false,
+      "rect": {
+        "x": 16,
+        "y": 698.0625,
+        "width": 358,
+        "height": 48,
+        "right": 374,
+        "bottom": 746.0625
+      },
+      "point": {
+        "x": 195,
+        "y": 722,
+        "id": 1
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "visual": {
+          "width": 390,
+          "height": 844,
+          "offsetLeft": 0,
+          "offsetTop": 0,
+          "pageLeft": 0,
+          "pageTop": 0,
+          "scale": 1
+        }
+      },
+      "hit": {
+        "tag": "BUTTON",
+        "id": "planet-ready",
+        "classes": ""
+      },
+      "hitMatches": true
+    },
+    "receipt": {
+      "operation": "ready",
+      "status": 200,
+      "ok": true,
+      "code": null
+    },
+    "requestsStarted": 1,
+    "after": {
+      "present": false,
+      "status": "boarding",
+      "canReady": false
+    }
+  },
+  "control": "PANEL",
+  "taskDurationMs": 32500,
+  "commands": [
+    {
+      "kind": "PANEL_RELEASE",
+      "atMs": 95588,
+      "estimatedServerTaskOffsetMs": 5428,
+      "clockUncertaintyMs": 11.899999976158142
+    },
+    {
+      "kind": "PANEL_LOCK",
+      "atMs": 96624,
+      "estimatedServerTaskOffsetMs": 6456,
+      "clockUncertaintyMs": 11.899999976158142
+    },
+    {
+      "kind": "PANEL_RELEASE",
+      "atMs": 98554,
+      "estimatedServerTaskOffsetMs": 8386,
+      "clockUncertaintyMs": 11.899999976158142
+    },
+    {
+      "kind": "PANEL_LOCK",
+      "atMs": 100605,
+      "estimatedServerTaskOffsetMs": 10423,
+      "clockUncertaintyMs": 11.899999976158142
+    }
+  ],
+  "foodResponses": [
+    {
+      "operation": "foodCommand",
+      "sequence": 46,
+      "commandType": "TASK_ANSWER",
+      "inputKind": null,
+      "inputEdge": null,
+      "httpMs": 181,
+      "totalMs": 181,
+      "status": 200,
+      "ok": true,
+      "code": null,
+      "receiptStatus": "accepted",
+      "receiptReceivedAt": 1794620116043,
+      "receiptEffect": null,
+      "receiptCode": null
+    },
+    {
+      "operation": "foodCommand",
+      "sequence": 56,
+      "commandType": "TASK_PRESS",
+      "inputKind": "PANEL_RELEASE",
+      "inputEdge": null,
+      "httpMs": 233,
+      "totalMs": 233,
+      "status": 200,
+      "ok": true,
+      "code": null,
+      "receiptStatus": "accepted",
+      "receiptReceivedAt": 1794620121495,
+      "receiptEffect": "APPLIED",
+      "receiptCode": null
+    },
+    {
+      "operation": "foodCommand",
+      "sequence": 59,
+      "commandType": "TASK_PRESS",
+      "inputKind": "PANEL_LOCK",
+      "inputEdge": null,
+      "httpMs": 1255,
+      "totalMs": 1256,
+      "status": 200,
+      "ok": true,
+      "code": null,
+      "receiptStatus": "accepted",
+      "receiptReceivedAt": 1794620123453,
+      "receiptEffect": "APPLIED",
+      "receiptCode": null
+    },
+    {
+      "operation": "foodCommand",
+      "sequence": 62,
+      "commandType": "TASK_PRESS",
+      "inputKind": "PANEL_RELEASE",
+      "inputEdge": null,
+      "httpMs": 267,
+      "totalMs": 268,
+      "status": 200,
+      "ok": true,
+      "code": null,
+      "receiptStatus": "accepted",
+      "receiptReceivedAt": 1794620124459,
+      "receiptEffect": "APPLIED",
+      "receiptCode": null
+    },
+    {
+      "operation": "foodCommand",
+      "sequence": 65,
+      "commandType": "TASK_PRESS",
+      "inputKind": "PANEL_LOCK",
+      "inputEdge": null,
+      "httpMs": 187,
+      "totalMs": 187,
+      "status": 200,
+      "ok": true,
+      "code": null,
+      "receiptStatus": "accepted",
+      "receiptReceivedAt": 1794620126506,
+      "receiptEffect": "APPLIED",
+      "receiptCode": null
+    }
+  ],
+  "heartbeatResponses": [
+    {
+      "operation": "foodHeartbeat",
+      "sequence": 71,
+      "commandType": null,
+      "inputKind": null,
+      "inputEdge": null,
+      "httpMs": 8840,
+      "totalMs": 8840,
+      "status": 200,
+      "ok": false,
+      "code": "NOT_ALLOWED",
+      "receiptStatus": null,
+      "receiptReceivedAt": null,
+      "receiptEffect": null,
+      "receiptCode": null
+    }
+  ],
+  "failure": "[\n  {\n    \"code\": \"custom\",\n    \"message\": \"Press offer belongs to own Task control\",\n    \"path\": []\n  }\n]",
+  "cleanupAbortOk": true,
+  "limitation": "The run threw before the final browser-event assertion. No zero-exceptions, delivery, return, meal, 8-player or 9-player pass is claimed."
+}
