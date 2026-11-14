@@ -1,0 +1,221 @@
+{
+  "scope": "Read-only official normal-clock local stack verification before the first d5 native packet; no seed, preload, Backend rebuild or restart.",
+  "backendRoot": "/private/tmp/gamen-backend-food-setup-receipts",
+  "backendHead": "d5a57af049c5ac8abb57754855099fa0468abd37",
+  "backendClean": true,
+  "compiledModules": [
+    {
+      "path": "services/game-api/dist/planet-game.js",
+      "sha256": "b734cee0c5aa4d4c4c23ba73eb0287b6cc3721a5b396cbd67cf0eaaf04662560",
+      "bytes": 44931
+    },
+    {
+      "path": "services/game-api/dist/planet-store.js",
+      "sha256": "e7cca7d56519b0c025fc4ff996174de73afdfb9c03251d8e5302e4c03abbaf11",
+      "bytes": 10060
+    },
+    {
+      "path": "services/game-api/dist/planet-food-service.js",
+      "sha256": "cfc394df88cb2f746a53192afc64849a157227bf3556c9ff3849408c98475d1e",
+      "bytes": 74108
+    },
+    {
+      "path": "services/game-api/dist/planet-persistence-errors.js",
+      "sha256": "5b5e4a6762fb0406fd035c256c98c42a0f53010fb0236b01dcda7758d50e464e",
+      "bytes": 285
+    },
+    {
+      "path": "services/game-api/dist/food-bot-policy.js",
+      "sha256": "93f373ddfc9471798b2aaa6654fa06b359a6a67299fef150b926933ea0411e8f",
+      "bytes": 8358
+    },
+    {
+      "path": "infra/firebase/dist/planet.js",
+      "sha256": "a2fdd2d2a8f57e94389c4e672eb474adcfd7d9b132761e1763ce397174f54ad0",
+      "bytes": 11169
+    },
+    {
+      "path": "infra/firebase/dist/runtime.js",
+      "sha256": "fb831199790b103769d3eab1ca8f448907a2ffbaf241519a9f638a0d22e804e0",
+      "bytes": 7778
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food.js",
+      "sha256": "53d579ef3b2c7ff9c455582a5c5d735ec3998bb0e6ad9ad218c006546e24130f",
+      "bytes": 25600
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-machine.js",
+      "sha256": "2bdec5120284585b571f88f5a0c0b3979015676fc87ff4157a1344ec4af7cf8e",
+      "bytes": 31827
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-meals.js",
+      "sha256": "2eaf4222198f48b1f51ded0851ea416890d543751c8c282bba72c02e48111de3",
+      "bytes": 15776
+    }
+  ],
+  "nativeApprovedHead": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+  "frontendBuildHead": "14901c69afdfdc439d51343cf68541482f933a72",
+  "frontendClean": true,
+  "nativeModules": [
+    {
+      "path": "apps/game/hosted/planet/food-geometry.mjs",
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ink.mjs",
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "bytes": 2408
+    },
+    {
+      "path": "apps/game/hosted/planet/food-machine.mjs",
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394
+    },
+    {
+      "path": "apps/game/hosted/planet/food-scene.mjs",
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694
+    },
+    {
+      "path": "apps/game/hosted/planet/food-icons.mjs",
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ui.mjs",
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436
+    },
+    {
+      "path": "apps/game/hosted/planet/food-kit.css",
+      "sha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+      "bytes": 57285
+    },
+    {
+      "path": "apps/game/hosted/planet/food.css",
+      "sha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
+      "bytes": 30798
+    },
+    {
+      "path": "apps/game/hosted/planet/food-host.css",
+      "sha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "bytes": 1584
+    },
+    {
+      "path": "apps/game/hosted/planet/food-pose.mjs",
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "bytes": 6888
+    },
+    {
+      "path": "apps/game/hosted/planet/food-display.mjs",
+      "sha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "bytes": 9836
+    },
+    {
+      "path": "apps/game/hosted/planet/food-assets.mjs",
+      "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+      "bytes": 1823
+    },
+    {
+      "path": "apps/game/hosted/planet/food-render.mjs",
+      "sha256": "1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
+      "bytes": 35681
+    },
+    {
+      "path": "apps/game/hosted/planet/food-app.mjs",
+      "sha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "bytes": 3270
+    },
+    {
+      "path": "packages/presentation/src/planet/food.ts",
+      "sha256": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
+      "bytes": 3621
+    },
+    {
+      "path": "apps/game/hosted/planet/food-gauge.mjs",
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107
+    },
+    {
+      "path": "apps/game/hosted/planet/food-tags.mjs",
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "sha256": "71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
+      "bytes": 25234
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "sha256": "79872afa8216eb74669f798c67427ecaf3bff977ebffed4bdfa323a95b51b248",
+      "bytes": 53361
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.mjs",
+      "sha256": "227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+      "bytes": 11738
+    },
+    {
+      "path": "apps/game/src/planet/controller.ts",
+      "sha256": "728ad00df7318235a3dd40e77d7cf393bfa9e20b7c5ede518f54790b4caddb00",
+      "bytes": 31492
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+      "bytes": 27860
+    },
+    {
+      "path": "apps/game/src/planet/transport.ts",
+      "sha256": "2568a7750f59eef9ef0abaddff04e067492f97ce81a72eb48506e710ab37b044",
+      "bytes": 6616
+    },
+    {
+      "path": "apps/game/src/planet/food.ts",
+      "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+      "bytes": 19238
+    },
+    {
+      "path": "apps/game/src/planet/food-input.ts",
+      "sha256": "030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
+      "bytes": 1469
+    },
+    {
+      "path": "apps/game/src/planet/food-recovery.ts",
+      "sha256": "aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
+      "bytes": 3917
+    },
+    {
+      "path": "packages/presentation/src/planet/library.ts",
+      "sha256": "3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+      "bytes": 4845
+    },
+    {
+      "path": "packages/presentation/src/planet/model.ts",
+      "sha256": "012324bd4e310a16011b1d0b97632c118e94d3b9fcd9a508c699fb3a1e8b1672",
+      "bytes": 13271
+    },
+    {
+      "path": "apps/game/src/index.ts",
+      "sha256": "11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
+      "bytes": 5077
+    },
+    {
+      "path": "packages/presentation/src/index.ts",
+      "sha256": "fcc6f5733a59a195cfa2144e984d8eb7c31d6428fdf7756f9a6c52fd306b8df0",
+      "bytes": 3497
+    }
+  ],
+  "driver": {
+    "path": "apps/game/dev/phone/food-connected.mjs",
+    "sha256": "9bf6e8fcf6716e2ee3ac501027c66c01f932586dd3761b4bc03a21a2c9e6770c"
+  },
+  "handoff": "https://github.com/Amirkianfar66/GameN/pull/249#issuecomment-6870087162",
+  "designerAcceptance": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6869904727",
+  "residual": "HTTP-entry/pre-admission heartbeat delay is unresolved and not waived by delivery.",
+  "caseIsolation": "One first-attempt process per count, sequential7/8/9; normal generated-match abort required before moving on. No retry-until-green."
+}

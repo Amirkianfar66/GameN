@@ -1,0 +1,20 @@
+{"count":7,"trace":"0e70b2327946","stage":"CREATED"}
+{"count":7,"trace":"0e70b2327946","stage":"SETUP"}
+{"count":7,"trace":"0e70b2327946","stage":"READY"}
+{"count":7,"trace":"0e70b2327946","stage":"JOIN_SENT"}
+{"count":7,"trace":"0e70b2327946","stage":"TASK","control":"PANEL"}
+file:///private/tmp/gamen-backend-food-prefix-create/services/game-api/dist/food-bot-policy.js:83
+    const v = FoodTaskPlayerViewSchema.parse(input);
+                                       ^
+
+ZodError: [
+  {
+    "code": "custom",
+    "message": "Press offer belongs to own Task control",
+    "path": []
+  }
+]
+    at chooseFoodBotInput (file:///private/tmp/gamen-backend-food-prefix-create/services/game-api/dist/food-bot-policy.js:83:40)
+    at file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:123:20
+
+Node.js v22.21.1

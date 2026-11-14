@@ -222,3 +222,6 @@ export { createPlanetGame, applyPlanetCommand, advancePlanetDeadline, planetDead
 export { projectPlanetPublic, projectPlanetPlayer } from './planet-game/projection.js';
 export { assertPlanetGameState, encodePlanetGameState, decodePlanetGameState } from './planet-game/validation.js';
 export { PLANET_GAME_PINS } from '@mothership/contracts';
+
+export {applyPlanetFoodCommand,setPlanetFoodPresence} from './planet-game/lifecycle.js';
+export {projectPlanetFoodPublic,projectPlanetFoodPlayer,hasOnlyDuePlanetFoodWarnings} from './planet-game/food.js';

@@ -1,0 +1,19 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: food-winch-07 normal busy top
+
+'15px' !== '13px'
+
+    at assertFoodStyleSnapshot (file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-style-review.mjs:44:209)
+    at file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-compare.mjs:54:4 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '15px',
+  expected: '13px',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

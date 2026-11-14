@@ -1,0 +1,20 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- 'false'
+
+    at file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-chrome-regression.mjs:42:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: 'false',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

@@ -1,0 +1,1370 @@
+
+> @mothership/presentation@0.1.0 test
+> tsc --build && node --test "test/**/*.test.mjs"
+
+TAP version 13
+# Subtest: Hacker printouts retain view order; wrong results never draw Code membership, and only known Undercover is labeled
+ok 1 - Hacker printouts retain view order; wrong results never draw Code membership, and only known Undercover is labeled
+  ---
+  duration_ms: 42.846417
+  type: 'test'
+  ...
+# Subtest: Alien Code is an unordered set; the compact Code prompt preserves sorted picks and its one-use warning without a duplicate gallery
+ok 2 - Alien Code is an unordered set; the compact Code prompt preserves sorted picks and its one-use warning without a duplicate gallery
+  ---
+  duration_ms: 28.998834
+  type: 'test'
+  ...
+# Subtest: known private resources render empty Cracker vials and consumed shields; unavailable offers cannot manufacture durable spent flags
+ok 3 - known private resources render empty Cracker vials and consumed shields; unavailable offers cannot manufacture durable spent flags
+  ---
+  duration_ms: 21.864667
+  type: 'test'
+  ...
+# Subtest: private action portraits, Code windows and Scan effects are removed on stale/expired/unsynced/background views and identifier-only recovery
+ok 4 - private action portraits, Code windows and Scan effects are removed on stale/expired/unsynced/background views and identifier-only recovery
+  ---
+  duration_ms: 41.868208
+  type: 'test'
+  ...
+# Subtest: paired private knowledge does not change public regions; concealment removes every new private note
+ok 5 - paired private knowledge does not change public regions; concealment removes every new private note
+  ---
+  duration_ms: 14.256125
+  type: 'test'
+  ...
+# Subtest: Supply art names only delivered recipients in own acknowledgments; a received slip never identifies a Supplier
+ok 6 - Supply art names only delivered recipients in own acknowledgments; a received slip never identifies a Supplier
+  ---
+  duration_ms: 6.213666
+  type: 'test'
+  ...
+# Subtest: a device the server does not let read is told so, with a control to ask again, and is shown nothing of the match
+ok 7 - a device the server does not let read is told so, with a control to ask again, and is shown nothing of the match
+  ---
+  duration_ms: 34.394916
+  type: 'test'
+  ...
+# Subtest: it is not said to be a seat that was lost, and the two screens differ
+ok 8 - it is not said to be a seat that was lost, and the two screens differ
+  ---
+  duration_ms: 0.353333
+  type: 'test'
+  ...
+# Subtest: the shared display says the same
+ok 9 - the shared display says the same
+  ---
+  duration_ms: 0.175042
+  type: 'test'
+  ...
+# Subtest: it is said once, at once, and again only after the match had come back
+ok 10 - it is said once, at once, and again only after the match had come back
+  ---
+  duration_ms: 0.887
+  type: 'test'
+  ...
+# Subtest: the first readable view is announced once with where the match stands
+ok 11 - the first readable view is announced once with where the match stands
+  ---
+  duration_ms: 1.197208
+  type: 'test'
+  ...
+# Subtest: losing and regaining the connection is spoken; what happened in between is not replayed
+ok 12 - losing and regaining the connection is spoken; what happened in between is not replayed
+  ---
+  duration_ms: 1.7335
+  type: 'test'
+  ...
+# Subtest: a new phase is announced from the listener’s own point of view
+ok 13 - a new phase is announced from the listener’s own point of view
+  ---
+  duration_ms: 34.907667
+  type: 'test'
+  ...
+# Subtest: public seat changes are read as plain status; a health change never names a cause
+ok 14 - public seat changes are read as plain status; a health change never names a cause
+  ---
+  duration_ms: 0.55175
+  type: 'test'
+  ...
+# Subtest: many simultaneous changes are summarized instead of flooding the listener
+ok 15 - many simultaneous changes are summarized instead of flooding the listener
+  ---
+  duration_ms: 0.195166
+  type: 'test'
+  ...
+# Subtest: the last seconds are announced once, to the player whose turn it is, with the true figure
+ok 16 - the last seconds are announced once, to the player whose turn it is, with the true figure
+  ---
+  duration_ms: 0.174542
+  type: 'test'
+  ...
+# Subtest: the last-seconds notice does not depend on whether the view or the time arrives first
+ok 17 - the last-seconds notice does not depend on whether the view or the time arrives first
+  ---
+  duration_ms: 0.106375
+  type: 'test'
+  ...
+# Subtest: expiry is announced exactly once per phase, however often the clock is re-measured
+ok 18 - expiry is announced exactly once per phase, however often the clock is re-measured
+  ---
+  duration_ms: 0.187375
+  type: 'test'
+  ...
+# Subtest: a phase that has already run out when it is first seen says so, and a new phase starts afresh
+ok 19 - a phase that has already run out when it is first seen says so, and a new phase starts afresh
+  ---
+  duration_ms: 0.400666
+  type: 'test'
+  ...
+# Subtest: blocking problems interrupt; an unreadable update is reported without replacing the view
+ok 20 - blocking problems interrupt; an unreadable update is reported without replacing the view
+  ---
+  duration_ms: 0.276375
+  type: 'test'
+  ...
+# Subtest: nothing is spoken because of a hidden registration, and no announcement can name a role
+ok 21 - nothing is spoken because of a hidden registration, and no announcement can name a role
+  ---
+  duration_ms: 0.238542
+  type: 'test'
+  ...
+# Subtest: what the server did with a command is spoken, privately, as it becomes known
+ok 22 - what the server did with a command is spoken, privately, as it becomes known
+  ---
+  duration_ms: 0.208916
+  type: 'test'
+  ...
+# Subtest: a control becoming active, or the same step seen again, is not spoken
+ok 23 - a control becoming active, or the same step seen again, is not spoken
+  ---
+  duration_ms: 0.071542
+  type: 'test'
+  ...
+# Subtest: after a reload the listener is told what the page is doing, and never a target
+ok 24 - after a reload the listener is told what the page is doing, and never a target
+  ---
+  duration_ms: 0.125459
+  type: 'test'
+  ...
+# Subtest: steps the player takes are not narrated; focus reads them
+ok 25 - steps the player takes are not narrated; focus reads them
+  ---
+  duration_ms: 0.103917
+  type: 'test'
+  ...
+# Subtest: nothing about a command is put into words unless the private panel is open in the foreground
+ok 26 - nothing about a command is put into words unless the private panel is open in the foreground
+  ---
+  duration_ms: 0.106417
+  type: 'test'
+  ...
+# Subtest: an answer that came unseen, after which the card went back to the view, is still told on opening
+ok 27 - an answer that came unseen, after which the card went back to the view, is still told on opening
+  ---
+  duration_ms: 0.3265
+  type: 'test'
+  ...
+# Subtest: only the flow’s own lines are marked private, and none of them names a role or an outcome
+ok 28 - only the flow’s own lines are marked private, and none of them names a role or an outcome
+  ---
+  duration_ms: 0.253125
+  type: 'test'
+  ...
+# Subtest: a choice taken away by circumstances is said to be unsent; one the player put down is not
+ok 29 - a choice taken away by circumstances is said to be unsent; one the player put down is not
+  ---
+  duration_ms: 0.167709
+  type: 'test'
+  ...
+# Subtest: every room seats one to nine at distinct stations, with no capacity and no press areas that touch on a 320 px phone
+ok 30 - every room seats one to nine at distinct stations, with no capacity and no press areas that touch on a 320 px phone
+  ---
+  duration_ms: 3.058625
+  type: 'test'
+  ...
+# Subtest: stations follow seat order and public occupancy only, so every screen places everyone the same
+ok 31 - stations follow seat order and public occupancy only, so every screen places everyone the same
+  ---
+  duration_ms: 24.556
+  type: 'test'
+  ...
+# Subtest: for every action the press areas are exactly the seats the view offers, in their own rooms; everyone else is drawn faint
+ok 32 - for every action the press areas are exactly the seats the view offers, in their own rooms; everyone else is drawn faint
+  ---
+  duration_ms: 100.316792
+  type: 'test'
+  ...
+# Subtest: Supply and Code sets mark every pick with the same check; a sent command is pending
+ok 33 - Supply and Code sets mark every pick with the same check; a sent command is pending
+  ---
+  duration_ms: 4.208625
+  type: 'test'
+  ...
+# Subtest: answers that are not characters stay in the strip: Scan factions, abstention, no request, and the release vote
+ok 34 - answers that are not characters stay in the strip: Scan factions, abstention, no request, and the release vote
+  ---
+  duration_ms: 37.854375
+  type: 'test'
+  ...
+# Subtest: a move is a tentative place in the room asked for until the view shows the player there
+ok 35 - a move is a tentative place in the room asked for until the view shows the player there
+  ---
+  duration_ms: 16.295792
+  type: 'test'
+  ...
+# Subtest: no mark, press area or tentative place exists outside the player's own open action, and the table never has one
+ok 36 - no mark, press area or tentative place exists outside the player's own open action, and the table never has one
+  ---
+  duration_ms: 75.719125
+  type: 'test'
+  ...
+# Subtest: a command on its way, being checked, unknown or accepted leaves nothing private on a hidden page, and comes back with the page
+ok 37 - a command on its way, being checked, unknown or accepted leaves nothing private on a hidden page, and comes back with the page
+  ---
+  duration_ms: 80.2815
+  type: 'test'
+  ...
+# Subtest: stale: an open in-flight or receipt strip keeps its state without marking the board
+ok 38 - stale: an open in-flight or receipt strip keeps its state without marking the board
+  ---
+  duration_ms: 95.329
+  type: 'test'
+  ...
+# Subtest: expired: an open in-flight or receipt strip keeps its state without marking the board
+ok 39 - expired: an open in-flight or receipt strip keeps its state without marking the board
+  ---
+  duration_ms: 55.0885
+  type: 'test'
+  ...
+# Subtest: untrusted clock: an open in-flight or receipt strip keeps its state without marking the board
+ok 40 - untrusted clock: an open in-flight or receipt strip keeps its state without marking the board
+  ---
+  duration_ms: 45.209459
+  type: 'test'
+  ...
+# Subtest: an accepted Move awaiting its own view is unmarked while paused and settles only where the view places it
+ok 41 - an accepted Move awaiting its own view is unmarked while paused and settles only where the view places it
+  ---
+  duration_ms: 1.677166
+  type: 'test'
+  ...
+# Subtest: the strip comes before the board in reading order, keeps the release's ids and nested regions, and puts its controls where the step needs them
+ok 42 - the strip comes before the board in reading order, keeps the release's ids and nested regions, and puts its controls where the step needs them
+  ---
+  duration_ms: 7.024541
+  type: 'test'
+  ...
+# Subtest: comic names are escaped text with seat numbers, character selection never derives from a role
+ok 43 - comic names are escaped text with seat numbers, character selection never derives from a role
+  ---
+  duration_ms: 15.817041
+  type: 'test'
+  ...
+# Subtest: closing or concealing the private panel removes every role/device/team hook while keeping the comic board
+ok 44 - closing or concealing the private panel removes every role/device/team hook while keeping the comic board
+  ---
+  duration_ms: 24.736875
+  type: 'test'
+  ...
+# Subtest: paired private states produce identical public comic regions
+ok 45 - paired private states produce identical public comic regions
+  ---
+  duration_ms: 2.282959
+  type: 'test'
+  ...
+# Subtest: table gets public identities and no private card; missing and unknown characters keep numbered tokens
+ok 46 - table gets public identities and no private card; missing and unknown characters keep numbered tokens
+  ---
+  duration_ms: 13
+  type: 'test'
+  ...
+# Subtest: comic styling cannot alter the server-provided action controls
+ok 47 - comic styling cannot alter the server-provided action controls
+  ---
+  duration_ms: 1.529958
+  type: 'test'
+  ...
+# Subtest: Supply results appear only in the open own private area and preserve explicit empty success
+ok 48 - Supply results appear only in the open own private area and preserve explicit empty success
+  ---
+  duration_ms: 19.027125
+  type: 'test'
+  ...
+# Subtest: practice mode and bot seats are labeled on live phone/table surfaces without private hooks
+ok 49 - practice mode and bot seats are labeled on live phone/table surfaces without private hooks
+  ---
+  duration_ms: 9.442708
+  type: 'test'
+  ...
+# Subtest: the bottom navigation is role-neutral and only explicit private views include the own card
+ok 50 - the bottom navigation is role-neutral and only explicit private views include the own card
+  ---
+  duration_ms: 10.144333
+  type: 'test'
+  ...
+# Subtest: an ended phone never keeps its private sheet or action prompt in the result screen
+ok 51 - an ended phone never keeps its private sheet or action prompt in the result screen
+  ---
+  duration_ms: 1.244459
+  type: 'test'
+  ...
+# Subtest: finished and aborted phones can switch between their result and an unobstructed Menu
+ok 52 - finished and aborted phones can switch between their result and an unobstructed Menu
+  ---
+  duration_ms: 18.896125
+  type: 'test'
+  ...
+# Subtest: room labels are uniform public controls, and Move is absent from the action menu
+ok 53 - room labels are uniform public controls, and Move is absent from the action menu
+  ---
+  duration_ms: 2.8325
+  type: 'test'
+  ...
+# Subtest: Actions, Card and Menu remain panels over the same board
+ok 54 - Actions, Card and Menu remain panels over the same board
+  ---
+  duration_ms: 8.052958
+  type: 'test'
+  ...
+# Subtest: choosing an action targets only offered characters on the board, with no duplicate player list
+ok 55 - choosing an action targets only offered characters on the board, with no duplicate player list
+  ---
+  duration_ms: 4.582667
+  type: 'test'
+  ...
+# Subtest: unordered compound picks stay on the board; answers and abstention stay in the compact strip
+ok 56 - unordered compound picks stay on the board; answers and abstention stay in the compact strip
+  ---
+  duration_ms: 2.842
+  type: 'test'
+  ...
+# Subtest: target hints clear on close, concealment, stale data, expired time, and other phone views
+ok 57 - target hints clear on close, concealment, stale data, expired time, and other phone views
+  ---
+  duration_ms: 3.390833
+  type: 'test'
+  ...
+# Subtest: Pass is the central control, server-gated, and its receipt reveals no private card
+ok 58 - Pass is the central control, server-gated, and its receipt reveals no private card
+  ---
+  duration_ms: 12.116542
+  type: 'test'
+  ...
+# Subtest: these three actions are the ones with several parts, and each has its own wire command
+ok 59 - these three actions are the ones with several parts, and each has its own wire command
+  ---
+  duration_ms: 22.978833
+  type: 'test'
+  ...
+# Subtest: a Scan is opened by the server’s list: a seat from it, then one of the three factions
+ok 60 - a Scan is opened by the server’s list: a seat from it, then one of the three factions
+  ---
+  duration_ms: 1.051167
+  type: 'test'
+  ...
+# Subtest: a Supply is opened by the server’s list and names two different seats from it
+ok 61 - a Supply is opened by the server’s list and names two different seats from it
+  ---
+  duration_ms: 1.020584
+  type: 'test'
+  ...
+# Subtest: a Code attempt is opened by the view’s own flag and names four different seats of the match
+ok 62 - a Code attempt is opened by the view’s own flag and names four different seats of the match
+  ---
+  duration_ms: 0.275791
+  type: 'test'
+  ...
+# Subtest: an action with one pick is the same thing with one part
+ok 63 - an action with one pick is the same thing with one part
+  ---
+  duration_ms: 0.247041
+  type: 'test'
+  ...
+# Subtest: the idle card lists each of them only while the view opens it, and says so when no whole choice can be made
+ok 64 - the idle card lists each of them only while the view opens it, and says so when no whole choice can be made
+  ---
+  duration_ms: 9.435916
+  type: 'test'
+  ...
+# Subtest: each part is asked for in turn, sets are shown in seat order, and going back names the pick it takes away
+ok 65 - each part is asked for in turn, sets are shown in seat order, and going back names the pick it takes away
+  ---
+  duration_ms: 5.813458
+  type: 'test'
+  ...
+# Subtest: each of them confirms in its own words, says what is final about it, and reports acceptance without an outcome
+ok 66 - each of them confirms in its own words, says what is final about it, and reports acceptance without an outcome
+  ---
+  duration_ms: 24.690625
+  type: 'test'
+  ...
+# Subtest: the private panel says what the server’s view tells this seat, one sentence for each thing it carries
+ok 67 - the private panel says what the server’s view tells this seat, one sentence for each thing it carries
+  ---
+  duration_ms: 14.2285
+  type: 'test'
+  ...
+# Subtest: none of it is anywhere but the open private panel, and nothing in the markup varies with what is known
+ok 68 - none of it is anywhere but the open private panel, and nothing in the markup varies with what is known
+  ---
+  duration_ms: 4.941166
+  type: 'test'
+  ...
+# Subtest: a protocol-2 table shows seven, eight or nine seats, names every phase kind, and labels the emulator
+ok 69 - a protocol-2 table shows seven, eight or nine seats, names every phase kind, and labels the emulator
+  ---
+  duration_ms: 8.739542
+  type: 'test'
+  ...
+# Subtest: a revealed faction is shown as the public fact it is, and nothing is shown before the server reveals it
+ok 70 - a revealed faction is shown as the public fact it is, and nothing is shown before the server reveals it
+  ---
+  duration_ms: 2.665375
+  type: 'test'
+  ...
+# Subtest: closed, the connected phone holds nothing private in its model or its document, whatever the command’s state
+ok 71 - closed, the connected phone holds nothing private in its model or its document, whatever the command’s state
+  ---
+  duration_ms: 28.638791
+  type: 'test'
+  ...
+# Subtest: idle, the card lists what the server offers now: a move, a shot, both or neither
+ok 72 - idle, the card lists what the server offers now: a move, a shot, both or neither
+  ---
+  duration_ms: 1.145417
+  type: 'test'
+  ...
+# Subtest: nothing can be started on a view that is not fresh or whose clock has run out, and the screen says why
+ok 73 - nothing can be started on a view that is not fresh or whose clock has run out, and the screen says why
+  ---
+  duration_ms: 0.73275
+  type: 'test'
+  ...
+# Subtest: choosing lists the server’s own choices, each with a public description only
+ok 74 - choosing lists the server’s own choices, each with a public description only
+  ---
+  duration_ms: 0.46825
+  type: 'test'
+  ...
+# Subtest: confirming names the choice and what it does; the control is drawn as not yet active until its wait is over
+ok 75 - confirming names the choice and what it does; the control is drawn as not yet active until its wait is over
+  ---
+  duration_ms: 0.334542
+  type: 'test'
+  ...
+# Subtest: what the server did is reported as given: accepted is not a result, a rejection names no invented reason, unknown assumes nothing
+ok 76 - what the server did is reported as given: accepted is not a result, a rejection names no invented reason, unknown assumes nothing
+  ---
+  duration_ms: 4.584208
+  type: 'test'
+  ...
+# Subtest: every step of the open card passes the structural audit, and focus goes to the line that asks or reports
+ok 77 - every step of the open card passes the structural audit, and focus goes to the line that asks or reports
+  ---
+  duration_ms: 4.621834
+  type: 'test'
+  ...
+# Subtest: the intent parser accepts the action intents and nothing a control could not carry
+ok 78 - the intent parser accepts the action intents and nothing a control could not carry
+  ---
+  duration_ms: 0.31325
+  type: 'test'
+  ...
+# Subtest: what became of a command is spoken privately, once, and only in front of an open panel
+ok 79 - what became of a command is spoken privately, once, and only in front of an open panel
+  ---
+  duration_ms: 0.794
+  type: 'test'
+  ...
+# Subtest: the actions the phone can offer are a fixed list, and each one that names a seat reads its targets from the view under its own command
+ok 80 - the actions the phone can offer are a fixed list, and each one that names a seat reads its targets from the view under its own command
+  ---
+  duration_ms: 0.629792
+  type: 'test'
+  ...
+# Subtest: an action other than a move or a shot is listed only while the server opens it, and then with the server’s own targets
+ok 81 - an action other than a move or a shot is listed only while the server opens it, and then with the server’s own targets
+  ---
+  duration_ms: 2.278209
+  type: 'test'
+  ...
+# Subtest: a control that opens an action is named by its action first, so that two open at once can be told apart
+ok 82 - a control that opens an action is named by its action first, so that two open at once can be told apart
+  ---
+  duration_ms: 0.982334
+  type: 'test'
+  ...
+# Subtest: each of them asks, confirms and reports in its own words, names the player’s own seat as theirs, and never names an outcome
+ok 83 - each of them asks, confirms and reports in its own words, names the player’s own seat as theirs, and never names an outcome
+  ---
+  duration_ms: 9.226375
+  type: 'test'
+  ...
+# Subtest: while the server says this seat is in a Hack, the open panel says who with, and nothing else does
+ok 84 - while the server says this seat is in a Hack, the open panel says who with, and nothing else does
+  ---
+  duration_ms: 0.605667
+  type: 'test'
+  ...
+# Subtest: a control can ask to open any of these actions and nothing that is not one
+ok 85 - a control can ask to open any of these actions and nothing that is not one
+  ---
+  duration_ms: 0.070292
+  type: 'test'
+  ...
+# Subtest: all three declaration choices are identical across roles; only the fixed target can declare
+ok 86 - all three declaration choices are identical across roles; only the fixed target can declare
+  ---
+  duration_ms: 5.682125
+  type: 'test'
+  ...
+# Subtest: a pending or accepted declaration card preserves the current claim in the compact private panel
+ok 87 - a pending or accepted declaration card preserves the current claim in the compact private panel
+  ---
+  duration_ms: 19.571209
+  type: 'test'
+  ...
+# Subtest: result and talk render the current declaration, including permitted bluffing and explicit no declaration
+ok 88 - result and talk render the current declaration, including permitted bluffing and explicit no declaration
+  ---
+  duration_ms: 46.486833
+  type: 'test'
+  ...
+# Subtest: private feedback requires exact exchange/phase, participant, status, and current timing
+ok 89 - private feedback requires exact exchange/phase, participant, status, and current timing
+  ---
+  duration_ms: 0.167125
+  type: 'test'
+  ...
+# Subtest: claim announcements are private and once per exchange, with no stale or talk replay
+ok 90 - claim announcements are private and once per exchange, with no stale or talk replay
+  ---
+  duration_ms: 15.12425
+  type: 'test'
+  ...
+# Subtest: private panel closure removes feedback and the legacy action list stays unchanged
+ok 91 - private panel closure removes feedback and the legacy action list stays unchanged
+  ---
+  duration_ms: 3.693292
+  type: 'test'
+  ...
+# Subtest: the 50ms snap/200ms rest and end reversal retain one logical LOCK stop in both preferences
+ok 92 - the 50ms snap/200ms rest and end reversal retain one logical LOCK stop in both preferences
+  ---
+  duration_ms: 0.477917
+  type: 'test'
+  ...
+# Subtest: partial-lift falls keep their actual vertical origin, distinguish destinations and seek the current time
+ok 93 - partial-lift falls keep their actual vertical origin, distinguish destinations and seek the current time
+  ---
+  duration_ms: 0.135667
+  type: 'test'
+  ...
+# Subtest: a reduced swing keeps physical rail position while removing tilt and vertical motion
+ok 94 - a reduced swing keeps physical rail position while removing tilt and vertical motion
+  ---
+  duration_ms: 0.119416
+  type: 'test'
+  ...
+# Subtest: integer doses format half packages without floating point stock arithmetic
+ok 95 - integer doses format half packages without floating point stock arithmetic
+  ---
+  duration_ms: 0.282834
+  type: 'test'
+  ...
+# Subtest: a new Food return publication never falls back to an old finalized-round result caption
+ok 96 - a new Food return publication never falls back to an old finalized-round result caption
+  ---
+  duration_ms: 0.1265
+  type: 'test'
+  ...
+# Subtest: the approved public gauge retains half-dose wording and warning thresholds without a Task cause
+ok 97 - the approved public gauge retains half-dose wording and warning thresholds without a Task cause
+  ---
+  duration_ms: 0.094917
+  type: 'test'
+  ...
+# Subtest: only the exact Food tuple names its shared return step, using the publication round
+ok 98 - only the exact Food tuple names its shared return step, using the publication round
+  ---
+  duration_ms: 0.101208
+  type: 'test'
+  ...
+# Subtest: the file shows the three players in seat order, and the three roles once, as one set below them
+ok 99 - the file shows the three players in seat order, and the three roles once, as one set below them
+  ---
+  duration_ms: 62.881125
+  type: 'test'
+  ...
+# Subtest: every order the view could give, and so every deal of the three roles, draws the same file
+ok 100 - every order the view could give, and so every deal of the three roles, draws the same file
+  ---
+  duration_ms: 38.494416
+  type: 'test'
+  ...
+# Subtest: nothing in the file pairs a player with a role
+ok 101 - nothing in the file pairs a player with a role
+  ---
+  duration_ms: 1.211333
+  type: 'test'
+  ...
+# Subtest: inspecting a snapshot presses it and says that player’s public facts, and nothing else
+ok 102 - inspecting a snapshot presses it and says that player’s public facts, and nothing else
+  ---
+  duration_ms: 35.3085
+  type: 'test'
+  ...
+# Subtest: the file is only in the Insider’s own open card
+ok 103 - the file is only in the Insider’s own open card
+  ---
+  duration_ms: 29.718
+  type: 'test'
+  ...
+# Subtest: a stale view conceals every role card and starting knowledge in the model and markup
+ok 104 - a stale view conceals every role card and starting knowledge in the model and markup
+  ---
+  duration_ms: 3.350542
+  type: 'test'
+  ...
+# Subtest: without public identities a snapshot shows the seat number, and a name is only ever text
+ok 105 - without public identities a snapshot shows the seat number, and a name is only ever text
+  ---
+  duration_ms: 1.501041
+  type: 'test'
+  ...
+# Subtest: the plain phone still says the set in one sentence
+ok 106 - the plain phone still says the set in one sentence
+  ---
+  duration_ms: 0.236875
+  type: 'test'
+  ...
+# Subtest: text and attribute values are escaped wherever they come from
+ok 107 - text and attribute values are escaped wherever they come from
+  ---
+  duration_ms: 0.515792
+  type: 'test'
+  ...
+# Subtest: markup cannot carry script, inline style, event handlers or a data-chosen navigation target
+ok 108 - markup cannot carry script, inline style, event handlers or a data-chosen navigation target
+  ---
+  duration_ms: 0.493
+  type: 'test'
+  ...
+# Subtest: a node assembled by hand is held to the same rules when it is serialized
+ok 109 - a node assembled by hand is held to the same rules when it is serialized
+  ---
+  duration_ms: 0.126542
+  type: 'test'
+  ...
+# Subtest: boolean, absent and void handling matches HTML
+ok 110 - boolean, absent and void handling matches HTML
+  ---
+  duration_ms: 0.09425
+  type: 'test'
+  ...
+# Subtest: conditional and nested children flatten in order
+ok 111 - conditional and nested children flatten in order
+  ---
+  duration_ms: 0.057
+  type: 'test'
+  ...
+# Subtest: regions split from the frame so a host can replace only what changed
+ok 112 - regions split from the frame so a host can replace only what changed
+  ---
+  duration_ms: 0.360458
+  type: 'test'
+  ...
+# Subtest: a region inside a region is redrawn on its own, and the outer one is listed first
+ok 113 - a region inside a region is redrawn on its own, and the outer one is listed first
+  ---
+  duration_ms: 0.119292
+  type: 'test'
+  ...
+# Subtest: ambiguous region layouts are rejected instead of rendered unpredictably
+ok 114 - ambiguous region layouts are rejected instead of rendered unpredictably
+  ---
+  duration_ms: 0.093666
+  type: 'test'
+  ...
+# Subtest: the first drawing fills every slot, outermost first
+ok 115 - the first drawing fills every slot, outermost first
+  ---
+  duration_ms: 3.83925
+  type: 'test'
+  ...
+# Subtest: a redraw touches only what changed, and whatever sits inside it
+ok 116 - a redraw touches only what changed, and whatever sits inside it
+  ---
+  duration_ms: 0.714875
+  type: 'test'
+  ...
+# Subtest: text that merely looks like a slot cannot mislead a redraw
+ok 117 - text that merely looks like a slot cannot mislead a redraw
+  ---
+  duration_ms: 0.136459
+  type: 'test'
+  ...
+# Subtest: while a match is being played there is no result, and the region for it is there and empty
+ok 118 - while a match is being played there is no result, and the region for it is there and empty
+  ---
+  duration_ms: 18.001
+  type: 'test'
+  ...
+# Subtest: a finished match shows the winner the server names, in the same words on every screen
+ok 119 - a finished match shows the winner the server names, in the same words on every screen
+  ---
+  duration_ms: 43.654667
+  type: 'test'
+  ...
+# Subtest: the roles and the Code are shown when the server’s view carries them, which is at the end of a match and not before
+ok 120 - the roles and the Code are shown when the server’s view carries them, which is at the end of a match and not before
+  ---
+  duration_ms: 3.129375
+  type: 'test'
+  ...
+# Subtest: a match the host ended has no winner, and nothing is revealed that the view does not carry
+ok 121 - a match the host ended has no winner, and nothing is revealed that the view does not carry
+  ---
+  duration_ms: 0.983459
+  type: 'test'
+  ...
+# Subtest: once the match is over the phone says so and offers nothing
+ok 122 - once the match is over the phone says so and offers nothing
+  ---
+  duration_ms: 0.426833
+  type: 'test'
+  ...
+# Subtest: the end of the match is spoken once, when the view first carries it
+ok 123 - the end of the match is spoken once, when the view first carries it
+  ---
+  duration_ms: 2.273584
+  type: 'test'
+  ...
+# Subtest: a screen the server refuses the match shows a recovery screen and nothing of the match
+ok 124 - a screen the server refuses the match shows a recovery screen and nothing of the match
+  ---
+  duration_ms: 0.947875
+  type: 'test'
+  ...
+# Subtest: a positive tie names a runoff from the explicit outcome and originating round
+ok 125 - a positive tie names a runoff from the explicit outcome and originating round
+  ---
+  duration_ms: 1.179833
+  type: 'test'
+  ...
+# Subtest: only the current result identity and timestamps can render a result window
+ok 126 - only the current result identity and timestamps can render a result window
+  ---
+  duration_ms: 0.116709
+  type: 'test'
+  ...
+# Subtest: all-abstain and release denial remain real results without inferred No totals
+ok 127 - all-abstain and release denial remain real results without inferred No totals
+  ---
+  duration_ms: 0.063209
+  type: 'test'
+  ...
+# Subtest: Menu cannot hide the active result and contains it above the available menu controls
+ok 128 - Menu cannot hide the active result and contains it above the available menu controls
+  ---
+  duration_ms: 13.378083
+  type: 'test'
+  ...
+# Subtest: round order names pre-vote Blackout damage only for exact 1.3, preserving historical and mixed tuples
+ok 129 - round order names pre-vote Blackout damage only for exact 1.3, preserving historical and mixed tuples
+  ---
+  duration_ms: 1.797333
+  type: 'test'
+  ...
+# Subtest: library activation requires the exact reviewed art and gameplay pairing
+ok 130 - library activation requires the exact reviewed art and gameplay pairing
+  ---
+  duration_ms: 0.233209
+  type: 'test'
+  ...
+# Subtest: crew art reuses library mechanics only under the exact registered gameplay tuple
+ok 131 - crew art reuses library mechanics only under the exact registered gameplay tuple
+  ---
+  duration_ms: 0.343458
+  type: 'test'
+  ...
+# Subtest: pregame art extends library consumption without changing saved release choices
+ok 132 - pregame art extends library consumption without changing saved release choices
+  ---
+  duration_ms: 0.143625
+  type: 'test'
+  ...
+# Subtest: number labels sort numerically while preserving offered canonical command identities
+ok 133 - number labels sort numerically while preserving offered canonical command identities
+  ---
+  duration_ms: 0.260667
+  type: 'test'
+  ...
+# Subtest: patient feedback uses its authorized request status, and queued never means treated
+ok 134 - patient feedback uses its authorized request status, and queued never means treated
+  ---
+  duration_ms: 0.49725
+  type: 'test'
+  ...
+# Subtest: colored arrivals require matching live authoritative terminal facts
+ok 135 - colored arrivals require matching live authoritative terminal facts
+  ---
+  duration_ms: 0.440542
+  type: 'test'
+  ...
+# Subtest: late presentation loads seek to the authoritative elapsed time without restarting six seconds
+ok 136 - late presentation loads seek to the authoritative elapsed time without restarting six seconds
+  ---
+  duration_ms: 0.400584
+  type: 'test'
+  ...
+# Subtest: presentation expiry waits for a new view and never constructs a Jail-vote phase
+ok 137 - presentation expiry waits for a new view and never constructs a Jail-vote phase
+  ---
+  duration_ms: 0.065833
+  type: 'test'
+  ...
+# Subtest: ordinary rounds, hidden/stale views, unknown clocks and future phases do not manufacture a presentation
+ok 138 - ordinary rounds, hidden/stale views, unknown clocks and future phases do not manufacture a presentation
+  ---
+  duration_ms: 0.084
+  type: 'test'
+  ...
+# Subtest: meeting terms bind the giver alone and name the authoritative voting opportunity
+ok 139 - meeting terms bind the giver alone and name the authoritative voting opportunity
+  ---
+  duration_ms: 0.315708
+  type: 'test'
+  ...
+# Subtest: public participant data is equal on a concealed participant and display, with no private claim/role/side
+ok 140 - public participant data is equal on a concealed participant and display, with no private claim/role/side
+  ---
+  duration_ms: 7.903458
+  type: 'test'
+  ...
+# Subtest: the actual phase clock supplies the full conversation and expiry cannot invent its next stage
+ok 141 - the actual phase clock supplies the full conversation and expiry cannot invent its next stage
+  ---
+  duration_ms: 10.145916
+  type: 'test'
+  ...
+# Subtest: public session survives private blur while its actual claim/private content is concealed
+ok 142 - public session survives private blur while its actual claim/private content is concealed
+  ---
+  duration_ms: 0.355875
+  type: 'test'
+  ...
+# Subtest: new-version null clears the model; historical 1.5 keeps exact field absence and strict malformed pairs are rejected
+ok 143 - new-version null clears the model; historical 1.5 keeps exact field absence and strict malformed pairs are rejected
+  ---
+  duration_ms: 1.633208
+  type: 'test'
+  ...
+# Subtest: each line of the idle card carries its state for styling, and the state says what its words say
+ok 144 - each line of the idle card carries its state for styling, and the state says what its words say
+  ---
+  duration_ms: 26.654417
+  type: 'test'
+  ...
+# Subtest: the strip and the card name the action they are about, for its own art, and only while they know it
+ok 145 - the strip and the card name the action they are about, for its own art, and only while they know it
+  ---
+  duration_ms: 35.643292
+  type: 'test'
+  ...
+# Subtest: a Protection is used up, active, or active from a later round, as only the Undercover’s view states it
+ok 146 - a Protection is used up, active, or active from a later round, as only the Undercover’s view states it
+  ---
+  duration_ms: 3.466667
+  type: 'test'
+  ...
+# Subtest: a Cracker is told how many Rescues are left, and when none are; no other role is told of Rescues
+ok 147 - a Cracker is told how many Rescues are left, and when none are; no other role is told of Rescues
+  ---
+  duration_ms: 0.406333
+  type: 'test'
+  ...
+# Subtest: the Alien’s starting Code is a set: every order the view could give says the same four players the same way
+ok 148 - the Alien’s starting Code is a set: every order the view could give says the same four players the same way
+  ---
+  duration_ms: 26.688292
+  type: 'test'
+  ...
+# Subtest: the Officer’s one shot is offered when the nine-player view offers it, from round 1, and is never called used by guesswork
+ok 149 - the Officer’s one shot is offered when the nine-player view offers it, from round 1, and is never called used by guesswork
+  ---
+  duration_ms: 1.297333
+  type: 'test'
+  ...
+# Subtest: a Disable is the Disabler’s own: drawn in the private card and strip only, with nothing that sets it apart in public
+ok 150 - a Disable is the Disabler’s own: drawn in the private card and strip only, with nothing that sets it apart in public
+  ---
+  duration_ms: 0.847459
+  type: 'test'
+  ...
+# Subtest: every screen passes the structural accessibility audit
+ok 151 - every screen passes the structural accessibility audit
+  ---
+  duration_ms: 15.63975
+  type: 'test'
+  ...
+# Subtest: every screen has a skip link, one main landmark that can take focus, and a visible data-source note
+ok 152 - every screen has a skip link, one main landmark that can take focus, and a visible data-source note
+  ---
+  duration_ms: 6.552375
+  type: 'test'
+  ...
+# Subtest: the table display never renders a role, a private control or an intent that could act for a player
+ok 153 - the table display never renders a role, a private control or an intent that could act for a player
+  ---
+  duration_ms: 2.43325
+  type: 'test'
+  ...
+# Subtest: a hidden registration leaves the table and the target phone byte-for-byte unchanged
+ok 154 - a hidden registration leaves the table and the target phone byte-for-byte unchanged
+  ---
+  duration_ms: 1.361417
+  type: 'test'
+  ...
+# Subtest: the role and the action status exist in the document only while the private panel is open in the foreground
+ok 155 - the role and the action status exist in the document only while the private panel is open in the foreground
+  ---
+  duration_ms: 1.669083
+  type: 'test'
+  ...
+# Subtest: identifiers, classes and data attributes are role-neutral even with the private panel open
+ok 156 - identifiers, classes and data attributes are role-neutral even with the private panel open
+  ---
+  duration_ms: 0.844833
+  type: 'test'
+  ...
+# Subtest: a closed phone is the same document whatever role it holds or what it can do; open, only the supplied facts differ
+ok 157 - a closed phone is the same document whatever role it holds or what it can do; open, only the supplied facts differ
+  ---
+  duration_ms: 13.405375
+  type: 'test'
+  ...
+# Subtest: status is never carried by color alone: every seat marker and action state has visible text
+ok 158 - status is never carried by color alone: every seat marker and action state has visible text
+  ---
+  duration_ms: 0.434083
+  type: 'test'
+  ...
+# Subtest: the countdown is a timer that is not announced every second, with a spoken equivalent
+ok 159 - the countdown is a timer that is not announced every second, with a spoken equivalent
+  ---
+  duration_ms: 0.448209
+  type: 'test'
+  ...
+# Subtest: a countdown tick replaces only the timer region
+ok 160 - a countdown tick replaces only the timer region
+  ---
+  duration_ms: 0.761125
+  type: 'test'
+  ...
+# Subtest: opening the private panel replaces only its own region, so focus elsewhere is untouched
+ok 161 - opening the private panel replaces only its own region, so focus elsewhere is untouched
+  ---
+  duration_ms: 0.517083
+  type: 'test'
+  ...
+# Subtest: a hidden registration touches only the Shot card of the registering phone, and only while the panel is open
+ok 162 - a hidden registration touches only the Shot card of the registering phone, and only while the panel is open
+  ---
+  duration_ms: 0.894083
+  type: 'test'
+  ...
+# Subtest: the shell root states surface, screen, connection, data source and motion for styling and tests
+ok 163 - the shell root states surface, screen, connection, data source and motion for styling and tests
+  ---
+  duration_ms: 0.264167
+  type: 'test'
+  ...
+# Subtest: the reduce-motion control is a labeled checkbox with a described state
+ok 164 - the reduce-motion control is a labeled checkbox with a described state
+  ---
+  duration_ms: 0.228417
+  type: 'test'
+  ...
+# Subtest: the blocked screen moves a focusable heading into place and offers exactly one way forward
+ok 165 - the blocked screen moves a focusable heading into place and offers exactly one way forward
+  ---
+  duration_ms: 0.089125
+  type: 'test'
+  ...
+# Subtest: the stale banner offers a keyboard-reachable reconnect and the last view stays readable
+ok 166 - the stale banner offers a keyboard-reachable reconnect and the last view stays readable
+  ---
+  duration_ms: 0.238584
+  type: 'test'
+  ...
+# Subtest: the table roster is a real table: caption, column and row headers, one row per seat
+ok 167 - the table roster is a real table: caption, column and row headers, one row per seat
+  ---
+  duration_ms: 0.136458
+  type: 'test'
+  ...
+# Subtest: the roster keeps Jail, Captain and turn as separately named facts beside health
+ok 168 - the roster keeps Jail, Captain and turn as separately named facts beside health
+  ---
+  duration_ms: 0.242875
+  type: 'test'
+  ...
+# Subtest: text supplied by the server is escaped, including free-form version strings
+ok 169 - text supplied by the server is escaped, including free-form version strings
+  ---
+  duration_ms: 0.287875
+  type: 'test'
+  ...
+# Subtest: the board gives each zone a heading that names its token list
+ok 170 - the board gives each zone a heading that names its token list
+  ---
+  duration_ms: 0.132542
+  type: 'test'
+  ...
+# Subtest: the Officer phone states identity, phase and location from its own view
+ok 171 - the Officer phone states identity, phase and location from its own view
+  ---
+  duration_ms: 1.127125
+  type: 'test'
+  ...
+# Subtest: the target phone names the active player and never claims a turn it does not have
+ok 172 - the target phone names the active player and never claims a turn it does not have
+  ---
+  duration_ms: 0.250792
+  type: 'test'
+  ...
+# Subtest: nothing private is in the model until the player opens the private panel
+ok 173 - nothing private is in the model until the player opens the private panel
+  ---
+  duration_ms: 0.280334
+  type: 'test'
+  ...
+# Subtest: a closed phone is the same model whatever role it holds and whatever it can do
+ok 174 - a closed phone is the same model whatever role it holds and whatever it can do
+  ---
+  duration_ms: 3.639417
+  type: 'test'
+  ...
+# Subtest: opened, the private panel shows the role and the server-supplied action status, nothing inferred
+ok 175 - opened, the private panel shows the role and the server-supplied action status, nothing inferred
+  ---
+  duration_ms: 0.333709
+  type: 'test'
+  ...
+# Subtest: every phone gets the same set of action cards; only their status can differ
+ok 176 - every phone gets the same set of action cards; only their status can differ
+  ---
+  duration_ms: 0.075417
+  type: 'test'
+  ...
+# Subtest: a backgrounded page conceals everything private, even if the panel was open
+ok 177 - a backgrounded page conceals everything private, even if the panel was open
+  ---
+  duration_ms: 0.1165
+  type: 'test'
+  ...
+# Subtest: seat markers keep health, Jail, Captain and turn as separate labeled facts
+ok 178 - seat markers keep health, Jail, Captain and turn as separate labeled facts
+  ---
+  duration_ms: 0.623584
+  type: 'test'
+  ...
+# Subtest: zones list every supplied seat once, in seat order, and show the Final Zone only when occupied
+ok 179 - zones list every supplied seat once, in seat order, and show the Final Zone only when occupied
+  ---
+  duration_ms: 0.428417
+  type: 'test'
+  ...
+# Subtest: the countdown rounds up, never shows zero while time remains, and distinguishes every non-running state
+ok 180 - the countdown rounds up, never shows zero while time remains, and distinguishes every non-running state
+  ---
+  duration_ms: 0.417208
+  type: 'test'
+  ...
+# Subtest: round resolution has no countdown and marks nobody active, even if the view still names a seat
+ok 181 - round resolution has no countdown and marks nobody active, even if the view still names a seat
+  ---
+  duration_ms: 0.449917
+  type: 'test'
+  ...
+# Subtest: an ordinary turn without an active seat is shown as given, not guessed
+ok 182 - an ordinary turn without an active seat is shown as given, not guessed
+  ---
+  duration_ms: 0.113583
+  type: 'test'
+  ...
+# Subtest: stale and expired states pause actions with a reason and keep the last view readable
+ok 183 - stale and expired states pause actions with a reason and keep the last view readable
+  ---
+  duration_ms: 0.088167
+  type: 'test'
+  ...
+# Subtest: the data source is always labeled unless it is the live server
+ok 184 - the data source is always labeled unless it is the live server
+  ---
+  duration_ms: 0.1025
+  type: 'test'
+  ...
+# Subtest: blocking problems replace the match entirely; nothing from the view is carried along
+ok 185 - blocking problems replace the match entirely; nothing from the view is carried along
+  ---
+  duration_ms: 1.479708
+  type: 'test'
+  ...
+# Subtest: with no view yet the shell says it is connecting and invents nothing
+ok 186 - with no view yet the shell says it is connecting and invents nothing
+  ---
+  duration_ms: 0.049833
+  type: 'test'
+  ...
+# Subtest: the motion setting reports its source truthfully
+ok 187 - the motion setting reports its source truthfully
+  ---
+  duration_ms: 0.116333
+  type: 'test'
+  ...
+# Subtest: registering a hidden shot changes nothing in the table model or the target phone model
+ok 188 - registering a hidden shot changes nothing in the table model or the target phone model
+  ---
+  duration_ms: 0.289542
+  type: 'test'
+  ...
+# Subtest: Protection truth never reaches a model: both fixture variants render identically for every audience
+ok 189 - Protection truth never reaches a model: both fixture variants render identically for every audience
+  ---
+  duration_ms: 0.433167
+  type: 'test'
+  ...
+# Subtest: match details quote the pinned versions and truncate the hash for display
+ok 190 - match details quote the pinned versions and truncate the hash for display
+  ---
+  duration_ms: 0.052125
+  type: 'test'
+  ...
+# Subtest: a Captain who is not in the Command Room keeps the marker without any location inference
+ok 191 - a Captain who is not in the Command Room keeps the marker without any location inference
+  ---
+  duration_ms: 0.114292
+  type: 'test'
+  ...
+# Subtest: the gate opens only on the player’s own ordinary turn, with a shot the server calls available, on current unexpired facts
+ok 192 - the gate opens only on the player’s own ordinary turn, with a shot the server calls available, on current unexpired facts
+  ---
+  duration_ms: 2.766042
+  type: 'test'
+  ...
+# Subtest: target hints are the other players in the same location and infer nothing else
+ok 193 - target hints are the other players in the same location and infer nothing else
+  ---
+  duration_ms: 1.318
+  type: 'test'
+  ...
+# Subtest: idle: the card offers a start only when the gate is open, and explains only what the player may know
+ok 194 - idle: the card offers a start only when the gate is open, and explains only what the player may know
+  ---
+  duration_ms: 0.990708
+  type: 'test'
+  ...
+# Subtest: targeting lists each hinted player with the public status everyone can see
+ok 195 - targeting lists each hinted player with the public status everyone can see
+  ---
+  duration_ms: 0.681709
+  type: 'test'
+  ...
+# Subtest: confirming names the target, says nothing has been sent, and offers exactly a send and a way back
+ok 196 - confirming names the target, says nothing has been sent, and offers exactly a send and a way back
+  ---
+  duration_ms: 0.235875
+  type: 'test'
+  ...
+# Subtest: a control that has just appeared is drawn, named and reachable, but marked as not active yet
+ok 197 - a control that has just appeared is drawn, named and reachable, but marked as not active yet
+  ---
+  duration_ms: 16.102166
+  type: 'test'
+  ...
+# Subtest: a choice that was not sent cannot be drawn once the gate has closed
+ok 198 - a choice that was not sent cannot be drawn once the gate has closed
+  ---
+  duration_ms: 0.671375
+  type: 'test'
+  ...
+# Subtest: a sent command locks the card until the server’s answer is known
+ok 199 - a sent command locks the card until the server’s answer is known
+  ---
+  duration_ms: 0.953125
+  type: 'test'
+  ...
+# Subtest: once the command’s phase is over an unknown result can be left, and says why it is still unknown
+ok 200 - once the command’s phase is over an unknown result can be left, and says why it is still unknown
+  ---
+  duration_ms: 0.46175
+  type: 'test'
+  ...
+# Subtest: after a reload the card says what it cannot know: it asks about the command and never names a target
+ok 201 - after a reload the card says what it cannot know: it asks about the command and never names a target
+  ---
+  duration_ms: 0.777375
+  type: 'test'
+  ...
+# Subtest: registered is reported as a registration and never as an outcome
+ok 202 - registered is reported as a registration and never as an outcome
+  ---
+  duration_ms: 0.842625
+  type: 'test'
+  ...
+# Subtest: a registration report the view has moved on from is told in the past tense and promises nothing still to come
+ok 203 - a registration report the view has moved on from is told in the past tense and promises nothing still to come
+  ---
+  duration_ms: 0.220084
+  type: 'test'
+  ...
+# Subtest: a rejection or a known failure says so plainly, with the server’s reason and nothing guessed
+ok 204 - a rejection or a known failure says so plainly, with the server’s reason and nothing guessed
+  ---
+  duration_ms: 0.308625
+  type: 'test'
+  ...
+# Subtest: after registration the card follows the view; this device adds the target only while it remembers it
+ok 205 - after registration the card follows the view; this device adds the target only while it remembers it
+  ---
+  duration_ms: 0.574
+  type: 'test'
+  ...
+# Subtest: the card is the same for every role at every step; only server facts and the player’s own progress differ
+ok 206 - the card is the same for every role at every step; only server facts and the player’s own progress differ
+  ---
+  duration_ms: 9.497917
+  type: 'test'
+  ...
+# Subtest: Protection truth never reaches the card: both fixture variants draw every step identically
+ok 207 - Protection truth never reaches the card: both fixture variants draw every step identically
+  ---
+  duration_ms: 2.850417
+  type: 'test'
+  ...
+# Subtest: no step of the flow is in the model or the document unless the private panel is open in the foreground
+ok 208 - no step of the flow is in the model or the document unless the private panel is open in the foreground
+  ---
+  duration_ms: 27.592458
+  type: 'test'
+  ...
+# Subtest: every step passes the structural audit and keeps exactly one line to focus on
+ok 209 - every step passes the structural audit and keeps exactly one line to focus on
+  ---
+  duration_ms: 8.204791
+  type: 'test'
+  ...
+# Subtest: target controls are buttons that carry their seat, a name and a public status in words
+ok 210 - target controls are buttons that carry their seat, a name and a public status in words
+  ---
+  duration_ms: 0.278125
+  type: 'test'
+  ...
+# Subtest: the card’s state is carried by text and mirrored in attributes for styling
+ok 211 - the card’s state is carried by text and mirrored in attributes for styling
+  ---
+  duration_ms: 3.133625
+  type: 'test'
+  ...
+# Subtest: a step change redraws the Shot card alone; a control becoming active redraws only the controls
+ok 212 - a step change redraws the Shot card alone; a control becoming active redraws only the controls
+  ---
+  duration_ms: 6.925666
+  type: 'test'
+  ...
+# Subtest: focus after a step the player took lands on the line for that step, never on a control that sends
+ok 213 - focus after a step the player took lands on the line for that step, never on a control that sends
+  ---
+  duration_ms: 4.458917
+  type: 'test'
+  ...
+# Subtest: a host can only turn a control into an intent the shells define
+ok 214 - a host can only turn a control into an intent the shells define
+  ---
+  duration_ms: 1.468791
+  type: 'test'
+  ...
+# Subtest: a region names where focus goes if what held it is redrawn away, and that place always exists
+ok 215 - a region names where focus goes if what held it is redrawn away, and that place always exists
+  ---
+  duration_ms: 1.582042
+  type: 'test'
+  ...
+# Subtest: a ballot is offered only while the server’s view opens it: its own candidates, and always the answer that names nobody
+ok 216 - a ballot is offered only while the server’s view opens it: its own candidates, and always the answer that names nobody
+  ---
+  duration_ms: 5.991792
+  type: 'test'
+  ...
+# Subtest: a control carries one short name for a choice, and no two choices of one action share it
+ok 217 - a control carries one short name for a choice, and no two choices of one action share it
+  ---
+  duration_ms: 0.337208
+  type: 'test'
+  ...
+# Subtest: the idle card lists a ballot only while it is open, and never on a view or a clock this device cannot vouch for
+ok 218 - the idle card lists a ballot only while it is open, and never on a view or a clock this device cannot vouch for
+  ---
+  duration_ms: 10.830458
+  type: 'test'
+  ...
+# Subtest: a vote asks what the server’s phase says it is about, lists the candidates in seat order with the abstention last, and confirms in those words
+ok 219 - a vote asks what the server’s phase says it is about, lists the candidates in seat order with the abstention last, and confirms in those words
+  ---
+  duration_ms: 12.577208
+  type: 'test'
+  ...
+# Subtest: the Captain’s release choice lists the jailed players the server offers and “no request”, and says what asking uses up
+ok 220 - the Captain’s release choice lists the jailed players the server offers and “no request”, and says what asking uses up
+  ---
+  duration_ms: 2.327333
+  type: 'test'
+  ...
+# Subtest: a release vote names the jailed player the public ballot names, offers yes, no and an abstention, and reports only the ballot
+ok 221 - a release vote names the jailed player the public ballot names, offers yes, no and an abstention, and reports only the ballot
+  ---
+  duration_ms: 2.50725
+  type: 'test'
+  ...
+# Subtest: the player’s own ballot is shown from the server’s view, inside the open private panel and nowhere else
+ok 222 - the player’s own ballot is shown from the server’s view, inside the open private panel and nowhere else
+  ---
+  duration_ms: 8.029625
+  type: 'test'
+  ...
+# Subtest: every audience is told what is being voted on, in the same words, from the public ballot alone
+ok 223 - every audience is told what is being voted on, in the same words, from the public ballot alone
+  ---
+  duration_ms: 5.110584
+  type: 'test'
+  ...
+# Subtest: the last count is shown as the server published it: its numbers, and the seat it names
+ok 224 - the last count is shown as the server published it: its numbers, and the seat it names
+  ---
+  duration_ms: 3.160167
+  type: 'test'
+  ...
+# Subtest: a newly published count is spoken once, to the display and to every phone, and never replayed after a reconnection
+ok 225 - a newly published count is spoken once, to the display and to every phone, and never replayed after a reconnection
+  ---
+  duration_ms: 1.603083
+  type: 'test'
+  ...
+# Subtest: the last seconds of a vote are announced to a seat the public ballot says may vote, once
+ok 226 - the last seconds of a vote are announced to a seat the public ballot says may vote, once
+  ---
+  duration_ms: 0.4045
+  type: 'test'
+  ...
+1..226
+# tests 226
+# suites 0
+# pass 226
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 732.246583

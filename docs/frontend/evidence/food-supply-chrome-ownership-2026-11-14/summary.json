@@ -1,0 +1,204 @@
+{
+  "scope": "Focused synthetic native-browser lifecycle regression only. No connected/API acceptance, physical-device test or Designer approval.",
+  "beforeSource": "1f93263436449fe019227bec75501ec199ec43a4",
+  "afterSource": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "beforeClean": true,
+  "afterClean": true,
+  "baselineProfiles": 12,
+  "fixedProfiles": 12,
+  "clientTestsPassed": 1021,
+  "clientTestsFailed": 0,
+  "standardSmokeProfiles": 4,
+  "capturedExceptions": {
+    "before": 0,
+    "after": 0,
+    "standardSmoke": 0
+  },
+  "pngCounts": {
+    "before": 36,
+    "after": 60,
+    "standardSmoke": 12
+  },
+  "profiles": [
+    {
+      "profile": "joined-390-844-text1-normal",
+      "state": "JOINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "ATE",
+        "dosesConsumed": 1
+      }
+    },
+    {
+      "profile": "declined-390-844-text1-normal",
+      "state": "DECLINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "withdrawn-390-844-text1-normal",
+      "state": "WITHDRAWN",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "joined-390-844-text1-reduced",
+      "state": "JOINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "ATE",
+        "dosesConsumed": 1
+      }
+    },
+    {
+      "profile": "declined-390-844-text1-reduced",
+      "state": "DECLINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "withdrawn-390-844-text1-reduced",
+      "state": "WITHDRAWN",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "joined-320-568-text2-normal",
+      "state": "JOINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "ATE",
+        "dosesConsumed": 1
+      }
+    },
+    {
+      "profile": "declined-320-568-text2-normal",
+      "state": "DECLINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "withdrawn-320-568-text2-normal",
+      "state": "WITHDRAWN",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "joined-320-568-text2-reduced",
+      "state": "JOINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "ATE",
+        "dosesConsumed": 1
+      }
+    },
+    {
+      "profile": "declined-320-568-text2-reduced",
+      "state": "DECLINED",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    },
+    {
+      "profile": "withdrawn-320-568-text2-reduced",
+      "state": "WITHDRAWN",
+      "beforeNavInert": true,
+      "beforePassVisible": false,
+      "afterNavInert": false,
+      "afterPassVisible": true,
+      "commands": 1,
+      "retainedClosures": 1,
+      "ownMeal": {
+        "round": 3,
+        "result": "NO_DOSE",
+        "dosesConsumed": 0
+      }
+    }
+  ]
+}

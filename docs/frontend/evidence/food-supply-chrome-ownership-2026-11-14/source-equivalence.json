@@ -1,0 +1,397 @@
+{
+  "head": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "nativeBase": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+  "modules": [
+    {
+      "path": "apps/game/hosted/planet/food-geometry.mjs",
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ink.mjs",
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "bytes": 2408,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-machine.mjs",
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-scene.mjs",
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-icons.mjs",
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ui.mjs",
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-kit.css",
+      "sha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+      "bytes": 57285,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food.css",
+      "sha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
+      "bytes": 30798,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-host.css",
+      "sha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "bytes": 1584,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-pose.mjs",
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "bytes": 6888,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-display.mjs",
+      "sha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "bytes": 9836,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-assets.mjs",
+      "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+      "bytes": 1823,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-render.mjs",
+      "sha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
+      "bytes": 35737,
+      "changedFrom952": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-app.mjs",
+      "sha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "bytes": 3270,
+      "changedFrom952": false
+    },
+    {
+      "path": "packages/presentation/src/planet/food.ts",
+      "sha256": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
+      "bytes": 3621,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-gauge.mjs",
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/food-tags.mjs",
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "sha256": "71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
+      "bytes": 25234,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "sha256": "79872afa8216eb74669f798c67427ecaf3bff977ebffed4bdfa323a95b51b248",
+      "bytes": 53361,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.mjs",
+      "sha256": "227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+      "bytes": 11738,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/planet/controller.ts",
+      "sha256": "728ad00df7318235a3dd40e77d7cf393bfa9e20b7c5ede518f54790b4caddb00",
+      "bytes": 31492,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+      "bytes": 27860,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/planet/transport.ts",
+      "sha256": "2568a7750f59eef9ef0abaddff04e067492f97ce81a72eb48506e710ab37b044",
+      "bytes": 6616,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/planet/food.ts",
+      "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+      "bytes": 19238,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/planet/food-input.ts",
+      "sha256": "030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
+      "bytes": 1469,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/planet/food-recovery.ts",
+      "sha256": "aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
+      "bytes": 3917,
+      "changedFrom952": false
+    },
+    {
+      "path": "packages/presentation/src/planet/library.ts",
+      "sha256": "3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+      "bytes": 4845,
+      "changedFrom952": false
+    },
+    {
+      "path": "packages/presentation/src/planet/model.ts",
+      "sha256": "012324bd4e310a16011b1d0b97632c118e94d3b9fcd9a508c699fb3a1e8b1672",
+      "bytes": 13271,
+      "changedFrom952": false
+    },
+    {
+      "path": "apps/game/src/index.ts",
+      "sha256": "11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
+      "bytes": 5077,
+      "changedFrom952": false
+    },
+    {
+      "path": "packages/presentation/src/index.ts",
+      "sha256": "fcc6f5733a59a195cfa2144e984d8eb7c31d6428fdf7756f9a6c52fd306b8df0",
+      "bytes": 3497,
+      "changedFrom952": false
+    }
+  ],
+  "designer": [
+    {
+      "path": "docs/design/food-supply.md",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/handoff.json",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/layout.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/room.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/machine.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/scene.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/phone.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/phone.css",
+      "matches": true
+    },
+    {
+      "path": "design/phone-ui/prototype/ui.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/phone-ui/prototype/kit.css",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/art/supply-room.back.svg",
+      "matches": true
+    },
+    {
+      "path": "design/phone-ui/prototype/icons.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/phone-ui/prototype/art.mjs",
+      "matches": true
+    },
+    {
+      "path": "design/food-supply/hints.mjs",
+      "matches": true
+    }
+  ],
+  "art": [
+    {
+      "path": "apps/game/candidates/food-supply/assets/supply-room.back.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c1-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c1-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c1-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c1-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c2-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c2-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c2-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c2-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c3-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c3-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c3-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c3-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c4-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c4-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c4-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c4-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c5-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c5-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c5-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c5-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c6-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c6-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c6-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c6-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c7-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c7-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c7-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c7-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c8-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c8-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c8-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c8-winch-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c9-panel-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c9-panel-out.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c9-winch-alive.svg",
+      "matches": true
+    },
+    {
+      "path": "apps/game/candidates/food-supply/assets/operators/c9-winch-out.svg",
+      "matches": true
+    }
+  ],
+  "componentBuild": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "connectedBuild": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "connectedModuleCount": 197
+}

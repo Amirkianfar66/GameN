@@ -1,0 +1,799 @@
+{
+  "task-winch-initial": {
+    "schemaVersion": 1,
+    "versions": {
+      "protocolVersion": 3,
+      "engineVersion": "planet-game-1.4.0",
+      "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+      "rulesetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assetManifestVersion": "food-contract-fixture"
+    },
+    "matchId": "food-fixture-7",
+    "round": 2,
+    "viewRevision": 2,
+    "phaseId": "food-phase-2",
+    "serverNowMs": 6000,
+    "playerCount": 7,
+    "rosterSeatIds": [
+      "seat-1",
+      "seat-2",
+      "seat-3",
+      "seat-4",
+      "seat-5",
+      "seat-6",
+      "seat-7"
+    ],
+    "turnEnds": [],
+    "audience": "player",
+    "step": {
+      "kind": "AWAY",
+      "stepId": "food-step-2",
+      "startedAt": 1000,
+      "returnsAt": 33500,
+      "awaySeatIds": [
+        "seat-1",
+        "seat-2"
+      ]
+    },
+    "stock": {
+      "doses": 10,
+      "publicationRound": 2,
+      "basis": "PLAYER_CURRENT"
+    },
+    "seatId": "seat-1",
+    "ownAvailability": {
+      "canAsk": false,
+      "reason": "TASK_ALREADY_STARTED"
+    },
+    "invitation": null,
+    "participantTask": {
+      "foodStepId": "food-step-2",
+      "round": 2,
+      "taskId": "task-2",
+      "revision": 0,
+      "controlRevision": 0,
+      "participantSeatIds": [
+        "seat-1",
+        "seat-2"
+      ],
+      "winchSeatId": "seat-1",
+      "panelSeatId": "seat-2",
+      "selfControl": "WINCH",
+      "controlSessionId": "winch-session-2",
+      "startedAt": 1000,
+      "runningAt": 5000,
+      "deadlineAt": 31000,
+      "returnsAt": 33500,
+      "stage": "ACTIVE",
+      "people": [
+        {
+          "seatId": "seat-1",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        },
+        {
+          "seatId": "seat-2",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        }
+      ],
+      "panel": {
+        "locked": true,
+        "stop": 0,
+        "direction": 1,
+        "anchorAt": 1000,
+        "blade": {
+          "state": "RAISED",
+          "stop": 0,
+          "changedAt": 1000
+        },
+        "warning": null,
+        "swing": null
+      },
+      "crate": {
+        "id": "crate-0",
+        "generation": 0,
+        "state": "INTAKE",
+        "holder": null,
+        "x": 0,
+        "height": 0,
+        "anchorAt": 1000,
+        "motion": null
+      },
+      "ownGesture": {
+        "controlSessionId": "winch-session-2",
+        "highestSequence": 0,
+        "recoveryRevision": 0,
+        "currentHolder": null,
+        "pendingIntent": null
+      },
+      "broken": [],
+      "events": {
+        "cursor": 0,
+        "events": []
+      },
+      "outcome": null,
+      "ownReturnPlacement": {
+        "location": "Room A",
+        "slotId": "A1"
+      }
+    },
+    "offers": [
+      {
+        "type": "TASK_PRESS",
+        "taskId": "task-2",
+        "controlSessionId": "winch-session-2",
+        "controlRevision": 0,
+        "inputs": [
+          "HOLD"
+        ],
+        "crateId": "crate-0"
+      }
+    ],
+    "partnerChoices": [
+      {
+        "seatId": "seat-2",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-3",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-4",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-5",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-6",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-7",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      }
+    ],
+    "requestClosures": [],
+    "privateCursor": 0,
+    "ownMeals": []
+  },
+  "full-answer-window-beyond-asking-deadline": {
+    "schemaVersion": 1,
+    "versions": {
+      "protocolVersion": 3,
+      "engineVersion": "planet-game-1.4.0",
+      "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+      "rulesetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assetManifestVersion": "food-contract-fixture"
+    },
+    "matchId": "food-fixture-7",
+    "round": 2,
+    "viewRevision": 2,
+    "phaseId": "food-asking-phase-2",
+    "serverNowMs": 31000,
+    "playerCount": 7,
+    "rosterSeatIds": [
+      "seat-1",
+      "seat-2",
+      "seat-3",
+      "seat-4",
+      "seat-5",
+      "seat-6",
+      "seat-7"
+    ],
+    "turnEnds": [],
+    "audience": "player",
+    "step": {
+      "kind": "ASKING",
+      "stepId": "food-step-2",
+      "startedAt": 1000,
+      "askingEndsAt": 31000,
+      "someoneAsking": true
+    },
+    "stock": {
+      "doses": 10,
+      "publicationRound": 2,
+      "basis": "PLAYER_CURRENT"
+    },
+    "seatId": "seat-1",
+    "ownAvailability": {
+      "canAsk": false,
+      "reason": "REQUEST_PENDING"
+    },
+    "invitation": {
+      "foodStepId": "food-step-2",
+      "round": 2,
+      "requestId": "ask-original",
+      "revision": 0,
+      "volunteerSeatId": "seat-2",
+      "partnerSeatId": "seat-1",
+      "askedAt": 30999,
+      "answerEndsAt": 45999,
+      "state": "PENDING"
+    },
+    "participantTask": null,
+    "offers": [
+      {
+        "type": "TASK_ANSWER",
+        "requestId": "ask-original",
+        "requestRevision": 0
+      }
+    ],
+    "partnerChoices": [
+      {
+        "seatId": "seat-2",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-3",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-4",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-5",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-6",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-7",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      }
+    ],
+    "requestClosures": [],
+    "privateCursor": 0,
+    "ownMeals": []
+  },
+  "neutral-stopped-drop-brake": {
+    "schemaVersion": 1,
+    "versions": {
+      "protocolVersion": 3,
+      "engineVersion": "planet-game-1.4.0",
+      "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+      "rulesetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assetManifestVersion": "food-contract-fixture"
+    },
+    "matchId": "food-fixture-7",
+    "round": 2,
+    "viewRevision": 2,
+    "phaseId": "food-phase-2",
+    "serverNowMs": 6000,
+    "playerCount": 7,
+    "rosterSeatIds": [
+      "seat-1",
+      "seat-2",
+      "seat-3",
+      "seat-4",
+      "seat-5",
+      "seat-6",
+      "seat-7"
+    ],
+    "turnEnds": [],
+    "audience": "player",
+    "step": {
+      "kind": "AWAY",
+      "stepId": "food-step-2",
+      "startedAt": 1000,
+      "returnsAt": 33500,
+      "awaySeatIds": [
+        "seat-1",
+        "seat-2"
+      ]
+    },
+    "stock": {
+      "doses": 10,
+      "publicationRound": 2,
+      "basis": "PLAYER_CURRENT"
+    },
+    "seatId": "seat-1",
+    "ownAvailability": {
+      "canAsk": false,
+      "reason": "TASK_ALREADY_STARTED"
+    },
+    "invitation": null,
+    "participantTask": {
+      "foodStepId": "food-step-2",
+      "round": 2,
+      "taskId": "task-2",
+      "revision": 0,
+      "controlRevision": 0,
+      "participantSeatIds": [
+        "seat-1",
+        "seat-2"
+      ],
+      "winchSeatId": "seat-1",
+      "panelSeatId": "seat-2",
+      "selfControl": "WINCH",
+      "controlSessionId": "winch-session-2",
+      "startedAt": 1000,
+      "runningAt": 5000,
+      "deadlineAt": 31000,
+      "returnsAt": 33500,
+      "stage": "ACTIVE",
+      "people": [
+        {
+          "seatId": "seat-1",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        },
+        {
+          "seatId": "seat-2",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        }
+      ],
+      "panel": {
+        "locked": true,
+        "stop": 0,
+        "direction": 1,
+        "anchorAt": 1000,
+        "blade": {
+          "state": "RAISED",
+          "stop": 0,
+          "changedAt": 1000
+        },
+        "warning": null,
+        "swing": null
+      },
+      "crate": {
+        "id": "crate-0",
+        "generation": 0,
+        "state": "BRAKED",
+        "holder": "BRAKE",
+        "x": 4,
+        "height": 1,
+        "anchorAt": 6000,
+        "motion": null
+      },
+      "ownGesture": {
+        "controlSessionId": "winch-session-2",
+        "highestSequence": 0,
+        "recoveryRevision": 0,
+        "currentHolder": null,
+        "pendingIntent": null
+      },
+      "broken": [],
+      "events": {
+        "cursor": 1,
+        "events": [
+          {
+            "id": "own-stop-1",
+            "cursor": 1,
+            "at": 6000,
+            "kind": "STOPPED",
+            "mechanism": "DROP",
+            "actorSeatId": "seat-1",
+            "victimSeatId": "seat-2",
+            "crateId": "crate-0",
+            "x": 4
+          }
+        ]
+      },
+      "outcome": null,
+      "ownReturnPlacement": {
+        "location": "Room A",
+        "slotId": "A1"
+      }
+    },
+    "offers": [
+      {
+        "type": "TASK_PRESS",
+        "taskId": "task-2",
+        "controlSessionId": "winch-session-2",
+        "controlRevision": 0,
+        "inputs": [
+          "HOLD"
+        ],
+        "crateId": "crate-0"
+      }
+    ],
+    "partnerChoices": [
+      {
+        "seatId": "seat-2",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-3",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-4",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-5",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-6",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-7",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      }
+    ],
+    "requestClosures": [],
+    "privateCursor": 0,
+    "ownMeals": []
+  },
+  "reconnect-older-owner-and-newer-pending-intent": {
+    "schemaVersion": 1,
+    "versions": {
+      "protocolVersion": 3,
+      "engineVersion": "planet-game-1.4.0",
+      "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+      "rulesetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assetManifestVersion": "food-contract-fixture"
+    },
+    "matchId": "food-fixture-7",
+    "round": 2,
+    "viewRevision": 2,
+    "phaseId": "food-phase-2",
+    "serverNowMs": 7000,
+    "playerCount": 7,
+    "rosterSeatIds": [
+      "seat-1",
+      "seat-2",
+      "seat-3",
+      "seat-4",
+      "seat-5",
+      "seat-6",
+      "seat-7"
+    ],
+    "turnEnds": [],
+    "audience": "player",
+    "step": {
+      "kind": "AWAY",
+      "stepId": "food-step-2",
+      "startedAt": 1000,
+      "returnsAt": 33500,
+      "awaySeatIds": [
+        "seat-1",
+        "seat-2"
+      ]
+    },
+    "stock": {
+      "doses": 10,
+      "publicationRound": 2,
+      "basis": "PLAYER_CURRENT"
+    },
+    "seatId": "seat-1",
+    "ownAvailability": {
+      "canAsk": false,
+      "reason": "TASK_ALREADY_STARTED"
+    },
+    "invitation": null,
+    "participantTask": {
+      "foodStepId": "food-step-2",
+      "round": 2,
+      "taskId": "task-2",
+      "revision": 0,
+      "controlRevision": 0,
+      "participantSeatIds": [
+        "seat-1",
+        "seat-2"
+      ],
+      "winchSeatId": "seat-1",
+      "panelSeatId": "seat-2",
+      "selfControl": "WINCH",
+      "controlSessionId": "winch-session-2",
+      "startedAt": 1000,
+      "runningAt": 5000,
+      "deadlineAt": 31000,
+      "returnsAt": 33500,
+      "stage": "ACTIVE",
+      "people": [
+        {
+          "seatId": "seat-1",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        },
+        {
+          "seatId": "seat-2",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        }
+      ],
+      "panel": {
+        "locked": true,
+        "stop": 0,
+        "direction": 1,
+        "anchorAt": 1000,
+        "blade": {
+          "state": "RAISED",
+          "stop": 0,
+          "changedAt": 1000
+        },
+        "warning": null,
+        "swing": null
+      },
+      "crate": {
+        "id": "crate-0",
+        "generation": 0,
+        "state": "HELD",
+        "holder": "WINCH",
+        "x": 0,
+        "height": 1,
+        "anchorAt": 6000,
+        "motion": null
+      },
+      "ownGesture": {
+        "controlSessionId": "winch-session-2",
+        "highestSequence": 2,
+        "recoveryRevision": 2,
+        "currentHolder": {
+          "sequence": 1,
+          "crateId": "crate-0"
+        },
+        "pendingIntent": {
+          "sequence": 2,
+          "crateId": null
+        }
+      },
+      "broken": [],
+      "events": {
+        "cursor": 0,
+        "events": []
+      },
+      "outcome": null,
+      "ownReturnPlacement": {
+        "location": "Room A",
+        "slotId": "A1"
+      }
+    },
+    "offers": [
+      {
+        "type": "TASK_PRESS",
+        "taskId": "task-2",
+        "controlSessionId": "winch-session-2",
+        "controlRevision": 0,
+        "inputs": [
+          "HOLD"
+        ],
+        "crateId": "crate-0"
+      }
+    ],
+    "partnerChoices": [
+      {
+        "seatId": "seat-2",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-3",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-4",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-5",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-6",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-7",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      }
+    ],
+    "requestClosures": [],
+    "privateCursor": 0,
+    "ownMeals": []
+  },
+  "victim-cut-empty-cosmetic-suffix": {
+    "schemaVersion": 1,
+    "versions": {
+      "protocolVersion": 3,
+      "engineVersion": "planet-game-1.4.0",
+      "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+      "rulesetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assetManifestVersion": "food-contract-fixture"
+    },
+    "matchId": "food-fixture-7",
+    "round": 2,
+    "viewRevision": 2,
+    "phaseId": "food-phase-2",
+    "serverNowMs": 9500,
+    "playerCount": 7,
+    "rosterSeatIds": [
+      "seat-1",
+      "seat-2",
+      "seat-3",
+      "seat-4",
+      "seat-5",
+      "seat-6",
+      "seat-7"
+    ],
+    "turnEnds": [],
+    "audience": "player",
+    "step": {
+      "kind": "AWAY",
+      "stepId": "food-step-2",
+      "startedAt": 1000,
+      "returnsAt": 33500,
+      "awaySeatIds": [
+        "seat-1",
+        "seat-2"
+      ]
+    },
+    "stock": {
+      "doses": 10,
+      "publicationRound": 2,
+      "basis": "PLAYER_CURRENT"
+    },
+    "seatId": "seat-1",
+    "ownAvailability": {
+      "canAsk": false,
+      "reason": "TASK_ALREADY_STARTED"
+    },
+    "invitation": null,
+    "participantTask": {
+      "foodStepId": "food-step-2",
+      "round": 2,
+      "taskId": "task-2",
+      "revision": 0,
+      "controlRevision": 0,
+      "participantSeatIds": [
+        "seat-1",
+        "seat-2"
+      ],
+      "winchSeatId": "seat-1",
+      "panelSeatId": "seat-2",
+      "selfControl": "WINCH",
+      "controlSessionId": "winch-session-2",
+      "startedAt": 1000,
+      "runningAt": 5000,
+      "deadlineAt": 31000,
+      "returnsAt": 33500,
+      "stage": "ENDED",
+      "people": [
+        {
+          "seatId": "seat-1",
+          "alive": false,
+          "online": true,
+          "keyTurned": false,
+          "death": {
+            "at": 9500,
+            "mechanism": "CUT",
+            "actorSeatId": "seat-2"
+          }
+        },
+        {
+          "seatId": "seat-2",
+          "alive": true,
+          "online": true,
+          "keyTurned": false,
+          "death": null
+        }
+      ],
+      "panel": {
+        "locked": true,
+        "stop": 0,
+        "direction": 1,
+        "anchorAt": 1000,
+        "blade": {
+          "state": "RAISED",
+          "stop": 0,
+          "changedAt": 1000
+        },
+        "warning": null,
+        "swing": null
+      },
+      "crate": {
+        "id": "crate-0",
+        "generation": 0,
+        "state": "INTAKE",
+        "holder": null,
+        "x": 0,
+        "height": 0,
+        "anchorAt": 1000,
+        "motion": null
+      },
+      "ownGesture": {
+        "controlSessionId": "winch-session-2",
+        "highestSequence": 0,
+        "recoveryRevision": 0,
+        "currentHolder": null,
+        "pendingIntent": null
+      },
+      "broken": [],
+      "events": {
+        "cursor": 0,
+        "events": []
+      },
+      "outcome": {
+        "kind": "LOST",
+        "at": 9500,
+        "reason": "NOT_OVER_PLATFORM"
+      },
+      "ownReturnPlacement": {
+        "location": "Room A",
+        "slotId": "A1"
+      }
+    },
+    "offers": [],
+    "partnerChoices": [
+      {
+        "seatId": "seat-2",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-3",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-4",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-5",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-6",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      },
+      {
+        "seatId": "seat-7",
+        "available": false,
+        "reason": "NOT_AVAILABLE_NOW"
+      }
+    ],
+    "requestClosures": [],
+    "privateCursor": 0,
+    "ownMeals": []
+  }
+}

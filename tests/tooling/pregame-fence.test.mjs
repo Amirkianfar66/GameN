@@ -1,4 +1,4 @@
-import {pregameProductionFixturePaths,restoreHistoricalPregameFixture} from './support/pregame-production-fixture.mjs';
+import {pregameProductionFixturePaths,restoreHistoricalPregameFixture,restoreBeforeFoodFixture} from './support/pregame-production-fixture.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL,readPregameConsumerApproval} from '../../scripts/pregame-consumer-approval.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -29,7 +29,7 @@ const append=(target,path,value)=>writeFileSync(join(target,path),readFileSync(j
 const rejects=async(target,pattern)=>assert.match((await productionDrawingProblems(target)).join('\n'),pattern);
 
 test('phone adoption retains every drawing port, source pin and style while admitting exact native files only', async t=>{
-  const target=fixture(t),current=readDrawingPolicy(target);
+  const target=fixture(t);restoreBeforeFoodFixture(root,target);const current=readDrawingPolicy(target);
   rmSync(join(target,PHONE_UI_PRODUCTION_DRAWING_POLICY));
   const previous=readDrawingPolicy(target);
   for(const key of ['ports','sourceHashes','styles'])assert.deepEqual(current[key],previous[key],key);
@@ -47,6 +47,21 @@ test('a malformed or symlinked phone fence supplement cannot silently fall back'
   assert.throws(()=>readDrawingPolicy(target),/Phone UI drawing approval content hash differs/);
   rmSync(path);symlinkSync(join(root,PHONE_UI_PRODUCTION_DRAWING_POLICY),path);
   assert.throws(()=>readDrawingPolicy(target),/Phone UI drawing approval must be a regular file/);
+});
+
+test('Food release-selection tooling stays pinned and predecessor fixtures restore the original selector', async t=>{
+  const target=fixture(t), policy=readDrawingPolicy(root);
+  const digest=path=>createHash('sha256').update(readFileSync(join(target,path))).digest('hex');
+  for(const path of ['scripts/hosted-art-releases.mjs','scripts/food-consumer-approval.mjs']){
+    assert.equal(policy.requiredFiles[path],digest(path),path);
+    append(target,path,'\n// unreviewed release selection change\n');
+    assert.ok((await productionDrawingProblems(target)).includes(`${path}: required candidate drawing input differs`),path);
+    cpSync(join(root,path),join(target,path));
+  }
+  const source=JSON.parse(readFileSync(join(root,'docs/integration/food-consumer-source-2026-11-13.json')));
+  restoreBeforeFoodFixture(root,target);
+  assert.equal(digest('scripts/hosted-art-releases.mjs'),source.predecessorTooling['scripts/hosted-art-releases.mjs']);
+  assert.deepEqual(await productionDrawingProblems(target),[]);
 });
 function candidateFixture(t){
   const target=fixture(t),candidate=JSON.parse(readFileSync(join(target,PREGAME_CONSUMER_CANDIDATE)));
@@ -98,7 +113,7 @@ test('altered source and frozen crew/rig dependencies fail independently of unch
   const target=fixture(t);
   for(const path of ['design/pregame-films/roles/doctor.mjs','design/crew-drawing/source/crew.mjs','design/board-motion/figures/motion.mjs',
     'apps/game/hosted/crew-drawing/crew.mjs','apps/game/hosted/scene-drawing/motion.mjs']){
-    append(target,path,'\n// changed\n');await rejects(target,/frozen drawing source hash differs|required candidate drawing input differs/);
+    append(target,path,'\n// changed\n');await rejects(target,/frozen drawing source hash differs|required candidate drawing input differs|Food static art: input differs: design\/crew-drawing\/source\//);
     cpSync(join(root,path),join(target,path));
   }
 });

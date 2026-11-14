@@ -1,4 +1,4 @@
-import type { PlanetBoardView, PlanetCommand, PlanetPlayerView, PlanetPublicView, PlanetRole, PlanetSlotId, SeatId } from '@mothership/contracts';
+import type { PlanetBoardView, PlanetCommand, PlanetPlayerView, PlanetPublicView, PlanetRole, PlanetSlotId, SeatId,FoodTaskPublicView } from '@mothership/contracts';
 
 export type PlanetCommandType = PlanetCommand['type'];
 export type PlanetView = PlanetPublicView | PlanetPlayerView;
@@ -12,6 +12,8 @@ export interface PlanetActionModel {
   readonly prompt: string; readonly confirmation: string | null; readonly canConfirm: boolean;
 }
 export interface PlanetScreenModel {
+  /** Exact Food public facts; the canonical board roster is never filtered here. */
+  readonly food?:FoodTaskPublicView;
   readonly protocolVersion: 3; readonly versions: PlanetView['versions']|null; readonly surface: 'player'|'display'; readonly mode: 'authenticated'|'synthetic';
   readonly connection: 'connecting'|'live'|'stale'|'error'; readonly message: string | null;
   readonly matchId: string; readonly playerCount:7|8|9|null; readonly round: number | null; readonly revision: number | null;

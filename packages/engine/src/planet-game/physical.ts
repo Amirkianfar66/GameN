@@ -1,6 +1,7 @@
 import type { ClinicalPresentationAnchor, PlanetCommand, PlanetOffer, PlanetSeatView, PlanetSlotId, SeatId } from '@mothership/contracts';
 import { registerPlanetPanelRequest, resolvePlanetPanelReservation } from './feedback.js';
-import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetSeatView, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback, planetHasPhoneOffers, planetHasPreVoteBlackout } from './model.js';
+import { hungerCandidates } from './food-meals.js';
+import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetSeatView, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback, planetHasPhoneOffers, planetHasPreVoteBlackout, planetHasFoodTask } from './model.js';
 import type { PlanetGameState, PlanetPhysicalSeat, PlanetRegisteredAction, PlanetWorld, PlanetBlackoutAttempt, PlanetBlackoutBatch } from './model.js';
 
 type PlanetLocation = NonNullable<PlanetSeatView['location']>;
@@ -33,6 +34,29 @@ function sealClinicalAnchors(state:PlanetGameState,world:PlanetWorld,offset:numb
     record.event.location=subject.location;record.event.slotId=subject.slotId;
     record.event.clinicalAnchor={kind:'CLINICAL_VIGNETTE',batchId:`${state.phase.id.slice(0,100)}-clinical`,anchorId,slotCount:state.playerCount} as ClinicalPresentationAnchor;
   }
+}
+/** Owner-confirmed Captain-loss exception, called at common return or on a private preview copy. */
+export function restorePlanetFoodCaptainLoss(state:PlanetGameState,world:PlanetWorld,originalSeats:PlanetSeatView[]):void {
+  if(!planetHasFoodTask(state.versions))throw Error('Food Captain return requires Food ruleset');
+  for(const original of originalSeats)if(original.captain&&original.location==='Command Room'){
+    const target=planetSeat(world,original.seatId);
+    if(target.health==='Eliminated'){
+      target.location=null;target.slotId=null;returnOrdinary(world,target);
+    }
+  }
+}
+/** Publication only; caller owns the common-return/once guard and has restored approved placements. */
+export function publishPlanetFoodReturnDeaths(state:PlanetGameState,world:PlanetWorld,originalSeats:PlanetSeatView[]):void {
+  if(!planetHasFoodTask(state.versions))throw Error('Food return publication requires Food ruleset');
+  const original=new Map(originalSeats.map(seat=>[seat.seatId,seat]));
+  if(original.size!==originalSeats.length||original.size!==world.seats.length||world.seats.some(seat=>!original.has(seat.seatId)))throw Error('Food return requires the complete original roster');
+  const before=new Map<SeatId,Placement>(originalSeats.map(seat=>[seat.seatId,{location:seat.location,slotId:seat.slotId}]));
+  const offset=world.events.length;
+  for(const seat of [...world.seats].sort((a,b)=>numeric(a.seatId)-numeric(b.seatId))){
+    if(original.get(seat.seatId)!.health!=='Eliminated'&&seat.health==='Eliminated')storePlanetEvent(state,world,'ELIMINATED',[seat.seatId]);
+  }
+  sealClinicalAnchors(state,world,offset,before);
+  recordPlacementChanges(state,world,before);
 }
 export function planetSlotIds(location:PlanetLocation):PlanetSlotId[] {
   const prefix=({'Room A':'A','Room B':'B','Command Room':'C',Hospital:'H',Jail:'J'} as const)[location];
@@ -231,10 +255,14 @@ function planetDamageBatch(state:PlanetGameState,world:PlanetWorld) {
 type PlanetDamageBatch=ReturnType<typeof planetDamageBatch>;
 
 /** Actual physical settlement only; full-round aging/Rescue/expiry are separate. */
-function settlePlanetDamage(state:PlanetGameState,world:PlanetWorld,batch:PlanetDamageBatch,finalize:boolean):void {
+function settlePlanetDamage(state:PlanetGameState,world:PlanetWorld,batch:PlanetDamageBatch,finalize:boolean,hungerOrder:readonly SeatId[]=[]):void {
   const {candidates,before,offset,eliminate}=batch,denied=new Set<SeatId>();
   const returners=world.seats.filter(s=>s.health==='Healthy'&&!s.jailed&&(candidates.has(s.seatId)||s.location==='Hospital'||s.location==='Jail'||(s.location==='Command Room'&&world.captainSeatId!==s.seatId))).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
-  const candidatesSorted=world.seats.filter(s=>candidates.has(s.seatId)).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
+  const candidatesNumeric=world.seats.filter(s=>candidates.has(s.seatId)).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
+  // Food is a successor-only ordered suffix. Existing attack candidates keep their exact
+  // numeric priority; hungry seats compete in retained ordinary completion order afterward.
+  const hungry=planetHasFoodTask(state.versions)?new Set(hungerOrder):new Set<SeatId>();
+  const candidatesSorted=hungry.size===0?candidatesNumeric:[...candidatesNumeric.filter(s=>!hungry.has(s.seatId)),...hungerOrder.map(id=>planetSeat(world,id))];
   const jailReturners=world.seats.filter(s=>s.health==='Healthy'&&s.jailed&&(s.location==='Hospital'||candidates.has(s.seatId))).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
   for(const target of [...returners,...candidatesSorted,...jailReturners]){target.location=null;target.slotId=null;}
   for(const target of candidatesSorted){
@@ -278,6 +306,7 @@ export function resolvePlanetBlackoutBatch(state:PlanetGameState):void {
 /** Complete selected-world resolution. No attack, heal, Promise or ending runs before Sync. */
 export function resolvePlanetPhysical(state:PlanetGameState,world:PlanetWorld):void {
   if(planetHasPreVoteBlackout(state.versions)&&(state.blackoutBatch?.status!=='RESOLVED'||world.actions.some(action=>action.command.type==='REQUEST_BLACKOUT')))throw Error('Remaining resolution requires completed Blackout');
+  if(planetHasFoodTask(state.versions)&&!world.food)throw Error('Food resolution requires the retained world ledger');
   const damage=planetDamageBatch(state,world),{eliminate,strike}=damage;
   const ordered=state.turnOrder.flatMap(id=>world.actions.filter(a=>a.actorSeatId===id));
   if(ordered.length!==world.actions.length)throw Error('Unknown registered physical actor');
@@ -300,14 +329,30 @@ export function resolvePlanetPhysical(state:PlanetGameState,world:PlanetWorld):v
       else if(command.type==='REGISTER_SHOT')strike(command.targetSeatId);
     }
   }
+  const newlyHungryInjured=new Set<SeatId>(),hungerOrder:SeatId[]=[];
+  if(planetHasFoodTask(state.versions)){
+    if(!world.food)throw Error('Food resolution requires the retained world ledger');
+    for(const id of hungerCandidates(world.food,state.round,world.seats,state.turnOrder)){
+      const target=planetSeat(world,id);
+      // Hunger is not a strike: do not inspect/consume Protection or Clone and never escalate
+      // a prior injury, revive an eliminated player or extend an existing episode's deadline.
+      if(target.health!=='Healthy')continue;
+      target.health='Injured';target.rescueDueAfterRound=state.round+1;
+      target.medical={admittedRound:state.round,rescueDueAfterRound:state.round+1,rescueOpportunity:'NEXT_NORMAL_ROUND'};
+      damage.candidates.add(id);newlyHungryInjured.add(id);hungerOrder.push(id);
+      storePlanetEvent(state,world,'INJURED',[id]);
+    }
+    if(hungerOrder.length>0)clearPlanetOffices(state,world);
+  }
   // Registered treatment survives actor incapacity and has already reserved its injection.
   for(const action of ordered)if(action.command.type==='RESCUE'||action.command.type==='PANEL_CODE'){
     const id=action.command.type==='RESCUE'?action.command.targetSeatId:action.actorSeatId,target=planetSeat(world,id);
-    if(action.command.type==='PANEL_CODE')resolvePlanetPanelReservation(state,world,action.actorSeatId,action.commandId,target.health==='Injured');
-    if(target.health==='Injured'){target.health='Healthy';target.rescueDueAfterRound=null;target.medical=null;storePlanetEvent(state,world,'RESCUED',[id]);}
+    const treated=target.health==='Injured'&&!newlyHungryInjured.has(id);
+    if(action.command.type==='PANEL_CODE')resolvePlanetPanelReservation(state,world,action.actorSeatId,action.commandId,treated);
+    if(treated){target.health='Healthy';target.rescueDueAfterRound=null;target.medical=null;storePlanetEvent(state,world,'RESCUED',[id]);}
   }
   if(state.round===3)for(const action of ordered)if(action.command.type==='SUPPLY')for(const id of action.command.targetSeatIds){const target=planetSeat(world,id);if(alive(target))target.ordinaryWeapons++;}
   for(const target of world.seats)if(target.health==='Injured'&&target.rescueDueAfterRound!==null&&target.rescueDueAfterRound<=state.round)eliminate(target);
   clearPlanetOffices(state,world);
-  settlePlanetDamage(state,world,damage,true);world.actions=[];
+  settlePlanetDamage(state,world,damage,true,hungerOrder);world.actions=[];
 }

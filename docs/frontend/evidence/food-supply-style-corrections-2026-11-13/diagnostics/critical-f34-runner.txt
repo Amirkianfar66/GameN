@@ -1,0 +1,2 @@
+20 native/reference pairs captured
+24 native/reference pairs; /private/tmp/gamen-food-direct-svg-critical-f34

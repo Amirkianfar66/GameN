@@ -1,0 +1,1135 @@
+{
+  "schema": "mothership.food-supplemental-comparison-plan/1",
+  "status": "native-packet-mapping-implemented-capture-evidence-separate",
+  "issue": 235,
+  "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
+  "referencePins": {
+    "design/food-supply/review.mjs": "820cc078ca90d26bc6b2d68ce9f6f06963af7d58e9466b669cdeef49d6e3792e",
+    "design/food-supply/phone.mjs": "070f7604e9ee364f3806712065fb44557b4dbc5523dff886e3a02f1102cbe28d",
+    "design/food-supply/phone.css": "849ab0c510f249f3ab79a5c32da3fa52c54f51857aa041675b315ecded3d61b8",
+    "design/food-supply/handoff.json": "f58d750004a3233dc90f0b8a0c9bf557bcbdb33a9843dc2fa004b6bf2eb63d0e"
+  },
+  "scope": "Food-specific supplement including #241 gauge, twelve-character and accepted pending-Hold frames; the existing 49-part catalogue does not cover these new states. A plan is not capture evidence or Designer acceptance.",
+  "profiles": [
+    {
+      "width": 390,
+      "height": 844,
+      "textScale": 1,
+      "safeTop": 47,
+      "safeBottom": 34
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "textScale": 2,
+      "safeTop": 20,
+      "safeBottom": 0
+    }
+  ],
+  "motion": [
+    "normal",
+    "reduced"
+  ],
+  "existingPartsToRecheck": [
+    "actions",
+    "panels",
+    "board",
+    "round-order",
+    "reconnecting",
+    "largest-text"
+  ],
+  "cases": [
+    {
+      "id": "food-winch-01",
+      "title": "Briefing: a reminder",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=2500&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-02",
+      "title": "Hold: the next press",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=4300&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-03",
+      "title": "Holding: Cleo moves it",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6000&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-04",
+      "title": "Warning: the panel moving to your cab",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6740&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-05",
+      "title": "Warning: the panel at your cab",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6900&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-06",
+      "title": "Hazard: a let-go may drop it on Cleo",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=7650&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-07",
+      "title": "Keep holding: it would break",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=8375&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-08",
+      "title": "Let go now: steady over the platform",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=9235&as=winch&before=1"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-09",
+      "title": "Stopped: the brake has it",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=protection-drop&t=7900&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-10",
+      "title": "Broken: Cleo fetches a new one",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=8425&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-11",
+      "title": "The hook at 1: hold to lift",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=10475&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-12",
+      "title": "Landed: turn your key",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=9735&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-13",
+      "title": "Key turned: waiting",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=standoff&t=10135&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-14",
+      "title": "Killed: out of the match",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=8200&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-15",
+      "title": "Lost: the crate broke on Cleo",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=drop&t=9025&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-16",
+      "title": "Partner offline: the Task goes on",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=disconnect&t=12200&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-16",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-17",
+      "title": "Cancelled",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=disconnect&t=15800&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-17",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-winch-18",
+      "title": "Lost: the time ran out",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=timeout&t=31500&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-winch-18",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-01",
+      "title": "Briefing: a reminder",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=2500&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-02",
+      "title": "Waiting: Hana lifts it",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=4300&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-03",
+      "title": "RELEASE: the next press",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=5300&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-04",
+      "title": "Resting at 6: LOCK now",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6650&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-05",
+      "title": "Leaving 6: LOCK striped",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6750&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-06",
+      "title": "At 7: LOCK cuts Hana",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6900&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-07",
+      "title": "Locked over you: release",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=7150&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-08",
+      "title": "Warning: the crate over you",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=7650&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-09",
+      "title": "Locked: Hana lets go over it",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=8250&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-10",
+      "title": "Stopped: the cab's buffer",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=protection-cut&t=7250&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-11",
+      "title": "Broken: fetch a new one at 1",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=8525&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-12",
+      "title": "At 1: LOCK to fetch it",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=10175&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-13",
+      "title": "Landed: turn your key",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=9735&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-14",
+      "title": "Hana out: turn your key alone",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=standoff&t=11235&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-15",
+      "title": "Killed: out of the match",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=drop&t=9025&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-16",
+      "title": "Delivered alone",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=standoff&t=12735&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-16",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-17",
+      "title": "Lost: not over the platform",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=9300&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-17",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-panel-18",
+      "title": "Own phone reconnecting",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=disconnect&t=12300&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-panel-18",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-01",
+      "title": "Volunteer: start a Task",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=task"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-02",
+      "title": "Volunteer: ask a Partner",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=partner"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-03",
+      "title": "Volunteer: waiting for the answer",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=asking"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-04",
+      "title": "Partner: Join or Decline (15 s)",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-05",
+      "title": "Volunteer: declined, the next volunteer goes",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=declined"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-06",
+      "title": "Partner: joined",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called&answer=join"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-07",
+      "title": "Volunteer: starting",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=starting"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-08",
+      "title": "Both: briefing",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=2500&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-09",
+      "title": "Another player: the board shows who is away",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=away"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-10",
+      "title": "Return after a delivery",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=return&board=cooperation&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-11",
+      "title": "Another player after a delivery: food count only",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=return&board=cooperation&as=other"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-12",
+      "title": "Another player after a death: board only",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=return&board=chop&as=other"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-13",
+      "title": "Food gauge: one package",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=1"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-14",
+      "title": "Next round: the two cannot go for food",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=rested"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-15",
+      "title": "Food gauge: half a package",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0.5"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-flow-16",
+      "title": "Food gauge: empty",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-flow-16",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-01",
+      "title": "Panel: LOCK on its way",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6650&as=panel&press=sending&act=lock"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-02",
+      "title": "Panel: LOCK refused",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6800&as=panel&press=refused&act=lock"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-03",
+      "title": "Winch: Hold on its way",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=4600&as=winch&press=sending&act=raise&before=1"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-04",
+      "title": "Winch: let-go answer unknown",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=9225&as=winch&press=unknown&act=lower"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-05",
+      "title": "Winch: let-go went through",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=9735&as=winch&press=through&act=lower"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-06",
+      "title": "Panel: LOCK did not go through",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6650&as=panel&press=lost&act=lock"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-07",
+      "title": "Partner: Join on its way",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called&answer=joining"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-08",
+      "title": "Partner: too late after withdrawal",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called&answer=late-withdrawn"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-09",
+      "title": "Partner: too late after expiry",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called&answer=late-expired"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-10",
+      "title": "Volunteer: request withdrawn",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=withdrawn"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-11",
+      "title": "Volunteer: too late to cancel",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=withdraw-late"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-12",
+      "title": "Another request is waiting",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=busy"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-13",
+      "title": "Food Supply closed",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=volunteer&step=closed"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-14",
+      "title": "How it works before the Task",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=howto"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-states-15",
+      "title": "Winch: accepted early Hold waits for the hook",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=8425&as=winch&hold=early"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-states-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-01",
+      "title": "Briefing: no scrolling",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=2500&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-02",
+      "title": "Winch: Hold next",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=4300&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-03",
+      "title": "Winch: hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=7650&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-03",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-04",
+      "title": "Panel: hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6900&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-04",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-05",
+      "title": "Panel: LOCK now",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6650&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-05",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-06",
+      "title": "Panel: landed",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=9735&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-06",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-07",
+      "title": "Winch: offline and cab hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=disconnect&t=6900&as=winch"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-07",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-08",
+      "title": "Lost",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=9300&as=panel"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-08",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-09",
+      "title": "Panel: LOCK sending",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6650&as=panel&press=sending&act=lock"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-09",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-10",
+      "title": "Panel: LOCK refused",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=cooperation&t=6800&as=panel&press=refused&act=lock"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-10",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-11",
+      "title": "Twelve-letter names: offline and cab hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=disconnect&t=6900&as=winch&names=long"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-11",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-12",
+      "title": "Twelve-letter names: LOCK hazard",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=chop&t=6900&as=panel&names=long"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-12",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-13",
+      "title": "Twelve-letter names: Partner request",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=called&names=long"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-13",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-14",
+      "title": "Food gauge: half a package",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0.5"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-14",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-large-15",
+      "title": "Winch: pending Hold, no lift",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=task&board=mistakes&t=8425&as=winch&hold=early"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-large-15",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-stock-01",
+      "title": "Half a package",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0.5"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-stock-01",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    },
+    {
+      "id": "food-stock-02",
+      "title": "No packages",
+      "reference": {
+        "page": "design/food-supply/phone.html",
+        "query": "s=stock&n=0"
+      },
+      "nativeScenario": {
+        "page": "apps/game/dev/phone/food/app.html",
+        "query": "case=food-stock-02",
+        "packets": "apps/game/dev/phone/food/native-fixtures.json"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 // Frontend lifecycle and exact-snapshot dispatch around the reviewed drawing copies.
 // Drawing sources remain exact; all inputs here are public identity, pose and match pins.
-import { PLANET_GAME_PINS, PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS } from '@mothership/contracts';
+import { PLANET_GAME_PINS, PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS, PLANET_FOOD_TASK_PINS } from '@mothership/contracts';
 import { CREW as HISTORICAL_CREW } from './scene-drawing/crew.mjs';
 import { dressedFigureSvg as historicalFigure, outfitFor } from './scene-drawing/wardrobe.mjs';
 import { CREW } from './crew-drawing/crew.mjs';
@@ -10,13 +10,14 @@ import { crewMotion, hairFollow, isStill } from './crew-drawing/motion.mjs';
 
 export const CREW_ART_VERSION = 'design-0.7.0';
 const crewDrawingReleases=new Set([CREW_ART_VERSION,'design-0.8.0']);
-const requestsCrewDrawing=versions=>crewDrawingReleases.has(versions?.assetManifestVersion);
+const requestsCrewDrawing=versions=>versions?.assetManifestVersion==='design-0.9.0'||crewDrawingReleases.has(versions?.assetManifestVersion);
 const managers = new WeakMap(), definitions = new WeakMap(), motionPreferences = new WeakMap();
 let rendererSequence = 0, definitionSequence = 0, externalSequence = 0;
 export const crewInstancePrefix = () => `crew-inline-${++externalSequence}`;
 export function hasCrewDrawing(versions) {
-  return requestsCrewDrawing(versions)
-    && [PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(pins=>Object.entries(pins).every(([key, value]) => versions[key] === value));
+  const matches=pins=>Object.entries(pins).every(([key,value])=>versions?.[key]===value);
+  return versions?.assetManifestVersion==='design-0.9.0'?matches(PLANET_FOOD_TASK_PINS)
+    :crewDrawingReleases.has(versions?.assetManifestVersion)&&[PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(matches);
 }
 export const crewForVersions = versions => hasCrewDrawing(versions) ? CREW : HISTORICAL_CREW;
 export function crewPortraitVariable(characterId, versions) {

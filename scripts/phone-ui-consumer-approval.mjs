@@ -2,6 +2,7 @@
 import {createHash} from 'node:crypto';
 import {lstatSync, readFileSync} from 'node:fs';
 import {posix, resolve} from 'node:path';
+import {readFoodConsumerSource, acceptsFoodConsumerSource} from './food-consumer-source.mjs';
 
 export const PHONE_UI_CONSUMER_APPROVAL = 'docs/integration/phone-ui-production-consumer-approval.json';
 // Filled only after the exact source and evidence receive Integration review.
@@ -18,6 +19,7 @@ const ART_MANIFEST_SHA256 = 'c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f
 const BLOBS = 'design/releases/historical-blobs';
 const verified = new WeakSet();
 const successors = new WeakMap();
+const foodSources = new WeakMap();
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const check = (condition, message) => {if (!condition) throw Error(`Phone UI production consumer: ${message}`);};
 
@@ -63,12 +65,14 @@ export function readHostAbortConsumerApproval(root) {
     approval.status === 'approved-production-consumer', 'invalid host confirmation scope');
   binding(root, approval.parentApproval, PHONE_UI_CONSUMER_APPROVAL, PHONE_UI_CONSUMER_APPROVAL_SHA256);
   const entry = approval.file;
+  const food = readFoodConsumerSource(root);
   check(entry?.path === HOST_APP && /^[a-f0-9]{64}$/.test(entry.previousSha256) &&
     /^[a-f0-9]{64}$/.test(entry.sha256) && Number.isSafeInteger(entry.bytes) && entry.bytes > 0 &&
     entry.candidateBlob === `design/releases/candidate-blobs/${entry.sha256}`, 'invalid host confirmation identity');
   for (const path of [entry.path, entry.candidateBlob]) {
     const source = read(root, path);
-    check(source.length === entry.bytes && sha(source) === entry.sha256,
+    check(source.length === entry.bytes && sha(source) === entry.sha256 ||
+      path === entry.path && acceptsFoodConsumerSource(food, path, entry.sha256, sha(source)),
       `${path === entry.path ? 'current' : 'candidate blob'} content differs: ${path}`);
   }
   check(Array.isArray(approval.evidence) && approval.evidence.length > 0, 'host confirmation evidence required');
@@ -90,6 +94,7 @@ export function readPhoneUiConsumerApproval(root) {
   binding(root, approval.artManifest, ART_MANIFEST, ART_MANIFEST_SHA256);
   check(approval.files && Object.keys(approval.files).length === 13, 'complete native inventory required');
   const successor = readHostAbortConsumerApproval(root);
+  const food = readFoodConsumerSource(root);
   if (successor) check(successor.file.previousSha256 === approval.files[HOST_APP]?.sha256,
     'host confirmation predecessor differs');
   for (const [path, entry] of Object.entries(approval.files)) {
@@ -99,7 +104,8 @@ export function readPhoneUiConsumerApproval(root) {
     const blob = read(root, entry.candidateBlob), current = read(root, path);
     check(blob.length === entry.bytes && sha(blob) === entry.sha256, `candidate blob content differs: ${path}`);
     const active = successor?.file.path === path ? successor.file : entry;
-    check(current.length === active.bytes && sha(current) === active.sha256, `current content differs: ${path}`);
+    check(current.length === active.bytes && sha(current) === active.sha256 ||
+      acceptsFoodConsumerSource(food, path, active.sha256, sha(current)), `current content differs: ${path}`);
     check(Array.isArray(entry.acceptedPreviousHashes) &&
       (entry.previousSha256 === null || entry.acceptedPreviousHashes.includes(entry.previousSha256)), `previous identity differs: ${path}`);
     for (const digest of entry.acceptedPreviousHashes) {
@@ -111,13 +117,15 @@ export function readPhoneUiConsumerApproval(root) {
     Array.isArray(approval.captureEvidence.files) && approval.captureEvidence.files.length > 0, 'actual capture evidence is required');
   for (const reference of [...approval.captureEvidence.reports, ...approval.captureEvidence.files,
     approval.captureEvidence.acceptance]) evidence(root, reference);
-  freeze(approval); verified.add(approval); successors.set(approval, successor);
+  freeze(approval); verified.add(approval); successors.set(approval, successor); foodSources.set(approval, food);
   return approval;
 }
 
 /** Only a verified exact file and one of its preserved predecessor hashes can match. */
 export function acceptsPhoneUiConsumerFile(approval, path, expectedDigest, actualDigest) {
-  if (!approval || !verified.has(approval) || !Object.hasOwn(approval.files, path)) return false;
+  if (!approval || !verified.has(approval)) return false;
+  if (acceptsFoodConsumerSource(foodSources.get(approval), path, expectedDigest, actualDigest)) return true;
+  if (!Object.hasOwn(approval.files, path)) return false;
   const entry = approval.files[path];
   const successor = successors.get(approval);
   return (entry.sha256 === actualDigest && entry.acceptedPreviousHashes.includes(expectedDigest)) ||

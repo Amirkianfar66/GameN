@@ -1,11 +1,15 @@
+import {createFoodWorldLedger} from './food-meals.js';
+import {createPlanetFoodData,openPlanetFoodStep,completePlanetFood,advancePlanetFood,planetFoodDeadlineAt,
+  applyPlanetFoodRequest,setPlanetFoodConnection,finishPlanetFoodMeal,revisePlanetFood} from './food.js';
+import {FoodTaskCommandRequestSchema,type FoodTaskCommandRequest,type FoodTaskReceipt} from '@mothership/contracts';
 import { PLANET_GAME_PINS, PLANET_PHASE_DURATIONS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetReceiptSchema, IdentifierSchema } from '@mothership/contracts';
 import type { PlanetCommandRequest, PlanetReceipt, PlanetPhaseKind, PlanetBlackoutCheckpoint, SeatId } from '@mothership/contracts';
-import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation, planetHasPrivateFeedback, planetHasPreVoteBlackout } from './model.js';
+import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation, planetHasPrivateFeedback, planetHasPreVoteBlackout, planetHasFoodTask } from './model.js';
 import type { PlanetGameSetup, PlanetGameContext, PlanetGameState, PlanetWorld } from './model.js';
 import { assertPlanetContext, assertPlanetGameState } from './validation.js';
 import { planetCommand } from './commands.js';
 import { projectPlanetPublic, projectPlanetPlayer, stampPlanetEventPublications } from './projection.js';
-import { resolvePlanetPhysical, jailPlanetSeat, planetSlotIds, panelExhaustedForEligibleRequest, openPlanetBlackoutBatch, resolvePlanetBlackoutBatch } from './physical.js';
+import { resolvePlanetPhysical, jailPlanetSeat, planetSlotIds, panelExhaustedForEligibleRequest, openPlanetBlackoutBatch, resolvePlanetBlackoutBatch, publishPlanetFoodReturnDeaths, restorePlanetFoodCaptainLoss } from './physical.js';
 import { finalizePlanetPromises } from './social.js';
 import { planetNavigationWeights, nextPlanetPosition } from './navigation.js';
 import { tallyElection, tallyJailVote } from '../full-game/votes.js';
@@ -25,7 +29,7 @@ function revisions(before:PlanetGameState,after:PlanetGameState):PlanetGameState
   const withoutRevision=(value:{viewRevision:number})=>JSON.stringify({...value,viewRevision:0});
   if(withoutRevision(projectPlanetPublic(before))!==withoutRevision(projectPlanetPublic(after)))after.revisions.public++;
   for(const id of seatIds(after))if(withoutRevision(projectPlanetPlayer(before,id))!==withoutRevision(projectPlanetPlayer(after,id)))after.revisions.players[id]!++;
-  stampPlanetEventPublications(after);assertPlanetGameState(after);return after;
+  revisePlanetFood(before,after);stampPlanetEventPublications(after);assertPlanetGameState(after);return after;
 }
 type TransitionContext=PlanetGameContext&{randomIndex:number};
 function draw(ctx:PlanetGameContext,size:number):number {
@@ -45,13 +49,24 @@ function terminal(state:PlanetGameState,ctx:PlanetGameContext,reason:'ARRIVAL'|'
     if(state.blackoutBatch?.status==='OPEN'){state.blackoutBatch.status='ABORTED';state.blackoutBatch.completedAt=ctx.now;}
   }else publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'ROUND_FINALIZED':undefined);
 }
+function foodOrPreTurn(state:PlanetGameState,ctx:PlanetGameContext):void {
+  if(!openPlanetFoodStep(state,ctx))phase(state,'PRE_TURN',ctx);
+}
+function foodReturned(state:PlanetGameState,ctx:PlanetGameContext,completedAt:number):void {
+  const world=planetWorld(state),original=completePlanetFood(state),returned={...ctx,now:completedAt};
+  state.evaluatedAt=completedAt;
+  if(original){const places=original.seats.map(seat=>planetSeatView(original,seat));restorePlanetFoodCaptainLoss(state,world,places);publishPlanetFoodReturnDeaths(state,world,places);}
+  if(world.seats.every(s=>!alive(s)))terminal(state,returned,'NO_SURVIVORS');
+  else {publishBoard(state,state.round,'FOOD_RETURNED');phase(state,'PRE_TURN',returned);}
+  state.evaluatedAt=Math.max(state.evaluatedAt,ctx.now);
+}
 function appointmentDone(state:PlanetGameState,ctx:PlanetGameContext):void {
   const world=planetWorld(state);finalizePlanetPromises(state,'APPOINTMENT',{captainSeatId:world.captainSeatId,officerSeatId:world.officerSeatId,electionId:state.ballot?.electionId??state.phase.id});
-  state.ballot=null;publishBoard(state);phase(state,'PRE_TURN',ctx);
+  state.ballot=null;publishBoard(state);foodOrPreTurn(state,ctx);
 }
 function openElection(state:PlanetGameState,ctx:PlanetGameContext,candidates?:SeatId[],electionId?:string):void {
   const world=planetWorld(state),targets=candidates??world.seats.filter(freeHealthy).map(s=>s.seatId);
-  if(targets.length===0){state.ballot=null;phase(state,'PRE_TURN',ctx);return;}
+  if(targets.length===0){state.ballot=null;foodOrPreTurn(state,ctx);return;}
   phase(state,'CAPTAIN_ELECTION',ctx);state.ballot={kind:'CAPTAIN_ELECTION',eligibleVoters:world.seats.filter(alive).map(s=>s.seatId),eligibleTargets:[...targets],votes:{},runoff:candidates!==undefined,electionId:electionId??state.phase.id};
 }
 function beginNextRound(state:PlanetGameState,ctx:PlanetGameContext):void {
@@ -63,7 +78,7 @@ function beginNextRound(state:PlanetGameState,ctx:PlanetGameContext):void {
   const world=planetWorld(state);world.actions=[];world.events=[];world.suppressedSeatIds=[];world.shipHackOverride=false;
   for(const seat of world.seats){seat.roleActionSpent=false;seat.shotSpent=false;if(seat.medical)seat.medical.rescueOpportunity=seat.medical.rescueDueAfterRound<=state.round?'CURRENT_NORMAL_ROUND':'NEXT_NORMAL_ROUND';}
   state.turnOrder=roundOrder(state,ctx);state.turnIndex=0;state.electionNeeded=world.captainSeatId===null;
-  if(state.electionNeeded)openElection(state,ctx);else phase(state,'PRE_TURN',ctx);
+  if(state.electionNeeded)openElection(state,ctx);else foodOrPreTurn(state,ctx);
 }
 function moveShip(state:PlanetGameState,ctx:PlanetGameContext):void {
   if(state.navigation.lastMovedRound>=state.round)throw Error('Movement already completed for round');
@@ -82,7 +97,9 @@ function confirmation(state:PlanetGameState,ctx:PlanetGameContext,afterCaptain=f
   moveShip(state,ctx);
 }
 function resolveRound(state:PlanetGameState,ctx:PlanetGameContext):void {
-  const world=planetWorld(state);resolvePlanetPhysical(state,world);publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'ROUND_FINALIZED':undefined);
+  const world=planetWorld(state);resolvePlanetPhysical(state,world);
+  if(planetHasFoodTask(state.versions))state.food!.publicStock={doses:world.food!.doses,publicationRound:state.round};
+  publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'ROUND_FINALIZED':undefined);
   if(world.seats.every(s=>!alive(s))){terminal(state,ctx,'NO_SURVIVORS');return;}
   state.navigation.started=true;
   if(state.round===1){state.navigation.direction=null;moveShip(state,ctx);return;}
@@ -133,6 +150,7 @@ function nextTurn(state:PlanetGameState,ctx:PlanetGameContext):void {
   phase(state,'ORDINARY_TURN',ctx);state.activeSeatId=state.turnOrder[state.turnIndex]!;
 }
 function finishTurn(state:PlanetGameState,ctx:PlanetGameContext):void {
+  finishPlanetFoodMeal(state,ctx);
   if(state.hack){state.hack.id=ctx.nextPhaseId;phase(state,'HACK_DECLARE',ctx);state.activeSeatId=state.hack.actorSeatId;}
   else{state.turnIndex++;nextTurn(state,ctx);}
 }
@@ -163,7 +181,7 @@ function afterVote(state:PlanetGameState,ctx:PlanetGameContext):void {
   else if(continuation==='APPOINT'){
     const world=planetWorld(state),eligible=world.seats.filter(s=>s.seatId!==world.captainSeatId&&freeHealthy(s));
     if(eligible.length)phase(state,'OFFICER_APPOINTMENT',ctx);else appointmentDone(state,ctx);
-  }else if(continuation==='NEXT_ROUND'){state.ballot=null;phase(state,'PRE_TURN',ctx);}
+  }else if(continuation==='NEXT_ROUND'){state.ballot=null;foodOrPreTurn(state,ctx);}
   else throw Error('Vote continuation required');
 }
 export function createPlanetGame(setup:PlanetGameSetup,ctx:PlanetGameContext):PlanetGameState {
@@ -172,24 +190,26 @@ export function createPlanetGame(setup:PlanetGameSetup,ctx:PlanetGameContext):Pl
   const ids=Array.from({length:setup.playerCount},(_,i)=>`seat-${i+1}` as SeatId),roles=['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker','Alien',...(setup.playerCount>=8?['Red Disabler']:[]),...(setup.playerCount===9?['Engineer']:[])];
   const versions=PlanetVersionsSchema.parse(setup.versions??{...PLANET_GAME_PINS,assetManifestVersion:setup.assetManifestVersion});
   if(versions.assetManifestVersion!==setup.assetManifestVersion)throw Error('Explicit planet version asset must match setup asset');
-  const privateFeedback=planetHasPrivateFeedback(versions);
+  const privateFeedback=planetHasPrivateFeedback(versions),food=planetHasFoodTask(versions);
   if(setup.roleOrder.length!==ids.length||new Set(setup.roleOrder).size!==ids.length||setup.roleOrder.some(r=>!roles.includes(r))||setup.initialTurnOrder.length!==ids.length||new Set(setup.initialTurnOrder).size!==ids.length||setup.initialTurnOrder.some(id=>!ids.includes(id)))throw Error('Complete original deal and round order required');
   if(Object.keys(setup.initialRooms).length!==ids.length||ids.some(id=>!['Room A','Room B'].includes(setup.initialRooms[id])))throw Error('Complete independent starting rooms required');
   if(['Room A','Room B'].some(room=>ids.filter(id=>setup.initialRooms[id]===room).length>5))throw Error('Starting room capacity exceeded');
   const counts={'Room A':0,'Room B':0},assigned=Object.fromEntries(ids.map((id,i)=>[id,setup.roleOrder[i]!])) as PlanetGameState['roles'];
-  const world:PlanetWorld={seats:ids.map(id=>{const location=setup.initialRooms[id],number=++counts[location];return {seatId:id,health:'Healthy',location,slotId:`${location==='Room A'?'A':'B'}${number}` as 'A1',lastRoom:location,jailed:false,revealedFaction:null,rescueDueAfterRound:null,medical:null,ordinaryWeapons:assigned[id]==='Undercover'?1:0,roleActionSpent:false,shotSpent:false,protection:null,protectionEver:false,clone:{used:false,active:false,expiresAfterRound:null},blackoutSpent:false,engineerSpent:false,...(privateFeedback?{engineerCapture:null}:{})};}),actions:[],injectionsRemaining:2,captainSeatId:null,officerSeatId:null,releaseUsed:false,ejectUsed:false,shipHackSpent:false,shipHackOverride:false,suppressedSeatIds:[],events:[],...(privateFeedback?{panelReservations:{}}:{})};
-  const state:PlanetGameState={matchId:setup.matchId,versions,playerCount:setup.playerCount,round:1,evaluatedAt:ctx.now,
+  const world:PlanetWorld={...(food?{food:createFoodWorldLedger()}:{}),seats:ids.map(id=>{const location=setup.initialRooms[id],number=++counts[location];return {seatId:id,health:'Healthy',location,slotId:`${location==='Room A'?'A':'B'}${number}` as 'A1',lastRoom:location,jailed:false,revealedFaction:null,rescueDueAfterRound:null,medical:null,ordinaryWeapons:assigned[id]==='Undercover'?1:0,roleActionSpent:false,shotSpent:false,protection:null,protectionEver:false,clone:{used:false,active:false,expiresAfterRound:null},blackoutSpent:false,engineerSpent:false,...(privateFeedback?{engineerCapture:null}:{})};}),actions:[],injectionsRemaining:2,captainSeatId:null,officerSeatId:null,releaseUsed:false,ejectUsed:false,shipHackSpent:false,shipHackOverride:false,suppressedSeatIds:[],events:[],...(privateFeedback?{panelReservations:{}}:{})};
+  const state:PlanetGameState={...(food?{food:createPlanetFoodData(ids)}:{}),matchId:setup.matchId,versions,playerCount:setup.playerCount,round:1,evaluatedAt:ctx.now,
     phase:{id:ctx.nextPhaseId,kind:'PRE_TURN',startedAt:ctx.now,endsAt:ctx.now+15000},deadlineToken:ctx.nextDeadlineToken,roles:assigned,code:ids.filter(id=>['Undercover','Alien','Insider','Doctor'].includes(assigned[id]!)),worlds:{'world-0':world},realityOf:Object.fromEntries(ids.map(id=>[id,'world-0'])) as Record<SeatId,string>,currentWorldId:'world-0',blackholeActive:false,blackoutPreviewComplete:false,nextWorldNumber:1,
     global:{...(privateFeedback?{panelRequests:{}}:{}),promiseEvaluation:{},movementSpent:[],blockedSeatId:null,lastBlockedSeatId:null,blackholeSpent:false,blackholeRound:null,panelAttempts:[],scanResults:[],scanUsedRound:null,scanBlockedThroughRound:null,codeAttempted:false,shipHackUnlocked:false,hackCounts:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>,hackSpent:[],promises:[],promiseGiven:[],promiseReceived:[],declinedPromiseIds:[],drawings:[],roundOrders:{'1':[...setup.initialTurnOrder]}},
     turnOrder:[...setup.initialTurnOrder],turnIndex:0,activeSeatId:null,hack:null,panelOpen:true,ballot:null,lastTally:null,afterVote:null,electionNeeded:false,
     ...(planetHasPreVoteBlackout(versions)?{blackoutBatch:null}:{}),
     navigation:{position:'Start',direction:null,lastMovedRound:0,arrivedAt:null,started:false,...(privateFeedback?{settingTie:false,settingDirection:null}:{})},result:null,finalized:{round:0,seats:[],events:[]},revisions:{public:0,players:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>},eventPublications:{}};
+  if(food)openPlanetFoodStep(state,ctx);
   publishBoard(state,0,planetHasPreVoteBlackout(versions)?'INITIAL':undefined);assertPlanetGameState(state);projectPlanetPublic(state);for(const id of ids)projectPlanetPlayer(state,id);return state;
 }
 export function applyPlanetCommand(before:PlanetGameState,actorId:SeatId,raw:PlanetCommandRequest,ctx:PlanetGameContext):{state:PlanetGameState;receipt:PlanetReceipt} {
   assertPlanetGameState(before);assertPlanetContext(ctx);ctx={...ctx,randomIndex:0} as TransitionContext;const request=PlanetCommandRequestSchema.parse(raw);
   const receipt=(status:'accepted'|'rejected',code:'REGISTERED'|'NOT_ALLOWED'|'PHASE_CLOSED'|'NO_INJECTION')=>PlanetReceiptSchema.parse({protocolVersion:3,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId,status,code});
   if(request.matchId!==before.matchId||!before.roles[actorId])return {state:before,receipt:receipt('rejected','NOT_ALLOWED')};
+  if(before.phase.kind==='FOOD_SUPPLY')return {state:before,receipt:receipt('rejected','PHASE_CLOSED')};
   if(before.result||request.phaseId!==before.phase.id||ctx.now<before.phase.startedAt||ctx.now<before.evaluatedAt||ctx.now>=before.phase.endsAt!)return {state:before,receipt:receipt('rejected','PHASE_CLOSED')};
   if(planetHasPrivateFeedback(before.versions)&&request.command.type==='PANEL_CODE'&&panelExhaustedForEligibleRequest(before,actorId,request.command))
     return {state:before,receipt:receipt('rejected','NO_INJECTION')};
@@ -204,7 +224,7 @@ export function applyPlanetCommand(before:PlanetGameState,actorId:SeatId,raw:Pla
   }
   return {state:revisions(before,state),receipt:receipt('accepted','REGISTERED')};
 }
-export function planetDeadlineAt(state:PlanetGameState):number|null {return state.phase.kind==='BLACKOUT'&&!state.blackoutPreviewComplete?state.phase.startedAt+5000:state.phase.endsAt;}
+export function planetDeadlineAt(state:PlanetGameState):number|null {if(state.phase.kind==='FOOD_SUPPLY')return planetFoodDeadlineAt(state);return state.phase.kind==='BLACKOUT'&&!state.blackoutPreviewComplete?state.phase.startedAt+5000:state.phase.endsAt;}
 export function advancePlanetDeadline(before:PlanetGameState,ctx:PlanetGameContext):{state:PlanetGameState;advanced:boolean} {
   assertPlanetGameState(before);assertPlanetContext(ctx);ctx={...ctx,randomIndex:0} as TransitionContext;
   if(before.phase.endsAt===null||ctx.now<before.evaluatedAt||ctx.now<planetDeadlineAt(before)!||(ctx.phaseId!==undefined&&ctx.phaseId!==before.phase.id)||(ctx.deadlineToken!==undefined&&ctx.deadlineToken!==before.deadlineToken))return {state:before,advanced:false};
@@ -214,6 +234,7 @@ export function advancePlanetDeadline(before:PlanetGameState,ctx:PlanetGameConte
     state.blackoutPreviewComplete=true;state.deadlineToken=ctx.nextDeadlineToken;return {state:revisions(before,state),advanced:true};
   }
   switch(state.phase.kind){
+    case 'FOOD_SUPPLY':{const food=advancePlanetFood(state,ctx);if(food.completedAt!==null)foodReturned(state,ctx,food.completedAt);break;}
     case 'PRE_TURN':nextTurn(state,ctx);break;
     case 'ORDINARY_TURN':finishTurn(state,ctx);break;
     case 'HACK_DECLARE':state.hack!.status='NO_DECLARATION';phase(state,'HACK_RESULT',ctx);state.activeSeatId=state.hack!.actorSeatId;break;
@@ -241,3 +262,34 @@ export function advancePlanetDeadline(before:PlanetGameState,ctx:PlanetGameConte
   return {state:revisions(before,state),advanced:true};
 }
 export function abortPlanetGame(before:PlanetGameState,ctx:PlanetGameContext):PlanetGameState {assertPlanetGameState(before);assertPlanetContext(ctx);ctx={...ctx,randomIndex:0} as TransitionContext;if(before.result)return before;const state=copyPlanet(before);state.evaluatedAt=ctx.now;terminal(state,ctx,'ABORTED');return revisions(before,state);}
+
+/** Candidate-only wrapper. Durable receipt lookup at the adapter precedes this new-input path. */
+export function applyPlanetFoodCommand(before:PlanetGameState,actor:SeatId,request:FoodTaskCommandRequest,ctx:PlanetGameContext):{state:PlanetGameState;receipt:FoodTaskReceipt} {
+  assertPlanetGameState(before);assertPlanetContext(ctx);
+  if(!planetHasFoodTask(before.versions))throw Error('Food command requires its exact tuple');
+  const original=FoodTaskCommandRequestSchema.parse(request),saved=before.food!.receipts[JSON.stringify([actor,original.commandId])];
+  if(saved&&saved.fingerprint===JSON.stringify(original))return {state:before,receipt:copyPlanet(saved.receipt)};
+  const state=copyPlanet(before);state.evaluatedAt=ctx.now;
+  if(ctx.now<before.evaluatedAt)throw Error('Food input moved backward');
+  // The candidate ingress normally drains first. Keep this pure entry safe for direct replay too.
+  if(state.phase.kind==='FOOD_SUPPLY'){
+    const due=planetFoodDeadlineAt(state);
+    if(due!==null&&due<=ctx.now){const advanced=advancePlanetFood(state,ctx);if(advanced.completedAt!==null)foodReturned(state,ctx,advanced.completedAt);}
+  }
+  const receipt=applyPlanetFoodRequest(state,actor,request,ctx);
+  if(state.phase.kind==='FOOD_SUPPLY'&&planetFoodDeadlineAt(state)!<=ctx.now){
+    const advanced=advancePlanetFood(state,ctx);if(advanced.completedAt!==null)foodReturned(state,ctx,advanced.completedAt);
+  }
+  return {state:revisions(before,state),receipt};
+}
+export function setPlanetFoodPresence(before:PlanetGameState,actor:SeatId,online:boolean,ctx:PlanetGameContext):PlanetGameState {
+  assertPlanetGameState(before);assertPlanetContext(ctx);
+  if(!planetHasFoodTask(before.versions))throw Error('Food presence requires its exact tuple');
+  if(ctx.now<before.evaluatedAt)throw Error('Food presence moved backward');
+  const state=copyPlanet(before);state.evaluatedAt=ctx.now;
+  if(state.phase.kind==='FOOD_SUPPLY'){
+    const advanced=advancePlanetFood(state,ctx);if(advanced.completedAt!==null)foodReturned(state,ctx,advanced.completedAt);
+    else setPlanetFoodConnection(state,actor,online,ctx);
+  }
+  return revisions(before,state);
+}

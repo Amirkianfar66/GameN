@@ -1,0 +1,88 @@
+{
+  "scope": "Read-only source/native layout audit; synthetic desktop Chromium, text200%,320x568; no layout changes or visual approval",
+  "cases": [
+    {
+      "name": "native-panel-long-name-offline-cab-warning",
+      "topSub": {
+        "text": "WWWWWWWWWWWW is offline",
+        "rect": {
+          "x": 72,
+          "y": 28.953125,
+          "width": 1,
+          "height": 1
+        },
+        "position": "absolute",
+        "clip": "inset(50%)"
+      },
+      "hint": {
+        "text": "LOCK here cuts WWWWWWWWWWWW.",
+        "clientWidth": 288,
+        "scrollWidth": 401
+      },
+      "tags": [
+        {
+          "text": "1WWWWWWWWWWWW· Offline",
+          "rect": {
+            "x": -63.84375,
+            "y": 153.203125,
+            "width": 292.828125,
+            "height": 29
+          },
+          "whole": false
+        },
+        {
+          "text": "2You",
+          "rect": {
+            "x": 144.328125,
+            "y": 189.78125,
+            "width": 70.21875,
+            "height": 29
+          },
+          "whole": true
+        }
+      ]
+    },
+    {
+      "name": "exact-designer-food-large-07-offline-plus-cab-warning",
+      "referenceQuery": "s=task&board=disconnect&t=6900&as=winch",
+      "topSub": {
+        "text": "Cleo is offline",
+        "rect": {
+          "x": 64,
+          "y": 28.953125,
+          "width": 1,
+          "height": 1
+        },
+        "position": "absolute",
+        "clip": "inset(50%)"
+      },
+      "hint": {
+        "text": "The panel is over your cab.",
+        "clientWidth": 288,
+        "scrollWidth": 288
+      },
+      "tags": [
+        {
+          "text": "8You",
+          "rect": {
+            "x": 195.75,
+            "y": 174.21875,
+            "width": 70.21875,
+            "height": 29
+          },
+          "whole": true
+        },
+        {
+          "text": "3Cleo· Offline",
+          "rect": {
+            "x": 120.0546875,
+            "y": 246.484375,
+            "width": 139.609375,
+            "height": 29
+          },
+          "whole": true
+        }
+      ]
+    }
+  ]
+}

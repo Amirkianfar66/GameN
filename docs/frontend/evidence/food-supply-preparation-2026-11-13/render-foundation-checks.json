@@ -1,0 +1,75 @@
+{
+  "scope": "Offline pure drawing/source equivalence; no native visual approval",
+  "geometryExports": [
+    "BOX",
+    "STEP",
+    "X0",
+    "DECK",
+    "RAIL",
+    "CARRIAGE",
+    "BLADE",
+    "CRATE",
+    "HANG",
+    "PENDULUM",
+    "REST",
+    "BOXES",
+    "VIEW",
+    "TAGS"
+  ],
+  "byteEqualMachineryPrimitives": [
+    "festoon",
+    "platform",
+    "platform",
+    "cabBack",
+    "cabFront",
+    "consoleFront",
+    "stopPlates",
+    "carriage",
+    "cable",
+    "hook",
+    "crate",
+    "wreck",
+    "letters",
+    "burst",
+    "speed",
+    "brake",
+    "warnMark",
+    "dropLine",
+    "clunk"
+  ],
+  "moduleHashes": {
+    "apps/game/hosted/planet/food-geometry.mjs": {
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443
+    },
+    "apps/game/hosted/planet/food-icons.mjs": {
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628
+    },
+    "apps/game/hosted/planet/food-ink.mjs": {
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "bytes": 2408
+    },
+    "apps/game/hosted/planet/food-machine.mjs": {
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394
+    },
+    "apps/game/hosted/planet/food-scene.mjs": {
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694
+    },
+    "apps/game/hosted/planet/food-ui.mjs": {
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436
+    },
+    "apps/game/hosted/planet/food-kit.css": {
+      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "bytes": 57285
+    },
+    "apps/game/hosted/planet/food.css": {
+      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+      "bytes": 22648
+    }
+  },
+  "productionAdmission": false
+}

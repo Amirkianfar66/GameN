@@ -1,0 +1,452 @@
+/* Scoped native Food styles from #231 phone kit; exact source pins in the adoption record. */
+.planet-food:is(.planet-food), .planet-food :is(.planet-food) {
+  /* tokens 0.5.0: color */
+  --canvas: #10141C;
+  --panel: #202837;
+  --paper: #F4EBDD;
+  --paper-shade: #E3D6C2;
+  --paper-deep: #CBBBA2;
+  --ink: #151923;
+  --text-primary: #F4EBDD;
+  --text-secondary: #B9C4D3;
+  --public-token: #C6CDD4;
+  --accent: #F1B84B;
+  --focus: #FFD36D;
+  --caption: #F7C52B;
+  --steel-deep: #222B3A;
+  --steel-shadow: #34415A;
+  --steel-mid: #55657E;
+  --steel-light: #8696AE;
+  --steel-pale: #B9C4D3;
+  --faction-blue: #70AFFF;
+  --faction-red: #FF8C8C;
+  --faction-alien: #C4A4FF;
+  --room-a: #2D609E;
+  --room-b: #7A3CAD;
+  --room-command: #C4950F;
+  --room-hospital: #1F8A80;
+  --room-jail: #BE2D26;
+  /* tokens 0.5.0: motion */
+  --t-selection: 120ms;
+  --t-card: 220ms;
+  --t-public-move: 450ms;
+  --t-round: 700ms;
+  --t-reduced: 80ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-settle: cubic-bezier(0.16, 0.84, 0.3, 1);
+  --ease-snap: cubic-bezier(0.2, 1.3, 0.4, 1);
+  /* tokens 0.5.0: type */
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
+  --font-letter: "Arial Narrow", "Helvetica Neue", "Inter Display", Arial, sans-serif;
+  --target: 44px;
+
+  /* Derived surfaces (dark, layered like an iOS grouped interface over the canvas) */
+  --surface-1: #171D29;
+  --surface-2: var(--panel);
+  --surface-3: #2A3346;
+  --surface-4: #343F55;
+  --hairline: rgba(185, 196, 211, 0.16);
+  --text-tertiary: var(--steel-light);
+  --on-accent: var(--ink);
+  --material: rgba(16, 20, 28, 0.78);
+  --material-strong: rgba(16, 20, 28, 0.9);
+  /* Glass: in-game sheets over the room (the owner, 9 November: "glass transparent so user can see the
+     room at the same time", then "more transparent" and the clearest of three levels). The room shows
+     through almost sharp (2 px blur) under a 20–34% tint; it is darkened to 56% behind the glass so the
+     text stays readable, and the render measures every text's contrast against what is behind it. */
+  --glass-tint: linear-gradient(180deg, rgba(30, 37, 52, 0.2) 0%, rgba(14, 18, 26, 0.34) 100%);
+  --glass-filter: blur(2px) saturate(1.3) brightness(0.56);
+  --glass-edge: rgba(255, 255, 255, 0.2);
+  --glass-line: rgba(255, 255, 255, 0.1);
+  --glass-fill: rgba(8, 11, 18, 0.24);
+  --glass-fill-2: rgba(255, 255, 255, 0.14);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-ink: 4px 4px 0 #05070B;
+  --radius-control: 14px;
+  --radius-group: 14px;
+  --radius-sheet: 22px;
+  --ic-knock: var(--canvas);
+}
+
+.planet-food:is(*), .planet-food :is(*) { box-sizing: border-box; }
+.planet-food:is(.planet-food), .planet-food :is(.planet-food), .planet-food:is(.planet-food), .planet-food :is(.planet-food) { margin: 0; height: 100%; background: var(--canvas); }
+.planet-food:is(.planet-food), .planet-food :is(.planet-food) { color: var(--text-primary); font: 400 1rem/1.4 var(--font-ui); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+.planet-food:is(button), .planet-food :is(button), .planet-food:is(input), .planet-food :is(input), .planet-food:is(select), .planet-food :is(select) { font: inherit; color: inherit; }
+.planet-food:is(button), .planet-food :is(button) { cursor: pointer; }
+.planet-food:is(:focus-visible), .planet-food :is(:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.planet-food:is(.vh), .planet-food :is(.vh) { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── The phone ─────────────────────────────────────────────────────────── */
+.planet-food:is(.ph), .planet-food :is(.ph) {
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --bar-h: max(52px, calc(1.0625rem * 1.25 + 1.6rem));
+  --tab-h: max(58px, calc(26px + clamp(12px, 0.75rem, 14px) * 1.3 + 16px));
+  --top: calc(var(--safe-t) + var(--bar-h));
+  --bottom: calc(var(--safe-b) + var(--tab-h));
+  position: relative; width: 100%; height: 100%; overflow: hidden; isolation: isolate;
+  background: var(--canvas);
+}
+.planet-food:is(.ph[data-chrome="none"]), .planet-food :is(.ph[data-chrome="none"]) { --bar-h: 0px; --tab-h: 0px; }
+
+/* ── Top bar ───────────────────────────────────────────────────────────── */
+.planet-food:is(.tb), .planet-food :is(.tb) {
+  position: absolute; inset: 0 0 auto; z-index: 40; padding: var(--safe-t) 12px 0 12px; height: var(--top);
+  display: flex; align-items: center; gap: 5px;
+  background: var(--material); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--hairline);
+  container-type: inline-size;
+}
+.planet-food:is(.tb[data-tone="dark"]), .planet-food :is(.tb[data-tone="dark"]) { background: rgba(5, 7, 11, 0.86); }
+.planet-food:is(.tb-who), .planet-food :is(.tb-who) { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+.planet-food:is(.tb-who .pt), .planet-food :is(.tb-who .pt) { width: 32px; height: 32px; flex: none; }
+.planet-food:is(.tb-who .pt-pair), .planet-food :is(.tb-who .pt-pair) { display: flex; flex: none; }
+.planet-food:is(.tb-who .pt-pair .pt + .pt), .planet-food :is(.tb-who .pt-pair .pt + .pt) { margin-left: -12px; }
+.planet-food:is(.tb-glyph), .planet-food :is(.tb-glyph) { width: 32px; height: 32px; border-radius: 9px; flex: none; display: grid; place-items: center; background: var(--surface-3); color: var(--accent); }
+.planet-food:is(.tb-glyph[data-tone="dark"]), .planet-food :is(.tb-glyph[data-tone="dark"]) { background: #0A0D14; color: var(--steel-pale); box-shadow: inset 0 0 0 1px var(--hairline); }
+.planet-food:is(.tb-lines), .planet-food :is(.tb-lines) { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.planet-food:is(.tb-name), .planet-food :is(.tb-name) { font: 600 1.0625rem/1.2 var(--font-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
+.planet-food:is(.tb-sub), .planet-food :is(.tb-sub) { font: 500 0.75rem/1.2 var(--font-ui); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.planet-food:is(.tb-short), .planet-food :is(.tb-short) { display: none; }
+.planet-food:is(.tb-sub b), .planet-food :is(.tb-sub b) { color: var(--accent); font-weight: 600; }
+.planet-food:is(.tb-right), .planet-food :is(.tb-right) { display: flex; align-items: center; gap: 5px; flex: none; }
+.planet-food:is(.tb-round), .planet-food :is(.tb-round) { font: 800 0.8125rem/1 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); padding: 0; }
+.planet-food:is(.timer), .planet-food :is(.timer) { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 9px 0 7px; border-radius: 999px; background: var(--surface-3); font: 600 1rem/1 var(--font-ui); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.planet-food:is(.timer .ic), .planet-food :is(.timer .ic) { width: 16px; height: 16px; color: var(--text-secondary); }
+.planet-food:is(.timer[data-urgent]), .planet-food :is(.timer[data-urgent]) { background: var(--accent); color: var(--on-accent); }
+.planet-food:is(.timer[data-urgent] .ic), .planet-food :is(.timer[data-urgent] .ic) { color: var(--on-accent); }
+.planet-food:is(.timer-ring), .planet-food :is(.timer-ring) { --p: 0.5; width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(var(--accent) calc(var(--p) * 360deg), rgba(244,235,221,0.16) 0); -webkit-mask: radial-gradient(circle 7px, transparent 98%, #000 100%); mask: radial-gradient(circle 7px, transparent 98%, #000 100%); }
+/* In a match the bar also holds Promises, after the name, and the settings menu (⋮), beside the clock
+   (the owner, 9 November). Each is a 44 px target. Promises shows its word, between two hairlines, on a
+   turn bar, as the owner drew it; a phase or talk bar keeps that room for its title, and a narrow phone
+   or larger text (the bar's width in rem) for the name, so there it is the handshake alone. A narrow bar
+   also drops the clock's icon and a phase's icon tile, and overlaps a talk's two portraits more. */
+.planet-food:is(.tb-div), .planet-food :is(.tb-div) { flex: none; width: 1px; height: 24px; background: var(--hairline); }
+.planet-food:is(.tb-promises), .planet-food :is(.tb-promises) { flex: none; position: relative; height: var(--target); min-width: var(--target); margin: 0; padding: 0; border: 0; background: none; display: grid; place-items: center; color: var(--text-primary); }
+.planet-food:is(.tb-pill), .planet-food :is(.tb-pill) { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 32px; min-width: 36px; padding: 0 10px 0 7px; border-radius: 999px; background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--hairline); font: 600 0.75rem/1 var(--font-ui); letter-spacing: -0.005em; white-space: nowrap; }
+.planet-food:is(.tb-pill .ic), .planet-food :is(.tb-pill .ic) { width: 18px; height: 18px; flex: none; color: var(--text-secondary); }
+.planet-food:is(.tb-promises[aria-expanded="true"] .tb-pill), .planet-food :is(.tb-promises[aria-expanded="true"] .tb-pill) { background: var(--accent); color: var(--on-accent); box-shadow: none; --ic-knock: var(--accent); }
+.planet-food:is(.tb-promises[aria-expanded="true"] .tb-pill .ic), .planet-food :is(.tb-promises[aria-expanded="true"] .tb-pill .ic) { color: var(--on-accent); }
+.planet-food:is(.tb-promises[aria-disabled="true"]), .planet-food :is(.tb-promises[aria-disabled="true"]) { opacity: 0.38; }
+.planet-food:is(.tb-promises .badge-dot), .planet-food :is(.tb-promises .badge-dot) { position: absolute; top: 2px; right: -5px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--on-accent); font: 700 clamp(11px, 0.6875rem, 12px)/14px var(--font-ui); text-align: center; border: 2px solid #0D1118; }
+.planet-food:is(.tb-menu), .planet-food :is(.tb-menu) { flex: none; position: relative; width: var(--target); height: var(--target); margin: 0 -12px 0 -5px; padding: 0; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--text-primary); }
+.planet-food:is(.tb-menu .ic), .planet-food :is(.tb-menu .ic) { position: relative; width: 22px; height: 22px; }
+.planet-food:is(.tb-menu[aria-expanded="true"])::before, .planet-food :is(.tb-menu[aria-expanded="true"])::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-3); }
+.planet-food:is(.tb:not([data-kind="turn"]) .tb-pill), .planet-food :is(.tb:not([data-kind="turn"]) .tb-pill) { padding: 0; width: 36px; }
+.planet-food:is(.tb:not([data-kind="turn"]) :is(.tb-pill-label, .tb-div)), .planet-food :is(.tb:not([data-kind="turn"]) :is(.tb-pill-label, .tb-div)) { display: none; }
+@container (max-width: 22.5rem) {
+  .planet-food:is(.tb-pill), .planet-food :is(.tb-pill) { padding: 0; width: 36px; }
+  .planet-food:is(.tb-pill-label), .planet-food :is(.tb-pill-label), .planet-food:is(.tb-div), .planet-food :is(.tb-div), .planet-food:is(.timer > svg.ic), .planet-food :is(.timer > svg.ic), .planet-food:is(.tb[data-kind="phase"] .tb-glyph), .planet-food :is(.tb[data-kind="phase"] .tb-glyph) { display: none; }
+  .planet-food:is(.tb-who .pt-pair .pt + .pt), .planet-food :is(.tb-who .pt-pair .pt + .pt) { margin-left: -20px; }
+}
+/* Larger text (the bar under 16 rem: 150% text below 384 px, 200% below 512 px). The round leaves the bar
+   (the Actions sheet and a result's foot name it) and a phase with a short title shows it ("Vote result" for
+   "Jail vote · result"), so the title reads whole; the full title stays for screen readers. */
+@container (max-width: 16rem) {
+  .planet-food:is(.tb-round), .planet-food :is(.tb-round) { display: none; }
+  .planet-food:is(.tb-long), .planet-food :is(.tb-long) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .planet-food:is(.tb-short), .planet-food :is(.tb-short) { display: inline; }
+}
+/* The largest text on the smallest phones (the bar under 12 rem: 200% text below 384 px). The time stops
+   growing at 22 px, and a phase's title takes two lines instead of its subtitle, so it reads whole. */
+@container (max-width: 12rem) {
+  .planet-food:is(.timer), .planet-food :is(.timer) { font-size: min(1rem, 22px); }
+  .planet-food:is(.tb-name), .planet-food :is(.tb-name) { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.1; }
+  /* The subtitle (whose turn, the player's number) makes way for the second line, read still by screen readers. */
+  .planet-food:is(.tb-sub), .planet-food :is(.tb-sub) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* ── Bottom tabs ───────────────────────────────────────────────────────── */
+.planet-food:is(.tabs), .planet-food :is(.tabs) {
+  position: absolute; inset: auto 0 0; z-index: 40; height: var(--bottom); padding-bottom: var(--safe-b);
+  display: grid; grid-template-columns: repeat(5, 1fr); align-items: stretch;
+  background: var(--material-strong); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid var(--hairline);
+}
+.planet-food:is(.tab), .planet-food :is(.tab) { position: relative; border: 0; background: none; padding: 7px 2px 6px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 3px; color: var(--text-secondary); min-width: 0; }
+.planet-food:is(.tab .ic), .planet-food :is(.tab .ic) { width: 26px; height: 26px; flex: none; }
+.planet-food:is(.tab span), .planet-food :is(.tab span) { font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--font-ui); letter-spacing: 0.01em; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.planet-food:is(.tab[aria-current="page"]), .planet-food :is(.tab[aria-current="page"]), .planet-food:is(.tab[aria-expanded="true"]), .planet-food :is(.tab[aria-expanded="true"]) { color: var(--accent); --ic-knock: #0B0F16; }
+.planet-food:is(.tab[aria-disabled="true"]), .planet-food :is(.tab[aria-disabled="true"]) { opacity: 0.38; }
+.planet-food:is(.tab .badge-dot), .planet-food :is(.tab .badge-dot) { position: absolute; top: 5px; left: calc(50% + 8px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--on-accent); font: 700 clamp(11px, 0.6875rem, 12px)/14px var(--font-ui); text-align: center; border: 2px solid #0D1118; }
+.planet-food:is(.tab-hero), .planet-food :is(.tab-hero) { position: relative; align-items: center; }
+.planet-food:is(.hero), .planet-food :is(.hero) {
+  position: absolute; top: -20px; left: 50%; width: 66px; height: 66px; margin-left: -33px; border-radius: 50%;
+  border: 3px solid var(--ink); background: var(--accent); color: var(--on-accent);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  box-shadow: 0 0 0 3px rgba(241, 184, 75, 0.22), 0 8px 20px rgba(0, 0, 0, 0.5);
+  --ic-knock: var(--accent);
+}
+.planet-food:is(.hero .ic), .planet-food :is(.hero .ic) { width: 25px; height: 25px; }
+.planet-food:is(.hero b), .planet-food :is(.hero b) { font: 800 clamp(12px, 0.75rem, 13px)/1 var(--font-letter); letter-spacing: 0.08em; text-transform: uppercase; }
+.planet-food:is(.tab-hero > span.hero-label), .planet-food :is(.tab-hero > span.hero-label) { margin-top: auto; visibility: hidden; }
+.planet-food:is(.hero[aria-disabled="true"]), .planet-food :is(.hero[aria-disabled="true"]) { background: var(--surface-4); color: var(--text-secondary); border-color: #0A0D14; box-shadow: 0 6px 16px rgba(0,0,0,0.45); --ic-knock: var(--surface-4); }
+.planet-food:is(.hero[data-mode="vote"]), .planet-food :is(.hero[data-mode="vote"]) { background: var(--paper); box-shadow: 0 0 0 3px rgba(244, 235, 221, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5); --ic-knock: var(--paper); }
+.planet-food:is(.hero[data-mode="voted"]), .planet-food :is(.hero[data-mode="voted"]) { background: var(--paper-deep); }
+.planet-food:is(.hero[data-mode="voted"])::after, .planet-food :is(.hero[data-mode="voted"])::after { content: ""; position: absolute; right: -4px; top: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6 10 16.6 18.4 8' fill='none' stroke='%23F1B84B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+
+/* ── Sheets ────────────────────────────────────────────────────────────── */
+.planet-food:is(.scrim), .planet-food :is(.scrim) { position: absolute; inset: 0; z-index: 44; background: rgba(4, 6, 10, 0.42); }
+.planet-food:is(.sheet), .planet-food :is(.sheet) {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 45; max-height: calc(100% - var(--safe-t) - 10px);
+  display: flex; flex-direction: column; background: var(--surface-2); color: var(--text-primary);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0; box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.55);
+  border-top: 1px solid rgba(244, 235, 221, 0.1);
+}
+.planet-food:is(.sheet[data-detent="large"]), .planet-food :is(.sheet[data-detent="large"]) { top: calc(var(--safe-t) + 10px); }
+.planet-food:is(.sheet[data-docked]), .planet-food :is(.sheet[data-docked]), .planet-food:is(.scrim[data-docked]), .planet-food :is(.scrim[data-docked]) { bottom: var(--bottom); }
+.planet-food:is(.scrim[data-docked]), .planet-food :is(.scrim[data-docked]) { top: var(--top); }
+.planet-food:is(.sheet[data-docked]), .planet-food :is(.sheet[data-docked]) { max-height: calc(100% - var(--top) - var(--bottom) - 8px); }
+.planet-food:is(.sheet[data-docked][data-detent="large"]), .planet-food :is(.sheet[data-docked][data-detent="large"]) { top: calc(var(--top) + 8px); }
+.planet-food:is(.sheet[data-docked] .sheet-foot), .planet-food :is(.sheet[data-docked] .sheet-foot) { padding-bottom: 28px; }
+.planet-food:is(.sheet[data-docked]:not(:has(.sheet-foot)) .sheet-body), .planet-food :is(.sheet[data-docked]:not(:has(.sheet-foot)) .sheet-body) { padding-bottom: 30px; }
+.planet-food:is(.sheet[data-over="tabs"]), .planet-food :is(.sheet[data-over="tabs"]) { bottom: var(--bottom); border-radius: var(--radius-sheet); left: 8px; right: 8px; margin-bottom: 8px; }
+.planet-food:is(.sheet-grab), .planet-food :is(.sheet-grab) { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
+.planet-food:is(.sheet-head), .planet-food :is(.sheet-head) { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
+.planet-food:is(.sheet-title), .planet-food :is(.sheet-title) { flex: 1; min-width: 0; }
+.planet-food:is(.sheet-title h2), .planet-food :is(.sheet-title h2) { margin: 0; font: 700 1.25rem/1.2 var(--font-ui); letter-spacing: -0.01em; }
+.planet-food:is(.sheet-title p), .planet-food :is(.sheet-title p) { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--font-ui); color: var(--text-secondary); }
+.planet-food:is(.icon-btn), .planet-food :is(.icon-btn) { flex: none; width: var(--target); height: var(--target); border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--text-secondary); position: relative; }
+.planet-food:is(.icon-btn)::before, .planet-food :is(.icon-btn)::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface-3); }
+.planet-food:is(.icon-btn .ic), .planet-food :is(.icon-btn .ic) { position: relative; width: 18px; height: 18px; }
+.planet-food:is(.sheet-body), .planet-food :is(.sheet-body) { flex: 1; min-height: 0; overflow: auto; padding: 0 16px 16px; }
+.planet-food:is(.sheet-foot), .planet-food :is(.sheet-foot) { flex: none; padding: 10px 16px calc(12px + var(--safe-b)); display: flex; gap: 10px; border-top: 1px solid var(--hairline); background: var(--surface-2); }
+.planet-food:is(.sheet[data-over="tabs"] .sheet-foot), .planet-food :is(.sheet[data-over="tabs"] .sheet-foot) { padding-bottom: 12px; border-radius: 0 0 var(--radius-sheet) var(--radius-sheet); }
+.planet-food:is(.sheet-foot .btn), .planet-food :is(.sheet-foot .btn) { flex: 1; }
+
+/* ── Glass sheets ──────────────────────────────────────────────────────── */
+/* Every sheet is clear glass: the room shows through it, almost sharp and darkened, and above it
+   undimmed. Boxes inside a sheet are a thin dark layer with a light edge, not solid panels. */
+.planet-food:is(.sheet), .planet-food :is(.sheet) {
+  --text-secondary: #DCE3EC; --text-tertiary: #D3DBE5;
+  /* A soft dark halo under light words on glass. It darkens only what is right around each letter, so the
+     glass stays as clear as the owner chose (the room at 56%) while every letter keeps 4.5:1 over the
+     brightest art behind it (measured letter by letter, the halo counted as background). */
+  --glass-halo: 0 0 1px rgba(8, 11, 18, 0.85), 0 0 3px rgba(8, 11, 18, 0.7), 0 0 8px rgba(8, 11, 18, 0.45);
+  text-shadow: var(--glass-halo);
+  background: var(--glass-tint); -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter);
+  border-top: 1px solid var(--glass-edge); box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.planet-food:is(.scrim[data-docked]), .planet-food :is(.scrim[data-docked]) { background: transparent; }
+.planet-food:is(.sheet-foot), .planet-food :is(.sheet-foot) { background: transparent; border-top-color: var(--glass-line); }
+.planet-food:is(.sheet .list), .planet-food :is(.sheet .list), .planet-food:is(.sheet .cell), .planet-food :is(.sheet .cell), .planet-food:is(.sheet .tile), .planet-food :is(.sheet .tile), .planet-food:is(.sheet .key), .planet-food :is(.sheet .key), .planet-food:is(.sheet .input), .planet-food :is(.sheet .input), .planet-food:is(.sheet .stepper), .planet-food :is(.sheet .stepper), .planet-food:is(.sheet .code-boxes b), .planet-food :is(.sheet .code-boxes b), .planet-food:is(.sheet .pt-empty), .planet-food :is(.sheet .pt-empty) { background: var(--glass-fill); box-shadow: inset 0 0 0 1px var(--glass-line); }
+.planet-food:is(.sheet .pill), .planet-food :is(.sheet .pill), .planet-food:is(.sheet .icon-btn)::before, .planet-food :is(.sheet .icon-btn)::before { background: var(--glass-fill-2); }
+.planet-food:is(.sheet .btn-secondary), .planet-food :is(.sheet .btn-secondary) { background: rgba(8, 11, 18, 0.3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+.planet-food:is(.sheet .seg), .planet-food :is(.sheet .seg) { background: rgba(0, 0, 0, 0.25); box-shadow: inset 0 0 0 1px var(--glass-line); }
+.planet-food:is(.sheet .seg button[aria-pressed="true"]), .planet-food :is(.sheet .seg button[aria-pressed="true"]), .planet-food:is(.sheet .seg button[aria-checked="true"]), .planet-food :is(.sheet .seg button[aria-checked="true"]) { background: var(--glass-fill-2); }
+.planet-food:is(.sheet .cell[data-state="selected"]), .planet-food :is(.sheet .cell[data-state="selected"]) { background: rgba(56, 42, 12, 0.42); }
+/* Dark words on a light fill take no halo: it would only darken round them. */
+.planet-food:is(.sheet :is(.btn-primary, .num, .you, .count, .stamp:not([data-tone="pending"]), .caption-tag, .comic, .pill[data-tone="paper"], .pill[data-tone="accent"], .entry[data-tone="primary"], .seat-badge, .rolecard, .cardback, .mini-stamp, .key[aria-pressed="true"])), .planet-food :is(.sheet :is(.btn-primary, .num, .you, .count, .stamp:not([data-tone="pending"]), .caption-tag, .comic, .pill[data-tone="paper"], .pill[data-tone="accent"], .entry[data-tone="primary"], .seat-badge, .rolecard, .cardback, .mini-stamp, .key[aria-pressed="true"])) { text-shadow: none; }
+/* Where glass can't be drawn, or the phone asks for less transparency, sheets are solid again. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .planet-food:is(.sheet), .planet-food :is(.sheet) { background: var(--surface-2); } }
+@media (prefers-reduced-transparency: reduce) { .planet-food:is(.sheet), .planet-food :is(.sheet) { background: var(--surface-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* ── Buttons and controls ─────────────────────────────────────────────── */
+.planet-food:is(.btn), .planet-food :is(.btn) { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 18px; border-radius: var(--radius-control); border: 0; font: 600 1.0625rem/1.2 var(--font-ui); letter-spacing: -0.01em; text-align: center; }
+.planet-food:is(.btn .ic), .planet-food :is(.btn .ic) { width: 22px; height: 22px; flex: none; }
+.planet-food:is(.btn-primary), .planet-food :is(.btn-primary) { background: var(--accent); color: var(--on-accent); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18); --ic-knock: var(--accent); }
+.planet-food:is(.btn-secondary), .planet-food :is(.btn-secondary) { background: var(--surface-3); color: var(--text-primary); }
+.planet-food:is(.btn-tinted), .planet-food :is(.btn-tinted) { background: rgba(241, 184, 75, 0.16); color: var(--accent); }
+.planet-food:is(.btn-plain), .planet-food :is(.btn-plain) { background: none; color: var(--accent); min-height: var(--target); padding: 0 8px; }
+.planet-food:is(.btn-outline), .planet-food :is(.btn-outline) { background: none; color: var(--text-primary); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.35); }
+.planet-food:is(.btn-warn), .planet-food :is(.btn-warn) { background: none; color: var(--paper); box-shadow: inset 0 0 0 2px var(--paper); }
+.planet-food:is(.btn[aria-disabled="true"]), .planet-food :is(.btn[aria-disabled="true"]) { opacity: 0.4; }
+.planet-food:is(.btn[aria-busy="true"]), .planet-food :is(.btn[aria-busy="true"]) { color: transparent !important; }
+.planet-food:is(.btn[aria-busy="true"])::after, .planet-food :is(.btn[aria-busy="true"])::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--on-accent); border-right-color: transparent; animation: food-spin 0.8s linear infinite; }
+.planet-food:is(.btn-secondary[aria-busy="true"])::after, .planet-food :is(.btn-secondary[aria-busy="true"])::after { border-color: var(--text-primary); border-right-color: transparent; }
+.planet-food:is(.btn-block), .planet-food :is(.btn-block) { width: 100%; }
+.planet-food:is(.btn-sm), .planet-food :is(.btn-sm) { min-height: 36px; padding: 0 12px; font-size: 0.9375rem; border-radius: 10px; }
+.planet-food:is(.btn-sm.btn-sm-hit), .planet-food :is(.btn-sm.btn-sm-hit) { position: relative; }
+.planet-food:is(.btn-sm)::before, .planet-food :is(.btn-sm)::before { content: ""; position: absolute; inset: -4px 0; }
+@keyframes food-spin { to { transform: rotate(360deg); } }
+
+.planet-food:is(.seg), .planet-food :is(.seg) { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; gap: 3px; border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); }
+.planet-food:is(.seg button), .planet-food :is(.seg button) { min-height: 44px; border: 0; border-radius: 9px; background: none; color: var(--text-secondary); font: 600 1rem/1.1 var(--font-ui); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.planet-food:is(.seg button .ic), .planet-food :is(.seg button .ic) { width: 18px; height: 18px; }
+.planet-food:is(.seg button[aria-pressed="true"]), .planet-food :is(.seg button[aria-pressed="true"]), .planet-food:is(.seg button[aria-checked="true"]), .planet-food :is(.seg button[aria-checked="true"]) { background: var(--surface-4); color: var(--text-primary); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); }
+
+.planet-food:is(.stepper), .planet-food :is(.stepper) { display: inline-flex; align-items: center; border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); }
+.planet-food:is(.stepper button), .planet-food :is(.stepper button) { width: var(--target); height: var(--target); border: 0; background: none; display: grid; place-items: center; color: var(--text-primary); }
+.planet-food:is(.stepper button .ic), .planet-food :is(.stepper button .ic) { width: 18px; height: 18px; }
+.planet-food:is(.stepper button[aria-disabled="true"]), .planet-food :is(.stepper button[aria-disabled="true"]) { opacity: 0.35; }
+.planet-food:is(.stepper output), .planet-food :is(.stepper output) { min-width: 34px; text-align: center; font: 600 1.0625rem/1 var(--font-ui); font-variant-numeric: tabular-nums; }
+
+.planet-food:is(.switch), .planet-food :is(.switch) { flex: none; width: 51px; height: 31px; border-radius: 16px; background: var(--surface-4); position: relative; border: 0; }
+.planet-food:is(.switch)::before, .planet-food :is(.switch)::before { content: ""; position: absolute; inset: -7px -2px; }
+.planet-food:is(.switch)::after, .planet-food :is(.switch)::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #F7F2EA; box-shadow: 0 2px 4px rgba(0,0,0,0.35); transition: transform var(--t-card) var(--ease-standard); }
+.planet-food:is(.switch[aria-checked="true"]), .planet-food :is(.switch[aria-checked="true"]) { background: var(--accent); }
+.planet-food:is(.switch[aria-checked="true"])::after, .planet-food :is(.switch[aria-checked="true"])::after { transform: translateX(20px); }
+
+/* ── Lists (inset grouped) ────────────────────────────────────────────── */
+.planet-food:is(.group-label), .planet-food :is(.group-label) { margin: 18px 4px 7px; font: 600 0.8125rem/1.2 var(--font-ui); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.planet-food:is(.group-note), .planet-food :is(.group-note) { margin: 7px 4px 0; font: 400 0.8125rem/1.35 var(--font-ui); color: var(--text-tertiary); }
+.planet-food:is(.list), .planet-food :is(.list) { margin: 0; padding: 0; list-style: none; border-radius: var(--radius-group); background: var(--surface-1); overflow: hidden; box-shadow: inset 0 0 0 1px var(--hairline); }
+.planet-food:is(.sheet .list), .planet-food :is(.sheet .list) { background: var(--surface-3); box-shadow: none; }
+.planet-food:is(.row), .planet-food :is(.row) { position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 7px 14px; width: 100%; border: 0; background: none; text-align: left; color: inherit; }
+.planet-food:is(.row + .row)::before, .planet-food :is(.row + .row)::before, .planet-food:is(.list > li + li > .row)::before, .planet-food :is(.list > li + li > .row)::before { content: ""; position: absolute; top: 0; right: 0; left: 52px; height: 1px; background: var(--hairline); }
+.planet-food:is(.row-icon), .planet-food :is(.row-icon) { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); background: var(--steel-light); --ic-knock: var(--steel-light); }
+.planet-food:is(.row-icon .ic), .planet-food :is(.row-icon .ic) { width: 19px; height: 19px; }
+.planet-food:is(.row-icon[data-tint="amber"]), .planet-food :is(.row-icon[data-tint="amber"]) { background: var(--accent); --ic-knock: var(--accent); }
+.planet-food:is(.row-icon[data-tint="paper"]), .planet-food :is(.row-icon[data-tint="paper"]) { background: var(--paper); --ic-knock: var(--paper); }
+.planet-food:is(.row-icon[data-tint="steel"]), .planet-food :is(.row-icon[data-tint="steel"]) { background: var(--steel-light); }
+.planet-food:is(.row-icon[data-tint="teal"]), .planet-food :is(.row-icon[data-tint="teal"]) { background: #57BBA8; --ic-knock: #57BBA8; }
+.planet-food:is(.row-icon[data-tint="slate"]), .planet-food :is(.row-icon[data-tint="slate"]) { background: #8FA3C4; --ic-knock: #8FA3C4; }
+.planet-food:is(.row-main), .planet-food :is(.row-main) { flex: 1; min-width: 0; }
+.planet-food:is(.row-title), .planet-food :is(.row-title) { display: block; font: 500 1.0625rem/1.25 var(--font-ui); letter-spacing: -0.01em; }
+.planet-food:is(.row-sub), .planet-food :is(.row-sub) { display: block; font: 400 0.8125rem/1.3 var(--font-ui); color: var(--text-secondary); margin-top: 1px; }
+.planet-food:is(.row-value), .planet-food :is(.row-value) { flex: none; color: var(--text-secondary); font: 400 1rem/1.2 var(--font-ui); display: inline-flex; align-items: center; gap: 6px; }
+.planet-food:is(.row-chev), .planet-food :is(.row-chev) { flex: none; width: 16px; height: 16px; color: var(--steel-mid); }
+.planet-food:is(.row .pt), .planet-food :is(.row .pt) { width: 36px; height: 36px; flex: none; }
+.planet-food:is(.row[aria-disabled="true"] .row-main), .planet-food :is(.row[aria-disabled="true"] .row-main), .planet-food:is(.row[aria-disabled="true"] .row-icon), .planet-food :is(.row[aria-disabled="true"] .row-icon) { opacity: 0.45; }
+
+/* ── Fields ────────────────────────────────────────────────────────────── */
+.planet-food:is(.field), .planet-food :is(.field) { display: block; margin-bottom: 14px; }
+.planet-food:is(.field > span), .planet-food :is(.field > span) { display: block; margin: 0 4px 6px; font: 600 0.875rem/1.2 var(--font-ui); color: var(--text-secondary); }
+.planet-food:is(.input), .planet-food :is(.input) { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; border-radius: 13px; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); font: 500 1.0625rem/1.2 var(--font-ui); }
+.planet-food:is(.input[data-focus]), .planet-food :is(.input[data-focus]) { box-shadow: inset 0 0 0 2px var(--accent); }
+.planet-food:is(.input[data-invalid]), .planet-food :is(.input[data-invalid]) { box-shadow: inset 0 0 0 2px var(--paper); }
+.planet-food:is(.input .ph-text), .planet-food :is(.input .ph-text) { color: var(--text-tertiary); }
+.planet-food:is(.input .caret), .planet-food :is(.input .caret) { display: inline-block; width: 2px; height: 1.2em; background: var(--accent); margin-left: 1px; vertical-align: -0.2em; }
+.planet-food:is(.input .count), .planet-food :is(.input .count) { margin-left: auto; color: var(--text-tertiary); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+.planet-food:is(.code-boxes), .planet-food :is(.code-boxes) { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
+/* Tall enough for a letter's tail at any text size (Q at 200%): 56 px, or 1.75 of the letter's own size. */
+.planet-food:is(.code-boxes b), .planet-food :is(.code-boxes b) { height: max(56px, 1.75em); border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); display: grid; place-items: center; font: 700 1.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; }
+.planet-food:is(.code-boxes b[data-focus]), .planet-food :is(.code-boxes b[data-focus]) { box-shadow: inset 0 0 0 2px var(--accent); }
+.planet-food:is(.code-boxes[data-invalid] b), .planet-food :is(.code-boxes[data-invalid] b) { box-shadow: inset 0 0 0 2px var(--paper); }
+.planet-food:is(.error), .planet-food :is(.error) { display: flex; gap: 8px; align-items: flex-start; margin: 8px 2px 0; padding: 10px 12px; border-radius: 12px; background: rgba(244, 235, 221, 0.08); font: 500 0.9375rem/1.35 var(--font-ui); color: var(--paper); }
+.planet-food:is(.error .ic), .planet-food :is(.error .ic) { flex: none; width: 20px; height: 20px; color: var(--accent); --ic-knock: var(--surface-1); }
+
+/* ── Portraits, grids and cells ───────────────────────────────────────── */
+.planet-food:is(.pt), .planet-food :is(.pt) { display: block; width: 44px; height: 44px; object-fit: contain; }
+.planet-food:is(.pt-empty), .planet-food :is(.pt-empty) { display: grid; place-items: center; border-radius: 26%; background: var(--surface-3); color: var(--text-tertiary); box-shadow: inset 0 0 0 1.5px var(--hairline); }
+/* The badge is sized in its own em (22 px at the 13 px default), so it grows with the player's text size. */
+.planet-food:is(.num), .planet-food :is(.num) { display: inline-grid; place-items: center; min-width: calc(22em / 13); height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; background: var(--paper); color: var(--ink); font: 800 0.8125rem/1 var(--font-ui); font-variant-numeric: tabular-nums; }
+.planet-food:is(.grid9), .planet-food :is(.grid9) { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.planet-food:is(.grid-wrap), .planet-food :is(.grid-wrap) { container-type: inline-size; }
+/* Where the 3 × 3 has under 13 of its em across (200% text, or 150% on the smallest phone), names would be
+   cut to a letter: the roster becomes a list in seat order, every name whole. Empty seats of a 7- or
+   8-player match drop out; the order is still seat by seat. */
+@container (max-width: 13em) {
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9), .planet-food :is(:is(.grid-wrap, .result-body) .grid9) { grid-template-columns: 1fr; gap: 6px; }
+  /* A row: the portrait, the size of the seat number beside it and on the name's line, then the number and
+     name; the note under the name; the count (and You) at the end, the same size as the seat number. */
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell) {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "pt name count" ". note badge";
+    align-items: center; column-gap: 8px; row-gap: 2px; padding: 6px 10px; text-align: left; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell .pt), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell .pt) { grid-area: pt; width: calc(0.8125rem * 22 / 13); height: calc(0.8125rem * 22 / 13); max-width: none; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell .count), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell .count) { font-size: 0.8125rem; min-width: calc(22em / 13); height: calc(22em / 13); line-height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell .cell-name), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell .cell-name) { grid-area: name; min-width: 0; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell .cell-name > span:last-child), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell .cell-name > span:last-child) { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell .cell-note), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell .cell-note) { grid-area: note; min-width: 0; min-height: 0; text-align: left; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell .count), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell .count) { grid-area: count; position: static; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell :is(.you, .cell-mark)), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell :is(.you, .cell-mark)) { grid-area: badge; position: static; justify-self: end; }
+  .planet-food:is(:is(.grid-wrap, .result-body) .grid9 .cell[data-state="empty"]), .planet-food :is(:is(.grid-wrap, .result-body) .grid9 .cell[data-state="empty"]) { display: none; }
+}
+.planet-food:is(.cell), .planet-food :is(.cell) { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 9px; border-radius: 16px; border: 0; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); color: inherit; min-width: 0; }
+.planet-food:is(.sheet .cell), .planet-food :is(.sheet .cell) { background: var(--surface-3); box-shadow: none; }
+.planet-food:is(.cell .pt), .planet-food :is(.cell .pt) { width: 100%; max-width: 92px; height: auto; aspect-ratio: 1; }
+.planet-food:is(.cell .cell-name), .planet-food :is(.cell .cell-name) { display: flex; align-items: center; gap: 5px; max-width: 100%; font: 600 0.875rem/1.2 var(--font-ui); }
+.planet-food:is(.cell .cell-name > span:last-child), .planet-food :is(.cell .cell-name > span:last-child) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.planet-food:is(.cell .cell-note), .planet-food :is(.cell .cell-note) { font: 500 0.75rem/1.2 var(--font-ui); color: var(--text-secondary); min-height: 0.9rem; }
+.planet-food:is(.cell .cell-mark), .planet-food :is(.cell .cell-mark) { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); border: 2.5px solid var(--ink); }
+.planet-food:is(.cell .cell-mark .ic), .planet-food :is(.cell .cell-mark .ic) { width: 15px; height: 15px; }
+.planet-food:is(.cell[data-state="selected"]), .planet-food :is(.cell[data-state="selected"]) { box-shadow: inset 0 0 0 3px var(--accent); background: rgba(241, 184, 75, 0.12); }
+.planet-food:is(.cell[data-state="selected"] .cell-note), .planet-food :is(.cell[data-state="selected"] .cell-note) { color: var(--text-primary); }
+.planet-food:is(.cell[data-state="confirmed"]), .planet-food :is(.cell[data-state="confirmed"]) { box-shadow: inset 0 0 0 3px var(--accent); }
+.planet-food:is(.cell[data-state="taken"] .pt), .planet-food :is(.cell[data-state="taken"] .pt), .planet-food:is(.cell[data-state="ineligible"] .pt), .planet-food :is(.cell[data-state="ineligible"] .pt), .planet-food:is(.cell[data-state="taken"] .cell-name), .planet-food :is(.cell[data-state="taken"] .cell-name), .planet-food:is(.cell[data-state="ineligible"] .cell-name), .planet-food :is(.cell[data-state="ineligible"] .cell-name) { opacity: 0.38; }
+.planet-food:is(.cell[data-state="taken"] .cell-note), .planet-food :is(.cell[data-state="taken"] .cell-note), .planet-food:is(.cell[data-state="ineligible"] .cell-note), .planet-food :is(.cell[data-state="ineligible"] .cell-note) { color: var(--text-secondary); }
+.planet-food:is(.cell[data-state="empty"]), .planet-food :is(.cell[data-state="empty"]) { background: none; box-shadow: inset 0 0 0 1.5px rgba(185, 196, 211, 0.1); visibility: visible; }
+.planet-food:is(.cell[data-state="winner"]), .planet-food :is(.cell[data-state="winner"]) { box-shadow: inset 0 0 0 3px var(--caption), 0 0 0 4px rgba(247, 197, 43, 0.18); background: rgba(247, 197, 43, 0.12); }
+.planet-food:is(.cell[data-state="faded"] .pt), .planet-food :is(.cell[data-state="faded"] .pt), .planet-food:is(.cell[data-state="faded"] .cell-name), .planet-food :is(.cell[data-state="faded"] .cell-name) { opacity: 0.55; }
+.planet-food:is(.cell .count), .planet-food :is(.cell .count) { position: absolute; top: 6px; left: 6px; min-width: 30px; height: 30px; padding: 0 7px; border-radius: 15px; background: var(--ink); color: var(--paper); font: 800 1.0625rem/30px var(--font-ui); font-variant-numeric: tabular-nums; text-align: center; box-shadow: 0 0 0 2px rgba(244,235,221,0.5); }
+.planet-food:is(.cell[data-state="winner"] .count), .planet-food :is(.cell[data-state="winner"] .count) { background: var(--caption); color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
+.planet-food:is(.cell .you), .planet-food :is(.cell .you) { position: absolute; top: 6px; left: 6px; padding: 2px 7px; border-radius: 8px; background: var(--paper); color: var(--ink); font: 800 0.6875rem/1.3 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ── Comic accents: stamps, captions, cards ───────────────────────────── */
+.planet-food:is(.stamp), .planet-food :is(.stamp) { display: inline-block; padding: 5px 12px 4px; border: 3px solid var(--ink); border-radius: 7px; background: var(--paper); color: var(--ink); font: 800 1.125rem/1 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(-4deg); box-shadow: var(--shadow-ink); }
+.planet-food:is(.stamp[data-tone="amber"]), .planet-food :is(.stamp[data-tone="amber"]) { background: var(--accent); }
+/* Waiting, not a result: an outline only (a registered action, an accepted request). */
+.planet-food:is(.stamp[data-tone="pending"]), .planet-food :is(.stamp[data-tone="pending"]) { background: transparent; color: var(--paper); border-color: var(--paper); border-style: dashed; }
+.planet-food:is(.stamp[data-tone="gold"]), .planet-food :is(.stamp[data-tone="gold"]) { background: var(--caption); }
+.planet-food:is(.stamp[data-tone="steel"]), .planet-food :is(.stamp[data-tone="steel"]) { background: var(--steel-light); }
+.planet-food:is(.caption-tag), .planet-food :is(.caption-tag) { display: inline-block; padding: 4px 10px 3px; background: var(--caption); color: var(--ink); border: 2px solid var(--ink); font: 800 0.9375rem/1 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: skewX(-9deg) rotate(-1.4deg); box-shadow: 3px 3px 0 #05070B; }
+.planet-food:is(.caption-tag > span), .planet-food :is(.caption-tag > span) { display: inline-block; transform: skewX(9deg); }
+.planet-food:is(.comic), .planet-food :is(.comic) { position: relative; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 12px; box-shadow: var(--shadow-ink); }
+.planet-food:is(.halftone), .planet-food :is(.halftone) { background-image: radial-gradient(rgba(21, 25, 35, 0.13) 1.1px, transparent 1.3px); background-size: 6px 6px; }
+
+/* ── Toasts and banners ───────────────────────────────────────────────── */
+.planet-food:is(.toast), .planet-food :is(.toast) { position: absolute; left: 50%; top: calc(var(--top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--paper); color: var(--ink); font: 600 0.9375rem/1.2 var(--font-ui); box-shadow: var(--shadow-soft); white-space: nowrap; --ic-knock: var(--paper); }
+.planet-food:is(.toast .ic), .planet-food :is(.toast .ic) { width: 20px; height: 20px; }
+.planet-food:is(.banner), .planet-food :is(.banner) { position: absolute; left: 10px; right: 10px; top: calc(var(--top) + 8px); z-index: 42; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--hairline), var(--shadow-soft); }
+.planet-food:is(.banner .ic), .planet-food :is(.banner .ic) { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.planet-food:is(.banner-text), .planet-food :is(.banner-text) { flex: 1; min-width: 0; }
+.planet-food:is(.banner-text b), .planet-food :is(.banner-text b) { display: block; font: 600 1rem/1.2 var(--font-ui); }
+.planet-food:is(.banner-text span), .planet-food :is(.banner-text span) { display: block; font: 500 0.8125rem/1.25 var(--font-ui); color: var(--text-secondary); }
+.planet-food:is(.banner .btn), .planet-food :is(.banner .btn) { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
+.planet-food:is(.pill), .planet-food :is(.pill) { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 999px; background: var(--surface-3); color: var(--text-secondary); font: 600 0.8125rem/1 var(--font-ui); white-space: nowrap; }
+.planet-food:is(.pill .ic), .planet-food :is(.pill .ic) { width: 15px; height: 15px; }
+.planet-food:is(.pill[data-tone="amber"]), .planet-food :is(.pill[data-tone="amber"]) { background: rgba(241, 184, 75, 0.16); color: var(--accent); }
+.planet-food:is(.pill[data-tone="paper"]), .planet-food :is(.pill[data-tone="paper"]) { background: var(--paper); color: var(--ink); --ic-knock: var(--paper); }
+.planet-food:is(.pill[data-tone="accent"]), .planet-food :is(.pill[data-tone="accent"]) { background: var(--accent); color: var(--on-accent); --ic-knock: var(--accent); }
+
+/* ── Screens without a scene (entry, setup) ───────────────────────────── */
+.planet-food:is(.screen), .planet-food :is(.screen) { position: absolute; inset: 0; display: flex; flex-direction: column; padding: calc(var(--safe-t) + 8px) 16px calc(var(--safe-b) + 16px); overflow: auto; }
+.planet-food:is(.nav-bar), .planet-food :is(.nav-bar) { flex: none; display: flex; align-items: center; min-height: 44px; margin: 0 -8px 6px; }
+.planet-food:is(.nav-bar .btn-plain), .planet-food :is(.nav-bar .btn-plain) { padding: 0 8px; gap: 2px; font-weight: 500; }
+.planet-food:is(.nav-bar .btn-plain .ic), .planet-food :is(.nav-bar .btn-plain .ic) { width: 22px; height: 22px; }
+.planet-food:is(.nav-bar h1), .planet-food :is(.nav-bar h1) { flex: 1; margin: 0; text-align: center; font: 600 1.0625rem/1.2 var(--font-ui); }
+.planet-food:is(.nav-bar .spacer), .planet-food :is(.nav-bar .spacer) { width: 76px; flex: none; }
+.planet-food:is(.large-title), .planet-food :is(.large-title) { margin: 4px 0 14px; font: 700 2rem/1.15 var(--font-ui); letter-spacing: -0.02em; }
+.planet-food:is(.screen > *), .planet-food :is(.screen > *) { flex-shrink: 0; }
+.planet-food:is(.screen-foot), .planet-food :is(.screen-foot) { margin-top: auto; padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+/* ── The scene ─────────────────────────────────────────────────────────── */
+.planet-food:is(.scene), .planet-food :is(.scene) { position: absolute; inset: 0; z-index: 0; isolation: isolate; overflow: hidden; background: #07090F; }
+.planet-food:is(.scene-art), .planet-food :is(.scene-art) { position: absolute; background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; }
+.planet-food:is(.fig), .planet-food :is(.fig) { position: absolute; pointer-events: none; }
+.planet-food:is(.fig > svg), .planet-food :is(.fig > svg) { display: block; width: 100%; height: 100%; overflow: visible; }
+.planet-food:is(.fig[data-dim]), .planet-food :is(.fig[data-dim]) { opacity: 0.5; filter: saturate(0.4); }
+.planet-food:is(.fig[data-elim]), .planet-food :is(.fig[data-elim]) { filter: grayscale(1) brightness(0.7); }
+/* Above a target's ring (.press, 3100), so a ring never crosses a name; taps pass through to the person. */
+.planet-food:is(.tag), .planet-food :is(.tag) { position: absolute; z-index: 3150; pointer-events: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px 0 3px; border-radius: 13px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 0.8125rem/1 var(--font-ui); white-space: nowrap; transform: translateX(-50%); color: var(--text-primary); }
+.planet-food:is(.tag .num), .planet-food :is(.tag .num) { min-width: calc(20em / 12); height: calc(20em / 12); font-size: 0.75rem; }
+.planet-food:is(.tag[data-self]), .planet-food :is(.tag[data-self]) { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.planet-food:is(.tag[data-self] .num), .planet-food :is(.tag[data-self] .num) { background: var(--ink); color: var(--paper); }
+.planet-food:is(.tag[data-self] .status), .planet-food :is(.tag[data-self] .status) { color: #5A5650; }
+.planet-food:is(.tag[data-dim]), .planet-food :is(.tag[data-dim]) { background: rgba(12, 15, 22, 0.94); color: #B3BDCB; box-shadow: inset 0 0 0 1px rgba(244, 235, 221, 0.12); }
+.planet-food:is(.tag[data-dim] .num), .planet-food :is(.tag[data-dim] .num) { background: #9AA5B5; color: var(--ink); }
+.planet-food:is(.tag[data-self][data-dim]), .planet-food :is(.tag[data-self][data-dim]) { background: #CFC7B9; color: #2A2C31; box-shadow: none; }
+.planet-food:is(.tag[data-active]), .planet-food :is(.tag[data-active]) { box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 3px rgba(241, 184, 75, 0.25); }
+.planet-food:is(.tag .office), .planet-food :is(.tag .office) { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--caption); color: var(--ink); --ic-knock: var(--caption); }
+.planet-food:is(.tag .office .ic), .planet-food :is(.tag .office .ic) { width: 13px; height: 13px; }
+.planet-food:is(.tag .status), .planet-food :is(.tag .status) { color: var(--text-secondary); font-weight: 500; }
+.planet-food:is(.turn-mark), .planet-food :is(.turn-mark) { position: absolute; z-index: 3001; width: 22px; height: 22px; transform: translateX(-50%); color: var(--accent); filter: drop-shadow(0 2px 0 #05070B); }
+.planet-food:is(.turn-mark .ic), .planet-food :is(.turn-mark .ic) { width: 22px; height: 22px; transform: rotate(180deg); }
+.planet-food:is(.room-label), .planet-food :is(.room-label) { position: absolute; z-index: 3200; left: 12px; }
+.planet-food:is(.press), .planet-food :is(.press) { position: absolute; z-index: 3100; border: 0; padding: 0; background: none; border-radius: 50%; }
+.planet-food:is(.press[data-target]), .planet-food :is(.press[data-target]) { box-shadow: 0 0 0 3px var(--accent), 0 0 0 7px rgba(241, 184, 75, 0.25); background: rgba(241, 184, 75, 0.1); }
+.planet-food:is(.press[data-target][data-picked]), .planet-food :is(.press[data-target][data-picked]) { box-shadow: 0 0 0 4px var(--accent), 0 0 0 10px rgba(241, 184, 75, 0.35); background: rgba(241, 184, 75, 0.28); }
+.planet-food:is(.press .pick-num), .planet-food :is(.press .pick-num) { position: absolute; left: 50%; top: -14px; transform: translateX(-50%); }
+.planet-food:is(.slot-mark), .planet-food :is(.slot-mark) { position: absolute; z-index: 3050; border-radius: 12px; border: 2.5px dashed rgba(244, 235, 221, 0.75); background: rgba(16, 20, 28, 0.35); display: grid; place-items: center; color: var(--paper); }
+.planet-food:is(.slot-mark .ic), .planet-food :is(.slot-mark .ic) { width: 20px; height: 20px; }
+.planet-food:is(.slot-mark[data-picked]), .planet-food :is(.slot-mark[data-picked]) { border: 3px solid var(--accent); background: rgba(241, 184, 75, 0.25); color: var(--accent); }
+.planet-food:is(.scene-veil), .planet-food :is(.scene-veil) { position: absolute; inset: 0; z-index: 2900; pointer-events: none; }
+.planet-food:is(.offroom), .planet-food :is(.offroom) { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--bottom) + 32px); white-space: nowrap; }
+
+/* Board view: five panels and the capsule */
+.planet-food:is(.board-panel), .planet-food :is(.board-panel) { position: absolute; isolation: isolate; z-index: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 0 0 2px #05070B, 0 0 0 3px rgba(244, 235, 221, 0.08); background: #07090F; }
+.planet-food:is(.board-panel .room-label), .planet-food :is(.board-panel .room-label) { left: 6px; top: 6px; }
+.planet-food:is(.board-panel .room-label .caption-tag), .planet-food :is(.board-panel .room-label .caption-tag) { font-size: 0.75rem; padding: 3px 7px 2px; }
+.planet-food:is(.board-panel[data-current]), .planet-food :is(.board-panel[data-current]) { box-shadow: 0 0 0 2.5px var(--accent), 0 0 0 6px rgba(241, 184, 75, 0.2); }
+.planet-food:is(.board-panel .here), .planet-food :is(.board-panel .here) { position: absolute; right: 6px; top: 6px; z-index: 3300; }
+.planet-food:is(.board-panel .tag), .planet-food :is(.board-panel .tag) { height: 22px; font-size: 0.6875rem; padding: 0 6px 0 2px; }
+.planet-food:is(.board-panel .tag .num), .planet-food :is(.board-panel .tag .num) { min-width: calc(17em / 11); height: calc(17em / 11); font-size: 0.6875rem; }
+
+/* Film and full-bleed media */
+.planet-food:is(.media), .planet-food :is(.media) { position: absolute; inset: 0; border: 0; width: 100%; height: 100%; background: #07090F; }
+.planet-food:is(.fixture-off), .planet-food :is(.fixture-off) { display: none; }
+
+/* Reduced motion: transitions become the 80 ms fade or a direct change */
+@media (prefers-reduced-motion: reduce) { .planet-food:is(*), .planet-food :is(*) { animation-duration: 1ms !important; transition-duration: var(--t-reduced) !important; } }
+.planet-food:is(.ph[data-motion="reduced"] *), .planet-food :is(.ph[data-motion="reduced"] *) { animation: none !important; transition-duration: var(--t-reduced) !important; }
+

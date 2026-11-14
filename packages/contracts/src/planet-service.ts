@@ -1,7 +1,8 @@
+import {FoodTaskCommandRequestSchema,FoodTaskPublicViewSchema,FoodTaskPlayerViewSchema} from './planet-food-task.js';
 import {z} from 'zod';
 import {IdentifierSchema,SeatIdSchema,TimestampSchema} from './protocol.js';
 import {CrewCharacterIdSchema,CrewDisplayNameSchema} from './lobby-identity.js';
-import {PlanetCommandRequestSchema,PlanetPublicViewSchema,PlanetPlayerViewSchema,PlanetVersionsSchema,PlanetRoleSchema,PlanetFactionSchema} from './planet-game.js';
+import {PlanetCommandRequestSchema,PlanetPublicViewSchema,PlanetPlayerViewSchema,PlanetVersionsSchema,PlanetRoleSchema,PlanetFactionSchema,PLANET_FOOD_TASK_PINS} from './planet-game.js';
 
 const requestId={requestId:IdentifierSchema};
 const match={matchId:IdentifierSchema};
@@ -16,6 +17,9 @@ export const PlanetServiceRequestSchema=z.discriminatedUnion('operation',[
   z.strictObject({operation:z.literal('ready'),...match,...requestId}),
   z.strictObject({operation:z.literal('read'),...match}),
   z.strictObject({operation:z.literal('command'),request:PlanetCommandRequestSchema}),
+  z.strictObject({operation:z.literal('foodCommand'),request:FoodTaskCommandRequestSchema}),
+  z.strictObject({operation:z.literal('foodReceipt'),...match,commandId:IdentifierSchema}),
+  z.strictObject({operation:z.literal('foodHeartbeat'),...match,taskId:IdentifierSchema}),
   z.strictObject({operation:z.literal('receipt'),...match,commandId:IdentifierSchema}),
   z.strictObject({operation:z.literal('advance'),...match}),
   z.strictObject({operation:z.literal('runBots'),...match}),
@@ -56,8 +60,24 @@ export const PlanetSessionSnapshotSchema=z.strictObject({
     knowledge:PlanetPlayerViewSchema.shape.knowledge,
   }).nullable(),
   publicView:PlanetPublicViewSchema.nullable(),playerView:PlanetPlayerViewSchema.nullable(),
+  foodPublicView:FoodTaskPublicViewSchema.nullable().optional(),foodPlayerView:FoodTaskPlayerViewSchema.nullable().optional(),
 }).superRefine((value,ctx)=>{
   const denied=value.admission!==null&&value.admission.status!=='admitted';
+  const food=value.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion;
+  for(const key of ['foodPublicView','foodPlayerView'] as const) {
+    if(food ? !Object.hasOwn(value,key) : Object.hasOwn(value,key))ctx.addIssue({code:'custom',message:'Food snapshots are exact-tuple bound'});
+  }
+  if(food) {
+    const publicFood=value.foodPublicView,privateFood=value.foodPlayerView;
+    if(privateFood?.participantTask&&!privateFood.participantTask.ownReturnPlacement)ctx.addIssue({code:'custom',message:'Runtime participant requires its server-computed own return place'});
+    if((value.publicView!==null)!==(publicFood!==null&&publicFood!==undefined)
+      ||(value.playerView!==null)!==(privateFood!==null&&privateFood!==undefined))
+      ctx.addIssue({code:'custom',message:'Food audiences match ordinary snapshot admission'});
+    for(const f of [publicFood,privateFood])if(f&&(f.matchId!==value.matchId||JSON.stringify(f.versions)!==JSON.stringify(value.versions)
+      ||f.round!==value.publicView?.round||f.phaseId!==value.publicView?.phase.id))ctx.addIssue({code:'custom',message:'Food uses the same authoritative snapshot context'});
+    if(privateFood&&(privateFood.seatId!==value.selfSeatId||privateFood.serverNowMs!==publicFood?.serverNowMs))
+      ctx.addIssue({code:'custom',message:'Food own seat and single response clock agree'});
+  }
   if(value.status==='boarding'){
     if(value.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION&&value.setupFlowVersion!==PLANET_TIMED_READING_SETUP_FLOW_VERSION)
       ctx.addIssue({code:'custom',message:'Boarding requires its saved setup flow version'});

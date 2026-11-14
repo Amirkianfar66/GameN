@@ -1,0 +1,96 @@
+{
+  "captureCommit": "30e52bcb074b5d31f00014909a5e88994365091e",
+  "captureDirty": false,
+  "currentSourceCommit": "d8b92b33c8ed7a03d7304db6b19fb45775dca4ef",
+  "sourceVerification": true,
+  "renderModules": [
+    {
+      "path": "apps/game/hosted/planet/food-geometry.mjs",
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ink.mjs",
+      "sha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-machine.mjs",
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-scene.mjs",
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-icons.mjs",
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-ui.mjs",
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-kit.css",
+      "sha256": "a4e04c31c5113939937cd1a0bba4c43ea8c861a768e199dd4eec183262f7703b",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food.css",
+      "sha256": "b570afbf761898f3e8808b6d948c738a23ee5686152a8683d829003f6fb9420f",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-host.css",
+      "sha256": "0472c2a999d02ca44f50cb2a73d40dc6ae5349b4e04f51bc1f5c60e3fb987897",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-pose.mjs",
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-display.mjs",
+      "sha256": "978abee350605961efbb10c0efa48e511d511393d988ced82e37ba7afd9fe807",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-assets.mjs",
+      "sha256": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-render.mjs",
+      "sha256": "dbb90573c5f818cd58e6795010135ac861eb8d13dd2d24655fc85669ce46bc49",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "apps/game/hosted/planet/food-app.mjs",
+      "sha256": "9df421df622d12966260b5489f92894df6149f98e24440ada28712d6c7dfd345",
+      "unchangedSinceCapture": true
+    },
+    {
+      "path": "packages/presentation/src/planet/food.ts",
+      "sha256": "5f857ea72382fd2d4725309ec202e4bd1fe35183ffd2f7031537111f8ac11cc2",
+      "unchangedSinceCapture": true
+    }
+  ],
+  "postCaptureGlueDelta": [
+    {
+      "path": "apps/game/dist/planet/session.js",
+      "capturedSha256": "ee2bade40fa8324fef0123d1fa7deac489af6d205bb347c44292c36cab36e076",
+      "currentSha256": "7323bf273518d26468bb540d99429f3337349d9a8320be42453da86a9f5cd3da"
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "capturedSha256": "a5cc21ac59114a0b61da9fc35509b6b2b7eac6ff77550fa0460977dbef267968",
+      "currentSha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254"
+    }
+  ],
+  "explanation": "All15 render/drawing/component/style/kinematic files are byte-identical to captured30e52bcb. Subsequent c57bf998/d8b92b33 change only session transport: predecessor clock probes keep their original windows and explicit auth refusals conceal immediately. Both corrections have dedicated regression tests; no Food layout/words/physics change. Ordinary predecessor parts were captured after c57; the auth-refusal branch has synthetic boundary tests, with markup removal already checked by the app smoke. This equivalence does not substitute for Designer approval or connected API acceptance."
+}

@@ -4,6 +4,8 @@ import { resolve, sep } from 'node:path';
 import { readPregameConsumerCandidate, acceptsPregameCandidateFile } from './pregame-consumer-candidate.mjs';
 import { readPregameProductionConsumerApproval, acceptsPregameProductionFile } from './pregame-consumer-approval.mjs';
 import { readPregameSourceApproval, verifyPregameRuntimePorts, PREGAME_APPROVAL, PREGAME_APPROVAL_SHA256 } from './pregame-runtime-ports.mjs';
+import {readFoodConsumerSource, FOOD_CONSUMER_SOURCE, FOOD_CONSUMER_SOURCE_SHA256} from './food-consumer-source.mjs';
+import {prepareFoodSupplyArt, FOOD_STATIC_ART, FOOD_STATIC_ART_SHA256} from './food-supply-art.mjs';
 
 export const RUNTIME_ART_VERSION = 'design-0.5.0';
 export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.5.0.json';
@@ -13,6 +15,8 @@ export const CREW_ART_VERSION = 'design-0.7.0';
 export const CREW_ART_MANIFEST = 'design/releases/design-0.7.0.json';
 export const PREGAME_ART_VERSION = 'design-0.8.0';
 export const PREGAME_ART_MANIFEST = 'design/releases/design-0.8.0.json';
+export const FOOD_ART_VERSION = 'design-0.9.0';
+export const FOOD_ART_MANIFEST = 'design/releases/design-0.9.0.json';
 export const CREW_CONSUMER_APPROVAL = 'docs/integration/crew-consumer-approval-2026-11-07.json';
 const CREW_CONSUMER_APPROVAL_SHA256 = '8675a1d45cbf55aa69ccc65e18593d28c7ac54282ed52eb5c10e9b70e2c0511e';
 // The release selects this reviewed art set; historical manifests remain immutable.
@@ -86,6 +90,12 @@ const releases = {
 releases[PREGAME_ART_VERSION] = { ...releases[CREW_ART_VERSION],
   manifestSha256: 'c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d',
   baseManifest: CREW_ART_MANIFEST, pregame: true };
+releases[FOOD_ART_VERSION] = { ...releases[PREGAME_ART_VERSION],
+  manifestSha256: '26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b',
+  baseManifest: PREGAME_ART_MANIFEST, food: true,
+  gameplay: {protocolVersion:3, engineVersion:'planet-game-1.4.0',
+    rulesetVersion:'in-person-planet-food-task-2026-11-12',
+    rulesetHash:'7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333'} };
 
 /** Build-time only. Match pins name this immutable art set, not the Hosting digest. */
 export function readRuntimeArtRelease(root, version = RUNTIME_ART_VERSION) {
@@ -120,7 +130,7 @@ function readRelease(root, version, fromSnapshot) {
   check(Object.hasOwn(releases, version), 'unknown art release');
   const expected = releases[version];
   const candidate = fromSnapshot ? null : readPregameConsumerCandidate(root);
-  const production = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION].includes(version)
+  const production = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION, FOOD_ART_VERSION].includes(version)
     ? readPregameProductionConsumerApproval(root) : null;
   const bytes = readFileSync(resolve(root, `design/releases/${version}.json`));
   if (fromSnapshot) check(sha(bytes) === historical[version], 'historical manifest differs');
@@ -128,9 +138,9 @@ function readRelease(root, version, fromSnapshot) {
   const manifest = JSON.parse(bytes);
   check(manifest.schema === 'mothership.runtime-art-release/1' && manifest.manifestVersion === version, 'unreviewed manifest version');
   check(JSON.stringify(manifest.gameplayPins) === JSON.stringify(expected.gameplay), 'gameplay compatibility differs');
-  const consumer = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION].includes(version)
+  const consumer = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION, FOOD_ART_VERSION].includes(version)
     ? readCrewConsumerApproval(root) : null;
-  if (version === CREW_ART_VERSION || version === PREGAME_ART_VERSION) {
+  if (version === CREW_ART_VERSION || version === PREGAME_ART_VERSION || version === FOOD_ART_VERSION) {
     check(manifest.consumerApproval?.path === CREW_CONSUMER_APPROVAL
       && manifest.consumerApproval.sha256 === CREW_CONSUMER_APPROVAL_SHA256, 'crew consumer binding differs');
   }
@@ -158,7 +168,7 @@ function readRelease(root, version, fromSnapshot) {
   const names = Object.keys(manifest.bundles ?? {}).sort();
   check(JSON.stringify(names) === JSON.stringify(expected.bundles), 'complete uniform bundle set required');
   for (const entry of Object.values(manifest.bundles)) {
-    const validUrl = version === PLANET_ART_VERSION || version === CREW_ART_VERSION || version === PREGAME_ART_VERSION
+    const validUrl = version === PLANET_ART_VERSION || version === CREW_ART_VERSION || version === PREGAME_ART_VERSION || version === FOOD_ART_VERSION
       ? /^\/art\/(?:planet-library\/)?[a-z0-9.-]+\.css$/.test(entry.url)
       : /^\/art\/[a-z0-9.-]+\.css$/.test(entry.url);
     check(validUrl && /^[a-f0-9]{64}$/.test(entry.sha256), 'invalid bundle identity');
@@ -214,6 +224,17 @@ function readRelease(root, version, fromSnapshot) {
     check(![...sources, ...runtime].some(([path]) => /\/(review|stills)\//.test(path)
       || /(?:stage|renders|films)\.(?:mjs|html)$/.test(path) && path.startsWith('design/pregame-films/')), 'review-only pregame input in runtime inventory');
   }
+  if (expected.food) {
+    const food = readFoodConsumerSource(root);
+    check(food !== null && manifest.foodSourceRegistration?.path === FOOD_CONSUMER_SOURCE &&
+      manifest.foodSourceRegistration.sha256 === FOOD_CONSUMER_SOURCE_SHA256 &&
+      manifest.foodStaticArt?.path === FOOD_STATIC_ART && manifest.foodStaticArt.sha256 === FOOD_STATIC_ART_SHA256,
+      'Food source registration differs');
+    for (const [path, entry] of Object.entries(food.files))
+      check(manifest.runtimeFiles[path] === entry.sha256, `Food runtime inventory differs: ${path}`);
+    const assets = prepareFoodSupplyArt(root).map(asset => ({url:asset.url, sha256:asset.sha256, bytes:asset.bytes.length}));
+    check(JSON.stringify(manifest.staticAssets) === JSON.stringify(assets), 'complete Food static set required');
+  } else check(manifest.staticAssets === undefined, 'static Food assets require their exact release');
   return Object.freeze({ ...manifest, manifestSha256: sha(bytes) });
 }
 
@@ -225,9 +246,12 @@ export function assertRuntimeArtBundle(manifest, name, url, bytes) {
 /** Check the complete release output, including non-CSS media, before publishing Hosting. */
 export function assertRuntimeArtOutput(manifest, output) {
   const entries = [...Object.entries(manifest.bundles).map(([name, entry]) => ({name, url: entry.url, sha256: entry.sha256})),
-    ...Object.entries(manifest.media ?? {}).flatMap(([name, entry]) => ['video', 'poster'].map(kind => ({name: name + '-' + kind, url: entry[kind], sha256: entry[kind + 'Sha256']})))];
+    ...Object.entries(manifest.media ?? {}).flatMap(([name, entry]) => ['video', 'poster'].map(kind => ({name: name + '-' + kind, url: entry[kind], sha256: entry[kind + 'Sha256']}))),
+    ...(manifest.staticAssets ?? []).map(entry => ({...entry, name:entry.url}))];
   for (const entry of entries) {
-    check(/^\/art\/(?:planet-library\/)?[a-z0-9.-]+\.(?:css|mp4|webp)$/.test(entry.url), 'invalid publication path');
+    check(/^\/art\/(?:planet-library\/)?[a-z0-9.-]+\.(?:css|mp4|webp)$/.test(entry.url) ||
+      manifest.manifestVersion === FOOD_ART_VERSION &&
+      /^\/art\/food-supply\/(?:supply-room\.back|operators\/c[1-9]-(?:panel|winch)-(?:alive|out))\.svg$/.test(entry.url), 'invalid publication path');
     check(sha(readFileSync(resolve(output, entry.url.slice(1)))) === entry.sha256, `published output differs: ${entry.name}`);
   }
   return entries.length;

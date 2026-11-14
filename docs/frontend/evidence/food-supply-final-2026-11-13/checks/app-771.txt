@@ -1,0 +1,4646 @@
+
+> @mothership/game@0.1.0 test
+> tsc --build && node --test "test/**/*.test.mjs"
+
+TAP version 13
+# (node:9387) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: idle redraws, strip entry/exit and duplicates are total and replay nothing; only known state changes cue
+ok 1 - idle redraws, strip entry/exit and duplicates are total and replay nothing; only known state changes cue
+  ---
+  duration_ms: 0.719917
+  type: 'test'
+  ...
+# Subtest: vials drain from a falling authorized count, never an accepted receipt alone; only continuous new Scans print
+ok 2 - vials drain from a falling authorized count, never an accepted receipt alone; only continuous new Scans print
+  ---
+  duration_ms: 0.158834
+  type: 'test'
+  ...
+# Subtest: native private effects cancel on expiry, concealment and OS reduction without a frame; disposal is idempotent
+ok 3 - native private effects cancel on expiry, concealment and OS reduction without a frame; disposal is idempotent
+  ---
+  duration_ms: 6.880917
+  type: 'test'
+  ...
+# Subtest: what may be chosen is the server’s own list and nothing else
+ok 4 - what may be chosen is the server’s own list and nothing else
+  ---
+  duration_ms: 4.734042
+  type: 'test'
+  ...
+# Subtest: a move: one confirmation, one schema-valid command for the phase it was chosen in, and the server’s receipt
+ok 5 - a move: one confirmation, one schema-valid command for the phase it was chosen in, and the server’s receipt
+  ---
+  duration_ms: 5.251
+  type: 'test'
+  ...
+# Subtest: a shot is the same flow with the server’s legal targets
+ok 6 - a shot is the same flow with the server’s legal targets
+  ---
+  duration_ms: 3.618958
+  type: 'test'
+  ...
+# Subtest: only the identifiers of a command are kept across a reload, from before it is sent until its outcome is known
+ok 7 - only the identifiers of a command are kept across a reload, from before it is sent until its outcome is known
+  ---
+  duration_ms: 1.047291
+  type: 'test'
+  ...
+# Subtest: nothing is offered or sent unless the view is fresh, the clock has not run out and the private panel is open
+ok 8 - nothing is offered or sent unless the view is fresh, the clock has not run out and the private panel is open
+  ---
+  duration_ms: 19.863458
+  type: 'test'
+  ...
+# Subtest: an unsent choice is cleared when the phase changes, and a choice the server withdraws is asked for again
+ok 9 - an unsent choice is cleared when the phase changes, and a choice the server withdraws is asked for again
+  ---
+  duration_ms: 6.554708
+  type: 'test'
+  ...
+# Subtest: one command at a time for the seat: no new intent while one is unresolved or unacknowledged
+ok 10 - one command at a time for the seat: no new intent while one is unresolved or unacknowledged
+  ---
+  duration_ms: 4.540958
+  type: 'test'
+  ...
+# Subtest: no answer is not failure: the receipt is looked up, then the identical command is sent again, and checking is bounded
+ok 11 - no answer is not failure: the receipt is looked up, then the identical command is sent again, and checking is bounded
+  ---
+  duration_ms: 2.847541
+  type: 'test'
+  ...
+# Subtest: a rate-limit answer is waited out for at least as long as the server said, and the same request goes again
+ok 12 - a rate-limit answer is waited out for at least as long as the server said, and the same request goes again
+  ---
+  duration_ms: 5.556916
+  type: 'test'
+  ...
+# Subtest: a safe failure settles only the invocation it answered
+ok 13 - a safe failure settles only the invocation it answered
+  ---
+  duration_ms: 29.090375
+  type: 'test'
+  ...
+# Subtest: a rejection receipt is the server’s final decision and is shown as given
+ok 14 - a rejection receipt is the server’s final decision and is shown as given
+  ---
+  duration_ms: 10.023833
+  type: 'test'
+  ...
+# Subtest: the player’s own view settles a command it lists, even against this device’s earlier conclusion
+ok 15 - the player’s own view settles a command it lists, even against this device’s earlier conclusion
+  ---
+  duration_ms: 6.537875
+  type: 'test'
+  ...
+# Subtest: the phase moves on while a command is unaccounted for: it is asked about at once and ends as the server’s stored decision
+ok 16 - the phase moves on while a command is unaccounted for: it is asked about at once and ends as the server’s stored decision
+  ---
+  duration_ms: 3.713708
+  type: 'test'
+  ...
+# Subtest: coming back asks at once: the feed fresh again, or the page in front again
+ok 17 - coming back asks at once: the feed fresh again, or the page in front again
+  ---
+  duration_ms: 7.284083
+  type: 'test'
+  ...
+# Subtest: a reloaded page asks about its command before anything else, and never sends it again
+ok 18 - a reloaded page asks about its command before anything else, and never sends it again
+  ---
+  duration_ms: 1.227125
+  type: 'test'
+  ...
+# Subtest: after a reload, "no receipt" settles nothing while the command’s phase is open
+ok 19 - after a reload, "no receipt" settles nothing while the command’s phase is open
+  ---
+  duration_ms: 3.984
+  type: 'test'
+  ...
+# Subtest: after a reload, once a fresh view shows the phase closed, a lookup made after that view settles it
+ok 20 - after a reload, once a fresh view shows the phase closed, a lookup made after that view settles it
+  ---
+  duration_ms: 10.896958
+  type: 'test'
+  ...
+# Subtest: after a reload a found receipt is final whatever the phase, and a view that lists the command settles it too
+ok 21 - after a reload a found receipt is final whatever the phase, and a view that lists the command settles it too
+  ---
+  duration_ms: 1.311625
+  type: 'test'
+  ...
+# Subtest: a kept record that is not this seat’s, not this match’s or not readable is discarded, not asked about
+ok 22 - a kept record that is not this seat’s, not this match’s or not readable is discarded, not asked about
+  ---
+  duration_ms: 0.944875
+  type: 'test'
+  ...
+# Subtest: a host whose storage or identifier source fails cannot make the flow send something unaccountable
+ok 23 - a host whose storage or identifier source fails cannot make the flow send something unaccountable
+  ---
+  duration_ms: 14.94775
+  type: 'test'
+  ...
+# Subtest: an answer that arrives after the command was settled changes nothing
+ok 24 - an answer that arrives after the command was settled changes nothing
+  ---
+  duration_ms: 1.885708
+  type: 'test'
+  ...
+# Subtest: dispose stops everything, and a late answer after it changes nothing
+ok 25 - dispose stops everything, and a late answer after it changes nothing
+  ---
+  duration_ms: 3.346208
+  type: 'test'
+  ...
+# Subtest: when the seat is no longer this device’s, everything about a command is let go at once and nothing more is asked
+ok 26 - when the seat is no longer this device’s, everything about a command is let go at once and nothing more is asked
+  ---
+  duration_ms: 22.669125
+  type: 'test'
+  ...
+# Subtest: a safe failure does not settle a command while another attempt at it is still on its way; that attempt’s receipt then does
+ok 27 - a safe failure does not settle a command while another attempt at it is still on its way; that attempt’s receipt then does
+  ---
+  duration_ms: 37.038667
+  type: 'test'
+  ...
+# Subtest: a receipt settles the command whichever check it answers, even one a newer check has overtaken
+ok 28 - a receipt settles the command whichever check it answers, even one a newer check has overtaken
+  ---
+  duration_ms: 12.866292
+  type: 'test'
+  ...
+# Subtest: a wait the server named outlasts everything that would otherwise ask at once
+ok 29 - a wait the server named outlasts everything that would otherwise ask at once
+  ---
+  duration_ms: 12.351416
+  type: 'test'
+  ...
+# Subtest: a feed that flaps, or a player who keeps pressing, cannot make it ask more than once a second
+ok 30 - a feed that flaps, or a player who keeps pressing, cannot make it ask more than once a second
+  ---
+  duration_ms: 5.137667
+  type: 'test'
+  ...
+# Subtest: after being told to wait, a command the server never looked at is sent only if the present still allows it
+ok 31 - after being told to wait, a command the server never looked at is sent only if the present still allows it
+  ---
+  duration_ms: 4.6225
+  type: 'test'
+  ...
+# Subtest: no command leaves on a view the server has not confirmed, and one that may have been decided is taken up again when it has
+ok 32 - no command leaves on a view the server has not confirmed, and one that may have been decided is taken up again when it has
+  ---
+  duration_ms: 5.3105
+  type: 'test'
+  ...
+# Subtest: a command whose outcome is unknown cannot be put away, whatever phase it is by now
+ok 33 - a command whose outcome is unknown cannot be put away, whatever phase it is by now
+  ---
+  duration_ms: 8.145542
+  type: 'test'
+  ...
+# Subtest: an overtaken check that comes back empty starts nothing, and one told to wait meanwhile holds the newer check’s send
+ok 34 - an overtaken check that comes back empty starts nothing, and one told to wait meanwhile holds the newer check’s send
+  ---
+  duration_ms: 4.340334
+  type: 'test'
+  ...
+# Subtest: a wait the server named also holds the first send of the next command, which then goes only if still allowed
+ok 35 - a wait the server named also holds the first send of the next command, which then goes only if still allowed
+  ---
+  duration_ms: 12.397959
+  type: 'test'
+  ...
+# Subtest: each action that names a seat is offered from the view’s own list under its own command, and from nowhere else
+ok 36 - each action that names a seat is offered from the view’s own list under its own command, and from nowhere else
+  ---
+  duration_ms: 3.775333
+  type: 'test'
+  ...
+# Subtest: each of them is the same flow: one confirmation, one schema-valid command of its own type for the seat chosen
+ok 37 - each of them is the same flow: one confirmation, one schema-valid command of its own type for the seat chosen
+  ---
+  duration_ms: 8.135209
+  type: 'test'
+  ...
+# Subtest: an action the server withdraws is withdrawn here too: the list shrinks, the action closes, and nothing is sent for what is gone
+ok 38 - an action the server withdraws is withdrawn here too: the list shrinks, the action closes, and nothing is sent for what is gone
+  ---
+  duration_ms: 3.242166
+  type: 'test'
+  ...
+# Subtest: a ballot is offered from the view’s own statement that it is open, and from nowhere else
+ok 39 - a ballot is offered from the view’s own statement that it is open, and from nowhere else
+  ---
+  duration_ms: 0.761208
+  type: 'test'
+  ...
+# Subtest: each ballot is the same flow: one confirmation, one schema-valid command of its own type, and nothing of it kept
+ok 40 - each ballot is the same flow: one confirmation, one schema-valid command of its own type, and nothing of it kept
+  ---
+  duration_ms: 13.951
+  type: 'test'
+  ...
+# Subtest: a ballot can only be an answer the server offers for the ballot that was opened
+ok 41 - a ballot can only be an answer the server offers for the ballot that was opened
+  ---
+  duration_ms: 0.824125
+  type: 'test'
+  ...
+# Subtest: a ballot that was not sent does not outlive its vote, or the server’s offer of it
+ok 42 - a ballot that was not sent does not outlive its vote, or the server’s offer of it
+  ---
+  duration_ms: 5.866834
+  type: 'test'
+  ...
+# Subtest: a ballot whose answer is lost is asked about and sent again as the identical request, and is one ballot
+ok 43 - a ballot whose answer is lost is asked about and sent again as the identical request, and is one ballot
+  ---
+  duration_ms: 5.793833
+  type: 'test'
+  ...
+# Subtest: a choice with several parts is picked one part at a time, only from what the view offers next, and becomes one command
+ok 44 - a choice with several parts is picked one part at a time, only from what the view offers next, and becomes one command
+  ---
+  duration_ms: 4.12725
+  type: 'test'
+  ...
+# Subtest: a whole choice can also be given at once, and is held to the same view
+ok 45 - a whole choice can also be given at once, and is held to the same view
+  ---
+  duration_ms: 0.41525
+  type: 'test'
+  ...
+# Subtest: the last pick can be undone, and choosing again starts from nothing
+ok 46 - the last pick can be undone, and choosing again starts from nothing
+  ---
+  duration_ms: 0.123291
+  type: 'test'
+  ...
+# Subtest: a selection does not outlive the view it was made from
+ok 47 - a selection does not outlive the view it was made from
+  ---
+  duration_ms: 1.638708
+  type: 'test'
+  ...
+# Subtest: the one Code attempt whose answer is lost is asked about and sent again as the identical request
+ok 48 - the one Code attempt whose answer is lost is asked about and sent again as the identical request
+  ---
+  duration_ms: 3.392834
+  type: 'test'
+  ...
+# Subtest: Pass uses one durable command with the private panel closed, and settles across a phase change
+ok 49 - Pass uses one durable command with the private panel closed, and settles across a phase change
+  ---
+  duration_ms: 2.044959
+  type: 'test'
+  ...
+# Subtest: Pass requires its own server hint, current time/view/foreground, and no unresolved or unsent action
+ok 50 - Pass requires its own server hint, current time/view/foreground, and no unresolved or unsent action
+  ---
+  duration_ms: 1.3845
+  type: 'test'
+  ...
+# Subtest: Cancel discards a partial unsent choice and cannot discard uncertain command recovery
+ok 51 - Cancel discards a partial unsent choice and cannot discard uncertain command recovery
+  ---
+  duration_ms: 0.556334
+  type: 'test'
+  ...
+# Subtest: an accepted registration returns the receipt and a clock sample, and nothing about an outcome
+ok 52 - an accepted registration returns the receipt and a clock sample, and nothing about an outcome
+  ---
+  duration_ms: 4.340584
+  type: 'test'
+  ...
+# Subtest: game rejections stay receipts; transport errors stay failures
+ok 53 - game rejections stay receipts; transport errors stay failures
+  ---
+  duration_ms: 2.854125
+  type: 'test'
+  ...
+# Subtest: a receipt for a different command, phase or match is not trusted
+ok 54 - a receipt for a different command, phase or match is not trusted
+  ---
+  duration_ms: 0.465875
+  type: 'test'
+  ...
+# Subtest: answers that do not satisfy the contract are unreadable, including ones with extra detail
+ok 55 - answers that do not satisfy the contract are unreadable, including ones with extra detail
+  ---
+  duration_ms: 1.955792
+  type: 'test'
+  ...
+# Subtest: a lost connection or a thrown transport leaves the outcome unknown, not failed
+ok 56 - a lost connection or a thrown transport leaves the outcome unknown, not failed
+  ---
+  duration_ms: 0.341625
+  type: 'test'
+  ...
+# Subtest: a transport that answers with a plain value, or with nothing, is handled rather than thrown
+ok 57 - a transport that answers with a plain value, or with nothing, is handled rather than thrown
+  ---
+  duration_ms: 1.889083
+  type: 'test'
+  ...
+# Subtest: a call that never answers times out, and a late answer is ignored
+ok 58 - a call that never answers times out, and a late answer is ignored
+  ---
+  duration_ms: 5.238709
+  type: 'test'
+  ...
+# Subtest: a settled call releases its timer
+ok 59 - a settled call releases its timer
+  ---
+  duration_ms: 0.396708
+  type: 'test'
+  ...
+# Subtest: cancelling settles every pending call and leaves no timer behind
+ok 60 - cancelling settles every pending call and leaves no timer behind
+  ---
+  duration_ms: 0.644625
+  type: 'test'
+  ...
+# Subtest: the client refuses to send a command that breaks the shared contract
+ok 61 - the client refuses to send a command that breaks the shared contract
+  ---
+  duration_ms: 1.820583
+  type: 'test'
+  ...
+# Subtest: receipt lookup distinguishes found, unknown and failure, using only non-secret identifiers
+ok 62 - receipt lookup distinguishes found, unknown and failure, using only non-secret identifiers
+  ---
+  duration_ms: 0.675792
+  type: 'test'
+  ...
+# Subtest: expiry catch-up reports the server’s decision and carries no client clock
+ok 63 - expiry catch-up reports the server’s decision and carries no client clock
+  ---
+  duration_ms: 0.191708
+  type: 'test'
+  ...
+# Subtest: server time yields a sample bounded by the local send and receive readings
+ok 64 - server time yields a sample bounded by the local send and receive readings
+  ---
+  duration_ms: 1.373083
+  type: 'test'
+  ...
+# Subtest: the table display’s client has no way to submit a command or read a receipt
+ok 65 - the table display’s client has no way to submit a command or read a receipt
+  ---
+  duration_ms: 0.063167
+  type: 'test'
+  ...
+# Subtest: a session is connecting until the feed is up and has delivered the current view
+ok 66 - a session is connecting until the feed is up and has delivered the current view
+  ---
+  duration_ms: 6.479583
+  type: 'test'
+  ...
+# Subtest: losing the feed keeps the last view readable and marks it stale
+ok 67 - losing the feed keeps the last view readable and marks it stale
+  ---
+  duration_ms: 1.371709
+  type: 'test'
+  ...
+# Subtest: after reconnecting the view stays stale until the feed delivers the current one, even if unchanged
+ok 68 - after reconnecting the view stays stale until the feed delivers the current one, even if unchanged
+  ---
+  duration_ms: 2.041042
+  type: 'test'
+  ...
+# Subtest: a view that arrives while the feed reports itself down is kept but not called current
+ok 69 - a view that arrives while the feed reports itself down is kept but not called current
+  ---
+  duration_ms: 0.626625
+  type: 'test'
+  ...
+# Subtest: an older revision changes nothing and notifies nobody
+ok 70 - an older revision changes nothing and notifies nobody
+  ---
+  duration_ms: 1.946375
+  type: 'test'
+  ...
+# Subtest: an incompatible protocol blocks the screen and clears when a readable view arrives
+ok 71 - an incompatible protocol blocks the screen and clears when a readable view arrives
+  ---
+  duration_ms: 1.350875
+  type: 'test'
+  ...
+# Subtest: an unreadable update keeps the last good view and is cleared by the next good one
+ok 72 - an unreadable update keeps the last good view and is cleared by the next good one
+  ---
+  duration_ms: 2.923375
+  type: 'test'
+  ...
+# Subtest: the table session never holds a player view, whatever the feed sends
+ok 73 - the table session never holds a player view, whatever the feed sends
+  ---
+  duration_ms: 3.019791
+  type: 'test'
+  ...
+# Subtest: an integrity failure is permanent for the session: later data is not trusted again
+ok 74 - an integrity failure is permanent for the session: later data is not trusted again
+  ---
+  duration_ms: 29.780125
+  type: 'test'
+  ...
+# Subtest: reconnect resubscribes once, keeps the seat pinned and ignores the feed it replaced
+ok 75 - reconnect resubscribes once, keeps the seat pinned and ignores the feed it replaced
+  ---
+  duration_ms: 4.263875
+  type: 'test'
+  ...
+# Subtest: a listener that reconnects while being told the feed is stale does not leak a feed
+ok 76 - a listener that reconnects while being told the feed is stale does not leak a feed
+  ---
+  duration_ms: 3.233916
+  type: 'test'
+  ...
+# Subtest: a listener that disposes while being told causes no further work of any kind
+ok 77 - a listener that disposes while being told causes no further work of any kind
+  ---
+  duration_ms: 5.285667
+  type: 'test'
+  ...
+# Subtest: a time sample from a superseded measurement is ignored
+ok 78 - a time sample from a superseded measurement is ignored
+  ---
+  duration_ms: 3.819417
+  type: 'test'
+  ...
+# Subtest: dispose cancels a pending time retry, and a nonsense answer is retried like silence
+ok 79 - dispose cancels a pending time retry, and a nonsense answer is retried like silence
+  ---
+  duration_ms: 1.998375
+  type: 'test'
+  ...
+# Subtest: the countdown clock is calibrated from the server as soon as the feed connects
+ok 80 - the countdown clock is calibrated from the server as soon as the feed connects
+  ---
+  duration_ms: 0.653833
+  type: 'test'
+  ...
+# Subtest: on a slow link up to three samples are taken and the tightest is kept
+ok 81 - on a slow link up to three samples are taken and the tightest is kept
+  ---
+  duration_ms: 7.721375
+  type: 'test'
+  ...
+# Subtest: a safe error from the time endpoint still calibrates the clock
+ok 82 - a safe error from the time endpoint still calibrates the clock
+  ---
+  duration_ms: 1.456583
+  type: 'test'
+  ...
+# Subtest: when the time endpoint is unreachable the session retries with backoff while connected
+ok 83 - when the time endpoint is unreachable the session retries with backoff while connected
+  ---
+  duration_ms: 7.826417
+  type: 'test'
+  ...
+# Subtest: reconnecting discards the old estimate, because local time may have stood still
+ok 84 - reconnecting discards the old estimate, because local time may have stood still
+  ---
+  duration_ms: 5.182667
+  type: 'test'
+  ...
+# Subtest: returning to the foreground re-measures server time
+ok 85 - returning to the foreground re-measures server time
+  ---
+  duration_ms: 1.734
+  type: 'test'
+  ...
+# Subtest: a session only reads: it never submits a command, looks up a receipt or advances a phase
+ok 86 - a session only reads: it never submits a command, looks up a receipt or advances a phase
+  ---
+  duration_ms: 5.494708
+  type: 'test'
+  ...
+# Subtest: subscribers are told about every change once, and can unsubscribe
+ok 87 - subscribers are told about every change once, and can unsubscribe
+  ---
+  duration_ms: 3.568209
+  type: 'test'
+  ...
+# Subtest: dispose stops the feed, cancels timers and ignores anything still in flight
+ok 88 - dispose stops the feed, cancels timers and ignores anything still in flight
+  ---
+  duration_ms: 4.122375
+  type: 'test'
+  ...
+# Subtest: timing defaults are client-side technical values, overridable per session
+ok 89 - timing defaults are client-side technical values, overridable per session
+  ---
+  duration_ms: 0.15875
+  type: 'test'
+  ...
+# Subtest: a command on its way leaves no mark on a hidden page, and is still there when the player looks again
+ok 90 - a command on its way leaves no mark on a hidden page, and is still there when the player looks again
+  ---
+  duration_ms: 25.799625
+  type: 'test'
+  ...
+# Subtest: a command whose answer is lost leaves nothing on a hidden page while it is checked or unknown, and can still be asked about
+ok 91 - a command whose answer is lost leaves nothing on a hidden page while it is checked or unknown, and can still be asked about
+  ---
+  duration_ms: 58.404125
+  type: 'test'
+  ...
+# Subtest: every rule that draws a private mark is scoped to the viewer's own board
+ok 92 - every rule that draws a private mark is scoped to the viewer's own board
+  ---
+  duration_ms: 0.822084
+  type: 'test'
+  ...
+# Subtest: motion takes its durations from the reviewed tokens and every animation has a reduced form
+ok 93 - motion takes its durations from the reviewed tokens and every animation has a reduced form
+  ---
+  duration_ms: 1.722625
+  type: 'test'
+  ...
+# Subtest: press areas, room tags and the strip's controls keep a 44 px minimum
+ok 94 - press areas, room tags and the strip's controls keep a 44 px minimum
+  ---
+  duration_ms: 0.119667
+  type: 'test'
+  ...
+# Subtest: at large text the navigation labels keep to their own fifth, and on the phone the connection icon keeps its room
+ok 95 - at large text the navigation labels keep to their own fifth, and on the phone the connection icon keeps its room
+  ---
+  duration_ms: 0.822917
+  type: 'test'
+  ...
+# Subtest: a moving character flies over the board and under the card, the tray, the menu, the status bar, the strip and the banners
+ok 96 - a moving character flies over the board and under the card, the tray, the menu, the status bar, the strip and the banners
+  ---
+  duration_ms: 2.652833
+  type: 'test'
+  ...
+# Subtest: stale submitting Move: the strip survives a late receipt without a ghost or second send
+ok 97 - stale submitting Move: the strip survives a late receipt without a ghost or second send
+  ---
+  duration_ms: 43.793
+  type: 'test'
+  ...
+# Subtest: stale checking Rescue: receipt lookup settles the same command while marks stay concealed
+ok 98 - stale checking Rescue: receipt lookup settles the same command while marks stay concealed
+  ---
+  duration_ms: 17.477583
+  type: 'test'
+  ...
+# Subtest: expired submitting Move: the strip survives a late receipt without a ghost or second send
+ok 99 - expired submitting Move: the strip survives a late receipt without a ghost or second send
+  ---
+  duration_ms: 17.291042
+  type: 'test'
+  ...
+# Subtest: expired checking Rescue: receipt lookup settles the same command while marks stay concealed
+ok 100 - expired checking Rescue: receipt lookup settles the same command while marks stay concealed
+  ---
+  duration_ms: 16.396083
+  type: 'test'
+  ...
+# Subtest: every board simulation scenario offers what the engine would offer in its state
+ok 101 - every board simulation scenario offers what the engine would offer in its state
+  ---
+  duration_ms: 40.400834
+  type: 'test'
+  ...
+# Subtest: Pass fixture validation recognizes only the exact reviewed Pass and capacity tuples
+ok 102 - Pass fixture validation recognizes only the exact reviewed Pass and capacity tuples
+  ---
+  duration_ms: 1.230583
+  type: 'test'
+  ...
+# Subtest: the check refuses the mistakes a fixture can make
+ok 103 - the check refuses the mistakes a fixture can make
+  ---
+  duration_ms: 1.824375
+  type: 'test'
+  ...
+# Subtest: native Blackout uses exact five-second cut and Claude late-update hold cap without extending selection
+ok 104 - native Blackout uses exact five-second cut and Claude late-update hold cap without extending selection
+  ---
+  duration_ms: 6.22775
+  type: 'test'
+  ...
+# Subtest: stale/background Blackout settles conservatively and phase change settles without replay
+ok 105 - stale/background Blackout settles conservatively and phase change settles without replay
+  ---
+  duration_ms: 0.358667
+  type: 'test'
+  ...
+# Subtest: initial and recovered result settles; an observed entry uses the five-second clock without replay
+ok 106 - initial and recovered result settles; an observed entry uses the five-second clock without replay
+  ---
+  duration_ms: 2.0565
+  type: 'test'
+  ...
+# Subtest: the full minute and expiry keep the authoritative phase; latest public placement belongs to the painter
+ok 107 - the full minute and expiry keep the authoritative phase; latest public placement belongs to the painter
+  ---
+  duration_ms: 1.246542
+  type: 'test'
+  ...
+# Subtest: background, stale clock, reduced motion and terminal phase cannot resurrect entry or exit
+ok 108 - background, stale clock, reduced motion and terminal phase cannot resurrect entry or exit
+  ---
+  duration_ms: 0.341208
+  type: 'test'
+  ...
+# Subtest: all fourteen reviewed pure ports and one hundred SVG derivatives retain their recorded bytes
+ok 109 - all fourteen reviewed pure ports and one hundred SVG derivatives retain their recorded bytes
+  ---
+  duration_ms: 55.847208
+  type: 'test'
+  ...
+# Subtest: the entire film supplement is deterministic, static and independent of audience or role
+ok 110 - the entire film supplement is deterministic, static and independent of audience or role
+  ---
+  duration_ms: 31.706708
+  type: 'test'
+  ...
+# Subtest: the film supplement fails closed on any unreviewed catalog or SVG derivative
+ok 111 - the film supplement fails closed on any unreviewed catalog or SVG derivative
+  ---
+  duration_ms: 2.303542
+  type: 'test'
+  ...
+# Subtest: initial/reconnect snapshots do not replay occurrences; new events require matching audience/version and expire
+ok 112 - initial/reconnect snapshots do not replay occurrences; new events require matching audience/version and expire
+  ---
+  duration_ms: 20.726875
+  type: 'test'
+  ...
+# Subtest: background and stale state remove private outcomes without replay; future revisions wait for their matching view
+ok 113 - background and stale state remove private outcomes without replay; future revisions wait for their matching view
+  ---
+  duration_ms: 0.546583
+  type: 'test'
+  ...
+# Subtest: a deferred occurrence published during backgrounding cannot play after foreground resumes
+ok 114 - a deferred occurrence published during backgrounding cannot play after foreground resumes
+  ---
+  duration_ms: 0.582625
+  type: 'test'
+  ...
+# Subtest: 7: strict roster anchors and canonical identity suppress held and non-bed imagery
+ok 115 - 7: strict roster anchors and canonical identity suppress held and non-bed imagery
+  ---
+  duration_ms: 8.708875
+  type: 'test'
+  ...
+# Subtest: 7: a current clinical occurrence starts once and newer placement cancels it
+ok 116 - 7: a current clinical occurrence starts once and newer placement cancels it
+  ---
+  duration_ms: 1.59775
+  type: 'test'
+  ...
+# Subtest: 7: a valid fifth presentation keeps authorized words and never creates H5
+ok 117 - 7: a valid fifth presentation keeps authorized words and never creates H5
+  ---
+  duration_ms: 0.39475
+  type: 'test'
+  ...
+# Subtest: 7: simultaneous overflow subjects retain original identities and snapshot removal after missed events
+ok 118 - 7: simultaneous overflow subjects retain original identities and snapshot removal after missed events
+  ---
+  duration_ms: 0.633625
+  type: 'test'
+  ...
+# Subtest: 8: strict roster anchors and canonical identity suppress held and non-bed imagery
+ok 119 - 8: strict roster anchors and canonical identity suppress held and non-bed imagery
+  ---
+  duration_ms: 0.1905
+  type: 'test'
+  ...
+# Subtest: 8: a current clinical occurrence starts once and newer placement cancels it
+ok 120 - 8: a current clinical occurrence starts once and newer placement cancels it
+  ---
+  duration_ms: 0.421417
+  type: 'test'
+  ...
+# Subtest: 8: a valid fifth presentation keeps authorized words and never creates H5
+ok 121 - 8: a valid fifth presentation keeps authorized words and never creates H5
+  ---
+  duration_ms: 0.326709
+  type: 'test'
+  ...
+# Subtest: 8: simultaneous overflow subjects retain original identities and snapshot removal after missed events
+ok 122 - 8: simultaneous overflow subjects retain original identities and snapshot removal after missed events
+  ---
+  duration_ms: 0.560416
+  type: 'test'
+  ...
+# Subtest: 9: strict roster anchors and canonical identity suppress held and non-bed imagery
+ok 123 - 9: strict roster anchors and canonical identity suppress held and non-bed imagery
+  ---
+  duration_ms: 1.475167
+  type: 'test'
+  ...
+# Subtest: 9: a current clinical occurrence starts once and newer placement cancels it
+ok 124 - 9: a current clinical occurrence starts once and newer placement cancels it
+  ---
+  duration_ms: 1.2925
+  type: 'test'
+  ...
+# Subtest: 9: a valid fifth presentation keeps authorized words and never creates H5
+ok 125 - 9: a valid fifth presentation keeps authorized words and never creates H5
+  ---
+  duration_ms: 0.35225
+  type: 'test'
+  ...
+# Subtest: 9: simultaneous overflow subjects retain original identities and snapshot removal after missed events
+ok 126 - 9: simultaneous overflow subjects retain original identities and snapshot removal after missed events
+  ---
+  duration_ms: 0.24225
+  type: 'test'
+  ...
+# Subtest: public films settle on hidden, blur, stale or Blackout ownership and do not replay
+ok 127 - public films settle on hidden, blur, stale or Blackout ownership and do not replay
+  ---
+  duration_ms: 1.907875
+  type: 'test'
+  ...
+# Subtest: initial/reconnect and obsolete revisions cannot rewind a newer snapshot or animate legacy art
+ok 128 - initial/reconnect and obsolete revisions cannot rewind a newer snapshot or animate legacy art
+  ---
+  duration_ms: 0.134292
+  type: 'test'
+  ...
+# Subtest: Clone draws only in the revealed current own area; concealment suppresses replay and preserves status
+ok 129 - Clone draws only in the revealed current own area; concealment suppresses replay and preserves status
+  ---
+  duration_ms: 0.347416
+  type: 'test'
+  ...
+# Subtest: Clone terminal qualification, SHOWDOWN expiry, and live reduced-motion changes do not replay
+ok 130 - Clone terminal qualification, SHOWDOWN expiry, and live reduced-motion changes do not replay
+  ---
+  duration_ms: 0.090333
+  type: 'test'
+  ...
+# Subtest: wire validation rejects malformed clinical and foreign overflow facts before the renderer
+ok 131 - wire validation rejects malformed clinical and foreign overflow facts before the renderer
+  ---
+  duration_ms: 0.674958
+  type: 'test'
+  ...
+# Subtest: an occurrence arriving after its matching snapshot retains the actual held-before Jail/body state
+ok 132 - an occurrence arriving after its matching snapshot retains the actual held-before Jail/body state
+  ---
+  duration_ms: 0.131708
+  type: 'test'
+  ...
+# Subtest: fresh post-Blackout outcomes retain their committed origin while hidden-page resumption stays a baseline
+ok 133 - fresh post-Blackout outcomes retain their committed origin while hidden-page resumption stays a baseline
+  ---
+  duration_ms: 0.19125
+  type: 'test'
+  ...
+# Subtest: 7: admission uses its current H2 despite a fifth anchor or another living/body holder at H1
+ok 134 - 7: admission uses its current H2 despite a fifth anchor or another living/body holder at H1
+  ---
+  duration_ms: 0.955
+  type: 'test'
+  ...
+# Subtest: 8: admission uses its current H2 despite a fifth anchor or another living/body holder at H1
+ok 135 - 8: admission uses its current H2 despite a fifth anchor or another living/body holder at H1
+  ---
+  duration_ms: 0.306416
+  type: 'test'
+  ...
+# Subtest: 9: admission uses its current H2 despite a fifth anchor or another living/body holder at H1
+ok 136 - 9: admission uses its current H2 despite a fifth anchor or another living/body holder at H1
+  ---
+  duration_ms: 0.260708
+  type: 'test'
+  ...
+# Subtest: normal and reduced Clone changes observed with the sheet closed start once at first card foreground
+ok 137 - normal and reduced Clone changes observed with the sheet closed start once at first card foreground
+  ---
+  duration_ms: 0.256292
+  type: 'test'
+  ...
+# Subtest: queued own Clone changes are discarded at authorization, page, motion and terminal boundaries
+ok 138 - queued own Clone changes are discarded at authorization, page, motion and terminal boundaries
+  ---
+  duration_ms: 0.291042
+  type: 'test'
+  ...
+# Subtest: new Ready echoes only the exact complete gameplay and loaded artwork agreement
+ok 139 - new Ready echoes only the exact complete gameplay and loaded artwork agreement
+  ---
+  duration_ms: 1.604667
+  type: 'test'
+  ...
+# Subtest: intermediate or crossed tuples cannot borrow the new Ready acknowledgment
+ok 140 - intermediate or crossed tuples cannot borrow the new Ready acknowledgment
+  ---
+  duration_ms: 0.233875
+  type: 'test'
+  ...
+# Subtest: four-bed Ready requires the exact gameplay/art pair and all nine bundles; historical agreements remain valid
+ok 141 - four-bed Ready requires the exact gameplay/art pair and all nine bundles; historical agreements remain valid
+  ---
+  duration_ms: 0.185709
+  type: 'test'
+  ...
+# Subtest: stored holes and public slot identity survive occupancy changes; the renderer never reassigns an entrant
+ok 142 - stored holes and public slot identity survive occupancy changes; the renderer never reassigns an entrant
+  ---
+  duration_ms: 3.998875
+  type: 'test'
+  ...
+# Subtest: the exact ward supports 7/8/9 berths, gown/health poses and front-layer depth without moving an injured detainee
+ok 143 - the exact ward supports 7/8/9 berths, gown/health poses and front-layer depth without moving an injured detainee
+  ---
+  duration_ms: 12.2815
+  type: 'test'
+  ...
+# Subtest: original room scene facts and public wardrobe determine figures; hidden data cannot affect the output
+ok 144 - original room scene facts and public wardrobe determine figures; hidden data cannot affect the output
+  ---
+  duration_ms: 0.366125
+  type: 'test'
+  ...
+# Subtest: targetless successors require confirmation and send no invented seat payload
+ok 145 - targetless successors require confirmation and send no invented seat payload
+  ---
+  duration_ms: 18.634791
+  type: 'test'
+  ...
+# Subtest: frozen slot selection opens at the dark boundary, needs a second tap and keeps exact logical position
+ok 146 - frozen slot selection opens at the dark boundary, needs a second tap and keeps exact logical position
+  ---
+  duration_ms: 2.648625
+  type: 'test'
+  ...
+# Subtest: dark Code uses all original numeric identities including offboard with no board hints
+ok 147 - dark Code uses all original numeric identities including offboard with no board hints
+  ---
+  duration_ms: 8.927125
+  type: 'test'
+  ...
+# Subtest: a blackout choice is bound to its original snapshot and room even when a slot label matches
+ok 148 - a blackout choice is bound to its original snapshot and room even when a slot label matches
+  ---
+  duration_ms: 0.984542
+  type: 'test'
+  ...
+# Subtest: disabled historical capability emits no pair; the public frame copies no claim, role or private choice
+ok 149 - disabled historical capability emits no pair; the public frame copies no claim, role or private choice
+  ---
+  duration_ms: 0.690833
+  type: 'test'
+  ...
+# Subtest: fresh declaration-to-result enters once; first, late and recovered stages settle instead of replaying
+ok 150 - fresh declaration-to-result enters once; first, late and recovered stages settle instead of replaying
+  ---
+  duration_ms: 0.23375
+  type: 'test'
+  ...
+# Subtest: conversation keeps its complete server-owned 60 seconds, with no animation gate or local phase advance
+ok 151 - conversation keeps its complete server-owned 60 seconds, with no animation gate or local phase advance
+  ---
+  duration_ms: 0.097416
+  type: 'test'
+  ...
+# Subtest: reduced motion settles entry/exit; superseding pair, hidden/stale state and termination cancel obsolete choreography
+ok 152 - reduced motion settles entry/exit; superseding pair, hidden/stale state and termination cancel obsolete choreography
+  ---
+  duration_ms: 0.207167
+  type: 'test'
+  ...
+# Subtest: actual seat offers are preserved while art travels, and a changed server offer removes the capsule target
+ok 153 - actual seat offers are preserved while art travels, and a changed server offer removes the capsule target
+  ---
+  duration_ms: 0.475375
+  type: 'test'
+  ...
+# Subtest: return resolves both current authoritative anchors again after movement during conversation and exit
+ok 154 - return resolves both current authoritative anchors again after movement during conversation and exit
+  ---
+  duration_ms: 0.3245
+  type: 'test'
+  ...
+# Subtest: private acknowledgments require fresh matching own seat metadata; empty success is retained
+ok 155 - private acknowledgments require fresh matching own seat metadata; empty success is retained
+  ---
+  duration_ms: 15.163125
+  type: 'test'
+  ...
+# Subtest: wrong audience, changed same revision and confirmed regression quarantine their stream
+ok 156 - wrong audience, changed same revision and confirmed regression quarantine their stream
+  ---
+  duration_ms: 17.517
+  type: 'test'
+  ...
+# Subtest: missing legacy sidecars are supported and table devices never subscribe to private documents
+ok 157 - missing legacy sidecars are supported and table devices never subscribe to private documents
+  ---
+  duration_ms: 1.221375
+  type: 'test'
+  ...
+# Subtest: identity retries retain the original choice after a lost response; private payloads are never persisted
+ok 158 - identity retries retain the original choice after a lost response; private payloads are never persisted
+  ---
+  duration_ms: 0.838417
+  type: 'test'
+  ...
+# Subtest: identity API rejects unsupported versions and fields and preserves meaningful refusal codes
+ok 159 - identity API rejects unsupported versions and fields and preserves meaningful refusal codes
+  ---
+  duration_ms: 0.505084
+  type: 'test'
+  ...
+# Subtest: quarantine clears both sides immediately and keeps revision checks when subscriptions restart
+ok 160 - quarantine clears both sides immediately and keeps revision checks when subscriptions restart
+  ---
+  duration_ms: 5.552416
+  type: 'test'
+  ...
+# Subtest: held sidecars cannot be returned under a different Auth identity even before another callback
+ok 161 - held sidecars cannot be returned under a different Auth identity even before another callback
+  ---
+  duration_ms: 1.139417
+  type: 'test'
+  ...
+# (node:9405) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: first/reconnected snapshots never cue a move; unchanged public facts stay unchanged across private redraws
+ok 162 - first/reconnected snapshots never cue a move; unchanged public facts stay unchanged across private redraws
+  ---
+  duration_ms: 7.104958
+  type: 'test'
+  ...
+# Subtest: more than four moved public seats skip the treatment as a batch
+ok 163 - more than four moved public seats skip the treatment as a batch
+  ---
+  duration_ms: 0.153709
+  type: 'test'
+  ...
+# Subtest: all phones preload identical complete art bundles; a table requests only public artwork
+ok 164 - all phones preload identical complete art bundles; a table requests only public artwork
+  ---
+  duration_ms: 0.06425
+  type: 'test'
+  ...
+# Subtest: public facts are read from the drawn public board only: places, health, Jail, Captain, a revealed faction and the turn
+ok 165 - public facts are read from the drawn public board only: places, health, Jail, Captain, a revealed faction and the turn
+  ---
+  duration_ms: 0.204959
+  type: 'test'
+  ...
+# Subtest: cues start only from a difference between two drawn public states
+ok 166 - cues start only from a difference between two drawn public states
+  ---
+  duration_ms: 3.912917
+  type: 'test'
+  ...
+# Subtest: in-app reduced motion during travel cancels owned effects before an unchanged-facts return
+ok 167 - in-app reduced motion during travel cancels owned effects before an unchanged-facts return
+  ---
+  duration_ms: 1.976084
+  type: 'test'
+  ...
+# Subtest: system reduced motion during travel cancels owned effects before an unchanged-facts return
+ok 168 - system reduced motion during travel cancels owned effects before an unchanged-facts return
+  ---
+  duration_ms: 0.604375
+  type: 'test'
+  ...
+# Subtest: OS reduction settles explicit full motion without a redraw and unsubscribes on disposal
+ok 169 - OS reduction settles explicit full motion without a redraw and unsubscribes on disposal
+  ---
+  duration_ms: 0.4905
+  type: 'test'
+  ...
+# Subtest: a reduced-motion switch also clears the lingering trail after travel completes
+ok 170 - a reduced-motion switch also clears the lingering trail after travel completes
+  ---
+  duration_ms: 0.414541
+  type: 'test'
+  ...
+# Subtest: the strip's own cues come from its drawn step: arriving, a pick, the registration stamp, a command not accepted
+ok 171 - the strip's own cues come from its drawn step: arriving, a pick, the registration stamp, a command not accepted
+  ---
+  duration_ms: 0.195792
+  type: 'test'
+  ...
+# Subtest: the client reaches the documented operations and no other
+ok 172 - the client reaches the documented operations and no other
+  ---
+  duration_ms: 1.116459
+  type: 'test'
+  ...
+# Subtest: every request the client sends satisfies the shared protocol-2 schema, and carries no actor, clock or outcome
+ok 173 - every request the client sends satisfies the shared protocol-2 schema, and carries no actor, clock or outcome
+  ---
+  duration_ms: 56.990375
+  type: 'test'
+  ...
+# Subtest: a receipt is the server’s decision, accepted or rejected, and is believed only for the command it names
+ok 174 - a receipt is the server’s decision, accepted or rejected, and is believed only for the command it names
+  ---
+  duration_ms: 2.471167
+  type: 'test'
+  ...
+# Subtest: every declared failure is reported with its code and with the retry delay the server named, if any
+ok 175 - every declared failure is reported with its code and with the retry delay the server named, if any
+  ---
+  duration_ms: 0.578792
+  type: 'test'
+  ...
+# Subtest: no usable answer leaves the outcome unknown: a lost request, a timeout, and a body that is not the contract’s
+ok 176 - no usable answer leaves the outcome unknown: a lost request, a timeout, and a body that is not the contract’s
+  ---
+  duration_ms: 14.371292
+  type: 'test'
+  ...
+# Subtest: a lookup reports a found receipt or that none was committed yet, and nothing about another command
+ok 177 - a lookup reports a found receipt or that none was committed yet, and nothing about another command
+  ---
+  duration_ms: 0.674
+  type: 'test'
+  ...
+# Subtest: server time and phase catch-up are read from their own envelopes, and an answer about another phase is not believed
+ok 178 - server time and phase catch-up are read from their own envelopes, and an answer about another phase is not believed
+  ---
+  duration_ms: 0.573042
+  type: 'test'
+  ...
+# Subtest: each lobby operation accepts only its own result, for its own request
+ok 179 - each lobby operation accepts only its own result, for its own request
+  ---
+  duration_ms: 10.925458
+  type: 'test'
+  ...
+# Subtest: a recovery code is believed only for the seat it was asked for, and a replayed answer carries none
+ok 180 - a recovery code is believed only for the seat it was asked for, and a replayed answer carries none
+  ---
+  duration_ms: 0.937959
+  type: 'test'
+  ...
+# Subtest: cancelling settles every pending call as cancelled and leaves no timer behind
+ok 181 - cancelling settles every pending call as cancelled and leaves no timer behind
+  ---
+  duration_ms: 1.347459
+  type: 'test'
+  ...
+# Subtest: the connected client displays wire protocol 2 and nothing else
+ok 182 - the connected client displays wire protocol 2 and nothing else
+  ---
+  duration_ms: 2.678208
+  type: 'test'
+  ...
+# Subtest: a public store holds a public view of its own match and never a player’s
+ok 183 - a public store holds a public view of its own match and never a player’s
+  ---
+  duration_ms: 2.755875
+  type: 'test'
+  ...
+# Subtest: a player store holds only the approved seat’s own view, and that seat keeps its role
+ok 184 - a player store holds only the approved seat’s own view, and that seat keeps its role
+  ---
+  duration_ms: 3.332041
+  type: 'test'
+  ...
+# Subtest: revisions only move forward: a repeat proves freshness, a conflict is refused, and a lower one is dropped unless the server itself confirmed it
+ok 185 - revisions only move forward: a repeat proves freshness, a conflict is refused, and a lower one is dropped unless the server itself confirmed it
+  ---
+  duration_ms: 3.351292
+  type: 'test'
+  ...
+# Subtest: a field the contract does not list never enters client state
+ok 186 - a field the contract does not list never enters client state
+  ---
+  duration_ms: 0.762917
+  type: 'test'
+  ...
+# Subtest: the lobby is read strictly and pinned to the match asked for
+ok 187 - the lobby is read strictly and pinned to the match asked for
+  ---
+  duration_ms: 0.820375
+  type: 'test'
+  ...
+# Subtest: a store can let go of the view it holds, and still takes nothing that belongs to another seat or match
+ok 188 - a store can let go of the view it holds, and still takes nothing that belongs to another seat or match
+  ---
+  duration_ms: 0.750958
+  type: 'test'
+  ...
+# Subtest: a refused session tells its store to let go of the view, so nothing private is left behind it
+ok 189 - a refused session tells its store to let go of the view, so nothing private is left behind it
+  ---
+  duration_ms: 0.466375
+  type: 'test'
+  ...
+# Subtest: a session the server refuses lets go of its view at once, for good, and says why
+ok 190 - a session the server refuses lets go of its view at once, for good, and says why
+  ---
+  duration_ms: 7.160375
+  type: 'test'
+  ...
+# Subtest: an admission is read as exactly the fields the service writes, and nothing more
+ok 191 - an admission is read as exactly the fields the service writes, and nothing more
+  ---
+  duration_ms: 0.530416
+  type: 'test'
+  ...
+# Subtest: a host’s session document is read as exactly the fields the service writes, and shows no engine state
+ok 192 - a host’s session document is read as exactly the fields the service writes, and shows no engine state
+  ---
+  duration_ms: 0.210125
+  type: 'test'
+  ...
+# Subtest: listener paths are the documented ones, built from checked identifiers only
+ok 193 - listener paths are the documented ones, built from checked identifiers only
+  ---
+  duration_ms: 0.397042
+  type: 'test'
+  ...
+# Subtest: authorization quarantine retains same-revision integrity without holding a private view
+ok 194 - authorization quarantine retains same-revision integrity without holding a private view
+  ---
+  duration_ms: 7.330083
+  type: 'test'
+  ...
+# Subtest: a later revision replaces the quarantined comparison, while ordinary forget resets it
+ok 195 - a later revision replaces the quarantined comparison, while ordinary forget resets it
+  ---
+  duration_ms: 1.050625
+  type: 'test'
+  ...
+# Subtest: a connected phone is connecting until the server confirms its own view, then shows the match labeled as the emulator
+ok 196 - a connected phone is connecting until the server confirms its own view, then shows the match labeled as the emulator
+  ---
+  duration_ms: 23.267708
+  type: 'test'
+  ...
+# Subtest: only a snapshot the server confirmed makes the view current; a cached one is shown as the last known state
+ok 197 - only a snapshot the server confirmed makes the view current; a cached one is shown as the last known state
+  ---
+  duration_ms: 8.299125
+  type: 'test'
+  ...
+# Subtest: a view for another seat, or a public view, never becomes this phone’s view
+ok 198 - a view for another seat, or a public view, never becomes this phone’s view
+  ---
+  duration_ms: 9.611625
+  type: 'test'
+  ...
+# Subtest: a move by intents alone: the server’s destination, one command, the receipt, and private words for it
+ok 199 - a move by intents alone: the server’s destination, one command, the receipt, and private words for it
+  ---
+  duration_ms: 10.616625
+  type: 'test'
+  ...
+# Subtest: a role action by intents alone: listed only when the view opens it, the server’s targets, one command, and words that name no outcome
+ok 200 - a role action by intents alone: listed only when the view opens it, the server’s targets, one command, and words that name no outcome
+  ---
+  duration_ms: 6.767
+  type: 'test'
+  ...
+# Subtest: a ballot by intents alone: offered when the view opens it, one command, and afterwards the server’s own statement of the ballot, privately
+ok 201 - a ballot by intents alone: offered when the view opens it, one command, and afterwards the server’s own statement of the ballot, privately
+  ---
+  duration_ms: 7.163041
+  type: 'test'
+  ...
+# Subtest: the connected table shows what is being voted on and the count the server publishes, and nothing of any ballot
+ok 202 - the connected table shows what is being voted on and the count the server publishes, and nothing of any ballot
+  ---
+  duration_ms: 2.286708
+  type: 'test'
+  ...
+# Subtest: a Scan by intents alone: a seat, then a guess, one command, and the result read from the server’s view in the private panel
+ok 203 - a Scan by intents alone: a seat, then a guess, one command, and the result read from the server’s view in the private panel
+  ---
+  duration_ms: 8.548917
+  type: 'test'
+  ...
+# Subtest: when the host ends the match, a phone shows it ended without a winner, reveals nothing, and can start nothing
+ok 204 - when the host ends the match, a phone shows it ended without a winner, reveals nothing, and can start nothing
+  ---
+  duration_ms: 2.621458
+  type: 'test'
+  ...
+# Subtest: a finished match is shown with the winner and the reveal the server’s view carries, the same on the table and on a phone
+ok 205 - a finished match is shown with the winner and the reveal the server’s view carries, the same on the table and on a phone
+  ---
+  duration_ms: 3.91675
+  type: 'test'
+  ...
+# Subtest: a phone the server refuses its view lets go of everything it was showing, at once, and shows nothing more
+ok 206 - a phone the server refuses its view lets go of everything it was showing, at once, and shows nothing more
+  ---
+  duration_ms: 5.157584
+  type: 'test'
+  ...
+# Subtest: a phone refused while a command of its own is unanswered drops the command, and asks nothing more about it
+ok 207 - a phone refused while a command of its own is unanswered drops the command, and asks nothing more about it
+  ---
+  duration_ms: 80.976709
+  type: 'test'
+  ...
+# Subtest: a display the server refuses the public view shows no match either, and one that was never let in shows none to begin with
+ok 208 - a display the server refuses the public view shows no match either, and one that was never let in shows none to begin with
+  ---
+  duration_ms: 7.754959
+  type: 'test'
+  ...
+# Subtest: with the panel closed nothing of the command is in the frame or the document, and action intents are ignored
+ok 209 - with the panel closed nothing of the command is in the frame or the document, and action intents are ignored
+  ---
+  duration_ms: 13.594958
+  type: 'test'
+  ...
+# Subtest: an unsent choice is cleared when the phase changes, and the player is told it was not sent
+ok 210 - an unsent choice is cleared when the phase changes, and the player is told it was not sent
+  ---
+  duration_ms: 2.810459
+  type: 'test'
+  ...
+# Subtest: a reloaded phone asks about its unresolved command once it has a confirmed view, and sends nothing
+ok 211 - a reloaded phone asks about its unresolved command once it has a confirmed view, and sends nothing
+  ---
+  duration_ms: 2.020791
+  type: 'test'
+  ...
+# Subtest: the connected table shows public facts only, listens to the public view only, and can send no command
+ok 212 - the connected table shows public facts only, listens to the public view only, and can send no command
+  ---
+  duration_ms: 29.688083
+  type: 'test'
+  ...
+# Subtest: a snapshot the server confirmed with a lower revision is a match gone backwards: the screen stops, and nothing can be sent
+ok 213 - a snapshot the server confirmed with a lower revision is a match gone backwards: the screen stops, and nothing can be sent
+  ---
+  duration_ms: 14.140958
+  type: 'test'
+  ...
+# Subtest: without a trusted clock nothing can be started: not knowing the time is not permission
+ok 214 - without a trusted clock nothing can be started: not knowing the time is not permission
+  ---
+  duration_ms: 13.843041
+  type: 'test'
+  ...
+# Subtest: when its countdown ends the display asks the server to look at the deadline; only the next view changes the phase on screen
+ok 215 - when its countdown ends the display asks the server to look at the deadline; only the next view changes the phase on screen
+  ---
+  duration_ms: 28.067375
+  type: 'test'
+  ...
+# Subtest: a phone asks later than a display would, not at all once the next view is here, and never on a view it cannot trust
+ok 216 - a phone asks later than a display would, not at all once the next view is here, and never on a view it cannot trust
+  ---
+  duration_ms: 33.638167
+  type: 'test'
+  ...
+# Subtest: dispose stops the listener, the timers and the command flow
+ok 217 - dispose stops the listener, the timers and the command flow
+  ---
+  duration_ms: 10.691583
+  type: 'test'
+  ...
+# Subtest: hosted ambiguous denial hides secrets and reconciles an unanswered command after reconnect
+ok 218 - hosted ambiguous denial hides secrets and reconciles an unanswered command after reconnect
+  ---
+  duration_ms: 7.704292
+  type: 'test'
+  ...
+# Subtest: hosted ambiguous denial hides secrets and reconciles an unanswered command after reload
+ok 219 - hosted ambiguous denial hides secrets and reconciles an unanswered command after reload
+  ---
+  duration_ms: 6.235417
+  type: 'test'
+  ...
+# Subtest: a hosted device the server does not let read says so, keeps what it must, and comes back when the server lets it
+ok 220 - a hosted device the server does not let read says so, keeps what it must, and comes back when the server lets it
+  ---
+  duration_ms: 27.673667
+  type: 'test'
+  ...
+# Subtest: a refusal that is final still replaces it, and is not replaced by it
+ok 221 - a refusal that is final still replaces it, and is not replaced by it
+  ---
+  duration_ms: 59.795333
+  type: 'test'
+  ...
+# Subtest: a failed check of the match data is not replaced by it either
+ok 222 - a failed check of the match data is not replaced by it either
+  ---
+  duration_ms: 13.379292
+  type: 'test'
+  ...
+# Subtest: a revoked hosted identity remains hidden through retries and cached snapshots
+ok 223 - a revoked hosted identity remains hidden through retries and cached snapshots
+  ---
+  duration_ms: 4.341792
+  type: 'test'
+  ...
+# Subtest: authorization quarantine preserves the revision floor after discarding private view bytes
+ok 224 - authorization quarantine preserves the revision floor after discarding private view bytes
+  ---
+  duration_ms: 12.390292
+  type: 'test'
+  ...
+# Subtest: a conflicting same-revision recovery cannot settle an unanswered command after authorization quarantine
+ok 225 - a conflicting same-revision recovery cannot settle an unanswered command after authorization quarantine
+  ---
+  duration_ms: 3.335375
+  type: 'test'
+  ...
+# Subtest: the neutral Pass intent works with the private card closed and leaves private content concealed
+ok 226 - the neutral Pass intent works with the private card closed and leaves private content concealed
+  ---
+  duration_ms: 3.551042
+  type: 'test'
+  ...
+# Subtest: the player-only Clone drawing reader compares current own facts while the private model and markup stay closed
+ok 227 - the player-only Clone drawing reader compares current own facts while the private model and markup stay closed
+  ---
+  duration_ms: 6.871917
+  type: 'test'
+  ...
+# Subtest: stale, reconnect, foreign-seat and revised-identity views cannot retain own Clone drawing authority
+ok 228 - stale, reconnect, foreign-seat and revised-identity views cannot retain own Clone drawing authority
+  ---
+  duration_ms: 6.963292
+  type: 'test'
+  ...
+# Subtest: the client core imports only workspace modules and the reviewed portable digest
+ok 229 - the client core imports only workspace modules and the reviewed portable digest
+  ---
+  duration_ms: 8.17775
+  type: 'test'
+  ...
+# Subtest: the browser directory imports the reviewed Firebase entry points and nothing else from outside
+ok 230 - the browser directory imports the reviewed Firebase entry points and nothing else from outside
+  ---
+  duration_ms: 1.638459
+  type: 'test'
+  ...
+# Subtest: nothing in browser/ is reachable from the package entry
+ok 231 - nothing in browser/ is reachable from the package entry
+  ---
+  duration_ms: 2.716333
+  type: 'test'
+  ...
+# Subtest: crew dispatch requires every approved gameplay and art pin
+ok 232 - crew dispatch requires every approved gameplay and art pin
+  ---
+  duration_ms: 0.455
+  type: 'test'
+  ...
+# Subtest: pregame release preserves every selected crew appearance and exact gameplay pin
+ok 233 - pregame release preserves every selected crew appearance and exact gameplay pin
+  ---
+  duration_ms: 152.294459
+  type: 'test'
+  ...
+# Subtest: historical figures remain byte-identical to the original drawing factory
+ok 234 - historical figures remain byte-identical to the original drawing factory
+  ---
+  duration_ms: 70.454333
+  type: 'test'
+  ...
+# Subtest: all nine picture bindings use square app icons only on the selected crew release
+ok 235 - all nine picture bindings use square app icons only on the selected crew release
+  ---
+  duration_ms: 0.138459
+  type: 'test'
+  ...
+# Subtest: exact phone1.2 pins retain every approved0.7/0.8 portrait and figure; near-miss tuples stay rejected
+ok 236 - exact phone1.2 pins retain every approved0.7/0.8 portrait and figure; near-miss tuples stay rejected
+  ---
+  duration_ms: 547.391541
+  type: 'test'
+  ...
+# Subtest: private role/faction inputs cannot select a different public character drawing
+ok 237 - private role/faction inputs cannot select a different public character drawing
+  ---
+  duration_ms: 14.539417
+  type: 'test'
+  ...
+# Subtest: exact 1.3 pre-vote pins retain all released crew, gown and prison drawings without admitting mixed tuples
+ok 238 - exact 1.3 pre-vote pins retain all released crew, gown and prison drawings without admitting mixed tuples
+  ---
+  duration_ms: 501.67125
+  type: 'test'
+  ...
+# Subtest: nothing is asked while a phase is running, or by a device with no view
+ok 239 - nothing is asked while a phase is running, or by a device with no view
+  ---
+  duration_ms: 4.141375
+  type: 'test'
+  ...
+# Subtest: a display asks once, shortly after its own countdown ended, naming the match and the phase on its screen
+ok 240 - a display asks once, shortly after its own countdown ended, naming the match and the phase on its screen
+  ---
+  duration_ms: 1.346166
+  type: 'test'
+  ...
+# Subtest: a phone waits longer than a display, and each seat a different time
+ok 241 - a phone waits longer than a display, and each seat a different time
+  ---
+  duration_ms: 36.236375
+  type: 'test'
+  ...
+# Subtest: a phase that moves on before the wait is over is never asked about
+ok 242 - a phase that moves on before the wait is over is never asked about
+  ---
+  duration_ms: 1.141
+  type: 'test'
+  ...
+# Subtest: a view the server has not confirmed, or a page that is not in front, asks nothing; the wait starts when both hold
+ok 243 - a view the server has not confirmed, or a page that is not in front, asks nothing; the wait starts when both hold
+  ---
+  duration_ms: 3.402916
+  type: 'test'
+  ...
+# Subtest: "unchanged" and "advanced" both mean: wait for the view. It asks again only after growing waits, and stops when the next phase arrives
+ok 244 - "unchanged" and "advanced" both mean: wait for the view. It asks again only after growing waits, and stops when the next phase arrives
+  ---
+  duration_ms: 6.372625
+  type: 'test'
+  ...
+# Subtest: no answer, and an API that throws, are waited out the same way
+ok 245 - no answer, and an API that throws, are waited out the same way
+  ---
+  duration_ms: 2.98275
+  type: 'test'
+  ...
+# Subtest: a wait the server names is a minimum, and this device’s own wait never shortens it
+ok 246 - a wait the server names is a minimum, and this device’s own wait never shortens it
+  ---
+  duration_ms: 20.921959
+  type: 'test'
+  ...
+# Subtest: a wait the server named outlasts everything that restarts the asking: a view that blinks, a page hidden and shown, the next phase
+ok 247 - a wait the server named outlasts everything that restarts the asking: a view that blinks, a page hidden and shown, the next phase
+  ---
+  duration_ms: 6.32225
+  type: 'test'
+  ...
+# Subtest: refused, it stops asking about that phase, and asks about the next one when that ends
+ok 248 - refused, it stops asking about that phase, and asks about the next one when that ends
+  ---
+  duration_ms: 3.729042
+  type: 'test'
+  ...
+# Subtest: never two requests at once, and an answer about a phase that is gone starts nothing for it
+ok 249 - never two requests at once, and an answer about a phase that is gone starts nothing for it
+  ---
+  duration_ms: 3.425583
+  type: 'test'
+  ...
+# Subtest: if the view stops being current while the request is out, the answer starts no wait; asking resumes when it is current again
+ok 250 - if the view stops being current while the request is out, the answer starts no wait; asking resumes when it is current again
+  ---
+  duration_ms: 1.122459
+  type: 'test'
+  ...
+# Subtest: a phase that arrives already ended gets its own wait from the start, not what was left of the last one
+ok 251 - a phase that arrives already ended gets its own wait from the start, not what was left of the last one
+  ---
+  duration_ms: 2.00025
+  type: 'test'
+  ...
+# Subtest: disposed, it asks nothing more, and a late answer does nothing
+ok 252 - disposed, it asks nothing more, and a late answer does nothing
+  ---
+  duration_ms: 0.52325
+  type: 'test'
+  ...
+# Subtest: the trusted server deadlines retain exact 15/5/60 windows and late delivery never restarts them
+ok 253 - the trusted server deadlines retain exact 15/5/60 windows and late delivery never restarts them
+  ---
+  duration_ms: 21.545709
+  type: 'test'
+  ...
+# Subtest: background and stale delivery withdraw claims and live lines; returning never reopens privately
+ok 254 - background and stale delivery withdraw claims and live lines; returning never reopens privately
+  ---
+  duration_ms: 68.205667
+  type: 'test'
+  ...
+# Subtest: the public display receives neither participant association nor a declared side
+ok 255 - the public display receives neither participant association nor a declared side
+  ---
+  duration_ms: 23.556958
+  type: 'test'
+  ...
+# Subtest: expired or obsolete feedback removes the private live line while preserving the open panel
+ok 256 - expired or obsolete feedback removes the private live line while preserving the open panel
+  ---
+  duration_ms: 12.157125
+  type: 'test'
+  ...
+# Subtest: a declaration keeps one request ID through a lost reply, new phase, concealed panel and receipt recovery
+ok 257 - a declaration keeps one request ID through a lost reply, new phase, concealed panel and receipt recovery
+  ---
+  duration_ms: 3.543542
+  type: 'test'
+  ...
+# Subtest: hosted Ready does not activate Hack 1.5 with the old or an unreviewed art pin
+ok 258 - hosted Ready does not activate Hack 1.5 with the old or an unreviewed art pin
+  ---
+  duration_ms: 0.434375
+  type: 'test'
+  ...
+# Subtest: cleanup reconciles a committed abort after a timeout and rate limit using the identical body
+ok 259 - cleanup reconciles a committed abort after a timeout and rate limit using the identical body
+  ---
+  duration_ms: 1.375958
+  type: 'test'
+  ...
+# Subtest: cleanup fails after its bounded identical retries rather than accepting a missing reply
+ok 260 - cleanup fails after its bounded identical retries rather than accepting a missing reply
+  ---
+  duration_ms: 1.029041
+  type: 'test'
+  ...
+# Subtest: cleanup retains a first UNAVAILABLE abort and verifies the eventual success
+ok 261 - cleanup retains a first UNAVAILABLE abort and verifies the eventual success
+  ---
+  duration_ms: 1.121209
+  type: 'test'
+  ...
+# Subtest: cleanup rejects a definitive refusal without masking it or issuing a replacement
+ok 262 - cleanup rejects a definitive refusal without masking it or issuing a replacement
+  ---
+  duration_ms: 0.128542
+  type: 'test'
+  ...
+# Subtest: cleanup requires a true success and never exceeds a server retry wait budget
+ok 263 - cleanup requires a true success and never exceeds a server retry wait budget
+  ---
+  duration_ms: 0.30575
+  type: 'test'
+  ...
+# Subtest: the SDK harness adopts only explicit gameplay/art pairs, retaining its no-art fixtures
+ok 264 - the SDK harness adopts only explicit gameplay/art pairs, retaining its no-art fixtures
+  ---
+  duration_ms: 6.714791
+  type: 'test'
+  ...
+# Subtest: new Clone Ready harness adopts only its exact art pair and preserves no-assets fixtures
+ok 265 - new Clone Ready harness adopts only its exact art pair and preserves no-assets fixtures
+  ---
+  duration_ms: 0.169916
+  type: 'test'
+  ...
+# Subtest: late join renders remaining result time; deadline alone never starts the next phase
+ok 266 - late join renders remaining result time; deadline alone never starts the next phase
+  ---
+  duration_ms: 29.635167
+  type: 'test'
+  ...
+# Subtest: result entry closes private content and live lines while unresolved command recovery survives
+ok 267 - result entry closes private content and live lines while unresolved command recovery survives
+  ---
+  duration_ms: 6.638542
+  type: 'test'
+  ...
+# Subtest: equal successive tallies are announced by result identity, once, with no replay on reconnect
+ok 268 - equal successive tallies are announced by result identity, once, with no replay on reconnect
+  ---
+  duration_ms: 7.529875
+  type: 'test'
+  ...
+# Subtest: host abort during a result shows a plain end without role or Code disclosure
+ok 269 - host abort during a result shows a plain end without role or Code disclosure
+  ---
+  duration_ms: 1.820125
+  type: 'test'
+  ...
+# Subtest: a reconnect after the result deadline never announces the obsolete outcome
+ok 270 - a reconnect after the result deadline never announces the obsolete outcome
+  ---
+  duration_ms: 1.9055
+  type: 'test'
+  ...
+# Subtest: the emulator transport serves the demo project on loopback hosts and nothing else
+ok 271 - the emulator transport serves the demo project on loopback hosts and nothing else
+  ---
+  duration_ms: 0.566917
+  type: 'test'
+  ...
+# Subtest: only the rules refusing a read is a refusal; every other way a listener ends is a failure
+ok 272 - only the rules refusing a read is a refusal; every other way a listener ends is a failure
+  ---
+  duration_ms: 0.0715
+  type: 'test'
+  ...
+# Subtest: the transport is not part of the headless package entry
+ok 273 - the transport is not part of the headless package entry
+  ---
+  duration_ms: 16.905625
+  type: 'test'
+  ...
+# Subtest: every view the scripted scenario emits satisfies the shared contract at every step
+ok 274 - every view the scripted scenario emits satisfies the shared contract at every step
+  ---
+  duration_ms: 5.573583
+  type: 'test'
+  ...
+# Subtest: the first two steps are the authored contract fixture, byte for byte
+ok 275 - the first two steps are the authored contract fixture, byte for byte
+  ---
+  duration_ms: 0.257792
+  type: 'test'
+  ...
+# Subtest: server-only fixture truth never leaves the scenario, whatever is asked of it
+ok 276 - server-only fixture truth never leaves the scenario, whatever is asked of it
+  ---
+  duration_ms: 1.131541
+  type: 'test'
+  ...
+# Subtest: the two variants are indistinguishable to every audience through the whole script
+ok 277 - the two variants are indistinguishable to every audience through the whole script
+  ---
+  duration_ms: 0.462708
+  type: 'test'
+  ...
+# Subtest: a hidden registration is delivered to the registering seat and to nobody else
+ok 278 - a hidden registration is delivered to the registering seat and to nobody else
+  ---
+  duration_ms: 0.264833
+  type: 'test'
+  ...
+# Subtest: a feed follows the transport contract: connected, then the current view, again after every reconnect
+ok 279 - a feed follows the transport contract: connected, then the current view, again after every reconnect
+  ---
+  duration_ms: 0.28825
+  type: 'test'
+  ...
+# Subtest: server time is virtual: it starts at the authored phase start and can be run forward
+ok 280 - server time is virtual: it starts at the authored phase start and can be run forward
+  ---
+  duration_ms: 0.1685
+  type: 'test'
+  ...
+# Subtest: the first turn can be ended without the scripted registration, and the views stay valid
+ok 281 - the first turn can be ended without the scripted registration, and the views stay valid
+  ---
+  duration_ms: 0.379084
+  type: 'test'
+  ...
+# Subtest: the real player screen runs against the fixture transport, labeled as fixture throughout
+ok 282 - the real player screen runs against the fixture transport, labeled as fixture throughout
+  ---
+  duration_ms: 10.190291
+  type: 'test'
+  ...
+# Subtest: the real table screen is unmoved by the registration step and never sees a role
+ok 283 - the real table screen is unmoved by the registration step and never sees a role
+  ---
+  duration_ms: 7.577334
+  type: 'test'
+  ...
+# Subtest: the operator’s bad payloads exercise the client’s defences end to end
+ok 284 - the operator’s bad payloads exercise the client’s defences end to end
+  ---
+  duration_ms: 26.839583
+  type: 'test'
+  ...
+# Subtest: an accepted registration changes the actor’s own view and nobody else’s, to the authored view with the client’s identifier
+ok 285 - an accepted registration changes the actor’s own view and nobody else’s, to the authored view with the client’s identifier
+  ---
+  duration_ms: 21.372916
+  type: 'test'
+  ...
+# Subtest: the desk keeps to the stated command contract: one durable receipt per identifier, replayed before phase or time is looked at
+ok 286 - the desk keeps to the stated command contract: one durable receipt per identifier, replayed before phase or time is looked at
+  ---
+  duration_ms: 13.442042
+  type: 'test'
+  ...
+# Subtest: a command is for the phase that is open now: past its deadline it is rejected, however little
+ok 287 - a command is for the phase that is open now: past its deadline it is rejected, however little
+  ---
+  duration_ms: 0.387166
+  type: 'test'
+  ...
+# Subtest: the desk is not an engine: it holds one scripted registration and never judges a target
+ok 288 - the desk is not an engine: it holds one scripted registration and never judges a target
+  ---
+  duration_ms: 6.729
+  type: 'test'
+  ...
+# Subtest: requests are refused before the match is read, with the contract’s own safe errors, and nothing is stored
+ok 289 - requests are refused before the match is read, with the contract’s own safe errors, and nothing is stored
+  ---
+  duration_ms: 0.529083
+  type: 'test'
+  ...
+# Subtest: the operator can arrange each kind of answer once; the desk then answers as scripted again
+ok 290 - the operator can arrange each kind of answer once; the desk then answers as scripted again
+  ---
+  duration_ms: 1.580417
+  type: 'test'
+  ...
+# Subtest: a silent command service answers nothing and stores nothing, while the feeds carry on
+ok 291 - a silent command service answers nothing and stores nothing, while the feeds carry on
+  ---
+  duration_ms: 0.166334
+  type: 'test'
+  ...
+# Subtest: a restart forgets receipts and arrangements, and the operator status never shows a target, an identifier or a role
+ok 292 - a restart forgets receipts and arrangements, and the operator status never shows a target, an identifier or a role
+  ---
+  duration_ms: 1.018834
+  type: 'test'
+  ...
+# Subtest: the in-process transport hands answers over unvalidated and turns "no answer" into a failed request
+ok 293 - the in-process transport hands answers over unvalidated and turns "no answer" into a failed request
+  ---
+  duration_ms: 0.409084
+  type: 'test'
+  ...
+# Subtest: the server streams each audience its own authored view and nothing server-only
+ok 294 - the server streams each audience its own authored view and nothing server-only
+  ---
+  duration_ms: 35.536625
+  type: 'test'
+  ...
+# Subtest: a browser can load the client modules but never the contract fixture or anything off the allowlist
+ok 295 - a browser can load the client modules but never the contract fixture or anything off the allowlist
+  ---
+  duration_ms: 117.275417
+  type: 'test'
+  ...
+# Subtest: the path mapping refuses traversal, odd separators and wrong case before any file is opened
+ok 296 - the path mapping refuses traversal, odd separators and wrong case before any file is opened
+  ---
+  duration_ms: 0.38875
+  type: 'test'
+  ...
+# Subtest: harness pages are served under a policy that forbids inline script and inline style
+ok 297 - harness pages are served under a policy that forbids inline script and inline style
+  ---
+  duration_ms: 44.740541
+  type: 'test'
+  ...
+# Subtest: the server answers only on its loopback name and refuses pages from other origins
+ok 298 - the server answers only on its loopback name and refuses pages from other origins
+  ---
+  duration_ms: 43.382833
+  type: 'test'
+  ...
+# Subtest: a bad payload is aimed at one named seat and never reaches the public feed
+ok 299 - a bad payload is aimed at one named seat and never reaches the public feed
+  ---
+  duration_ms: 11.141042
+  type: 'test'
+  ...
+# Subtest: operator actions drive the script over HTTP
+ok 300 - operator actions drive the script over HTTP
+  ---
+  duration_ms: 27.289875
+  type: 'test'
+  ...
+# Subtest: command and receipt requests work over HTTP for a named seat, and an arranged silence is a failed request
+ok 301 - command and receipt requests work over HTTP for a named seat, and an arranged silence is a failed request
+  ---
+  duration_ms: 117.2285
+  type: 'test'
+  ...
+# Subtest: an open stream receives later views and a restart notice, and is closed when the feed is dropped
+ok 302 - an open stream receives later views and a restart notice, and is closed when the feed is dropped
+  ---
+  duration_ms: 55.901083
+  type: 'test'
+  ...
+# Subtest: all Food audiences use one root catalogue even on /planet/ with recovery query parameters
+ok 303 - all Food audiences use one root catalogue even on /planet/ with recovery query parameters
+  ---
+  duration_ms: 3.46725
+  type: 'test'
+  ...
+# Subtest: a stalled drawing does not block loading the other uniform assets or require an audience-specific retry
+ok 304 - a stalled drawing does not block loading the other uniform assets or require an audience-specific retry
+  ---
+  duration_ms: 0.446875
+  type: 'test'
+  ...
+# Subtest: causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+ok 305 - causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+  ---
+  duration_ms: 17.762
+  type: 'test'
+  ...
+# Subtest: release retains original Task/session/context after offers and crate generation change
+ok 306 - release retains original Task/session/context after offers and crate generation change
+  ---
+  duration_ms: 2.155625
+  type: 'test'
+  ...
+# Subtest: connection loss alone sends no release; observed backgrounding sends UP before conceal
+ok 307 - connection loss alone sends no release; observed backgrounding sends UP before conceal
+  ---
+  duration_ms: 0.485334
+  type: 'test'
+  ...
+# Subtest: wrong authentication cannot release an original contact or expose its view
+ok 308 - wrong authentication cannot release an original contact or expose its view
+  ---
+  duration_ms: 3.367875
+  type: 'test'
+  ...
+# Subtest: unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+ok 309 - unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+  ---
+  duration_ms: 23.303542
+  type: 'test'
+  ...
+# Subtest: reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+ok 310 - reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+  ---
+  duration_ms: 16.657792
+  type: 'test'
+  ...
+# Subtest: recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+ok 311 - recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+  ---
+  duration_ms: 1.449917
+  type: 'test'
+  ...
+# Subtest: saved unacknowledged high-water participates in fresh explicit off recovery
+ok 312 - saved unacknowledged high-water participates in fresh explicit off recovery
+  ---
+  duration_ms: 1.816458
+  type: 'test'
+  ...
+# Subtest: only the original matching receipt can settle; a foreign Task/session or command remains unknown
+ok 313 - only the original matching receipt can settle; a foreign Task/session or command remains unknown
+  ---
+  duration_ms: 6.45575
+  type: 'test'
+  ...
+# Subtest: clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+ok 314 - clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+  ---
+  duration_ms: 15.734542
+  type: 'test'
+  ...
+# Subtest: server time unavailability and deadline shut inputs without advancing or extending the Task
+ok 315 - server time unavailability and deadline shut inputs without advancing or extending the Task
+  ---
+  duration_ms: 0.381083
+  type: 'test'
+  ...
+# Subtest: a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+ok 316 - a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+  ---
+  duration_ms: 0.32125
+  type: 'test'
+  ...
+# Subtest: one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+ok 317 - one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+  ---
+  duration_ms: 0.243292
+  type: 'test'
+  ...
+# Subtest: assistive activation releases a recovered pressed Hold through the same single control
+ok 318 - assistive activation releases a recovered pressed Hold through the same single control
+  ---
+  duration_ms: 0.087584
+  type: 'test'
+  ...
+# Subtest: accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+ok 319 - accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+  ---
+  duration_ms: 9.511167
+  type: 'test'
+  ...
+# Subtest: a same-Task death or outcome cannot be rewritten by a later view revision
+ok 320 - a same-Task death or outcome cannot be rewritten by a later view revision
+  ---
+  duration_ms: 1.359667
+  type: 'test'
+  ...
+# Subtest: an adapter cannot mutate the original DOWN that a later UP must close
+ok 321 - an adapter cannot mutate the original DOWN that a later UP must close
+  ---
+  duration_ms: 0.312667
+  type: 'test'
+  ...
+# Subtest: future original receipt time stays unknown and lookup sends only its strict identity context
+ok 322 - future original receipt time stays unknown and lookup sends only its strict identity context
+  ---
+  duration_ms: 0.258834
+  type: 'test'
+  ...
+# Subtest: network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it
+ok 323 - network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it
+  ---
+  duration_ms: 0.200084
+  type: 'test'
+  ...
+# Subtest: Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+ok 324 - Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+  ---
+  duration_ms: 29.402667
+  type: 'test'
+  ...
+# Subtest: a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+ok 325 - a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+  ---
+  duration_ms: 7.585666
+  type: 'test'
+  ...
+# Subtest: one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+ok 326 - one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+  ---
+  duration_ms: 40.23625
+  type: 'test'
+  ...
+# Subtest: snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+ok 327 - snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+  ---
+  duration_ms: 44.867125
+  type: 'test'
+  ...
+# Subtest: a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+ok 328 - a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+  ---
+  duration_ms: 17.216833
+  type: 'test'
+  ...
+# Subtest: hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+ok 329 - hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+  ---
+  duration_ms: 2.345958
+  type: 'test'
+  ...
+# Subtest: a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+ok 330 - a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+  ---
+  duration_ms: 24.804666
+  type: 'test'
+  ...
+# Subtest: mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+ok 331 - mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+  ---
+  duration_ms: 11.697708
+  type: 'test'
+  ...
+# Subtest: lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+ok 332 - lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+  ---
+  duration_ms: 2.619792
+  type: 'test'
+  ...
+# Subtest: explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+ok 333 - explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+  ---
+  duration_ms: 18.932625
+  type: 'test'
+  ...
+# Subtest: hosted permission and identity failures are ambiguous rather than confirmed seat revocation
+ok 334 - hosted permission and identity failures are ambiguous rather than confirmed seat revocation
+  ---
+  duration_ms: 0.273041
+  type: 'test'
+  ...
+# Subtest: reconnecting after denial refreshes credentials once before opening concurrent listeners
+ok 335 - reconnecting after denial refreshes credentials once before opening concurrent listeners
+  ---
+  duration_ms: 4.563458
+  type: 'test'
+  ...
+# Subtest: failed re-attestation keeps the listener closed and permits a later successful refresh
+ok 336 - failed re-attestation keeps the listener closed and permits a later successful refresh
+  ---
+  duration_ms: 0.827708
+  type: 'test'
+  ...
+# Subtest: a listener the rules keep refusing costs one refresh of credentials for each interval, not one for each try
+ok 337 - a listener the rules keep refusing costs one refresh of credentials for each interval, not one for each try
+  ---
+  duration_ms: 54.2485
+  type: 'test'
+  ...
+# Subtest: once the interval is over a denial is answered with fresh credentials again, before the listener opens
+ok 338 - once the interval is over a denial is answered with fresh credentials again, before the listener opens
+  ---
+  duration_ms: 1.033959
+  type: 'test'
+  ...
+# Subtest: a refresh that failed does not count as one: the next listener asks for it again at once
+ok 339 - a refresh that failed does not count as one: the next listener asks for it again at once
+  ---
+  duration_ms: 1.030208
+  type: 'test'
+  ...
+# Subtest: a denial that arrives while credentials are being refreshed waits for the interval like any other
+ok 340 - a denial that arrives while credentials are being refreshed waits for the interval like any other
+  ---
+  duration_ms: 1.359416
+  type: 'test'
+  ...
+# Subtest: lost lobby recovery reply plus reload restores the identity picker from fresh own session metadata
+ok 341 - lost lobby recovery reply plus reload restores the identity picker from fresh own session metadata
+  ---
+  duration_ms: 6.683333
+  type: 'test'
+  ...
+# Subtest: legacy missing seat metadata keeps waiting and still opens from the own view after start
+ok 342 - legacy missing seat metadata keeps waiting and still opens from the own view after start
+  ---
+  duration_ms: 6.001166
+  type: 'test'
+  ...
+# Subtest: a binding callback after the Auth identity changes cannot restore another identity picker
+ok 343 - a binding callback after the Auth identity changes cannot restore another identity picker
+  ---
+  duration_ms: 1.700416
+  type: 'test'
+  ...
+# Subtest: a late binding after the lobby starts cannot replace the running page with an identity picker
+ok 344 - a late binding after the lobby starts cannot replace the running page with an identity picker
+  ---
+  duration_ms: 1.91325
+  type: 'test'
+  ...
+# Subtest: a late binding after a lobby read becomes uncertain cannot claim that the player is seated
+ok 345 - a late binding after a lobby read becomes uncertain cannot claim that the player is seated
+  ---
+  duration_ms: 2.505167
+  type: 'test'
+  ...
+# Subtest: solo defaults leave a human seat in each supported mode and confirmed legacy absence is usable
+ok 346 - solo defaults leave a human seat in each supported mode and confirmed legacy absence is usable
+  ---
+  duration_ms: 0.980834
+  type: 'test'
+  ...
+# Subtest: available capacity excludes humans and offers zero to remove only bots before start
+ok 347 - available capacity excludes humans and offers zero to remove only bots before start
+  ---
+  duration_ms: 1.1135
+  type: 'test'
+  ...
+# Subtest: lost bot setup answer keeps its exact count and ID across later human admission and retries
+ok 348 - lost bot setup answer keeps its exact count and ID across later human admission and retries
+  ---
+  duration_ms: 0.172167
+  type: 'test'
+  ...
+# Subtest: unknown practice metadata disables changes and human recovery, and disposal removes the listener
+ok 349 - unknown practice metadata disables changes and human recovery, and disposal removes the listener
+  ---
+  duration_ms: 0.146125
+  type: 'test'
+  ...
+# Subtest: a pending bot update cannot offer new bot seats for recovery before metadata catches up
+ok 350 - a pending bot update cannot offer new bot seats for recovery before metadata catches up
+  ---
+  duration_ms: 0.119708
+  type: 'test'
+  ...
+# Subtest: opening staged setup freezes bot editing while human recovery remains available
+ok 351 - opening staged setup freezes bot editing while human recovery remains available
+  ---
+  duration_ms: 0.066459
+  type: 'test'
+  ...
+# Subtest: Ready requires an explicit own-role reveal and concealed markup carries no role or art hooks
+ok 352 - Ready requires an explicit own-role reveal and concealed markup carries no role or art hooks
+  ---
+  duration_ms: 2.405875
+  type: 'test'
+  ...
+# Subtest: lost authorization or a new deal/binding erases disclosure and requires a fresh reveal
+ok 353 - lost authorization or a new deal/binding erases disclosure and requires a fresh reveal
+  ---
+  duration_ms: 0.240834
+  type: 'test'
+  ...
+# Subtest: a pending Ready cannot be double sent and private content stays absent through retry
+ok 354 - a pending Ready cannot be double sent and private content stays absent through retry
+  ---
+  duration_ms: 0.146709
+  type: 'test'
+  ...
+# Subtest: the reveal contains the role card without a separate instruction or rules paragraph
+ok 355 - the reveal contains the role card without a separate instruction or rules paragraph
+  ---
+  duration_ms: 0.070709
+  type: 'test'
+  ...
+# Subtest: a room tap opens guarded confirmation; only the explicit confirmation sends MOVE
+ok 356 - a room tap opens guarded confirmation; only the explicit confirmation sends MOVE
+  ---
+  duration_ms: 50.18425
+  type: 'test'
+  ...
+# Subtest: room controls cannot invent Captain access, consumed movement, stale eligibility or Hospital/Jail exit
+ok 357 - room controls cannot invent Captain access, consumed movement, stale eligibility or Hospital/Jail exit
+  ---
+  duration_ms: 23.226875
+  type: 'test'
+  ...
+# Subtest: room taps cannot replace an in-flight command or its receipt identity
+ok 358 - room taps cannot replace an in-flight command or its receipt identity
+  ---
+  duration_ms: 3.529833
+  type: 'test'
+  ...
+# Subtest: phase expiry or concealment still discards an unsent room choice
+ok 359 - phase expiry or concealment still discards an unsent room choice
+  ---
+  duration_ms: 31.182959
+  type: 'test'
+  ...
+# Subtest: setup countdown uses server time, resynchronizes after suspension, and never transitions game state
+ok 360 - setup countdown uses server time, resynchronizes after suspension, and never transitions game state
+  ---
+  duration_ms: 20.38575
+  type: 'test'
+  ...
+# Subtest: late time answers after suspension cannot enable a stale countdown
+ok 361 - late time answers after suspension cannot enable a stale countdown
+  ---
+  duration_ms: 2.741709
+  type: 'test'
+  ...
+# Subtest: zero on the countdown shows server waiting, and only a fresh document changes the stage
+ok 362 - zero on the countdown shows server waiting, and only a fresh document changes the stage
+  ---
+  duration_ms: 2.157667
+  type: 'test'
+  ...
+# Subtest: a failed time request clears the estimate and a later sample restores it
+ok 363 - a failed time request clears the estimate and a later sample restores it
+  ---
+  duration_ms: 4.759791
+  type: 'test'
+  ...
+# Subtest: one available character tap submits the pair only after the host starts selection
+ok 364 - one available character tap submits the pair only after the host starts selection
+  ---
+  duration_ms: 1.539792
+  type: 'test'
+  ...
+# Subtest: uncertain confirmation freezes the grid and retries the exact request until a definitive conflict
+ok 365 - uncertain confirmation freezes the grid and retries the exact request until a definitive conflict
+  ---
+  duration_ms: 0.425166
+  type: 'test'
+  ...
+# Subtest: Ready names the current deal/binding and removes the private card without starting locally
+ok 366 - Ready names the current deal/binding and removes the private card without starting locally
+  ---
+  duration_ms: 1.221541
+  type: 'test'
+  ...
+# Subtest: new Ready waits for whole art, acknowledges exact pins and preserves its request after uncertain delivery
+ok 367 - new Ready waits for whole art, acknowledges exact pins and preserves its request after uncertain delivery
+  ---
+  duration_ms: 0.597083
+  type: 'test'
+  ...
+# Subtest: unsupported new asset pins offer reload without sending Ready
+ok 368 - unsupported new asset pins offer reload without sending Ready
+  ---
+  duration_ms: 0.191541
+  type: 'test'
+  ...
+# Subtest: shared setup progress contains only neutral seat confirmation and readiness
+ok 369 - shared setup progress contains only neutral seat confirmation and readiness
+  ---
+  duration_ms: 3.95775
+  type: 'test'
+  ...
+# Subtest: a character taken by another seat cannot submit, and leaving selection stops all tile requests
+ok 370 - a character taken by another seat cannot submit, and leaving selection stops all tile requests
+  ---
+  duration_ms: 1.747375
+  type: 'test'
+  ...
+# Subtest: compact progress changes only timer presentation and never advances the stage
+ok 371 - compact progress changes only timer presentation and never advances the stage
+  ---
+  duration_ms: 0.162417
+  type: 'test'
+  ...
+# Subtest: loaded new common setup art does not opt a historical prepared role into its treatment
+ok 372 - loaded new common setup art does not opt a historical prepared role into its treatment
+  ---
+  duration_ms: 0.435833
+  type: 'test'
+  ...
+# Subtest: hosted config refuses mixed projects, emulator targets, alternate origins and extra credentials
+ok 373 - hosted config refuses mixed projects, emulator targets, alternate origins and extra credentials
+  ---
+  duration_ms: 0.966833
+  type: 'test'
+  ...
+# Subtest: hosted SDK cannot initialize outside the exact configured HTTPS page
+ok 374 - hosted SDK cannot initialize outside the exact configured HTTPS page
+  ---
+  duration_ms: 0.12425
+  type: 'test'
+  ...
+# Subtest: each hosted operation gets current Auth and App Check tokens and forbids redirects/caching
+ok 375 - each hosted operation gets current Auth and App Check tokens and forbids redirects/caching
+  ---
+  duration_ms: 1.170458
+  type: 'test'
+  ...
+# Subtest: a missing attestation or an undocumented operation sends nothing
+ok 376 - a missing attestation or an undocumented operation sends nothing
+  ---
+  duration_ms: 0.168
+  type: 'test'
+  ...
+# Subtest: an unreadable server answer remains an unknown outcome, not a manufactured success
+ok 377 - an unreadable server answer remains an unknown outcome, not a manufactured success
+  ---
+  duration_ms: 0.216
+  type: 'test'
+  ...
+# Subtest: the string runs pin to pin round the four corners and closes where it began
+ok 378 - the string runs pin to pin round the four corners and closes where it began
+  ---
+  duration_ms: 0.651375
+  type: 'test'
+  ...
+# Subtest: the assembly moves every snapshot alike, by position only, and is over in 1,020 ms
+ok 379 - the assembly moves every snapshot alike, by position only, and is over in 1,020 ms
+  ---
+  duration_ms: 1.919584
+  type: 'test'
+  ...
+# Subtest: the file assembles once per page, on a deliberate open, and stops at rest whenever it goes
+ok 380 - the file assembles once per page, on a deliberate open, and stops at rest whenever it goes
+  ---
+  duration_ms: 1.722583
+  type: 'test'
+  ...
+# Subtest: reduced motion and a view out of date finish the assembly at once, and an inspected snapshot is lifted toward the middle
+ok 381 - reduced motion and a view out of date finish the assembly at once, and an inspected snapshot is lifted toward the middle
+  ---
+  duration_ms: 2.755791
+  type: 'test'
+  ...
+# Subtest: a character asked for from the file is ringed on the own board for 1.6 s, carried across a redraw
+ok 382 - a character asked for from the file is ringed on the own board for 1.6 s, carried across a redraw
+  ---
+  duration_ms: 0.289541
+  type: 'test'
+  ...
+# Subtest: backgrounding clears the file, and coming back does not show it again
+ok 383 - backgrounding clears the file, and coming back does not show it again
+  ---
+  duration_ms: 48.136916
+  type: 'test'
+  ...
+# Subtest: authorization or current-view loss conceals the file; recovery never reopens it automatically
+ok 384 - authorization or current-view loss conceals the file; recovery never reopens it automatically
+  ---
+  duration_ms: 45.829
+  type: 'test'
+  ...
+# Subtest: the setup role card carries no starting knowledge
+ok 385 - the setup role card carries no starting knowledge
+  ---
+  duration_ms: 3.535917
+  type: 'test'
+  ...
+# Subtest: a request is made once from what was entered, and a settled one is forgotten
+ok 386 - a request is made once from what was entered, and a settled one is forgotten
+  ---
+  duration_ms: 0.982875
+  type: 'test'
+  ...
+# Subtest: with no answer, the very same request goes again, whatever is entered by then
+ok 387 - with no answer, the very same request goes again, whatever is entered by then
+  ---
+  duration_ms: 1.173458
+  type: 'test'
+  ...
+# Subtest: a refusal settles a request only if every earlier attempt of it was answered
+ok 388 - a refusal settles a request only if every earlier attempt of it was answered
+  ---
+  duration_ms: 1.826333
+  type: 'test'
+  ...
+# Subtest: “unavailable” and “slow down” settle nothing, and nothing is sent before the wait the server named is over
+ok 389 - “unavailable” and “slow down” settle nothing, and nothing is sent before the wait the server named is over
+  ---
+  duration_ms: 0.147417
+  type: 'test'
+  ...
+# Subtest: a second press while the first is on its way sends nothing, and one key does not hold up another
+ok 390 - a second press while the first is on its way sends nothing, and one key does not hold up another
+  ---
+  duration_ms: 0.415125
+  type: 'test'
+  ...
+# Subtest: a request the client core will not send leaves nothing behind
+ok 391 - a request the client core will not send leaves nothing behind
+  ---
+  duration_ms: 1.278125
+  type: 'test'
+  ...
+# Subtest: giving a request up forgets it, and the next press is a new request
+ok 392 - giving a request up forgets it, and the next press is a new request
+  ---
+  duration_ms: 0.386334
+  type: 'test'
+  ...
+# Subtest: a durable request outlives a reload as identifiers only, and goes again as it was
+ok 393 - a durable request outlives a reload as identifiers only, and goes again as it was
+  ---
+  duration_ms: 0.34025
+  type: 'test'
+  ...
+# Subtest: nothing but identifiers is ever written down, whatever was asked for
+ok 394 - nothing but identifiers is ever written down, whatever was asked for
+  ---
+  duration_ms: 0.51025
+  type: 'test'
+  ...
+# Subtest: what the store holds is not trusted: anything that is not a record of identifiers is ignored
+ok 395 - what the store holds is not trusted: anything that is not a record of identifiers is ignored
+  ---
+  duration_ms: 0.591666
+  type: 'test'
+  ...
+# Subtest: public lobby slots show pending rooms without guessing and preserve older assigned rooms
+ok 396 - public lobby slots show pending rooms without guessing and preserve older assigned rooms
+  ---
+  duration_ms: 0.937166
+  type: 'test'
+  ...
+# Subtest: fresh entries use remaining reviewed time; initial, reconnect, late and repeated results render settled
+ok 397 - fresh entries use remaining reviewed time; initial, reconnect, late and repeated results render settled
+  ---
+  duration_ms: 0.588167
+  type: 'test'
+  ...
+# Subtest: a claim entry requires its observed declaration; another exchange, talk and explicit reopen never replay it
+ok 398 - a claim entry requires its observed declaration; another exchange, talk and explicit reopen never replay it
+  ---
+  duration_ms: 0.113416
+  type: 'test'
+  ...
+# Subtest: concealment cancels private fades, background settles public fades, and a motion preference change cancels without a redraw
+ok 399 - concealment cancels private fades, background settles public fades, and a motion preference change cancels without a redraw
+  ---
+  duration_ms: 1.2025
+  type: 'test'
+  ...
+# Subtest: the runtime loads the exact two approved Claude derivatives and no provisional drawing dependency
+ok 400 - the runtime loads the exact two approved Claude derivatives and no provisional drawing dependency
+  ---
+  duration_ms: 8.056417
+  type: 'test'
+  ...
+# Subtest: vote illustrations follow explicit outcomes, including a tied no-Jail result
+ok 401 - vote illustrations follow explicit outcomes, including a tied no-Jail result
+  ---
+  duration_ms: 0.101
+  type: 'test'
+  ...
+# Subtest: vote cells represent aggregate counts and missing ballots without identifying voters or inventing No totals
+ok 402 - vote cells represent aggregate counts and missing ballots without identifying voters or inventing No totals
+  ---
+  duration_ms: 0.476833
+  type: 'test'
+  ...
+# Subtest: private pictures describe claims independently of actual role and refuse an invalid side or stage
+ok 403 - private pictures describe claims independently of actual role and refuse an invalid side or stage
+  ---
+  duration_ms: 0.073083
+  type: 'test'
+  ...
+# Subtest: phone review accepts a clean main snapshot while recording its exact transitive verifier inputs
+ok 404 - phone review accepts a clean main snapshot while recording its exact transitive verifier inputs
+  ---
+  duration_ms: 617.38025
+  type: 'test'
+  ...
+# Subtest: a dirty artwork snapshot cannot become review authority
+ok 405 - a dirty artwork snapshot cannot become review authority
+  ---
+  duration_ms: 296.591333
+  type: 'test'
+  ...
+# Subtest: candidate verifier drift is rejected even when the old artwork baseline is on main
+ok 406 - candidate verifier drift is rejected even when the old artwork baseline is on main
+  ---
+  duration_ms: 367.788625
+  type: 'test'
+  ...
+# Subtest: a clean unmerged branch cannot supply the artwork baseline
+ok 407 - a clean unmerged branch cannot supply the artwork baseline
+  ---
+  duration_ms: 439.4225
+  type: 'test'
+  ...
+# Subtest: hidden baseline verifier changes cannot pass a clean git status
+ok 408 - hidden baseline verifier changes cannot pass a clean git status
+  ---
+  duration_ms: 337.620583
+  type: 'test'
+  ...
+# Subtest: library art is an explicit new-match pairing; old packets retain the old artwork pin
+ok 409 - library art is an explicit new-match pairing; old packets retain the old artwork pin
+  ---
+  duration_ms: 3.927792
+  type: 'test'
+  ...
+# Subtest: every role receives the same catalogue while only the verified new art pin activates it
+ok 410 - every role receives the same catalogue while only the verified new art pin activates it
+  ---
+  duration_ms: 4.013958
+  type: 'test'
+  ...
+# Subtest: build input is the exact approved set with only its recorded CSS normalization
+ok 411 - build input is the exact approved set with only its recorded CSS normalization
+  ---
+  duration_ms: 11.718334
+  type: 'test'
+  ...
+# Subtest: Planet command form: PASS_TURN
+ok 412 - Planet command form: PASS_TURN
+  ---
+  duration_ms: 4.746208
+  type: 'test'
+  ...
+# Subtest: Planet command form: ACTIVATE_SHIP_HACK
+ok 413 - Planet command form: ACTIVATE_SHIP_HACK
+  ---
+  duration_ms: 0.645666
+  type: 'test'
+  ...
+# Subtest: Planet command form: ENGINEER_SUPPRESS
+ok 414 - Planet command form: ENGINEER_SUPPRESS
+  ---
+  duration_ms: 0.376875
+  type: 'test'
+  ...
+# Subtest: Planet command form: ACTIVATE_BLACKHOLE
+ok 415 - Planet command form: ACTIVATE_BLACKHOLE
+  ---
+  duration_ms: 0.337791
+  type: 'test'
+  ...
+# Subtest: Planet command form: ACTIVATE_CLONE
+ok 416 - Planet command form: ACTIVATE_CLONE
+  ---
+  duration_ms: 0.346125
+  type: 'test'
+  ...
+# Subtest: Planet command form: REQUEST_BLACKOUT
+ok 417 - Planet command form: REQUEST_BLACKOUT
+  ---
+  duration_ms: 0.281083
+  type: 'test'
+  ...
+# Subtest: Planet command form: CAPTAIN_RELEASE
+ok 418 - Planet command form: CAPTAIN_RELEASE
+  ---
+  duration_ms: 0.309583
+  type: 'test'
+  ...
+# Subtest: Planet command form: CAPTAIN_EJECT
+ok 419 - Planet command form: CAPTAIN_EJECT
+  ---
+  duration_ms: 0.242791
+  type: 'test'
+  ...
+# Subtest: Planet command form: CONFIRM_NAVIGATION
+ok 420 - Planet command form: CONFIRM_NAVIGATION
+  ---
+  duration_ms: 1.372125
+  type: 'test'
+  ...
+# Subtest: Planet command form: MOVE
+ok 421 - Planet command form: MOVE
+  ---
+  duration_ms: 0.71475
+  type: 'test'
+  ...
+# Subtest: Planet command form: REGISTER_SHOT
+ok 422 - Planet command form: REGISTER_SHOT
+  ---
+  duration_ms: 0.6535
+  type: 'test'
+  ...
+# Subtest: Planet command form: PROTECT
+ok 423 - Planet command form: PROTECT
+  ---
+  duration_ms: 0.66575
+  type: 'test'
+  ...
+# Subtest: Planet command form: RESCUE
+ok 424 - Planet command form: RESCUE
+  ---
+  duration_ms: 0.681375
+  type: 'test'
+  ...
+# Subtest: Planet command form: APPOINT_OFFICER
+ok 425 - Planet command form: APPOINT_OFFICER
+  ---
+  duration_ms: 0.507917
+  type: 'test'
+  ...
+# Subtest: Planet command form: BLOCK_MOVE
+ok 426 - Planet command form: BLOCK_MOVE
+  ---
+  duration_ms: 0.263292
+  type: 'test'
+  ...
+# Subtest: Planet command form: REQUEST_HACK
+ok 427 - Planet command form: REQUEST_HACK
+  ---
+  duration_ms: 24.14575
+  type: 'test'
+  ...
+# Subtest: Planet command form: SUPPLY
+ok 428 - Planet command form: SUPPLY
+  ---
+  duration_ms: 0.464
+  type: 'test'
+  ...
+# Subtest: Planet command form: SCAN
+ok 429 - Planet command form: SCAN
+  ---
+  duration_ms: 0.363125
+  type: 'test'
+  ...
+# Subtest: Planet command form: SUBMIT_CODE
+ok 430 - Planet command form: SUBMIT_CODE
+  ---
+  duration_ms: 0.284708
+  type: 'test'
+  ...
+# Subtest: Planet command form: CHOOSE_NAV_DIRECTION
+ok 431 - Planet command form: CHOOSE_NAV_DIRECTION
+  ---
+  duration_ms: 0.219833
+  type: 'test'
+  ...
+# Subtest: Planet command form: VOTE
+ok 432 - Planet command form: VOTE
+  ---
+  duration_ms: 0.180084
+  type: 'test'
+  ...
+# Subtest: Planet command form: DECLARE_HACK_SIDE
+ok 433 - Planet command form: DECLARE_HACK_SIDE
+  ---
+  duration_ms: 0.443
+  type: 'test'
+  ...
+# Subtest: Planet command form: PANEL_CODE
+ok 434 - Planet command form: PANEL_CODE
+  ---
+  duration_ms: 0.94
+  type: 'test'
+  ...
+# Subtest: Planet command form: OFFER_PROMISE
+ok 435 - Planet command form: OFFER_PROMISE
+  ---
+  duration_ms: 0.834667
+  type: 'test'
+  ...
+# Subtest: Planet command form: ACCEPT_PROMISE
+ok 436 - Planet command form: ACCEPT_PROMISE
+  ---
+  duration_ms: 0.360833
+  type: 'test'
+  ...
+# Subtest: Planet command form: DECLINE_PROMISE
+ok 437 - Planet command form: DECLINE_PROMISE
+  ---
+  duration_ms: 0.271584
+  type: 'test'
+  ...
+# Subtest: Planet command form: SELECT_BLACKOUT_SLOT
+ok 438 - Planet command form: SELECT_BLACKOUT_SLOT
+  ---
+  duration_ms: 0.364875
+  type: 'test'
+  ...
+# Subtest: Planet command form: SHOW_WINDOW
+ok 439 - Planet command form: SHOW_WINDOW
+  ---
+  duration_ms: 0.580541
+  type: 'test'
+  ...
+# Subtest: a changed empty slot is rechecked at confirmation
+ok 440 - a changed empty slot is rechecked at confirmation
+  ---
+  duration_ms: 0.323792
+  type: 'test'
+  ...
+# Subtest: navigation controls expose only private legal offers, including after acknowledgement recovery
+ok 441 - navigation controls expose only private legal offers, including after acknowledgement recovery
+  ---
+  duration_ms: 0.273959
+  type: 'test'
+  ...
+# Subtest: Promise outcomes remain the server statuses when a current board changes
+ok 442 - Promise outcomes remain the server statuses when a current board changes
+  ---
+  duration_ms: 0.301875
+  type: 'test'
+  ...
+# Subtest: private office route cannot enter a non-office view
+ok 443 - private office route cannot enter a non-office view
+  ---
+  duration_ms: 0.281875
+  type: 'test'
+  ...
+# Subtest: Blackout removes occupants and window contents while retaining fixed slot choices
+ok 444 - Blackout removes occupants and window contents while retaining fixed slot choices
+  ---
+  duration_ms: 0.280792
+  type: 'test'
+  ...
+# Subtest: protocol 3 validates exact audience and rejects legacy, foreign seats, malformed slots
+ok 445 - protocol 3 validates exact audience and rejects legacy, foreign seats, malformed slots
+  ---
+  duration_ms: 20.685291
+  type: 'test'
+  ...
+# Subtest: private role, Code knowledge and navigation never enter closed, windows or display models
+ok 446 - private role, Code knowledge and navigation never enter closed, windows or display models
+  ---
+  duration_ms: 3.996417
+  type: 'test'
+  ...
+# Subtest: Code is four original identities, remains separate from ship activation and works beyond Round 5
+ok 447 - Code is four original identities, remains separate from ship activation and works beyond Round 5
+  ---
+  duration_ms: 2.468666
+  type: 'test'
+  ...
+# Subtest: Move room then empty slot is one command; occupied and mismatched locations cannot be selected
+ok 448 - Move room then empty slot is one command; occupied and mismatched locations cannot be selected
+  ---
+  duration_ms: 0.5255
+  type: 'test'
+  ...
+# Subtest: unknown registration keeps only recovery identifiers, retries exact body and original ID
+ok 449 - unknown registration keeps only recovery identifiers, retries exact body and original ID
+  ---
+  duration_ms: 0.6065
+  type: 'test'
+  ...
+# Subtest: original receipt can settle after phase change; missing receipt never authorizes replacement
+ok 450 - original receipt can settle after phase change; missing receipt never authorizes replacement
+  ---
+  duration_ms: 0.842958
+  type: 'test'
+  ...
+# Subtest: fresh view revisions, trusted deadline and identity changes suppress all action marks
+ok 451 - fresh view revisions, trusted deadline and identity changes suppress all action marks
+  ---
+  duration_ms: 0.587417
+  type: 'test'
+  ...
+# Subtest: window endpoint/station/round filters preserve drawing while Officer blocks movement
+ok 452 - window endpoint/station/round filters preserve drawing while Officer blocks movement
+  ---
+  duration_ms: 0.970875
+  type: 'test'
+  ...
+# Subtest: reloaded recovery checks the saved command, never reconstructs its private payload
+ok 453 - reloaded recovery checks the saved command, never reconstructs its private payload
+  ---
+  duration_ms: 0.417708
+  type: 'test'
+  ...
+# Subtest: receipt validation binds protocol, match, phase and command together
+ok 454 - receipt validation binds protocol, match, phase and command together
+  ---
+  duration_ms: 0.30625
+  type: 'test'
+  ...
+# Subtest: a nonresponding command times out into recovery instead of staying busy forever
+ok 455 - a nonresponding command times out into recovery instead of staying busy forever
+  ---
+  duration_ms: 1.481833
+  type: 'test'
+  ...
+# Subtest: an unreviewed artwork manifest cannot silently enter the supported Planet consumer
+ok 456 - an unreviewed artwork manifest cannot silently enter the supported Planet consumer
+  ---
+  duration_ms: 0.376958
+  type: 'test'
+  ...
+# Subtest: Insider presentation is an unordered identity set with no role-to-player pairing
+ok 457 - Insider presentation is an unordered identity set with no role-to-player pairing
+  ---
+  duration_ms: 0.491958
+  type: 'test'
+  ...
+# Subtest: the lit Blackout preview keeps station windows free; darkness removes images and closes an unsent Show
+ok 458 - the lit Blackout preview keeps station windows free; darkness removes images and closes an unsent Show
+  ---
+  duration_ms: 0.840625
+  type: 'test'
+  ...
+# Subtest: closing accepted private registration removes its label while retaining the awaiting-view barrier
+ok 459 - closing accepted private registration removes its label while retaining the awaiting-view barrier
+  ---
+  duration_ms: 0.544
+  type: 'test'
+  ...
+# Subtest: a committed abort with a lost response survives reload and retries only its original request
+ok 460 - a committed abort with a lost response survives reload and retries only its original request
+  ---
+  duration_ms: 22.942417
+  type: 'test'
+  ...
+# Subtest: a pending abort sends once and waits for the authoritative terminal readback
+ok 461 - a pending abort sends once and waits for the authoritative terminal readback
+  ---
+  duration_ms: 1.264125
+  type: 'test'
+  ...
+# Subtest: a count increase at the Round 3 opportunity still supplies inventory only without R15
+ok 462 - a count increase at the Round 3 opportunity still supplies inventory only without R15
+  ---
+  duration_ms: 7.394542
+  type: 'test'
+  ...
+# Subtest: Sync can restore a weapon without producing a Supply receipt
+ok 463 - Sync can restore a weapon without producing a Supply receipt
+  ---
+  duration_ms: 1.290458
+  type: 'test'
+  ...
+# Subtest: Hospital keypad labels are numbers and a selected number still registers the offered seat identity
+ok 464 - Hospital keypad labels are numbers and a selected number still registers the offered seat identity
+  ---
+  duration_ms: 3.297542
+  type: 'test'
+  ...
+# Subtest: the emitted window view closes at the preview boundary even after a tick just before it
+ok 465 - the emitted window view closes at the preview boundary even after a tick just before it
+  ---
+  duration_ms: 1.145542
+  type: 'test'
+  ...
+# Subtest: rendering that crosses the preview deadline cannot cancel its already due redraw
+ok 466 - rendering that crosses the preview deadline cannot cancel its already due redraw
+  ---
+  duration_ms: 0.4445
+  type: 'test'
+  ...
+# Subtest: a just-future authoritative phase becomes usable at its supplied start
+ok 467 - a just-future authoritative phase becomes usable at its supplied start
+  ---
+  duration_ms: 0.887958
+  type: 'test'
+  ...
+# Subtest: Planet drone starts only for a new authorized medical occurrence; baseline, duplicate and old events do not replay
+ok 468 - Planet drone starts only for a new authorized medical occurrence; baseline, duplicate and old events do not replay
+  ---
+  duration_ms: 32.957334
+  type: 'test'
+  ...
+# Subtest: motion change cancels active drawings before unchanged-view handling; reconnect does not replay
+ok 469 - motion change cancels active drawings before unchanged-view handling; reconnect does not replay
+  ---
+  duration_ms: 3.387958
+  type: 'test'
+  ...
+# Subtest: clinical HV5+ remains words only with four physical beds
+ok 470 - clinical HV5+ remains words only with four physical beds
+  ---
+  duration_ms: 1.988292
+  type: 'test'
+  ...
+# Subtest: Blackhole activation flags never trigger a public cinematic; the authorized Sync occurrence does
+ok 471 - Blackhole activation flags never trigger a public cinematic; the authorized Sync occurrence does
+  ---
+  duration_ms: 2.377167
+  type: 'test'
+  ...
+# Subtest: TTL, checkpoint and audience guards fail closed
+ok 472 - TTL, checkpoint and audience guards fail closed
+  ---
+  duration_ms: 6.725791
+  type: 'test'
+  ...
+# Subtest: Clone rest state is own-card only, uses the authoritative uncapped expiry and cancels on close
+ok 473 - Clone rest state is own-card only, uses the authoritative uncapped expiry and cancels on close
+  ---
+  duration_ms: 0.88225
+  type: 'test'
+  ...
+# Subtest: terminal results cancel active optional films even when the occurrence is still within TTL
+ok 474 - terminal results cancel active optional films even when the occurrence is still within TTL
+  ---
+  duration_ms: 5.537458
+  type: 'test'
+  ...
+# Subtest: a continuous visible phase deadline permits a new resolved occurrence; a reconnect still suppresses history
+ok 475 - a continuous visible phase deadline permits a new resolved occurrence; a reconnect still suppresses history
+  ---
+  duration_ms: 1.602084
+  type: 'test'
+  ...
+# Subtest: authorized room-block occurrences use one cause-free drawing and reset on motion change
+ok 476 - authorized room-block occurrences use one cause-free drawing and reset on motion change
+  ---
+  duration_ms: 0.785917
+  type: 'test'
+  ...
+# Subtest: detained Rescue uses the supplied Jail slot while the clinical anchor remains a separate vignette
+ok 477 - detained Rescue uses the supplied Jail slot while the clinical anchor remains a separate vignette
+  ---
+  duration_ms: 0.620542
+  type: 'test'
+  ...
+# Subtest: a reused clinical berth suppresses the optional Rescue drawing without changing the current healthy seat
+ok 478 - a reused clinical berth suppresses the optional Rescue drawing without changing the current healthy seat
+  ---
+  duration_ms: 0.410375
+  type: 'test'
+  ...
+# Subtest: current Sync and outcome checkpoints settle capsule exit; old occurrences do not cancel a new talk
+ok 479 - current Sync and outcome checkpoints settle capsule exit; old occurrences do not cancel a new talk
+  ---
+  duration_ms: 0.297417
+  type: 'test'
+  ...
+# Subtest: ordinary capsule return remains the reviewed board-only exit, and Sync can settle it immediately
+ok 480 - ordinary capsule return remains the reviewed board-only exit, and Sync can settle it immediately
+  ---
+  duration_ms: 0.35
+  type: 'test'
+  ...
+# Subtest: room cameras contain every fixed rig canvas and keep distinct tappable slot centres at normal and enlarged text
+ok 481 - room cameras contain every fixed rig canvas and keep distinct tappable slot centres at normal and enlarged text
+  ---
+  duration_ms: 28.075792
+  type: 'test'
+  ...
+# Subtest: Blackout keeps geometry for both views through text/layout changes without retaining a roster
+ok 482 - Blackout keeps geometry for both views through text/layout changes without retaining a roster
+  ---
+  duration_ms: 2.954625
+  type: 'test'
+  ...
+# Subtest: darkness removes identities and private content from every alternate panel; only bound slots remain
+ok 483 - darkness removes identities and private content from every alternate panel; only bound slots remain
+  ---
+  duration_ms: 13.246042
+  type: 'test'
+  ...
+# Subtest: voting requires an authoritative offer and voter eligibility and never exposes an own ballot to display
+ok 484 - voting requires an authoritative offer and voter eligibility and never exposes an own ballot to display
+  ---
+  duration_ms: 28.648875
+  type: 'test'
+  ...
+# Subtest: candidate private declarations use exactly the offered permission subset; historical offers stay unchanged
+ok 485 - candidate private declarations use exactly the offered permission subset; historical offers stay unchanged
+  ---
+  duration_ms: 27.06325
+  type: 'test'
+  ...
+# Subtest: candidate Hospital number choices include eliminated original seats and preserve stable command IDs
+ok 486 - candidate Hospital number choices include eliminated original seats and preserve stable command IDs
+  ---
+  duration_ms: 0.775084
+  type: 'test'
+  ...
+# Subtest: accepted receipt words distinguish immediate state, queued effects, talk and next-round Protection
+ok 487 - accepted receipt words distinguish immediate state, queued effects, talk and next-round Protection
+  ---
+  duration_ms: 0.168333
+  type: 'test'
+  ...
+# Subtest: lifetime Promise quotas block another acceptance and impossible accepted histories fail closed
+ok 488 - lifetime Promise quotas block another acceptance and impossible accepted histories fail closed
+  ---
+  duration_ms: 4.46875
+  type: 'test'
+  ...
+# Subtest: P18 retains offered final Code during darkness, including a living injured or jailed Hacker
+ok 489 - P18 retains offered final Code during darkness, including a living injured or jailed Hacker
+  ---
+  duration_ms: 2.042875
+  type: 'test'
+  ...
+# Subtest: 1.3 explicitly inherits private feedback and offer permissions; mixed tuples never acquire art or permissions
+ok 490 - 1.3 explicitly inherits private feedback and offer permissions; mixed tuples never acquire art or permissions
+  ---
+  duration_ms: 2.317041
+  type: 'test'
+  ...
+# Subtest: physical publication labels distinguish partial checkpoints and never certify a current actor board as fully resolved
+ok 491 - physical publication labels distinguish partial checkpoints and never certify a current actor board as fully resolved
+  ---
+  duration_ms: 8.776292
+  type: 'test'
+  ...
+# Subtest: missing or misplaced 1.3 checkpoints and checkpoint metadata on predecessors fail closed for both audiences
+ok 492 - missing or misplaced 1.3 checkpoints and checkpoint metadata on predecessors fail closed for both audiences
+  ---
+  duration_ms: 5.779459
+  type: 'test'
+  ...
+# Subtest: 1.3 declaration choices and final validation follow the exact private offer subset
+ok 493 - 1.3 declaration choices and final validation follow the exact private offer subset
+  ---
+  duration_ms: 6.153709
+  type: 'test'
+  ...
+# Subtest: 1.3 NO_INJECTION remains panel-only registration evidence and does not spend the unused attempt
+ok 494 - 1.3 NO_INJECTION remains panel-only registration evidence and does not spend the unused attempt
+  ---
+  duration_ms: 3.14325
+  type: 'test'
+  ...
+# Subtest: 7/8/9-player pre-vote darkness keeps offered original-number Code for healthy, jailed and injured living Hackers
+ok 495 - 7/8/9-player pre-vote darkness keeps offered original-number Code for healthy, jailed and injured living Hackers
+  ---
+  duration_ms: 8.799584
+  type: 'test'
+  ...
+# Subtest: a pre-vote fixed-slot receipt can settle after reconnect into the fresh full Jail vote without replay or inferred damage
+ok 496 - a pre-vote fixed-slot receipt can settle after reconnect into the fresh full Jail vote without replay or inferred damage
+  ---
+  duration_ms: 11.646792
+  type: 'test'
+  ...
+# Subtest: post-Blackout ballot recovery uses the original receipt and own ballot, then waits for authoritative result/finalization
+ok 497 - post-Blackout ballot recovery uses the original receipt and own ballot, then waits for authoritative result/finalization
+  ---
+  duration_ms: 3.187791
+  type: 'test'
+  ...
+# Subtest: 7, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 498 - 7, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 1828.479084
+  type: 'test'
+  ...
+# Subtest: 7, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 499 - 7, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 2110.976709
+  type: 'test'
+  ...
+# Subtest: 8, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 500 - 8, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 1524.687542
+  type: 'test'
+  ...
+# Subtest: 8, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 501 - 8, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 3118.366333
+  type: 'test'
+  ...
+# Subtest: 9, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 502 - 9, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 2371.421584
+  type: 'test'
+  ...
+# Subtest: 9, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 503 - 9, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 4519.234958
+  type: 'test'
+  ...
+# Subtest: entry waits for resolved idle context, lasts exactly 2000ms, and never replays on navigation
+ok 504 - entry waits for resolved idle context, lasts exactly 2000ms, and never replays on navigation
+  ---
+  duration_ms: 0.702417
+  type: 'test'
+  ...
+# Subtest: active, recovery and uncertain entry contexts bypass the intro
+ok 505 - active, recovery and uncertain entry contexts bypass the intro
+  ---
+  duration_ms: 0.355041
+  type: 'test'
+  ...
+# Subtest: all nine exact roles bind the authorized character and seat without fallback
+ok 506 - all nine exact roles bind the authorized character and seat without fallback
+  ---
+  duration_ms: 2.548875
+  type: 'test'
+  ...
+# Subtest: role ends at 10000ms, leaves Ready untouched, and stores only neutral seen identifiers
+ok 507 - role ends at 10000ms, leaves Ready untouched, and stores only neutral seen identifiers
+  ---
+  duration_ms: 0.611875
+  type: 'test'
+  ...
+# Subtest: Skip, refresh, recovery and reconnect cannot replay a role or confirm Ready
+ok 508 - Skip, refresh, recovery and reconnect cannot replay a role or confirm Ready
+  ---
+  duration_ms: 0.419625
+  type: 'test'
+  ...
+# Subtest: late reveal, unavailable storage and historical artwork keep the authorized role card
+ok 509 - late reveal, unavailable storage and historical artwork keep the authorized role card
+  ---
+  duration_ms: 0.349209
+  type: 'test'
+  ...
+# Subtest: private films conceal immediately on blur, background, stale state, identity/role/character change or Ready
+ok 510 - private films conceal immediately on blur, background, stale state, identity/role/character change or Ready
+  ---
+  duration_ms: 0.228542
+  type: 'test'
+  ...
+# Subtest: public 7/8/9 roster extraction is sorted, complete, unique and ignores private extra fields
+ok 511 - public 7/8/9 roster extraction is sorted, complete, unique and ignores private extra fields
+  ---
+  duration_ms: 2.659291
+  type: 'test'
+  ...
+# Subtest: boarding seeks the server interval on recovery for 7/8/9 and expiry never starts gameplay
+ok 512 - boarding seeks the server interval on recovery for 7/8/9 and expiry never starts gameplay
+  ---
+  duration_ms: 0.290333
+  type: 'test'
+  ...
+# Subtest: boarding requires explicit flow2, trusted clock, valid interval, supported art and admitted public roster
+ok 513 - boarding requires explicit flow2, trusted clock, valid interval, supported art and admitted public roster
+  ---
+  duration_ms: 0.236833
+  type: 'test'
+  ...
+# Subtest: boarding clock correction does not rewind or restart a stable stage
+ok 514 - boarding clock correction does not rewind or restart a stable stage
+  ---
+  duration_ms: 0.0995
+  type: 'test'
+  ...
+# Subtest: boarding Skip is local even when persistence fails, and terminal/running state drops old visuals
+ok 515 - boarding Skip is local even when persistence fails, and terminal/running state drops old visuals
+  ---
+  duration_ms: 0.092958
+  type: 'test'
+  ...
+# Subtest: disposal drops all presentation state and cannot be restarted
+ok 516 - disposal drops all presentation state and cannot be restarted
+  ---
+  duration_ms: 0.041541
+  type: 'test'
+  ...
+# Subtest: flow3 keeps card for20s and seeks its final10s without advancing any authority
+ok 517 - flow3 keeps card for20s and seeks its final10s without advancing any authority
+  ---
+  duration_ms: 0.057375
+  type: 'test'
+  ...
+# Subtest: timed late load, background/recovery and clock correction seek without restarting
+ok 518 - timed late load, background/recovery and clock correction seek without restarting
+  ---
+  duration_ms: 0.075667
+  type: 'test'
+  ...
+# Subtest: timed Skip persists only neutral identifiers; no new match inherits that Skip
+ok 519 - timed Skip persists only neutral identifiers; no new match inherits that Skip
+  ---
+  duration_ms: 0.053208
+  type: 'test'
+  ...
+# Subtest: flow3 boarding is the independent full10s interval and timed expiry never creates it
+ok 520 - flow3 boarding is the independent full10s interval and timed expiry never creates it
+  ---
+  duration_ms: 0.036958
+  type: 'test'
+  ...
+# Subtest: historical shapes remain readable and phase names stay bound to their exact saved tuple
+ok 521 - historical shapes remain readable and phase names stay bound to their exact saved tuple
+  ---
+  duration_ms: 30.967167
+  type: 'test'
+  ...
+# Subtest: a continuing match cannot silently switch between otherwise valid tuples
+ok 522 - a continuing match cannot silently switch between otherwise valid tuples
+  ---
+  duration_ms: 1.530875
+  type: 'test'
+  ...
+# Subtest: early Officer choice preserves the full setting interval and cannot open confirmation locally
+ok 523 - early Officer choice preserves the full setting interval and cannot open confirmation locally
+  ---
+  duration_ms: 16.262208
+  type: 'test'
+  ...
+# Subtest: tie and non-tie bystander packets produce identical public consumer states throughout setting
+ok 524 - tie and non-tie bystander packets produce identical public consumer states throughout setting
+  ---
+  duration_ms: 1.104625
+  type: 'test'
+  ...
+# Subtest: same-id NAV_SETTING timestamps cannot restart or shrink after an early choice
+ok 525 - same-id NAV_SETTING timestamps cannot restart or shrink after an early choice
+  ---
+  duration_ms: 0.363042
+  type: 'test'
+  ...
+# Subtest: confirmed Engineer identities including empty sets survive movement without entering other panels
+ok 526 - confirmed Engineer identities including empty sets survive movement without entering other panels
+  ---
+  duration_ms: 0.882
+  type: 'test'
+  ...
+# Subtest: patient feedback survives departure and cannot be replaced by current health or Doctor inventory
+ok 527 - patient feedback survives departure and cannot be replaced by current health or Doctor inventory
+  ---
+  duration_ms: 2.639333
+  type: 'test'
+  ...
+# Subtest: NO_INJECTION is a new-tuple panel rejection and preserves the unused attempt
+ok 528 - NO_INJECTION is a new-tuple panel rejection and preserves the unused attempt
+  ---
+  duration_ms: 15.24975
+  type: 'test'
+  ...
+# Subtest: a new rejection code on a historical match stays uncertain rather than claiming panel evidence
+ok 529 - a new rejection code on a historical match stays uncertain rather than claiming panel evidence
+  ---
+  duration_ms: 0.712833
+  type: 'test'
+  ...
+# Subtest: planned planetApi connection sends current Auth and App Check proof with exact protocol-3 body
+ok 530 - planned planetApi connection sends current Auth and App Check proof with exact protocol-3 body
+  ---
+  duration_ms: 18.894708
+  type: 'test'
+  ...
+# Subtest: invalid body cannot choose a UID, endpoint or legacy protocol before network access
+ok 531 - invalid body cannot choose a UID, endpoint or legacy protocol before network access
+  ---
+  duration_ms: 0.9925
+  type: 'test'
+  ...
+# Subtest: R17 projects admitted setup and display time only; expiry never starts the client game
+ok 532 - R17 projects admitted setup and display time only; expiry never starts the client game
+  ---
+  duration_ms: 38.485291
+  type: 'test'
+  ...
+# Subtest: unknown explicit setup flow fails closed while historical reading keeps its old behavior
+ok 533 - unknown explicit setup flow fails closed while historical reading keeps its old behavior
+  ---
+  duration_ms: 1.641375
+  type: 'test'
+  ...
+# Subtest: flow3 reveals its card on entry, uses the exact interval and still requires manual Ready
+ok 534 - flow3 reveals its card on entry, uses the exact interval and still requires manual Ready
+  ---
+  duration_ms: 1.495042
+  type: 'test'
+  ...
+# Subtest: a saved flow cannot change within a match and malformed timed boundaries fail closed
+ok 535 - a saved flow cannot change within a match and malformed timed boundaries fail closed
+  ---
+  duration_ms: 7.2955
+  type: 'test'
+  ...
+# Subtest: a timed reading interval cannot restart under the same setup identity
+ok 536 - a timed reading interval cannot restart under the same setup identity
+  ---
+  duration_ms: 1.578375
+  type: 'test'
+  ...
+# Subtest: explicit timed-role concealment survives failed reads, foreground and same-context reload until Reveal
+ok 537 - explicit timed-role concealment survives failed reads, foreground and same-context reload until Reveal
+  ---
+  duration_ms: 4.16425
+  type: 'test'
+  ...
+# Subtest: explicit conceal clears for a different reading identity; corrupt privacy state never auto-reveals
+ok 538 - explicit conceal clears for a different reading identity; corrupt privacy state never auto-reveals
+  ---
+  duration_ms: 0.99975
+  type: 'test'
+  ...
+# Subtest: 30-second minimum role reading and Ready require server-confirmed time; role starts concealed
+ok 539 - 30-second minimum role reading and Ready require server-confirmed time; role starts concealed
+  ---
+  duration_ms: 0.549333
+  type: 'test'
+  ...
+# Subtest: 30-second character choice expires without a client-side role deal or automatic Ready
+ok 540 - 30-second character choice expires without a client-side role deal or automatic Ready
+  ---
+  duration_ms: 0.69775
+  type: 'test'
+  ...
+# Subtest: hide immediately removes role, identity and recovery secret; foreground requires a fresh read
+ok 541 - hide immediately removes role, identity and recovery secret; foreground requires a fresh read
+  ---
+  duration_ms: 0.553583
+  type: 'test'
+  ...
+# Subtest: unknown public setup request survives reload with identical request ID and body, without role knowledge
+ok 542 - unknown public setup request survives reload with identical request ID and body, without role knowledge
+  ---
+  duration_ms: 0.479166
+  type: 'test'
+  ...
+# Subtest: public game feed receives only the public view and neutral identities
+ok 543 - public game feed receives only the public view and neutral identities
+  ---
+  duration_ms: 0.521542
+  type: 'test'
+  ...
+# Subtest: session audience mismatch and changed binding fail closed
+ok 544 - session audience mismatch and changed binding fail closed
+  ---
+  duration_ms: 3.029417
+  type: 'test'
+  ...
+# Subtest: session and game views cannot activate artwork from different otherwise valid pins
+ok 545 - session and game views cannot activate artwork from different otherwise valid pins
+  ---
+  duration_ms: 1.11025
+  type: 'test'
+  ...
+# Subtest: server answer reader refuses malformed wrappers and does not surface raw diagnostics
+ok 546 - server answer reader refuses malformed wrappers and does not surface raw diagnostics
+  ---
+  duration_ms: 0.424208
+  type: 'test'
+  ...
+# Subtest: a registered join waits across forbidden reads and accepts only matching admitted display standing
+ok 547 - a registered join waits across forbidden reads and accepts only matching admitted display standing
+  ---
+  duration_ms: 2.370375
+  type: 'test'
+  ...
+# Subtest: an assigned player seat confirms membership while a pending join never supplies a seat
+ok 548 - an assigned player seat confirms membership while a pending join never supplies a seat
+  ---
+  duration_ms: 0.613208
+  type: 'test'
+  ...
+# Subtest: join context cannot be inherited by a different signed-in identity
+ok 549 - join context cannot be inherited by a different signed-in identity
+  ---
+  duration_ms: 0.301375
+  type: 'test'
+  ...
+# Subtest: join names use the shared Unicode code-point limit and give useful feedback before sending
+ok 550 - join names use the shared Unicode code-point limit and give useful feedback before sending
+  ---
+  duration_ms: 0.545708
+  type: 'test'
+  ...
+# Subtest: seat recovery reads the server-confirmed match and never persists the recovery secret
+ok 551 - seat recovery reads the server-confirmed match and never persists the recovery secret
+  ---
+  duration_ms: 0.564625
+  type: 'test'
+  ...
+# Subtest: the draft seat-only recovery reply cannot approve a match or replace the original request
+ok 552 - the draft seat-only recovery reply cannot approve a match or replace the original request
+  ---
+  duration_ms: 0.347625
+  type: 'test'
+  ...
+# Subtest: pending standing carries no admitted data and never authenticates a game feed
+ok 553 - pending standing carries no admitted data and never authenticates a game feed
+  ---
+  duration_ms: 0.534625
+  type: 'test'
+  ...
+# Subtest: declined standing carries no admitted data and never authenticates a game feed
+ok 554 - declined standing carries no admitted data and never authenticates a game feed
+  ---
+  duration_ms: 0.318291
+  type: 'test'
+  ...
+# Subtest: closed standing carries no admitted data and never authenticates a game feed
+ok 555 - closed standing carries no admitted data and never authenticates a game feed
+  ---
+  duration_ms: 0.270792
+  type: 'test'
+  ...
+# Subtest: pending display rejects unbound standing {"requestId":"another-request"}
+ok 556 - pending display rejects unbound standing {"requestId":"another-request"}
+  ---
+  duration_ms: 0.373125
+  type: 'test'
+  ...
+# Subtest: pending display rejects unbound standing {"kind":"player"}
+ok 557 - pending display rejects unbound standing {"kind":"player"}
+  ---
+  duration_ms: 0.374417
+  type: 'test'
+  ...
+# Subtest: pending display rejects unbound standing null
+ok 558 - pending display rejects unbound standing null
+  ---
+  duration_ms: 3.510917
+  type: 'test'
+  ...
+# Subtest: an unavailable or revoked admitted display loses its feed without becoming a new pending requester
+ok 559 - an unavailable or revoked admitted display loses its feed without becoming a new pending requester
+  ---
+  duration_ms: 0.408708
+  type: 'test'
+  ...
+# Subtest: verified recovery clears the original display request and accepts only the returned member seat
+ok 560 - verified recovery clears the original display request and accepts only the returned member seat
+  ---
+  duration_ms: 0.576875
+  type: 'test'
+  ...
+# Subtest: a recovery result cannot bind a different subsequent snapshot seat
+ok 561 - a recovery result cannot bind a different subsequent snapshot seat
+  ---
+  duration_ms: 0.445083
+  type: 'test'
+  ...
+# Subtest: create: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 562 - create: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.453458
+  type: 'test'
+  ...
+# Subtest: create: committed lost, rate-limited retry and cached success retain the exact request
+ok 563 - create: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.431042
+  type: 'test'
+  ...
+# Subtest: ready: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 564 - ready: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.509709
+  type: 'test'
+  ...
+# Subtest: ready: committed lost, rate-limited retry and cached success retain the exact request
+ok 565 - ready: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.428458
+  type: 'test'
+  ...
+# Subtest: issueRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 566 - issueRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.707166
+  type: 'test'
+  ...
+# Subtest: issueRecovery: committed lost, rate-limited retry and cached success retain the exact request
+ok 567 - issueRecovery: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.503458
+  type: 'test'
+  ...
+# Subtest: redeemRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 568 - redeemRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 7.198583
+  type: 'test'
+  ...
+# Subtest: redeemRecovery: committed lost, rate-limited retry and cached success retain the exact request
+ok 569 - redeemRecovery: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 1.7225
+  type: 'test'
+  ...
+# Subtest: create: an unresolved public request survives reload and a later rate limit
+ok 570 - create: an unresolved public request survives reload and a later rate limit
+  ---
+  duration_ms: 1.381959
+  type: 'test'
+  ...
+# Subtest: ready: an unresolved public request survives reload and a later rate limit
+ok 571 - ready: an unresolved public request survives reload and a later rate limit
+  ---
+  duration_ms: 1.552375
+  type: 'test'
+  ...
+# Subtest: issueRecovery: an unresolved public request survives reload and a later rate limit
+ok 572 - issueRecovery: an unresolved public request survives reload and a later rate limit
+  ---
+  duration_ms: 1.449625
+  type: 'test'
+  ...
+# Subtest: a later NOT_ALLOWED cannot settle an earlier unknown operation
+ok 573 - a later NOT_ALLOWED cannot settle an earlier unknown operation
+  ---
+  duration_ms: 0.584
+  type: 'test'
+  ...
+# Subtest: a later FORBIDDEN cannot settle an earlier unknown operation
+ok 574 - a later FORBIDDEN cannot settle an earlier unknown operation
+  ---
+  duration_ms: 0.52675
+  type: 'test'
+  ...
+# Subtest: a definitive first NOT_ALLOWED rejection permits a later new operation
+ok 575 - a definitive first NOT_ALLOWED rejection permits a later new operation
+  ---
+  duration_ms: 1.649333
+  type: 'test'
+  ...
+# Subtest: a definitive first RATE_LIMITED rejection permits a later new operation
+ok 576 - a definitive first RATE_LIMITED rejection permits a later new operation
+  ---
+  duration_ms: 0.346667
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {}
+ok 577 - malformed issued recovery success remains retryable: {}
+  ---
+  duration_ms: 0.554041
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":""}
+ok 578 - malformed issued recovery success remains retryable: {"recoveryCode":""}
+  ---
+  duration_ms: 0.431834
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxx"}
+ok 579 - malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxx"}
+  ---
+  duration_ms: 0.435208
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+ok 580 - malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+  ---
+  duration_ms: 0.404125
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":42}
+ok 581 - malformed issued recovery success remains retryable: {"recoveryCode":42}
+  ---
+  duration_ms: 0.986
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: null
+ok 582 - malformed issued recovery success remains retryable: null
+  ---
+  duration_ms: 3.614167
+  type: 'test'
+  ...
+# Subtest: finished: returning to lobby clears only settled local session state and makes no service mutation
+ok 583 - finished: returning to lobby clears only settled local session state and makes no service mutation
+  ---
+  duration_ms: 2.7975
+  type: 'test'
+  ...
+# Subtest: aborted: returning to lobby clears only settled local session state and makes no service mutation
+ok 584 - aborted: returning to lobby clears only settled local session state and makes no service mutation
+  ---
+  duration_ms: 3.130125
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during running
+ok 585 - return to lobby is forbidden during running
+  ---
+  duration_ms: 0.722625
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during stale
+ok 586 - return to lobby is forbidden during stale
+  ---
+  duration_ms: 0.482709
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during hidden
+ok 587 - return to lobby is forbidden during hidden
+  ---
+  duration_ms: 0.295708
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during foreign-uid
+ok 588 - return to lobby is forbidden during foreign-uid
+  ---
+  duration_ms: 0.2785
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during unsettled-command
+ok 589 - return to lobby is forbidden during unsettled-command
+  ---
+  duration_ms: 0.287959
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during unsettled-lifecycle
+ok 590 - return to lobby is forbidden during unsettled-lifecycle
+  ---
+  duration_ms: 0.320084
+  type: 'test'
+  ...
+# Subtest: a sending lifecycle operation blocks terminal return until its definitive response
+ok 591 - a sending lifecycle operation blocks terminal return until its definitive response
+  ---
+  duration_ms: 0.345083
+  type: 'test'
+  ...
+# Subtest: authoritative presentation hides and refuses Jail ballots, movement, panel registration and Pass
+ok 592 - authoritative presentation hides and refuses Jail ballots, movement, panel registration and Pass
+  ---
+  duration_ms: 20.182667
+  type: 'test'
+  ...
+# Subtest: late load, duplicate view and foreground resume use the same Sync timestamps and elapsed time
+ok 593 - late load, duplicate view and foreground resume use the same Sync timestamps and elapsed time
+  ---
+  duration_ms: 1.019209
+  type: 'test'
+  ...
+# Subtest: expiry never opens voting locally; a delayed authoritative transition still supplies the full vote
+ok 594 - expiry never opens voting locally; a delayed authoritative transition still supplies the full vote
+  ---
+  duration_ms: 1.959542
+  type: 'test'
+  ...
+# Subtest: ordinary non-Blackhole rounds are never assigned a local presentation
+ok 595 - ordinary non-Blackhole rounds are never assigned a local presentation
+  ---
+  duration_ms: 0.666417
+  type: 'test'
+  ...
+# Subtest: meeting Promises stay Pending through presentation and change only with the actual vote snapshot
+ok 596 - meeting Promises stay Pending through presentation and change only with the actual vote snapshot
+  ---
+  duration_ms: 1.307083
+  type: 'test'
+  ...
+# Subtest: a higher revision cannot silently restart an existing Sync phase interval
+ok 597 - a higher revision cannot silently restart an existing Sync phase interval
+  ---
+  duration_ms: 0.329417
+  type: 'test'
+  ...
+# Subtest: the predecessor candidate is not silently relabeled as the P27 tuple
+ok 598 - the predecessor candidate is not silently relabeled as the P27 tuple
+  ---
+  duration_ms: 0.380292
+  type: 'test'
+  ...
+# Subtest: available to registered by keyboard or tap alone: each step is focused on its own line and the result is spoken privately
+ok 599 - available to registered by keyboard or tap alone: each step is focused on its own line and the result is spoken privately
+  ---
+  duration_ms: 40.708833
+  type: 'test'
+  ...
+# Subtest: nothing is registered on screen until the server says so, and a registration is never drawn as an outcome
+ok 600 - nothing is registered on screen until the server says so, and a registration is never drawn as an outcome
+  ---
+  duration_ms: 30.094791
+  type: 'test'
+  ...
+# Subtest: a shot intent does nothing where no shot control is on screen
+ok 601 - a shot intent does nothing where no shot control is on screen
+  ---
+  duration_ms: 15.710084
+  type: 'test'
+  ...
+# Subtest: two confirmations in a row, or a confirmation that is the tail of a double tap, send one command or none
+ok 602 - two confirmations in a row, or a confirmation that is the tail of a double tap, send one command or none
+  ---
+  duration_ms: 3.392625
+  type: 'test'
+  ...
+# Subtest: backgrounding drops a choice that was not sent and takes everything private out of the frame
+ok 603 - backgrounding drops a choice that was not sent and takes everything private out of the frame
+  ---
+  duration_ms: 4.004291
+  type: 'test'
+  ...
+# Subtest: a command in flight survives backgrounding; its result waits unseen and unspoken until the panel is opened again
+ok 604 - a command in flight survives backgrounding; its result waits unseen and unspoken until the panel is opened again
+  ---
+  duration_ms: 6.509459
+  type: 'test'
+  ...
+# Subtest: closing the private panel withdraws private speech from the host, every time
+ok 605 - closing the private panel withdraws private speech from the host, every time
+  ---
+  duration_ms: 2.853708
+  type: 'test'
+  ...
+# Subtest: a lost connection blocks new submissions and drops an unsent choice, without touching the last known state
+ok 606 - a lost connection blocks new submissions and drops an unsent choice, without touching the last known state
+  ---
+  duration_ms: 3.4045
+  type: 'test'
+  ...
+# Subtest: an unanswered command is reconciled across a reconnect instead of being resent as something new
+ok 607 - an unanswered command is reconciled across a reconnect instead of being resent as something new
+  ---
+  duration_ms: 8.567125
+  type: 'test'
+  ...
+# Subtest: Check again is one deliberate request; the card says plainly that the result is not known
+ok 608 - Check again is one deliberate request; the card says plainly that the result is not known
+  ---
+  duration_ms: 5.515583
+  type: 'test'
+  ...
+# Subtest: a rejection is shown and spoken at once; choosing again is a new command
+ok 609 - a rejection is shown and spoken at once; choosing again is a new command
+  ---
+  duration_ms: 4.416292
+  type: 'test'
+  ...
+# Subtest: when the turn’s clock runs out a choice is dropped and nothing can be sent; the phase is left to the server
+ok 610 - when the turn’s clock runs out a choice is dropped and nothing can be sent; the phase is left to the server
+  ---
+  duration_ms: 10.284458
+  type: 'test'
+  ...
+# Subtest: a confirmation made in the last moment is still the server’s to judge
+ok 611 - a confirmation made in the last moment is still the server’s to judge
+  ---
+  duration_ms: 6.576
+  type: 'test'
+  ...
+# Subtest: the target list follows the view while the player is choosing
+ok 612 - the target list follows the view while the player is choosing
+  ---
+  duration_ms: 1.787375
+  type: 'test'
+  ...
+# Subtest: disposing the screen cancels what it was waiting for and leaves no timer behind
+ok 613 - disposing the screen cancels what it was waiting for and leaves no timer behind
+  ---
+  duration_ms: 1.230917
+  type: 'test'
+  ...
+# Subtest: a control becoming active is a redraw of its own, and says nothing
+ok 614 - a control becoming active is a redraw of its own, and says nothing
+  ---
+  duration_ms: 0.93925
+  type: 'test'
+  ...
+# Subtest: an intent is judged against the present, not against the last frame that happened to be drawn
+ok 615 - an intent is judged against the present, not against the last frame that happened to be drawn
+  ---
+  duration_ms: 1.647208
+  type: 'test'
+  ...
+# Subtest: once private content has left the screen the frame holds nothing of the flow in any field
+ok 616 - once private content has left the screen the frame holds nothing of the flow in any field
+  ---
+  duration_ms: 13.85475
+  type: 'test'
+  ...
+# Subtest: an unknown result can be left once its turn is over, and the card then follows the view
+ok 617 - an unknown result can be left once its turn is over, and the card then follows the view
+  ---
+  duration_ms: 57.453333
+  type: 'test'
+  ...
+# Subtest: public practice feed distinguishes fresh legacy absence from unknown or cached data
+ok 618 - public practice feed distinguishes fresh legacy absence from unknown or cached data
+  ---
+  duration_ms: 15.753875
+  type: 'test'
+  ...
+# Subtest: practice metadata rejects extra secrets, wrong match, revision regression and changing a confirmed revision
+ok 619 - practice metadata rejects extra secrets, wrong match, revision regression and changing a confirmed revision
+  ---
+  duration_ms: 35.020291
+  type: 'test'
+  ...
+# Subtest: practice feed cannot retain membership facts across quarantine or Auth identity change
+ok 620 - practice feed cannot retain membership facts across quarantine or Auth identity change
+  ---
+  duration_ms: 4.819792
+  type: 'test'
+  ...
+# Subtest: bot setup binds the response to its request and rejects malformed or mismatched successes
+ok 621 - bot setup binds the response to its request and rejects malformed or mismatched successes
+  ---
+  duration_ms: 2.41225
+  type: 'test'
+  ...
+# Subtest: a lost setup answer keeps the original bot count/request and meaningful capacity refusals
+ok 622 - a lost setup answer keeps the original bot count/request and meaningful capacity refusals
+  ---
+  duration_ms: 1.17675
+  type: 'test'
+  ...
+# Subtest: bot setup binds its validated snapshot even when the caller mutates the input while awaiting a reply
+ok 623 - bot setup binds its validated snapshot even when the caller mutates the input while awaiting a reply
+  ---
+  duration_ms: 0.29825
+  type: 'test'
+  ...
+# Subtest: a clean workspace passes and its fixture module is simply never reached
+ok 624 - a clean workspace passes and its fixture module is simply never reached
+  ---
+  duration_ms: 23.518959
+  type: 'test'
+  ...
+# Subtest: importing the fixture subpath is refused, statically or dynamically
+ok 625 - importing the fixture subpath is refused, statically or dynamically
+  ---
+  duration_ms: 9.784625
+  type: 'test'
+  ...
+# Subtest: a relative import cannot reach a development or test module
+ok 626 - a relative import cannot reach a development or test module
+  ---
+  duration_ms: 28.845334
+  type: 'test'
+  ...
+# Subtest: imports the check cannot follow are failures, not blind spots
+ok 627 - imports the check cannot follow are failures, not blind spots
+  ---
+  duration_ms: 4.819208
+  type: 'test'
+  ...
+# Subtest: a module kind the check cannot parse is refused, as is a directory import
+ok 628 - a module kind the check cannot parse is refused, as is a directory import
+  ---
+  duration_ms: 18.014167
+  type: 'test'
+  ...
+# Subtest: a file reached by URL instead of by import is followed too
+ok 629 - a file reached by URL instead of by import is followed too
+  ---
+  duration_ms: 33.001417
+  type: 'test'
+  ...
+# Subtest: reviewed package roots do not grant deep-path imports
+ok 630 - reviewed package roots do not grant deep-path imports
+  ---
+  duration_ms: 10.1765
+  type: 'test'
+  ...
+# Subtest: fixture identifiers are caught in any shipped file, reachable or not
+ok 631 - fixture identifiers are caught in any shipped file, reachable or not
+  ---
+  duration_ms: 45.867542
+  type: 'test'
+  ...
+# Subtest: a bundler output directory is scanned in full
+ok 632 - a bundler output directory is scanned in full
+  ---
+  duration_ms: 6.029459
+  type: 'test'
+  ...
+# Subtest: a package may have only one way in: no extra condition, legacy entry field or nested target
+ok 633 - a package may have only one way in: no extra condition, legacy entry field or nested target
+  ---
+  duration_ms: 59.607958
+  type: 'test'
+  ...
+# Subtest: a production package may expose only its main entry and ship only its build
+ok 634 - a production package may expose only its main entry and ship only its build
+  ---
+  duration_ms: 6.238125
+  type: 'test'
+  ...
+# Subtest: a development file must carry the sentinel in code, where minification cannot remove it
+ok 635 - a development file must carry the sentinel in code, where minification cannot remove it
+  ---
+  duration_ms: 22.726834
+  type: 'test'
+  ...
+# Subtest: the real development modules stay labeled with every comment stripped, and are caught in a bundle
+ok 636 - the real development modules stay labeled with every comment stripped, and are caught in a bundle
+  ---
+  duration_ms: 813.172458
+  type: 'test'
+  ...
+# Subtest: the real client passes, with the contract fixture present on disk but unreachable
+ok 637 - the real client passes, with the contract fixture present on disk but unreachable
+  ---
+  duration_ms: 136.883417
+  type: 'test'
+  ...
+# Subtest: the command exits non-zero and names the file when a bundle leaks fixture truth
+ok 638 - the command exits non-zero and names the file when a bundle leaks fixture truth
+  ---
+  duration_ms: 1028.886417
+  type: 'test'
+  ...
+# Subtest: the client core touches no storage, log or beacon itself
+ok 639 - the client core touches no storage, log or beacon itself
+  ---
+  duration_ms: 168.701292
+  type: 'test'
+  ...
+# Subtest: an explicitly reviewed external subpath does not permit its package root or siblings
+ok 640 - an explicitly reviewed external subpath does not permit its package root or siblings
+  ---
+  duration_ms: 14.207917
+  type: 'test'
+  ...
+# Subtest: Ready compatibility refuses mixed/unknown pins and missing complete art
+ok 641 - Ready compatibility refuses mixed/unknown pins and missing complete art
+  ---
+  duration_ms: 5.74175
+  type: 'test'
+  ...
+# Subtest: Ready accepts only the reviewed 1.4/0.2 and 1.5/0.3 release pairs after every player bundle loads
+ok 642 - Ready accepts only the reviewed 1.4/0.2 and 1.5/0.3 release pairs after every player bundle loads
+  ---
+  duration_ms: 0.867333
+  type: 'test'
+  ...
+# Subtest: all twelve common bundles start uniformly and Ready loading does not settle before the supplements
+ok 643 - all twelve common bundles start uniformly and Ready loading does not settle before the supplements
+  ---
+  duration_ms: 1.103541
+  type: 'test'
+  ...
+# Subtest: a failed supplement is not acknowledged; its later arrival can recover without erasing loaded bundles
+ok 644 - a failed supplement is not acknowledged; its later arrival can recover without erasing loaded bundles
+  ---
+  duration_ms: 0.852875
+  type: 'test'
+  ...
+# Subtest: player loads the exact same complete common catalog before private data
+ok 645 - player loads the exact same complete common catalog before private data
+  ---
+  duration_ms: 0.422125
+  type: 'test'
+  ...
+# Subtest: display loads the exact same complete common catalog before private data
+ok 646 - display loads the exact same complete common catalog before private data
+  ---
+  duration_ms: 0.173792
+  type: 'test'
+  ...
+# Subtest: host loads the exact same complete common catalog before private data
+ok 647 - host loads the exact same complete common catalog before private data
+  ---
+  duration_ms: 0.305709
+  type: 'test'
+  ...
+# (node:9642) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ported drawing bytes and generated bundles match their reviewed source hashes; host/display request public bundles only
+ok 648 - ported drawing bytes and generated bundles match their reviewed source hashes; host/display request public bundles only
+  ---
+  duration_ms: 72.793708
+  type: 'test'
+  ...
+# Subtest: allocation is pure for the same public snapshot and legacy 6–9 occupancy retains every seat in every room
+ok 649 - allocation is pure for the same public snapshot and legacy 6–9 occupancy retains every seat in every room
+  ---
+  duration_ms: 27.242708
+  type: 'test'
+  ...
+# Subtest: FULL labels require exact capped gameplay tuples, include Eliminated occupancy, and never change offers
+ok 650 - FULL labels require exact capped gameplay tuples, include Eliminated occupancy, and never change offers
+  ---
+  duration_ms: 0.277
+  type: 'test'
+  ...
+# Subtest: move Injured then immediate Healthy cancels RAF/native travel and never restores a captured old pose
+ok 651 - move Injured then immediate Healthy cancels RAF/native travel and never restores a captured old pose
+  ---
+  duration_ms: 8.886458
+  type: 'test'
+  ...
+# Subtest: OS reduction without a redraw cancels full-body travel; later facts work and disposal unsubscribes
+ok 652 - OS reduction without a redraw cancels full-body travel; later facts work and disposal unsubscribes
+  ---
+  duration_ms: 4.879083
+  type: 'test'
+  ...
+# Subtest: resize during flight cancels full-body travel; later facts work and disposal unsubscribes
+ok 653 - resize during flight cancels full-body travel; later facts work and disposal unsubscribes
+  ---
+  duration_ms: 2.859042
+  type: 'test'
+  ...
+# Subtest: before it starts a screen shows that it is connecting and asks the transport for nothing
+ok 654 - before it starts a screen shows that it is connecting and asks the transport for nothing
+  ---
+  duration_ms: 3.574167
+  type: 'test'
+  ...
+# Subtest: the Officer phone goes from connecting to its own turn with a full minute on the clock and nothing private showing
+ok 655 - the Officer phone goes from connecting to its own turn with a full minute on the clock and nothing private showing
+  ---
+  duration_ms: 11.978875
+  type: 'test'
+  ...
+# Subtest: the countdown follows server time second by second, warns once, and stops at zero
+ok 656 - the countdown follows server time second by second, warns once, and stops at zero
+  ---
+  duration_ms: 31.914208
+  type: 'test'
+  ...
+# Subtest: the device clock has no say: the same countdown appears whatever the local time origin is
+ok 657 - the device clock has no say: the same countdown appears whatever the local time origin is
+  ---
+  duration_ms: 14.264958
+  type: 'test'
+  ...
+# Subtest: joining late shows the time that is actually left, or that the phase has run out
+ok 658 - joining late shows the time that is actually left, or that the phase has run out
+  ---
+  duration_ms: 3.034458
+  type: 'test'
+  ...
+# Subtest: a player who joins in the last seconds of their own turn is warned, whichever arrives first
+ok 659 - a player who joins in the last seconds of their own turn is warned, whichever arrives first
+  ---
+  duration_ms: 7.533583
+  type: 'test'
+  ...
+# Subtest: only an authoritative view moves the phase on, and the next turn gets its own full minute
+ok 660 - only an authoritative view moves the phase on, and the next turn gets its own full minute
+  ---
+  duration_ms: 37.436
+  type: 'test'
+  ...
+# Subtest: round resolution shows no timer and schedules nothing
+ok 661 - round resolution shows no timer and schedules nothing
+  ---
+  duration_ms: 4.3285
+  type: 'test'
+  ...
+# Subtest: private information is shown only on request and is withdrawn the moment the app is backgrounded
+ok 662 - private information is shown only on request and is withdrawn the moment the app is backgrounded
+  ---
+  duration_ms: 8.031875
+  type: 'test'
+  ...
+# Subtest: time that passed in the background is accounted for on return, and its expiry is spoken once
+ok 663 - time that passed in the background is accounted for on return, and its expiry is spoken once
+  ---
+  duration_ms: 8.606083
+  type: 'test'
+  ...
+# Subtest: losing the connection keeps the screen readable, says so, and recovers without replaying anything
+ok 664 - losing the connection keeps the screen readable, says so, and recovers without replaying anything
+  ---
+  duration_ms: 16.997917
+  type: 'test'
+  ...
+# Subtest: the reconnect control resubscribes and the reload control is left to the host
+ok 665 - the reconnect control resubscribes and the reload control is left to the host
+  ---
+  duration_ms: 2.400333
+  type: 'test'
+  ...
+# Subtest: an incompatible protocol replaces the match with a recoverable screen and moves focus to it once
+ok 666 - an incompatible protocol replaces the match with a recoverable screen and moves focus to it once
+  ---
+  duration_ms: 12.572792
+  type: 'test'
+  ...
+# Subtest: data for another seat blocks the phone for good and shows none of it
+ok 667 - data for another seat blocks the phone for good and shows none of it
+  ---
+  duration_ms: 6.502167
+  type: 'test'
+  ...
+# Subtest: the motion preference follows the device until the player chooses, then stays chosen
+ok 668 - the motion preference follows the device until the player chooses, then stays chosen
+  ---
+  duration_ms: 2.014291
+  type: 'test'
+  ...
+# Subtest: the table display has no private state to show and ignores private intents
+ok 669 - the table display has no private state to show and ignores private intents
+  ---
+  duration_ms: 4.174542
+  type: 'test'
+  ...
+# Subtest: a hidden registration does not even redraw the table or the target phone
+ok 670 - a hidden registration does not even redraw the table or the target phone
+  ---
+  duration_ms: 66.108625
+  type: 'test'
+  ...
+# Subtest: a frame keeps its identity until something changes, and listeners hear of real changes only
+ok 671 - a frame keeps its identity until something changes, and listeners hear of real changes only
+  ---
+  duration_ms: 5.416291
+  type: 'test'
+  ...
+# Subtest: dispose releases the feed, every timer and every listener
+ok 672 - dispose releases the feed, every timer and every listener
+  ---
+  duration_ms: 3.256375
+  type: 'test'
+  ...
+# Subtest: the screen itself refuses to carry a private line unless the private panel is open, whatever produced the line
+ok 673 - the screen itself refuses to carry a private line unless the private panel is open, whatever produced the line
+  ---
+  duration_ms: 14.777208
+  type: 'test'
+  ...
+# Subtest: before any sample the clock admits it does not know the time
+ok 674 - before any sample the clock admits it does not know the time
+  ---
+  duration_ms: 1.775416
+  type: 'test'
+  ...
+# Subtest: server time is carried forward by the monotonic clock from the midpoint of a round trip
+ok 675 - server time is carried forward by the monotonic clock from the midpoint of a round trip
+  ---
+  duration_ms: 0.188584
+  type: 'test'
+  ...
+# Subtest: the estimate does not depend on what the device believes the date is
+ok 676 - the estimate does not depend on what the device believes the date is
+  ---
+  duration_ms: 0.235
+  type: 'test'
+  ...
+# Subtest: a tighter consistent sample replaces a looser one; a looser consistent one is ignored
+ok 677 - a tighter consistent sample replaces a looser one; a looser consistent one is ignored
+  ---
+  duration_ms: 0.084875
+  type: 'test'
+  ...
+# Subtest: a sample that contradicts the estimate wins even if it is looser: local time stood still
+ok 678 - a sample that contradicts the estimate wins even if it is looser: local time stood still
+  ---
+  duration_ms: 0.646417
+  type: 'test'
+  ...
+# Subtest: invalidating forgets the estimate until a new sample arrives
+ok 679 - invalidating forgets the estimate until a new sample arrives
+  ---
+  duration_ms: 0.111708
+  type: 'test'
+  ...
+# Subtest: impossible samples are discarded
+ok 680 - impossible samples are discarded
+  ---
+  duration_ms: 8.849958
+  type: 'test'
+  ...
+# Subtest: a deadline is none, unsynced, running or expired, and reaching zero is expiry
+ok 681 - a deadline is none, unsynced, running or expired, and reaching zero is expiry
+  ---
+  duration_ms: 5.410958
+  type: 'test'
+  ...
+# Subtest: an estimate that runs behind the server never shows more time than the phase contains
+ok 682 - an estimate that runs behind the server never shows more time than the phase contains
+  ---
+  duration_ms: 0.611833
+  type: 'test'
+  ...
+# Subtest: the next redraw lands exactly when the whole-second display changes
+ok 683 - the next redraw lands exactly when the whole-second display changes
+  ---
+  duration_ms: 0.4255
+  type: 'test'
+  ...
+# Subtest: each startup operation validates immutable requests and correlates strict replies
+ok 684 - each startup operation validates immutable requests and correlates strict replies
+  ---
+  duration_ms: 11.217917
+  type: 'test'
+  ...
+# Subtest: a lost Ready reply retries the same deal/binding/request without persisting setup content
+ok 685 - a lost Ready reply retries the same deal/binding/request without persisting setup content
+  ---
+  duration_ms: 1.176125
+  type: 'test'
+  ...
+# Subtest: host control reads legacy and coherent staged setup without accepting arbitrary schema drift
+ok 686 - host control reads legacy and coherent staged setup without accepting arbitrary schema drift
+  ---
+  duration_ms: 0.3445
+  type: 'test'
+  ...
+# Subtest: private pregame subscription and reveal require current public stage and own binding
+ok 687 - private pregame subscription and reveal require current public stage and own binding
+  ---
+  duration_ms: 29.720084
+  type: 'test'
+  ...
+# Subtest: stale or refused public/binding/private snapshots erase held role immediately
+ok 688 - stale or refused public/binding/private snapshots erase held role immediately
+  ---
+  duration_ms: 20.544458
+  type: 'test'
+  ...
+# Subtest: recovered binding must match independently fresh preview, same role deal, and own audience
+ok 689 - recovered binding must match independently fresh preview, same role deal, and own audience
+  ---
+  duration_ms: 9.622208
+  type: 'test'
+  ...
+# Subtest: conflicting or unsupported setup documents quarantine the affected stream
+ok 690 - conflicting or unsupported setup documents quarantine the affected stream
+  ---
+  duration_ms: 17.410833
+  type: 'test'
+  ...
+# Subtest: unsupported prepared versions retain neutral progress and signal reload without holding a role
+ok 691 - unsupported prepared versions retain neutral progress and signal reload without holding a role
+  ---
+  duration_ms: 4.711292
+  type: 'test'
+  ...
+# Subtest: host and display observe only public setup, and transports supply the caller UID
+ok 692 - host and display observe only public setup, and transports supply the caller UID
+  ---
+  duration_ms: 1.133125
+  type: 'test'
+  ...
+# Subtest: own Ready removes the private listener while neutral progress remains available
+ok 693 - own Ready removes the private listener while neutral progress remains available
+  ---
+  duration_ms: 1.768458
+  type: 'test'
+  ...
+# Subtest: choosing is local: the flow walks to the confirm step and back without sending anything or telling anyone
+ok 694 - choosing is local: the flow walks to the confirm step and back without sending anything or telling anyone
+  ---
+  duration_ms: 2.223417
+  type: 'test'
+  ...
+# Subtest: a confirmation sends one well-formed command built from the view, with a fresh identifier and nothing else
+ok 695 - a confirmation sends one well-formed command built from the view, with a fresh identifier and nothing else
+  ---
+  duration_ms: 17.0765
+  type: 'test'
+  ...
+# Subtest: a command carries the phase its choice was made in, whatever that phase is called
+ok 696 - a command carries the phase its choice was made in, whatever that phase is called
+  ---
+  duration_ms: 2.669583
+  type: 'test'
+  ...
+# Subtest: a control that has just appeared does nothing yet, and the flow says when it becomes active
+ok 697 - a control that has just appeared does nothing yet, and the flow says when it becomes active
+  ---
+  duration_ms: 2.558667
+  type: 'test'
+  ...
+# Subtest: one confirmation, one command; and while its outcome is open there is no way to start over or walk away
+ok 698 - one confirmation, one command; and while its outcome is open there is no way to start over or walk away
+  ---
+  duration_ms: 4.773667
+  type: 'test'
+  ...
+# Subtest: a receipt is the server’s word: accepted registers, rejected says which rejection
+ok 699 - a receipt is the server’s word: accepted registers, rejected says which rejection
+  ---
+  duration_ms: 6.258125
+  type: 'test'
+  ...
+# Subtest: the first answer to a command settles it as not registered only for errors that commit nothing; UNAVAILABLE does not
+ok 700 - the first answer to a command settles it as not registered only for errors that commit nothing; UNAVAILABLE does not
+  ---
+  duration_ms: 6.642042
+  type: 'test'
+  ...
+# Subtest: once an attempt has gone unanswered, a later safe error settles nothing: an earlier copy may still have landed
+ok 701 - once an attempt has gone unanswered, a later safe error settles nothing: an earlier copy may still have landed
+  ---
+  duration_ms: 13.269083
+  type: 'test'
+  ...
+# Subtest: no answer is never taken as failure: the receipt is looked up, by identifiers only
+ok 702 - no answer is never taken as failure: the receipt is looked up, by identifiers only
+  ---
+  duration_ms: 5.656958
+  type: 'test'
+  ...
+# Subtest: with no receipt yet, the identical command is sent again: same identifier, same payload, never a new one
+ok 703 - with no receipt yet, the identical command is sent again: same identifier, same payload, never a new one
+  ---
+  duration_ms: 6.996125
+  type: 'test'
+  ...
+# Subtest: a command that arrives after its phase closed ends as the server’s stored rejection, not as a guess
+ok 704 - a command that arrives after its phase closed ends as the server’s stored rejection, not as a guess
+  ---
+  duration_ms: 2.612
+  type: 'test'
+  ...
+# Subtest: automatic checking is bounded, never sends into silence, and then admits it does not know
+ok 705 - automatic checking is bounded, never sends into silence, and then admits it does not know
+  ---
+  duration_ms: 6.053125
+  type: 'test'
+  ...
+# Subtest: Check again asks once more on request, and settles as soon as the server can answer
+ok 706 - Check again asks once more on request, and settles as soon as the server can answer
+  ---
+  duration_ms: 2.370958
+  type: 'test'
+  ...
+# Subtest: reconnecting, returning to the foreground or a new phase each restart the checks at once
+ok 707 - reconnecting, returning to the foreground or a new phase each restart the checks at once
+  ---
+  duration_ms: 5.09475
+  type: 'test'
+  ...
+# Subtest: a fresh reason to ask does not wait behind a check that is stuck: the newer one goes out and the older answer is ignored
+ok 708 - a fresh reason to ask does not wait behind a check that is stuck: the newer one goes out and the older answer is ignored
+  ---
+  duration_ms: 5.093875
+  type: 'test'
+  ...
+# Subtest: the player’s own view settles a command: listed means registered, whatever arrives afterwards
+ok 709 - the player’s own view settles a command: listed means registered, whatever arrives afterwards
+  ---
+  duration_ms: 1.203583
+  type: 'test'
+  ...
+# Subtest: the view is the authority even over this device’s own conclusion: a command it lists is registered
+ok 710 - the view is the authority even over this device’s own conclusion: a command it lists is registered
+  ---
+  duration_ms: 2.363917
+  type: 'test'
+  ...
+# Subtest: a receipt that cannot belong to the command is not believed
+ok 711 - a receipt that cannot belong to the command is not believed
+  ---
+  duration_ms: 1.381542
+  type: 'test'
+  ...
+# Subtest: a choice that was not sent does not outlive the conditions it was made under
+ok 712 - a choice that was not sent does not outlive the conditions it was made under
+  ---
+  duration_ms: 1.766959
+  type: 'test'
+  ...
+# Subtest: nothing can be started while the interface would not allow it
+ok 713 - nothing can be started while the interface would not allow it
+  ---
+  duration_ms: 0.14975
+  type: 'test'
+  ...
+# Subtest: a registration report stays until it is acknowledged, and stops promising a resolution once the view has moved on
+ok 714 - a registration report stays until it is acknowledged, and stops promising a resolution once the view has moved on
+  ---
+  duration_ms: 1.503083
+  type: 'test'
+  ...
+# Subtest: the registered target is remembered in memory only while the view still stands behind it
+ok 715 - the registered target is remembered in memory only while the view still stands behind it
+  ---
+  duration_ms: 5.036458
+  type: 'test'
+  ...
+# Subtest: a result cannot be acknowledged in the instant it appears, and a rejection is still there after a double tap
+ok 716 - a result cannot be acknowledged in the instant it appears, and a rejection is still there after a double tap
+  ---
+  duration_ms: 0.642792
+  type: 'test'
+  ...
+# Subtest: after a rejection the player can choose again, and that is a new command with a new identifier
+ok 717 - after a rejection the player can choose again, and that is a new command with a new identifier
+  ---
+  duration_ms: 0.735958
+  type: 'test'
+  ...
+# Subtest: a command that cannot be named properly is never sent
+ok 718 - a command that cannot be named properly is never sent
+  ---
+  duration_ms: 5.748833
+  type: 'test'
+  ...
+# Subtest: only the identifiers of an unresolved command are kept, from the moment it is sent until its outcome is known
+ok 719 - only the identifiers of an unresolved command are kept, from the moment it is sent until its outcome is known
+  ---
+  duration_ms: 5.097333
+  type: 'test'
+  ...
+# Subtest: a reloaded page asks what became of its command before it offers anything, and can never send it again
+ok 720 - a reloaded page asks what became of its command before it offers anything, and can never send it again
+  ---
+  duration_ms: 1.870208
+  type: 'test'
+  ...
+# Subtest: after a reload, a found receipt settles the command either way, and a view that lists it settles it without asking
+ok 721 - after a reload, a found receipt settles the command either way, and a view that lists it settles it without asking
+  ---
+  duration_ms: 0.836667
+  type: 'test'
+  ...
+# Subtest: after a reload, no receipt once the command’s phase is over means it was never registered and never will be
+ok 722 - after a reload, no receipt once the command’s phase is over means it was never registered and never will be
+  ---
+  duration_ms: 1.212375
+  type: 'test'
+  ...
+# Subtest: a lookup that was asked while the phase was still open cannot close the matter by being answered late
+ok 723 - a lookup that was asked while the phase was still open cannot close the matter by being answered late
+  ---
+  duration_ms: 0.44025
+  type: 'test'
+  ...
+# Subtest: an unknown result can be left once its phase is over, reloaded or not, and nothing is kept afterwards
+ok 724 - an unknown result can be left once its phase is over, reloaded or not, and nothing is kept afterwards
+  ---
+  duration_ms: 2.386
+  type: 'test'
+  ...
+# Subtest: what was kept is used only if it is this match’s and this seat’s, and well-formed; anything else is thrown away
+ok 725 - what was kept is used only if it is this match’s and this seat’s, and well-formed; anything else is thrown away
+  ---
+  duration_ms: 0.968041
+  type: 'test'
+  ...
+# Subtest: a host whose storage fails costs only the memory across a reload, never the command
+ok 726 - a host whose storage fails costs only the memory across a reload, never the command
+  ---
+  duration_ms: 1.263334
+  type: 'test'
+  ...
+# Subtest: a disposed flow does nothing more, whatever was under way: no timers, no checks, no word of late answers
+ok 727 - a disposed flow does nothing more, whatever was under way: no timers, no checks, no word of late answers
+  ---
+  duration_ms: 19.966
+  type: 'test'
+  ...
+# Subtest: timing values are client parameters that a host may tune; none of them is a rule
+ok 728 - timing values are client parameters that a host may tune; none of them is a rule
+  ---
+  duration_ms: 2.333084
+  type: 'test'
+  ...
+# Subtest: journey: the Officer picks a numbered player in the same room, confirms and is told it is registered; no other screen is even redrawn
+ok 729 - journey: the Officer picks a numbered player in the same room, confirms and is told it is registered; no other screen is even redrawn
+  ---
+  duration_ms: 55.376417
+  type: 'test'
+  ...
+# Subtest: journey: duplicate submission. Repeated confirmations and a replayed request register one shot
+ok 730 - journey: duplicate submission. Repeated confirmations and a replayed request register one shot
+  ---
+  duration_ms: 4.323333
+  type: 'test'
+  ...
+# Subtest: journey: lost acknowledgment. The shot was registered but the answer never arrived; the receipt is recovered, not guessed
+ok 731 - journey: lost acknowledgment. The shot was registered but the answer never arrived; the receipt is recovered, not guessed
+  ---
+  duration_ms: 5.4055
+  type: 'test'
+  ...
+# Subtest: journey: lost request. Nothing reached the server; the identical command is sent again and decided then
+ok 732 - journey: lost request. Nothing reached the server; the identical command is sent again and decided then
+  ---
+  duration_ms: 3.96625
+  type: 'test'
+  ...
+# Subtest: journey: the server answers "unavailable". The outcome of that attempt is unknown and is reconciled the same way
+ok 733 - journey: the server answers "unavailable". The outcome of that attempt is unknown and is reconciled the same way
+  ---
+  duration_ms: 4.787167
+  type: 'test'
+  ...
+# Subtest: journey: rejected targeting. The rejection is shown as the server gave it, and a new choice is a new command
+ok 734 - journey: rejected targeting. The rejection is shown as the server gave it, and a new choice is a new command
+  ---
+  duration_ms: 5.372833
+  type: 'test'
+  ...
+# Subtest: journey: the command service is down. The app says the result is unknown, assumes nothing, and settles when asked again
+ok 735 - journey: the command service is down. The app says the result is unknown, assumes nothing, and settles when asked again
+  ---
+  duration_ms: 12.445875
+  type: 'test'
+  ...
+# Subtest: journey: the turn ends while the outcome is unknown. The late command is rejected by the server and reported as not registered
+ok 736 - journey: the turn ends while the outcome is unknown. The late command is rejected by the server and reported as not registered
+  ---
+  duration_ms: 10.682792
+  type: 'test'
+  ...
+# Subtest: journey: refresh during a pending registration. The reloaded phone asks about its command, learns it is registered, and restores nothing it should not
+ok 737 - journey: refresh during a pending registration. The reloaded phone asks about its command, learns it is registered, and restores nothing it should not
+  ---
+  duration_ms: 3.757209
+  type: 'test'
+  ...
+# Subtest: journey: refresh while the request is still on its way. The reloaded phone offers no new target, and names the registration when it lands
+ok 738 - journey: refresh while the request is still on its way. The reloaded phone offers no new target, and names the registration when it lands
+  ---
+  duration_ms: 5.419
+  type: 'test'
+  ...
+# Subtest: journey: refresh after a request that never arrived. Nothing is replayed, the card stays locked for that turn, and then says the shot was not registered
+ok 739 - journey: refresh after a request that never arrived. Nothing is replayed, the card stays locked for that turn, and then says the shot was not registered
+  ---
+  duration_ms: 11.379458
+  type: 'test'
+  ...
+# Subtest: journey: background and resume across a deadline. A choice left on screen is gone, nothing was sent, and the phone shows the server’s present
+ok 740 - journey: background and resume across a deadline. A choice left on screen is gone, nothing was sent, and the phone shows the server’s present
+  ---
+  duration_ms: 24.590875
+  type: 'test'
+  ...
+# Subtest: journey: resume with a command still unresolved. Returning to the foreground reconciles it before anything else is offered
+ok 741 - journey: resume with a command still unresolved. Returning to the foreground reconciles it before anything else is offered
+  ---
+  duration_ms: 7.833125
+  type: 'test'
+  ...
+# Subtest: journey: a registration is not a resolution. Stepping the script on shows no outcome on any screen
+ok 742 - journey: a registration is not a resolution. Stepping the script on shows no outcome on any screen
+  ---
+  duration_ms: 8.330375
+  type: 'test'
+  ...
+# Subtest: journey: a slow request. The phone says it is submitting, claims nothing, and registers only when the server has answered
+ok 743 - journey: a slow request. The phone says it is submitting, claims nothing, and registers only when the server has answered
+  ---
+  duration_ms: 9.661875
+  type: 'test'
+  ...
+# Subtest: authored fixture views are accepted and held as the current view
+ok 744 - authored fixture views are accepted and held as the current view
+  ---
+  duration_ms: 29.967959
+  type: 'test'
+  ...
+# Subtest: the public route cannot hold a player view, and a player route cannot hold a public one
+ok 745 - the public route cannot hold a player view, and a player route cannot hold a public one
+  ---
+  duration_ms: 3.296458
+  type: 'test'
+  ...
+# Subtest: a field the contract does not list never enters client state
+ok 746 - a field the contract does not list never enters client state
+  ---
+  duration_ms: 3.027792
+  type: 'test'
+  ...
+# Subtest: another protocol version is recognized as incompatible rather than corrupt
+ok 747 - another protocol version is recognized as incompatible rather than corrupt
+  ---
+  duration_ms: 0.246958
+  type: 'test'
+  ...
+# Subtest: the protocol probe trusts nothing but a well-formed version number
+ok 748 - the protocol probe trusts nothing but a well-formed version number
+  ---
+  duration_ms: 0.084334
+  type: 'test'
+  ...
+# Subtest: garbage is unreadable, never a crash and never a view
+ok 749 - garbage is unreadable, never a crash and never a view
+  ---
+  duration_ms: 0.638291
+  type: 'test'
+  ...
+# Subtest: a view for another match is refused
+ok 750 - a view for another match is refused
+  ---
+  duration_ms: 0.257458
+  type: 'test'
+  ...
+# Subtest: a seat keeps its identity: another seat or a different role is an integrity failure
+ok 751 - a seat keeps its identity: another seat or a different role is an integrity failure
+  ---
+  duration_ms: 0.296917
+  type: 'test'
+  ...
+# Subtest: pinned versions and player count cannot change during a match
+ok 752 - pinned versions and player count cannot change during a match
+  ---
+  duration_ms: 0.882833
+  type: 'test'
+  ...
+# Subtest: revisions only move forward; a repeat proves freshness and a conflict is refused
+ok 753 - revisions only move forward; a repeat proves freshness and a conflict is refused
+  ---
+  duration_ms: 1.174166
+  type: 'test'
+  ...
+# Subtest: the store exposes views and outcomes only, with no revision arithmetic for callers to misuse
+ok 754 - the store exposes views and outcomes only, with no revision arithmetic for callers to misuse
+  ---
+  duration_ms: 0.185959
+  type: 'test'
+  ...
+# Subtest: held views are frozen so no consumer can edit server facts in place
+ok 755 - held views are frozen so no consumer can edit server facts in place
+  ---
+  duration_ms: 0.12425
+  type: 'test'
+  ...
+# Subtest: the caller’s payload object is not retained, so later mutation of it changes nothing
+ok 756 - the caller’s payload object is not retained, so later mutation of it changes nothing
+  ---
+  duration_ms: 0.062125
+  type: 'test'
+  ...
+# Subtest: both fixture variants are indistinguishable to every store
+ok 757 - both fixture variants are indistinguishable to every store
+  ---
+  duration_ms: 0.528334
+  type: 'test'
+  ...
+# Subtest: token variables quote the Designer proposal exactly, in units that follow the reader’s font size
+ok 758 - token variables quote the Designer proposal exactly, in units that follow the reader’s font size
+  ---
+  duration_ms: 0.951209
+  type: 'test'
+  ...
+# Subtest: the token stylesheet is one :root rule that names the token version
+ok 759 - the token stylesheet is one :root rule that names the token version
+  ---
+  duration_ms: 0.201834
+  type: 'test'
+  ...
+# Subtest: a numeric token must really be a number: a string in its place cannot reach the stylesheet
+ok 760 - a numeric token must really be a number: a string in its place cannot reach the stylesheet
+  ---
+  duration_ms: 0.343458
+  type: 'test'
+  ...
+# Subtest: a token value that is not a plain CSS value is refused instead of written into a stylesheet
+ok 761 - a token value that is not a plain CSS value is refused instead of written into a stylesheet
+  ---
+  duration_ms: 0.078916
+  type: 'test'
+  ...
+# Subtest: the shell stylesheet takes every color and duration from a token variable
+ok 762 - the shell stylesheet takes every color and duration from a token variable
+  ---
+  duration_ms: 0.390666
+  type: 'test'
+  ...
+# Subtest: every custom property the stylesheet reads is defined by the tokens or by the stylesheet itself
+ok 763 - every custom property the stylesheet reads is defined by the tokens or by the stylesheet itself
+  ---
+  duration_ms: 0.15
+  type: 'test'
+  ...
+# Subtest: layout breakpoints are the two the tokens define, and both are used
+ok 764 - layout breakpoints are the two the tokens define, and both are used
+  ---
+  duration_ms: 0.175084
+  type: 'test'
+  ...
+# Subtest: reduced motion is honored for the device setting and for the in-app choice, and the choice wins
+ok 765 - reduced motion is honored for the device setting and for the in-app choice, and the choice wins
+  ---
+  duration_ms: 0.909792
+  type: 'test'
+  ...
+# Subtest: controls meet the minimum target size and keep a visible two-tone focus ring
+ok 766 - controls meet the minimum target size and keep a visible two-tone focus ring
+  ---
+  duration_ms: 0.269083
+  type: 'test'
+  ...
+# Subtest: the token pairs the shells use meet WCAG AA contrast (tokens only; compositing is not certified here)
+ok 767 - the token pairs the shells use meet WCAG AA contrast (tokens only; compositing is not certified here)
+  ---
+  duration_ms: 0.347916
+  type: 'test'
+  ...
+# Subtest: layout survives a narrow screen with enlarged text: found broken in a browser, kept fixed here
+ok 768 - layout survives a narrow screen with enlarged text: found broken in a browser, kept fixed here
+  ---
+  duration_ms: 4.904583
+  type: 'test'
+  ...
+# Subtest: the element reset cannot out-rank a component class
+ok 769 - the element reset cannot out-rank a component class
+  ---
+  duration_ms: 0.108125
+  type: 'test'
+  ...
+# Subtest: the stylesheet respects safe areas, user font size and forced colors
+ok 770 - the stylesheet respects safe areas, user font size and forced colors
+  ---
+  duration_ms: 0.093667
+  type: 'test'
+  ...
+# Subtest: a control that is not active yet looks it, and a picked-up card cannot be taken for keyboard focus
+ok 771 - a control that is not active yet looks it, and a picked-up card cannot be taken for keyboard focus
+  ---
+  duration_ms: 0.06225
+  type: 'test'
+  ...
+1..771
+# tests 771
+# suites 0
+# pass 771
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17055.433875
