@@ -36,6 +36,21 @@ The refreshed source identities are:
 - Registration: `04eff4ebef972c1e64d8f82f121709bd90461b4db42a8beb47be22c6b3e2b665`.
 - Closure: `d4abbfe7bc208d1b1d31bc0efa52f058191bb9bb48f734eef784eda2b874b513`.
 - Art 0.9 manifest: `4e30fcae9a8aa0899cb35d6f002b2d81f63f6548f11d937f6a55f214140bcd3c`.
+- Drawing policy: `939a66779b206f1115ad051fc90d8499192710790b7edef53ba49583920115b7`.
+
+The first combined verification on `777a67b8` correctly rejected six stale
+entries in the drawing-policy supplement. Integration refreshed only those
+reviewed input identities, the corresponding port/build hashes and the
+independent policy hash. Fence logic, allowed paths/literals, historical
+approvals, visual sources and test assertions are unchanged. New exact-head
+verification remains required.
+
+After that correction, the six existing tooling files (`food-consumer-source`,
+`food-consumer-approval`, `food-supply-art`, `crew-art-release`,
+`hospital-four-drawing-approval` and `pregame-fence`) passed **49/49 tests**
+under pinned Node 22.21.1 with test concurrency 1. This includes the original
+negative hash/port/approval assertions; none was weakened. Combined CI remains
+a separate exact-head gate.
 
 The separately instrumented Backend WINCH diagnostic completed delivery,
 return, physical Pass/meal and cleanup, and restored official d5. It is not
