@@ -1,0 +1,35 @@
+{
+  "scope": "Development-only final build provenance correction. Original8ff evidence remains unchanged. Final JS/CSS/static byte equality is recorded independently.",
+  "files": [
+    {
+      "path": "component-build-provenance.json",
+      "sha256": "1a52fbba50cda5137d5dfc780a76ef6b4f38c82e33c2c96ad6c928ab4488ad74",
+      "bytes": 51673
+    },
+    {
+      "path": "component-build.txt",
+      "sha256": "0641b0512fc767fd72f1ec49d6db13917abf82ad2875b7630447ca06f30e5ae3",
+      "bytes": 8466
+    },
+    {
+      "path": "connected-build-provenance.json",
+      "sha256": "e4461f3a7702493e85db65b28bb94d10d3c662da08554b545b1070f8d9250c5f",
+      "bytes": 50495
+    },
+    {
+      "path": "connected-build.txt",
+      "sha256": "e8eb7835dd7359670c55c2ab624c135a18f0690088c6fd91b4c5487ff0db7d1f",
+      "bytes": 8726
+    },
+    {
+      "path": "final-file-verification.json",
+      "sha256": "e2034f62f19069cf644e87d356cdd33613391c5b157638a88f46a8d6d44fe7a3",
+      "bytes": 29753
+    },
+    {
+      "path": "original-8ff-final-files.json",
+      "sha256": "66d4dab804b6b30c438216e5c00b293399f6e180a90a3c391d6d0be71140114d",
+      "bytes": 25885
+    }
+  ]
+}
