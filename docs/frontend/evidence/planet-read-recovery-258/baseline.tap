@@ -1,0 +1,383 @@
+TAP version 13
+# Subtest: a stalled hosted READ idToken settles at its actual deadline
+not ok 1 - a stalled hosted READ idToken settles at its actual deadline
+  ---
+  duration_ms: 6.033375
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:7:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    the actual READ must finish, not leave future polls behind the same never-settling promise
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:12:34)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: a stalled hosted READ appCheck settles at its actual deadline
+not ok 2 - a stalled hosted READ appCheck settles at its actual deadline
+  ---
+  duration_ms: 0.979542
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:7:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    the actual READ must finish, not leave future polls behind the same never-settling promise
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:12:34)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a stalled hosted READ headers settles at its actual deadline
+not ok 3 - a stalled hosted READ headers settles at its actual deadline
+  ---
+  duration_ms: 0.846041
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:7:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    the actual READ must finish, not leave future polls behind the same never-settling promise
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:12:34)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a stalled hosted READ body settles at its actual deadline
+not ok 4 - a stalled hosted READ body settles at its actual deadline
+  ---
+  duration_ms: 0.75275
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:7:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    the actual READ must finish, not leave future polls behind the same never-settling promise
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:12:34)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: the scheduled poll recovers after a transient READ failure without refresh or reload
+ok 5 - the scheduled poll recovers after a transient READ failure without refresh or reload
+  ---
+  duration_ms: 4.209458
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled idToken keeps one logical READ and the same seat
+not ok 6 - scheduled recovery after a stalled idToken keeps one logical READ and the same seat
+  ---
+  duration_ms: 5.9495
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:25:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    a scheduled fresh READ must recover without a caller refresh
+    
+    'stale' !== 'live'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'live'
+  actual: 'stale'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:29:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: scheduled recovery after a stalled appCheck keeps one logical READ and the same seat
+not ok 7 - scheduled recovery after a stalled appCheck keeps one logical READ and the same seat
+  ---
+  duration_ms: 4.136333
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:25:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    a scheduled fresh READ must recover without a caller refresh
+    
+    'stale' !== 'live'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'live'
+  actual: 'stale'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:29:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: scheduled recovery after a stalled headers keeps one logical READ and the same seat
+not ok 8 - scheduled recovery after a stalled headers keeps one logical READ and the same seat
+  ---
+  duration_ms: 3.279583
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:25:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    a scheduled fresh READ must recover without a caller refresh
+    
+    'stale' !== 'live'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'live'
+  actual: 'stale'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:29:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: scheduled recovery after a stalled body keeps one logical READ and the same seat
+not ok 9 - scheduled recovery after a stalled body keeps one logical READ and the same seat
+  ---
+  duration_ms: 9.7645
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:25:60'
+  failureType: 'testCodeFailure'
+  error: |-
+    a scheduled fresh READ must recover without a caller refresh
+    
+    'stale' !== 'live'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'live'
+  actual: 'stale'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:29:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a finite READ past8s retains its original clock window and never starts an overlapping read
+ok 10 - a finite READ past8s retains its original clock window and never starts an overlapping read
+  ---
+  duration_ms: 1.971
+  type: 'test'
+  ...
+# Subtest: overdue idToken cannot beat a delayed deadline timer
+not ok 11 - overdue idToken cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.543667
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:49:60'
+  failureType: 'testCodeFailure'
+  error: 'a monotonic elapsed-budget fence rejects even before the overdue timer runs'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:53:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: overdue appCheck cannot beat a delayed deadline timer
+not ok 12 - overdue appCheck cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.341291
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:49:60'
+  failureType: 'testCodeFailure'
+  error: 'a monotonic elapsed-budget fence rejects even before the overdue timer runs'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:53:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: overdue headers cannot beat a delayed deadline timer
+not ok 13 - overdue headers cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.335834
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:49:60'
+  failureType: 'testCodeFailure'
+  error: 'a monotonic elapsed-budget fence rejects even before the overdue timer runs'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:53:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: overdue body cannot beat a delayed deadline timer
+not ok 14 - overdue body cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.337708
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:49:60'
+  failureType: 'testCodeFailure'
+  error: 'a monotonic elapsed-budget fence rejects even before the overdue timer runs'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:53:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: an overdue credential completion expires acquisition even if its sibling is still pending
+not ok 15 - an overdue credential completion expires acquisition even if its sibling is still pending
+  ---
+  duration_ms: 0.147708
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:58:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:62:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: deadline cancellation owns the old READ until headers actually settle
+not ok 16 - deadline cancellation owns the old READ until headers actually settle
+  ---
+  duration_ms: 2.836209
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:65:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:68:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: blur/focus during a stalled old-generation READ recovers automatically with a fresh clock and role
+not ok 17 - blur/focus during a stalled old-generation READ recovers automatically with a fresh clock and role
+  ---
+  duration_ms: 3.930042
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:74:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'stale' !== 'live'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'live'
+  actual: 'stale'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:80:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a finite old-generation reply cannot repaint private data or calibrate the resumed clock
+ok 18 - a finite old-generation reply cannot repaint private data or calibrate the resumed clock
+  ---
+  duration_ms: 7.35775
+  type: 'test'
+  ...
+# Subtest: a stalled READ cannot delay or cancel the original causal Hold UP
+not ok 19 - a stalled READ cannot delay or cancel the original causal Hold UP
+  ---
+  duration_ms: 3.943917
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:94:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'stale' !== 'live'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'live'
+  actual: 'stale'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-read-recovery-258/apps/game/test/planet-read-lifetime.test.mjs:102:39)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: an unknown committed Abort keeps its original ID/body across reads, reload and Retry
+ok 20 - an unknown committed Abort keeps its original ID/body across reads, reload and Retry
+  ---
+  duration_ms: 3.172916
+  type: 'test'
+  ...
+# Subtest: successful READ cleanup removes its deadline rather than aborting a later operation
+ok 21 - successful READ cleanup removes its deadline rather than aborting a later operation
+  ---
+  duration_ms: 0.363166
+  type: 'test'
+  ...
+# Subtest: mutation token acquisition remains unchanged and never inherits a READ deadline
+ok 22 - mutation token acquisition remains unchanged and never inherits a READ deadline
+  ---
+  duration_ms: 0.081416
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 6
+# fail 16
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 136.609458
