@@ -1,7 +1,7 @@
 {
   "schema": "mothership.food-consumer-source/1",
   "status": "reviewed-source-candidate",
-  "candidateHead": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
+  "candidateHead": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
   "designerHead": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
   "scope": "Exact technical source compatibility for Food test 1. This is not Designer visual acceptance, production adoption, creation enablement or deployment.",
   "target": {
@@ -25,8 +25,8 @@
   },
   "closure": {
     "path": "docs/frontend/food-supply-render-closure.json",
-    "sha256": "b260eea51594dc804930754c8602b31455ecf30297d01beed6a2f970612923b7",
-    "bytes": 11192
+    "sha256": "67dd9984b1be905e36c31a35195465ec0c09b0816c630bc62f6062f9d526dbbd",
+    "bytes": 12149
   },
   "staticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
@@ -286,9 +286,9 @@
     },
     "apps/game/src/planet/food.ts": {
       "previousSha256": null,
-      "sha256": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
-      "bytes": 18812,
-      "candidateBlob": "design/releases/candidate-blobs/353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
+      "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+      "bytes": 19238,
+      "candidateBlob": "design/releases/candidate-blobs/b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
       "acceptedPreviousHashes": []
     },
     "apps/game/src/planet/food-input.ts": {

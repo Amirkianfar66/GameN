@@ -1,0 +1,276 @@
+TAP version 13
+# Subtest: a valid old projection can fail if re-dated past its deadline; diagnostic retains only scalar facts
+ok 1 - a valid old projection can fail if re-dated past its deadline; diagnostic retains only scalar facts
+  ---
+  duration_ms: 12.587084
+  type: 'test'
+  ...
+# Subtest: clock-unavailable observations never invent a rewritten projection time
+ok 2 - clock-unavailable observations never invent a rewritten projection time
+  ---
+  duration_ms: 0.389792
+  type: 'test'
+  ...
+# Subtest: causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+ok 3 - causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+  ---
+  duration_ms: 7.778208
+  type: 'test'
+  ...
+# Subtest: release retains original Task/session/context after offers and crate generation change
+ok 4 - release retains original Task/session/context after offers and crate generation change
+  ---
+  duration_ms: 1.540458
+  type: 'test'
+  ...
+# Subtest: connection loss alone sends no release; observed backgrounding sends UP before conceal
+ok 5 - connection loss alone sends no release; observed backgrounding sends UP before conceal
+  ---
+  duration_ms: 0.525458
+  type: 'test'
+  ...
+# Subtest: wrong authentication cannot release an original contact or expose its view
+ok 6 - wrong authentication cannot release an original contact or expose its view
+  ---
+  duration_ms: 0.514667
+  type: 'test'
+  ...
+# Subtest: unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+ok 7 - unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+  ---
+  duration_ms: 0.455792
+  type: 'test'
+  ...
+# Subtest: reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+ok 8 - reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+  ---
+  duration_ms: 1.326625
+  type: 'test'
+  ...
+# Subtest: recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+ok 9 - recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+  ---
+  duration_ms: 1.479208
+  type: 'test'
+  ...
+# Subtest: saved unacknowledged high-water participates in fresh explicit off recovery
+ok 10 - saved unacknowledged high-water participates in fresh explicit off recovery
+  ---
+  duration_ms: 1.50225
+  type: 'test'
+  ...
+# Subtest: verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload
+ok 11 - verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload
+  ---
+  duration_ms: 1.513458
+  type: 'test'
+  ...
+# Subtest: verified closure preserves unknown commands outside its exact original contact boundary
+    # Subtest: other Task
+    ok 1 - other Task
+      ---
+      duration_ms: 0.972458
+      type: 'test'
+      ...
+    # Subtest: other control session
+    ok 2 - other control session
+      ---
+      duration_ms: 0.511959
+      type: 'test'
+      ...
+    # Subtest: higher sequence
+    ok 3 - higher sequence
+      ---
+      duration_ms: 0.662167
+      type: 'test'
+      ...
+    # Subtest: other phase
+    ok 4 - other phase
+      ---
+      duration_ms: 1.243333
+      type: 'test'
+      ...
+    # Subtest: other Food step
+    ok 5 - other Food step
+      ---
+      duration_ms: 0.678458
+      type: 'test'
+      ...
+    # Subtest: other round
+    ok 6 - other round
+      ---
+      duration_ms: 1.108167
+      type: 'test'
+      ...
+    # Subtest: non-Hold input
+    ok 7 - non-Hold input
+      ---
+      duration_ms: 1.043083
+      type: 'test'
+      ...
+    1..7
+ok 12 - verified closure preserves unknown commands outside its exact original contact boundary
+  ---
+  duration_ms: 6.756042
+  type: 'test'
+  ...
+# Subtest: rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN
+    # Subtest: rejected
+    ok 1 - rejected
+      ---
+      duration_ms: 1.042375
+      type: 'test'
+      ...
+    # Subtest: wrong boundary
+    ok 2 - wrong boundary
+      ---
+      duration_ms: 0.831042
+      type: 'test'
+      ...
+    1..2
+ok 13 - rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN
+  ---
+  duration_ms: 3.535541
+  type: 'test'
+  ...
+# Subtest: a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt
+ok 14 - a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt
+  ---
+  duration_ms: 0.98725
+  type: 'test'
+  ...
+# Subtest: only the original matching receipt can settle; a foreign Task/session or command remains unknown
+ok 15 - only the original matching receipt can settle; a foreign Task/session or command remains unknown
+  ---
+  duration_ms: 0.390542
+  type: 'test'
+  ...
+# Subtest: clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+ok 16 - clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+  ---
+  duration_ms: 0.691209
+  type: 'test'
+  ...
+# Subtest: server time unavailability and deadline shut inputs without advancing or extending the Task
+ok 17 - server time unavailability and deadline shut inputs without advancing or extending the Task
+  ---
+  duration_ms: 0.534125
+  type: 'test'
+  ...
+# Subtest: a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+ok 18 - a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+  ---
+  duration_ms: 0.680541
+  type: 'test'
+  ...
+# Subtest: one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+ok 19 - one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+  ---
+  duration_ms: 0.242917
+  type: 'test'
+  ...
+# Subtest: assistive activation releases a recovered pressed Hold through the same single control
+ok 20 - assistive activation releases a recovered pressed Hold through the same single control
+  ---
+  duration_ms: 0.040708
+  type: 'test'
+  ...
+# Subtest: accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+ok 21 - accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+  ---
+  duration_ms: 0.203958
+  type: 'test'
+  ...
+# Subtest: a same-Task death or outcome cannot be rewritten by a later view revision
+ok 22 - a same-Task death or outcome cannot be rewritten by a later view revision
+  ---
+  duration_ms: 0.334291
+  type: 'test'
+  ...
+# Subtest: an adapter cannot mutate the original DOWN that a later UP must close
+ok 23 - an adapter cannot mutate the original DOWN that a later UP must close
+  ---
+  duration_ms: 0.184
+  type: 'test'
+  ...
+# Subtest: future original receipt time stays unknown and lookup sends only its strict identity context
+ok 24 - future original receipt time stays unknown and lookup sends only its strict identity context
+  ---
+  duration_ms: 0.203375
+  type: 'test'
+  ...
+# Subtest: network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it
+ok 25 - network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it
+  ---
+  duration_ms: 0.151584
+  type: 'test'
+  ...
+# Subtest: Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+ok 26 - Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+  ---
+  duration_ms: 10.181625
+  type: 'test'
+  ...
+# Subtest: a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+ok 27 - a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+  ---
+  duration_ms: 5.306625
+  type: 'test'
+  ...
+# Subtest: one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+ok 28 - one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+  ---
+  duration_ms: 4.948917
+  type: 'test'
+  ...
+# Subtest: snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+ok 29 - snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+  ---
+  duration_ms: 9.501333
+  type: 'test'
+  ...
+# Subtest: a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+ok 30 - a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+  ---
+  duration_ms: 4.682458
+  type: 'test'
+  ...
+# Subtest: hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+ok 31 - hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+  ---
+  duration_ms: 1.77275
+  type: 'test'
+  ...
+# Subtest: a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+ok 32 - a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+  ---
+  duration_ms: 6.076375
+  type: 'test'
+  ...
+# Subtest: mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+ok 33 - mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+  ---
+  duration_ms: 2.003833
+  type: 'test'
+  ...
+# Subtest: lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+ok 34 - lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+  ---
+  duration_ms: 1.675458
+  type: 'test'
+  ...
+# Subtest: explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+ok 35 - explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+  ---
+  duration_ms: 9.786
+  type: 'test'
+  ...
+1..35
+# tests 44
+# suites 0
+# pass 44
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 181.259042

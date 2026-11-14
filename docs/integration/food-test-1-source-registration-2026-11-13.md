@@ -1,5 +1,9 @@
 # Food test 1 source and release checkpoint
 
+Historical 13 November checkpoint. Current adoption, Designer acceptance and
+the failed first connected matrix are recorded in the
+[14 November Integration review](food-test-1-review-2026-11-14.md).
+
 This is the fixed release in [#237](https://github.com/Amirkianfar66/GameN/issues/237):
 the existing Planet game plus the approved Food Supply Task, stock, meals and
 hunger. It excludes #227, the general #228 text redesign, #230 ship life, new

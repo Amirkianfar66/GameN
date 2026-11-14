@@ -1,0 +1,186 @@
+{
+  "scope": "Recovery correction evidence; not connected gameplay proof or Designer approval",
+  "captureSource": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+  "files": [
+    {
+      "path": "app-smoke/320-568-text2-normal-aborted-recovered.png",
+      "bytes": 15773,
+      "sha256": "12058a010572058b0fb6523c75a7a6642e9b6fdeb17029c737d9693f8c6530c5"
+    },
+    {
+      "path": "app-smoke/320-568-text2-normal-task.png",
+      "bytes": 91850,
+      "sha256": "9119db1199d14cb82b86d97f8cf2ce43479bd44ab35580ed29205fb744bdcaab"
+    },
+    {
+      "path": "app-smoke/320-568-text2-normal-tasks.png",
+      "bytes": 103453,
+      "sha256": "291da97c568ab0ba59c047274866d00aa05e533a564924d36a0c066f6b8a7459"
+    },
+    {
+      "path": "app-smoke/320-568-text2-reduced-aborted-recovered.png",
+      "bytes": 15773,
+      "sha256": "12058a010572058b0fb6523c75a7a6642e9b6fdeb17029c737d9693f8c6530c5"
+    },
+    {
+      "path": "app-smoke/320-568-text2-reduced-task.png",
+      "bytes": 91850,
+      "sha256": "9119db1199d14cb82b86d97f8cf2ce43479bd44ab35580ed29205fb744bdcaab"
+    },
+    {
+      "path": "app-smoke/320-568-text2-reduced-tasks.png",
+      "bytes": 103453,
+      "sha256": "291da97c568ab0ba59c047274866d00aa05e533a564924d36a0c066f6b8a7459"
+    },
+    {
+      "path": "app-smoke/390-844-text1-normal-aborted-recovered.png",
+      "bytes": 11671,
+      "sha256": "d5a186565feba2d4fc1c0c678f6afb463d6b3a4625466131210d27914ba7430a"
+    },
+    {
+      "path": "app-smoke/390-844-text1-normal-task.png",
+      "bytes": 155166,
+      "sha256": "9333bf6d1fb7c38114f4280fdcf789024e8a85d7547050bd62845510895f9687"
+    },
+    {
+      "path": "app-smoke/390-844-text1-normal-tasks.png",
+      "bytes": 147723,
+      "sha256": "e5a5936cdbed8c5a0a1dfc9af964d1a97b955432e3e969d22551bcefeb57d75c"
+    },
+    {
+      "path": "app-smoke/390-844-text1-reduced-aborted-recovered.png",
+      "bytes": 11671,
+      "sha256": "d5a186565feba2d4fc1c0c678f6afb463d6b3a4625466131210d27914ba7430a"
+    },
+    {
+      "path": "app-smoke/390-844-text1-reduced-task.png",
+      "bytes": 155166,
+      "sha256": "9333bf6d1fb7c38114f4280fdcf789024e8a85d7547050bd62845510895f9687"
+    },
+    {
+      "path": "app-smoke/390-844-text1-reduced-tasks.png",
+      "bytes": 147891,
+      "sha256": "05d56d36a41282d65ecc90a7ccf92b60942fc03cb68dfb05dde4aa1b45c8dfe4"
+    },
+    {
+      "path": "app-smoke/result.json",
+      "bytes": 8272,
+      "sha256": "fde10de7b91c33ca7dacbbefc9e81d4a5422110e37786e79af8328fb26848d57"
+    },
+    {
+      "path": "checks/app-smoke.txt",
+      "bytes": 82,
+      "sha256": "eaac3ffbdec1d1aad697b273ab66f0708e86a0f57bedad2bab13783e136a563f"
+    },
+    {
+      "path": "checks/before-fix.txt",
+      "bytes": 9649,
+      "sha256": "bc7bc7abd16dd1c9bb4a632ab723dff5e578a864ac955a4c86515f75f4c51d9e"
+    },
+    {
+      "path": "checks/build.txt",
+      "bytes": 47,
+      "sha256": "65caae119d3cdc1cb4db17194f127918afabb907ffb786a347380306140d26b2"
+    },
+    {
+      "path": "checks/focused.txt",
+      "bytes": 10523,
+      "sha256": "50e30aa17bea475694abcc44109598cdd80f92dde73e0aec1849baee31cff3cb"
+    },
+    {
+      "path": "checks/production-exclusion.txt",
+      "bytes": 193,
+      "sha256": "67044916a85f9537e56af2a9f82522d99b6d081e34504e4d3dda793e26733501"
+    },
+    {
+      "path": "checks/recovery-capture.txt",
+      "bytes": 79,
+      "sha256": "82774da9ce98a54be3768dfbce142bd6771f927a46b1897062331b1aa67766b9"
+    },
+    {
+      "path": "checks/regressions-local-server-denied.txt",
+      "bytes": 252771,
+      "sha256": "c8fa14f731c9e67106465fd9aadf1c166291f2366fb5946278ae82a4b7dd7135"
+    },
+    {
+      "path": "checks/regressions.txt",
+      "bytes": 249371,
+      "sha256": "ab62f5821fbf2f221fe75ae204f4515a7dcf6a451b2fd2965807270065e1c748"
+    },
+    {
+      "path": "checks/review-build.txt",
+      "bytes": 8576,
+      "sha256": "683c367a3b67723dd581460e2745f36ec5350d93dbf62c8a6e9f5efc6ec89291"
+    },
+    {
+      "path": "recovery/320-568-text2-normal-pending.png",
+      "bytes": 77803,
+      "sha256": "1346c8cb1fa5839546017ca3c5854f43624381fce70356af9dcf99ee76c3efd6"
+    },
+    {
+      "path": "recovery/320-568-text2-normal-recovered.png",
+      "bytes": 77810,
+      "sha256": "086d4c3ffa4c07c188de921d322996b0b2acbcc3223419ad94146823ea7bdb4a"
+    },
+    {
+      "path": "recovery/320-568-text2-normal-reloaded.png",
+      "bytes": 96622,
+      "sha256": "eb5117b10ac2df53032aae7d8f1f40bbe661c2448849cae8dcae1e91f4402e68"
+    },
+    {
+      "path": "recovery/320-568-text2-reduced-pending.png",
+      "bytes": 77806,
+      "sha256": "f758d34f86c5f496ee8749215f0fee55f836020deb455f33a7a9c4431948d6fb"
+    },
+    {
+      "path": "recovery/320-568-text2-reduced-recovered.png",
+      "bytes": 77810,
+      "sha256": "086d4c3ffa4c07c188de921d322996b0b2acbcc3223419ad94146823ea7bdb4a"
+    },
+    {
+      "path": "recovery/320-568-text2-reduced-reloaded.png",
+      "bytes": 96695,
+      "sha256": "9d1fe521ef36148dafbf2a0781bbf4da32b53b58210fbe7e4212d5a1f5f3da60"
+    },
+    {
+      "path": "recovery/390-844-text1-normal-pending.png",
+      "bytes": 150614,
+      "sha256": "f4c38eb7a18e26557c63be64e2c127a40f5cc8538c4f06ed18a8821613321e68"
+    },
+    {
+      "path": "recovery/390-844-text1-normal-recovered.png",
+      "bytes": 155123,
+      "sha256": "5344a293a16ab80b257a1be8189f8c6fc8638874fe869a4c43f55ecc1ec3905f"
+    },
+    {
+      "path": "recovery/390-844-text1-normal-reloaded.png",
+      "bytes": 153379,
+      "sha256": "11b4a7ee0fa312e53c57a535724307a42c7fe18ba136ad8921c6ad69d690d3fa"
+    },
+    {
+      "path": "recovery/390-844-text1-reduced-pending.png",
+      "bytes": 150550,
+      "sha256": "5a31f5fa76bfc9e632a8419d1b16c39dd74841dd9efc71f6b58a808389d03883"
+    },
+    {
+      "path": "recovery/390-844-text1-reduced-recovered.png",
+      "bytes": 155098,
+      "sha256": "2d86b6a08bf28bf66e031196987d9db78ac696ae74c6150e61c9d39e6aa514c6"
+    },
+    {
+      "path": "recovery/390-844-text1-reduced-reloaded.png",
+      "bytes": 153329,
+      "sha256": "79c7aa02828428d5613705c0450d34f2e6a29e5362bf7202f5070326183961e5"
+    },
+    {
+      "path": "recovery/result.json",
+      "bytes": 71367,
+      "sha256": "3ff0dc60581b298ccd4b94b1dae934b08060a2ee3b82fcd5360d123c1bd8dad8"
+    },
+    {
+      "path": "recovery/source-equivalence.json",
+      "bytes": 31812,
+      "sha256": "f8a441d0eac1102e2cc869b236b8af11fa7d104341a8d5f40062fac28f49158e"
+    }
+  ]
+}

@@ -33,7 +33,7 @@ export interface FoodTaskController {
  checkReceipts():Promise<void>;retry():Promise<void>;
  setVisible(visible:boolean):void;disconnect(kind?:'network'|'authorization'):void;dispose():void;
 }
-interface Entry {original:FoodStoredRequest;request:FoodTaskCommandRequest|null;status:'sending'|'unknown'|'checking';order:number;closedByRecovery:boolean;observedRevision:number}
+interface Entry {original:FoodStoredRequest;request:FoodTaskCommandRequest|null;status:'sending'|'unknown'|'checking';order:number;observedRevision:number}
 const isHold=(q:FoodStoredRequest)=>q.command.type==='TASK_PRESS'&&q.command.input.kind==='HOLD';
 function pressName(q:FoodStoredRequest):FoodPressName {
  const c=q.command;
@@ -64,7 +64,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   const t=task(),r=time();return live()&&t!==null&&t.stage!=='ENDED'&&t.people.some(p=>p.seatId===binding.seatId&&p.alive)
    &&r.status==='synced'&&r.serverNowMs+r.uncertaintyMs<t.deadlineAt;
  };
- const pending=()=>entries.some(e=>!e.closedByRecovery&&e.original.phaseId===view?.phaseId);
+ const pending=()=>entries.some(e=>e.original.phaseId===view?.phaseId);
  const base=()=>live()&&!storageBlocked&&!pending()&&!(accepted&&accepted.phaseId===view?.phaseId&&view.viewRevision<=accepted.revision)&&entries.length<FOOD_RECOVERY_LIMIT-2;
  const pressOffer=()=>view?.offers.find(o=>o.type==='TASK_PRESS');
  const offered=(kind:'HOLD'|'PANEL_RELEASE'|'PANEL_LOCK'|'KEY')=>{const r=time();return base()&&taskOpen()&&!!pressOffer()?.inputs.includes(kind)
@@ -81,7 +81,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  try{
   const raw=ports.recovery.load();
   if(raw!==null){const saved=readFoodRecovery(raw,binding);contact=saved.contact;
-   for(const original of saved.entries)entries.push({original,request:null,status:'unknown',order:++order,closedByRecovery:false,observedRevision:-1});
+   for(const original of saved.entries)entries.push({original,request:null,status:'unknown',order:++order,observedRevision:-1});
    if(entries.length){const e=entries.at(-1)!;feedback={commandId:e.original.commandId,name:pressName(e.original),status:'unknown',receipt:null,recovered:false};feedbackOrder=e.order;}}
  }catch{storageBlocked=true;message='Command recovery could not be verified. Reconnect the original seat.';}
  function getModel():FoodTaskModel {
@@ -118,8 +118,13 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    if(receipt===null){e.status='unknown';announce(e,'unknown');save();emit();return;}
    if(receipt.status==='accepted'&&receipt.result.kind==='INPUT'&&receipt.result.effect==='RECOVERED_CLOSED'){
     const q=e.original.command,through=receipt.result.closedThroughSequence!;
-    if(q.type==='TASK_PRESS')for(const old of entries){const c=old.original.command;
-     if(c.type==='TASK_PRESS'&&c.taskId===q.taskId&&c.controlSessionId===q.controlSessionId&&c.input.kind==='HOLD'&&c.input.gestureSequence<=through)old.closedByRecovery=true;}
+    // The verified recovery receipt closes these contacts even if their inputs
+    // never arrived and can have no individual receipt. Retire only that exact
+    // boundary so reload cannot restore them as unresolved. No input outcome is
+    // inferred; unrelated originals remain available for their own receipt.
+    if(q.type==='TASK_PRESS'&&q.input.kind==='HOLD_RECOVER_OFF')for(let i=entries.length-1;i>=0;i--){const old=entries[i]!,o=old.original,c=o.command;
+     if(o.phaseId===e.original.phaseId&&o.foodStepId===e.original.foodStepId&&o.round===e.original.round
+      &&c.type==='TASK_PRESS'&&c.taskId===q.taskId&&c.controlSessionId===q.controlSessionId&&c.input.kind==='HOLD'&&c.input.gestureSequence<=through)entries.splice(i,1);}
    }
    if(receipt.status==='accepted'&&!isHold(e.original)&&!(e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF')
     &&(receipt.result.kind==='REQUEST'||receipt.result.effect==='APPLIED')&&view?.phaseId===e.original.phaseId){
@@ -135,13 +140,13 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   if(!auth()||e.request===null)return;
   e.status='sending';announce(e,'sending');emit();
   const answer=await bounded(()=>transport.command(structuredClone(e.request!)));
-  if(!auth())return;
+  if(!auth()||!entries.includes(e))return;
   if(!answer||!Number.isFinite(answer.serverTimeMs)){e.status='unknown';announce(e,'unknown');save();emit();return;}
   settle(e,answer.receipt,answer.serverTimeMs);
  }
  function enqueue(q:FoodTaskCommandRequest,release=false):Promise<void> {
   if(!auth()||entries.length>=FOOD_RECOVERY_LIMIT&&!release)return Promise.resolve();
-  const e:Entry={original:foodStoredRequest(q),request:q,status:'sending',order:++order,closedByRecovery:false,observedRevision:view?.viewRevision??-1};entries.push(e);
+  const e:Entry={original:foodStoredRequest(q),request:q,status:'sending',order:++order,observedRevision:view?.viewRevision??-1};entries.push(e);
   // A storage failure closes new inputs. An already-held finger still releases.
   if(!save()&&!release){entries.splice(entries.indexOf(e),1);emit();return Promise.resolve();}
   return send(e);
@@ -150,11 +155,11 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   if(checking)return checking;if(!auth()||!visible)return;
   checking=(async()=>{
    for(const e of [...entries]){
-    if(!auth()||!visible)break;if(e.status!=='unknown')continue;e.status='checking';emit();
+    if(!auth()||!visible)break;if(!entries.includes(e)||e.status!=='unknown')continue;e.status='checking';emit();
     const q=e.original,receiptContext:FoodReceiptContext={schemaVersion:q.schemaVersion,protocolVersion:q.protocolVersion,matchId:q.matchId,
      phaseId:q.phaseId,foodStepId:q.foodStepId,round:q.round,commandId:q.commandId};
     const answer=await bounded(()=>transport.receipt(receiptContext));
-    if(!auth())break;
+    if(!auth())break;if(!entries.includes(e))continue;
     if(answer&&Number.isFinite(answer.serverTimeMs))settle(e,answer.receipt,answer.serverTimeMs,true);
     else {e.status='unknown';announce(e,'unknown');emit();}
    }
@@ -165,9 +170,9 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   try{
    await checkReceipts();const t=task();
    if(!taskOpen()||!t?.ownGesture||!sameContact(t)||!contact?.offObserved)return;
-   if(entries.some(e=>e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF'&&!e.closedByRecovery))return;
+   if(entries.some(e=>e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF'))return;
    const through=Math.max(t.ownGesture.highestSequence,contact.highestSequence);
-   const uncertain=entries.some(e=>{const c=e.original.command;return !e.closedByRecovery&&c.type==='TASK_PRESS'&&c.taskId===t.taskId&&c.controlSessionId===t.controlSessionId&&isHold(e.original);});
+   const uncertain=entries.some(e=>{const c=e.original.command;return c.type==='TASK_PRESS'&&c.taskId===t.taskId&&c.controlSessionId===t.controlSessionId&&isHold(e.original);});
    if(!t.ownGesture.currentHolder&&!t.ownGesture.pendingIntent&&!uncertain)return;
    await enqueue(request({type:'TASK_PRESS',taskId:t.taskId,controlSessionId:t.controlSessionId,expectedControlRevision:t.controlRevision,
     input:{kind:'HOLD_RECOVER_OFF',recoveryRevision:t.ownGesture.recoveryRevision,throughSequence:through}}),true);

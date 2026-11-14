@@ -1,0 +1,252 @@
+TAP version 13
+# Subtest: verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload
+not ok 1 - verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload
+  ---
+  duration_ms: 5.388958
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:89:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    2 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:96:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: verified closure preserves unknown commands outside its exact original contact boundary
+    # Subtest: other Task
+    not ok 1 - other Task
+      ---
+      duration_ms: 1.449667
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    # Subtest: other control session
+    not ok 2 - other control session
+      ---
+      duration_ms: 0.754291
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    # Subtest: higher sequence
+    not ok 3 - higher sequence
+      ---
+      duration_ms: 0.793916
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    # Subtest: other phase
+    not ok 4 - other phase
+      ---
+      duration_ms: 1.415458
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    # Subtest: other Food step
+    not ok 5 - other Food step
+      ---
+      duration_ms: 0.62825
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    # Subtest: other round
+    not ok 6 - other round
+      ---
+      duration_ms: 0.419584
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    # Subtest: non-Hold input
+    not ok 7 - non-Hold input
+      ---
+      duration_ms: 0.605125
+      type: 'test'
+      location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:61'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        3 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 3
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:122:10)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:117:53)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+      ...
+    1..7
+not ok 2 - verified closure preserves unknown commands outside its exact original contact boundary
+  ---
+  duration_ms: 6.521417
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:107:1'
+  failureType: 'subtestsFailed'
+  error: '7 subtests failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN
+    # Subtest: rejected
+    ok 1 - rejected
+      ---
+      duration_ms: 0.752666
+      type: 'test'
+      ...
+    # Subtest: wrong boundary
+    ok 2 - wrong boundary
+      ---
+      duration_ms: 0.448458
+      type: 'test'
+      ...
+    1..2
+ok 3 - rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN
+  ---
+  duration_ms: 1.345625
+  type: 'test'
+  ...
+# Subtest: a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt
+not ok 4 - a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt
+  ---
+  duration_ms: 0.469333
+  type: 'test'
+  location: '/private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:136:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    2 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-frontend-food-supply/apps/game/test/food-controller.test.mjs:139:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..4
+# tests 13
+# suites 0
+# pass 3
+# fail 10
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 125.983958

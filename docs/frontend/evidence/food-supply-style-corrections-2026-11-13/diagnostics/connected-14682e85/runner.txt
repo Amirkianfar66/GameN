@@ -1,0 +1,12 @@
+{"count":7,"trace":"612566de0d46","stage":"CREATED"}
+{"count":7,"trace":"612566de0d46","stage":"SETUP"}
+{"count":7,"trace":"612566de0d46","stage":"READY"}
+file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:29
+async function waitFor(fn,label,limit=120000){const end=performance.now()+limit;while(performance.now()<end){const value=await fn();if(value)return value;await sleep(250);}throw Error('Timed out: '+label);}
+                                                                                                                                                                                  ^
+
+Error: Timed out: automatic private invitation
+    at waitFor (file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:29:179)
+    at async file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:64:4
+
+Node.js v22.21.1

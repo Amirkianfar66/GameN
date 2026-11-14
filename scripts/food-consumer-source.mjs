@@ -6,7 +6,7 @@ import {posix, resolve} from 'node:path';
 import {prepareFoodSupplyArt, FOOD_STATIC_ART, FOOD_STATIC_ART_SHA256} from './food-supply-art.mjs';
 
 export const FOOD_CONSUMER_SOURCE = 'docs/integration/food-consumer-source-2026-11-13.json';
-export const FOOD_CONSUMER_SOURCE_SHA256 = 'e4bcaae511a8924b9248c72c8ef98278be56ecd99bb588861a4a8c6671ff2685';
+export const FOOD_CONSUMER_SOURCE_SHA256 = '788e6641b72ed636fc8c5a45baf0912f19848817e5ede986cf34449e911822f3';
 const verified = new WeakSet();
 const sha = value => createHash('sha256').update(value).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food consumer source: ${message}`);};

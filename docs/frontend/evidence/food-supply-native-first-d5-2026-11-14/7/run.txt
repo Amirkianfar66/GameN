@@ -1,0 +1,25 @@
+{"count":7,"trace":"2266d73018d8","stage":"CREATED","atMs":0}
+{"count":7,"trace":"2266d73018d8","stage":"SETUP","atMs":10061}
+{"count":7,"trace":"2266d73018d8","stage":"READY","atMs":73877}
+{"count":7,"trace":"2266d73018d8","stage":"JOIN_SENT","atMs":90161}
+{"count":7,"trace":"2266d73018d8","stage":"TASK","atMs":90447,"control":"PANEL"}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"count":7,"control":"PANEL","outcome":"LOST","reason":"NOT_OVER_PLATFORM","commands":[{"kind":"PANEL_RELEASE","atMs":95770,"estimatedServerTaskOffsetMs":5527,"clockUncertaintyMs":13.299999952316284},{"kind":"PANEL_LOCK","atMs":97685,"estimatedServerTaskOffsetMs":7463,"clockUncertaintyMs":13.299999952316284},{"kind":"PANEL_RELEASE","atMs":102027,"estimatedServerTaskOffsetMs":11782,"clockUncertaintyMs":13.299999952316284},{"kind":"PANEL_LOCK","atMs":114287,"estimatedServerTaskOffsetMs":24054,"clockUncertaintyMs":13.299999952316284}]}
++ actual - expected
+
++ 'LOST'
+- 'DELIVERED'
+
+    at file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:141:115 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'LOST',
+  expected: 'DELIVERED',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

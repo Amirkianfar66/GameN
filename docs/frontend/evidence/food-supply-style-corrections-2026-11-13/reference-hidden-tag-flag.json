@@ -1,0 +1,65 @@
+{
+  "scope": "Exact preserved reference-only measurement from the final336 result. The starting briefing card visibly covers this tag in both original PNGs. Native has no corresponding bounds problem. No source/design change, retimed phase, altered measurement or claimed font/transient cause. Designer must assess the original evidence.",
+  "source": "f34a8c876ab8f3f5265ad48a05f116de9dec80c9",
+  "reference": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
+  "flags": [
+    {
+      "id": "food-winch-01",
+      "profile": "320-568-text2-reduced",
+      "problem": "name tag leaves view",
+      "nativeProblems": [],
+      "nativeTags": [
+        {
+          "text": "8You",
+          "rect": {
+            "x": 214.515625,
+            "y": 184.875,
+            "width": 70.21875,
+            "height": 31
+          }
+        },
+        {
+          "text": "3Cleo",
+          "rect": {
+            "x": 157.0625,
+            "y": 272,
+            "width": 76.1875,
+            "height": 31
+          }
+        }
+      ],
+      "referenceTags": [
+        {
+          "text": "8You",
+          "rect": {
+            "x": 214.515625,
+            "y": 184.875,
+            "width": 70.21875,
+            "height": 31
+          }
+        },
+        {
+          "text": "3Cleo",
+          "rect": {
+            "x": 157.0625,
+            "y": 274.9375,
+            "width": 76.1875,
+            "height": 31
+          }
+        }
+      ],
+      "images": {
+        "native": {
+          "path": "food-winch-01-320-568-text2-reduced-native.png",
+          "sha256": "e540010890d7872715264d0c8d9d03f80f6573a66c718b17a4ead22ecc10650f",
+          "bytes": 47985
+        },
+        "reference": {
+          "path": "food-winch-01-320-568-text2-reduced-reference.png",
+          "sha256": "0c275a465e44e7640bc8a3567c26f26b74199397bf2e7c48c844ef78401d8acf",
+          "bytes": 48998
+        }
+      }
+    }
+  ]
+}

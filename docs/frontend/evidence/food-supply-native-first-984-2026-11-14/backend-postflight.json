@@ -1,0 +1,57 @@
+{
+  "backendHead": "984f1b213f195239fb8093b8c0feaff7e7bbc80f",
+  "backendClean": true,
+  "matchesPreflight": true,
+  "compiledModules": [
+    {
+      "path": "services/game-api/dist/planet-game.js",
+      "sha256": "b734cee0c5aa4d4c4c23ba73eb0287b6cc3721a5b396cbd67cf0eaaf04662560",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-store.js",
+      "sha256": "e7cca7d56519b0c025fc4ff996174de73afdfb9c03251d8e5302e4c03abbaf11",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-food-service.js",
+      "sha256": "10cfe889e528d35d0a3cda01b19be13f33a17d62c892bfbeaf6c66634053988e",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-persistence-errors.js",
+      "sha256": "5b5e4a6762fb0406fd035c256c98c42a0f53010fb0236b01dcda7758d50e464e",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/food-bot-policy.js",
+      "sha256": "93f373ddfc9471798b2aaa6654fa06b359a6a67299fef150b926933ea0411e8f",
+      "matches": true
+    },
+    {
+      "path": "infra/firebase/dist/planet.js",
+      "sha256": "a2fdd2d2a8f57e94389c4e672eb474adcfd7d9b132761e1763ce397174f54ad0",
+      "matches": true
+    },
+    {
+      "path": "infra/firebase/dist/runtime.js",
+      "sha256": "fb831199790b103769d3eab1ca8f448907a2ffbaf241519a9f638a0d22e804e0",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food.js",
+      "sha256": "53d579ef3b2c7ff9c455582a5c5d735ec3998bb0e6ad9ad218c006546e24130f",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-machine.js",
+      "sha256": "2bdec5120284585b571f88f5a0c0b3979015676fc87ff4157a1344ec4af7cf8e",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-meals.js",
+      "sha256": "2eaf4222198f48b1f51ded0851ea416890d543751c8c282bba72c02e48111de3",
+      "matches": true
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{"count":9,"trace":"2ea51ce1f3d3","stage":"CREATED","atMs":0}
+{"count":9,"trace":"2ea51ce1f3d3","stage":"SETUP","atMs":9977}
+{"count":9,"trace":"2ea51ce1f3d3","stage":"READY","atMs":72004}
+{"count":9,"trace":"2ea51ce1f3d3","stage":"JOIN_SENT","atMs":88255}
+{"count":9,"trace":"2ea51ce1f3d3","stage":"TASK","atMs":88509,"control":"WINCH"}
+{"count":9,"trace":"2ea51ce1f3d3","stage":"RETURNED","atMs":121274}
+file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:30
+async function waitFor(fn,label,limit=120000){const end=performance.now()+limit;while(performance.now()<end){const value=await fn();if(value)return value;await sleep(250);}throw Error('Timed out: '+label);}
+                                                                                                                                                                                  ^
+
+Error: Timed out: own ordinary Pass
+    at waitFor (file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:30:179)
+    at async file:///private/tmp/gamen-frontend-food-supply/apps/game/dev/phone/food-connected.mjs:148:4
+
+Node.js v22.21.1

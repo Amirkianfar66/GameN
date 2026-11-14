@@ -1,7 +1,7 @@
 {
   "schema": "mothership.runtime-art-release/1",
   "manifestVersion": "design-0.9.0",
-  "status": "Food test 1 technical source registration; native visual acceptance and production adoption remain pending",
+  "status": "Food test 1 technical source registration; production adoption remains pending",
   "gameplayPins": {
     "protocolVersion": 3,
     "engineVersion": "planet-game-1.4.0",
@@ -620,7 +620,7 @@
     "packages/presentation/src/planet/food.ts": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
     "apps/game/hosted/planet/food-gauge.mjs": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
     "apps/game/hosted/planet/food-tags.mjs": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
-    "apps/game/src/planet/food.ts": "353affe6812cae3477acc2f299cc024184fe651f251300bf584aceaf6cea9519",
+    "apps/game/src/planet/food.ts": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
     "apps/game/src/planet/food-input.ts": "030508248f41f4fbcc87654074a6004bf0718f212aeb0bb121e380f61de96d33",
     "apps/game/src/planet/food-recovery.ts": "aa94faf73ae4ac781e38a4bf073ef891df109b6f99be0f20acdf41ba7a654a13",
     "apps/game/src/index.ts": "11692cc87bf792aa6066a411bae4c3c0a5ca9345d2fde49fd86f5958ec5aad34",
@@ -833,7 +833,7 @@
   "registrationScope": "source-ports",
   "foodSourceRegistration": {
     "path": "docs/integration/food-consumer-source-2026-11-13.json",
-    "sha256": "e4bcaae511a8924b9248c72c8ef98278be56ecd99bb588861a4a8c6671ff2685"
+    "sha256": "788e6641b72ed636fc8c5a45baf0912f19848817e5ede986cf34449e911822f3"
   },
   "foodStaticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
