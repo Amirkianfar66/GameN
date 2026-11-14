@@ -1,0 +1,45 @@
+{
+  "scope": "New immutable sanitized6a3 derived matrix; earlier evidence and pinned closure metadata untouched.",
+  "files": [
+    {
+      "path": "after7-before8.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "after8-before9.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "checked-service-handoff.md",
+      "sha256": "2eb242c1f5843e15d5978ee5043e82f7a69c1e6a73dc4fe6ef4e5110a4363a37",
+      "bytes": 6403
+    },
+    {
+      "path": "phase-checkpoints.json",
+      "sha256": "0bdff0d5ec1ea419d5607cd90aa92db912cfea1909cb59beabce182ee293356b",
+      "bytes": 16784
+    },
+    {
+      "path": "postflight.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "private-record-identities.json",
+      "sha256": "60b2b017c2c4f16a5ed2734bba2684f65658d51f9c3564a0b472608d316c6f1e",
+      "bytes": 2941
+    },
+    {
+      "path": "summary.json",
+      "sha256": "7434c2604d845f2adf5c15748c23955d905ffc761c8fb34822f2e27f7b2d041d",
+      "bytes": 20539
+    }
+  ]
+}

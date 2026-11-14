@@ -1,0 +1,96 @@
+{
+  "scope": "Original private files only identified by size/hash/permissions; no raw views, logs, screenshots or identifiers are published. Frozen driver retains hashed match trace/local sequence, not full match/command IDs.",
+  "privateRoot": "/private/tmp/gamen-food-native-6a3-first-20261114-01",
+  "files": [
+    {
+      "path": "7/display-return-7.png",
+      "sha256": "7146fe79a98daf85183a9a9b867622422961a58095335afd6cfc707197da1c66",
+      "bytes": 214600,
+      "mode": "0o600"
+    },
+    {
+      "path": "7/result.json",
+      "sha256": "d8abe4326b6167a64b898a1a6892a073c05376a94311107ea6c413459cf50097",
+      "bytes": 302935,
+      "mode": "0o600"
+    },
+    {
+      "path": "7/return-7.png",
+      "sha256": "d32ce0213688b741ca7ae46afad3065e14b8df0c7c52eda75e8b7316bfb22000",
+      "bytes": 125569,
+      "mode": "0o600"
+    },
+    {
+      "path": "7/task-7-winch.png",
+      "sha256": "3d4647ce1acc75c9fefe650d6576d7fa953fe13f11ab1d0464b3cebacd9a6101",
+      "bytes": 105797,
+      "mode": "0o600"
+    },
+    {
+      "path": "7-run.txt",
+      "sha256": "febba87f0f0df7e13f228edbede69306d797343116044673ab3a21fc8d7bedaf",
+      "bytes": 2205,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/display-return-8.png",
+      "sha256": "880d28ac9f4a86091d625491d852acb2090b4e6ebee2589de49637633a916051",
+      "bytes": 217052,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/result.json",
+      "sha256": "a64cd632ff6bf5ac447aec5b7b071cabe10266f30f06fb8524dead732e09ad2a",
+      "bytes": 392914,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/return-8.png",
+      "sha256": "b395020fde314c26a3a1f8980dfd294d7fef478d1c5e9cd347f6c10c07f1a57e",
+      "bytes": 85168,
+      "mode": "0o600"
+    },
+    {
+      "path": "8/task-8-winch.png",
+      "sha256": "ea46e4aaafb40aa44307cc4469af8e3fb0b40efb1051c002699250e815cc17a6",
+      "bytes": 53193,
+      "mode": "0o600"
+    },
+    {
+      "path": "8-run.txt",
+      "sha256": "47cb7ccf846af12e6d0e352524f4d9e38408ea3724b523e9d787a6ada85fe758",
+      "bytes": 11786,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/display-return-9.png",
+      "sha256": "78e99ab057f63e0f7840cb1a27280c934cb86293c11b15c5694dd721c6076112",
+      "bytes": 216465,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/result.json",
+      "sha256": "4db7feec90a72de2f0c3ecee5eae86b99b7da26694b4e0dd7b7f03530fee7152",
+      "bytes": 467622,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/return-9.png",
+      "sha256": "ab1497f4b17d99b2dd5a3fc7ad5d11673c41418e608a89fd1f956ae6d7ac93e3",
+      "bytes": 147413,
+      "mode": "0o600"
+    },
+    {
+      "path": "9/task-9-panel.png",
+      "sha256": "1cc13e0afac9d94284b7af45f878191f68b186c61cbef871d30ffa5aac6d0ed1",
+      "bytes": 106051,
+      "mode": "0o600"
+    },
+    {
+      "path": "9-run.txt",
+      "sha256": "a2da1cc7b53356ca0c5ffedd4994232de1e363c357f115067570f867471d3e35",
+      "bytes": 13012,
+      "mode": "0o600"
+    }
+  ]
+}
