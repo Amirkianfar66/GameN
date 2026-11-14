@@ -87,7 +87,7 @@ try {
       : location === 'packages/engine' ? file => planetOnly
         ? file.startsWith('planet-game/') || /^full-game\/votes\.(?:js|d\.ts)$/.test(file)
         : file.startsWith('full-game/')
-      : file => planetOnly ? /^(?:planet-game|planet-store|planet-engine|planet-food-service|food-bot-policy)\.(?:js|d\.ts)$/.test(file)
+      : file => planetOnly ? /^(?:planet-game|planet-store|planet-engine|planet-food-service|planet-persistence-errors|food-bot-policy)\.(?:js|d\.ts)$/.test(file)
         : /^(?:full-game|practice-bot-policy|joint-starting-rooms|prepared-art)\.(?:js|d\.ts)$/.test(file);
     copyDist(join(root, location, 'dist'), join(stage, 'dist'), include);
     if (indexes[location] !== undefined) {

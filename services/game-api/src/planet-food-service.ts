@@ -5,6 +5,7 @@ import type {FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskP
   PlanetCommandRequest,PlanetReceipt,PlanetServiceRequest,PlanetServiceResponse,PlanetSessionSnapshot,PlanetVersions,SeatId} from '@mothership/contracts';
 import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,PlanetReadTransaction,PlanetStateEnvelope,PlanetTransaction} from './planet-game.js';
 import {chooseFoodBotInput,canAdmitFoodBotPanelLock,foodBotPanelLockWindowEnd} from './food-bot-policy.js';
+import {PlanetAtomicCreateConflict} from './planet-persistence-errors.js';
 
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
 export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
@@ -191,7 +192,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
       const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
       if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
-      const claim=await acquirePrefixWorker(matchId,0,beforeClaim);if(claim.owner===null)continue;
+      const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);if(claim.owner===null)continue;
       let committed=false;
       try{const result=await operation(claim.owner);committed=true;return result;}
       catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
@@ -199,23 +200,32 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
     throw new Error('Food Session writer requires a later durable continuation');
   }
-  async function acquirePrefixWorker(matchId:string,throughSequence:number,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>):Promise<{owner:string|null;expiresAt:number}>{
+  async function acquirePrefixWorker(matchId:string,throughSequence:number,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>,expectMissing=false):Promise<{owner:string|null;expiresAt:number}>{
     const owner=d.newId();
-    return store.transaction(async tx=>{
-      const previous=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)),now=clock();
+    try{return await store.transaction(async tx=>{
+      // The RO observation is advisory. Atomic create decides a missing-lease
+      // race without taking a shared read lock on that same missing record.
+      const create=expectMissing&&tx.create?tx.create.bind(tx):null;
+      const previous=create?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)),now=clock();
       if(previous&&previous.expiresAt>now)return {owner:null,expiresAt:previous.expiresAt};
       const expiresAt=now+FOOD_PREFIX_WORKER_LEASE_MS;
       if(!Number.isSafeInteger(now)||!Number.isSafeInteger(expiresAt))throw new Error('Invalid prefix lease clock');
       if(beforeClaim)await beforeClaim(tx,now);
       const phaseId=uuid(['food-prefix-worker',matchId,owner,'phase']),deadlineToken=uuid(['food-prefix-worker',matchId,owner,'deadline']);
       const taskId=hash([matchId,phaseId,deadlineToken]);
-      tx.set(prefixWorkerKey(matchId),{owner,expiresAt,throughSequence,wakeTaskId:taskId} satisfies PrefixWorkerLease);
+      const write=create??tx.set.bind(tx);
+      write(prefixWorkerKey(matchId),{owner,expiresAt,throughSequence,wakeTaskId:taskId} satisfies PrefixWorkerLease);
       // Exactly one expiry wake per owner; it remains durable if acquisition's ACK
       // is lost or the owner dies before touching Session. No gameplay context is minted.
-      tx.set('deadline/'+taskId,{matchId,phaseId,deadlineToken,kind:'game',taskId,endsAt:expiresAt,status:'pending',
+      write('deadline/'+taskId,{matchId,phaseId,deadlineToken,kind:'game',taskId,endsAt:expiresAt,status:'pending',
         nextAttemptAt:expiresAt,...(throughSequence===0?{sessionWriterRecovery:true}:{ingressSequence:throughSequence})} satisfies PlanetDeadlineJob);
       return {owner,expiresAt};
-    });
+    });}catch(error){
+      if(!(error instanceof PlanetAtomicCreateConflict))throw error;
+      // Only the adapter's proven create conflict is a lost claim. A later RO
+      // poll observes the actual owner/expiry; no ambiguous commit is flattened.
+      return {owner:null,expiresAt:0};
+    }
   }
   async function refreshPrefixWorker(matchId:string,owner:string):Promise<boolean>{
     return store.transaction(async tx=>{
@@ -651,7 +661,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         });
         if(observed.entry?.response)return observed.entry.response;
         if(owner===null&&(!observed.lease||observed.lease.expiresAt<=clock())){
-          const claim=await acquirePrefixWorker(matchId,sequence);owner=claim.owner;
+          const claim=await acquirePrefixWorker(matchId,sequence,undefined,observed.lease===null);owner=claim.owner;
           if(owner!==null)continue; // The target may have committed between the RO probe and this claim.
         }
         if(owner===null){

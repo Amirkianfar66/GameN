@@ -42,6 +42,8 @@ export interface PlanetReadTransaction {
 export interface PlanetTransaction extends PlanetReadTransaction {
   set(key:string,value:unknown):void;
   delete(key:string):void;
+  /** Optional atomic create; existing metadata or any fragment being created rejects the entire transaction. */
+  create?(key:string,value:unknown):void;
 }
 export interface PlanetPersistence {
   transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>;
