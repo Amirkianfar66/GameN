@@ -18,11 +18,11 @@ Designer makes routine creative choices within the approved specification. Front
 
 The preview and playable app consume one canonical visual component. A preview supplies labeled fixture inputs; the app supplies authorized data and real intent handlers. They must not maintain two independent copies of the same layout, styles or animation.
 
-Designer owns canonical visual sources in its existing `design/` and `packages/design-tokens/` paths. Frontend owns adapters and screen controllers in `apps/game/` and `packages/presentation/`. Each handoff names the exact files and their owner. If a canonical component needs a different location, Integration records that specific ownership exception before work begins; a shared folder is not permission for concurrent edits.
+Designer builds each visual component once in `design/` and owns the existing design tokens. Frontend owns adapters and screen controllers in `apps/game/` and `packages/presentation/`. Each handoff names the exact files and their owner. If a canonical component needs a different location, Integration records that specific ownership exception before work begins; a shared folder is not permission for concurrent edits.
 
 Existing source fences remain in force. A historical dev-only prototype, fixture transport, simulator, review video or synthetic outcome must not be imported into production. Extract the runtime-safe visual component once, then make both consumers use it. This policy does not automatically approve historical prototype modules for shipping.
 
-Where the build requires copied files, use a reproducible export from the canonical source. Record the source version/hashes, output paths and exact permitted transformations, such as import rewrites or removal of a dev-only header. Check that the output matches that recipe. Generated ports are not separately maintained artwork or layout implementations; corrections go to their canonical source and regenerate the outputs. Frontend may propose a source correction, with Designer reviewing it.
+The owner's later 14 November instruction supersedes the earlier generated-port allowance for new work: Frontend imports and consumes the runtime-safe Designer component as it is. It does not rebuild, restyle or copy the source into Frontend. Ordinary compilation/bundling is not a second visual implementation. If the component does not fit a runtime, accessibility or performance need, Frontend sends that requirement to Designer and the source is corrected there. Existing immutable release copies remain historical evidence, not a template for new adoption.
 
 No new package, framework, dependency or build-system change is implied. Integration reviews any such change separately. Retain existing art and component versions for matches that still select them; adopting a new source does not overwrite historical release assets.
 
@@ -51,6 +51,8 @@ On exit, foregrounding and reconnect, restore the current authorized interface a
 2. Integrate one representative component in the real app early, including an unavailable/recovery state and reduced motion where relevant. Designer previews that same source.
 3. Finish the remaining approved states using the established component. Keep fixture/scenario code separate.
 4. Frontend supplies native comparison evidence; Designer checks the implemented visual result; Integration checks behavior, privacy, packaging and release eligibility.
+
+Review at 390 × 844 and 430 × 932 during this development phase; broader size coverage is deferred. Captures must come from the deployed candidate or a harness with the production headers, and identify source, art, URL and header provenance. A passing header-free capture does not establish deployable visual behavior. Account explicitly for approved work that is included and any omission; deferral requires the owner's decision.
 
 The [phone visual merge gate](../../AGENTS.md#phone-interface-specification-and-merge-gate) remains mandatory. Changed phone visuals or their rendered dependencies need Designer's explicit acceptance in the PR. Reuse valid evidence for demonstrably unchanged rendered inputs; document why unrelated edits do not invalidate it. Do not repeat source-art approval as a substitute for the first native review, and do not request an entirely new design for an unchanged implementation.
 

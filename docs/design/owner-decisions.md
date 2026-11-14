@@ -6,6 +6,16 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 14 November 2026: live visual review, direct component reuse and two phone sizes
+
+**Recorded by Integration from the owner's later Integration message.** This supersedes conflicting workflow and capture requirements below, including the earlier generated-port allowance.
+
+> Designer is responsible for the design and builds each visual component once, in design/. Frontend uses it as it is. Frontend connects data, actions, navigation and performance, and does not rebuild, restyle or copy it. If something doesn't fit, Frontend asks Designer to change the source.
+
+The owner requires every phone-interface PR to demonstrate canonical-component use, captures from the deployed site or a harness with production headers at **390 × 844** and **430 × 932**, and Designer's explicit acceptance in the PR. Approved work must not be silently omitted; any deferral needs the owner's decision. These are the two development review sizes; broad screen-size coverage is deferred. Existing accessibility behavior and reduced motion are preserved.
+
+The live review is [#222 comment 6883175136](https://github.com/Amirkianfar66/GameN/issues/222#issuecomment-6883175136), followed by [the owner's iPhone evidence and Food-policy diagnosis](https://github.com/Amirkianfar66/GameN/issues/222#issuecomment-6883358473). Earlier Food visual acceptance applies to its captured environment and does not prove production-header compatibility or full phone-pack parity. Existing historical records and pinned release sources remain unchanged.
+
 ## 14 November 2026: one visual source and clear ownership
 
 **Recorded by Integration from the owner's Integration chat.** The owner identified duplicated visual work: "I feel like In the current workflow, some visual work is being implemented twice, and the ownership boundaries need to be clearer between Designer agent and Frontend agent, what do you think?" After Integration recommended the workflow below, the owner approved it: **"Yes all as you recommended"**.
