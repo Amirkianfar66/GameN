@@ -423,13 +423,14 @@ for(const reverse of [false,true])test(`direct Lock probing preserves existing m
     assert.equal(presses[0].request.request.command.input.edge,'UP');
   }
 });
-test('regular read, heartbeat and bot metadata wait outside Session behind the positive prefix owner',async()=>{
+test('regular read, recovery and bot metadata wait outside Session behind the positive prefix owner',async()=>{
   const h=harness(),paused=h.store.pauseNext(prefixPath),first=h.command('positive-owner');await paused.reached;
   const start=h.store.attempts.length,reading=h.store.pauseReadNext(prefixPath);
-  const read=h.handle('read',{matchId:'food-match'}),beat=h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'}),bots=h.api().runBots('food-match');
+  const read=h.handle('read',{matchId:'food-match'}),recovery=h.handle('issueRecovery',
+    {matchId:'food-match',requestId:'writer-wait-recovery',seatId:'seat-1'},'host'),bots=h.api().runBots('food-match');
   await reading.reached;
   assert.equal(h.store.attempts.slice(start).some(a=>!a.readOnly&&a.reads.includes('session/food-match')),false);
-  reading.resume();paused.resume();const results=await Promise.all([first,read,beat,bots]);assert.ok(results.slice(0,3).every(r=>r.ok));
+  reading.resume();paused.resume();const results=await Promise.all([first,read,recovery,bots]);assert.ok(results.slice(0,3).every(r=>r.ok));
   const writers=h.store.attempts.filter(a=>a.commit&&!a.readOnly&&a.writes.includes('session/food-match'));
   assert.ok(writers.some(a=>a.prefixLease.throughSequence===0));
   for(const a of writers){assert.ok(a.prefixLease);assert.equal(a.reads[0],'session/food-match');
@@ -476,7 +477,7 @@ test('an original redeem appearing after preflight recovers before used-token an
 });
 test('a lost metadata admission ACK retains a recovery-only wake that drains original input before a busy bot lease',async()=>{
   const h=harness();h.store.loseAck('foodIngress/');
-  assert.equal((await h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'})).ok,false);
+  assert.equal((await h.handle('issueRecovery',{matchId:'food-match',requestId:'lost-metadata-recovery',seatId:'seat-1'},'host')).ok,false);
   const original=ingress(h)[0][1],wake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.sessionWriterRecovery&&j.status==='pending')[1];
   assert.equal(wake.ingressSequence,undefined);assert.equal((await h.api().runDeadline(wake)).status,'too-early');
   h.setNow(wake.endsAt);await h.store.transaction(async tx=>tx.set(workerPath,{owner:'busy-bot-owner',expiresAt:wake.endsAt+8000}));
@@ -500,7 +501,7 @@ test('an SDK metadata retry fences a superseded zero writer before Session or in
     const lease=records.get(prefixPath);assert.equal(lease.throughSequence,0);h.setNow(lease.expiresAt);
     records.set(prefixPath,{...lease,owner:'zero-writer-successor',expiresAt:h.getNow()+8000});noticed();
   });
-  const pending=h.handle('foodHeartbeat',{matchId:'food-match',taskId:'task-2'});await replaced;
+  const pending=h.handle('issueRecovery',{matchId:'food-match',requestId:'metadata-writer-recovery',seatId:'seat-1'},'host');await replaced;
   await h.store.transaction(async tx=>{
     const lease=await tx.get(prefixPath),s=await tx.get('session/food-match');assert.equal(lease.owner,'zero-writer-successor');
     assert.equal(s.state.trace.length,0);assert.equal(ingress(h).length,0);tx.delete(prefixPath);

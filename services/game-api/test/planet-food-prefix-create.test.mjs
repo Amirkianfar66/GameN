@@ -10,6 +10,8 @@ const prefixKey=h=>'foodPrefixWorker/'+h.matchId;
 const ingress=h=>h.store.export().filter(([key])=>key.startsWith('foodIngress/')).map(([,value])=>value);
 const rateKey=(uid,budget)=>'foodTransportRate/'+digest([uid,budget]);
 const clone=value=>structuredClone(value);
+// This operation retains the zero-writer admission path; heartbeat admission is detached.
+const recovery=h=>h.operation(h.host,'issueRecovery',{matchId:h.matchId,seatId:'seat-1'});
 
 /** Native-engine orchestration control, not a Firestore concurrency/performance model.
  * Creates are validated atomically after callback completion; a conflict rolls
@@ -68,17 +70,17 @@ for(const count of [7,8,9])test(`${count}: native candidate journey uses missing
   assert.ok(claims(store).some(a=>a.creates.some(([key,value])=>key.startsWith('foodPrefixWorker/')&&value.throughSequence>0)));
 });
 
-test('two callers observe missing lease; exactly one atomic create wins that race',async()=>{
-  const store=capableStore(),{h,task}=await setupNativeHumanFood({store});
+test('two metadata callers observe missing lease; exactly one atomic create wins that race',async()=>{
+  const store=capableStore(),{h}=await setupNativeHumanFood({store});
   const start=store.attempts.length;store.gateMissing(2);
-  const responses=await Promise.all([1,2].map(()=>h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId})));
-  assert.ok(responses.every(r=>r.ok&&r.result.renewed));
+  const responses=await Promise.all([1,2].map(()=>recovery(h)));
+  assert.ok(responses.every(r=>r.ok&&typeof r.result.recoveryCode==='string'));
   const raced=claims(store,start).slice(0,2);assert.equal(raced.length,2);
   assert.equal(raced.filter(a=>a.committed).length,1);assert.equal(raced.filter(a=>a.error instanceof PlanetAtomicCreateConflict).length,1);
   raced.forEach(assertPair);
   assert.equal(store.export().some(([key])=>key===prefixKey(h)),false,'every successful owner releases its own record');
-  const beats=ingress(h).filter(e=>e.request?.operation==='foodHeartbeat');assert.equal(beats.length,2);
-  assert.ok(beats.every(e=>e.response?.ok));
+  const issued=ingress(h).filter(e=>e.request?.operation==='issueRecovery');assert.equal(issued.length,2);
+  assert.ok(issued.every(e=>e.response?.ok));
 });
 
 test('known authorization, token and budget denials create no ownership wake',async()=>{
@@ -95,11 +97,11 @@ test('known authorization, token and budget denials create no ownership wake',as
 });
 
 test('same-transaction beforeClaim rate check survives a rate change after RO preflight',async()=>{
-  const store=capableStore(),{h,task}=await setupNativeHumanFood({store});
+  const store=capableStore(),{h}=await setupNativeHumanFood({store});
   const start=store.attempts.length,before=ingress(h).length;
-  store.beforeMissingClaim(()=>store.transaction(async tx=>tx.set(rateKey(h.players[0],'presence'),
-    {since:h.now(),count:FOOD_TASK_TRANSPORT.requestsPerMinute.presence})));
-  const result=await h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId});
+  store.beforeMissingClaim(()=>store.transaction(async tx=>tx.set(rateKey(h.host,'control'),
+    {since:h.now(),count:FOOD_TASK_TRANSPORT.requestsPerMinute.control})));
+  const result=await recovery(h);
   assert.equal(result.ok,false);assert.equal(result.error.code,'RATE_LIMITED');
   assert.equal(claims(store,start).length,0);assert.equal(ingress(h).length,before);
   assert.equal(store.export().some(([key])=>key===prefixKey(h)),false);
@@ -134,31 +136,33 @@ test('pending original input recovers through a positive create claim without a 
 });
 
 test('expired existing lease keeps the read/set reclamation path despite create support',async()=>{
-  const store=capableStore(),{h,task}=await setupNativeHumanFood({store});
+  const store=capableStore(),{h}=await setupNativeHumanFood({store});
   const phaseId=h.nextId(),deadlineToken=h.nextId(),taskId=digest([h.matchId,phaseId,deadlineToken]),expiresAt=h.now()-1;
   await store.transaction(async tx=>{
     tx.set(prefixKey(h),{owner:'synthetic-expired-owner',expiresAt,throughSequence:0,wakeTaskId:taskId});
     tx.set('deadline/'+taskId,{matchId:h.matchId,phaseId,deadlineToken,kind:'game',taskId,endsAt:expiresAt,
       status:'pending',nextAttemptAt:expiresAt,sessionWriterRecovery:true});
   });
-  const start=store.attempts.length,at=h.now();ok(await h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId}));
+  const start=store.attempts.length,at=h.now();ok(await recovery(h));
   const replacement=store.attempts.slice(start).find(a=>a.sets.some(([key,value])=>key===prefixKey(h)&&value.owner!=='synthetic-expired-owner'));
   assert.ok(replacement);assert.ok(replacement.reads.includes(prefixKey(h)));assert.equal(replacement.creates.length,0);
+  assert.equal(replacement.sets.find(([key])=>key===prefixKey(h))[1].throughSequence,0);
   assert.equal(replacement.sets.find(([key])=>key===prefixKey(h))[1].expiresAt,at+FOOD_PREFIX_WORKER_LEASE_MS);
 });
 
 test('unsupported transaction capability retains native read/set ownership semantics',async()=>{
-  const store=capableStore({supported:false}),{h,task}=await setupNativeHumanFood({store});
-  const start=store.attempts.length;ok(await h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId}));
+  const store=capableStore({supported:false}),{h}=await setupNativeHumanFood({store});
+  const start=store.attempts.length;ok(await recovery(h));
   const ownership=store.attempts.slice(start).filter(a=>a.sets.some(([key])=>key===prefixKey(h)));
   assert.ok(ownership.length>0);assert.equal(claims(store).length,0);
   assert.ok(ownership.every(a=>a.reads.includes(prefixKey(h))));
+  assert.ok(ownership.some(a=>a.sets.some(([key,value])=>key===prefixKey(h)&&value.throughSequence===0)));
 });
 
 test('ambiguous create acknowledgment preserves its complete lease/wake and bounded recovery',async()=>{
-  const store=capableStore(),{h,task}=await setupNativeHumanFood({store});
+  const store=capableStore(),{h}=await setupNativeHumanFood({store});
   const draws=h.draws(),before=ingress(h).length;store.loseNextAcknowledgement('foodPrefixWorker/');
-  const result=await h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId});
+  const result=await recovery(h);
   assert.equal(result.ok,false);assert.equal(result.error.code,'UNAVAILABLE');assert.equal(h.draws(),draws);assert.equal(ingress(h).length,before);
   const records=new Map(store.export()),lease=records.get(prefixKey(h)),wake=records.get('deadline/'+lease.wakeTaskId);
   assert.ok(lease);assert.equal(lease.throughSequence,0);assert.equal(wake.sessionWriterRecovery,true);
@@ -166,13 +170,13 @@ test('ambiguous create acknowledgment preserves its complete lease/wake and boun
   const early=await h.service.runDeadline(wake);assert.equal(early.status,'too-early');
   h.setTime(lease.expiresAt);await h.service.runDeadline(wake);
   assert.equal(store.export().find(([key])=>key==='deadline/'+wake.taskId)[1].status,'complete');
-  assert.equal(ingress(h).some(e=>e.request?.operation==='foodHeartbeat'),false,'an unadmitted request is never fabricated on recovery');
+  assert.equal(ingress(h).some(e=>e.request?.operation==='issueRecovery'),false,'an unadmitted request is never fabricated on recovery');
 });
 
 test('untyped code6 create error propagates without being treated as a clean lost claim',async()=>{
-  const store=capableStore(),{h,task}=await setupNativeHumanFood({store}),original=Object.assign(new Error('Synthetic unproven SDK6'),{code:6});
+  const store=capableStore(),{h}=await setupNativeHumanFood({store}),original=Object.assign(new Error('Synthetic unproven SDK6'),{code:6});
   const start=store.attempts.length,before=ingress(h).length,draws=h.draws();store.failCreate(original);
-  const result=await h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId});
+  const result=await recovery(h);
   assert.equal(result.ok,false);assert.equal(result.error.code,'UNAVAILABLE');
   assert.equal(claims(store,start).length,1);assert.equal(claims(store,start)[0].error,original);
   assert.equal(store.export().some(([key])=>key===prefixKey(h)),false);assert.equal(ingress(h).length,before);assert.equal(h.draws(),draws);
