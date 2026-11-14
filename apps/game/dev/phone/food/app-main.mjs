@@ -62,7 +62,7 @@ if(q.get('abort')==='1')Object.assign(record.value,{status:'aborted',publicView:
 if(config.recovery){
  foodStore.save(JSON.stringify({schemaVersion:1,ownerUid:uid,matchId:record.value.matchId,seatId:record.value.selfSeatId,entries:[config.recovery.request],contact:null}));
 }
-const app=await mountPlanetApp(document.querySelector('#app'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
+const app=await mountPlanetApp(document.querySelector('#planet-root'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
 for(let i=0;i<30&&!app.game?.getModel().phase;i++)await new Promise(r=>setTimeout(r,0));
 const recoveryTransitions=[];
 if(config.pendingHold){
