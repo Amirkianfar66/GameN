@@ -484,9 +484,10 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(stored&&stored.fingerprint!==hash(q))d.reject('COMMAND_ID_CONFLICT');
       return stored?.response??null;
     });
+    // The freshly authorized, exact original remains authoritative after an earlier technical failure.
+    if(final!==null)return final;
     if(failed)throw failure;
-    if(final===null)throw new Error('Original Food receipt is not yet available');
-    return final;
+    throw new Error('Original Food receipt is not yet available');
   }
 
   function syncParticipants(s:T,at:number):void{

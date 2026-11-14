@@ -234,10 +234,13 @@ for(const count of [7,8,9]){
     assert.equal((await h.current()).state.trace.filter(c=>c.kind==='food').length,1);
   });
 }
-test('processing ACK loss preserves its receipt and effect',async()=>{
-  const h=harness();h.store.loseAck('food-command/');const first=await h.command();assert.equal(first.ok,false);
+test('processing ACK loss returns its verified original receipt and applies its effect once',async()=>{
+  const h=harness();h.store.loseAck('food-command/');const first=await h.command();assert.equal(first.ok,true);
+  const original=new Map(h.store.export()).get('food-command/'+hash(['food-match','seat-1','input-1']));
+  assert.deepEqual(first,original.response);assert.equal(first.result.receipt.receivedAt,6000);
+  const before=h.store.export();
   h.setNow(9000);const draws=h.draws();const result=await h.command();assert.equal(result.ok,true);
-  assert.equal(result.result.receipt.receivedAt,6000);assert.equal(h.draws(),draws);
+  assert.deepEqual(result,first);assert.equal(h.draws(),draws);assert.deepEqual(h.store.export(),before);
   assert.equal((await h.current()).state.trace.filter(c=>c.kind==='food').length,1);
 });
 test('deadline barrier drains committed earlier input before expiry, and equal-time input cannot revive Task',async()=>{
