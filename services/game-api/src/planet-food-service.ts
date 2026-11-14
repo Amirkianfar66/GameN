@@ -729,6 +729,18 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(!initial.state||!['running','finished','aborted'].includes(initial.status)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
+    if(q.operation==='ready'||q.operation==='beginSetup'||q.operation==='setBots'
+      ||q.operation==='chooseCharacter'||q.operation==='approveAdmission'){
+      // Setup effects and their receipts commit before initialization. Recover
+      // exact originals without admitting another setup operation into Food.
+      return readOnly(async tx=>{
+        const current=await d.load(tx,matchId);authorize(current,uid,q);
+        const original=await tx.get<Stored>(key('operation',[uid,q.requestId]));
+        if(!original)d.reject('NOT_ALLOWED');
+        if(original.fingerprint!==hash(q))d.reject('REQUEST_ID_CONFLICT');
+        return original.response;
+      });
+    }
     if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
     if(q.operation==='foodReceipt'||q.operation==='receipt')return readOnly(async tx=>{
       const s=await d.load(tx,matchId),actor=own(s,uid);
