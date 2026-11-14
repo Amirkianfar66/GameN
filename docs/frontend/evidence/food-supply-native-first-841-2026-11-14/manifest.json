@@ -1,0 +1,144 @@
+{
+  "frontendSource": "841b29d547534e79e4526a1fab83bc3dd6aba923",
+  "driverSource": "dcb79bcd3faa16c971a1005d3125c8ff11d543e8",
+  "backendSource": "d5a57af049c5ac8abb57754855099fa0468abd37",
+  "nativeSource": "952e7d9ca5766aa3e9514a362c86a3f91b20e0fa",
+  "scope": "Unchanged first841 matrix: three delivery/return partials, all failed Pass confirmation; no meal/full pass.",
+  "files": [
+    {
+      "path": "7/backend-postflight.json",
+      "bytes": 1050,
+      "sha256": "b129bd3654811db7047c7e27b21963f5234256a9c57e78d6a0d8d783295450e9"
+    },
+    {
+      "path": "7/display-return-7.png",
+      "bytes": 206821,
+      "sha256": "c2c8a7f7bdca21d799575f6ab8ccc89feee9558e67fe74114e0a06bc8fd64425"
+    },
+    {
+      "path": "7/failure-7.png",
+      "bytes": 121197,
+      "sha256": "eb3df23d01be74fed5da0640fbcb2b73da3ed5693fa9c5489b91919762ece0d8"
+    },
+    {
+      "path": "7/failure-display-7.png",
+      "bytes": 216694,
+      "sha256": "5ac59a5a52eca2b606480a06b5f899bf0dc68ca6b8a7fc800cf43b5ca0edb36f"
+    },
+    {
+      "path": "7/result.json",
+      "bytes": 466186,
+      "sha256": "0e3af71ad8ddfe4cf58b9cbcc46c0ff7b0f9b154ed3b1b29ea1b152967d8c759"
+    },
+    {
+      "path": "7/return-7.png",
+      "bytes": 125357,
+      "sha256": "796dae671772053029f2407fcbd52a15eb3e0dc386a5baaa3ac013bcdcca1756"
+    },
+    {
+      "path": "7/run.txt",
+      "bytes": 12463,
+      "sha256": "82dbccec2ceef13d8257b03cb1ee4cefbd591d985fd3a99ff73b0a40d62d83b9"
+    },
+    {
+      "path": "7/task-7-panel.png",
+      "bytes": 105844,
+      "sha256": "47eee1ee205e4a436bd0a4a22df000f01823b45b2d03fcbe66a8ca1c4bf530ef"
+    },
+    {
+      "path": "8/backend-postflight.json",
+      "bytes": 1050,
+      "sha256": "b129bd3654811db7047c7e27b21963f5234256a9c57e78d6a0d8d783295450e9"
+    },
+    {
+      "path": "8/display-return-8.png",
+      "bytes": 218152,
+      "sha256": "d0b779da39ce5c3278bf0244140f99f35481ce2b0f10b7b3c3cab704677de0b8"
+    },
+    {
+      "path": "8/failure-8.png",
+      "bytes": 106627,
+      "sha256": "66b99622f15ccff1dccc22bd23d897ac2eff9686ab1fd5fbe86b43797d8599b3"
+    },
+    {
+      "path": "8/failure-display-8.png",
+      "bytes": 221105,
+      "sha256": "a4bf4039b2a49d33bc4c1ac85907d84ddd6ed7c61fa5b6c4d2149abe81ec1d11"
+    },
+    {
+      "path": "8/result.json",
+      "bytes": 347418,
+      "sha256": "f159f72f6f06f9a2f874cf0bbe9d3a7f0a70950cf166e831b943a902ab9cede6"
+    },
+    {
+      "path": "8/return-8.png",
+      "bytes": 103733,
+      "sha256": "487275830ce981bf09331bad693cc70082899a2d30cc0fe2db9904039fc95dbb"
+    },
+    {
+      "path": "8/run.txt",
+      "bytes": 2496,
+      "sha256": "29b313385c7afa417bda9f179c15c779d5c05f016994d35cd6f569e5f46cd8a2"
+    },
+    {
+      "path": "8/task-8-panel.png",
+      "bytes": 50586,
+      "sha256": "c015016f8256066ad282427394a2993aae3197d4e1c07736bd0110257be66865"
+    },
+    {
+      "path": "9/display-return-9.png",
+      "bytes": 216053,
+      "sha256": "88332d244f8eebb5dd4de1c242aaffeebddc84ed5324500189ff3928a62a40b5"
+    },
+    {
+      "path": "9/failure-9.png",
+      "bytes": 146016,
+      "sha256": "682a32238009687f4b5d72f202fc1a541f44cd55b95664487558379f5f1896c6"
+    },
+    {
+      "path": "9/failure-display-9.png",
+      "bytes": 224465,
+      "sha256": "1ce1c60f11da39aedcc1d6394e80527e2c40f0200498298a95a0d59b8871279c"
+    },
+    {
+      "path": "9/result.json",
+      "bytes": 456842,
+      "sha256": "335402cf2112d7cd5e6c4ceeffcd0e9bebebe8ef6bf37f5c35990d7d12f3cc2d"
+    },
+    {
+      "path": "9/return-9.png",
+      "bytes": 149183,
+      "sha256": "8dfdc968da1e31070b4b513abf275e0a6ea4f9f9b0d91a47bc4f4ccad55c954a"
+    },
+    {
+      "path": "9/run.txt",
+      "bytes": 14184,
+      "sha256": "01bbfa8ce7adf424686f6d77d5f6f880274185a95009bf8477ddec3fda86f979"
+    },
+    {
+      "path": "9/task-9-winch.png",
+      "bytes": 105395,
+      "sha256": "c01da2e5edc5411a721a032117d7b75955cb86e5458a6ba31a0e2dfe1f34b469"
+    },
+    {
+      "path": "backend-postflight.json",
+      "bytes": 20358,
+      "sha256": "8c06f0bb7401633b12981676f42c086bcf34db3ea89a8e0efd890aa5558b3ceb"
+    },
+    {
+      "path": "backend-preflight.json",
+      "bytes": 17690,
+      "sha256": "b2ee995374368d2a9d5545a250dc7ca883ff9ed22bed87c8b652db265293f6ff"
+    },
+    {
+      "path": "build.txt",
+      "bytes": 8846,
+      "sha256": "339d6eaa87b2f3ef08d80ec97a62d559f09fcf012a638fe43652053520555a3f"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 80753,
+      "sha256": "b5457b46921c5fcddcd7734d7e6cc1262ba20615f61b83a53658e3478fe3d53e"
+    }
+  ]
+}

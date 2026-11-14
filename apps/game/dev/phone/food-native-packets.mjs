@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {PLANET_FOOD_TASK_PINS,PlanetSessionSnapshotSchema,foodTaskHoldRelease} from '@mothership/contracts';
-import {createPlanetGame,applyPlanetFoodCommand,advancePlanetDeadline,planetDeadlineAt,setPlanetFoodPresence,
+import {createPlanetGame,applyPlanetCommand,applyPlanetFoodCommand,advancePlanetDeadline,planetDeadlineAt,setPlanetFoodPresence,
  projectPlanetPublic,projectPlanetPlayer,projectPlanetFoodPublic,projectPlanetFoodPlayer,assertPlanetGameState} from '../../../../packages/engine/dist/index.js';
 import {finishFoodOrdinaryTurn} from '../../../../packages/engine/dist/planet-game/food-meals.js';
 import {planetSeatView} from '../../../../packages/engine/dist/planet-game/model.js';
@@ -65,7 +65,31 @@ function driver(boardName='cooperation'){
   assert.equal(result.receipt.status,'rejected');assert.equal(result.receipt.code,'STALE_CONTEXT');
   return {...result,construction:'Constructed original stale-revision LOCK, rejected by the actual candidate engine. The native recovery store first has no receipt, then reads this exact authoritative receipt; no rejection is synthesized in the capture transport.'};
  }
- return {board,ask,answer,food,packet,advance,press,rejectedLock,get state(){return state;}};
+ function ordinaryPass(seatId,now,label){const request={protocolVersion:3,matchId:state.matchId,phaseId:state.phase.id,commandId:`review-chrome-pass-${label}`,command:{type:'PASS_TURN'}};
+  const result=applyPlanetCommand(state,seatId,request,context(now));state=result.state;assert.equal(result.receipt.status,'accepted');return {request,receipt:result.receipt};}
+ return {board,ask,answer,food,packet,advance,press,rejectedLock,ordinaryPass,get state(){return state;}};
+}
+
+export function foodChromeLifecycle(state){
+ assert.ok(['JOINED','DECLINED','WITHDRAWN'].includes(state));const d=driver(),self=state==='JOINED'?'seat-3':'seat-8';d.ask();
+ const initial=d.packet(self,T-50),r=initial.value.foodPlayerView.invitation;
+ const transition=state==='JOINED'?d.answer():state==='DECLINED'?d.answer('DECLINE',T+100):d.food('seat-8',{type:'TASK_ASK_WITHDRAW',requestId:r.requestId,requestRevision:r.revision},T+100);
+ // The private service retains this actual original closure after the engine
+ // step ends. Keep that separate adapter history in each typed fixture packet.
+ const closure={foodStepId:r.foodStepId,round:r.round,requestId:r.requestId,requestRevision:r.revision+1,volunteerSeatId:r.volunteerSeatId,partnerSeatId:r.partnerSeatId,
+  askedAt:r.askedAt,answerEndsAt:r.answerEndsAt,closedAt:state==='JOINED'?T:T+100,state};
+ const withHistory=record=>{record.value.foodPlayerView.requestClosures=[copy(closure)];PlanetSessionSnapshotSchema.parse(record.value);return record;};
+ const current=withHistory(d.packet(self,T+200));
+ if(state==='JOINED')for(const row of d.board.steps)d.press(row);
+ const returned=withHistory(d.packet(self,state==='JOINED'?T+32501:T+62000));
+ for(let i=0;i<100;i++){
+  if(d.state.phase.kind==='ORDINARY_TURN'&&d.state.activeSeatId===self)break;
+  const at=planetDeadlineAt(d.state);assert.notEqual(at,null);d.advance(at);
+ }
+ assert.equal(d.state.activeSeatId,self);const now=d.state.phase.startedAt+500,ownTurn=withHistory(d.packet(self,now));
+ assert.ok(ownTurn.value.playerView.offers.some(o=>o.type==='PASS_TURN'));
+ const pass=d.ordinaryPass(self,now+1,state);pass.after=withHistory(d.packet(self,now+1));
+ return {state,initial,current,returned,ownTurn,pass,closure,transition,scope:'Constructed canonical engine prefix and actual candidate-engine request/Task/ordinary transitions, with separately retained pair-private service closure history. Synthetic browser regression only; no API or real multiplayer history.'};
 }
 
 export function nativeFoodCase(query){
@@ -134,7 +158,12 @@ function buildNativeFoodCase(query){
 }
 
 if(process.argv[1]===new URL(import.meta.url).pathname){
+ if(process.argv.includes('--chrome')){
+  const output={developmentOnly:'mothership:dev-only',cases:['JOINED','DECLINED','WITHDRAWN'].map(foodChromeLifecycle)};
+  const path=new URL('./food/chrome-fixtures.json',import.meta.url);writeFileSync(path,JSON.stringify(output));console.log(`Prepared3 synthetic closure lifecycles; sha256 ${createHash('sha256').update(readFileSync(path)).digest('hex')}`);
+ }else{
  const map=JSON.parse(readFileSync(new URL('../../../../docs/frontend/food-supply-comparison-map.json',import.meta.url))),cases=map.cases.map(c=>({...c,native:nativeFoodCase(c.reference.query)}));
  const output={developmentOnly:'mothership:dev-only',scope:'Synthetic native comparison. Constructed pre-Task engine prefix matching the approved design roster; the real candidate engine produces Task/return packets from approved storyboard input times. Stock-count and own-availability variants are explicitly constructed contract-valid presentation cases. No API/multiplayer/device/Designer acceptance.',pins,cases};
  const path=new URL('./food/native-fixtures.json',import.meta.url);writeFileSync(path,JSON.stringify(output));console.log(`Prepared ${cases.length} native Food cases; sha256 ${createHash('sha256').update(readFileSync(path)).digest('hex')}`);
+ }
 }

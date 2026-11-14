@@ -1,5 +1,61 @@
 # Food test 1: Integration review, 14 November 2026
 
+## Updated checkpoint: accepted chrome correction
+
+The prepared combined candidate includes Backend d5 through merged #249
+(release predecessor `f6dd343658849e963458f12c262d38c1654e87de`) and Frontend
+`99c585157f4ccd99846785149fd5f7da4fe5e3ca`. Its 30 native inputs exactly match
+reviewed `8ffce95a0cfe92facc75d8cf0a86f3686608f176`. Only
+`apps/game/hosted/planet/food-render.mjs` changes from the previous native
+registration: a retained closure owns the Food shell only for its current
+round and step. Historical receipts/closures remain intact.
+
+[Designer accepts native8ff without a blocker](https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6876930457).
+The reviewed visual packet is `a09d7b27eac3f2b2f399ee3b28d40f5c98e1eaea`;
+the 122-file evidence manifest is
+`54dddde19d6332f22ef00901bc976ae187230c89c8d4aa54ab508af1a94c728d`.
+Integration reviewed the native guard, the preserved baseline failures and
+12 corrected synthetic physical lifecycle cases. The 1,021 app/presentation
+tests passed in Frontend's packet. Those results are not connected acceptance.
+
+Subsequent development-only changes record final written build bytes and use
+the real `#planet-root` review mount instead of the classic `#app` skin. The
+live runtime and Designer sources do not change. The previous evidence remains
+preserved; Frontend is providing the real-mount supplement and the final
+normal connected matrix. An initial final-matrix launch stopped before any
+match because local Auth was unavailable; it is setup evidence, not a gameplay
+result or a reason to reroll an assignment.
+
+Integration verified all 30 native files against the reviewed commit and all
+14 unchanged Designer source pins. The static 37 SVG inventory is unchanged.
+The whole-patch whitespace check reports trailing spaces in eight inherited,
+hash-pinned Vite build logs; those evidence bytes are deliberately preserved.
+The check excluding the immutable evidence directory passes.
+The refreshed source identities are:
+
+- Registration: `04eff4ebef972c1e64d8f82f121709bd90461b4db42a8beb47be22c6b3e2b665`.
+- Closure: `d4abbfe7bc208d1b1d31bc0efa52f058191bb9bb48f734eef784eda2b874b513`.
+- Art 0.9 manifest: `4e30fcae9a8aa0899cb35d6f002b2d81f63f6548f11d937f6a55f214140bcd3c`.
+
+The separately instrumented Backend WINCH diagnostic completed delivery,
+return, physical Pass/meal and cleanup, and restored official d5. It is not
+release acceptance; it did not reproduce or clear the earlier PANEL latency,
+and read-tail limitations remain. No speculative timing or performance change
+is included.
+
+Production-consumer approval remains absent and Food is unpublished. Remaining
+gates are the normal final 7/8/9 connected evidence, exact combined-source
+verification/CI, acceptance registration and final packaging, followed by the
+already-authorized staging publication. Historical matches retain their pins;
+physical-phone, Safari, screen-reader, low-end and human-balance claims remain
+out of scope. No new design, rule or owner decision is requested.
+
+## Initial checkpoint retained as evidence
+
+The following records the earlier review before #249 merged and before the
+8ff chrome correction. Its pending/status statements are historical; the
+updated checkpoint above takes precedence.
+
 The fixed Food test 1 release remains unpublished. Designer has accepted the
 current native interface. The first connected 7/8/9 packet is preserved and
 does not pass the complete release gate. This report supersedes the current

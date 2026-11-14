@@ -1,0 +1,366 @@
+{
+  "scope": "Synthetic full native app, actual rendered control/hit guard and physical PANEL touch. No API, gameplay-history, device or new visual approval claim.",
+  "cases": [
+    {
+      "profile": "390-844-text1-normal",
+      "touch": {
+        "acted": true,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": null,
+            "canKey": false,
+            "canPanelRelease": true,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": false,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": true,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 195,
+            "y": 742,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      },
+      "inputs": [
+        "PANEL_RELEASE"
+      ],
+      "repeat": {
+        "acted": false,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": "accepted",
+            "canKey": false,
+            "canPanelRelease": false,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": true,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": false,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 195,
+            "y": 742,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      }
+    },
+    {
+      "profile": "390-844-text1-reduced",
+      "touch": {
+        "acted": true,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": null,
+            "canKey": false,
+            "canPanelRelease": true,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": false,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": true,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 195,
+            "y": 742,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      },
+      "inputs": [
+        "PANEL_RELEASE"
+      ],
+      "repeat": {
+        "acted": false,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": "accepted",
+            "canKey": false,
+            "canPanelRelease": false,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": true,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": false,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 195,
+            "y": 742,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      }
+    },
+    {
+      "profile": "320-568-text2-normal",
+      "touch": {
+        "acted": true,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": null,
+            "canKey": false,
+            "canPanelRelease": true,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": false,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": true,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 160,
+            "y": 490,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      },
+      "inputs": [
+        "PANEL_RELEASE"
+      ],
+      "repeat": {
+        "acted": false,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": "accepted",
+            "canKey": false,
+            "canPanelRelease": false,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": true,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": false,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 160,
+            "y": 490,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      }
+    },
+    {
+      "profile": "320-568-text2-reduced",
+      "touch": {
+        "acted": true,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": null,
+            "canKey": false,
+            "canPanelRelease": true,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": false,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": true,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 160,
+            "y": 490,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      },
+      "inputs": [
+        "PANEL_RELEASE"
+      ],
+      "repeat": {
+        "acted": false,
+        "observed": {
+          "model": {
+            "visible": true,
+            "fresh": true,
+            "live": true,
+            "clock": {
+              "status": "synced"
+            },
+            "pendingCount": 0,
+            "feedback": "accepted",
+            "canKey": false,
+            "canPanelRelease": false,
+            "canPanelLock": false,
+            "controls": [
+              {
+                "id": "food-panel-main",
+                "action": "release",
+                "visible": true,
+                "disabled": true,
+                "busy": false,
+                "sending": false,
+                "inert": false,
+                "next": false,
+                "hazard": false
+              }
+            ]
+          },
+          "facts": {
+            "documentVisible": true,
+            "hitMatches": true,
+            "inViewport": true
+          },
+          "point": {
+            "x": 160,
+            "y": 490,
+            "id": 1
+          },
+          "observedServerNowMs": 105300
+        }
+      }
+    }
+  ],
+  "errors": []
+}

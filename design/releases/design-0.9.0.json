@@ -615,7 +615,7 @@
     "apps/game/hosted/planet/food-pose.mjs": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
     "apps/game/hosted/planet/food-display.mjs": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
     "apps/game/hosted/planet/food-assets.mjs": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
-    "apps/game/hosted/planet/food-render.mjs": "1e453def228864837ff0c30e017ced9d41ca6f1398d037bb1e9d17f58eb64bcc",
+    "apps/game/hosted/planet/food-render.mjs": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
     "apps/game/hosted/planet/food-app.mjs": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
     "packages/presentation/src/planet/food.ts": "e535c12a65ff9b4700fa12fe2f512c9910a2c54e457c3756d061c24012cb0b1c",
     "apps/game/hosted/planet/food-gauge.mjs": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
@@ -833,7 +833,7 @@
   "registrationScope": "source-ports",
   "foodSourceRegistration": {
     "path": "docs/integration/food-consumer-source-2026-11-13.json",
-    "sha256": "788e6641b72ed636fc8c5a45baf0912f19848817e5ede986cf34449e911822f3"
+    "sha256": "04eff4ebef972c1e64d8f82f121709bd90461b4db42a8beb47be22c6b3e2b665"
   },
   "foodStaticArt": {
     "path": "docs/integration/food-supply-static-art-2026-11-13.json",
