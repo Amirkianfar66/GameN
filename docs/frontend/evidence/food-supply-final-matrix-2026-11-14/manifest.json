@@ -1,0 +1,45 @@
+{
+  "scope": "Published synthetic harness or sanitized derived acceptance evidence only; original connected raw records remain private.",
+  "files": [
+    {
+      "path": "after7-before8.json",
+      "sha256": "85d0384210ef9c49f5d3d0abdc963eff947396b60f911d1fa2aa1c992b44e920",
+      "bytes": 48468
+    },
+    {
+      "path": "after8-before9.json",
+      "sha256": "85d0384210ef9c49f5d3d0abdc963eff947396b60f911d1fa2aa1c992b44e920",
+      "bytes": 48468
+    },
+    {
+      "path": "phase-checkpoints.json",
+      "sha256": "cca06fc9683fd40f77b7fd67ade7a96ce58c0bb2b4f09050a096ac6b9ac4c215",
+      "bytes": 18566
+    },
+    {
+      "path": "postflight.json",
+      "sha256": "85d0384210ef9c49f5d3d0abdc963eff947396b60f911d1fa2aa1c992b44e920",
+      "bytes": 48468
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "85d0384210ef9c49f5d3d0abdc963eff947396b60f911d1fa2aa1c992b44e920",
+      "bytes": 48468
+    },
+    {
+      "path": "private-record-identities.json",
+      "sha256": "0826296e538eb2cb3fd878dc66ac08076313a025121cb7097c67055061f94f28",
+      "bytes": 2951
+    },
+    {
+      "path": "startup-unavailable.json",
+      "sha256": "2fd0650d91719289b551a5869fc8b7aefa9057f69694cadb140b2ca5d2d4af0b",
+      "bytes": 1310
+    },
+    {
+      "path": "summary.json",
+      "sha256": "1411030cf35c4274648e2646dca980de471902d2166526cb33f760c67a638a04",
+      "bytes": 12395
+    }
+  ]
+}

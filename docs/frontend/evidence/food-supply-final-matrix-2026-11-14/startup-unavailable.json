@@ -1,0 +1,43 @@
+{
+  "scope": "Separate preserved launch before restoration. No roster, match, assignment or gameplay outcome was created.",
+  "stage": "createEmulatorIdentity",
+  "error": "ECONNREFUSED",
+  "endpoint": "127.0.0.1:9199",
+  "generatedCases": 0,
+  "browserExceptionsCaptured": true,
+  "capturedBrowserExceptions": 0,
+  "privateFiles": [
+    {
+      "path": "/private/tmp/gamen-food-native-connected-final-99c/7/result.json",
+      "sha256": "e1efd80d7e3bcec329261614916e492afb7735450113859e1528ae37a8497843",
+      "bytes": 53763
+    },
+    {
+      "path": "/private/tmp/gamen-food-native-connected-final-99c/7-run.txt",
+      "sha256": "90a379ae9c5bb51fb1270e018a580d7b10edc72fabd1ab6087415552987975f4",
+      "bytes": 735
+    }
+  ],
+  "laterOneBoundedReadinessSnapshot": {
+    "scope": "One bounded availability check after startup refusal; no match, auth account or gameplay request created.",
+    "services": [
+      {
+        "host": "127.0.0.1",
+        "port": 5101,
+        "acceptsTcp": false,
+        "error": "[Errno 61] Connection refused"
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 9199,
+        "acceptsTcp": false,
+        "error": "[Errno 61] Connection refused"
+      },
+      {
+        "host": "127.0.0.1",
+        "port": 8180,
+        "acceptsTcp": true
+      }
+    ]
+  }
+}

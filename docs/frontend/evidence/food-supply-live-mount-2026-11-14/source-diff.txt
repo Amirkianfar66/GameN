@@ -1,0 +1,38 @@
+diff --git a/apps/game/dev/phone/food-chrome-regression.mjs b/apps/game/dev/phone/food-chrome-regression.mjs
+index d63105d0..0973cc6e 100644
+--- a/apps/game/dev/phone/food-chrome-regression.mjs
++++ b/apps/game/dev/phone/food-chrome-regression.mjs
+@@ -10,11 +10,11 @@ const server=createServer(async(req,res)=>{try{const name=new URL(req.url,'http:
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
+ const result={scope:'Actual native browser lifecycle on typed candidate-engine fixture transitions and exact original receipts, with preserved adapter closure history. Synthetic, not a live API/multiplayer/device/paint claim. All acceptance actions use enabled visible physical UI; no direct begin/confirm/command calls.',expectStale,provenance:JSON.parse(await readFile(resolve(directory,'food-review-provenance.json'),'utf8')),cases:[],errors:[]};
+ const shot=async(page,name)=>{const r=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(resolve(out,name),Buffer.from(r.data,'base64'));return name;};
+-const facts=page=>page.evaluate(`(()=>{const g=foodAppHarness.app.game.getModel(),f=foodAppHarness.app.food.getModel(),root=document.querySelector('.planet-app'),nav=root.querySelector('.planet-nav'),pass=document.querySelector('#planet-pass');
++const facts=page=>page.evaluate(`(()=>{const g=foodAppHarness.app.game.getModel(),f=foodAppHarness.app.food.getModel(),root=document.querySelector('#planet-root .planet-app'),nav=root.querySelector('.planet-nav'),pass=document.querySelector('#planet-pass');
+  const button=n=>{if(!n)return null;const r=n.getBoundingClientRect(),point={x:Math.round(r.x+r.width/2),y:Math.round(r.y+r.height/2),id:1},hit=document.elementFromPoint(point.x,point.y),ancestors=[];let visible=r.width>0&&r.height>0;
+  for(let p=n;p;p=p.parentElement){const s=getComputedStyle(p);if(p.inert)ancestors.push({tag:p.tagName,id:p.id,classes:p.className});if(s.display==='none'||['hidden','collapse'].includes(s.visibility)||Number(s.opacity)===0)visible=false;}
+  return {id:n.id,disabled:n.disabled,ariaDisabled:n.getAttribute('aria-disabled'),visible,ancestorInert:ancestors,rect:{x:r.x,y:r.y,width:r.width,height:r.height},point,inViewport:point.x>=0&&point.y>=0&&point.x<innerWidth&&point.y<innerHeight,whole:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,hitMatches:hit===n||n.contains(hit),hit:{tag:hit?.tagName??null,id:hit?.id??null,classes:typeof hit?.className==='string'?hit.className:null}};};
+- return {model:{connection:g.connection,canPass:g.canPass,phase:g.phase,activeSeatId:g.activeSeatId,ownSeatId:g.ownSeatId,action:g.action?{type:g.action.type,step:g.action.step,canConfirm:g.action.canConfirm}:null},rootDataFoodChrome:root.dataset.foodChrome,
++ return {mountId:root.closest('#planet-root').id,model:{connection:g.connection,canPass:g.canPass,phase:g.phase,activeSeatId:g.activeSeatId,ownSeatId:g.ownSeatId,action:g.action?{type:g.action.type,step:g.action.step,canConfirm:g.action.canConfirm}:null},rootDataFoodChrome:root.dataset.foodChrome,
+  foodSurfaceActiveRendered:root.dataset.foodChrome==='true',navInert:nav.inert,food:{step:f.view?.step?.kind??null,invitation:!!f.view?.invitation,participantTask:!!f.view?.participantTask,closures:f.view?.requestClosures.map(c=>({state:c.state,roundMatches:c.round===f.view.round,stepMatches:c.foodStepId===f.view.step?.stepId})),pending:f.pendingCount},
+  pass:button(pass),confirm:button(document.querySelector('#planet-confirm')),close:button(document.querySelector('#planet-close')),settings:button(document.querySelector('#planet-top-settings')),
+  activeFoodCards:[...document.querySelectorAll('.planet-food .fs-card,.planet-food .sheet')].filter(n=>n.getBoundingClientRect().height>0).length,
+diff --git a/apps/game/dev/phone/food/app-main.mjs b/apps/game/dev/phone/food/app-main.mjs
+index ec760d39..98923f12 100644
+--- a/apps/game/dev/phone/food/app-main.mjs
++++ b/apps/game/dev/phone/food/app-main.mjs
+@@ -62,7 +62,7 @@ if(q.get('abort')==='1')Object.assign(record.value,{status:'aborted',publicView:
+ if(config.recovery){
+  foodStore.save(JSON.stringify({schemaVersion:1,ownerUid:uid,matchId:record.value.matchId,seatId:record.value.selfSeatId,entries:[config.recovery.request],contact:null}));
+ }
+-const app=await mountPlanetApp(document.querySelector('#app'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
++const app=await mountPlanetApp(document.querySelector('#planet-root'),{connection,matchId:record.value.matchId,ports,stores,allowSynthetic:true});
+ for(let i=0;i<30&&!app.game?.getModel().phase;i++)await new Promise(r=>setTimeout(r,0));
+ const recoveryTransitions=[];
+ if(config.pendingHold){
+diff --git a/apps/game/dev/phone/food/app.html b/apps/game/dev/phone/food/app.html
+index 96566cbc..46507cc1 100644
+--- a/apps/game/dev/phone/food/app.html
++++ b/apps/game/dev/phone/food/app.html
+@@ -1 +1 @@
+-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="mothership:dev-only" content="synthetic-native-review"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Native Food review</title></head><body><div id="app"></div><script type="module" src="./app-main.mjs"></script></body></html>
++<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="mothership:dev-only" content="synthetic-native-review"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Native Food review</title></head><body><div id="planet-root"></div><script type="module" src="./app-main.mjs"></script></body></html>
