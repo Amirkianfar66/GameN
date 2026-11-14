@@ -23,7 +23,7 @@ The earlier Food acceptance covered the supplied header-free captures; Designer 
 - Captured the unchanged native Food compositor in a clearly labelled synthetic local fixture with production headers, at 390x844 and 430x932. Published policy: three image violations; candidate policy: zero, with the room and both operators visibly restored. This proves the policy/drawing incompatibility and correction, not a full game journey.
 - `node --test tests/tooling/hosted-policy.test.mjs`: 3/3 pass. Source-integrity checks and `git diff --check` also passed. The candidate policy differs from the published policy only by `blob:` in `img-src`; script/default/media/object/frame policies are unchanged.
 - Physical iPhones, Safari, screen readers, full motion playback and the other Designer entry-screen findings were not independently retested here.
-- The Mac locked during review; native tab selection and final live recapture/cleanup require unlocking. No workaround weakens App Check or changes test-match authority.
+- The Mac locked during review, preventing reliable native tab selection for the remaining live phone-size captures. After closing the fixture tab, the normal host controls became usable: the audit match was aborted, both views showed `Match aborted · No winner`, and the player returned to the entry screen. No workaround weakened App Check or changed test-match authority. The deployed active Food recapture remains outstanding.
 
 ## No contradiction to the core findings
 
