@@ -21,6 +21,15 @@ List only checks actually run, with commands/results or linked artifacts. State 
 - Public/private visibility impact:
 - Unresolved decisions and dependencies:
 
+## Visual component ownership
+
+For visual work, follow `docs/architecture/visual-component-ownership.md`; otherwise mark not applicable.
+
+- Canonical visual source paths, owner and version/hash; preview and runtime consumers:
+- Agreed inputs, audiences, intent events and playback/lifecycle contract:
+- Generated ports and reproducible transformations, or direct reuse; no independent visual copy:
+- Frontend screen-controller owner and early native integration evidence:
+
 ## Phone interface visual gate
 
 Required by the owner's 11 November 2026 decision and `AGENTS.md`. A green CI run does not replace Designer's visual approval of the native build.
