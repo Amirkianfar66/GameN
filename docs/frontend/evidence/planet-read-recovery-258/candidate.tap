@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: a stalled hosted READ idToken settles at its actual deadline
+ok 1 - a stalled hosted READ idToken settles at its actual deadline
+  ---
+  duration_ms: 6.122583
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ appCheck settles at its actual deadline
+ok 2 - a stalled hosted READ appCheck settles at its actual deadline
+  ---
+  duration_ms: 1.056666
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ headers settles at its actual deadline
+ok 3 - a stalled hosted READ headers settles at its actual deadline
+  ---
+  duration_ms: 1.097792
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ body settles at its actual deadline
+ok 4 - a stalled hosted READ body settles at its actual deadline
+  ---
+  duration_ms: 0.91475
+  type: 'test'
+  ...
+# Subtest: the scheduled poll recovers after a transient READ failure without refresh or reload
+ok 5 - the scheduled poll recovers after a transient READ failure without refresh or reload
+  ---
+  duration_ms: 3.15525
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled idToken keeps one logical READ and the same seat
+ok 6 - scheduled recovery after a stalled idToken keeps one logical READ and the same seat
+  ---
+  duration_ms: 7.564916
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled appCheck keeps one logical READ and the same seat
+ok 7 - scheduled recovery after a stalled appCheck keeps one logical READ and the same seat
+  ---
+  duration_ms: 4.434625
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled headers keeps one logical READ and the same seat
+ok 8 - scheduled recovery after a stalled headers keeps one logical READ and the same seat
+  ---
+  duration_ms: 11.032292
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled body keeps one logical READ and the same seat
+ok 9 - scheduled recovery after a stalled body keeps one logical READ and the same seat
+  ---
+  duration_ms: 3.538458
+  type: 'test'
+  ...
+# Subtest: a finite READ past8s retains its original clock window and never starts an overlapping read
+ok 10 - a finite READ past8s retains its original clock window and never starts an overlapping read
+  ---
+  duration_ms: 1.379583
+  type: 'test'
+  ...
+# Subtest: overdue idToken cannot beat a delayed deadline timer
+ok 11 - overdue idToken cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.328833
+  type: 'test'
+  ...
+# Subtest: overdue appCheck cannot beat a delayed deadline timer
+ok 12 - overdue appCheck cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.269167
+  type: 'test'
+  ...
+# Subtest: overdue headers cannot beat a delayed deadline timer
+ok 13 - overdue headers cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.283958
+  type: 'test'
+  ...
+# Subtest: overdue body cannot beat a delayed deadline timer
+ok 14 - overdue body cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.301666
+  type: 'test'
+  ...
+# Subtest: an overdue credential completion expires acquisition even if its sibling is still pending
+ok 15 - an overdue credential completion expires acquisition even if its sibling is still pending
+  ---
+  duration_ms: 0.125583
+  type: 'test'
+  ...
+# Subtest: deadline cancellation owns the old READ until headers actually settle
+ok 16 - deadline cancellation owns the old READ until headers actually settle
+  ---
+  duration_ms: 3.530208
+  type: 'test'
+  ...
+# Subtest: blur/focus during a stalled old-generation READ recovers automatically with a fresh clock and role
+ok 17 - blur/focus during a stalled old-generation READ recovers automatically with a fresh clock and role
+  ---
+  duration_ms: 10.741291
+  type: 'test'
+  ...
+# Subtest: a finite old-generation reply cannot repaint private data or calibrate the resumed clock
+ok 18 - a finite old-generation reply cannot repaint private data or calibrate the resumed clock
+  ---
+  duration_ms: 1.40325
+  type: 'test'
+  ...
+# Subtest: a stalled READ cannot delay or cancel the original causal Hold UP
+ok 19 - a stalled READ cannot delay or cancel the original causal Hold UP
+  ---
+  duration_ms: 4.380333
+  type: 'test'
+  ...
+# Subtest: an unknown committed Abort keeps its original ID/body across reads, reload and Retry
+ok 20 - an unknown committed Abort keeps its original ID/body across reads, reload and Retry
+  ---
+  duration_ms: 3.298042
+  type: 'test'
+  ...
+# Subtest: successful READ cleanup removes its deadline rather than aborting a later operation
+ok 21 - successful READ cleanup removes its deadline rather than aborting a later operation
+  ---
+  duration_ms: 0.312667
+  type: 'test'
+  ...
+# Subtest: mutation token acquisition remains unchanged and never inherits a READ deadline
+ok 22 - mutation token acquisition remains unchanged and never inherits a READ deadline
+  ---
+  duration_ms: 0.082167
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 141.077625
