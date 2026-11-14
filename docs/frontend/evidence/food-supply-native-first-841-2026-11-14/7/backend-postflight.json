@@ -1,0 +1,46 @@
+{
+  "backendHead": "d5a57af049c5ac8abb57754855099fa0468abd37",
+  "backendClean": true,
+  "compiledModules": [
+    {
+      "path": "services/game-api/dist/planet-game.js",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-store.js",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-food-service.js",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/planet-persistence-errors.js",
+      "matches": true
+    },
+    {
+      "path": "services/game-api/dist/food-bot-policy.js",
+      "matches": true
+    },
+    {
+      "path": "infra/firebase/dist/planet.js",
+      "matches": true
+    },
+    {
+      "path": "infra/firebase/dist/runtime.js",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food.js",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-machine.js",
+      "matches": true
+    },
+    {
+      "path": "packages/engine/dist/planet-game/food-meals.js",
+      "matches": true
+    }
+  ]
+}
