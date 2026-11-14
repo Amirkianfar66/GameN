@@ -1,5 +1,62 @@
 # Food test 1: Integration review, 14 November 2026
 
+## Native consumer accepted for the frozen staging playtest
+
+The later independent [consumer acceptance record](food-production-consumer-approval-2026-11-13.json)
+supersedes the pending adoption status below. Its historical filename matches
+the existing gate; the approval itself is dated 14 November. It authorizes
+exact source/art adoption for Food test 1. Final combined CI, packaging,
+publication and staging verification remain separate gates at this checkpoint.
+
+- Backend `6a3bee398be7b433c0cce634fdfd4e2449243069` includes both reviewed
+  original-receipt recovery and ordered heartbeat admission. All nine checks
+  passed in [run 43603382127](https://github.com/Amirkianfar66/GameN/actions/runs/43603382127).
+  The combined corrections merged through #257 as
+  `04a52d3e7c5a40f9c6d3d5c34baa2803cb744adb`. GitHub also marked #253 merged
+  through ancestry; its separate exact-head checks finished green as well.
+- Native inputs remain Designer-accepted `8ffce95a0cfe92facc75d8cf0a86f3686608f176`.
+  Integration rechecked all 30 native and 14 Designer identities unchanged.
+  The [public Designer verdict](evidence/food-designer-review-2026-11-14.json)
+  was fetched again and its body remained unchanged. No new visual batch is needed.
+- The separate documentation-only Frontend commit
+  `813ce968b2e160dca850d5bc0472d7659a68e125` adds the
+  [new first-generated 7/8/9 matrix](../frontend/food-supply-6a3-first-matrix-2026-11-14.md).
+  All three normal-clock journeys passed delivery, common return, physical own
+  Pass/confirmation, one meal, privacy, assets, exception checks and cleanup.
+  Both naturally assigned WINCH cases explicitly covered the 650 ms held-contact
+  outage and original accepted DOWN/UP receipts; the nine-player case was PANEL.
+- Integration independently checked each private original result, all eight
+  published packet-file hashes and the exact adoption diff. Only ten new
+  report/evidence files were added. Historical failures and the hash-pinned
+  closure metadata remain unchanged; the independent approval carries the
+  current acceptance instead of rewriting that evidence.
+
+The acceptance gate now permits an explicitly selected Food profile with its
+exact reviewed record. Historical/default selection remains art 0.8. The
+existing negative selection test still verifies that source registration alone
+is insufficient, using a fixture without acceptance; it also verifies the
+approved explicit selection. No validation predicate is weakened.
+
+Responsiveness remains unresolved. Recorded Task replies reached 7,452.6 ms
+and display reads 11,362.5 ms. These functional passes are not a latency waiver
+or proof of the original failure's cause. NOT_ALLOWED heartbeats are not renewal,
+and an API-success heartbeat alone does not prove its durable renewal timestamp.
+The test release must retain these limitations. Physical phones, Safari, screen
+readers, production-network performance and human balance remain untested.
+Scheduled repair was absent locally without Pub/Sub; ordinary continuation was
+observed, but unique trigger delivery was not established. Exact returned board
+positions were not compared beyond authorized placement presence.
+
+There is no new gameplay decision, visual rewrite or scope expansion here.
+The approved policy from #251 is included; both it and the earlier focused #241
+approval remain recorded verbatim. No deployment is claimed by this checkpoint.
+
+Local adoption verification passed the TypeScript build, source integrity and
+all 49 existing focused source/approval/art/drawing-fence checks, with no skips
+or failures. The negative unapproved-selection assertion remains in place;
+the approved explicit-selection assertions passed. Combined-head CI and the
+deployable standalone packages are recorded separately when completed.
+
 ## Updated checkpoint: accepted chrome correction
 
 The prepared combined candidate includes Backend d5 through merged #249

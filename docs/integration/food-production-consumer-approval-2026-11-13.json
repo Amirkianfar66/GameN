@@ -1,0 +1,129 @@
+{
+  "schema": "mothership.food-production-consumer-approval/1",
+  "status": "approved-production-consumer",
+  "approvedOn": "2026-11-14",
+  "approvedBy": "Backend and Integration reviewer",
+  "scope": "Exact native consumer and artwork adoption for the frozen Food test 1 staging playtest. This is not a deployment receipt, performance certification or authorization to change existing matches. Final combined CI, packaging and staging verification remain separate release gates.",
+  "source": {
+    "path": "docs/integration/food-consumer-source-2026-11-13.json",
+    "sha256": "1d8adae166454ae901d0e10586b389ee2c9a2226cc106be0acaec90cf428b1a9",
+    "bytes": 17349
+  },
+  "target": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.4.0",
+    "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+    "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+    "assetManifestVersion": "design-0.9.0",
+    "tokensVersion": "0.5.0"
+  },
+  "nativeCommit": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+  "designerCommit": "cd2b70dd860368cd6d0cb1bd7b01cfface4ae75b",
+  "artManifest": {
+    "path": "design/releases/design-0.9.0.json",
+    "sha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "bytes": 99281
+  },
+  "designerReview": {
+    "verdict": "accepted",
+    "url": "https://github.com/Amirkianfar66/GameN/pull/240#issuecomment-6876930457",
+    "reviewedCommit": "8ffce95a0cfe92facc75d8cf0a86f3686608f176",
+    "record": {
+      "path": "docs/integration/evidence/food-designer-review-2026-11-14.json",
+      "sha256": "7d53c4ca6f667818fddf8c01197fc213cbf6d5437ff2a241005ee1a2eed443ec",
+      "bytes": 6469
+    }
+  },
+  "captureEvidence": [
+    {
+      "path": "docs/frontend/evidence/food-supply-chrome-ownership-2026-11-14/manifest.json",
+      "sha256": "54dddde19d6332f22ef00901bc976ae187230c89c8d4aa54ab508af1a94c728d",
+      "bytes": 22352
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-live-mount-2026-11-14/manifest.json",
+      "sha256": "8a25a507e1a570aa909cdd0378b700c36c5ee30268e964546a4085c59aec7e12",
+      "bytes": 16863
+    },
+    {
+      "path": "docs/frontend/food-supply-chrome-ownership-2026-11-14.md",
+      "sha256": "35dd28dd5d8e4ef798dcb07b8f90152acd74cbff846faecb7c21c1d412e4fce3",
+      "bytes": 22413
+    },
+    {
+      "path": "docs/frontend/food-supply-live-mount-2026-11-14.md",
+      "sha256": "f56191d3078baa081a798038c5f8b7290ca4fa8e48f8deb65d0a509bb0fbe059",
+      "bytes": 6470
+    }
+  ],
+  "connectedEvidence": [
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/manifest.json",
+      "sha256": "a6ee5095a9bf0774205e69ae1b8206e240b5b90f51cb45d9fa00c806bf285d5e",
+      "bytes": 1376
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/after7-before8.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/after8-before9.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/checked-service-handoff.md",
+      "sha256": "2eb242c1f5843e15d5978ee5043e82f7a69c1e6a73dc4fe6ef4e5110a4363a37",
+      "bytes": 6403
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/phase-checkpoints.json",
+      "sha256": "0bdff0d5ec1ea419d5607cd90aa92db912cfea1909cb59beabce182ee293356b",
+      "bytes": 16784
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/postflight.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/preflight.json",
+      "sha256": "a4bc350dd6a3905668335b42aa54761bc0a3a6cce3cf124d04fcd2f53c962912",
+      "bytes": 78548
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/private-record-identities.json",
+      "sha256": "60b2b017c2c4f16a5ed2734bba2684f65658d51f9c3564a0b472608d316c6f1e",
+      "bytes": 2941
+    },
+    {
+      "path": "docs/frontend/evidence/food-supply-6a3-first-matrix-2026-11-14/summary.json",
+      "sha256": "7434c2604d845f2adf5c15748c23955d905ffc761c8fb34822f2e27f7b2d041d",
+      "bytes": 20539
+    },
+    {
+      "path": "docs/frontend/food-supply-6a3-first-matrix-2026-11-14.md",
+      "sha256": "a969b20ff5056800e4dc028e1ceb3b1f5fd3bf8ccad54489d8a7638c1580c628",
+      "bytes": 8698
+    }
+  ],
+  "backend": {
+    "reviewedCommit": "6a3bee398be7b433c0cce634fdfd4e2449243069",
+    "mergedCommit": "04a52d3e7c5a40f9c6d3d5c34baa2803cb744adb",
+    "pullRequest": 257,
+    "ci": "https://github.com/Amirkianfar66/GameN/actions/runs/43603382127",
+    "checksPassed": 9
+  },
+  "frontendEvidenceCommit": "813ce968b2e160dca850d5bc0472d7659a68e125",
+  "functionalAcceptance": "One first-generated normal-clock case per roster, no rerolls: 7 WINCH, 8 WINCH, 9 PANEL. All passed delivery, fixed common return, physical own Pass and confirmation, one meal, privacy, uniform assets, exception assertions and normal cleanup. Both WINCH cases explicitly retained physical contact across the existing 650 ms phone-only outage and the original accepted DOWN/UP receipts.",
+  "history": "Historical failed packets and the hash-pinned closure metadata remain unchanged. This independent record carries the later acceptance; it does not relabel old outcomes or claim a cause for the old native failure.",
+  "limitations": [
+    "Responsiveness remains unresolved: observed Task replies include 3565.5, 3731.6, 7452.6 and 7213.5 ms; display reads reached 11362.5 ms. Functional acceptance is not a latency waiver or a claim of acceptable production performance.",
+    "Recorded request/response intervals do not establish HTTP arrival, admission, Firestore, network or paint causation. NOT_ALLOWED heartbeats are not successful renewal; API ok:true alone does not prove a durable renewal timestamp.",
+    "Desktop Chromium and local Firebase emulators only. Physical iPhone/Android, Safari, screen readers, low-end performance, production-network load and human balance remain untested.",
+    "Scheduled repair was absent locally without Pub/Sub. Ordinary automatic continuation was observed; unique trigger delivery and scheduled repair are not established by these journeys.",
+    "Return placement presence passed; the two operators exact returned board positions were not compared. Short held-contact recovery does not establish every reload or long-outage path.",
+    "Saved matches retain their pinned rules, setup and art. Explicit new-match Food selection is required; default historical metadata remains unchanged."
+  ]
+}

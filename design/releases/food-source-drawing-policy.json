@@ -233,7 +233,7 @@
     "design/releases/design-0.9.0.json": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
     "scripts/food-consumer-source.mjs": "6e2c487b4931d96cfd185549eb547eebe2f7a91e5e4b30a85d839e4ffcd905b6",
     "scripts/food-supply-art.mjs": "3413b794840ecc8f22c0802617b831a2766c8858d71188ed036d63b7b932b8d1",
-    "scripts/food-consumer-approval.mjs": "eaa84b4ed94a6694d31dfe1cf8c53c6ad2c0f15be6dea2a54829d4f4d3392725",
+    "scripts/food-consumer-approval.mjs": "3ce5192a1948a0c1e1211f1e5ece14a2d5c3aea6b884a2acb88d63e7c072a405",
     "scripts/hosted-art-releases.mjs": "b294d46dba1e9bcb94961ccdf4092dcc2c3e8a636d67ae4407e115374c765592",
     "scripts/phone-ui-consumer-approval.mjs": "3bfd6f9f69d2d33b09419be1f117a97f5b55dda33748f8209a6a1d3fce80ae78",
     "scripts/runtime-art-release.mjs": "3fb2d318fa048f7722f3fc6b696eb967385b9194a4887da4f4ef57b0a0160294",

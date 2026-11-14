@@ -8,7 +8,7 @@ import {FOOD_CONSUMER_SOURCE, FOOD_CONSUMER_SOURCE_SHA256, readFoodConsumerSourc
 
 export const FOOD_PRODUCTION_CONSUMER_APPROVAL = 'docs/integration/food-production-consumer-approval-2026-11-13.json';
 // Integration sets this only after the exact native candidate is accepted.
-export const FOOD_PRODUCTION_CONSUMER_APPROVAL_SHA256 = null;
+export const FOOD_PRODUCTION_CONSUMER_APPROVAL_SHA256 = 'fe97a589262557603f1da62c8ed2c74aea70fb304cd9d5e1508617a7566dc624';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food production consumer: ${message}`);};
 function read(root, path) {

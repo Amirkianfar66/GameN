@@ -27,7 +27,7 @@ function fixture(t) {
   return folder;
 }
 
-test('Food registration binds the full client closure without selecting it for new matches', () => {
+test('Food registration preserves defaults; explicit selection requires native acceptance', t => {
   const source = readFoodConsumerSource(root);
   assert.equal(Object.keys(source.files).length, 30);
   assert.equal(source.status, 'reviewed-source-candidate');
@@ -35,7 +35,13 @@ test('Food registration binds the full client closure without selecting it for n
   assert.equal(food.staticAssets.length, 37);
   assert.equal(food.gameplayPins.engineVersion, 'planet-game-1.4.0');
   assert.equal(readHostedArtReleases(root).planetRelease.assetManifestVersion, 'design-0.8.0');
-  assert.throws(() => readHostedArtReleases(root, {engineProfile:'food-task-1.4'}), /requires the reviewed production consumer/);
+  // Source registration by itself still cannot select Food. This fixture has
+  // the registered sources but deliberately omits the independent acceptance.
+  assert.throws(() => readHostedArtReleases(fixture(t), {engineProfile:'food-task-1.4'}), /requires the reviewed production consumer/);
+  const selected = readHostedArtReleases(root, {engineProfile:'food-task-1.4'});
+  assert.equal(selected.planetRelease.assetManifestVersion, 'design-0.9.0');
+  assert.equal(selected.planetRelease.gameplayPins.engineVersion, 'planet-game-1.4.0');
+  assert.equal(selected.planetRelease.selectionScope, 'new-matches-only');
 });
 
 test('only a verified record can accept an exact path, predecessor and current hash', () => {
