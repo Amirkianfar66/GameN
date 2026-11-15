@@ -66,10 +66,11 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  let join:{matchId:string;kind:'player'|'display';roomCode:string;requestId:string}|null=null;
  let busy=false,uncertain=false,pending:PlanetServiceRequest|null=null,code:string|null=null,message:string|null=null,connectionState:PlanetSessionModel['connection']='connecting';
  let poll:unknown=null,ticker:unknown=null,refreshing:Promise<void>|null=null,generation=0,started=false;
- let refreshQueued=false,snapshotServerTimeMs:number|null=null,lastFoodReadAt=-Infinity,heartbeat:unknown=null,heartbeating=false;
+ type ReadScope={uid:string|null;matchId:string;generation:number};
+ let refreshQueued:ReadScope|null=null,snapshotServerTimeMs:number|null=null,lastFoodReadAt=-Infinity,heartbeat:unknown=null,heartbeating=false;
  // A local timeout ends waiting, not the underlying network request. Retain its
  // actual lifetime and original clock window until the adapter settles it.
- let readFlight:{promise:Promise<unknown>;startedAt:number;receivedAt:number;uid:string|null;matchId:string;generation:number}|null=null;
+ let readFlight:(ReadScope&{promise:Promise<unknown>;startedAt:number;receivedAt:number})|null=null;
  let roleReadingContext:string|null=null,explicitRoleConceal=false;
  const readingContext=(s:PlanetSessionSnapshot)=>s.status==='reading'&&s.setup&&s.selfSeatId&&uid?JSON.stringify([uid,s.matchId,s.setup.id,s.selfSeatId]):null;
  function readRolePrivacy(context:string):boolean {
@@ -82,6 +83,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const handle=ports.scheduler.setTimeout(()=>finish(null),8000);timeouts.add(handle);Promise.resolve().then(run).then(finish,()=>finish(null));
  });
  const auth=()=>uid!==null&&connection.currentUid()===uid;
+ const matchesReadScope=(scope:ReadScope)=>scope.uid===uid&&scope.matchId===matchId&&scope.generation===generation;
+ const needsFreshRead=()=>refreshQueued!==null&&matchesReadScope(refreshQueued)&&visible&&!disposed&&auth();
  const live=()=>visible&&fresh&&auth();
  const standingMatches=(s:PlanetSessionSnapshot)=>join===null||s.matchId===join.matchId&&s.roomCode===join.roomCode&&s.admission?.requestId===join.requestId&&s.admission.kind===join.kind;
  const knownAdmitted=()=>!!snapshot&&standingMatches(snapshot)&&(snapshot.admission===null?snapshot.isHost||snapshot.selfSeatId!==null:snapshot.admission.status==='admitted'&&(snapshot.admission.kind==='display'?snapshot.selfSeatId===null:snapshot.selfSeatId!==null));
@@ -108,12 +111,18 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   if(input.operation==='read'&&!legacyClockRead){
    if(!readFlight){
     const next={startedAt:ports.clock.now(),receivedAt:0,uid,matchId:input.matchId,generation,promise:Promise.resolve(null) as Promise<unknown>};
-    next.promise=Promise.resolve().then(()=>connection.request(input)).then(value=>{next.receivedAt=ports.clock.now();return value;}).finally(()=>{if(readFlight===next)readFlight=null;});readFlight=next;
+    next.promise=Promise.resolve().then(()=>{
+     // Only a newly dispatched read in this scope satisfies the queued refresh.
+     if(matchesReadScope(next)&&needsFreshRead())refreshQueued=null;
+     return connection.request(input);
+    }).then(value=>{next.receivedAt=ports.clock.now();return value;}).finally(()=>{
+     if(readFlight===next){readFlight=null;resumeQueuedRead();}
+    });readFlight=next;
    }
    flight=readFlight;
   }
   const raw=await bounded(()=>flight?flight.promise:connection.request(input));if(disposed||!auth())return null;
-  if(flight&&(flight.uid!==uid||flight.generation!==generation||flight.matchId!==matchId))return null;
+  if(flight&&!matchesReadScope(flight))return null;
   const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs});
   if(planetHasFood(snapshot?.versions)&&(result?.code==='FORBIDDEN'||result?.code==='UNAUTHENTICATED'))conceal('This identity can no longer read this session.',true);
   return result;
@@ -174,10 +183,18 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   if(nextRole)knownRole={role:nextRole.role,faction:nextRole.faction};
   snapshot=next;snapshotServerTimeMs=response.serverTimeMs;lastFoodReadAt=ports.clock.now();recoveredSeat=null;fresh=true;connectionState='live';if(!uncertain)message=null;saveResume();projectFeeds();emit();
  }
+ function resumeQueuedRead():boolean{
+  if(refreshing||readFlight||!needsFreshRead())return false;
+  void refresh();return true;
+ }
  async function refresh(afterCurrent=false){
   if(!started){await start(matchId??undefined);return;}
-  if(refreshing){if(afterCurrent)refreshQueued=true;return refreshing;}
-  refreshing=(async()=>{do{refreshQueued=false;await read();}while(refreshQueued&&visible&&!disposed);})().finally(()=>{refreshing=null;schedule();});return refreshing;
+  if(afterCurrent&&matchId!==null&&visible&&!disposed&&auth())refreshQueued={uid,matchId,generation};
+  if(refreshing)return refreshing;
+  refreshing=(async()=>{
+   do{await read();}while(!readFlight&&needsFreshRead());
+  })().finally(()=>{refreshing=null;if(!resumeQueuedRead())schedule();});
+  return refreshing;
  }
  const foodAway=()=>{const f=snapshot?.foodPublicView,t=clock.read();return planetHasFood(snapshot?.versions)&&f?.step?.kind==='AWAY'&&(t.status!=='synced'||t.serverNowMs<f.step.returnsAt);};
  function schedule(){

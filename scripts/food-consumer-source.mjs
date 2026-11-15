@@ -5,11 +5,13 @@ import {lstatSync, readFileSync} from 'node:fs';
 import {posix, resolve} from 'node:path';
 import {prepareFoodSupplyArt, FOOD_STATIC_ART, FOOD_STATIC_ART_SHA256} from './food-supply-art.mjs';
 import {readReleasePreservationApproval, acceptsReleasePreservationFile} from './release-preservation-consumer.mjs';
+import {readFoodInputConsumerApproval, acceptsFoodInputConsumerFile} from './food-input-consumer-approval.mjs';
 
 export const FOOD_CONSUMER_SOURCE = 'docs/integration/food-consumer-source-2026-11-13.json';
 export const FOOD_CONSUMER_SOURCE_SHA256 = '1d8adae166454ae901d0e10586b389ee2c9a2226cc106be0acaec90cf428b1a9';
 const verified = new WeakSet();
 const successors = new WeakMap();
+const inputSuccessors = new WeakMap();
 const sha = value => createHash('sha256').update(value).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food consumer source: ${message}`);};
 function read(root, path) {
@@ -45,6 +47,7 @@ export function readFoodConsumerSource(root) {
   check(sha(bytes) === FOOD_CONSUMER_SOURCE_SHA256, 'independent registration hash differs');
   const source = JSON.parse(bytes);
   const successor = readReleasePreservationApproval(root);
+  const inputSuccessor = readFoodInputConsumerApproval(root);
   check(source.schema === 'mothership.food-consumer-source/1' && source.status === 'reviewed-source-candidate' &&
     Object.keys(source.files).length === 30, 'complete named source inventory required');
   check(source.target.assetManifestVersion === 'design-0.9.0' && source.target.tokensVersion === '0.5.0' &&
@@ -68,7 +71,8 @@ export function readFoodConsumerSource(root) {
   for (const [path, entry] of Object.entries(source.files)) {
     const current = read(root, path);
     check(current.length === entry.bytes && sha(current) === entry.sha256 ||
-      acceptsReleasePreservationFile(successor, path, entry.sha256, sha(current)), `content differs: ${path}`);
+      acceptsReleasePreservationFile(successor, path, entry.sha256, sha(current)) ||
+      acceptsFoodInputConsumerFile(inputSuccessor, path, entry.sha256, sha(current)), `content differs: ${path}`);
     check(entry.candidateBlob === `design/releases/candidate-blobs/${entry.sha256}`, `candidate path differs: ${path}`);
     pin(root, entry.candidateBlob, entry);
     check(Array.isArray(entry.acceptedPreviousHashes) && (entry.previousSha256 === null ||
@@ -82,13 +86,14 @@ export function readFoodConsumerSource(root) {
     check(/^[a-f0-9]{64}$/.test(digest) && sha(read(root, `design/releases/historical-blobs/${digest}`)) === digest,
       `previous tooling content differs: ${path}`);
   prepareFoodSupplyArt(root);
-  freeze(source); verified.add(source); successors.set(source, successor); return source;
+  freeze(source); verified.add(source); successors.set(source, successor); inputSuccessors.set(source, inputSuccessor); return source;
 }
 
 /** Exact compatibility only: callers cannot self-issue records or broaden paths. */
 export function acceptsFoodConsumerSource(source, path, expectedDigest, actualDigest) {
   if (!source || !verified.has(source)) return false;
   if (acceptsReleasePreservationFile(successors.get(source), path, expectedDigest, actualDigest)) return true;
+  if (acceptsFoodInputConsumerFile(inputSuccessors.get(source), path, expectedDigest, actualDigest)) return true;
   if (!Object.hasOwn(source.files, path)) return false;
   const entry = source.files[path];
   return entry.sha256 === actualDigest && entry.acceptedPreviousHashes.includes(expectedDigest);

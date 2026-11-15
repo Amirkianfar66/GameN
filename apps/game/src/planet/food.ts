@@ -165,17 +165,39 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    }
   })().finally(()=>{checking=null;});return checking;
  }
+ function observedOffContact(){
+  const t=task(),gesture=t?.ownGesture,proof=contact;
+  if(!t||!gesture||!proof?.offObserved||down!==null||!taskOpen()||!sameContact(t)
+   ||proof.phaseId!==view?.phaseId||proof.foodStepId!==t.foodStepId||proof.round!==t.round)return null;
+  return {t,gesture,proof};
+ }
+ const closurePending=()=>entries.some(e=>e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF');
+ function hasRecordedRelease(proof:FoodContactMemory):boolean{
+  return entries.some(({original:q})=>{
+   const c=q.command;
+   return q.phaseId===proof.phaseId&&q.foodStepId===proof.foodStepId&&q.round===proof.round
+    &&c.type==='TASK_PRESS'&&c.taskId===proof.taskId&&c.controlSessionId===proof.controlSessionId
+    &&c.input.kind==='HOLD'&&c.input.edge==='UP'&&c.input.gestureSequence===proof.highestSequence;
+  });
+ }
  async function recoverOff(){
   if(recovering||!auth()||!visible||down!==null)return;recovering=true;
   try{
-   await checkReceipts();const t=task();
-   if(!taskOpen()||!t?.ownGesture||!sameContact(t)||!contact?.offObserved)return;
-   if(entries.some(e=>e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF'))return;
-   const through=Math.max(t.ownGesture.highestSequence,contact.highestSequence);
+   let observed=observedOffContact();
+   // A saved causal UP proves that an actual contact ended. A lifecycle off
+   // marker alone still checks the original receipts before asking for closure.
+   const closeFirst=observed!==null&&!!(observed.gesture.currentHolder||observed.gesture.pendingIntent)
+    &&!storageBlocked&&hasRecordedRelease(observed.proof)&&!closurePending();
+   if(!closeFirst){await checkReceipts();observed=observedOffContact();}
+   if(!observed||closurePending())return;
+   const {t,gesture,proof}=observed;
+   const through=Math.max(gesture.highestSequence,proof.highestSequence);
    const uncertain=entries.some(e=>{const c=e.original.command;return c.type==='TASK_PRESS'&&c.taskId===t.taskId&&c.controlSessionId===t.controlSessionId&&isHold(e.original);});
-   if(!t.ownGesture.currentHolder&&!t.ownGesture.pendingIntent&&!uncertain)return;
-   await enqueue(request({type:'TASK_PRESS',taskId:t.taskId,controlSessionId:t.controlSessionId,expectedControlRevision:t.controlRevision,
-    input:{kind:'HOLD_RECOVER_OFF',recoveryRevision:t.ownGesture.recoveryRevision,throughSequence:through}}),true);
+   if(!gesture.currentHolder&&!gesture.pendingIntent&&!uncertain)return;
+   const closing=enqueue(request({type:'TASK_PRESS',taskId:t.taskId,controlSessionId:t.controlSessionId,expectedControlRevision:t.controlRevision,
+    input:{kind:'HOLD_RECOVER_OFF',recoveryRevision:gesture.recoveryRevision,throughSequence:through}}),true);
+   if(closeFirst)void checkReceipts();
+   await closing;
   }finally{recovering=false;}
  }
  function holdDown():boolean {
