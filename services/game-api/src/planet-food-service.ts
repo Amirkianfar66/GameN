@@ -39,6 +39,7 @@ export interface FoodServiceSession<S extends PlanetStateEnvelope> {
   setup:unknown;foodService?:FoodServiceState;
 }
 interface Control {nextSequence:number;processedSequence:number;lastAdmittedAt:number;advancedThroughAt:number}
+interface TransportRate {since:number;count:number;lastSnapshotAt?:number}
 interface Stored {fingerprint:string;response:PlanetServiceResponse}
 interface Entry {
   sequence:number;matchId:string;uid:string|null;actorSeatId:SeatId|null;bindingRevision:number|null;
@@ -262,19 +263,24 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(complete&&wake&&wake.status!=='complete')tx.set('deadline/'+lease.wakeTaskId,{...wake,status:'complete'});
     }));
   }
-  async function foodRate(tx:PlanetReadTransaction,uid:string,q:Request|null,at:number){
+  async function foodRate(tx:PlanetReadTransaction,uid:string,q:Request|null,at:number,previous?:TransportRate|null){
     const c=q?.operation==='foodCommand'?q.request.command:null;
     const closure=c?.type==='TASK_PRESS'&&(c.input.kind==='HOLD_RECOVER_OFF'||c.input.kind==='HOLD'&&c.input.edge==='UP');
     const budget=q?.operation==='read'?'snapshot':q?.operation==='foodHeartbeat'?'presence':closure?'closure'
       :q?.operation==='foodCommand'||q?.operation==='command'?'input':'control';
-    const path=key('foodTransportRate',[uid,budget]),old=await tx.get<{since:number;count:number}>(path);
+    const path=key('foodTransportRate',[uid,budget]),old=await tx.get<TransportRate>(path);
+    if(previous!==undefined&&hash(previous)!==hash(old))throw new Error('Unconfirmed passive Food snapshot');
+    if(q?.operation==='read'&&old?.lastSnapshotAt!==undefined&&at<old.lastSnapshotAt)
+      throw new Error('Backward Food snapshot clock');
     const current=!old||at-old.since>=60_000?{since:at,count:0}:old;
     if(current.count>=FOOD_TASK_TRANSPORT.requestsPerMinute[budget])d.reject('RATE_LIMITED');
-    return {path,current};
+    const next:TransportRate={...current,count:current.count+1};
+    if(q?.operation==='read')next.lastSnapshotAt=at;
+    return {path,old,next};
   }
   async function limitFood(tx:PlanetTransaction,uid:string,q:Request|null,at:number):Promise<void>{
-    const {path,current}=await foodRate(tx,uid,q,at);
-    tx.set(path,{...current,count:current.count+1});
+    const {path,next}=await foodRate(tx,uid,q,at);
+    tx.set(path,next);
   }
   async function preflightAdmission(matchId:string,uid:string,q:Request,expected?:{seatId:SeatId;bindingRevision:number}){
     return readOnly(async tx=>{
@@ -743,12 +749,17 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     });
     if(observed===null)return null;
     let enteredWritePath=false;
+    let passiveRateBefore:TransportRate|null|undefined;
+    const fallback=()=>{
+      if(passiveRateBefore!==undefined)throw new Error('Unconfirmed passive Food snapshot');
+      return null;
+    };
     return store.transaction(async tx=>{
       // Only small private documents are locked. Every gameplay/membership effect
       // changes this control in the same commit as Session; worker scheduler-only
       // publications do not affect the captured audience projection.
       const control=await tx.get<Control>(controlKey(matchId));
-      if(!control)return null;
+      if(!control)return fallback();
       const observedHash=hash(observed.control);
       if(hash(control)!==observedHash){
         // Another fast snapshot can advance both watermarks without admitting
@@ -760,31 +771,38 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const newer=!enteredWritePath&&Number.isSafeInteger(control.lastAdmittedAt)&&control.lastAdmittedAt===control.advancedThroughAt
           &&control.lastAdmittedAt>=lastAdmittedAt&&control.advancedThroughAt>=advancedThroughAt
           &&hash({...control,lastAdmittedAt,advancedThroughAt})===observedHash;
-        return newer?'refresh':null;
+        return newer?'refresh':fallback();
       }
       const renewals=await contacts(tx,matchId),{s,actor}=observed;
       const at=clock(),due=engine().planetDeadlineAt(s.state!),f=s.foodService;
       if(!Number.isSafeInteger(at)||!Number.isSafeInteger(at+FOOD_PRESENCE_LEASE_MS)||at<control.lastAdmittedAt||at<control.advancedThroughAt
-        ||due!==null&&due<=at||!f)return null;
-      f.leases=effectiveLeases(s,renewals,at);
-      if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at))return null;
-      const lease=actor===null?undefined:f.leases[actor];
+        ||due!==null&&due<=at||!f)return fallback();
+      const leases=effectiveLeases(s,renewals,at);
+      if(Object.values(leases).some(l=>l&&!l.offline&&l.expiresAt<=at))return fallback();
+      const lease=actor===null?undefined:leases[actor];
       const task=actor===null?null:engine().projectPlanetFoodPlayer(s.state!,actor,at).participantTask;
       const person=task?.people.find(p=>p.seatId===actor);
       const livingActive=task!==null&&task.stage!=='ENDED'&&person?.alive===true;
       if(lease&&(lease.offline||lease.expiresAt<=at||!livingActive||!person?.online||lease.taskId!==task!.taskId)
-        ||!lease&&livingActive)return null;
+        ||!lease&&livingActive)return fallback();
       // No engine boundary or online transition is skipped: only transport watermarks and
       // an already-online own lease change. Fallbacks above spend no rate budget or writes.
+      // Passive READs no longer change their own Control fence. If a retry
+      // observes a different rate record, the prior charge may have committed.
+      const rate=await foodRate(tx,uid,{operation:'read',matchId},at,passiveRateBefore);
       enteredWritePath=true;
-      await limitFood(tx,uid,{operation:'read',matchId},at);
-      tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
+      tx.set(rate.path,rate.next);
       if(lease&&actor!==null){
+        tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
         const binding=s.members.find(m=>m.seatId===actor)!.bindingRevision;
         tx.set(contactKey(matchId),{...renewals,[actor]:{taskId:lease.taskId,bindingRevision:binding,
           admittedAt:at,expiresAt:at+FOOD_PRESENCE_LEASE_MS}} satisfies Contacts);
         // Renewal only extends a live expiry. Its already-durable earlier wake
         // remains responsible for hydrating and rearming the later deadline.
+      }else{
+        // An observer's clock sample has no effect on the match's admissions.
+        // The exact Control read still fences the authorized snapshot.
+        passiveRateBefore=rate.old;
       }
       return response(d.snapshot(s,uid,at),at);
     });
