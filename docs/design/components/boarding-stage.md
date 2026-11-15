@@ -1,6 +1,6 @@
 # Boarding stage: Designer's runtime component
 
-**Version:** `boarding-stage-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the shell and kit 0.3.0 (`c1b190ab`), with its preview, probe, agreement with the pack, check and test. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
+**Version:** `boarding-stage-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the shell and kit 0.3.0 (`05e2d1d0`, with the shell's `backdrop`), with its preview, probe, agreement with the pack, check and test. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
 
 **What it is:** the shared ten-second boarding before Round 1 on a phone, as sheet 19 draws it: the boarding film with Skip, and the two holding screens around it. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -36,7 +36,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/boarding-stage/`:
 The tool is `design/tools/boarding-stage-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/boarding-stage.test.mjs`.
 
 **Uses unchanged:**
-- **The phone shell:** `bar: null, tabs: null` throughout (sheet 19 draws no bar), and `edge: true`, so the film runs edge to edge. The shell's reconnecting banner and toast sit at the bar's place, over the film.
+- **The phone shell:** `bar: null, tabs: null` throughout (sheet 19 draws no bar), `edge: true`, so the film runs edge to edge, and `backdrop: 'canvas'`, the pack's phone canvas under everything. The shell's reconnecting banner and toast sit at the bar's place, over the film.
 - **The kit:** Skip is a small secondary kit button with the skip icon, under the kit's control policy. The holding screens are the kit's `wait` (kit 0.3.0, the pack's `.wait`: the 76 px tile, the title, the line, and the spinner when busy), which other screens share.
 - **`icons.mjs`:** the flag and the hourglass, through the kit's `wait`.
 

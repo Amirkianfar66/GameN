@@ -113,7 +113,8 @@ export function mountBoardingStage(host, input = {}, handlers = {}) {
   function shellInput() {
     return {
       status: state.status, interactive: state.interactive, reducedMotion: state.reducedMotion, insets: state.insets, viewer: state.viewer,
-      bar: null, tabs: null, edge: true, banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
+      // No room here: the pack's phone canvas under everything (the shell's backdrop).
+      bar: null, tabs: null, edge: true, backdrop: 'canvas', banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
     };
   }
 

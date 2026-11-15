@@ -131,6 +131,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
+    assert.equal(c.backdrop, 'rgb(16, 20, 28)', `${key}: the shell's backdrop is the pack's canvas`);
   }
   for (const size of ['390x844', '430x932']) {
     assert.equal(record.captures[`${size}/holding`].line, 'Round 1 in 0:04', `${size}: sheet 19's countdown`);

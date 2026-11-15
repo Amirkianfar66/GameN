@@ -84,6 +84,7 @@ try {
           title: shown(film) ? null : q('.ms-k-wait-title')?.textContent ?? null, line: !shown(film) && shown(line) ? line.textContent.trim() : null,
           role: line?.getAttribute('role') ?? null, spinner: !!line?.querySelector('.ms-k-spinner'), canvas: hold === 'rgb(16, 20, 28)',
           covered: shown(cover) && (cover === mid || cover.contains(mid)), banner: q('.ms-ps-banner b')?.textContent ?? null,
+          backdrop: getComputedStyle(document.querySelector('.ms-phone-shell')).backgroundColor,
           layout: window.__boardingStage.mounted[0]?.layout?.() ?? null };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
@@ -95,7 +96,7 @@ try {
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
       const drawn = EXPECT[state](seen);
-      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
+      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn && seen.backdrop === 'rgb(16, 20, 28)';
       if (!ok) failed += 1;
       results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn, ...seen, requests, problems };
       await page.close();
