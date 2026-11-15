@@ -150,7 +150,7 @@ try {
           urgent: !!q('.ms-ps-timer[data-urgent]'), ring: !!q('.ms-ps-ring'), promises: q('.ms-ps-promises')?.getAttribute('aria-label') ?? null, menu: !!q('.ms-ps-menu'),
           tabs: root.querySelectorAll('.ms-ps-tab[data-intent]').length, open: q('.ms-ps-tab[aria-expanded="true"]')?.dataset.value ?? null,
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
-          target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-ps-btn-label'), banner: t('.ms-ps-banner b'), sheet: t('.ms-ps-sheet h2'),
+          target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), sheet: t('.ms-ps-sheet h2'),
           sheetActions: root.querySelectorAll('.ms-ps-sheet-foot button').length, buttons: root.querySelectorAll('.ms-ps-tb button, .ms-ps-tabs button, .ms-ps-talk button, .ms-ps-over button, .ms-ps-sheet button').length,
           figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, layout: window.__phoneShell.mounted[0].shell.layout() };
       })()`);
