@@ -56,7 +56,7 @@ import '…/design/phone-ui/components/phone-shell/phone-shell.css';
 
 const shell = mountPhoneShell(host, input, handlers);
 shell.stage;                 // the element between the bars: mount the room scene or the board here
-shell.layout();              // { size, bars: { top, bottom }, stage: { width, height }, covered: { bottom } }
+shell.layout();              // { size, bars: { top, bottom }, stage: { width, height }, safe: { top, bottom }, covered: { bottom } }
 shell.sheetBody;             // the open sheet's scrolling body (null with no sheet): mount its content here
 shell.slot('clock');         // the place beside the clock: Food's gauge goes here
 shell.slot('cover');         // the stage's cover: a layer over the stage, for a result window over the room
@@ -81,6 +81,11 @@ shell.dispose();             // removes the element and its listeners
 - **The cover** (`slot('cover')`): a layer exactly over the stage. It lies above everything the stage holds, including the room scene's tags, which stack inside the stage, and under the bars, the target bar, the chip, the banner, the toast and the sheet.
   - It takes no taps itself: content that should catch them sets `pointer-events: auto` on its root.
   - Mount the vote's result window there (#267). The shell leaves it as it is while concealed, as it does the stage: the component mounted there hides itself.
+- **Edge to edge** (`edge: true`): the stage and the cover fill the whole shell, from the top edge to the bottom edge, under the safe areas and under any bar or tabs. It is for a full-screen film or poster, which the pack draws at `inset: 0`.
+  - The bar's glass lies over the stage, as over the pack's ship travel poster (sheet 41).
+  - `layout().bars` is then `{ top: 0, bottom: 0 }`. `layout().safe` gives the safe areas, so the component keeps its own controls clear of them, as the pack's Skip film sits `safe.bottom + 14` px above the foot.
+  - The room scene and the board stay between the bars: they are framed to the stage's box.
+- **The overlays keep the bar's place.** The target bar, the banner, the toast and a large sheet start under where the top bar ends, with or without a bar. On its bar-less films the pack's `--top` keeps the bar's height, so "Rejoined" sits under the film's clock chip (sheet 18).
 - **The layers, as the pack's:** a docked sheet lies over the cover, the target bar, the chip and the reconnecting banner. The toast stays above the sheet.
   - Each mount is independent. A new match or seat is a new mount, after disposing the old one.
 
@@ -94,7 +99,8 @@ shell.dispose();             // removes the element and its listeners
 | `insets` | Phone | `null`: the safe areas from `env(safe-area-inset-*)`; or `{ top, right, bottom, left }` in CSS px |
 | `viewer` | Phone | Whose phone this is (a seat id, or `null` for a shared display). When it changes, this viewer's inputs are dropped unless the same update gives the new viewer's |
 | `versions` | Public | The match's art versions, for the portraits |
-| `bar` | Public | The top bar's input, below. `null`: no top bar at all, as the role stage's full-bleed film. The stage then runs to the top edge, and the target bar, the banner, the toast and a large sheet sit under the top safe area |
+| `bar` | Public | The top bar's input, below. `null`: no top bar at all, as the role stage's film. The stage then runs to the top edge, and the target bar, the banner, the toast and a large sheet keep the bar's place |
+| `edge` | Phone | `true`: the stage and the cover fill the whole shell, edge to edge, under the safe areas and any bar or tabs, for a full-screen film or poster. Default `false`: the stage between the bars |
 | `bar.kind` | Public | `'turn'`, `'phase'` or `'pair'` |
 | `bar.who` | Public | Turn: `{ seat, name, character }` of the active seat |
 | `bar.self` | This viewer's | Turn: whether it is this viewer's turn: "Your turn", amber |
@@ -159,6 +165,8 @@ Each reports a tap, and only that.
 | Choosing a target | The target bar with Cancel; the round button stays (T2) |
 | A sheet | Docked between the bars, glass. Pass the room scene `control: null` while one is open: the pack hides the room's own control under a sheet |
 | Private talk | The pair bar; Promises and My card at the foot; the stage runs to the bottom, and `layout().covered.bottom` says how much the two buttons cover |
+| A full-screen film | `bar: null`, `tabs: null`, `edge: true` (the role stage, #268): the stage edge to edge; the toast and the banner at the bar's place |
+| A full-screen poster | A bar, `tabs: null`, `edge: true` (ship travel, #269): the stage edge to edge, the bar's glass over it |
 | Reconnecting | The phase bar "Reconnecting…", the banner with Retry, the controls refused. The room scene dims itself (`status: 'stale'`) |
 | Concealed | The bars' empty material only: no name, number, time or control, and nothing for a screen reader |
 | Largest text | The pack's container queries: the handshake alone, no clock icon, the round out of the bar, a phase's short title, the two-line title |
@@ -225,11 +233,14 @@ Listed, not omitted:
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** fourteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 29 of 29 pass, each drawing what its state asks.
+  - **Captures:** fifteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 31 of 31 pass, each drawing what its state asks.
     - The 5 s result carries a stand-in for the vote's result window in the cover.
-    - `film` draws no top bar: a full-bleed stand-in with the reconnecting banner over it.
-  - **The lifecycle probe** (`preview/probe.mjs`): 16 of 16 checks pass.
-    - **As the page comes (15):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, the toast, the large-content view, dispose and motion.
+    - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
+    - `poster` runs edge to edge under a phase bar, with no tabs.
+  - **The lifecycle probe** (`preview/probe.mjs`): 17 of 17 checks pass.
+    - **As the page comes (16):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, edge to edge, the toast, the large-content view, dispose and motion.
+      - **No bar:** the stage runs to the top edge, and the banner and the toast keep the bar's place (107 and 109 px at a 47 px safe area).
+      - **Edge to edge:** the stage and the cover fill the shell, the bar's glass lies over the stage, `layout()` gives the safe areas (also when only they change), the overlays stay put, and `edge: 'yes'` is refused.
       - **The layers:** the cover is over the stage and above a z-index 3150 inside it; the target bar, the banner and the toast are each over the cover; over a large sheet the toast stays on top and the banner under.
     - **With the device's Reduce motion emulated (1):** motion.
   - **The agreement with the pinned pack** (`preview/agree.mjs`): 7 of 7 cases.
@@ -237,7 +248,8 @@ Listed, not omitted:
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `b51b715c`, with kit 0.2.0, the cover and no-bar mode, and the source clean.
+    - Recorded on `f18cdc07`, with kit 0.2.0, the cover, no-bar mode with the overlays at the bar's place, and `edge`, and the source clean.
+    - Against `b51b715c`'s record, only `film` changed (edge to edge, the banner at the bar's place) and `poster` is new. Every other capture differs by at most 127 pixels, in the room's ambient motion.
     - **At the game's text size:** the preview's root is now the browser's 16 px, as the game's. Until `10496d18` it forced 14 px, so every rem-sized word in the shell and the room scene drew an eighth small. The bars keep their pixel minimums (99 and 92 px at 390 × 844); the words and the room's tags are larger. The agreement with the pack, drawn in the same page, holds at 16 px.
     - Against `10496d18`, before these, the captures differ by the larger words, which is the fix, and by noise in the room's ambient motion.
     - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements, with the same font, size, weight, line height and colour (checked on `aea6dab4`). The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
