@@ -19,6 +19,7 @@
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
+import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
 export const PHONE_SHELL_VERSION = 'phone-shell-0.1.0';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
@@ -209,13 +210,14 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else if (node.getAttribute(name) !== String(value)) node.setAttribute(name, String(value));
   };
 
-  const root = el('div', 'ms-phone-shell', { tabindex: '-1' });
+  // The root carries the kit (kit.css applies inside it) as well as the shell's own styles.
+  const root = el('div', 'ms-phone-shell ms-kit', { tabindex: '-1' });
   const stage = el('div', 'ms-ps-stage');
   const bar = el('header', 'ms-ps-tb', { 'aria-label': 'Match status' });
   const over = el('div', 'ms-ps-over');
-  const reasons = el('div', 'ms-ps-vh');
-  root.append(stage, bar, over, reasons);
+  root.append(stage, bar, over);
   host.append(root);
+  const kit = createKit(doc);
 
   let state = nextPhoneShellInput(PHONE_SHELL_DEFAULTS, input);
   let disposed = false, suspended = false, seq = 0, lastLayout = null, toastShown = null, toastTimer = null, press = null;
@@ -234,7 +236,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const target = event.target.closest?.('button[data-intent]');
     if (!target || !root.contains(target)) return;
     const { intent, value } = target.dataset;
-    if (target.getAttribute('aria-disabled') === 'true' || target.getAttribute('aria-busy') === 'true' || !accepts(intent)) return;
+    if (policy.refused(target) || !accepts(intent)) return;
     if (intent === 'tab') on.onTab?.(value);
     else if (intent === 'hero') on.onHero?.(value);
     else if (intent === 'promises') on.onPromises?.();
@@ -249,41 +251,16 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   root.addEventListener('click', onClick);
 
   /**
-   * A control's state: `off` dims it (the control itself is unavailable now, as the pack draws it);
-   * aria-disabled says it takes no tap now (off, or the shell not taking that tap); `reason` is the
-   * accessible description Frontend gives, or, while reconnecting, the banner's own words.
+   * The kit's control policy (kit.mjs createControlPolicy), the same for every Designer component: an
+   * unavailable control is dimmed and refused but keeps its focus; one the shell is not taking now is
+   * refused, and while reconnecting says why in the banner's words; a busy one is refused; when the
+   * focused control ends, the focus moves to the shell and onFocusReturn({ intent, value }) says which.
    */
-  function control(node, { intent, off = false, busy = false, reason = null }) {
-    const refused = off || !accepts(intent);
-    attr(node, 'aria-disabled', refused ? 'true' : null);
-    attr(node, 'aria-busy', busy ? 'true' : null);
-    attr(node, 'data-off', off ? '' : null);
-    const why = reason ?? (state.status === 'stale' && !LOCAL.has(intent) ? RECONNECTING.sub : null);
-    let note = node.__msReason;
-    if (why) {
-      if (!note) { note = el('span', null, { id: `${uid}-r${(seq += 1)}` }); reasons.append(note); node.__msReason = note; }
-      text(note, why);
-      attr(node, 'aria-describedby', note.id);
-    } else if (note) { note.remove(); node.__msReason = null; attr(node, 'aria-describedby', null); }
-  }
-
-  /**
-   * Removes a node. If it held the focus (a control that ended), the focus moves to the shell itself,
-   * and then onFocusReturn({ intent, value }) tells Frontend which one ended, so it can move the focus
-   * on. That is the only time the shell moves the focus.
-   */
-  function remove(node) {
-    if (!node) return;
-    for (const c of [node, ...node.querySelectorAll('[aria-describedby]')]) if (c.__msReason) { c.__msReason.remove(); c.__msReason = null; }
-    const active = doc.activeElement;
-    const focused = !!active && node.contains(active);
-    const ended = focused ? active.closest?.('[data-intent]') : null;
-    node.remove();
-    if (!focused || disposed) return;
-    root.focus({ preventScroll: true });
-    const detail = ended ? { intent: ended.dataset.intent, value: ended.dataset.value ?? null } : null;
-    queueMicrotask(() => { if (!disposed && doc.activeElement === root) on.onFocusReturn?.(detail); });
-  }
+  const policy = createControlPolicy({ root, accepts: intent => accepts(intent),
+    defaultReason: intent => (state.status === 'stale' && !LOCAL.has(intent) ? RECONNECTING.sub : null),
+    onFocusReturn: detail => on.onFocusReturn?.(detail) });
+  const control = (node, options) => policy.control(node, options);
+  const remove = node => policy.remove(node);
   function keep(name, wanted, make, parent = over, before = null) {
     if (!wanted) { remove(parts[name]); parts[name] = null; return null; }
     if (!parts[name]) { parts[name] = make(); parent.insertBefore(parts[name], before); }
@@ -454,8 +431,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       let node = parts.tabNodes.get(key);
       if (!node) {
         if (variant === 'talk') {
-          node = button('ms-ps-btn ms-ps-btn-secondary', 'tab', key);
-          node.append(el('span', 'ms-ps-btn-icon'), el('span', 'ms-ps-btn-label'));
+          node = kit.button({ label: TAB_WORDS[key].label, kind: 'secondary', icon: TAB_WORDS[key].icon, intent: 'tab', value: key });
         } else if (key === 'hero') {
           node = el('div', 'ms-ps-tab ms-ps-tab-hero');
           const hero = button('ms-ps-hero', 'hero');
@@ -470,9 +446,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       if (node.parentNode !== nav || nav.children[order.indexOf(key)] !== node) nav.insertBefore(node, nav.children[order.indexOf(key)] ?? null);
       if (variant === 'talk') {
         const w = TAB_WORDS[key];
-        setIcon(node.firstChild, w.icon, tabs.open === key);
-        text(node.lastChild, w.label);
-        attr(node, 'aria-expanded', String(tabs.open === key));
+        // As the pack draws a tab: the open one's icon is filled.
+        kit.setButton(node, { label: w.label, kind: 'secondary', icon: w.icon, filled: tabs.open === key, expanded: tabs.open === key, intent: 'tab', value: key });
         control(node, { intent: 'tab', off: !tabs.enabled[key], reason: tabs.reasons[key] });
         continue;
       }
@@ -508,10 +483,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const node = el('div', 'ms-ps-target', { role: 'status' });
       const glyph = el('span', 'ms-ps-target-icon'), words = el('div', 'ms-ps-text');
       words.append(el('b'), el('span'));
-      const cancel = button('ms-ps-btn ms-ps-btn-secondary ms-ps-btn-sm', 'cancel-target');
-      cancel.append(el('span', 'ms-ps-btn-label'));
-      cancel.lastChild.textContent = 'Cancel';
-      node.append(glyph, words, cancel);
+      node.append(glyph, words, kit.button({ label: 'Cancel', kind: 'secondary', small: true, intent: 'cancel-target' }));
       return node;
     });
     if (target) {
@@ -529,26 +501,19 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const b = el('b'), s = el('span');
       b.textContent = RECONNECTING.title; s.textContent = RECONNECTING.sub;
       words.append(b, s);
-      const retry = button('ms-ps-btn ms-ps-btn-secondary ms-ps-btn-sm', 'retry');
-      retry.append(el('span', 'ms-ps-btn-label'));
-      retry.lastChild.textContent = RECONNECTING.action;
-      node.append(glyph, words, retry);
+      node.append(glyph, words, kit.button({ label: RECONNECTING.action, kind: 'secondary', small: true, intent: 'retry' }));
       return node;
     });
     if (banner) control(banner.lastChild, { intent: 'retry', busy: state.banner.busy });
     const chip = keep('chip', !concealed && !!state.chip, () => {
       const node = el('div', 'ms-ps-chip');
-      const b = button('ms-ps-btn ms-ps-btn-sm ms-ps-chip-btn', 'chip');
-      b.append(el('span', 'ms-ps-btn-icon'), el('span', 'ms-ps-btn-label'));
-      node.append(b);
+      node.append(kit.button({ label: '', kind: 'secondary', small: true, intent: 'chip', extra: ['ms-ps-chip-btn'] }));
       return node;
     });
     if (chip) {
       const b = chip.firstChild, c = state.chip;
-      b.dataset.value = c.id;
+      kit.setButton(b, { label: c.label, kind: 'secondary', small: true, icon: c.icon, filled: true, intent: 'chip', value: c.id, extra: ['ms-ps-chip-btn'] });
       b.dataset.tone = c.tone;
-      setIcon(b.firstChild, c.icon, true);
-      text(b.lastChild, c.label);
       control(b, { intent: 'chip', off: !c.enabled });
     }
   }
@@ -560,7 +525,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     root.toggleAttribute('data-sheet', !!s);
     if (!s) return;
     if (!parts.sheet) {
-      const node = el('section', 'ms-ps-sheet', { role: 'dialog' });
+      // A glass surface: the kit's controls inside take their glass forms (kit.css), as the pack's sheets do.
+      const node = el('section', 'ms-ps-sheet', { role: 'dialog', 'data-ms-surface': 'glass' });
       node.dataset.sheet = s.id;
       const head = el('div', 'ms-ps-sheet-head');
       const title = el('div', 'ms-ps-sheet-title');
@@ -579,9 +545,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     text(title.lastChild, s.sub ?? '');
     title.lastChild.hidden = !s.sub;
     let back = head.querySelector('[data-intent="sheet-back"]'), close = head.querySelector('[data-intent="sheet-close"]');
-    if (s.back && !back) { back = button('ms-ps-icon-btn', 'sheet-back', null, { 'aria-label': 'Back' }); back.append(icon('chevronLeft')); head.prepend(back); }
+    if (s.back && !back) { back = kit.iconButton({ label: 'Back', icon: 'chevronLeft', intent: 'sheet-back' }); head.prepend(back); }
     else if (!s.back && back) { remove(back); back = null; }
-    if (s.close && !close) { close = button('ms-ps-icon-btn', 'sheet-close', null, { 'aria-label': 'Close' }); close.append(icon('close')); head.append(close); }
+    if (s.close && !close) { close = kit.iconButton({ label: 'Close', icon: 'close', intent: 'sheet-close' }); head.append(close); }
     else if (!s.close && close) { remove(close); close = null; }
     if (back) control(back, { intent: 'sheet-back' });
     if (close) control(close, { intent: 'sheet-close' });
@@ -594,12 +560,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     for (const b of [...foot.children]) if (!ids.includes(b.dataset.value)) remove(b);
     s.actions.forEach((a, i) => {
       let b = [...foot.children].find(c => c.dataset.value === a.id);
-      if (!b) { b = button('ms-ps-btn', 'sheet-action', a.id); b.append(el('span', 'ms-ps-btn-icon'), el('span', 'ms-ps-btn-label')); }
+      if (!b) b = kit.button({ label: a.label, kind: a.kind, intent: 'sheet-action', value: a.id });
       if (foot.children[i] !== b) foot.insertBefore(b, foot.children[i] ?? null);
-      b.className = `ms-ps-btn ms-ps-btn-${a.kind}`;
-      if (a.icon) setIcon(b.firstChild, a.icon, a.kind === 'primary'); else { b.firstChild.replaceChildren(); b.firstChild.dataset.icon = ''; }
-      b.firstChild.hidden = !a.icon;
-      text(b.lastChild, a.label);
+      kit.setButton(b, { label: a.label, kind: a.kind, icon: a.icon, intent: 'sheet-action', value: a.id });
       control(b, { intent: 'sheet-action', off: !a.enabled, busy: a.busy, reason: a.reason });
     });
   }
@@ -628,8 +591,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   // capped at 14 px: then the word is shown large over the stage while the finger stays down.
   const labelsCapped = () => parseFloat(win.getComputedStyle(doc.documentElement).fontSize) * 0.75 > 14;
   function showHud(node) {
-    const words = node.querySelector('.ms-ps-tab-label, .ms-ps-hero-label, .ms-ps-btn-label')?.textContent ?? '';
-    const mark = node.querySelector('.ms-ps-tab-icon, .ms-ps-hero-icon, .ms-ps-btn-icon')?.dataset.icon?.split(':')[0];
+    const words = node.querySelector('.ms-ps-tab-label, .ms-ps-hero-label, .ms-k-btn-label')?.textContent ?? '';
+    const mark = node.querySelector('.ms-ps-tab-icon, .ms-ps-hero-icon, .ms-k-btn-icon')?.dataset.icon?.split(':')[0];
     const hud = keep('hud', true, () => {
       const h = el('div', 'ms-ps-hud', { 'aria-hidden': 'true' });
       h.append(el('span', 'ms-ps-hud-icon'), el('b'));
@@ -726,6 +689,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     hideHud();
     if (toastTimer) win.clearTimeout(toastTimer);
     observer?.disconnect();
+    policy.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('pointerdown', onPointerDown);
     for (const type of ['pointerup', 'pointercancel', 'pointerleave']) root.removeEventListener(type, hideHud);

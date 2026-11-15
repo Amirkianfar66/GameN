@@ -1,0 +1,209 @@
+/*
+ * The phone interface's shared kit: runtime source, Designer's (kit.mjs builds the elements). One look
+ * for every component's controls: buttons, the icon button, the segmented control, the stepper, the
+ * switch, grouped lists and their rows, fields and code boxes, the inline error, portraits, the seat
+ * number, the 3 × 3 cells with their states, stamps, pills and the caption tag. These are the phone
+ * pack's own values (design/phone-ui/prototype/kit.css, which the frozen Food release pins, so it stays
+ * as it is; the kit's check draws the pack's ui.mjs builders beside these and compares them).
+ *
+ * Scope: everything applies inside an element with the class ms-kit, which each component adds to its
+ * own root. A glass surface (the shell's docked sheet) marks itself data-ms-surface="glass"; inside it the
+ * pack's glass versions apply (kit.css .sheet …). Nothing here reaches an element without an ms-k- class.
+ */
+
+.ms-kit {
+  --ms-k-canvas: #10141C;
+  --ms-k-surface-1: #171D29;
+  --ms-k-surface-2: #202837;
+  --ms-k-surface-3: #2A3346;
+  --ms-k-surface-4: #343F55;
+  --ms-k-paper: #F4EBDD;
+  --ms-k-paper-deep: #CBBBA2;
+  --ms-k-ink: #151923;
+  --ms-k-text: #F4EBDD;
+  --ms-k-text-2: #B9C4D3;
+  --ms-k-text-3: #8696AE;
+  --ms-k-accent: #F1B84B;
+  --ms-k-on-accent: #151923;
+  --ms-k-caption: #F7C52B;
+  --ms-k-steel-mid: #55657E;
+  --ms-k-steel-light: #8696AE;
+  --ms-k-hairline: rgba(185, 196, 211, 0.16);
+  --ms-k-glass-fill: rgba(8, 11, 18, 0.24);
+  --ms-k-glass-fill-2: rgba(255, 255, 255, 0.14);
+  --ms-k-glass-line: rgba(255, 255, 255, 0.1);
+  --ms-k-shadow-ink: 4px 4px 0 #05070B;
+  --ms-k-radius-control: 14px;
+  --ms-k-radius-group: 14px;
+  --ms-k-target: 44px;
+  --ms-k-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
+  --ms-k-letter: "Arial Narrow", "Helvetica Neue", "Inter Display", Arial, sans-serif;
+  --ms-k-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  --ms-k-t-card: 220ms;
+  --ms-k-ease: cubic-bezier(0.2, 0, 0, 1);
+  /* The pack's page text (kit.css body), for a component root that sets none of its own. */
+  font: 400 1rem/1.4 var(--ms-k-font);
+  color: var(--ms-k-text);
+  -webkit-font-smoothing: antialiased;
+}
+/* On glass the pack's greys are lighter (kit.css .sheet: --text-secondary, --text-tertiary). */
+.ms-kit [data-ms-surface="glass"] { --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; }
+.ms-kit :is([class^="ms-k-"], [class*=" ms-k-"]),
+.ms-kit :is([class^="ms-k-"], [class*=" ms-k-"])::before,
+.ms-kit :is([class^="ms-k-"], [class*=" ms-k-"])::after { box-sizing: border-box; }
+.ms-kit :is(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, .ms-k-row, .ms-k-cell) { font: inherit; color: inherit; margin: 0; }
+.ms-kit :is(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, button.ms-k-row, button.ms-k-cell) { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ms-kit :is(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, .ms-k-row, .ms-k-cell):focus-visible { outline: 3px solid #FFD36D; outline-offset: 2px; }
+.ms-kit .ms-k-ic { display: block; flex: none; }
+.ms-kit .ms-k-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ms-kit :is([class^="ms-k-"], [class*=" ms-k-"])[hidden] { display: none !important; }
+
+/* ── Buttons (kit.css .btn) ─────────────────────────────────────────── */
+.ms-kit .ms-k-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 18px; border-radius: var(--ms-k-radius-control); border: 0; font: 600 1.0625rem/1.2 var(--ms-k-font); letter-spacing: -0.01em; text-align: center; }
+.ms-kit .ms-k-btn .ms-k-ic { width: 22px; height: 22px; }
+.ms-kit .ms-k-btn-primary { background: var(--ms-k-accent); color: var(--ms-k-on-accent); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18); --ic-knock: var(--ms-k-accent); }
+.ms-kit .ms-k-btn-secondary { background: var(--ms-k-surface-3); color: var(--ms-k-text); --ic-knock: var(--ms-k-surface-3); }
+.ms-kit .ms-k-btn-tinted { background: rgba(241, 184, 75, 0.16); color: var(--ms-k-accent); }
+.ms-kit .ms-k-btn-plain { background: none; color: var(--ms-k-accent); min-height: var(--ms-k-target); padding: 0 8px; }
+.ms-kit .ms-k-btn-outline { background: none; color: var(--ms-k-text); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.35); }
+.ms-kit .ms-k-btn-warn { background: none; color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+.ms-kit .ms-k-btn[data-off] { opacity: 0.4; }
+.ms-kit .ms-k-btn[aria-busy="true"] { color: transparent !important; }
+.ms-kit .ms-k-btn[aria-busy="true"]::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--ms-k-on-accent); border-right-color: transparent; animation: ms-k-spin 0.9s linear infinite; }
+.ms-kit .ms-k-btn-secondary[aria-busy="true"]::after { border-color: var(--ms-k-text); border-right-color: transparent; }
+.ms-kit .ms-k-btn-block { width: 100%; }
+.ms-kit .ms-k-btn-sm { min-height: 36px; padding: 0 12px; font-size: 0.9375rem; border-radius: 10px; }
+.ms-kit .ms-k-btn-sm::before { content: ""; position: absolute; inset: -4px 0; }
+@keyframes ms-k-spin { to { transform: rotate(360deg); } }
+.ms-kit .ms-k-icon-btn { flex: none; position: relative; width: var(--ms-k-target); height: var(--ms-k-target); padding: 0; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--ms-k-text-2); }
+.ms-kit .ms-k-icon-btn::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--ms-k-surface-3); }
+.ms-kit .ms-k-icon-btn .ms-k-ic { position: relative; width: 18px; height: 18px; }
+.ms-kit .ms-k-icon-btn[data-off] { opacity: 0.4; }
+
+/* ── The segmented control, the stepper, the switch ──────────────────── */
+.ms-kit .ms-k-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; gap: 3px; border-radius: 12px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit .ms-k-seg-btn { min-height: 44px; border: 0; border-radius: 9px; background: none; color: var(--ms-k-text-2); font: 600 1rem/1.1 var(--ms-k-font); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.ms-kit .ms-k-seg-btn .ms-k-ic { width: 18px; height: 18px; }
+.ms-kit .ms-k-seg-btn:is([aria-pressed="true"], [aria-checked="true"]) { background: var(--ms-k-surface-4); color: var(--ms-k-text); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); }
+.ms-kit .ms-k-stepper { display: inline-flex; align-items: center; border-radius: 12px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit .ms-k-stepper-btn { width: var(--ms-k-target); height: var(--ms-k-target); border: 0; background: none; display: grid; place-items: center; color: var(--ms-k-text); }
+.ms-kit .ms-k-stepper-btn .ms-k-ic { width: 18px; height: 18px; }
+.ms-kit .ms-k-stepper-btn[data-off] { opacity: 0.35; }
+.ms-kit .ms-k-stepper-value { min-width: 34px; text-align: center; font: 600 1.0625rem/1 var(--ms-k-font); font-variant-numeric: tabular-nums; }
+.ms-kit .ms-k-switch { flex: none; width: 51px; height: 31px; padding: 0; border-radius: 16px; background: var(--ms-k-surface-4); position: relative; border: 0; }
+.ms-kit .ms-k-switch::before { content: ""; position: absolute; inset: -7px -2px; }
+.ms-kit .ms-k-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #F7F2EA; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35); transition: transform var(--ms-k-t-card) var(--ms-k-ease); }
+.ms-kit .ms-k-switch[aria-checked="true"] { background: var(--ms-k-accent); }
+.ms-kit .ms-k-switch[aria-checked="true"]::after { transform: translateX(20px); }
+.ms-kit .ms-k-switch[data-off] { opacity: 0.4; }
+
+/* ── Grouped lists and rows ─────────────────────────────────────────── */
+.ms-kit .ms-k-group-label { margin: 18px 4px 7px; font: 600 0.8125rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); text-transform: uppercase; letter-spacing: 0.04em; }
+.ms-kit .ms-k-group-note { margin: 7px 4px 0; font: 400 0.8125rem/1.35 var(--ms-k-font); color: var(--ms-k-text-3); }
+.ms-kit .ms-k-list { margin: 0; padding: 0; list-style: none; border-radius: var(--ms-k-radius-group); background: var(--ms-k-surface-1); overflow: hidden; box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit .ms-k-list-item { margin: 0; padding: 0; }
+.ms-kit .ms-k-row { position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 7px 14px; width: 100%; border: 0; background: none; text-align: left; }
+.ms-kit .ms-k-list-item + .ms-k-list-item > .ms-k-row::before { content: ""; position: absolute; top: 0; right: 0; left: 52px; height: 1px; background: var(--ms-k-hairline); }
+.ms-kit .ms-k-row-icon { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; color: var(--ms-k-ink); background: var(--ms-k-steel-light); --ic-knock: var(--ms-k-steel-light); }
+.ms-kit .ms-k-row-icon .ms-k-ic { width: 19px; height: 19px; }
+.ms-kit .ms-k-row-icon[data-tint="amber"] { background: var(--ms-k-accent); --ic-knock: var(--ms-k-accent); }
+.ms-kit .ms-k-row-icon[data-tint="paper"] { background: var(--ms-k-paper); --ic-knock: var(--ms-k-paper); }
+.ms-kit .ms-k-row-icon[data-tint="steel"] { background: var(--ms-k-steel-light); }
+.ms-kit .ms-k-row-icon[data-tint="teal"] { background: #57BBA8; --ic-knock: #57BBA8; }
+.ms-kit .ms-k-row-icon[data-tint="slate"] { background: #8FA3C4; --ic-knock: #8FA3C4; }
+.ms-kit .ms-k-row-main { flex: 1; min-width: 0; }
+.ms-kit .ms-k-row-title { display: block; font: 500 1.0625rem/1.25 var(--ms-k-font); letter-spacing: -0.01em; }
+.ms-kit .ms-k-row-sub { display: block; font: 400 0.8125rem/1.3 var(--ms-k-font); color: var(--ms-k-text-2); margin-top: 1px; }
+.ms-kit .ms-k-row-value { flex: none; color: var(--ms-k-text-2); font: 400 1rem/1.2 var(--ms-k-font); display: inline-flex; align-items: center; gap: 6px; }
+.ms-kit .ms-k-row-chev { flex: none; width: 16px; height: 16px; color: var(--ms-k-steel-mid); }
+.ms-kit .ms-k-row .ms-k-pt { width: 36px; height: 36px; }
+.ms-kit .ms-k-row[data-off] :is(.ms-k-row-main, .ms-k-row-icon) { opacity: 0.45; }
+
+/* ── Fields, code boxes and the inline error ────────────────────────── */
+.ms-kit .ms-k-field { display: block; margin-bottom: 14px; }
+.ms-kit .ms-k-field-label { display: block; margin: 0 4px 6px; font: 600 0.875rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); }
+.ms-kit .ms-k-input { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; border-radius: 13px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); font: 500 1.0625rem/1.2 var(--ms-k-font); color: var(--ms-k-text); width: 100%; border: 0; }
+.ms-kit .ms-k-input:focus-within, .ms-kit .ms-k-input[data-focus] { box-shadow: inset 0 0 0 2px var(--ms-k-accent); }
+.ms-kit .ms-k-input[data-invalid] { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+.ms-kit .ms-k-input-count { margin-left: auto; color: var(--ms-k-text-3); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+.ms-kit .ms-k-code { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
+/* Tall enough for a letter's tail at any text size (Q at 200%): 56 px, or 1.75 of the letter's own size. */
+.ms-kit .ms-k-code-box { height: max(56px, 1.75em); border-radius: 12px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); display: grid; place-items: center; font: 700 1.5rem/1 var(--ms-k-mono); }
+.ms-kit .ms-k-code-box[data-focus] { box-shadow: inset 0 0 0 2px var(--ms-k-accent); }
+.ms-kit .ms-k-code[data-invalid] .ms-k-code-box { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+/* Errors are paper and ink with a warning shape: never red. */
+.ms-kit .ms-k-error { display: flex; gap: 8px; align-items: flex-start; margin: 8px 2px 0; padding: 10px 12px; border-radius: 12px; background: rgba(244, 235, 221, 0.08); font: 500 0.9375rem/1.35 var(--ms-k-font); color: var(--ms-k-paper); }
+.ms-kit .ms-k-error .ms-k-ic { width: 20px; height: 20px; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-1); }
+
+/* ── Portraits, the seat number, the 3 × 3 and its cells ────────────── */
+.ms-kit .ms-k-pt { display: block; flex: none; width: 44px; height: 44px; background: center / contain no-repeat; }
+.ms-kit .ms-k-pt-empty { display: grid; place-items: center; border-radius: 26%; background: var(--ms-k-surface-3); color: var(--ms-k-text-3); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); }
+/* The badge is sized in its own em (22 px at the 13 px default), so it grows with the player's text size. */
+.ms-kit .ms-k-num { display: inline-grid; place-items: center; min-width: calc(22em / 13); height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.8125rem/1 var(--ms-k-font); font-variant-numeric: tabular-nums; }
+.ms-kit .ms-k-grid9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ms-kit .ms-k-grid-wrap { container: ms-k-grid / inline-size; }
+.ms-kit .ms-k-cell { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 9px; border-radius: 16px; border: 0; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); min-width: 0; }
+.ms-kit .ms-k-cell .ms-k-pt { width: 100%; max-width: 92px; height: auto; aspect-ratio: 1; }
+.ms-kit .ms-k-cell-name { display: flex; align-items: center; gap: 5px; max-width: 100%; font: 600 0.875rem/1.2 var(--ms-k-font); }
+.ms-kit .ms-k-cell-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ms-kit .ms-k-cell-note { font: 500 0.75rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); min-height: 0.9rem; }
+.ms-kit .ms-k-cell-mark { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--ms-k-accent); color: var(--ms-k-on-accent); border: 2.5px solid var(--ms-k-ink); --ic-knock: var(--ms-k-accent); }
+.ms-kit .ms-k-cell-mark .ms-k-ic { width: 15px; height: 15px; }
+.ms-kit .ms-k-cell[data-state="selected"] { box-shadow: inset 0 0 0 3px var(--ms-k-accent); background: rgba(241, 184, 75, 0.12); }
+.ms-kit .ms-k-cell[data-state="selected"] .ms-k-cell-note { color: var(--ms-k-text); }
+.ms-kit .ms-k-cell[data-state="confirmed"] { box-shadow: inset 0 0 0 3px var(--ms-k-accent); }
+.ms-kit .ms-k-cell:is([data-state="taken"], [data-state="ineligible"]) :is(.ms-k-pt, .ms-k-cell-name) { opacity: 0.38; }
+.ms-kit .ms-k-cell:is([data-state="taken"], [data-state="ineligible"]) .ms-k-cell-note { color: var(--ms-k-text-2); }
+.ms-kit .ms-k-cell[data-state="empty"] { background: none; box-shadow: inset 0 0 0 1.5px rgba(185, 196, 211, 0.1); }
+.ms-kit .ms-k-cell[data-state="winner"] { box-shadow: inset 0 0 0 3px var(--ms-k-caption), 0 0 0 4px rgba(247, 197, 43, 0.18); background: rgba(247, 197, 43, 0.12); }
+.ms-kit .ms-k-cell[data-state="faded"] :is(.ms-k-pt, .ms-k-cell-name) { opacity: 0.55; }
+.ms-kit .ms-k-count { position: absolute; top: 6px; left: 6px; min-width: 30px; height: 30px; padding: 0 7px; border-radius: 15px; background: var(--ms-k-ink); color: var(--ms-k-paper); font: 800 1.0625rem/30px var(--ms-k-font); font-variant-numeric: tabular-nums; text-align: center; box-shadow: 0 0 0 2px rgba(244, 235, 221, 0.5); }
+.ms-kit .ms-k-cell[data-state="winner"] .ms-k-count { background: var(--ms-k-caption); color: var(--ms-k-ink); box-shadow: 0 0 0 2px var(--ms-k-ink); }
+.ms-kit .ms-k-you { position: absolute; top: 6px; left: 6px; padding: 2px 7px; border-radius: 8px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.6875rem/1.3 var(--ms-k-letter); letter-spacing: 0.06em; text-transform: uppercase; }
+/* Where the 3 × 3 has under 13 of its em across (200% text, or 150% on the smallest phone), names would be
+   cut to a letter: the roster becomes a list in seat order, every name whole; empty seats drop out. */
+@container ms-k-grid (max-width: 13em) {
+  .ms-kit .ms-k-grid9 { grid-template-columns: 1fr; gap: 6px; }
+  .ms-kit .ms-k-grid9 .ms-k-cell { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "pt name count" ". note badge"; align-items: center; column-gap: 8px; row-gap: 2px; padding: 6px 10px; text-align: left; }
+  .ms-kit .ms-k-grid9 .ms-k-cell .ms-k-pt { grid-area: pt; width: calc(0.8125rem * 22 / 13); height: calc(0.8125rem * 22 / 13); max-width: none; }
+  .ms-kit .ms-k-grid9 .ms-k-cell .ms-k-count { grid-area: count; position: static; font-size: 0.8125rem; min-width: calc(22em / 13); height: calc(22em / 13); line-height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; }
+  .ms-kit .ms-k-grid9 .ms-k-cell .ms-k-cell-name { grid-area: name; min-width: 0; }
+  .ms-kit .ms-k-grid9 .ms-k-cell .ms-k-cell-label { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+  .ms-kit .ms-k-grid9 .ms-k-cell .ms-k-cell-note { grid-area: note; min-width: 0; min-height: 0; text-align: left; }
+  .ms-kit .ms-k-grid9 .ms-k-cell :is(.ms-k-you, .ms-k-cell-mark) { grid-area: badge; position: static; justify-self: end; }
+  .ms-kit .ms-k-grid9 .ms-k-cell[data-state="empty"] { display: none; }
+}
+
+/* ── Comic accents: stamps, pills, the caption tag ──────────────────── */
+.ms-kit .ms-k-stamp { display: inline-block; padding: 5px 12px 4px; border: 3px solid var(--ms-k-ink); border-radius: 7px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 1.125rem/1 var(--ms-k-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(-4deg); box-shadow: var(--ms-k-shadow-ink); }
+.ms-kit .ms-k-stamp[data-tone="amber"] { background: var(--ms-k-accent); }
+/* Waiting, not a result: an outline only (a registered action, an accepted request). */
+.ms-kit .ms-k-stamp[data-tone="pending"] { background: transparent; color: var(--ms-k-paper); border-color: var(--ms-k-paper); border-style: dashed; }
+.ms-kit .ms-k-stamp[data-tone="gold"] { background: var(--ms-k-caption); }
+.ms-kit .ms-k-stamp[data-tone="steel"] { background: var(--ms-k-steel-light); }
+.ms-kit .ms-k-pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 999px; background: var(--ms-k-surface-3); color: var(--ms-k-text-2); font: 600 0.8125rem/1 var(--ms-k-font); white-space: nowrap; }
+.ms-kit .ms-k-pill .ms-k-ic { width: 15px; height: 15px; }
+.ms-kit .ms-k-pill[data-tone="amber"] { background: rgba(241, 184, 75, 0.16); color: var(--ms-k-accent); }
+.ms-kit .ms-k-pill[data-tone="paper"] { background: var(--ms-k-paper); color: var(--ms-k-ink); --ic-knock: var(--ms-k-paper); }
+.ms-kit .ms-k-pill[data-tone="accent"] { background: var(--ms-k-accent); color: var(--ms-k-on-accent); --ic-knock: var(--ms-k-accent); }
+.ms-kit .ms-k-caption { display: inline-block; padding: 4px 10px 3px; background: var(--ms-k-caption); color: var(--ms-k-ink); border: 2px solid var(--ms-k-ink); font: 800 0.9375rem/1 var(--ms-k-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: skewX(-9deg) rotate(-1.4deg); box-shadow: 3px 3px 0 #05070B; }
+.ms-kit .ms-k-caption-text { display: inline-block; transform: skewX(9deg); }
+
+/* ── On glass (the shell's docked sheet: data-ms-surface="glass") ─── */
+/* As the pack renders it (kit.css, in its cascade order): lists and cells are solid surface-3 on glass;
+   inputs, steppers, code boxes and empty portraits are a thin dark layer with a light edge. Through
+   :where() these sit at a base's weight, so every state (selected, confirmed, winner, focus) still wins. */
+.ms-kit :where([data-ms-surface="glass"]) :is(.ms-k-list, .ms-k-cell) { background: var(--ms-k-surface-3); box-shadow: none; }
+.ms-kit :where([data-ms-surface="glass"]) :is(.ms-k-input, .ms-k-stepper, .ms-k-code-box, .ms-k-pt-empty) { background: var(--ms-k-glass-fill); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
+.ms-kit :where([data-ms-surface="glass"]) .ms-k-pill:not([data-tone]) { background: var(--ms-k-glass-fill-2); }
+.ms-kit :where([data-ms-surface="glass"]) .ms-k-icon-btn::before { background: var(--ms-k-glass-fill-2); }
+.ms-kit [data-ms-surface="glass"] .ms-k-btn-secondary { background: rgba(8, 11, 18, 0.3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+.ms-kit [data-ms-surface="glass"] .ms-k-seg { background: rgba(0, 0, 0, 0.25); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
+.ms-kit [data-ms-surface="glass"] .ms-k-seg-btn:is([aria-pressed="true"], [aria-checked="true"]) { background: var(--ms-k-glass-fill-2); }
+.ms-kit [data-ms-surface="glass"] .ms-k-cell[data-state="selected"] { background: rgba(56, 42, 12, 0.42); }
+/* Dark words on a light fill take no halo: it would only darken round them. */
+.ms-kit [data-ms-surface="glass"] :is(.ms-k-btn-primary, .ms-k-num, .ms-k-you, .ms-k-count, .ms-k-stamp:not([data-tone="pending"]), .ms-k-caption, .ms-k-pill[data-tone="paper"], .ms-k-pill[data-tone="accent"]) { text-shadow: none; }
+
+/* ── Reduce motion: the game's (data-motion="reduced" on a component's root) or the device's ── */
+.ms-kit[data-motion="reduced"] :is(.ms-k-btn, .ms-k-switch)::after { animation: none; transition-duration: 80ms; }
+@media (prefers-reduced-motion: reduce) { .ms-kit :is(.ms-k-btn, .ms-k-switch)::after { animation: none; transition-duration: 80ms; } }
