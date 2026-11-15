@@ -1,0 +1,18 @@
+{
+  "schema": "mothership.food-input-designer-review/1",
+  "reviewerRole": "Visual and Motion Designer (Claude Code)",
+  "verdict": "accepted",
+  "url": "https://github.com/Amirkianfar66/GameN/pull/276#issuecomment-6899774350",
+  "reviewedCommit": "989364cd72ea8b528669000f7013227e7fdf27fa",
+  "captureCommit": "972dd61e0fd10b1e8fd379f188501b2fb53dedcb",
+  "parts": ["food-panel-03", "food-panel-04", "food-winch-03", "food-winch-12"],
+  "viewports": [[390, 844], [430, 932]],
+  "evidence": "Eight controlled native captures with the production headers, compared by Designer with the approved Food reference, accepted PR 240 captures and press states.",
+  "integrationAssessment": "The two runtime controller Git blobs are unchanged between the implementation, clean capture and reviewed head. This admission changes only verification tooling and evidence; artwork, styles, layout and motion remain unchanged.",
+  "nonblockingFollowUp": "F1: the pre-existing native Chromium tap highlight is outside this exact admission and requires a separate reviewed change.",
+  "limits": [
+    "Desktop Chromium with synthetic transport; not hosted latency evidence.",
+    "Designer did not rerun the capture tool.",
+    "No physical-phone, Safari or VoiceOver validation."
+  ]
+}

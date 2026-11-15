@@ -1,6 +1,6 @@
 {
   "schema": "mothership.food-input-consumer-approval/1",
-  "status": "awaiting-designer-acceptance",
+  "status": "approved-production-consumer",
   "reviewedCommit": "989364cd72ea8b528669000f7013227e7fdf27fa",
   "captureCommit": "972dd61e0fd10b1e8fd379f188501b2fb53dedcb",
   "sourceCommit": "9daaeab879eb06b7fa64bbc0f3ea55c6ca14bc09",
@@ -68,7 +68,11 @@
       ]
     }
   },
-  "designerAcceptance": null,
+  "designerAcceptance": {
+    "path": "docs/integration/evidence/food-input-designer-review-2026-11-15.json",
+    "bytes": 1268,
+    "sha256": "a1642a754925c2c5b48e586eb660dbf087c0642c1a4f1aed2b6153f4e47c5ecf"
+  },
   "captureReport": {
     "path": "docs/frontend/evidence/food-client-causality-2026-11-15/report.json",
     "bytes": 6687,

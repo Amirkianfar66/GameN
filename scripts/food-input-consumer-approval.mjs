@@ -4,8 +4,8 @@ import {lstatSync, readFileSync} from 'node:fs';
 import {posix, resolve} from 'node:path';
 
 export const FOOD_INPUT_CONSUMER_APPROVAL = 'docs/integration/food-input-consumer-approval-2026-11-15.json';
-// Set only after the exact interaction states receive Designer acceptance in #276.
-export const FOOD_INPUT_CONSUMER_APPROVAL_SHA256 = null;
+// Designer accepted the exact four interaction states in PR 276, comment 6899774350.
+export const FOOD_INPUT_CONSUMER_APPROVAL_SHA256 = '7ea3dcf3ee6c402a1e98731244e53525149adf8fe1a6d337fc49cb5b187c9b39';
 const files = ['apps/game/src/planet/food.ts', 'apps/game/src/planet/session.ts'];
 const parts = ['food-panel-03', 'food-panel-04', 'food-winch-03', 'food-winch-12'];
 const verified = new WeakSet();
