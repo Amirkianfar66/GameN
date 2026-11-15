@@ -103,7 +103,9 @@ try {
           open: shown(seg) ? seg.querySelector('[aria-checked="true"]')?.textContent ?? null : null,
           local: shown(seg) ? [...seg.querySelectorAll('button')].every(b => b.getAttribute('aria-disabled') !== 'true') : null,
           rows: root ? [...root.querySelectorAll('.ms-card-panel .ms-k-row-title')].map(n => n.textContent) : [],
-          label: t('.ms-card-sheet .ms-card-panel .ms-k-group-label'), note: t('.ms-card-sheet .ms-card-panel .ms-k-group-note'),
+          // The words as the page holds them (the kit draws the group label in capitals).
+          label: shown(q('.ms-card-sheet .ms-card-panel .ms-k-group-label')) ? q('.ms-card-sheet .ms-card-panel .ms-k-group-label').textContent : null,
+          note: shown(q('.ms-card-sheet .ms-card-panel .ms-k-group-note')) ? q('.ms-card-sheet .ms-card-panel .ms-k-group-note').textContent : null,
           banner: t('.ms-ps-banner b'), sheet: t('.ms-ps-sheet-title h2'),
           page: document.body.innerText, figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0 };
       })()`);
