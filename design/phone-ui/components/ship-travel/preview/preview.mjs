@@ -30,8 +30,10 @@ const EPOCH = Date.UTC(2026, 10, 15, 12, 0, 0);
 export const WINDOW = Object.freeze({ id: 'synthetic-nav-r3', startedAt: EPOCH, endsAt: EPOCH + 15000 });
 const fixed = ms => Object.freeze({ now: () => EPOCH + ms });
 
+// The public clock only counts the film down; no one watching acts, so it is never amber (urgentAtMs: -1), as the pack
+// passes urgentAt: -1 for the 5 s result and the role stage. The offices' private view keeps the default.
 const bar = {
-  setting: ms => ({ kind: 'phase', icon: 'course', title: 'Setting course', sub: 'The offices are setting it', round: 3, timer: { remainingMs: Math.max(0, 15000 - ms) }, promises: { count: 0 }, menu: {} }),
+  setting: ms => ({ kind: 'phase', icon: 'course', title: 'Setting course', sub: 'The offices are setting it', round: 3, timer: { remainingMs: Math.max(0, 15000 - ms), urgentAtMs: -1 }, promises: { count: 0 }, menu: {} }),
   moved: () => ({ kind: 'phase', icon: 'course', title: 'The ship moved', sub: 'Round 3 complete', round: 3, promises: { count: 0 }, menu: {} }),
   stale: () => ({ kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, promises: { count: 0 }, menu: {} }),
 };
@@ -59,8 +61,8 @@ function phone(sizeKey, stateKey, { clock = null, hold = true } = {}) {
   Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
   return { frame, mount: () => {
     let film = null;
-    // Edge to edge, the stage is the whole phone and the bars are { 0, 0 }; the caption keeps above the safe area.
-    const fit = layout => ({ size: layout.stage, insets: { top: layout.bars.top, bottom: layout.bars.bottom }, safe: layout.safe });
+    // Edge to edge, the stage is the whole phone; the caption keeps 24 px above the shell's bottom safe area.
+    const fit = layout => ({ size: layout.stage, safe: { bottom: layout.safe.bottom } });
     const shell = mountPhoneShell(frame, { viewer: null, tabs: null, edge: true, insets: size.insets, ...state.shell }, { onLayout: layout => film?.update(fit(layout)) });
     film = mountShipTravel(shell.stage, { window: WINDOW, clock: clock ?? fixed(state.at), ...fit(shell.layout()), ...state.film });
     // A fixed moment is a still picture: the film holds it.

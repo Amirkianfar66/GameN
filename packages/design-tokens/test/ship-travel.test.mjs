@@ -195,31 +195,34 @@ test('time: the beats, the world\'s clock anchored on the poster, and a window o
   assert.deepEqual(shipTravelFrame(7321), shipTravelFrame(7321));
 });
 
-test('framing: the poster covers the whole phone, as the pack draws it, and the film\'s host is its part between the bars', () => {
-  const whole = shipTravelFraming({ width: 390, height: 844 });
-  assert.equal(whole.k, 844 / 1080);
-  const stage = shipTravelFraming({ width: 390, height: 711 }, { top: 99, bottom: 34 });
-  assert.equal(stage.k, whole.k, 'the same scale as the whole phone');
-  assert.ok(Math.abs(stage.viewBox[0] - whole.viewBox[0]) < 1e-9, 'the same horizontal crop');
-  assert.ok(Math.abs(stage.viewBox[1] - (whole.viewBox[1] + 99 / whole.k)) < 1e-9, 'the host begins below the top bar');
+test('framing: the poster covers the host, the whole phone, as the pack\'s nav screen draws it (cover, centre)', () => {
+  // The pack: the poster at inset 0 of a 390 × 844 phone, background-size: cover, background-position: center.
+  const phone = shipTravelFraming({ width: 390, height: 844 });
+  const k = Math.max(390 / 1920, 844 / 1080);
+  assert.equal(phone.k, k);
+  assert.ok(Math.abs(phone.viewBox[0] - (1920 * k - 390) / 2 / k) < 1e-9 && Math.abs(phone.viewBox[1]) < 1e-9, 'centred: cropped at both sides, not at the top or bottom');
+  assert.ok(Math.abs(phone.viewBox[2] - 390 / k) < 1e-9 && Math.abs(phone.viewBox[3] - 1080) < 1e-9);
+  const tall = shipTravelFraming({ width: 430, height: 932 });
+  assert.equal(tall.k, 932 / 1080);
   const wide = shipTravelFraming({ width: 1920, height: 1080 });
   assert.equal(wide.k, 1);
   assert.deepEqual(wide.viewBox.map(v => v + 0), [0, 0, 1920, 1080], 'at its own size, the poster as it is');
 });
 
 test('inputs: public only, checked, and anything unknown refused, a course\'s above all', () => {
-  assert.deepEqual(Object.keys(SHIP_TRAVEL_DEFAULTS), ['window', 'clock', 'state', 'size', 'insets', 'safe', 'caption', 'status', 'reducedMotion']);
-  assert.deepEqual(nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, { safe: { top: 47, bottom: 34 } }).safe, { top: 47, bottom: 34 }, 'the shell\'s layout().safe');
+  assert.deepEqual(Object.keys(SHIP_TRAVEL_DEFAULTS), ['window', 'clock', 'state', 'size', 'safe', 'caption', 'status', 'reducedMotion']);
+  assert.deepEqual(SHIP_TRAVEL_DEFAULTS.safe, { bottom: 0 });
+  assert.deepEqual(nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, { safe: { bottom: 34 } }).safe, { bottom: 34 }, 'the shell\'s layout().safe.bottom');
   const ok = nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, { window: { id: 'p1', startedAt: 1000, endsAt: 16000 }, clock: { now: () => 0 }, state: 'moved' });
   assert.equal(ok.state, 'moved');
   assert.ok(Object.isFrozen(ok));
-  for (const key of ['direction', 'position', 'route', 'arm', 'tie', 'offices', 'captain', 'officer', 'weights', 'choice', 'destination', 'arrivedAt', 'privateNavigation', 'skip']) {
+  for (const key of ['direction', 'position', 'route', 'arm', 'tie', 'offices', 'captain', 'officer', 'weights', 'choice', 'destination', 'arrivedAt', 'privateNavigation', 'skip', 'insets']) {
     assert.throws(() => nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, { [key]: 'x' }), TypeError, `"${key}" is refused`);
   }
   const refused = [
     { window: { id: 'p1', startedAt: 1, endsAt: 2, direction: 'Blue' } }, { window: { id: 'p1', startedAt: 5, endsAt: 1 } }, { window: { startedAt: 1, endsAt: 2 } },
     { window: 'p1' }, { clock: Date.now }, { state: 'arrived' }, { status: 'hidden' }, { size: { width: 0, height: 10 } }, { size: { width: 1, height: 1, depth: 1 } },
-    { insets: { top: -1, bottom: 0 } }, { insets: { top: 0, bottom: 0, left: 0 } }, { safe: { top: 0 } }, { safe: { top: 0, bottom: -2 } }, { safe: { top: 0, bottom: 0, left: 0 } },
+    { safe: null }, { safe: { top: 0 } }, { safe: { bottom: -2 } }, { safe: { top: 47, bottom: 34 } },
     { caption: 'yes' }, { reducedMotion: 1 },
   ];
   for (const changes of refused) assert.throws(() => nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, changes), TypeError, JSON.stringify(changes));
@@ -260,6 +263,7 @@ test('the check\'s record: every capture, probe check and comparison passed unde
     const setting = record.captures[`${size}/setting/full`];
     assert.ok(setting.edge && setting.filmBox.every(v => v === 0), `${size}: the film covers the whole phone, the shell's stage edge to edge`);
     assert.equal(setting.pillGap, setting.safe.bottom + 24, `${size}: the caption 24 px above the bottom safe area`);
+    for (const state of ['setting', 'enter', 'settle']) assert.equal(record.captures[`${size}/${state}/full`].urgent, false, `${size} ${state}: the public clock is never amber`);
     assert.equal(record.captures[`${size}/moved/full`].pill, CAPTIONS.moved, `${size}: moved, sheet 41's caption`);
     assert.ok(record.captures[`${size}/setting/reduced`].frame.still, `${size}: Reduce motion, the still`);
     assert.equal(record.captures[`${size}/concealed/full`].layersShown, 0, `${size}: concealed, nothing drawn`);

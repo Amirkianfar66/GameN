@@ -4,7 +4,8 @@
 // #269 with the Lead Designer; docs/design/components/ship-travel.md is its handoff.
 //
 // The film is the approved transit's drawing (./ship-art.mjs, ported unchanged), framed as the pack draws the
-// transit poster on sheet 41: across the whole phone, as `background-size: cover`. It never advances the game: it
+// transit poster on sheet 41: across the whole phone, as `background-size: cover`. Its host is the phone shell's
+// stage edge to edge (`edge: true`), under the bar's glass; the room scene is not under it. It never advances the game: it
 // takes the window the server published and the match's trusted clock and shows the moment they give, and reaching
 // the end only holds the last picture. Its last picture, the still, is the approved poster's frame, which is also the
 // "moved" picture and the Reduce motion picture.
@@ -33,9 +34,8 @@ export const SHIP_TRAVEL_DEFAULTS = Object.freeze({
   window: null,
   clock: null,
   state: 'setting',
-  size: Object.freeze({ width: 390, height: 711 }),
-  insets: Object.freeze({ top: 0, bottom: 0 }),
-  safe: null,
+  size: Object.freeze({ width: 390, height: 844 }),
+  safe: Object.freeze({ bottom: 0 }),
   caption: true,
   status: 'live',
   reducedMotion: false,
@@ -120,13 +120,12 @@ export function shipTravelFrame(t, duration = 15000) {
 export const STILL = Object.freeze(shipTravelFrame(Infinity));
 
 /**
- * How the poster's frame sits on the host: the whole phone (the host and its insets above and below) covered, as
+ * How the poster's frame sits on the host, the whole phone (the shell's stage edge to edge): covered, as
  * `background-size: cover; background-position: center`. Returns the scale and the host's box in the poster's units.
  */
-export function shipTravelFraming(size, insets = { top: 0, bottom: 0 }) {
-  const fw = size.width, fh = insets.top + size.height + insets.bottom;
-  const k = Math.max(fw / W, fh / H);
-  const ox = (fw - W * k) / 2, oy = (fh - H * k) / 2 - insets.top;
+export function shipTravelFraming(size) {
+  const k = Math.max(size.width / W, size.height / H);
+  const ox = (size.width - W * k) / 2, oy = (size.height - H * k) / 2;
   return { k, viewBox: [-ox / k, -oy / k, size.width / k, size.height / k] };
 }
 
@@ -182,12 +181,8 @@ export function nextShipTravelInput(current, changes = {}) {
   if (!STATUSES.includes(next.status)) throw new TypeError(`status is ${STATUSES.join(', ')}`);
   if (!next.size || !finite(next.size.width) || !finite(next.size.height) || next.size.width <= 0 || next.size.height <= 0) throw new TypeError('size is { width, height } in CSS px');
   only(next.size, ['width', 'height'], 'size');
-  if (!next.insets || !finite(next.insets.top) || !finite(next.insets.bottom) || next.insets.top < 0 || next.insets.bottom < 0) throw new TypeError('insets are { top, bottom } in CSS px, 0 or more');
-  only(next.insets, ['top', 'bottom'], 'insets');
-  if (next.safe !== null) {
-    if (typeof next.safe !== 'object' || !finite(next.safe.top) || !finite(next.safe.bottom) || next.safe.top < 0 || next.safe.bottom < 0) throw new TypeError('safe is null (the device\'s), or { top, bottom } in CSS px: the shell\'s layout().safe');
-    only(next.safe, ['top', 'bottom'], 'safe');
-  }
+  if (!next.safe || typeof next.safe !== 'object' || !finite(next.safe.bottom) || next.safe.bottom < 0) throw new TypeError('safe is { bottom }: the phone\'s bottom safe area in CSS px, the shell\'s layout().safe.bottom');
+  only(next.safe, ['bottom'], 'safe');
   if (typeof next.caption !== 'boolean') throw new TypeError('caption is true or false');
   if (typeof next.reducedMotion !== 'boolean') throw new TypeError('reducedMotion is true or false');
   return Object.freeze({ ...next });
@@ -254,12 +249,11 @@ export function mountShipTravel(host, input = {}) {
   };
 
   function frameLayout() {
-    const next = shipTravelFraming(state.size, state.insets);
+    const next = shipTravelFraming(state.size);
     root.style.width = `${state.size.width}px`;
     root.style.height = `${state.size.height}px`;
-    root.style.setProperty('--ms-st-below', `${state.insets.bottom}px`);
-    // The phone's bottom safe area, as the shell gives it; without one, the device's (ship-travel.css).
-    if (state.safe) root.style.setProperty('--ms-st-safe-b', `${state.safe.bottom}px`); else root.style.removeProperty('--ms-st-safe-b');
+    // The phone's bottom safe area, as the shell gives it: the caption keeps 24 px above it (ship-travel.css).
+    root.style.setProperty('--ms-st-safe-b', `${state.safe.bottom}px`);
     const box = next.viewBox.map(v => Math.round(v * 1000) / 1000).join(' ');
     if (!framing || framing.box !== box) for (const layer of [field, shipLayer, front]) layer.setAttribute('viewBox', box);
     framing = { ...next, box };

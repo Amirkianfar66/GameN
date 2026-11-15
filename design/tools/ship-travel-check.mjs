@@ -6,7 +6,7 @@
 // other headers), and:
 //   captures every preview state at the two development phone sizes, 390 × 844 and 430 × 932, in full motion and
 //   with the device's Reduce motion emulated, the film in the phone shell's stage, edge to edge under a phase bar with
-//   no tabs (sheet 41), the caption 24 px above the bottom safe area;
+//   no tabs (sheet 41), the caption 24 px above the bottom safe area, the public clock never amber;
 //   runs the lifecycle probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion;
 //   compares the film's still with the approved poster (apps/game/candidates/planet-library/transit.poster.webp,
 //   whose SHA-256 must be the one Integration approved): at the poster's own 1920 × 1080, in the ship's box and the
@@ -95,6 +95,7 @@ const SEEN = `(() => {
     layersShown: [...root.querySelectorAll('.ms-st-layer')].filter(n => getComputedStyle(n).display !== 'none').length,
     banner: document.querySelector('.ms-ps-banner b')?.textContent ?? null, shell: document.querySelector('.ms-ps-tb .ms-ps-name')?.textContent ?? null,
     edge: layout.bars.top === 0 && layout.bars.bottom === 0 && layout.stage.height === layout.size.height, safe: layout.safe,
+    urgent: !!document.querySelector('.ms-ps-timer[data-urgent]'),
     filmBox: [root.getBoundingClientRect().top - phone.top, phone.bottom - root.getBoundingClientRect().bottom],
     pillGap: pill && getComputedStyle(root.querySelector('.ms-st-caption')).display !== 'none' ? Math.round((phone.bottom - pill.getBoundingClientRect().bottom) * 100) / 100 : null };
 })()`;
@@ -117,8 +118,9 @@ try {
         const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 82, clip: { x: 0, y: 0, width, height, scale: 1 } });
         const bytes = Buffer.from(data, 'base64');
         await writeFile(file, bytes);
-        // Edge to edge, the film covers the whole phone; the caption sits 24 px above the bottom safe area (sheet 41).
-        const placed = seen.edge && seen.filmBox.every(v => Math.abs(v) < 0.5) && (seen.pillGap === null || Math.abs(seen.pillGap - (seen.safe.bottom + 24)) < 0.5);
+        // Edge to edge, the film covers the whole phone; the caption sits 24 px above the bottom safe area (sheet 41);
+        // the public clock is never amber, since no one watching acts.
+        const placed = seen.edge && seen.filmBox.every(v => Math.abs(v) < 0.5) && (seen.pillGap === null || Math.abs(seen.pillGap - (seen.safe.bottom + 24)) < 0.5) && !seen.urgent;
         const drawn = (motion === 'reduced' ? EXPECT_REDUCED : EXPECT)[state](seen) && placed;
         const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
         if (!ok) failed += 1;

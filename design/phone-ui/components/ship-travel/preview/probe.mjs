@@ -9,7 +9,7 @@
 //   still     "moved", Reduce motion, no clock and no window show the still, the approved poster's pose
 //   reduced   the game's setting (data-motion="reduced") and the device's: the still, one 80 ms fade, no frames
 //   lifecycle suspend and resume, stale and live, concealed and shown, dispose twice; one frame loop at most
-//   caption   24 px above the phone's bottom safe area, edge to edge or above it
+//   caption   24 px above the phone's bottom safe area, as the shell gives it
 //   privacy   any input the film does not know is refused, and nothing it draws names a course
 // With the device's Reduce motion (the check emulates it), it checks that setting too.
 // design/tools/ship-travel-check.mjs runs it under the production headers and records each result.
@@ -60,7 +60,7 @@ export async function runShipTravelProbe() {
   const restore = () => { window.requestAnimationFrame = original.request; window.cancelAnimationFrame = original.cancel; };
   let now = EPOCH;
   const clock = { now: () => now };
-  const base = { window: windowAt('w1'), clock, size: { width: 390, height: 711 }, insets: { top: 99, bottom: 34 } };
+  const base = { window: windowAt('w1'), clock, size: { width: 390, height: 711 }, safe: { bottom: 34 } };
   const mount = (input = {}) => mountShipTravel(host, { ...base, ...input });
   const guarded = async (group, run) => {
     try { await run(); } catch (error) { check(`${group}: ran without an exception`, false, { error: String(error?.stack ?? error) }); }
@@ -237,24 +237,22 @@ export async function runShipTravelProbe() {
   });
 
   await guarded('caption', async () => {
-    // Sheet 41's caption sits 24 px above the phone's bottom safe area: edge to edge (the shell's `edge: true`, the
-    // host the whole phone), or with the host stopping above the safe area (insets).
+    // Sheet 41's caption sits 24 px above the phone's bottom safe area, as the shell gives it (the film edge to edge).
     now = EPOCH + 4000;
     const gap = film => host.getBoundingClientRect().bottom - film.element.querySelector('.ms-k-pill').getBoundingClientRect().bottom;
     host.style.height = '844px';
-    const edge = mount({ size: { width: 390, height: 844 }, insets: { top: 0, bottom: 0 }, safe: { top: 47, bottom: 34 } });
-    const a = gap(edge);
-    edge.dispose();
+    const film = mount({ size: { width: 390, height: 844 }, safe: { bottom: 34 } });
+    const a = gap(film);
+    film.update({ safe: { bottom: 0 } });
+    const b = gap(film);
+    film.dispose();
     host.style.height = '711px';
-    const between = mount({ size: { width: 390, height: 711 }, insets: { top: 99, bottom: 34 }, safe: { top: 47, bottom: 34 } });
-    const b = gap(between);
-    between.dispose();
-    check('caption: 24 px above the phone\'s bottom safe area, edge to edge or above it', Math.abs(a - 58) < 0.5 && Math.abs(b - 24) < 0.5, { edgeToEdge: a, aboveSafeArea: b });
+    check('caption: 24 px above the bottom safe area the shell gives, and it follows a change', Math.abs(a - 58) < 0.5 && Math.abs(b - 24) < 0.5, { safe34: a, safe0: b });
   });
 
   await guarded('privacy', async () => {
     const refused = [];
-    for (const input of [{ direction: 'Blue' }, { position: 'B1' }, { route: ['B1', 'B2'] }, { tie: true }, { offices: { captain: 4 } }, { destination: 'Red Planet' }, { window: { ...windowAt('w'), direction: 'Blue' } }]) {
+    for (const input of [{ direction: 'Blue' }, { position: 'B1' }, { route: ['B1', 'B2'] }, { tie: true }, { offices: { captain: 4 } }, { destination: 'Red Planet' }, { window: { ...windowAt('w'), direction: 'Blue' } }, { insets: { top: 0, bottom: 0 } }]) {
       try { mount(input); refused.push({ input: Object.keys(input), refused: false }); } catch (error) { refused.push({ input: Object.keys(input), refused: error instanceof TypeError }); }
       host.replaceChildren();
     }
