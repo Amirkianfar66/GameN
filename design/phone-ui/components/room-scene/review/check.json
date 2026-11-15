@@ -1,0 +1,835 @@
+{
+  "tool": "design/tools/room-scene-check.mjs",
+  "component": "design/phone-ui/components/room-scene",
+  "sourceCommit": "0d4fde64890deda546002e728f0b5d6005a5cd8d",
+  "sourceClean": false,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "23fce0c58676fb32679b8e5d576ecebbc9c2a9de3411e682b03953b5abec5374",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/lit": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-lit.jpg",
+      "sha256": "a18b3ba77ac294ac3632bb4bfd0230b2cac013e703bee42f6e6fa5923f544a38",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/own": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-own.jpg",
+      "sha256": "b19733d31eb88aa0ba36c507897e7dacc0caec65f6c6fe73c263d3e22f007052",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/targets": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-targets.jpg",
+      "sha256": "6a89b04b59220efc44f4e3a3018271befd928cc31071ee7315b0afc163b64f50",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 3,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/moves": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-moves.jpg",
+      "sha256": "54595371463afbc0d8cca595c1ba2e15558d3fbfc6ea705f1a0580e944ac7663",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 1,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/dark": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-dark.jpg",
+      "sha256": "13f2d1f728ba3a9ba2cad6a7ead7a29001f24779be0cdf15829fcc145f95ce5a",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench",
+        "dark"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": true,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.dark-NvXI4ylh.svg"
+      ],
+      "problems": []
+    },
+    "390x844/cold": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-cold.jpg",
+      "sha256": "516d61897fdf02f654190850331e3b23a8404cce5788eee7dd76965519e6aa8f",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench",
+        "dark"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.8848368610991435,
+        "tx": -294.7899415822366,
+        "ty": -13.277354662071112,
+        "held": false,
+        "cold": true
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.dark-NvXI4ylh.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-stale.jpg",
+      "sha256": "56db6b6ee1baf994820cf044b3fb4f1cfb5caaffed2a06cf33716ba762379845",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 1,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-concealed.jpg",
+      "sha256": "ca71742d5669f0d5a5e9bad2ce42ab3aeb534c9415d278234f919040ff1bf1d1",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 0,
+      "layers": [],
+      "cards": 0,
+      "control": null,
+      "cover": 1,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [],
+      "problems": []
+    },
+    "390x844/reduced": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-reduced.jpg",
+      "sha256": "01510410eb4d8e851362106eb0478fe0283db46046d33b49c7acf3bd00c2fb8d",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/unavailable": {
+      "file": "design/phone-ui/components/room-scene/review/390x844-unavailable.jpg",
+      "sha256": "7ea1a96fbb5a27ffe00c5905a7b33a29402ad8117da164670101a465d1727c94",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 0,
+      "layers": [],
+      "cards": 4,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.896978021978022,
+        "tx": -313.46743131868135,
+        "ty": -17.939560439560424,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    },
+    "430x932/lit": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-lit.jpg",
+      "sha256": "45c22b5faf58e9196432627dad95f87db6699a2ccd453b35ccd85911d3c7ea7d",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/own": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-own.jpg",
+      "sha256": "d116c8df76cd81381b36432979be422a9e9ee20e848cb64fcba232d58e501442",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/targets": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-targets.jpg",
+      "sha256": "b839d68393bc13c78c49aa9e38ec751fa84b0cbe7a72622ab5858524e7f2d346",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 3,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/moves": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-moves.jpg",
+      "sha256": "fb8d01a96f5de26999e756287d59f3a1240716a618c033ddd678852b8f65425b",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 1,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/dark": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-dark.jpg",
+      "sha256": "c32fe38669494c05b09d9494fa3675c0fce26047cd5e1b7629720d34be05c479",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench",
+        "dark"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": true,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.dark-NvXI4ylh.svg"
+      ],
+      "problems": []
+    },
+    "430x932/cold": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-cold.jpg",
+      "sha256": "117da529c31d4077cf44dba0b5544cb4e957367cb7ddad46f749d17ffc947ef4",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench",
+        "dark"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 0.9774899355597868,
+        "tx": -326.0768464599578,
+        "ty": -4.856135254958119,
+        "held": false,
+        "cold": true
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.dark-NvXI4ylh.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-stale.jpg",
+      "sha256": "262e809ecaecbfa9c02c09f54e2c56d4d9b022d00364d82cbac6545179cba872",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": null,
+      "cover": 0,
+      "veil": 1,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-concealed.jpg",
+      "sha256": "2bb73ced8acf93d32bce0dc75182e309c3869d64035ce76160e6dcffb2550506",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 0,
+      "layers": [],
+      "cards": 0,
+      "control": null,
+      "cover": 1,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [],
+      "problems": []
+    },
+    "430x932/reduced": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-reduced.jpg",
+      "sha256": "3c26f58b634950b78cd8381c23eb19d64055e1ab8b004e1e0e16b75f22e83a8e",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 5,
+      "tags": 4,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 1,
+      "layers": [
+        "back",
+        "bench"
+      ],
+      "cards": 0,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/unavailable": {
+      "file": "design/phone-ui/components/room-scene/review/430x932-unavailable.jpg",
+      "sha256": "af4cd256f8dcfb70f164b0b572b69a34c43a9a54148d4366fae831468a75e497",
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BltNc172.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "figures": 0,
+      "tags": 0,
+      "presses": 0,
+      "slots": 0,
+      "ambient": 0,
+      "layers": [],
+      "cards": 4,
+      "control": "Windows · 2",
+      "cover": 0,
+      "veil": 0,
+      "layout": {
+        "k": 1.015726918688894,
+        "tx": -355.49622833156025,
+        "ty": -19.539136776535273,
+        "held": false,
+        "cold": false
+      },
+      "art": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    }
+  }
+}

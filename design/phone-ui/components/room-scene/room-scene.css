@@ -1,0 +1,98 @@
+/*
+ * The room scene's styles: runtime source, Designer's (room-scene.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/kit.css: the scene, tags, marks, presses, the caption and the floating
+ * control), scoped under .ms-room-scene so nothing here reaches the rest of the app, and nothing of the
+ * app's reaches in. Sizes are in rem where the pack's are, so tags follow the game's text size.
+ * Everything in the scene shares one stacking context (the root's), so a room's front layer (Room B's
+ * bench at z 941) still covers the people behind it and not the people in front.
+ */
+@import url("./ambient.css");
+
+.ms-room-scene {
+  --ms-rs-paper: #F4EBDD;
+  --ms-rs-ink: #151923;
+  --ms-rs-text: #F4EBDD;
+  --ms-rs-text-2: #B9C4D3;
+  --ms-rs-accent: #F1B84B;
+  --ms-rs-caption: #F7C52B;
+  --ms-rs-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
+  --ms-rs-letter: "Arial Narrow", "Helvetica Neue", "Inter Display", Arial, sans-serif;
+  --ms-rs-shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.45);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #07090F;
+  color: var(--ms-rs-text);
+  font: 400 1rem/1.4 var(--ms-rs-font);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ms-room-scene[data-unavailable] { background: #202837; }
+/* Containers only: no stacking context of their own, so their children interleave by z-index. */
+.ms-room-scene :is(.ms-rs-layers, .ms-rs-people, .ms-rs-over, .ms-rs-person) { position: absolute; inset: 0; pointer-events: none; }
+.ms-room-scene .ms-rs-ic { display: block; flex: none; }
+
+/* The room's pictures, placed with the frame, and the people. */
+.ms-room-scene .ms-rs-art { position: absolute; background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none; }
+.ms-room-scene .ms-rs-fig { position: absolute; pointer-events: none; }
+.ms-room-scene .ms-rs-fig > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ms-room-scene .ms-rs-fig[data-dim] { opacity: 0.5; filter: saturate(0.4); }
+.ms-room-scene .ms-rs-fig[data-elim] { filter: grayscale(1) brightness(0.7); }
+.ms-room-scene .ms-rs-fig[data-dim][data-elim] { filter: grayscale(1) brightness(0.7); }
+
+/* Name tags: the seat number in a disc, an office badge, the name, Injured or Out. */
+.ms-room-scene .ms-rs-tag { position: absolute; z-index: 3150; pointer-events: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px 0 3px; border-radius: 13px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 0.8125rem/1 var(--ms-rs-font); white-space: nowrap; transform: translateX(-50%); color: var(--ms-rs-text); }
+.ms-room-scene .ms-rs-tag__num { display: inline-grid; place-items: center; min-width: calc(20em / 12); height: calc(20em / 12); padding: 0 calc(5em / 13); border-radius: 999px; background: var(--ms-rs-paper); color: var(--ms-rs-ink); font: 800 0.75rem/1 var(--ms-rs-font); font-variant-numeric: tabular-nums; }
+.ms-room-scene .ms-rs-tag[data-self] { background: var(--ms-rs-paper); color: var(--ms-rs-ink); box-shadow: inset 0 0 0 1.5px var(--ms-rs-ink); }
+.ms-room-scene .ms-rs-tag[data-self] .ms-rs-tag__num { background: var(--ms-rs-ink); color: var(--ms-rs-paper); }
+.ms-room-scene .ms-rs-tag[data-self] .ms-rs-tag__status { color: #5A5650; }
+.ms-room-scene .ms-rs-tag[data-dim] { background: rgba(12, 15, 22, 0.94); color: #B3BDCB; box-shadow: inset 0 0 0 1px rgba(244, 235, 221, 0.12); }
+.ms-room-scene .ms-rs-tag[data-dim] .ms-rs-tag__num { background: #9AA5B5; color: var(--ms-rs-ink); }
+.ms-room-scene .ms-rs-tag[data-self][data-dim] { background: #CFC7B9; color: #2A2C31; box-shadow: none; }
+.ms-room-scene .ms-rs-tag[data-active] { box-shadow: inset 0 0 0 2px var(--ms-rs-accent), 0 0 0 3px rgba(241, 184, 75, 0.25); }
+.ms-room-scene .ms-rs-tag__office { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--ms-rs-caption); color: var(--ms-rs-ink); --ic-knock: var(--ms-rs-caption); }
+.ms-room-scene .ms-rs-tag__office .ms-rs-ic { width: 13px; height: 13px; }
+.ms-room-scene .ms-rs-tag__status { color: var(--ms-rs-text-2); font-weight: 500; }
+
+/* The turn mark over whoever's turn it is. */
+.ms-room-scene .ms-rs-turn { position: absolute; z-index: 3001; width: 22px; height: 22px; transform: translateX(-50%); color: var(--ms-rs-accent); filter: drop-shadow(0 2px 0 #05070B); }
+.ms-room-scene .ms-rs-turn .ms-rs-ic { width: 22px; height: 22px; transform: rotate(180deg); }
+
+/* An offered target: a ring on the person's press square; picked, a stronger one. */
+.ms-room-scene .ms-rs-press { position: absolute; z-index: 3100; border: 0; padding: 0; margin: 0; border-radius: 50%; pointer-events: auto; cursor: pointer; box-shadow: 0 0 0 3px var(--ms-rs-accent), 0 0 0 7px rgba(241, 184, 75, 0.25); background: rgba(241, 184, 75, 0.1); }
+.ms-room-scene .ms-rs-press[data-picked] { box-shadow: 0 0 0 4px var(--ms-rs-accent), 0 0 0 10px rgba(241, 184, 75, 0.35); background: rgba(241, 184, 75, 0.28); }
+/* An empty position offered (a move, the Blackout): a dashed square; picked, solid amber. */
+.ms-room-scene .ms-rs-slot { position: absolute; z-index: 3050; margin: 0; padding: 0; border-radius: 12px; border: 2.5px dashed rgba(244, 235, 221, 0.75); background: rgba(16, 20, 28, 0.35); display: grid; place-items: center; color: var(--ms-rs-paper); pointer-events: auto; cursor: pointer; }
+.ms-room-scene .ms-rs-slot .ms-rs-ic { width: 20px; height: 20px; }
+.ms-room-scene .ms-rs-slot[data-picked] { border: 3px solid var(--ms-rs-accent); background: rgba(241, 184, 75, 0.25); color: var(--ms-rs-accent); }
+.ms-room-scene :is(.ms-rs-press, .ms-rs-slot, .ms-rs-control, .ms-rs-card):focus-visible { outline: 3px solid var(--ms-rs-paper); outline-offset: 3px; }
+.ms-room-scene :is(.ms-rs-press, .ms-rs-slot, .ms-rs-card):disabled { cursor: default; }
+
+/* The room's name: the comic caption, top left. */
+.ms-room-scene .ms-rs-label { position: absolute; z-index: 3200; left: 12px; top: 10px; display: inline-block; padding: 4px 10px 3px; background: var(--ms-rs-caption); color: var(--ms-rs-ink); border: 2px solid var(--ms-rs-ink); font: 800 0.9375rem/1 var(--ms-rs-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: skewX(-9deg) rotate(-1.4deg); box-shadow: 3px 3px 0 #05070B; }
+.ms-room-scene .ms-rs-label__text { display: inline-block; transform: skewX(9deg); }
+
+/* The room's own control ("Windows · 2", "Captain console"), floating above the tab bar; or its status pill. */
+.ms-room-scene .ms-rs-control { position: absolute; z-index: 3200; left: 50%; bottom: 32px; transform: translateX(-50%); white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; margin: 0; border: 0; border-radius: 999px; background: var(--ms-rs-paper); color: var(--ms-rs-ink); font: 600 0.9375rem/1.2 var(--ms-rs-font); letter-spacing: -0.01em; box-shadow: var(--ms-rs-shadow-soft); pointer-events: auto; cursor: pointer; --ic-knock: var(--ms-rs-paper); }
+.ms-room-scene .ms-rs-control .ms-rs-ic { width: 22px; height: 22px; }
+.ms-room-scene .ms-rs-control:disabled { cursor: default; opacity: 0.55; }
+.ms-room-scene .ms-rs-control[data-kind="status"] { min-height: 32px; padding: 0 12px; font-size: 0.8125rem; cursor: default; pointer-events: none; }
+.ms-room-scene .ms-rs-control[data-kind="status"] .ms-rs-ic { width: 18px; height: 18px; }
+
+/* Reconnecting: the last room, dimmed. Concealed: nothing of the room shows. */
+.ms-room-scene .ms-rs-veil { position: absolute; inset: 0; z-index: 2900; pointer-events: none; background: rgba(10, 13, 19, 0.45); }
+.ms-room-scene .ms-rs-cover { position: absolute; inset: 0; z-index: 4000; background: #07090F; }
+
+/* Sheet 45, the room picture unavailable: a notice and the people as portraits. */
+.ms-room-scene .ms-rs-notice { position: absolute; z-index: 3200; left: 12px; right: 12px; top: 52px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(12, 15, 22, 0.92); box-shadow: inset 0 0 0 1px rgba(244, 235, 221, 0.14); color: var(--ms-rs-text); }
+.ms-room-scene .ms-rs-notice .ms-rs-ic { width: 22px; height: 22px; color: var(--ms-rs-accent); }
+.ms-room-scene .ms-rs-notice b { display: block; font: 600 0.9375rem/1.25 var(--ms-rs-font); }
+.ms-room-scene .ms-rs-notice small { display: block; font: 400 0.8125rem/1.3 var(--ms-rs-font); color: var(--ms-rs-text-2); }
+.ms-room-scene .ms-rs-cards { position: absolute; z-index: 3100; left: 12px; right: 12px; top: 124px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; pointer-events: auto; }
+.ms-room-scene .ms-rs-card { display: grid; justify-items: center; gap: 6px; margin: 0; padding: 12px 8px 10px; border: 0; border-radius: 16px; background: #1B2130; box-shadow: inset 0 0 0 1px rgba(244, 235, 221, 0.12); color: var(--ms-rs-text); font: inherit; text-align: center; }
+.ms-room-scene button.ms-rs-card { cursor: pointer; box-shadow: 0 0 0 3px var(--ms-rs-accent), 0 0 0 7px rgba(241, 184, 75, 0.25); }
+.ms-room-scene button.ms-rs-card[data-picked] { background: #3A3320; }
+.ms-room-scene .ms-rs-card__face { width: 64px; height: 64px; border-radius: 16px; background: #2A3346 no-repeat center / cover; }
+.ms-room-scene .ms-rs-card__name { display: inline-flex; align-items: center; gap: 5px; font: 600 0.875rem/1 var(--ms-rs-font); white-space: nowrap; }
+.ms-room-scene .ms-rs-card__place { font: 500 0.75rem/1 var(--ms-rs-font); color: var(--ms-rs-text-2); }

@@ -324,6 +324,8 @@ Until then, every surface keeps drawing today's crew, and nothing breaks. The re
 
 ## DSN-REQ-18
 
+**Status (15 November 2026):** still required. The room scene component ([components/room-scene.md](components/room-scene.md)) draws each room by the CSS property its bundle defines, so the approved pictures reach a match once Integration builds them into its bundles, as requested below. The films' port is superseded by the direct-component decision: their drawing comes as components too.
+
 **Register the room drawing release.** Raised by Designer on 8 November 2026, after the owner approved the five rooms redrawn to match the crew ([PR #197](https://github.com/Amirkianfar66/GameN/pull/197); [owner-decisions.md](owner-decisions.md)). For Integration, with Frontend, who checks the consumers.
 
 The release is in [room-drawing-release.md](room-drawing-release.md), with its machine-readable record in `design/room-drawing/release-candidate.json`. It contains 25 baked pictures with their manifest:
@@ -431,6 +433,8 @@ The screens are the same in either order; only the round order changes.
 **Requested from Backend and Integration (not blocking):** list the permitted sides in the target's own `DECLARE_HACK_SIDE` offer (for example `sides: ['Blue']`, or all three for the Undercover and the Alien), in the private view only. The phone then needs no role table, and the rule stays in one place. The initiator, the host and the shared display must never receive it (HACK-DECLARE-04).
 
 ## DSN-REQ-23
+
+**Status (15 November 2026):** Designer now delivers this as the room scene component ([components/room-scene.md](components/room-scene.md)), under the owner's decisions of 14 and 15 November: Frontend connects it and does not rebuild it, and Integration admits its module graph. The wording below about Frontend building the layer is superseded.
 
 **Build the rooms' ambient motion into the native phone interface (11 November 2026).** For Frontend, with Integration for the source admission and the release, as for #217.
 

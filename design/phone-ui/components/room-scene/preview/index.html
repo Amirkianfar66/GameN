@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- mothership:dev-only · The room scene's preview: the runtime component (../room-scene.mjs) mounted on the phone pack's synthetic fixtures, at the two development phone sizes. Not the game, not a release. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room scene · preview</title>
+<!-- Unbundled, the preview resolves the game's two package imports here; the bundled check (design/tools/room-scene-check.mjs) needs none. -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="../room-scene.css">
+<link rel="stylesheet" href="./preview.css">
+<script type="module" src="./preview.mjs"></script>
+</head>
+<body></body>
+</html>
