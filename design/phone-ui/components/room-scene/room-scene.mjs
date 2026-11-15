@@ -2,7 +2,7 @@
 // the rooms, 30 the Blackout, 45 the room art unavailable, 55 the ambient motion). Runtime source,
 // Designer's (the owner, 14 and 15 November 2026: Designer builds each visual component once, in
 // design/; the game and the preview use it as it is). Frontend mounts it in the space between the app's
-// bars, gives it the public view of the room, and connects its intents to the game.
+// bars, gives it the room's view for this phone, and connects its intents to the game.
 //
 // What it draws: the room's approved pictures (room-art.mjs), the ambient layer over the back picture
 // (ambient.mjs), the people present as the game's own crew figures (crew-runtime.mjs, with their idle
@@ -12,8 +12,10 @@
 // #229: the room fills the space, nobody present is cut off, and the frame is held through the Blackout.
 //
 // What it never does: decide who may act, spend anything, resolve anything or advance the game. Its
-// callbacks report a tap; Frontend checks the current offer and sends the command. It reads no role,
-// team or private fact, and nothing it loads depends on one: every picture is the same for every phone.
+// callbacks report a tap; Frontend checks the current offer and sends the command. The room, its art and
+// who is in it are the public board. The offers (`targets`) and the room's control are this viewer's
+// own: the component drops them when it is concealed or its viewer changes, and nothing it loads ever
+// depends on them, or on a role or team: every picture is the same for every phone.
 
 import { sceneOf, slotsOf, LOCATION_OF } from '../../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
 import { FRAME } from '../../../../apps/game/hosted/scene-drawing/body.mjs';
@@ -25,7 +27,7 @@ import { SKY_EPOCH, ambientLayer } from './ambient.mjs';
 import { clamp, phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.1.0';
+export const ROOM_SCENE_VERSION = 'room-scene-0.2.0';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -38,7 +40,7 @@ export const ROOM_SCENE_DEFAULTS = Object.freeze({
   // The room's name sits in the top inset; the bottom one keeps the last press area off the tab bar.
   insets: Object.freeze({ top: 46, bottom: 8 }),
   people: Object.freeze([]), self: null, active: null,
-  lighting: 'lit', hold: false,
+  lighting: 'lit', hold: null,
   targets: null, control: null,
   status: 'live', artReady: true,
   clock: null, reducedMotion: false, interactive: true,
@@ -49,7 +51,12 @@ const sameSeat = (a, b) => a !== null && a !== undefined && String(a) === String
 /** The number on a person's tag: `number`, or the digits at the end of the seat's id ("seat-4" → 4). */
 export const seatNumber = person => person.number ?? (typeof person.seat === 'number' ? person.seat : Number(String(person.seat).match(/\d+$/)?.[0] ?? NaN));
 
-function normalise(previous, input) {
+/**
+ * The next input from the previous one and an update. The offers and the room's control belong to this
+ * viewer: they are dropped while the scene is concealed (never kept for when it shows again), and when
+ * the viewer (`self`) changes, unless the same update gives the new viewer's own.
+ */
+export function nextRoomSceneInput(previous, input) {
   const next = { ...previous, ...input };
   if (!ROOM_NAMES[next.room]) throw new TypeError(`Unknown room ${JSON.stringify(next.room)}`);
   if (![7, 8, 9].includes(next.roster)) throw new TypeError(`A roster is 7, 8 or 9 players, not ${JSON.stringify(next.roster)}`);
@@ -58,9 +65,16 @@ function normalise(previous, input) {
   if (!['lit', 'dark'].includes(next.lighting)) throw new TypeError(`Lighting is lit or dark, not ${JSON.stringify(next.lighting)}`);
   if (!STATUSES.includes(next.status)) throw new TypeError(`Status is ${STATUSES.join(', ')}, not ${JSON.stringify(next.status)}`);
   if (next.clock !== null && typeof next.clock?.now !== 'function') throw new TypeError('A clock is null or has now()');
+  if (next.hold !== null && next.hold !== false && next.hold !== true && typeof next.hold !== 'string') throw new TypeError('hold is a Blackout window\'s id, true, or null');
   next.size = { width, height };
   next.insets = { ...ROOM_SCENE_DEFAULTS.insets, ...(next.insets ?? {}) };
   next.people = [...(next.people ?? [])];
+  const viewerChanged = 'self' in input && !(previous.self === input.self || sameSeat(previous.self, input.self));
+  if (next.status === 'concealed') { next.targets = null; next.control = null; }
+  else if (viewerChanged) {
+    if (!('targets' in input)) next.targets = null;
+    if (!('control' in input)) next.control = null;
+  }
   return next;
 }
 
@@ -70,26 +84,41 @@ function placed(state) {
   return state.people.map(person => ({ person, slot: places.get(person.slot) })).filter(p => p.slot);
 }
 
+/** The hold's window: a Blackout window's id, `true` for one Frontend does not name, or null for none. */
+const holdWindow = hold => (hold === true ? true : typeof hold === 'string' && hold ? hold : null);
+/** Two holds are different windows only when both are named and the names differ. */
+const sameWindow = (a, b) => a === null || b === null || a === true || b === true || a === b;
+
 /**
- * The scene's frame ({ k, tx, ty }): the room's picture scaled by k and moved by (tx, ty) in the panel.
- * Lit, phoneFrame frames who the lit room shows. Held (Blackout, `hold` or lights out), it keeps the
- * previous frame of the same room, roster and size, so no press area moves. Entered in the dark with no
- * frame to keep, it frames the people given (Frontend's public pre-Blackout board) or, without them,
- * every place as if occupied: the opened-in-the-dark fallback, which depends only on the room and the phone.
+ * The scene's frame: the room's picture scaled by k and moved by (tx, ty) in its panel, with that panel.
+ * Lit and not held, phoneFrame frames who the lit room shows in the current size.
+ * A hold (a Blackout window in `hold`, or the lights out) keeps one frame, and the panel it was made for,
+ * whatever the size, the insets, the people or the lights do, so no press square moves for the whole
+ * window: its lit seconds and its dark ones. A hold that begins lit frames the room as it is then; one
+ * that begins in the dark keeps the last lit frame. The hold ends, and the room is framed again in the
+ * current size, when the window ends (`hold` cleared with the lights on) or a differently named window
+ * begins; a different room or roster frames afresh. Entered in the dark with no frame to keep, it frames
+ * the people given (Frontend's public pre-Blackout board) or, without them, every place as if occupied:
+ * the opened-in-the-dark fallback, which depends only on the room and the phone.
  */
 export function roomSceneFrame(state, previous = null) {
   const panel = { width: state.size.width, height: state.size.height, cap: state.insets.top, pad: state.insets.bottom };
-  const key = JSON.stringify([state.room, state.roster, panel]);
-  const holding = state.hold || state.lighting === 'dark';
-  if (holding && previous?.key === key) return { ...previous, held: true };
+  const context = JSON.stringify([state.room, state.roster]);
+  const window = holdWindow(state.hold);
+  const dark = state.lighting === 'dark';
+  const holding = window !== null || dark;
+  const prev = previous?.context === context ? previous : null;
+  if (holding && prev && (prev.holding ? sameWindow(prev.window, window) : dark)) {
+    return { ...prev, holding: true, held: true, window: typeof window === 'string' ? window : prev.window ?? window };
+  }
   const scene = sceneOf(state.room, state.roster);
   const people = placed(state).map(({ person, slot }) => ({ ...slot, eliminated: person.health === 'Eliminated' }));
-  const cold = state.lighting === 'dark' && !people.length;
+  const cold = dark && !people.length;
   const shown = cold ? slotsOf(state.room, state.roster).map(slot => ({ ...slot, eliminated: false })) : people;
-  return { ...phoneFrame(scene, panel, shown), key, panel, held: false, cold };
+  return { ...phoneFrame(scene, panel, shown), panel, context, holding, window, held: false, cold };
 }
 
-/** The press square of each place in a frame: what a tap on a person or a position uses. */
+/** The press square of each place in a frame, in the frame's own panel: what a tap on a person or a position uses. */
 export function roomScenePlaces(state, frame) {
   return pressRects(state.room, state.roster, frame.panel, frame);
 }
@@ -103,21 +132,26 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
     return node;
   };
-  const root = el('div', 'ms-room-scene', { role: 'group' });
+  const root = el('div', 'ms-room-scene', { role: 'group', tabindex: '-1' });
   const layers = el('div', 'ms-rs-layers', { 'aria-hidden': 'true' });
   const crowd = el('div', 'ms-rs-people');
   const over = el('div', 'ms-rs-over');
   root.append(layers, crowd, over);
   host.append(root);
 
-  let state = normalise(ROOM_SCENE_DEFAULTS, input);
+  let state = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, input);
   let frame = null, layersKey = null, suspended = false, disposed = false, seq = 0;
+  // The ambient layer's time: running on the ship's clock, or held still at one sampled moment.
+  let ambientLive = false, heldMs = null;
   const people = new Map();
-  const on = { onSeat: handlers.onSeat ?? null, onSlot: handlers.onSlot ?? null, onControl: handlers.onControl ?? null };
+  // The overlay's controls, kept by identity so a focused one survives every ordinary update.
+  const overlay = { cover: null, label: null, notice: null, cards: null, cardsBySeat: new Map(), slots: new Map(), control: null, veil: null };
+  const on = { onSeat: handlers.onSeat ?? null, onSlot: handlers.onSlot ?? null, onControl: handlers.onControl ?? null,
+    onFocusReturn: handlers.onFocusReturn ?? null };
 
   const onClick = event => {
     const target = event.target.closest?.('button[data-intent]');
-    if (!target || !root.contains(target) || target.disabled || !accepting()) return;
+    if (!target || !root.contains(target) || target.getAttribute('aria-disabled') === 'true' || !accepting()) return;
     const { intent, value } = target.dataset;
     if (intent === 'seat') on.onSeat?.(state.people.find(p => String(p.seat) === value)?.seat ?? value);
     else if (intent === 'slot') on.onSlot?.(value);
@@ -125,22 +159,43 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   };
   root.addEventListener('click', onClick);
   const accepting = () => !disposed && state.interactive && state.status === 'live';
+  // Not taking taps now (reconnecting, not interactive, a control turned off): announced as unavailable
+  // and ignored, but still focusable, so an update never drops the focus from under the player.
+  const unavailable = (node, off) => (off ? node.setAttribute('aria-disabled', 'true') : node.removeAttribute('aria-disabled'));
 
+  /**
+   * Removes a node. If it held the focus (an offer or control that ended), the focus moves to the scene
+   * itself, and then onFocusReturn({ intent, value }) tells Frontend which one ended, so it can move the
+   * focus on. That is the only time the component moves the focus.
+   */
+  function remove(node) {
+    if (!node) return;
+    const active = doc.activeElement;
+    const focused = !!active && node.contains(active);
+    const ended = focused ? active.closest?.('[data-intent]') : null;
+    node.remove();
+    if (!focused || disposed) return;
+    root.focus({ preventScroll: true });
+    const detail = ended ? { intent: ended.dataset.intent, value: ended.dataset.value } : null;
+    // After the update has finished, and only if the focus is still on the scene.
+    queueMicrotask(() => { if (!disposed && doc.activeElement === root) on.onFocusReturn?.(detail); });
+  }
   function release(entry) {
     for (const node of [entry.body, entry.front]) if (node) releaseCrewFigure(root, node);
-    entry.group.remove();
+    remove(entry.group);
   }
   function clearPeople() {
     for (const entry of people.values()) release(entry);
     people.clear();
   }
 
+  /** Builds the room's pictures and ambient layer when the room, the lights or the frame change; true if rebuilt. */
   function paintLayers() {
     const key = JSON.stringify([state.room, state.lighting, frame.k, frame.tx, frame.ty, state.artReady]);
-    if (key === layersKey) return;
+    if (key === layersKey) return false;
     layersKey = key;
     layers.replaceChildren();
-    if (!state.artReady) return;
+    if (!state.artReady) return true;
     const dark = state.lighting === 'dark';
     for (const layer of roomLayers(state.room, { dark })) {
       const art = el('span', 'ms-rs-art');
@@ -151,18 +206,38 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     }
     const ambient = ambientLayer(state.room, frame, { dark });
     if (ambient) layers.append(ambient);
+    return true;
   }
 
-  /** The ambient layer runs on the ship's one clock; held still when it should not move. */
-  function settle() {
-    const live = !suspended && state.status === 'live' && !state.reducedMotion && state.clock !== null;
-    const ms = state.clock ? state.clock.now() - SKY_EPOCH : 0;
-    for (const svg of layers.querySelectorAll('svg.amb')) {
-      for (const animation of svg.getAnimations?.({ subtree: true }) ?? []) {
-        animation.currentTime = ms;
-        if (live) animation.play(); else animation.pause();
+  /**
+   * The ambient layer runs on the ship's one clock while the scene is current, in motion and has a trusted
+   * clock: it is set to the clock when it starts running and when its pictures are rebuilt, and then left
+   * to run. Otherwise it stands still at one moment, sampled once when it stops: where it stood, or, if it
+   * was not running, the clock's moment; with no trusted clock ever given, 0 s. While it stands still no
+   * update moves it, whatever the clock does; it goes back on the clock when it runs again.
+   */
+  function settle(rebuilt) {
+    // The device's Reduce motion counts as well as the game's: a play() here would override the CSS pause.
+    const deviceReduced = !!doc.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const live = !suspended && state.status === 'live' && !state.reducedMotion && !deviceReduced && state.clock !== null;
+    const animations = [...layers.querySelectorAll('svg.amb')].flatMap(svg => svg.getAnimations?.({ subtree: true }) ?? []);
+    if (live) {
+      if (!ambientLive || rebuilt) {
+        const ms = state.clock.now() - SKY_EPOCH;
+        for (const animation of animations) { animation.currentTime = ms; animation.play(); }
+      }
+      heldMs = null;
+    } else {
+      const stopping = ambientLive || heldMs === null;
+      if (heldMs === null) {
+        const standing = ambientLive && !rebuilt ? Number(animations[0]?.currentTime) : NaN;
+        heldMs = Number.isFinite(standing) ? standing : state.clock ? state.clock.now() - SKY_EPOCH : 0;
+      }
+      if (stopping || rebuilt || animations.some(a => a.currentTime !== heldMs || a.playState !== 'paused')) {
+        for (const animation of animations) { animation.currentTime = heldMs; animation.pause(); }
       }
     }
+    ambientLive = live;
     setCrewMountMotion(root, state.reducedMotion);
     setCrewMountActivity(root, !suspended && state.status === 'live');
   }
@@ -184,7 +259,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
       if (!node) {
         node = el('span', 'ms-rs-fig', { 'aria-hidden': 'true' });
         node.dataset.part = layer;
-        entry.group.append(node);
+        entry.group.prepend(node);
         entry[layer] = node;
       }
       const drawn = paintCrewFigure(root, node, state.versions, person.character, sk, { outfit, layer, gesture, still: dead,
@@ -205,7 +280,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   }
 
   function tag(entry, person, rect, dim) {
-    const { width, height } = state.size, pad = state.insets.bottom;
+    const { width, height, pad } = frame.panel;
     let node = entry.tag;
     if (!node) { node = el('span', 'ms-rs-tag'); entry.group.append(node); entry.tag = node; }
     const self = sameSeat(state.self, person.seat);
@@ -241,7 +316,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     if (active) {
       if (!entry.turn) { entry.turn = el('span', 'ms-rs-turn', { 'aria-hidden': 'true' }); entry.turn.innerHTML = iconSvg('turn', { filled: true, className: 'ms-rs-ic' }); entry.group.append(entry.turn); }
       const headTop = frame.ty + (slot.at[1] - 250 * slot.scale) * frame.k;
-      Object.assign(entry.turn.style, { left: `${rect.left + rect.side / 2}px`, top: `${Math.max(state.insets.top + 2, Math.min(rect.top - 30, headTop))}px` });
+      Object.assign(entry.turn.style, { left: `${rect.left + rect.side / 2}px`, top: `${Math.max(frame.panel.cap + 2, Math.min(rect.top - 30, headTop))}px` });
     } else if (entry.turn) { entry.turn.remove(); entry.turn = null; }
     const seats = state.targets?.seats ?? null;
     const target = !!seats?.some(seat => sameSeat(seat, person.seat));
@@ -255,9 +330,9 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
       p.dataset.value = String(person.seat);
       p.setAttribute('aria-label', `${sameSeat(state.self, person.seat) ? 'You' : person.name}, player ${seatNumber(person)}`);
       p.toggleAttribute('data-picked', !!state.targets?.picked?.some(seat => sameSeat(seat, person.seat)));
-      p.disabled = !accepting();
+      unavailable(p, !accepting());
       Object.assign(p.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.side}px`, height: `${rect.side}px` });
-    } else if (entry.press) { entry.press.remove(); entry.press = null; }
+    } else if (entry.press) { remove(entry.press); entry.press = null; }
   }
 
   function paintPeople(rects) {
@@ -283,125 +358,151 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     }
   }
 
+  /** One overlay node by name: made once, kept while wanted, removed (focus to the scene) when not. */
+  function keep(name, wanted, make) {
+    if (!wanted) { remove(overlay[name]); overlay[name] = null; return null; }
+    if (!overlay[name]) { overlay[name] = make(); over.append(overlay[name]); }
+    return overlay[name];
+  }
+
   function paintOver(rects) {
-    over.replaceChildren();
-    if (state.status === 'concealed') {
-      over.append(el('div', 'ms-rs-cover'));
-      return;
-    }
-    if (state.label !== false) {
-      const label = el('div', 'ms-rs-label');
-      const text = el('span', 'ms-rs-label__text');
-      text.textContent = ROOM_NAMES[state.room];
-      label.append(text);
-      over.append(label);
-    }
-    if (!state.artReady) paintUnavailable();
-    for (const id of state.targets?.slots ?? []) {
-      const r = rects.get(id);
-      if (!r) continue;
-      const mark = el('button', 'ms-rs-slot', { type: 'button', 'aria-label': `Position ${id}` });
-      mark.dataset.intent = 'slot';
-      mark.dataset.value = id;
+    const concealed = state.status === 'concealed';
+    keep('cover', concealed, () => el('div', 'ms-rs-cover'));
+    const label = keep('label', !concealed && state.label !== false, () => {
+      const node = el('div', 'ms-rs-label');
+      node.append(el('span', 'ms-rs-label__text'));
+      return node;
+    });
+    if (label) label.firstChild.textContent = ROOM_NAMES[state.room];
+    paintUnavailable(!concealed && !state.artReady);
+    // Offered empty positions, kept by their place.
+    const wanted = concealed ? [] : (state.targets?.slots ?? []).filter(id => rects.has(id));
+    for (const [id, node] of overlay.slots) if (!wanted.includes(id)) { remove(node); overlay.slots.delete(id); }
+    for (const id of wanted) {
+      let mark = overlay.slots.get(id);
+      if (!mark) {
+        mark = el('button', 'ms-rs-slot', { type: 'button', 'aria-label': `Position ${id}` });
+        mark.dataset.intent = 'slot';
+        mark.dataset.value = id;
+        over.append(mark);
+        overlay.slots.set(id, mark);
+      }
       const picked = state.targets.picked === id || (Array.isArray(state.targets.picked) && state.targets.picked.includes(id));
+      const iconKey = state.targets.icon === false ? '' : `${state.targets.icon ?? 'position'}${picked ? ':filled' : ''}`;
+      if (mark.dataset.icon !== iconKey) {
+        mark.innerHTML = iconKey ? iconSvg(state.targets.icon ?? 'position', { filled: picked, className: 'ms-rs-ic' }) : '';
+        mark.dataset.icon = iconKey;
+      }
       mark.toggleAttribute('data-picked', picked);
-      if (state.targets.icon !== false) mark.innerHTML = iconSvg(state.targets.icon ?? 'position', { filled: picked, className: 'ms-rs-ic' });
-      mark.disabled = !accepting();
+      unavailable(mark, !accepting());
+      const r = rects.get(id);
       Object.assign(mark.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.side}px`, height: `${r.side}px` });
-      over.append(mark);
     }
     // The room's own control, lit and current only: a button ("Windows · 2"), or a status pill (the Jail's
-    // "Detained · you can still vote"). While reconnecting the pack shows none.
-    if (state.control && state.lighting === 'lit' && state.status === 'live') {
-      const c = state.control, status = c.kind === 'status';
-      const control = el(status ? 'span' : 'button', 'ms-rs-control', status ? {} : { type: 'button' });
-      control.dataset.kind = status ? 'status' : 'button';
-      if (!status) { control.dataset.intent = 'control'; control.dataset.value = String(c.id ?? ''); }
-      control.innerHTML = c.icon ? iconSvg(c.icon, { filled: true, className: 'ms-rs-ic' }) : '';
-      const label = el('span');
-      label.textContent = c.label;
-      control.append(label);
-      if (!status) control.disabled = c.enabled === false || !accepting();
-      over.append(control);
+    // "Detained · you can still vote"). While reconnecting the pack shows none. Kept while its kind stays.
+    const c = state.control, status = c?.kind === 'status';
+    const showControl = !!c && !concealed && state.lighting === 'lit' && state.status === 'live';
+    if (overlay.control && (!showControl || overlay.control.dataset.kind !== (status ? 'status' : 'button'))) { remove(overlay.control); overlay.control = null; }
+    if (showControl) {
+      if (!overlay.control) {
+        overlay.control = el(status ? 'span' : 'button', 'ms-rs-control', status ? {} : { type: 'button' });
+        overlay.control.dataset.kind = status ? 'status' : 'button';
+        overlay.control.append(el('span', 'ms-rs-control__icon'), el('span', 'ms-rs-control__label'));
+        if (!status) overlay.control.dataset.intent = 'control';
+        over.append(overlay.control);
+      }
+      const node = overlay.control;
+      if (node.firstChild.dataset.icon !== (c.icon ?? '')) {
+        node.firstChild.innerHTML = c.icon ? iconSvg(c.icon, { filled: true, className: 'ms-rs-ic' }) : '';
+        node.firstChild.dataset.icon = c.icon ?? '';
+      }
+      node.lastChild.textContent = c.label;
+      if (!status) { node.dataset.value = String(c.id ?? ''); unavailable(node, c.enabled === false || !accepting()); }
     }
-    if (state.status === 'stale') over.append(el('div', 'ms-rs-veil'));
+    keep('veil', !concealed && state.status === 'stale', () => el('div', 'ms-rs-veil'));
   }
 
   /** Sheet 45, the room picture unavailable: who is here and where, as portraits; positions and controls still work. */
-  function paintUnavailable() {
-    const notice = el('div', 'ms-rs-notice', { role: 'status' });
-    notice.innerHTML = iconSvg('warning', { filled: true, className: 'ms-rs-ic' });
-    const words = el('span');
-    const title = el('b');
-    title.textContent = 'Room picture unavailable';
-    const sub = el('small');
-    sub.textContent = 'Positions and controls still work';
-    words.append(title, sub);
-    notice.append(words);
-    over.append(notice);
-    if (state.lighting === 'dark') return;
-    const grid = el('div', 'ms-rs-cards');
+  function paintUnavailable(shown) {
+    const notice = keep('notice', shown, () => {
+      const node = el('div', 'ms-rs-notice', { role: 'status' });
+      node.innerHTML = iconSvg('warning', { filled: true, className: 'ms-rs-ic' });
+      const words = el('span'), title = el('b'), sub = el('small');
+      title.textContent = 'Room picture unavailable';
+      sub.textContent = 'Positions and controls still work';
+      words.append(title, sub);
+      node.append(words);
+      return node;
+    });
+    const grid = keep('cards', !!notice && state.lighting === 'lit', () => el('div', 'ms-rs-cards'));
+    const shownPeople = grid ? placed(state) : [];
+    const keepSeats = new Set(shownPeople.map(({ person }) => String(person.seat)));
+    for (const [seat, card] of overlay.cardsBySeat) if (!grid || !keepSeats.has(seat)) { remove(card); overlay.cardsBySeat.delete(seat); }
+    if (!grid) return;
     const seats = state.targets?.seats ?? null;
-    for (const { person, slot } of placed(state)) {
+    for (const { person, slot } of shownPeople) {
+      const id = String(person.seat);
       const target = !!seats?.some(seat => sameSeat(seat, person.seat));
-      const card = el(target ? 'button' : 'div', 'ms-rs-card');
+      let card = overlay.cardsBySeat.get(id);
+      if (card && (card.tagName === 'BUTTON') !== target) { remove(card); overlay.cardsBySeat.delete(id); card = null; }
+      if (!card) {
+        card = el(target ? 'button' : 'div', 'ms-rs-card', target ? { type: 'button' } : {});
+        if (target) card.dataset.intent = 'seat';
+        const face = el('span', 'ms-rs-card__face', { 'aria-hidden': 'true' });
+        const name = el('span', 'ms-rs-card__name');
+        name.append(el('b', 'ms-rs-tag__num'), el('span'));
+        card.append(face, name, el('small', 'ms-rs-card__place'));
+        grid.append(card);
+        overlay.cardsBySeat.set(id, card);
+      }
+      card.dataset.value = id;
+      card.children[0].style.backgroundImage = crewPortraitVariable(person.character, state.versions);
+      card.children[1].children[0].textContent = String(seatNumber(person));
+      card.children[1].children[1].textContent = `${sameSeat(state.self, person.seat) ? 'You' : person.name}${person.health === 'Injured' ? ' · Injured' : person.health === 'Eliminated' ? ' · Out' : ''}`;
+      card.children[2].textContent = slot.id;
       if (target) {
-        card.type = 'button';
-        card.dataset.intent = 'seat';
-        card.dataset.value = String(person.seat);
-        card.disabled = !accepting();
+        unavailable(card, !accepting());
         card.toggleAttribute('data-picked', !!state.targets?.picked?.some(seat => sameSeat(seat, person.seat)));
       }
-      const face = el('span', 'ms-rs-card__face', { 'aria-hidden': 'true' });
-      face.style.backgroundImage = crewPortraitVariable(person.character, state.versions);
-      const name = el('span', 'ms-rs-card__name');
-      const num = el('b', 'ms-rs-tag__num');
-      num.textContent = String(seatNumber(person));
-      const text = el('span');
-      text.textContent = `${sameSeat(state.self, person.seat) ? 'You' : person.name}${person.health === 'Injured' ? ' · Injured' : person.health === 'Eliminated' ? ' · Out' : ''}`;
-      name.append(num, text);
-      const where = el('small', 'ms-rs-card__place');
-      where.textContent = slot.id;
-      card.append(face, name, where);
-      grid.append(card);
     }
-    over.append(grid);
   }
 
   function render() {
     if (disposed) return;
     const { width, height } = state.size;
+    const concealed = state.status === 'concealed';
     Object.assign(root.style, { width: `${width}px`, height: `${height}px` });
-    root.dataset.room = state.room;
+    // Concealed, not even the room's name is left on the scene for a screen reader to read out.
+    if (concealed) delete root.dataset.room; else root.dataset.room = state.room;
     root.dataset.lighting = state.lighting;
     root.dataset.status = state.status;
     root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
-    root.setAttribute('aria-label', ROOM_NAMES[state.room]);
+    root.setAttribute('aria-label', concealed ? 'Room hidden' : ROOM_NAMES[state.room]);
     root.toggleAttribute('data-unavailable', !state.artReady);
-    crowd.toggleAttribute('inert', state.status === 'concealed');
+    crowd.toggleAttribute('inert', concealed);
     frame = roomSceneFrame(state, frame);
-    if (state.status === 'concealed') {
+    if (concealed) {
       layers.replaceChildren();
       layersKey = null;
       clearPeople();
       paintOver(new Map());
-      settle();
+      settle(true);
       return;
     }
     const rects = new Map(roomScenePlaces(state, frame).map(r => [r.id, r]));
-    paintLayers();
+    const rebuilt = paintLayers();
     paintPeople(rects);
     paintOver(rects);
-    settle();
+    settle(rebuilt);
   }
 
   function update(next = {}) {
     if (disposed) return;
-    state = normalise(state, next);
+    state = nextRoomSceneInput(state, next);
     render();
   }
-  function suspend() { if (disposed) return; suspended = true; settle(); }
-  function resume() { if (disposed) return; suspended = false; settle(); }
+  function suspend() { if (disposed) return; suspended = true; settle(false); }
+  function resume() { if (disposed) return; suspended = false; settle(false); }
   function dispose() {
     if (disposed) return;
     disposed = true;
@@ -410,14 +511,21 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     disposeCrewMounts(root);
     root.remove();
   }
-  /** Where the scene is: its frame and each place's and person's press square, in the host's CSS pixels. */
+  /**
+   * Where the scene is: its frame (and the size it was made for, which a hold keeps), each place's press
+   * square and, only while the lit room shows them, who is where, in the scene's CSS pixels from its top
+   * left. In the dark or concealed it is geometry alone: no seat, no person. After dispose(), null.
+   */
   function layout() {
+    if (disposed) return null;
     const places = roomScenePlaces(state, frame).map(({ id, left, top, side }) => ({ slot: id, left, top, side }));
     const bySlot = new Map(places.map(p => [p.slot, p]));
+    const showsPeople = state.status !== 'concealed' && state.lighting === 'lit';
     return {
-      frame: { k: frame.k, tx: frame.tx, ty: frame.ty, held: frame.held, cold: frame.cold },
+      frame: { k: frame.k, tx: frame.tx, ty: frame.ty, panel: { width: frame.panel.width, height: frame.panel.height },
+        held: frame.held, window: frame.window, cold: frame.cold },
       places,
-      people: placed(state).map(({ person, slot }) => ({ seat: person.seat, ...bySlot.get(slot.id) })),
+      people: showsPeople ? placed(state).map(({ person, slot }) => ({ seat: person.seat, ...bySlot.get(slot.id) })) : [],
     };
   }
 

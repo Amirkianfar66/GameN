@@ -8,12 +8,14 @@
 //   index.html                                   every state at 390 × 844 and 430 × 932
 //   index.html?single=1&size=390x844&state=lit   one phone, for the check's captures
 //   …&clock=still                                no trusted clock: the ambient layer still at 0 s
+//   index.html?single=1&probe=1                  the lifecycle probe (probe.mjs), for the check
 
 import { PLANET_FOOD_TASK_PINS } from '@mothership/contracts';
 import { ROOM_NAMES, mountRoomScene } from '../room-scene.mjs';
 import { SKY_EPOCH } from '../ambient.mjs';
 import { ROOM_ART } from '../room-art.mjs';
 import { FIXTURE_LABEL, ROOM_FIXTURES, SELF, board } from '../../../prototype/fixtures.mjs';
+import { runRoomSceneProbe } from './probe.mjs';
 
 export const PREVIEW_SIZES = Object.freeze({ '390x844': [390, 844], '430x932': [430, 932] });
 // The pack's review frames: safe areas 47 and 34 px, a 52 px top bar and 58 px tabs (kit.css).
@@ -57,7 +59,7 @@ export const PREVIEW_STATES = Object.freeze({
   own: { caption: 'Lit · your turn', input: { ...base, active: SELF } },
   targets: { caption: 'Targets offered · one picked', input: { ...base, active: SELF, control: null, targets: { seats: [3, 6, 8], picked: [6] } } },
   moves: { caption: 'Empty positions offered', input: { ...base, active: SELF, control: null, targets: { slots: ['B5'], picked: null, icon: 'move' } } },
-  dark: { caption: 'Lights out · the lit frame held', input: base, then: { lighting: 'dark', hold: true, control: null } },
+  dark: { caption: 'Lights out · the lit frame held', input: base, then: { lighting: 'dark', hold: 'blackout-1', control: null } },
   cold: { caption: 'Opened in the dark · no lit frame', input: { ...base, lighting: 'dark', people: [], control: null } },
   stale: { caption: 'Reconnecting · the last room, dimmed', input: { ...base, status: 'stale' } },
   concealed: { caption: 'Concealed', input: { ...base, status: 'concealed' } },
@@ -72,9 +74,9 @@ const handlers = {
   onControl: id => intents.push(['control', id]),
 };
 
-function phone(sizeKey, stateKey) {
+/** A phone at a development size: the stand-in bars, and the host between them that the scene fills. */
+function shell(sizeKey) {
   const [width, height] = PREVIEW_SIZES[sizeKey];
-  const state = PREVIEW_STATES[stateKey];
   const frame = document.createElement('div');
   frame.className = 'pv-phone';
   frame.style.width = `${width}px`;
@@ -87,7 +89,12 @@ function phone(sizeKey, stateKey) {
   host.className = 'pv-host';
   host.style.top = `${BAR_TOP}px`;
   frame.append(top, host, bottom);
-  const size = { width, height: height - BAR_TOP - BAR_BOTTOM };
+  return { frame, host, size: { width, height: height - BAR_TOP - BAR_BOTTOM } };
+}
+
+function phone(sizeKey, stateKey) {
+  const state = PREVIEW_STATES[stateKey];
+  const { frame, host, size } = shell(sizeKey);
   return { frame, mount: () => {
     const scene = mountRoomScene(host, { ...state.input, size }, handlers);
     if (state.then) scene.update(state.then);
@@ -98,7 +105,16 @@ function phone(sizeKey, stateKey) {
 }
 
 const scenes = [];
-if (params.get('single')) {
+let probe = null;
+if (params.get('probe')) {
+  // The probe mounts its own scenes in a 390 × 844 phone and resizes one to 430 × 932's room area.
+  document.body.classList.add('pv-single');
+  const { frame, host, size } = shell('390x844');
+  document.body.append(frame);
+  const large = shell('430x932').size;
+  probe = document.fonts.ready.then(() => runRoomSceneProbe({ host, base, size, large }))
+    .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
+} else if (params.get('single')) {
   document.body.classList.add('pv-single');
   const sizeKey = params.get('size') ?? '390x844', stateKey = params.get('state') ?? 'lit';
   if (!PREVIEW_SIZES[sizeKey] || !PREVIEW_STATES[stateKey]) throw new Error(`Unknown size or state: ${sizeKey} ${stateKey}`);
@@ -128,6 +144,6 @@ if (params.get('single')) {
 
 // For the check: settled once fonts and two frames have passed.
 window.__roomScene = {
-  intents, scenes,
+  intents, scenes, probe,
   ready: document.fonts.ready.then(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))),
 };

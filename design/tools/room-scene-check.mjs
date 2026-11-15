@@ -7,8 +7,13 @@
 // development phone sizes, 390 × 844 and 430 × 932, in desktop Chromium at 2× pixels.
 // A capture passes with no policy violation, no failed or refused request and no page error, with the
 // release's pictures requested and the crew drawn where the state shows people.
+// It then runs the preview's lifecycle probe (preview/probe.mjs) in the same bundle under the same
+// headers, once as the page comes and once with the device's Reduce motion emulated: the held frame
+// through a resize, what layout() and the scene show in the dark and concealed, the still voyage while
+// the clock moves, and the focus kept across updates. Every probe check must pass.
 // It writes design/phone-ui/components/room-scene/review/: one JPEG per state and size, and check.json
-// (the headers and their SHA-256, the source commit, what each capture drew and its SHA-256).
+// (the headers and their SHA-256, the source commit, what each capture drew and its SHA-256, and each
+// probe check with what it saw).
 //   node design/tools/room-scene-check.mjs
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size: not a phone,
 // not Safari, not a performance measure.
@@ -97,14 +102,15 @@ const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
 const browser = await connect(chrome.endpoint);
 const results = {};
+const probes = {};
 let failed = 0;
+const POLICY_LISTENER = 'window.__policy = []; document.addEventListener("securitypolicyviolation", e => window.__policy.push({ directive: e.violatedDirective, blocked: String(e.blockedURI), source: String(e.sourceFile).replace(location.origin + "/", ""), line: e.lineNumber, column: e.columnNumber }));';
 try {
   await mkdir(REVIEW, { recursive: true });
   for (const [sizeKey, [width, height]] of Object.entries(SIZES)) {
     for (const state of STATES) {
       const page = await openPage(browser, { width, height, scale: 2 });
-      await page.send('Page.addScriptToEvaluateOnNewDocument', { source:
-        'window.__policy = []; document.addEventListener("securitypolicyviolation", e => window.__policy.push({ directive: e.violatedDirective, blocked: String(e.blockedURI), source: String(e.sourceFile).replace(location.origin + "/", ""), line: e.lineNumber, column: e.columnNumber }));' });
+      await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
       await page.goto(`${origin}/index.html?single=1&size=${sizeKey}&state=${state}&at=${AT}`, 'window.__roomScene !== undefined');
       await page.evaluate('window.__roomScene.ready');
       await sleep(500);
@@ -131,6 +137,23 @@ try {
       console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: ${seen.figures} figure layers, ${seen.tags} tags, art ${art.length}, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}`);
     }
   }
+  // The lifecycle probe, as the page comes and with the device's Reduce motion.
+  for (const [mode, media] of [['full', null], ['device-reduced', { 'prefers-reduced-motion': 'reduce' }]]) {
+    const page = await openPage(browser, { width: 390, height: 844, scale: 1 });
+    await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
+    if (media) await page.media(media);
+    await page.goto(`${origin}/index.html?single=1&probe=1`, 'window.__roomScene !== undefined');
+    const outcome = await page.evaluate('window.__roomScene.probe');
+    const violations = await page.evaluate('window.__policy');
+    for (const v of violations) v.kind = await classify(out, v);
+    const problems = page.problems().filter(p => !/\/favicon\.ico$/.test(p));
+    const ok = outcome.ok && outcome.mode === mode && outcome.checks.length > 0 && problems.length === 0 && violations.every(v => v.kind !== 'unexpected');
+    if (!ok) failed += 1;
+    probes[mode] = { ok, emulated: media ?? {}, ...outcome, violations, problems };
+    await page.close();
+    for (const c of outcome.checks) console.log(`${c.ok ? 'ok  ' : 'FAIL'} probe ${mode} · ${c.id}${c.ok ? '' : ` ${JSON.stringify(c.detail)}`}`);
+    if (outcome.error) console.log(`FAIL probe ${mode}: ${outcome.error}`);
+  }
 } finally {
   browser.close();
   chrome.close?.();
@@ -146,7 +169,10 @@ const record = {
   headers, headersSha256: sha256(JSON.stringify(headers)),
   voyageAt: AT,
   captures: results,
+  probe: probes,
 };
 await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\n`);
-console.log(`${Object.keys(results).length - failed} of ${Object.keys(results).length} captures passed; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
+const passedCaptures = Object.values(results).filter(r => r.ok).length;
+const probeChecks = Object.values(probes).flatMap(p => p.checks ?? []);
+console.log(`${passedCaptures} of ${Object.keys(results).length} captures passed; probe ${probeChecks.filter(c => c.ok).length} of ${probeChecks.length} checks; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
 if (failed) process.exitCode = 1;
