@@ -1,6 +1,6 @@
 # Boarding stage: Designer's runtime component
 
-**Version:** `boarding-stage-0.1.0`, **proposed interface only**. **Status (15 November 2026):** the interface, for the Lead Designer's review, then Frontend's on #4. Nothing is built yet.
+**Version:** `boarding-stage-0.1.0`, **interface approved by the Lead Designer** (15 November 2026), with the decisions below; posted on #4 for Frontend before building. Nothing is built yet: building waits for Frontend's review and the kit's `wait` (kit 0.3.0).
 
 **What it is:** the shared ten-second boarding before Round 1 on a phone, as sheet 19 draws it: the boarding film with Skip, and the two holding screens around it. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -20,7 +20,7 @@
 
 **Not in it:**
 - **The film's picture:** Frontend's existing player (`apps/game/hosted/planet/pregame.mjs` with the runtime boarding film), mounted in `stage.film`, as the role stage's film is (#268, decision 1).
-- **"Round 1 begins"** (sheet 19's last frame): the room with the "ROUND 1" stamp. That is the room view's, once the server's Round 1 view arrives; Frontend disposes this stage then.
+- **"Round 1 begins"** (sheet 19's last frame): the room with the "ROUND 1" stamp. The stamp is Motion & Cinematics' round stamp, a later component placed over the room view, once the server's Round 1 view arrives; Frontend disposes this stage then.
 
 ## Files (proposed)
 
@@ -37,8 +37,8 @@ The tool is `design/tools/boarding-stage-check.mjs`, on the shared `lib/componen
 
 **Uses unchanged:**
 - **The phone shell:** `bar: null, tabs: null` throughout (sheet 19 draws no bar), and `edge: true`, so the film runs edge to edge. The shell's reconnecting banner and toast sit at the bar's place, over the film.
-- **The kit:** Skip is a small secondary kit button with the skip icon, under the kit's control policy.
-- **`icons.mjs`:** the flag and the hourglass.
+- **The kit:** Skip is a small secondary kit button with the skip icon, under the kit's control policy. The holding screens are the kit's `wait` (kit 0.3.0, the pack's `.wait`: the 76 px tile, the title, the line, and the spinner when busy), which other screens share.
+- **`icons.mjs`:** the flag and the hourglass, through the kit's `wait`.
 
 ## Mount, update and dispose
 
@@ -64,11 +64,11 @@ Everything here is public: the boarding is the same for every phone and the shar
 
 | Input | Audience | What |
 | --- | --- | --- |
-| `status` | Phone | `'live'`, `'stale'` (reconnecting: the shell's banner and Retry; Skip refused) or `'concealed'` (nothing changes on screen, as nothing here is private; Skip refused) |
+| `status` | Phone | `'live'`, `'stale'` (reconnecting: the shell's banner and Retry; Skip refused) or `'concealed'` (a plain cover: nothing drawn or named; Skip refused) |
 | `interactive`, `reducedMotion`, `insets`, `viewer` | Phone | As the shell's |
 | `clock` | Public | `{ elapsedMs, endsAtMs }` from the server's interval (`setup.startedAt`, `setup.endsAt`; 10 000 today, never a constant), given each tick. `null` while the clock is not trusted: no countdown is shown |
 | `view` | Phone | `'film'`, `'holding'` or `'waiting'`, decided by Frontend: `'film'` while its pregame controller plays the boarding film on this phone; `'holding'` when this phone skipped it, or it cannot play, before the interval ends; `'waiting'` once the interval has ended and the server has not yet started Round 1. The stage only draws the change |
-| `skip` | Phone | `null` (no Skip: a shared display, or no film), or `{ enabled, reason }` |
+| `skip` | Phone | `null` (no Skip: the shared display, whose three states are otherwise the same, or no film), or `{ enabled, reason }` |
 
 **The stage decides nothing:**
 - It never works out when the film plays, when the interval ends or when Round 1 starts.
@@ -94,6 +94,7 @@ Skip follows the kit's control policy: refused when unavailable, stale, conceale
 | `holding` | Centred: the flag, filled, in its 76 px amber-on-dark tile; "Boarding"; "Round 1 in 0:04" (a timer for screen readers). Without a trusted clock, the line is left out |
 | `waiting` | Centred: the hourglass in its tile; "Starting Round 1"; the spinner and "Waiting for the ship" (a polite status). With Reduce motion the spinner stands still |
 | Stale | The shell's banner, "Connection lost · Controls return when the match is current · Retry", at the bar's place, over the film or the holding screen |
+| Concealed | A plain cover, as ship travel's: nothing of the film or the holding screens is drawn or named (the stage's name is "Hidden"), and Skip is refused. The film's element and the clock keep their places, so the phone shows the current state again when it is shown. Frontend pauses its player, as today |
 | Larger text | The holding block wraps and stays centred; its words grow with the game's text size |
 
 **Motion:** the film to a holding screen, and the holding screen to waiting, crossfade in 220 ms, as the handoff's state change; with Reduce motion, the game's or the device's, 80 ms. A stage that opens on a holding screen shows it at once.
@@ -108,12 +109,15 @@ Skip follows the kit's control policy: refused when unavailable, stale, conceale
 3. Mount the existing player in `stage.film`. Its full-screen dialog and its own "Skip film" are replaced by the stage's: `onSkip()` calls today's `controller.skip()`.
 4. Leave none of today's "Boarding" text beside it.
 
-## Questions for the Lead
+## Decisions (the Lead Designer's review, 15 November 2026)
 
-1. **The holding block** (the tile, the title, the line, the spinner) is the pack's `.wait`. Sheet 13's "Waiting for the host" (my item 24) uses it too, and other screens may. Should the kit draw it (`kit.wait({ icon, title, line, busy })`), or should I keep it in my own part for now?
-2. **The shared display:** sheet 19 is drawn on a phone. Does the display show the same three states without Skip (as proposed), or does it have its own drawing?
-3. **Concealed:** nothing here is private, so the stage keeps drawing and only refuses Skip. Agreed?
+1. **The holding block is the kit's** `wait` (kit 0.3.0): `kit.wait({ icon, filled, lead, title, line, busy, size })` and `kit.setWait(node, props)`, compared against the pack's `.wait` like every kit part. It is shared with sheet 13's "Waiting for the host", the Windows panel's "No window here", the host's "Abort the match?" and the offices' "Ben is choosing an Officer".
+2. **The shared display** shows the same three states with `skip: null`. Skip is a phone's own choice; no new input.
+3. **Concealed** is a plain cover, as ship travel does it: nothing drawn or named, Skip refused, the clock keeping its place for when the phone shows again. Nothing here is private, but a concealed phone shows nothing, the same way in every component.
+4. **The ROUND 1 stamp** is Motion & Cinematics' round stamp, a later component over the room view.
+
+Everything else stands as proposed: `bar: null`, `tabs: null`, `edge: true`; the pack's "Skip" with its icon; Frontend's boarding player in `stage.film`; `view` decided by Frontend.
 
 ## Not in this version
 
-Everything: this is the interface. Next, after the Lead's review and Frontend's on #4: the module and styles, the preview's states, the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack and the test.
+Everything: this is the interface. Next, after Frontend's review on #4 and the kit's `wait`: the module and styles, the preview's states (with the concealed cover and the shared display), the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack and the test.
