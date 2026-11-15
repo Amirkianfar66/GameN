@@ -1,0 +1,18 @@
+{
+  "schema": "mothership.release-preservation-consumer-drawing/1",
+  "status": "technical-source-registration",
+  "scope": "Exact source-admission tooling for the three Designer-accepted film consumers in PR 266. No artwork, layout, motion source or historical release pin is changed.",
+  "parentApprovalSha256": "47e0fec753a92d9a14776ad2bed4e9c759d727233b78f8f4211b1af2f7311f03",
+  "requiredFiles": {
+    "scripts/food-consumer-source.mjs": "3c2be0494fceeed937ca0f782cff3a645c91045d8062550bce55e6a785f48929",
+    "scripts/release-preservation-consumer.mjs": "8597368344d8c2bb7823374ca15851b3a51b94bf40b0a8fcd509bbdfc55c3ae1",
+    "docs/integration/release-preservation-consumer-approval-2026-11-15.json": "a9fcc88754aa81a1b3ab7d1392a8a2d5d5068d6a6f4af7777b7e3c4399201788",
+    "design/releases/historical-blobs/6e2c487b4931d96cfd185549eb547eebe2f7a91e5e4b30a85d839e4ffcd905b6": "6e2c487b4931d96cfd185549eb547eebe2f7a91e5e4b30a85d839e4ffcd905b6"
+  },
+  "predecessorTooling": {
+    "scripts/food-consumer-source.mjs": {
+      "sha256": "6e2c487b4931d96cfd185549eb547eebe2f7a91e5e4b30a85d839e4ffcd905b6",
+      "blob": "design/releases/historical-blobs/6e2c487b4931d96cfd185549eb547eebe2f7a91e5e4b30a85d839e4ffcd905b6"
+    }
+  }
+}

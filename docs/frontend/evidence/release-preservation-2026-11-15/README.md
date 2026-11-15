@@ -6,7 +6,7 @@ The [report](report.json) is the original capture output, with hashes, candidate
 
 ## Captures for Designer
 
-The affected comparison parts are **role-card**, **role-film**, **role-ready** (sheet 17; role-card also 31) and **boarding** (sheet 19). The restored visuals use the previously accepted film renderer and byte-identical art. Compare against the approved pregame films/phone sheets; the full production-side comparison and explicit visual acceptance remain pending. These captures establish actual native rendering under production headers, not a new design approval.
+The restored parts are **role-film** (sheet 17) and **boarding** (sheet 19). Designer [explicitly accepted both, full and reduced motion](https://github.com/Amirkianfar66/GameN/pull/266#issuecomment-6896469964), against candidate de6126dc and these 12 captures; the [verbatim verdict](designer-acceptance.json) is preserved. The before/after **role-card** and **role-ready** captures provide timing context. Those unchanged controls are not accepted as sheet parity and remain in #222 item 6. No sheet exception was requested or granted.
 
 | State | 390 × 844 | 430 × 932 |
 | --- | --- | --- |
@@ -31,6 +31,6 @@ No page/request failures occurred. Chromium recorded Zod's caught `eval` capabil
 
 After `npm ci` and `npm run build`, run `node apps/game/dev/pregame/capture-preservation.mjs --baseline-hosted-output=PATH --published-release=PATH --output=PATH` with loopback/browser permission. The baseline directory must be a clean checkout's verified hosted output; the published release inventory must identify its exact artwork. The script checks all supplied art hashes and builds the changed native consumer with the fixture transport. It does not bypass or produce the production Hosting build.
 
-The production source fence correctly rejects the changed consumer pending new exact-file admission. Integration must register the three changed consumer files and shared registry dependency without editing historical approval records, and complete the ordinary candidate Hosting build after Designer acceptance. Until then this is a review package, not a publishable release. Designer's verdict must be posted in the consumer PR against these inputs. Documentation/evidence-only follow-up commits do not alter the captured renderer.
+Integration subsequently registered the three accepted consumers and their two shared-registry dependencies in [the exact follow-up approval](../../../integration/release-preservation-consumer-approval-2026-11-15.json). It verifies the Designer verdict, original capture report, images, current inputs and preserved predecessor bytes. Historical source/art/approval records remain unchanged. Backend reviewed that admission without finding a material issue. The normal production game build now passes; Hosting artifact preparation and CI remain separate release gates. The later admission-tooling and evidence changes do not alter any of the five captured runtime inputs in review-inputs.json, artwork, styles or animation sources, so the Designer's accepted rendered result remains applicable.
 
 Room artwork/ambient components #261/#262 and ship-life #230 remain separate tracked work in #222. This correction neither adopts nor silently excludes those features from their own planned releases.

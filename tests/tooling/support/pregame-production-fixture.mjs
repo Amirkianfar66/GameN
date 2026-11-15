@@ -2,7 +2,7 @@ import {cpSync, existsSync, mkdirSync, readFileSync, rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {dirname, join} from 'node:path';
 import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY, FOOD_SOURCE_DRAWING_POLICY,
-  RELEASE_PRESERVATION_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
+  RELEASE_PRESERVATION_DRAWING_POLICY, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL, readPregameConsumerApproval} from '../../../scripts/pregame-consumer-approval.mjs';
 import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval, HOST_ABORT_CONSUMER_APPROVAL,
   readHostAbortConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
@@ -80,6 +80,7 @@ export function restoreBeforeFoodFixture(root, destination) {
     }
   }
   if (!food) return;
+  rmSync(join(destination, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY), {force: true});
   if (existsSync(join(root, RELEASE_PRESERVATION_DRAWING_POLICY))) {
     const tooling = JSON.parse(readFileSync(join(root, RELEASE_PRESERVATION_DRAWING_POLICY)));
     rmSync(join(destination, RELEASE_PRESERVATION_DRAWING_POLICY), {force: true});
