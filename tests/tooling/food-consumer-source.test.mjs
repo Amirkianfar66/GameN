@@ -22,7 +22,8 @@ function fixture(t) {
     paths.push(path, entry.candidateBlob, ...entry.acceptedPreviousHashes.map(h => `design/releases/historical-blobs/${h}`));
   for (const path of new Set(paths)) {
     mkdirSync(dirname(resolve(folder, path)), {recursive:true});
-    writeFileSync(resolve(folder, path), readFileSync(resolve(root, path)));
+    // Exercise the original record without silently inheriting a later native correction.
+    writeFileSync(resolve(folder, path), readFileSync(resolve(root, record.files[path]?.candidateBlob ?? path)));
   }
   return folder;
 }

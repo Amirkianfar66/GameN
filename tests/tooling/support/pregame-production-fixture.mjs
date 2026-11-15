@@ -6,6 +6,7 @@ import {PREGAME_PRODUCTION_CONSUMER_APPROVAL, readPregameConsumerApproval} from 
 import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval, HOST_ABORT_CONSUMER_APPROVAL,
   readHostAbortConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
 import {FOOD_CONSUMER_SOURCE, readFoodConsumerSource} from '../../../scripts/food-consumer-source.mjs';
+import {RELEASE_PRESERVATION_APPROVAL, readReleasePreservationApproval} from '../../../scripts/release-preservation-consumer.mjs';
 
 /** Copy only actual verified adoption evidence. An absent record creates no acceptance. */
 export function pregameProductionFixturePaths(root) {
@@ -52,12 +53,31 @@ export function pregameProductionFixturePaths(root) {
     for (const path of Object.keys(art.inputs)) paths.add(path);
     for (const asset of art.assets) paths.add(asset.source);
   }
+  const preservation = readReleasePreservationApproval(root);
+  if (preservation) {
+    paths.add(RELEASE_PRESERVATION_APPROVAL);
+    for (const path of Object.keys(preservation.files)) paths.add(path);
+    for (const reference of [...preservation.parents, ...preservation.dependencies, preservation.designerAcceptance,
+      preservation.captureReport, ...preservation.captures,
+      ...Object.values(preservation.files).flatMap(entry => entry.predecessors)]) paths.add(reference.path);
+  }
   return paths;
 }
 
 /** Isolate predecessor tests using preserved bytes, never fabricated acceptance. */
 export function restoreBeforeFoodFixture(root, destination) {
   const food = readFoodConsumerSource(root);
+  const preservation = readReleasePreservationApproval(root);
+  if (preservation) {
+    const phone = readPhoneUiConsumerApproval(root);
+    rmSync(join(destination, RELEASE_PRESERVATION_APPROVAL), {force:true});
+    for (const path of Object.keys(preservation.files)) {
+      const prior = food?.files[path] ?? phone?.files[path];
+      if (!prior) throw Error(`Missing actual predecessor: ${path}`);
+      mkdirSync(dirname(join(destination, path)), {recursive:true});
+      cpSync(join(root, prior.candidateBlob), join(destination, path));
+    }
+  }
   if (!food) return;
   for (const path of [FOOD_CONSUMER_SOURCE, FOOD_SOURCE_DRAWING_POLICY]) rmSync(join(destination,path),{force:true});
   for (const [path, entry] of Object.entries(food.files)) {
