@@ -47,9 +47,9 @@ function drawPack() {
   plain.style.padding = '16px';
   plain.style.boxSizing = 'border-box';
   for (const c of CASES) { const box = caseBox(c); box.append(...[c.pack({ ui })].flat()); plain.append(box); }
-  // The pack's glass: its own sheet in its phone frame, with no bars, tall enough to hold every case.
+  // The pack's glass: its own sheet in its phone frame, with no bars; the frame is fitted to what the sheet holds.
   const glass = section('glass');
-  const ph = ui.h('div.ph', { 'data-chrome': 'none', style: { width: `${PHONE}px`, height: '12000px', '--safe-t': '0px', '--safe-b': '0px' } });
+  const ph = ui.h('div.ph', { 'data-chrome': 'none', style: { width: `${PHONE}px`, height: '900px', '--safe-t': '0px', '--safe-b': '0px' } });
   const boxes = CASES.filter(c => c.where === 'both').map(c => { const box = caseBox(c); box.append(...[c.pack({ ui })].flat()); return box; });
   const [sheet] = ui.sheet({ title: 'On glass', body: boxes, detent: 'large', close: false, scrim: false });
   ph.append(sheet);
@@ -70,7 +70,7 @@ function drawKit() {
   // The game's glass: the phone shell's docked sheet, and in its body a component's own .ms-kit root.
   const glass = section('glass');
   const host = document.createElement('div');
-  Object.assign(host.style, { position: 'relative', width: `${PHONE}px`, height: '12000px' });
+  Object.assign(host.style, { position: 'relative', width: `${PHONE}px`, height: '900px' });
   glass.append(host);
   const shell = mountPhoneShell(host, { versions, insets: { top: 0, right: 0, bottom: 0, left: 0 }, bar: { kind: 'phase', icon: 'panel', title: 'On glass' }, tabs: null,
     sheet: { id: 'glass', title: 'On glass', close: false, detent: 'large', actions: [] } });
@@ -84,10 +84,23 @@ function drawKit() {
 
 const { glassHost, glassBody } = SIDE === 'pack' ? drawPack() : drawKit();
 
-/** The glass frame fits what it holds, so its sheet never scrolls (a scroll bar would narrow one side only). */
-function fitGlass() {
-  const top = glassBody.getBoundingClientRect().top - glassHost.getBoundingClientRect().top;
-  glassHost.style.height = `${Math.ceil(top + glassBody.scrollHeight + 24)}px`;
+const frame = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+/**
+ * The glass frame fits what it holds, so its sheet shows everything and never scrolls (a scroll bar would
+ * narrow one side only). Laid out short, the sheet is at its tallest and its body scrolls, which gives the
+ * body's place and its whole content; the frame is then that tall, and nothing is left to scroll.
+ */
+async function fitGlass() {
+  glassHost.style.height = '900px';
+  await frame();
+  let height = Math.ceil(glassBody.getBoundingClientRect().top - glassHost.getBoundingClientRect().top + glassBody.scrollHeight + 2);
+  for (let tries = 0; tries < 20; tries += 1) {
+    glassHost.style.height = `${height}px`;
+    await frame();
+    if (glassBody.scrollHeight <= glassBody.clientHeight + 1) return;
+    height += glassBody.scrollHeight - glassBody.clientHeight + 2;
+  }
+  throw new Error('The glass sheet still scrolls');
 }
 
 const STYLE = ['display', 'position', 'box-sizing', 'color', 'background-color', 'background-image', 'border-top-left-radius', 'border-top-right-radius', 'border-bottom-right-radius',
@@ -124,10 +137,10 @@ function part(box, node, options = {}) {
 
 async function measure() {
   await document.fonts.ready;
-  fitGlass();
+  await fitGlass();
   // A spinner's turn and a switch's slide hold still, at their start, so both sides are read at one moment.
   for (const a of document.getAnimations()) { a.pause(); a.currentTime = 0; }
-  await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+  await frame();
   const out = { side: SIDE, text: TEXT, sections: {} };
   for (const name of ['plain', 'glass']) {
     const cases = {};
