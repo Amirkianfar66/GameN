@@ -1,9 +1,12 @@
+@import url("../kit/kit.css");
+
 /*
  * The role card's styles: runtime source, Designer's (role-card.mjs). The phone pack's own values
  * (design/phone-ui/prototype/screens.css .rolecard and .cardback, kit.css .pill), scoped under
  * .ms-own-card so nothing here reaches the rest of the app and nothing of the app's reaches in.
- * screens.css stays as it is: the pack is frozen. The card fits its host, keeping the pack's 5 : 7, and
- * scales its words with container units, as the pack's card does.
+ * screens.css stays as it is: the pack is frozen. The card fits its host as the pack's does and scales its
+ * words with container units. Show and the Ready stamp are the shared kit's (../kit/kit.css): here, only
+ * where they sit.
  */
 
 .ms-own-card {
@@ -12,7 +15,6 @@
   --ms-rc-ink: #151923;
   --ms-rc-steel-shadow: #34415A;
   --ms-rc-text-2: #B9C4D3;
-  --ms-rc-accent: #F1B84B;
   --ms-rc-team: #2979FF;
   --ms-rc-ground: #C9DCF7;
   --ms-rc-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
@@ -24,6 +26,7 @@
   /* The game's sheets put a halo on light words over glass; the card's words are dark on paper. */
   text-shadow: none;
 }
+.ms-own-card:focus { outline: none; }
 
 /*
  * The card fills its host's height, and is as wide as 5 : 7 allows, never wider than the host: the
@@ -99,14 +102,8 @@
 @container ms-rc-card (max-width: 230px) { .ms-own-card .ms-rc-facts li:nth-child(n+2) { display: none; } }
 @container ms-rc-card (max-width: 175px) { .ms-own-card .ms-rc-facts { display: none; } }
 
-/* The Ready stamp: the pack's accent pill, across the card's top edge (sheet 18, Ready · waiting). */
-.ms-own-card .ms-rc-stamp {
-  position: absolute; left: 50%; top: -2px; z-index: 2; transform: translateX(-50%);
-  display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 999px;
-  background: var(--ms-rc-accent); color: var(--ms-rc-ink); --ic-knock: var(--ms-rc-accent);
-  font: 600 0.8125rem/1 var(--ms-rc-font); white-space: nowrap;
-}
-.ms-own-card .ms-rc-stamp .ms-rc-ic { width: 15px; height: 15px; }
+/* The Ready stamp: the kit's accent pill, across the card's top edge (sheet 18, Ready · waiting). */
+.ms-own-card .ms-rc-stamp { position: absolute; left: 50%; top: -2px; z-index: 2; transform: translateX(-50%); display: flex; }
 
 /* The card back: the hidden card, its words and Show (sheets 18 and 31). */
 .ms-own-card .ms-rc-back {
@@ -115,8 +112,7 @@
   --ic-knock: #1B2333;
 }
 .ms-own-card .ms-rc-back > .ms-rc-ic { width: 44px; height: 44px; }
+/* Show's eye is drawn 44 px, as sheets 18 and 31 draw it (the pack's .cardback .ic reaches its button's icon too).
+   Four classes deep, so it holds whichever stylesheet imports kit.css last. */
+.ms-own-card .ms-rc-back .ms-rc-show .ms-k-ic { width: 44px; height: 44px; }
 .ms-own-card .ms-rc-back p { margin: 0; font: 600 1rem/1.2 var(--ms-rc-font); text-align: center; color: var(--ms-rc-text-2); }
-
-.ms-own-card .ms-rc-vh {
-  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
-}

@@ -6,12 +6,14 @@
 // What it draws: face up, the person (their own character, card-cN) with the role's held device, the
 // role's name, its team and one to three short lines; with the picture missing, the text card with
 // "Picture unavailable · Your role is below"; face down, the card back ("Role hidden", Show role); the
-// Ready stamp. It scales to its space with container units, as the pack's .rolecard does.
+// Ready stamp. It scales to its space with container units, as the pack's .rolecard does. Show and the
+// stamp are the shared kit's (../kit/), under its control policy.
 //
 // What it never does: work out a role's team, device or words from the rules. Frontend gives them, from
 // the viewer's own private view; face down, it needs none, and drops what it had.
 
 import { iconSvg } from '../icons.mjs';
+import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
 export const ROLE_CARD_VERSION = 'role-card-0.1.0';
 const TEAMS = Object.freeze(['Blue', 'Red', 'Alien']);
@@ -66,38 +68,32 @@ export const deviceVariable = device => (!device ? 'none' : device === 'engineer
 
 /**
  * Mounts the card in `host`, which it fills, fitted to the host's box. Returns { update, dispose, element }.
- * `handlers.onShow()` reports a tap on the card back's Show.
+ * `handlers.onShow()` reports a tap on the card back's Show; `handlers.onFocusReturn({ intent, value })`
+ * says Show ended while it held the focus (the card turned face up), and the focus is on the card.
  */
 export function mountRoleCard(host, input = {}, handlers = {}) {
   if (!host?.ownerDocument) throw new TypeError('A role card needs a host element');
   const doc = host.ownerDocument;
-  const el = (tag, className, attrs = {}) => {
-    const node = doc.createElement(tag);
-    if (className) node.className = className;
-    for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) node.setAttribute(k, v);
-    return node;
-  };
+  const kit = createKit(doc);
+  const el = (tag, className, attrs = {}) => kit.h(tag, className, attrs);
   const icon = name => {
     const t = doc.createElement('template');
     t.innerHTML = iconSvg(name, { className: 'ms-rc-ic' }).trim();
     return t.content.firstChild;
   };
-  const attr = (node, name, value) => {
-    if (value === null || value === undefined || value === false) { if (node.hasAttribute(name)) node.removeAttribute(name); }
-    else if (node.getAttribute(name) !== String(value)) node.setAttribute(name, String(value));
-  };
 
-  const root = el('div', 'ms-own-card');
-  const reasons = el('div', 'ms-rc-vh');
+  const root = el('div', 'ms-own-card ms-kit', { tabindex: '-1' });
   host.append(root);
-  let state = checkRoleCard(input), disposed = false, faceKey = null, show = null, reason = null;
-  const uid = `ms-rc-${(mountRoleCard.count = (mountRoleCard.count ?? 0) + 1)}`;
+  let state = checkRoleCard(input), disposed = false, faceKey = null, current = null, show = null;
   let refuse = () => false;
+  const policy = createControlPolicy({
+    root, accepts: () => !disposed && !refuse(),
+    onFocusReturn: detail => { if (!disposed) handlers.onFocusReturn?.(detail); },
+  });
 
   const onClick = event => {
-    const target = event.target.closest?.('button[data-intent="show-role"]');
-    if (!target || !root.contains(target) || disposed) return;
-    if (target.getAttribute('aria-disabled') === 'true' || refuse()) return;
+    const target = event.target.closest?.('[data-intent="show-role"]');
+    if (!target || !root.contains(target) || disposed || policy.refused(target)) return;
     handlers.onShow?.();
   };
   root.addEventListener('click', onClick);
@@ -135,16 +131,12 @@ export function mountRoleCard(host, input = {}, handlers = {}) {
     }
     return card;
   }
+  // The card back (sheets 18 and 31): Show is the kit's small secondary button, as the pack draws it.
   function back(s) {
     const card = el('div', 'ms-rc-back', { role: 'group', 'aria-label': s.back === 'sheet' ? CARD_WORDS.hiddenShort : CARD_WORDS.hidden });
     const words = el('p');
     words.textContent = s.back === 'sheet' ? CARD_WORDS.hiddenShort : CARD_WORDS.hidden;
-    show = el('button', 'ms-rc-show', { type: 'button' });
-    show.dataset.intent = 'show-role';
-    const glyph = el('span', 'ms-rc-show-icon'), label = el('span', 'ms-rc-show-label');
-    glyph.append(icon('show'));
-    label.textContent = s.back === 'sheet' ? CARD_WORDS.showShort : CARD_WORDS.show;
-    show.append(glyph, label);
+    show = kit.button({ label: s.back === 'sheet' ? CARD_WORDS.showShort : CARD_WORDS.show, kind: 'secondary', small: true, icon: 'show', intent: 'show-role', extra: ['ms-rc-show'] });
     card.append(icon('hide'), words, show);
     return card;
   }
@@ -153,35 +145,27 @@ export function mountRoleCard(host, input = {}, handlers = {}) {
     if (disposed) return;
     const s = state;
     // The face is rebuilt only when what it shows changes, so the card holds still through clock ticks.
+    // The old face leaves through the policy: if Show held the focus, the focus comes to the card.
     const key = JSON.stringify([s.face, s.role, s.team, s.facts, s.character, s.device, s.art, s.back]);
     if (key !== faceKey) {
-      const had = show && doc.activeElement === show;
-      show = null;
-      if (reason) { reason.remove(); reason = null; }
-      root.replaceChildren(s.face === 'up' ? face(s) : back(s), reasons);
+      const next = s.face === 'up' ? (show = null, face(s)) : back(s);
+      const old = current;
+      root.prepend(next);
+      current = next;
+      if (old) policy.remove(old);
       faceKey = key;
-      if (had && show) show.focus({ preventScroll: true });
     }
     root.dataset.face = s.face;
-    // The stamp sits across the card's top edge, beside the card (the card clips what it holds).
+    // The Ready stamp: the pack's accent pill across the card's top edge, beside the card (it clips what it holds).
     let stamp = root.querySelector(':scope > .ms-rc-stamp');
     if (s.face === 'up' && s.stamp === 'ready') {
       if (!stamp) {
         stamp = el('span', 'ms-rc-stamp');
-        stamp.append(icon('check'), doc.createTextNode(CARD_WORDS.ready));
-        root.insertBefore(stamp, reasons);
+        stamp.append(kit.pill({ text: CARD_WORDS.ready, icon: 'check', tone: 'accent' }));
+        current.after(stamp);
       }
     } else if (stamp) stamp.remove();
-    if (show) {
-      const refused = !s.show.enabled || refuse();
-      attr(show, 'aria-disabled', refused ? 'true' : null);
-      attr(show, 'data-off', s.show.enabled ? null : '');
-      if (s.show.reason) {
-        if (!reason) { reason = el('span', null, { id: `${uid}-r` }); reasons.append(reason); }
-        if (reason.textContent !== s.show.reason) reason.textContent = s.show.reason;
-        attr(show, 'aria-describedby', reason.id);
-      } else if (reason) { reason.remove(); reason = null; attr(show, 'aria-describedby', null); }
-    }
+    if (show) policy.control(show, { off: !s.show.enabled, reason: s.show.reason });
   }
   function update(next = {}) {
     if (disposed) return;
@@ -192,12 +176,13 @@ export function mountRoleCard(host, input = {}, handlers = {}) {
     if (disposed) return;
     disposed = true;
     root.removeEventListener('click', onClick);
+    policy.dispose();
     root.remove();
   }
   render();
   return Object.freeze({
     update, dispose, element: root,
-    /** For the role stage: whether its Show takes taps now (not while the stage refuses every tap). */
+    /** For the role stage: Show takes no tap while the stage refuses every tap (not interactive). */
     refuseWhen(fn) { refuse = typeof fn === 'function' ? fn : () => false; render(); },
   });
 }

@@ -77,7 +77,7 @@ export async function runRoleStageProbe({ sizes, cardOf }) {
       return { ok: before && skipped === 1 && onStage && returned.length === 1 && returned[0][1]?.intent === 'skip-film', before, skipped, onStage, returned };
     });
 
-    await check('focus: Show role ending as the card turns face up moves the focus to the stage, then onFocusReturn once', async () => {
+    await check('focus: Show role ending as the card turns face up moves the focus to the card, then onFocusReturn once', async () => {
       const s = mount(own(9000, { status: 'concealed' }));
       const show = s.q('[data-intent="show-role"]');
       show.focus();
@@ -86,9 +86,9 @@ export async function runRoleStageProbe({ sizes, cardOf }) {
       s.stage.update({ status: 'live', card: cardOf('Doctor') });
       await Promise.resolve(); await Promise.resolve();
       const returned = named(s.calls, 'onFocusReturn');
-      const onStage = document.activeElement === s.root;
+      const onCard = document.activeElement === s.q('.ms-own-card');
       s.stage.dispose();
-      return { ok: shown === 1 && onStage && returned.length === 1 && returned[0][1]?.intent === 'show-role', shown, onStage, returned };
+      return { ok: shown === 1 && onCard && returned.length === 1 && returned[0][1]?.intent === 'show-role', shown, onCard, returned };
     });
 
     await check('refused: Ready unavailable, busy, spent, reconnecting or not interactive takes no tap, keeps its focus and says why', async () => {

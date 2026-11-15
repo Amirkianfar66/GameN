@@ -1,10 +1,12 @@
+@import url("../kit/kit.css");
+
 /*
  * The role stage's styles: runtime source, Designer's (role-stage.mjs). The phone pack's own values
  * (design/phone-ui/prototype/screens.css .card-area, .stage-foot, .film-skip and the role screen's strip;
  * kit.css .progress and .timer), scoped under .ms-role-stage so nothing here reaches the rest of the app
  * and nothing of the app's reaches in. The top bar, the banner and the toast are the phone shell's
- * (phone-shell.css); the card is the role card's (role-card.css). Ready, Skip film and the clock chip
- * take their looks from the shared kit, when it lands: here, only where they sit.
+ * (phone-shell.css); the card is the role card's (role-card.css). Ready and Skip film are the shared
+ * kit's (../kit/kit.css): here, only where they sit.
  */
 
 .ms-role-stage {
@@ -39,7 +41,6 @@
 }
 /* The pack's note keeps a paragraph's 1em above and below (screens.css .stage-foot .note sets none). */
 .ms-role-stage .ms-rst-note { margin: 1em 0; text-align: center; font: 500 0.875rem/1.3 var(--ms-rst-font); color: var(--ms-rst-text-2); }
-.ms-role-stage .ms-rst-ready { min-height: 50px; }
 
 /* The film: full-bleed over the shell, its clock as a chip at the top right and Skip film at the foot. */
 .ms-role-stage .ms-rst-film {
@@ -56,8 +57,7 @@
 }
 .ms-role-stage :is(.ms-rst-strip, .ms-rst-note, .ms-rst-chip)[hidden] { display: none; }
 .ms-role-stage .ms-rst-chip .ms-rst-ic { width: 16px; height: 16px; color: var(--ms-rst-text-2); }
-.ms-role-stage .ms-rst-skip { position: absolute; right: 14px; bottom: calc(var(--ms-rst-safe-b) + 14px); z-index: 1; }
+/* Three classes deep, so the place holds over the kit's button (position: relative) whichever stylesheet imports kit.css last. */
+.ms-role-stage .ms-rst-film .ms-rst-skip { position: absolute; right: 14px; bottom: calc(var(--ms-rst-safe-b) + 14px); z-index: 1; }
 
 .ms-role-stage[data-suspended] .ms-rst-film { transition: none; }
-
-.ms-role-stage .ms-rst-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

@@ -44,7 +44,7 @@ function split(list) {
 }
 /** Every selector of a stylesheet, outside @keyframes bodies and at-rule preludes. */
 function selectors(path) {
-  const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '').replace(/@keyframes[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
+  const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '').replace(/@import[^;]*;/g, '').replace(/@keyframes[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
   return [...css.matchAll(/(^|[{}])([^{}]*?)\{/g)].map(m => m[2].trim()).filter(s => s && !s.startsWith('@')).flatMap(split);
 }
 
@@ -66,12 +66,15 @@ test('the components are runtime sources: their whole graph is runtime-safe', ()
     if (path.startsWith('design/')) assert.doesNotMatch(read(path), /mothership:dev-only/, `${path}: no development marker`);
   }
   assert.deepEqual(packages, ['@mothership/contracts'], 'one package import, the game\'s own contracts (through the shell\'s crew-runtime.mjs)');
-  for (const path of [`${COMPONENT}/role-stage.mjs`, `${COMPONENT}/role-card.mjs`, 'design/phone-ui/components/phone-shell/phone-shell.mjs', 'design/phone-ui/components/icons.mjs']) {
+  for (const path of [`${COMPONENT}/role-stage.mjs`, `${COMPONENT}/role-card.mjs`, 'design/phone-ui/components/phone-shell/phone-shell.mjs', 'design/phone-ui/components/icons.mjs',
+    'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css']) {
     assert.ok(local.includes(path), `${path} is in the graph`);
   }
-  // The card stands alone: the Card sheet can mount it without the stage or the shell.
+  // The card stands alone: the Card sheet can mount it without the stage or the shell (the kit's portraits
+  // bring the hosted game's crew runtime with them).
   const card = [...graph(join(REPO, COMPONENT, 'role-card.mjs')).keys()].map(f => relative(REPO, f));
-  assert.deepEqual(card.sort(), [`${COMPONENT}/role-card.mjs`, 'design/phone-ui/components/icons.mjs'].sort());
+  assert.ok(!card.some(p => /phone-shell|role-stage\.mjs/.test(p)), `the card needs neither the shell nor the stage: ${card}`);
+  assert.ok(card.includes('design/phone-ui/components/kit/kit.mjs'), 'the card\'s Show is the kit\'s');
   for (const path of ['preview/index.html', 'preview/preview.css', 'preview/preview.mjs']) {
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
@@ -89,11 +92,14 @@ test('their styles reach nothing outside them: every rule under its own root, no
       assert.match(selector, new RegExp(`^\\.${rootClass}(?:[\\s.:\\[]|$)`), `${file}: "${selector}" is scoped`);
       assert.doesNotMatch(selector, /\*(?!=)/, `${file}: "${selector}": no universal selector`);
       assert.doesNotMatch(selector, others, `${file}: "${selector}" reaches no other component`);
+      // The kit's controls are placed only through the component's own parts, never restyled at large.
+      if (/\.ms-k-/.test(selector)) assert.match(selector, new RegExp(`\\.${prefix}-[\\w-]+[^,]*\\.ms-k-`), `${file}: "${selector}": a kit control styled only inside its own parts`);
       assert.doesNotMatch(selector, /\.ms-rst-picture[\s>+~]/, `${file}: "${selector}": nothing inside the film's player`);
       assert.doesNotMatch(selector, new RegExp(`^\\.${rootClass}(?:\\[[^\\]]*\\])?\\s+(?::is\\()?(?:button|div|span|b|p|h2|svg|ul|li|i|article)\\b`), `${file}: "${selector}": no bare element straight under the root`);
     }
     const keyframes = [...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]);
     assert.ok(keyframes.every(name => name.startsWith(`${prefix}-`)), `${file}: keyframes are its own: ${keyframes}`);
+    assert.match(read(`${COMPONENT}/${file}`), /^@import url\("\.\.\/kit\/kit\.css"\);/, `${file} starts from the shared kit`);
     const declared = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))];
     assert.deepEqual(declared.filter(p => !p.startsWith(`--${prefix}-`) && p !== '--ic-knock'), [], `${file}: custom properties are its own`);
   }

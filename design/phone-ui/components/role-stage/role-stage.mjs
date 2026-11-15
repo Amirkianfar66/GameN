@@ -17,6 +17,7 @@
 
 import { mountPhoneShell, clockText } from '../phone-shell/phone-shell.mjs';
 import { iconSvg } from '../icons.mjs';
+import { createControlPolicy, createKit } from '../kit/kit.mjs';
 import { mountRoleCard, checkRoleCard } from './role-card.mjs';
 
 export const ROLE_STAGE_VERSION = 'role-stage-0.1.0';
@@ -122,12 +123,8 @@ export function stageNote(s) {
 export function mountRoleStage(host, input = {}, handlers = {}) {
   if (!host?.ownerDocument) throw new TypeError('A role stage needs a host element');
   const doc = host.ownerDocument, win = doc.defaultView;
-  const el = (tag, className, attrs = {}) => {
-    const node = doc.createElement(tag);
-    if (className) node.className = className;
-    for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) node.setAttribute(k, v);
-    return node;
-  };
+  const kit = createKit(doc);
+  const el = (tag, className, attrs = {}) => kit.h(tag, className, attrs);
   const icon = (name, filled = false) => {
     const t = doc.createElement('template');
     t.innerHTML = iconSvg(name, { filled, className: 'ms-rst-ic' }).trim();
@@ -142,25 +139,27 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   let state = nextRoleStageInput(ROLE_STAGE_DEFAULTS, input);
   let disposed = false, suspended = false, lastLayout = null, shownView = null, fadeTimer = null;
   const on = Object.fromEntries(['onReady', 'onSkipFilm', 'onShowRole', 'onRetry', 'onLayout', 'onFocusReturn'].map(k => [k, handlers[k] ?? null]));
-  const uid = `ms-rst-${(mountRoleStage.count = (mountRoleStage.count ?? 0) + 1)}`;
 
   // ── The parts ───────────────────────────────────────────────────────
-  const root = el('div', 'ms-role-stage', { tabindex: '-1' });
+  const root = el('div', 'ms-role-stage ms-kit', { tabindex: '-1' });
   const shellHost = el('div', 'ms-rst-shell');
   const film = el('div', 'ms-rst-film', { 'aria-hidden': 'true' });
   const picture = el('div', 'ms-rst-picture');
   const chip = el('span', 'ms-rst-chip', { role: 'timer' });
   chip.append(icon('timer'), el('span', 'ms-rst-chip-text'));
-  const skip = el('button', 'ms-rst-skip', { type: 'button' });
-  skip.dataset.intent = 'skip-film';
-  const skipIcon = el('span', 'ms-rst-skip-icon'), skipLabel = el('span', 'ms-rst-skip-label');
-  skipIcon.append(icon('skip'));
-  skipLabel.textContent = STAGE_WORDS.skip;
-  skip.append(skipIcon, skipLabel);
+  // Skip film: the kit's small secondary button with the skip icon, as the pack draws it (sheet 17).
+  const skip = kit.button({ label: STAGE_WORDS.skip, kind: 'secondary', small: true, icon: 'skip', intent: 'skip-film', extra: ['ms-rst-skip'] });
   film.append(picture, chip, skip);
-  const reasons = el('div', 'ms-rst-vh');
-  root.append(shellHost, film, reasons);
+  root.append(shellHost, film);
   host.append(root);
+  // The kit's control policy: refused while reconnecting, backgrounded or not interactive, with the
+  // banner's words as the reason; Frontend's reason for an unavailable control.
+  const accepts = () => !disposed && !suspended && state.interactive && state.status === 'live';
+  const policy = createControlPolicy({
+    root, accepts,
+    defaultReason: () => (state.status === 'stale' ? 'Controls return when the match is current' : null),
+    onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); },
+  });
 
   // The phone shell draws the top bar, the reconnecting banner and the toast; the stage's own parts sit
   // in its stage, between the bars.
@@ -173,16 +172,18 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   const cardArea = el('div', 'ms-rst-card');
   const foot = el('div', 'ms-rst-foot');
   const note = el('p', 'ms-rst-note', { 'aria-live': 'polite' });
-  const ready = el('button', 'ms-rst-ready', { type: 'button' });
-  ready.dataset.intent = 'ready';
-  const readyIcon = el('span', 'ms-rst-ready-icon'), readyLabel = el('span', 'ms-rst-ready-label');
-  readyIcon.append(icon('check'));
-  readyLabel.textContent = STAGE_WORDS.ready;
-  ready.append(readyIcon, readyLabel);
+  // Ready: the kit's block button with the check, amber until used, then secondary (sheets 17 and 18).
+  const readyButton = mode => ({ label: STAGE_WORDS.ready, kind: mode === 'done' ? 'secondary' : 'primary', block: true, icon: 'check', intent: 'ready', extra: ['ms-rst-ready'] });
+  const ready = kit.button(readyButton('ready'));
   foot.append(note, ready);
   body.append(strip, cardArea, foot);
   shell.stage.append(body);
-  const card = mountRoleCard(cardArea, { face: 'down' }, { onShow: () => { if (!disposed && state.interactive) on.onShowRole?.(); } });
+  // The card's Show role: its own policy, refused when the stage takes no tap at all. When Show ends as the
+  // card turns face up, the focus is on the card, and the stage passes on which control ended.
+  const card = mountRoleCard(cardArea, { face: 'down' }, {
+    onShow: () => { if (!disposed && state.interactive) on.onShowRole?.(); },
+    onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); },
+  });
   card.refuseWhen(() => disposed || !state.interactive);
 
   function shellInput() {
@@ -196,32 +197,15 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
     };
   }
 
-  // ── Taps ────────────────────────────────────────────────────────────
-  const accepts = () => !disposed && !suspended && state.interactive && state.status === 'live';
+  // ── Taps: one delegated listener for the stage's own two controls ───
+  // Retry is the shell's and Show role the card's: each reports its own.
   const onClick = event => {
-    const target = event.target.closest?.('button[data-intent]');
-    if (!target || !root.contains(target) || target.closest('.ms-rst-shell') && !target.closest('.ms-rst-body')) return;
-    const { intent } = target.dataset;
-    if (intent === 'show-role') return; // the card's own listener reports it
-    if (target.getAttribute('aria-disabled') === 'true' || target.getAttribute('aria-busy') === 'true' || !accepts()) return;
-    if (intent === 'ready') on.onReady?.();
-    else if (intent === 'skip-film' && state.view === 'film') on.onSkipFilm?.();
+    const target = event.target.closest?.('[data-intent]');
+    if (!target || !root.contains(target) || !(target === ready || target === skip) || policy.refused(target) || !accepts()) return;
+    if (target === ready) on.onReady?.();
+    else if (state.view === 'film') on.onSkipFilm?.();
   };
   root.addEventListener('click', onClick);
-
-  function control(node, { off = false, busy = false, reason = null }) {
-    const refused = off || !accepts();
-    attr(node, 'aria-disabled', refused ? 'true' : null);
-    attr(node, 'aria-busy', busy ? 'true' : null);
-    attr(node, 'data-off', off ? '' : null);
-    const why = reason ?? (state.status === 'stale' ? 'Controls return when the match is current' : null);
-    let r = node.__msReason;
-    if (why) {
-      if (!r) { r = el('span', null, { id: `${uid}-${node.dataset.intent}` }); reasons.append(r); node.__msReason = r; }
-      text(r, why);
-      attr(node, 'aria-describedby', r.id);
-    } else if (r) { r.remove(); node.__msReason = null; attr(node, 'aria-describedby', null); }
-  }
 
   // ── Render ──────────────────────────────────────────────────────────
   function paintFilm() {
@@ -253,7 +237,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       text(chip.lastChild, clockText(left));
       attr(chip, 'aria-label', `Role stage, ${Math.ceil(left / 1000)} seconds left`);
     }
-    control(skip, {});
+    policy.control(skip, {});
   }
   function paintBody() {
     const s = state, c = s.clock;
@@ -267,19 +251,14 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       attr(strip, 'aria-valuenow', String(Math.min(Math.round(c.endsAtMs / 1000), Math.floor(c.elapsedMs / 1000))));
     }
     // The card: face up with this viewer's role; face down while concealed (or before the role arrives).
-    // Show role ends when the card turns face up: the focus comes to the stage, and onFocusReturn says so.
-    const showFocused = cardArea.contains(doc.activeElement);
     if (s.status === 'concealed' || !s.card) card.update({ face: 'down', back: 'stage' });
     else card.update({ ...s.card, face: 'up', stamp: s.ready.mode === 'done' ? 'ready' : null });
-    if (showFocused && !cardArea.contains(doc.activeElement)) {
-      root.focus({ preventScroll: true });
-      queueMicrotask(() => { if (!disposed && doc.activeElement === root) on.onFocusReturn?.({ intent: 'show-role' }); });
-    }
     text(note, stageNote(s));
     note.hidden = !note.textContent;
     // Ready: amber, dimmed until Frontend offers it (sheet 17); once used, secondary and spent (sheet 18).
+    kit.setButton(ready, readyButton(s.ready.mode));
     ready.dataset.mode = s.ready.mode;
-    control(ready, { off: !s.ready.enabled, busy: s.ready.busy, reason: s.ready.reason });
+    policy.control(ready, { off: !s.ready.enabled, busy: s.ready.busy, reason: s.ready.reason });
   }
   function applyInsets() {
     const i = state.insets;
@@ -332,6 +311,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
     if (fadeTimer) win.clearTimeout(fadeTimer);
     observer?.disconnect();
     root.removeEventListener('click', onClick);
+    policy.dispose();
     card.dispose();
     shell.dispose();
     root.remove();
