@@ -174,4 +174,37 @@ Listed, not omitted:
 
 ## Checks run on this version
 
-Filled in from the recorded check.
+- **Tests:**
+
+  | Check | Result |
+  | --- | --- |
+  | `packages/design-tokens/test/card.test.mjs` | 9 of 9: the runtime-safe graph, every style scoped (layout only, the role card's parts untouched), the pinned pack unchanged, the pack's words and the one amendment, the Knowledge rows, the sheet's words and head, the inputs' refusals, the privacy rules and the check's record |
+  | `npm run test:design` | 400 of 400 |
+  | `npm run test:tooling` | 337 of 337 |
+  | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `node design/tools/check-assets.mjs` | 15 passed |
+
+- **`node design/tools/card-check.mjs`:** recorded on `342fec9`, with the source clean. It exits non-zero until the shell's `sheet.head` lands: the five frames below.
+  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does.
+  - **Captures:** 21 of 21 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
+    - Nine states at 390 × 844 and 430 × 932.
+    - Three at 320 × 568 with 200 % text.
+    - Concealed, no private word is in the page.
+  - **The lifecycle probe** (`preview/probe.mjs`): 10 of 10 checks pass.
+    - **As the page comes (9):** view, hide, refused, private, knowledge, resources, fit, dispose and motion.
+    - **With the device's Reduce motion emulated (1):** motion.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 1 of 6 frames agrees outright.
+    - **What is compared:** each frame drawn by the pack's own `screens-game.mjs` `card()` beside the component, from the same fixtures:
+      - the top bar and the sheet's place;
+      - the sheet's title, sub and head action;
+      - the card's place and the card, or its back with its words and Show;
+      - the segmented control, its words and the open part;
+      - each row's words and place, the group label and the note.
+
+      Every comparison is to within half a pixel, measured once the shell's sheet has finished sliding in.
+    - **The one accepted amendment:** the empty Knowledge line, T3's principle, pending the owner's confirmation.
+    - **Agrees:** the hidden card.
+    - **Differ in one part only:** the five frames that show the card. The head's "Hide card" is missing until the shell's `sheet.head` lands; `card.test.mjs` holds that list, which can only shrink.
+  - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe.
+  - **Where the record is:** the captures and `check.json` are in `review/`.
+- **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
