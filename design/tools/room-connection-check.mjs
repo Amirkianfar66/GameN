@@ -126,7 +126,8 @@ const LOOK = `(() => {
   const box = n => { const r = n.getBoundingClientRect(); return { x: Math.round(r.x * 100) / 100, y: Math.round(r.y * 100) / 100, width: Math.round(r.width * 100) / 100, height: Math.round(r.height * 100) / 100 }; };
   const animations = all(scene, 'svg.amb').flatMap(svg => svg.getAnimations({ subtree: true }));
   const model = ${game}.getModel();
-  const figures = all(scene, '.ms-rs-person').map(p => ({ seat: p.dataset.seat, body: p.querySelector('.ms-rs-fig[data-part="body"]') ? box(p.querySelector('.ms-rs-fig[data-part="body"]')) : null }));
+  const figures = all(scene, '.ms-rs-person').map(p => { const body = p.querySelector('.ms-rs-fig[data-part="body"]'), tag = p.querySelector('.ms-rs-tag');
+    return { seat: p.dataset.seat, body: body ? box(body) : null, tag: tag ? box(tag) : null, standIn: !!body?.hasAttribute('data-stand-in'), recoil: body?.style.translate ?? '' }; });
   return {
     view: stage.dataset.view, hostHidden: document.querySelector('.planet-room-scene')?.hidden ?? null,
     scene: scene ? { room: scene.dataset.room ?? null, label: scene.getAttribute('aria-label'), status: scene.dataset.status, lighting: scene.dataset.lighting, motion: scene.dataset.motion, box: box(scene) } : null,
@@ -137,16 +138,26 @@ const LOOK = `(() => {
     slots: all(scene, '.ms-rs-slot').map(p => ({ slot: p.dataset.value, picked: p.hasAttribute('data-picked'), disabled: p.getAttribute('aria-disabled') === 'true', box: box(p) })),
     control: scene?.querySelector('.ms-rs-control')?.textContent ?? null, cover: all(scene, '.ms-rs-cover').length, veil: all(scene, '.ms-rs-veil').length, notice: all(scene, '.ms-rs-notice').length,
     ambient: { svgs: all(scene, 'svg.amb').length, animations: animations.length, running: animations.filter(a => a.playState === 'running').length },
-    board: { rooms: all(stage, '.bv2-room').length, actors: all(stage, '.bv2-actor').length, seatTargets: all(stage, '.bv2-seat-target').length, slotTargets: all(stage, '.bv2-slot-target').length, night: all(stage, '[data-planet-night]').length },
-    overlay: { block: all(stage, '.bv2-block-fx').map(g => ({ id: g.dataset.blockId, parts: [...g.children].map(box), label: g.querySelector('strong')?.textContent ?? null })),
-      films: all(stage, '.bv2-film').map(n => ({ part: n.dataset.filmPart, box: box(n), hidden: !!n.closest('[hidden]') })) },
+    board: { rooms: all(stage, '.bv2-room').length, actors: all(stage, '.bv2-actor').length, seatTargets: all(stage, '.bv2-seat-target').length, slotTargets: all(stage, '.bv2-slot-target').length,
+      night: all(stage, '[data-planet-night]').filter(n => !n.closest('.ms-room-scene')).length },
+    // Today's films and effects, which the game paints in the scene's films container (room-scene 0.4.0).
+    overlay: { block: all(stage, '.bv2-block-fx').map(g => ({ id: g.dataset.blockId, parts: [...g.children].map(box), label: g.querySelector('strong')?.textContent ?? null, inScene: !!g.closest('.ms-room-scene .ms-rs-films') })),
+      films: all(stage, '.bv2-film').map(n => ({ part: n.dataset.filmPart, box: box(n), hidden: !!n.closest('[hidden]'), inScene: !!n.closest('.ms-room-scene .ms-rs-films') })),
+      night: all(scene, '.ms-rs-films [data-planet-night]').length, stations: all(scene, '.ms-rs-films .planet-window-station').length },
     model: { dark: model.dark, connection: model.connection, concealed: model.concealed, panel: model.panel, action: model.action ? { type: model.action.type, step: model.action.step, selected: model.action.selected } : null },
     violations: window.__policy,
   };
 })()`;
 
 const centre = b => [b.x + b.width / 2, b.y + b.height / 2];
-const nearest = (point, figures) => figures.filter(f => f.body).map(f => ({ seat: f.seat, d: Math.hypot(...centre(f.body).map((v, i) => v - point[i])) })).sort((a, b) => a.d - b.d)[0] ?? null;
+// The person nearest a point, by their figure, or by their tag where a film stands in for the figure.
+const nearest = (point, figures) => figures.filter(f => f.body || f.tag).map(f => ({ seat: f.seat, d: Math.hypot(...centre(f.body ?? f.tag).map((v, i) => v - point[i])) })).sort((a, b) => a.d - b.d)[0] ?? null;
+/** A film stands in for one person: the scene leaves their figure out and keeps their tag, and the film's patient is drawn in the scene. */
+const standIn = (s, seat, name) => {
+  const who = s.figures.find(f => f.seat === seat);
+  return { standIn: who?.standIn === true && s.figures.filter(f => f.standIn).length === 1, standInTag: s.tags.some(t => t.includes(name)),
+    filmFigure: s.overlay.films.some(f => f.part.startsWith(`critical-${seat}-`) && !f.hidden && f.inScene), filmsInScene: s.overlay.films.every(f => f.inScene) };
+};
 const sameBox = (a, b) => !!a && !!b && ['x', 'y', 'width', 'height'].every(k => Math.abs(a[k] - b[k]) < 0.5);
 
 /**
@@ -159,7 +170,8 @@ const STATES = {
     facts: s => ({ control: s.control === 'Windows' }) },
   'room-a': { url: 'scenario=doctor', room: 'room-a', people: true, live: true },
   'command-room': { url: 'scenario=alien', room: 'command-room', people: true, live: true },
-  hospital: { url: 'scenario=hospital', room: 'hospital', people: true, live: true },
+  hospital: { url: 'scenario=hospital', room: 'hospital', people: true, live: true,
+    facts: s => standIn(s, 'seat-6', 'You') },
   jail: { url: 'scenario=board', room: 'jail', people: true, live: true,
     steps: async page => {
       await page.evaluate(edit("for(const [id,slot] of [['seat-6','J1'],['seat-8','J2'],['seat-9','J3']])Object.assign(p.board.seats.find(s=>s.seatId===id),{location:'Jail',slotId:slot,jailed:true});p.offers=p.offers.filter(o=>o.type==='PASS_TURN')"));
@@ -248,7 +260,8 @@ const STATES = {
     },
     facts: s => {
       const parts = s.overlay.block[0]?.parts ?? [], at = parts[0] ? centre(parts[0]) : null;
-      return { drawn: s.overlay.block.length === 1 && s.overlay.block[0].label === 'ATTACK BLOCKED', onSeat7: !!at && nearest(at, s.figures)?.seat === 'seat-7' };
+      return { drawn: s.overlay.block.length === 1 && s.overlay.block[0].label === 'ATTACK BLOCKED', inScene: s.overlay.block[0]?.inScene === true,
+        onSeat7: !!at && nearest(at, s.figures)?.seat === 'seat-7', infoRecoil: s.figures.find(f => f.seat === 'seat-7')?.recoil ?? '' };
     } },
   'hospital-films': { url: 'scenario=doctor', room: 'hospital', people: true, live: true,
     steps: async page => {
@@ -259,10 +272,7 @@ const STATES = {
     facts: s => {
       const tag = s.overlay.films.find(f => f.part === 'tag-seat-3' && !f.hidden);
       return { offered: s.presses.map(p => p.seat).join() === 'seat-3', rescueTag: !!tag && nearest(centre(tag.box), s.figures)?.seat === 'seat-3',
-        // The critical patient stands in for the scene's own figure: left out over the scene until it can
-        // take stand-ins (see the doc). The monitor and the RESCUE tag stay.
-        standInLeftOut: !s.overlay.films.some(f => /^critical-seat-3-/.test(f.part) && !f.hidden),
-        monitor: s.overlay.films.some(f => /-screen$/.test(f.part) && !f.hidden) };
+        monitor: s.overlay.films.some(f => /-screen$/.test(f.part) && !f.hidden), ...standIn(s, 'seat-3', 'Crew 3') };
     } },
 };
 

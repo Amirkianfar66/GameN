@@ -5,7 +5,7 @@
 - This is not a release.
 
 **What it is:**
-- On a player's phone, the Planet app's room view draws all five rooms through Designer's [room scene](room-scene.md) (`room-scene-0.3.0`):
+- On a player's phone, the Planet app's room view draws all five rooms through Designer's [room scene](room-scene.md) (`room-scene-0.4.0`):
   - Room A, Room B, the Command Room, the Hospital and the Jail.
   - The scene replaces the app's own picture, framing, places, tags, targets and Blackout darkness.
 - The owner decided this on 15 November 2026: "Yes lets do it for all 5 rooms nothing related to design should be inside of frontend".
@@ -19,7 +19,7 @@
 | Path | What |
 | --- | --- |
 | `apps/game/hosted/planet/room-scene-input.mjs` | New, pure. It maps the presentation model to the scene's inputs, the scene's callbacks and the lifecycle step (`roomSceneInput`, `roomSceneHandlers`, `roomSceneLifecycle`) |
-| `apps/game/hosted/planet/render.mjs` | Mounts, updates, suspends and disposes the scene in the room view. It lays today's films and effects over it, framed by its `layout()`. It no longer draws those rooms itself |
+| `apps/game/hosted/planet/render.mjs` | Mounts, updates, suspends and disposes the scene in the room view. It paints today's films and effects in the scene's films container, framed by its `layout()`, and passes their stand-ins and recoil. It no longer draws those rooms itself |
 | `apps/game/hosted/planet/app.mjs` | Imports `room-scene.css` beside the app's other styles |
 | `apps/game/hosted/vite.config.mjs` | One marked hunk: the scene's directory and `design/phone-ui/components/icons.mjs` join the hosted build's `allowedSources` |
 | `apps/game/test/planet-room-scene.test.mjs` | The mapping, privacy, the callbacks and the lifecycle |
@@ -86,45 +86,23 @@ The room scene's own files are used as they are.
 
 ## Today's films and effects
 
-The scene does not draw the films yet; they are its next components. Until it does, the app lays them over it:
-- one transparent section per room;
-- the current room framed by the scene's `layout()`;
-- the other rooms framed by the scene's pure `roomSceneFrame()` and hidden, as the board's other rooms were.
+The scene does not draw the films yet; they are its next components. Until it does, the game paints them in the scene's films container (`scene.films`, room-scene 0.4.0).
+- **The container.** It makes no stacking context, so each film's z-index interleaves with the room's pictures and people exactly as on the board: both use z = 2 × depth.
+- **The sections.** One per room. The current room is framed by the scene's `layout()`. The other rooms are framed by the scene's pure `roomSceneFrame()` and hidden, as the board's other rooms were, so a two-room film (the Captain's: Command Room and Jail) plays its other half there.
 
-| Part | In the room view now |
+| Part | In the room view |
 | --- | --- |
-| "ATTACK BLOCKED": the effect and its label | Over the scene, on the person's press square. The check finds it on the right person |
-| The Officer's move block | Over the scene, on the person's press square |
-| The Hospital: RESCUE/DETAINED tags, monitors, vitals inset, drone, scan, hologram, pulse; HOSPITAL FULL; the off-board plaque | Over the scene. The check finds the RESCUE tag on the right patient |
-| The Captain's console inset; the Jail's airlock, suction, debris, emergency light and exterior | Over the scene |
+| A figure a film draws itself: the Hospital's gowned, breathing patients; the injury and heal patients; the Captain's walk; the Jail's released and ejected people | Drawn by the film in the scene. The scene leaves that person's own figure out (`standIns`) and keeps their tag, turn mark and press square. Each person has a detached stub standing in for the board's actor, so the films' own `hide()` names the seats, and nothing in the films changed |
+| "ATTACK BLOCKED": the effect, its label and the recoil | The effect and label sit in the scene, on the person's press square. The recoil is the scene's `brace` |
+| The Hospital: RESCUE/DETAINED tags, monitors, bed lights, vitals inset, drone, scan, hologram, pulse; HOSPITAL FULL; the off-board plaque | In the scene, at the board's depths. The monitors sit under the berths' head pictures, as on the board (checked against the board view in the same harness) |
+| The Captain's console inset; the Jail's door, airlock, suction, debris, emergency light and exterior | In the scene, at the board's depths |
+| The cinematic field (transit, Blackhole, arrival) | In the scene, just above the back picture and under the furniture and people, as on the board. Not captured: it needs the films' media and their phases |
+| The window stations | In the scene, under the feet |
+| The Officer's move block | In the scene, on the person's press square |
 | Office badges | The scene's tags show each office's icon, so the old "Captain · Officer" text badge is not drawn |
-| The Blackout's darkness | The scene's own lights-out picture and held frame. There is no fade and there are no slot markers: the dark is on or off |
-| **Left out over the scene** (below): a figure a film stands in for, the Hospital's bed lights, the Jail door, the cinematic field, the window stations, the "ATTACK BLOCKED" recoil | Not drawn in the room view. They still play in the board view |
+| The Blackout | The fade over a lit room stays the game's film. The full dark is the scene's own lights-out picture and held frame, with only the windows moving and the offered positions showing (sheet 30); the slot markers are not drawn over it |
 
-**Why some parts are left out.** The scene is its own stacking context (`isolation: isolate`), so anything laid over it draws over the whole room. Two kinds of part cannot be placed from outside it:
-
-- **Stand-ins.** These films hide the board's figure and draw their own:
-  - the Hospital's gowned, breathing patients, for every injured occupant, always;
-  - the injury and heal patients;
-  - the Captain walking to the console;
-  - the Jail's released and ejected people.
-
-  Over the scene each one adds a second figure. The check's first run showed it: in the Hospital, the patient's film figure covered the scene's figure and its "3 Crew 3 · Injured" tag.
-- **Depth.** These parts sit inside the room's depth order:
-  - the cinematic field (transit, Blackhole, arrival) sits just above the back picture, under the furniture and people;
-  - the window stations sit under the feet;
-  - a bed light sits under the patient;
-  - the Jail door sits behind the people.
-
-  Over the scene they would cover the room or its people.
-- **The recoil.** "ATTACK BLOCKED" also moves the figure, and only the scene moves its figures.
-
-**Proposed for room-scene 0.4.0.** The Lead decides who makes it.
-- `standIns: [seat]`: draw the tag and the press square, not the figure.
-- A declared film layer inside the scene's stacking context, with no stacking context of its own. Today's z-indexes would then interleave exactly as on the board, since both use z = 2 × depth.
-- Optionally `brace: { seat, dx, dy }` for the recoil.
-
-With those, the connection passes the films' own stand-in seats (it can collect them as the board's actors did) and paints into the layer.
+**Why 0.4.0.** The connection's first version laid the films over the scene, which is its own stacking context. The check's first run showed the problem: the Hospital patient's film figure covered the scene's own figure and its "3 Crew 3 · Injured" tag. The room scene's 0.4.0 (`72c1ae8`) added `standIns`, `brace` and `scene.films` for it.
 
 ## The boundary
 
@@ -145,7 +123,7 @@ These refuse the changed Planet files until Integration approves. Each was found
 | --- | --- |
 | `npm run check:sources`, through `scripts/food-consumer-source.mjs`, which reads the frozen Food release `docs/integration/food-consumer-source-2026-11-13.json` | `apps/game/hosted/planet/app.mjs` ("Food consumer source: content differs"). With that reverted, `apps/game/hosted/planet/render.mjs`. With both reverted it passes, so the `vite.config.mjs` hunk alone is accepted |
 | The hosted Vite build, plugin `reviewed-crew-drawing-release` (`readHostAbortConsumerApproval` → `readFoodConsumerSource`) | The same file first: `app.mjs` |
-| `npm run test:design` | 25 of 369 fail, every one on that same refusal (`board-motion` checks, `pregame-films` runtime ports) |
+| `npm run test:design` | 25 of 370 fail, every one on that same refusal (`board-motion` checks, `pregame-films` runtime ports) |
 | `npm run test:tooling` | 68 of 356 fail, every one on that same refusal (release adoption, crew and pregame fences, the hosted Firebase registry builds) |
 
 **Also pinned:** `app.mjs` and `render.mjs` are pinned by `phone-ui-production-consumer-approval.json`, `crew-consumer-approval-2026-11-07.json` and `pregame-production-consumer-approval-2026-11-08.json`. The Food record also pins `vite.config.mjs`.
@@ -192,8 +170,9 @@ These refuse the changed Planet files until Integration approves. Each was found
 | `reconnecting` | The model withholds the room. The scene keeps the last room, dimmed, with no control (sheet 45) |
 | `concealed` | The page is hidden: a plain cover, with nothing of the room drawn or named |
 | `reduced` | The device's Reduce motion: the voyage and the crew stand still |
-| `blocked` | "ATTACK BLOCKED" lands on Crew 7, the person it names |
-| `hospital-films` | The Doctor's Rescue offers Crew 3 in the Hospital. The RESCUE tag and the monitor lie on that patient. The film's stand-in figure is left out, and the scene's figure and tag show |
+| `hospital` | The injured occupant's own view. The film's breathing patient stands in for the scene's figure, whose "You · Injured" tag stays |
+| `blocked` | "ATTACK BLOCKED" is drawn in the scene and lands on Crew 7, the person it names |
+| `hospital-films` | The Doctor's Rescue offers Crew 3 in the Hospital. The RESCUE tag and the monitor lie on that patient. The film's patient stands in for the scene's figure only; the tag and the offer's ring stay, and every film part is inside the scene |
 
 ### Differences from the room scene's own captures
 
@@ -224,7 +203,6 @@ These refuse the changed Planet files until Integration approves. Each was found
 ## Open
 
 - **For the Lead:**
-  - room-scene 0.4.0 (stand-ins, a film layer, the recoil), or another way for the left-out parts;
   - Room B's control;
   - the bands with today's art.
 - **For Integration:**
