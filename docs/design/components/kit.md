@@ -1,6 +1,6 @@
 # Component kit: the controls every Designer component shares
 
-**Version:** `component-kit-0.2.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (15 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
+**Version:** `component-kit-0.3.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (15 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
 
 **What it is:** one look and one behaviour for the controls in every Designer component: the shell, and the screens the Designer team builds next (the role card and Ready, the ballot and results, the sheets' contents, the lobby).
 - It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds each visual component once, and Frontend connects it without rebuilding, restyling or copying it.
@@ -97,6 +97,7 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
 | `seg`, `setSeg` | `.seg` | `options` (`[{ id, label, icon }]`), `value`, `label`, `intent`. A radio group |
 | `stepper`, `setStepper` | `.stepper` | `value`, `label`, `intent`. Its two buttons report `down` and `up`; each side's availability is the component's (`policy.control`) |
 | `switchControl`, `setSwitch` | `.switch` | `checked`, `label`, `intent` |
+| `wait`, `setWait` | `screens.css` `.wait`, `.big-icon`, `.spinner` | The waiting block: `icon` (+ `filled`) in the 76 px tile, or `lead`, a node in its place (a portrait); `title`; `line`, with the 16 px spinner before it when `busy`; `size: 'small'` for the 1.25rem title the pack uses in sheets. Boarding's "Starting Round 1 · Waiting for the ship" (sheet 19), "Waiting for the host" (13), "No window here" and "Ben is choosing an Officer". The spinner stands still with Reduce motion |
 
 **The cells' states:** `available`, `selected`, `confirmed`, `taken`, `ineligible`, `empty`, `winner`, `faded`.
 - Seat *n* is always cell *n*. An empty seat (a 7- or 8-player match) is an empty frame, hidden from screen readers.
@@ -144,11 +145,11 @@ The component's own check draws its states, runs its probe and writes its record
   - **The check's record**, below.
 - **`node design/tools/kit-check.mjs`:**
   - **The setup:** the two halves are bundled by Vite and served with the hosted game's production headers (the same SHA-256 as the shell's check). They are drawn in two separate pages, so neither half's styles can stand in for the other's. The pack's half loads its `kit.css` and, for the result's paper card, its `screens.css`, whose rules are all contextual.
-  - **The cases:** 33 at 390 px wide: every builder and its states, including the busy spinners, an unavailable button and row, the seven row kinds, the four fields, both code boxes, the switch on and off, every pill, stamp, caption and portrait, the 3 × 3 in all eight states with a count, "You" and a mark, and the 3 × 3 on the result's paper card.
-    - Each is drawn on a plain surface. 31 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
-    - Everything is drawn at 100 % and at 200 % text: 128 comparisons in all.
+  - **The cases:** 36 at 390 px wide: every builder and its states, including the busy spinners, an unavailable button and row, the seven row kinds, the four fields, both code boxes, the switch on and off, every pill, stamp, caption and portrait, the 3 × 3 in all eight states with a count, "You" and a mark, the 3 × 3 on the result's paper card, and the waiting block with its spinner, in a sheet's small form and with a portrait.
+    - Each is drawn on a plain surface. 33 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
+    - Everything is drawn at 100 % and at 200 % text: 138 comparisons in all.
   - **What is compared, part by part:** the box to within half a pixel, the computed type, colours, spacing and shape, the `::before` and `::after`, each icon's drawing and knock-out colour, and the words.
-  - **Result:** all 128 agree, 857 parts. The only remaining differences are the four kinds the kit has on purpose (above), 62 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
+  - **Result:** all 138 agree, 905 parts. The only remaining differences are the four kinds the kit has on purpose (above), 62 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
   - **It catches drift:** three changes injected one at a time each fail it: one pixel of a button's padding, one pill tone's alpha, and a glass grey by 1/255.
   - **What it found, fixed before 0.1.0's record:**
     - a busy spinner 5 px small, and turning faster;
@@ -158,6 +159,7 @@ The component's own check draws its states, runs its probe and writes its record
     - a component's own root resetting the glass greys;
     - the field's input losing the glass halo.
   - **0.2.0 against 0.1.0:** moving every rule to one class's weight changed no comparison; the 126 earlier comparisons agree as before.
+  - **0.3.0 against 0.2.0:** the waiting block is new (ten comparisons, 48 parts). The 128 earlier comparisons agree as before. In the pack, its portrait is the 44 px `.pt` even where a screen asks `pt(…, 76)`, because the CSS sizes every `.pt`; the kit's portrait agrees.
   - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `b51b715c`, with the source clean.
 - **In the shell:** the shell's check draws the kit's buttons and icon buttons in its 29 captures, and its probe drives the control policy (focus kept, refused taps, reasons, reconnecting, focus return). Recorded on `b51b715c` ([the shell's page](phone-shell.md)).
 - **Not run:** physical phones, Safari, screen readers.
