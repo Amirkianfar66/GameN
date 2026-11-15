@@ -189,17 +189,18 @@ const STATES = {
       await page.evaluate(edit("p.phase={id:'check-blackout',kind:'BLACKOUT',startedAt:now-2500,endsAt:now+12500};p.activeSeatId=null;p.hackSession=null;p.blackout={windowId:p.phase.id,previewEndsAt:now+2500,endsAt:p.phase.endsAt};p.blackoutTargeting={windowId:p.phase.id,boundRoom:'Room A',selectable:true,selectedSlotId:null,slotIds:['A1','A2','A3','A4']};p.offers=[{type:'SELECT_BLACKOUT_SLOT',targetSeatIds:[],slotIds:p.blackoutTargeting.slotIds,windowIds:[],promiseTargetSeatIds:[]}];p.lastTally=null;Object.assign(p.board.seats.find(s=>s.seatId==='seat-5'),{location:'Room B',slotId:'B5'})"));
       await page.waitFor(`${game}.getModel().phase?.id==='check-blackout'&&!${game}.getModel().dark&&document.querySelector('.planet-stage .ms-room-scene').dataset.lighting==='lit'`, 'the lit seconds of the new window');
     },
-    facts: (s, looks) => ({ fourPeople: s.figures.length === 4, markers: s.overlay.markers === 5, darknessLayer: s.overlay.darkness === 1, infoColdFrameDiffers: !sameBox(s.back, looks.cold?.back) }) },
+    // Sheet 30: the lit seconds are the ordinary room, with the film's darkness layer (for its flicker) and no markers.
+    facts: (s, looks) => ({ fourPeople: s.figures.length === 4, noMarkers: s.overlay.markers === 0, darknessLayer: s.overlay.darkness === 1, infoColdFrameDiffers: !sameBox(s.back, looks.cold?.back) }) },
   'blackout-dark': { from: 'blackout-lit', room: 'room-a', people: false, live: true,
     steps: async page => { await page.waitFor(`${game}.getModel().dark`, 'the authoritative dark', 8000); },
-    // The film's markers stay in the dark; its darkness is the scene's own picture there, so the windows still move.
-    facts: (s, looks) => ({ held: sameBox(s.back, looks['blackout-lit']?.back), lights: s.scene?.lighting === 'dark', markers: s.overlay.markers === 5, noDarknessOver: s.overlay.darkness === 0, windowsMove: s.ambient.running > 0 }) },
+    // Sheet 30: the dark room for everyone, the scene's own picture, so its windows still move; no markers.
+    facts: (s, looks) => ({ held: sameBox(s.back, looks['blackout-lit']?.back), lights: s.scene?.lighting === 'dark', noMarkers: s.overlay.markers === 0, noDarknessOver: s.overlay.darkness === 0, windowsMove: s.ambient.running > 0 }) },
   'blackout-slots': { from: 'blackout-dark', room: 'room-a', people: false, live: true,
     steps: async page => {
       await page.evaluate(`${game}.openPanel('actions');${game}.begin('SELECT_BLACKOUT_SLOT')`);
       await page.waitFor("document.querySelectorAll('.planet-stage .ms-rs-slot').length===4", 'four fixed positions offered');
     },
-    facts: (s, looks) => ({ slots: s.slots.map(x => x.slot).join() === 'A1,A2,A3,A4', held: sameBox(s.back, looks['blackout-lit']?.back), noBoardTargets: s.board.slotTargets === 0 }),
+    facts: (s, looks) => ({ slots: s.slots.map(x => x.slot).join() === 'A1,A2,A3,A4', held: sameBox(s.back, looks['blackout-lit']?.back), noBoardTargets: s.board.slotTargets === 0, noMarkers: s.overlay.markers === 0 }),
     after: async page => {
       await page.evaluate(tap('.planet-stage .ms-rs-slot[data-value="A2"]'));
       await page.waitFor(`${game}.getModel().action?.step==='confirm'`, 'the tap chose A2');

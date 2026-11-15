@@ -306,8 +306,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    root.dataset.phoneView=model.panel==='card'?'actions':model.panel;
    films.paint({sample:{...sample,items:sample.items.filter(entry=>entry.kind!=='medical'||entry.clinical!=='HEALED')},frame:shown,board:{playerCount:model.playerCount},seats,geometry:{sceneOf,slotsOf,slotRects:presses},layout:where,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true,privateOpen:model.panel==='card',time:performance.now(),versions:model.versions});
    rescue.paint({entries:sample.items,frame:shown,seats,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true});
-   // The Blackout film in the scene: its markers throughout, its darkness while the scene is lit.
-   if(view)paintNight(shown,presses,view.input.lighting==='lit');
+   // The Blackout film in the scene (sheet 30): its darkness while the scene is lit, and no markers.
+   if(view)paintNight(shown,presses,view.input.lighting==='lit',false);
    for(const room of shown.rooms){const parent=holder._boardV2Paint?.rooms.get(room.room);if(!parent)continue;
     for(const slot of presses(room.room,model.playerCount,room.panel).filter(s=>['A1','A2','B1','B2'].includes(s.id))){let mark=parent.querySelector(`[data-library-station="${slot.id}"]`);if(!mark){mark=el('span',null,'planet-window-station');mark.dataset.libraryStation=slot.id;mark.setAttribute('aria-hidden','true');parent.append(mark);}mark.hidden=model.dark;putBox(mark,{left:slot.left+slot.side*.25,top:slot.top+slot.side*.7,width:slot.side*.5,height:slot.side*.3});}
    }
@@ -341,16 +341,17 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const label=el('strong','ATTACK BLOCKED'),width=Math.min(128,room.panel.width-4),height=32,place=labelBox({rect:{...rect,press:center},panel:room.panel,size:[width,height],caption:{left:0,top:0,width:room.panel.width,height:room.panel.cap}});putBox(label,{...place,width,height});label.style.opacity=String(f.label.opacity);label.style.transform=`scale(${f.label.scale})`;group.append(label);
   for(const node of holder._boardV2Paint.actors.get(effect.subjectId)?.querySelectorAll('.bv2-figure')??[])node.style.translate=`${f.brace[0]}px ${f.brace[1]}px`;
  }
- // The Blackout film (S1): the rooms' darkness and the position markers. Over the room scene the darkness is
- // drawn while the scene is lit (the flicker, the lights' return); in the dark the scene's own lights-out
- // picture is that same picture, and a layer over it would hide its windows (z 2802). The markers stay.
- function paintNight(shown=frame,presses=rects,darkness=true){
+ // The Blackout film (S1): the rooms' darkness and the position markers. In the room scene (sheet 30) only
+ // the darkness is drawn, and only while the scene is lit (the flicker, the lights' return): in the dark the
+ // scene's own lights-out picture is that darkness, and a layer over it would hide its windows (z 2802).
+ // Sheet 30 has no markers; the Disabler's positions are the scene's own offered positions.
+ function paintNight(shown=frame,presses=rects,darkness=true,markers=true){
   const night=blackout.sample();
   for(const room of shown?.rooms??[]){const section=holder._boardV2Paint?.rooms.get(room.room);if(!section)continue;
    for(const node of section.querySelectorAll('[data-planet-night]'))node.remove();
    if(!night)continue;
    if(darkness){const layer=el('span',null,'bv2-night-layer');layer.dataset.planetNight='dark';layer.setAttribute('aria-hidden','true');layer.style.backgroundImage=`var(${room.room==='hospital'?'--board-v2-film-lighting-hospital-ward-four-dark':`--board-v2-motion-${room.room}-dark`})`;layer.style.opacity=String(night.film.darkness);putBox(layer,{left:room.frame.tx,top:room.frame.ty,width:1024*room.frame.k,height:768*room.frame.k});section.append(layer);}
-   for(const r of presses(room.room,model.playerCount,room.panel)){const marker=el('span',null,'bv2-night-layer');marker.dataset.planetNight='marker';marker.dataset.slot=r.id;marker.setAttribute('aria-hidden','true');marker.style.backgroundImage=`var(--board-v2-motion-marker-${night.film.markers.style})`;marker.style.opacity=String(night.film.markers.opacity);putBox(marker,{left:r.left,top:r.top,width:r.side,height:r.side});section.append(marker);}
+   if(markers)for(const r of presses(room.room,model.playerCount,room.panel)){const marker=el('span',null,'bv2-night-layer');marker.dataset.planetNight='marker';marker.dataset.slot=r.id;marker.setAttribute('aria-hidden','true');marker.style.backgroundImage=`var(--board-v2-motion-marker-${night.film.markers.style})`;marker.style.opacity=String(night.film.markers.opacity);putBox(marker,{left:r.left,top:r.top,width:r.side,height:r.side});section.append(marker);}
   }
  }
  function renderTargets(){
