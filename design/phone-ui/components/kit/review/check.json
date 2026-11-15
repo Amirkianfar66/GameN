@@ -1,0 +1,1413 @@
+{
+  "tool": "design/tools/kit-check.mjs",
+  "component": "design/phone-ui/components/kit",
+  "version": "component-kit-0.1.0",
+  "sourceCommit": "10496d18d9f9d560f9b0d371c1ec874d4933d2c1",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "tolerance": 0.5,
+  "accepted": [
+    {
+      "cases": "/^field/",
+      "parts": [
+        "text"
+      ],
+      "keys": [
+        "w",
+        "cursor",
+        "overflow-x",
+        "overflow-y"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "The words are typed into a real input, which runs to the count, shows the text cursor and keeps its words inside its box; the pack draws them in a span as wide as the words"
+    },
+    {
+      "cases": "/^field/",
+      "parts": [
+        "count"
+      ],
+      "keys": [
+        "margin-left"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "The count's automatic left margin resolves to nothing beside the input that fills the box; the count sits where the pack's does, which its box shows"
+    },
+    {
+      "cases": "/^field invalid$/",
+      "parts": [
+        "field",
+        "box",
+        "text",
+        "count"
+      ],
+      "keys": [
+        "h",
+        "y"
+      ],
+      "sections": null,
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text the pack's span wraps the long name onto a second line and its box grows; a real input keeps one line and scrolls its words, as a phone's own fields do"
+    },
+    {
+      "cases": "/^field/",
+      "parts": [
+        "count"
+      ],
+      "keys": [
+        "text-shadow"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": null,
+      "why": "On glass, the pack's reset for the cell's vote count (.sheet .count, a dark badge) also takes the halo from the field's light count, which its class shares; the kit keeps the halo on light words on glass, as the pack's glass rule intends"
+    }
+  ],
+  "pages": {
+    "pack-100": {
+      "file": "design/phone-ui/components/kit/review/pack-100.jpg",
+      "sha256": "3d3971cf2f0eb7715c513aa5eac082cbfcbef6f080f6a70d4113be1e31522062",
+      "size": {
+        "width": 390,
+        "height": 6285
+      },
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/page-D8f4EMKX.js",
+          "line": 1,
+          "column": 3874,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": [],
+      "measurementSha256": "217d3e7d81f3133be6c4f9e0de7ae6456ac795e323c265ce3fb4d841b634320c"
+    },
+    "kit-100": {
+      "file": "design/phone-ui/components/kit/review/kit-100.jpg",
+      "sha256": "316138cff2c77f96c675914a3af70c61b15df63fe5235ef3b5f215c9b1cc4c21",
+      "size": {
+        "width": 390,
+        "height": 6354
+      },
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/page-D8f4EMKX.js",
+          "line": 1,
+          "column": 3874,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": [],
+      "measurementSha256": "40176db415df983e9785589e153ca44bd1b83093190d9d3b6bf8ddaaf2405106"
+    },
+    "pack-200": {
+      "file": "design/phone-ui/components/kit/review/pack-200.jpg",
+      "sha256": "0718ff271f463d9faf5e532592c9320b70bece6e599acee09bd2bf8d9f7e5af5",
+      "size": {
+        "width": 390,
+        "height": 8213
+      },
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/page-D8f4EMKX.js",
+          "line": 1,
+          "column": 3874,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": [],
+      "measurementSha256": "3d4735d212763bf5e4aa57a71d99846ecc01a4439d0a5f9723d9851cca60c304"
+    },
+    "kit-200": {
+      "file": "design/phone-ui/components/kit/review/kit-200.jpg",
+      "sha256": "3cd19c328d639aaca4e8035ee54ad2f3f440b9eaa20fa2bf0ebc8455b82ced8a",
+      "size": {
+        "width": 390,
+        "height": 8263
+      },
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/page-D8f4EMKX.js",
+          "line": 1,
+          "column": 3874,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": [],
+      "measurementSha256": "d970e1e379a02c1e89a2457c5f472cf0f8f76a85e24e9847c16d621ed278e58d"
+    }
+  },
+  "agreement": {
+    "100": {
+      "plain": {
+        "button primary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button secondary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button tinted": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button plain": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button outline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button warn": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button block": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button small": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button unavailable": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy secondary": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "icon button": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "list": {
+          "ok": true,
+          "parts": 39,
+          "differences": [],
+          "accepted": []
+        },
+        "row unavailable": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "group": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "field": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "258.219px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field empty": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "165.297px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field invalid": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "146.047px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field mono": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            }
+          ]
+        },
+        "code boxes": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "code boxes invalid": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "error": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "stepper": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "switch on": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "switch off": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "pills": {
+          "ok": true,
+          "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "stamps": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "caption": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "seat number": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "portraits": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "cells": {
+          "ok": true,
+          "parts": 52,
+          "differences": [],
+          "accepted": []
+        }
+      },
+      "glass": {
+        "button primary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button secondary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button tinted": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button plain": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button outline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button warn": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button small": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button unavailable": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy secondary": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "icon button": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "list": {
+          "ok": true,
+          "parts": 39,
+          "differences": [],
+          "accepted": []
+        },
+        "row unavailable": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "group": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "field": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 3
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "258.219px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field empty": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "count",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 3
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "165.297px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field invalid": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 3
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "146.047px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field mono": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            }
+          ]
+        },
+        "code boxes": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "code boxes invalid": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "error": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "stepper": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "switch on": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "switch off": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "pills": {
+          "ok": true,
+          "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "stamps": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "caption": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "seat number": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "portraits": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "cells": {
+          "ok": true,
+          "parts": 52,
+          "differences": [],
+          "accepted": []
+        }
+      }
+    },
+    "200": {
+      "plain": {
+        "button primary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button secondary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button tinted": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button plain": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button outline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button warn": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button block": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button small": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button unavailable": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy secondary": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "icon button": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "list": {
+          "ok": true,
+          "parts": 39,
+          "differences": [],
+          "accepted": []
+        },
+        "row unavailable": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "group": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "field": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "196.438px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field empty": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "10.6094px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field invalid": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "field",
+              "key": "h",
+              "pack": 121.19,
+              "kit": 91.59,
+              "rule": 2
+            },
+            {
+              "part": "box",
+              "key": "h",
+              "pack": 81.59,
+              "kit": 52,
+              "rule": 2
+            },
+            {
+              "part": "text",
+              "key": "y",
+              "pack": 39.59,
+              "kit": 45.19,
+              "rule": 2
+            },
+            {
+              "part": "text",
+              "key": "h",
+              "pack": 81.59,
+              "kit": 40.8,
+              "rule": 2
+            },
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "y",
+              "pack": 64.8,
+              "kit": 50,
+              "rule": 2
+            }
+          ]
+        },
+        "field mono": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            }
+          ]
+        },
+        "code boxes": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "code boxes invalid": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "error": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "stepper": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "switch on": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "switch off": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "pills": {
+          "ok": true,
+          "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "stamps": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "caption": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "seat number": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "portraits": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "cells": {
+          "ok": true,
+          "parts": 51,
+          "differences": [],
+          "accepted": []
+        }
+      },
+      "glass": {
+        "button primary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button secondary": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button tinted": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button plain": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button outline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button warn": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button small": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button unavailable": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "button busy secondary": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "icon button": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "list": {
+          "ok": true,
+          "parts": 39,
+          "differences": [],
+          "accepted": []
+        },
+        "row unavailable": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "group": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "field": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 3
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "196.438px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field empty": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "count",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 3
+            },
+            {
+              "part": "count",
+              "key": "margin-left",
+              "pack": "10.6094px",
+              "kit": "0px",
+              "rule": 1
+            }
+          ]
+        },
+        "field invalid": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "field",
+              "key": "h",
+              "pack": 121.19,
+              "kit": 91.59,
+              "rule": 2
+            },
+            {
+              "part": "box",
+              "key": "h",
+              "pack": 81.59,
+              "kit": 52,
+              "rule": 2
+            },
+            {
+              "part": "text",
+              "key": "y",
+              "pack": 39.59,
+              "kit": 45.19,
+              "rule": 2
+            },
+            {
+              "part": "text",
+              "key": "h",
+              "pack": 81.59,
+              "kit": 40.8,
+              "rule": 2
+            },
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            },
+            {
+              "part": "count",
+              "key": "y",
+              "pack": 64.8,
+              "kit": 50,
+              "rule": 2
+            },
+            {
+              "part": "count",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 3
+            }
+          ]
+        },
+        "field mono": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "text",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "clip",
+              "rule": 0
+            },
+            {
+              "part": "text",
+              "key": "cursor",
+              "pack": "default",
+              "kit": "text",
+              "rule": 0
+            }
+          ]
+        },
+        "code boxes": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "code boxes invalid": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "error": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "stepper": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "switch on": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "switch off": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "pills": {
+          "ok": true,
+          "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "stamps": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "caption": {
+          "ok": true,
+          "parts": 2,
+          "differences": [],
+          "accepted": []
+        },
+        "seat number": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "portraits": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "cells": {
+          "ok": true,
+          "parts": 51,
+          "differences": [],
+          "accepted": []
+        }
+      }
+    }
+  },
+  "summary": {
+    "cases": 126,
+    "agree": 126,
+    "parts": 760,
+    "accepted": 62
+  }
+}
