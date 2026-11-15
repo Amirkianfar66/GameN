@@ -1,0 +1,54 @@
+{
+  "kind": "synthetic native Food compositor under production response headers",
+  "runtimeChanged": false,
+  "sourceBase": "0d4fde64890deda546002e728f0b5d6005a5cd8d",
+  "viewportChecks": {
+    "390x844": {
+      "publishedImageViolations": 3,
+      "candidateImageViolations": 0
+    },
+    "430x932": {
+      "publishedImageViolations": 3,
+      "candidateImageViolations": 0
+    }
+  },
+  "nativeModules": {
+    "apps/game/hosted/planet/food-assets.mjs": "f76276ee83a95c0e0ddb371f3c5e204b4dcc83f9d8a3bdc6ef7c8840fb160345",
+    "apps/game/hosted/planet/food-scene.mjs": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+    "apps/game/hosted/planet/food-geometry.mjs": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+    "apps/game/hosted/planet/food-machine.mjs": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+    "apps/game/hosted/planet/food-ink.mjs": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d"
+  },
+  "limits": [
+    "This is a local visual-only fixture, not a live Food match or timing/interaction test.",
+    "The exact published header block was used for the blocked route. The fixed route changes only img-src to add blob:.",
+    "Live Room B and capsule captures are 390x844; no 430x932 live-game capture is claimed.",
+    "No physical-phone, Safari or screen-reader check was performed."
+  ],
+  "captures": {
+    "live-capsule-390.png": {
+      "sha256": "9a4c58360573a8424fc934784ba25a0dc948d76e190e50276447059821390a0e",
+      "bytes": 50204
+    },
+    "live-room-390.png": {
+      "sha256": "e138aac91190fa5cbc4d861cd27d1d51f86357c422bf93e6bdba161996c02ac4",
+      "bytes": 55751
+    },
+    "policy-blocked-390.png": {
+      "sha256": "d91904eb4195f565ac9657e777fd9e6048fe5a73b2b98d65424a8f61ff7fdcca",
+      "bytes": 31272
+    },
+    "policy-blocked-430.png": {
+      "sha256": "f346576c00053c3b245533b9a82f1bdfddbb50647466b4c3688cd985d95b24af",
+      "bytes": 34124
+    },
+    "policy-fixed-390.png": {
+      "sha256": "4a0e1a8cb4f8e01a89e1b67e20d5193ee08ab212b097fbc81829f5514dc35997",
+      "bytes": 36073
+    },
+    "policy-fixed-430.png": {
+      "sha256": "24fd777d0f47be51df7201cccdd461504ab40205cb8a7ec462c112ce1b9f3f22",
+      "bytes": 40263
+    }
+  }
+}
