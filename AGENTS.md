@@ -48,6 +48,7 @@ This dated ownership agreement supersedes conflicting handoff wording in the ori
 - Define a minimal command/projection contract first. Frontend and Designer can use clearly labeled fixtures while Backend builds it.
 - Backend implements rules; Game Balance audits them and proposes changes. A balance hypothesis is not permission to change canon.
 - Every PR states the problem, behavior changed, tests/evidence, dependencies, unresolved decisions, and rule-version impact.
+- Link the existing feature issue and intended release in each PR. Integration owns its progression from Approved through Deployed, including explicit approved exclusions and live delivery evidence; a merged design or green test is not delivery. Use the [existing visual ownership and delivery agreement](docs/architecture/visual-component-ownership.md#track-delivery-through-the-playable-release), not a competing ledger or policy.
 - Gate merge on required checks and integration review. Protected-branch configuration is a repository setting; this file does not enforce it by itself.
 - Do not deploy cloud resources, spend money, publish assets publicly, or expand repository access solely because a task brief exists. Follow the user's actual authorization.
 - Never commit credentials, service-account files, session cookies, private match payloads, or production exports.

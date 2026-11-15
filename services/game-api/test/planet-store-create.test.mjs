@@ -11,7 +11,7 @@ const hash=value=>createHash('sha256').update(value).digest('hex');
 const sdkError=code=>Object.assign(new Error(`Synthetic SDK status ${code}`),{code,details:`Synthetic SDK status ${code}`});
 const fail=error=>({error});
 
-function fixture(){
+function fixture({reverseMetadata=false}={}){
   const documents=new Map(),calls=[];let active=null,handler=()=>undefined;
   const head=key=>'planetDocuments/'+hash(key),part=(key,index)=>'planetChunks/'+hash(key)+'-'+index;
   const event=(kind,path)=>handler({kind,path,attempt:active?.number,call:active?.call,trace:active});
@@ -27,7 +27,7 @@ function fixture(){
   function value(key){const encoded=bytes(key);return encoded===null?null:JSON.parse(encoded.toString('utf8'));}
   function snapshot(image,ref){
     const data=image.get(ref.path);
-    return {exists:data!==undefined,data:()=>structuredClone(data),get:name=>data?.[name]};
+    return {ref,exists:data!==undefined,data:()=>structuredClone(data),get:name=>data?.[name]};
   }
   const db={
     collection:name=>({doc:id=>{const path=name+'/'+id,fault=event('reference',path);if(fault)throw fault.error;return {path};}}),
@@ -42,7 +42,9 @@ function fixture(){
           trace.reads.push({kind,paths:refs.map(ref=>ref.path)});
           const fault=event(kind,refs[0]?.path);
           if(fault){if(fault.sync)throw fault.error;return Promise.reject(fault.error);}
-          const snapshots=refs.map(ref=>snapshot(image,ref));return Promise.resolve(kind==='get'?snapshots[0]:snapshots);
+          const snapshots=refs.map(ref=>snapshot(image,ref));
+          if(reverseMetadata&&kind==='getAll'&&refs.every(ref=>ref.path.startsWith('planetDocuments/')))snapshots.reverse();
+          return Promise.resolve(kind==='get'?snapshots[0]:snapshots);
         };
         const write=(kind,ref,data)=>{
           trace.sdkWrites.push({kind,path:ref.path});
@@ -249,4 +251,76 @@ test('ordinary set/delete still share their historical last-buffered-operation s
   await h.store.transaction(async tx=>{tx.set('ordinary/value',{value:1});tx.set('ordinary/value',{value:2});tx.delete('ordinary/delete');});
   defaultInvocation(h,1);assert.deepEqual(h.value('ordinary/value'),{value:2});assert.equal(h.value('ordinary/delete'),null);
   assert.equal(h.calls[0].attempts[0].sdkWrites.some(write=>write.kind==='create'),false);
+});
+
+test('unread set/delete metadata batches by reference and excludes known metadata and creates',async()=>{
+  const h=fixture({reverseMetadata:true});
+  const known='batch/known',shrink='batch/shrink',deleted='batch/delete',inserted='batch/insert',created='batch/create';
+  h.seed(known,{value:'known'});
+  h.seed(shrink,{value:'x'.repeat(70_000)});
+  h.seed(deleted,{value:'x'.repeat(110_000)});
+  await h.store.transaction(async tx=>{
+    assert.deepEqual(await tx.get(known),{value:'known'});
+    tx.set(known,{value:'changed'});tx.set(shrink,{value:'small'});tx.delete(deleted);
+    tx.set(inserted,{value:'inserted'});tx.create(created,{value:'created'});
+  });
+  defaultInvocation(h,1);
+  const trace=h.calls[0].attempts[0];
+  assert.deepEqual(trace.reads,[{kind:'get',paths:[h.head(known)]},{kind:'getAll',paths:[h.part(known,0)]},
+    {kind:'getAll',paths:[h.head(shrink),h.head(deleted),h.head(inserted)]}]);
+  assert.deepEqual(h.value(known),{value:'changed'});assert.deepEqual(h.value(shrink),{value:'small'});
+  assert.equal(h.documents.has(h.part(shrink,1)),false,'shrink removes only its old trailing chunk');
+  assert.equal(h.value(deleted),null);
+  for(let i=0;i<3;i++)assert.equal(h.documents.has(h.part(deleted,i)),false,'delete removes all its own old chunks');
+  assert.deepEqual(h.value(inserted),{value:'inserted'});assert.deepEqual(h.value(created),{value:'created'});
+  assert.deepEqual(trace.sdkWrites.filter(write=>write.kind==='create').map(write=>write.path),[h.head(created),h.part(created,0)]);
+});
+
+test('large old-metadata lookup remains bounded within one transaction',async()=>{
+  const h=fixture(),keys=Array.from({length:129},(_,index)=>`batch/${index}`);
+  await h.store.transaction(async tx=>{for(const key of keys)tx.set(key,{value:1});});
+  defaultInvocation(h,1);
+  const trace=h.calls[0].attempts[0];
+  assert.deepEqual(trace.reads.map(read=>[read.kind,read.paths.length]),[['getAll',64],['getAll',64],['get',1]]);
+  assert.deepEqual(trace.reads.flatMap(read=>read.paths),keys.map(h.head));
+  assert.ok(keys.every(key=>h.value(key).value===1));
+});
+
+test('rejected metadata batch retries before SDK writes using the original SDK invocation',async()=>{
+  const h=fixture(),key='batch/retry',deleted='batch/retry-delete';
+  const original=Object.assign(sdkError(3),{details:'Transaction is invalid or closed.'});
+  h.seed(deleted,{value:'old'});
+  h.onEvent(e=>e.kind==='getAll'&&e.attempt===1?fail(original):undefined);
+  await h.store.transaction(async tx=>{tx.set(key,{value:1});tx.delete(deleted);});
+  defaultInvocation(h,2);
+  const [first,second]=h.calls[0].attempts;
+  for(const attempt of [first,second])assert.deepEqual(attempt.reads,[{kind:'getAll',paths:[h.head(key),h.head(deleted)]}]);
+  assert.equal(first.error.code,10);assert.equal(first.error.cause,original);
+  assert.equal(first.sdkWrites.length,0);assert.equal(first.commitStarted,false);
+  assert.equal(second.commitApplied,true);assert.deepEqual(h.value(key),{value:1});assert.equal(h.value(deleted),null);
+});
+
+test('synchronous metadata batch throw retains its error and does not flush buffered writes',async()=>{
+  const h=fixture(),original=Object.assign(sdkError(3),{details:'Transaction is invalid or closed.'});
+  h.onEvent(e=>e.kind==='getAll'?{error:original,sync:true}:undefined);
+  await assert.rejects(h.store.transaction(async tx=>{tx.set('batch/sync',{value:1});tx.delete('batch/sync-delete');}),
+    error=>error===original);
+  defaultInvocation(h,1);
+  assert.equal(h.calls[0].attempts[0].sdkWrites.length,0);assert.equal(h.documents.size,0);
+});
+
+test('metadata batch rejection after a possibly applied commit cannot enable an extra SDK retry',async()=>{
+  const h=fixture(),key='batch/ambiguous-set',deleted='batch/ambiguous-delete';
+  const lostAck=sdkError(14),closed=Object.assign(sdkError(3),{details:'Transaction is invalid or closed.'});
+  h.seed(deleted,{value:'old'});
+  h.onEvent(e=>{
+    if(e.attempt===1&&e.kind==='commit')return {error:lostAck,commitBeforeError:true};
+    if(e.attempt===2&&e.kind==='getAll')return fail(closed);
+  });
+  await assert.rejects(h.store.transaction(async tx=>{tx.set(key,{value:1});tx.delete(deleted);}),error=>error===closed);
+  defaultInvocation(h,2);
+  const [first,second]=h.calls[0].attempts;
+  assert.equal(first.error,lostAck);assert.equal(first.commitApplied,true);
+  assert.equal(second.sdkWrites.length,0);assert.equal(second.commitStarted,false);
+  assert.deepEqual(h.value(key),{value:1});assert.equal(h.value(deleted),null);
 });

@@ -1,0 +1,22 @@
+{
+  "design-0.5.0": {
+    "parent": null,
+    "capabilities": {"libraryArt": false, "crewDrawing": false, "roleFilms": false, "boardingFilm": false, "food": false, "roleFilmSetupFlows": [], "boardingSetupFlows": []}
+  },
+  "design-0.6.0": {
+    "parent": "design-0.5.0",
+    "capabilities": {"libraryArt": true, "crewDrawing": false, "roleFilms": false, "boardingFilm": false, "food": false, "roleFilmSetupFlows": [], "boardingSetupFlows": []}
+  },
+  "design-0.7.0": {
+    "parent": "design-0.6.0",
+    "capabilities": {"libraryArt": true, "crewDrawing": true, "roleFilms": false, "boardingFilm": false, "food": false, "roleFilmSetupFlows": [], "boardingSetupFlows": []}
+  },
+  "design-0.8.0": {
+    "parent": "design-0.7.0",
+    "capabilities": {"libraryArt": true, "crewDrawing": true, "roleFilms": true, "boardingFilm": true, "food": false, "roleFilmSetupFlows": [null, 2, 3], "boardingSetupFlows": [2, 3]}
+  },
+  "design-0.9.0": {
+    "parent": "design-0.8.0",
+    "capabilities": {"libraryArt": true, "crewDrawing": true, "roleFilms": true, "boardingFilm": true, "food": true, "roleFilmSetupFlows": [3], "boardingSetupFlows": [3]}
+  }
+}
