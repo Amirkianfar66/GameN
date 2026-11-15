@@ -27,7 +27,7 @@ For visual work, follow `docs/architecture/visual-component-ownership.md`; other
 
 - Canonical visual source paths, owner and version/hash; preview and runtime consumers:
 - Agreed inputs, audiences, intent events and playback/lifecycle contract:
-- Generated ports and reproducible transformations, or direct reuse; no independent visual copy:
+- Direct consumption of Designer's runtime-safe component in `design/`; evidence of no Frontend rebuild, restyle or source copy:
 - Frontend screen-controller owner and early native integration evidence:
 
 ## Phone interface visual gate
@@ -37,7 +37,9 @@ Required by the owner's 11 November 2026 decision and `AGENTS.md`. A green CI ru
 - Phone interface changed: yes / no. If no, explain why this PR cannot change the playable phone interface:
 - Affected comparison part IDs (`node design/tools/phone-ui-native-compare.mjs --list`), sheet IDs and states:
 - Compared candidate commit, design commit and artwork release; link to `compare.json` and harness provenance:
-- Side-by-side captures: 390 × 844; text-bearing states also 320 × 568 at 200% text:
+- Side-by-side captures: 390 × 844 and 430 × 932 (current development scope):
+- Capture origin: deployed candidate URL, or harness with exact production headers; source/art identities and actual header values/hash:
+- Approved-design coverage: included deliverables and evidence; any omitted/deferred deliverable with the owner's explicit decision:
 - Supplemental states/sizes not supported by the comparison tool, capture errors, and motion/reduced-motion evidence where relevant:
 - Designer's explicit visual acceptance **in this PR**, with reviewed commit, parts and evidence (pending until given):
 - Exceptions from the sheets: none, or link to the exact `docs/design/owner-decisions.md` record containing Designer's agreement and the owner's approval:
