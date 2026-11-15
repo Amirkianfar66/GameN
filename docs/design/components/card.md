@@ -181,7 +181,7 @@ Listed, not omitted:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `b1559cf` (the role stage's `d1919d7` merged in, with the shell at `05e2d1d0`), with the source clean. The same as on `a35c414`, before that merge.
+- **`node design/tools/card-check.mjs`:** recorded on `1679a0e` (the owner's confirmation in the accepted amendment's reason; the role stage's `d1919d7` merged in, with the shell at `05e2d1d0`), with the source clean. The same result as on `b1559cf` and `a35c414`.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does.
   - **Captures:** 21 of 21 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
     - Nine states at 390 × 844 and 430 × 932.
