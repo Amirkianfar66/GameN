@@ -50,6 +50,9 @@ export const PHONE_SHELL_DEFAULTS = Object.freeze({
   viewer: null,
   versions: null,
   bar: Object.freeze({ kind: 'phase', title: '', icon: 'hourglass' }),
+  // true: the stage and its cover fill the whole shell, edge to edge, under the safe areas and any bar or
+  // tabs, for a full-screen film or poster (the pack draws them at inset 0, kit.css .media).
+  edge: false,
   tabs: null, target: null, chip: null, banner: null, toast: null, sheet: null,
 });
 
@@ -132,6 +135,16 @@ function checkAction(action, i) {
 }
 
 /**
+ * A head action: an icon button in the sheet's head, before Close (the pack's sheet({ actions }), as the Card's
+ * "Hide card"). It is this phone's own, as Back and Close are: it works while reconnecting and stands for no
+ * command, which belongs in the footer.
+ */
+function checkHead(action, i) {
+  if (!action || !isText(String(action.id ?? '')) || !isText(action.icon) || !isText(action.label)) throw new TypeError(`sheet.head[${i}] is { id, icon, label }`);
+  return { id: String(action.id), icon: action.icon, label: action.label, enabled: action.enabled !== false, reason: optionalText(action.reason, `sheet.head[${i}].reason`) };
+}
+
+/**
  * The next input from the previous one and an update. Each key an update gives replaces that key's
  * value; the rest stay. This viewer's own inputs (the tabs, the target bar, the chip, the sheet, the
  * toast and the Promises count) are dropped while the shell is concealed, never kept for when it shows
@@ -141,8 +154,10 @@ export function nextPhoneShellInput(previous, input) {
   const next = { ...previous, ...input };
   if (!STATUSES.includes(next.status)) throw new TypeError(`Status is ${STATUSES.join(', ')}, not ${JSON.stringify(next.status)}`);
   if (next.insets !== null && !['top', 'right', 'bottom', 'left'].every(k => next.insets[k] === undefined || Number.isFinite(next.insets[k]))) throw new TypeError('insets are null, or { top, right, bottom, left } in px');
-  // null: no top bar at all (a full-bleed film, as the role stage's): the stage runs to the top edge.
+  // null: no top bar at all (a full-bleed film, as the role stage's): the stage runs to the top edge. The
+  // overlays keep the bar's place, as the pack's do on its films (its --top keeps the bar's height).
   next.bar = next.bar === null ? null : checkBar(next.bar);
+  if (typeof next.edge !== 'boolean') throw new TypeError('edge is true or false');
   next.tabs = checkTabs(next.tabs);
   // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
   // stage between the bars keeps its size and nothing on the phone moves.
@@ -165,7 +180,10 @@ export function nextPhoneShellInput(previous, input) {
     const s = next.sheet;
     if (!isText(String(s.id ?? '')) || typeof s.title !== 'string') throw new TypeError('A sheet is { id, title, … }');
     next.sheet = { id: String(s.id), title: s.title, sub: optionalText(s.sub, 'sheet.sub'), back: !!s.back, close: s.close !== false,
-      detent: s.detent === 'large' ? 'large' : 'auto', actions: (s.actions ?? []).map(checkAction) };
+      detent: s.detent === 'large' ? 'large' : 'auto', head: (s.head ?? []).map(checkHead), actions: (s.actions ?? []).map(checkAction) };
+    // One callback reports both, so every id is the sheet's own.
+    const ids = [...next.sheet.head, ...next.sheet.actions].map(a => a.id);
+    if (new Set(ids).size !== ids.length) throw new TypeError('A sheet\'s head and footer actions each need their own id');
   } else next.sheet = null;
   const viewerChanged = 'viewer' in input && previous.viewer !== input.viewer;
   if (next.status === 'concealed') {
@@ -219,7 +237,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   const cover = el('div', 'ms-ps-cover');
   const bar = el('header', 'ms-ps-tb', { 'aria-label': 'Match status' });
   const over = el('div', 'ms-ps-over');
-  root.append(stage, cover, bar, over);
+  // An empty guide between the safe areas, which layout() measures (they may come from the browser).
+  const guide = el('span', 'ms-ps-guide', { 'aria-hidden': 'true' });
+  root.append(stage, cover, bar, over, guide);
   host.append(root);
   const kit = createKit(doc);
 
@@ -234,7 +254,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
 
   // ── Taps ────────────────────────────────────────────────────────────
   // Taken while reconnecting: Retry, and what stays on this phone (⋮, a sheet's back and close).
-  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close']);
+  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close', 'sheet-head']);
   const accepts = intent => !disposed && state.interactive && state.status !== 'concealed' && (state.status === 'live' || LOCAL.has(intent));
   const onClick = event => {
     const target = event.target.closest?.('button[data-intent]');
@@ -248,7 +268,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else if (intent === 'cancel-target') on.onCancelTarget?.();
     else if (intent === 'chip') on.onChip?.(value);
     else if (intent === 'retry') on.onRetry?.();
-    else if (intent === 'sheet-action') on.onSheetAction?.(value, state.sheet?.id ?? null);
+    else if (intent === 'sheet-action' || intent === 'sheet-head') on.onSheetAction?.(value, state.sheet?.id ?? null);
     else if (intent === 'sheet-back') on.onSheetBack?.(state.sheet?.id ?? null);
     else if (intent === 'sheet-close') on.onSheetClose?.(state.sheet?.id ?? null);
   };
@@ -325,7 +345,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   function paintBar() {
     const concealed = state.status === 'concealed';
     const b = state.bar;
-    // No bar: the stage runs to the top edge, and the overlays sit under the top safe area.
+    // No bar: the stage runs to the top edge, and the overlays keep the bar's place.
     root.dataset.bar = b ? 'top' : 'none';
     bar.dataset.kind = b ? b.kind : 'none';
     attr(bar, 'data-tone', b?.tone ?? null);
@@ -557,6 +577,19 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else if (!s.close && close) { remove(close); close = null; }
     if (back) control(back, { intent: 'sheet-back' });
     if (close) control(close, { intent: 'sheet-close' });
+    // The head's own actions, kept by id, in order after the title and so before Close. A button is moved only
+    // when it is out of place: moving a focused one would lose the focus.
+    const heads = [...head.querySelectorAll(':scope > [data-intent="sheet-head"]')];
+    const headIds = s.head.map(a => a.id);
+    for (const b of heads) if (!headIds.includes(b.dataset.value)) remove(b);
+    let anchor = title;
+    for (const a of s.head) {
+      const b = heads.find(c => c.dataset.value === a.id && c.isConnected) ?? kit.iconButton({ label: a.label, icon: a.icon, intent: 'sheet-head', value: a.id });
+      if (anchor.nextSibling !== b) head.insertBefore(b, anchor.nextSibling);
+      kit.setIconButton(b, { label: a.label, icon: a.icon, intent: 'sheet-head', value: a.id });
+      control(b, { intent: 'sheet-head', off: !a.enabled, reason: a.reason });
+      anchor = b;
+    }
     // The footer's buttons, kept by id.
     let foot = node.querySelector(':scope > .ms-ps-sheet-foot');
     if (s.actions.length && !foot) { foot = el('div', 'ms-ps-sheet-foot'); node.append(foot); }
@@ -626,19 +659,22 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     }
   }
   /**
-   * Where things are, in the shell's CSS pixels: its size, the bars' heights (the top safe area and bar;
-   * the tabs and the bottom safe area), the stage between them, and how much of the stage's foot the
-   * private talk's buttons cover. After dispose(), null.
+   * Where things are, in the shell's CSS pixels: its size; the bars' heights, as how far the stage starts
+   * from the shell's top and ends from its foot (the top safe area and bar; the tabs and the bottom safe
+   * area; 0 at an edge the stage runs to); the stage; the safe areas, which a component on an edge-to-edge
+   * stage keeps its own controls clear of; and how much of the stage's foot the private talk's buttons
+   * cover. After dispose(), null.
    */
   function layout() {
     if (disposed) return null;
-    const box = root.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    const box = root.getBoundingClientRect(), s = stage.getBoundingClientRect(), g = guide.getBoundingClientRect();
     const covered = parts.tabsKey === 'talk' && parts.tabs ? Math.max(0, s.bottom - parts.tabs.getBoundingClientRect().top) : 0;
     const round = v => Math.round(v * 100) / 100;
     return {
       size: { width: round(box.width), height: round(box.height) },
       bars: { top: round(s.top - box.top), bottom: round(box.bottom - s.bottom) },
       stage: { width: round(s.width), height: round(s.height) },
+      safe: { top: round(g.top - box.top), bottom: round(box.bottom - g.bottom) },
       covered: { bottom: round(covered) },
     };
   }
@@ -653,12 +689,14 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
+  observer?.observe(guide);
 
   // ── Render ──────────────────────────────────────────────────────────
   function render() {
     if (disposed) return;
     root.dataset.status = state.status;
     root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
+    attr(root, 'data-edge', state.edge ? '' : null);
     applyInsets();
     paintBar();
     paintTabs();

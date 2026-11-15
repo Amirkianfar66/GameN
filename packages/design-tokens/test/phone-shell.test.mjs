@@ -164,6 +164,9 @@ test('inputs are checked, and refused with a reason', () => {
   refuses({ chip: { id: 'x' } }, /A chip needs a label/);
   refuses({ sheet: { title: 'Pass' } }, /A sheet is \{ id, title/);
   refuses({ insets: { top: '47px' } }, /insets are null/);
+  refuses({ edge: 'yes' }, /edge is true or false/);
+  refuses({ sheet: { id: 'card', title: 'Your role', head: [{ id: 'hide' }] } }, /sheet\.head\[0\] is \{ id, icon, label \}/);
+  refuses({ sheet: { id: 'card', title: 'x', head: [{ id: 'a', icon: 'hide', label: 'A' }], actions: [{ id: 'a', label: 'A' }] } }, /each need their own id/);
   // Defaults: a live, interactive phase bar, no tab bar, nothing over the stage.
   const d = nextPhoneShellInput(PHONE_SHELL_DEFAULTS, {});
   assert.equal(d.status, 'live');
@@ -171,6 +174,7 @@ test('inputs are checked, and refused with a reason', () => {
   assert.equal(d.bar.kind, 'phase');
   assert.equal(d.tabs, null);
   assert.equal(d.shape, 'none');
+  assert.equal(d.edge, false, 'the stage between the bars unless edge is asked for');
   // The checked forms are stable: checking them again changes nothing.
   const once = live();
   assert.deepEqual(nextPhoneShellInput(once, {}), once);
@@ -214,7 +218,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 29, 'fourteen states at two sizes, and the Largest text at 320 × 568');
+  assert.equal(captures.length, 33, 'sixteen states at two sizes, and the Largest text at 320 × 568');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -226,7 +230,15 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.equal(record.captures[`${size}/concealed`].buttons, 0, `${size}: concealed, no control`);
     assert.equal(record.captures[`${size}/concealed`].name, null, `${size}: concealed, no name`);
     assert.equal(record.captures[`${size}/concealed`].layout.stage.height, record.captures[`${size}/own`].layout.stage.height, `${size}: concealed, the stage keeps its size`);
-    assert.equal(record.captures[`${size}/film`].layout.bars.top, 0, `${size}: no bar, the stage to the top edge`);
+    for (const state of ['film', 'poster']) {
+      const { layout } = record.captures[`${size}/${state}`];
+      assert.deepEqual(layout.bars, { top: 0, bottom: 0 }, `${size} ${state}: edge to edge`);
+      assert.equal(layout.stage.height, layout.size.height, `${size} ${state}: the stage the shell's whole height`);
+      assert.deepEqual(layout.safe, { top: 47, bottom: 34 }, `${size} ${state}: the safe areas reported`);
+    }
+    assert.equal(record.captures[`${size}/film`].bannerTop, 47 + 52 + 8, `${size}: no bar, the banner at the bar's place`);
+    assert.equal(record.captures[`${size}/poster`].kind, 'phase', `${size}: the poster under a bar`);
+    assert.equal(record.captures[`${size}/card`].head, 'Hide card', `${size}: the Card sheet's head action`);
     assert.equal(record.captures[`${size}/result`].cover, 1, `${size}: the result's window in the cover`);
   }
   // The lifecycle probe, as the page comes and with the device's Reduce motion; the agreement with the pack.
@@ -236,7 +248,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'nobar', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'nobar', 'edge', 'head', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length >= 7 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   assert.deepEqual(record.agree.problems, [], 'agreement: no page problem');
 });

@@ -13,8 +13,13 @@
 //   layout    the bars and the stage are measured, and a change of text size, insets or bars reported
 //   layers    the cover lies over the stage and above all it holds, under the overlays and the sheet; with a
 //             sheet open the toast stays above it and the banner under it, as the pack's
-//   nobar     with bar: null the stage runs to the top edge, the overlays sit under the safe area, and
-//             slot('clock') keeps its element
+//   nobar     with bar: null the stage runs to the top edge, the overlays keep the bar's place (as the pack's
+//             do on its films), and slot('clock') keeps its element
+//   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
+//             layout() gives the safe areas, also when only they change; the overlays stay where they are
+//   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
+//             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
+//             when it goes
 //   toast     shown once per id, gone after its time, cleared by suspend()
 //   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
@@ -256,7 +261,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         sameBox, overStage, target, banner, toast, sheetOverCover, bannerUnderSheet, toastOverSheet, keptCover };
     });
 
-    await check('nobar: with bar: null the stage runs to the top edge, the overlays sit under the safe area, and slot(\'clock\') keeps its element', async () => {
+    await check('nobar: with bar: null the stage runs to the top edge, the overlays keep the bar\'s place, and slot(\'clock\') keeps its element', async () => {
       const s = mount({ ...own(), bar: null, tabs: null, banner: { kind: 'reconnecting' }, toast: { id: 'rejoined', text: 'Rejoined · the stage carried on', icon: 'retry' } });
       // Measured at rest: the toast drops in.
       await frames();
@@ -274,9 +279,91 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const back = s.shell.layout();
       const sameClock = s.shell.slot('clock') === clock;
       s.shell.dispose();
-      const safe = size.insets.top;
-      return { ok: first.bars.top === 0 && cover === 0 && hidden && Math.abs(banner - (safe + 8)) < 0.5 && Math.abs(toast - (safe + 10)) < 0.5 && concealed && back.bars.top === 99 && sameClock,
-        bars: first.bars, cover, banner, toast, hidden, concealed, back: back.bars, sameClock };
+      // The bar's place is where the bar ends when it comes back (99 px: the 47 px safe area and the bar's 52):
+      // the pack's toast and banner keep it on its films, below the film's clock chip (sheet 18).
+      const place = back.bars.top;
+      return { ok: first.bars.top === 0 && cover === 0 && hidden && place === 99 && Math.abs(banner - (place + 8)) < 0.5 && Math.abs(toast - (place + 10)) < 0.5 && concealed && sameClock,
+        bars: first.bars, cover, banner, toast, place, hidden, concealed, back: back.bars, sameClock };
+    });
+
+    await check('edge: with edge: true the stage and its cover fill the shell under the bar, layout() gives the safe areas, and the overlays stay where they are', async () => {
+      const toast = { id: 'rejoined', text: 'Rejoined · the stage carried on', icon: 'retry' };
+      const s = mount({ ...own(), tabs: null, edge: true, banner: { kind: 'reconnecting' }, toast });
+      await frames();
+      await Promise.all(s.q('.ms-ps-toast').getAnimations().map(a => a.finished.catch(() => null)));
+      const box = s.root.getBoundingClientRect();
+      const rect = selector => { const r = s.q(selector).getBoundingClientRect(); return [r.top - box.top, box.bottom - r.bottom, r.left - box.left, box.right - r.right].map(v => Math.round(v * 100) / 100); };
+      const whole = r => r.every(v => v === 0);
+      const top = selector => Math.round((s.q(selector).getBoundingClientRect().top - box.top) * 100) / 100;
+      const under = { stage: rect('.ms-ps-stage'), cover: rect('.ms-ps-cover') };
+      const first = s.shell.layout();
+      // The bar's glass lies over the stage: what is under a point in the bar is the bar.
+      const overBar = !!document.elementFromPoint(box.left + 40, box.top + first.safe.top + 26)?.closest('.ms-ps-tb');
+      const banner = top('.ms-ps-banner'), toastTop = top('.ms-ps-toast');
+      // No bar, still edge to edge; then edge off: the stage between the safe areas' top edge and the foot's.
+      s.shell.update({ bar: null });
+      await frames();
+      const nobar = s.shell.layout();
+      s.shell.update({ edge: false });
+      await frames();
+      const off = s.shell.layout();
+      // Edge again: a change of the safe areas alone is reported (nothing else moves).
+      s.shell.update({ edge: true });
+      await frames();
+      const before = named(s.calls, 'onLayout').length;
+      s.shell.update({ insets: { top: 20, bottom: 0 } });
+      await frames();
+      await wait(50);
+      const reported = named(s.calls, 'onLayout').slice(before).at(-1)?.[1] ?? null;
+      let refused = false;
+      try { s.shell.update({ edge: 'yes' }); } catch (error) { refused = error instanceof TypeError && /edge is true or false/.test(error.message); }
+      s.shell.dispose();
+      const { top: safeTop, bottom: safeBottom } = size.insets;
+      const ok = whole(under.stage) && whole(under.cover) && first.bars.top === 0 && first.bars.bottom === 0 && first.stage.height === size.height
+        && first.safe.top === safeTop && first.safe.bottom === safeBottom && overBar
+        && Math.abs(banner - (99 + 8)) < 0.5 && Math.abs(toastTop - (99 + 10)) < 0.5
+        && nobar.bars.top === 0 && nobar.bars.bottom === 0 && off.bars.top === 0 && off.bars.bottom === safeBottom
+        && reported?.safe.top === 20 && reported?.safe.bottom === 0 && refused;
+      return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
+    });
+
+    await check('head: a sheet\'s head action sits before Close, keeps its focus, reports onSheetAction, works while reconnecting and returns the focus when it goes', async () => {
+      const hide = { id: 'hide', icon: 'hide', label: 'Hide card' };
+      const sheet = { id: 'card', title: 'Your role', sub: 'Only on this phone', detent: 'large', head: [hide] };
+      const s = mount({ ...own(), sheet });
+      const head = s.q('.ms-ps-sheet-head');
+      const order = [...head.children].map(c => c.classList.contains('ms-ps-sheet-title') ? 'title' : c.dataset.intent);
+      const button = s.q('[data-intent="sheet-head"]');
+      const label = button?.getAttribute('aria-label');
+      button.focus();
+      // Kept, with the focus, through updates of the sheet's words and the action's own.
+      s.shell.update({ sheet: { ...sheet, title: 'Your role · Doctor' } });
+      s.shell.update({ sheet: { ...sheet, head: [{ ...hide, label: 'Hide your card' }] } });
+      const kept = s.q('[data-intent="sheet-head"]') === button && document.activeElement === button && button.getAttribute('aria-label') === 'Hide your card';
+      button.click();
+      const tapped = JSON.stringify(s.calls.filter(c => c[0] === 'onSheetAction'));
+      // While reconnecting it is still taken (this phone's own, as Back and Close); a footer action is not.
+      s.shell.update({ status: 'stale', sheet: { ...sheet, actions: [{ id: 'send', label: 'Send' }] } });
+      button.click();
+      s.q('.ms-ps-sheet-foot button').click();
+      const stale = s.calls.filter(c => c[0] === 'onSheetAction').map(c => c[1]).join(',');
+      // Unavailable with a reason: refused, focusable, described.
+      s.shell.update({ status: 'live', sheet: { ...sheet, head: [{ ...hide, enabled: false, reason: 'Not while the film plays' }] } });
+      const before = s.calls.filter(c => c[0] === 'onSheetAction').length;
+      button.click();
+      const off = button.getAttribute('aria-disabled') === 'true' && describedBy(button) === 'Not while the film plays' && s.calls.filter(c => c[0] === 'onSheetAction').length === before;
+      // Gone while focused (the card hidden): the focus returns, and says which control ended.
+      button.focus();
+      s.shell.update({ sheet: { ...sheet, head: [] } });
+      // The policy says which control ended in a microtask, once the focus is on the shell.
+      await Promise.resolve();
+      await Promise.resolve();
+      const gone = !s.q('[data-intent="sheet-head"]') && document.activeElement === s.root;
+      const returned = JSON.stringify(named(s.calls, 'onFocusReturn').at(-1)?.[1] ?? null);
+      s.shell.dispose();
+      const ok = order.join(',') === 'title,sheet-head,sheet-close' && label === 'Hide card' && kept && tapped === '[["onSheetAction","hide","card"]]'
+        && stale === 'hide,hide' && off && gone && returned === '{"intent":"sheet-head","value":"hide"}';
+      return { ok, order, label, kept, tapped, stale, off, gone, returned };
     });
 
     await check('toast: shown once per id, gone after its time, and cleared by suspend()', async () => {
