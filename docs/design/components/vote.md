@@ -1,6 +1,6 @@
 # The ballot and its result window: Designer's runtime component
 
-**Version:** `vote-0.1.0`. **Status (15 November 2026):** built on the shared kit (`component-kit-0.1.0`) to the interface proposed in #267, for the Lead Designer's review and then Frontend's on #4. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) and the room scene (#261).
+**Version:** `vote-0.1.0`. **Status (15 November 2026):** built on the shared kit (`component-kit-0.1.0`, at `07596ba`) to the interface proposed in #267, for the Lead Designer's review and then Frontend's on #4. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) and the room scene (#261).
 - **Still waiting on the kit:** the cells on the result's paper card. Until then the result window's cells draw in the kit's dark form; see [Not in this version yet](#not-in-this-version-yet).
 
 **What it is:** the phone's ballot during a Jail vote or a Captain election, and the five-second result window after it, as the phone pack draws them (sheets 35–38 and 56; #222 item 4). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
@@ -210,7 +210,6 @@ Listed, not omitted:
 | What | Waiting on |
 | --- | --- |
 | The cells on the result's paper card: paper-shade cells, 74 px portraits and their padding, ink seat numbers, the chosen cell's #FBE7A1, "You" in the top-right beside the count. They draw in the kit's dark form today, and the names in the grid are dark on dark. | The kit (asked of the Lead): a `data-ms-surface="paper"` form, which the result's body already carries |
-| The glass greys inside the ballot. The ballot's root is an `.ms-kit`, whose tokens reset the glass's lighter greys inside the shell's sheet. | The kit (asked of the Lead) |
 | The reconnecting banner over a docked sheet. It sits under the ballot's sheet (`390x844-jail-stale.jpg`). | The shell (asked of the Lead) |
 | The window's arrival | Motion & Cinematics |
 | The threshold and zero-vote candidates in the projection | Integration and Backend (questions 1 and 2 above) |
@@ -222,13 +221,13 @@ Listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/vote.test.mjs` | 10 of 10: the runtime-safe graph, every style scoped (and kit controls only placed and sized), the pinned pack unchanged, the pack's words, no claim beyond the tally, each cell's rules, the sheet's footer, the inputs' refusals, the privacy rules and the check's record |
-  | `npm run test:design` | 390 of 390 |
+  | `npm run test:design` | 392 of 392 |
   | `npm run test:tooling` | 337 of 337 |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/vote-check.mjs`:** recorded on `99f7aeb`, with the source clean. It exits non-zero until the kit's paper cells land: the 7 result frames below.
-  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's and the shell's.
+- **`node design/tools/vote-check.mjs`:** recorded on `8530551`, with the source clean. It exits non-zero until the kit's paper cells land: the 7 result frames below.
+  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's and the shell's.
   - **Captures:** 46 of 46 pass, each drawing what its state asks: every seat's cell state, the sheet's words and footer or the result's headline and line, and the room's crew behind.
     - Twenty states at 390 × 844 and 430 × 932.
     - Sheet 56's six at 320 × 568 with 200 % text.
