@@ -165,6 +165,7 @@ test('inputs are checked, and refused with a reason', () => {
   refuses({ sheet: { title: 'Pass' } }, /A sheet is \{ id, title/);
   refuses({ insets: { top: '47px' } }, /insets are null/);
   refuses({ edge: 'yes' }, /edge is true or false/);
+  refuses({ backdrop: 'paper' }, /backdrop is scene or canvas/);
   refuses({ sheet: { id: 'card', title: 'Your role', head: [{ id: 'hide' }] } }, /sheet\.head\[0\] is \{ id, icon, label \}/);
   refuses({ sheet: { id: 'card', title: 'x', head: [{ id: 'a', icon: 'hide', label: 'A' }], actions: [{ id: 'a', label: 'A' }] } }, /each need their own id/);
   // Defaults: a live, interactive phase bar, no tab bar, nothing over the stage.
@@ -175,6 +176,7 @@ test('inputs are checked, and refused with a reason', () => {
   assert.equal(d.tabs, null);
   assert.equal(d.shape, 'none');
   assert.equal(d.edge, false, 'the stage between the bars unless edge is asked for');
+  assert.equal(d.backdrop, 'scene', 'the room view\'s space behind the bars unless the canvas is asked for');
   // The checked forms are stable: checking them again changes nothing.
   const once = live();
   assert.deepEqual(nextPhoneShellInput(once, {}), once);
@@ -248,7 +250,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'nobar', 'edge', 'head', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'nobar', 'edge', 'backdrop', 'head', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length >= 7 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   assert.deepEqual(record.agree.problems, [], 'agreement: no page problem');
 });

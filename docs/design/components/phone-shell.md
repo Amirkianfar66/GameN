@@ -101,6 +101,7 @@ shell.dispose();             // removes the element and its listeners
 | `versions` | Public | The match's art versions, for the portraits |
 | `bar` | Public | The top bar's input, below. `null`: no top bar at all, as the role stage's film. The stage then runs to the top edge, and the target bar, the banner, the toast and a large sheet keep the bar's place |
 | `edge` | Phone | `true`: the stage and the cover fill the whole shell, edge to edge, under the safe areas and any bar or tabs, for a full-screen film or poster. Default `false`: the stage between the bars |
+| `backdrop` | Phone | What lies behind the bars' glass and wherever nothing is drawn. `'scene'` (default): the room view's space, `#07090F`, as the pack's `.scene` lies under its bars. `'canvas'`: the phone's canvas, `#10141C` (the pack's `.ph`), for a screen with no room: the role stage, boarding, the menu, the lobby |
 | `bar.kind` | Public | `'turn'`, `'phase'` or `'pair'` |
 | `bar.who` | Public | Turn: `{ seat, name, character }` of the active seat |
 | `bar.self` | This viewer's | Turn: whether it is this viewer's turn: "Your turn", amber |
