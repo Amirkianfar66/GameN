@@ -70,7 +70,7 @@ const EXPECT = {
   concealed: s => s.view === 'card' && s.back === 'Role hidden' && s.name === null && s.timer === '0:21' && s.note === 'Your film starts in 0:11',
   reduced: s => s.view === 'film' && s.chip === '0:07' && s.film > 0 && s.motion === 'reduced',
   missing: s => s.view === 'card' && s.missing && s.name === 'Doctor' && s.note === 'Film unavailable · your card stays up until Ready',
-  late: s => s.view === 'film' && s.chip === '0:05' && s.toast === 'Rejoined · the stage carried on' && s.toastOnTop,
+  late: s => s.view === 'film' && s.chip === '0:05' && s.toast === 'Rejoined · the stage carried on' && s.toastOnTop && s.toastClearOfChip,
   waiting: s => s.view === 'after' && cardUp(s) && s.stamp === 'Ready' && s.note === '6 of 9 ready' && s.readyMode === 'done',
   skipped: s => s.view === 'card' && cardUp(s) && s.note === 'Film skipped on this phone · the stage keeps time',
   stale: s => s.banner === 'Connection lost' && s.status === 'stale' && cardUp(s),
@@ -101,6 +101,8 @@ try {
           toast: t('.ms-ps-toast > span:last-child'), banner: t('.ms-ps-banner b'), pictures,
           // A toast counts only where it is on top, not hidden under the film.
           toastOnTop: (() => { const n = q('.ms-ps-toast'); if (!n) return false; const r = n.getBoundingClientRect(); return n.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); })(),
+          // Sheet 18 draws the toast under the film's clock chip, never across it.
+          toastClearOfChip: (() => { const a = q('.ms-ps-toast')?.getBoundingClientRect(), b = q('.ms-rst-chip')?.getBoundingClientRect(); return !!a && !!b && (a.top >= b.bottom || a.right <= b.left); })(),
           picturesDrawn: pictures.every(p => p.startsWith('url(')), layout: window.__roleStage.mounted[0]?.layout?.() ?? null };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));

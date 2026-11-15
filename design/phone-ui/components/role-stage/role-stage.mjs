@@ -138,6 +138,8 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
 
   let state = nextRoleStageInput(ROLE_STAGE_DEFAULTS, input);
   let disposed = false, suspended = false, lastLayout = null, shownView = null, fadeTimer = null;
+  // Whether the shell's bar is away for the film, and the bar's height to hold the card still meanwhile.
+  let barAway = false, barTop = null;
   const on = Object.fromEntries(['onReady', 'onSkipFilm', 'onShowRole', 'onRetry', 'onLayout', 'onFocusReturn'].map(k => [k, handlers[k] ?? null]));
 
   // ── The parts ───────────────────────────────────────────────────────
@@ -150,7 +152,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   // Skip film: the kit's small secondary button with the skip icon, as the pack draws it (sheet 17).
   const skip = kit.button({ label: STAGE_WORDS.skip, kind: 'secondary', small: true, icon: 'skip', intent: 'skip-film', extra: ['ms-rst-skip'] });
   film.append(picture, chip, skip);
-  root.append(shellHost, film);
+  root.append(shellHost);
   host.append(root);
   // The kit's control policy: refused while reconnecting, backgrounded or not interactive, with the
   // banner's words as the reason; Frontend's reason for an unavailable control.
@@ -163,7 +165,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
 
   // The phone shell draws the top bar, the reconnecting banner and the toast; the stage's own parts sit
   // in its stage, between the bars.
-  const shell = mountPhoneShell(shellHost, shellInput(), { onRetry: () => { if (!disposed) on.onRetry?.(); }, onLayout: () => reportLayout() });
+  const shell = mountPhoneShell(shellHost, shellInput(), { onRetry: () => { if (!disposed) on.onRetry?.(); }, onLayout: () => { placeBelow(); reportLayout(); } });
   const body = el('div', 'ms-rst-body');
   const strip = el('div', 'ms-rst-strip', { role: 'progressbar', 'aria-label': STAGE_WORDS.strip, 'aria-valuemin': '0' });
   const stripCard = el('span', 'ms-rst-seg'), stripFilm = el('span', 'ms-rst-seg');
@@ -177,7 +179,9 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   const ready = kit.button(readyButton('ready'));
   foot.append(note, ready);
   body.append(strip, cardArea, foot);
-  shell.stage.append(body);
+  // The film lives in the shell's stage, above the card: in the film's view the shell draws no top bar
+  // (bar: null), so the film runs full-bleed and the shell's toast and banner stay above it (sheet 18).
+  shell.stage.append(body, film);
   // The card's Show role: its own policy, refused when the stage takes no tap at all. When Show ends as the
   // card turns face up, the focus is on the card, and the stage passes on which control ended.
   const card = mountRoleCard(cardArea, { face: 'down' }, {
@@ -191,7 +195,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
     return {
       status: state.status === 'stale' ? 'stale' : 'live',
       interactive: state.interactive, reducedMotion: state.reducedMotion, insets: state.insets, viewer: state.viewer,
-      bar: { kind: 'phase', icon: 'card', title: STAGE_WORDS.title, sub: STAGE_WORDS.sub, timer: showClock ? { remainingMs: c.endsAtMs - c.elapsedMs, urgentAtMs: -1 } : null },
+      bar: barAway ? null : { kind: 'phase', icon: 'card', title: STAGE_WORDS.title, sub: STAGE_WORDS.sub, timer: showClock ? { remainingMs: c.endsAtMs - c.elapsedMs, urgentAtMs: -1 } : null },
       tabs: null, banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
       toast: state.status === 'concealed' ? null : state.toast,
     };
@@ -208,6 +212,14 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   root.addEventListener('click', onClick);
 
   // ── Render ──────────────────────────────────────────────────────────
+  /** Takes the shell's bar away for the film, or gives it back, holding the card where it was. */
+  function setBarAway(away) {
+    if (away === barAway || disposed) return;
+    if (away) barTop = shell.layout()?.bars.top ?? barTop;
+    barAway = away;
+    body.style.top = away && barTop !== null ? `${barTop}px` : '';
+    shell.update(shellInput());
+  }
   function paintFilm() {
     const showing = state.view === 'film' && state.status !== 'concealed';
     // The game's Reduce motion, or the device's.
@@ -217,10 +229,20 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       // The film fades in over the card, and out again; its element stays for the stage's life, so the
       // player Frontend mounts in it is never lost. Skip film leaves with it, and if it held the focus,
       // the focus comes to the stage, and onFocusReturn says which control ended.
+      // The bar goes once the film is opaque, and comes back before it fades, so the top of the screen
+      // only ever changes under an opaque film. A stage that opens on the film shows it at once.
+      const first = shownView === null;
       const hadFocus = !showing && film.contains(doc.activeElement);
       film.dataset.shown = showing ? '' : 'leaving';
+      if (first && showing) { film.dataset.instant = ''; win.requestAnimationFrame(() => win.requestAnimationFrame(() => { delete film.dataset.instant; })); }
       if (fadeTimer) win.clearTimeout(fadeTimer);
-      fadeTimer = win.setTimeout(() => { fadeTimer = null; if (film.dataset.shown === 'leaving') film.dataset.shown = 'no'; }, ms);
+      fadeTimer = null;
+      if (showing && first) setBarAway(true);
+      else if (showing) fadeTimer = win.setTimeout(() => { fadeTimer = null; if (film.dataset.shown === '') setBarAway(true); }, ms);
+      else {
+        setBarAway(false);
+        fadeTimer = win.setTimeout(() => { fadeTimer = null; if (film.dataset.shown === 'leaving') film.dataset.shown = 'no'; }, ms);
+      }
       attr(film, 'aria-hidden', showing ? null : 'true');
       film.inert = !showing;
       root.dataset.view = showing ? 'film' : state.view === 'after' ? 'after' : 'card';
@@ -266,6 +288,16 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       if (i && Number.isFinite(i[side])) root.style.setProperty(`--ms-rst-safe-${side[0]}`, `${i[side]}px`);
       else root.style.removeProperty(`--ms-rst-safe-${side[0]}`);
     }
+    placeBelow();
+  }
+  /**
+   * How far the shell's stage stops above the screen's foot (its bottom safe area, with no tab bar): Skip
+   * film sits 14 px above the safe area, measured from the screen's foot, wherever the stage ends.
+   */
+  function placeBelow() {
+    const below = shell.layout()?.bars.bottom ?? 0;
+    const value = `${below}px`;
+    if (root.style.getPropertyValue('--ms-rst-below') !== value) root.style.setProperty('--ms-rst-below', value);
   }
   function render() {
     if (disposed) return;

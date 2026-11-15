@@ -10,7 +10,8 @@
 //             role reported; this viewer's inputs dropped, also when the viewer changes
 //   time      the clock and the strip show what they are given, and never count by themselves; the strip
 //             follows the server's split (an 18/12 case), never a fixed 20/10
-//   film      the film's element stays for the stage's life; Skip film works only in the film's view
+//   film      the film's element stays for the stage's life; Skip film works only in the film's view; the
+//             shell's bar leaves only under an opaque film and comes back before it fades, the card still
 //   layout    the card's space and the film's are measured, and a change reported
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    the crossfade is 700 ms, or 80 ms with Reduce motion (the game's, or the device's)
@@ -209,7 +210,7 @@ export async function runRoleStageProbe({ sizes, cardOf }) {
       return { ok: hidden && shown && concealed && kept && named(s.calls, 'onSkipFilm').length === 1, hidden, shown, concealed, kept, skips: named(s.calls, 'onSkipFilm').length };
     });
 
-    await check('layout: the card\'s space and the film\'s are measured, and a change of size or insets reported', async () => {
+    await check('layout: the card\'s space and the film\'s are measured, a change of size or insets reported, and the film runs from the top edge with the card held still', async () => {
       const s = mount(own(12000));
       await frames();
       const first = s.stage.layout();
@@ -220,12 +221,18 @@ export async function runRoleStageProbe({ sizes, cardOf }) {
       await frames(); await frames();
       const insets = s.stage.layout();
       const reports = named(s.calls, 'onLayout').length;
+      // In the film's view the shell's bar is away: the film runs from the top edge to the stage's foot,
+      // and the card holds where it was under the film.
+      s.stage.update({ insets: size.insets, view: 'film', film: 'playing', clock: clock(21000) });
       frame.style.height = `${size.height}px`;
+      await wait(800); await frames();
+      const film = s.stage.layout();
       s.stage.dispose();
       return {
-        ok: first.size.width === 390 && first.film.height === 844 && first.card.height > 500 && smaller.card.height < first.card.height
-          && insets.bars.top < first.bars.top && reports >= 2,
-        first, smaller, insets, reports,
+        ok: first.size.width === 390 && first.film.height === 844 - first.bars.top - first.bars.bottom && first.card.height > 500 && smaller.card.height < first.card.height
+          && insets.bars.top < first.bars.top && reports >= 2
+          && film.bars.top === 0 && film.film.height === 844 - film.bars.bottom && film.card.height === first.card.height,
+        first, smaller, insets, film, reports,
       };
     });
 
@@ -239,6 +246,25 @@ export async function runRoleStageProbe({ sizes, cardOf }) {
       return { ok: frame.children.length === 0 && s.stage.layout() === null && named(s.calls, 'onReady').length === 0, left: frame.children.length };
     });
   }
+
+  await check('film: the shell\'s bar leaves only once the film is opaque, comes back before it fades out, and the card never moves', async () => {
+    const ms = deviceReduced ? CROSSFADE_REDUCED_MS : CROSSFADE_MS;
+    const s = mount(own(19900));
+    await frames();
+    const bar = () => { const n = s.q('.ms-ps-tb'); return !!n && getComputedStyle(n).display !== 'none' && n.getBoundingClientRect().height > 0; };
+    const cardTop = () => Math.round(s.q('.ms-rc-card').getBoundingClientRect().top * 100) / 100;
+    const before = { bar: bar(), card: cardTop() };
+    s.stage.update({ view: 'film', film: 'playing', clock: clock(20000) });
+    await frames();
+    const fading = { bar: bar(), card: cardTop() };
+    await wait(ms + 150); await frames();
+    const shown = { bar: bar(), card: cardTop() };
+    s.stage.update({ view: 'after', clock: clock(30000), ready: { mode: 'ready', enabled: true } });
+    await frames();
+    const leaving = { bar: bar(), card: cardTop() };
+    s.stage.dispose();
+    return { ok: before.bar && fading.bar && !shown.bar && leaving.bar && [fading, shown, leaving].every(x => x.card === before.card), ms, before, fading, shown, leaving };
+  });
 
   await check(`motion: the film crossfades in ${deviceReduced ? 80 : 700} ms${deviceReduced ? ' (the device\'s Reduce motion, emulated)' : ', and 80 ms with the game\'s Reduce motion'}`, async () => {
     const results = [];
