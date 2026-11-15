@@ -6,6 +6,7 @@ import { readPregameProductionConsumerApproval, acceptsPregameProductionFile } f
 import { readPregameSourceApproval, verifyPregameRuntimePorts, PREGAME_APPROVAL, PREGAME_APPROVAL_SHA256 } from './pregame-runtime-ports.mjs';
 import {readFoodConsumerSource, FOOD_CONSUMER_SOURCE, FOOD_CONSUMER_SOURCE_SHA256} from './food-consumer-source.mjs';
 import {prepareFoodSupplyArt, FOOD_STATIC_ART, FOOD_STATIC_ART_SHA256} from './food-supply-art.mjs';
+import {PLANET_ART_RELEASES} from '../packages/contracts/dist/index.js';
 
 export const RUNTIME_ART_VERSION = 'design-0.5.0';
 export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.5.0.json';
@@ -89,13 +90,20 @@ const releases = {
 // and historical manifests keep their identities; new consumers still require review.
 releases[PREGAME_ART_VERSION] = { ...releases[CREW_ART_VERSION],
   manifestSha256: 'c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d',
-  baseManifest: CREW_ART_MANIFEST, pregame: true };
+  baseManifest: CREW_ART_MANIFEST };
 releases[FOOD_ART_VERSION] = { ...releases[PREGAME_ART_VERSION],
   manifestSha256: '26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b',
-  baseManifest: PREGAME_ART_MANIFEST, food: true,
+  baseManifest: PREGAME_ART_MANIFEST,
   gameplay: {protocolVersion:3, engineVersion:'planet-game-1.4.0',
     rulesetVersion:'in-person-planet-food-task-2026-11-12',
     rulesetHash:'7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333'} };
+
+// Capability inheritance is shared with consumers, not a second build-only version list.
+for (const [version, release] of Object.entries(releases)) {
+  const capabilities = PLANET_ART_RELEASES[version]?.capabilities;
+  release.pregame = capabilities?.roleFilms === true;
+  release.food = capabilities?.food === true;
+}
 
 /** Build-time only. Match pins name this immutable art set, not the Hosting digest. */
 export function readRuntimeArtRelease(root, version = RUNTIME_ART_VERSION) {
