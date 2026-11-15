@@ -1,7 +1,6 @@
 # The ballot and its result window: Designer's runtime component
 
-**Version:** `vote-0.1.0`. **Status (15 November 2026):** built on the shared kit (`component-kit-0.1.0`, at `07596ba`) to the interface proposed in #267, for the Lead Designer's review and then Frontend's on #4. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) and the room scene (#261).
-- **Still waiting on the kit:** the cells on the result's paper card. Until then the result window's cells draw in the kit's dark form; see [Not in this version yet](#not-in-this-version-yet).
+**Version:** `vote-0.1.0`. **Status (15 November 2026):** built on the shared kit (`component-kit-0.2.0`, at `b86511a`) to the interface proposed in #267, reviewed by the Lead Designer with the decisions below applied, for Frontend's review on #4. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265), whose cover layer holds the result window, and the room scene (#261).
 
 **What it is:** the phone's ballot during a Jail vote or a Captain election, and the five-second result window after it, as the phone pack draws them (sheets 35–38 and 56; #222 item 4). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -49,7 +48,7 @@ Elsewhere:
 - **The unit test:** `packages/design-tokens/test/vote.test.mjs`.
 
 **Used unchanged:**
-- the kit (`kit/kit.mjs`, `kit/kit.css`): cells, the 3 × 3, stamp, pill, group note and the control policy;
+- the kit (`kit/kit.mjs`, `kit/kit.css`): cells, the 3 × 3, stamp, pill, group note and the control policy, and on the result's body the kit's paper card (`data-ms-surface="paper"`: paper-shade cells, 74 px portraits, the chosen cell gold, "You" top-right beside a count, the 8 px gap);
 - `RESULT_ART` from `apps/game/hosted/scene-drawing/phone-kit-art.mjs`: the pack's own result pictures, already runtime-safe;
 - through the kit: `icons.mjs` and `crew-runtime.mjs`'s `crewPortraitVariable`.
 
@@ -78,7 +77,7 @@ result.dispose();                // when the phase leaves VOTE_RESULT
 
 - **Synchronous, with no timers:** both survive any number of updates. `suspend()` and `resume()` exist, as on the shell; a suspended ballot takes no taps.
 - **The ballot lives in the shell's sheet body.** When the shell drops the sheet (it is concealed, the sheet closes or another opens), the body goes with it: dispose the ballot then, and mount it again in the new `sheetBody` when the ballot's sheet comes back.
-- **The result window** mounts in the shell's cover layer, `shell.slot('cover')`: exactly over the stage, above the room scene's tags and presses, under the shell's target bar, chip, banner, toast and sheet (the Lead's decision; it comes with the shell's next update on #265). It sits inset 8 px under the top bar, 10 px above the tabs and 10 px from each side, as the pack draws it, and takes the taps over it, so the room under it takes none. Until the cover lands, the preview mounts it in `shell.stage`.
+- **The result window** mounts in the shell's cover layer, `shell.slot('cover')`: exactly over the stage, above the room scene's tags and presses, under the shell's target bar, chip, banner, toast and sheet (the Lead's decision). It sits inset 8 px under the top bar, 10 px above the tabs and 10 px from each side, as the pack draws it, and takes the taps over it, so the room under it takes none.
 - **The result's clock:** pass `urgentAtMs: -1` to the shell's timer. The pack's result ring is never amber (sheets 37 and 38).
 
 ## Inputs
@@ -209,8 +208,6 @@ Listed, not omitted:
 
 | What | Waiting on |
 | --- | --- |
-| The cells on the result's paper card: paper-shade cells, 74 px portraits and their padding, ink seat numbers, the chosen cell's #FBE7A1, "You" in the top-right beside the count. They draw in the kit's dark form today, and the names in the grid are dark on dark. | The kit (asked of the Lead): a `data-ms-surface="paper"` form, which the result's body already carries |
-| The shell's cover layer, `slot('cover')`, where the result window mounts | The shell's next update (the Lead, #265) |
 | The window's arrival | Motion & Cinematics |
 | The threshold, zero-vote candidates and ineligibility reasons in the projection | Integration and Backend (questions 1–3 above) |
 
@@ -220,25 +217,23 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/vote.test.mjs` | 10 of 10: the runtime-safe graph, every style scoped (and kit controls only placed and sized), the pinned pack unchanged, the pack's words, no claim beyond the tally, each cell's rules, the sheet's footer, the inputs' refusals, the privacy rules and the check's record |
-  | `npm run test:design` | 392 of 392 |
-  | `npm run test:tooling` | 337 of 337 |
+  | `packages/design-tokens/test/vote.test.mjs` | 10 of 10: the runtime-safe graph, every style scoped (and kit controls only placed and sized), the pinned pack unchanged, the pack's words, no claim beyond the tally, each cell's rules (T3), the sheet's footer, the inputs' refusals, the privacy rules and the check's record |
+  | `npm run test:design` | All pass (counts in #267) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/vote-check.mjs`:** recorded on `8188ef3`, with the source clean. It exits non-zero until the kit's paper cells land: the 7 result frames below.
-  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's and the shell's.
+- **`node design/tools/vote-check.mjs`:** recorded on `dfdbb70`, with the source clean; every check passes.
+  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's and the shell's. The page keeps the browser's 16 px root, as the game does.
   - **Captures:** 46 of 46 pass, each drawing what its state asks: every seat's cell state, the sheet's words and footer or the result's headline and line, and the room's crew behind.
     - Twenty states at 390 × 844 and 430 × 932.
     - Sheet 56's six at 320 × 568 with 200 % text.
   - **The lifecycle probe** (`preview/probe.mjs`): 11 of 11 checks pass.
-    - **As the page comes (10):** select, refused, stale, focus, private, result, words, compact, dispose and motion.
+    - **As the page comes (10):** select, refused, stale, focus, private, result (including the window over the room scene's tags in the shell's cover), words, compact, dispose and motion.
     - **With the device's Reduce motion emulated (1):** motion.
-  - **The agreement with the pinned pack** (`preview/agree.mjs`): 16 of 23 frames agree to within half a pixel.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 23 of 23 frames agree to within half a pixel.
     - **What is compared:** each frame drawn by the pack's own `screens-vote.mjs` beside the component, from the same fixtures: the words, each seat's state, note, count, "You" and mark, and the boxes of every part and badge.
+    - **Agree:** all ten ballot frames and all seven result frames at 390 × 844, and all six of sheet 56 at 320 × 568 with 200 % text.
     - **The one accepted difference, T3:** before comparing, the pack's status words under a cell that can't be chosen are amended in its drawing (never its source): "Not available now" on the ballot, none on the result. The record lists all 47 amendments.
-    - **Agree:** all ten ballot frames at 390 × 844, and all six of sheet 56 at 320 × 568 with 200 % text.
-    - **Differ in boxes only:** the seven result frames at 390 × 844. Each cell is 22 px taller, with the kit's 92 px portrait and padding against the paper card's 74 px, and "You" sits on the count, top-left. Not one word, state or count differs. Both wait on the kit's paper form; `vote.test.mjs` holds that list, which can only shrink.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.

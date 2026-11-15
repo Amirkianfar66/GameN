@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/vote-check.mjs",
   "component": "design/phone-ui/components/vote",
-  "sourceCommit": "8188ef307ccd5baf007d25e635e961e8c477e5a3",
+  "sourceCommit": "dfdbb70732b7ec8e7781bebfe3e36bc4b65a9b2b",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/jail-open": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-open.jpg",
-      "sha256": "0fd2f257d952bb0f14922fad1377dc4a02a6688b23a5ce77276e4aef6400d333",
+      "sha256": "d23c5e68fe7ec86097618a7216443dfac22c370b99f91f25795a1f807d01178f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -93,14 +93,14 @@
     },
     "430x932/jail-open": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-open.jpg",
-      "sha256": "f341d85435ef27469d6dce5bcd2e46d69bf3e099eebbbef3e0955b056d301a52",
+      "sha256": "601ed7b184d82d0417fe22a2b71d4c7493c1ce1c3b935dbecda1c0bf7fcce24c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -147,14 +147,14 @@
     },
     "390x844/jail-selected": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-selected.jpg",
-      "sha256": "7db5ae768005b50a4de30c392b91f66378756cc4a7888f03e7f0bf455848f9e0",
+      "sha256": "dc039e708ea5c8c14b4a15c74ba1755498ae0cdbce80a5cecfb6a4e685ca5b69",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -201,14 +201,14 @@
     },
     "430x932/jail-selected": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-selected.jpg",
-      "sha256": "11aaec0036b6e5c70c8f4faee6d05e616b305cc568c39a04e63c541f32d34fbb",
+      "sha256": "d823dbea6ef0c4b199476d8c34f7d3c9be66a0c57bd47ea12e040e82dbe723da",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -255,14 +255,14 @@
     },
     "390x844/jail-submitted": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-submitted.jpg",
-      "sha256": "e292edd339765cb9dd53952982958abd4c72cae1bfdd76b1740f1f97ed872902",
+      "sha256": "7f5ad571c11f1de5af5305d0402b734b4ea24348755ee6ccf31897fb89165ed6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -309,14 +309,14 @@
     },
     "430x932/jail-submitted": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-submitted.jpg",
-      "sha256": "187d4f16d8b316058ac5e9125b8a49ef541581a65db65cde903e4634fa02ec3f",
+      "sha256": "1f595bb1f3c27faf3eada6bda536bd6239b92b51972e4561a11fba437fb27757",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -363,14 +363,14 @@
     },
     "390x844/jail-abstained": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-abstained.jpg",
-      "sha256": "8c3f2ad54bd545e33c4acb55fc29b80ab0222ee6ac4001951a47f5898c66583b",
+      "sha256": "c0ed2d09225e01771d31e2edf1fe554ce31f67a761418c54b595dfec7039d6f0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -417,14 +417,14 @@
     },
     "430x932/jail-abstained": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-abstained.jpg",
-      "sha256": "3ea0ab10299056ee0b58d5b5ed132a4d1132f4ee5a9cfe6bed76e05f4b5ae0f1",
+      "sha256": "ddcce22fb19a722fbdc88b6f04ea789718f727e1d3885cbd122b82c8f7a02831",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -471,14 +471,14 @@
     },
     "390x844/jail-closed": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-closed.jpg",
-      "sha256": "74bb88e2d71abcc36ac7cf338994204a1d3efed0f94697dbdb344849e06e39b6",
+      "sha256": "d567a514ef8d4d10dd282e6ef982e93b82cbc2825e6948e0e2285beeda72401e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -525,14 +525,14 @@
     },
     "430x932/jail-closed": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-closed.jpg",
-      "sha256": "a1a4e160a2051f9f20fb19109577985404fe8dab147db41e18072559431f1b8d",
+      "sha256": "6efdbb9b4e0033c9a3e8793ed153bd610e9144654d92b298a6710e31f2ff3b35",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -579,14 +579,14 @@
     },
     "390x844/captain-open": {
       "file": "design/phone-ui/components/vote/review/390x844-captain-open.jpg",
-      "sha256": "88c2deb1f04787acb21b1fb443d4f9587c51628b3e76624ccfd10cd86bb223f3",
+      "sha256": "48cdfa753a8566a3b46d1b54aca6e1c539006105074ef94d7af62260bea083d4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -633,14 +633,14 @@
     },
     "430x932/captain-open": {
       "file": "design/phone-ui/components/vote/review/430x932-captain-open.jpg",
-      "sha256": "703d9bff75ad066b538bccc6c1e3e0b8009ece425937a5b12b6c852650ebd38e",
+      "sha256": "ede0bf09369c6846c5926c0f591a8e42bdfbdfa19dab8a8f0135ce37ec86ed1a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -687,14 +687,14 @@
     },
     "390x844/captain-runoff": {
       "file": "design/phone-ui/components/vote/review/390x844-captain-runoff.jpg",
-      "sha256": "0d4c67180aa8965772bbd7cc5d1dba3659c2e567d6c5115bf4c39c25b61d98fe",
+      "sha256": "269eb7d7b640128a9b75d5b44ea3bb04776dff2d4966e2b8e31d3191b8b63fda",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -741,14 +741,14 @@
     },
     "430x932/captain-runoff": {
       "file": "design/phone-ui/components/vote/review/430x932-captain-runoff.jpg",
-      "sha256": "9b106f37115a4ecd19a9f768a9ce893e8673c2cfa0d82c00167e4b858bc9aad7",
+      "sha256": "85e024e7af2954e91f7fb99ee13cfe21f9aa1391fd4dc5353d9d005a4bbabc2c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -795,14 +795,14 @@
     },
     "390x844/captain-8-selected": {
       "file": "design/phone-ui/components/vote/review/390x844-captain-8-selected.jpg",
-      "sha256": "621ad3f0e89e02fc1e93b576ad6aeb71d15a419058cb007af278b30b757ecba1",
+      "sha256": "5740ce1fb272c73517e192dcc80f2f6b0f2782e480d99861a504412a505dc338",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -848,14 +848,14 @@
     },
     "430x932/captain-8-selected": {
       "file": "design/phone-ui/components/vote/review/430x932-captain-8-selected.jpg",
-      "sha256": "23299e7fee5b818a5724ef61e11c56860d8c13f9dda694923ffc4a12c0a96d96",
+      "sha256": "876a259961605845242c7ebe56b57bc11af3454efff82ddc59a8f9b90cb5ff59",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -901,14 +901,14 @@
     },
     "390x844/jail-7": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-7.jpg",
-      "sha256": "646355743e60452b111ec3ca50656969d1cc2adf4b791be41914b631c4532324",
+      "sha256": "8575006ca783b9fd71504639779211ac54545a49faebd61b1aa77fc5090c0aa4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -953,14 +953,14 @@
     },
     "430x932/jail-7": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-7.jpg",
-      "sha256": "ccd19ba652c4525c7af0d47dfdb51d8bb4bed2d27b608756936d485391118979",
+      "sha256": "e44ec18a83d316b2655fd8d5c07ea27e41003ef9670a0e41f97d4d1a4de76714",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1005,14 +1005,14 @@
     },
     "390x844/jail-cannot": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-cannot.jpg",
-      "sha256": "8d2d8dce53039862448ed64720b5acc0356b55787c7d3369430fcfa8fb80a842",
+      "sha256": "c0fc92221d7f1368d482014e6a2adc737fa193a384253ce62a4d14c6eac8f39b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1059,14 +1059,14 @@
     },
     "430x932/jail-cannot": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-cannot.jpg",
-      "sha256": "d003a05454313de0f43c4a913dd09229f41e8b0fddcb577234bea31f7c4138ac",
+      "sha256": "4be2ddff86dd35411ce6312deed980a56b607b7c6362c75d51f331c7ad5963d5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1113,14 +1113,14 @@
     },
     "390x844/result-elected": {
       "file": "design/phone-ui/components/vote/review/390x844-result-elected.jpg",
-      "sha256": "9b354dd05572d9f7b61975bcccf0ec535f363747d875bb3cdda8a2c576b410c0",
+      "sha256": "8f75667a9ba6d942c5798acf854c52174d8e1f609290721f8112617833760c17",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1167,14 +1167,14 @@
     },
     "430x932/result-elected": {
       "file": "design/phone-ui/components/vote/review/430x932-result-elected.jpg",
-      "sha256": "21957046cf6dca289ab0a031fa090ad41ed5daecc56d161881a06776b1177ccf",
+      "sha256": "68154a5afebc0f819436f1909e401d62ee02cf3e896a1a7235a65f1f86bd5a82",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1221,14 +1221,14 @@
     },
     "390x844/result-runoff": {
       "file": "design/phone-ui/components/vote/review/390x844-result-runoff.jpg",
-      "sha256": "6f5ae90287d5878c2d01fdb307e1bb79d4b2758fff8257c6afe2e0f7e53f8898",
+      "sha256": "0546441b5ee3b1d5720b41aad1d1a4f2f6ccdf4bab95d4ab427eaed802574749",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1275,14 +1275,14 @@
     },
     "430x932/result-runoff": {
       "file": "design/phone-ui/components/vote/review/430x932-result-runoff.jpg",
-      "sha256": "f7740a63cb01bca84ab0309518c2fa0d401e6c1a8a796b17bc9fe616f7d7de4f",
+      "sha256": "48be0d45a03c7d9a25ad40bb0d73f03255377d1612dfa5fca90ac6d549d25f6a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1329,14 +1329,14 @@
     },
     "390x844/result-no-captain": {
       "file": "design/phone-ui/components/vote/review/390x844-result-no-captain.jpg",
-      "sha256": "e0b9dc73801b1b306edee911d0a77b6c234de742dcf78ac7cf7fdea04c0d60d2",
+      "sha256": "cb3050a58118516fd2f925a369da65afbf6d8e2d395f7f433ee39700c60e0786",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1383,14 +1383,14 @@
     },
     "430x932/result-no-captain": {
       "file": "design/phone-ui/components/vote/review/430x932-result-no-captain.jpg",
-      "sha256": "7fa2f6c3940aa5990905aabb703616e550d0dd05acdbf41a19c66d4bed9bc544",
+      "sha256": "866aa1321d3da466bffc82735a7e9dd50f278f05a635c4a5e5696bf81f95992c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1437,14 +1437,14 @@
     },
     "390x844/result-jailed": {
       "file": "design/phone-ui/components/vote/review/390x844-result-jailed.jpg",
-      "sha256": "21ef75fa7487332965d76de40ba11cce18b7e2354ca472f91b0acb4374b2754d",
+      "sha256": "ae6694e2492a379f5779484256e2feb5ddfae3c32f3af02579d5a9585aadd2e2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1491,14 +1491,14 @@
     },
     "430x932/result-jailed": {
       "file": "design/phone-ui/components/vote/review/430x932-result-jailed.jpg",
-      "sha256": "ef74c3be8d1258479a259e98c7f68cbf8715c966499fd7d3468831cfe5f5b95d",
+      "sha256": "49bb9643f12c2dedcc6463c6f4770060c2fc2b681b5466bbf6aa51e5d047e73a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1545,14 +1545,14 @@
     },
     "390x844/result-jail-full": {
       "file": "design/phone-ui/components/vote/review/390x844-result-jail-full.jpg",
-      "sha256": "8a268e0ca5fe14d73bb0dc4ec1fca7c5cde306b76933658791806bfdea0bd571",
+      "sha256": "312cccbe348ec6c8c92bb3f68c0af9ee9a9896ad1f23873f00924bd9b53fe969",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1599,14 +1599,14 @@
     },
     "430x932/result-jail-full": {
       "file": "design/phone-ui/components/vote/review/430x932-result-jail-full.jpg",
-      "sha256": "8528bcb0e2869bfa8fb7e22c4faa835e55badb2be35077aa2828afacbd784d47",
+      "sha256": "06c307b4bd98d584ef417b62b6a0e3b4bc420eefbd437f4f627c73e6e405a3f4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1653,14 +1653,14 @@
     },
     "390x844/result-no-one": {
       "file": "design/phone-ui/components/vote/review/390x844-result-no-one.jpg",
-      "sha256": "0909d8359f74ebd70b764b131aab155d4a5503957c8646484930c70825e6201b",
+      "sha256": "df87c1714fc6d1124c97b5e2a5e0ebcb8245785a2b2c7195ad1b83f411423ae6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1707,14 +1707,14 @@
     },
     "430x932/result-no-one": {
       "file": "design/phone-ui/components/vote/review/430x932-result-no-one.jpg",
-      "sha256": "c2d1087120640e8b00faa95ee947fd18ca6d2c2d478ecf47cd2b95c0da9f69f4",
+      "sha256": "436b742d12c15191d4e1015191b981d4f8b055161b11fe6b4e9631f562b81c28",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1761,14 +1761,14 @@
     },
     "390x844/result-jailed-8": {
       "file": "design/phone-ui/components/vote/review/390x844-result-jailed-8.jpg",
-      "sha256": "409abd6cc98c7945d2f9885851d72b7dc6e1ba0675a7d2c50678b30081bc5c48",
+      "sha256": "c7771071ab037b0e6dbf738736ce6439888b8b42c74ec47b2d8e68fd6043300a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1814,14 +1814,14 @@
     },
     "430x932/result-jailed-8": {
       "file": "design/phone-ui/components/vote/review/430x932-result-jailed-8.jpg",
-      "sha256": "45451717813dae3edb556b1872a6764fb1fb3966e07cedd547d528570d4b8a2d",
+      "sha256": "44029fb617557523e372edb33c13afe78ff02665f5ea3008a7d3f269cd170e6e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1867,14 +1867,14 @@
     },
     "320x568/large-result-jailed": {
       "file": "design/phone-ui/components/vote/review/320x568-large-result-jailed.jpg",
-      "sha256": "db17190230ef6800b92cf37b985210cc9c2de4fd2150eecfad4dff57a2e3353f",
+      "sha256": "169a72cb71f88a224a521cb74c1189b2176def6d3e278704d4a5f2be9effd0d2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1921,14 +1921,14 @@
     },
     "320x568/large-result-elected": {
       "file": "design/phone-ui/components/vote/review/320x568-large-result-elected.jpg",
-      "sha256": "cde666d2f50efcdc6525d88d9ec1560dafb0d693f876847fbb4d895b829828cc",
+      "sha256": "1b9fccd1eb5f0deed91b1d2f7511cefa4b4a4541b6205dc6b5aa6c05a0b56e01",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1975,14 +1975,14 @@
     },
     "320x568/large-result-runoff": {
       "file": "design/phone-ui/components/vote/review/320x568-large-result-runoff.jpg",
-      "sha256": "c881d47888b9c6d7e77a227e5a33c7565ac64f3b01b46272571d54421ddeba79",
+      "sha256": "b23420082b92df350dae12c4ee903a1168218527b6d690a98fbded2da2184631",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2029,14 +2029,14 @@
     },
     "320x568/large-jail-selected": {
       "file": "design/phone-ui/components/vote/review/320x568-large-jail-selected.jpg",
-      "sha256": "d29f84eee579fcc5b0d7480b08426765b45eb824078f737dc6e3d87a1c43e28c",
+      "sha256": "e2a3e1dd9b43c219345d7aa131fdca873e8bf0ebb541c5732014b2872bf17c8b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2083,14 +2083,14 @@
     },
     "320x568/large-captain": {
       "file": "design/phone-ui/components/vote/review/320x568-large-captain.jpg",
-      "sha256": "effead608f014e5cf287df19169cb0e1ad016c3fef2917406b207737662a0066",
+      "sha256": "b78dfad52f10e2eb6c9101c934e1664e225eee57e7c13b7a5dbe0d82e3c6c669",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2137,14 +2137,14 @@
     },
     "320x568/large-runoff": {
       "file": "design/phone-ui/components/vote/review/320x568-large-runoff.jpg",
-      "sha256": "ad5610ff3b959cff7125d041bdab5fe8e75df59650a274b65cfb33de3611be64",
+      "sha256": "176bf3dce62f22c6be7cd5495861893befe68c7f80988ac0c4f960e4c34e05cb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2191,14 +2191,14 @@
     },
     "390x844/jail-stale": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-stale.jpg",
-      "sha256": "ce4f6f9de53358bd1bb82bde82063c81aa736c70543c095c1ab47308aecd1bc9",
+      "sha256": "6af5eff1b89a3801e7a50259d9460e5aeadd9545d02907a7071f610fb6762b1a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2245,14 +2245,14 @@
     },
     "430x932/jail-stale": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-stale.jpg",
-      "sha256": "3212bb5ff43fdccf46ea6aa075b21fdb5a34b990509451650b45fa440e55dff7",
+      "sha256": "b3bbe049cd099722e40d92237fa76f4328deeb8d73a51529ac1b737b1d347ed3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2306,7 +2306,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2338,7 +2338,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2370,7 +2370,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2402,7 +2402,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2628,6 +2628,15 @@
               "top": 8,
               "bottom": 10
             },
+            "over": {
+              "tags": 4,
+              "hits": [
+                true,
+                true,
+                true,
+                true
+              ]
+            },
             "concealed": {
               "hidden": true,
               "shown": 0,
@@ -2693,7 +2702,7 @@
               "names": 9,
               "whole": true,
               "scrollsAsOne": false,
-              "titleSize": 21
+              "titleSize": 24
             },
             "large": {
               "art": false,
@@ -2743,7 +2752,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2785,7 +2794,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-D4wL2pIF.js",
+          "source": "assets/index-C7CcQ8W5.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2797,7 +2806,7 @@
   "agree": {
     "emulated": {},
     "mode": "agree",
-    "ok": false,
+    "ok": true,
     "checks": [
       {
         "id": "agree: jail-open (vote&kind=jail)",
@@ -4746,186 +4755,9 @@
       },
       {
         "id": "agree: result-elected (result&outcome=CAPTAIN_ELECTED)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 5",
@@ -5126,186 +4958,9 @@
       },
       {
         "id": "agree: result-runoff (result&outcome=RUNOFF_REQUIRED)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 5",
@@ -5506,186 +5161,9 @@
       },
       {
         "id": "agree: result-no-captain (result&outcome=NO_CAPTAIN_ELECTED)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 5",
@@ -5886,186 +5364,9 @@
       },
       {
         "id": "agree: result-jailed (result&outcome=PLAYER_JAILED)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 6",
@@ -6259,186 +5560,9 @@
       },
       {
         "id": "agree: result-jail-full (result&outcome=JAIL_FULL)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 148.6875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 148.6875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 160.6875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 160.6875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 160.6875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 160.6875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 160.6875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 160.6875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 278.9375,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 300.9375,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 278.9375,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 300.9375,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 278.9375,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 300.9375,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 397.1875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 441.1875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 397.1875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 441.1875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 397.1875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 441.1875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 6",
@@ -6632,186 +5756,9 @@
       },
       {
         "id": "agree: result-no-one (result&outcome=NO_JAIL_SELECTION)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 6",
@@ -7005,186 +5952,9 @@
       },
       {
         "id": "agree: result-jailed-8 (result&outcome=PLAYER_JAILED&roster=8)",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "body",
-              "what": "box",
-              "pack": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 370.75
-              },
-              "component": {
-                "x": 3,
-                "y": 110.71875,
-                "w": 364,
-                "h": 436.75
-              }
-            },
-            {
-              "part": "seat 1",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 2",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 3",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 122.71875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 4 you",
-              "what": "box",
-              "pack": {
-                "x": 65.078125,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              },
-              "component": {
-                "x": 6,
-                "y": 6,
-                "w": 36.921875,
-                "h": 16.5
-              }
-            },
-            {
-              "part": "seat 5",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 6",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 240.96875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 262.96875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 7",
-              "what": "box",
-              "pack": {
-                "x": 15,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 15,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 8",
-              "what": "box",
-              "pack": {
-                "x": 131,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 131,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            },
-            {
-              "part": "seat 9",
-              "what": "box",
-              "pack": {
-                "x": 247,
-                "y": 359.21875,
-                "w": 108,
-                "h": 110.25
-              },
-              "component": {
-                "x": 247,
-                "y": 403.21875,
-                "w": 108,
-                "h": 132.25
-              }
-            }
-          ],
+          "differences": [],
           "accepted": [
             {
               "part": "seat 6",
@@ -8556,7 +7326,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-D4wL2pIF.js",
+        "source": "assets/index-C7CcQ8W5.js",
         "line": 1,
         "column": 6047,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
