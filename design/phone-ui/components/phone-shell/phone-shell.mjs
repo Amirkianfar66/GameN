@@ -50,6 +50,9 @@ export const PHONE_SHELL_DEFAULTS = Object.freeze({
   viewer: null,
   versions: null,
   bar: Object.freeze({ kind: 'phase', title: '', icon: 'hourglass' }),
+  // true: the stage and its cover fill the whole shell, edge to edge, under the safe areas and any bar or
+  // tabs, for a full-screen film or poster (the pack draws them at inset 0, kit.css .media).
+  edge: false,
   tabs: null, target: null, chip: null, banner: null, toast: null, sheet: null,
 });
 
@@ -141,8 +144,10 @@ export function nextPhoneShellInput(previous, input) {
   const next = { ...previous, ...input };
   if (!STATUSES.includes(next.status)) throw new TypeError(`Status is ${STATUSES.join(', ')}, not ${JSON.stringify(next.status)}`);
   if (next.insets !== null && !['top', 'right', 'bottom', 'left'].every(k => next.insets[k] === undefined || Number.isFinite(next.insets[k]))) throw new TypeError('insets are null, or { top, right, bottom, left } in px');
-  // null: no top bar at all (a full-bleed film, as the role stage's): the stage runs to the top edge.
+  // null: no top bar at all (a full-bleed film, as the role stage's): the stage runs to the top edge. The
+  // overlays keep the bar's place, as the pack's do on its films (its --top keeps the bar's height).
   next.bar = next.bar === null ? null : checkBar(next.bar);
+  if (typeof next.edge !== 'boolean') throw new TypeError('edge is true or false');
   next.tabs = checkTabs(next.tabs);
   // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
   // stage between the bars keeps its size and nothing on the phone moves.
@@ -219,7 +224,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   const cover = el('div', 'ms-ps-cover');
   const bar = el('header', 'ms-ps-tb', { 'aria-label': 'Match status' });
   const over = el('div', 'ms-ps-over');
-  root.append(stage, cover, bar, over);
+  // An empty guide between the safe areas, which layout() measures (they may come from the browser).
+  const guide = el('span', 'ms-ps-guide', { 'aria-hidden': 'true' });
+  root.append(stage, cover, bar, over, guide);
   host.append(root);
   const kit = createKit(doc);
 
@@ -325,7 +332,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   function paintBar() {
     const concealed = state.status === 'concealed';
     const b = state.bar;
-    // No bar: the stage runs to the top edge, and the overlays sit under the top safe area.
+    // No bar: the stage runs to the top edge, and the overlays keep the bar's place.
     root.dataset.bar = b ? 'top' : 'none';
     bar.dataset.kind = b ? b.kind : 'none';
     attr(bar, 'data-tone', b?.tone ?? null);
@@ -626,19 +633,22 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     }
   }
   /**
-   * Where things are, in the shell's CSS pixels: its size, the bars' heights (the top safe area and bar;
-   * the tabs and the bottom safe area), the stage between them, and how much of the stage's foot the
-   * private talk's buttons cover. After dispose(), null.
+   * Where things are, in the shell's CSS pixels: its size; the bars' heights, as how far the stage starts
+   * from the shell's top and ends from its foot (the top safe area and bar; the tabs and the bottom safe
+   * area; 0 at an edge the stage runs to); the stage; the safe areas, which a component on an edge-to-edge
+   * stage keeps its own controls clear of; and how much of the stage's foot the private talk's buttons
+   * cover. After dispose(), null.
    */
   function layout() {
     if (disposed) return null;
-    const box = root.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    const box = root.getBoundingClientRect(), s = stage.getBoundingClientRect(), g = guide.getBoundingClientRect();
     const covered = parts.tabsKey === 'talk' && parts.tabs ? Math.max(0, s.bottom - parts.tabs.getBoundingClientRect().top) : 0;
     const round = v => Math.round(v * 100) / 100;
     return {
       size: { width: round(box.width), height: round(box.height) },
       bars: { top: round(s.top - box.top), bottom: round(box.bottom - s.bottom) },
       stage: { width: round(s.width), height: round(s.height) },
+      safe: { top: round(g.top - box.top), bottom: round(box.bottom - g.bottom) },
       covered: { bottom: round(covered) },
     };
   }
@@ -653,12 +663,14 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
+  observer?.observe(guide);
 
   // ── Render ──────────────────────────────────────────────────────────
   function render() {
     if (disposed) return;
     root.dataset.status = state.status;
     root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
+    attr(root, 'data-edge', state.edge ? '' : null);
     applyInsets();
     paintBar();
     paintTabs();

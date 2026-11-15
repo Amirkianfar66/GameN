@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/phone-shell-check.mjs",
   "component": "design/phone-ui/components/phone-shell",
-  "sourceCommit": "b51b715c2c79a3a56ac43fb80e74afeae6320d62",
+  "sourceCommit": "f18cdc07551f704425af93bdf9fd5ca16d45c4a6",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/turn": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
-      "sha256": "c19567ace5aa8943e585369af3bba0bd30504f9ba62c2a6bafa1f87c1286cfd8",
+      "sha256": "5d56326538137e8d51df974db3a81f6d1bdc22ecf382e10858ac9c3ea9ae1a3c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -76,6 +76,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -88,6 +89,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -103,14 +108,14 @@
     },
     "430x932/turn": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-turn.jpg",
-      "sha256": "fd0bdf829eab838ee87fa9f6385389bdec3206b387d3dec444fdc956e6419d2c",
+      "sha256": "26d89dc4d0584dbd55e85acac6faa2689e5e14499aa2fd133ad9541120c2cce1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -140,6 +145,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -152,6 +158,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -174,7 +184,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -204,6 +214,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -216,6 +227,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -231,14 +246,14 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
-      "sha256": "22232538ae031badfd3107748147901506d47cf7168be0cfc6b0ec3923193268",
+      "sha256": "35a3ded5eb0a9a759a0e4392b94e982f118473780c9ce1a2c3dbe029cda4732a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -268,6 +283,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -280,6 +296,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -295,14 +315,14 @@
     },
     "390x844/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
-      "sha256": "9ba2f2a9f2d231c7f0b4abf2043079b544d9b86d274278765461997f56c4fb2c",
+      "sha256": "916b89b75f776fefca88b18335d9e668ca8e9959a67e4fc58b3895ebcb474fae",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -332,6 +352,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -344,6 +365,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -359,14 +384,14 @@
     },
     "430x932/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-urgent.jpg",
-      "sha256": "bebbdeed1c826b5c8d14b4d86aa84adc139db2d82b140a5d4b53b52db2abdb65",
+      "sha256": "48544e14c513c6ee08c5b07ab1d4518963316431e9aaa505cc52bf5ae156fc77",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -396,6 +421,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -408,6 +434,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -423,14 +453,14 @@
     },
     "390x844/vote": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
-      "sha256": "c0b9040cda46bad7d3549a5f53ce8b0617ee22a68b059171060431094c3fc21a",
+      "sha256": "c95ef57adb9959cc01f9cb413258489aede917f05965e98492a56f78b839c088",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -460,6 +490,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -472,6 +503,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -486,14 +521,14 @@
     },
     "430x932/vote": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
-      "sha256": "e359f531285a4c8e4c932a1b1bc43861018004298bad0f8dae11ca84cb06f943",
+      "sha256": "4605e63a7921f04d0d4eacbc813a77c7a7bdc200671e32417f3fa355cc70d572",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -523,6 +558,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -535,6 +571,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -549,14 +589,14 @@
     },
     "390x844/voted": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-voted.jpg",
-      "sha256": "2a415458240b7d4ee28309c0e824506d19d07f613f3b45678fee3c0cba288d33",
+      "sha256": "e4c2691b3f3f60f8d9c33347ef309ffebffaa61fa95ead2f6cf81701b9693aac",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -586,6 +626,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -598,6 +639,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -612,14 +657,14 @@
     },
     "430x932/voted": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
-      "sha256": "de3857e6f8968977970e338a933d2d16b5d256db53ba56af0aa98da5f7a6d622",
+      "sha256": "a9ea645546bc5fade8d4d5f1061f2289bba8835ceaa6168e26e2b6aa91336fde",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -649,6 +694,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -661,6 +707,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -682,7 +732,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -712,6 +762,7 @@
       "buttons": 6,
       "figures": 5,
       "cover": 1,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -724,6 +775,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -745,7 +800,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -775,6 +830,7 @@
       "buttons": 6,
       "figures": 5,
       "cover": 1,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -787,6 +843,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -808,7 +868,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -838,6 +898,7 @@
       "buttons": 7,
       "figures": 0,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -850,6 +911,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -873,7 +938,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -903,6 +968,7 @@
       "buttons": 7,
       "figures": 0,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -915,6 +981,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -931,14 +1001,14 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
-      "sha256": "59725905d2c6c5196fb03ffaba1d80313c850aaa94620be5b6fc2010cc494c1a",
+      "sha256": "f87216dbe6bf392decec2aa224deaffcf16f60992672ebf2f8c31cca5a1c4668",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -968,6 +1038,7 @@
       "buttons": 9,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -980,6 +1051,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -995,14 +1070,14 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
-      "sha256": "3f89991c5a0ead85f7935bf8f1e6181d7a6d6e2775b67a1cbdf3e5a733618341",
+      "sha256": "6f6ef68c7c700bddf20030561848e61bdd5d99560c5c3066a0ce90dcdf22c79e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1032,6 +1107,7 @@
       "buttons": 9,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -1044,6 +1120,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1059,14 +1139,14 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
-      "sha256": "c0cb6da78875cbae9305a8f15d41dc241c142e4e5b8676e6176d0425d41369bd",
+      "sha256": "b98c74479cefd7ff55b96e08823032eaaec517c0e982da2ca5e82ff85e652149",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1096,6 +1176,7 @@
       "buttons": 9,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -1108,6 +1189,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1123,14 +1208,14 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
-      "sha256": "f8e0508d6d33b7a23d5a6d8bde5cfd1e8de957ddd367de2a2beff390c6c2640a",
+      "sha256": "5026cf2448c2e24364dc5c6bdd69032d3eda3425fbb7aa5190118f58d3a91cd6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1160,6 +1245,7 @@
       "buttons": 9,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -1172,6 +1258,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1194,7 +1284,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1224,6 +1314,7 @@
       "buttons": 8,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -1236,6 +1327,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1251,14 +1346,14 @@
     },
     "430x932/actions": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
-      "sha256": "d4498770f66b7ee6a5e0b8911c0b6737b6396c4c309d31a1dd09c08bc7f05656",
+      "sha256": "70c0463b8bc52b2d8890f6835b4cdce8d49ba587d13dc500ed6281eccb66e355",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1288,6 +1383,7 @@
       "buttons": 8,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -1300,6 +1396,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1322,7 +1422,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1352,6 +1452,7 @@
       "buttons": 4,
       "figures": 0,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -1364,6 +1465,10 @@
         "stage": {
           "width": 390,
           "height": 745
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 102
@@ -1384,7 +1489,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1414,6 +1519,7 @@
       "buttons": 4,
       "figures": 0,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -1427,6 +1533,10 @@
           "width": 430,
           "height": 833
         },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
         "covered": {
           "bottom": 102
         }
@@ -1439,14 +1549,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
-      "sha256": "575f4c7287e43a405f5e1bbf8500981268f1d01520d814361d89776b6bc8656f",
+      "sha256": "60151390d00407d8040d6bd32be2506e1db837ac80bfbe0dcf6fb1aa33c771a2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1476,6 +1586,7 @@
       "buttons": 8,
       "figures": 5,
       "cover": 0,
+      "bannerTop": 107,
       "layout": {
         "size": {
           "width": 390,
@@ -1488,6 +1599,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1502,14 +1617,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
-      "sha256": "007fae0b68029993f5fcc68bbf9ab4d22e001670080999a6861ab15987335ca8",
+      "sha256": "6b9f705bd98fcffeb234c682400512ba2fe18977ff793b88cbab81843bfc1624",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1539,6 +1654,7 @@
       "buttons": 8,
       "figures": 5,
       "cover": 0,
+      "bannerTop": 107,
       "layout": {
         "size": {
           "width": 430,
@@ -1551,6 +1667,10 @@
         "stage": {
           "width": 430,
           "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1572,7 +1692,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1602,6 +1722,7 @@
       "buttons": 0,
       "figures": 0,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -1614,6 +1735,10 @@
         "stage": {
           "width": 390,
           "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1631,7 +1756,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1661,6 +1786,7 @@
       "buttons": 0,
       "figures": 0,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -1674,6 +1800,10 @@
           "width": 430,
           "height": 741
         },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
         "covered": {
           "bottom": 0
         }
@@ -1683,14 +1813,14 @@
     },
     "390x844/film": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-film.jpg",
-      "sha256": "1103f985ecb6e777e3048a6ef3e34e7ee41870349ddf8ddeb9ba08bd6c30a6a1",
+      "sha256": "e03967f714a019effd68905014f61442191b4ee5fb92538d411caa2313d7c196",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1720,6 +1850,7 @@
       "buttons": 1,
       "figures": 0,
       "cover": 0,
+      "bannerTop": 107,
       "layout": {
         "size": {
           "width": 390,
@@ -1727,11 +1858,15 @@
         },
         "bars": {
           "top": 0,
-          "bottom": 34
+          "bottom": 0
         },
         "stage": {
           "width": 390,
-          "height": 810
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1742,14 +1877,14 @@
     },
     "430x932/film": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-film.jpg",
-      "sha256": "38e26e4ceea5bf2ed1a413fb84bfd4e07814a03a31a1feaa5fec288e19677248",
+      "sha256": "76e593a890b215a907c19471b5cd1e3c2fa34b3d9eb2fc23ba09474de1c5aff0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1779,6 +1914,7 @@
       "buttons": 1,
       "figures": 0,
       "cover": 0,
+      "bannerTop": 107,
       "layout": {
         "size": {
           "width": 430,
@@ -1786,11 +1922,143 @@
         },
         "bars": {
           "top": 0,
-          "bottom": 34
+          "bottom": 0
         },
         "stage": {
           "width": 430,
-          "height": 898
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [],
+      "problems": []
+    },
+    "390x844/poster": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-poster.jpg",
+      "sha256": "2d9366df70038e1ff73ef00bbd751834ef88cbdd9610537bb7cb824a925bb149",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-pLCb_50n.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Setting course",
+      "sub": "The offices are setting it",
+      "round": "R3",
+      "timer": "0:11",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 0,
+      "open": null,
+      "hero": null,
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 2,
+      "figures": 0,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "stage": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [],
+      "problems": []
+    },
+    "430x932/poster": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-poster.jpg",
+      "sha256": "05b71f6da42829639cb75f8a3267a746f239c056c5eede5271bb69b789962526",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-pLCb_50n.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Setting course",
+      "sub": "The offices are setting it",
+      "round": "R3",
+      "timer": "0:11",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 0,
+      "open": null,
+      "hero": null,
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 2,
+      "figures": 0,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "stage": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
         },
         "covered": {
           "bottom": 0
@@ -1801,14 +2069,14 @@
     },
     "320x568/large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
-      "sha256": "000cbd18fffab5e0c2f46aabad4e9d443a05c677ea9a6b5db2a588755264aeff",
+      "sha256": "390b65d3c465223ea69ee56e97cf1795ab41e892f397c5a18e083204d29b8d1a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1838,6 +2106,7 @@
       "buttons": 7,
       "figures": 5,
       "cover": 0,
+      "bannerTop": null,
       "layout": {
         "size": {
           "width": 320,
@@ -1850,6 +2119,10 @@
         "stage": {
           "width": 320,
           "height": 394.13
+        },
+        "safe": {
+          "top": 20,
+          "bottom": 0
         },
         "covered": {
           "bottom": 0
@@ -2088,6 +2361,10 @@
                 "width": 390,
                 "height": 653
               },
+              "safe": {
+                "top": 47,
+                "bottom": 34
+              },
               "covered": {
                 "bottom": 0
               }
@@ -2104,6 +2381,10 @@
               "stage": {
                 "width": 390,
                 "height": 632.55
+              },
+              "safe": {
+                "top": 47,
+                "bottom": 34
               },
               "covered": {
                 "bottom": 0
@@ -2122,6 +2403,10 @@
                 "width": 390,
                 "height": 641
               },
+              "safe": {
+                "top": 59,
+                "bottom": 34
+              },
               "covered": {
                 "bottom": 0
               }
@@ -2139,6 +2424,10 @@
                 "width": 390,
                 "height": 711
               },
+              "safe": {
+                "top": 47,
+                "bottom": 34
+              },
               "covered": {
                 "bottom": 0
               }
@@ -2155,6 +2444,10 @@
               "stage": {
                 "width": 390,
                 "height": 745
+              },
+              "safe": {
+                "top": 47,
+                "bottom": 34
               },
               "covered": {
                 "bottom": 102
@@ -2180,7 +2473,7 @@
           }
         },
         {
-          "id": "nobar: with bar: null the stage runs to the top edge, the overlays sit under the safe area, and slot('clock') keeps its element",
+          "id": "nobar: with bar: null the stage runs to the top edge, the overlays keep the bar's place, and slot('clock') keeps its element",
           "ok": true,
           "detail": {
             "ok": true,
@@ -2189,8 +2482,9 @@
               "bottom": 34
             },
             "cover": 0,
-            "banner": 55,
-            "toast": 57,
+            "banner": 107,
+            "toast": 109,
+            "place": 99,
             "hidden": true,
             "concealed": true,
             "back": {
@@ -2198,6 +2492,64 @@
               "bottom": 34
             },
             "sameClock": true
+          }
+        },
+        {
+          "id": "edge: with edge: true the stage and its cover fill the shell under the bar, layout() gives the safe areas, and the overlays stay where they are",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "under": {
+              "stage": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "cover": [
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "first": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 0,
+                "bottom": 0
+              },
+              "stage": {
+                "width": 390,
+                "height": 844
+              },
+              "safe": {
+                "top": 47,
+                "bottom": 34
+              },
+              "covered": {
+                "bottom": 0
+              }
+            },
+            "overBar": true,
+            "banner": 107,
+            "toast": 109,
+            "nobar": {
+              "top": 0,
+              "bottom": 0
+            },
+            "off": {
+              "top": 0,
+              "bottom": 34
+            },
+            "reported": {
+              "top": 20,
+              "bottom": 0
+            },
+            "refused": true
           }
         },
         {
@@ -2256,7 +2608,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2291,7 +2643,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BlKpeRba.js",
+          "source": "assets/index-pLCb_50n.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3943,7 +4295,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BlKpeRba.js",
+        "source": "assets/index-pLCb_50n.js",
         "line": 1,
         "column": 6050,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
