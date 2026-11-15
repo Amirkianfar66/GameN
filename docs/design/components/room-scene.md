@@ -240,11 +240,11 @@ These are listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/room-scene.test.mjs` | 8 of 8 |
-  | `npm run test:design` | TBD |
-  | `npm run test:tooling` | TBD |
-  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | TBD |
-  | `node design/tools/check-assets.mjs` | TBD |
-  | `node design/tools/phone-ui-figure-extents.mjs --check` | TBD |
+  | `npm run test:design` | 367 of 367 |
+  | `npm run test:tooling` | 337 of 337 |
+  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `node design/tools/check-assets.mjs` | 15 passed |
+  | `node design/tools/phone-ui-figure-extents.mjs --check` | Current |
 
 - **`node design/tools/room-scene-check.mjs`:**
   - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
@@ -258,5 +258,6 @@ These are listed, not omitted:
   - **The same probe on `03029b34`:** 4 of 19 pass. It fails on each of the four findings.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - The captures and `check.json`, with each probe check and what it saw, are in `review/`.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `1ef10a22` (this version merged with `main` after #260), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - Against 0.1.0's captures, the still states are byte-identical. The five with moving crew differ by at most 20 pixels: the crew's idle motion at the moment of capture.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.

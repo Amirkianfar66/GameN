@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/room-scene-check.mjs",
   "component": "design/phone-ui/components/room-scene",
-  "sourceCommit": "be2501e01dd18e2d4735d4a895b0567b3d1e7be0",
+  "sourceCommit": "1ef10a2299c408bc66e984efee965a60095e4369",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -11,7 +11,7 @@
     },
     {
       "key": "Content-Security-Policy",
-      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
     },
     {
       "key": "X-Content-Type-Options",
@@ -34,18 +34,18 @@
       "value": "camera=(), microphone=(), geolocation=()"
     }
   ],
-  "headersSha256": "23fce0c58676fb32679b8e5d576ecebbc9c2a9de3411e682b03953b5abec5374",
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
   "voyageAt": 130,
   "captures": {
     "390x844/lit": {
       "file": "design/phone-ui/components/room-scene/review/390x844-lit.jpg",
-      "sha256": "ff2941e5343d1c1aab0b025e74931f966e1624d3369786605c221c7b251c962e",
+      "sha256": "23ca84ca6c19a59d567b3a2e59e29bdbc8a15a556de4dd8d87e1c61f91c5f6c3",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -68,7 +68,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -79,13 +84,13 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/room-scene/review/390x844-own.jpg",
-      "sha256": "b2a93fc9e0247d1f6524450281ad24d66bcf22c9fbf1aa34e1383354e46ead4c",
+      "sha256": "2288ba51b48f5a37043e19e2ab371d2e3b9e83e9f84b29feb13bb85958134dc6",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -108,7 +113,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -119,13 +129,13 @@
     },
     "390x844/targets": {
       "file": "design/phone-ui/components/room-scene/review/390x844-targets.jpg",
-      "sha256": "480d031eece15236c85894cbaf3697f7cb5ab79495d6af2971ca56db814c33e0",
+      "sha256": "b3cf3ea3713ffa50861e887daa60487d748e0a9383809d22743105d7f8562bcc",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -148,7 +158,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -159,13 +174,13 @@
     },
     "390x844/moves": {
       "file": "design/phone-ui/components/room-scene/review/390x844-moves.jpg",
-      "sha256": "370cb47164f816fdfa05ce7d83d497631eb4ec23fe15310997412fdf4ba63c17",
+      "sha256": "410ee20b11007f07e4c40e51ebaef8526f7ceae2df0175a4b21c6aad3d329d6f",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -188,7 +203,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -205,7 +225,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -229,7 +249,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": true,
+        "window": "blackout-1",
         "cold": false
       },
       "art": [
@@ -247,7 +272,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -271,7 +296,12 @@
         "k": 0.8848368610991435,
         "tx": -294.7899415822366,
         "ty": -13.277354662071112,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": true
       },
       "art": [
@@ -283,13 +313,13 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/room-scene/review/390x844-stale.jpg",
-      "sha256": "2cde0e244fb5b16436eec9c8e6b9ef563b7081d886a75701aa27672234b53ea4",
+      "sha256": "e98ba6abaa03ad1d6592b396af98946038f83e20ebb9c176cbb6ef08ae35ab1c",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -312,7 +342,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -329,7 +364,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -349,7 +384,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [],
@@ -363,7 +403,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -386,7 +426,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -403,7 +448,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -423,7 +468,12 @@
         "k": 0.896978021978022,
         "tx": -313.46743131868135,
         "ty": -17.939560439560424,
+        "panel": {
+          "width": 390,
+          "height": 653
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -436,13 +486,13 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/room-scene/review/430x932-lit.jpg",
-      "sha256": "f4549ab17fa2f39cc03c93bb3fcb68622f6f594ea7b8a7344f4d33fd8186de44",
+      "sha256": "48f38b26f1f0ab3ba1ab0fda8af7bfefa8f2c95eab4be83bf71fe5c519d3c82c",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -465,7 +515,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -476,13 +531,13 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/room-scene/review/430x932-own.jpg",
-      "sha256": "aaed4d279427738d009928c26152e95bc6ba11f2226553a0b4c08cb247c053d8",
+      "sha256": "daa79aeb66446429e6fe76759790b20f150b9e0b005ceafe8ecef39808ec1e72",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -505,7 +560,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -516,13 +576,13 @@
     },
     "430x932/targets": {
       "file": "design/phone-ui/components/room-scene/review/430x932-targets.jpg",
-      "sha256": "fe31b79b29833e2c8302869d114dbe061593b58417478f64dcfdf7726eaff2ad",
+      "sha256": "a2899ca707f2374e81c72459ea76fe001ea59d81fa076d794d1d6f6010a95ab3",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -545,7 +605,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -556,13 +621,13 @@
     },
     "430x932/moves": {
       "file": "design/phone-ui/components/room-scene/review/430x932-moves.jpg",
-      "sha256": "bbf723eeb6c05f9d772583356775bb17a58978bbf8f274077158e954051a3456",
+      "sha256": "2365f0b9e7927d80f70586205b37f07293efa6532e599942c928e5942e46e32f",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -585,7 +650,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -602,7 +672,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -626,7 +696,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": true,
+        "window": "blackout-1",
         "cold": false
       },
       "art": [
@@ -644,7 +719,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -668,7 +743,12 @@
         "k": 0.9774899355597868,
         "tx": -326.0768464599578,
         "ty": -4.856135254958119,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": true
       },
       "art": [
@@ -680,13 +760,13 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/room-scene/review/430x932-stale.jpg",
-      "sha256": "e1d12ff9a9e5bdcea81c7b5cbeb368e6ea52afdd84363be1470a439701fdb179",
+      "sha256": "fbd2bcbc17ef676848bb1d78792173bc14ec2b46c4a976612cc282ce96c902f3",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -709,7 +789,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -726,7 +811,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -746,7 +831,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [],
@@ -760,7 +850,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -783,7 +873,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -800,7 +895,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BltNc172.js",
+          "source": "assets/index-D8A9PcID.js",
           "line": 1,
           "column": 5394,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -820,7 +915,12 @@
         "k": 1.015726918688894,
         "tx": -355.49622833156025,
         "ty": -19.539136776535273,
+        "panel": {
+          "width": 430,
+          "height": 741
+        },
         "held": false,
+        "window": null,
         "cold": false
       },
       "art": [
@@ -828,6 +928,273 @@
         "assets/portrait-c1-VMeNAzm6.svg",
         "assets/portrait-c9-BC_Dw7-k.svg",
         "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "ok": true,
+      "emulated": {},
+      "mode": "full",
+      "checks": [
+        {
+          "id": "held: one window keeps the frame and every press square through a resize, lit and dark",
+          "ok": true,
+          "detail": {
+            "steps": [
+              {
+                "change": "size",
+                "same": true,
+                "held": true,
+                "slotKept": true,
+                "slotBox": true
+              },
+              {
+                "change": "lighting",
+                "same": true,
+                "held": true,
+                "slotKept": true,
+                "slotBox": true
+              },
+              {
+                "change": "insets",
+                "same": true,
+                "held": true,
+                "slotKept": true,
+                "slotBox": true
+              },
+              {
+                "change": "size",
+                "same": true,
+                "held": true,
+                "slotKept": true,
+                "slotBox": true
+              },
+              {
+                "change": "size+hold",
+                "same": true,
+                "held": true,
+                "slotKept": true,
+                "slotBox": true
+              }
+            ],
+            "sceneWidth": "430px"
+          }
+        },
+        {
+          "id": "held: the window ends and the room is framed again in the current size",
+          "ok": true,
+          "detail": {
+            "panel": {
+              "width": 430,
+              "height": 741
+            },
+            "held": false
+          }
+        },
+        {
+          "id": "private: lit, layout() gives who is where",
+          "ok": true,
+          "detail": {
+            "people": [
+              [
+                3,
+                "B1"
+              ],
+              [
+                4,
+                "B4"
+              ],
+              [
+                6,
+                "B2"
+              ],
+              [
+                8,
+                "B3"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "private: dark, layout() is geometry alone and nobody is drawn",
+          "ok": true,
+          "detail": {
+            "people": 0,
+            "places": 5,
+            "drawn": 0
+          }
+        },
+        {
+          "id": "private: concealed, nothing of the room, not even its name",
+          "ok": true,
+          "detail": {
+            "people": 0,
+            "drawn": 0,
+            "label": "Room hidden"
+          }
+        },
+        {
+          "id": "private: offers and the control are dropped when concealed, not kept for when it shows",
+          "ok": true,
+          "detail": {
+            "pressesWhileConcealed": 0,
+            "presses": 0,
+            "controls": 0
+          }
+        },
+        {
+          "id": "private: a new viewer, or a shared display, never gets the last viewer's offers or control",
+          "ok": true,
+          "detail": {
+            "before": [
+              2,
+              1
+            ],
+            "afterViewerChange": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "id": "private: after dispose(), no layout and no element",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "time: Reduce motion, the clock 1 s → 9 s and an update: still at 1 s",
+          "ok": true,
+          "detail": {
+            "animations": 63,
+            "mounted": 1000,
+            "afterUpdate": 1000
+          }
+        },
+        {
+          "id": "time: eight 250 ms model updates, then reconnecting: still at 1 s",
+          "ok": true,
+          "detail": {
+            "time": 1000,
+            "clock": 13000
+          }
+        },
+        {
+          "id": "time: back in motion, on the clock again",
+          "ok": true,
+          "detail": {
+            "resumedAt": 13000,
+            "clock": 13000,
+            "afterFrames": 13016.673999999875
+          }
+        },
+        {
+          "id": "time: suspended, it stands where it was, through clock and updates",
+          "ok": true,
+          "detail": {
+            "suspendedAt": 13016.673999999875,
+            "afterUpdates": 13016.673999999875,
+            "clock": 31500
+          }
+        },
+        {
+          "id": "time: resumed, on the clock again",
+          "ok": true,
+          "detail": {
+            "resumedAt": 31500,
+            "clock": 31500
+          }
+        },
+        {
+          "id": "time: the clock withdrawn while running, it stands where it was (no jump to 0 s)",
+          "ok": true,
+          "detail": {
+            "time": 31500
+          }
+        },
+        {
+          "id": "time: no trusted clock ever given, still at 0 s",
+          "ok": true,
+          "detail": {
+            "mounted": 0,
+            "afterUpdates": 0
+          }
+        },
+        {
+          "id": "focus: the control is kept through updates, a new label and turning off and on; when it ends the focus moves to the scene",
+          "ok": true,
+          "detail": {
+            "kept": true,
+            "off": true,
+            "on": true,
+            "moved": true,
+            "returns": [
+              {
+                "intent": "control",
+                "value": "windows"
+              }
+            ]
+          }
+        },
+        {
+          "id": "focus: an offered position is kept through updates and reconnecting; when the offer ends the focus moves to the scene",
+          "ok": true,
+          "detail": {
+            "slotKept": true,
+            "slotOff": true,
+            "slotOn": true,
+            "slotMoved": true
+          }
+        },
+        {
+          "id": "focus: a press square is kept through updates and a pick; only the focused one ending moves the focus",
+          "ok": true,
+          "detail": {
+            "pressKept": true,
+            "quiet": true,
+            "pressMoved": true
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-D8A9PcID.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "ok": true,
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "checks": [
+        {
+          "id": "device-reduced: the voyage stands still at the clock's moment and stays there",
+          "ok": true,
+          "detail": {
+            "animations": 63,
+            "first": 5000,
+            "afterUpdates": 5000
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-D8A9PcID.js",
+          "line": 1,
+          "column": 5394,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
       ],
       "problems": []
     }
