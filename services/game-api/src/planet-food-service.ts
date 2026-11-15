@@ -194,16 +194,23 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function withSessionWriter<R>(matchId:string,operation:(owner:string)=>Promise<R>,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>):Promise<R>{
     const started=performance.now();
-    while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
-      const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
-      if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
-      const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);if(claim.owner===null)continue;
-      let committed=false;
-      try{const result=await operation(claim.owner);committed=true;return result;}
-      catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
-      finally{await releasePrefixWorker(matchId,claim.owner,committed);}
+    let finishWait=beginPlanetTiming('sessionWriterWait');
+    try{
+      while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
+        const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
+        if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
+        const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);if(claim.owner===null)continue;
+        finishWait?.();finishWait=undefined;
+        let committed=false;
+        try{const result=await operation(claim.owner);committed=true;return result;}
+        catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
+        finally{await releasePrefixWorker(matchId,claim.owner,committed);}
+        finishWait=beginPlanetTiming('sessionWriterWait');
+      }
+      throw new Error('Food Session writer requires a later durable continuation');
+    }finally{
+      finishWait?.();
     }
-    throw new Error('Food Session writer requires a later durable continuation');
   }
   async function acquirePrefixWorker(matchId:string,throughSequence:number,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>,expectMissing=false):Promise<{owner:string|null;expiresAt:number}>{
     const owner=d.newId();
@@ -724,7 +731,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       finally{finishDrain?.();}
     }
   }
-  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
+  async function tryFastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|'refresh'|null>{
     const observed=await readOnly(async tx=>{
       const s=await d.load(tx,matchId);
       if(!isFood(s)||s.status!=='running'||!s.state)return null;
@@ -735,12 +742,26 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       return {s,actor,control};
     });
     if(observed===null)return null;
+    let enteredWritePath=false;
     return store.transaction(async tx=>{
       // Only small private documents are locked. Every gameplay/membership effect
       // changes this control in the same commit as Session; worker scheduler-only
       // publications do not affect the captured audience projection.
       const control=await tx.get<Control>(controlKey(matchId));
-      if(!control||hash(control)!==hash(observed.control))return null;
+      if(!control)return null;
+      const observedHash=hash(observed.control);
+      if(hash(control)!==observedHash){
+        // Another fast snapshot can advance both watermarks without admitting
+        // work. This attempt made no writes. Authorization and the exact fence
+        // must still be checked again against a fresh capture.
+        const {lastAdmittedAt,advancedThroughAt}=observed.control;
+        // An SDK retry after an earlier callback's possible write is not proof
+        // that a different reader advanced Control.
+        const newer=!enteredWritePath&&Number.isSafeInteger(control.lastAdmittedAt)&&control.lastAdmittedAt===control.advancedThroughAt
+          &&control.lastAdmittedAt>=lastAdmittedAt&&control.advancedThroughAt>=advancedThroughAt
+          &&hash({...control,lastAdmittedAt,advancedThroughAt})===observedHash;
+        return newer?'refresh':null;
+      }
       const renewals=await contacts(tx,matchId),{s,actor}=observed;
       const at=clock(),due=engine().planetDeadlineAt(s.state!),f=s.foodService;
       if(!Number.isSafeInteger(at)||!Number.isSafeInteger(at+FOOD_PRESENCE_LEASE_MS)||at<control.lastAdmittedAt||at<control.advancedThroughAt
@@ -755,6 +776,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         ||!lease&&livingActive)return null;
       // No engine boundary or online transition is skipped: only transport watermarks and
       // an already-online own lease change. Fallbacks above spend no rate budget or writes.
+      enteredWritePath=true;
       await limitFood(tx,uid,{operation:'read',matchId},at);
       tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
       if(lease&&actor!==null){
@@ -766,6 +788,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       }
       return response(d.snapshot(s,uid,at),at);
     });
+  }
+  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
+    const first=await tryFastRead(matchId,uid);
+    if(first!=='refresh')return first;
+    const next=await timePlanetStage('readFenceRefresh',()=>tryFastRead(matchId,uid));
+    // A second fence change keeps the existing ordered admission path.
+    return next==='refresh'?null:next;
   }
   async function tryHandle(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
     const matchId=matchOf(q);if(matchId===null)return undefined;

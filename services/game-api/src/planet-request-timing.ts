@@ -2,7 +2,7 @@ import {AsyncLocalStorage} from 'node:async_hooks';
 import {performance} from 'node:perf_hooks';
 
 const stages = [
-  'classification', 'admission', 'drain', 'drainLeaseWait', 'drainProbe',
+  'classification', 'readFenceRefresh', 'admission', 'sessionWriterWait', 'drain', 'drainLeaseWait', 'drainProbe',
   'authority', 'cleanup', 'finalReceipt', 'sdkReadOnly', 'sdkReadWrite',
   'sdkAttempt', 'sdkRead', 'sdkCommitAck', 'sdkCommitFailure', 'sdkRetryGap',
 ] as const;
