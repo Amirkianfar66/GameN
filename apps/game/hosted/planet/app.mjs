@@ -20,6 +20,8 @@ import '../board-v2.css';
 import './planet.css';
 import '../crew-runtime.css';
 import './phone.css';
+// The room view's room scene (design/phone-ui/components/room-scene): its styles, scoped under .ms-room-scene.
+import '../../../../design/phone-ui/components/room-scene/room-scene.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
 export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){

@@ -16,11 +16,17 @@ import {phoneLayouts,phoneRoom,createBlackoutGeometry} from './phone-layout.mjs'
 import {labelPhoneControl,phoneIcon,phoneActionIcon,phonePanelIcon} from './phone-controls.mjs';
 import {createFoodUi} from './food-ui.mjs';
 import {foodGauge} from './food-gauge.mjs';
+import {FRAME} from '../scene-drawing/body.mjs';
+import {INJURED} from '../scene-drawing/gestures.mjs';
+import {outfitFor} from '../scene-drawing/wardrobe.mjs';
+import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
+import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
 const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','height'])if(Number.isFinite(r[k]))node.style[k]=`${r[k]}px`;};
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
+const [rigX,rigY,rigSide]=FRAME.box,[rigAnchorX,rigAnchorY]=FRAME.anchor;
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
 export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,food=null}={}){
@@ -38,6 +44,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const foodUi=createFoodUi(document),foodClock=foodUi.h('span.planet-food.fs-clock.food-native-clock');let gaugeDoses=null;
  const stage=el('main',null,'planet-stage');stage.setAttribute('aria-label','Ship view');
  const holder=el('div',null,'bv2-mount planet-board'),targets=el('div',null,'planet-targets');
+ // The room scene's host: the room area between the bars, under the holder (which lays today's films over it).
+ const sceneHost=el('div',null,'planet-room-scene');sceneHost.hidden=true;Object.assign(sceneHost.style,{position:'absolute',left:'0px',top:'0px'});
  const nav=el('nav',null,'planet-nav');nav.setAttribute('aria-label','Player controls');
  for(const [label,value]of [['Board','board'],['Actions','actions'],['Card','card'],['Panels','panels']]){const n=labelPhoneControl(button(label,'panel',value),label,value);n.id=`planet-nav-${value}`;nav.append(n);}
  const pass=button('PASS','begin','PASS_TURN');pass.className='planet-pass';pass.id='planet-pass';
@@ -50,12 +58,13 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const resultPanel=el('section',null,'planet-result');resultPanel.setAttribute('aria-label','Authoritative result');
  const targetBar=el('div',null,'planet-target-bar');targetBar.hidden=true;
  const scrollSpace=el('div',null,'planet-scroll-space');scrollSpace.setAttribute('aria-hidden','true');
- stage.append(holder,targets,scrollSpace);root.replaceChildren(stage,header,nav,sheet,status,words,resultPanel,rosterText,targetBar);
+ stage.append(sceneHost,holder,targets,scrollSpace);root.replaceChildren(stage,header,nav,sheet,status,words,resultPanel,rosterText,targetBar);
  const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:cinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,cinematics);
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board',sceneMode='room',currentRoom='room-a',allLayouts=null;
  let foodSurface={active:false,exclusive:false,top:null,bottom:null};
  const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null;
+ let scene=null,sceneOn=false,sceneKey=null,sceneInput=null,sceneRunning=true,blurred=false;
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
  const drawings=new Map();
  const reduced=()=>model?.motion==='reduced'||document.documentElement.dataset.motion==='reduced'||media.matches;
@@ -208,42 +217,113 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(focus&&root.querySelector(`[id="${CSS.escape(focus)}"]`))root.querySelector(`[id="${CSS.escape(focus)}"]`).focus({preventScroll:true});
   else if(model.action?.step==='confirm')sheetFoot.querySelector('#planet-confirm')?.focus({preventScroll:true});
  }
+ // The room view on a player's phone is the room scene's (design/phone-ui/components/room-scene; the
+ // owner, 15 November 2026, for all five rooms). This renderer gives it the room's inputs, sends its taps
+ // to the controller and owns its lifecycle; the board view, the capsule and the display stay on paintBoardV2.
+ function retireBoardPaint(){films.clear();rescue.clear();cinematic.clear();clearBlocks();disposeCrewMounts(holder);holder.replaceChildren();delete holder._boardV2Paint;}
+ function closeScene(){if(!scene)return;scene.dispose();scene=null;sceneKey=null;sceneInput=null;sceneRunning=true;}
+ function syncSceneActivity(){if(!scene)return;const run=document.visibilityState==='visible'&&!blurred&&!model?.concealed&&!foodSurface.exclusive;if(run!==sceneRunning){sceneRunning=run;if(run)scene.resume();else scene.suspend();}}
+ function paintScene(){
+  const size={width:allLayouts.width,height:allLayouts.stageHeight};
+  const input=roomSceneInput(model,{room:currentRoom,size,dark:blackout.sample()?.dark===true,reducedMotion:reduced(),interactive:!foodSurface.active,artReady:roomSceneArtReady(document.documentElement.dataset),monotonic:()=>win.performance.now()});
+  putBox(sceneHost,{left:0,top:0,...size});
+  if(!scene){
+   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose:value=>controller.choose(value),openPanel:panel=>{more=false;controller.openPanel(panel);},focusNext:()=>sheetFoot.querySelector('#planet-confirm')?.focus({preventScroll:true})}));
+   sceneKey=roomSceneKey(model);sceneInput=roomSceneInputKey(input);sceneRunning=true;syncSceneActivity();
+  }else{const key=roomSceneInputKey(input);if(key!==sceneInput){sceneInput=key;scene.update(input);}}
+  return sceneOverlay(input);
+ }
+ /** Today's films, effects and marks over the scene: one transparent section per room, framed by the
+  * scene's own layout(), and the other rooms by its framing, hidden as the board's other rooms were. */
+ function sceneOverlay(input){
+  const shown=scene.layout(),insets=ROOM_SCENE_DEFAULTS.insets,count=model.playerCount;
+  let owned=holder._boardV2Paint;
+  if(!owned?.scene){
+   const board=el('div',null,'planet-scene-overlay');Object.assign(board.style,{position:'absolute',pointerEvents:'none'});
+   owned=holder._boardV2Paint={scene:true,board,rooms:new Map(),actors:new Map(),capsuleActors:new Map()};holder.replaceChildren(board);
+  }
+  if(!holder.contains(owned.board))holder.replaceChildren(owned.board);putBox(owned.board,{left:0,top:0,...input.size});
+  const away=new Set(model.food?.step?.kind==='AWAY'?model.food.step.awaySeatIds:[]);
+  const seats=(model.board?.seats??[]).filter(s=>!away.has(s.seatId)).map(s=>({...s,...model.identities.find(i=>i.seatId===s.seatId)}));
+  const rooms=[],presses={},boxes={},panels={};
+  for(const room of BOARD_ROOMS){
+   const here=room===currentRoom,slots=slotsOf(room,count);let f,panel,places;
+   if(here){f={k:shown.frame.k,tx:shown.frame.tx,ty:shown.frame.ty};panel={width:shown.frame.panel.width,height:shown.frame.panel.height,cap:insets.top,pad:insets.bottom};places=shown.places.map(p=>({id:p.slot,left:p.left,top:p.top,side:p.side}));}
+   else{const state={room,roster:count,size:input.size,insets,people:roomScenePeople(model,room),lighting:'lit',hold:null,roomArt:input.roomArt},framed=roomSceneFrame(state,null);
+    f={k:framed.k,tx:framed.tx,ty:framed.ty};panel=framed.panel;places=roomScenePlaces(state,framed).map(p=>({id:p.id,left:p.left,top:p.top,side:p.side}));}
+   presses[room]=places.map(p=>{const slot=slots.find(s=>s.id===p.id);return {...p,press:[f.tx+slot.pressAt[0]*f.k,f.ty+slot.pressAt[1]*f.k],badge:[f.tx+slot.badgeAt[0]*f.k,f.ty+slot.badgeAt[1]*f.k],frame:f};});
+   // Who is where in the current room only while the scene's lit room shows them (layout().people).
+   const present=here?new Set(shown.people.map(p=>String(p.seat))):null;
+   const figures=seats.filter(s=>s.location===LOCATION_OF[room]&&(!present||present.has(s.seatId))).flatMap(s=>{
+    const slot=slots.find(x=>x.id===s.slotId),rect=presses[room].find(r=>r.id===s.slotId);if(!slot||!rect)return [];
+    const unit=slot.scale*f.k,gesture=s.health==='Eliminated'?slot.down:s.health==='Injured'?`${slot.gesture}${INJURED}`:slot.gesture;
+    return [{seatId:s.seatId,slotId:slot.id,characterId:s.characterId,displayName:s.displayName,health:s.health,location:s.location,jailed:s.jailed===true,gesture,outfit:outfitFor(s.location),mirror:slot.mirror,depth:slot.depth,slot,sceneFrame:f,
+     body:{left:f.tx+slot.at[0]*f.k-(rigAnchorX-rigX)*unit,top:f.ty+slot.at[1]*f.k-(rigAnchorY-rigY)*unit,side:rigSide*unit},press:rect,name:{left:rect.left+rect.side/2,top:Math.min(panel.height-panel.pad-26,rect.top+rect.side-2)}}];
+   });
+   rooms.push({room,panel,frame:f,figures,layers:[]});boxes[room]={left:0,top:0,...input.size};panels[room]=panel;
+   let section=owned.rooms.get(room);
+   if(!section){section=el('div',null,'planet-scene-room');section.dataset.room=room;section.setAttribute('aria-hidden','true');Object.assign(section.style,{position:'absolute',overflow:'hidden',isolation:'isolate',pointerEvents:'none'});owned.rooms.set(room,section);owned.board.append(section);}
+   putBox(section,{left:0,top:0,width:panel.width,height:panel.height});section.hidden=!here;
+  }
+  return {frame:{rooms,problems:[]},layout:{fits:true,board:{shell:{border:0,top:0},navTop:input.size.height,boxes,panels},contentHeight:input.size.height},rects:room=>presses[room],people:shown.people};
+ }
+ // Until the room scene can leave a person's figure to a film and take films inside its own depth order,
+ // the parts that need either are left out over it: a second figure (a patient, the Captain, a detainee)
+ // or a bed light or the Jail door would cover the scene's own figure and its tag. They play in the board view.
+ const NEEDS_SCENE_DEPTH=/(?:^critical-seat-\d|-patient|-captain|-seat-\d(?:-across|-land)?)-(?:body|front)$|-bed-light$|-door$/;
+ function leaveOutOverScene(){for(const node of holder.querySelectorAll('.planet-scene-room [data-film-part]'))node.hidden=NEEDS_SCENE_DEPTH.test(node.dataset.filmPart);}
+ /** The Officer's move block on the blocked person's press square, as on the board. The scene's tags show the offices. */
+ function paintSceneMarks(view){
+  const parent=holder._boardV2Paint?.rooms.get(currentRoom);if(!parent)return;
+  const blocked=view.people.find(p=>String(p.seat)===model.offices?.blockedSeatId);let mark=parent.querySelector('.planet-move-block');
+  if(!blocked){mark?.remove();return;}
+  if(!mark){mark=el('span',null,'planet-move-block');mark.setAttribute('aria-hidden','true');parent.append(mark);}
+  mark.style.left=`${blocked.left+blocked.side-16}px`;mark.style.top=`${blocked.top}px`;
+ }
  function paint(){
   if(disposed||!model)return;raf=null;
   const sample=motion.sample();films.beforePaint();clearBlocks();
+  const view=frame&&layout?.fits&&sceneOn?paintScene():null,shown=view?.frame??frame,where=view?.layout??layout,presses=view?view.rects:rects;
   if(frame&&layout?.fits){
-   const choosing=model.action?.choices??[],choices=choosing.filter(c=>/^seat-[1-9]$/.test(c.value)).map(c=>({...c,label:`${model.identities.find(i=>i.seatId===c.value)?.displayName??number(c.value)} · ${number(c.value)}`,id:`planet-seat-${c.value}`}));
-   paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:model.action?{picked:model.action.selected,numbered:['SUPPLY','SUBMIT_CODE'].includes(model.action.type)}:null,capsule:model.dark?null:capsule.sample(),canMove:model.surface==='player'&&sceneMode==='board',blackout:blackout.sample(),versions:model.versions,reducedMotion:reduced()});
-   for(const [id,node]of holder._boardV2Paint?.rooms??[])node.hidden=sceneMode==='room'&&id!==currentRoom;
-   if(holder._boardV2Paint?.capsule)holder._boardV2Paint.capsule.hidden=sceneMode==='room'&&currentRoom!=='capsule';
-   paintNight();
-   for(const heading of holder.querySelectorAll('button[data-move-room]')){const available=!model.dark&&model.canMove&&model.moveRooms.includes(heading.dataset.moveRoom);heading.disabled=!available;heading.setAttribute('aria-disabled',String(!available));heading.setAttribute('aria-label',`Move to ${heading.dataset.moveRoom}${available?'':', unavailable'}`);}
+   if(!view){
+    const choosing=model.action?.choices??[],choices=choosing.filter(c=>/^seat-[1-9]$/.test(c.value)).map(c=>({...c,label:`${model.identities.find(i=>i.seatId===c.value)?.displayName??number(c.value)} · ${number(c.value)}`,id:`planet-seat-${c.value}`}));
+    paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:model.action?{picked:model.action.selected,numbered:['SUPPLY','SUBMIT_CODE'].includes(model.action.type)}:null,capsule:model.dark?null:capsule.sample(),canMove:model.surface==='player'&&sceneMode==='board',blackout:blackout.sample(),versions:model.versions,reducedMotion:reduced()});
+    for(const [id,node]of holder._boardV2Paint?.rooms??[])node.hidden=sceneMode==='room'&&id!==currentRoom;
+    if(holder._boardV2Paint?.capsule)holder._boardV2Paint.capsule.hidden=sceneMode==='room'&&currentRoom!=='capsule';
+    paintNight();
+    for(const heading of holder.querySelectorAll('button[data-move-room]')){const available=!model.dark&&model.canMove&&model.moveRooms.includes(heading.dataset.moveRoom);heading.disabled=!available;heading.setAttribute('aria-disabled',String(!available));heading.setAttribute('aria-label',`Move to ${heading.dataset.moveRoom}${available?'':', unavailable'}`);}
+   }
    const seats=(model.board?.seats??[]).map(seat=>({...seat,...model.identities.find(i=>i.seatId===seat.seatId)}));
    root.dataset.phoneView=model.panel==='card'?'actions':model.panel;
-   films.paint({sample:{...sample,items:sample.items.filter(entry=>entry.kind!=='medical'||entry.clinical!=='HEALED')},frame,board:{playerCount:model.playerCount},seats,geometry:{sceneOf,slotsOf,slotRects:rects},layout,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true,privateOpen:model.panel==='card',time:performance.now(),versions:model.versions});
-   rescue.paint({entries:sample.items,frame,seats,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true});
-   for(const room of frame.rooms){const parent=holder._boardV2Paint?.rooms.get(room.room);if(!parent)continue;
-    for(const slot of rects(room.room,model.playerCount,room.panel).filter(s=>['A1','A2','B1','B2'].includes(s.id))){let mark=parent.querySelector(`[data-library-station="${slot.id}"]`);if(!mark){mark=el('span',null,'planet-window-station');mark.dataset.libraryStation=slot.id;mark.setAttribute('aria-hidden','true');parent.append(mark);}mark.hidden=model.dark;putBox(mark,{left:slot.left+slot.side*.25,top:slot.top+slot.side*.7,width:slot.side*.5,height:slot.side*.3});}
-   }
-   for(const actor of holder.querySelectorAll('.bv2-actor')){
-    const seat=model.board?.seats.find(s=>s.seatId===actor.dataset.seat);let badge=actor.querySelector('.planet-office-badge');
-    const label=[model.offices?.captainSeatId===actor.dataset.seat?'Captain':null,model.offices?.officerSeatId===actor.dataset.seat?'Officer':null].filter(Boolean).join(' · ');
-    if(label){if(!badge){badge=el('b',null,'planet-office-badge');actor.append(badge);}badge.textContent=label;badge.dataset.officer=String(model.offices?.officerSeatId===actor.dataset.seat);const figure=frame.rooms.flatMap(r=>r.figures).find(f=>f.seatId===actor.dataset.seat);if(figure){badge.style.left=`${figure.press.left}px`;badge.style.top=`${figure.press.top-11}px`;badge.style.right='auto';}}else badge?.remove();
-    let blocked=actor.querySelector('.planet-move-block');if(model.offices?.blockedSeatId===actor.dataset.seat){if(!blocked){blocked=el('span',null,'planet-move-block');blocked.setAttribute('aria-hidden','true');actor.append(blocked);}const figure=frame.rooms.flatMap(r=>r.figures).find(f=>f.seatId===actor.dataset.seat);if(figure){blocked.style.left=`${figure.press.left+figure.press.side-16}px`;blocked.style.top=`${figure.press.top}px`;}}else blocked?.remove();
+   films.paint({sample:{...sample,items:sample.items.filter(entry=>entry.kind!=='medical'||entry.clinical!=='HEALED')},frame:shown,board:{playerCount:model.playerCount},seats,geometry:{sceneOf,slotsOf,slotRects:presses},layout:where,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true,privateOpen:model.panel==='card',time:performance.now(),versions:model.versions});
+   rescue.paint({entries:sample.items,frame:shown,seats,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true});
+   if(view){leaveOutOverScene();paintSceneMarks(view);}
+   else{
+    for(const room of frame.rooms){const parent=holder._boardV2Paint?.rooms.get(room.room);if(!parent)continue;
+     for(const slot of rects(room.room,model.playerCount,room.panel).filter(s=>['A1','A2','B1','B2'].includes(s.id))){let mark=parent.querySelector(`[data-library-station="${slot.id}"]`);if(!mark){mark=el('span',null,'planet-window-station');mark.dataset.libraryStation=slot.id;mark.setAttribute('aria-hidden','true');parent.append(mark);}mark.hidden=model.dark;putBox(mark,{left:slot.left+slot.side*.25,top:slot.top+slot.side*.7,width:slot.side*.5,height:slot.side*.3});}
+    }
+    for(const actor of holder.querySelectorAll('.bv2-actor')){
+     const seat=model.board?.seats.find(s=>s.seatId===actor.dataset.seat);let badge=actor.querySelector('.planet-office-badge');
+     const label=[model.offices?.captainSeatId===actor.dataset.seat?'Captain':null,model.offices?.officerSeatId===actor.dataset.seat?'Officer':null].filter(Boolean).join(' · ');
+     if(label){if(!badge){badge=el('b',null,'planet-office-badge');actor.append(badge);}badge.textContent=label;badge.dataset.officer=String(model.offices?.officerSeatId===actor.dataset.seat);const figure=frame.rooms.flatMap(r=>r.figures).find(f=>f.seatId===actor.dataset.seat);if(figure){badge.style.left=`${figure.press.left}px`;badge.style.top=`${figure.press.top-11}px`;badge.style.right='auto';}}else badge?.remove();
+     let blocked=actor.querySelector('.planet-move-block');if(model.offices?.blockedSeatId===actor.dataset.seat){if(!blocked){blocked=el('span',null,'planet-move-block');blocked.setAttribute('aria-hidden','true');actor.append(blocked);}const figure=frame.rooms.flatMap(r=>r.figures).find(f=>f.seatId===actor.dataset.seat);if(figure){blocked.style.left=`${figure.press.left+figure.press.side-16}px`;blocked.style.top=`${figure.press.top}px`;}}else blocked?.remove();
+    }
    }
   }
   if(!frame||!layout?.fits)rescue.clear();
-  const cinematicAnimating=cinematic.paint({model:{matchId:model.matchId,connection:model.connection,concealed:model.concealed||!document.hasFocus(),dark:model.dark,phase:model.phase,navigation:model.navigation,result:model.result},sample:{nowMs:sample.nowMs,special:sample.special.filter(e=>e.kind==='transit'&&e.occurrence?.audience.kind==='public').map(e=>({kind:e.kind,t:e.t}))},frame,layout,reduced:reduced()});
+  // The cinematic field draws just above a room's back picture, under its furniture and people: inside the
+  // scene's own depth order, which nothing over the scene can reach. It plays in the board view.
+  const cinematicAnimating=view?false:cinematic.paint({model:{matchId:model.matchId,connection:model.connection,concealed:model.concealed||!document.hasFocus(),dark:model.dark,phase:model.phase,navigation:model.navigation,result:model.result},sample:{nowMs:sample.nowMs,special:sample.special.filter(e=>e.kind==='transit'&&e.occurrence?.audience.kind==='public').map(e=>({kind:e.kind,t:e.t}))},frame,layout,reduced:reduced()});
   const stage=planetBlackholePresentation(model),synced=stage!==null||!model.concealed&&!model.dark&&sample.special.some(effect=>effect.kind==='blackhole');
   root.dataset.syncCue=String(synced);checkpoint.textContent=checkpointText+(stage?(stage.status==='presenting'?' · Ship synchronized':' · Waiting for server'):synced?' · BLACKHOLE synced':'');
-  for(const effect of sample.special)if(effect.kind==='blocked')paintBlock(effect);
+  for(const effect of sample.special)if(effect.kind==='blocked')paintBlock(effect,shown);
   setCrewMountActivity(holder,model.connection==='live'&&!model.concealed&&!model.dark&&!model.phase?.expired);
   if(sample.animate||capsule.sample().animate||blackout.sample()?.animate||cinematicAnimating)raf=win.requestAnimationFrame(paint);
  }
  function clearBlocks(){for(const node of holder.querySelectorAll('.bv2-block-fx'))node.remove();for(const figure of holder.querySelectorAll('.bv2-figure'))figure.style.translate='0px 0px';}
- function paintBlock(effect){
+ function paintBlock(effect,shown=frame){
   if(model.dark||blackout.sample()?.dark)return;
-  const room=frame?.rooms.find(r=>r.figures.some(f=>f.seatId===effect.subjectId)),figure=room?.figures.find(f=>f.seatId===effect.subjectId),parent=holder._boardV2Paint?.rooms.get(room?.room);if(!figure||!parent)return;
+  const room=shown?.rooms.find(r=>r.figures.some(f=>f.seatId===effect.subjectId)),figure=room?.figures.find(f=>f.seatId===effect.subjectId),parent=holder._boardV2Paint?.rooms.get(room?.room);if(!figure||!parent)return;
   const f=effect.blockFrame,rect=figure.press,center=[rect.left+rect.side/2,rect.top+rect.side/2],group=el('div',null,'bv2-block-fx');group.dataset.blockId=effect.occurrence.id;group.setAttribute('aria-hidden','true');parent.append(group);
   const layer=(variable,opacity,scale=1)=>{const node=el('span');node.style.backgroundImage=`var(${variable})`;node.style.opacity=String(opacity);node.style.transform=`scale(${scale})`;putBox(node,{left:center[0]-rect.side,top:center[1]-rect.side,width:rect.side*2,height:rect.side*2});group.append(node);};
   layer('--board-v2-motion-fx-impact-1',f.star.on?1:0,f.star.scale);layer(`--board-v2-motion-fx-shield-${Math.max(1,f.shield.frame)}`,f.shield.opacity,f.shield.scale);layer('--board-v2-motion-fx-block-ring',f.ring.opacity,f.ring.scale);layer(`--board-v2-motion-fx-block-particles-${Math.max(1,f.particles.frame)}`,f.particles.opacity);
@@ -264,7 +344,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   for(const choice of action.choices){
    if(action.type==='MOVE'&&action.step==='targets')continue;
    const room=roomFor(choice.value);if(!room||!['MOVE','SELECT_BLACKOUT_SLOT'].includes(action.type))continue;
-   if(sceneMode==='room'&&room!==currentRoom)continue;
+   // In the room view the room scene draws this viewer's offered positions.
+   if(sceneMode==='room')continue;
    const r=rects(room,model.playerCount,layout.board.panels[room]).find(s=>s.id===choice.value),b=layout.board.boxes[room];
    const target=button(choice.label,'choose',choice.value);target.className='bv2-slot-target';target.id=`planet-slot-${choice.value}`;target.setAttribute('aria-label',`Choose ${action.type==='SELECT_BLACKOUT_SLOT'?'fixed':'empty'} position ${choice.label}`);target.setAttribute('aria-describedby','ms-action-step');putBox(target,{left:b.left+layout.board.shell.border+r.left,top:b.top+layout.board.shell.border+r.top,width:r.side,height:r.side});targets.append(target);
   }
@@ -338,6 +419,13 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   allLayouts=model.playerCount?blackoutGeometry.read(model.phase?.kind==='BLACKOUT'?model.presentation?.blackout?.windowId:null,()=>phoneLayouts({width:win.innerWidth,height:win.innerHeight,top,nav:bottom},model.playerCount)):null;
   if(allLayouts){root.style.setProperty('--phone-top',`${allLayouts.top}px`);root.style.setProperty('--phone-nav',`${allLayouts.nav}px`);}
   layout=allLayouts?.[sceneMode]??null;
+  // While the model withholds the room (hidden, or reconnecting) a mounted scene stays and takes only its
+  // status: its frame, held through a Blackout window, survives, as the board's coordinate cache does.
+  const step=roomSceneLifecycle({mounted:!!scene,key:sceneKey},model,{view:sceneMode,room:currentRoom,fits:!!layout?.fits}),nextScene=!['none','dispose'].includes(step);
+  if(nextScene!==sceneOn){sceneOn=nextScene;retireBoardPaint();if(!sceneOn)closeScene();}
+  if(step==='remount'){closeScene();retireBoardPaint();}
+  if(step==='status'){const status=roomSceneStatus(model);if(sceneInput!==`viewless:${status}`){sceneInput=`viewless:${status}`;scene.update({status});}}
+  sceneHost.hidden=!sceneOn||foodSurface.exclusive;holder.style.pointerEvents=sceneOn?'none':'';syncSceneActivity();
   holder.hidden=model.concealed||foodSurface.exclusive||!layout?.fits;stage.inert=foodSurface.exclusive;
   if(layout?.fits){
    holder.style.height=`${layout.contentHeight}px`;holder.style.width=`${allLayouts.width}px`;targets.style.width=`${allLayouts.width}px`;targets.style.height=`${layout.contentHeight}px`;stage.dataset.view=sceneMode;
@@ -346,7 +434,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    const seats=(model.board?.seats??[]).filter(s=>!away.has(s.seatId)).map(s=>({...s,...model.identities.find(i=>i.seatId===s.seatId),...(s.seatId===model.ownSeatId?{displayName:'You'}:{})}));
    const frames=sceneMode==='room'?allLayouts.roomFrames:allLayouts.boardFrames,presses=sceneMode==='room'?allLayouts.roomPresses:allLayouts.boardPresses;
    frame=boardV2SceneFrame(model.playerCount,seats,{panels:layout.board.panels,pressAreas:presses,geometry:{sceneOf,slotsOf,frameScene:(_scene,_panel,room)=>frames[room]}});
-   if(frame.problems.length){frame=null;holder.replaceChildren(el('p','The authorized board placement could not be drawn.'));}
+   if(frame.problems.length){frame=null;if(sceneOn){closeScene();retireBoardPaint();}holder.replaceChildren(el('p','The authorized board placement could not be drawn.'));}
   }else {frame=null;holder.replaceChildren();}
   const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove]);
   if(key!==uiKey){uiKey=key;renderUI();}renderTargets();
@@ -382,11 +470,11 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(action==='retry')void controller.retry();
  };
  const onKey=e=>{if(e.key==='Escape'){more=false;controller.dismiss();document.getElementById('planet-nav-board')?.focus();}};
- const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
+ const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
  const onArt=()=>{uiKey=null;if(model)render(controller.getModel());};
- const onBlur=()=>{controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
- const onFocus=()=>{if(model)render(controller.getModel());};
+ const onBlur=()=>{blurred=true;syncSceneActivity();controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
+ const onFocus=()=>{blurred=false;if(model)render(controller.getModel());syncSceneActivity();};
  const onResize=()=>{safeInsets=readInsets();uiKey=null;if(model)render(controller.getModel());};
  const barsObserver=new win.ResizeObserver(()=>{if(model&&!disposed)render(controller.getModel());});barsObserver.observe(header);barsObserver.observe(nav);
  root.addEventListener('click',onClick);root.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);document.addEventListener('mothership:art-ready',onArt);document.addEventListener('mothership:preferences-change',onResize);media.addEventListener('change',onMotion);win.addEventListener('resize',onResize);win.addEventListener('blur',onBlur);win.addEventListener('focus',onFocus);
@@ -394,5 +482,5 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  return {get view(){return sceneMode;},bars(){return {top:header.getBoundingClientRect().height,bottom:nav.getBoundingClientRect().height};},
   foodSurface(next){if(JSON.stringify(next)===JSON.stringify(foodSurface))return;foodSurface=next;uiKey=null;if(model)render(controller.getModel());},
   navigate(next){if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
-  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
+  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();closeScene();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
 }

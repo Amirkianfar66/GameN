@@ -6,7 +6,12 @@ import { pregameAssetsPlugin } from '../../../scripts/pregame-art-release.mjs';
 import { foodSupplyAssetsPlugin } from '../../../scripts/food-supply-art.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/'];
+// BEGIN room connection, for Integration's approval (the owner, 15 November 2026: the room view draws
+// Designer's room scene as it is). Only the scene's runtime directory and the icon family it imports; its
+// preview/ and review/ are never imported by the game.
+const designSources = ['design/phone-ui/components/room-scene/', 'design/phone-ui/components/icons.mjs'];
+// END room connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),
