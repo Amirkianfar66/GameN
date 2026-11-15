@@ -8,7 +8,8 @@
 //   refused   Ready unavailable, busy, spent, reconnecting or not interactive takes no tap, and says why
 //   private   concealed, no role, team or line in the page or for a screen reader; Ready refused; Show
 //             role reported; this viewer's inputs dropped, also when the viewer changes
-//   time      the clock and the strip show what they are given, and never count by themselves
+//   time      the clock and the strip show what they are given, and never count by themselves; the strip
+//             follows the server's split (an 18/12 case), never a fixed 20/10
 //   film      the film's element stays for the stage's life; Skip film works only in the film's view
 //   layout    the card's space and the film's are measured, and a change reported
 //   dispose   after dispose(), nothing is left and nothing fires
@@ -173,6 +174,21 @@ export async function runRoleStageProbe({ sizes, cardOf }) {
           && untrusted.strip && untrusted.clock === null && untrusted.note && ended.strip && ended.clock === null && ended.note === STAGE_WORDS.hide,
         first, later, film, untrusted: { ...untrusted, clock: !!untrusted.clock }, ended: { ...ended, clock: !!ended.clock },
       };
+    });
+
+    await check('time: the strip follows the server\'s split, never a fixed 20/10 (here 18/12)', async () => {
+      const split = t => ({ elapsedMs: t, filmAtMs: 18000, endsAtMs: 30000 });
+      const s = mount(own(9000, { clock: split(9000) }));
+      await frames();
+      const width = sel => s.q(sel).getBoundingClientRect().width;
+      const cardSeg = width('.ms-rst-seg:first-child'), filmSeg = width('.ms-rst-seg:last-child');
+      const first = { note: s.q('.ms-rst-note').textContent, card: s.q('.ms-rst-seg:first-child i').style.width, clock: s.q('.ms-ps-timer')?.lastChild?.textContent ?? null };
+      s.stage.update({ clock: split(24000), view: 'film', film: 'playing' });
+      const film = { card: s.q('.ms-rst-seg:first-child i').style.width, film: s.q('.ms-rst-seg:last-child i').style.width, chip: s.q('.ms-rst-chip').lastChild.textContent };
+      s.stage.dispose();
+      const ratio = cardSeg / filmSeg;
+      return { ok: Math.abs(ratio - 18 / 12) < 0.02 && first.note === 'Your film starts in 0:09' && first.card === '50%' && first.clock === '0:21'
+        && film.card === '100%' && film.film === '50%' && film.chip === '0:06', ratio, cardSeg, filmSeg, first, film };
     });
 
     await check('film: its element stays for the stage\'s life, shown only in the film\'s view; Skip film works only there', async () => {

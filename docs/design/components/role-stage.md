@@ -122,16 +122,20 @@ Controls follow the shell's rules: one delegated listener; refused when unavaila
 
 1. Mount the stage once while the setup is `reading` on the player's own phone; dispose on any exit.
 2. Map `PlanetSessionModel`: `clock` from `setupClock` and `setup` (`startedAt`, `roleFilmStartsAt`, `endsAt`); `view` and `film` from the pregame controller's `sample()` and `skip()`; `card` from `ownRole` and the own member's `characterId`; `ready` from the own member's `ready` and the `ready` offer; `roster` from `members`.
-3. Mount the film player in `stage.film`. Its full-screen dialog and own Skip (`pregame.mjs`'s overlay) are replaced by the stage's chrome.
+3. Mount the existing film player (`pregame.mjs`'s scene and captions, with the runtime films) in `stage.film`. Its full-screen dialog and its own Skip are replaced by the stage's chrome: the stage's Skip film reports `onSkipFilm()`, which calls today's `controller.skip()`.
 4. Leave no other Ready, role card or setup header active beside it.
 
-## Open questions for the Lead
+## Decisions (the Lead Designer's review of `1b5a0289`, 15 November 2026)
 
-1. **The film player:** Motion & Cinematics' films are pure functions of time. Who supplies the runtime player mounted in `stage.film` (picture, captions, live words): Motion & Cinematics as a component, or Frontend's existing `pregame-scene.mjs`? The stage assumes it owns only the chrome (clock chip, Skip film).
-2. **The shell inside the stage:** the stage mounts its own phone shell (`tabs: null`, `promises: null`, `menu: null`) for the top bar. Sheet 17 draws no ⋮; today's setup screen has Settings. Keep it off, as the sheet?
-3. **Facts copy:** the role facts are the pack's drafts (`fixtures.mjs`); today the game shows `role.guide`, one line. Frontend supplies `facts`; the preview uses the pack's lines.
-4. **Strip and clock:** the strip is drawn from `clock`; is the 20/10 split always the server's (`filmAtMs`), as assumed?
-5. **The toast over the film:** the film runs full-bleed over the top bar, but the shell's toast sits under it. Could the shell take `bar: null` (no top bar, the stage to the top), so the film mounts in its stage with the toast and banner above? Or should the stage draw its own notice over the film?
+The interface is approved with these decisions:
+
+1. **The film player is Frontend's existing one:** the player that plays the films #266 restored (`apps/game/hosted/planet/pregame.mjs`, with the runtime films), mounted in `stage.film`. Motion & Cinematics does not rebuild the role films now. The stage owns the chrome only: the clock chip and Skip film.
+2. **No ⋮** during the stage, as sheet 17 draws it.
+3. **The facts are Frontend's accepted copy.** The pack's drafts stay in the preview only.
+4. **The 20/10 split is always the server's:** `roleFilmStartsAt` → `clock.filmAtMs`, never constants. The probe draws an 18/12 split to prove the strip follows what it is given; a hard-coded 20/10 fails it.
+5. **The toast over the film:** the shell is taking `bar: null` (#265): no top bar, the stage full-bleed under the status bar, the toast and the reconnecting banner still above it under the safe area. In the film's view the stage gives the shell `bar: null` and the film mounts in the shell's stage. Until that lands, the two `late` captures fail.
+
+Also approved: the card's `device` from Frontend's `planetRoleLook(...).device` (one table), the `.ms-own-card` root, and Show's 44 px eye in the card's own part.
 
 ## Checks run on the first build
 
@@ -148,5 +152,5 @@ On `a46afbbe`, clean (the kit at `07596ba1`; the check on the shared `component-
 
 | What | Waiting on |
 | --- | --- |
-| The rejoined toast over the film | Question 5: the shell drawing no top bar, or the stage's own notice |
+| The rejoined toast over the film | The shell's `bar: null` (#265), decision 5 |
 | Frontend's review and connection | The Lead's review of this interface, then #4 |
