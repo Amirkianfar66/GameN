@@ -6,6 +6,25 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 15 November 2026: the Card's empty Knowledge line
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.** The Lead asked:
+
+> Should the Card's empty Knowledge line read "You have no knowledge of other players."?
+
+The owner answered:
+
+> As you recommended
+
+The same reply answered one other question, about publishing evidence, which this record does not cover.
+
+**What it covers:** when a player knows nothing about the other players, the Card's Knowledge view reads "You have no knowledge of other players."
+- It is `CARD_SHEET_WORDS.noKnowledge` in the Card sheet: [#270](https://github.com/Amirkianfar66/GameN/pull/270), whose handoff is `docs/design/components/card.md`.
+- It departs from sheet 31's words, "Your role starts with no knowledge of other players.", which state a rule about the role that the phone can't know.
+- It follows T3's principle ([11 November](#11-november-2026-the-build-follows-the-pack)): the phone never works out from the rules what it is not given.
+
+**What it leaves open:** nothing.
+
 ## 15 November 2026: Designer delivers the usable visual component
 
 **Recorded by Integration from the owner's Integration chat.** The owner clarified the purpose of the direct-component workflow:
