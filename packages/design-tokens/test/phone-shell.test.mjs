@@ -84,6 +84,15 @@ test('its styles reach nothing outside the shell: every rule is scoped under .ms
       assert.match(selector, /^\.ms-phone-shell(?:[\s.:\[]|$)/, `"${selector}" is scoped`);
     }
   }
+  // Nor does anything reach into the stage (the room scene's) or a sheet's body (its content's): no
+  // universal selector, no bare element outside the shell's own parts, nothing under those two.
+  for (const list of selectors) {
+    for (const selector of split(list)) {
+      assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
+      assert.doesNotMatch(selector, /\.ms-ps-(?:stage|sheet-body)[\s>+~]/, `"${selector}": nothing inside the stage or a sheet's body`);
+      assert.doesNotMatch(selector, /^\.ms-phone-shell(?:\[[^\]]*\])?\s+(?::is\()?(?:button|div|span|b|p|h2|svg|nav|header|section)\b/, `"${selector}": no bare element straight under the shell`);
+    }
+  }
   // Custom properties are the shell's own, besides --ic-knock, which the shared icons read.
   const declared = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))];
   assert.deepEqual(declared.filter(p => !p.startsWith('--ms-ps-') && p !== '--ic-knock' && p !== '--p'), []);

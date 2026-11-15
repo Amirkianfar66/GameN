@@ -698,7 +698,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     paintSheet();
     paintToast();
     if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
-    reportLayout();
+    // The ResizeObserver reports every change of the bars or the stage, without measuring on each update
+    // (the model updates about four times a second); without one, each update measures.
+    if (!observer) reportLayout();
   }
   function update(next = {}) {
     if (disposed) return;

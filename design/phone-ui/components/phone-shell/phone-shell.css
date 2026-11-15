@@ -61,13 +61,18 @@
 /* A shared display has no tab bar; the private talk's two buttons sit over the stage's foot (sheet 25). */
 .ms-phone-shell[data-tabs="none"] { --ms-ps-tab-h: 0px; }
 .ms-phone-shell[data-tabs="talk"] { --ms-ps-bottom: calc(var(--ms-ps-safe-b) + 18px + 50px + 10px); --ms-ps-stage-bottom: 0px; }
-.ms-phone-shell :is(*, *::before, *::after) { box-sizing: border-box; }
-.ms-phone-shell :is(button) { font: inherit; color: inherit; cursor: pointer; margin: 0; }
-.ms-phone-shell :focus-visible { outline: 3px solid var(--ms-ps-focus); outline-offset: 2px; }
+/* The shell's own parts only (their classes start ms-ps-): nothing here reaches into the stage, which is
+   the room scene's, or into a sheet's body, which is its content's. Each of those styles itself. */
+.ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"]),
+.ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"])::before,
+.ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"])::after { box-sizing: border-box; }
+.ms-phone-shell :is(.ms-ps-promises, .ms-ps-menu, .ms-ps-tab, .ms-ps-hero, .ms-ps-btn, .ms-ps-icon-btn) { font: inherit; color: inherit; cursor: pointer; margin: 0; }
+.ms-phone-shell :is(.ms-ps-promises, .ms-ps-menu, .ms-ps-tab, .ms-ps-hero, .ms-ps-btn, .ms-ps-icon-btn):focus-visible { outline: 3px solid var(--ms-ps-focus); outline-offset: 2px; }
 .ms-phone-shell:focus { outline: none; }
 .ms-phone-shell .ms-ps-ic { display: block; flex: none; }
 .ms-phone-shell .ms-ps-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.ms-phone-shell [hidden] { display: none !important; }
+.ms-phone-shell :is(.ms-ps-tb, .ms-ps-tabs, .ms-ps-talk, .ms-ps-over, .ms-ps-sheet-head, .ms-ps-sheet-foot, .ms-ps-toast, .ms-ps-hud) [hidden],
+.ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"])[hidden] { display: none !important; }
 
 /* ── The stage: between the bars, for the room scene or the board ──── */
 .ms-phone-shell .ms-ps-stage { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 0; overflow: hidden; }
@@ -204,7 +209,7 @@
 
 /* ── Over the stage: the target bar, the banner, the chip ───────────── */
 .ms-phone-shell .ms-ps-over { position: absolute; inset: 0; z-index: 41; pointer-events: none; }
-.ms-phone-shell .ms-ps-over > * { pointer-events: auto; }
+.ms-phone-shell .ms-ps-over > :is(.ms-ps-target, .ms-ps-banner, .ms-ps-chip) { pointer-events: auto; }
 .ms-phone-shell .ms-ps-text { flex: 1; min-width: 0; }
 .ms-phone-shell .ms-ps-text b { display: block; font: 600 1rem/1.2 var(--ms-ps-font); }
 .ms-phone-shell .ms-ps-text span { display: block; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
@@ -273,5 +278,8 @@
   .ms-phone-shell :is(.ms-ps-hero, .ms-ps-btn)[aria-busy="true"]::after { animation: none; }
 }
 @keyframes ms-ps-fade { from { opacity: 0; } }
-/* Suspended (the app in the background): nothing runs. */
-.ms-phone-shell[data-suspended] * { animation-play-state: paused !important; }
+/* Suspended (the app in the background): the shell's own motion stands still. The room scene in the stage
+   has its own suspend(), and the shell leaves it alone. */
+.ms-phone-shell[data-suspended] :is(.ms-ps-sheet, .ms-ps-toast),
+.ms-phone-shell[data-suspended] :is(.ms-ps-hero, .ms-ps-btn)::before,
+.ms-phone-shell[data-suspended] :is(.ms-ps-hero, .ms-ps-btn)::after { animation-play-state: paused; }
