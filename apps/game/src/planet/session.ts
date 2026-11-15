@@ -66,11 +66,11 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  let join:{matchId:string;kind:'player'|'display';roomCode:string;requestId:string}|null=null;
  let busy=false,uncertain=false,pending:PlanetServiceRequest|null=null,code:string|null=null,message:string|null=null,connectionState:PlanetSessionModel['connection']='connecting';
  let poll:unknown=null,ticker:unknown=null,refreshing:Promise<void>|null=null,generation=0,started=false;
- type ReadScope={uid:string|null;matchId:string;generation:number};
- let refreshQueued:ReadScope|null=null,snapshotServerTimeMs:number|null=null,lastFoodReadAt=-Infinity,heartbeat:unknown=null,heartbeating=false;
+ type SessionScope={uid:string|null;matchId:string;generation:number};
+ let refreshQueued:SessionScope|null=null,snapshotServerTimeMs:number|null=null,lastFoodReadAt=-Infinity,heartbeat:unknown=null,heartbeating=false;
  // A local timeout ends waiting, not the underlying network request. Retain its
  // actual lifetime and original clock window until the adapter settles it.
- let readFlight:(ReadScope&{promise:Promise<unknown>;startedAt:number;receivedAt:number})|null=null;
+ let readFlight:(SessionScope&{promise:Promise<unknown>;startedAt:number;receivedAt:number})|null=null;
  let roleReadingContext:string|null=null,explicitRoleConceal=false;
  const readingContext=(s:PlanetSessionSnapshot)=>s.status==='reading'&&s.setup&&s.selfSeatId&&uid?JSON.stringify([uid,s.matchId,s.setup.id,s.selfSeatId]):null;
  function readRolePrivacy(context:string):boolean {
@@ -83,8 +83,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const handle=ports.scheduler.setTimeout(()=>finish(null),8000);timeouts.add(handle);Promise.resolve().then(run).then(finish,()=>finish(null));
  });
  const auth=()=>uid!==null&&connection.currentUid()===uid;
- const matchesReadScope=(scope:ReadScope)=>scope.uid===uid&&scope.matchId===matchId&&scope.generation===generation;
- const needsFreshRead=()=>refreshQueued!==null&&matchesReadScope(refreshQueued)&&visible&&!disposed&&auth();
+ const matchesScope=(scope:SessionScope)=>scope.uid===uid&&scope.matchId===matchId&&scope.generation===generation;
+ const needsFreshRead=()=>refreshQueued!==null&&matchesScope(refreshQueued)&&visible&&!disposed&&auth();
  const live=()=>visible&&fresh&&auth();
  const standingMatches=(s:PlanetSessionSnapshot)=>join===null||s.matchId===join.matchId&&s.roomCode===join.roomCode&&s.admission?.requestId===join.requestId&&s.admission.kind===join.kind;
  const knownAdmitted=()=>!!snapshot&&standingMatches(snapshot)&&(snapshot.admission===null?snapshot.isHost||snapshot.selfSeatId!==null:snapshot.admission.status==='admitted'&&(snapshot.admission.kind==='display'?snapshot.selfSeatId===null:snapshot.selfSeatId!==null));
@@ -107,13 +107,15 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  function conceal(text:string,error=false){fresh=false;revealed=false;code=null;message=text;connectionState=error?'error':'stale';for(const feed of feeds)feed.error(error?'authorization':'network');emit();}
  async function request(input:PlanetServiceRequest,legacyClockRead=false):Promise<Answer|null>{
   const requestedAt=ports.clock.now();
+  const heartbeatScope=input.operation==='foodHeartbeat'
+   ?{uid,matchId:input.matchId,generation,seatId:snapshot?.selfSeatId,taskId:input.taskId}:null;
   let flight:NonNullable<typeof readFlight>|null=null;
   if(input.operation==='read'&&!legacyClockRead){
    if(!readFlight){
     const next={startedAt:ports.clock.now(),receivedAt:0,uid,matchId:input.matchId,generation,promise:Promise.resolve(null) as Promise<unknown>};
     next.promise=Promise.resolve().then(()=>{
      // Only a newly dispatched read in this scope satisfies the queued refresh.
-     if(matchesReadScope(next)&&needsFreshRead())refreshQueued=null;
+     if(matchesScope(next)&&needsFreshRead())refreshQueued=null;
      return connection.request(input);
     }).then(value=>{next.receivedAt=ports.clock.now();return value;}).finally(()=>{
      if(readFlight===next){readFlight=null;resumeQueuedRead();}
@@ -122,9 +124,16 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    flight=readFlight;
   }
   const raw=await bounded(()=>flight?flight.promise:connection.request(input));if(disposed||!auth())return null;
-  if(flight&&!matchesReadScope(flight))return null;
+  if(flight&&!matchesScope(flight))return null;
+  if(heartbeatScope&&(!matchesScope(heartbeatScope)||snapshot?.selfSeatId!==heartbeatScope.seatId||
+   snapshot?.foodPlayerView?.participantTask?.taskId!==heartbeatScope.taskId))return null;
   const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs});
-  if(planetHasFood(snapshot?.versions)&&(result?.code==='FORBIDDEN'||result?.code==='UNAUTHENTICATED'))conceal('This identity can no longer read this session.',true);
+  if(planetHasFood(snapshot?.versions)&&(result?.code==='FORBIDDEN'||result?.code==='UNAUTHENTICATED')){
+   // An earlier READ cannot reauthorize after a current heartbeat refusal.
+   if(heartbeatScope)generation++;
+   conceal('This identity can no longer read this session.',true);
+   if(heartbeatScope)void refresh(true);
+  }
   return result;
  }
  function saveResume(){if(matchId)try{stores.resume.save(JSON.stringify({protocolVersion:3,matchId,ownerUid:uid,join}));}catch{message='Session resume could not be saved in this tab.';}}
@@ -139,6 +148,8 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  }
  async function read(){
   if(!matchId||!visible||disposed)return;
+  // Keep the wire slot until settlement without letting an obsolete READ change the new scope.
+  if(readFlight&&!matchesScope(readFlight))return;
   const token=generation,response=await request({operation:'read',matchId});if(token!==generation||disposed)return;
   if(!response?.ok){
    if(join&&auth()&&!knownAdmitted()){conceal('Your request is registered. Waiting for the server to confirm admission.');return;}
