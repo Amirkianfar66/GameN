@@ -1,6 +1,8 @@
 # Role stage and role card: Designer's runtime component
 
-**Version:** `role-stage-0.1.0`, **proposed interface only**. **Status (15 November 2026):** the interface, for the Lead Designer's review and then Frontend's on #4. Nothing is built yet: no module, styles, preview or captures. Controls wait for the Lead's shared kit (`design/phone-ui/components/kit/`).
+**Version:** `role-stage-0.1.0` and `role-card-0.1.0`, **proposed interface, with a first build**. **Status (15 November 2026):** the interface is with the Lead Designer for review, then Frontend's on #4. A first build against it is on this branch, with its preview, probe, agreement, check and test, so the review can see it working. It is not ready for Frontend:
+- **Ready, Skip film and Show role** wait for the Lead's shared kit (`design/phone-ui/components/kit/`) for their looks.
+- **"Rejoined · the stage carried on"** is drawn by the shell's toast, which sits under the full-bleed film (sheet 18 draws it over the film). It waits on the Lead's answer to question 5 below.
 
 **What it is:** the private 30-second role stage on the player's own phone, and the role card it shows, as the phone pack draws them. It is #222 item 6 (PHONE-PARITY). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -22,9 +24,9 @@ Designer's, runtime-safe, in `design/phone-ui/components/role-stage/`:
 
 | Path | What |
 | --- | --- |
-| `role-card.mjs` | `mountRoleCard()`, `ROLE_CARD_VERSION`, `checkRoleCard()`, `ROLE_DEVICE` (the role → held-device picture map, a visual mapping) |
-| `role-card.css` | Every card style, under `.ms-role-card-v2` (a new root class: today's `.ms-role-card` stays the frozen Food release's) |
-| `role-stage.mjs` | `mountRoleStage()`, `nextRoleStageInput()`, `ROLE_STAGE_VERSION`, `STAGE_WORDS` |
+| `role-card.mjs` | `mountRoleCard()`, `checkRoleCard()`, `ROLE_CARD_DEFAULTS`, `ROLE_CARD_VERSION`, `CARD_WORDS`, `personVariable()`, `deviceVariable()` |
+| `role-card.css` | Every card style, under `.ms-own-card` (a new root class: today's game styles `.ms-role-card`, so the two never overlap) |
+| `role-stage.mjs` | `mountRoleStage()`, `nextRoleStageInput()`, `stageNote()`, `ROLE_STAGE_DEFAULTS`, `ROLE_STAGE_VERSION`, `STAGE_WORDS`, `CROSSFADE_MS`, `CROSSFADE_REDUCED_MS` |
 | `role-stage.css` | Every stage style, under `.ms-role-stage` |
 | `preview/` | Development only: the preview on the pack's synthetic fixtures, the probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`, against `prototype/screens-pregame.mjs`'s `roleCard()` and `role` screen) |
 | `review/` | The check's captures and `check.json` |
@@ -70,7 +72,7 @@ card.update(cardInput); card.dispose();
 | `clock` | Public | `{ elapsedMs, filmAtMs, endsAtMs }`, from the server's interval (`startedAt`, `roleFilmStartsAt`, `endsAt`; today 0, 20 000, 30 000). Given each tick; the stage never counts down by itself. `null` while the clock is not trusted: the strip and times are hidden |
 | `view` | This viewer's | `'card'` (before the film, or the film unavailable or skipped), `'film'` (Frontend is playing the film in `stage.film`) or `'after'` (the stage has ended). Frontend decides it, from the same controller that decides whether the film plays; the stage only draws the 700 ms crossfade between them (80 ms under Reduce motion) |
 | `film` | This viewer's | `'pending'` (before 0:20), `'playing'`, `'missing'` or `'skipped'`: which line sits under the card |
-| `card` | This viewer's | `{ role, team, facts, character, art }`: the role's name as the projection gives it (`privateArea.role`); `team` `'Blue' \| 'Red' \| 'Alien'` from its faction; `facts`, one to three lines of Frontend's accepted copy; `character` `c1`–`c9` from the viewer's own identity; `art` `'ok'` or `'missing'` |
+| `card` | This viewer's | `{ role, team, facts, character, device, art }`: the role's name as the projection gives it (`privateArea.role`); `team` `'Blue' \| 'Red' \| 'Alien'` from its faction; `facts`, one to three lines of Frontend's accepted copy; `character` `c1`–`c9` from the viewer's own identity; `device`, the held device's picture id from Frontend's existing map (`planetRoleLook(...).device`), `'engineer'` where the match carries the successor art, or `null`; `art` `'ok'` or `'missing'` |
 | `ready` | This viewer's | `{ mode: 'ready' \| 'done', enabled, busy, reason }`. `enabled` is the server's offer; `'done'` once the viewer's own Ready is recorded (the stamp on the card, Ready secondary and unavailable) |
 | `roster` | Public | `null`, or `{ ready, total }`: "6 of 9 ready", shown once this viewer is ready |
 | `toast` | This viewer's | `null`, or `{ id, text, icon }`: "Rejoined · the stage carried on" on a late return, as the shell's toast |
@@ -84,7 +86,7 @@ card.update(cardInput); card.dispose();
 
 ### The card's input (`mountRoleCard`)
 
-`{ face: 'up' \| 'down', role, team, facts, character, art, stamp: null \| 'ready' }`. `face: 'down'` is the card back ("Role hidden", or "Hidden" on sheet 31, with Show), and needs no private field. Sheet 31's Card sheet passes the same input.
+`{ face: 'up' \| 'down', role, team, facts, character, device, art, stamp: null \| 'ready', back: 'stage' \| 'sheet', show: { enabled, reason } }`. `face: 'down'` is the card back ("Role hidden" and Show role, or sheet 31's "Hidden" and Show with `back: 'sheet'`), and keeps no private field. Sheet 31's Card sheet passes the same input. The card fills its host's height and is as wide as 5 : 7 allows, never wider than the host, as the pack's `.card-area` and `.card-fit` do: on a phone it fills the space (358 × 571 at 390 × 844).
 
 ## Callbacks
 
@@ -128,7 +130,23 @@ Controls follow the shell's rules: one delegated listener; refused when unavaila
 2. **The shell inside the stage:** the stage mounts its own phone shell (`tabs: null`, `promises: null`, `menu: null`) for the top bar. Sheet 17 draws no ⋮; today's setup screen has Settings. Keep it off, as the sheet?
 3. **Facts copy:** the role facts are the pack's drafts (`fixtures.mjs`); today the game shows `role.guide`, one line. Frontend supplies `facts`; the preview uses the pack's lines.
 4. **Strip and clock:** the strip is drawn from `clock`; is the 20/10 split always the server's (`filmAtMs`), as assumed?
+5. **The toast over the film:** the film runs full-bleed over the top bar, but the shell's toast sits under it. Could the shell take `bar: null` (no top bar, the stage to the top), so the film mounts in its stage with the toast and banner above? Or should the stage draw its own notice over the film?
+
+## Checks run on the first build
+
+On `2c151826`, clean:
+- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph, scoped styles, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 385 of 385; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
+- **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
+  - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **24 of 26 pass**. The two `late` captures fail: the rejoined toast is drawn, but under the film (question 5).
+  - **The lifecycle probe:** 13 of 13 (12 as the page comes, 1 with the device's Reduce motion): focus, refused taps, reconnecting, privacy, the clock, the film's element, layout, dispose and motion. Two deliberate breaks (concealment keeping the card; a new viewer keeping the last one's) each fail it.
+  - **The agreement with the frozen pack** (`screens-pregame.mjs`'s role screen beside the stage, the same moment): **8 of 9 cases** agree to within half a pixel in every part (the bar, the clock, the strip, the card, its picture, person and device, its words, the line, Ready's place, the stamp). The card back's words sit 4.7 px lower: the unstyled Show button is taller than the pack's small button. It closes with the kit.
+  - **Page health:** no page errors, no failed requests, no unexpected policy report.
+- **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
 
 ## Not in this version
 
-Everything: this is the interface. Next: the module and styles (after the kit), the preview's states, the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack and the test.
+| What | Waiting on |
+| --- | --- |
+| Ready, Skip film and Show role's looks | The Lead's shared kit |
+| The rejoined toast over the film | Question 5: the shell drawing no top bar, or the stage's own notice |
+| Frontend's review and connection | The Lead's review of this interface, then #4 |

@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/role-stage-check.mjs",
   "component": "design/phone-ui/components/role-stage",
-  "sourceCommit": "3fff5070312f39902bce3db0bdbd8ef783b1e621",
-  "sourceClean": false,
+  "sourceCommit": "2c151826dd80a3df2496f6dd76523fa8c213bf0d",
+  "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
     {
@@ -71,9 +71,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -134,9 +135,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -197,9 +199,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -260,9 +263,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -323,9 +327,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -386,9 +391,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -449,9 +455,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -512,9 +519,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -575,9 +583,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -638,9 +647,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -701,6 +711,7 @@
       "toast": null,
       "banner": null,
       "pictures": [],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -758,6 +769,7 @@
       "toast": null,
       "banner": null,
       "pictures": [],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -815,9 +827,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -878,9 +891,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -941,6 +955,7 @@
       "toast": null,
       "banner": null,
       "pictures": [],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -998,6 +1013,7 @@
       "toast": null,
       "banner": null,
       "pictures": [],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1023,8 +1039,8 @@
     "390x844/late": {
       "file": "design/phone-ui/components/role-stage/review/390x844-late.jpg",
       "sha256": "cbf9a4b01d4943a895c84da6d97e423cb8f23c4eee04ee43852ba4e6b35fec4f",
-      "ok": true,
-      "drawn": true,
+      "ok": false,
+      "drawn": false,
       "violations": [
         {
           "directive": "script-src",
@@ -1055,9 +1071,10 @@
       "toast": "Rejoined · the stage carried on",
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1086,8 +1103,8 @@
     "430x932/late": {
       "file": "design/phone-ui/components/role-stage/review/430x932-late.jpg",
       "sha256": "f1344a00b944fc4e05a4975fbffc6409b12307b4ee24e9bc376240a024ff7d6d",
-      "ok": true,
-      "drawn": true,
+      "ok": false,
+      "drawn": false,
       "violations": [
         {
           "directive": "script-src",
@@ -1118,9 +1135,10 @@
       "toast": "Rejoined · the stage carried on",
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1181,9 +1199,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1244,9 +1263,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1307,9 +1327,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1370,9 +1391,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1433,9 +1455,10 @@
       "toast": null,
       "banner": "Connection lost",
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1496,9 +1519,10 @@
       "toast": null,
       "banner": "Connection lost",
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": {
         "size": {
@@ -1559,9 +1583,10 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:40631/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": null,
       "requests": [
@@ -1605,6 +1630,7 @@
       "toast": null,
       "banner": null,
       "pictures": [],
+      "toastOnTop": false,
       "picturesDrawn": true,
       "layout": null,
       "requests": [],
