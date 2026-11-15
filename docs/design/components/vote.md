@@ -226,7 +226,7 @@ Listed, not omitted:
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/vote-check.mjs`:** recorded on `8530551`, with the source clean. It exits non-zero until the kit's paper cells land: the 7 result frames below.
+- **`node design/tools/vote-check.mjs`:** recorded on `8188ef3`, with the source clean. It exits non-zero until the kit's paper cells land: the 7 result frames below.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's and the shell's.
   - **Captures:** 46 of 46 pass, each drawing what its state asks: every seat's cell state, the sheet's words and footer or the result's headline and line, and the room's crew behind.
     - Twenty states at 390 × 844 and 430 × 932.
@@ -236,6 +236,7 @@ Listed, not omitted:
     - **With the device's Reduce motion emulated (1):** motion.
   - **The agreement with the pinned pack** (`preview/agree.mjs`): 16 of 23 frames agree to within half a pixel.
     - **What is compared:** each frame drawn by the pack's own `screens-vote.mjs` beside the component, from the same fixtures: the words, each seat's state, note, count, "You" and mark, and the boxes of every part and badge.
+    - **The one accepted difference, T3:** before comparing, the pack's status words under a cell that can't be chosen are amended in its drawing (never its source): "Not available now" on the ballot, none on the result. The record lists all 47 amendments.
     - **Agree:** all ten ballot frames at 390 × 844, and all six of sheet 56 at 320 × 568 with 200 % text.
     - **Differ in boxes only:** the seven result frames at 390 × 844. Each cell is 22 px taller, with the kit's 92 px portrait and padding against the paper card's 74 px, and "You" sits on the count, top-left. Not one word, state or count differs. Both wait on the kit's paper form; `vote.test.mjs` holds that list, which can only shrink.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.

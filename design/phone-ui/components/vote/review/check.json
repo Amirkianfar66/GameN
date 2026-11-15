@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/vote-check.mjs",
   "component": "design/phone-ui/components/vote",
-  "sourceCommit": "853055139e355e767d263a9b360285f88a8d640e",
+  "sourceCommit": "8188ef307ccd5baf007d25e635e961e8c477e5a3",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/jail-open": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-open.jpg",
-      "sha256": "3f2665471eca50a8f0c6a545115a86d1240dbf65add6a431af37c4beaaa159db",
+      "sha256": "0fd2f257d952bb0f14922fad1377dc4a02a6688b23a5ce77276e4aef6400d333",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -74,7 +74,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 51,
+      "names": 75,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -93,14 +93,14 @@
     },
     "430x932/jail-open": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-open.jpg",
-      "sha256": "4f0ec3bcf82ccc6a0ad05231d2d48c3a0259b54a83d4e7f5abd872abc59f6f79",
+      "sha256": "f341d85435ef27469d6dce5bcd2e46d69bf3e099eebbbef3e0955b056d301a52",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -128,7 +128,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 51,
+      "names": 75,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -147,14 +147,14 @@
     },
     "390x844/jail-selected": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-selected.jpg",
-      "sha256": "0a8ededb05838c817a3c3596960092831f13eb0fcfd741fae646f3fad3c5ebd2",
+      "sha256": "7db5ae768005b50a4de30c392b91f66378756cc4a7888f03e7f0bf455848f9e0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -182,7 +182,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 59,
+      "names": 83,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -201,14 +201,14 @@
     },
     "430x932/jail-selected": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-selected.jpg",
-      "sha256": "80660670d86ad09e0aac2860e9d7d81c30b39139d5c2e6db4b325014f0305677",
+      "sha256": "11aaec0036b6e5c70c8f4faee6d05e616b305cc568c39a04e63c541f32d34fbb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -236,7 +236,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 59,
+      "names": 83,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -255,14 +255,14 @@
     },
     "390x844/jail-submitted": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-submitted.jpg",
-      "sha256": "985383f2c0f28a1025d2758e3cc8ec06fd5e6db6797e73bc4c67ed57163ca3bc",
+      "sha256": "e292edd339765cb9dd53952982958abd4c72cae1bfdd76b1740f1f97ed872902",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -290,7 +290,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 60,
+      "names": 84,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -309,14 +309,14 @@
     },
     "430x932/jail-submitted": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-submitted.jpg",
-      "sha256": "f81fd041cb5ca3d295c6b0fae90ee5588b15fc22f48605437a87a96709c2c0db",
+      "sha256": "187d4f16d8b316058ac5e9125b8a49ef541581a65db65cde903e4634fa02ec3f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -344,7 +344,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 60,
+      "names": 84,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -363,14 +363,14 @@
     },
     "390x844/jail-abstained": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-abstained.jpg",
-      "sha256": "34165adfd5ffed82e2fca211e48ccc526be79a000ef507b480ec0ebe13266843",
+      "sha256": "8c3f2ad54bd545e33c4acb55fc29b80ab0222ee6ac4001951a47f5898c66583b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -398,7 +398,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 64,
+      "names": 88,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -417,14 +417,14 @@
     },
     "430x932/jail-abstained": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-abstained.jpg",
-      "sha256": "1f83c081a2950a982904f5ce9b3960b7135d900be81e686bd6787a222992182d",
+      "sha256": "3ea0ab10299056ee0b58d5b5ed132a4d1132f4ee5a9cfe6bed76e05f4b5ae0f1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -452,7 +452,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 64,
+      "names": 88,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -471,14 +471,14 @@
     },
     "390x844/jail-closed": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-closed.jpg",
-      "sha256": "550eda63b1fc6bfd22ca8c40caff89ee317c58cf23c3f77822896025f096e2f0",
+      "sha256": "74bb88e2d71abcc36ac7cf338994204a1d3efed0f94697dbdb344849e06e39b6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -506,7 +506,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 71,
+      "names": 95,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -525,14 +525,14 @@
     },
     "430x932/jail-closed": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-closed.jpg",
-      "sha256": "457706f9005fbd46d9d92ecc4e2cb4e43ddbbc7c197f0de526f937abaf562e56",
+      "sha256": "a1a4e160a2051f9f20fb19109577985404fe8dab147db41e18072559431f1b8d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -560,7 +560,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 71,
+      "names": 95,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -579,14 +579,14 @@
     },
     "390x844/captain-open": {
       "file": "design/phone-ui/components/vote/review/390x844-captain-open.jpg",
-      "sha256": "7a4439d2bc94cca52a2099eb37681503ee0983ea66d8eed4741bcc8785978a2e",
+      "sha256": "88c2deb1f04787acb21b1fb443d4f9587c51628b3e76624ccfd10cd86bb223f3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -614,7 +614,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 58,
+      "names": 92,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -633,14 +633,14 @@
     },
     "430x932/captain-open": {
       "file": "design/phone-ui/components/vote/review/430x932-captain-open.jpg",
-      "sha256": "0c92bade821afd7f6aecf196fe63fdd471ff6d7f1fe51069db61d277f2803481",
+      "sha256": "703d9bff75ad066b538bccc6c1e3e0b8009ece425937a5b12b6c852650ebd38e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -668,7 +668,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 58,
+      "names": 92,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -687,14 +687,14 @@
     },
     "390x844/captain-runoff": {
       "file": "design/phone-ui/components/vote/review/390x844-captain-runoff.jpg",
-      "sha256": "50b4781fc4b2cf0b8180984bbb5cf6f6767f380afe5db66d20f7872e06b1b8f0",
+      "sha256": "0d4c67180aa8965772bbd7cc5d1dba3659c2e567d6c5115bf4c39c25b61d98fe",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -741,14 +741,14 @@
     },
     "430x932/captain-runoff": {
       "file": "design/phone-ui/components/vote/review/430x932-captain-runoff.jpg",
-      "sha256": "a2f6545acb2c03a79575190197d90d37b07d575cc4f7dcd0a66ecf0052543442",
+      "sha256": "9b106f37115a4ecd19a9f768a9ce893e8673c2cfa0d82c00167e4b858bc9aad7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -795,14 +795,14 @@
     },
     "390x844/captain-8-selected": {
       "file": "design/phone-ui/components/vote/review/390x844-captain-8-selected.jpg",
-      "sha256": "d36667c212b186f6ff89f893b9c925a77b4998d376aff56306f46a8be45e46e7",
+      "sha256": "621ad3f0e89e02fc1e93b576ad6aeb71d15a419058cb007af278b30b757ecba1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -830,7 +830,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 59,
+      "names": 79,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -848,14 +848,14 @@
     },
     "430x932/captain-8-selected": {
       "file": "design/phone-ui/components/vote/review/430x932-captain-8-selected.jpg",
-      "sha256": "9d43d225535f4d43d2d2c415b12129c954566fdaa5b3d9bf8e648dba312ebe05",
+      "sha256": "23299e7fee5b818a5724ef61e11c56860d8c13f9dda694923ffc4a12c0a96d96",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -883,7 +883,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 59,
+      "names": 79,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -901,14 +901,14 @@
     },
     "390x844/jail-7": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-7.jpg",
-      "sha256": "ee86ffaffe0fcb7160793887bc91d6fac5501a0c927eb0d24abaea5435221639",
+      "sha256": "646355743e60452b111ec3ca50656969d1cc2adf4b791be41914b631c4532324",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -936,7 +936,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 39,
+      "names": 49,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -953,14 +953,14 @@
     },
     "430x932/jail-7": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-7.jpg",
-      "sha256": "f8c08a23c20b9287afbacad8d4a135069c68851c2fff01423b36bdf31e4a25f0",
+      "sha256": "ccd19ba652c4525c7af0d47dfdb51d8bb4bed2d27b608756936d485391118979",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -988,7 +988,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 39,
+      "names": 49,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1005,14 +1005,14 @@
     },
     "390x844/jail-cannot": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-cannot.jpg",
-      "sha256": "9ed7389583f4689c6c477f0026aa1e9284b8531e41d02cd32f0c9c4a799131b8",
+      "sha256": "8d2d8dce53039862448ed64720b5acc0356b55787c7d3369430fcfa8fb80a842",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1040,7 +1040,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 102,
+      "names": 126,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1059,14 +1059,14 @@
     },
     "430x932/jail-cannot": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-cannot.jpg",
-      "sha256": "b23e0ecce8c5a964fead76bcf77145f6b8b3786890efef893359b8d383eca3a1",
+      "sha256": "d003a05454313de0f43c4a913dd09229f41e8b0fddcb577234bea31f7c4138ac",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1094,7 +1094,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 102,
+      "names": 126,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1113,14 +1113,14 @@
     },
     "390x844/result-elected": {
       "file": "design/phone-ui/components/vote/review/390x844-result-elected.jpg",
-      "sha256": "e022d023eb0413ece639614928d58b0a34296ccba88777ebfbda155b96607090",
+      "sha256": "9b354dd05572d9f7b61975bcccf0ec535f363747d875bb3cdda8a2c576b410c0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1148,7 +1148,7 @@
       "line": "8 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 134,
+      "names": 117,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1167,14 +1167,14 @@
     },
     "430x932/result-elected": {
       "file": "design/phone-ui/components/vote/review/430x932-result-elected.jpg",
-      "sha256": "253986afb93f197cbc3249bfd6ba0b93e1104f5677ce9f30c2ab4ac09bb8855a",
+      "sha256": "21957046cf6dca289ab0a031fa090ad41ed5daecc56d161881a06776b1177ccf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1202,7 +1202,7 @@
       "line": "8 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 134,
+      "names": 117,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1221,14 +1221,14 @@
     },
     "390x844/result-runoff": {
       "file": "design/phone-ui/components/vote/review/390x844-result-runoff.jpg",
-      "sha256": "1729d5309dda6ac4b68514555630e5f2c12b807b38f63b784a6a437559348f57",
+      "sha256": "6f5ae90287d5878c2d01fdb307e1bb79d4b2758fff8257c6afe2e0f7e53f8898",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1256,7 +1256,7 @@
       "line": "8 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 131,
+      "names": 114,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1275,14 +1275,14 @@
     },
     "430x932/result-runoff": {
       "file": "design/phone-ui/components/vote/review/430x932-result-runoff.jpg",
-      "sha256": "b72579fa9e1e000b44322b4aa139bf6eb442b773d506195335bdbfeff654f671",
+      "sha256": "f7740a63cb01bca84ab0309518c2fa0d401e6c1a8a796b17bc9fe616f7d7de4f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1310,7 +1310,7 @@
       "line": "8 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 131,
+      "names": 114,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1329,14 +1329,14 @@
     },
     "390x844/result-no-captain": {
       "file": "design/phone-ui/components/vote/review/390x844-result-no-captain.jpg",
-      "sha256": "dfba5145c9bbba44ba33ace250ac96248c5a986a98c4fbd2c1a0add9603ba462",
+      "sha256": "e0b9dc73801b1b306edee911d0a77b6c234de742dcf78ac7cf7fdea04c0d60d2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1364,7 +1364,7 @@
       "line": "0 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 133,
+      "names": 116,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1383,14 +1383,14 @@
     },
     "430x932/result-no-captain": {
       "file": "design/phone-ui/components/vote/review/430x932-result-no-captain.jpg",
-      "sha256": "80ff7dae1b5e6c1a4f276d18894c2f0783fc332f1fd946abacd5739f5ce733ec",
+      "sha256": "7fa2f6c3940aa5990905aabb703616e550d0dd05acdbf41a19c66d4bed9bc544",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1418,7 +1418,7 @@
       "line": "0 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 133,
+      "names": 116,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1437,14 +1437,14 @@
     },
     "390x844/result-jailed": {
       "file": "design/phone-ui/components/vote/review/390x844-result-jailed.jpg",
-      "sha256": "8c7464634f482ce317f1064628558facdfb8537eb122cb809a23d1c43997eb40",
+      "sha256": "21ef75fa7487332965d76de40ba11cce18b7e2354ca472f91b0acb4374b2754d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1472,7 +1472,7 @@
       "line": "7 votes · 4 needed of 8",
       "banner": null,
       "window": true,
-      "names": 130,
+      "names": 120,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1491,14 +1491,14 @@
     },
     "430x932/result-jailed": {
       "file": "design/phone-ui/components/vote/review/430x932-result-jailed.jpg",
-      "sha256": "15ce25d4a7e1c08932700bfde550879b560b7c53b711a012acef03d18983a7bd",
+      "sha256": "ef74c3be8d1258479a259e98c7f68cbf8715c966499fd7d3468831cfe5f5b95d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1526,7 +1526,7 @@
       "line": "7 votes · 4 needed of 8",
       "banner": null,
       "window": true,
-      "names": 130,
+      "names": 120,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1545,14 +1545,14 @@
     },
     "390x844/result-jail-full": {
       "file": "design/phone-ui/components/vote/review/390x844-result-jail-full.jpg",
-      "sha256": "b15a078272b9c6754147cfaa2929c225cbadd798f167c30fe45422537e0c76ab",
+      "sha256": "8a268e0ca5fe14d73bb0dc4ec1fca7c5cde306b76933658791806bfdea0bd571",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1580,7 +1580,7 @@
       "line": "Chosen, but every Jail place is taken. Gus stays.",
       "banner": null,
       "window": true,
-      "names": 163,
+      "names": 153,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1599,14 +1599,14 @@
     },
     "430x932/result-jail-full": {
       "file": "design/phone-ui/components/vote/review/430x932-result-jail-full.jpg",
-      "sha256": "c96bb5a986000f829739c9683f1cb558acfd2cd9941fd3b1691163eea539851f",
+      "sha256": "8528bcb0e2869bfa8fb7e22c4faa835e55badb2be35077aa2828afacbd784d47",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1634,7 +1634,7 @@
       "line": "Chosen, but every Jail place is taken. Gus stays.",
       "banner": null,
       "window": true,
-      "names": 163,
+      "names": 153,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1653,14 +1653,14 @@
     },
     "390x844/result-no-one": {
       "file": "design/phone-ui/components/vote/review/390x844-result-no-one.jpg",
-      "sha256": "de24cdf6a0d08300d67a31465b48ebd075f31f3ebab5bada5e03fb7bf2b0c0d0",
+      "sha256": "0909d8359f74ebd70b764b131aab155d4a5503957c8646484930c70825e6201b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1688,7 +1688,7 @@
       "line": "No one reached 4 votes.",
       "banner": null,
       "window": true,
-      "names": 133,
+      "names": 123,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1707,14 +1707,14 @@
     },
     "430x932/result-no-one": {
       "file": "design/phone-ui/components/vote/review/430x932-result-no-one.jpg",
-      "sha256": "fba4bfe63452a82734b9b6ca790ce7ea70a97a27b1203f4ba3cee3b76866d9e3",
+      "sha256": "c2d1087120640e8b00faa95ee947fd18ca6d2c2d478ecf47cd2b95c0da9f69f4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1742,7 +1742,7 @@
       "line": "No one reached 4 votes.",
       "banner": null,
       "window": true,
-      "names": 133,
+      "names": 123,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1761,14 +1761,14 @@
     },
     "390x844/result-jailed-8": {
       "file": "design/phone-ui/components/vote/review/390x844-result-jailed-8.jpg",
-      "sha256": "9930d6e290c8837256be27205a2e7ab3fd50f99e48b8eee8450deda096ea601f",
+      "sha256": "409abd6cc98c7945d2f9885851d72b7dc6e1ba0675a7d2c50678b30081bc5c48",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1796,7 +1796,7 @@
       "line": "7 votes · 4 needed of 8",
       "banner": null,
       "window": true,
-      "names": 123,
+      "names": 116,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1814,14 +1814,14 @@
     },
     "430x932/result-jailed-8": {
       "file": "design/phone-ui/components/vote/review/430x932-result-jailed-8.jpg",
-      "sha256": "ef589b847b1b1b3b435cd2cdfe0390198278497624bd374a9b90c1b1b43fdbe0",
+      "sha256": "45451717813dae3edb556b1872a6764fb1fb3966e07cedd547d528570d4b8a2d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1849,7 +1849,7 @@
       "line": "7 votes · 4 needed of 8",
       "banner": null,
       "window": true,
-      "names": 123,
+      "names": 116,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1874,7 +1874,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1902,7 +1902,7 @@
       "line": "7 votes · 4 needed of 8",
       "banner": null,
       "window": true,
-      "names": 130,
+      "names": 120,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1928,7 +1928,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1956,7 +1956,7 @@
       "line": "8 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 134,
+      "names": 117,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -1982,7 +1982,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2010,7 +2010,7 @@
       "line": "8 votes · 8 could vote",
       "banner": null,
       "window": true,
-      "names": 131,
+      "names": 114,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -2029,14 +2029,14 @@
     },
     "320x568/large-jail-selected": {
       "file": "design/phone-ui/components/vote/review/320x568-large-jail-selected.jpg",
-      "sha256": "cab40cd549a7fc759f136cac7d3639dc1b1f38719aff80acc0fc93aa62ec4534",
+      "sha256": "d29f84eee579fcc5b0d7480b08426765b45eb824078f737dc6e3d87a1c43e28c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2064,7 +2064,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 59,
+      "names": 83,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -2083,14 +2083,14 @@
     },
     "320x568/large-captain": {
       "file": "design/phone-ui/components/vote/review/320x568-large-captain.jpg",
-      "sha256": "5bdf9eb3dfd213fee7808404e6cd32676c83d3bf71758e84a4aeb27b7a1e6226",
+      "sha256": "effead608f014e5cf287df19169cb0e1ad016c3fef2917406b207737662a0066",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2118,7 +2118,7 @@
       "line": null,
       "banner": null,
       "window": false,
-      "names": 58,
+      "names": 92,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -2137,14 +2137,14 @@
     },
     "320x568/large-runoff": {
       "file": "design/phone-ui/components/vote/review/320x568-large-runoff.jpg",
-      "sha256": "dee991011e634a471da8d207085c3d4116732b1e2523f0ae4c6f9d133ec8d91d",
+      "sha256": "ad5610ff3b959cff7125d041bdab5fe8e75df59650a274b65cfb33de3611be64",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2191,14 +2191,14 @@
     },
     "390x844/jail-stale": {
       "file": "design/phone-ui/components/vote/review/390x844-jail-stale.jpg",
-      "sha256": "b823225f0669b0d0dda2991b80c5bad690fc704fe262ec943e998d6b78214423",
+      "sha256": "ce4f6f9de53358bd1bb82bde82063c81aa736c70543c095c1ab47308aecd1bc9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2226,7 +2226,7 @@
       "line": null,
       "banner": "Connection lost",
       "window": false,
-      "names": 346,
+      "names": 370,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -2245,14 +2245,14 @@
     },
     "430x932/jail-stale": {
       "file": "design/phone-ui/components/vote/review/430x932-jail-stale.jpg",
-      "sha256": "1ce099ddecb6cf5adcb0d49caa0ea39d2669b63a97757fa650daabd2442b8663",
+      "sha256": "3212bb5ff43fdccf46ea6aa075b21fdb5a34b990509451650b45fa440e55dff7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2280,7 +2280,7 @@
       "line": null,
       "banner": "Connection lost",
       "window": false,
-      "names": 346,
+      "names": 370,
       "figures": 4,
       "art": [
         "assets/room-a.back-DUOAphCZ.svg",
@@ -2306,7 +2306,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2338,7 +2338,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2370,7 +2370,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2402,7 +2402,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2463,7 +2463,7 @@
               "state": "ineligible",
               "disabled": "true",
               "focused": true,
-              "label": "Player 5, Eli, Injured",
+              "label": "Player 5, Eli, Not available now",
               "tag": "BUTTON"
             },
             "busyTaps": 0,
@@ -2483,7 +2483,7 @@
               {
                 "seat": 6,
                 "state": "ineligible",
-                "note": "In Jail"
+                "note": "Not available now"
               }
             ],
             "open": [
@@ -2555,55 +2555,64 @@
                 "state": "available",
                 "count": "1",
                 "you": false,
-                "label": "Player 1, Ava, 1 vote"
+                "label": "Player 1, Ava, 1 vote",
+                "note": null
               },
               {
                 "state": "available",
                 "count": "0",
                 "you": false,
-                "label": "Player 2, Ben, 0 votes"
+                "label": "Player 2, Ben, 0 votes",
+                "note": null
               },
               {
                 "state": "available",
                 "count": "0",
                 "you": false,
-                "label": "Player 3, Cleo, 0 votes"
+                "label": "Player 3, Cleo, 0 votes",
+                "note": null
               },
               {
                 "state": "available",
                 "count": "1",
                 "you": true,
-                "label": "Player 4, Dev, 1 vote"
+                "label": "Player 4, Dev, 1 vote",
+                "note": null
               },
               {
                 "state": "available",
                 "count": "0",
                 "you": false,
-                "label": "Player 5, Eli, 0 votes"
+                "label": "Player 5, Eli, 0 votes",
+                "note": null
               },
               {
                 "state": "ineligible",
                 "count": null,
                 "you": false,
-                "label": "Player 6, Fay, In Jail"
+                "label": "Player 6, Fay",
+                "note": null
               },
               {
                 "state": "winner",
                 "count": "5",
                 "you": false,
-                "label": "Player 7, Gus, 5 votes"
+                "label": "Player 7, Gus, 5 votes",
+                "note": null
               },
               {
                 "state": "available",
                 "count": "0",
                 "you": false,
-                "label": "Player 8, Hana, 0 votes"
+                "label": "Player 8, Hana, 0 votes",
+                "note": null
               },
               {
                 "state": "ineligible",
                 "count": null,
                 "you": false,
-                "label": "Player 9, Ike, Out"
+                "label": "Player 9, Ike",
+                "note": null
               }
             ],
             "counts": true,
@@ -2734,7 +2743,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2776,7 +2785,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BAwrv1kb.js",
+          "source": "assets/index-D4wL2pIF.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2795,6 +2804,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -2895,7 +2920,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -2903,7 +2928,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -2952,7 +2977,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -2960,7 +2985,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -2975,6 +3000,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -3075,7 +3116,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3083,7 +3124,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3132,7 +3173,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3140,7 +3181,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3155,6 +3196,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -3255,7 +3312,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3263,7 +3320,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3312,7 +3369,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3320,7 +3377,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3335,6 +3392,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -3435,7 +3508,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3443,7 +3516,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3492,7 +3565,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3500,7 +3573,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3515,6 +3588,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -3615,7 +3704,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3623,7 +3712,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3672,7 +3761,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3680,7 +3769,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3695,6 +3784,29 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -3776,7 +3888,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3784,7 +3896,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3795,7 +3907,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3803,7 +3915,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3852,7 +3964,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3860,7 +3972,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -3875,6 +3987,7 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [],
           "seats": [
             {
               "seat": 1,
@@ -4055,6 +4168,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -4136,7 +4265,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4144,7 +4273,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4155,7 +4284,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4163,7 +4292,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4235,6 +4364,15 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -4335,7 +4473,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4343,7 +4481,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4415,6 +4553,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -4515,7 +4669,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4523,7 +4677,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4572,7 +4726,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4580,7 +4734,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4602,13 +4756,13 @@
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 403.9375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 469.9375
+                "h": 436.75
               }
             },
             {
@@ -4666,13 +4820,13 @@
                 "x": 15,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -4698,13 +4852,13 @@
                 "x": 131,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -4714,13 +4868,13 @@
                 "x": 247,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -4728,15 +4882,15 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -4744,15 +4898,15 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -4760,16 +4914,39 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -4853,7 +5030,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4861,7 +5038,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4872,7 +5049,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4880,7 +5057,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4929,7 +5106,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4937,7 +5114,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -4959,13 +5136,13 @@
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 403.9375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 469.9375
+                "h": 436.75
               }
             },
             {
@@ -5023,13 +5200,13 @@
                 "x": 15,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5055,13 +5232,13 @@
                 "x": 131,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5071,13 +5248,13 @@
                 "x": 247,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5085,15 +5262,15 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5101,15 +5278,15 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5117,16 +5294,39 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -5210,7 +5410,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5218,7 +5418,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5229,7 +5429,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5237,7 +5437,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5286,7 +5486,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5294,7 +5494,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5316,13 +5516,13 @@
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 403.9375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 469.9375
+                "h": 436.75
               }
             },
             {
@@ -5380,13 +5580,13 @@
                 "x": 15,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5412,13 +5612,13 @@
                 "x": 131,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5428,13 +5628,13 @@
                 "x": 247,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5442,15 +5642,15 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5458,15 +5658,15 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5474,16 +5674,39 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -5567,7 +5790,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5575,7 +5798,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5586,7 +5809,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5594,7 +5817,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5643,7 +5866,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5651,7 +5874,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5673,13 +5896,13 @@
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 403.9375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 469.9375
+                "h": 436.75
               }
             },
             {
@@ -5737,13 +5960,13 @@
                 "x": 15,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5769,13 +5992,13 @@
                 "x": 131,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5785,13 +6008,13 @@
                 "x": 247,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5799,15 +6022,15 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5815,15 +6038,15 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -5831,16 +6054,32 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -5943,7 +6182,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -5951,7 +6190,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6000,7 +6239,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6008,7 +6247,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6030,13 +6269,13 @@
                 "x": 3,
                 "y": 148.6875,
                 "w": 364,
-                "h": 403.9375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 148.6875,
                 "w": 364,
-                "h": 469.9375
+                "h": 436.75
               }
             },
             {
@@ -6094,13 +6333,13 @@
                 "x": 15,
                 "y": 278.9375,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 300.9375,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6126,13 +6365,13 @@
                 "x": 131,
                 "y": 278.9375,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 300.9375,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6142,13 +6381,13 @@
                 "x": 247,
                 "y": 278.9375,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 300.9375,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6156,15 +6395,15 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 413.78125,
+                "y": 397.1875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 457.78125,
+                "y": 441.1875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6172,15 +6411,15 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 413.78125,
+                "y": 397.1875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 457.78125,
+                "y": 441.1875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6188,16 +6427,32 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 413.78125,
+                "y": 397.1875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 457.78125,
+                "y": 441.1875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -6300,7 +6555,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6308,7 +6563,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6357,7 +6612,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6365,7 +6620,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6387,13 +6642,13 @@
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 403.9375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 469.9375
+                "h": 436.75
               }
             },
             {
@@ -6451,13 +6706,13 @@
                 "x": 15,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6483,13 +6738,13 @@
                 "x": 131,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6499,13 +6754,13 @@
                 "x": 247,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6513,15 +6768,15 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6529,15 +6784,15 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6545,16 +6800,32 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -6657,7 +6928,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6665,7 +6936,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6714,7 +6985,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6722,7 +6993,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -6744,13 +7015,13 @@
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 387.34375
+                "h": 370.75
               },
               "component": {
                 "x": 3,
                 "y": 110.71875,
                 "w": 364,
-                "h": 453.34375
+                "h": 436.75
               }
             },
             {
@@ -6808,13 +7079,13 @@
                 "x": 15,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 15,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6840,13 +7111,13 @@
                 "x": 131,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 131,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6856,13 +7127,13 @@
                 "x": 247,
                 "y": 240.96875,
                 "w": 108,
-                "h": 126.84375
+                "h": 110.25
               },
               "component": {
                 "x": 247,
                 "y": 262.96875,
                 "w": 108,
-                "h": 148.84375
+                "h": 132.25
               }
             },
             {
@@ -6870,13 +7141,13 @@
               "what": "box",
               "pack": {
                 "x": 15,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
                 "h": 110.25
               },
               "component": {
                 "x": 15,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
                 "h": 132.25
               }
@@ -6886,13 +7157,13 @@
               "what": "box",
               "pack": {
                 "x": 131,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
                 "h": 110.25
               },
               "component": {
                 "x": 131,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
                 "h": 132.25
               }
@@ -6902,16 +7173,25 @@
               "what": "box",
               "pack": {
                 "x": 247,
-                "y": 375.8125,
+                "y": 359.21875,
                 "w": 108,
                 "h": 110.25
               },
               "component": {
                 "x": 247,
-                "y": 419.8125,
+                "y": 403.21875,
                 "w": 108,
                 "h": 132.25
               }
+            }
+          ],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
             }
           ],
           "seats": [
@@ -7014,7 +7294,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7022,7 +7302,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7094,6 +7374,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -7194,7 +7490,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7202,7 +7498,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7251,7 +7547,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7259,7 +7555,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7274,6 +7570,29 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -7355,7 +7674,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7363,7 +7682,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7374,7 +7693,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7382,7 +7701,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7431,7 +7750,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7439,7 +7758,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7454,6 +7773,29 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": null,
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -7535,7 +7877,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7543,7 +7885,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7554,7 +7896,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7562,7 +7904,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7611,7 +7953,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7619,7 +7961,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": null,
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7634,6 +7976,22 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -7734,7 +8092,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7742,7 +8100,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7791,7 +8149,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7799,7 +8157,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7814,6 +8172,29 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [
+            {
+              "part": "seat 5",
+              "what": "note",
+              "pack": "Injured",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 6",
+              "what": "note",
+              "pack": "In Jail",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            },
+            {
+              "part": "seat 9",
+              "what": "note",
+              "pack": "Out",
+              "amended": "Not available now",
+              "why": "The owner's T3 (11 November 2026): the server's reason or \"Not available now\", never a reason worked out on the phone; the pack's public status under a cell that can't be chosen reads as one"
+            }
+          ],
           "seats": [
             {
               "seat": 1,
@@ -7895,7 +8276,7 @@
               "seat": 5,
               "pack": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7903,7 +8284,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Injured",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7914,7 +8295,7 @@
               "seat": 6,
               "pack": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7922,7 +8303,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "In Jail",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7971,7 +8352,7 @@
               "seat": 9,
               "pack": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7979,7 +8360,7 @@
               },
               "component": {
                 "state": "ineligible",
-                "note": "Out",
+                "note": "Not available now",
                 "count": null,
                 "you": false,
                 "mark": false,
@@ -7994,6 +8375,7 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "accepted": [],
           "seats": [
             {
               "seat": 1,
@@ -8174,7 +8556,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BAwrv1kb.js",
+        "source": "assets/index-D4wL2pIF.js",
         "line": 1,
         "column": 6047,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
