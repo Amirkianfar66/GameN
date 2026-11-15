@@ -60,8 +60,8 @@ test('relative traversal and nonliteral imports cannot bypass exact runtime perm
   assert.doesNotThrow(() => check('apps/game', "import './screen.js';"));
 });
 
-test('Food worker waits and monotonic budgets permit only the exact server timing utilities', () => {
-  for (const name of ['node:timers/promises', 'node:perf_hooks']) {
+test('Food worker waits and request timings permit only the exact server utilities', () => {
+  for (const name of ['node:timers/promises', 'node:perf_hooks', 'node:async_hooks']) {
     assert.doesNotThrow(() => check('services/game-api', `import '${name}';`, 'ts'));
     for (const workspace of ['apps/game', 'packages/engine', 'packages/contracts', 'packages/presentation']) {
       assert.throws(() => check(workspace, `import '${name}';`, 'ts'), /Unreviewed source dependency/);
@@ -69,6 +69,13 @@ test('Food worker waits and monotonic budgets permit only the exact server timin
   }
   for (const name of ['node:timers', 'timers/promises', 'perf_hooks', 'node:worker_threads']) {
     assert.throws(() => check('services/game-api', `import '${name}';`, 'ts'), /Unreviewed source dependency/);
+  }
+});
+
+test('structured diagnostic logging stays in the Firebase adapter', () => {
+  assert.doesNotThrow(() => check('infra/firebase', "import 'firebase-functions/logger';", 'ts'));
+  for (const workspace of ['apps/game', 'services/game-api', 'packages/engine', 'packages/contracts', 'packages/presentation']) {
+    assert.throws(() => check(workspace, "import 'firebase-functions/logger';", 'ts'), /Unreviewed source dependency/);
   }
 });
 

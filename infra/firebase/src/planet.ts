@@ -8,9 +8,11 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { onTaskDispatched } from 'firebase-functions/v2/tasks';
 import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
+import { info } from 'firebase-functions/logger';
 import { IdentifierSchema, PlanetServiceRequestSchema } from '@mothership/contracts';
-import type { PlanetServiceResponse } from '@mothership/contracts';
-import type { PlanetDeadlineJob } from '@mothership/game-api';
+import type { PlanetServiceRequest, PlanetServiceResponse } from '@mothership/contracts';
+import { withPlanetRequestTiming } from '@mothership/game-api';
+import type { PlanetDeadlineJob, PlanetRequestTimingSummary } from '@mothership/game-api';
 import type { PlanetRuntimeConfiguration } from './planet-runtime.js';
 
 export interface PlanetDeadlinePayload { matchId: string; phaseId: string; deadlineToken: string; kind: 'setup' | 'game' }
@@ -27,6 +29,15 @@ interface HttpResponse { set(field: string, value: string): unknown; status(code
 export interface PlanetHttpDependencies {
   service: PlanetHttpService; configuration: Pick<PlanetRuntimeConfiguration, 'allowedOrigins' | 'emulator'>;
   verifyIdToken(token: string): Promise<{uid: string}>; verifyAppCheckToken(token: string): Promise<unknown>; clock?: () => number;
+  monotonicClock?: () => number;
+  onTiming?: (summary: PlanetHttpTiming) => void;
+}
+/** Operational metadata only. Never attach requests, identities, receipts or verifier errors. */
+export interface PlanetHttpTiming {
+  operation: PlanetServiceRequest['operation'];
+  authMs: number; appCheckMs: number; serviceMs: number; totalMs: number;
+  serviceOk: boolean | null;
+  service?: PlanetRequestTimingSummary;
 }
 const allowedHeaders = ['authorization', 'content-type', 'x-firebase-appcheck'];
 const header = (request: HttpRequest, name: string): string | undefined => typeof request.headers[name] === 'string' ? request.headers[name] : undefined;
@@ -37,7 +48,10 @@ const statusFor = (code: unknown): number => code === 'UNAUTHENTICATED' ? 401 : 
 /** One authenticated, strictly typed protocol-3 endpoint. Identity is never read from JSON. */
 export function createPlanetHttpHandler(dependencies: PlanetHttpDependencies) {
   const clock = dependencies.clock ?? Date.now;
+  const monotonic = dependencies.monotonicClock ?? (() => performance.now());
+  const elapsed = (start: number) => Math.max(0, Math.round(monotonic() - start));
   return async (request: HttpRequest, response: HttpResponse): Promise<void> => {
+    const started = monotonic();
     response.set('Cache-Control', 'no-store, private'); response.set('Pragma', 'no-cache');
     response.set('X-Content-Type-Options', 'nosniff'); response.set('Vary', 'Origin');
     const fail = (status: number, code: string) => response.status(status).json({ok: false, serverTimeMs: clock(), error: {code}});
@@ -60,21 +74,36 @@ export function createPlanetHttpHandler(dependencies: PlanetHttpDependencies) {
     const token = authorization !== undefined && authorization.length <= 8192 ? authorization.match(/^Bearer ([A-Za-z0-9._-]+)$/)?.[1] : undefined;
     if (token === undefined) { fail(401, 'UNAUTHENTICATED'); return; }
     let uid: string;
+    const authStarted = monotonic();
     try {
       uid = (await dependencies.verifyIdToken(token)).uid;
       if (typeof uid !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(uid)) throw new Error('Invalid verified subject');
     } catch { fail(401, 'UNAUTHENTICATED'); return; }
+    const authMs = elapsed(authStarted), appCheckStarted = monotonic();
     if (!dependencies.configuration.emulator) {
       const appToken = header(request, 'x-firebase-appcheck');
       if (appToken === undefined || appToken.length === 0 || appToken.length > 8192) { fail(403, 'FORBIDDEN'); return; }
       try { await dependencies.verifyAppCheckToken(appToken); } catch { fail(403, 'FORBIDDEN'); return; }
     }
+    const appCheckMs = dependencies.configuration.emulator ? 0 : elapsed(appCheckStarted);
     const parsed = PlanetServiceRequestSchema.safeParse(request.body);
     if (!parsed.success) { fail(400, 'INVALID_REQUEST'); return; }
+    const serviceStarted = monotonic();
+    let serviceTiming: PlanetRequestTimingSummary | undefined, serviceOk: boolean | null = null;
     try {
-      const result = await dependencies.service.handle(uid, parsed.data);
+      const result = dependencies.onTiming === undefined
+        ? await dependencies.service.handle(uid, parsed.data)
+        : await withPlanetRequestTiming(() => dependencies.service.handle(uid, parsed.data), summary => { serviceTiming = summary; });
+      serviceOk = result.ok;
       response.status(statusFor(result.ok ? undefined : result.error.code)).json(result);
     } catch { fail(503, 'UNAVAILABLE'); }
+    finally {
+      // Timing is server-side diagnostics, not a receipt or client-visible authority.
+      // A broken observer must never turn a committed command into a failed response.
+      try { void Promise.resolve(dependencies.onTiming?.({operation: parsed.data.operation, authMs, appCheckMs,
+        serviceMs: elapsed(serviceStarted), totalMs: elapsed(started), serviceOk,
+        ...(serviceTiming === undefined ? {} : {service: serviceTiming})})).catch(() => {}); } catch { /* diagnostic sink only */ }
+    }
   };
 }
 
@@ -126,6 +155,7 @@ export function createPlanetEntrypoints(resolveContext: () => PlanetRuntimeConte
     const {app, service, configuration} = resolveContext();
     await createPlanetHttpHandler({service, configuration,
       verifyIdToken: token => getAuth(app).verifyIdToken(token, true), verifyAppCheckToken: token => getAppCheck(app).verifyToken(token),
+      onTiming: summary => { info('planet_request_timing', summary); },
     })(request, response);
   });
   const enqueue: PlanetEnqueue = async job => {

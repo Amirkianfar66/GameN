@@ -68,3 +68,44 @@ test('Planet returns safe service failures with useful retry/conflict statuses',
   const {dependencies}=setup({service:{handle:async()=>{throw new Error('role and credential material');}}});
   assert.deepEqual((await invoke(dependencies)).body,{ok:false,serverTimeMs:123,error:{code:'UNAVAILABLE'}});
 });
+
+test('Planet timing separates authentication and service without leaking authority or changing the response',async()=>{
+  const timings=[];let now=0;
+  const {dependencies}=setup({configuration:{emulator:false,allowedOrigins:[]},monotonicClock:()=>now,
+    verifyIdToken:async()=>{now+=12;return {uid:'private-user'};},
+    verifyAppCheckToken:async()=>{now+=7;},
+    service:{handle:async()=>{now+=90;return {ok:true,serverTimeMs:123,result:{private:'role-material'}};}},
+    onTiming:summary=>timings.push(summary)});
+  const result=await invoke(dependencies,{headers:{'content-type':'application/json',authorization:'Bearer verified-token','x-firebase-appcheck':'private-app-token'}});
+  assert.deepEqual(result.body,{ok:true,serverTimeMs:123,result:{private:'role-material'}});
+  assert.equal(result.status,200);assert.equal(timings.length,1);
+  const {service,...http}=timings[0];
+  assert.deepEqual(http,{operation:'read',authMs:12,appCheckMs:7,serviceMs:90,totalMs:109,serviceOk:true});
+  assert.ok(service);
+  assert.doesNotMatch(JSON.stringify(timings),/private-user|role-material|match-a|verified-token|private-app-token/);
+  assert.equal(Object.keys(result.headers).some(key=>/timing/i.test(key)),false);
+});
+
+test('Planet timing cannot alter success, refusal or unknown outcome and ignores unauthenticated input',async()=>{
+  for(const mode of ['success','refusal','throw']){
+    const timings=[];
+    const {dependencies}=setup({onTiming:summary=>{timings.push(summary);throw new Error('diagnostic sink unavailable');},
+      service:{handle:async()=>{
+        if(mode==='throw')throw new Error('private service failure');
+        return mode==='success'?{ok:true,serverTimeMs:123,result:{matchId:'match-a'}}:{ok:false,serverTimeMs:123,error:{code:'NOT_ALLOWED'}};
+      }}});
+    const result=await invoke(dependencies);
+    assert.equal(result.status,mode==='throw'?503:200);
+    assert.equal(timings.length,1);
+    assert.equal(timings[0].serviceOk,mode==='throw'?null:mode==='success');
+    assert.doesNotMatch(JSON.stringify(timings),/private service failure|match-a/);
+    assert.doesNotMatch(JSON.stringify(result.body),/diagnostic sink unavailable|private service failure/);
+  }
+  const timings=[];
+  const {dependencies}=setup({onTiming:summary=>timings.push(summary)});
+  await invoke(dependencies,{headers:{'content-type':'application/json'}});
+  await invoke(dependencies,{body:{operation:'read',matchId:'match-a',extra:'private'}});
+  assert.deepEqual(timings,[]);
+  const asyncFailure=setup({onTiming:async()=>{throw new Error('asynchronous sink failure');}});
+  assert.equal((await invoke(asyncFailure.dependencies)).status,200);
+});
