@@ -116,7 +116,8 @@ shell.dispose();             // removes the element and its listeners
 | `chip` | This viewer's | `null`, or `{ id, label, icon, tone: 'paper' \| 'steel', enabled }` |
 | `banner` | Phone | `null`, or `{ kind: 'reconnecting', busy }` |
 | `toast` | This viewer's | `null`, or `{ id, text, icon }`: shown once per `id`, for `TOAST_MS` (2.4 s), then it fades |
-| `sheet` | This viewer's | `null`, or `{ id, title, sub, back, close, detent: 'auto' \| 'large', actions: [{ id, label, kind: 'primary' \| 'secondary', icon, enabled, busy, reason }] }` |
+| `sheet` | This viewer's | `null`, or `{ id, title, sub, back, close, detent: 'auto' \| 'large', head: [{ id, icon, label, enabled, reason }], actions: [{ id, label, kind: 'primary' \| 'secondary', icon, enabled, busy, reason }] }`. Every id in `head` and `actions` is the sheet's own |
+| `sheet.head` | This viewer's | Icon buttons in the sheet's head, after the title and before Close, as the pack's `sheet({ actions })` draws the Card's "Hide card" (sheet 31). They are this phone's own, as Back and Close are: they work while reconnecting and stand for no command, which belongs in `actions`, the footer |
 
 - **Privacy:** concealed, the shell drops this viewer's inputs (the tabs, the target bar, the chip, the sheet, the toast and the Promises count). Shown again, they come back only when given again. Offers given while concealed are dropped too.
 - **The tab bar's shape** (game, talk or none) is kept while concealed, so the stage keeps its size.
@@ -137,7 +138,7 @@ Each reports a tap, and only that.
 | `onCancelTarget()` | The target bar's Cancel |
 | `onChip(id)` | The floating chip |
 | `onRetry()` | The reconnecting banner's Retry |
-| `onSheetAction(id, sheetId)`, `onSheetBack(sheetId)`, `onSheetClose(sheetId)` | A sheet's buttons |
+| `onSheetAction(id, sheetId)`, `onSheetBack(sheetId)`, `onSheetClose(sheetId)` | A sheet's buttons: `onSheetAction` reports the footer's and the head's |
 | `onLayout(layout)` | The bars or the stage changed size: text size, insets, a tab bar shown or hidden, the phone's size |
 | `onFocusReturn({ intent, value })` | The focused control ended (a sheet closed, the target bar left): the focus is on the shell, for Frontend to move on |
 
@@ -147,7 +148,7 @@ Each reports a tap, and only that.
 - **Its reason** is its accessible description (`aria-describedby`).
 - **Dimmed:** only an unavailable control, as the pack draws it.
 - **Reconnecting** (`status: 'stale'`):
-  - only Retry, ⋮ and a sheet's back and close take taps;
+  - only Retry, ⋮ and a sheet's back, close and head actions take taps;
   - the rest are refused, described by "Controls return when the match is current";
   - they keep their look, as on sheet 45.
 - **If Integration records the appearance/function split** ([6886927938](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6886927938)), these controls move into Frontend's shared functional module, with the same markup and classes, and the shell and its preview import that module.

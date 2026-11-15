@@ -17,6 +17,9 @@
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
 //             layout() gives the safe areas, also when only they change; the overlays stay where they are
+//   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
+//             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
+//             when it goes
 //   toast     shown once per id, gone after its time, cleared by suspend()
 //   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
@@ -322,6 +325,45 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         && nobar.bars.top === 0 && nobar.bars.bottom === 0 && off.bars.top === 0 && off.bars.bottom === safeBottom
         && reported?.safe.top === 20 && reported?.safe.bottom === 0 && refused;
       return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
+    });
+
+    await check('head: a sheet\'s head action sits before Close, keeps its focus, reports onSheetAction, works while reconnecting and returns the focus when it goes', async () => {
+      const hide = { id: 'hide', icon: 'hide', label: 'Hide card' };
+      const sheet = { id: 'card', title: 'Your role', sub: 'Only on this phone', detent: 'large', head: [hide] };
+      const s = mount({ ...own(), sheet });
+      const head = s.q('.ms-ps-sheet-head');
+      const order = [...head.children].map(c => c.classList.contains('ms-ps-sheet-title') ? 'title' : c.dataset.intent);
+      const button = s.q('[data-intent="sheet-head"]');
+      const label = button?.getAttribute('aria-label');
+      button.focus();
+      // Kept, with the focus, through updates of the sheet's words and the action's own.
+      s.shell.update({ sheet: { ...sheet, title: 'Your role · Doctor' } });
+      s.shell.update({ sheet: { ...sheet, head: [{ ...hide, label: 'Hide your card' }] } });
+      const kept = s.q('[data-intent="sheet-head"]') === button && document.activeElement === button && button.getAttribute('aria-label') === 'Hide your card';
+      button.click();
+      const tapped = JSON.stringify(s.calls.filter(c => c[0] === 'onSheetAction'));
+      // While reconnecting it is still taken (this phone's own, as Back and Close); a footer action is not.
+      s.shell.update({ status: 'stale', sheet: { ...sheet, actions: [{ id: 'send', label: 'Send' }] } });
+      button.click();
+      s.q('.ms-ps-sheet-foot button').click();
+      const stale = s.calls.filter(c => c[0] === 'onSheetAction').map(c => c[1]).join(',');
+      // Unavailable with a reason: refused, focusable, described.
+      s.shell.update({ status: 'live', sheet: { ...sheet, head: [{ ...hide, enabled: false, reason: 'Not while the film plays' }] } });
+      const before = s.calls.filter(c => c[0] === 'onSheetAction').length;
+      button.click();
+      const off = button.getAttribute('aria-disabled') === 'true' && describedBy(button) === 'Not while the film plays' && s.calls.filter(c => c[0] === 'onSheetAction').length === before;
+      // Gone while focused (the card hidden): the focus returns, and says which control ended.
+      button.focus();
+      s.shell.update({ sheet: { ...sheet, head: [] } });
+      // The policy says which control ended in a microtask, once the focus is on the shell.
+      await Promise.resolve();
+      await Promise.resolve();
+      const gone = !s.q('[data-intent="sheet-head"]') && document.activeElement === s.root;
+      const returned = JSON.stringify(named(s.calls, 'onFocusReturn').at(-1)?.[1] ?? null);
+      s.shell.dispose();
+      const ok = order.join(',') === 'title,sheet-head,sheet-close' && label === 'Hide card' && kept && tapped === '[["onSheetAction","hide","card"]]'
+        && stale === 'hide,hide' && off && gone && returned === '{"intent":"sheet-head","value":"hide"}';
+      return { ok, order, label, kept, tapped, stale, off, gone, returned };
     });
 
     await check('toast: shown once per id, gone after its time, and cleared by suspend()', async () => {
