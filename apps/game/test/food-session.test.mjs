@@ -20,7 +20,7 @@ function snapshot(){
   members:p.board.seats.map((s,i)=>({seatId:s.seatId,displayName:`Crew ${i+1}`,characterId:`c${i+1}`,controller:'human',ready:true})),pendingAdmissions:[],setup:null,privateRole:null,publicView:shared,playerView:p,foodPublicView:pub,foodPlayerView:own});
 }
 function rig(){
- let now=6000,uid='food-session',serial=0,timerId=0,value=snapshot(),readGate=null,commandGate=null,readsInFlight=0,maxReads=0,denial=null;
+ let now=6000,uid='food-session',serial=0,timerId=0,value=snapshot(),readGate=null,commandGate=null,heartbeatGate=null,readsInFlight=0,maxReads=0,denial=null;
  const timers=new Map(),requests=[],stores={resume:memory(),requests:memory()},ports={clock:{now:()=>now},ids:{next:()=>`input-${++serial}`},unresolved:memory(),
   scheduler:{setTimeout(fn,ms){const id=++timerId;timers.set(id,{fn,at:now+ms});return id;},clearTimeout:id=>timers.delete(id)}};
  const answer=(result,at=now)=>({ok:true,serverTimeMs:at,result});
@@ -30,6 +30,10 @@ function rig(){
    readsInFlight++;maxReads=Math.max(maxReads,readsInFlight);const at=now,out=copy(value);for(const f of [out.foodPublicView,out.foodPlayerView])if(f)f.serverNowMs=at;
    try{if(readGate)await readGate.promise;return answer(out,at);}finally{readsInFlight--;}
   }
+  if(q.operation==='foodHeartbeat'&&heartbeatGate){
+   const code=await heartbeatGate.promise;
+   return code?{ok:false,serverTimeMs:now,error:{code}}:answer({renewed:true});
+  }
   if(q.operation==='foodCommand'){if(commandGate)await commandGate.promise;const {command,...context}=q.request,c=command;
    return answer({receipt:{...context,status:'accepted',receivedAt:now,result:{kind:'INPUT',taskId:c.taskId,controlSessionId:c.controlSessionId,effect:c.input.edge==='UP'?'GESTURE_CLOSED':'APPLIED',gestureSequence:c.input.gestureSequence??null,crateId:c.input.crateId??null}}});}
   return answer(q.operation==='foodReceipt'?{receipt:null}:{});
@@ -37,6 +41,7 @@ function rig(){
  const session=createPlanetSession(connection,ports,stores);
  return {session,ports,requests,connection,stores,get value(){return value;},get maxReads(){return maxReads;},set value(v){value=v;},setUid:v=>{uid=v;},
   deny(operation,code){denial={operation,code};},gateRead(){return readGate=deferred();},gateCommand(){return commandGate=deferred();},
+  gateHeartbeat(){return heartbeatGate=deferred();},
   async advance(ms){const end=now+ms;for(let n=0;n<500;n++){const due=[...timers].filter(([,t])=>t.at<=end).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;now=due[1].at;timers.delete(due[0]);due[1].fn();await flush();}now=end;await flush();}};
 }
 test('Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering',()=>{
@@ -115,6 +120,87 @@ test('a slow read permits a bounded presence fallback; a private terminal stops 
  await r.session.refresh();const count=r.requests.filter(q=>q.operation==='foodHeartbeat').length,reads=r.requests.filter(q=>q.operation==='read').length;
  await r.advance(2000);assert.equal(r.requests.filter(q=>q.operation==='foodHeartbeat').length,count);assert.ok(r.requests.filter(q=>q.operation==='read').length>=reads+3);r.session.dispose();
 });
+
+function observeFoodSession(r){
+ const transport=r.session.gameTransport('player'),{matchId,selfSeatId:seatId}=r.value,errors=[],readTimes=[];
+ const food=createFoodTaskController(r.session.foodTransport(),{...r.ports,recovery:memory()},{
+  binding:{uid:r.connection.currentUid(),matchId,seatId},readClock:transport.readClock,
+ });
+ const stop=transport.listen({matchId,seatId},{snapshot(packet){
+  const v=packet.food.playerView;
+  assert.ok(food.observe(v,{matchId,versions:v.versions,phaseId:v.phaseId,round:v.round,
+   serverNowMs:packet.food.serverTimeMs},packet.fresh));
+  readTimes.push(packet.food.serverTimeMs);
+ },error(kind){errors.push(kind);food.disconnect(kind);}});
+ return {food,errors,readTimes,close(){stop();food.dispose();r.session.dispose();}};
+}
+
+test('a current heartbeat refusal conceals even after a newer READ and immediately verifies again',async t=>{
+ for(const code of ['FORBIDDEN','UNAUTHENTICATED'])await t.test(code,async()=>{
+  const r=rig();await r.session.start(r.value.matchId);const view=observeFoodSession(r);
+  try{
+   const beat=r.gateHeartbeat(),firstGate=r.gateRead(),first=r.session.refresh();await flush();
+   await r.advance(1000);assert.equal(r.requests.at(-1).operation,'foodHeartbeat');
+   firstGate.resolve();await first;await r.advance(150);await r.session.refresh();
+   assert.equal(view.readTimes.at(-1),7150);
+   assert.equal(view.food.getModel().canHold,true);
+   const verification=r.gateRead(),readCount=r.requests.filter(q=>q.operation==='read').length;
+   beat.resolve(code);await flush();
+   assert.equal(r.session.getModel().connection,'error');
+   assert.equal(view.food.getModel().view,null);
+   assert.equal(view.errors.at(-1),'authorization');
+   assert.equal(r.requests.filter(q=>q.operation==='read').length,readCount+1);
+   assert.equal(view.readTimes.at(-1),7150);
+   verification.resolve();await flush();
+   assert.equal(r.session.getModel().connection,'live');
+   assert.equal(view.food.getModel().canHold,true);
+  }finally{view.close();}
+ });
+});
+
+test('only a READ dispatched after the refusal can restore the Task',async t=>{
+ for(const elapsed of [1250,8250])await t.test('refusal at '+elapsed+' ms after the older READ starts',async()=>{
+  const r=rig();await r.session.start(r.value.matchId);const view=observeFoodSession(r);
+  try{
+   const beat=r.gateHeartbeat(),old=r.gateRead();void r.session.refresh();await flush();
+   await r.advance(elapsed);assert.equal(r.requests.filter(q=>q.operation==='foodHeartbeat').length,1);
+   const verification=r.gateRead();
+   beat.resolve('FORBIDDEN');await flush();
+   assert.equal(r.session.getModel().connection,'error');
+   assert.equal(view.food.getModel().view,null);
+   assert.equal(r.requests.filter(q=>q.operation==='read').length,2);
+   await r.advance(550);
+   assert.equal(r.session.getModel().connection,'error');
+   assert.equal(r.requests.filter(q=>q.operation==='read').length,2,'the older wire READ retains ownership');
+   old.resolve();await flush();
+   assert.equal(view.food.getModel().view,null,'the older delivered packet cannot restore the Task');
+   assert.deepEqual(view.readTimes,[6000]);
+   assert.equal(r.requests.filter(q=>q.operation==='read').length,3);
+   assert.equal(r.maxReads,1);
+   verification.resolve();await flush();
+   assert.equal(r.session.getModel().connection,'live');
+   assert.equal(view.food.getModel().canHold,true);
+  }finally{view.close();}
+ });
+});
+
+test('a heartbeat from before refocus cannot conceal the newly authorized Food view',async()=>{
+ const r=rig();await r.session.start(r.value.matchId);const view=observeFoodSession(r);
+ try{
+  const beat=r.gateHeartbeat(),old=r.gateRead();void r.session.refresh();await flush();
+  await r.advance(1000);assert.equal(r.requests.at(-1).operation,'foodHeartbeat');
+  r.session.setVisible(false);assert.equal(view.food.getModel().view,null);
+  r.session.setVisible(true);old.resolve();await flush();
+  assert.equal(view.food.getModel().canHold,true);
+  const errors=view.errors.length,reads=r.requests.filter(q=>q.operation==='read').length;
+  beat.resolve('FORBIDDEN');await flush();
+  assert.equal(view.errors.length,errors);
+  assert.equal(r.requests.filter(q=>q.operation==='read').length,reads);
+  assert.equal(r.session.getModel().connection,'live');
+  assert.equal(view.food.getModel().canHold,true);
+ }finally{view.close();}
+});
+
 test('hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot',async()=>{
  const r=rig();await r.session.start(r.value.matchId);r.session.setVisible(false);const before=r.requests.length;await r.advance(2500);assert.equal(r.requests.length,before);
  r.session.setVisible(true);await r.session.refresh();assert.equal(r.session.getModel().connection,'live');assert.equal(r.session.getModel().setupClock.status,'synced');r.session.dispose();

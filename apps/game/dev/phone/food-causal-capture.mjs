@@ -23,6 +23,7 @@ function pathArg(name){
  return resolve(value);
 }
 const output=pathArg('output'),hosted=pathArg('baseline-hosted-output');
+const heartbeatRecovery=process.argv.includes('--heartbeat-recovery');
 const releaseBytes=await readFile(join(hosted,'preview-release.json')),release=JSON.parse(releaseBytes);
 const project='gamen-mothership-staging',headers=createHostedPreviewHeaders(project);
 assert.equal(release.projectId,project);
@@ -38,11 +39,13 @@ const kinds={'.html':'text/html','.css':'text/css','.js':'text/javascript','.png
  '.webp':'image/webp','.mp4':'video/mp4','.woff2':'font/woff2'};
 const report={scope:'Desktop Chromium with synthetic seat-bound snapshots and controllable transport. Browser touch. Production response headers.',
  candidate:{commit:git('rev-parse','HEAD'),dirty:git('status','--porcelain')},
- timingScope:'Browser monotonic samples around synthetic receipt/READ gates. The script does not measure hosted credentials, HTTP or server timings.',
+ timingScope:heartbeatRecovery?'Controlled heartbeat refusal, READ order and simulated blur/refocus. The fixture clock advances to make the fallback due. No hosted latency measurement.'
+  :'Browser monotonic samples around synthetic receipt/READ gates. The script does not measure hosted credentials, HTTP or server timings.',
  art:{source:release.sourceCommit,manifestSha256:release.planetRelease.artManifestSha256,bundleSha256:release.bundleSha256,
   inventorySha256:sha(releaseBytes),files:art.size},headers,headersSha256:sha(JSON.stringify(headers)),
  viewports:[],captures:[],policy:[],
 };
+if(heartbeatRecovery)report.sessionSha256=sha(await readFile(join(root,'apps/game/src/planet/session.ts')));
 const buildDir=await mkdtemp(join(tmpdir(),'gamen-food-causal-capture-'));
 let server,chrome,browser;
 const harness='window.foodAppHarness';
@@ -149,6 +152,51 @@ async function winch(page,origin){
  return {closureLedReceiptLookup:true,lookupStillBlockedWhenClosureRetired:true};
 }
 
+async function parkHeartbeatAndRead(page){
+ await page.evaluate(harness+".causal.park('read');"+harness+".causal.park('foodHeartbeat');void "+harness+".app.session.refresh()");
+ await page.waitFor(waiting('read'),'READ pending before the heartbeat');
+ await page.evaluate(harness+'.causal.allowFallback()');
+ await page.waitFor(waiting('foodHeartbeat'),'fallback heartbeat dispatched');
+}
+
+async function heartbeat(page,origin){
+ const concealed=model+".view===null && !document.querySelector('.planet-food.ph:not([hidden]) .fs-ctl')";
+ const live=harness+".app.session.getModel().connection==='live'";
+ const readCount=async()=>(await trace(page)).filter(event=>event.operation==='read').length;
+ const requestCount=harness+".causal.events.filter(event=>event.operation==='read').length";
+ await page.goto(origin+'app.html?case=food-panel-03&causal=heartbeat&safe=47,34',harness+'?.ready');
+ await page.waitFor(action('release'),'Panel RELEASE authorized');
+ await parkHeartbeatAndRead(page);
+ await page.evaluate(harness+'.causal.refuseHeartbeat()');
+ await page.waitFor(concealed,'current authorization refusal hides the Task');
+ const before=await readCount();
+ await page.evaluate(harness+".causal.open('read');"+harness+".causal.park('read')");
+ await page.waitFor(requestCount+'==='+String(before+1)+' && '+waiting('read'),'new READ after the old request settles');
+ assert.equal(await page.evaluate(concealed),true,'the pre-refusal response cannot restore controls');
+ assert.equal(await page.evaluate(harness+".app.session.getModel().connection==='error'"),true);
+ await capture(page,'reconnecting','concealed-awaiting-authorized-read');
+ await page.evaluate(harness+".causal.open('read')");
+ await page.waitFor(live+' && '+action('release'),'new authorized view restores RELEASE');
+ await capture(page,'food-panel-03','panel-release-after-authorized-read');
+ await inspectPage(page);
+
+ await page.goto(origin+'app.html?case=food-winch-02&causal=heartbeat&safe=47,34',harness+'?.ready');
+ const hold=model+".canHold && document.querySelector('#food-control-hold')?.getAttribute('aria-disabled')===null";
+ await page.waitFor(hold,'Winch Hold authorized');
+ await parkHeartbeatAndRead(page);
+ await page.evaluate("window.dispatchEvent(new Event('blur'))");
+ await page.waitFor(concealed,'blur conceals the Task');
+ const beforeFocus=await readCount();
+ await page.evaluate("window.dispatchEvent(new Event('focus'));"+harness+".causal.open('read')");
+ await page.waitFor(requestCount+'>'+String(beforeFocus)+' && '+live+' && '+hold,'fresh foreground READ restores Hold');
+ await page.evaluate(harness+".causal.park('read');"+harness+".causal.refuseHeartbeat()");
+ await page.evaluate('new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)))');
+ assert.equal(await page.evaluate(live+' && '+hold),true,'obsolete denial does not conceal freshly authorized Hold');
+ await capture(page,'food-winch-02','winch-hold-after-obsolete-refusal');
+ await inspectPage(page);
+ return {oldReadStayedConcealed:true,newReadRestoredRelease:true,obsoleteRefusalPreservedHold:true};
+}
+
 await mkdir(output,{recursive:true});
 try{
  // The fixture bundles the current app. The art files are the verified, immutable
@@ -187,7 +235,8 @@ try{
     'directive:e.violatedDirective,blocked:e.blockedURI,path:new URL(e.sourceFile||location.href).pathname,line:e.lineNumber,column:e.columnNumber',
     '}));',
    ].join('\n')});
-   report.viewports.push({width,height,panel:await panel(page,origin),winch:await winch(page,origin)});
+   report.viewports.push(heartbeatRecovery?{width,height,heartbeat:await heartbeat(page,origin)}
+    :{width,height,panel:await panel(page,origin),winch:await winch(page,origin)});
   }finally{await page.close();}
  }
  report.passed=true;
