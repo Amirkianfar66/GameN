@@ -241,7 +241,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.equal(c.backdrop, 'rgb(16, 20, 28)', `${key}: the shell's backdrop is the canvas`);
     if (c.canvasPixel) assert.ok(c.canvasPixel.every((v, i) => Math.abs(v - [16, 20, 28][i]) <= 2), `${key}: a pixel outside the art is the canvas (${c.canvasPixel})`);
   }
-  assert.ok(captures.filter(([, c]) => c.canvasPixel).length >= 16, 'the canvas sampled in every card view');
+  assert.equal(captures.filter(([, c]) => c.canvasPixel).length, 14, 'the canvas sampled in every card view: 0:01, 0:12, 0:30, missing, waiting, skipped and stale, at two sizes');
   for (const size of ['390x844', '430x932']) {
     assert.ok(record.captures[`${size}/late`].toastOnTop && record.captures[`${size}/late`].toastClearOfChip, `${size}: the rejoined toast over the film, under its clock chip (sheet 18)`);
     assert.equal(record.captures[`${size}/concealed`].name, null, `${size}: concealed, no role`);

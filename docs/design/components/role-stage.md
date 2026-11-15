@@ -143,7 +143,7 @@ Also approved: the card's `device` from Frontend's `planetRoleLook(...).device` 
 
 ## Checks run on the first build
 
-On `9525a723`, clean (the shell and kit at `05e2d1d0`, kit 0.3.0, with the shell's `backdrop`; the check on the shared `component-check.mjs`):
+On `405edce8`, clean (the shell and kit at `05e2d1d0`, kit 0.3.0, with the shell's `backdrop`; the check on the shared `component-check.mjs`):
 - **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 9 of 9 (the check's record; the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 391 of 391; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
 - **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
   - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **26 of 26 pass**. In the film's view the stage gives the shell `bar: null`, `tabs: null` and `edge: true`: the film runs edge to edge, as sheet 17 draws it, and the rejoined toast sits over it, under the film's clock chip, as sheet 18 does (decision 5).
