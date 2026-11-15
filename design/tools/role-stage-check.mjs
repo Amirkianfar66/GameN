@@ -103,7 +103,9 @@ try {
           toastOnTop: (() => { const n = q('.ms-ps-toast'); if (!n) return false; const r = n.getBoundingClientRect(); return n.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); })(),
           // Sheet 18 draws the toast under the film's clock chip, never across it.
           toastClearOfChip: (() => { const a = q('.ms-ps-toast')?.getBoundingClientRect(), b = q('.ms-rst-chip')?.getBoundingClientRect(); return !!a && !!b && (a.top >= b.bottom || a.right <= b.left); })(),
-          picturesDrawn: pictures.every(p => p.startsWith('url(')), layout: window.__roleStage.mounted[0]?.layout?.() ?? null };
+          picturesDrawn: pictures.every(p => p.startsWith('url(')), layout: window.__roleStage.mounted[0]?.layout?.() ?? null,
+          // The pack's phone canvas (#10141C) behind and beside the art: the shell's backdrop, read at its root.
+          backdrop: getComputedStyle(document.querySelector('.ms-phone-shell') ?? root).backgroundColor };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
@@ -114,13 +116,24 @@ try {
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
       const drawn = EXPECT[state](seen);
+      // Outside the art (left of the card, below the foot) the screen is the canvas, as sheets 17 and 18 sample it.
+      const canvasPixel = sizeKey === 'card' || seen.view === 'film' || seen.status === 'concealed' ? null
+        : await page.evaluate(`(() => { const r = document.querySelector('.ms-role-stage').getBoundingClientRect(); return [r.left + 6, r.bottom - 8]; })()`);
+      let canvasOk = true;
+      if (canvasPixel) {
+        const { data: px } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: canvasPixel[0], y: canvasPixel[1], width: 1, height: 1, scale: 1 } });
+        const rgb = await page.evaluate(`new Promise(done => { const i = new Image(); i.onload = () => { const c = document.createElement('canvas'); c.width = c.height = 1; const g = c.getContext('2d'); g.drawImage(i, 0, 0); done([...g.getImageData(0, 0, 1, 1).data.slice(0, 3)]); }; i.src = 'data:image/png;base64,${px}'; })`).catch(() => null);
+        seen.canvasPixel = rgb;
+        canvasOk = !!rgb && Math.abs(rgb[0] - 16) <= 2 && Math.abs(rgb[1] - 20) <= 2 && Math.abs(rgb[2] - 28) <= 2;
+      }
       // Face up with the picture, the person and the device are drawn from the bundles' properties.
       const art = seen.name === null || seen.missing || (seen.pictures.length === 2 && seen.picturesDrawn);
-      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn && art;
+      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn && art && canvasOk
+        && (sizeKey === 'card' || seen.backdrop === 'rgb(16, 20, 28)');
       if (!ok) failed += 1;
       results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn, ...seen, requests, problems };
       await page.close();
-      console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: view ${seen.view}, card "${seen.name ?? seen.back}", note "${seen.note}", clock ${seen.timer ?? seen.chip}, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}${drawn ? '' : ', NOT AS EXPECTED'}${art ? '' : ', PICTURES MISSING'}`);
+      console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: view ${seen.view}, card "${seen.name ?? seen.back}", note "${seen.note}", clock ${seen.timer ?? seen.chip}, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}${drawn ? '' : ', NOT AS EXPECTED'}${art ? '' : ', PICTURES MISSING'}${canvasOk ? '' : `, NOT ON THE CANVAS ${JSON.stringify(seen.canvasPixel)}`}${sizeKey === 'card' || seen.backdrop === 'rgb(16, 20, 28)' ? '' : `, BACKDROP ${seen.backdrop}`}`);
     }
   }
   // The lifecycle probe, as the page comes and with the device's Reduce motion; then the agreement with the pack.

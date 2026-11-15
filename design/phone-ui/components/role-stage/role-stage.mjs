@@ -196,7 +196,8 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       status: state.status === 'stale' ? 'stale' : 'live',
       interactive: state.interactive, reducedMotion: state.reducedMotion, insets: state.insets, viewer: state.viewer,
       bar: barAway ? null : { kind: 'phase', icon: 'card', title: STAGE_WORDS.title, sub: STAGE_WORDS.sub, timer: showClock ? { remainingMs: c.endsAtMs - c.elapsedMs, urgentAtMs: -1 } : null },
-      tabs: null, edge: barAway, banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
+      // The pack's phone canvas behind the bars' glass and in the bands the stage leaves (no room here).
+      tabs: null, edge: barAway, backdrop: 'canvas', banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
       toast: state.status === 'concealed' ? null : state.toast,
     };
   }
