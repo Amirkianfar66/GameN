@@ -53,11 +53,19 @@
     },
     {
       "path": "design/room-pilot/films.mjs",
-      "sha256": "b35aa72430b73d8732d76b47436690684f1ca27f4f1144ebc40d3af963c98311"
+      "sha256": "cef269fbf08bc5547bc4bc322f007f8f8bd51249c60adea7df47be57620ca3f0"
     },
     {
       "path": "design/tools/room-drawing-export.mjs",
-      "sha256": "f6759fc7dcad300aa738f6e4ed66c61df814781adc60c1b973d56ea2fef887ed"
+      "sha256": "ae3f434b6d9928628493c2e095745af733b31b791ccc9669dd0c47be83c1ec5a"
+    },
+    {
+      "path": "design/room-drawing/runtime/captain-fx.mjs",
+      "sha256": "a4d5273a18b16e5f2801b3d200a06cfd7ba5d80e1e7d863389d83a7cd264998b"
+    },
+    {
+      "path": "design/room-drawing/runtime/medical-fx.mjs",
+      "sha256": "fb5794f458e2a36c479ad364a2cef8f2dd17da5b0c3886b9e725b93ccd842529"
     }
   ],
   "dependencies": [
@@ -109,6 +117,26 @@
     {
       "path": "design/board-v2/scenes/hospital-ward.mjs",
       "sha256": "d6af092a86322a81cc941bc41aade276063b5ba209a18a402a1c5195096dc2be",
+      "note": "read, not changed"
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/scene-kit.mjs",
+      "sha256": "055640dad54bbc1b8b0be409e9a694acf8c02ead44feaaa2c0b07a10a1322e46",
+      "note": "read, not changed"
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/blocked-fx.mjs",
+      "sha256": "938821be87f00fb24376df2c5d9713dbf4f579c5f13ad2f01d096a5182837f95",
+      "note": "read, not changed"
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/label-box.mjs",
+      "sha256": "b341c8880c499709857597129d9faaa1c5e5a1a66e39afe5bce40a4d2f591cf0",
+      "note": "read, not changed"
+    },
+    {
+      "path": "apps/game/hosted/board-v2-drawing/hospital-ward.mjs",
+      "sha256": "ce1ca9ddb4ec5f00f30514b61a43f93d7b3ee233fdd2a35cb98db74dd7940c55",
       "note": "read, not changed"
     }
   ],
@@ -206,52 +234,46 @@
       "sha256": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9"
     }
   ],
-  "ports": [
+  "runtime": [
     {
-      "source": "design/room-drawing/source/captain.mjs",
-      "sha256": "93126bd956cdef02537aa652dca29c5f72d888093fb5e1918f0b9cd701e03c1b",
-      "runtime": "apps/game/hosted/room-drawing/captain-fx.mjs",
-      "portSha256": "a523fc81dfbf56bf7f1e833d11b086e501fc8a0c753e27a192d498be61eb9c2d",
-      "imports": {
-        "../../board-motion/scenes/kit.mjs": "../board-v2-drawing/scene-kit.mjs",
-        "../../board-v2/fx/blocked.mjs": "../board-v2-drawing/blocked-fx.mjs",
-        "../../board-v2/fx/label-box.mjs": "../board-v2-drawing/label-box.mjs"
-      },
+      "module": "design/room-drawing/runtime/captain-fx.mjs",
+      "sha256": "a4d5273a18b16e5f2801b3d200a06cfd7ba5d80e1e7d863389d83a7cd264998b",
+      "imports": [
+        "../../../apps/game/hosted/board-v2-drawing/scene-kit.mjs",
+        "../../../apps/game/hosted/board-v2-drawing/blocked-fx.mjs",
+        "../../../apps/game/hosted/board-v2-drawing/label-box.mjs",
+        "./jail-door-art.mjs"
+      ],
       "replacesUnderThisRelease": "apps/game/hosted/board-v2-drawing/captain-fx.mjs",
       "todaySha256": "ccacf8507f95b33663a2f7208a26efbd451d07a1ac69e6c2ce20eff2a03b026b",
       "dropInFor": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/fx/captain.mjs",
       "canonicalSha256": "ad2853bf1e913cb4da5dafe2ddb728a477b686e02d5115d8d2a812ca5c871d88"
     },
     {
-      "source": "design/room-drawing/source/jail-door-art.mjs",
-      "sha256": "ce26f8695f0aad5d5232cd06ed91d7bf50b195f2f36c06754c05aa99a88f3fb5",
-      "runtime": "apps/game/hosted/room-drawing/jail-door-art.mjs",
-      "portSha256": "3d1559b4ce7bbc74f3cf2fa44afa7b60291a497005cd910adc249f8bfd70c3b8",
-      "imports": {},
+      "module": "design/room-drawing/runtime/jail-door-art.mjs",
+      "sha256": "dac44d164b3c3760a80c1566ae8329ec046f42aeb28dae42301658a111aa8326",
+      "imports": [],
       "generated": "design/tools/room-drawing-export.mjs (design/room-pilot/films.mjs)"
     },
     {
-      "source": "design/room-drawing/source/medical.mjs",
-      "sha256": "57ddb0ab29d23816f240a1bec504fa9be0457366a9f5ba74a13b91b11474d223",
-      "runtime": "apps/game/hosted/room-drawing/medical-fx.mjs",
-      "portSha256": "4e11654f7644c16db2f01f4a692eea2249eb2186e4ea9f38d95f68b8b98165d9",
-      "imports": {
-        "../../board-motion/scenes/kit.mjs": "../board-v2-drawing/scene-kit.mjs",
-        "../../board-v2/fx/blocked.mjs": "../board-v2-drawing/blocked-fx.mjs",
-        "../../board-v2/fx/label-box.mjs": "../board-v2-drawing/label-box.mjs",
-        "../../board-v2/scenes/hospital-ward.mjs": "../board-v2-drawing/hospital-ward.mjs"
-      },
+      "module": "design/room-drawing/runtime/medical-fx.mjs",
+      "sha256": "fb5794f458e2a36c479ad364a2cef8f2dd17da5b0c3886b9e725b93ccd842529",
+      "imports": [
+        "../../../apps/game/hosted/board-v2-drawing/scene-kit.mjs",
+        "../../../apps/game/hosted/board-v2-drawing/hospital-ward.mjs",
+        "../../../apps/game/hosted/board-v2-drawing/blocked-fx.mjs",
+        "../../../apps/game/hosted/board-v2-drawing/label-box.mjs",
+        "./medical-art.mjs"
+      ],
       "replacesUnderThisRelease": "apps/game/hosted/board-v2-drawing/medical-fx.mjs",
       "todaySha256": "76af585bc41418a80355ac7e3f8d156bdbde98a4b694ed2cc726d06cbb800514",
       "dropInFor": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/fx/medical.mjs",
       "canonicalSha256": "3f596f1537d0b58d820359993bfbd01ff58194b1e8b7c08435aebbaa306e7af8"
     },
     {
-      "source": "design/room-drawing/source/medical-art.mjs",
-      "sha256": "995961b2c2d8de1fbd31eaaa6651c6f247d5c5c28964b6d2cae1a1254313e8b2",
-      "runtime": "apps/game/hosted/room-drawing/medical-art.mjs",
-      "portSha256": "623a06aabaffba96634714d5323a5ea63d05428ab2ccd88d8e17f4019e238abc",
-      "imports": {},
+      "module": "design/room-drawing/runtime/medical-art.mjs",
+      "sha256": "6b81782e07e3cebc7628a0b1cbd3c1a98e02129a0080c315bbab8360265b7212",
+      "imports": [],
       "generated": "design/tools/room-drawing-export.mjs (design/room-pilot/films.mjs)"
     }
   ],
@@ -292,7 +314,7 @@
     },
     {
       "module": "apps/game/hosted/board-v2-films.mjs",
-      "reads": "The Captain's films: jailDoorSvg() and airlockSvg() from board-v2-drawing/captain-fx.mjs; the Hospital's: droneSvg(), berthScreenSvg() and lampSvg() from board-v2-drawing/medical-fx.mjs. Under this release they come from the ports in apps/game/hosted/room-drawing/, with the same exports and geometry."
+      "reads": "The Captain's films: jailDoorSvg() and airlockSvg() from board-v2-drawing/captain-fx.mjs; the Hospital's: droneSvg(), berthScreenSvg() and lampSvg() from board-v2-drawing/medical-fx.mjs. Under this release they come from design/room-drawing/runtime/captain-fx.mjs and medical-fx.mjs, imported as they are (nothing copied into apps/), with the same exports and geometry."
     }
   ],
   "dispatch": "Exact release only. These pictures belong to the art release that registers them (after design-0.7.0); every earlier release keeps its bundles byte for byte. A board draws the new rooms only under that release, as the crew's exact-release dispatch does, and draws the new crew and the new rooms together.",

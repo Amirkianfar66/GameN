@@ -1,4 +1,7 @@
-// mothership:dev-only
+// Runtime source of the room drawing release's films (room-drawing-1.0.0): the game imports this file as
+// it is, and the release's review page draws with it too (the owner's one-source decision of 14 November
+// 2026). It imports only the board's drawing kits already in the hosted graph (apps/game/hosted/
+// board-v2-drawing/) and its own art (./medical-art.mjs).
 //
 // room-drawing-1.0.0 (DSN-REQ-18, docs/design/room-drawing-release.md): a drop-in for
 // design/board-v2/fx/medical.mjs (its source kept in design/releases/source-snapshots/
@@ -26,10 +29,10 @@
 // is written in the art; the words a screen shows are the page's own text. Pure functions that
 // return SVG text or numbers, for Node and the browser alike.
 
-import { INK, PAPER } from '../../board-motion/scenes/kit.mjs';
-import { WARD_BERTHS, WARD_COLUMNS, WARD_ROWS, wardBerths } from '../../board-v2/scenes/hospital-ward.mjs';
-import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../board-v2/fx/blocked.mjs';
-import { LABEL_MARGIN } from '../../board-v2/fx/label-box.mjs';
+import { INK, PAPER } from '../../../apps/game/hosted/board-v2-drawing/scene-kit.mjs';
+import { WARD_BERTHS, WARD_COLUMNS, WARD_ROWS, wardBerths } from '../../../apps/game/hosted/board-v2-drawing/hospital-ward.mjs';
+import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../apps/game/hosted/board-v2-drawing/blocked-fx.mjs';
+import { LABEL_MARGIN } from '../../../apps/game/hosted/board-v2-drawing/label-box.mjs';
 import { MEDICAL_ART } from './medical-art.mjs';
 
 export const MEDICAL_VERSION = 'board-v2-medical-0.1.0';

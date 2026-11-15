@@ -201,7 +201,7 @@
     }
   },
   "doorAtRest": {
-    "what": "design/room-drawing/source/captain.mjs jailDoorSvg() at rest, over the release's Jail in JAIL_DOOR.box, against the Jail alone, at twice its pixels",
+    "what": "design/room-drawing/runtime/captain-fx.mjs jailDoorSvg() at rest, over the release's Jail in JAIL_DOOR.box, against the Jail alone, at twice its pixels",
     "pixels": 3145728,
     "over8": 3612,
     "over32": 2392,
