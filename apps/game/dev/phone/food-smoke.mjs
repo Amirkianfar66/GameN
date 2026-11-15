@@ -2,17 +2,19 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
+import {createHostedPreviewHeaders,applyHostedPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+const previewHeaders=createHostedPreviewHeaders('gamen-mothership-staging');
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,extname,sep} from 'node:path';
 import {createHash} from 'node:crypto';
 import {launchBrowser,connect,openPage,sleep} from '../capture/browser.mjs';
 
 const directory='/private/tmp/gamen-food-preview',out=resolve(process.argv[2]??'/private/tmp/gamen-food-component-smoke');await mkdir(out,{recursive:true});
-const server=createServer(async(req,res)=>{try{const pathname=new URL(req.url,'http://localhost').pathname,path=resolve(directory,'.'+(pathname==='/'?'/index.html':pathname));if(!path.startsWith(directory+sep))throw Error('path');
+const server=createServer(async(req,res)=>{applyHostedPreviewHeaders(res,'gamen-mothership-staging');try{const pathname=new URL(req.url,'http://localhost').pathname,path=resolve(directory,'.'+(pathname==='/'?'/index.html':pathname));if(!path.startsWith(directory+sep))throw Error('path');
  res.setHeader('content-type',({'.js':'text/javascript','.css':'text/css','.html':'text/html','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp'})[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.statusCode=404;res.end();}});
 await new Promise(done=>server.listen(0,'127.0.0.1',done));
 const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
-const facts={scope:'Native Food controller/components on accepted synthetic wire examples; desktop Chromium only. Preliminary component QA, not complete comparison, API/runtime tuple/art admission, physical-device or Designer acceptance.',provenance:JSON.parse(await readFile(resolve(directory,'food-review-provenance.json'),'utf8')),browser:await browser.send('Browser.getVersion'),cases:[],errors:[]};
+const facts={headerProvenance:{kind:'production',projectId:'gamen-mothership-staging',headers:previewHeaders},scope:'Native Food controller/components on accepted synthetic wire examples; desktop Chromium only. Preliminary component QA, not complete comparison, API/runtime tuple/art admission, physical-device or Designer acceptance.',provenance:JSON.parse(await readFile(resolve(directory,'food-review-provenance.json'),'utf8')),browser:await browser.send('Browser.getVersion'),cases:[],errors:[]};
 const repo=resolve(new URL('../../../../',import.meta.url).pathname);
 async function verifySources(){for(const entry of facts.provenance.modules){const bytes=await readFile(resolve(repo,entry.path));assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256,'Native source changed after build: '+entry.path);}}
 const capture=async(page,file)=>{const {data}=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(resolve(out,file),Buffer.from(data,'base64'));return file;};
