@@ -8,6 +8,7 @@ import {beginPlanetTiming,timePlanetStage} from './planet-request-timing.js';
 const hash=(key:string)=>createHash('sha256').update(key).digest('hex');
 const CHUNK_BYTES=48*1024;
 const MAX_CHUNKS=80; // Below Firestore transaction/document limits; no truncation of accepted state.
+const METADATA_BATCH_SIZE=64;
 interface Metadata {key:string;namespace:string;chunks:number;digest:string;schemaVersion:1}
 type SdkRead=<T>(read:()=>Promise<T>)=>Promise<T>;
 const timedSdkRead:SdkRead=read=>timePlanetStage('sdkRead',read);
@@ -87,10 +88,26 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
         const result=await operation(tx);
         // Read old chunk counts for every affected key before applying any write.
         // Creates use exists:false on every envelope document and need no old metadata.
-        for(const key of writes.keys())if(!creates.has(key)&&!metadata.has(key)){
-          const ref=meta(key);
-          const snapshot=await readBeforeCommit(()=>transaction.get(ref));
-          metadata.set(key,snapshot.exists?snapshot.data() as Metadata:null);
+        const unreadKeys=[...writes.keys()].filter(key=>!creates.has(key)&&!metadata.has(key));
+        for(let offset=0;offset<unreadKeys.length;offset+=METADATA_BATCH_SIZE){
+          const keys=unreadKeys.slice(offset,offset+METADATA_BATCH_SIZE);
+          const refs=keys.map(meta);
+          if(keys.length===1){
+            const snapshot=await readBeforeCommit(()=>transaction.get(refs[0]!));
+            metadata.set(keys[0]!,snapshot.exists?snapshot.data() as Metadata:null);
+            continue;
+          }
+          // Map by reference, including missing documents, so each write keeps
+          // its own old chunk count even if the returned snapshots are reordered.
+          const keysByPath=new Map(refs.map((ref,index)=>[ref.path,keys[index]!]));
+          const snapshots=await readBeforeCommit(()=>transaction.getAll(...refs));
+          for(const snapshot of snapshots){
+            const path=snapshot.ref.path,key=keysByPath.get(path);
+            if(key===undefined)throw new Error('Unexpected private metadata snapshot');
+            metadata.set(key,snapshot.exists?snapshot.data() as Metadata:null);
+            keysByPath.delete(path);
+          }
+          if(keysByPath.size!==0)throw new Error('Missing private metadata snapshot');
         }
         let totalWrites=0,totalBytes=0;
         const prepared=[...writes].map(([key,value])=>{
