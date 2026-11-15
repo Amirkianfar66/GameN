@@ -2,7 +2,7 @@
   "tool": "design/tools/room-connection-check.mjs",
   "what": "The Planet app's room view drawn by the room scene (design/phone-ui/components/room-scene), in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "97b4cac2d49ab8c05e27de2361445d63c1547941",
+    "commit": "fe2e180d3580ea3b6789b8506397057d3e36fe48",
     "clean": true,
     "dirty": []
   },
@@ -57,7 +57,7 @@
         "control": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-room-b.jpg",
-      "sha256": "2181858ce88c9c57d393fa3340f16d39f970cf9442b6909d5aef281696f6ad2a",
+      "sha256": "51cbaa931835ac4dfe1f2d02497f63a8528313ea24d8bed09209cb30a60a5f3d",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -178,7 +178,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -192,7 +193,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -213,7 +214,7 @@
         "problems": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-room-a.jpg",
-      "sha256": "e95c25b8281782539da4c9269b56a6c2204b7b241701b6e17ad96286312b9581",
+      "sha256": "38fe0df2d92079e6f89baaa26db92b5cad70b5e925c9173eaea696463fbc5f68",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -390,7 +391,8 @@
               "inScene": true
             }
           ],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -404,7 +406,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -425,7 +427,7 @@
         "problems": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-command-room.jpg",
-      "sha256": "e42c683ea81e1e9584e6c969c2c53b1df0e7bb8a5fe348959e38a9bf9054237d",
+      "sha256": "1f8a21e54ac16577fe8b1090f3a6e923fd8856d7000eb3096527d17bd96462a1",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -492,7 +494,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -506,7 +509,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -531,7 +534,7 @@
         "filmsInScene": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-hospital.jpg",
-      "sha256": "e5717fbe766cb4cc39c3f98a2e8f11b682c32e499e7143d340894992b303140a",
+      "sha256": "93b51a4b99cbeb2705616b6bdd3049b81bf401e834dc03dd1053aba39fbb6915",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -654,7 +657,8 @@
               "inScene": true
             }
           ],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -668,7 +672,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -689,7 +693,7 @@
         "problems": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-jail.jpg",
-      "sha256": "bffeee0e24174fc21e72076d18d83fc639eac2f452d9eddb1fde117a81d5e642",
+      "sha256": "94a446551356c34642627e8ce6bb13e2a8e5e6ccbfc169d89a56c6fb435261f8",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -792,7 +796,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -806,7 +811,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -825,13 +830,15 @@
         "motion": true,
         "policy": true,
         "problems": true,
-        "fourPeople": true
+        "fourPeople": true,
+        "markers": true,
+        "darknessLayer": true
       },
       "info": {
         "infoColdFrameDiffers": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-blackout-lit.jpg",
-      "sha256": "0e9d6c575b5387cdcd42e0848ebe25101c84259aa275879f638b437aee21572b",
+      "sha256": "7508843e539fdf20d160395a2df83e92681f8ccb58e7cffc2cdab827e4bffdc6",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -952,7 +959,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 25,
+          "markers": 5,
+          "darkness": 1,
           "stations": 4
         },
         "model": {
@@ -966,7 +974,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -986,10 +994,13 @@
         "policy": true,
         "problems": true,
         "held": true,
-        "lights": true
+        "lights": true,
+        "markers": true,
+        "noDarknessOver": true,
+        "windowsMove": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-blackout-dark.jpg",
-      "sha256": "e5c82f334920a95bcf007b01ad98158dd7ab0f648a4651514667af4037af480f",
+      "sha256": "0800a42ea4f9fa61c3063e2edcddc31c1cf2c6e887dfab76011d7734906a5352",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -1036,7 +1047,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 5,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1050,7 +1062,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1075,7 +1087,7 @@
         "tapA2": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-blackout-slots.jpg",
-      "sha256": "c0df64a4a17a203a8cd45cacb3a19ea1161c4f3ad034a33104aac302b7e528e8",
+      "sha256": "9fc78970d194921ae169a357e8330a19e07f6ccee2e9f47d7a9d8ea57f260907",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -1167,7 +1179,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 5,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1185,7 +1198,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1209,7 +1222,7 @@
         "tapPlayer2": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-seats.jpg",
-      "sha256": "0da031d34694f79a7dec405f3f0cda27e9fe2ecd75fca5c5c2c65a15521815be",
+      "sha256": "b683d1c22efcb0c6f50fffce2479197905d5e1960a264378b1cb09fbbe5673be",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -1385,7 +1398,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1403,7 +1417,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1427,7 +1441,7 @@
         "tapB5": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-slots.jpg",
-      "sha256": "d203d00f83971f903acdf04feb240bbd36bcf67912c7e85e96c4681526d5a884",
+      "sha256": "7d7a4ba5be1171c26f70b07a0ee2c3426a94af1ece1144fc6b3f2e31f5cdcc57",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -1560,7 +1574,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1580,7 +1595,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1604,7 +1619,7 @@
         "offersEnded": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-expired.jpg",
-      "sha256": "454fd0c4f754160045bb45038192ccccc386ec11f48df304db3e6102d70bff81",
+      "sha256": "64db5057dc5bc5da12ff47614b2ceaf656bf0ba75436e513467fdcd1b4a9bc1b",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -1743,7 +1758,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1757,7 +1773,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1781,7 +1797,7 @@
         "noControl": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-reconnecting.jpg",
-      "sha256": "3b19ef5d69aa44660b61391b8fc0ce253ad1b4be416daac51640b8f65436b7d1",
+      "sha256": "38217dfa891d85b2ce4f8afd9c22f82440cc6ef175545d362791c953c714860b",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -1902,7 +1918,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1916,7 +1933,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1981,7 +1998,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -1995,7 +2013,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2018,7 +2036,7 @@
         "still": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-reduced.jpg",
-      "sha256": "d0d5e2bd2d6bdf5a1cf04c02945fbb4fa0deb14bf1d93ab17e342456cbb6bbed",
+      "sha256": "2479ba35ba4ae079141609e1f3bcef9017d8a7d37eff022ff5243895bf0d9935",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -2139,7 +2157,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -2153,7 +2172,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2180,7 +2199,7 @@
         "infoRecoil": ""
       },
       "file": "design/phone-ui/review/room-connection/390x844-blocked.jpg",
-      "sha256": "a3dbaf95353338ae95697e7f89845565403d567e002f14aff6cdefdab89e399d",
+      "sha256": "caf84e3fc06cada89a1f1ddbfb8ed976a35a14d044b6c88a287b2ad9ae5fcc87",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -2339,7 +2358,8 @@
             }
           ],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -2353,7 +2373,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2381,7 +2401,7 @@
         "filmsInScene": true
       },
       "file": "design/phone-ui/review/room-connection/390x844-hospital-films.jpg",
-      "sha256": "388a0920f51c8a4ff070d49efb8c4592dc8ff84f2ad88cf58c62a7bc7626b1af",
+      "sha256": "a3ff51ce857e507654f5780a483a03f5c0a54e98ebcc19a088fe9e3199d7e91b",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -2517,7 +2537,8 @@
               "inScene": true
             }
           ],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -2535,7 +2556,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2557,7 +2578,7 @@
         "control": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-room-b.jpg",
-      "sha256": "a3fd6a806cbc4a1465a4f86e1e0f153e0780c0d5ea093701239c70a29c71d8f0",
+      "sha256": "c3fbca8e57a530354d83c6fcc4a65866a93f9e5ead666af62decd76006512733",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -2678,7 +2699,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -2692,7 +2714,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2713,7 +2735,7 @@
         "problems": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-room-a.jpg",
-      "sha256": "3f9b9cc4cd6a636bf47153de0663691c5a8686c755095f64c5cfba830cfcc036",
+      "sha256": "f4a1dc71de8284db328bb51005c79297eef4321440bcfee6e092b339e6f5682c",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -2890,7 +2912,8 @@
               "inScene": true
             }
           ],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -2904,7 +2927,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2925,7 +2948,7 @@
         "problems": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-command-room.jpg",
-      "sha256": "e8869bce81cdeb98e9e74cf75bb34930e07cbea7c2e0388f27775788340c8cf3",
+      "sha256": "6438d949095cd1cad8a00d75d8baae5149ce2b0527d29850ccf27618c69fd126",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -2992,7 +3015,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -3006,7 +3030,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3031,7 +3055,7 @@
         "filmsInScene": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-hospital.jpg",
-      "sha256": "d5c7e18413786c3ecff5bc5b7f468625d46fd077f3cb0106a1dc44ae72a41d93",
+      "sha256": "d8ca289d21eeac53638ddb954e2c04db0c9f57cd9e346330e928b0899d2cb9cc",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -3154,7 +3178,8 @@
               "inScene": true
             }
           ],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -3168,7 +3193,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3189,7 +3214,7 @@
         "problems": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-jail.jpg",
-      "sha256": "83ffbcf5e4364506d31edb5357c765b3f5f1bd5007e319ea1a92d68efe84098a",
+      "sha256": "b1969edd7e8e52cdfb3cd3b06d73fd1c8f3f3e20c62ffb4ee82aeb72318ac6a4",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -3292,7 +3317,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -3306,7 +3332,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3325,13 +3351,15 @@
         "motion": true,
         "policy": true,
         "problems": true,
-        "fourPeople": true
+        "fourPeople": true,
+        "markers": true,
+        "darknessLayer": true
       },
       "info": {
         "infoColdFrameDiffers": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-blackout-lit.jpg",
-      "sha256": "39a90e630a793d0a81884e6140c108da4cf49761d5f9791aba32f8be58080453",
+      "sha256": "fab7d9b05d9514088116c947f934625f9ff48b9a9755e706143471586c25d5e6",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -3452,7 +3480,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 25,
+          "markers": 5,
+          "darkness": 1,
           "stations": 4
         },
         "model": {
@@ -3466,7 +3495,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3486,10 +3515,13 @@
         "policy": true,
         "problems": true,
         "held": true,
-        "lights": true
+        "lights": true,
+        "markers": true,
+        "noDarknessOver": true,
+        "windowsMove": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-blackout-dark.jpg",
-      "sha256": "c7df3628644de87601f1bc7b5d201be1ca328c8862a760da03f52dafc0aeee26",
+      "sha256": "843a37a21892d1e26f0483c088f9099abc6ba920f0b734a5fdb42b0ac55d1f5e",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -3536,7 +3568,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 5,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -3550,7 +3583,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3575,7 +3608,7 @@
         "tapA2": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-blackout-slots.jpg",
-      "sha256": "393166fac26c307d1711b607564ad808c1ec18f99b280a28e14e0b6ef8b55c4f",
+      "sha256": "a5e4f07bb35c1a7220dcf4f481f32e95e5e5c56bcc1cb75af6926b613bf904da",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -3667,7 +3700,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 5,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -3685,7 +3719,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3709,7 +3743,7 @@
         "tapPlayer2": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-seats.jpg",
-      "sha256": "9d9cddf567259a3858e14448c3dfe4884765e6f60d387de6fe0b395010ec33c8",
+      "sha256": "599c1801ac6ae535afe8019f9ff864e37b79de8bbcdacf9b5d7fc4e45292933f",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -3885,7 +3919,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -3903,7 +3938,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3927,7 +3962,7 @@
         "tapB5": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-slots.jpg",
-      "sha256": "3add957830d2582047922866f67d88b13c95349f219ffef8079208dd657708de",
+      "sha256": "78d82f0fc8739c2bf1c77ca79c45366163946822d8be80b8a9a5a223e9552f68",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -4060,7 +4095,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -4080,7 +4116,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4104,7 +4140,7 @@
         "offersEnded": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-expired.jpg",
-      "sha256": "3b302bd0174adf2da80f5cb6d9c6d8c1deacf28d3cdd5bc461ca6e2106cdaad0",
+      "sha256": "47171688df51f66cce5c05dc7e18cf9ad61fca4967a36471dc3523bc6d3293e3",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -4243,7 +4279,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -4257,7 +4294,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4281,7 +4318,7 @@
         "noControl": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-reconnecting.jpg",
-      "sha256": "f5eed7255f39b14bf2bf53f5c8332fbdfc6cd0b2d2109f11841a583a1c68ce63",
+      "sha256": "d46f6316c7c75bc9ee972a8fa1f60cd0eea938c0cb2379970278189734fd51f3",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -4402,7 +4439,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -4416,7 +4454,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4481,7 +4519,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -4495,7 +4534,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4518,7 +4557,7 @@
         "still": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-reduced.jpg",
-      "sha256": "c62a4a717debf47f1366cda4366aced8b80605d6694ee8fb64a5b5e6af860a46",
+      "sha256": "10897f846f067f84a8908e7de9bbcbdf08916f1df5ede391208eff08db41fc22",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -4639,7 +4678,8 @@
         "overlay": {
           "block": [],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -4653,7 +4693,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4680,7 +4720,7 @@
         "infoRecoil": ""
       },
       "file": "design/phone-ui/review/room-connection/430x932-blocked.jpg",
-      "sha256": "4126ed7deaf34b09443a55d0963071ce1266a945a5fedd2497f95390d3439959",
+      "sha256": "05c5af321fd3430127e4c80ab47a190e0f805d1a01b9cb219122bbfd88a4f000",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -4839,7 +4879,8 @@
             }
           ],
           "films": [],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -4853,7 +4894,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4881,7 +4922,7 @@
         "filmsInScene": true
       },
       "file": "design/phone-ui/review/room-connection/430x932-hospital-films.jpg",
-      "sha256": "db6f90f3abf55d9fb939241fb36f20c380f75f0dae63190e62912d7dccb5586a",
+      "sha256": "88f366936606de40f8639144f6dce2056d9197f8727754b27a1907b429ec9ae0",
       "seen": {
         "view": "room",
         "hostHidden": false,
@@ -4998,7 +5039,7 @@
               "part": "critical-seat-3-body",
               "box": {
                 "x": -140.72,
-                "y": 355.23,
+                "y": 355.28,
                 "width": 470.47,
                 "height": 470.47
               },
@@ -5009,7 +5050,7 @@
               "part": "critical-seat-3-front",
               "box": {
                 "x": -140.72,
-                "y": 355.23,
+                "y": 355.28,
                 "width": 470.47,
                 "height": 470.47
               },
@@ -5017,7 +5058,8 @@
               "inScene": true
             }
           ],
-          "night": 0,
+          "markers": 0,
+          "darkness": 0,
           "stations": 4
         },
         "model": {
@@ -5035,7 +5077,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-7y89Q3RT.js",
+            "source": "assets/index-DaLgzsnY.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
