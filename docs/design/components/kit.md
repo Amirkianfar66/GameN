@@ -161,6 +161,6 @@ The component's own check draws its states, runs its probe and writes its record
   - **0.2.0 against 0.1.0:** moving every rule to one class's weight changed no comparison; the 126 earlier comparisons agree as before.
   - **0.4.0 against 0.3.0:** the inline error takes an icon (two comparisons, the menu's offline note, 6 parts); the 138 earlier comparisons agree as before.
   - **0.3.0 against 0.2.0:** the waiting block is new (ten comparisons, 48 parts). The 128 earlier comparisons agree as before. In the pack, its portrait is the 44 px `.pt` even where a screen asks `pt(…, 76)`, because the CSS sizes every `.pt`; the kit's portrait agrees.
-  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `0c6fdb60`, with the source clean.
+  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `a3c99f01`, with the source clean.
 - **In the shell:** the shell's check draws the kit's buttons and icon buttons in its 29 captures, and its probe drives the control policy (focus kept, refused taps, reasons, reconnecting, focus return). Recorded on `b51b715c` ([the shell's page](phone-shell.md)).
 - **Not run:** physical phones, Safari, screen readers.
