@@ -178,14 +178,7 @@ test('this viewer\'s inputs are dropped while concealed, and when the viewer cha
   assert.ok(nextCardSheetInput(shown, { viewer: 4 }).knowledge, 'the same viewer drops nothing');
 });
 
-/**
- * Waiting on the shell (the Lead's, #265): the sheet's head action, `sheet.head`, which draws the pack's "Hide
- * card". Until it lands, the agreement's frames that show the card differ in that one part only; this list says
- * so and must shrink, not grow.
- */
-const AWAITING_SHELL = new Set(['card', 'knowledge-hacker', 'resources', 'knowledge-empty', 'card-hacker']);
-
-test('the check\'s record: every capture and probe check passed under the production headers; the agreement differs only where the shell is awaited', () => {
+test('the check\'s record: every capture and probe check passed under the production headers; every frame agrees with the pack', () => {
   const record = JSON.parse(read(`${COMPONENT}/review/check.json`));
   assert.equal(record.tool, 'design/tools/card-check.mjs');
   assert.ok(record.sourceClean, 'recorded against a clean source');
@@ -216,9 +209,9 @@ test('the check\'s record: every capture and probe check passed under the produc
   assert.equal(accepted.length, 1);
   assert.deepEqual([accepted[0].pack, accepted[0].amended], ['Your role starts with no knowledge of other players.', 'You have no knowledge of other players.']);
   assert.match(accepted[0].why, /T3.*pending the owner/);
+  // No part may differ: the shell's sheet.head (8cfebb68) draws "Hide card" where the pack does.
   for (const c of agree.checks) {
     const state = c.id.match(/^agree: ([\w-]+)/)[1];
-    if (AWAITING_SHELL.has(state)) assert.deepEqual(c.detail.differences.map(d => d.part), ['hide card'], `${state}: only the head's Hide card differs, awaiting the shell`);
-    else assert.ok(c.ok && c.detail.differences.length === 0, `${state}: agrees with the pack to within half a pixel`);
+    assert.ok(c.ok && c.detail.differences.length === 0, `${state}: agrees with the pack to within half a pixel`);
   }
 });

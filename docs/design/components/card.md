@@ -1,7 +1,6 @@
 # The Card sheet: Designer's runtime component
 
-**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and so on the phone shell (#265) and the shared kit.
-- **Still waiting on the shell:** the sheet's head action (`sheet.head`), which draws "Hide card". `cardSheet()` already gives it; see [Not in this version yet](#not-in-this-version-yet).
+**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and on the phone shell (#265) at `c1b190ab`, merged in for the shell's sheet head (`sheet.head`, which draws "Hide card") and the shared kit (`component-kit-0.3.0`).
 
 **What it is:** the content of the Card tab's sheet during a match, as the phone pack draws it (sheet 31; #222 item 7). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -104,12 +103,12 @@ Everything on this sheet is this viewer's own private view. Nothing is public, a
 
 The pack draws "Hide card" as an icon button in the sheet's head, between the title and Close (`ui.mjs sheet({ actions })`). The shell's `sheet.actions` are the footer's buttons (the pack's `foot`), so the head needs its own input.
 
-**Agreed with the Lead, coming to the shell:** `sheet.head: [{ id, icon, label, enabled, reason }]`.
-- **Drawing:** each is an icon button (the kit's `iconButton`) in the head, before Close, with `label` as its accessible name.
+**The shell's `sheet.head`** (the Lead's, `8cfebb68`): `[{ id, icon, label, enabled, reason }]`.
+- **Drawing:** each is an icon button (the kit's `iconButton`) in the head, after the title and before Close, kept by its id, with `label` as its accessible name.
 - **Taps:** reported by the same `onSheetAction(id, sheetId)` as the footer.
 - **Concealed:** the head's buttons go with the sheet, as everything else does.
-- **Local only:** like Back and Close, a head action is this phone's own. It works while reconnecting and never stands for a command; commands belong in the footer (the Lead's rule).
-- **Ids:** unique across the head and the footer.
+- **Local only:** like Back and Close, a head action is this phone's own. It is taken while reconnecting, where a footer action is not, and never stands for a command; commands belong in the footer (the Lead's rule).
+- **Ids:** every id in the head and the footer is the sheet's own.
 
 `cardSheet(input)` gives `head: [{ id: 'hide', icon: 'hide', label: 'Hide card' }]` while the card shows, and `[]` while it is hidden, as the pack draws it. On `onSheetAction('hide', 'card')`, Frontend sets `hidden: true`.
 
@@ -168,7 +167,6 @@ Listed, not omitted:
 
 | What | Waiting on |
 | --- | --- |
-| "Hide card" in the sheet's head: `cardSheet()` gives `head`, and the shell draws it once `sheet.head` lands | The shell (the Lead, #265) |
 | The owner's confirmation of the empty Knowledge line | The owner, through the Lead |
 | The injections' total in the projection | Integration and Backend (through the Lead on #4) |
 
@@ -184,7 +182,7 @@ Listed, not omitted:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `342fec9`, with the source clean. It exits non-zero until the shell's `sheet.head` lands: the five frames below.
+- **`node design/tools/card-check.mjs`:** recorded on `a35c414` (the shell's `c1b190ab` merged in), with the source clean.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does.
   - **Captures:** 21 of 21 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
     - Nine states at 390 × 844 and 430 × 932.
@@ -193,7 +191,7 @@ Listed, not omitted:
   - **The lifecycle probe** (`preview/probe.mjs`): 10 of 10 checks pass.
     - **As the page comes (9):** view, hide, refused, private, knowledge, resources, fit, dispose and motion.
     - **With the device's Reduce motion emulated (1):** motion.
-  - **The agreement with the pinned pack** (`preview/agree.mjs`): 1 of 6 frames agrees outright.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 6 of 6 frames agree, with no differing part.
     - **What is compared:** each frame drawn by the pack's own `screens-game.mjs` `card()` beside the component, from the same fixtures:
       - the top bar and the sheet's place;
       - the sheet's title, sub and head action;
@@ -203,8 +201,7 @@ Listed, not omitted:
 
       Every comparison is to within half a pixel, measured once the shell's sheet has finished sliding in.
     - **The one accepted amendment:** the empty Knowledge line, T3's principle, pending the owner's confirmation.
-    - **Agrees:** the hidden card.
-    - **Differ in one part only:** the five frames that show the card. The head's "Hide card" is missing until the shell's `sheet.head` lands; `card.test.mjs` holds that list, which can only shrink.
+    - **Agree:** all six: the card (Doctor and Hacker), Knowledge (Hacker, and empty), Resources and the hidden card. "Hide card" sits in the sheet's head where the pack draws it. `card.test.mjs` allows no differing part.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe.
   - **Where the record is:** the captures and `check.json` are in `review/`.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
