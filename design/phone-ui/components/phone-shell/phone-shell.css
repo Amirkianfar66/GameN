@@ -52,6 +52,8 @@
   --ms-ps-bar-h: max(52px, calc(1.0625rem * 1.25 + 1.6rem));
   --ms-ps-tab-h: max(58px, calc(26px + clamp(12px, 0.75rem, 14px) * 1.3 + 16px));
   --ms-ps-top: calc(var(--ms-ps-safe-t) + var(--ms-ps-bar-h));
+  /* Where the overlays (the target bar, the banner, the toast, a large sheet) start: under the bar. */
+  --ms-ps-over-top: var(--ms-ps-top);
   --ms-ps-bottom: calc(var(--ms-ps-safe-b) + var(--ms-ps-tab-h));
   --ms-ps-stage-bottom: var(--ms-ps-bottom);
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
@@ -77,6 +79,12 @@
 
 /* ── The stage: between the bars, for the room scene or the board ──── */
 .ms-phone-shell .ms-ps-stage { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 0; overflow: hidden; }
+/* The stage's cover (slot('cover')): exactly over the stage, above all it holds (the room's tags included, which
+   stack inside the stage), under the bars, the overlays and the sheet. It takes no taps itself. */
+.ms-phone-shell .ms-ps-cover { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 1; overflow: hidden; pointer-events: none; }
+/* No top bar (bar: null, a full-bleed film): the stage runs to the top edge; the overlays sit under the safe area. */
+.ms-phone-shell[data-bar="none"] { --ms-ps-top: 0px; --ms-ps-over-top: var(--ms-ps-safe-t); }
+.ms-phone-shell[data-bar="none"] .ms-ps-tb { display: none; }
 
 /* ── The top bar (kit.css .tb) ───────────────────────────────────── */
 .ms-phone-shell .ms-ps-tb {
@@ -200,13 +208,13 @@
 .ms-phone-shell .ms-ps-text b { display: block; font: 600 1rem/1.2 var(--ms-ps-font); }
 .ms-phone-shell .ms-ps-text span { display: block; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
 /* The target bar replaces the sheet while picking on the scene; Cancel is in it (the owner, T2). */
-.ms-phone-shell .ms-ps-target { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-top) + 8px); z-index: 42; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 10px; border-radius: 18px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1.5px var(--ms-ps-accent), var(--ms-ps-shadow-soft); }
+.ms-phone-shell .ms-ps-target { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-over-top) + 8px); z-index: 42; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 10px; border-radius: 18px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1.5px var(--ms-ps-accent), var(--ms-ps-shadow-soft); }
 .ms-phone-shell .ms-ps-target-icon { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--ms-ps-accent); color: var(--ms-ps-ink); --ic-knock: var(--ms-ps-accent); flex: none; }
 .ms-phone-shell .ms-ps-target-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-target .ms-ps-text b { font-weight: 700; }
 .ms-phone-shell .ms-ps-target .ms-k-btn { min-height: 40px; }
 /* Reconnecting: the last room stays, dimmed by the room scene, under this banner (sheet 45). */
-.ms-phone-shell .ms-ps-banner { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-top) + 8px); z-index: 43; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline), var(--ms-ps-shadow-soft); }
+.ms-phone-shell .ms-ps-banner { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-over-top) + 8px); z-index: 43; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline), var(--ms-ps-shadow-soft); }
 .ms-phone-shell .ms-ps-banner-icon { flex: none; color: var(--ms-ps-accent); --ic-knock: var(--ms-ps-canvas); }
 .ms-phone-shell .ms-ps-banner-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-banner .ms-k-btn { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
@@ -218,7 +226,7 @@
 .ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: hidden; text-overflow: ellipsis; }
 
 /* ── A toast (kit.css .toast) ─────────────────────────────────────── */
-.ms-phone-shell .ms-ps-toast { position: absolute; left: 50%; top: calc(var(--ms-ps-top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-ps-paper); color: var(--ms-ps-ink); font: 600 0.9375rem/1.2 var(--ms-ps-font); box-shadow: var(--ms-ps-shadow-soft); white-space: nowrap; --ic-knock: var(--ms-ps-paper); animation: ms-ps-toast-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both; transition: opacity 180ms linear; }
+.ms-phone-shell .ms-ps-toast { position: absolute; left: 50%; top: calc(var(--ms-ps-over-top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-ps-paper); color: var(--ms-ps-ink); font: 600 0.9375rem/1.2 var(--ms-ps-font); box-shadow: var(--ms-ps-shadow-soft); white-space: nowrap; --ic-knock: var(--ms-ps-paper); animation: ms-ps-toast-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both; transition: opacity 180ms linear; }
 .ms-phone-shell .ms-ps-toast > span:last-child { overflow: hidden; text-overflow: ellipsis; }
 .ms-phone-shell .ms-ps-toast-icon .ms-ps-ic { width: 20px; height: 20px; }
 .ms-phone-shell .ms-ps-toast[data-leaving] { opacity: 0; }
@@ -228,7 +236,7 @@
 /* It always leaves the top bar and the tabs in view: docked between them, auto or large height. */
 .ms-phone-shell .ms-ps-sheet {
   position: absolute; left: 0; right: 0; bottom: var(--ms-ps-bottom); z-index: 45;
-  max-height: calc(100% - var(--ms-ps-top) - var(--ms-ps-bottom) - 8px);
+  max-height: calc(100% - var(--ms-ps-over-top) - var(--ms-ps-bottom) - 8px);
   display: flex; flex-direction: column; color: var(--ms-ps-text);
   border-radius: var(--ms-ps-radius-sheet) var(--ms-ps-radius-sheet) 0 0;
   --ms-ps-text-2: #DCE3EC;
@@ -237,7 +245,7 @@
   border-top: 1px solid var(--ms-ps-glass-edge); box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   animation: ms-ps-sheet-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both;
 }
-.ms-phone-shell .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-top) + 8px); }
+.ms-phone-shell .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + 8px); }
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }

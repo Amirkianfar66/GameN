@@ -141,7 +141,8 @@ export function nextPhoneShellInput(previous, input) {
   const next = { ...previous, ...input };
   if (!STATUSES.includes(next.status)) throw new TypeError(`Status is ${STATUSES.join(', ')}, not ${JSON.stringify(next.status)}`);
   if (next.insets !== null && !['top', 'right', 'bottom', 'left'].every(k => next.insets[k] === undefined || Number.isFinite(next.insets[k]))) throw new TypeError('insets are null, or { top, right, bottom, left } in px');
-  next.bar = checkBar(next.bar);
+  // null: no top bar at all (a full-bleed film, as the role stage's): the stage runs to the top edge.
+  next.bar = next.bar === null ? null : checkBar(next.bar);
   next.tabs = checkTabs(next.tabs);
   // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
   // stage between the bars keeps its size and nothing on the phone moves.
@@ -169,10 +170,10 @@ export function nextPhoneShellInput(previous, input) {
   const viewerChanged = 'viewer' in input && previous.viewer !== input.viewer;
   if (next.status === 'concealed') {
     for (const key of VIEWER_KEYS) next[key] = null;
-    next.bar = { ...next.bar, promises: null };
+    if (next.bar) next.bar = { ...next.bar, promises: null };
   } else if (viewerChanged) {
     for (const key of VIEWER_KEYS) if (!(key in input)) next[key] = null;
-    if (!('bar' in input)) next.bar = { ...next.bar, promises: null };
+    if (!('bar' in input) && next.bar) next.bar = { ...next.bar, promises: null };
   }
   return next;
 }
@@ -213,9 +214,12 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   // The root carries the kit (kit.css applies inside it) as well as the shell's own styles.
   const root = el('div', 'ms-phone-shell ms-kit', { tabindex: '-1' });
   const stage = el('div', 'ms-ps-stage');
+  // The stage's cover: a layer exactly over the stage, above all it holds and under the bars, the
+  // target bar, the chip, the banner, the toast and the sheet (a result window over the room).
+  const cover = el('div', 'ms-ps-cover');
   const bar = el('header', 'ms-ps-tb', { 'aria-label': 'Match status' });
   const over = el('div', 'ms-ps-over');
-  root.append(stage, bar, over);
+  root.append(stage, cover, bar, over);
   host.append(root);
   const kit = createKit(doc);
 
@@ -321,9 +325,11 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   function paintBar() {
     const concealed = state.status === 'concealed';
     const b = state.bar;
-    bar.dataset.kind = b.kind;
-    attr(bar, 'data-tone', b.tone);
-    attr(bar, 'aria-hidden', concealed ? 'true' : null);
+    // No bar: the stage runs to the top edge, and the overlays sit under the top safe area.
+    root.dataset.bar = b ? 'top' : 'none';
+    bar.dataset.kind = b ? b.kind : 'none';
+    attr(bar, 'data-tone', b?.tone ?? null);
+    attr(bar, 'aria-hidden', concealed || !b ? 'true' : null);
     // The right-hand side: the round, the clock with the place beside it for Food's gauge, and ⋮. The
     // clock and its place stay for the shell's whole life, so what Frontend mounts there is never lost.
     const right = keep('right', true, () => el('div', 'ms-ps-right'), bar, null);
@@ -334,9 +340,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       node.append(parts.slot);
       return node;
     }, right, null);
-    parts.slot.hidden = concealed;
-    if (concealed) {
-      // The bars' empty material only: no name, number, time or control for anyone to read.
+    parts.slot.hidden = concealed || !b;
+    if (concealed || !b) {
+      // The bars' empty material only (or no bar): no name, number, time or control for anyone to read.
       for (const name of ['who', 'promises', 'round', 'timer', 'menu']) { remove(parts[name]); parts[name] = null; }
       for (const d of parts.divs ?? []) d.remove();
       parts.divs = null; parts.whoKey = null;
@@ -695,11 +701,15 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     for (const type of ['pointerup', 'pointercancel', 'pointerleave']) root.removeEventListener(type, hideHud);
     root.remove();
   }
-  /** A place the shell keeps for another component: 'clock', beside the clock (Food's gauge). */
+  /**
+   * A place the shell keeps for another component, the same element for the shell's whole life:
+   * 'clock', beside the clock (Food's gauge); 'cover', the stage's cover (a result window over the room).
+   */
   function slot(name) {
     if (disposed) return null;
-    if (name !== 'clock') throw new TypeError(`No slot ${JSON.stringify(name)}: the shell has 'clock'`);
-    return parts.slot;
+    if (name === 'clock') return parts.slot;
+    if (name === 'cover') return cover;
+    throw new TypeError(`No slot ${JSON.stringify(name)}: the shell has 'clock' and 'cover'`);
   }
 
   render();

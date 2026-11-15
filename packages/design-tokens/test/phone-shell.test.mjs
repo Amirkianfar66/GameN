@@ -90,7 +90,7 @@ test('its styles reach nothing outside the shell: every rule is scoped under .ms
   for (const list of selectors) {
     for (const selector of split(list)) {
       assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
-      assert.doesNotMatch(selector, /\.ms-ps-(?:stage|sheet-body)[\s>+~]/, `"${selector}": nothing inside the stage or a sheet's body`);
+      assert.doesNotMatch(selector, /\.ms-ps-(?:stage|cover|sheet-body)[\s>+~]/, `"${selector}": nothing inside the stage, its cover or a sheet's body`);
       assert.doesNotMatch(selector, /^\.ms-phone-shell(?:\[[^\]]*\])?\s+(?::is\()?(?:button|div|span|b|p|h2|svg|nav|header|section)\b/, `"${selector}": no bare element straight under the shell`);
       // The kit's controls are styled only inside the shell's own parts, never another component's.
       if (/\.ms-k-/.test(selector)) assert.match(selector, /\.ms-ps-[\w-]+[^,]*\.ms-k-/, `"${selector}": a kit control styled only inside the shell's own parts`);
@@ -214,7 +214,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 27, 'thirteen states at two sizes, and the Largest text at 320 × 568');
+  assert.equal(captures.length, 29, 'fourteen states at two sizes, and the Largest text at 320 × 568');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -226,6 +226,8 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.equal(record.captures[`${size}/concealed`].buttons, 0, `${size}: concealed, no control`);
     assert.equal(record.captures[`${size}/concealed`].name, null, `${size}: concealed, no name`);
     assert.equal(record.captures[`${size}/concealed`].layout.stage.height, record.captures[`${size}/own`].layout.stage.height, `${size}: concealed, the stage keeps its size`);
+    assert.equal(record.captures[`${size}/film`].layout.bars.top, 0, `${size}: no bar, the stage to the top edge`);
+    assert.equal(record.captures[`${size}/result`].cover, 1, `${size}: the result's window in the cover`);
   }
   // The lifecycle probe, as the page comes and with the device's Reduce motion; the agreement with the pack.
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
@@ -234,7 +236,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'nobar', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length >= 7 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   assert.deepEqual(record.agree.problems, [], 'agreement: no page problem');
 });

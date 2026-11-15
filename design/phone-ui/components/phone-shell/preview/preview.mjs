@@ -73,7 +73,7 @@ export const PREVIEW_STATES = Object.freeze({
   urgent: { caption: 'Your turn · the last 10 s', shell: { ...own, bar: turnBar(SELF, { timer: seconds(8) }) }, scene: { ...room, active: SELF } },
   vote: { caption: 'Jail vote · the ballot open', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'jail', title: 'Jail vote', sub: 'Choose who goes to Jail', round: 3, timer: seconds(24), promises: { count: 0 }, menu: {} }, tabs: tabs({ hero: { mode: 'vote' } }) }, scene: { ...room, active: null } },
   voted: { caption: 'Jail vote · voted', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'jail', title: 'Jail vote', sub: 'Your ballot is in', round: 3, timer: seconds(19), promises: { count: 0 }, menu: {} }, tabs: tabs({ hero: { mode: 'voted' } }) }, scene: { ...room, active: null } },
-  result: { caption: 'The 5 s result · a ring, ⋮ only', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} }, tabs: tabs({ hero: { mode: 'vote', enabled: false } }) }, scene: { ...room, active: null } },
+  result: { caption: 'The 5 s result · a ring, ⋮ only; the window in the cover', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} }, tabs: tabs({ hero: { mode: 'vote', enabled: false } }) }, scene: { ...room, active: null }, cover: 'The result window · the vote component (#267), in slot(\'cover\')' },
   dark: { caption: 'Blackout · lights out', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'dark', tone: 'dark', title: 'Blackout', sub: 'Lights out', round: 3, timer: seconds(18), promises: { count: 0 }, menu: {} }, tabs: tabs() }, scene: room, then: { lighting: 'dark', hold: 'blackout-1', control: null } },
   target: { caption: 'Choosing a target · Cancel in the bar', shell: { ...own, target: { icon: 'rescue', title: 'Rescue', sub: 'Choose a player · in your room' }, chip: { id: 'other-rooms', label: 'Other rooms · 1', icon: 'board' } }, scene: { ...room, active: SELF, control: null, targets: { seats: [3, 6, 8], picked: null } } },
   // With a sheet docked, the room's own control is not offered (the pack hides it under a sheet).
@@ -82,6 +82,8 @@ export const PREVIEW_STATES = Object.freeze({
   talk: { caption: 'Private talk · its own two buttons', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'The private-talk capsule · a later component (sheet 25)' },
   stale: { caption: 'Reconnecting · the last room, dimmed', shell: { viewer: SELF, versions, status: 'stale', bar: { kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, promises: { count: 0 }, menu: {} }, tabs: tabs(), banner: { kind: 'reconnecting' } }, scene: { ...room, status: 'stale' } },
   concealed: { caption: 'Concealed', shell: { ...own, status: 'concealed' }, scene: { ...room, status: 'concealed' } },
+  // bar: null, as the role stage's full-bleed film (#268): the stage runs to the top edge, the banner under the safe area.
+  film: { caption: 'No top bar · a full-bleed film, the banner over it', shell: { viewer: SELF, versions, status: 'stale', bar: null, tabs: null, banner: { kind: 'reconnecting' } }, scene: null, standIn: 'A full-bleed film · the role stage (#268) mounts it in the stage' },
   large: { caption: 'Largest text (200%) · 320 × 568', shell: own, scene: { ...room, active: SELF }, sizes: ['320x568'], text: 200 },
 });
 
@@ -111,6 +113,12 @@ function phone(sizeKey, stateKey) {
       shell.stage.append(stand);
     }
     if (state.content && shell.sheetBody) state.content.fill(shell.sheetBody);
+    if (state.cover) {
+      const card = document.createElement('div');
+      card.className = 'pv-cover-stand-in';
+      card.textContent = state.cover;
+      shell.slot('cover').append(card);
+    }
     return { shell, scene };
   } };
 }
