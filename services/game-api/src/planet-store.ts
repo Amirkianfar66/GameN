@@ -3,13 +3,14 @@ import {Buffer} from 'node:buffer';
 import type {Firestore,Transaction} from 'firebase-admin/firestore';
 import type {PlanetPersistence,PlanetReadTransaction,PlanetTransaction} from './planet-game.js';
 import {PlanetAtomicCreateConflict} from './planet-persistence-errors.js';
+import {beginPlanetTiming,timePlanetStage} from './planet-request-timing.js';
 
 const hash=(key:string)=>createHash('sha256').update(key).digest('hex');
 const CHUNK_BYTES=48*1024;
 const MAX_CHUNKS=80; // Below Firestore transaction/document limits; no truncation of accepted state.
 interface Metadata {key:string;namespace:string;chunks:number;digest:string;schemaVersion:1}
-type SdkRead=<T>(read:Promise<T>)=>Promise<T>;
-const directSdkRead:SdkRead=read=>read;
+type SdkRead=<T>(read:()=>Promise<T>)=>Promise<T>;
+const timedSdkRead:SdkRead=read=>timePlanetStage('sdkRead',read);
 
 /** Server-only JSON chunks support nested stroke/round arrays without Firestore's nested-array restriction.
  * Writes are buffered until every authority read finishes. All chunks, metadata, journals and outbox
@@ -22,16 +23,18 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
   // for metadata plus every chunk. Read-only mode supplies no write surface.
   const reader=(transaction:Pick<Transaction,'get'|'getAll'>,
     cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>(),
-    readSdk:SdkRead=directSdkRead)=>
+    readSdk:SdkRead=timedSdkRead)=>
     async<T>(key:string):Promise<T|null>=>{
       if(writes.has(key))return structuredClone(writes.get(key)) as T|null;
       if(cached.has(key))return structuredClone(cached.get(key)) as T|null;
-      const head=await readSdk(transaction.get(meta(key)));
+      const headRef=meta(key);
+      const head=await readSdk(()=>transaction.get(headRef));
       if(!head.exists){metadata.set(key,null);cached.set(key,null);return null;}
       const info=head.data() as Metadata;
       if(info.schemaVersion!==1||info.key!==key||!Number.isInteger(info.chunks)||info.chunks<1||info.chunks>MAX_CHUNKS)
         throw new Error('Invalid private state envelope');
-      const fragments=await readSdk(transaction.getAll(...Array.from({length:info.chunks},(_,i)=>chunk(key,i))));
+      const fragmentRefs=Array.from({length:info.chunks},(_,i)=>chunk(key,i));
+      const fragments=await readSdk(()=>transaction.getAll(...fragmentRefs));
       const bytes=Buffer.concat(fragments.map(part=>{
         const value=part.get('data');if(typeof value!=='string')throw new Error('Missing private state fragment');
         return Buffer.from(value,'base64');
@@ -42,15 +45,18 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
     };
   return {
     async readOnly<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>{
-      return db.runTransaction(transaction=>operation(Object.freeze({get:reader(transaction)})),{readOnly:true});
+      return timePlanetStage('sdkReadOnly',()=>db.runTransaction(transaction=>
+        timePlanetStage('sdkAttempt',()=>operation(Object.freeze({get:reader(transaction)}))),{readOnly:true}));
     },
     async transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>{
       // Keep this boundary across SDK attempts, including empty commits. Once
       // crossed, no later read may enable an additional retry of this invocation.
       let sdkAttemptMayCommit=false;
       let createConflictEligible=false;
-      const readBeforeCommit:SdkRead=async read=>{
-        try{return await read;}catch(error){
+      const readBeforeCommit:SdkRead=read=>timedSdkRead(()=>{
+        // Classify rejected reads only. A synchronous SDK throw has no retry proof.
+        const pending=read();
+        return pending.catch(error=>{
           if(!sdkAttemptMayCommit&&error instanceof Error
             &&'code' in error&&error.code===3&&'details' in error
             &&error.details==='Transaction is invalid or closed.'){
@@ -59,9 +65,9 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
             throw Object.assign(new Error('Firestore transaction closed during a read before any SDK write or commit.',{cause:error}),{code:10});
           }
           throw error;
-        }
-      };
-      try{return await db.runTransaction(async transaction=>{
+        });
+      });
+      const runAttempt=async (transaction:Transaction):Promise<T>=>{
         const earlierAttemptMayCommit=sdkAttemptMayCommit;
         createConflictEligible=false;
         const cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>();
@@ -82,7 +88,9 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
         // Read old chunk counts for every affected key before applying any write.
         // Creates use exists:false on every envelope document and need no old metadata.
         for(const key of writes.keys())if(!creates.has(key)&&!metadata.has(key)){
-          const snapshot=await readBeforeCommit(transaction.get(meta(key)));metadata.set(key,snapshot.exists?snapshot.data() as Metadata:null);
+          const ref=meta(key);
+          const snapshot=await readBeforeCommit(()=>transaction.get(ref));
+          metadata.set(key,snapshot.exists?snapshot.data() as Metadata:null);
         }
         let totalWrites=0,totalBytes=0;
         const prepared=[...writes].map(([key,value])=>{
@@ -121,11 +129,35 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
         // rejection. Any prior possible Commit permanently excludes this outcome.
         createConflictEligible=!earlierAttemptMayCommit&&writes.size>0&&creates.size===writes.size;
         return result;
-      });}catch(error){
+      };
+      const end=beginPlanetTiming('sdkReadWrite');
+      let endRetryGap:(()=>void)|undefined,endCommitAck:(()=>void)|undefined,endCommitFailure:(()=>void)|undefined;
+      const observeAttempt=async (transaction:Transaction):Promise<T>=>{
+        endRetryGap?.();endRetryGap=undefined;endCommitAck=undefined;endCommitFailure=undefined;
+        const endAttempt=beginPlanetTiming('sdkAttempt');
+        let completed=false;
+        try{const value=await runAttempt(transaction);completed=true;return value;}
+        finally{
+          endAttempt?.();
+          // End the gap only if the SDK starts another callback. A successful
+          // final callback's tail measures the SDK promise settlement interval.
+          endRetryGap=beginPlanetTiming('sdkRetryGap');
+          if(completed){
+            endCommitAck=beginPlanetTiming('sdkCommitAck');
+            endCommitFailure=beginPlanetTiming('sdkCommitFailure');
+          }
+        }
+      };
+      try{
+        const result=await db.runTransaction(end?observeAttempt:runAttempt);
+        endCommitAck?.();
+        return result;
+      }catch(error){
+        endCommitFailure?.();
         if(createConflictEligible&&error instanceof Error&&'code' in error&&error.code===6)
           throw new PlanetAtomicCreateConflict(error);
         throw error;
-      }
+      }finally{end?.();}
     },
     async listKeys(namespace:string,limit:number):Promise<string[]>{
       const collection=db.collection('planetDocuments');

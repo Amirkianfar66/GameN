@@ -6,6 +6,7 @@ import type {FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskP
 import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,PlanetReadTransaction,PlanetStateEnvelope,PlanetTransaction} from './planet-game.js';
 import {chooseFoodBotInput,canAdmitFoodBotPanelLock,foodBotPanelLockWindowEnd} from './food-bot-policy.js';
 import {PlanetAtomicCreateConflict} from './planet-persistence-errors.js';
+import {beginPlanetTiming,timePlanetStage} from './planet-request-timing.js';
 
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
 export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
@@ -243,7 +244,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     });
   }
   async function releasePrefixWorker(matchId:string,owner:string,committed=false):Promise<void>{
-    await store.transaction(async tx=>{
+    await timePlanetStage('cleanup',()=>store.transaction(async tx=>{
       const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
       if(!lease||lease.owner!==owner)return;
       const complete=lease.throughSequence===0?committed:(await tx.get<Entry>(entryKey(matchId,lease.throughSequence)))?.response;
@@ -252,7 +253,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       // A failed/bounded attempt must retain its independent recovery wake even
       // after yielding ownership; only a durable target response retires it.
       if(complete&&wake&&wake.status!=='complete')tx.set('deadline/'+lease.wakeTaskId,{...wake,status:'complete'});
-    });
+    }));
   }
   async function foodRate(tx:PlanetReadTransaction,uid:string,q:Request|null,at:number){
     const c=q?.operation==='foodCommand'?q.request.command:null;
@@ -485,19 +486,20 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     try{
       const actor=own(initial,uid);
       binding={session:initial,seatId:actor.seatId,bindingRevision:actor.bindingRevision};
-      const admitted=await admit(matchId,uid,q,{human:{...binding,operation:'foodCommand'}});
+      const human={...binding,operation:'foodCommand' as const};
+      const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q,{human}));
       if(admitted.response===null)await drainThrough(matchId,admitted.sequence);
     }catch(error){failed=true;failure=error;}
     // Recheck even duplicate/conflict/error paths. A recovered seat can now have
     // another owner and another private receipt at the same seat-scoped key.
-    const final=await readOnly(async tx=>{
+    const final=await timePlanetStage('finalReceipt',()=>readOnly(async tx=>{
       const current=await d.load(tx,matchId),actor=own(current,uid);
       if(binding&&(actor.seatId!==binding.seatId||actor.bindingRevision!==binding.bindingRevision))d.reject('FORBIDDEN');
       const stored=await tx.get<Stored>(key('food-command',[matchId,actor.seatId,q.request.commandId]));
       if(!binding)return null;
       if(stored&&stored.fingerprint!==hash(q))d.reject('COMMAND_ID_CONFLICT');
       return stored?.response??null;
-    });
+    }));
     // The freshly authorized, exact original remains authoritative after an earlier technical failure.
     if(final!==null)return final;
     if(failed)throw failure;
@@ -513,7 +515,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const actor=own(session,uid),observedControl=await tx.get<Control>(controlKey(matchId));
         return {session,seatId:actor.seatId,bindingRevision:actor.bindingRevision,observedControl};
       });
-      const admitted=await admit(matchId,uid,q,{human:{...captured,operation:'foodHeartbeat'}});
+      const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q,{human:{...captured,operation:'foodHeartbeat'}}));
       // Only a proven pre-write fence mismatch permits another capture. Storage
       // or acknowledgement errors propagate; an ambiguous admission is not retried.
       if(admitted.refresh)continue;
@@ -686,28 +688,41 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   async function drainThrough(matchId:string,sequence:number):Promise<PlanetServiceResponse>{
     let owner:string|null=null,commits=0;
     const started=performance.now();
+    const finishDrain=beginPlanetTiming('drain');
+    let finishLeaseWait=beginPlanetTiming('drainLeaseWait');
     try{
       while(commits<MAX_PREFIX_COMMITS&&performance.now()-started<PREFIX_WAIT_BUDGET_MS){
-        const observed=await readOnly(async tx=>{
+        const observed=await timePlanetStage('drainProbe',()=>readOnly(async tx=>{
           const entry=await tx.get<Entry>(entryKey(matchId,sequence));
           return {entry,lease:entry?.response||owner!==null?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId))};
-        });
+        }));
         if(observed.entry?.response)return observed.entry.response;
         if(owner===null&&(!observed.lease||observed.lease.expiresAt<=clock())){
           const claim=await acquirePrefixWorker(matchId,sequence,undefined,observed.lease===null);owner=claim.owner;
-          if(owner!==null)continue; // The target may have committed between the RO probe and this claim.
+          if(owner!==null){
+            finishLeaseWait?.();finishLeaseWait=undefined;
+            continue; // The target may have committed between the RO probe and this claim.
+          }
         }
         if(owner===null){
           // Receipt waiting is technical only. No Session transaction or gameplay
           // timestamp is left running after the caller observes its committed entry.
           await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;
         }
-        if(!await refreshPrefixWorker(matchId,owner)){owner=null;continue;}
-        try{await processOne(matchId,owner,sequence);commits++;}
-        catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;owner=null;}
+        if(!await refreshPrefixWorker(matchId,owner)){owner=null;finishLeaseWait=beginPlanetTiming('drainLeaseWait');continue;}
+        const heldOwner=owner;
+        try{await timePlanetStage('authority',()=>processOne(matchId,heldOwner,sequence));commits++;}
+        catch(error){
+          if(!(error instanceof LostPrefixWorkerLease))throw error;
+          owner=null;finishLeaseWait=beginPlanetTiming('drainLeaseWait');
+        }
       }
       throw new Error('Food prefix requires a later durable continuation');
-    }finally{if(owner!==null)await releasePrefixWorker(matchId,owner);}
+    }finally{
+      finishLeaseWait?.();
+      try{if(owner!==null)await releasePrefixWorker(matchId,owner);}
+      finally{finishDrain?.();}
+    }
   }
   async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
     const observed=await readOnly(async tx=>{
@@ -754,7 +769,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function tryHandle(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
     const matchId=matchOf(q);if(matchId===null)return undefined;
-    const initial=await inspect(matchId);
+    const initial=await timePlanetStage('classification',()=>inspect(matchId));
     if(!initial||!isFood(initial)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
@@ -776,15 +791,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
     if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
     if(q.operation==='foodHeartbeat')return humanFoodHeartbeat(matchId,uid,q);
-    if(q.operation==='foodReceipt'||q.operation==='receipt')return readOnly(async tx=>{
+    if(q.operation==='foodReceipt'||q.operation==='receipt')return timePlanetStage('finalReceipt',()=>readOnly(async tx=>{
       const s=await d.load(tx,matchId),actor=own(s,uid);
       const stored=await tx.get<Stored>(key(q.operation==='foodReceipt'?'food-command':'command',[matchId,actor.seatId,q.commandId]));
       return response({receipt:stored?.response.ok?(stored.response.result as {receipt:unknown}).receipt:null},clock());
-    });
+    }));
     if(q.operation==='read'&&!participant(initial,uid))return undefined;
     if(q.operation==='read'){const fast=await fastRead(matchId,uid);if(fast!==null)return fast;}
     if(!['read','command','foodCommand','foodHeartbeat','advance','runBots','abort','issueRecovery','redeemRecovery'].includes(q.operation))d.reject('NOT_ALLOWED');
-    const admitted=await admit(matchId,uid,q);
+    const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q));
     const result=admitted.response??await drainThrough(matchId,admitted.sequence);
     if(q.operation==='runBots'&&result.ok)return response(await runBots(matchId),clock());
     return result;
