@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/role-stage-check.mjs",
   "component": "design/phone-ui/components/role-stage",
-  "sourceCommit": "2c151826dd80a3df2496f6dd76523fa8c213bf0d",
+  "sourceCommit": "c7593ca84b9b46760182da67a33a56779547fe63",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,16 +38,16 @@
   "captures": {
     "390x844/t01": {
       "file": "design/phone-ui/components/role-stage/review/390x844-t01.jpg",
-      "sha256": "694b2c1857578418b51e256632256210cd2e190e23af8277ba33910e959dffb2",
+      "sha256": "d89c329767f463bfecbde908a96f3e5560e81f6450a0397308030efab66254f1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -71,8 +71,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -102,16 +102,16 @@
     },
     "430x932/t01": {
       "file": "design/phone-ui/components/role-stage/review/430x932-t01.jpg",
-      "sha256": "a30b1c63b0534bb5ec6af767ac648022eb86da3a63e59ddc5533f40c8b01fc2a",
+      "sha256": "b4167cfb2a2747688cc541639ea6202832b5bf126f3b9948a13eb42ab5e71466",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -135,8 +135,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -166,16 +166,16 @@
     },
     "390x844/t12": {
       "file": "design/phone-ui/components/role-stage/review/390x844-t12.jpg",
-      "sha256": "1b5a94b8014aec00fa04b1b46c440ec41d616dd7b96f01c1f6bf762c39d4c7d2",
+      "sha256": "12135900aa19ad5301f9f0d4c093deca5ebab772874abe4bdb8df949b9376e4c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -199,8 +199,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -230,16 +230,16 @@
     },
     "430x932/t12": {
       "file": "design/phone-ui/components/role-stage/review/430x932-t12.jpg",
-      "sha256": "eab337902878151b48ca4cc501b2f460c152130954c60deeacfe5994e2821493",
+      "sha256": "7167dfc75cd3f1d1d423a335ca274beece0a728fa5c70a2f3b8dcb40b3b30b77",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -263,8 +263,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -294,16 +294,16 @@
     },
     "390x844/t20": {
       "file": "design/phone-ui/components/role-stage/review/390x844-t20.jpg",
-      "sha256": "14f69824fe372dad63ef8f40fc3bfe96c9db9b5dee8e5317d056e875320c5134",
+      "sha256": "7d01bf6cfda75d56d0974ff9db1782d007fbad024a730ade5fd81417614cd93d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -327,8 +327,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -358,16 +358,16 @@
     },
     "430x932/t20": {
       "file": "design/phone-ui/components/role-stage/review/430x932-t20.jpg",
-      "sha256": "c57ef3ed96c915a199e780cfe369d7026464fb46d7c47eb32d84bf8b8f4340ff",
+      "sha256": "f11f0e1592bc9b824edd13c92c5e0b46be12daa0097a3da1e4cab163631a2eb7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -391,8 +391,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -422,16 +422,16 @@
     },
     "390x844/t26": {
       "file": "design/phone-ui/components/role-stage/review/390x844-t26.jpg",
-      "sha256": "9582cc6d10aa28d98a70be26fe32f95bcfe82c6cecfd7c939f9a5b4af082014e",
+      "sha256": "7c63f8b507093cbacc1efd7b9999b55abd25538c710e8dceb7fbce62bb7e22d7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -455,8 +455,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -486,16 +486,16 @@
     },
     "430x932/t26": {
       "file": "design/phone-ui/components/role-stage/review/430x932-t26.jpg",
-      "sha256": "0f06f1fab3f37d73a18a4b543dd18d4167c5b5de6e26523e90e723937d3f2d40",
+      "sha256": "acfce0b135881a48c240dae7e75cd9ce982f45f3ee5d29a6d8e586c6e8876ea1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -519,8 +519,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -550,16 +550,16 @@
     },
     "390x844/t30": {
       "file": "design/phone-ui/components/role-stage/review/390x844-t30.jpg",
-      "sha256": "84ae1ed871123b0028cdfb7c2a7e0e40098e074bbbfe99ce2a33440cdb443d58",
+      "sha256": "d2d3bb81c8fef785a05560e86e4d52a8138f2574eb4aebeabc9454fb2f287a30",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -583,8 +583,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -614,16 +614,16 @@
     },
     "430x932/t30": {
       "file": "design/phone-ui/components/role-stage/review/430x932-t30.jpg",
-      "sha256": "53624700f2533014cd57c884123cdf0ef8db0f8279427590b6611a7c2193743f",
+      "sha256": "aa29547d92419c1261f68b464b8ef847ca20205c9f28605d67ce6b455c2dfa42",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -647,8 +647,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -678,16 +678,16 @@
     },
     "390x844/concealed": {
       "file": "design/phone-ui/components/role-stage/review/390x844-concealed.jpg",
-      "sha256": "6106aae9c6b416e117f6ce2e9f487767bbbae68ad8e310b1dced756d592090b7",
+      "sha256": "9965006c4d0c18ae8aeadcfe592e3152f2ab66ef9f95dd3360c2077ce6c195a2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -736,16 +736,16 @@
     },
     "430x932/concealed": {
       "file": "design/phone-ui/components/role-stage/review/430x932-concealed.jpg",
-      "sha256": "674185e26f5338621a3bc5e8458adb9639a19743b34237eee203922e79914c12",
+      "sha256": "35bf4c91e2698e7a869286c401c63b35ae3dd62575f473a0242f5be5053aca3a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -794,16 +794,16 @@
     },
     "390x844/reduced": {
       "file": "design/phone-ui/components/role-stage/review/390x844-reduced.jpg",
-      "sha256": "ca9c0f851ca9b508acb521022c0b81b87e528939d52e0b0302206d667e355bdf",
+      "sha256": "1002de315a759fcebbf67630106ba98fdd39634c74eb6660bf0609dd97c10fd0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -827,8 +827,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -858,16 +858,16 @@
     },
     "430x932/reduced": {
       "file": "design/phone-ui/components/role-stage/review/430x932-reduced.jpg",
-      "sha256": "648f7dcc95780cd626d310710fdc7c7c7c1ff5d6950f1ea6e6115b2dd2fcee51",
+      "sha256": "62382c92f2b9ad72e0f35587f685803cd3f5b3083b5c3f4f0ba4ce4f5f0347cf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -891,8 +891,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -922,16 +922,16 @@
     },
     "390x844/missing": {
       "file": "design/phone-ui/components/role-stage/review/390x844-missing.jpg",
-      "sha256": "2281211ca5322b0dacfadf348a4c98cc2975543d071fb594629c9880d0de0ead",
+      "sha256": "8a4304f409ce91434f917b4c1f6f53608f1e9687157bb495bbce4f36f824c2f6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -980,16 +980,16 @@
     },
     "430x932/missing": {
       "file": "design/phone-ui/components/role-stage/review/430x932-missing.jpg",
-      "sha256": "68bc7bf792c9c46c9bc3a1a520db62b5e5f83fbb830b7e9b0b9f48f29589ef17",
+      "sha256": "e8504acde4b7ee49f634b2edc84d017e3da3ca1dba53272c5c2ea431767e3bf2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1038,16 +1038,16 @@
     },
     "390x844/late": {
       "file": "design/phone-ui/components/role-stage/review/390x844-late.jpg",
-      "sha256": "cbf9a4b01d4943a895c84da6d97e423cb8f23c4eee04ee43852ba4e6b35fec4f",
+      "sha256": "bd855bada984476e9b24785543bd051538930d5c1529a3bce352398626d5bed9",
       "ok": false,
       "drawn": false,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1071,8 +1071,8 @@
       "toast": "Rejoined · the stage carried on",
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1102,16 +1102,16 @@
     },
     "430x932/late": {
       "file": "design/phone-ui/components/role-stage/review/430x932-late.jpg",
-      "sha256": "f1344a00b944fc4e05a4975fbffc6409b12307b4ee24e9bc376240a024ff7d6d",
+      "sha256": "77e423ef3ba59285c02ec5b1c9477a0b897589a380db9fcff5e95c199ac7186a",
       "ok": false,
       "drawn": false,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1135,8 +1135,8 @@
       "toast": "Rejoined · the stage carried on",
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1166,16 +1166,16 @@
     },
     "390x844/waiting": {
       "file": "design/phone-ui/components/role-stage/review/390x844-waiting.jpg",
-      "sha256": "d1d53b20e843aa1667ea48df8d0d8466d25a4fe67537d138453dfd60cf1e1579",
+      "sha256": "a6efae5451d02596c6fa97ca15a7ec277ea050f290b2ce54945f4a03bfcfb2b6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1199,8 +1199,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1230,16 +1230,16 @@
     },
     "430x932/waiting": {
       "file": "design/phone-ui/components/role-stage/review/430x932-waiting.jpg",
-      "sha256": "734cb820d0c2257baf41ea1be3d875801f74170319222c2096bc7549ea128b04",
+      "sha256": "48f3b47b4a547593bdc9cfaaacbaa09b2e5afac47f30a759cef77995a03f00b4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1263,8 +1263,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1294,16 +1294,16 @@
     },
     "390x844/skipped": {
       "file": "design/phone-ui/components/role-stage/review/390x844-skipped.jpg",
-      "sha256": "242f718961bf771e38d2dc9739865cd5c6be67d28975108a697b07b614c440eb",
+      "sha256": "00dad2f30edff7012e92185df4c9b08722520eb7b508c72fb29d9e5937fb3b10",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1327,8 +1327,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1358,16 +1358,16 @@
     },
     "430x932/skipped": {
       "file": "design/phone-ui/components/role-stage/review/430x932-skipped.jpg",
-      "sha256": "d4b0bc3d4cb777fcd759ce6b8e1b2f6d2ea1942fd2d5fe568b01cf84e7e27975",
+      "sha256": "68e3e0d0e8b615460c5e6d33ef29af0ba4fa63e7474fbb90a43868ab45aaa31c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1391,8 +1391,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1422,16 +1422,16 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/role-stage/review/390x844-stale.jpg",
-      "sha256": "4dfcca00d88bfd1046f254d75bb520b2d0beccef437caad11fa84250010d569c",
+      "sha256": "a1fb8f50fac68a0478cdd74cb2c0e9b0d40c558f34e51656cdd3d71d828a805f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1455,8 +1455,8 @@
       "toast": null,
       "banner": "Connection lost",
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1486,16 +1486,16 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/role-stage/review/430x932-stale.jpg",
-      "sha256": "bf9be3cc72c601fb1d493eb0db34a9980f78266d7c34249c78959e4ff8e88e86",
+      "sha256": "09acf8dacc262acd8f02692398a9c82a4b34a6887964220b6637e3ec3d5da149",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1519,8 +1519,8 @@
       "toast": null,
       "banner": "Connection lost",
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1557,9 +1557,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1583,8 +1583,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:46093/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1597,16 +1597,16 @@
     },
     "card/card-sheet-down": {
       "file": "design/phone-ui/components/role-stage/review/card-card-sheet-down.jpg",
-      "sha256": "fd5adfed2ea88a71bbf1e419f80cc235868627fcf04e25d8eb3480842acfcc76",
+      "sha256": "f0b74e9eadf5349b1c84d578e2815e7cab748140a75364b8568d1e27dbc5265b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1672,17 +1672,18 @@
           }
         },
         {
-          "id": "focus: Show role ending as the card turns face up moves the focus to the stage, then onFocusReturn once",
+          "id": "focus: Show role ending as the card turns face up moves the focus to the card, then onFocusReturn once",
           "ok": true,
           "detail": {
             "ok": true,
             "shown": 1,
-            "onStage": true,
+            "onCard": true,
             "returned": [
               [
                 "onFocusReturn",
                 {
-                  "intent": "show-role"
+                  "intent": "show-role",
+                  "value": null
                 }
               ]
             ]
@@ -1930,9 +1931,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1964,9 +1965,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Cc2lOpi8.js",
+          "source": "assets/index-BVutjZAn.js",
           "line": 1,
-          "column": 22600,
+          "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1976,7 +1977,7 @@
   "agree": {
     "emulated": {},
     "mode": "agree",
-    "ok": false,
+    "ok": true,
     "checks": [
       {
         "id": "agree: t01 · the card, 0:01 at 390 × 844",
@@ -2966,26 +2967,9 @@
       },
       {
         "id": "agree: concealed · the card back, 0:09 at 390 × 844",
-        "ok": false,
+        "ok": true,
         "detail": {
-          "differences": [
-            {
-              "part": "back",
-              "what": "box",
-              "pack": {
-                "x": 149.5625,
-                "y": 394.90625,
-                "w": 90.859375,
-                "h": 19.1875
-              },
-              "stage": {
-                "x": 149.5625,
-                "y": 399.203125,
-                "w": 90.859375,
-                "h": 19.1875
-              }
-            }
-          ],
+          "differences": [],
           "parts": {
             "bar": {
               "pack": {
@@ -3136,7 +3120,7 @@
               },
               "stage": {
                 "x": 149.5625,
-                "y": 399.203125,
+                "y": 394.90625,
                 "w": 90.859375,
                 "h": 19.1875
               },
@@ -4141,9 +4125,9 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-Cc2lOpi8.js",
+        "source": "assets/index-BVutjZAn.js",
         "line": 1,
-        "column": 22600,
+        "column": 17391,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
       }
     ],

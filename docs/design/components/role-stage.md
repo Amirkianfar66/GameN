@@ -1,7 +1,6 @@
 # Role stage and role card: Designer's runtime component
 
-**Version:** `role-stage-0.1.0` and `role-card-0.1.0`, **proposed interface, with a first build**. **Status (15 November 2026):** the interface is with the Lead Designer for review, then Frontend's on #4. A first build against it is on this branch, with its preview, probe, agreement, check and test, so the review can see it working. It is not ready for Frontend:
-- **Ready, Skip film and Show role** wait for the Lead's shared kit (`design/phone-ui/components/kit/`) for their looks.
+**Version:** `role-stage-0.1.0` and `role-card-0.1.0`, **proposed interface, with a first build**. **Status (15 November 2026):** the interface is with the Lead Designer for review, then Frontend's on #4. A first build against it is on this branch, with its preview, probe, agreement, check and test, so the review can see it working. Its controls are the shared kit's (`component-kit-0.1.0`, `design/phone-ui/components/kit/`): Ready, Skip film and Show role are kit buttons under the kit's control policy, and the Ready stamp is the kit's accent pill. It is not ready for Frontend:
 - **"Rejoined · the stage carried on"** is drawn by the shell's toast, which sits under the full-bleed film (sheet 18 draws it over the film). It waits on the Lead's answer to question 5 below.
 
 **What it is:** the private 30-second role stage on the player's own phone, and the role card it shows, as the phone pack draws them. It is #222 item 6 (PHONE-PARITY). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
@@ -31,7 +30,9 @@ Designer's, runtime-safe, in `design/phone-ui/components/role-stage/`:
 | `preview/` | Development only: the preview on the pack's synthetic fixtures, the probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`, against `prototype/screens-pregame.mjs`'s `roleCard()` and `role` screen) |
 | `review/` | The check's captures and `check.json` |
 
-**Uses unchanged:** `phone-shell/phone-shell.mjs` (the top bar, the toast and the reconnecting banner: the stage mounts a shell inside itself, so there is one top bar in the game), `icons.mjs`, and the shared kit when it lands (Ready, Skip film, Show role, the clock chip, the stamp). The art loads through the art bundles' existing variables: `--ms-asset-piece-crew-card-cN` (the person, `card-cN.svg`) and `--ms-asset-device-<id>-held` (the device; the Engineer's `--sw-asset-sw-device-engineer`). No new picture.
+**Uses unchanged:** `phone-shell/phone-shell.mjs` (the top bar, the toast and the reconnecting banner: the stage mounts a shell inside itself, so there is one top bar in the game), `icons.mjs`, and the shared kit, `kit/kit.mjs` and `kit/kit.css` (Ready, Skip film, Show role and the stamp, and the control policy). Both stylesheets start with `@import url("../kit/kit.css");`, and both roots carry `ms-kit`.
+- **Show's eye is 44 px,** as sheets 18 and 31 draw it: the pack's `.cardback .ic` also reaches the eye inside its Show button. The card sizes it through its own part (`.ms-rc-back .ms-rc-show`), and the kit is unchanged.
+- **Placing kit controls:** the components place them through their own parts only, at least three classes deep, so the place holds whichever stylesheet imports `kit.css` last. The art loads through the art bundles' existing variables: `--ms-asset-piece-crew-card-cN` (the person, `card-cN.svg`) and `--ms-asset-device-<id>-held` (the device; the Engineer's `--sw-asset-sw-device-engineer`). No new picture.
 
 Tooling: `design/tools/role-stage-check.mjs`; test: `packages/design-tokens/test/role-stage.test.mjs`.
 
@@ -134,12 +135,12 @@ Controls follow the shell's rules: one delegated listener; refused when unavaila
 
 ## Checks run on the first build
 
-On `2c151826`, clean:
-- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph, scoped styles, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 385 of 385; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
+On `c7593ca8`, clean:
+- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 388 of 388; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
 - **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
   - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **24 of 26 pass**. The two `late` captures fail: the rejoined toast is drawn, but under the film (question 5).
-  - **The lifecycle probe:** 13 of 13 (12 as the page comes, 1 with the device's Reduce motion): focus, refused taps, reconnecting, privacy, the clock, the film's element, layout, dispose and motion. Two deliberate breaks (concealment keeping the card; a new viewer keeping the last one's) each fail it.
-  - **The agreement with the frozen pack** (`screens-pregame.mjs`'s role screen beside the stage, the same moment): **8 of 9 cases** agree to within half a pixel in every part (the bar, the clock, the strip, the card, its picture, person and device, its words, the line, Ready's place, the stamp). The card back's words sit 4.7 px lower: the unstyled Show button is taller than the pack's small button. It closes with the kit.
+  - **The lifecycle probe:** 13 of 13 (12 as the page comes, 1 with the device's Reduce motion): focus (Show ending returns the focus to the card), refused taps, reconnecting, privacy, the clock, the film's element, layout, dispose and motion. Two deliberate breaks (concealment keeping the card; a new viewer keeping the last one's) each fail it.
+  - **The agreement with the frozen pack** (`screens-pregame.mjs`'s role screen beside the stage, the same moment): **9 of 9 cases** agree to within half a pixel in every part (the bar, the clock, the strip, the card, its picture, person and device, its words, the card back, the line, Ready's place and availability, the stamp).
   - **Page health:** no page errors, no failed requests, no unexpected policy report.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
 
@@ -147,6 +148,5 @@ On `2c151826`, clean:
 
 | What | Waiting on |
 | --- | --- |
-| Ready, Skip film and Show role's looks | The Lead's shared kit |
 | The rejoined toast over the film | Question 5: the shell drawing no top bar, or the stage's own notice |
 | Frontend's review and connection | The Lead's review of this interface, then #4 |
