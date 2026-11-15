@@ -1,6 +1,6 @@
 # The Card sheet: Designer's runtime component
 
-**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and on the phone shell (#265) at `c1b190ab`, merged in for the shell's sheet head (`sheet.head`, which draws "Hide card") and the shared kit (`component-kit-0.3.0`).
+**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and on the phone shell (#265): `c1b190ab` was merged in for the shell's sheet head (`sheet.head`, which draws "Hide card") and the shared kit (`component-kit-0.3.0`), and the role stage at `d1919d7` brings the shell to `05e2d1d0` (its `backdrop` input, default `'scene'`, which the Card does not set).
 
 **What it is:** the content of the Card tab's sheet during a match, as the phone pack draws it (sheet 31; #222 item 7). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -182,7 +182,7 @@ Listed, not omitted:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `a35c414` (the shell's `c1b190ab` merged in), with the source clean.
+- **`node design/tools/card-check.mjs`:** recorded on `b1559cf` (the role stage's `d1919d7` merged in, with the shell at `05e2d1d0`), with the source clean. The same as on `a35c414`, before that merge.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does.
   - **Captures:** 21 of 21 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
     - Nine states at 390 × 844 and 430 × 932.
