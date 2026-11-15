@@ -316,9 +316,9 @@ These are listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/room-scene.test.mjs` | 10 of 10 |
-  | `npm run test:design` | 369 of 369 |
-  | `npm run test:tooling` | 337 of 337 |
+  | `packages/design-tokens/test/room-scene.test.mjs` | 11 of 11 |
+  | `npm run test:design` | 370 of 370 |
+  | `npm run test:tooling` | 337 of 337 (on 0.3.0) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
   | `node design/tools/phone-ui-figure-extents.mjs --check` | Current |
@@ -327,16 +327,21 @@ These are listed, not omitted:
 - **`node design/tools/room-scene-check.mjs`:**
   - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
   - **Captures:** eleven states at 390 × 844 and 430 × 932: 22 of 22 pass. Ten show the approved pictures a fifth wider; `today` shows older art in the pack's framing.
-  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 23 of 23 checks pass.
+  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 26 of 26 checks pass.
     - Held: one window through 390 × 653 → 430 × 741, lit and dark, and new insets, then its end.
     - Private: `layout()` lit, dark and concealed; the offers and the control after concealment and after a change of viewer; after `dispose()`.
     - Time: Reduce motion with the clock moving from 1 s to 9 s, as in Frontend's review; eight 250 ms model updates; reconnecting; running again; suspended and resumed; the clock withdrawn; no clock; and, from Frontend's re-review, the clock withdrawn, reconnecting or Reduce motion in the same update as a resize, and concealment while running.
     - Focus: the control, a position and a press square across updates, reconnecting and their end.
+    - Films (0.4.0):
+      - a stand-in keeps its tag, place and press square without its figure, and only its own;
+      - the recoil moves one figure, and not its tag or anyone else;
+      - the films container interleaves by z-index (under a press square at 3000, over it at 3300), hides while concealed and is gone after `dispose()`.
     - The device's Reduce motion, emulated.
   - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `191700a1` (0.3.0, with `main` after #260 merged in), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `e56b9c5d` (0.4.0), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
   - **At the game's text size:** the preview's root is the browser's 16 px, as the game's (its html sets no size). Until `191700a1` the preview forced 14 px, so the name tags and the room's control drew an eighth small (11.375 px tags against the game's 13 px). At 16 px every tag stays whole and apart in all 22 captures; the probe's checks are unchanged.
+  - 0.4.0 draws nothing new until the game uses its new inputs. Its captures differ from 0.3.0's only where the crew's idle motion and the voyage stood at another moment.
   - 0.3.0's captures show the approved pictures a fifth wider, so they differ from 0.2.1's by design. The new `today` state shows older art in the pack's framing, as 0.2.1's captures showed every state.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
