@@ -210,15 +210,15 @@ Listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts), the pinned pack unchanged, the pack's words, the clock, the inputs' refusals, the privacy rules and the check's record |
-  | `packages/design-tokens/test/kit.test.mjs` | 3 of 3 ([the kit's page](kit.md)) |
-  | `npm run test:design` | 380 of 380 |
+  | `packages/design-tokens/test/kit.test.mjs` | 5 of 5, with the kit's own check: every builder agrees with the pinned pack's ([the kit's page](kit.md)) |
+  | `npm run test:design` | 382 of 382 |
   | `npm run test:tooling` | 337 of 337 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
-  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260.
+  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
   - **Captures:** thirteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 27 of 27 pass, each drawing what its state asks.
   - **The lifecycle probe** (`preview/probe.mjs`): 14 of 14 checks pass.
     - **As the page comes (13):** focus, refused taps, reconnecting, privacy, the clock, layout, the toast, the large-content view, dispose and motion.
@@ -228,7 +228,7 @@ Listed, not omitted:
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `aea6dab4`, the shell built from the kit, with the source clean. Against the record on `cbd6ae89`, before the kit, the captures differ only by noise: at most 84 pixels per capture, in the room's ambient motion, and none in the shell's controls.
-    - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements, with the same font, size, weight, line height and colour (checked again on `aea6dab4`). The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
+    - Recorded on `10496d18`, the shell built from the kit as it now agrees with the pack, with the source clean. Against the records on `cbd6ae89` (before the kit) and `aea6dab4` (its first form), the captures differ only by noise: at most 151 pixels per capture, all in the room's ambient motion, none in the shell's controls.
+    - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements, with the same font, size, weight, line height and colour (checked on `aea6dab4`). The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
     - The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
