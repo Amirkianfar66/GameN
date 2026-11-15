@@ -1,0 +1,183 @@
+{
+  "scope": "Desktop Chromium with synthetic seat-bound snapshots and controllable transport. Browser touch. Production response headers.",
+  "candidate": {
+    "commit": "dea28869301a7cc352a156bdfdf78cffc48431ef",
+    "dirty": ""
+  },
+  "timingScope": "Controlled heartbeat refusal, READ order and simulated blur/refocus. The fixture clock advances to make the fallback due. No hosted latency measurement.",
+  "art": {
+    "source": "055eb2f4dc39129bac63cfde5ff5d65f791c2c4d",
+    "manifestSha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "bundleSha256": "1d38a0807cd8bc5e3fbc3531dad502612d77bd1f726002ab66c1865abb5eedda",
+    "inventorySha256": "02c66347a1643cfd7210dac4a602c44b49bbcdc1907d63c467ae9925eb8ab412",
+    "files": 67
+  },
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "heartbeat": {
+        "oldReadStayedConcealed": true,
+        "newReadRestoredRelease": true,
+        "obsoleteRefusalPreservedHold": true
+      }
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "heartbeat": {
+        "oldReadStayedConcealed": true,
+        "newReadRestoredRelease": true,
+        "obsoleteRefusalPreservedHold": true
+      }
+    }
+  ],
+  "captures": [
+    {
+      "file": "390x844-concealed-awaiting-authorized-read.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "reconnecting",
+      "label": "concealed-awaiting-authorized-read",
+      "sha256": "f739b8ce82b427667f34a876561897b4a960aac9da37d634ed4d236840105fdc"
+    },
+    {
+      "file": "390x844-panel-release-after-authorized-read.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-panel-03",
+      "label": "panel-release-after-authorized-read",
+      "sha256": "20e50e6050063892ed4c0dd738d37811cd2b06a435c5a60e1b789b22c5c9d1b3"
+    },
+    {
+      "file": "390x844-winch-hold-after-obsolete-refusal.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-winch-02",
+      "label": "winch-hold-after-obsolete-refusal",
+      "sha256": "8574b6dfd0717ab8983c6020fceecb6488b8dad5375402c2c295306251994d5d"
+    },
+    {
+      "file": "430x932-concealed-awaiting-authorized-read.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "reconnecting",
+      "label": "concealed-awaiting-authorized-read",
+      "sha256": "67a8aa6c3a8b98f935422b7d978c15bc685c9f4926e85e5ffd9176d41f05db5b"
+    },
+    {
+      "file": "430x932-panel-release-after-authorized-read.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-panel-03",
+      "label": "panel-release-after-authorized-read",
+      "sha256": "7e27a4224f1d82355db70691b3f9c5d87aaff1d00dc703479d28fe2506060593"
+    },
+    {
+      "file": "430x932-winch-hold-after-obsolete-refusal.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-winch-02",
+      "label": "winch-hold-after-obsolete-refusal",
+      "sha256": "30881921fe8148f5da76e5828cc972bd0004b14187a1ffd3ccf74221ca03c6db"
+    }
+  ],
+  "policy": [
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-wlictnv9.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-wlictnv9.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-wlictnv9.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-wlictnv9.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    }
+  ],
+  "sessionSha256": "acf075ccf5e2a94e8bc236db0589dd24b8548bcd6644d76e657e791cbeaabc14",
+  "fixtureFiles": [
+    {
+      "path": "app.html",
+      "bytes": 447,
+      "sha256": "cc400cdc309ea8afe979356a339b7ece55cf19bbf05e09cb9f599eb7438064c3"
+    },
+    {
+      "path": "assets/app-DLMupB0z.css",
+      "bytes": 256469,
+      "sha256": "41f184dca038cbd69dbca51d09be55323ccacbcb2d973ec1cb128025787914fc"
+    },
+    {
+      "path": "assets/app-wlictnv9.js",
+      "bytes": 2562488,
+      "sha256": "61124cd24010de34b73588ae627cf5273425d7eefb623070252544f7d1506cfd"
+    }
+  ],
+  "fixtureUrl": "http://127.0.0.1:60202/app.html",
+  "browser": "Google Chrome 157.0.8103.51",
+  "passed": true
+}
