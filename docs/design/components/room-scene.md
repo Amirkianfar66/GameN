@@ -69,7 +69,17 @@ scene.dispose();               // removes the element, its listener and the crew
 - **On update:**
   - People are kept by seat, so a figure's idle motion carries on. Controls, positions, press squares and cards are kept by their id and changed in place.
   - The frame is worked out again only when the room, the roster, the size or the people the lit room shows change, and never during a hold.
+  - `people: []`, `targets: null` and `control: null` replace what was there.
 - **To resize:** `update({ size })`. During a hold, see below.
+- **Lifecycle guarantees:**
+  - `dispose()` is safe to call twice. After it, `update()`, `suspend()` and `resume()` do nothing, `layout()` returns `null`, and no callback fires: the listener is gone and a pending `onFocusReturn` is dropped.
+  - `resume()` follows the current inputs. The voyage runs only while live, in motion and with a clock; the crew moves only while live.
+  - `layout()` returns a new plain snapshot on each call; changing it changes nothing.
+  - Each mount is independent. A new match, seat or art version is a new mount, after disposing the old one, and nothing carries over between mounts.
+- **Ids:**
+  - A seat is the id the presentation model gives (`'seat-4'` or `4`), and `onSeat` returns that same id.
+  - A position is the room's place id (`'B1'`–`'B5'` in Room B), and `onSlot` returns it.
+  - Each person shown in the lit room needs a `character` (a crew id) and a `name`. In the dark the scene needs no one: pass `people: []`.
 
 ### The hold: one frame for a whole Blackout window
 
@@ -118,7 +128,7 @@ No input carries a role, a team or any other private fact.
 | `lighting` | Public | `'lit'` | `'lit'` or `'dark'` |
 | `hold` | Public | `null` | The Blackout window's id, `true` for one not named, or `null`: see the hold |
 | `targets` | This viewer | `null` | `{ seats, picked }` (people) or `{ slots, picked, icon }` (empty positions): only this viewer's current offers |
-| `control` | This viewer | `null` | `{ id, label, icon, enabled, kind }`: the room's own control, such as "Windows · 2" (`kind: 'button'`), or the Jail's "Detained · you can still vote" (`kind: 'status'`) |
+| `control` | This viewer | `null` | `{ id, label, icon, enabled, kind }`: the room's own control, such as "Windows · 2" (`kind: 'button'`), or the Jail's "Detained · you can still vote" (`kind: 'status'`). The label is shown as given; the component infers nothing from it. In the pack, Room B's control opens the Windows panel (sheet 34) and its number counts the windows that panel lists. If that count is not authorized for this viewer, the label carries no number |
 | `status` | Phone | `'live'` | `'live'`, `'stale'` (reconnecting) or `'concealed'` |
 | `artReady` | Phone | `true` | `false` once the room pictures failed to load: sheet 45 |
 | `clock` | Public | `null` | `{ now }`: the match's trusted server time, for the voyage. `null` means no trusted clock |
@@ -161,7 +171,7 @@ The first three report intent only, and only while `interactive` and `status: 'l
 
 ## The ambient clock
 
-- **One clock for every phone:** the time since `SKY_EPOCH` (1 November 2026, UTC). In the game, `clock.now()` is the match's server time, so every phone shows the same moment of the voyage.
+- **One clock for every phone:** the time since `SKY_EPOCH` (1 November 2026, UTC). In the game, `clock.now()` returns the match's trusted server time in epoch milliseconds, so every phone shows the same moment of the voyage. The component never reads the device's own clock; with no trusted time, Frontend passes `clock: null`.
 - **Running:** while the scene is live, not suspended, in motion (neither the game's nor the device's Reduce motion) and has a trusted clock. It is set to the clock when it starts running and when the room's pictures are rebuilt, and then runs on its own. Frontend's model updates every 250 ms never re-time it.
 - **Standing still:** reduced, reconnecting, suspended or concealed. It samples one moment when it stops: where it stood, or the clock's moment if it was not running. No update moves it, whatever the clock does. It goes back on the clock when it runs again.
 - **No trusted clock:** with none ever given, it stands still at 0 s. A clock withdrawn while it runs leaves it standing where it was, with no jump.
