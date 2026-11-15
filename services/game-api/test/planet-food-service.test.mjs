@@ -734,12 +734,102 @@ test('eligible nonparticipant snapshots skip ingress and session writes with one
   assert.equal(result.serverTimeMs,6500);assert.equal(result.result.foodPublicView.serverNowMs,6500);
   assert.equal(result.result.foodPlayerView.serverNowMs,6500);
   const writes=h.store.attempts.slice(start).filter(a=>a.commit).flatMap(a=>a.writes);
-  assert.ok(writes.length>0);assert.ok(writes.every(key=>key.startsWith('foodTransportRate/')||key==='foodIngressControl/food-match'));
+  assert.deepEqual(writes,['foodTransportRate/'+hash(['p1','snapshot'])]);
   assert.equal(ingress(h).length,entries);assert.deepEqual(await h.current(),before);
   const after=h.store.export().find(([key])=>key==='foodIngressControl/food-match')[1];
-  assert.equal(after.nextSequence,controlBefore.nextSequence);assert.equal(after.processedSequence,controlBefore.processedSequence);
-  assert.equal(after.lastAdmittedAt,6500);assert.equal(after.advancedThroughAt,6500);
+  assert.deepEqual(after,controlBefore);
 });
+for(const count of [7,8,9])test(`${count}: passive snapshots spend only their own rate and do not invalidate heartbeat capture`,{timeout:2500},async()=>{
+  const h=harness({count}),matchId='food-match',controlPath='foodIngressControl/'+matchId;
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  const before=new Map(h.store.export());
+  const observers=['host','display',...Array.from({length:count-2},(_,i)=>`p${i+3}`)];
+  h.setNow(6250);
+  let timing,reads,afterObservers;
+  const pause=h.store.pauseReadNext(controlPath);
+  const beat=withPlanetRequestTiming(()=>h.handle('foodHeartbeat',{matchId,taskId:'task-2'}),summary=>{timing=summary;});
+  try{
+    await pause.reached;
+    h.setNow(6500);
+    reads=await Promise.all(observers.map(uid=>h.handle('read',{matchId},uid)));
+    afterObservers=new Map(h.store.export());
+    h.setNow(6750);
+  }finally{pause.resume();}
+  const result=await beat;
+  const expected=new Map(before);
+  for(const uid of observers)expected.set('foodTransportRate/'+hash([uid,'snapshot']),{since:6500,count:1,lastSnapshotAt:6500});
+  assert.deepEqual(afterObservers,expected,'observers change only their own snapshot rate records');
+  for(const read of reads){
+    assert.equal(read.ok,true);assert.equal(read.serverTimeMs,6500);
+    assert.equal(read.result.foodPublicView.serverNowMs,6500);
+    assert.equal(read.result.foodPlayerView?.participantTask??null,null);
+  }
+  assert.equal(timing.stages.admission?.count,1,'passive polling does not invalidate a previously captured Control fence');
+  assert.equal(result.ok,true);assert.equal(result.serverTimeMs,6750);
+  const saved=ingress(h).find(([,entry])=>entry.request?.operation==='foodHeartbeat')[1];
+  assert.equal(saved.context.now,6750);assert.deepEqual(saved.response,result);
+});
+
+test('a passive observation fences its own next snapshot clock without raising the admission floor',async()=>{
+  const h=harness(),matchId='food-match';
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  h.setNow(7000);assert.equal((await h.handle('read',{matchId},'display')).serverTimeMs,7000);
+  // Simulate another instance with a lower server sample, still after the actual game prefix.
+  h.setNow(6500);
+  const earlier=await h.handle('read',{matchId},'display');assert.equal(earlier.error.code,'UNAVAILABLE');
+  const own=await h.handle('foodHeartbeat',{matchId,taskId:'task-2'});
+  assert.equal(own.ok,true);assert.equal(own.serverTimeMs,6500);
+  assert.equal(new Map(h.store.export()).get('foodTransportRate/'+hash(['display','snapshot'])).count,1);
+});
+
+test('concurrent snapshots for one UID consult its latest committed rate and clock',async()=>{
+  const h=harness(),matchId='food-match',controlPath='foodIngressControl/'+matchId;
+  const read=()=>h.handle('read',{matchId},'display');
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  h.setNow(6400);
+  const pause=h.store.pauseReadNext(controlPath),earlier=read();
+  try{
+    await pause.reached;
+    h.setNow(6500);assert.equal((await read()).serverTimeMs,6500);
+    h.setNow(6450);
+  }finally{pause.resume();}
+  assert.equal((await earlier).error.code,'UNAVAILABLE');
+  h.setNow(6600);
+  for(const result of await Promise.all([read(),read()]))assert.equal(result.serverTimeMs,6600);
+  assert.deepEqual(new Map(h.store.export()).get('foodTransportRate/'+hash(['display','snapshot'])),
+    {since:6500,count:3,lastSnapshotAt:6600});
+});
+
+test('a passive snapshot respects the existing per-UID rate reset boundary',async()=>{
+  const h=harness(),matchId='food-match',ratePath='foodTransportRate/'+hash(['display','snapshot']);
+  const read=()=>h.handle('read',{matchId},'display');
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  // This fixture's epoch is relative to the active Task. Seed a legacy rate record from the prior minute.
+  const previous={since:6000-59_999,count:180};
+  await h.store.transaction(async tx=>tx.set(ratePath,previous));
+  assert.equal((await read()).error.code,'RATE_LIMITED');
+  h.setNow(6001);assert.equal((await read()).serverTimeMs,6001);
+  assert.deepEqual(new Map(h.store.export()).get(ratePath),{since:6001,count:1,lastSnapshotAt:6001});
+});
+
+for(const committed of [false,true])test(`a passive SDK retry handles a ${committed?'committed':'discarded'} rate write without a second charge`,async()=>{
+  const h=harness(),matchId='food-match',ratePath='foodTransportRate/'+hash(['display','snapshot']);
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  await h.store.transaction(async tx=>tx.set(ratePath,{since:6000,count:179,lastSnapshotAt:6000}));
+  const before=ingress(h).length;
+  h.setNow(6500);
+  h.store.setRetry(ratePath,(records,first)=>{
+    if(committed)records.set(ratePath,first.get(ratePath));
+    h.setNow(6600);
+  });
+  const result=await h.handle('read',{matchId},'display');
+  if(committed)assert.equal(result.error.code,'UNAVAILABLE');
+  else{assert.equal(result.ok,true);assert.equal(result.serverTimeMs,6600);}
+  assert.equal(ingress(h).length,before);
+  const appliedAt=committed?6500:6600;
+  assert.deepEqual(new Map(h.store.export()).get(ratePath),{since:6000,count:180,lastSnapshotAt:appliedAt});
+});
+
 test('an eligible own snapshot renews private contact metadata without a Session lock or publication',async()=>{
   const h=harness();assert.equal((await h.handle('read',{matchId:'food-match'})).ok,true);
   const before=await h.current(),entries=ingress(h).length,start=h.store.attempts.length;
@@ -755,11 +845,11 @@ test('an eligible own snapshot renews private contact metadata without a Session
 
 for(const count of [7,8,9])test(`${count}: READ refreshes a fence changed only by another authorized snapshot`,{timeout:2000},async()=>{
   const h=harness({count}),matchId='food-match',controlPath='foodIngressControl/'+matchId,contactPath='foodContact/'+matchId;
-  const ownRatePath='foodTransportRate/'+hash(['p1','snapshot']),displayRatePath='foodTransportRate/'+hash(['display','snapshot']);
+  const ownRatePath='foodTransportRate/'+hash(['p1','snapshot']),partnerRatePath='foodTransportRate/'+hash(['p2','snapshot']);
   assert.equal((await h.handle('read',{matchId})).ok,true);
   const before=new Map(h.store.export()),entries=ingress(h).length,start=h.store.attempts.length;
   h.setNow(6500);
-  let afterDisplay,timing;
+  let afterPartner,timing;
   const paused=h.store.pauseReadNext(controlPath);
   const pending=withPlanetRequestTiming(()=>h.handle('read',{matchId}),summary=>{timing=summary;});
   try{
@@ -768,11 +858,12 @@ for(const count of [7,8,9])test(`${count}: READ refreshes a fence changed only b
     assert.equal(capture.readOnly,true);
     assert.deepEqual(capture.reads,['session/'+matchId,controlPath]);
     h.setNow(6750);
-    const display=await h.handle('read',{matchId},'display');
-    assert.equal(display.ok,true);assert.equal(display.serverTimeMs,6750);
-    afterDisplay=new Map(h.store.export());
-    assert.deepEqual(afterDisplay,new Map(before).set(controlPath,{...before.get(controlPath),lastAdmittedAt:6750,advancedThroughAt:6750})
-      .set(displayRatePath,{since:6750,count:1}));
+    const partner=await h.handle('read',{matchId},'p2');
+    assert.equal(partner.ok,true);assert.equal(partner.serverTimeMs,6750);
+    afterPartner=new Map(h.store.export());
+    assert.deepEqual(afterPartner,new Map(before).set(controlPath,{...before.get(controlPath),lastAdmittedAt:6750,advancedThroughAt:6750})
+      .set(partnerRatePath,{since:6750,count:1,lastSnapshotAt:6750})
+      .set(contactPath,{'seat-2':{taskId:'task-2',bindingRevision:1,admittedAt:6750,expiresAt:8750}}));
     h.setNow(7000);
   }finally{paused.resume();}
   const result=await pending;
@@ -782,10 +873,10 @@ for(const count of [7,8,9])test(`${count}: READ refreshes a fence changed only b
   assert.equal(result.result.foodPlayerView.seatId,'seat-1');
   assert.equal(result.result.foodPlayerView.serverNowMs,7000);
   const after=new Map(h.store.export());
-  assert.deepEqual(after,new Map(afterDisplay)
-    .set(controlPath,{...afterDisplay.get(controlPath),lastAdmittedAt:7000,advancedThroughAt:7000})
-    .set(ownRatePath,{...before.get(ownRatePath),count:before.get(ownRatePath).count+1})
-    .set(contactPath,{'seat-1':{taskId:'task-2',bindingRevision:1,admittedAt:7000,expiresAt:9000}}));
+  assert.deepEqual(after,new Map(afterPartner)
+    .set(controlPath,{...afterPartner.get(controlPath),lastAdmittedAt:7000,advancedThroughAt:7000})
+    .set(ownRatePath,{...before.get(ownRatePath),count:before.get(ownRatePath).count+1,lastSnapshotAt:7000})
+    .set(contactPath,{...afterPartner.get(contactPath),'seat-1':{taskId:'task-2',bindingRevision:1,admittedAt:7000,expiresAt:9000}}));
   const writes=h.store.attempts.slice(start).filter(a=>a.commit&&a.writes.length>0);
   assert.equal(writes.length,2);
   for(const attempt of writes){assert.equal(attempt.reads[0],controlPath);assert.equal(attempt.reads.includes('session/'+matchId),false);}
@@ -804,14 +895,14 @@ for(const reason of ['another fence mismatch','a newly due presence boundary'])t
   try{
     await paused.reached;
     h.setNow(6750);
-    assert.equal((await h.handle('read',{matchId},'display')).ok,true);
+    assert.equal((await h.handle('read',{matchId},'p2')).ok,true);
     recapture=h.store.pauseReadNext(sessionPath);
     paused.resume();
     await recapture.reached;
     recaptureReads=h.store.attempts.at(-1).reads;
     if(!presenceDue){
       h.setNow(7000);
-      assert.equal((await h.handle('read',{matchId},'display')).ok,true);
+      assert.equal((await h.handle('read',{matchId},'p2')).ok,true);
     }
     h.setNow(finalTime);
   }finally{paused.resume();recapture?.resume();}
@@ -826,10 +917,10 @@ for(const reason of ['another fence mismatch','a newly due presence boundary'])t
   assert.deepEqual(entry.response,result);
   const after=new Map(h.store.export());
   assert.equal(after.get(ownRatePath).count,initialRate+1);
-  assert.equal(after.has('foodContact/'+matchId),false,'the failed fast attempts renew no contact metadata');
+  assert.deepEqual(Object.keys(after.get('foodContact/'+matchId)),['seat-2'],'the failed fast attempts renew no own contact');
   const presence=after.get(sessionPath).state.trace.filter(event=>event.kind==='presence')
     .map(event=>[event.actor,event.online,event.context.now]);
-  assert.deepEqual(presence,presenceDue?[['seat-1',false,8000],['seat-2',false,8000],['seat-1',true,8000]]:[]);
+  assert.deepEqual(presence,presenceDue?[['seat-1',false,8000],['seat-1',true,8000]]:[]);
 });
 
 test('a retried READ callback cannot take the new refresh after a possibly committed write',async()=>{
@@ -866,10 +957,10 @@ test('the prior durable expiry wake hydrates contacts and rearms their later exa
   h.setNow(8750);await h.api().runDeadline(next);
   assert.deepEqual((await h.current()).state.trace.filter(c=>c.kind==='presence'&&!c.online).map(c=>[c.actor,c.context.now]),[['seat-2',8750]]);
 });
-test('a captured fast snapshot is fenced when recovery changes its owner before renewal',async()=>{
+for(const uid of ['p1','p3'])test(`a captured fast snapshot is fenced when recovery revokes ${uid}`,async()=>{
   const h=harness();await h.handle('read',{matchId:'food-match'});h.setNow(6500);
-  const paused=h.store.pauseReadNext('foodIngressControl/food-match'),old=h.handle('read',{matchId:'food-match'});await paused.reached;
-  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-1',requestId:'read-recover-issue'},'host');
+  const paused=h.store.pauseReadNext('foodIngressControl/food-match'),old=h.handle('read',{matchId:'food-match'},uid);await paused.reached;
+  const issued=await h.handle('issueRecovery',{matchId:'food-match',seatId:'seat-'+uid.slice(1),requestId:'read-recover-issue'},'host');
   assert.equal(issued.ok,true);
   assert.equal((await h.handle('redeemRecovery',{matchId:'food-match',requestId:'read-recover-redeem',recoveryCode:issued.result.recoveryCode},'replacement')).ok,true);
   paused.resume();const denied=await old;assert.equal(denied.ok,false);assert.equal(denied.error.code,'FORBIDDEN');
