@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/role-stage-check.mjs",
   "component": "design/phone-ui/components/role-stage",
-  "sourceCommit": "c7593ca84b9b46760182da67a33a56779547fe63",
+  "sourceCommit": "a46afbbed81a2465ea52489abda6515bcd62002b",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -71,8 +71,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -109,7 +109,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -135,8 +135,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -173,7 +173,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -199,8 +199,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -237,7 +237,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -263,8 +263,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -301,7 +301,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -327,8 +327,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -365,7 +365,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -391,8 +391,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -429,7 +429,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -455,8 +455,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -493,7 +493,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -519,8 +519,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -557,7 +557,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -583,8 +583,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -621,7 +621,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -647,8 +647,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -685,7 +685,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -743,7 +743,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -801,7 +801,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -827,8 +827,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -865,7 +865,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -891,8 +891,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -929,7 +929,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -987,7 +987,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1045,7 +1045,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1071,8 +1071,8 @@
       "toast": "Rejoined · the stage carried on",
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1109,7 +1109,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1135,8 +1135,8 @@
       "toast": "Rejoined · the stage carried on",
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1173,7 +1173,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1199,8 +1199,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1237,7 +1237,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1263,8 +1263,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1301,7 +1301,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1327,8 +1327,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1365,7 +1365,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1391,8 +1391,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1429,7 +1429,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1455,8 +1455,8 @@
       "toast": null,
       "banner": "Connection lost",
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1493,7 +1493,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1519,8 +1519,8 @@
       "toast": null,
       "banner": "Connection lost",
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1557,7 +1557,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1583,8 +1583,8 @@
       "toast": null,
       "banner": null,
       "pictures": [
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/cards/card-c1.svg\")",
-        "url(\"http://127.0.0.1:32941/crew-drawing/assets/roles/device-cracker.held.svg\")"
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:40527/crew-drawing/assets/roles/device-cracker.held.svg\")"
       ],
       "toastOnTop": false,
       "picturesDrawn": true,
@@ -1604,7 +1604,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1931,7 +1931,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1965,7 +1965,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BVutjZAn.js",
+          "source": "assets/index-B2WioGne.js",
           "line": 1,
           "column": 17391,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4125,7 +4125,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BVutjZAn.js",
+        "source": "assets/index-B2WioGne.js",
         "line": 1,
         "column": 17391,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

@@ -135,8 +135,8 @@ Controls follow the shell's rules: one delegated listener; refused when unavaila
 
 ## Checks run on the first build
 
-On `c7593ca8`, clean:
-- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 388 of 388; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
+On `a46afbbe`, clean (the kit at `07596ba1`; the check on the shared `component-check.mjs`):
+- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 390 of 390; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
 - **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
   - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **24 of 26 pass**. The two `late` captures fail: the rejoined toast is drawn, but under the film (question 5).
   - **The lifecycle probe:** 13 of 13 (12 as the page comes, 1 with the device's Reduce motion): focus (Show ending returns the focus to the card), refused taps, reconnecting, privacy, the clock, the film's element, layout, dispose and motion. Two deliberate breaks (concealment keeping the card; a new viewer keeping the last one's) each fail it.
