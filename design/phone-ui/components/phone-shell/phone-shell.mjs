@@ -53,6 +53,9 @@ export const PHONE_SHELL_DEFAULTS = Object.freeze({
   // true: the stage and its cover fill the whole shell, edge to edge, under the safe areas and any bar or
   // tabs, for a full-screen film or poster (the pack draws them at inset 0, kit.css .media).
   edge: false,
+  // What lies behind the bars and wherever nothing is drawn: 'scene', the room view's space (the pack's .scene,
+  // which lies under its bars), or 'canvas', the phone's own (the pack's .ph), for a screen with no room.
+  backdrop: 'scene',
   tabs: null, target: null, chip: null, banner: null, toast: null, sheet: null,
 });
 
@@ -158,6 +161,7 @@ export function nextPhoneShellInput(previous, input) {
   // overlays keep the bar's place, as the pack's do on its films (its --top keeps the bar's height).
   next.bar = next.bar === null ? null : checkBar(next.bar);
   if (typeof next.edge !== 'boolean') throw new TypeError('edge is true or false');
+  if (!['scene', 'canvas'].includes(next.backdrop)) throw new TypeError('backdrop is scene or canvas');
   next.tabs = checkTabs(next.tabs);
   // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
   // stage between the bars keeps its size and nothing on the phone moves.
@@ -697,6 +701,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     root.dataset.status = state.status;
     root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
     attr(root, 'data-edge', state.edge ? '' : null);
+    root.dataset.backdrop = state.backdrop;
     applyInsets();
     paintBar();
     paintTabs();

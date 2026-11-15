@@ -17,6 +17,7 @@
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
 //             layout() gives the safe areas, also when only they change; the overlays stay where they are
+//   backdrop  the room view's space behind the bars by default, the phone's canvas with backdrop: 'canvas'
 //   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
 //             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
 //             when it goes
@@ -325,6 +326,21 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         && nobar.bars.top === 0 && nobar.bars.bottom === 0 && off.bars.top === 0 && off.bars.bottom === safeBottom
         && reported?.safe.top === 20 && reported?.safe.bottom === 0 && refused;
       return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
+    });
+
+    await check('backdrop: the room view\'s space behind the bars by default, the phone\'s canvas with backdrop: \'canvas\', and nothing else', async () => {
+      const s = mount({ ...own(), tabs: null });
+      const colour = () => getComputedStyle(s.root).backgroundColor;
+      const scene = colour();
+      s.shell.update({ backdrop: 'canvas' });
+      const canvas = colour();
+      s.shell.update({ backdrop: 'scene' });
+      const back = colour();
+      let refused = false;
+      try { s.shell.update({ backdrop: 'paper' }); } catch (error) { refused = error instanceof TypeError && /backdrop is scene or canvas/.test(error.message); }
+      s.shell.dispose();
+      // The pack's .scene (#07090F) and its phone's canvas (kit.css .ph, --canvas #10141C).
+      return { ok: scene === 'rgb(7, 9, 15)' && canvas === 'rgb(16, 20, 28)' && back === scene && refused, scene, canvas, back, refused };
     });
 
     await check('head: a sheet\'s head action sits before Close, keeps its focus, reports onSheetAction, works while reconnecting and returns the focus when it goes', async () => {
