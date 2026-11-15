@@ -1,0 +1,62 @@
+@import url("../kit/kit.css");
+
+/*
+ * The ballot and its result window (vote.mjs): runtime styles, Designer's. Every rule sits under the
+ * component's own root, .ms-vote-ballot or .ms-vote-result, and reaches only the component's own parts
+ * (classes starting ms-ballot-, ms-result- or ms-vote-), or a kit control placed or sized through one of
+ * those parts. The kit's colours, type and states are the kit's (kit.css); nothing here redeclares them.
+ * The values are the pack's (design/phone-ui/prototype/screens.css "Vote and results"), which the frozen
+ * Food release pins, so they stay there as they are.
+ */
+
+/* ── The ballot: the roster in the shell's docked sheet (sheets 35, 36, 56) ── */
+.ms-vote-ballot { display: block; outline: none; }
+/* "You abstained" and "Closed · result next" sit above the roster, where they are seen without scrolling;
+   the can't-vote note keeps the kit's group-note spacing. */
+.ms-vote-ballot .ms-ballot-notes[data-note="pill"] { margin: 0 0 10px; }
+/* The pack's .vote-grid .cell, kept below the kit's list form (a list row keeps its own padding). */
+:where(.ms-vote-ballot) .ms-vote-grid .ms-k-cell { padding-top: 7px; }
+
+/* ── The result window: over the stage for the 5 s result (sheets 37, 38, 56) ── */
+/* Mounted in the shell's stage, between the bars: the pack's window sits 8 px under the top bar and 10 px
+   above the tabs, 10 px from each side. */
+.ms-vote-result {
+  --ms-vote-ground: #E3D6C2;
+  position: absolute; left: 10px; right: 10px; top: 8px; bottom: 10px; z-index: 50;
+  display: flex; flex-direction: column; border-radius: 22px; overflow: hidden;
+  background: var(--ms-k-paper); color: var(--ms-k-ink); border: 3px solid var(--ms-k-ink); box-shadow: 6px 6px 0 #05070B;
+  container: ms-vote-result / inline-size;
+}
+/* Concealed (vote.mjs sets hidden): nothing drawn. */
+.ms-vote-result[hidden] { display: none; }
+.ms-vote-result .ms-result-inner { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* The head and the roster scroll together above the foot. */
+.ms-vote-result .ms-result-scroll { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; }
+.ms-vote-result .ms-result-head { position: relative; flex: none; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 3px solid var(--ms-k-ink); background: var(--ms-vote-ground); }
+.ms-vote-result .ms-result-head[data-tone="gold"] { --ms-vote-ground: #F7C52B; }
+.ms-vote-result .ms-result-head[data-tone="steel"] { --ms-vote-ground: #9AA8BD; }
+.ms-vote-result .ms-result-head[data-tone="paper"] { --ms-vote-ground: #E3D6C2; }
+.ms-vote-result .ms-result-art { flex: none; width: 60px; height: 60px; display: grid; place-items: center; }
+.ms-vote-result .ms-result-art-svg { width: 60px; height: 60px; }
+.ms-vote-result .ms-result-words { min-width: 0; }
+.ms-vote-result .ms-result-stamp { display: inline-block; margin-bottom: 8px; }
+.ms-vote-result .ms-result-title { margin: 0; font: 800 1.5rem/1.05 var(--ms-k-letter); letter-spacing: 0.04em; text-transform: uppercase; overflow-wrap: anywhere; }
+.ms-vote-result .ms-result-line { margin: 4px 0 0; font: 600 0.875rem/1.3 var(--ms-k-font); }
+.ms-vote-result .ms-result-body { flex: none; padding: 12px; }
+.ms-vote-result .ms-result-body .ms-k-grid9 { gap: 8px; }
+.ms-vote-result .ms-result-foot { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 2px solid rgba(21, 25, 35, 0.18); font: 600 0.875rem/1.2 var(--ms-k-font); }
+.ms-vote-result .ms-result-lock { flex: none; display: grid; place-items: center; }
+.ms-vote-result .ms-result-private { flex: 1; }
+
+/* Compact: the window under 14 of its own em (320 px at 150 % and 200 %, 390 px at 200 %; sheet 56). The
+   art and the stamp step aside (the headline says the same), the headline stops growing at 30 px, and the
+   whole window scrolls as one column with the foot, so the names get the height. The roster becomes a list
+   of whole names on its own (the kit's grid9, under 13 of its em). */
+@container ms-vote-result (max-width: 14em) {
+  .ms-vote-result .ms-result-inner { overflow: auto; }
+  .ms-vote-result .ms-result-scroll { flex: none; overflow: visible; }
+  .ms-vote-result :is(.ms-result-art, .ms-result-stamp) { display: none; }
+  .ms-vote-result .ms-result-title { font-size: min(1.5rem, 30px); }
+  .ms-vote-result .ms-result-foot { flex-wrap: wrap; row-gap: 4px; }
+  .ms-vote-result .ms-result-round { flex-basis: 100%; padding-left: 25px; }
+}

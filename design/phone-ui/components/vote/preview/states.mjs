@@ -33,12 +33,12 @@ const voteBar = (kind, { runoff = false, timer = seconds(37) } = {}) => ({
 const resultBar = kind => ({
   kind: 'phase', icon: kind === 'captain' ? 'captain' : 'jail',
   title: kind === 'captain' ? 'Election · result' : 'Jail vote · result', short: 'Vote result',
-  round: kind === 'captain' ? 2 : 3, timer: { remainingMs: 4000, ring: 0.2 }, menu: {},
+  round: kind === 'captain' ? 2 : 3, timer: { remainingMs: 4000, ring: 0.2, urgentAtMs: -1 }, menu: {},
 });
 const tabs = hero => ({ variant: 'game', view: 'room', hero });
 
 /** A ballot state: the shell's bar and round button, and the ballot's own input. */
-function ballot(kind, { count = 9, runoff = false, selected = null, own = null, mode = 'open', timer } = {}) {
+function ballot(kind, { count = 9, runoff = false, selected = null, own = null, mode = 'open', timer, reason = null } = {}) {
   const hero = mode === 'cannot' ? { mode: 'vote', enabled: false, reason: 'Eliminated players don’t vote' }
     : own !== null ? { mode: 'voted' } : { mode: 'vote', enabled: mode === 'open' };
   return {
@@ -46,7 +46,7 @@ function ballot(kind, { count = 9, runoff = false, selected = null, own = null, 
     ballot: {
       viewer: SELF, kind, runoff: runoff ? { tied: [...TARGETS.runoff] } : null,
       roster: withCandidates(runoff ? TARGETS.runoff : TARGETS[kind].filter(s => s <= count), count),
-      selected, own, mode, busy: null,
+      selected, own, mode, busy: null, reason,
     },
   };
 }
@@ -93,7 +93,8 @@ export const VOTE_STATES = Object.freeze({
   'captain-runoff': { sheet: '36', caption: 'Captain runoff · Ava and Ben tied', ...ballot('captain', { runoff: true, timer: seconds(52) }) },
   'captain-8-selected': { sheet: '36', caption: 'Captain election · 8 players · Ava selected', ...ballot('captain', { count: 8, selected: 1 }) },
   'jail-7': { sheet: '36', caption: 'Jail vote · 7 players', ...ballot('jail', { count: 7 }) },
-  'jail-cannot': { sheet: '36', caption: 'Jail vote · you can’t vote', ...ballot('jail', { mode: 'cannot' }) },
+  // The reason is this viewer's, from the projection (the pack's words for an eliminated player).
+  'jail-cannot': { sheet: '36', caption: 'Jail vote · you can’t vote', ...ballot('jail', { mode: 'cannot', reason: 'Eliminated players don’t vote.' }) },
   // Sheet 37: the Captain election's results.
   'result-elected': { sheet: '37', caption: 'Result · Ben is Captain', ...result('CAPTAIN_ELECTED') },
   'result-runoff': { sheet: '37', caption: 'Result · tie, runoff', ...result('RUNOFF_REQUIRED') },
@@ -113,7 +114,7 @@ export const VOTE_STATES = Object.freeze({
   // Not drawn by the pack as its own frame; the shell's and the component's policies.
   'jail-stale': { sheet: '45', caption: 'Jail vote · reconnecting, cells refused', ...ballot('jail', { selected: 1 }), status: 'stale' },
   'jail-concealed': { sheet: '—', caption: 'Jail vote · concealed: nothing private', ...ballot('jail', { selected: 1 }), status: 'concealed' },
-  'result-concealed': { sheet: '—', caption: 'Result · concealed: totals, no “You”', ...result('PLAYER_JAILED'), status: 'concealed' },
+  'result-concealed': { sheet: '—', caption: 'Result · concealed: nothing drawn', ...result('PLAYER_JAILED'), status: 'concealed' },
 });
 
 /** The pack's frame (sheet, state query) each state is compared with, where the pack draws it. */
