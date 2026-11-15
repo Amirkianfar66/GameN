@@ -181,3 +181,88 @@ test('Firestore host and display reads do not invalidate a paused heartbeat capt
   assert.equal(ok(result).renewed,true);
   assert.equal(result.serverTimeMs,task.startedAt+500);
 });
+
+for(const loseSnapshotAck of [false,true])test(
+  loseSnapshotAck?'Firestore waiting READ with a lost snapshot acknowledgment charges only once':'Firestore READ observes committed briefing while the heartbeat owner awaits its acknowledgment',
+  {timeout:90000},async()=>{
+    const {h,base,task}=await setup(9);
+    const matchId=h.matchId,prefixKey='foodPrefixWorker/'+matchId;
+    for(const elapsed of [1500,3000]){
+      h.setTime(task.startedAt+elapsed);
+      assert.equal((await h.read(h.players[0])).foodPlayerView.participantTask.stage,'BRIEFING');
+    }
+    const ratePath='foodTransportRate/'+digest([h.players[0],'snapshot']);
+    const previousRate=await base.readOnly(tx=>tx.get(ratePath));
+    const claimed=Promise.withResolvers(),allowClaim=Promise.withResolvers();
+    const applied=Promise.withResolvers(),allowApplied=Promise.withResolvers();
+    const firstPoll=Promise.withResolvers(),allowPoll=Promise.withResolvers(),thirdPoll=Promise.withResolvers();
+    let observeReader=false,polls=0,waitingRead,early,timing,appliedControl;
+    h.reload({store:{...base,
+      readOnly:async operation=>{
+        const reads=[];
+        const result=await base.readOnly(tx=>operation({get:key=>{reads.push(key);return tx.get(key);}}));
+        if(observeReader&&reads.length===1&&reads[0]===prefixKey){
+          polls++;
+          if(polls===1){firstPoll.resolve();await allowPoll.promise;}
+          if(polls===3)thirdPoll.resolve(null);
+        }
+        return result;
+      },
+      transaction:async operation=>{
+        let writeKind=null;
+        const result=await base.transaction(tx=>{
+          writeKind=null;
+          const observe=(key,value)=>{
+            if(key===prefixKey&&value.throughSequence>0)writeKind='claim';
+            if(key.startsWith('foodIngress/'+matchId+'/')&&value.request?.operation==='foodHeartbeat'&&value.response?.ok)
+              writeKind='apply';
+            if(key==='foodContact/'+matchId)writeKind='snapshot';
+          };
+          return operation({...tx,set:(key,value)=>{observe(key,value);tx.set(key,value);},
+            create:(key,value)=>{observe(key,value);tx.create(key,value);}});
+        });
+        if(writeKind==='claim'){claimed.resolve();await allowClaim.promise;}
+        if(writeKind==='apply'){applied.resolve();await allowApplied.promise;}
+        if(writeKind==='snapshot'&&loseSnapshotAck)throw new Error('Synthetic lost waiting snapshot acknowledgment after SDK commit');
+        return result;
+      },
+    }});
+    h.setTime(task.runningAt);
+    const heartbeat=h.invoke(h.players[0],'foodHeartbeat',{matchId,taskId:task.taskId});
+    try{
+      await Promise.race([claimed.promise,heartbeat.then(()=>assert.fail('Heartbeat did not claim a prefix'))]);
+      observeReader=true;
+      waitingRead=withPlanetRequestTiming(()=>h.invoke(h.players[0],'read',{matchId}),summary=>{timing=summary;});
+      await Promise.race([firstPoll.promise,waitingRead.then(()=>assert.fail('READ did not encounter the writer'))]);
+      allowClaim.resolve();
+      await Promise.race([applied.promise,heartbeat.then(()=>assert.fail('Heartbeat did not commit briefing'))]);
+      const controlPath='foodIngressControl/'+matchId;
+      appliedControl=await base.readOnly(tx=>tx.get(controlPath));
+      assert.equal(appliedControl.nextSequence,appliedControl.processedSequence+1);
+      h.setTime(task.runningAt+100);
+      allowPoll.resolve();
+      early=await Promise.race([waitingRead,thirdPoll.promise]);
+      if(early){
+        const current=await base.readOnly(tx=>tx.get(controlPath));
+        assert.equal(current.nextSequence,appliedControl.nextSequence,'the observer adds no ordered ingress');
+        assert.equal(current.processedSequence,appliedControl.processedSequence);
+      }
+    }finally{
+      allowClaim.resolve();allowPoll.resolve();allowApplied.resolve();
+      await Promise.all([heartbeat,waitingRead]);
+    }
+    assert.ok(early,'the READ should finish before the heartbeat owner releases its lease');
+    if(loseSnapshotAck)denied(early,'UNAVAILABLE');
+    else{
+      assert.equal(ok(early).foodPlayerView.participantTask.stage,'ACTIVE');
+      assert.equal(early.serverTimeMs,task.runningAt+100);
+    }
+    const rate=await base.readOnly(tx=>tx.get(ratePath));
+    assert.equal(rate.count,previousRate.count+1);
+    assert.equal(rate.lastSnapshotAt,task.runningAt+100);
+    assert.equal(timing.stages.readWhileWriterWait?.count,1);
+    assert.equal(timing.stages.authority,undefined);
+    const ownContact=await base.readOnly(tx=>tx.get('foodContact/'+matchId));
+    assert.equal(ownContact['seat-1'].expiresAt,task.runningAt+2100);
+    assert.equal((await heartbeat).serverTimeMs,task.runningAt);
+  });

@@ -193,15 +193,32 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   function requirePrefixOwner(lease:PrefixWorkerLease|null,owner:string,throughSequence:number,at:number):void{
     if(!lease||lease.owner!==owner||!Number.isSafeInteger(at)||lease.expiresAt<=at||lease.throughSequence!==throughSequence)throw new LostPrefixWorkerLease();
   }
-  async function withSessionWriter<R>(matchId:string,operation:(owner:string)=>Promise<R>,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>):Promise<R>{
+  async function withSessionWriter<R>(matchId:string,operation:(owner:string)=>Promise<R>,
+    beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>,readWhileWaiting?:()=>Promise<R|null>):Promise<R>{
     const started=performance.now();
-    let finishWait=beginPlanetTiming('sessionWriterWait');
+    let finishWait=beginPlanetTiming('sessionWriterWait'),contended=false,nextReadAt=started;
     try{
       while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
         const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
-        if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
-        const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);if(claim.owner===null)continue;
+        if(readWhileWaiting&&contended&&performance.now()>=nextReadAt){
+          if(performance.now()-started>=PREFIX_WAIT_BUDGET_MS)break;
+          // A preceding writer may have resolved the condition that sent this READ
+          // here. Recheck the normal snapshot fence without claiming the writer.
+          const observed=await timePlanetStage('readWhileWriterWait',readWhileWaiting);
+          if(observed!==null)return observed;
+          const now=performance.now();
+          if(now-started>=PREFIX_WAIT_BUDGET_MS)break;
+          nextReadAt=now+FOOD_SNAPSHOT_INTERVAL_MS;
+        }
+        if(current&&current.expiresAt>clock()){
+          contended=true;await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;
+        }
+        const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);
+        if(claim.owner===null){contended=true;continue;}
         finishWait?.();finishWait=undefined;
+        // A writer attempt can have persisted an ordered READ before losing its
+        // lease on retry. Never reroute that invocation to the snapshot path.
+        readWhileWaiting=undefined;
         let committed=false;
         try{const result=await operation(claim.owner);committed=true;return result;}
         catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
@@ -269,7 +286,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const budget=q?.operation==='read'?'snapshot':q?.operation==='foodHeartbeat'?'presence':closure?'closure'
       :q?.operation==='foodCommand'||q?.operation==='command'?'input':'control';
     const path=key('foodTransportRate',[uid,budget]),old=await tx.get<TransportRate>(path);
-    if(previous!==undefined&&hash(previous)!==hash(old))throw new Error('Unconfirmed passive Food snapshot');
+    if(previous!==undefined&&hash(previous)!==hash(old))throw new Error('Unconfirmed Food snapshot');
     if(q?.operation==='read'&&old?.lastSnapshotAt!==undefined&&at<old.lastSnapshotAt)
       throw new Error('Backward Food snapshot clock');
     const current=!old||at-old.since>=60_000?{since:at,count:0}:old;
@@ -363,6 +380,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     /** Server-only original planning window; never a command or saved-state field. */
     lockWindowEndsAt?:number;
     human?:DetachedHuman;
+    trySnapshotWhileWaiting?:boolean;
   }={}):Promise<AdmissionResult>{
     if(options.human&&options.human.operation!==q?.operation)throw new Error('Invalid detached Food operation');
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
@@ -484,7 +502,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(!options.human)await d.publish(tx,s,ctx);
       return {sequence,response:null};
     });
-    try{return options.human?await perform():await withSessionWriter(matchId,owner=>perform(owner),preflight?.beforeClaim);}
+    const readWhileWaiting=options.trySnapshotWhileWaiting&&q?.operation==='read'&&uid!==null?async():Promise<AdmissionResult|null>=>{
+      const observed=await tryFastRead(matchId,uid,true);
+      // Each wait recheck gets one capture. A fresh fence miss stays in the
+      // original bounded wait and can be reconsidered at its next interval.
+      return observed===null||typeof observed==='string'?null:{sequence:0,response:observed};
+    }:undefined;
+    try{return options.human?await perform():await withSessionWriter(matchId,owner=>perform(owner),preflight?.beforeClaim,readWhileWaiting);}
     catch(error){
       if(error instanceof RecoveredAdmission&&preflight&&uid!==null&&q){
         const expected=q.operation==='command'&&preflight.actor!==null?{seatId:preflight.actor,bindingRevision:preflight.bindingRevision!}:undefined;
@@ -737,7 +761,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       finally{finishDrain?.();}
     }
   }
-  async function tryFastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|'refresh'|null>{
+  async function tryFastRead(matchId:string,uid:string,failClosedOnRetry=false):Promise<PlanetServiceResponse|'refresh'|'possibleWrite'|null>{
     const observed=await readOnly(async tx=>{
       const s=await d.load(tx,matchId);
       if(!isFood(s)||s.status!=='running'||!s.state)return null;
@@ -749,10 +773,10 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     });
     if(observed===null)return null;
     let enteredWritePath=false;
-    let passiveRateBefore:TransportRate|null|undefined;
+    let previousRate:TransportRate|null|undefined;
     const fallback=()=>{
-      if(passiveRateBefore!==undefined)throw new Error('Unconfirmed passive Food snapshot');
-      return null;
+      if(previousRate!==undefined)throw new Error('Unconfirmed Food snapshot');
+      return enteredWritePath?'possibleWrite' as const:null;
     };
     return store.transaction(async tx=>{
       // Only small private documents are locked. Every gameplay/membership effect
@@ -787,12 +811,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         ||!lease&&livingActive)return fallback();
       // No engine boundary or online transition is skipped: only transport watermarks and
       // an already-online own lease change. Fallbacks above spend no rate budget or writes.
-      // Passive READs no longer change their own Control fence. If a retry
-      // observes a different rate record, the prior charge may have committed.
-      const rate=await foodRate(tx,uid,{operation:'read',matchId},at,passiveRateBefore);
+      // A retry that observes a different rate record may have already charged
+      // the request, even when the Control watermarks stay at the same sample.
+      const rate=await foodRate(tx,uid,{operation:'read',matchId},at,previousRate);
       enteredWritePath=true;
       tx.set(rate.path,rate.next);
       if(lease&&actor!==null){
+        if(failClosedOnRetry)previousRate=rate.old;
         tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
         const binding=s.members.find(m=>m.seatId===actor)!.bindingRevision;
         tx.set(contactKey(matchId),{...renewals,[actor]:{taskId:lease.taskId,bindingRevision:binding,
@@ -802,12 +827,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       }else{
         // An observer's clock sample has no effect on the match's admissions.
         // The exact Control read still fences the authorized snapshot.
-        passiveRateBefore=rate.old;
+        previousRate=rate.old;
       }
       return response(d.snapshot(s,uid,at),at);
     });
   }
-  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
+  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|'possibleWrite'|null>{
     const first=await tryFastRead(matchId,uid);
     if(first!=='refresh')return first;
     const next=await timePlanetStage('readFenceRefresh',()=>tryFastRead(matchId,uid));
@@ -843,10 +868,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const stored=await tx.get<Stored>(key(q.operation==='foodReceipt'?'food-command':'command',[matchId,actor.seatId,q.commandId]));
       return response({receipt:stored?.response.ok?(stored.response.result as {receipt:unknown}).receipt:null},clock());
     }));
-    if(q.operation==='read'&&!participant(initial,uid))return undefined;
-    if(q.operation==='read'){const fast=await fastRead(matchId,uid);if(fast!==null)return fast;}
+    let trySnapshotWhileWaiting=false;
+    if(q.operation==='read'){
+      if(!participant(initial,uid))return undefined;
+      const fast=await fastRead(matchId,uid);
+      if(fast!==null&&fast!=='possibleWrite')return fast;
+      trySnapshotWhileWaiting=fast===null;
+    }
     if(!['read','command','foodCommand','foodHeartbeat','advance','runBots','abort','issueRecovery','redeemRecovery'].includes(q.operation))d.reject('NOT_ALLOWED');
-    const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q));
+    const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q,{trySnapshotWhileWaiting}));
     const result=admitted.response??await drainThrough(matchId,admitted.sequence);
     if(q.operation==='runBots'&&result.ok)return response(await runBots(matchId),clock());
     return result;

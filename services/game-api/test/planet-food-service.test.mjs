@@ -436,6 +436,149 @@ test('regular read, recovery and bot metadata wait outside Session behind the po
   for(const a of writers){assert.ok(a.prefixLease);assert.equal(a.reads[0],'session/food-match');
     assert.ok(a.reads.indexOf('foodIngressControl/food-match')<a.reads.indexOf(prefixPath));}
 });
+async function readWhilePrefixOwnerAwaitsCommitAcknowledgment({count,uid,at,loseReadAck=false,heartbeat=false}){
+  const h=harness({count,presence:heartbeat}),matchId='food-match';
+  const sampledAt=heartbeat?7000:6000;
+  h.setNow(sampledAt);
+  const claim=h.store.pauseNext(prefixPath);
+  const command=heartbeat?h.handle('foodHeartbeat',{matchId,taskId:'task-2'}):h.command('writer-wait-lift');
+  let waiting,applied,checkAgain,thirdProbe,read,early,saved,timing;
+  try{
+    await claim.reached;
+    waiting=h.store.pauseReadNext(prefixPath);
+    read=withPlanetRequestTiming(()=>h.handle('read',{matchId},uid),summary=>{timing=summary;});
+    await waiting.reached;
+    assert.equal(ingress(h)[0][1].response,null,'the READ found a pending prefix');
+    applied=h.store.pauseNext('session/'+matchId);
+    claim.resume();await applied.reached;
+    h.setNow(at);
+    saved=new Map(h.store.export());
+    assert.equal(saved.get(prefixPath).throughSequence,1);
+    assert.equal(ingress(h)[0][1].response.serverTimeMs,sampledAt);
+    checkAgain=h.store.pauseReadNext(prefixPath);
+    waiting.resume();await checkAgain.reached;
+    if(loseReadAck)h.store.setRetry('foodTransportRate/'+hash([uid,'snapshot']),(records,committed)=>{
+      records.clear();for(const [key,value] of committed)records.set(key,value);
+    });
+    thirdProbe=h.store.pauseReadNext(prefixPath);
+    checkAgain.resume();
+    early=await Promise.race([read,thirdProbe.reached.then(()=>null)]);
+    if(early){
+      const current=new Map(h.store.export());
+      for(const [key,value] of saved){
+        if(key.startsWith('foodTransportRate/')||key.startsWith('foodIngressControl/'))continue;
+        assert.deepEqual(current.get(key),value,'the waiting READ cannot modify '+key);
+      }
+      assert.equal(ingress(h).length,1,'the resolved entry is the only ingress');
+      const ratePath='foodTransportRate/'+hash([uid,'snapshot']);
+      assert.equal(current.get(ratePath).count,1);
+      const newKeys=[...current.keys()].filter(key=>!saved.has(key)).sort();
+      assert.deepEqual(newKeys,uid==='p2'?['foodContact/'+matchId,ratePath]:[ratePath]);
+    }
+  }finally{
+    claim.resume();waiting?.resume();applied?.resume();checkAgain?.resume();thirdProbe?.resume();
+    assert.equal((await command).ok,true);
+  }
+  return {early,result:await read,timing,h};
+}
+
+for(const [count,uid] of [[7,'display'],[8,'p2'],[9,'host']])test(
+  `${count}: a waiting READ sees the committed prefix before its owner releases`,{timeout:6000},async()=>{
+    const {early,result,timing,h}=await readWhilePrefixOwnerAwaitsCommitAcknowledgment({count,uid,at:6250});
+    assert.ok(early,'the READ should finish while the committed prefix owner still holds its lease');
+    assert.equal(early.ok,true);assert.equal(early.serverTimeMs,6250);assert.deepEqual(early,result);
+    assert.equal(ingress(h).length,1);assert.equal(timing.stages.authority,undefined);
+    assert.equal(timing.stages.readWhileWriterWait?.count,1);
+    if(uid==='p2'){
+      const contact=new Map(h.store.export()).get('foodContact/food-match');
+      assert.deepEqual(contact,{'seat-2':{taskId:'task-2',bindingRevision:1,admittedAt:6250,expiresAt:8250}});
+    }
+  });
+
+for(const at of [6000,6250])test(
+  `a waiting participant READ with a possibly committed retry does not charge again at ${at}`,{timeout:6000},async()=>{
+    const {early,result,h}=await readWhilePrefixOwnerAwaitsCommitAcknowledgment({count:7,uid:'p2',at,loseReadAck:true});
+    assert.equal(early.error.code,'UNAVAILABLE');
+    assert.deepEqual(result,early);assert.equal(ingress(h).length,1);
+    const rate=new Map(h.store.export()).get('foodTransportRate/'+hash(['p2','snapshot']));
+    assert.deepEqual(rate,{since:at,count:1,lastSnapshotAt:at});
+  });
+
+test('a waiting READ keeps ordered fallback when a new engine boundary is due exactly at its sample', {timeout:6000},async()=>{
+  const {early,result,h}=await readWhilePrefixOwnerAwaitsCommitAcknowledgment({count:7,uid:'display',at:6450});
+  assert.equal(early,null);
+  assert.equal(result.ok,true);assert.equal(result.serverTimeMs,6450);
+  assert.equal(ingress(h).length,2);
+  assert.deepEqual((await h.current()).state.trace.map(event=>[event.kind,event.context.now]),
+    [['food',6000],['boundary',6450]]);
+});
+
+test('a waiting participant renews presence before expiry while a heartbeat owner remains held', {timeout:6000},async()=>{
+  const {early,h}=await readWhilePrefixOwnerAwaitsCommitAcknowledgment({count:7,uid:'p2',at:7999,heartbeat:true});
+  assert.equal(early.ok,true);
+  const contact=new Map(h.store.export()).get('foodContact/food-match')['seat-2'];
+  assert.equal(contact.admittedAt,7999);assert.equal(contact.expiresAt,9999);
+  const oldWake=h.store.export().find(([key,job])=>key.startsWith('deadline/')&&job.endsAt===8000&&job.status!=='complete')[1];
+  h.setNow(8000);await h.api().runDeadline(oldWake);
+  assert.equal((await h.current()).state.trace.some(event=>event.kind==='presence'&&!event.online),false);
+  assert.equal((await h.current()).foodService.leases['seat-2'].expiresAt,9999);
+});
+
+test('a waiting participant at exact expiry still drains offline and reconnect in order', {timeout:6000},async()=>{
+  const {early,result,h}=await readWhilePrefixOwnerAwaitsCommitAcknowledgment({count:7,uid:'p2',at:8000,heartbeat:true});
+  assert.equal(early,null);assert.equal(result.ok,true);assert.equal(result.serverTimeMs,8000);
+  assert.equal(ingress(h).length,2);
+  const current=await h.current();
+  assert.deepEqual(current.state.trace.map(event=>[event.kind,event.actor,event.online,event.context.now]),
+    [['presence','seat-2',false,8000],['presence','seat-2',true,8000]]);
+  assert.equal(current.foodService.leases['seat-2'].expiresAt,10000);
+});
+
+for(const restore of [false,true])test(
+  `waiting READ capture is fenced by normal ${restore?'same-UID recovery ABA':'revocation'}`,{timeout:6000},async()=>{
+    const h=harness(),matchId='food-match',controlPath='foodIngressControl/'+matchId;
+    const ratePath='foodTransportRate/'+hash(['p2','snapshot']);
+    const claim=h.store.pauseNext(prefixPath),command=h.command('waiting-recovery-lift');
+    let firstPoll,applied,nextPoll,capture,read;
+    try{
+      await claim.reached;
+      firstPoll=h.store.pauseReadNext(prefixPath);
+      read=h.handle('read',{matchId},'p2');await firstPoll.reached;
+      applied=h.store.pauseNext('session/'+matchId);
+      claim.resume();await applied.reached;
+      h.setNow(6250);
+      nextPoll=h.store.pauseReadNext(prefixPath);firstPoll.resume();await nextPoll.reached;
+      capture=h.store.pauseReadNext(controlPath);nextPoll.resume();await capture.reached;
+      applied.resume();assert.equal((await command).ok,true);
+      const recover=async uid=>{
+        const issued=await h.handle('issueRecovery',{matchId,seatId:'seat-2',requestId:'writer-wait-recovery-'+uid},'host');
+        assert.equal(issued.ok,true);
+        assert.equal((await h.handle('redeemRecovery',{matchId,requestId:'writer-wait-redeem-'+uid,recoveryCode:issued.result.recoveryCode},uid)).ok,true);
+      };
+      await recover('successor');
+      if(restore)await recover('p2');
+      h.setNow(6300);
+      const before=new Map(h.store.export());
+      assert.equal(before.has(ratePath),false);
+      capture.resume();
+      const result=await read,after=new Map(h.store.export());
+      if(restore){
+        assert.equal(result.ok,true);assert.equal(result.serverTimeMs,6300);
+        assert.equal(result.result.foodPlayerView.seatId,'seat-2');
+        assert.deepEqual(after.get(ratePath),{since:6300,count:1,lastSnapshotAt:6300});
+        const contact=after.get('foodContact/'+matchId)?.['seat-2'];
+        if(contact)assert.equal(contact.bindingRevision,3);
+      }else{
+        assert.equal(result.error.code,'FORBIDDEN');assert.equal(Object.hasOwn(result,'result'),false);
+        assert.equal(after.has(ratePath),false);
+        assert.equal(after.get('foodContact/'+matchId)?.['seat-2'],undefined);
+      }
+    }finally{
+      claim.resume();firstPoll?.resume();applied?.resume();nextPoll?.resume();capture?.resume();
+      await Promise.all([command,read]);
+    }
+  });
+
 test('known unauthorized, invalid recovery and exhausted fresh requests create no writer lease or wake',async()=>{
   const h=harness();await h.handle('read',{matchId:'food-match'});const before=h.store.export();
   for(const [uid,operation,fields,code] of [
