@@ -20,6 +20,8 @@ Designer's, runtime-safe, in `design/phone-ui/components/ship-travel/`:
 
 And: `design/tools/ship-travel-check.mjs` (captures at 390 × 844 and 430 × 932 under the production headers, full motion and reduced), `packages/design-tokens/test/ship-travel.test.mjs`, and this document.
 
+**Used unchanged:** the shared component kit, `component-kit-0.1.0` (`../kit/kit.mjs` and `kit.css`, [its page](kit.md)), for the caption pill, and through it `../icons.mjs` for the pill's `course` icon. The root is `.ms-ship-travel.ms-kit`, and `ship-travel.css` starts with `@import url("../kit/kit.css");`. The film restyles none of the kit's colours, type or states and declares no `--ms-k-*` property; it places the pill through its own part's class.
+
 It imports nothing from `prototype/`, `preview/`, fixtures or development code, and loads no picture or video: the film is drawn from code, so it has no art-loading failure state.
 
 ## Mount, update and dispose
@@ -37,8 +39,8 @@ film.frame();                 // { window, t, beat, still, state }: a plain snap
 film.dispose();               // removes the element and stops its frame loop; safe to call twice
 ```
 
-- **The host:** an element Frontend places. Recommended: the phone shell's stage, with the shell's tabs hidden (`tabs: null`), as sheet 41 draws the public film under the top bar alone. The component appends one child, `.ms-ship-travel`, which fills `size`.
-- **It takes no taps** and has no controls, so it emits no intent. It is one image to assistive technology, with a text alternative (below).
+- **The host:** an element Frontend places. Recommended: the phone shell's stage, with the shell's tabs hidden (`tabs: null`), as sheet 41 draws the public film under the top bar alone. The component appends one child, `.ms-ship-travel.ms-kit`, which fills `size`.
+- **It takes no taps** and has no controls, so it emits no intent and needs no control policy. Its only kit part is the caption pill. It is one image to assistive technology, with a text alternative (below).
 
 ## Inputs
 
@@ -51,7 +53,7 @@ film.dispose();               // removes the element and stops its frame loop; s
 | `state` | Public | `'setting'` | `'setting'` while the window runs; `'moved'` once the public projection says the ship moved this round (`navigation.lastMovedRound`). The component never infers `'moved'` from its own time |
 | `size` | Phone | 390 × 798 | `{ width, height }`: the host's size in CSS pixels |
 | `insets` | Phone | `{ top: 0, bottom: 24 }` | Keeps the ship and the caption clear of bars and the home indicator |
-| `caption` | Phone | `true` | Show sheet 41's caption pill |
+| `caption` | Phone | `true` | Show sheet 41's caption pill: the kit's `pill({ text, icon: 'course', tone: 'paper' })`, as the pack's `nav` screen draws it |
 | `status` | Phone | `'live'` | `'live'`, `'stale'` (reconnecting) or `'concealed'` |
 | `reducedMotion` | Phone | `false` | The game's Reduce motion; the device's setting is honoured as well |
 
@@ -77,11 +79,11 @@ If a window is longer or shorter than 15 s, `enter` and `settle` keep their leng
 
 ## Skip
 
-`skip()` is local to this phone: it shows the film's still at once (the same still as Reduce motion), and nothing else changes. It sends nothing and does not end the window; the top bar's clock carries on. A new window `id` clears it. Sheet 41 draws no Skip control, so the component draws none: Frontend decides what calls `skip()` (for example a tap on the stage), or does not offer it.
+`skip()` is local to this phone: it shows the film's still at once (the same still as Reduce motion), and nothing else changes. It sends nothing and does not end the window; the top bar's clock carries on. A new window `id` clears it. Sheet 41 draws no Skip control, so the component draws none: Frontend decides what calls `skip()` (for example a tap on the stage), or does not offer it. If a drawn Skip is wanted, it would be the kit's button with the kit's control policy, and a departure from sheet 41 that needs Designer's agreement and the owner's approval first.
 
 ## Reduce motion
 
-With the game's Reduce motion or the device's `prefers-reduced-motion`: the still (the ship at its cruise place, stars fixed, no streaks), shown with an 80 ms fade, and the caption. Nothing moves, travels or flickers. A change of `state` swaps caption and label with the same 80 ms fade. Turning Reduce motion off mid-window seeks to `t`.
+The Designer components' one convention: the game's setting (`reducedMotion: true`) puts `data-motion="reduced"` on the `.ms-kit` root, and the device's `prefers-reduced-motion` is honoured as well, so Frontend has one switch for every film. With either: the still (the ship at its cruise place, stars fixed, no streaks), shown with an 80 ms fade, and the caption. Nothing moves, travels or flickers. A change of `state` swaps caption and label with the same 80 ms fade. Turning Reduce motion off mid-window seeks to `t`.
 
 ## States
 
