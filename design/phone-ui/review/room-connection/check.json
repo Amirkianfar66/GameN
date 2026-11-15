@@ -1,0 +1,4226 @@
+{
+  "tool": "design/tools/room-connection-check.mjs",
+  "what": "The Planet app's room view drawn by the room scene (design/phone-ui/components/room-scene), in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
+  "candidate": {
+    "commit": "5be19f124906bbf3ae59d825510f5128d9bf8402",
+    "clean": true,
+    "dirty": []
+  },
+  "art": {
+    "base": "c96e0925aa99db891c19ac49ebf67836285e9200",
+    "originMain": "c96e0925aa99db891c19ac49ebf67836285e9200",
+    "note": "The harness's art plugins over a clean worktree of origin/main; the harness and its asset tooling are byte for byte that commit's"
+  },
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated; the harness bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/room-b": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "control": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-room-b.jpg",
+      "sha256": "439418246bd76d62b7b640168e26fcd7949e75471749661d74678158378255f5",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -321.41,
+          "y": 64.92,
+          "width": 941.52,
+          "height": 706.13
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 48.33,
+              "y": 402.52,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -85.3,
+              "y": 399.33,
+              "width": 303.41,
+              "height": 303.41
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 176.77,
+              "y": 396.98,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 75.41,
+              "y": 275.16,
+              "width": 262.03,
+              "height": 262.03
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": "Windows",
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 63
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/room-a": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-room-a.jpg",
+      "sha256": "47c77b27977ababa5bea5dac7a508193356e1cccc17c93fa65ff4ac433dc7932",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -277.14,
+          "y": 67.89,
+          "width": 933.59,
+          "height": 700.2
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 53.75,
+              "y": 297.22,
+              "width": 278.98,
+              "height": 278.98
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -58.06,
+              "y": 306.92,
+              "width": 280.34,
+              "height": 280.34
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 196.56,
+              "y": 203.42,
+              "width": 259.83,
+              "height": 259.83
+            }
+          },
+          {
+            "seat": "seat-5",
+            "body": {
+              "x": -73.72,
+              "y": 193.14,
+              "width": 257.09,
+              "height": 257.09
+            }
+          }
+        ],
+        "figureLayers": 4,
+        "tags": [
+          "1Crew 1",
+          "2You",
+          "4Crew 4",
+          "5Crew 5"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 78
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": [
+            {
+              "part": "rest-seat-3-screen",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "rest-seat-3-lamp",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "tag-seat-3",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-3-body",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-3-front",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/command-room": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-command-room.jpg",
+      "sha256": "403ec9d87aebf019ad106a06f86e0a1cd9c1fd25f0a0364c04f4bc12c26a9e22",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "command-room",
+          "label": "Command Room",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -308.55,
+          "y": 40.34,
+          "width": 1007.11,
+          "height": 755.33
+        },
+        "figures": [
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": 15.59,
+              "y": 282.66,
+              "width": 354.06,
+              "height": 354.06
+            }
+          }
+        ],
+        "figureLayers": 2,
+        "tags": [
+          "7You"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 95,
+          "running": 95
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/hospital": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-hospital.jpg",
+      "sha256": "30b0df06130c91d49b983202ade8a6d660165ba854d0680e619f92f508e25f18",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "hospital",
+          "label": "Hospital",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -269.34,
+          "y": 20.67,
+          "width": 1007.11,
+          "height": 755.33
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": -124.89,
+              "y": 322.63,
+              "width": 418.97,
+              "height": 418.97
+            }
+          }
+        ],
+        "figureLayers": 2,
+        "tags": [
+          "6You· Injured"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 47,
+          "running": 47
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": [
+            {
+              "part": "rest-seat-6-screen",
+              "box": {
+                "x": 96.13,
+                "y": 552.94,
+                "width": 51.14,
+                "height": 30.67
+              },
+              "hidden": false
+            },
+            {
+              "part": "rest-seat-6-lamp",
+              "box": {
+                "x": 19.91,
+                "y": 552.3,
+                "width": 25.56,
+                "height": 25.56
+              },
+              "hidden": false
+            },
+            {
+              "part": "tag-seat-6",
+              "box": {
+                "x": 2,
+                "y": 551.03,
+                "width": 68,
+                "height": 28
+              },
+              "hidden": false
+            },
+            {
+              "part": "critical-seat-6-body",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-6-front",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/jail": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-jail.jpg",
+      "sha256": "35027e2f8390436528d3125cb34ff3d6036b7b1f56fdffa1aefc7b3ea2ec55a2",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "jail",
+          "label": "Jail",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -113.48,
+          "y": 189.3,
+          "width": 609.83,
+          "height": 457.38
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": -55.7,
+              "y": 270.56,
+              "width": 175.08,
+              "height": 175.08
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 104.52,
+              "y": 270.25,
+              "width": 171.52,
+              "height": 171.52
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 259.92,
+              "y": 270.56,
+              "width": 175.08,
+              "height": 175.08
+            }
+          }
+        ],
+        "figureLayers": 3,
+        "tags": [
+          "6You",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 20,
+          "running": 20
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/blackout-lit": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "fourPeople": true
+      },
+      "info": {
+        "infoColdFrameDiffers": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-blackout-lit.jpg",
+      "sha256": "9da1d5742e3fda194240a2bc8baf1596785be61e421e787c90d62064ca3f8163",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -285.05,
+          "y": 87.58,
+          "width": 881.11,
+          "height": 660.83
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 27.25,
+              "y": 304.02,
+              "width": 263.3,
+              "height": 263.3
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -78.28,
+              "y": 313.17,
+              "width": 264.58,
+              "height": 264.58
+            }
+          },
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": 168.7,
+              "y": 355.94,
+              "width": 276.2,
+              "height": 276.2
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 162.03,
+              "y": 215.48,
+              "width": 245.22,
+              "height": 245.22
+            }
+          }
+        ],
+        "figureLayers": 4,
+        "tags": [
+          "1Crew 1",
+          "2Crew 2",
+          "3You",
+          "4Crew 4"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 78
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/blackout-dark": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "held": true,
+        "lights": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-blackout-dark.jpg",
+      "sha256": "350b3ea3bd5c0fb5019ea8d3b9b15ea9296ce09c7bbd7df190ae0a51153c0f63",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "dark",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -285.05,
+          "y": 87.58,
+          "width": 881.11,
+          "height": 660.83
+        },
+        "figures": [],
+        "figureLayers": 0,
+        "tags": [],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 48,
+          "running": 48
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": true,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/blackout-slots": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "slots": true,
+        "held": true,
+        "noBoardTargets": true,
+        "tapA2": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-blackout-slots.jpg",
+      "sha256": "a056d3c931bb6bb0065a051e426fdf7d43fb4977767b017668f9981e8840f77d",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "dark",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -285.05,
+          "y": 87.58,
+          "width": 881.11,
+          "height": 660.83
+        },
+        "figures": [],
+        "figureLayers": 0,
+        "tags": [],
+        "presses": [],
+        "slots": [
+          {
+            "slot": "A1",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 137.27,
+              "y": 419.64,
+              "width": 48.83,
+              "height": 48.83
+            }
+          },
+          {
+            "slot": "A2",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 30.36,
+              "y": 387.27,
+              "width": 49.06,
+              "height": 49.06
+            }
+          },
+          {
+            "slot": "A3",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 253.19,
+              "y": 496.06,
+              "width": 51.22,
+              "height": 51.22
+            }
+          },
+          {
+            "slot": "A4",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 264.23,
+              "y": 285.28,
+              "width": 45.47,
+              "height": 45.47
+            }
+          }
+        ],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 48,
+          "running": 48
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": true,
+          "connection": "live",
+          "concealed": false,
+          "panel": "actions",
+          "action": {
+            "type": "SELECT_BLACKOUT_SLOT",
+            "step": "slots",
+            "selected": []
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/seats": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "offered": true,
+        "noBoardTargets": true,
+        "tapPlayer2": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-seats.jpg",
+      "sha256": "f9c5895fa6663fd34ef38992356478849d8e20ea4b2ec1b8aacb014e261a9d97",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -245.83,
+          "y": 106.89,
+          "width": 829.61,
+          "height": 622.2
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 48.22,
+              "y": 310.67,
+              "width": 247.91,
+              "height": 247.91
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -51.15,
+              "y": 319.3,
+              "width": 249.13,
+              "height": 249.13
+            }
+          },
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": 181.41,
+              "y": 359.58,
+              "width": 260.06,
+              "height": 260.06
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 175.13,
+              "y": 227.31,
+              "width": 230.89,
+              "height": 230.89
+            }
+          },
+          {
+            "seat": "seat-5",
+            "body": {
+              "x": -65.06,
+              "y": 218.19,
+              "width": 228.47,
+              "height": 228.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "1Crew 1",
+          "2Crew 2",
+          "3Crew 3",
+          "4Crew 4",
+          "5Crew 5"
+        ],
+        "presses": [
+          {
+            "seat": "seat-1",
+            "label": "Crew 1, player 1",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 151.81,
+              "y": 419.55,
+              "width": 45.97,
+              "height": 45.97
+            }
+          },
+          {
+            "seat": "seat-2",
+            "label": "Crew 2, player 2",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 51.16,
+              "y": 389.06,
+              "width": 46.2,
+              "height": 46.2
+            }
+          },
+          {
+            "seat": "seat-3",
+            "label": "Crew 3, player 3",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 260.94,
+              "y": 491.5,
+              "width": 48.22,
+              "height": 48.22
+            }
+          }
+        ],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 78
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "actions",
+          "action": {
+            "type": "BLOCK_MOVE",
+            "step": "targets",
+            "selected": []
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/slots": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "offered": true,
+        "noBoardTargets": true,
+        "tapB5": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-slots.jpg",
+      "sha256": "189129495c999ed68e1c69a080305253cf219ca13759862d9d89aa0a5b4183bb",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -321.41,
+          "y": 64.92,
+          "width": 941.52,
+          "height": 706.13
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 48.33,
+              "y": 402.52,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -85.3,
+              "y": 399.33,
+              "width": 303.41,
+              "height": 303.41
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 176.77,
+              "y": 396.98,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 75.41,
+              "y": 275.16,
+              "width": 262.03,
+              "height": 262.03
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [
+          {
+            "slot": "B5",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 18.17,
+              "y": 350.73,
+              "width": 48.08,
+              "height": 48.08
+            }
+          }
+        ],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 63
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": {
+            "type": "MOVE",
+            "step": "slots",
+            "selected": [
+              "Room B"
+            ]
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/expired": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "status": true,
+        "veil": true,
+        "offersEnded": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-expired.jpg",
+      "sha256": "48f34fe559ab0e8762ae005fb59ce92962274a980cb7907817e404f049a84914",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "stale",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -245.83,
+          "y": 106.89,
+          "width": 829.61,
+          "height": 622.2
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 48.22,
+              "y": 310.67,
+              "width": 247.91,
+              "height": 247.91
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -51.15,
+              "y": 319.3,
+              "width": 249.13,
+              "height": 249.13
+            }
+          },
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": 181.41,
+              "y": 359.58,
+              "width": 260.06,
+              "height": 260.06
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 175.13,
+              "y": 227.31,
+              "width": 230.89,
+              "height": 230.89
+            }
+          },
+          {
+            "seat": "seat-5",
+            "body": {
+              "x": -65.06,
+              "y": 218.19,
+              "width": 228.47,
+              "height": 228.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "1Crew 1",
+          "2Crew 2",
+          "3Crew 3",
+          "4Crew 4",
+          "5Crew 5"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 1,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/reconnecting": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "status": true,
+        "veil": true,
+        "noControl": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-reconnecting.jpg",
+      "sha256": "42e4884f6137ce3defb5cd97574fa9bfe5d0db1754e652fa4b8df1d0116e8b86",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "stale",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -321.41,
+          "y": 64.92,
+          "width": 941.52,
+          "height": 706.13
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 48.33,
+              "y": 402.52,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -85.3,
+              "y": 399.33,
+              "width": 303.41,
+              "height": 303.41
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 176.77,
+              "y": 396.98,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 75.41,
+              "y": 275.16,
+              "width": 262.03,
+              "height": 262.03
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 1,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "stale",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/concealed": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "hidden": true,
+        "nobody": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-concealed.jpg",
+      "sha256": "f9ec7519ef4561ad0b62c237bc5fca6e990f6a3762eb8439a537d120c1f89e9f",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": null,
+          "label": "Room hidden",
+          "status": "concealed",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": null,
+        "figures": [],
+        "figureLayers": 0,
+        "tags": [],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 1,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 0,
+          "animations": 0,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "stale",
+          "concealed": true,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/reduced": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "reduced": true,
+        "still": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-reduced.jpg",
+      "sha256": "7194008f23dfe8fcbe74039c5fcb920d12fa12a78c5ef799df7d590a9b1be71c",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "reduced",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -321.41,
+          "y": 64.92,
+          "width": 941.52,
+          "height": 706.13
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 48.33,
+              "y": 402.52,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -85.3,
+              "y": 399.33,
+              "width": 303.41,
+              "height": 303.41
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 176.77,
+              "y": 396.98,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 75.41,
+              "y": 275.16,
+              "width": 262.03,
+              "height": 262.03
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": "Windows",
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 0,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/blocked": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "drawn": true,
+        "onSeat7": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-blocked.jpg",
+      "sha256": "be6d04db9c43ecba5dabfba57928a55d9ca4756d6e71f93fa531a10892c9819d",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -321.41,
+          "y": 64.92,
+          "width": 941.52,
+          "height": 706.13
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 48.33,
+              "y": 402.52,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -85.3,
+              "y": 399.33,
+              "width": 303.41,
+              "height": 303.41
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 176.77,
+              "y": 396.98,
+              "width": 297.89,
+              "height": 297.89
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 75.41,
+              "y": 275.16,
+              "width": 262.03,
+              "height": 262.03
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": "Windows",
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 63
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [
+            {
+              "id": "check-room-block",
+              "parts": [
+                {
+                  "x": 8.09,
+                  "y": 511.77,
+                  "width": 112.55,
+                  "height": 112.55
+                },
+                {
+                  "x": 8.09,
+                  "y": 511.77,
+                  "width": 112.55,
+                  "height": 112.55
+                },
+                {
+                  "x": 8.09,
+                  "y": 511.77,
+                  "width": 112.55,
+                  "height": 112.55
+                },
+                {
+                  "x": 8.09,
+                  "y": 511.77,
+                  "width": 112.55,
+                  "height": 112.55
+                },
+                {
+                  "x": 2,
+                  "y": 505.91,
+                  "width": 128,
+                  "height": 32
+                }
+              ],
+              "label": "ATTACK BLOCKED"
+            }
+          ],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/hospital-films": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "offered": true,
+        "rescueTag": true,
+        "standInLeftOut": true,
+        "monitor": true
+      },
+      "file": "design/phone-ui/review/room-connection/390x844-hospital-films.jpg",
+      "sha256": "24770e44d819103a54dcb5d4ed513c2735366324c8beb40f5e71ac48ffbdc1c8",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "hospital",
+          "label": "Hospital",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 716
+          }
+        },
+        "back": {
+          "x": -269.34,
+          "y": 20.67,
+          "width": 1007.11,
+          "height": 755.33
+        },
+        "figures": [
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": -124.89,
+              "y": 322.63,
+              "width": 418.97,
+              "height": 418.97
+            }
+          }
+        ],
+        "figureLayers": 2,
+        "tags": [
+          "3Crew 3· Injured"
+        ],
+        "presses": [
+          {
+            "seat": "seat-3",
+            "label": "Crew 3, player 3",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 33.05,
+              "y": 606.3,
+              "width": 64,
+              "height": 64
+            }
+          }
+        ],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 47,
+          "running": 47
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": [
+            {
+              "part": "rest-seat-3-screen",
+              "box": {
+                "x": 96.13,
+                "y": 552.94,
+                "width": 51.14,
+                "height": 30.67
+              },
+              "hidden": false
+            },
+            {
+              "part": "rest-seat-3-lamp",
+              "box": {
+                "x": 19.91,
+                "y": 552.3,
+                "width": 25.56,
+                "height": 25.56
+              },
+              "hidden": false
+            },
+            {
+              "part": "tag-seat-3",
+              "box": {
+                "x": 2,
+                "y": 557.03,
+                "width": 68,
+                "height": 16
+              },
+              "hidden": false
+            },
+            {
+              "part": "critical-seat-3-body",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-3-front",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "actions",
+          "action": {
+            "type": "RESCUE",
+            "step": "targets",
+            "selected": []
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/room-b": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "control": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-room-b.jpg",
+      "sha256": "2d7734c35b6a6ec71a36e55bd6c247ab43993c94e35edc81abd2d0f3ce45b1e9",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -355.48,
+          "y": 71.95,
+          "width": 1040.09,
+          "height": 780.08
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 52.98,
+              "y": 444.89,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -94.66,
+              "y": 441.38,
+              "width": 335.19,
+              "height": 335.19
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 194.86,
+              "y": 438.8,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 82.89,
+              "y": 304.2,
+              "width": 289.47,
+              "height": 289.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": "Windows",
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 63
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/room-a": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-room-a.jpg",
+      "sha256": "0c67967f440db885815f4e74fa4160f74ade40171bbf71936492398a3b90f885",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -306.59,
+          "y": 75.23,
+          "width": 1031.36,
+          "height": 773.52
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 58.97,
+              "y": 328.58,
+              "width": 308.19,
+              "height": 308.19
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -64.56,
+              "y": 339.3,
+              "width": 309.7,
+              "height": 309.7
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 216.73,
+              "y": 224.95,
+              "width": 287.05,
+              "height": 287.05
+            }
+          },
+          {
+            "seat": "seat-5",
+            "body": {
+              "x": -81.86,
+              "y": 213.59,
+              "width": 284.02,
+              "height": 284.02
+            }
+          }
+        ],
+        "figureLayers": 4,
+        "tags": [
+          "1Crew 1",
+          "2You",
+          "4Crew 4",
+          "5Crew 5"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 78
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": [
+            {
+              "part": "rest-seat-3-screen",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "rest-seat-3-lamp",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "tag-seat-3",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-3-body",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-3-front",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/command-room": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-command-room.jpg",
+      "sha256": "c0decd2e6ee4a03de217f45d32772113b365da9ce90adcc70fddbab725d82646",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "command-room",
+          "label": "Command Room",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -350.44,
+          "y": 37.92,
+          "width": 1130.89,
+          "height": 848.17
+        },
+        "figures": [
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": 13.55,
+              "y": 310.03,
+              "width": 397.58,
+              "height": 397.58
+            }
+          }
+        ],
+        "figureLayers": 2,
+        "tags": [
+          "7You"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 95,
+          "running": 95
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/hospital": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-hospital.jpg",
+      "sha256": "a864ce442acc0eb2c78076317fcd80e655c52ee0044242541448b2a9a0b07225",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "hospital",
+          "label": "Hospital",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -302.94,
+          "y": 15.83,
+          "width": 1130.89,
+          "height": 848.17
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": -140.73,
+              "y": 354.91,
+              "width": 470.47,
+              "height": 470.47
+            }
+          }
+        ],
+        "figureLayers": 2,
+        "tags": [
+          "6You· Injured"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 47,
+          "running": 47
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": [
+            {
+              "part": "rest-seat-6-screen",
+              "box": {
+                "x": 107.45,
+                "y": 613.52,
+                "width": 57.42,
+                "height": 34.45
+              },
+              "hidden": false
+            },
+            {
+              "part": "rest-seat-6-lamp",
+              "box": {
+                "x": 21.86,
+                "y": 612.8,
+                "width": 28.7,
+                "height": 28.7
+              },
+              "hidden": false
+            },
+            {
+              "part": "tag-seat-6",
+              "box": {
+                "x": 2,
+                "y": 613.09,
+                "width": 68,
+                "height": 28
+              },
+              "hidden": false
+            },
+            {
+              "part": "critical-seat-6-body",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-6-front",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/jail": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-jail.jpg",
+      "sha256": "2fd6bbcd759510db278ce18af6093941e24b2f6f5f8d1af86c8bdd86de2981f0",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "jail",
+          "label": "Jail",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -125.8,
+          "y": 209.36,
+          "width": 673.69,
+          "height": 505.27
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": -61.95,
+              "y": 299.14,
+              "width": 193.42,
+              "height": 193.42
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 115.03,
+              "y": 298.78,
+              "width": 189.47,
+              "height": 189.47
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 286.72,
+              "y": 299.14,
+              "width": 193.42,
+              "height": 193.42
+            }
+          }
+        ],
+        "figureLayers": 3,
+        "tags": [
+          "6You",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 20,
+          "running": 20
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/blackout-lit": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "fourPeople": true
+      },
+      "info": {
+        "infoColdFrameDiffers": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-blackout-lit.jpg",
+      "sha256": "78aa4781a0056b8f1e36e7d0c17d45665e06afe1ab827b447586e745b854da0f",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -315.31,
+          "y": 96.97,
+          "width": 973.38,
+          "height": 730.03
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 29.69,
+              "y": 336.08,
+              "width": 290.86,
+              "height": 290.86
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -86.9,
+              "y": 346.19,
+              "width": 292.3,
+              "height": 292.3
+            }
+          },
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": 185.95,
+              "y": 393.45,
+              "width": 305.13,
+              "height": 305.13
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 178.58,
+              "y": 238.28,
+              "width": 270.91,
+              "height": 270.91
+            }
+          }
+        ],
+        "figureLayers": 4,
+        "tags": [
+          "1Crew 1",
+          "2Crew 2",
+          "3You",
+          "4Crew 4"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 78
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/blackout-dark": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "held": true,
+        "lights": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-blackout-dark.jpg",
+      "sha256": "3991d6091c7a7966438b69b5d76455b285bd6f67756c6882a1897282ca702a0c",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "dark",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -315.31,
+          "y": 96.97,
+          "width": 973.38,
+          "height": 730.03
+        },
+        "figures": [],
+        "figureLayers": 0,
+        "tags": [],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 48,
+          "running": 48
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": true,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/blackout-slots": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "slots": true,
+        "held": true,
+        "noBoardTargets": true,
+        "tapA2": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-blackout-slots.jpg",
+      "sha256": "20388faafa3c88da11bd9780c17f7087c126d1c68d173dd9b7323e79c9607199",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "dark",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -315.31,
+          "y": 96.97,
+          "width": 973.38,
+          "height": 730.03
+        },
+        "figures": [],
+        "figureLayers": 0,
+        "tags": [],
+        "presses": [],
+        "slots": [
+          {
+            "slot": "A1",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 151.22,
+              "y": 463.83,
+              "width": 53.94,
+              "height": 53.94
+            }
+          },
+          {
+            "slot": "A2",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 33.13,
+              "y": 428.05,
+              "width": 54.2,
+              "height": 54.2
+            }
+          },
+          {
+            "slot": "A3",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 279.28,
+              "y": 548.23,
+              "width": 56.58,
+              "height": 56.58
+            }
+          },
+          {
+            "slot": "A4",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 291.48,
+              "y": 315.39,
+              "width": 50.23,
+              "height": 50.23
+            }
+          }
+        ],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 48,
+          "running": 48
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": true,
+          "connection": "live",
+          "concealed": false,
+          "panel": "actions",
+          "action": {
+            "type": "SELECT_BLACKOUT_SLOT",
+            "step": "slots",
+            "selected": []
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/seats": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "offered": true,
+        "noBoardTargets": true,
+        "tapPlayer2": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-seats.jpg",
+      "sha256": "089604ec87ba51b33e7c4a0d8a1c4e5d04b76875b37dc236f5d161f16f0b97c4",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -272,
+          "y": 118.31,
+          "width": 916.48,
+          "height": 687.36
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 52.84,
+              "y": 343.44,
+              "width": 273.86,
+              "height": 273.86
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -56.92,
+              "y": 352.95,
+              "width": 275.2,
+              "height": 275.2
+            }
+          },
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": 199.98,
+              "y": 397.45,
+              "width": 287.3,
+              "height": 287.3
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 193.03,
+              "y": 251.34,
+              "width": 255.08,
+              "height": 255.08
+            }
+          },
+          {
+            "seat": "seat-5",
+            "body": {
+              "x": -72.3,
+              "y": 241.27,
+              "width": 252.39,
+              "height": 252.39
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "1Crew 1",
+          "2Crew 2",
+          "3Crew 3",
+          "4Crew 4",
+          "5Crew 5"
+        ],
+        "presses": [
+          {
+            "seat": "seat-1",
+            "label": "Crew 1, player 1",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 167.28,
+              "y": 463.72,
+              "width": 50.78,
+              "height": 50.78
+            }
+          },
+          {
+            "seat": "seat-2",
+            "label": "Crew 2, player 2",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 56.09,
+              "y": 430.03,
+              "width": 51.03,
+              "height": 51.03
+            }
+          },
+          {
+            "seat": "seat-3",
+            "label": "Crew 3, player 3",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 287.84,
+              "y": 543.2,
+              "width": 53.28,
+              "height": 53.28
+            }
+          }
+        ],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 78
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "actions",
+          "action": {
+            "type": "BLOCK_MOVE",
+            "step": "targets",
+            "selected": []
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/slots": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "offered": true,
+        "noBoardTargets": true,
+        "tapB5": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-slots.jpg",
+      "sha256": "8c68e9ca28889d28969cf5266afde6385ab461db0fe1f911f70cb2d3c04ec185",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -355.48,
+          "y": 71.95,
+          "width": 1040.09,
+          "height": 780.08
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 52.98,
+              "y": 444.89,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -94.66,
+              "y": 441.38,
+              "width": 335.19,
+              "height": 335.19
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 194.86,
+              "y": 438.8,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 82.89,
+              "y": 304.2,
+              "width": 289.47,
+              "height": 289.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [
+          {
+            "slot": "B5",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 19.66,
+              "y": 387.69,
+              "width": 53.11,
+              "height": 53.11
+            }
+          }
+        ],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 63
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": {
+            "type": "MOVE",
+            "step": "slots",
+            "selected": [
+              "Room B"
+            ]
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/expired": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "status": true,
+        "veil": true,
+        "offersEnded": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-expired.jpg",
+      "sha256": "75f4c13317c5966467c27cb54c8d8df0f888730b719624dee31d49bee47c806f",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-a",
+          "label": "Room A",
+          "status": "stale",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -272,
+          "y": 118.31,
+          "width": 916.48,
+          "height": 687.36
+        },
+        "figures": [
+          {
+            "seat": "seat-1",
+            "body": {
+              "x": 52.84,
+              "y": 343.44,
+              "width": 273.86,
+              "height": 273.86
+            }
+          },
+          {
+            "seat": "seat-2",
+            "body": {
+              "x": -56.92,
+              "y": 352.95,
+              "width": 275.2,
+              "height": 275.2
+            }
+          },
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": 199.98,
+              "y": 397.45,
+              "width": 287.3,
+              "height": 287.3
+            }
+          },
+          {
+            "seat": "seat-4",
+            "body": {
+              "x": 193.03,
+              "y": 251.34,
+              "width": 255.08,
+              "height": 255.08
+            }
+          },
+          {
+            "seat": "seat-5",
+            "body": {
+              "x": -72.3,
+              "y": 241.27,
+              "width": 252.39,
+              "height": 252.39
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "1Crew 1",
+          "2Crew 2",
+          "3Crew 3",
+          "4Crew 4",
+          "5Crew 5"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 1,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 78,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/reconnecting": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "status": true,
+        "veil": true,
+        "noControl": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-reconnecting.jpg",
+      "sha256": "dbb5357e27b0d65823891d2c04ffb81585cbb6d13883d5960caa2633e6ec8fd0",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "stale",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -355.48,
+          "y": 71.95,
+          "width": 1040.09,
+          "height": 780.08
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 52.98,
+              "y": 444.89,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -94.66,
+              "y": 441.38,
+              "width": 335.19,
+              "height": 335.19
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 194.86,
+              "y": 438.8,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 82.89,
+              "y": 304.2,
+              "width": 289.47,
+              "height": 289.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 1,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "stale",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/concealed": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "hidden": true,
+        "nobody": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-concealed.jpg",
+      "sha256": "89f346124018ac92c4dfc5a00b9082ec72d008ee50b16d65f4e24f7a9e9cd3d9",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": null,
+          "label": "Room hidden",
+          "status": "concealed",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": null,
+        "figures": [],
+        "figureLayers": 0,
+        "tags": [],
+        "presses": [],
+        "slots": [],
+        "control": null,
+        "cover": 1,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 0,
+          "animations": 0,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "stale",
+          "concealed": true,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/reduced": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "reduced": true,
+        "still": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-reduced.jpg",
+      "sha256": "763f06a960eb5c0b064b83374f5409827d161cd6f7c7653fb215457adef8c659",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "reduced",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -355.48,
+          "y": 71.95,
+          "width": 1040.09,
+          "height": 780.08
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 52.98,
+              "y": 444.89,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -94.66,
+              "y": 441.38,
+              "width": 335.19,
+              "height": 335.19
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 194.86,
+              "y": 438.8,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 82.89,
+              "y": 304.2,
+              "width": 289.47,
+              "height": 289.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": "Windows",
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 0,
+          "running": 0
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/blocked": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "drawn": true,
+        "onSeat7": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-blocked.jpg",
+      "sha256": "38f8afa8f6855756d39c1941b89679d98107b534454f684ca768b0605d8d4cd3",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "room-b",
+          "label": "Room B",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -355.48,
+          "y": 71.95,
+          "width": 1040.09,
+          "height": 780.08
+        },
+        "figures": [
+          {
+            "seat": "seat-6",
+            "body": {
+              "x": 52.98,
+              "y": 444.89,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-7",
+            "body": {
+              "x": -94.66,
+              "y": 441.38,
+              "width": 335.19,
+              "height": 335.19
+            }
+          },
+          {
+            "seat": "seat-8",
+            "body": {
+              "x": 194.86,
+              "y": 438.8,
+              "width": 329.09,
+              "height": 329.09
+            }
+          },
+          {
+            "seat": "seat-9",
+            "body": {
+              "x": 82.89,
+              "y": 304.2,
+              "width": 289.47,
+              "height": 289.47
+            }
+          }
+        ],
+        "figureLayers": 5,
+        "tags": [
+          "6You",
+          "7Crew 7",
+          "8Crew 8",
+          "9Crew 9"
+        ],
+        "presses": [],
+        "slots": [],
+        "control": "Windows",
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 63,
+          "running": 63
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [
+            {
+              "id": "check-room-block",
+              "parts": [
+                {
+                  "x": 8.53,
+                  "y": 565.59,
+                  "width": 124.33,
+                  "height": 124.33
+                },
+                {
+                  "x": 8.53,
+                  "y": 565.59,
+                  "width": 124.33,
+                  "height": 124.33
+                },
+                {
+                  "x": 8.53,
+                  "y": 565.59,
+                  "width": 124.33,
+                  "height": 124.33
+                },
+                {
+                  "x": 8.53,
+                  "y": 565.59,
+                  "width": 124.33,
+                  "height": 124.33
+                },
+                {
+                  "x": 6.69,
+                  "y": 562.67,
+                  "width": 128,
+                  "height": 32
+                }
+              ],
+              "label": "ATTACK BLOCKED"
+            }
+          ],
+          "films": []
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "board",
+          "action": null
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/hospital-films": {
+      "ok": true,
+      "checks": {
+        "scene": true,
+        "noBoardRoom": true,
+        "people": true,
+        "ambient": true,
+        "motion": true,
+        "policy": true,
+        "problems": true,
+        "offered": true,
+        "rescueTag": true,
+        "standInLeftOut": true,
+        "monitor": true
+      },
+      "file": "design/phone-ui/review/room-connection/430x932-hospital-films.jpg",
+      "sha256": "1d8884ec524b7076f0d0ce4a6a43da93aa2590e160cfe9765f4fa098b2a0b32b",
+      "seen": {
+        "view": "room",
+        "hostHidden": false,
+        "scene": {
+          "room": "hospital",
+          "label": "Hospital",
+          "status": "live",
+          "lighting": "lit",
+          "motion": "full",
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 804
+          }
+        },
+        "back": {
+          "x": -302.94,
+          "y": 15.83,
+          "width": 1130.89,
+          "height": 848.17
+        },
+        "figures": [
+          {
+            "seat": "seat-3",
+            "body": {
+              "x": -140.73,
+              "y": 354.91,
+              "width": 470.47,
+              "height": 470.47
+            }
+          }
+        ],
+        "figureLayers": 2,
+        "tags": [
+          "3Crew 3· Injured"
+        ],
+        "presses": [
+          {
+            "seat": "seat-3",
+            "label": "Crew 3, player 3",
+            "picked": false,
+            "disabled": false,
+            "box": {
+              "x": 40.55,
+              "y": 677.38,
+              "width": 64,
+              "height": 64
+            }
+          }
+        ],
+        "slots": [],
+        "control": null,
+        "cover": 0,
+        "veil": 0,
+        "notice": 0,
+        "ambient": {
+          "svgs": 1,
+          "animations": 47,
+          "running": 47
+        },
+        "board": {
+          "rooms": 0,
+          "actors": 0,
+          "seatTargets": 0,
+          "slotTargets": 0,
+          "night": 0
+        },
+        "overlay": {
+          "block": [],
+          "films": [
+            {
+              "part": "rest-seat-3-screen",
+              "box": {
+                "x": 107.45,
+                "y": 613.52,
+                "width": 57.42,
+                "height": 34.45
+              },
+              "hidden": false
+            },
+            {
+              "part": "rest-seat-3-lamp",
+              "box": {
+                "x": 21.86,
+                "y": 612.8,
+                "width": 28.7,
+                "height": 28.7
+              },
+              "hidden": false
+            },
+            {
+              "part": "tag-seat-3",
+              "box": {
+                "x": 2,
+                "y": 619.09,
+                "width": 68,
+                "height": 16
+              },
+              "hidden": false
+            },
+            {
+              "part": "critical-seat-3-body",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "part": "critical-seat-3-front",
+              "box": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        },
+        "model": {
+          "dark": false,
+          "connection": "live",
+          "concealed": false,
+          "panel": "actions",
+          "action": {
+            "type": "RESCUE",
+            "step": "targets",
+            "selected": []
+          }
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-dDz26mMB.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    }
+  }
+}

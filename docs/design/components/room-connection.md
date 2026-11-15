@@ -209,7 +209,17 @@ These refuse the changed Planet files until Integration approves. Each was found
 ### Not run
 
 - Physical phones, Safari, screen readers, the frame rate and a live match.
-- The merge gate's comparison (`design/tools/phone-ui-native-compare.mjs`) is run on the recorded commit for the PR. Its output stays outside the repository.
+### The merge gate's comparison
+
+`design/tools/phone-ui-native-compare.mjs --only room-a,room-b,command-room,hospital,targeting,blackout,reconnecting,block`:
+- It sets the pack beside this build, part by part. Its `compare.json` is in `design/phone-ui/review/room-connection/`; its pictures stay outside the repository.
+- The build is the check's own bundle, so it names the same candidate and art commits.
+- **The room surfaces agree:** the pack's prototype and the game now draw the same component.
+- **The differences are elsewhere:**
+  - the shell's bars and its targeting bar with Cancel, which the app does not have yet;
+  - Room B's control label (no number, see above);
+  - the harness's sample names and rooms;
+  - the bands described above.
 
 ## Open
 
