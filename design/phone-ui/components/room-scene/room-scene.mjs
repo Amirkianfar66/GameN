@@ -28,7 +28,7 @@ import { clamp, phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
 import { REACH, extensionLayer, zoomFor } from './room-extension.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.3.0';
+export const ROOM_SCENE_VERSION = 'room-scene-0.4.0';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -49,6 +49,12 @@ export const ROOM_SCENE_DEFAULTS = Object.freeze({
   // The room-art release the match's bundles carry: room-drawing-1.0.0 frames a fifth wider, with the
   // room's extension (room-extension.mjs); anything else, or null, keeps the pack's framing (#229).
   roomArt: null,
+  // The game's films that draw a person themselves (a patient, a walk, a release): those people keep
+  // their tag, turn mark and press square here, and their figure is not drawn. Seats, as in `people`.
+  standIns: Object.freeze([]),
+  // A person's recoil ("ATTACK BLOCKED"): { seat, dx, dy } moves that figure by dx, dy CSS pixels; its
+  // tag and press square stay. null for none.
+  brace: null,
 });
 
 const sameSeat = (a, b) => a !== null && a !== undefined && String(a) === String(b);
@@ -71,6 +77,14 @@ export function nextRoomSceneInput(previous, input) {
   if (next.clock !== null && typeof next.clock?.now !== 'function') throw new TypeError('A clock is null or has now()');
   if (next.hold !== null && next.hold !== false && next.hold !== true && typeof next.hold !== 'string') throw new TypeError('hold is a Blackout window\'s id, true, or null');
   if (next.roomArt !== null && typeof next.roomArt !== 'string') throw new TypeError('roomArt is a room-art release, or null');
+  const standIns = next.standIns ?? [];
+  if (!Array.isArray(standIns)) throw new TypeError('standIns is a list of seats');
+  const brace = next.brace ?? null;
+  if (brace !== null && !(brace.seat !== null && brace.seat !== undefined && Number.isFinite(brace.dx) && Number.isFinite(brace.dy))) {
+    throw new TypeError('brace is { seat, dx, dy } in CSS pixels, or null');
+  }
+  next.standIns = [...standIns];
+  next.brace = brace === null ? null : { seat: brace.seat, dx: brace.dx, dy: brace.dy };
   next.size = { width, height };
   next.insets = { ...ROOM_SCENE_DEFAULTS.insets, ...(next.insets ?? {}) };
   next.people = [...(next.people ?? [])];
@@ -143,7 +157,10 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   const layers = el('div', 'ms-rs-layers', { 'aria-hidden': 'true' });
   const crowd = el('div', 'ms-rs-people');
   const over = el('div', 'ms-rs-over');
-  root.append(layers, crowd, over);
+  // The game's films (0.4.0): a container in the scene's own stacking context, like the others, so what
+  // the game puts in it interleaves with the pictures and the people by z-index. See films below.
+  const films = el('div', 'ms-rs-films', { 'aria-hidden': 'true' });
+  root.append(layers, films, crowd, over);
   host.append(root);
 
   let state = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, input);
@@ -299,6 +316,19 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
       Object.assign(node.style, place, { zIndex: String(layer === 'body' ? 2 * Math.round(slot.depth) : 1500 + Math.round(slot.depth)),
         transform: slot.mirror ? 'scaleX(-1)' : '', transformOrigin: `${((ax - bx) / box) * 100}% 0` });
       node.toggleAttribute('data-elim', dead);
+    }
+  }
+
+  /** Stand-ins and the recoil, on each drawn figure: cheap enough for every frame of a film. */
+  function figureMarks() {
+    for (const [seat, entry] of people) {
+      const standIn = state.standIns.some(s => sameSeat(s, seat));
+      const braced = state.brace && sameSeat(state.brace.seat, seat) ? state.brace : null;
+      for (const node of [entry.body, entry.front]) {
+        if (!node) continue;
+        node.toggleAttribute('data-stand-in', standIn);
+        node.style.translate = braced ? `${braced.dx}px ${braced.dy}px` : '';
+      }
     }
   }
 
@@ -505,6 +535,8 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     root.setAttribute('aria-label', concealed ? 'Room hidden' : ROOM_NAMES[state.room]);
     root.toggleAttribute('data-unavailable', !state.artReady);
     crowd.toggleAttribute('inert', concealed);
+    // Concealed, the game's films are hidden with everything else of the room.
+    films.hidden = concealed;
     frame = roomSceneFrame(state, frame);
     if (concealed) {
       layers.replaceChildren();
@@ -517,6 +549,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     const rects = new Map(roomScenePlaces(state, frame).map(r => [r.id, r]));
     const rebuilt = paintLayers();
     paintPeople(rects);
+    figureMarks();
     paintOver(rects);
     settle(rebuilt, standing);
   }
@@ -524,6 +557,9 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   function update(next = {}) {
     if (disposed) return;
     state = nextRoomSceneInput(state, next);
+    // A film's every frame changes only its stand-ins or recoil: nothing else is drawn again.
+    const keys = Object.keys(next);
+    if (keys.length && keys.every(key => key === 'brace' || key === 'standIns')) { figureMarks(); return; }
     render();
   }
   function suspend() { if (disposed) return; const standing = standingNow(); suspended = true; settle(false, standing); }
@@ -555,5 +591,16 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   }
 
   render();
-  return Object.freeze({ update, suspend, resume, dispose, layout, element: root });
+  return Object.freeze({
+    update, suspend, resume, dispose, layout, element: root,
+    /**
+     * The container for the game's films (0.4.0), or null after dispose(). It is in the scene's stacking
+     * context and makes none of its own, so its children interleave with the scene by z-index, on the
+     * scene's scale: a picture at 2 x depth + 1, a person's body at 2 x depth and front parts at 1500 + depth,
+     * the turn mark 3001, positions 3050, press squares 3100, tags 3150, the room's name and control 3200.
+     * Coordinates are CSS pixels from the scene's top left, as in layout(). Hidden while concealed; the
+     * scene never touches what the game puts in it.
+     */
+    get films() { return disposed ? null : films; },
+  });
 }

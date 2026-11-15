@@ -30,7 +30,8 @@
 }
 .ms-room-scene[data-unavailable] { background: #202837; }
 /* Containers only: no stacking context of their own, so their children interleave by z-index. */
-.ms-room-scene :is(.ms-rs-layers, .ms-rs-people, .ms-rs-over, .ms-rs-person) { position: absolute; inset: 0; pointer-events: none; }
+.ms-room-scene :is(.ms-rs-layers, .ms-rs-films, .ms-rs-people, .ms-rs-over, .ms-rs-person) { position: absolute; inset: 0; pointer-events: none; }
+.ms-room-scene .ms-rs-films[hidden] { display: none; }
 .ms-room-scene .ms-rs-ic { display: block; flex: none; }
 
 /* The room's pictures, placed with the frame, and the people. */
@@ -39,6 +40,8 @@
 .ms-room-scene .ms-rs-fig > svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .ms-room-scene .ms-rs-fig[data-dim] { opacity: 0.5; filter: saturate(0.4); }
 .ms-room-scene .ms-rs-fig[data-elim] { filter: grayscale(1) brightness(0.7); }
+/* A stand-in: the game's film draws this person; the tag, turn mark and press square stay. */
+.ms-room-scene .ms-rs-fig[data-stand-in] { visibility: hidden; }
 .ms-room-scene .ms-rs-fig[data-dim][data-elim] { filter: grayscale(1) brightness(0.7); }
 
 /* Name tags: the seat number in a disc, an office badge, the name, Injured or Out. */

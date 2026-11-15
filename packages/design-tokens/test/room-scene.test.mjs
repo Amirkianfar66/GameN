@@ -272,6 +272,19 @@ test('a Blackout window holds one frame, lit and dark, through any resize, until
   assert.deepEqual([joined.k, joined.tx, joined.ty], [expect(small, people.slice(0, 2)).k, expect(small, people.slice(0, 2)).tx, expect(small, people.slice(0, 2)).ty]);
 });
 
+test('0.4.0: stand-ins and the recoil are plain inputs, checked on the way in', async () => {
+  const { nextRoomSceneInput, ROOM_SCENE_DEFAULTS, ROOM_SCENE_VERSION } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
+  assert.equal(ROOM_SCENE_VERSION, 'room-scene-0.4.0');
+  assert.deepEqual([ROOM_SCENE_DEFAULTS.standIns, ROOM_SCENE_DEFAULTS.brace], [[], null]);
+  const next = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, { standIns: ['seat-4', 6], brace: { seat: 'seat-4', dx: 6, dy: -3, extra: true } });
+  assert.deepEqual(next.standIns, ['seat-4', 6]);
+  assert.deepEqual(next.brace, { seat: 'seat-4', dx: 6, dy: -3 }, 'only the seat and the offset are kept');
+  assert.deepEqual([nextRoomSceneInput(next, { standIns: null }).standIns, nextRoomSceneInput(next, { brace: null }).brace], [[], null]);
+  for (const bad of [{ standIns: 'seat-4' }, { standIns: { seat: 4 } }, { brace: { seat: 4, dx: Number.NaN, dy: 0 } }, { brace: { dx: 1, dy: 1 } }, { brace: 4 }]) {
+    assert.throws(() => nextRoomSceneInput(ROOM_SCENE_DEFAULTS, bad), TypeError, JSON.stringify(bad));
+  }
+});
+
 test('the offers and the room\'s control are this viewer\'s: dropped when concealed or when the viewer changes', async () => {
   const { nextRoomSceneInput, ROOM_SCENE_DEFAULTS } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
   const targets = { seats: [3, 6], picked: [6] }, control = { id: 'windows', label: 'Windows · 2', icon: 'window' };
@@ -350,7 +363,7 @@ test('the check\'s record: every capture passed under the production headers, at
     for (const c of run.checks) assert.ok(c.ok, `probe ${mode}: ${c.id}`);
   }
   const groups = probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const [group, count] of Object.entries({ held: 2, private: 6, time: 11, focus: 3 })) {
+  for (const [group, count] of Object.entries({ held: 2, private: 6, time: 11, focus: 3, films: 3 })) {
     assert.equal(groups.filter(g => g === group).length, count, `probe: the ${group} checks`);
   }
   assert.deepEqual(probe['device-reduced'].checks.map(c => c.id.split(':')[0]), ['device-reduced']);
