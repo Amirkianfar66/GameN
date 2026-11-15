@@ -33,7 +33,7 @@ const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const COMPONENT = join(REPO, 'design/phone-ui/components/room-scene');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
-const STATES = ['lit', 'own', 'targets', 'moves', 'dark', 'cold', 'stale', 'concealed', 'reduced', 'unavailable'];
+const STATES = ['lit', 'own', 'targets', 'moves', 'dark', 'cold', 'stale', 'concealed', 'reduced', 'unavailable', 'today'];
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
 const AT = 130;
 

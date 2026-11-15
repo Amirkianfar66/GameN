@@ -26,8 +26,9 @@ import { iconSvg } from '../icons.mjs';
 import { SKY_EPOCH, ambientLayer } from './ambient.mjs';
 import { clamp, phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
+import { REACH, extensionLayer, zoomFor } from './room-extension.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.2.1';
+export const ROOM_SCENE_VERSION = 'room-scene-0.3.0';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -45,6 +46,9 @@ export const ROOM_SCENE_DEFAULTS = Object.freeze({
   status: 'live', artReady: true,
   clock: null, reducedMotion: false, interactive: true,
   versions: null, label: true,
+  // The room-art release the match's bundles carry: room-drawing-1.0.0 frames a fifth wider, with the
+  // room's extension (room-extension.mjs); anything else, or null, keeps the pack's framing (#229).
+  roomArt: null,
 });
 
 const sameSeat = (a, b) => a !== null && a !== undefined && String(a) === String(b);
@@ -66,6 +70,7 @@ export function nextRoomSceneInput(previous, input) {
   if (!STATUSES.includes(next.status)) throw new TypeError(`Status is ${STATUSES.join(', ')}, not ${JSON.stringify(next.status)}`);
   if (next.clock !== null && typeof next.clock?.now !== 'function') throw new TypeError('A clock is null or has now()');
   if (next.hold !== null && next.hold !== false && next.hold !== true && typeof next.hold !== 'string') throw new TypeError('hold is a Blackout window\'s id, true, or null');
+  if (next.roomArt !== null && typeof next.roomArt !== 'string') throw new TypeError('roomArt is a room-art release, or null');
   next.size = { width, height };
   next.insets = { ...ROOM_SCENE_DEFAULTS.insets, ...(next.insets ?? {}) };
   next.people = [...(next.people ?? [])];
@@ -103,7 +108,9 @@ const sameWindow = (a, b) => a === null || b === null || a === true || b === tru
  */
 export function roomSceneFrame(state, previous = null) {
   const panel = { width: state.size.width, height: state.size.height, cap: state.insets.top, pad: state.insets.bottom };
-  const context = JSON.stringify([state.room, state.roster]);
+  // The owner's "a fifth wider" with the approved room pictures; the pack's framing with older art.
+  const zoom = zoomFor(state.roomArt);
+  const context = JSON.stringify([state.room, state.roster, zoom]);
   const window = holdWindow(state.hold);
   const dark = state.lighting === 'dark';
   const holding = window !== null || dark;
@@ -115,7 +122,7 @@ export function roomSceneFrame(state, previous = null) {
   const people = placed(state).map(({ person, slot }) => ({ ...slot, eliminated: person.health === 'Eliminated' }));
   const cold = dark && !people.length;
   const shown = cold ? slotsOf(state.room, state.roster).map(slot => ({ ...slot, eliminated: false })) : people;
-  return { ...phoneFrame(scene, panel, shown), panel, context, holding, window, held: false, cold };
+  return { ...phoneFrame(scene, panel, shown, { zoom, reach: zoom < 1 ? REACH : 0 }), panel, context, zoom, holding, window, held: false, cold };
 }
 
 /** The press square of each place in a frame, in the frame's own panel: what a tap on a person or a position uses. */
@@ -191,7 +198,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
 
   /** Builds the room's pictures and ambient layer when the room, the lights or the frame change; true if rebuilt. */
   function paintLayers() {
-    const key = JSON.stringify([state.room, state.lighting, frame.k, frame.tx, frame.ty, state.artReady]);
+    const key = JSON.stringify([state.room, state.lighting, frame.k, frame.tx, frame.ty, frame.zoom, state.artReady]);
     if (key === layersKey) return false;
     layersKey = key;
     layers.replaceChildren();
@@ -202,6 +209,15 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
       art.dataset.layer = layer.id;
       Object.assign(art.style, { left: `${frame.tx}px`, top: `${frame.ty}px`, width: `${1024 * frame.k}px`, height: `${768 * frame.k}px`,
         backgroundImage: `var(${layer.property})`, zIndex: String(2 * Math.round(layer.depth) + 1) });
+      layers.append(art);
+    }
+    // A wider view shows past the picture: the room's extension continues its ceiling and deck there.
+    if (frame.zoom < 1) {
+      const ext = extensionLayer(state.room, { dark });
+      const art = el('span', 'ms-rs-art');
+      art.dataset.layer = ext.id;
+      Object.assign(art.style, { left: `${frame.tx}px`, top: `${frame.ty - ext.reach * frame.k}px`, width: `${1024 * frame.k}px`,
+        height: `${(768 + 2 * ext.reach) * frame.k}px`, backgroundImage: `var(${ext.property})`, zIndex: String(2 * ext.depth + 1) });
       layers.append(art);
     }
     const ambient = ambientLayer(state.room, frame, { dark });
@@ -531,7 +547,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     const bySlot = new Map(places.map(p => [p.slot, p]));
     const showsPeople = state.status !== 'concealed' && state.lighting === 'lit';
     return {
-      frame: { k: frame.k, tx: frame.tx, ty: frame.ty, panel: { width: frame.panel.width, height: frame.panel.height },
+      frame: { k: frame.k, tx: frame.tx, ty: frame.ty, zoom: frame.zoom, panel: { width: frame.panel.width, height: frame.panel.height },
         held: frame.held, window: frame.window, cold: frame.cold },
       places,
       people: showsPeople ? placed(state).map(({ person, slot }) => ({ seat: person.seat, ...bySlot.get(slot.id) })) : [],

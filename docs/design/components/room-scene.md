@@ -1,6 +1,6 @@
 # Room scene: Designer's runtime component
 
-**Version:** `room-scene-0.2.1`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
+**Version:** `room-scene-0.3.0`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, with the owner's "a fifth wider" framing added, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
 
 **What it is:** the room surface of the phone's room view, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -10,7 +10,23 @@
 - the room picture unavailable on sheet 45;
 - the ambient motion on sheet 55 (DSN-REQ-23);
 - the framing, the room's own control and the name tags of #222 items 1 and 34;
-- the approved room pictures, `room-drawing-1.0.0` (DSN-REQ-18), through the art bundles.
+- the approved room pictures, `room-drawing-1.0.0` (DSN-REQ-18), through the art bundles;
+- the owner's "a fifth wider" framing, with the rooms' extension above and below the pictures (11 November).
+
+## What changed in 0.3.0
+
+The owner's "a fifth wider" (11 November 2026: "approved, go with a fifth wider"), which Frontend's re-review asked for before visual acceptance. It ships with the approved pictures, whose extension it draws:
+
+- **Framing:** a match whose room art is `room-drawing-1.0.0` frames each room a fifth wider. The scale is the filled view's times 0.8, unless the people present already zoomed it out further.
+  - The rest of T1 stands: everyone present is whole, every press square is whole and at least 44 px, and the frame is held through the Blackout.
+  - This is ship life's framing (#230), without its activities and food capsules, which the game does not draw.
+- **Older art:** a match on older art keeps the pack's framing (#229), with no extension. The new input `roomArt` names the room-art release the match's bundles carry.
+- **The extension:** in a wider view, above and below the picture, each room's extension continues its ceiling and deck, lit and with the lights out.
+  - These ten pictures are the component's own (`room-scene/assets/`). They are written by `design/tools/room-scene-extend.mjs` from the approved pictures.
+  - The five lit ones are ship life's drawing, which the owner saw in #230's framing sheets, unchanged.
+  - The five lights-out ones are drawn the same way from the lights-out pictures, by the same night rule those pictures were made by.
+  - Like the room pictures, they load through the art bundles: Integration registers them with DSN-REQ-18.
+- **The preview** frames as a match on the approved pictures. Its new `today` state shows older art.
 
 ## What changed in 0.2.1
 
@@ -47,6 +63,8 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `room-scene/figure-extents.mjs` | The measured outlines the framing needs, written by `design/tools/phone-ui-figure-extents.mjs` |
 | `room-scene/ambient.mjs`, `ambient.css` | The ambient layer and its keyframes |
 | `room-scene/room-art.mjs` | `ROOM_ART` and `roomLayers()`: each room's pictures by the CSS property its bundle defines |
+| `room-scene/room-extension.mjs` | `WIDER`, `zoomFor()`, `REACH`, `ROOM_EXTENSION` and `extensionLayer()`: which art is framed a fifth wider, and each room's extension pictures by the CSS property its bundle will define |
+| `room-scene/assets/` | The ten extension pictures, `<room>.extend.svg` and `<room>.extend-dark.svg`, written by `design/tools/room-scene-extend.mjs` |
 | `icons.mjs` | The phone interface's icon family |
 | `room-scene/preview/` | Development only: the preview on the pack's synthetic fixtures, and the lifecycle probe (`probe.mjs`) |
 | `room-scene/review/` | The check's captures and `check.json` |
@@ -78,7 +96,7 @@ scene.dispose();               // removes the element, its listener and the crew
 - **The host:** an element Frontend places between the app's bars. The component appends one child, `.ms-room-scene`, of exactly `size`.
 - **On update:**
   - People are kept by seat, so a figure's idle motion carries on. Controls, positions, press squares and cards are kept by their id and changed in place.
-  - The frame is worked out again only when the room, the roster, the size or the people the lit room shows change, and never during a hold.
+  - The frame is worked out again only when the room, the roster, the room art, the size or the people the lit room shows change, and never during a hold (except a change of room, roster or room art).
   - `people: []`, `targets: null` and `control: null` replace what was there.
 - **To resize:** `update({ size })`. During a hold, see below.
 - **Lifecycle guarantees:**
@@ -146,6 +164,7 @@ No input carries a role, a team or any other private fact.
 | `interactive` | Phone | `true` | Whether this surface takes taps now |
 | `versions` | Public | `null` | The match's pinned art versions, passed to the crew runtime |
 | `label` | Phone | `true` | Show the room's name |
+| `roomArt` | Public | `null` | The room-art release the match's bundles carry. `'room-drawing-1.0.0'` frames a fifth wider, with the extension; anything else, or `null`, keeps the pack's framing. A change frames afresh, even within a hold |
 
 ## Callbacks
 
@@ -160,10 +179,10 @@ The first three report intent only, and only while `interactive` and `status: 'l
 
 | State | What shows |
 | --- | --- |
-| Lit | The room filling the space, with every present figure whole (T1): the crew, the tags, the turn mark, the room's name and its control |
+| Lit | With the approved pictures, the room a fifth wider, its extension continuing ceiling and deck; with older art, the room filling the space. Every present figure is whole (T1): the crew, the tags, the turn mark, the room's name and its control |
 | Targets | A ring on each offered person and a stronger one on the picked person; everyone else is dimmed |
 | Empty positions | A dashed square on each offered position; the picked one turns solid amber |
-| Dark | The dark picture, with nobody and no tags. The frame and the press squares are held from the last lit frame, through any resize. Only the windows move, dimmed, and offered positions still show |
+| Dark | The dark picture, and in a wider view its lights-out extension, with nobody and no tags. The frame and the press squares are held from the last lit frame, through any resize. Only the windows move, dimmed, and offered positions still show |
 | Opened in the dark | With no lit frame and no `people`, the room is framed as if every place were occupied. With Frontend's public pre-Blackout board as `people`, it is framed from that board |
 | Stale | The last room, dimmed, with no control. Offered people and positions stay where they are but take no taps (`aria-disabled`), so the focus stays on them. The banner belongs to the shell |
 | Concealed | A plain cover. Nothing of the room is drawn or named, no picture is requested, every animation stops, and the offers and control are dropped |
@@ -177,6 +196,10 @@ The first three report intent only, and only while `interactive` and `status: 'l
   - Today's bundles carry the old pictures.
   - DSN-REQ-18 builds `room-drawing-1.0.0` into new bundles, and a new match then shows the approved rooms, while a pinned match keeps its own.
   - The preview sets the properties from the release's files.
+- **The extension pictures:** each room's two, lit and lights-out, reached the same way:
+  - `--bm-scene-<room>-extend` and `--bm-scene-<room>-extend-dark`, as listed in `room-extension.mjs`;
+  - drawn only in a wider view, that is, with `roomArt` set to the approved release;
+  - the preview sets the properties from `room-scene/assets/`.
 - **The crew:** drawn by the game's `crew-runtime.mjs` with `versions`. A match pinned to the crew release gets the approved crew, with its idle motion.
 
 ## The ambient clock
@@ -227,15 +250,16 @@ The first three report intent only, and only while `interactive` and `status: 'l
    | `clock` | The trusted server clock |
    | `reducedMotion` | The preference |
    | `versions` | The match's versions |
+   | `roomArt` | The room-art release the match's versions select, as Integration registers it |
 
 3. Mount it through the renderer's existing hooks, and dispose of it on exit. Leave none of the old renderer's room targets active.
 4. Capture Room B lit, stale, concealed and with reduced motion, from the deployed candidate or under the production headers, at 390 × 844 and 430 × 932. Designer then gives visual acceptance in the PR.
 
 ## Integration's part
 
-- **Admit the graph:** admit the component's files above, the room pictures and `@mothership/contracts` to the hosted build's source boundary (`apps/game/hosted/vite.config.mjs`). `preview/` and `review/` stay out.
-- **Register the room art (DSN-REQ-18):** build `room-drawing-1.0.0` into new art bundles, and name the art version that selects them.
-- **Merge #230:** it carries the owner's "a fifth wider" framing.
+- **Admit the graph:** admit the component's files above, the room pictures, the extension pictures (`room-scene/assets/`) and `@mothership/contracts` to the hosted build's source boundary (`apps/game/hosted/vite.config.mjs`). `preview/` and `review/` stay out.
+- **Register the room art (DSN-REQ-18):** build `room-drawing-1.0.0` into new art bundles with the ten extension pictures (`room-scene/assets/`, under the properties in `room-extension.mjs`), and name the art version that selects them. Frontend then passes `roomArt` for a match on it.
+- **#230 (ship life):** it no longer carries the framing for the game. Once it is on `main`, its framing and extension import the component's.
 
 ## Not in this version yet
 
@@ -243,7 +267,6 @@ These are listed, not omitted:
 
 | What | Waiting on |
 | --- | --- |
-| The owner's "a fifth wider" framing, with extension bands (approved 11 November) | #230; it goes into `framing.mjs` once #230 is on `main` |
 | The name tags' larger-text behaviour | #228; outside the two sizes now in scope |
 | The private-talk capsule (sheet 25) | Its component, next |
 | The board's panels (sheet 26) | Its component, next |
@@ -259,16 +282,17 @@ These are listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/room-scene.test.mjs` | 8 of 8 |
-  | `npm run test:design` | 367 of 367 |
+  | `packages/design-tokens/test/room-scene.test.mjs` | 10 of 10 |
+  | `npm run test:design` | 369 of 369 |
   | `npm run test:tooling` | 337 of 337 |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
   | `node design/tools/phone-ui-figure-extents.mjs --check` | Current |
+  | `node design/tools/room-scene-extend.mjs --check` | Current; the five lit pictures' drawing is byte-identical to #230's |
 
 - **`node design/tools/room-scene-check.mjs`:**
   - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
-  - **Captures:** ten states at 390 × 844 and 430 × 932: 20 of 20 pass.
+  - **Captures:** eleven states at 390 × 844 and 430 × 932: 22 of 22 pass. Ten show the approved pictures a fifth wider; `today` shows older art in the pack's framing.
   - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 23 of 23 checks pass.
     - Held: one window through 390 × 653 → 430 × 741, lit and dark, and new insets, then its end.
     - Private: `layout()` lit, dark and concealed; the offers and the control after concealment and after a change of viewer; after `dispose()`.

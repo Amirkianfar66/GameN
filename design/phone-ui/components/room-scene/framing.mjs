@@ -1,6 +1,8 @@
-// Runtime source of the phone room view's framing (design/phone-ui/components/room-scene), moved
-// out of the pack's design/phone-ui/prototype/art.mjs on 15 November 2026, unchanged; the pack
-// imports it from here. It uses only the game's own place tables and rig, already in the hosted graph.
+// Runtime source of the phone room view's framing (design/phone-ui/components/room-scene), taken from
+// the pack's design/phone-ui/prototype/art.mjs on 15 November 2026. At zoom 1 it gives exactly what the
+// pack's gives: that file is pinned by the frozen Food release, so it stays as it is, and the room
+// scene's test checks that the two agree. 0.3.0 adds the owner's wider zoom. It uses only the game's
+// own place tables and rig, already in the hosted graph.
 
 import { slotsOf } from '../../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
 import { pressSide } from '../../../../apps/game/hosted/board-v2-drawing/fit-four.mjs';
@@ -73,10 +75,18 @@ export function paintedExtent(slot) {
  * may show the picture's own border (its box past the inner box) where an outline reaches it. The
  * framing depends only on who the lit room already shows, and the game holds it still from
  * lights-out to lights-on (phone-ui.md, the Blackout).
+ *
+ * Wider (zoom below 1): the owner's "a fifth wider" (11 November 2026, zoom 0.8, with the approved room
+ * pictures; room-extension.mjs) takes the filled view's scale times zoom, unless the people present
+ * already zoomed it out further, and keeps the rest: everyone whole, every press area whole and clear of
+ * the sides. Up and down it may then show `reach` scene units past the picture, where the room's
+ * extension continues it. This is ship life's framing (#230, design/ship-life/framing.mjs roomFrame)
+ * without its activities and food capsules, which the game does not draw. At zoom 1 nothing changes.
  */
-export function phoneFrame(scene, { width, height, cap = 44, pad = 6 }, present = []) {
+export function phoneFrame(scene, { width, height, cap = 44, pad = 6 }, present = [], { zoom = 1, reach = 0 } = {}) {
   const [ix0, iy0, ix1, iy1] = scene.inner ?? [0, 0, 1024, 768];
-  let k = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
+  const fill = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
+  let k = fill;
   let cx = (scene.focus[0] + scene.focus[2]) / 2;
   const xs = present.map(slot => slot.pressAt[0]);
   const outlines = present.map(paintedExtent);
@@ -93,6 +103,8 @@ export function phoneFrame(scene, { width, height, cap = 44, pad = 6 }, present 
   // What the band may never exceed: the panel below FIGURE_CLEAR and above its foot.
   const room = height - pad - FIGURE_CLEAR;
   for (let i = 0; i < 4 && band(k) * k > room; i += 1) k = (room - PRESS / 2) / (band(k) - PRESS / 2 / k);
+  // Wider: the filled view's scale times zoom, unless the people already zoomed it out further.
+  if (zoom < 1) k = Math.min(k, fill * zoom);
   if (present.length) {
     const half = width / (2 * k);
     const lo = Math.max(Math.max(...xs) + EDGE_CLEAR / k, fx1 + FIGURE_CLEAR / k) - half;
@@ -110,7 +122,9 @@ export function phoneFrame(scene, { width, height, cap = 44, pad = 6 }, present 
   const bottom = top + band(k);
   const avail = height - cap - pad;
   const ty = (bottom - top) * k > avail ? height - pad - bottom * k : cap + (avail - (bottom - top) * k) / 2 - top * k;
-  const [by0, by1] = [Math.max(0, Math.min(iy0, top - FIGURE_CLEAR / k)), Math.min(768, Math.max(iy1, bottom))];
+  // Held inside the picture (its border where an outline reaches it); a wider view inside the picture
+  // and its extension.
+  const [by0, by1] = zoom < 1 ? [-reach, 768 + reach] : [Math.max(0, Math.min(iy0, top - FIGURE_CLEAR / k)), Math.min(768, Math.max(iy1, bottom))];
   return { k, tx, ty: within(ty, height - by1 * k, -by0 * k) };
 }
 

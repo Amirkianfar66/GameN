@@ -13,7 +13,8 @@
 import { PLANET_FOOD_TASK_PINS } from '@mothership/contracts';
 import { ROOM_NAMES, mountRoomScene } from '../room-scene.mjs';
 import { SKY_EPOCH } from '../ambient.mjs';
-import { ROOM_ART } from '../room-art.mjs';
+import { ROOM_ART, ROOM_ART_RELEASE } from '../room-art.mjs';
+import { ROOM_EXTENSION } from '../room-extension.mjs';
 import { FIXTURE_LABEL, ROOM_FIXTURES, SELF, board } from '../../../prototype/fixtures.mjs';
 import { runRoomSceneProbe } from './probe.mjs';
 
@@ -25,6 +26,13 @@ const BAR_TOP = 47 + 52, BAR_BOTTOM = 34 + 58;
 for (const art of Object.values(ROOM_ART)) {
   for (const { property, file } of [art.back, ...art.layers, art.dark]) {
     document.documentElement.style.setProperty(property, `url("${new URL(`../../../../room-drawing/assets/${file}`, import.meta.url).href}")`);
+  }
+}
+
+// The room scene's own extension pictures, on the properties the bundles will define (room-extension.mjs).
+for (const ext of Object.values(ROOM_EXTENSION)) {
+  for (const { property, file } of [ext.lit, ext.dark]) {
+    document.documentElement.style.setProperty(property, `url("${new URL(`../assets/${file}`, import.meta.url).href}")`);
   }
 }
 
@@ -51,7 +59,9 @@ function peopleIn(room) {
 }
 const roomB = peopleIn('room-b');
 const base = Object.freeze({ room: 'room-b', roster: 9, people: roomB, self: SELF, active: ROOM_FIXTURES['room-b'].active,
-  control: { id: 'windows', label: 'Windows · 2', icon: 'window' }, versions, clock });
+  control: { id: 'windows', label: 'Windows · 2', icon: 'window' }, versions, clock,
+  // A match on the approved room pictures: the owner's "a fifth wider", with the room's extension.
+  roomArt: ROOM_ART_RELEASE });
 
 /** Each state Frontend checks before the first connection (#222), and a few more of sheet 21's. */
 export const PREVIEW_STATES = Object.freeze({
@@ -65,6 +75,7 @@ export const PREVIEW_STATES = Object.freeze({
   concealed: { caption: 'Concealed', input: { ...base, status: 'concealed' } },
   reduced: { caption: 'Reduce motion · still', input: { ...base, reducedMotion: true } },
   unavailable: { caption: 'Room picture unavailable', input: { ...base, artReady: false } },
+  today: { caption: 'Older room art · the pack’s framing (#229)', input: { ...base, roomArt: null } },
 });
 
 const intents = [];

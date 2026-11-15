@@ -52,7 +52,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
   }
   assert.deepEqual(packages, ['@mothership/contracts'], 'one package import, the game\'s own contracts (through crew-runtime.mjs)');
   // Every component file the graph reaches, and nothing else in the component folder outside preview/ and review/.
-  for (const name of ['room-scene.mjs', 'room-scene.css', 'framing.mjs', 'figure-extents.mjs', 'ambient.mjs', 'ambient.css', 'room-art.mjs']) {
+  for (const name of ['room-scene.mjs', 'room-scene.css', 'framing.mjs', 'figure-extents.mjs', 'ambient.mjs', 'ambient.css', 'room-art.mjs', 'room-extension.mjs']) {
     assert.ok(local.includes(`design/phone-ui/components/room-scene/${name}`), `${name} is in the graph`);
   }
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
@@ -158,6 +158,71 @@ test('the frame: whole people, held through the dark, every place framed when op
   }
 });
 
+test('a fifth wider (the owner, 11 November 2026): with the approved pictures, everyone whole and the view covered', async () => {
+  const { roomSceneFrame } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
+  const { REACH, WIDER, zoomFor } = await import('../../../design/phone-ui/components/room-scene/room-extension.mjs');
+  assert.deepEqual({ ...WIDER }, { [ROOM_ART_RELEASE]: 0.8 }, 'only the approved pictures are framed wider');
+  assert.equal(zoomFor(null), 1);
+  assert.equal(zoomFor('design-0.9.0'), 1, 'older art keeps the pack\'s framing');
+  for (const room of ROOMS) {
+    for (const roster of [7, 8, 9]) {
+      const scene = sceneOf(room, roster), slots = slotsOf(room, roster);
+      for (const [width, height] of [...Object.values(SIZES), [320, 377]]) {
+        const panel = { width, height, cap: 46, pad: 8 };
+        const [ix0, iy0, ix1, iy1] = scene.inner ?? [0, 0, 1024, 768];
+        const fill = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
+        for (let n = 0; n <= slots.length; n += 1) {
+          const present = slots.slice(0, n).map(s => ({ ...s, eliminated: false }));
+          const at = `${room} ${roster} ${width}×${height} ${n} present`;
+          const today = phoneFrame(scene, panel, present);
+          const wide = phoneFrame(scene, panel, present, { zoom: 0.8, reach: REACH });
+          // The scale: the filled view's times 0.8, unless the people already zoomed it out further.
+          assert.ok(Math.abs(wide.k - Math.min(today.k, fill * 0.8)) < 1e-9, `${at}: k`);
+          // Everyone present whole, 4 px inside the view; every press square whole and at least 44 px.
+          for (const slot of present) {
+            const [x0, y0, x1, y1] = paintedExtent(slot);
+            assert.ok(wide.tx + x0 * wide.k >= FIGURE_CLEAR - 0.5 && wide.tx + x1 * wide.k <= width - FIGURE_CLEAR + 0.5, `${at} ${slot.id}: whole across`);
+            assert.ok(wide.ty + y0 * wide.k >= -0.5 && wide.ty + y1 * wide.k <= height + 0.5, `${at} ${slot.id}: whole up and down`);
+          }
+          for (const r of pressRects(room, roster, panel, wide)) {
+            assert.ok(r.side >= PRESS - 0.01 && r.left >= 0 && r.left + r.side <= width + 0.01 && r.top >= 0 && r.top + r.side <= height + 0.01, `${at} ${r.id}: press square`);
+          }
+          // The view is covered: across by the picture, up and down by the picture and its extension.
+          assert.ok(wide.tx <= 0.5 && wide.tx + 1024 * wide.k >= width - 0.5, `${at}: covered across`);
+          assert.ok(wide.ty <= REACH * wide.k + 0.5 && wide.ty + (768 + REACH) * wide.k >= height - 0.5, `${at}: covered up and down`);
+        }
+      }
+    }
+  }
+  // The component frames a match on the approved pictures a fifth wider, older art as the pack does,
+  // and a change of art is a new frame, even within a Blackout window.
+  const state = { room: 'room-b', roster: 9, size: { width: 390, height: 653 }, insets: { top: 46, bottom: 8 }, people: [], lighting: 'lit', hold: null };
+  const old = roomSceneFrame({ ...state, roomArt: null });
+  const wide = roomSceneFrame({ ...state, roomArt: ROOM_ART_RELEASE });
+  assert.deepEqual([old.zoom, wide.zoom], [1, 0.8]);
+  assert.ok(wide.k < old.k);
+  const held = roomSceneFrame({ ...state, roomArt: ROOM_ART_RELEASE, hold: 'blackout-1', lighting: 'dark' }, old);
+  assert.deepEqual([held.held, held.zoom], [false, 0.8]);
+});
+
+test('the extension pictures: lit and lights out for every room, the component\'s own, by the bundles\' properties', async () => {
+  const { REACH, ROOM_EXTENSION, extensionLayer } = await import('../../../design/phone-ui/components/room-scene/room-extension.mjs');
+  assert.deepEqual(Object.keys(ROOM_EXTENSION).sort(), [...ROOMS].sort());
+  for (const room of ROOMS) {
+    for (const [kind, art] of Object.entries(ROOM_EXTENSION[room])) {
+      assert.equal(art.property, `--bm-scene-${room}-${kind === 'lit' ? 'extend' : 'extend-dark'}`);
+      const svg = read(`design/phone-ui/components/room-scene/assets/${art.file}`);
+      assert.match(svg, new RegExp(`^<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -${REACH} 1024 ${768 + 2 * REACH}"`), `${art.file}: the picture's box and ${REACH} each way`);
+      assert.match(svg, /Written by design\/tools\/room-scene-extend\.mjs/, `${art.file}: written by the tool`);
+      assert.doesNotMatch(svg, /mothership:dev-only|<script|href="http/, `${art.file}: a runtime picture, nothing fetched`);
+      assert.equal((svg.match(/data-band="(top|bottom)"/g) ?? []).length, 2, `${art.file}: a ceiling and a deck`);
+    }
+    // Drawn just over the picture it continues: the back picture lit, the lights-out one in the dark.
+    assert.equal(2 * extensionLayer(room).depth + 1, 2 * -1000 + 2);
+    assert.equal(2 * extensionLayer(room, { dark: true }).depth + 1, 2 * 1400 + 2);
+  }
+});
+
 test('a Blackout window holds one frame, lit and dark, through any resize, until it ends', async () => {
   const { roomSceneFrame, roomScenePlaces } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
   const room = 'room-b', slots = slotsOf(room, 9);
@@ -241,7 +306,7 @@ test('inputs: unknown rooms, rosters, lights and states are refused; seat number
   assert.equal(ROOM_SCENE_DEFAULTS.status, 'live');
   assert.equal(ROOM_SCENE_DEFAULTS.clock, null, 'no clock is a still voyage');
   const source = read('design/phone-ui/components/room-scene/room-scene.mjs');
-  for (const refusal of ['Unknown room', 'A roster is 7, 8 or 9 players', 'A room scene needs a positive size', 'Lighting is lit or dark', 'Status is', 'A clock is null or has now()']) {
+  for (const refusal of ['Unknown room', 'A roster is 7, 8 or 9 players', 'A room scene needs a positive size', 'Lighting is lit or dark', 'Status is', 'A clock is null or has now()', 'roomArt is a room-art release, or null']) {
     assert.ok(source.includes(refusal), refusal);
   }
 });
@@ -253,7 +318,7 @@ test('the check\'s record: every capture passed under the production headers, at
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 20);
+  assert.equal(captures.length, 22);
   for (const [key, c] of captures) {
     assert.ok(c.ok, `${key} passed`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -267,6 +332,12 @@ test('the check\'s record: every capture passed under the production headers, at
     assert.ok(record.captures[`${size}/cold`].layout.cold, `${size}: opened in the dark, every place framed`);
     assert.equal(record.captures[`${size}/concealed`].figures + record.captures[`${size}/concealed`].tags, 0, `${size}: nothing shown concealed`);
     assert.equal(record.captures[`${size}/concealed`].art.length, 0, `${size}: concealed loads no picture`);
+    // The approved pictures, a fifth wider with their extension; older art as the pack frames it.
+    assert.equal(record.captures[`${size}/lit`].layout.zoom, 0.8, `${size}: lit, a fifth wider`);
+    assert.ok(record.captures[`${size}/lit`].layers.includes('extend'), `${size}: lit, the extension`);
+    assert.ok(record.captures[`${size}/dark`].layers.includes('extend-dark'), `${size}: dark, the lights-out extension`);
+    assert.equal(record.captures[`${size}/today`].layout.zoom, 1, `${size}: older art, the pack's framing`);
+    assert.ok(!record.captures[`${size}/today`].layers.some(l => l.startsWith('extend')), `${size}: older art, no extension`);
   }
   // The lifecycle probe (preview/probe.mjs), in the same bundle under the same headers: as the page
   // comes, and with the device's Reduce motion emulated. Every check passed, and none is missing.
