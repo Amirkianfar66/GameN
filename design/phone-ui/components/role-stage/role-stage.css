@@ -15,12 +15,11 @@
   --ms-rst-surface-3: #2A3346;
   --ms-rst-text-2: #B9C4D3;
   --ms-rst-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
-  --ms-rst-safe-t: env(safe-area-inset-top, 0px);
-  --ms-rst-safe-b: env(safe-area-inset-bottom, 0px);
+  /* Where the film's chip and Skip sit in the film's frame: role-stage.mjs measures them from the shell. */
+  --ms-rst-chip-top: 8px;
+  --ms-rst-skip-bottom: 14px;
   /* The crossfade's length: role-stage.mjs sets it, 700 ms, or 80 ms with Reduce motion (the game's or the device's). */
   --ms-rst-fade: 700ms;
-  /* How far the shell's stage stops above the screen's foot (role-stage.mjs measures it). */
-  --ms-rst-below: 0px;
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
   background: #07090F; color: var(--ms-rst-paper);
   font: 400 1rem/1.4 var(--ms-rst-font);
@@ -55,13 +54,13 @@
 .ms-role-stage .ms-rst-film[data-instant] { transition: none; }
 .ms-role-stage .ms-rst-picture { position: absolute; inset: 0; overflow: hidden; }
 .ms-role-stage .ms-rst-chip {
-  position: absolute; top: calc(var(--ms-rst-safe-t) + 8px); right: 12px; z-index: 1;
+  position: absolute; top: var(--ms-rst-chip-top); right: 12px; z-index: 1;
   display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 9px 0 7px; border-radius: 999px;
   background: var(--ms-rst-surface-3); font: 600 1rem/1 var(--ms-rst-font); font-variant-numeric: tabular-nums;
 }
 .ms-role-stage :is(.ms-rst-strip, .ms-rst-note, .ms-rst-chip)[hidden] { display: none; }
 .ms-role-stage .ms-rst-chip .ms-rst-ic { width: 16px; height: 16px; color: var(--ms-rst-text-2); }
-/* Skip film's place, measured from the screen's foot wherever the shell's stage ends (role-stage.mjs sets --ms-rst-below). */
-.ms-role-stage .ms-rst-film .ms-rst-skip { position: absolute; right: 14px; bottom: calc(var(--ms-rst-safe-b) + 14px - var(--ms-rst-below, 0px)); z-index: 1; }
+/* Skip film, 14 px above the bottom safe area (role-stage.mjs measures it from the shell). */
+.ms-role-stage .ms-rst-film .ms-rst-skip { position: absolute; right: 14px; bottom: var(--ms-rst-skip-bottom); z-index: 1; }
 
 .ms-role-stage[data-suspended] .ms-rst-film { transition: none; }

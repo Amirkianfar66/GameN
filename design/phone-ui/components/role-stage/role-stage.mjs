@@ -139,7 +139,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   let state = nextRoleStageInput(ROLE_STAGE_DEFAULTS, input);
   let disposed = false, suspended = false, lastLayout = null, shownView = null, fadeTimer = null;
   // Whether the shell's bar is away for the film, and the bar's height to hold the card still meanwhile.
-  let barAway = false, barTop = null;
+  let barAway = false, barEdges = null;
   const on = Object.fromEntries(['onReady', 'onSkipFilm', 'onShowRole', 'onRetry', 'onLayout', 'onFocusReturn'].map(k => [k, handlers[k] ?? null]));
 
   // ── The parts ───────────────────────────────────────────────────────
@@ -165,7 +165,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
 
   // The phone shell draws the top bar, the reconnecting banner and the toast; the stage's own parts sit
   // in its stage, between the bars.
-  const shell = mountPhoneShell(shellHost, shellInput(), { onRetry: () => { if (!disposed) on.onRetry?.(); }, onLayout: () => { placeBelow(); reportLayout(); } });
+  const shell = mountPhoneShell(shellHost, shellInput(), { onRetry: () => { if (!disposed) on.onRetry?.(); }, onLayout: () => { placeFilm(); reportLayout(); } });
   const body = el('div', 'ms-rst-body');
   const strip = el('div', 'ms-rst-strip', { role: 'progressbar', 'aria-label': STAGE_WORDS.strip, 'aria-valuemin': '0' });
   const stripCard = el('span', 'ms-rst-seg'), stripFilm = el('span', 'ms-rst-seg');
@@ -196,7 +196,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       status: state.status === 'stale' ? 'stale' : 'live',
       interactive: state.interactive, reducedMotion: state.reducedMotion, insets: state.insets, viewer: state.viewer,
       bar: barAway ? null : { kind: 'phase', icon: 'card', title: STAGE_WORDS.title, sub: STAGE_WORDS.sub, timer: showClock ? { remainingMs: c.endsAtMs - c.elapsedMs, urgentAtMs: -1 } : null },
-      tabs: null, banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
+      tabs: null, edge: barAway, banner: state.status === 'stale' ? { kind: 'reconnecting' } : null,
       toast: state.status === 'concealed' ? null : state.toast,
     };
   }
@@ -212,13 +212,18 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
   root.addEventListener('click', onClick);
 
   // ── Render ──────────────────────────────────────────────────────────
-  /** Takes the shell's bar away for the film, or gives it back, holding the card where it was. */
+  /**
+   * Takes the shell's bar away for the film, or gives it back. Away, the shell's stage runs edge to edge
+   * (bar: null, edge: true), and the card is held where it was by the bars' old heights.
+   */
   function setBarAway(away) {
     if (away === barAway || disposed) return;
-    if (away) barTop = shell.layout()?.bars.top ?? barTop;
+    if (away) barEdges = shell.layout()?.bars ?? barEdges;
     barAway = away;
-    body.style.top = away && barTop !== null ? `${barTop}px` : '';
+    body.style.top = away && barEdges ? `${barEdges.top}px` : '';
+    body.style.bottom = away && barEdges ? `${barEdges.bottom}px` : '';
     shell.update(shellInput());
+    placeFilm();
   }
   function paintFilm() {
     const showing = state.view === 'film' && state.status !== 'concealed';
@@ -282,26 +287,22 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
     ready.dataset.mode = s.ready.mode;
     policy.control(ready, { off: !s.ready.enabled, busy: s.ready.busy, reason: s.ready.reason });
   }
-  function applyInsets() {
-    const i = state.insets;
-    for (const side of ['top', 'bottom']) {
-      if (i && Number.isFinite(i[side])) root.style.setProperty(`--ms-rst-safe-${side[0]}`, `${i[side]}px`);
-      else root.style.removeProperty(`--ms-rst-safe-${side[0]}`);
-    }
-    placeBelow();
-  }
   /**
-   * How far the shell's stage stops above the screen's foot (its bottom safe area, with no tab bar): Skip
-   * film sits 14 px above the safe area, measured from the screen's foot, wherever the stage ends.
+   * The film's clock chip at the top safe area + 8 px and Skip film at the bottom safe area + 14 px, as the
+   * pack places them, measured from the screen's edges wherever the shell's stage ends: edge to edge once
+   * the bar is away, between the bars while the film fades in.
    */
-  function placeBelow() {
-    const below = shell.layout()?.bars.bottom ?? 0;
-    const value = `${below}px`;
-    if (root.style.getPropertyValue('--ms-rst-below') !== value) root.style.setProperty('--ms-rst-below', value);
+  function placeFilm() {
+    const l = shell.layout();
+    if (!l) return;
+    for (const [name, px] of [['--ms-rst-chip-top', l.safe.top + 8 - l.bars.top], ['--ms-rst-skip-bottom', l.safe.bottom + 14 - l.bars.bottom]]) {
+      const value = `${Math.round(px * 100) / 100}px`;
+      if (root.style.getPropertyValue(name) !== value) root.style.setProperty(name, value);
+    }
   }
   function render() {
     if (disposed) return;
-    applyInsets();
+    placeFilm();
     root.dataset.status = state.status;
     root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
     if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
