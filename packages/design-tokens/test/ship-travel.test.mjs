@@ -84,6 +84,9 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
   for (const path of ['preview/index.html', 'preview/preview.css', 'preview/preview.mjs', 'preview/probe.mjs', 'preview/compare.mjs']) {
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
+  // The preview draws at the game's root size (the browser's 16 px): only its own words are smaller.
+  const page = read(`${COMPONENT}/preview/preview.css`).replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.doesNotMatch(page, /(?:^|[}\s,])html\b[^{]*\{[^}]*font/, 'the page sets no root font size');
   assert.match(read('design/tools/ship-travel-check.mjs'), /^\/\/ mothership:dev-only/);
 });
 
