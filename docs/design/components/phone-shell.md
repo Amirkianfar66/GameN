@@ -234,14 +234,16 @@ Listed, not omitted:
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** fifteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 31 of 31 pass, each drawing what its state asks.
+  - **Captures:** sixteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 33 of 33 pass, each drawing what its state asks.
     - The 5 s result carries a stand-in for the vote's result window in the cover.
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
-  - **The lifecycle probe** (`preview/probe.mjs`): 17 of 17 checks pass.
-    - **As the page comes (16):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, edge to edge, the toast, the large-content view, dispose and motion.
+    - `card` draws the Card sheet's "Hide card" in the head, before Close.
+  - **The lifecycle probe** (`preview/probe.mjs`): 18 of 18 checks pass.
+    - **As the page comes (17):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, edge to edge, head actions, the toast, the large-content view, dispose and motion.
       - **No bar:** the stage runs to the top edge, and the banner and the toast keep the bar's place (107 and 109 px at a 47 px safe area).
       - **Edge to edge:** the stage and the cover fill the shell, the bar's glass lies over the stage, `layout()` gives the safe areas (also when only they change), the overlays stay put, and `edge: 'yes'` is refused.
+      - **Head actions:** "Hide card" sits after the title and before Close, keeps its element and the focus through updates, reports `onSheetAction('hide', 'card')`, is taken while reconnecting (a footer action is not), is refused with its reason when unavailable, and returns the focus when it goes.
       - **The layers:** the cover is over the stage and above a z-index 3150 inside it; the target bar, the banner and the toast are each over the cover; over a large sheet the toast stays on top and the banner under.
     - **With the device's Reduce motion emulated (1):** motion.
   - **The agreement with the pinned pack** (`preview/agree.mjs`): 7 of 7 cases.
@@ -249,8 +251,8 @@ Listed, not omitted:
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `f18cdc07`, with kit 0.2.0, the cover, no-bar mode with the overlays at the bar's place, and `edge`, and the source clean.
-    - Against `b51b715c`'s record, only `film` changed (edge to edge, the banner at the bar's place) and `poster` is new. Every other capture differs by at most 127 pixels, in the room's ambient motion.
+    - Recorded on `c17bd30e`, with kit 0.2.0, the cover, no-bar mode with the overlays at the bar's place, `edge` and head actions, and the source clean.
+    - Against `b51b715c`'s record, only `film` changed (edge to edge, the banner at the bar's place); `poster` and `card` are new. Every other capture differs by at most 325 pixels, in the room's ambient motion.
     - **At the game's text size:** the preview's root is now the browser's 16 px, as the game's. Until `10496d18` it forced 14 px, so every rem-sized word in the shell and the room scene drew an eighth small. The bars keep their pixel minimums (99 and 92 px at 390 × 844); the words and the room's tags are larger. The agreement with the pack, drawn in the same page, holds at 16 px.
     - Against `10496d18`, before these, the captures differ by the larger words, which is the fix, and by noise in the room's ambient motion.
     - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements, with the same font, size, weight, line height and colour (checked on `aea6dab4`). The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
