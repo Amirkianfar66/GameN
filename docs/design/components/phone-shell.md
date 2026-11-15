@@ -225,6 +225,7 @@ Listed, not omitted:
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `82a1e189`, with the source clean.
+    - Recorded on `cbd6ae89`, with the source clean.
+    - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements. The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
     - The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
