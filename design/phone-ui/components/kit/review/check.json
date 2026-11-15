@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.2.0",
-  "sourceCommit": "b51b715c2c79a3a56ac43fb80e74afeae6320d62",
+  "version": "component-kit-0.3.0",
+  "sourceCommit": "0c6fdb605622fbd7d2c8112f6d4ce327e7965d95",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -101,87 +101,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "11ba55b13c983d8aeba7597abbb8ad5f0df6b1258d937b26736fe46d8ce68e2e",
+      "sha256": "6348be1827f262f9b0b291706ab22241b1375eec0cc815a9cb7afc82fabfdead",
       "size": {
         "width": 390,
-        "height": 6684
+        "height": 7667
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-CTcrLmUr.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "b15e764228961046b3065b33463521b56b316b635fe7aebed0a72bf62f50a4ba"
+      "measurementSha256": "3e0cec1962a1ced241f7a3fb634a54cf3b543e92bde671cc2db918a4426b29d2"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "489620b30cad9aa7737b086108f3d740b65535117cb831de234865bcc591a4ef",
+      "sha256": "1f615f648b8224f5c1c21f3b09daf0c42bc966e743cd6151e9e88c3f891bff4c",
       "size": {
         "width": 390,
-        "height": 6755
+        "height": 7738
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-CTcrLmUr.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "57d017d1f2951dc0b05b094930a315138737155e5949ab432e4508b70c6d66b7"
+      "measurementSha256": "809846a7b1196bc62b237df553df6797378a585e2367f0761b680adc8a974f34"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "ec472187623628fa24b77b71a861e8ee045fe31771431c1e8d483f04ac7c142e",
+      "sha256": "9f9b03415f65ca57e84463fa88dbc6cef29b28bc1ec84a710b640b40fc4e9578",
       "size": {
         "width": 390,
-        "height": 8810
+        "height": 10362
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-CTcrLmUr.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "05f87f86a05a4bb4b933e2ffeafd2af465642a98214e4da33fbcfd8de3c41813"
+      "measurementSha256": "dec0371e74fdd666e0a4b633a79a3296fd29f359fb74af0f6d3b55a040b80409"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "f176e59312da9e55fca5a83f004ebe724e07c88819b9a3774c68b73dc8748ae1",
+      "sha256": "b34ae05130a733ebfb0d3902fbdde62ab596a6d9ba5aecde85a483f555b0b284",
       "size": {
         "width": 390,
-        "height": 8860
+        "height": 10413
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-CTcrLmUr.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "75448567b5bf045986ad949779ab4f24ac4f9e80a716bde6b3a00184c4fcd751"
+      "measurementSha256": "b54f3e167b73fb4fa2f40ccc2859764214eafaa1ab2e5c8034fd6c2442ec0c15"
     }
   },
   "agreement": {
@@ -458,6 +458,24 @@
         "portraits": {
           "ok": true,
           "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "wait": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
           "differences": [],
           "accepted": []
         },
@@ -761,6 +779,18 @@
         "portraits": {
           "ok": true,
           "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
           "differences": [],
           "accepted": []
         },
@@ -1073,6 +1103,24 @@
         "portraits": {
           "ok": true,
           "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "wait": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
           "differences": [],
           "accepted": []
         },
@@ -1407,6 +1455,18 @@
           "differences": [],
           "accepted": []
         },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
         "cells": {
           "ok": true,
           "parts": 51,
@@ -1417,9 +1477,9 @@
     }
   },
   "summary": {
-    "cases": 128,
-    "agree": 128,
-    "parts": 857,
+    "cases": 138,
+    "agree": 138,
+    "parts": 905,
     "accepted": 62
   }
 }
