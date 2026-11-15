@@ -2,7 +2,7 @@
   "tool": "design/tools/ship-travel-check.mjs",
   "component": "design/phone-ui/components/ship-travel",
   "version": "ship-travel-0.1.0",
-  "sourceCommit": "e457e6f6c76d1d1ff3d2606ea373f83b8e8b8f08",
+  "sourceCommit": "bf935dc46a55d88a3c278e024427fef4a406387d",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels, the poster comparison at 1x; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -60,7 +60,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -89,6 +89,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -105,7 +106,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -134,6 +135,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -150,7 +152,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -179,6 +181,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -195,7 +198,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -224,6 +227,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -233,14 +237,14 @@
     },
     "390x844/settle/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-settle.jpg",
-      "sha256": "23ed32402b673bba0a4d99f99521abc6fa350234df426cf231529a05952bdf0c",
+      "sha256": "bc6db4450b537666bfe9105f5288b42104f3d0c97f85ae886fe9a5bfc18b36a0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -269,6 +273,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -278,14 +283,14 @@
     },
     "430x932/settle/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-settle.jpg",
-      "sha256": "ce4ab08814cea94edbc6cd7e826cb74d9307ff6388f76e75361b71ef3192941f",
+      "sha256": "26948efcb35352c58e23c1360b5d7d395f1c2d5672ea2bb49774a25ae8f6785b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -314,6 +319,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -330,7 +336,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -359,6 +365,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -375,7 +382,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -404,6 +411,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -420,7 +428,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -449,6 +457,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -465,7 +474,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -494,6 +503,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -510,7 +520,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -539,6 +549,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -555,7 +566,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -584,6 +595,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -600,7 +612,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -629,6 +641,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -645,7 +658,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -674,6 +687,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -690,7 +704,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -719,6 +733,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -735,7 +750,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -764,6 +779,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -780,7 +796,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -809,6 +825,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -825,7 +842,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -854,6 +871,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -870,7 +888,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -899,6 +917,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -915,7 +934,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -944,6 +963,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -953,14 +973,14 @@
     },
     "390x844/settle/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-settle-reduced.jpg",
-      "sha256": "664223e2ce025e4728aa5dc56af60e8e722db4289085f3c483e0c3add6c0cf1b",
+      "sha256": "f64dfbd3a4d4e1f7a5c0ff127fd825391fab08995cd48755ff7e4e74a12e2961",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -989,6 +1009,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -998,14 +1019,14 @@
     },
     "430x932/settle/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-settle-reduced.jpg",
-      "sha256": "48a8a83026084c93382e904256824793f879635e834d3b9c97f640f883c57abe",
+      "sha256": "0fdbf02f2c1af005d0f9d8f29c58730ec5ff86e1c4e2b02ca116078371207233",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1034,6 +1055,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1050,7 +1072,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1079,6 +1101,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1095,7 +1118,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1124,6 +1147,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1140,7 +1164,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1169,6 +1193,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1185,7 +1210,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1214,6 +1239,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1230,7 +1256,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1259,6 +1285,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1275,7 +1302,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1304,6 +1331,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1320,7 +1348,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1349,6 +1377,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1365,7 +1394,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1394,6 +1423,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1410,7 +1440,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1439,6 +1469,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1455,7 +1486,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1484,6 +1515,7 @@
         "top": 47,
         "bottom": 34
       },
+      "urgent": false,
       "filmBox": [
         0,
         0
@@ -1575,7 +1607,7 @@
               "reduced": false,
               "shown": true
             },
-            "ship": "translate(0px, 6.46px)"
+            "ship": "translate(0px, 5.442px)"
           }
         },
         {
@@ -1906,11 +1938,11 @@
           }
         },
         {
-          "id": "caption: 24 px above the phone's bottom safe area, edge to edge or above it",
+          "id": "caption: 24 px above the bottom safe area the shell gives, and it follows a change",
           "ok": true,
           "detail": {
-            "edgeToEdge": 58,
-            "aboveSafeArea": 24
+            "safe34": 58,
+            "safe0": 24
           }
         },
         {
@@ -1959,6 +1991,12 @@
                   "window"
                 ],
                 "refused": true
+              },
+              {
+                "input": [
+                  "insets"
+                ],
+                "refused": true
               }
             ],
             "updateRefused": true
@@ -1976,7 +2014,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2046,7 +2084,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2102,7 +2140,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-d3AI4-aF.js",
+          "source": "assets/index-kxsW1atx.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2158,7 +2196,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-d3AI4-aF.js",
+            "source": "assets/index-kxsW1atx.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2209,7 +2247,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-d3AI4-aF.js",
+            "source": "assets/index-kxsW1atx.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2221,7 +2259,7 @@
   },
   "beats": {
     "file": "design/phone-ui/components/ship-travel/review/beats-390x844.jpg",
-    "sha256": "ac32fc2d637f2ca63630204ca197437a1c4b01ed954e959ecf38cbb9bc5fb6c9",
+    "sha256": "57f32582585ec32511e4aabf10fcb07a5e5146d67e185460c5df8bd001fc9e13",
     "moments": [
       0,
       150,
@@ -2251,7 +2289,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-d3AI4-aF.js",
+        "source": "assets/index-kxsW1atx.js",
         "line": 1,
         "column": 3180,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
