@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/room-scene-check.mjs",
   "component": "design/phone-ui/components/room-scene",
-  "sourceCommit": "90f31dbb090afd1a115cd718a60d65579e237883",
-  "sourceClean": false,
+  "sourceCommit": "be2501e01dd18e2d4735d4a895b0567b3d1e7be0",
+  "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
     {
@@ -39,7 +39,7 @@
   "captures": {
     "390x844/lit": {
       "file": "design/phone-ui/components/room-scene/review/390x844-lit.jpg",
-      "sha256": "42c83becf82b31c1099c08c7939edb3e3e51dae2a0c071a86d471029a42fcf79",
+      "sha256": "ff2941e5343d1c1aab0b025e74931f966e1624d3369786605c221c7b251c962e",
       "ok": true,
       "violations": [
         {
@@ -79,7 +79,7 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/room-scene/review/390x844-own.jpg",
-      "sha256": "15a9280556c2d4792df77435f46c977cb5c225e9330343180eb764e6b7852742",
+      "sha256": "b2a93fc9e0247d1f6524450281ad24d66bcf22c9fbf1aa34e1383354e46ead4c",
       "ok": true,
       "violations": [
         {
@@ -119,7 +119,7 @@
     },
     "390x844/targets": {
       "file": "design/phone-ui/components/room-scene/review/390x844-targets.jpg",
-      "sha256": "b860bb56d3cc4a232f0c999123ac056fcaa9726c0a7f940031c4daca7ee1833e",
+      "sha256": "480d031eece15236c85894cbaf3697f7cb5ab79495d6af2971ca56db814c33e0",
       "ok": true,
       "violations": [
         {
@@ -159,7 +159,7 @@
     },
     "390x844/moves": {
       "file": "design/phone-ui/components/room-scene/review/390x844-moves.jpg",
-      "sha256": "668d932c2023f5d4cecd20e3c67bd2f276464941e2182e9bf2b4b28d9615cbd3",
+      "sha256": "370cb47164f816fdfa05ce7d83d497631eb4ec23fe15310997412fdf4ba63c17",
       "ok": true,
       "violations": [
         {
@@ -283,7 +283,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/room-scene/review/390x844-stale.jpg",
-      "sha256": "66de485b3e579a4c8426ee6dd02f63537ff12c2f5fb76f1e445e25f8316c9ce9",
+      "sha256": "2cde0e244fb5b16436eec9c8e6b9ef563b7081d886a75701aa27672234b53ea4",
       "ok": true,
       "violations": [
         {
@@ -436,7 +436,7 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/room-scene/review/430x932-lit.jpg",
-      "sha256": "debfc9f0554b9ff5945c3b73fb91d5b043a1bf312d57810bd044503d07346cf3",
+      "sha256": "f4549ab17fa2f39cc03c93bb3fcb68622f6f594ea7b8a7344f4d33fd8186de44",
       "ok": true,
       "violations": [
         {
@@ -476,7 +476,7 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/room-scene/review/430x932-own.jpg",
-      "sha256": "66226752f5364e368634dadbcb34bf77ba3327f05dab2df1270c85f9a2943fca",
+      "sha256": "aaed4d279427738d009928c26152e95bc6ba11f2226553a0b4c08cb247c053d8",
       "ok": true,
       "violations": [
         {
@@ -516,7 +516,7 @@
     },
     "430x932/targets": {
       "file": "design/phone-ui/components/room-scene/review/430x932-targets.jpg",
-      "sha256": "15ed0e0f210d66e35b94e4d5bb6a91b852bc70b82ecbd6889c3b16174d8903f7",
+      "sha256": "fe31b79b29833e2c8302869d114dbe061593b58417478f64dcfdf7726eaff2ad",
       "ok": true,
       "violations": [
         {
@@ -556,7 +556,7 @@
     },
     "430x932/moves": {
       "file": "design/phone-ui/components/room-scene/review/430x932-moves.jpg",
-      "sha256": "958d7f22b7dc8c4cd2278c069a49fb8672c3de4de39c213ab0e84348e7fa22fc",
+      "sha256": "bbf723eeb6c05f9d772583356775bb17a58978bbf8f274077158e954051a3456",
       "ok": true,
       "violations": [
         {
@@ -680,7 +680,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/room-scene/review/430x932-stale.jpg",
-      "sha256": "a80c4e3c91bb899486b8041582330f2b25ad3862faa002c1b6e050be31bb4514",
+      "sha256": "e1d12ff9a9e5bdcea81c7b5cbeb368e6ea52afdd84363be1470a439701fdb179",
       "ok": true,
       "violations": [
         {
