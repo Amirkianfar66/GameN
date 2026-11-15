@@ -2,6 +2,7 @@ import {
   PLANET_ORIGINAL_PINS, PLANET_SYNC_PINS, PLANET_GAME_PINS, PLANET_PHONE_OFFER_PINS,
   PLANET_BLACKOUT_PINS, PLANET_FOOD_TASK_PINS, PlanetVersionsSchema,
 } from './planet-game.js';
+import capabilityData from './planet-art-capabilities.json' with {type: 'json'};
 
 /** Presentation admission only. This never authorizes a command, a session or a deadline. */
 export interface PlanetReleaseCapabilities {
@@ -22,29 +23,38 @@ interface ArtRelease {
 }
 const privateFeedback = Object.freeze([PLANET_GAME_PINS, PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS]);
 const historical = Object.freeze([PLANET_ORIGINAL_PINS, PLANET_SYNC_PINS, ...privateFeedback]);
-const none: PlanetReleaseCapabilities = Object.freeze({
-  libraryArt: false, crewDrawing: false, roleFilms: false, boardingFilm: false, food: false,
-  roleFilmSetupFlows: Object.freeze([]), boardingSetupFlows: Object.freeze([]),
-});
-const library = Object.freeze({...none, libraryArt: true});
-const crew = Object.freeze({...library, crewDrawing: true});
-const pregame = Object.freeze({...crew, roleFilms: true, boardingFilm: true,
-  roleFilmSetupFlows: Object.freeze([null, 2, 3] as const), boardingSetupFlows: Object.freeze([2, 3] as const)});
-const food = Object.freeze({...pregame, food: true,
-  roleFilmSetupFlows: Object.freeze([3] as const), boardingSetupFlows: Object.freeze([3] as const)});
+const pins: Record<keyof typeof capabilityData, readonly Pins[]> = {
+  'design-0.5.0': historical,
+  'design-0.6.0': privateFeedback,
+  'design-0.7.0': privateFeedback,
+  'design-0.8.0': privateFeedback,
+  'design-0.9.0': Object.freeze([PLANET_FOOD_TASK_PINS]),
+};
+
+function flow(value: number | null): 2 | 3 | null {
+  if (value !== null && value !== 2 && value !== 3) throw Error('Unregistered presentation setup flow');
+  return value;
+}
 
 /**
  * Shared extension of the existing art-release registry. Build admission and browser dispatch
  * consume these same capabilities; immutable artwork manifests retain their original identities.
  * Every successor is explicit. A larger version number grants no compatibility.
  */
-export const PLANET_ART_RELEASES: Readonly<Record<string, ArtRelease>> = Object.freeze({
-  'design-0.5.0': Object.freeze({parent: null, pins: historical, capabilities: none}),
-  'design-0.6.0': Object.freeze({parent: 'design-0.5.0', pins: privateFeedback, capabilities: library}),
-  'design-0.7.0': Object.freeze({parent: 'design-0.6.0', pins: privateFeedback, capabilities: crew}),
-  'design-0.8.0': Object.freeze({parent: 'design-0.7.0', pins: privateFeedback, capabilities: pregame}),
-  'design-0.9.0': Object.freeze({parent: 'design-0.8.0', pins: Object.freeze([PLANET_FOOD_TASK_PINS]), capabilities: food}),
-});
+export const PLANET_ART_RELEASES: Readonly<Record<string, ArtRelease>> = Object.freeze(Object.fromEntries(
+  Object.entries(capabilityData).map(([version, entry]) => [version, Object.freeze({
+    parent: entry.parent,
+    pins: pins[version as keyof typeof capabilityData],
+    capabilities: Object.freeze({...entry.capabilities,
+      roleFilmSetupFlows: Object.freeze(entry.capabilities.roleFilmSetupFlows.map(flow)),
+      boardingSetupFlows: Object.freeze(entry.capabilities.boardingSetupFlows.map(value => {
+        const result = flow(value);
+        if (result === null) throw Error('Boarding requires a server-owned setup stage');
+        return result;
+      })),
+    }),
+  })]),
+));
 
 /** Saved sessions remain readable independently of whether their setup flow offers a film. */
 export function resolvePlanetReleaseCapabilities(versions: unknown): PlanetReleaseCapabilities | null {

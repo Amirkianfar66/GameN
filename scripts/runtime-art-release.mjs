@@ -6,7 +6,7 @@ import { readPregameProductionConsumerApproval, acceptsPregameProductionFile } f
 import { readPregameSourceApproval, verifyPregameRuntimePorts, PREGAME_APPROVAL, PREGAME_APPROVAL_SHA256 } from './pregame-runtime-ports.mjs';
 import {readFoodConsumerSource, FOOD_CONSUMER_SOURCE, FOOD_CONSUMER_SOURCE_SHA256} from './food-consumer-source.mjs';
 import {prepareFoodSupplyArt, FOOD_STATIC_ART, FOOD_STATIC_ART_SHA256} from './food-supply-art.mjs';
-import {PLANET_ART_RELEASES} from '../packages/contracts/dist/index.js';
+import PLANET_ART_RELEASES from '../packages/contracts/src/planet-art-capabilities.json' with {type: 'json'};
 
 export const RUNTIME_ART_VERSION = 'design-0.5.0';
 export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.5.0.json';
