@@ -21,8 +21,8 @@
 }
 
 /* ── The result window: over the stage for the 5 s result (sheets 37, 38, 56) ── */
-/* Mounted in the shell's stage, between the bars: the pack's window sits 8 px under the top bar and 10 px
-   above the tabs, 10 px from each side. */
+/* Mounted in the shell's cover layer (slot('cover')), exactly over the stage, between the bars: the pack's
+   window sits 8 px under the top bar and 10 px above the tabs, 10 px from each side. */
 .ms-vote-result {
   --ms-vote-ground: #E3D6C2;
   position: absolute; left: 10px; right: 10px; top: 8px; bottom: 10px; z-index: 50;
@@ -48,7 +48,6 @@
 .ms-vote-result .ms-result-title { margin: 0; font: 800 1.5rem/1.05 var(--ms-k-letter); letter-spacing: 0.04em; text-transform: uppercase; overflow-wrap: anywhere; }
 .ms-vote-result .ms-result-line { margin: 4px 0 0; font: 600 0.875rem/1.3 var(--ms-k-font); }
 .ms-vote-result .ms-result-body { flex: none; padding: 12px; }
-.ms-vote-result .ms-result-body .ms-k-grid9 { gap: 8px; }
 .ms-vote-result .ms-result-foot { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 2px solid rgba(21, 25, 35, 0.18); font: 600 0.875rem/1.2 var(--ms-k-font); }
 .ms-vote-result .ms-result-lock { flex: none; display: grid; place-items: center; }
 .ms-vote-result .ms-result-private { flex: 1; }

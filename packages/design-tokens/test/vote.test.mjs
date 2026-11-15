@@ -266,15 +266,7 @@ test('this viewer\'s inputs are dropped while concealed, and when the viewer cha
   assert.ok([...r.result.counts.values()].every(n => Number.isInteger(n)), 'counts are totals');
 });
 
-/**
- * Waiting on the shared kit (the Lead's, design/phone-ui/components/kit/): the cells on the result's paper
- * card (the pack's screens.css .result-body .cell: 74 px portraits, its padding and colours, and "You" in
- * the top-right beside the count). Until it lands, the agreement's result frames at 390 × 844 differ in
- * those boxes only, never in a word, a state or a count; this list says so and must shrink, not grow.
- */
-const AWAITING_KIT = new Set(['result-elected', 'result-runoff', 'result-no-captain', 'result-jailed', 'result-jail-full', 'result-no-one', 'result-jailed-8']);
-
-test('the check\'s record: every capture and probe check passed under the production headers, and the agreement differs only where the kit is awaited', () => {
+test('the check\'s record: every capture, probe check and agreement frame passed under the production headers', () => {
   const record = JSON.parse(read(`${COMPONENT}/review/check.json`));
   assert.equal(record.tool, 'design/tools/vote-check.mjs');
   assert.ok(record.sourceClean, 'recorded against a clean source');
@@ -320,12 +312,8 @@ test('the check\'s record: every capture and probe check passed under the produc
   }
   for (const c of agree.checks) {
     const state = c.id.match(/^agree: ([\w-]+)/)[1];
-    const words = c.detail.differences.filter(d => d.what !== 'box');
-    assert.deepEqual(words, [], `${state}: the same words, states and counts as the pack`);
-    if (AWAITING_KIT.has(state)) {
-      assert.ok(c.detail.differences.every(d => /^(?:body|seat \d( (?:count|you|mark))?)$/.test(d.part)), `${state}: only the cells' boxes differ, awaiting the kit`);
-    } else {
-      assert.ok(c.ok, `${state}: agrees with the pack to within half a pixel`);
-    }
+    assert.deepEqual(c.detail.differences, [], `${state}: the same words, states, counts and boxes as the pack, to within half a pixel`);
+    assert.ok(c.ok, `${state}: agrees with the pack`);
   }
+  assert.ok(agree.ok, 'the agreement as a whole');
 });

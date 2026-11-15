@@ -1,5 +1,8 @@
 /* mothership:dev-only · The ballot's and the result window's preview page: frames and captions. */
-html, body { margin: 0; background: #0B0E14; color: #F4EBDD; font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+/* The page's root keeps the browser's 16 px, as the game's does (its html sets no size): the components' rem
+   sizes are the game's. Only the preview's own words are 14 px. */
+html, body { margin: 0; background: #0B0E14; color: #F4EBDD; }
+body { font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
 .pv-head { padding: 20px 24px 4px; }
 .pv-head h1 { margin: 0 0 4px; font-size: 20px; }
 .pv-head p { margin: 0; color: #B9C4D3; max-width: 900px; }

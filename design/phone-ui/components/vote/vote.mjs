@@ -7,8 +7,8 @@
 //   - the ballot's frame is the phone shell's docked sheet: ballotSheet() gives the shell its title and
 //     footer (Abstain, "Vote for Ava", "Ballot registered", …), and mountBallot() draws the roster in the
 //     shell's sheetBody. ballotBar() gives the shell's top bar its words;
-//   - the result window is mounted over the stage for the 5 s result: mountVoteResult(), with
-//     resultBar() for the top bar and resultWords() for an announcement.
+//   - the result window is mounted in the shell's cover layer over the stage for the 5 s result:
+//     mountVoteResult(), with resultBar() for the top bar and resultWords() for an announcement.
 //
 // What it never does: decide who may vote or be chosen, send a ballot, count, work out a threshold or an
 // outcome. Candidates come from the public ballot (`ballot.eligibleTargets`), the tally is the projection's
@@ -401,8 +401,9 @@ export function resultBar(input) {
 }
 
 /**
- * Mounts the result window in `host` (the shell's stage, over the room scene), where it fills the stage
- * less the pack's margins. Returns { update, suspend, resume, dispose, element }. It has no controls.
+ * Mounts the result window in `host` (the shell's cover layer, `shell.slot('cover')`: exactly over the stage,
+ * above the room scene), where it fills the stage less the pack's margins and takes the taps over it, so the
+ * room under it takes none. Returns { update, suspend, resume, dispose, element }. It has no controls.
  */
 export function mountVoteResult(host, input = {}) {
   if (!host?.ownerDocument) throw new TypeError('A result window needs a host element');

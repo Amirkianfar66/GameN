@@ -95,7 +95,8 @@ function phone(sizeKey, stateKey) {
     if (at !== null) scene.suspend();
     let part = null;
     if (state.ballot && shell.sheetBody) part = mountBallot(shell.sheetBody, component, { onSelect: record('onSelect'), onFocusReturn: record('onFocusReturn') });
-    if (state.result) part = mountVoteResult(shell.stage, component);
+    // The result window in the shell's cover: over the stage and the room scene's tags, under the shell's own layers.
+    if (state.result) part = mountVoteResult(shell.slot('cover'), component);
     return { shell, scene, part, kind: state.ballot ? 'ballot' : 'result' };
   } };
 }

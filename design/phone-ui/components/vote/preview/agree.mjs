@@ -108,7 +108,7 @@ export async function runVoteAgreement({ sizes, versions, inputsFor }) {
     document.body.append(host);
     const { state, shell: shellInput, component } = inputsFor(c.state, size);
     const shell = mountPhoneShell(host, shellInput, {});
-    const part = state.ballot ? mountBallot(shell.sheetBody, component, {}) : mountVoteResult(shell.stage, component);
+    const part = state.ballot ? mountBallot(shell.sheetBody, component, {}) : mountVoteResult(shell.slot('cover'), component);
     await document.fonts.ready;
     await frames();
     const differences = [];

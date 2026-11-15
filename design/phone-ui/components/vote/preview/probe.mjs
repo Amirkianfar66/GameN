@@ -13,8 +13,9 @@
 //   private   concealed, the ballot draws nothing and drops this viewer's inputs; a new viewer's phone
 //             shows none of the last viewer's pick or ballot
 //   result    the window draws the tally as it is given: each candidate's count once, 0 as 0, none on a
-//             seat that was not a candidate, the chosen amber, no control and no ballot; concealed, nothing
-//             drawn and no words left in the page; shown again, drawn afresh
+//             seat that was not a candidate, the chosen amber, no control and no ballot; in the shell's
+//             cover it lies over the room scene's tags and takes the taps there; concealed, nothing drawn
+//             and no words left in the page; shown again, drawn afresh
 //   words     the headline and its line for all six outcomes, and no claim the tally does not hold
 //   compact   at 320 × 568 with 200 % text the art and stamp step aside, the roster is a list of whole
 //             names and the window scrolls as one column; at 390 × 844 the window is whole
@@ -178,7 +179,7 @@ export async function runVoteProbe({ sizes, versions, room }) {
     await check('result', async () => {
       const p = phone('390x844');
       const input = resultInput('result-jailed');
-      const result = mountVoteResult(p.shell.stage, input);
+      const result = mountVoteResult(p.shell.slot('cover'), input);
       const root = result.element;
       const cells = [...root.querySelectorAll('.ms-k-grid9 > .ms-k-cell')].map(c => ({ state: c.dataset.state, count: c.querySelector('.ms-k-count')?.textContent ?? null,
         you: !!c.querySelector('.ms-k-you'), label: c.getAttribute('aria-label'), note: c.querySelector('.ms-k-cell-note:not([hidden])')?.textContent ?? null }));
@@ -190,6 +191,12 @@ export async function runVoteProbe({ sizes, versions, room }) {
         ballots: /voted for|ballot of|'s vote/i.test(root.textContent) };
       const box = root.getBoundingClientRect(), stage = p.shell.stage.getBoundingClientRect();
       detail.inset = { left: Math.round(box.left - stage.left), right: Math.round(stage.right - box.right), top: Math.round(box.top - stage.top), bottom: Math.round(stage.bottom - box.bottom) };
+      // In the shell's cover, the window lies over the room scene's tags and presses (which stack inside the
+      // stage up to z-index 3150) and takes the taps there, so the room under it takes none.
+      await frames();
+      const under = [...p.shell.stage.querySelectorAll('.ms-rs-tag')].map(tag => tag.getBoundingClientRect())
+        .filter(r => r.width > 0 && r.left >= box.left && r.right <= box.right && r.top >= box.top && r.bottom <= box.bottom);
+      detail.over = { tags: under.length, hits: under.map(r => !!document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)?.closest('.ms-vote-result')) };
       result.update({ status: 'concealed' });
       detail.concealed = { hidden: root.hidden, shown: root.getClientRects().length, text: root.textContent.trim(), cells: root.querySelectorAll('.ms-k-cell').length };
       // Shown again, drawn afresh from the same public tally.
@@ -198,6 +205,7 @@ export async function runVoteProbe({ sizes, versions, room }) {
       result.dispose(); p.dispose();
       return { ok: counts && detail.buttons === 0 && detail.chosen === 'winner' && detail.you && detail.label === 'Player 7, Gus, 5 votes' && !detail.ballots
         && cells.every(c => c.note === null) && cells[5].label === 'Player 6, Fay'
+        && detail.over.tags > 0 && detail.over.hits.every(Boolean)
         && detail.foot === 'Ballots stay private Round 3' && detail.inset.left === 10 && detail.inset.right === 10 && detail.inset.top === 8 && detail.inset.bottom === 10
         && detail.concealed.hidden && detail.concealed.shown === 0 && detail.concealed.text === '' && detail.concealed.cells === 0
         && detail.again.title === 'Gus goes to Jail' && detail.again.cells === 9, ...detail };
@@ -223,7 +231,7 @@ export async function runVoteProbe({ sizes, versions, room }) {
       for (const [key, sizeKey, text] of [['normal', '390x844', null], ['large', '320x568', 200]]) {
         document.documentElement.style.fontSize = text ? `${text}%` : '';
         const p = phone(sizeKey);
-        const result = mountVoteResult(p.shell.stage, resultInput('result-jailed'));
+        const result = mountVoteResult(p.shell.slot('cover'), resultInput('result-jailed'));
         await frames();
         const root = result.element, q = s => root.querySelector(s);
         const shown = node => !!node && node.getClientRects().length > 0;
@@ -250,9 +258,9 @@ export async function runVoteProbe({ sizes, versions, room }) {
       tap(cell);
       ballot.update({ selected: 1 });
       const p = phone('390x844');
-      const result = mountVoteResult(p.shell.stage, resultInput('result-elected'));
+      const result = mountVoteResult(p.shell.slot('cover'), resultInput('result-elected'));
       result.dispose();
-      const detail = { ballotLeft: host.childElementCount, taps: seen.length, resultLeft: p.shell.stage.querySelectorAll('.ms-vote-result').length };
+      const detail = { ballotLeft: host.childElementCount, taps: seen.length, resultLeft: p.shell.slot('cover').querySelectorAll('.ms-vote-result').length };
       p.dispose(); host.remove();
       return { ok: detail.ballotLeft === 0 && detail.taps === 0 && detail.resultLeft === 0, ...detail };
     });
@@ -265,7 +273,7 @@ export async function runVoteProbe({ sizes, versions, room }) {
       document.body.append(host);
       const ballot = mountBallot(host, { ...ballotInput('jail-open'), reducedMotion: reduced }, {});
       const p = phone('390x844');
-      const result = mountVoteResult(p.shell.stage, { ...resultInput('result-jailed'), reducedMotion: reduced });
+      const result = mountVoteResult(p.shell.slot('cover'), { ...resultInput('result-jailed'), reducedMotion: reduced });
       ballot.update({ selected: 1 });
       await frames();
       const own = [ballot.element, result.element];
