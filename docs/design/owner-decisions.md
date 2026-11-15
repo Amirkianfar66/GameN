@@ -6,6 +6,35 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 15 November 2026: Designer connects the five rooms; nothing related to design inside the frontend
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.**
+- The owner had played the deployed build and found that the room windows still don't move.
+- The Lead explained that the room scene (#261) draws all five rooms, and that connecting it in the game was Frontend's work.
+
+The Lead then asked:
+
+> Still open for you: should I write the game-side connection for all five rooms myself, with Frontend reviewing it?
+
+The owner answered:
+
+> Yes lets do it for all 5 rooms nothing related to design should be inside of frontend
+
+**What it covers:**
+- **Designer writes the room connection.**
+  - The game's room view draws Room A, Room B, the Command Room, the Hospital and the Jail through the room scene (#261), all in one release.
+  - Frontend reviews it.
+  - Integration admits it to the hosted build, adds `room-drawing-1.0.0` to the art bundles (DSN-REQ-18) and publishes.
+- **Nothing related to design stays inside the frontend.**
+  - The look and motion come from Designer's source in `design/`. The frontend keeps the data, the commands and the lifecycle.
+  - A design that the game draws today in `apps/game` moves into Designer's components, and is replaced there rather than kept beside them.
+  - This builds on the [14 November](#14-november-2026-one-visual-source-and-clear-ownership) decision.
+
+**What it leaves open:**
+- The order in which the rest of the frontend's design code moves: the room films, the private-talk capsule, the board's panels, the shell and the Designer team's screens.
+- Who writes each of those connections.
+- Designer proposes both on #222.
+
 ## 15 November 2026: the Card's empty Knowledge line
 
 **Recorded by the Lead Designer from the owner's answer in the Lead's session.** The Lead asked:
