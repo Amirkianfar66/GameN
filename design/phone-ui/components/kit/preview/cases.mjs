@@ -179,4 +179,26 @@ export const CASES = Object.freeze([
       return wrap;
     },
     parts: [['grid', ':scope > .grid-wrap > .grid9', ':scope > .ms-k-grid-wrap > .ms-k-grid9'], ...[1, 2, 3, 4, 5, 6, 7, 8, 9].flatMap(CELL)] },
+  // On a result's paper card (the pack's screens.css .result-body; the kit's data-ms-surface="paper"): every cell
+  // restyled, the chosen one gold, "You" top-right beside a count, a seat that was not a candidate faded.
+  { id: 'cells on paper', where: 'plain',
+    pack: ({ ui }) => ui.h('div.result-body', { style: { background: '#F4EBDD' } }, ui.h('div.grid9', [
+      ui.cell(seat(1), { count: 0 }), ui.cell(seat(2), { state: 'winner', count: 4, you: true }), ui.cell(seat(3), { count: 2 }),
+      ui.cell(seat(4), { state: 'ineligible' }), ui.cell(seat(5), { count: 1 }), ui.cell(null),
+      ui.cell(seat(7), { state: 'faded', count: 0 }), ui.cell(seat(8), { state: 'ineligible' }), ui.cell(seat(9), { count: 1 })])),
+    kit: ({ kit, versions }) => {
+      // The result body's own box (its padding and its paper) is the component's; the paper surface is the kit's.
+      const body = kit.h('div', null, { 'data-ms-surface': 'paper', style: 'padding: 12px; background: #F4EBDD' });
+      const { wrap, grid } = kit.grid9();
+      grid.append(
+        kit.cell({ person: seat(1), count: 0, versions }), kit.cell({ person: seat(2), state: 'winner', count: 4, you: true, tag: 'div', versions }),
+        kit.cell({ person: seat(3), count: 2, versions }), kit.cell({ person: seat(4), state: 'ineligible', tag: 'div', versions }),
+        kit.cell({ person: seat(5), count: 1, versions }), kit.cell({ person: { seat: 6 }, state: 'empty', tag: 'div' }),
+        kit.cell({ person: seat(7), state: 'faded', count: 0, tag: 'div', versions }), kit.cell({ person: seat(8), state: 'ineligible', tag: 'div', versions }),
+        kit.cell({ person: seat(9), count: 1, versions }));
+      body.append(wrap);
+      return body;
+    },
+    parts: [['grid', ':scope > .result-body > .grid9', ':scope > [data-ms-surface="paper"] > .ms-k-grid-wrap > .ms-k-grid9'],
+      ...[1, 2, 3, 4, 5, 6, 7, 8, 9].flatMap(n => CELL(n).map(([name, p, k, o]) => [name, p.replace('.grid9', '.result-body > .grid9'), k.replace('.ms-k-grid9', '[data-ms-surface="paper"] .ms-k-grid9'), o]))] },
 ]);
