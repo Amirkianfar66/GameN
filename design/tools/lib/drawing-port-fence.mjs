@@ -116,12 +116,13 @@ export function readDrawingPolicy(root) {
   if (food.schema !== 'mothership.food-source-drawing-policy/1' || food.status !== 'technical-source-registration' ||
     food.parentApprovalSha256 !== HOST_ABORT_DRAWING_POLICY_SHA256) throw Error('Food drawing policy parent differs');
   for (const key of ['ports', 'requiredFiles', 'sourceHashes', 'buildFiles']) policy[key] = { ...policy[key], ...food[key] };
-  applyToolingSupplement(root, policy, RELEASE_PRESERVATION_DRAWING_POLICY,
+  const toolingLoaded = applyToolingSupplement(root, policy, RELEASE_PRESERVATION_DRAWING_POLICY,
     RELEASE_PRESERVATION_DRAWING_POLICY_SHA256, FOOD_SOURCE_DRAWING_POLICY_SHA256,
     'mothership.release-preservation-tooling-drawing/1');
-  applyToolingSupplement(root, policy, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY,
+  const consumerLoaded = applyToolingSupplement(root, policy, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY,
     RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY_SHA256, RELEASE_PRESERVATION_DRAWING_POLICY_SHA256,
     'mothership.release-preservation-consumer-drawing/1');
+  if (consumerLoaded && !toolingLoaded) throw Error('Release preservation consumer drawing parent is missing');
   return policy;
 }
 
@@ -130,7 +131,7 @@ export function readDrawingPolicy(root) {
 function applyToolingSupplement(root, policy, path, expected, parent, schema) {
   let stat;
   try { stat = lstatSync(resolve(root, path)); }
-  catch (error) { if (error.code === 'ENOENT') return; throw error; }
+  catch (error) { if (error.code === 'ENOENT') return false; throw error; }
   if (stat.isSymbolicLink() || !stat.isFile()) throw Error('Release preservation drawing approval must be a regular file');
   const bytes = readFileSync(resolve(root, path));
   if (contentSha256(bytes) !== expected) throw Error('Release preservation drawing approval content hash differs');
@@ -143,6 +144,7 @@ function applyToolingSupplement(root, policy, path, expected, parent, schema) {
     if (!build) throw Error('Release preservation cannot add a build adapter');
     policy.buildFiles[buildPath] = { ...build, assetHashes: { ...build.assetHashes, ...assetHashes } };
   }
+  return true;
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/', 'apps/game/hosted/pregame-films/'];
 const isFoodDrawingPath = path => /^apps\/game\/hosted\/planet\/food(?:-|\.)/.test(path);

@@ -9,7 +9,7 @@ import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
 import {CANDIDATE_DRAWING_POLICY,PLANET_DRAWING_POLICY,CREW_DRAWING_POLICY,CREW_CONSUMER_DRAWING_POLICY,
   PREGAME_DRAWING_POLICY,PREGAME_PRODUCTION_DRAWING_POLICY,PHONE_UI_PRODUCTION_DRAWING_POLICY,
-  RELEASE_PRESERVATION_DRAWING_POLICY,
+  RELEASE_PRESERVATION_DRAWING_POLICY,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY,
   readDrawingPolicy,productionDrawingProblems,prototypeReferences} from '../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_CONSUMER_CANDIDATE,PREGAME_CONSUMER_REVIEW_ENV} from '../../scripts/pregame-consumer-candidate.mjs';
 
@@ -67,6 +67,7 @@ test('Food release-selection tooling stays pinned and predecessor fixtures resto
 
 test('release preservation admits only exact tooling and retains all artwork pins', async t=>{
   const target=fixture(t), current=readDrawingPolicy(target);
+  rmSync(join(target,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY));
   rmSync(join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
   const previous=readDrawingPolicy(target);
   for(const key of ['ports','sourceHashes','styles','metadataFiles']) assert.deepEqual(current[key],previous[key],key);
@@ -74,6 +75,7 @@ test('release preservation admits only exact tooling and retains all artwork pin
     previous.buildFiles['apps/game/hosted/comic-assets.mjs'].sha256);
   await rejects(target,/runtime-art-release\.mjs: required candidate drawing input differs/);
   cpSync(join(root,RELEASE_PRESERVATION_DRAWING_POLICY),join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
+  cpSync(join(root,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY),join(target,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY));
   assert.deepEqual(await productionDrawingProblems(target),[]);
   for(const path of ['scripts/runtime-art-release.mjs','scripts/prepare-hosted-preview.mjs',
     'scripts/hosted-preview-policy.mjs','packages/contracts/src/planet-art-capabilities.json']) {
@@ -86,6 +88,19 @@ test('release preservation admits only exact tooling and retains all artwork pin
   rmSync(join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
   symlinkSync(join(root,RELEASE_PRESERVATION_DRAWING_POLICY),join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
   assert.throws(()=>readDrawingPolicy(target),/Release preservation drawing approval must be a regular file/);
+});
+
+test('a film-consumer drawing supplement requires its verified tooling parent', async t=>{
+  const target=fixture(t);
+  rmSync(join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
+  assert.throws(()=>readDrawingPolicy(target),/consumer drawing parent is missing/);
+  await rejects(target,/consumer drawing parent is missing/);
+  rmSync(join(target,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY));
+  assert.doesNotThrow(()=>readDrawingPolicy(target), 'absence of both retains historical policy');
+  await rejects(target,/runtime-art-release\.mjs: required candidate drawing input differs/);
+  cpSync(join(root,RELEASE_PRESERVATION_DRAWING_POLICY),join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
+  cpSync(join(root,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY),join(target,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY));
+  assert.deepEqual(await productionDrawingProblems(target),[]);
 });
 function candidateFixture(t){
   const target=fixture(t),candidate=JSON.parse(readFileSync(join(target,PREGAME_CONSUMER_CANDIDATE)));
