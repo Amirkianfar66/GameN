@@ -8,7 +8,7 @@
 **Covers:**
 - **The ballot** (sheets 35, 36, 56), in the shell's docked sheet:
   - the 3 × 3 roster, seat n always cell n; an empty frame for seats 8 and 9 in a 7- or 8-player match;
-  - each cell's state: available, selected, your vote, faded (once a ballot is in), not available (with its note);
+  - each cell's state: available, selected, your vote, faded (once a ballot is in), not available (saying the server's reason, "Not in runoff" in a runoff, or "Not available now": the owner's T3);
   - "You" on this viewer's own cell;
   - above the roster: "You abstained", "Closed · result next", or why this viewer can't vote and "You can still watch.";
   - the sheet's words for the shell: its title, "8 players" under nine, and the footer: Abstain and "Vote" / "Vote for Ava"; "Ballot registered", "Abstained", "Voting closed", "You can't vote";
@@ -26,7 +26,7 @@
     | `JAIL_FULL` | steel | NO ROOM | GUS CHOSEN · JAIL FULL | Chosen, but every Jail place is taken. Gus stays. |
     | `NO_JAIL_SELECTION` | paper | NO ONE | NO ONE GOES TO JAIL | No one reached 4 votes. |
 
-  - the roster: each candidate's count on the portrait's top-left corner, **0 shown as 0**, amber for the chosen or the tied; the seat number beside the name; "You"; a seat that was not a candidate faded with its note and no count;
+  - the roster: each candidate's count on the portrait's top-left corner, **0 shown as 0**, amber for the chosen or the tied; the seat number beside the name; "You"; a seat that was not a candidate faded, with no count and no note unless the server gives a reason (T3);
   - each count shown once, as the badge; the cell's accessible name says "Player 7, Gus, 5 votes";
   - the foot: "Ballots stay private" and the round;
   - **compact** (the window under 14 of its own em: 320 px at 150 % and 200 %, 390 px at 200 %): the art and stamp step aside, the headline stops growing at 30 px, the whole window scrolls as one column with the foot, and the roster becomes a list of whole names with the count at the end (sheet 56).
@@ -68,9 +68,9 @@ ballot.update({ ...changes });   // each key given replaces that key; the rest s
 // Each change of the ballot's input: ballot.update(changes) and shell.update({ sheet: ballotSheet(next) }).
 ballot.dispose();                // when the sheet closes, the shell drops it, or the phase ends
 
-// The result: over the stage, above the room scene, for the 5 s result phase.
+// The result: in the shell's cover layer over the stage, for the 5 s result phase.
 shell.update({ bar: { ...resultBar(input), round, timer: { remainingMs, ring, urgentAtMs: -1 } } });
-const result = mountVoteResult(shell.stage, input);
+const result = mountVoteResult(shell.slot('cover'), input);
 announce(resultWords(input).announce);   // Frontend's own live region, once
 result.update({ ...changes });
 result.dispose();                // when the phase leaves VOTE_RESULT
@@ -78,7 +78,7 @@ result.dispose();                // when the phase leaves VOTE_RESULT
 
 - **Synchronous, with no timers:** both survive any number of updates. `suspend()` and `resume()` exist, as on the shell; a suspended ballot takes no taps.
 - **The ballot lives in the shell's sheet body.** When the shell drops the sheet (it is concealed, the sheet closes or another opens), the body goes with it: dispose the ballot then, and mount it again in the new `sheetBody` when the ballot's sheet comes back.
-- **The result window** is the last child of `shell.stage`, inset 8 px under the top bar, 10 px above the tabs and 10 px from each side, as the pack draws it.
+- **The result window** mounts in the shell's cover layer, `shell.slot('cover')`: exactly over the stage, above the room scene's tags and presses, under the shell's target bar, chip, banner, toast and sheet (the Lead's decision; it comes with the shell's next update on #265). It sits inset 8 px under the top bar, 10 px above the tabs and 10 px from each side, as the pack draws it, and takes the taps over it, so the room under it takes none. Until the cover lands, the preview mounts it in `shell.stage`.
 - **The result's clock:** pass `urgentAtMs: -1` to the shell's timer. The pack's result ring is never amber (sheets 37 and 38).
 
 ## Inputs
@@ -94,7 +94,7 @@ result.dispose();                // when the phase leaves VOTE_RESULT
 | `versions` | Public | The match's art versions, for the portraits |
 | `kind` | Public | `'jail'` or `'captain'` |
 | `runoff` | Public | `null`, or `{ tied: [seat, …] }`: "Captain runoff", "Ava and Ben tied" |
-| `roster` | Public | `[{ seat, name, character, note, candidate, reason }]`, one per seat in the match (7–9). `seat` is the number or the `'seat-n'` id. `candidate`: in `ballot.eligibleTargets` (public). `note`: the public status Frontend words ("Injured", "In Jail", "Out"), or `null`. `reason`: an unavailable reason where the projection gives one, else `null` |
+| `roster` | Public | `[{ seat, name, character, candidate, reason }]`, one per seat in the match (7–9). `seat` is the number or the `'seat-n'` id. `candidate`: in `ballot.eligibleTargets` (public). `reason`: the server's reason this seat can't be chosen, where the projection gives one, else `null`. A public status ("Injured", "In Jail", "Out") is not an input: under T3 it is not drawn there |
 | `selected` | This viewer's | The seat picked and not yet sent, or `null`. Frontend holds it; the component only draws it. It must be a candidate |
 | `own` | This viewer's | `null` (no ballot yet), `{ seat }` (sent), or `{ abstained: true }`, from `ownBallot` for this phase |
 | `mode` | This viewer's | `'open'` (the `VOTE` offer is there), `'closed'` (the clock reached 0; result next) or `'cannot'` (this viewer may not vote: not in `ballot.eligibleVoters`). Left out, `'closed'`: no choice until one is given |
@@ -103,11 +103,12 @@ result.dispose();                // when the phase leaves VOTE_RESULT
 
 **Each cell, from these inputs alone** (`ballotCells(input)` returns them):
 - **available:** a candidate, `mode: 'open'`, no ballot sent; **selected**, with "Selected" and the check, when it is `selected`.
-- **not available** (dimmed, focusable, `aria-disabled`): not a candidate. Its note is:
-  1. `reason`;
-  2. else, in a runoff, "Not in runoff" (the runoff's pair is the server's `runoff.tied`);
-  3. else the public `note`;
-  4. else "Not available now".
+- **not available** (dimmed, focusable, `aria-disabled`): not a candidate. Its note (the owner's T3) is:
+  1. `reason`, the server's;
+  2. else, in a runoff, "Not in runoff" (the runoff's pair is the server's `runoff.tied`, so it is true by definition);
+  3. else "Not available now".
+
+  Never the person's public status: written under exactly the cells that can't be chosen, it would read as a reason worked out on the phone (the Lead's review of #267).
 - **your vote:** the seat in `own`, with "Your vote" and the check.
 - **faded:** every other candidate once a ballot is sent, the vote is closed, or this viewer can't vote.
 
@@ -128,7 +129,7 @@ The footer's taps arrive through the shell's `onSheetAction('abstain' | 'vote', 
 | --- | --- | --- |
 | `status`, `reducedMotion`, `viewer`, `versions` | As the ballot | Concealed, the window draws nothing, as the shell and the room scene |
 | `tally` | Public | `lastTally` exactly as the projection gives it: `{ kind, outcome, counts, eligibleVoterCount, selectedSeatId, tiedSeatIds }`, with its `'seat-n'` ids; Frontend does not reshape it. `phaseId` is ignored. An outcome that names a person needs `selectedSeatId` |
-| `roster` | Public | As the ballot's; `candidate` on each seat that could be chosen in that vote. No count is drawn on a non-candidate |
+| `roster` | Public | As the ballot's; `candidate` on each seat that could be chosen in that vote. A non-candidate is faded, with no count, and with no note unless its `reason` is given: nothing is being chosen, so not "Not available now" either |
 | `needed` | Public | The number of votes a Jail vote needed, for "4 needed of 8" and "No one reached 4 votes.", or `null` |
 | `round` | Public | For the foot's "Round 3" |
 
@@ -138,13 +139,12 @@ The footer's taps arrive through the shell's `onSheetAction('abstain' | 'vote', 
   - "No one reached 4 votes." appears only when every count is under the threshold; a tie at it reads "No one was chosen.".
 - **The bar:** `resultBar(input)` returns the bar words, "Jail vote · result" or "Election · result", with the short form "Vote result".
 
-**Questions (1 and 2 for Integration and Backend on #222; please don't infer):**
+**Questions for Integration and Backend (the Lead puts them on #4 with this interface; please don't infer):**
 1. **The Jail threshold.** `lastTally` carries `eligibleVoterCount` but not the votes needed. The component will not work it out from the rules; the pack's words need the threshold in the projection.
 2. **Candidates with no votes.** Item 4 asks for zero shown as 0. If `counts` leaves out a candidate with no votes, Frontend needs the closed vote's candidates (`ballot.eligibleTargets` of that phase) to mark `candidate: true`. The component draws 0 for a candidate missing from `counts`, and no count for a seat that was not a candidate.
-3. **For the Lead: a non-candidate's note and T3.** The pack writes the public status ("Injured", "In Jail", "Out") under a cell that can't be chosen, and only there. An injured Eli has no note in the Jail vote, where he can be chosen, and "Injured" in the election, where he can't.
-   - **The rule:** the owner's T3 says the phone uses the server's reason or "Not available now", and never works a reason out from the rules.
-   - **What the component prints:** only what it is given: `reason`, the runoff's words, the public status, or "Not available now".
-   - **The question:** is the public status acceptable under T3 here, as a fact about the person rather than a reason? If not, Frontend passes `note: null`, and the cell says "Not available now" until the projection carries reasons.
+3. **Ballot ineligibility reasons.** Each non-candidate's reason, so a cell can say more than "Not available now".
+
+**Decided by the Lead (review of #267), under the owner's T3:** the pack writes the public status ("Injured", "In Jail", "Out") under the cells that can't be chosen, and only there, so it reads as the reason. The component does not draw it: a non-candidate says the server's reason, "Not in runoff" in a runoff, or "Not available now", and on the result nothing. This is the one accepted difference from the sheets; the agreement amends the pack's drawing to these words before comparing, and records each amendment.
 
 ## Callbacks
 
@@ -171,7 +171,7 @@ The result window has no controls and no callbacks. It shows no ballots: no list
 | 37 | Elected, runoff, no Captain | Gold, paper, paper heads |
 | 38 | Jailed, Jail full, no one, 8 players | Steel, steel, paper heads |
 | 56 | At 320 × 568 with 200 % text: three results, three ballots | The list form; the compact window |
-| 45 | Reconnecting | Ballot: cells refused, look kept. Result: unchanged |
+| 45 | Reconnecting | Ballot: cells refused, look kept; the shell's banner sits under the docked sheet, as the pack layers them, and the bar says "Reconnecting…". Result: unchanged |
 | — | Concealed | Nothing: no names, pick, ballot or totals, and nothing for a screen reader |
 
 **Privacy:**
@@ -187,7 +187,7 @@ The result window has no controls and no callbacks. It shows no ballots: no list
 | Input | From |
 | --- | --- |
 | Ballot shown | `phase.kind` `JAIL_VOTE` or `CAPTAIN_ELECTION`, when the player opens it with the shell's Vote |
-| `roster` | `identities`; `candidate` from `ballot.eligibleTargets`; `note` from the public status (Hospital, Jail, eliminated) |
+| `roster` | `identities`; `candidate` from `ballot.eligibleTargets`; `reason` only where the projection gives one |
 | `own` | `ownBallot`, when its `phaseId` is the phase's |
 | `mode` | `'open'` while `canVote`; `'cannot'` when the viewer is not in `ballot.eligibleVoters`; `'closed'` at 0 before the result |
 | `runoff` | The runoff phase, with `lastTally.tiedSeatIds` |
@@ -210,9 +210,9 @@ Listed, not omitted:
 | What | Waiting on |
 | --- | --- |
 | The cells on the result's paper card: paper-shade cells, 74 px portraits and their padding, ink seat numbers, the chosen cell's #FBE7A1, "You" in the top-right beside the count. They draw in the kit's dark form today, and the names in the grid are dark on dark. | The kit (asked of the Lead): a `data-ms-surface="paper"` form, which the result's body already carries |
-| The reconnecting banner over a docked sheet. It sits under the ballot's sheet (`390x844-jail-stale.jpg`). | The shell (asked of the Lead) |
+| The shell's cover layer, `slot('cover')`, where the result window mounts | The shell's next update (the Lead, #265) |
 | The window's arrival | Motion & Cinematics |
-| The threshold and zero-vote candidates in the projection | Integration and Backend (questions 1 and 2 above) |
+| The threshold, zero-vote candidates and ineligibility reasons in the projection | Integration and Backend (questions 1–3 above) |
 
 ## Checks run on this version
 

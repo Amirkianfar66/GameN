@@ -78,7 +78,7 @@ function checkRoster(roster, what) {
     if (!Number.isSafeInteger(n) || n < 1 || n > 9) throw new TypeError(`${what}[${i}]'s seat is 1–9, or 'seat-1' … 'seat-9'`);
     if (seen.has(n)) throw new TypeError(`${what} has seat ${n} twice`);
     seen.add(n);
-    return Object.freeze({ seat: n, name: p.name, character: p.character ?? null, note: optionalText(p.note, `${what}[${i}].note`),
+    return Object.freeze({ seat: n, name: p.name, character: p.character ?? null,
       candidate: !!p.candidate, reason: optionalText(p.reason, `${what}[${i}].reason`) });
   }).sort((a, b) => a.seat - b.seat);
 }
@@ -151,9 +151,10 @@ export function nextBallotInput(previous, input) {
 function ballotCell(state, p) {
   const { mode, own, selected, runoff } = state;
   if (!p.candidate) {
-    // Not available: the projection's reason; else, in a runoff, the pack's words; else the person's public
-    // status; else "Not available now". The phone never works out a reason from the rules.
-    const note = p.reason ?? (runoff ? VOTE_WORDS.notInRunoff : null) ?? p.note ?? VOTE_WORDS.notAvailable;
+    // Not available (the owner's T3): the server's reason; else, in a runoff, "Not in runoff" (the server's own
+    // tied pair, true by definition); else "Not available now". Never a reason worked out on the phone, and
+    // not the person's public status either, which under exactly these cells would read as one.
+    const note = p.reason ?? (runoff ? VOTE_WORDS.notInRunoff : null) ?? VOTE_WORDS.notAvailable;
     return { state: 'ineligible', note, mark: null, off: true };
   }
   if (own && own.seat === p.seat) return { state: 'confirmed', note: VOTE_WORDS.yourVote, mark: 'check', off: true };
@@ -483,7 +484,8 @@ export function mountVoteResult(host, input = {}) {
       const p = bySeat.get(n) ?? null;
       let props;
       if (!p) props = { tag: 'div', state: 'empty' };
-      else if (!p.candidate) props = { tag: 'div', person: p, state: 'ineligible', note: p.note, versions: s.versions };
+      // Not a candidate: faded with no count, and the server's reason if it gives one (T3); nothing else.
+      else if (!p.candidate) props = { tag: 'div', person: p, state: 'ineligible', note: p.reason, versions: s.versions };
       else {
         // Each count once, as the cell's badge, and 0 as 0 (the owner, 10 November; #222 item 4).
         const count = r.counts.get(n) ?? 0;

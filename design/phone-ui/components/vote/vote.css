@@ -14,8 +14,11 @@
 /* "You abstained" and "Closed · result next" sit above the roster, where they are seen without scrolling;
    the can't-vote note keeps the kit's group-note spacing. */
 .ms-vote-ballot .ms-ballot-notes[data-note="pill"] { margin: 0 0 10px; }
-/* The pack's .vote-grid .cell, kept below the kit's list form (a list row keeps its own padding). */
-:where(.ms-vote-ballot) .ms-vote-grid .ms-k-cell { padding-top: 7px; }
+/* The pack's .vote-grid .cell, in the 3 × 3 only: a list row (the kit's ms-k-grid container under 13 em)
+   keeps the kit's own padding, as the pack's list rule outranks .vote-grid .cell. */
+@container ms-k-grid (width > 13em) {
+  .ms-vote-ballot .ms-vote-grid .ms-k-cell { padding-top: 7px; }
+}
 
 /* ── The result window: over the stage for the 5 s result (sheets 37, 38, 56) ── */
 /* Mounted in the shell's stage, between the bars: the pack's window sits 8 px under the top bar and 10 px
@@ -26,6 +29,8 @@
   display: flex; flex-direction: column; border-radius: 22px; overflow: hidden;
   background: var(--ms-k-paper); color: var(--ms-k-ink); border: 3px solid var(--ms-k-ink); box-shadow: 6px 6px 0 #05070B;
   container: ms-vote-result / inline-size;
+  /* The shell's cover layer takes no taps itself: the window takes them, so the room under it takes none. */
+  pointer-events: auto;
 }
 /* Concealed (vote.mjs sets hidden): nothing drawn. */
 .ms-vote-result[hidden] { display: none; }

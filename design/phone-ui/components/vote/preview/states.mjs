@@ -9,11 +9,11 @@
 
 import { ROSTER, SELF, seatOf } from '../../../prototype/fixtures.mjs';
 
-/** Public status of each seat in the vote fixture, as the pack's (screens-vote.mjs): 5 in Hospital, 6 in Jail, 9 out. */
-const NOTE = Object.freeze({ 5: 'Injured', 6: 'In Jail', 9: 'Out' });
-
+// The pack's vote fixture has 5 in Hospital, 6 in Jail and 9 out (screens-vote.mjs). Their public status is
+// not drawn under the cells that can't be chosen (the owner's T3, the Lead's review of #267): the server's
+// reason or "Not available now". The projection gives no reasons today, so the fixture gives none.
 const roster = (count = 9, extra = {}) => ROSTER.filter(p => p.seat <= count)
-  .map(p => ({ seat: p.seat, name: p.name, character: p.character, note: NOTE[p.seat] ?? null, candidate: false, reason: null, ...(extra[p.seat] ?? {}) }));
+  .map(p => ({ seat: p.seat, name: p.name, character: p.character, candidate: false, reason: null, ...(extra[p.seat] ?? {}) }));
 
 /** Who may be chosen, as the server's public `ballot.eligibleTargets` would say (the fixture's stand-in). */
 const TARGETS = Object.freeze({
@@ -66,8 +66,8 @@ const TALLIES = Object.freeze({
 /** A result state: the shell's bar (the 5 s ring) and the window's public input. */
 function result(outcome, { count = 9 } = {}) {
   const t = TALLIES[outcome], kind = t.kind === 'CAPTAIN_ELECTION' ? 'captain' : 'jail';
-  // The pack counts everyone not out as able to vote: 8 of 9 (Ike is out), and 8 of 8.
-  const eligibleVoterCount = roster(count).filter(p => p.note !== 'Out').length;
+  // The pack counts everyone not out as able to vote: 8 of 9 (Ike, seat 9, is out), and 8 of 8.
+  const eligibleVoterCount = roster(count).filter(p => p.seat !== 9).length;
   return {
     shell: { viewer: SELF, bar: resultBar(kind), tabs: tabs({ mode: 'vote', enabled: false }) },
     result: {

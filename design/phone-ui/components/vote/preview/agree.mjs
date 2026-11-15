@@ -7,7 +7,8 @@
 // frame by frame. Compared: the words (the sheet's title and footer, the notes above the roster, the
 // stamp, the headline, its line and the foot), each seat's cell (its state, note, count, "You" and mark)
 // and where each part sits, to within half a pixel. It is how the component shows it draws the pack's
-// ballot and results and not a second design of them.
+// ballot and results and not a second design of them. The one accepted difference, the owner's T3 words under
+// a cell that can't be chosen, is amended in the pack's drawing first and recorded (amendForT3 below).
 
 import { VOTE_SCREENS } from '../../../prototype/screens-vote.mjs';
 import { mountBallot, mountVoteResult } from '../vote.mjs';
@@ -15,6 +16,29 @@ import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
 import { PACK_FRAMES } from './states.mjs';
 
 const TOLERANCE = 0.5;
+
+/**
+ * The one accepted difference from the pinned pack, the owner's T3 (docs/design/owner-decisions.md, 11 November
+ * 2026; the Lead's review of #267): a cell that can't be chosen shows the server's reason, or "Not available
+ * now", never a reason worked out on the phone. The pack writes the person's public status there ("Injured",
+ * "In Jail", "Out"), which under exactly those cells reads as one. Before comparing, the pack's drawing in this
+ * page (never its source) is amended to the T3 words: on the ballot, "Not available now"; on the result, where
+ * nothing is being chosen, no note. Each amendment is recorded; everything else is compared as the pack draws it.
+ */
+const STATUS_WORDS = Object.freeze(['Injured', 'In Jail', 'Out']);
+const T3 = 'The owner\'s T3 (11 November 2026): the server\'s reason or "Not available now", never a reason worked out on the phone; the pack\'s public status under a cell that can\'t be chosen reads as one';
+function amendForT3(pack, ballot) {
+  const accepted = [];
+  const grid = pack.querySelector(ballot ? '.sheet .grid9' : '.result-window .grid9');
+  [...(grid?.children ?? [])].forEach((cell, i) => {
+    const note = cell.querySelector('.cell-note');
+    if (cell.dataset.state !== 'ineligible' || !note || !STATUS_WORDS.includes(note.textContent)) return;
+    const amended = ballot ? 'Not available now' : null;
+    accepted.push({ part: `seat ${i + 1}`, what: 'note', pack: note.textContent, amended, why: T3 });
+    if (amended) note.textContent = amended; else note.remove();
+  });
+  return accepted;
+}
 
 /** Loads the pack's own stylesheets into this page, for the pack's half of the comparison. */
 function loadPack() {
@@ -77,6 +101,7 @@ export async function runVoteAgreement({ sizes, versions, inputsFor }) {
     pack.style.setProperty('--safe-b', `${insets.bottom}px`);
     document.body.append(pack);
     VOTE_SCREENS[screen](pack, params);
+    const accepted = amendForT3(pack, screen === 'vote');
     // The component's phone: the shell, with the ballot in its sheet or the result over its stage.
     const host = document.createElement('div');
     Object.assign(host.style, { position: 'absolute', left: `${width + 20}px`, top: '0', width: `${width}px`, height: `${height}px` });
@@ -132,7 +157,7 @@ export async function runVoteAgreement({ sizes, versions, inputsFor }) {
         if (a && b) compareBox(`seat ${n} ${badge}`, box(a, a.querySelector(sa)), box(b, b.querySelector(sb)));
       }
     }
-    checks.push({ id: `agree: ${c.state} (${c.frame})${c.text ? ` at ${c.text}% text, ${width} × ${height}` : ''}`, ok: differences.length === 0, detail: { differences, seats } });
+    checks.push({ id: `agree: ${c.state} (${c.frame})${c.text ? ` at ${c.text}% text, ${width} × ${height}` : ''}`, ok: differences.length === 0, detail: { differences, accepted, seats } });
     part.dispose();
     shell.dispose();
     pack.remove();

@@ -170,12 +170,18 @@ test('each seat\'s cell follows the inputs alone: candidates from the public bal
   assert.equal(letters(ballotCells(ballot('captain-8-selected'))), 'saaaiiaae');
   assert.equal(letters(ballotCells(ballot('jail-7'))), 'aaaaaiaee');
   assert.equal(letters(ballotCells(ballot('jail-cannot'))), 'fffffiffi');
-  // A note that can't be chosen: the projection's reason, the runoff's words, the public status, then T3's words.
+  // A cell that can't be chosen (the owner's T3, the Lead's review of #267): the server's reason, else "Not in
+  // runoff" in a runoff, else "Not available now". Never the person's public status, which there reads as a reason.
   const notes = cells => cells.map(c => c.note);
-  assert.deepEqual(notes(ballotCells(ballot('captain-open'))), [null, null, null, null, 'Injured', 'In Jail', null, null, 'Out']);
+  const NA = 'Not available now';
+  assert.deepEqual(notes(ballotCells(ballot('captain-open'))), [null, null, null, null, NA, NA, null, null, NA]);
   assert.deepEqual(notes(ballotCells(ballot('captain-runoff'))).slice(2), Array(7).fill('Not in runoff'));
-  const withReason = { ...ballot('jail-open'), roster: ballot('jail-open').roster.map(p => (p.seat === 6 ? { ...p, reason: 'Already in Jail' } : p.seat === 9 ? { ...p, note: null } : p)) };
-  assert.deepEqual(notes(ballotCells(withReason)).filter(Boolean), ['Already in Jail', 'Not available now']);
+  const withReason = { ...ballot('jail-open'), roster: ballot('jail-open').roster.map(p => (p.seat === 6 ? { ...p, reason: 'Already in Jail' } : p)) };
+  assert.deepEqual(notes(ballotCells(withReason)).filter(Boolean), ['Already in Jail', NA]);
+  const withStatus = { ...ballot('jail-open'), roster: ballot('jail-open').roster.map(p => (p.seat === 6 ? { ...p, note: 'In Jail' } : p)) };
+  assert.equal(ballotCells(withStatus)[5].note, NA, 'a public status given as a note is never drawn');
+  const runoffReason = { ...ballot('captain-runoff'), roster: ballot('captain-runoff').roster.map(p => (p.seat === 3 ? { ...p, reason: 'Ruled out' } : p)) };
+  assert.equal(ballotCells(runoffReason)[2].note, 'Ruled out', 'the server\'s reason comes first, in a runoff too');
   assert.deepEqual(ballotCells(ballot('jail-selected'))[0], { seat: 1, state: 'selected', note: 'Selected', mark: 'check', off: false });
   assert.deepEqual(ballotCells(ballot('jail-submitted'))[0], { seat: 1, state: 'confirmed', note: 'Your vote', mark: 'check', off: true });
   assert.ok(ballotCells(ballot('jail-submitted')).every(c => c.off), 'a ballot sent: nothing more to choose');
@@ -302,6 +308,16 @@ test('the check\'s record: every capture and probe check passed under the produc
   const agree = record.agree;
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
   assert.equal(agree.checks.length, 23);
+  // The one accepted difference: the owner's T3 words under a cell that can't be chosen, amended in the pack's
+  // drawing (never its source) before comparing, and recorded.
+  const accepted = agree.checks.flatMap(c => c.detail.accepted);
+  assert.ok(accepted.length > 0, 'the T3 amendments are recorded');
+  for (const a of accepted) {
+    assert.equal(a.what, 'note');
+    assert.ok(['Injured', 'In Jail', 'Out'].includes(a.pack), `only the pack's status words are amended, not ${a.pack}`);
+    assert.ok(a.amended === 'Not available now' || a.amended === null, 'to the T3 words on the ballot, and to none on the result');
+    assert.match(a.why, /T3/);
+  }
   for (const c of agree.checks) {
     const state = c.id.match(/^agree: ([\w-]+)/)[1];
     const words = c.detail.differences.filter(d => d.what !== 'box');

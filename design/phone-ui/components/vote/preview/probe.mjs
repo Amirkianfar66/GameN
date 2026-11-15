@@ -94,7 +94,8 @@ export async function runVoteProbe({ sizes, versions, room }) {
       document.body.append(host);
       const seen = [];
       const ballot = mountBallot(host, ballotInput('captain-open'), { onSelect: n => seen.push(n) });
-      // Eli (5) is injured and not a candidate in the election: refused, focusable, and says why.
+      // Eli (5) is not a candidate in the election: refused, focusable, and says "Not available now" (T3: the
+      // projection gives no reason, and the phone works none out).
       const eli = cellOf(ballot.element, 5);
       eli.focus();
       tap(eli);
@@ -113,9 +114,9 @@ export async function runVoteProbe({ sizes, versions, room }) {
       tap(cellOf(ballot.element, 1));
       const open = seen.slice();
       ballot.dispose(); host.remove();
-      return { ok: ineligible.state === 'ineligible' && ineligible.disabled === 'true' && ineligible.focused && ineligible.tag === 'BUTTON' && /Player 5, Eli, Injured/.test(ineligible.label)
+      return { ok: ineligible.state === 'ineligible' && ineligible.disabled === 'true' && ineligible.focused && ineligible.tag === 'BUTTON' && ineligible.label === 'Player 5, Eli, Not available now'
         && busyTaps === 0 && offTaps === 0 && sentTaps === 0
-        && after[0].state === 'faded' && after[1].state === 'confirmed' && after[1].note === 'Your vote' && after[2].state === 'ineligible' && after[2].note === 'In Jail'
+        && after[0].state === 'faded' && after[1].state === 'confirmed' && after[1].note === 'Your vote' && after[2].state === 'ineligible' && after[2].note === 'Not available now'
         && open.length === 1 && open[0] === 1, ineligible, busyTaps, offTaps, sentTaps, after, open };
     });
 
@@ -180,7 +181,7 @@ export async function runVoteProbe({ sizes, versions, room }) {
       const result = mountVoteResult(p.shell.stage, input);
       const root = result.element;
       const cells = [...root.querySelectorAll('.ms-k-grid9 > .ms-k-cell')].map(c => ({ state: c.dataset.state, count: c.querySelector('.ms-k-count')?.textContent ?? null,
-        you: !!c.querySelector('.ms-k-you'), label: c.getAttribute('aria-label') }));
+        you: !!c.querySelector('.ms-k-you'), label: c.getAttribute('aria-label'), note: c.querySelector('.ms-k-cell-note:not([hidden])')?.textContent ?? null }));
       const expected = { 1: '1', 2: '0', 3: '0', 4: '1', 5: '0', 6: null, 7: '5', 8: '0', 9: null };
       const counts = cells.every((c, i) => c.count === expected[i + 1]);
       const detail = { cells, counts, buttons: root.querySelectorAll('button, [tabindex], a, input').length, chosen: cells[6].state, you: cells[3].you,
@@ -196,6 +197,7 @@ export async function runVoteProbe({ sizes, versions, room }) {
       detail.again = { title: root.querySelector('.ms-result-title').textContent, cells: root.querySelectorAll('.ms-k-grid9 > .ms-k-cell').length };
       result.dispose(); p.dispose();
       return { ok: counts && detail.buttons === 0 && detail.chosen === 'winner' && detail.you && detail.label === 'Player 7, Gus, 5 votes' && !detail.ballots
+        && cells.every(c => c.note === null) && cells[5].label === 'Player 6, Fay'
         && detail.foot === 'Ballots stay private Round 3' && detail.inset.left === 10 && detail.inset.right === 10 && detail.inset.top === 8 && detail.inset.bottom === 10
         && detail.concealed.hidden && detail.concealed.shown === 0 && detail.concealed.text === '' && detail.concealed.cells === 0
         && detail.again.title === 'Gus goes to Jail' && detail.again.cells === 9, ...detail };
