@@ -1,0 +1,124 @@
+{
+  "schema": "mothership.food-input-consumer-approval/1",
+  "status": "awaiting-designer-acceptance",
+  "reviewedCommit": "989364cd72ea8b528669000f7013227e7fdf27fa",
+  "captureCommit": "972dd61e0fd10b1e8fd379f188501b2fb53dedcb",
+  "sourceCommit": "9daaeab879eb06b7fa64bbc0f3ea55c6ca14bc09",
+  "target": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.4.0",
+    "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+    "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+    "assetManifestVersion": "design-0.9.0",
+    "tokensVersion": "0.5.0"
+  },
+  "parents": [
+    {
+      "path": "docs/integration/food-consumer-source-2026-11-13.json",
+      "bytes": 17349,
+      "sha256": "1d8adae166454ae901d0e10586b389ee2c9a2226cc106be0acaec90cf428b1a9"
+    },
+    {
+      "path": "docs/integration/food-production-consumer-approval-2026-11-13.json",
+      "bytes": 6907,
+      "sha256": "fe97a589262557603f1da62c8ed2c74aea70fb304cd9d5e1508617a7566dc624"
+    },
+    {
+      "path": "docs/integration/release-preservation-consumer-approval-2026-11-15.json",
+      "bytes": 8083,
+      "sha256": "a9fcc88754aa81a1b3ab7d1392a8a2d5d5068d6a6f4af7777b7e3c4399201788"
+    }
+  ],
+  "files": {
+    "apps/game/src/planet/food.ts": {
+      "bytes": 20427,
+      "sha256": "3cdd6f7e175729808a4dfcfc7349d7e4b88537f3512649c6fdfd1bcef1316a7e",
+      "predecessors": [
+        {
+          "path": "design/releases/candidate-blobs/b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333",
+          "bytes": 19238,
+          "sha256": "b47e15cf1357a3f32e9a0208a34a7e30fb138b09c7160678e71bc85366834333"
+        }
+      ]
+    },
+    "apps/game/src/planet/session.ts": {
+      "bytes": 28488,
+      "sha256": "30b2f077090abb5167dee1d00a4b30b556ac1ee355be626fd4a8fe48a932eebf",
+      "predecessors": [
+        {
+          "path": "design/releases/candidate-blobs/84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254",
+          "bytes": 27860,
+          "sha256": "84c7857c58fd9f675e73f3f5615eb1c4e7ed1e4c44f23763d97039082e0d8254"
+        },
+        {
+          "path": "design/releases/historical-blobs/214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+          "bytes": 23049,
+          "sha256": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df"
+        },
+        {
+          "path": "design/releases/historical-blobs/51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+          "bytes": 20903,
+          "sha256": "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f"
+        },
+        {
+          "path": "design/releases/historical-blobs/8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67",
+          "bytes": 20512,
+          "sha256": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+        }
+      ]
+    }
+  },
+  "designerAcceptance": null,
+  "captureReport": {
+    "path": "docs/frontend/evidence/food-client-causality-2026-11-15/report.json",
+    "bytes": 6687,
+    "sha256": "96a100e04dcdf816c79b2e3310dd2d0fc7bc7dfd5a52a9ffa7279ff3aefd0f39"
+  },
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": [
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/390x844-panel-release-sending.png",
+      "bytes": 144103,
+      "sha256": "796d23fdffd176ce1cf51e5e49516f8c5e46744c07f3cdb75f0367cf0f3f3578"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/390x844-panel-lock-from-new-read.png",
+      "bytes": 146214,
+      "sha256": "18494f1f2e2303ba09c1e4f6ced42d528924e79a5fad80a24718735fea37c3b6"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/390x844-winch-recovered-release-sending.png",
+      "bytes": 148305,
+      "sha256": "518b7bd0ba2ba909a7b63e2662d69a43954b0b5ce5a92f5a8d8fb434dd576b45"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/390x844-winch-key-after-closure.png",
+      "bytes": 141911,
+      "sha256": "6469c06ced4e5613c511e9b1c65f40882a39dc2f8d09bfd9d9562a2ad82968fa"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/430x932-panel-release-sending.png",
+      "bytes": 165179,
+      "sha256": "da12e160b2513cdf6628df2d16e4d938f98f477f186a011dfef23833e9818753"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/430x932-panel-lock-from-new-read.png",
+      "bytes": 167435,
+      "sha256": "69df928092edec4785dd371ef43780b1a26c4cc5f83c1080d76e328d4747d319"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/430x932-winch-recovered-release-sending.png",
+      "bytes": 169610,
+      "sha256": "1c251f6242945c99507453a84803c93913b5130113a7e5e3fbcc3dd7d049945d"
+    },
+    {
+      "path": "docs/frontend/evidence/food-client-causality-2026-11-15/430x932-winch-key-after-closure.png",
+      "bytes": 162958,
+      "sha256": "8a5227827b0e5767edc559d3f43f4c41e5ab1e8a5744027ddd6088d8f5b861fb"
+    }
+  ],
+  "limits": [
+    "Controlled browser transport, not hosted latency or physical-phone performance.",
+    "No gameplay timing, auth, command identity, or visible artwork change."
+  ]
+}

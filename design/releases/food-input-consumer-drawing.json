@@ -1,0 +1,18 @@
+{
+  "schema": "mothership.food-input-consumer-drawing/1",
+  "status": "technical-source-registration",
+  "scope": "Exact source-admission tooling for the two Food client scheduling corrections in PR 276. No drawing, art source, layout or motion change. Consumer approval remains independently pending.",
+  "parentApprovalSha256": "0878da29213d86870ce2aed24fe01ae2ee6aaf9cb4675788ee399feb0da2629a",
+  "requiredFiles": {
+    "scripts/food-consumer-source.mjs": "989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62",
+    "scripts/food-input-consumer-approval.mjs": "2b76b4b7644eee13219f1fae7d6fc66d7bb49b0977c6050d265f25648b350fe7",
+    "docs/integration/food-input-consumer-approval-2026-11-15.json": "c78d94f03268d42c42589614b65b4a036fa6cb513293298142ccda40d11ecdd6",
+    "design/releases/historical-blobs/3c2be0494fceeed937ca0f782cff3a645c91045d8062550bce55e6a785f48929": "3c2be0494fceeed937ca0f782cff3a645c91045d8062550bce55e6a785f48929"
+  },
+  "predecessorTooling": {
+    "scripts/food-consumer-source.mjs": {
+      "sha256": "3c2be0494fceeed937ca0f782cff3a645c91045d8062550bce55e6a785f48929",
+      "blob": "design/releases/historical-blobs/3c2be0494fceeed937ca0f782cff3a645c91045d8062550bce55e6a785f48929"
+    }
+  }
+}
