@@ -1,12 +1,15 @@
 // The phone interface's shared kit (design/phone-ui/components/kit): the one look and behaviour every
-// Designer component's controls share. Its module graph, the scope of its styles, and its values against
-// the pinned pack's kit.css are checked here; its elements beside the pack's in a browser by its preview.
+// Designer component's controls share. Its module graph, the scope of its styles and its values against the
+// pinned pack's kit.css are checked here, and last the record of design/tools/kit-check.mjs, which draws every
+// builder beside the pack's in a browser under the production headers.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
+import { CASES } from '../../../design/phone-ui/components/kit/preview/cases.mjs';
+import { ACCEPTED } from '../../../design/phone-ui/components/kit/preview/compare.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const read = path => readFileSync(join(REPO, path), 'utf8');
@@ -59,7 +62,8 @@ test('its styles apply only inside an ms-kit root, to elements with its own clas
     assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
     // Every element it styles carries a kit class (ms-k-…), save the root itself and a surface marker.
     const subject = split(selector.replace(/::?(?:before|after)$/, ''), /[\s>+~]/).at(-1);
-    if (selector !== '.ms-kit' && subject !== '[data-ms-surface="glass"]') assert.match(subject, /ms-k-|^:is\(\[class/, `"${selector}": its subject is a kit element`);
+    // A component's own root on glass (.ms-kit inside a glass surface) takes the glass greys too.
+    if (subject !== '.ms-kit' && subject !== '[data-ms-surface="glass"]') assert.match(subject, /ms-k-|^:is\(\[class/, `"${selector}": its subject is a kit element`);
   }
   const declared = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))];
   assert.deepEqual(declared.filter(p => !p.startsWith('--ms-k-') && p !== '--ic-knock'), []);
@@ -79,7 +83,45 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   for (const tone of PILL_TONES.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.pill\\[data-tone="${tone}"\\]`), `the pack has a ${tone} pill`);
   for (const tint of ROW_TINTS.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.row-icon\\[data-tint="${tint}"\\]`), `the pack has a ${tint} row icon`);
   // On glass, the pack's lighter greys.
-  assert.match(KIT_CSS, /\[data-ms-surface="glass"\] \{ --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; \}/);
+  assert.match(KIT_CSS, /\.ms-kit \[data-ms-surface="glass"\],\n\.ms-kit \[data-ms-surface="glass"\] \.ms-kit \{ --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; \}/, 'on glass, and in a component root on glass');
   assert.match(PACK_CSS, /--text-secondary: #DCE3EC; --text-tertiary: #D3DBE5;/);
   assert.equal(seatNumber({ seat: 'seat-7' }), 7);
+});
+
+test('its comparison with the pack is development only: the pages, the cases, the rules and the tools', () => {
+  for (const path of ['cases.mjs', 'compare.mjs', 'page.mjs'].map(f => `design/phone-ui/components/kit/preview/${f}`).concat(['design/tools/kit-check.mjs', 'design/tools/lib/component-check.mjs'])) {
+    assert.match(read(path), /^\/\/ mothership:dev-only/, path);
+  }
+  for (const page of ['pack', 'kit']) assert.match(read(`design/phone-ui/components/kit/preview/${page}.html`), /^<!doctype html>\n<!-- mothership:dev-only/, page);
+  // Each half loads only its own styles: the pack's page the pack's, the kit's page the kit's and the shell's.
+  assert.deepEqual([...read('design/phone-ui/components/kit/preview/pack.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../../../prototype/kit.css']);
+  assert.deepEqual([...read('design/phone-ui/components/kit/preview/kit.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../kit.css', '../../phone-shell/phone-shell.css']);
+  assert.ok(ACCEPTED.every(a => a.why.length > 40 && a.keys.length > 0), 'every accepted difference says why');
+});
+
+test('the kit check\'s record: every case agrees with the pinned pack at 100 % and 200 % text, plain and on glass', () => {
+  const record = JSON.parse(read('design/phone-ui/components/kit/review/check.json'));
+  assert.equal(record.tool, 'design/tools/kit-check.mjs');
+  assert.equal(record.version, COMPONENT_KIT_VERSION);
+  assert.ok(record.sourceClean, 'recorded against a clean source');
+  const shell = JSON.parse(read('design/phone-ui/components/phone-shell/review/check.json'));
+  assert.equal(record.headersSha256, shell.headersSha256, 'under the same production headers as the shell\'s check');
+  assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
+  assert.deepEqual(Object.keys(record.pages).sort(), ['kit-100', 'kit-200', 'pack-100', 'pack-200']);
+  for (const [name, page] of Object.entries(record.pages)) assert.ok(page.ok && page.problems.length === 0 && page.violations.every(v => v.kind !== 'unexpected'), `${name}: a clean page`);
+  assert.deepEqual(Object.keys(record.agreement).sort(), ['100', '200']);
+  for (const [text, sections] of Object.entries(record.agreement)) {
+    assert.deepEqual(Object.keys(sections.plain), CASES.map(c => c.id), `${text}%: every case, plain`);
+    assert.deepEqual(Object.keys(sections.glass), CASES.filter(c => c.where === 'both').map(c => c.id), `${text}%: every case drawn on glass`);
+    for (const [section, cases] of Object.entries(sections)) {
+      for (const [id, c] of Object.entries(cases)) {
+        assert.ok(c.ok && c.differences.length === 0, `${text}% ${section} · ${id} agrees`);
+        assert.ok(c.parts > 0, `${text}% ${section} · ${id}: parts compared`);
+        for (const a of c.accepted) assert.ok(record.accepted[a.rule], `${text}% ${section} · ${id}: ${a.part} ${a.key} is an accepted difference with its reason`);
+      }
+    }
+  }
+  // The accepted differences are the ones the rules give reasons for, and no others.
+  assert.deepEqual(record.accepted.map(a => a.why), ACCEPTED.map(a => a.why));
+  assert.equal(record.summary.agree, record.summary.cases);
 });
