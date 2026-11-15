@@ -121,6 +121,10 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
 - **Any rule of yours outranks the kit, whatever the load order.** Every kit rule weighs one class (`.ms-kit :where(…)`) and its root nothing (`:where(.ms-kit)`). Each component's stylesheet imports `kit.css`, so the game's bundle holds a copy per component, and a later copy must never undo an earlier component's rule. Two classes of your own (your part and the kit's class) is enough. The game's bare element rules still lose to the kit. `kit.test.mjs` holds every kit selector to that weight.
 - **Never restyle the kit's colours, type or states** from a component, and never redeclare an `--ms-k-` property. If a screen needs something the kit doesn't draw, ask the Lead Designer: it goes into the kit, for every component.
 - **Pass `extra`** to add your part's class to a kit button (the shell's chip is `extra: ['ms-ps-chip-btn']`).
+- **A part you can tap turns off the browser's tap highlight.** Chrome highlights a tap only on an element with the hand cursor. Its default, `rgba(51, 181, 229, 0.4)`, stays about a quarter of a second over the pressed and in-flight looks, which should be a press's only feedback. The native Food Panel's RELEASE showed it in [#276](https://github.com/Amirkianfar66/GameN/pull/276#issuecomment-6899774350).
+  - The kit's controls set `-webkit-tap-highlight-color: transparent` in the same rule that gives the hand cursor.
+  - The property is inherited, so the shell and the room scene set it once, on their roots.
+  - If a part of yours sets `cursor: pointer`, it must either inherit the transparent colour from your root or set it in the same rule.
 
 ## Writing your component's check
 
