@@ -87,6 +87,11 @@ function serve(root) {
   return new Promise(done => server.listen(0, '127.0.0.1', () => done({ server, origin: `http://127.0.0.1:${server.address().port}` })));
 }
 
+// The source the captures show, read before anything is written: the component's files and the room
+// pictures, without the review folder this check writes.
+const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: REPO, encoding: 'utf8' }).trim();
+const sourceClean = execFileSync('git', ['status', '--porcelain', '--', 'design/phone-ui/components', ':!design/phone-ui/components/room-scene/review', 'design/room-drawing/assets'],
+  { cwd: REPO, encoding: 'utf8' }).trim() === '';
 const out = await bundle();
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
@@ -136,8 +141,7 @@ const headers = PRODUCTION_HEADERS.map(([key, value]) => ({ key, value }));
 const record = {
   tool: 'design/tools/room-scene-check.mjs',
   component: 'design/phone-ui/components/room-scene',
-  sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: REPO, encoding: 'utf8' }).trim(),
-  sourceClean: execFileSync('git', ['status', '--porcelain', '--', 'design/phone-ui/components', 'design/room-drawing/assets'], { cwd: REPO, encoding: 'utf8' }).trim() === '',
+  sourceCommit, sourceClean,
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.',
   headers, headersSha256: sha256(JSON.stringify(headers)),
   voyageAt: AT,
