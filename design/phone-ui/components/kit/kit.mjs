@@ -89,18 +89,27 @@ export function createKit(doc) {
   const iconButton = props => setIconButton(h('button', null, { type: 'button' }), props);
 
   // ── Lists and rows (ui.mjs row, list, groupLabel, groupNote) ─────────
-  /** { title, sub, value (the words at the right), icon, tint, chevron, lead (a node), tag: 'button' | 'div', intent, data (what a tap reports) } */
+  /**
+   * { title, sub, value (the words at the right), icon, tint, chevron, lead (a node: a portrait), trail (a node:
+   * a switch, a stepper), tag: 'button' | 'div', intent, data (what a tap reports) }. A lead or trail node
+   * sits in the row as the pack places it; the row keeps it, and its focus, while the same node is given.
+   */
   function setRow(node, props) {
     oneOf(props.tint, ROW_TINTS, 'A row\'s tint');
     node.classList.add('ms-k-row');
     if (!node.querySelector(':scope > .ms-k-row-main')) {
-      node.append(h('span', 'ms-k-row-lead'), h('span', 'ms-k-row-main'), h('span', 'ms-k-row-value'), h('span', 'ms-k-row-chev'));
+      node.append(h('span', 'ms-k-row-lead'), h('span', 'ms-k-row-main'), h('span', 'ms-k-row-value'), h('span', 'ms-k-row-trail'), h('span', 'ms-k-row-chev'));
       node.children[1].append(h('span', 'ms-k-row-title'), h('span', 'ms-k-row-sub'));
     }
-    const [lead, main, value, chev] = node.children;
-    if (props.lead) { if (lead.firstChild !== props.lead) lead.replaceChildren(props.lead); lead.className = 'ms-k-row-lead'; lead.hidden = false; }
-    else if (props.icon) {
-      lead.className = 'ms-k-row-icon';
+    const [lead, main, value, trail, chev] = node.children;
+    if (props.lead) {
+      if (lead.firstChild !== props.lead) lead.replaceChildren(props.lead);
+      lead.className = 'ms-k-row-lead';
+      lead.removeAttribute('data-tint');
+      lead.dataset.icon = '';
+      lead.hidden = false;
+    } else if (props.icon) {
+      if (lead.className !== 'ms-k-row-icon') { lead.replaceChildren(); lead.dataset.icon = ''; lead.className = 'ms-k-row-icon'; }
       attr(lead, 'data-tint', props.tint ?? null);
       setIcon(lead, props.icon, true);
     } else { lead.replaceChildren(); lead.dataset.icon = ''; lead.hidden = true; }
@@ -109,6 +118,8 @@ export function createKit(doc) {
     main.lastChild.hidden = !props.sub;
     text(value, props.value ?? '');
     value.hidden = props.value === undefined || props.value === null;
+    if (props.trail) { if (trail.firstChild !== props.trail) trail.replaceChildren(props.trail); trail.hidden = false; }
+    else { trail.replaceChildren(); trail.hidden = true; }
     setIcon(chev, props.chevron ? 'chevronRight' : null, false);
     if (props.intent) node.dataset.intent = props.intent;
     if (props.data !== undefined && props.data !== null) node.dataset.value = String(props.data);
@@ -143,13 +154,15 @@ export function createKit(doc) {
   const num = n => text(h('span', 'ms-k-num', { 'aria-hidden': 'true' }), String(n));
 
   // ── Portraits, cells and the 3 × 3 (ui.mjs cell) ────────────────────
-  /** A person's portrait from the match's crew bundle; an empty tile without a character. */
+  /** A person's portrait from the match's crew bundle; without a character, the pack's empty tile with its players mark. */
   function setPortrait(node, person, versions) {
     const character = person?.character ?? null;
     node.className = character ? 'ms-k-pt' : 'ms-k-pt ms-k-pt-empty';
     node.setAttribute('aria-hidden', 'true');
     const image = character ? crewPortraitVariable(character, versions) : '';
     if (node.style.backgroundImage !== image) node.style.backgroundImage = image;
+    const mark = character ? '' : 'players';
+    if ((node.dataset.mark ?? '') !== mark) { node.replaceChildren(...(mark ? [icon(mark)] : [])); node.dataset.mark = mark; }
     return node;
   }
   const portrait = (person, versions) => setPortrait(h('span'), person, versions);
@@ -202,16 +215,34 @@ export function createKit(doc) {
   const grid9 = () => { const wrap = h('div', 'ms-k-grid-wrap'), grid = h('div', 'ms-k-grid9'); wrap.append(grid); return { wrap, grid }; };
 
   // ── Fields, code boxes, the inline error (ui.mjs field, codeBoxes, errorNote) ──
-  /** A labelled text field around a real input; returns { field, input }. */
+  /**
+   * A labelled text field: the pack's box (ms-k-input) around a real input, with an optional icon and a
+   * count at its end ("3/12"). { label, value, placeholder, maxLength, autocomplete, secret, mono, invalid,
+   * count, icon }. Returns { field, input }. setField() changes the label, the placeholder, the icon, the
+   * count and the invalid state in place; the typing, and so the value, is the component's.
+   */
   function field(props) {
-    const wrap = h('label', 'ms-k-field');
-    wrap.append(text(h('span', 'ms-k-field-label'), props.label));
-    const input = h('input', 'ms-k-input', { type: props.secret ? 'password' : 'text', placeholder: props.placeholder ?? null, maxlength: props.maxLength ?? null,
-      autocomplete: props.autocomplete ?? 'off', spellcheck: 'false', 'aria-invalid': props.invalid ? 'true' : null });
+    const wrap = h('label', 'ms-k-field'), box = h('span', 'ms-k-input');
+    const input = h('input', 'ms-k-input-text', { type: props.secret ? 'password' : 'text', autocomplete: props.autocomplete ?? 'off', spellcheck: 'false',
+      autocapitalize: props.secret || props.mono ? 'off' : null });
+    box.append(h('span', 'ms-k-input-icon'), input, h('span', 'ms-k-input-count'));
+    wrap.append(h('span', 'ms-k-field-label'), box);
     input.value = props.value ?? '';
-    if (props.invalid) input.dataset.invalid = '';
-    wrap.append(input);
+    setField(wrap, props);
     return { field: wrap, input };
+  }
+  function setField(node, props) {
+    const [label, box] = node.children, [glyph, input, count] = box.children;
+    text(label, props.label);
+    setIcon(glyph, props.icon ?? null, false);
+    attr(input, 'placeholder', props.placeholder ?? null);
+    attr(input, 'maxlength', props.maxLength ?? null);
+    attr(input, 'aria-invalid', props.invalid ? 'true' : null);
+    attr(box, 'data-invalid', props.invalid ? '' : null);
+    attr(box, 'data-mono', props.mono ? '' : null);
+    text(count, props.count ?? '');
+    count.hidden = props.count === undefined || props.count === null;
+    return node;
   }
   /** Six boxes showing a code as it is typed (the typing itself is the component's); `focusAt` marks the next box. */
   function setCodeBoxes(node, { code = '', focusAt = null, invalid = false, length = 6, label = 'Room code' } = {}) {
@@ -224,7 +255,7 @@ export function createKit(doc) {
     return node;
   }
   const codeBoxes = props => setCodeBoxes(h('div'), props);
-  const errorNote = words => { const note = h('p', 'ms-k-error', { role: 'alert' }); note.append(icon('warning', true), text(h('span'), words)); return note; };
+  const errorNote = words => { const note = h('p', 'ms-k-error', { role: 'alert' }); note.append(icon('warning', true), text(h('span', 'ms-k-error-text'), words)); return note; };
 
   // ── The segmented control, the stepper, the switch ───────────────────
   /** options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen. */
@@ -272,7 +303,7 @@ export function createKit(doc) {
   const switchControl = props => setSwitch(h('button', null, { type: 'button' }), props);
 
   return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote,
-    pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, codeBoxes, setCodeBoxes, errorNote,
+    pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
     seg, setSeg, stepper, setStepper, switchControl, setSwitch });
 }
 

@@ -14,6 +14,7 @@
 //   the large-content view and dispose;
 //   the agreement (preview/agree.mjs): the shell beside the pinned pack's topBar() and tabs(), the same
 //   words, states and boxes to within half a pixel.
+// The bundling, the headers and the policy reports are every component check's (lib/component-check.mjs).
 // Every check must pass. It writes design/phone-ui/components/phone-shell/review/: one JPEG per state
 // and size, and check.json (the headers and their SHA-256, the source commit, what each capture drew and
 // its SHA-256, and each probe and agreement check with what it saw).
@@ -21,16 +22,11 @@
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size: not a phone,
 // not Safari, not a performance measure.
 
-import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
-import { createServer } from 'node:http';
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { extname, join, normalize, resolve, sep } from 'node:path';
+import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build } from 'vite';
-import { createHostedPreviewCsp } from '../../scripts/hosted-preview-policy.mjs';
 import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
+import { POLICY_LISTENER, bundlePreview, classify, recordedHeaders, serve, sha256, sourceState } from './lib/component-check.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const COMPONENT = join(REPO, 'design/phone-ui/components/phone-shell');
@@ -41,72 +37,12 @@ const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark:
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
 const AT = 130;
 
-/** The hosted game's response headers, as scripts/prepare-hosted-preview.mjs writes them for staging. */
-export const PRODUCTION_HEADERS = Object.freeze([
-  ['Cache-Control', 'no-store'],
-  ['Content-Security-Policy', createHostedPreviewCsp('gamen-mothership-staging')],
-  ['X-Content-Type-Options', 'nosniff'],
-  ['X-Frame-Options', 'DENY'],
-  ['Referrer-Policy', 'no-referrer'],
-  ['X-Robots-Tag', 'noindex, nofollow'],
-  ['Permissions-Policy', 'camera=(), microphone=(), geolocation=()'],
-]);
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.json': 'application/json', '.woff2': 'font/woff2' };
-const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
-
-/**
- * One report is known and not the component's: zod's eval feature probe (node_modules/zod/v4/core/util.js
- * allowsEval: `try { return Function(""), true } catch { return false }`), which zod catches before
- * falling back to its ordinary parser. The game's own bundle has the same probe (in its crew-runtime
- * chunk, through @mothership/contracts), so the live game reports it too. A report is that one only when
- * the bundled code at the reported place is the probe; every other report fails the capture.
- */
-async function classify(out, violation) {
-  if (violation.directive !== 'script-src' || violation.blocked !== 'eval' || !violation.source) return 'unexpected';
-  const code = (await readFile(join(out, violation.source), 'utf8').catch(() => '')).split('\n')[violation.line - 1] ?? '';
-  const near = code.slice(Math.max(0, violation.column - 160), violation.column + 60);
-  return /Cloudflare[\s\S]*try\{return Function\(``\),!0\}catch\{return!1\}/.test(near) ? 'known: zod eval probe, caught; the live game bundle has it too' : 'unexpected';
-}
-
-async function bundle() {
-  const out = await mkdtemp(join(tmpdir(), 'phone-shell-check-'));
-  await build({
-    root: join(COMPONENT, 'preview'), base: './', logLevel: 'warn', configFile: false, publicDir: false,
-    // Bundled, the game's package imports resolve from node_modules: the preview's import map is for
-    // the unbundled page only, and an inline script would be refused by the production policy anyway.
-    plugins: [{ name: 'phone-shell-check-no-import-map', transformIndexHtml: html => html.replace(/<script type="importmap">[\s\S]*?<\/script>\n?/, '') }],
-    build: { outDir: out, emptyOutDir: true, target: 'es2022', assetsInlineLimit: 0, sourcemap: false, cssMinify: false },
-  });
-  // The agreement draws the pinned pack beside the shell. The pack's art.mjs finds the crew's portraits
-  // from its own place at run time (design/crew-drawing/assets/portraits/), which no bundle carries; they
-  // are copied to where it looks from the bundle, as the pack's own pages serve them. The shell's own
-  // portraits come through the crew bundle's CSS properties, as in the game.
-  await cp(join(REPO, 'design/crew-drawing/assets/portraits'), join(out, 'crew-drawing/assets/portraits'), { recursive: true });
-  return out;
-}
-
-function serve(root) {
-  const server = createServer(async (request, response) => {
-    const path = normalize(join(root, decodeURIComponent(new URL(request.url, 'http://check').pathname)));
-    if (!path.startsWith(root + sep) && path !== root) { response.writeHead(403).end(); return; }
-    try {
-      const body = await readFile(path.endsWith(sep) ? join(path, 'index.html') : path);
-      response.writeHead(200, Object.fromEntries([['Content-Type', TYPES[extname(path)] ?? 'application/octet-stream'], ...PRODUCTION_HEADERS]));
-      response.end(body);
-    } catch {
-      response.writeHead(404, Object.fromEntries(PRODUCTION_HEADERS)).end('Not found');
-    }
-  });
-  return new Promise(done => server.listen(0, '127.0.0.1', () => done({ server, origin: `http://127.0.0.1:${server.address().port}` })));
-}
-
 // The source the captures show, read before anything is written: the components' files and the room
-// pictures, without the review folder this check writes.
-const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: REPO, encoding: 'utf8' }).trim();
-const sourceClean = execFileSync('git', ['status', '--porcelain', '--', 'design/phone-ui/components', ':!design/phone-ui/components/phone-shell/review', 'design/room-drawing/assets'],
-  { cwd: REPO, encoding: 'utf8' }).trim() === '';
-const out = await bundle();
+// pictures, without the components' review folders, which checks write.
+const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets']);
+// The agreement draws the pinned pack beside the shell; the bundle carries the crew's portraits where the
+// pack's art.mjs looks for them. The shell's own portraits come through the crew bundle's CSS properties.
+const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'phone-shell-check' });
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
 const browser = await connect(chrome.endpoint);
@@ -114,7 +50,6 @@ const results = {};
 const probes = {};
 let agreement = null;
 let failed = 0;
-const POLICY_LISTENER = 'window.__policy = []; document.addEventListener("securitypolicyviolation", e => window.__policy.push({ directive: e.violatedDirective, blocked: String(e.blockedURI), source: String(e.sourceFile).replace(location.origin + "/", ""), line: e.lineNumber, column: e.columnNumber }));';
 /** What a state must show, from the shell's own DOM (and the room scene's crew where a room is drawn). */
 const EXPECT = {
   turn: s => s.kind === 'turn' && s.name === 'Fay' && s.tabs === 4 && s.hero === 'pass' && s.heroOff,
@@ -196,13 +131,13 @@ try {
   server.close();
   if (process.argv.includes('--keep')) console.log(`kept the bundle in ${out}`); else await rm(out, { recursive: true, force: true });
 }
-const headers = PRODUCTION_HEADERS.map(([key, value]) => ({ key, value }));
+const { headers, headersSha256 } = recordedHeaders();
 const record = {
   tool: 'design/tools/phone-shell-check.mjs',
   component: 'design/phone-ui/components/phone-shell',
   sourceCommit, sourceClean,
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.',
-  headers, headersSha256: sha256(JSON.stringify(headers)),
+  headers, headersSha256,
   voyageAt: AT,
   captures: results,
   probe: probes,
