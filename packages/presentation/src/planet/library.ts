@@ -1,4 +1,4 @@
-import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS,PLANET_FOOD_TASK_PINS} from '@mothership/contracts';
+import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS,PLANET_FOOD_TASK_PINS,resolvePlanetReleaseCapabilities} from '@mothership/contracts';
 import type {SeatId,PlanetVersions} from '@mothership/contracts';
 import type {PlanetScreenModel,PlanetView} from './model.js';
 
@@ -15,11 +15,9 @@ export function planetRoundOrderText(v:PlanetVersions|null|undefined):string{
   :'Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation';
 }
 
-/** New library art belongs only to the reviewed new gameplay tuple. */
-export function planetHasLibraryArt(v:PlanetVersions|null|undefined):boolean{
- return planetHasFood(v)?v?.assetManifestVersion==='design-0.9.0':planetHasPrivateFeedback(v)&&(v?.assetManifestVersion==='design-0.6.0'||v?.assetManifestVersion==='design-0.7.0'||v?.assetManifestVersion==='design-0.8.0');
-}
-export function planetSupportsAssets(v:PlanetVersions):boolean{return planetHasFood(v)?planetHasLibraryArt(v):v.assetManifestVersion==='design-0.5.0'||planetHasLibraryArt(v);}
+/** Library art and session artwork require an exact registered tuple. */
+export function planetHasLibraryArt(v:PlanetVersions|null|undefined):boolean{return resolvePlanetReleaseCapabilities(v)?.libraryArt===true;}
+export function planetSupportsAssets(v:PlanetVersions):boolean{return resolvePlanetReleaseCapabilities(v)!==null;}
 
 /** Publication metadata names the last shared board, including on PLAYER_CURRENT. */
 export function planetBoardLabel(view:Pick<PlanetView,'versions'|'board'>):string|null{

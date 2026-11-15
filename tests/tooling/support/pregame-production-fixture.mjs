@@ -1,11 +1,13 @@
 import {cpSync, existsSync, mkdirSync, readFileSync, rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {dirname, join} from 'node:path';
-import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY, FOOD_SOURCE_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
+import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY, FOOD_SOURCE_DRAWING_POLICY,
+  RELEASE_PRESERVATION_DRAWING_POLICY, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL, readPregameConsumerApproval} from '../../../scripts/pregame-consumer-approval.mjs';
 import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval, HOST_ABORT_CONSUMER_APPROVAL,
   readHostAbortConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
 import {FOOD_CONSUMER_SOURCE, readFoodConsumerSource} from '../../../scripts/food-consumer-source.mjs';
+import {RELEASE_PRESERVATION_APPROVAL, readReleasePreservationApproval} from '../../../scripts/release-preservation-consumer.mjs';
 
 /** Copy only actual verified adoption evidence. An absent record creates no acceptance. */
 export function pregameProductionFixturePaths(root) {
@@ -52,13 +54,44 @@ export function pregameProductionFixturePaths(root) {
     for (const path of Object.keys(art.inputs)) paths.add(path);
     for (const asset of art.assets) paths.add(asset.source);
   }
+  const preservation = readReleasePreservationApproval(root);
+  if (preservation) {
+    paths.add(RELEASE_PRESERVATION_APPROVAL);
+    for (const path of Object.keys(preservation.files)) paths.add(path);
+    for (const reference of [...preservation.parents, ...preservation.dependencies, preservation.designerAcceptance,
+      preservation.captureReport, ...preservation.captures,
+      ...Object.values(preservation.files).flatMap(entry => entry.predecessors)]) paths.add(reference.path);
+  }
   return paths;
 }
 
 /** Isolate predecessor tests using preserved bytes, never fabricated acceptance. */
 export function restoreBeforeFoodFixture(root, destination) {
   const food = readFoodConsumerSource(root);
+  const preservation = readReleasePreservationApproval(root);
+  if (preservation) {
+    const phone = readPhoneUiConsumerApproval(root);
+    rmSync(join(destination, RELEASE_PRESERVATION_APPROVAL), {force:true});
+    for (const path of Object.keys(preservation.files)) {
+      const prior = food?.files[path] ?? phone?.files[path];
+      if (!prior) throw Error(`Missing actual predecessor: ${path}`);
+      mkdirSync(dirname(join(destination, path)), {recursive:true});
+      cpSync(join(root, prior.candidateBlob), join(destination, path));
+    }
+  }
   if (!food) return;
+  rmSync(join(destination, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY), {force: true});
+  if (existsSync(join(root, RELEASE_PRESERVATION_DRAWING_POLICY))) {
+    const tooling = JSON.parse(readFileSync(join(root, RELEASE_PRESERVATION_DRAWING_POLICY)));
+    rmSync(join(destination, RELEASE_PRESERVATION_DRAWING_POLICY), {force: true});
+    for (const [path, entry] of Object.entries(tooling.predecessorTooling)) {
+      const source = join(root, entry.blob);
+      if (createHash('sha256').update(readFileSync(source)).digest('hex') !== entry.sha256)
+        throw Error(`Historical tooling fixture source differs: ${path}`);
+      mkdirSync(dirname(join(destination, path)), {recursive: true});
+      cpSync(source, join(destination, path));
+    }
+  }
   for (const path of [FOOD_CONSUMER_SOURCE, FOOD_SOURCE_DRAWING_POLICY]) rmSync(join(destination,path),{force:true});
   for (const [path, entry] of Object.entries(food.files)) {
     if (entry.previousSha256 === null) rmSync(join(destination,path),{force:true});
