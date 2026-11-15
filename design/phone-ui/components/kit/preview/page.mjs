@@ -138,8 +138,11 @@ function part(box, node, options = {}) {
 async function measure() {
   await document.fonts.ready;
   await fitGlass();
-  // A spinner's turn and a switch's slide hold still, at their start, so both sides are read at one moment.
-  for (const a of document.getAnimations()) { a.pause(); a.currentTime = 0; }
+  // Motion that ends (the shell's sheet sliding in) ends first; a busy spinner's endless turn then holds still
+  // at its start, so both sides are read, and pictured, at one moment.
+  const endless = a => a.effect?.getComputedTiming().iterations === Infinity;
+  await Promise.all(document.getAnimations().filter(a => !endless(a)).map(a => a.finished.catch(() => null)));
+  for (const a of document.getAnimations().filter(endless)) { a.pause(); a.currentTime = 0; }
   await frame();
   const out = { side: SIDE, text: TEXT, sections: {} };
   for (const name of ['plain', 'glass']) {
