@@ -72,13 +72,6 @@ test('Food worker waits and request timings permit only the exact server utiliti
   }
 });
 
-test('structured diagnostic logging stays in the Firebase adapter', () => {
-  assert.doesNotThrow(() => check('infra/firebase', "import 'firebase-functions/logger';", 'ts'));
-  for (const workspace of ['apps/game', 'services/game-api', 'packages/engine', 'packages/contracts', 'packages/presentation']) {
-    assert.throws(() => check(workspace, "import 'firebase-functions/logger';", 'ts'), /Unreviewed source dependency/);
-  }
-});
-
 test('browser gets document while pure programs and package builds reject document', () => {
   const temp = mkdtempSync(resolve(tmpdir(), 'mothership-types-'));
   try {

@@ -8,7 +8,6 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { onTaskDispatched } from 'firebase-functions/v2/tasks';
 import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import { info } from 'firebase-functions/logger';
 import { IdentifierSchema, PlanetServiceRequestSchema } from '@mothership/contracts';
 import type { PlanetServiceRequest, PlanetServiceResponse } from '@mothership/contracts';
 import { withPlanetRequestTiming } from '@mothership/game-api';
@@ -38,6 +37,13 @@ export interface PlanetHttpTiming {
   authMs: number; appCheckMs: number; serviceMs: number; totalMs: number;
   serviceOk: boolean | null;
   service?: PlanetRequestTimingSummary;
+}
+/** Fixed JSON, without logger enrichment from incoming trace headers. */
+export function writePlanetHttpTiming(summary: PlanetHttpTiming, write: (line: string) => unknown = line => process.stdout.write(line)): void {
+  write(JSON.stringify({severity: 'INFO', message: 'planet_request_timing',
+    operation: summary.operation, authMs: summary.authMs, appCheckMs: summary.appCheckMs,
+    serviceMs: summary.serviceMs, totalMs: summary.totalMs, serviceOk: summary.serviceOk,
+    ...(summary.service === undefined ? {} : {service: summary.service})}) + '\n');
 }
 const allowedHeaders = ['authorization', 'content-type', 'x-firebase-appcheck'];
 const header = (request: HttpRequest, name: string): string | undefined => typeof request.headers[name] === 'string' ? request.headers[name] : undefined;
@@ -89,11 +95,14 @@ export function createPlanetHttpHandler(dependencies: PlanetHttpDependencies) {
     const parsed = PlanetServiceRequestSchema.safeParse(request.body);
     if (!parsed.success) { fail(400, 'INVALID_REQUEST'); return; }
     const serviceStarted = monotonic();
-    let serviceTiming: PlanetRequestTimingSummary | undefined, serviceOk: boolean | null = null;
+    let serviceTiming: PlanetRequestTimingSummary | undefined, serviceOk: boolean | null = null, serviceMs = 0;
     try {
-      const result = dependencies.onTiming === undefined
-        ? await dependencies.service.handle(uid, parsed.data)
-        : await withPlanetRequestTiming(() => dependencies.service.handle(uid, parsed.data), summary => { serviceTiming = summary; });
+      let result: PlanetServiceResponse;
+      try {
+        result = dependencies.onTiming === undefined
+          ? await dependencies.service.handle(uid, parsed.data)
+          : await withPlanetRequestTiming(() => dependencies.service.handle(uid, parsed.data), summary => { serviceTiming = summary; });
+      } finally { serviceMs = elapsed(serviceStarted); }
       serviceOk = result.ok;
       response.status(statusFor(result.ok ? undefined : result.error.code)).json(result);
     } catch { fail(503, 'UNAVAILABLE'); }
@@ -101,7 +110,7 @@ export function createPlanetHttpHandler(dependencies: PlanetHttpDependencies) {
       // Timing is server-side diagnostics, not a receipt or client-visible authority.
       // A broken observer must never turn a committed command into a failed response.
       try { void Promise.resolve(dependencies.onTiming?.({operation: parsed.data.operation, authMs, appCheckMs,
-        serviceMs: elapsed(serviceStarted), totalMs: elapsed(started), serviceOk,
+        serviceMs, totalMs: elapsed(started), serviceOk,
         ...(serviceTiming === undefined ? {} : {service: serviceTiming})})).catch(() => {}); } catch { /* diagnostic sink only */ }
     }
   };
@@ -155,7 +164,7 @@ export function createPlanetEntrypoints(resolveContext: () => PlanetRuntimeConte
     const {app, service, configuration} = resolveContext();
     await createPlanetHttpHandler({service, configuration,
       verifyIdToken: token => getAuth(app).verifyIdToken(token, true), verifyAppCheckToken: token => getAppCheck(app).verifyToken(token),
-      onTiming: summary => { info('planet_request_timing', summary); },
+      ...(configuration.requestTimingEnabled === true ? {onTiming: writePlanetHttpTiming} : {}),
     })(request, response);
   });
   const enqueue: PlanetEnqueue = async job => {
