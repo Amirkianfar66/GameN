@@ -4,7 +4,7 @@
 // by design/tools/role-stage-check.mjs.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -219,4 +219,34 @@ test('the line under the card follows the stage and the viewer\'s own state', ()
   assert.equal(stageNote(live({ clock: null })), '', 'without a trusted clock, no time is shown');
   // Concealed: the public timing only, never the viewer's film or Ready state.
   assert.equal(stageNote(nextRoleStageInput(live({ clock: clock(9000), film: 'skipped' }), { status: 'concealed' })), 'Your film starts in 0:11');
+});
+
+test('the check\'s record: every capture, probe check and agreement case passed under the production headers', () => {
+  const record = JSON.parse(read(`${COMPONENT}/review/check.json`));
+  assert.equal(record.tool, 'design/tools/role-stage-check.mjs');
+  assert.ok(record.sourceClean, 'recorded against a clean source');
+  const csp = record.headers.find(h => h.key === 'Content-Security-Policy')?.value ?? '';
+  assert.match(csp, /default-src 'none'/);
+  assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
+  const captures = Object.entries(record.captures);
+  assert.equal(captures.length, 26, 'twelve states of sheets 17 and 18 at two sizes, and sheet 31\'s card face up and hidden');
+  for (const [key, c] of captures) {
+    assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
+    assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
+    assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
+    assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
+  }
+  for (const size of ['390x844', '430x932']) {
+    assert.ok(record.captures[`${size}/late`].toastOnTop && record.captures[`${size}/late`].toastClearOfChip, `${size}: the rejoined toast over the film, under its clock chip (sheet 18)`);
+    assert.equal(record.captures[`${size}/concealed`].name, null, `${size}: concealed, no role`);
+  }
+  assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
+  for (const [mode, run] of Object.entries(record.probe)) {
+    assert.ok(run.ok && run.checks.length > 0 && run.checks.every(c => c.ok), `probe ${mode}: every check passed`);
+    assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
+  }
+  const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
+  for (const group of ['focus', 'refused', 'private', 'time', 'film', 'layout', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  assert.ok(record.agree.ok && record.agree.checks.length === 9 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the stage agrees with the frozen pack\'s role screen');
+  assert.deepEqual(record.agree.problems, [], 'agreement: no page problem');
 });

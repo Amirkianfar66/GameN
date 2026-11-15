@@ -1,7 +1,8 @@
 # Role stage and role card: Designer's runtime component
 
-**Version:** `role-stage-0.1.0` and `role-card-0.1.0`, **proposed interface, with a first build**. **Status (15 November 2026):** the interface is with the Lead Designer for review, then Frontend's on #4. A first build against it is on this branch, with its preview, probe, agreement, check and test, so the review can see it working. Its controls are the shared kit's (`component-kit-0.1.0`, `design/phone-ui/components/kit/`): Ready, Skip film and Show role are kit buttons under the kit's control policy, and the Ready stamp is the kit's accent pill. It is not ready for Frontend:
-- **"Rejoined · the stage carried on"** is drawn by the shell's toast, which sits under the full-bleed film (sheet 18 draws it over the film). It waits on the Lead's answer to question 5 below.
+**Version:** `role-stage-0.1.0` and `role-card-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer with the decisions below, and built: the component, its preview, probe, agreement with the pack, check and test, on the shared kit (`component-kit-0.2.0`) and the phone shell. It waits for the Lead's last review, then Frontend's on #4. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
+- **Controls:** Ready, Skip film and Show role are kit buttons under the kit's control policy; the Ready stamp is the kit's accent pill.
+- **The film:** Frontend's existing player plays it in `stage.film`. In the film's view the shell draws no bar and runs its stage edge to edge, so the shell's toast and banner sit over the film.
 
 **What it is:** the private 30-second role stage on the player's own phone, and the role card it shows, as the phone pack draws them. It is #222 item 6 (PHONE-PARITY). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -139,10 +140,10 @@ Also approved: the card's `device` from Frontend's `planetRoleLook(...).device` 
 
 ## Checks run on the first build
 
-On `3a3f13dd`, clean (the shell and kit at `b86511ab`, kit 0.2.0; the check on the shared `component-check.mjs`):
-- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 391 of 391; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
+On `9525a723`, clean (the shell and kit at `28f7d219`, kit 0.2.0; the check on the shared `component-check.mjs`):
+- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 9 of 9 (the check's record; the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 391 of 391; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
 - **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
-  - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **24 of 26 pass**. The film plays in the shell's stage under `bar: null`, and the rejoined toast is above it (decision 5). The two `late` captures still fail on one detail: with no bar the shell places the toast just under the safe area, across the film's clock chip, where sheet 18 draws it below the chip (bar height + 10 px). That is the shell's to place; it is with the Lead.
+  - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **26 of 26 pass**. In the film's view the stage gives the shell `bar: null`, `tabs: null` and `edge: true`: the film runs edge to edge, as sheet 17 draws it, and the rejoined toast sits over it, under the film's clock chip, as sheet 18 does (decision 5).
   - **The lifecycle probe:** 16 of 16 (15 as the page comes, 1 with the device's Reduce motion): focus (Show ending returns the focus to the card), refused taps, reconnecting, privacy, the clock and an 18/12 split, the film's element, the shell's bar leaving only under an opaque film and returning before it fades with the card held still, layout, dispose and motion. Deliberate breaks fail it: concealment keeping the card, a new viewer keeping the last one's, a hard-coded 20/10 split, the bar leaving before the film is opaque.
   - **The agreement with the frozen pack** (`screens-pregame.mjs`'s role screen beside the stage, the same moment): **9 of 9 cases** agree to within half a pixel in every part (the bar, the clock, the strip, the card, its picture, person and device, its words, the card back, the line, Ready's place and availability, the stamp).
   - **Page health:** no page errors, no failed requests, no unexpected policy report.
@@ -152,6 +153,4 @@ On `3a3f13dd`, clean (the shell and kit at `b86511ab`, kit 0.2.0; the check on t
 
 | What | Waiting on |
 | --- | --- |
-| The rejoined toast placed under the film's clock chip (sheet 18) | The shell's toast position with `bar: null` (the Lead) |
-| The film's last 34 px at the screen's foot (sheet 17 runs it to the edge) | The shell's stage reaching the foot with no tab bar (the Lead); Skip film is already placed from the foot |
 | Frontend's review and connection | The Lead's review of this interface, then #4 |
