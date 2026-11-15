@@ -1,0 +1,29 @@
+@import url("../kit/kit.css");
+@import url("../role-stage/role-card.css");
+
+/*
+ * The Card sheet (card.mjs): runtime styles, Designer's. Every rule sits under the component's root,
+ * .ms-card-sheet, and reaches only the component's own parts (classes starting ms-card-), or a kit control
+ * placed or sized through one of those parts. The kit's colours, type and states are the kit's (kit.css); the
+ * role card's are the role card's (role-stage/role-card.css), which this sheet only gives a place. The values
+ * are the pack's (design/phone-ui/prototype/screens.css .card-fit, and screens-game.mjs card()), which the
+ * frozen Food release keeps as they are.
+ */
+
+/* The parts in the DOM's order, which is the pack's in every view: the card's place, the segmented control,
+   the rows. Only the Card view is a column (the pack's .sheet-body:has(> .card-fit)); the others are block
+   flow, as the pack's sheet body, so the margins between the control and the rows collapse as the pack's do. */
+.ms-card-sheet { display: block; outline: none; }
+.ms-card-sheet :is(.ms-card-fit, .ms-card-panel)[hidden] { display: none; }
+.ms-card-sheet .ms-card-views { margin: 10px 0 2px; }
+
+/* Card: the card fills the sheet's space above the segmented control, at most 440 px tall (the pack's
+   .sheet-body:has(> .card-fit), .card-fit and .card-fit .rolecard); the role card fills its host at 5 : 7. */
+.ms-card-sheet[data-view="card"] { display: flex; flex-direction: column; height: 100%; }
+.ms-card-sheet[data-view="card"] .ms-card-views { flex: none; }
+.ms-card-sheet .ms-card-fit { flex: 1; min-height: 0; display: flex; justify-content: center; padding: 2px 0 2px; }
+.ms-card-sheet .ms-card-host { width: 100%; height: 100%; max-height: 440px; }
+
+/* Hidden: the card's back alone, 240 px wide at most at 5 : 7 (the pack's card() sets it on its card back). */
+.ms-card-sheet[data-view="hidden"] .ms-card-fit { flex: none; display: block; padding: 0; }
+.ms-card-sheet[data-view="hidden"] .ms-card-host { max-width: 240px; height: auto; max-height: none; aspect-ratio: 5 / 7; margin: 0 auto; }

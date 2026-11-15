@@ -1,6 +1,7 @@
 # The Card sheet: Designer's runtime component
 
-**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** interface proposal, for review by the Lead Designer and then Frontend on #4. Nothing is built yet. It is stacked on the role stage (#268), whose role card it mounts as it is, and so on the phone shell (#265) and the shared kit.
+**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and so on the phone shell (#265) and the shared kit.
+- **Still waiting on the shell:** the sheet's head action (`sheet.head`), which draws "Hide card". `cardSheet()` already gives it; see [Not in this version yet](#not-in-this-version-yet).
 
 **What it is:** the content of the Card tab's sheet during a match, as the phone pack draws it (sheet 31; #222 item 7). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -18,7 +19,7 @@
 - the Hacker's Scan and Code flows (sheet 42, a later component);
 - the Promises sheet (sheet 33).
 
-## Files (proposed)
+## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/`:
 
@@ -78,7 +79,8 @@ Everything on this sheet is this viewer's own private view. Nothing is public, a
   - under "Scans", one row per scan result: "Round 2 · Player 7", and "Guess Blue · matched · in the Code".
     - `matched: false` reads "not matched".
     - `inCode: false` reads "not in the Code"; `inCode: null` says nothing about the Code.
-  - **With none of these:** the pack's "Your role starts with no knowledge of other players." (question 1 below).
+  - **With none of these:** "You have no knowledge of other players." (the Lead's decision, below).
+  - **With `knowledge` not given:** nothing at all, not that line.
 - **Resource rows:** each `kind`'s icon, tint and title are the pack's (Weapons, Role Action, Move, Shared injections, Promises). Each `value` is Frontend's.
   - **Why the component doesn't word the values:** "2 of 2" needs the role's total, and "Available" needs the offers. Those are the rules' and the projection's, not the component's.
   - **Frontend's words come from the projection:**
@@ -102,10 +104,12 @@ Everything on this sheet is this viewer's own private view. Nothing is public, a
 
 The pack draws "Hide card" as an icon button in the sheet's head, between the title and Close (`ui.mjs sheet({ actions })`). The shell's `sheet.actions` are the footer's buttons (the pack's `foot`), so the head needs its own input.
 
-**Proposed for the shell:** `sheet.head: [{ id, icon, label, enabled, reason }]`.
+**Agreed with the Lead, coming to the shell:** `sheet.head: [{ id, icon, label, enabled, reason }]`.
 - **Drawing:** each is an icon button (the kit's `iconButton`) in the head, before Close, with `label` as its accessible name.
 - **Taps:** reported by the same `onSheetAction(id, sheetId)` as the footer.
 - **Concealed:** the head's buttons go with the sheet, as everything else does.
+- **Local only:** like Back and Close, a head action is this phone's own. It works while reconnecting and never stands for a command; commands belong in the footer (the Lead's rule).
+- **Ids:** unique across the head and the footer.
 
 `cardSheet(input)` gives `head: [{ id: 'hide', icon: 'hide', label: 'Hide card' }]` while the card shows, and `[]` while it is hidden, as the pack draws it. On `onSheetAction('hide', 'card')`, Frontend sets `hidden: true`.
 
@@ -147,20 +151,27 @@ The pack draws "Hide card" as an icon button in the sheet's head, between the ti
 | `resources` | The list above, worded by Frontend from `self`, `abilities` and `promiseQuota` |
 | `view`, `hidden` | Frontend's own state for the sheet. Hide and Show are local |
 
-## Questions
+## Decided by the Lead (review of #270)
 
-1. **For the Lead: the empty Knowledge line.** The pack's "Your role starts with no knowledge of other players." states a rule about the role's start. With an empty `knowledge`, the component only knows that nothing is known now. Keep the pack's words, or a neutral "You know nothing about other players yet."?
-2. **For the Lead: the shell's head action** (above): `sheet.head`, reported by `onSheetAction`.
-3. **For the Lead: the role card's fit in the sheet.**
-   - **Shown:** the card fills its host's height at 5 : 7, as the pack's `.card-fit`. This component gives it the sheet's space above the segmented control.
-   - **Hidden:** the pack draws the back at most 240 px wide (`.cardback { max-width: 240px }`). This component gives the role card a host that wide. If the role card should size its back itself, that is its change.
-4. **For Integration and Backend (through the Lead):** the resources' totals ("2 of 2") and the Role Action's availability are the projection's and the rules'. Frontend words them today. If the projection is to carry them as such, say so, and the component's `value` stays Frontend's words either way.
+1. **The empty Knowledge line** reads "You have no knowledge of other players."
+   - **Why not the pack's:** "Your role starts with no knowledge of other players." states a rule about the role, which the phone can't know.
+   - **Why no "yet":** it would claim the role learns something later, which is a rule too.
+   - **Status:** a departure from sheet 31's words under T3's principle, pending the owner's confirmation. If the owner says no, it is one string, `CARD_SHEET_WORDS.noKnowledge`.
+   - **In the agreement:** it is the one accepted amendment, recorded with T3's principle and "pending the owner's confirmation".
+2. **The head action:** the shell's `sheet.head` (above).
+3. **The card back's 240 px:** the Card sheet's own layout, as the pack sets it in its `card()` screen only. The role card is unchanged.
+4. **Resources:** the Lead asks Integration and Backend on #4 whether the projection should carry the injections' total ("2 of 2"). "Available" from the offers and "Used this round" from `self` stay Frontend's words.
 
-## Evidence planned
+## Not in this version yet
 
-As the room scene's, the shell's and the ballot's:
-- the preview inside the shell, with the room scene in its stage, in each state above;
-- the probe: the view taps, Show, focus, the policy, privacy on concealment, a change of viewer and hiding, and dispose;
-- `card-check.mjs`, capturing each state at 390 × 844 and 430 × 932, and 320 × 568 with 200 % text, under the production headers;
-- the agreement with the pinned pack's own `screens-game.mjs` `card()` frames (sheet 31's four), words and boxes to within half a pixel;
-- `card.test.mjs`.
+Listed, not omitted:
+
+| What | Waiting on |
+| --- | --- |
+| "Hide card" in the sheet's head: `cardSheet()` gives `head`, and the shell draws it once `sheet.head` lands | The shell (the Lead, #265) |
+| The owner's confirmation of the empty Knowledge line | The owner, through the Lead |
+| The injections' total in the projection | Integration and Backend (through the Lead on #4) |
+
+## Checks run on this version
+
+Filled in from the recorded check.
