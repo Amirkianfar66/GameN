@@ -139,11 +139,11 @@ Also approved: the card's `device` from Frontend's `planetRoleLook(...).device` 
 
 ## Checks run on the first build
 
-On `a46afbbe`, clean (the kit at `07596ba1`; the check on the shared `component-check.mjs`):
-- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 390 of 390; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
+On `3a3f13dd`, clean (the shell and kit at `b86511ab`, kit 0.2.0; the check on the shared `component-check.mjs`):
+- **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 8 of 8 (the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 391 of 391; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
 - **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
-  - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **24 of 26 pass**. The two `late` captures fail: the rejoined toast is drawn, but under the film (question 5).
-  - **The lifecycle probe:** 13 of 13 (12 as the page comes, 1 with the device's Reduce motion): focus (Show ending returns the focus to the card), refused taps, reconnecting, privacy, the clock, the film's element, layout, dispose and motion. Two deliberate breaks (concealment keeping the card; a new viewer keeping the last one's) each fail it.
+  - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **24 of 26 pass**. The film plays in the shell's stage under `bar: null`, and the rejoined toast is above it (decision 5). The two `late` captures still fail on one detail: with no bar the shell places the toast just under the safe area, across the film's clock chip, where sheet 18 draws it below the chip (bar height + 10 px). That is the shell's to place; it is with the Lead.
+  - **The lifecycle probe:** 16 of 16 (15 as the page comes, 1 with the device's Reduce motion): focus (Show ending returns the focus to the card), refused taps, reconnecting, privacy, the clock and an 18/12 split, the film's element, the shell's bar leaving only under an opaque film and returning before it fades with the card held still, layout, dispose and motion. Deliberate breaks fail it: concealment keeping the card, a new viewer keeping the last one's, a hard-coded 20/10 split, the bar leaving before the film is opaque.
   - **The agreement with the frozen pack** (`screens-pregame.mjs`'s role screen beside the stage, the same moment): **9 of 9 cases** agree to within half a pixel in every part (the bar, the clock, the strip, the card, its picture, person and device, its words, the card back, the line, Ready's place and availability, the stamp).
   - **Page health:** no page errors, no failed requests, no unexpected policy report.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
@@ -152,5 +152,6 @@ On `a46afbbe`, clean (the kit at `07596ba1`; the check on the shared `component-
 
 | What | Waiting on |
 | --- | --- |
-| The rejoined toast over the film | The shell's `bar: null` (#265), decision 5 |
+| The rejoined toast placed under the film's clock chip (sheet 18) | The shell's toast position with `bar: null` (the Lead) |
+| The film's last 34 px at the screen's foot (sheet 17 runs it to the edge) | The shell's stage reaching the foot with no tab bar (the Lead); Skip film is already placed from the foot |
 | Frontend's review and connection | The Lead's review of this interface, then #4 |
