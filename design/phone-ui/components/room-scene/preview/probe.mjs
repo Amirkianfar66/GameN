@@ -8,7 +8,8 @@
 //   held      a Blackout window keeps the frame and every press square through a resize, lit and dark
 //   private   layout() and the scene show no one in the dark or concealed; offers and the control are
 //             dropped when concealed and when the viewer changes; nothing is left after dispose()
-//   time      a still voyage stays still whatever the clock does, and goes back on the clock when it runs
+//   time      a still voyage stays still whatever the clock does, an update that rebuilds the pictures
+//             included, and goes back on the clock when it runs
 //   focus     the control, the positions and the press squares are kept across updates, and the focus
 //             with them; it moves to the scene only when its offer ends, and onFocusReturn says which
 // With the device's Reduce motion (the check emulates it), it checks that setting instead.
@@ -167,6 +168,42 @@ export async function runRoomSceneProbe({ host, base, size, large }) {
     const k = voyage(none);
     check('time: no trusted clock ever given, still at 0 s', j.count > 0 && j.paused && j.time === 0 && k.paused && k.time === 0, { mounted: j.time, afterUpdates: k.time });
     none.dispose();
+  });
+
+  // 3b · time across a rebuild (Frontend's re-review of 0.2.0): one update that both rebuilds the
+  // pictures (a new size) and stops the voyage keeps it where it stood, not at 0 s or at the clock,
+  // which has moved on meanwhile. And a voyage concealed while it runs shows again where it stood.
+  await guarded('time', async () => {
+    for (const [label, change] of [['the clock withdrawn', { clock: null }], ['reconnecting', { status: 'stale' }], ['Reduce motion', { reducedMotion: true }]]) {
+      t = 12000;
+      const scene = mount({ hold: null });
+      await frames(4);
+      const svg = scene.element.querySelector('svg.amb');
+      const running = voyage(scene);
+      t = 40000;
+      scene.update({ ...change, size: large });
+      const after = voyage(scene);
+      const rebuilt = scene.element.querySelector('svg.amb') !== svg;
+      t = 52000;
+      tick(scene, 2);
+      const later = voyage(scene);
+      check(`time: ${label} and a resize in one update: still where it stood, not 0 s or the clock`, running.running && rebuilt && after.paused && after.same
+        && after.time >= running.time && after.time < running.time + 1000 && later.time === after.time,
+        { stood: running.time, after: after.time, clock: 40000, rebuilt, afterUpdates: later.time });
+      scene.dispose();
+    }
+    t = 12000;
+    const scene = mount({ hold: null });
+    await frames(4);
+    const running = voyage(scene);
+    t = 30000;
+    scene.update({ status: 'concealed' });
+    t = 40000;
+    scene.update({ status: 'live', reducedMotion: true });
+    const shown = voyage(scene);
+    check('time: concealed while running, then shown with Reduce motion: where it stood when hidden', running.running && shown.count > 0 && shown.paused && shown.same
+      && shown.time >= running.time && shown.time < running.time + 1000, { stood: running.time, shown: shown.time, clockWhenHidden: 30000, clockWhenShown: 40000 });
+    scene.dispose();
   });
 
   // 4 · focus: kept across ordinary updates; moved to the scene, and reported, only when its offer ends.

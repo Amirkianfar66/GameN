@@ -1,6 +1,6 @@
 # Room scene: Designer's runtime component
 
-**Version:** `room-scene-0.2.0`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` on #261, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
+**Version:** `room-scene-0.2.1`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
 
 **What it is:** the room surface of the phone's room view, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -11,6 +11,16 @@
 - the ambient motion on sheet 55 (DSN-REQ-23);
 - the framing, the room's own control and the name tags of #222 items 1 and 34;
 - the approved room pictures, `room-drawing-1.0.0` (DSN-REQ-18), through the art bundles.
+
+## What changed in 0.2.1
+
+Frontend's re-review of 0.2.0 (`ee691846`) passed the hold, the viewer's data and the focus, and found one more case of the voyage's time:
+
+| Finding | Now |
+| --- | --- |
+| P2: an update that both rebuilt the pictures (a new size) and stopped the voyage (the clock withdrawn, reconnecting, Reduce motion) lost where it stood: it jumped to 0 s or to the clock | Every update reads where the running voyage stands before it replaces any picture, and a voyage that stops there stands at that moment. That includes a voyage concealed while running, which shows again where it stood |
+
+The probe has four more checks for it: the three changes, each in one update with a resize, and concealment. On `ee691846` all four fail, with the reported jumps (to 0 s, to the clock); on 0.2.1 they pass.
 
 ## What changed in 0.2.0
 
@@ -173,7 +183,7 @@ The first three report intent only, and only while `interactive` and `status: 'l
 
 - **One clock for every phone:** the time since `SKY_EPOCH` (1 November 2026, UTC). In the game, `clock.now()` returns the match's trusted server time in epoch milliseconds, so every phone shows the same moment of the voyage. The component never reads the device's own clock; with no trusted time, Frontend passes `clock: null`.
 - **Running:** while the scene is live, not suspended, in motion (neither the game's nor the device's Reduce motion) and has a trusted clock. It is set to the clock when it starts running and when the room's pictures are rebuilt, and then runs on its own. Frontend's model updates every 250 ms never re-time it.
-- **Standing still:** reduced, reconnecting, suspended or concealed. It samples one moment when it stops: where it stood, or the clock's moment if it was not running. No update moves it, whatever the clock does. It goes back on the clock when it runs again.
+- **Standing still:** reduced, reconnecting, suspended or concealed. It samples one moment when it stops: where it stood, read before anything in that update changes, or the clock's moment if it was not running. No update moves it, whatever the clock does, including one that rebuilds the pictures. It goes back on the clock when it runs again.
 - **No trusted clock:** with none ever given, it stands still at 0 s. A clock withdrawn while it runs leaves it standing where it was, with no jump.
 - **Purely decorative:** it shows no game fact, takes no taps, never moves a press square and never times anything in the game.
 
@@ -259,13 +269,13 @@ These are listed, not omitted:
 - **`node design/tools/room-scene-check.mjs`:**
   - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
   - **Captures:** ten states at 390 × 844 and 430 × 932: 20 of 20 pass.
-  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 19 of 19 checks pass.
+  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 23 of 23 checks pass.
     - Held: one window through 390 × 653 → 430 × 741, lit and dark, and new insets, then its end.
     - Private: `layout()` lit, dark and concealed; the offers and the control after concealment and after a change of viewer; after `dispose()`.
-    - Time: Reduce motion with the clock moving from 1 s to 9 s, as in Frontend's review; eight 250 ms model updates; reconnecting; running again; suspended and resumed; the clock withdrawn; no clock.
+    - Time: Reduce motion with the clock moving from 1 s to 9 s, as in Frontend's review; eight 250 ms model updates; reconnecting; running again; suspended and resumed; the clock withdrawn; no clock; and, from Frontend's re-review, the clock withdrawn, reconnecting or Reduce motion in the same update as a resize, and concealment while running.
     - Focus: the control, a position and a press square across updates, reconnecting and their end.
     - The device's Reduce motion, emulated.
-  - **The same probe on `03029b34`:** 4 of 19 pass. It fails on each of the four findings.
+  - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `1ef10a22` (this version merged with `main` after #260), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.

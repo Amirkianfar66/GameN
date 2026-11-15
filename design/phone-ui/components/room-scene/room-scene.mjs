@@ -27,7 +27,7 @@ import { SKY_EPOCH, ambientLayer } from './ambient.mjs';
 import { clamp, phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.2.0';
+export const ROOM_SCENE_VERSION = 'room-scene-0.2.1';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -209,18 +209,26 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     return true;
   }
 
+  const ambientAnimations = () => [...layers.querySelectorAll('svg.amb')].flatMap(svg => svg.getAnimations?.({ subtree: true }) ?? []);
+  /**
+   * Where the running voyage stands now (NaN when it is not running). Read before an update changes
+   * anything, so the moment survives an update that also rebuilds the pictures (a new size, the lights).
+   */
+  const standingNow = () => (ambientLive ? Number(ambientAnimations()[0]?.currentTime) : NaN);
+
   /**
    * The ambient layer runs on the ship's one clock while the scene is current, in motion and has a trusted
    * clock: it is set to the clock when it starts running and when its pictures are rebuilt, and then left
-   * to run. Otherwise it stands still at one moment, sampled once when it stops: where it stood, or, if it
-   * was not running, the clock's moment; with no trusted clock ever given, 0 s. While it stands still no
-   * update moves it, whatever the clock does; it goes back on the clock when it runs again.
+   * to run. Otherwise it stands still at one moment, sampled once when it stops: where it stood (`standing`,
+   * read before the update, so a rebuild in the same update cannot lose it), or, if it was not running,
+   * the clock's moment; with no trusted clock ever given, 0 s. While it stands still no update moves it,
+   * whatever the clock does or the pictures do; it goes back on the clock when it runs again.
    */
-  function settle(rebuilt) {
+  function settle(rebuilt, standing = NaN) {
     // The device's Reduce motion counts as well as the game's: a play() here would override the CSS pause.
     const deviceReduced = !!doc.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const live = !suspended && state.status === 'live' && !state.reducedMotion && !deviceReduced && state.clock !== null;
-    const animations = [...layers.querySelectorAll('svg.amb')].flatMap(svg => svg.getAnimations?.({ subtree: true }) ?? []);
+    const animations = ambientAnimations();
     if (live) {
       if (!ambientLive || rebuilt) {
         const ms = state.clock.now() - SKY_EPOCH;
@@ -230,7 +238,6 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     } else {
       const stopping = ambientLive || heldMs === null;
       if (heldMs === null) {
-        const standing = ambientLive && !rebuilt ? Number(animations[0]?.currentTime) : NaN;
         heldMs = Number.isFinite(standing) ? standing : state.clock ? state.clock.now() - SKY_EPOCH : 0;
       }
       if (stopping || rebuilt || animations.some(a => a.currentTime !== heldMs || a.playState !== 'paused')) {
@@ -469,6 +476,8 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
 
   function render() {
     if (disposed) return;
+    // Where the voyage stands, before this update replaces any picture.
+    const standing = standingNow();
     const { width, height } = state.size;
     const concealed = state.status === 'concealed';
     Object.assign(root.style, { width: `${width}px`, height: `${height}px` });
@@ -486,14 +495,14 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
       layersKey = null;
       clearPeople();
       paintOver(new Map());
-      settle(true);
+      settle(true, standing);
       return;
     }
     const rects = new Map(roomScenePlaces(state, frame).map(r => [r.id, r]));
     const rebuilt = paintLayers();
     paintPeople(rects);
     paintOver(rects);
-    settle(rebuilt);
+    settle(rebuilt, standing);
   }
 
   function update(next = {}) {
@@ -501,8 +510,8 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     state = nextRoomSceneInput(state, next);
     render();
   }
-  function suspend() { if (disposed) return; suspended = true; settle(false); }
-  function resume() { if (disposed) return; suspended = false; settle(false); }
+  function suspend() { if (disposed) return; const standing = standingNow(); suspended = true; settle(false, standing); }
+  function resume() { if (disposed) return; suspended = false; settle(false, standingNow()); }
   function dispose() {
     if (disposed) return;
     disposed = true;
