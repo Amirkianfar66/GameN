@@ -1,6 +1,6 @@
 # Boarding stage: Designer's runtime component
 
-**Version:** `boarding-stage-0.1.0`, **interface approved by the Lead Designer** (15 November 2026), with the decisions below; posted on #4 for Frontend before building. Nothing is built yet: building waits for Frontend's review and the kit's `wait` (kit 0.3.0).
+**Version:** `boarding-stage-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the shell and kit 0.3.0 (`c1b190ab`), with its preview, probe, agreement with the pack, check and test. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
 
 **What it is:** the shared ten-second boarding before Round 1 on a phone, as sheet 19 draws it: the boarding film with Skip, and the two holding screens around it. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -22,13 +22,13 @@
 - **The film's picture:** Frontend's existing player (`apps/game/hosted/planet/pregame.mjs` with the runtime boarding film), mounted in `stage.film`, as the role stage's film is (#268, decision 1).
 - **"Round 1 begins"** (sheet 19's last frame): the room with the "ROUND 1" stamp. The stamp is Motion & Cinematics' round stamp, a later component placed over the room view, once the server's Round 1 view arrives; Frontend disposes this stage then.
 
-## Files (proposed)
+## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/boarding-stage/`:
 
 | Path | What |
 | --- | --- |
-| `boarding-stage.mjs` | `mountBoardingStage()`, `nextBoardingStageInput()`, `boardingLine()`, `BOARDING_STAGE_DEFAULTS`, `BOARDING_STAGE_VERSION`, `BOARDING_WORDS` |
+| `boarding-stage.mjs` | `mountBoardingStage()`, `nextBoardingStageInput()`, `boardingWait()`, `BOARDING_STAGE_DEFAULTS`, `BOARDING_STAGE_VERSION`, `BOARDING_WORDS`, `CROSSFADE_MS`, `CROSSFADE_REDUCED_MS` |
 | `boarding-stage.css` | Every style, under `.ms-boarding-stage ms-kit`; starts with `@import url("../kit/kit.css");` |
 | `preview/` | Development only: the preview on the pack's synthetic fixtures (a still of the approved boarding film where the player goes), `probe.mjs`, and `agree.mjs` (the stage beside the frozen pack's `PREGAME_SCREENS.boarding`) |
 | `review/` | The check's captures and `check.json` |
@@ -91,7 +91,7 @@ Skip follows the kit's control policy: refused when unavailable, stale, conceale
 | View | Drawn |
 | --- | --- |
 | `film` | `stage.film` edge to edge; Skip at the bottom right, 14 px above the bottom safe area, as the pack's `.film-skip` |
-| `holding` | Centred: the flag, filled, in its 76 px amber-on-dark tile; "Boarding"; "Round 1 in 0:04" (a timer for screen readers). Without a trusted clock, the line is left out |
+| `holding` | On the pack's canvas (`#10141C`, the kit's `--ms-k-canvas`), centred inside the safe areas: the flag, filled, in its 76 px tile; "Boarding"; "Round 1 in 0:04" (a timer for screen readers). Without a trusted clock, the line is left out |
 | `waiting` | Centred: the hourglass in its tile; "Starting Round 1"; the spinner and "Waiting for the ship" (a polite status). With Reduce motion the spinner stands still |
 | Stale | The shell's banner, "Connection lost · Controls return when the match is current · Retry", at the bar's place, over the film or the holding screen |
 | Concealed | A plain cover, as ship travel's: nothing of the film or the holding screens is drawn or named (the stage's name is "Hidden"), and Skip is refused. The film's element and the clock keep their places, so the phone shows the current state again when it is shown. Frontend pauses its player, as today |
@@ -118,6 +118,20 @@ Skip follows the kit's control policy: refused when unavailable, stale, conceale
 
 Everything else stands as proposed: `bar: null`, `tabs: null`, `edge: true`; the pack's "Skip" with its icon; Frontend's boarding player in `stage.film`; `view` decided by Frontend.
 
+## Checks run on this version
+
+On the clean commit named in `review/check.json`:
+- **Tests:** `packages/design-tokens/test/boarding-stage.test.mjs`: the runtime-safe graph with the shell and the kit, styles scoped and placing kit parts only through their own parts, the pack's words, the inputs' refusals, the holding block from the view and the clock, and the check's record. `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `test:design`, `test:tooling` and `check-assets.mjs` run before every push.
+- **`node design/tools/boarding-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (`lib/component-check.mjs`).
+  - **Captures:** ten states at 390 × 844 and 430 × 932: the film at 0:01.5 and 0:06 with Skip, skipped locally ("Round 1 in 0:04"), waiting for the server, the shared display (no Skip), Reduce motion, no trusted clock, reconnecting, concealed and the Largest text. **20 of 20 pass.**
+  - **The lifecycle probe:** 9 of 9 (8 as the page comes, 1 with the device's Reduce motion): focus, refused taps, the clock, concealment, the film's element and Skip's place, dispose, motion and the spinner. Hiding the cover fails it.
+  - **The agreement with the frozen pack** (`PREGAME_SCREENS.boarding` beside the stage, the same moment): **6 of 6 cases** agree to within half a pixel: the holding block's box, tile, title, line and spinner, and Skip's box and words, at both sizes.
+- **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
+
 ## Not in this version
 
-Everything: this is the interface. Next, after Frontend's review on #4 and the kit's `wait`: the module and styles, the preview's states (with the concealed cover and the shared display), the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack and the test.
+| What | Waiting on |
+| --- | --- |
+| Frontend's review and connection | #4 |
+| The film's picture | Frontend's existing player, unchanged (#266) |
+| The ROUND 1 stamp | Motion & Cinematics' round stamp |
