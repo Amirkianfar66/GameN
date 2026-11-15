@@ -101,6 +101,7 @@ shell.dispose();             // removes the element and its listeners
 | `versions` | Public | The match's art versions, for the portraits |
 | `bar` | Public | The top bar's input, below. `null`: no top bar at all, as the role stage's film. The stage then runs to the top edge, and the target bar, the banner, the toast and a large sheet keep the bar's place |
 | `edge` | Phone | `true`: the stage and the cover fill the whole shell, edge to edge, under the safe areas and any bar or tabs, for a full-screen film or poster. Default `false`: the stage between the bars |
+| `backdrop` | Phone | What lies behind the bars' glass and wherever nothing is drawn. `'scene'` (default): the room view's space, `#07090F`, as the pack's `.scene` lies under its bars. `'canvas'`: the phone's canvas, `#10141C` (the pack's `.ph`), for a screen with no room: the role stage, boarding, the menu, the lobby |
 | `bar.kind` | Public | `'turn'`, `'phase'` or `'pair'` |
 | `bar.who` | Public | Turn: `{ seat, name, character }` of the active seat |
 | `bar.self` | This viewer's | Turn: whether it is this viewer's turn: "Your turn", amber |
@@ -239,8 +240,9 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 18 of 18 checks pass.
-    - **As the page comes (17):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, edge to edge, head actions, the toast, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 19 of 19 checks pass.
+    - **As the page comes (18):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, edge to edge, the backdrop, head actions, the toast, the large-content view, dispose and motion.
+      - **The backdrop:** the room view's space (`#07090F`) by default, the phone's canvas (`#10141C`) with `backdrop: 'canvas'`, and any other value refused.
       - **No bar:** the stage runs to the top edge, and the banner and the toast keep the bar's place (107 and 109 px at a 47 px safe area).
       - **Edge to edge:** the stage and the cover fill the shell, the bar's glass lies over the stage, `layout()` gives the safe areas (also when only they change), the overlays stay put, and `edge: 'yes'` is refused.
       - **Head actions:** "Hide card" sits after the title and before Close, keeps its element and the focus through updates, reports `onSheetAction('hide', 'card')`, is taken while reconnecting (a footer action is not), is refused with its reason when unavailable, and returns the focus when it goes.
@@ -251,7 +253,7 @@ Listed, not omitted:
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `c17bd30e`, with kit 0.2.0, the cover, no-bar mode with the overlays at the bar's place, `edge` and head actions, and the source clean.
+    - Recorded on `4e25b247`, with kit 0.3.0, the cover, no-bar mode with the overlays at the bar's place, `edge`, head actions and the backdrop, and the source clean.
     - Against `b51b715c`'s record, only `film` changed (edge to edge, the banner at the bar's place); `poster` and `card` are new. Every other capture differs by at most 325 pixels, in the room's ambient motion.
     - **At the game's text size:** the preview's root is now the browser's 16 px, as the game's. Until `10496d18` it forced 14 px, so every rem-sized word in the shell and the room scene drew an eighth small. The bars keep their pixel minimums (99 and 92 px at 390 × 844); the words and the room's tags are larger. The agreement with the pack, drawn in the same page, holds at 16 px.
     - Against `10496d18`, before these, the captures differ by the larger words, which is the fix, and by noise in the room's ambient motion.
