@@ -20,6 +20,8 @@ export const HOST_ABORT_DRAWING_POLICY = 'design/releases/host-abort-production-
 export const FOOD_SOURCE_DRAWING_POLICY = 'design/releases/food-source-drawing-policy.json';
 export const RELEASE_PRESERVATION_DRAWING_POLICY = 'design/releases/release-preservation-tooling-drawing.json';
 export const RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY = 'design/releases/release-preservation-consumer-drawing.json';
+export const FOOD_INPUT_CONSUMER_DRAWING_POLICY = 'design/releases/food-input-consumer-drawing.json';
+const FOOD_INPUT_CONSUMER_DRAWING_POLICY_SHA256 = '44eea8c37156c2747b2303a19b1202108751085a900c0a9843793e76050f44af';
 const RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY_SHA256 = '0878da29213d86870ce2aed24fe01ae2ee6aaf9cb4675788ee399feb0da2629a';
 const RELEASE_PRESERVATION_DRAWING_POLICY_SHA256 = '47e0fec753a92d9a14776ad2bed4e9c759d727233b78f8f4211b1af2f7311f03';
 const FOOD_SOURCE_DRAWING_POLICY_SHA256 = '7dc8fa97ee1f6ce0647dc842b25a7ec43ba149871bb41821d8c2b1836ea73237';
@@ -123,6 +125,10 @@ export function readDrawingPolicy(root) {
     RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY_SHA256, RELEASE_PRESERVATION_DRAWING_POLICY_SHA256,
     'mothership.release-preservation-consumer-drawing/1');
   if (consumerLoaded && !toolingLoaded) throw Error('Release preservation consumer drawing parent is missing');
+  const foodInputLoaded = applyToolingSupplement(root, policy, FOOD_INPUT_CONSUMER_DRAWING_POLICY,
+    FOOD_INPUT_CONSUMER_DRAWING_POLICY_SHA256, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY_SHA256,
+    'mothership.food-input-consumer-drawing/1');
+  if (foodInputLoaded && !consumerLoaded) throw Error('Food input consumer drawing parent is missing');
   return policy;
 }
 
