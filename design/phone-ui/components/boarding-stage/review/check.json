@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/boarding-stage-check.mjs",
   "component": "design/phone-ui/components/boarding-stage",
-  "sourceCommit": "e3f12b4058bb6a43ba9a4010d26e89f36a1718ef",
+  "sourceCommit": "c24cce8de1434a0d13db3f19248511f84b135456",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -66,6 +66,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -92,7 +93,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -113,6 +114,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -139,7 +141,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -160,6 +162,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -186,7 +189,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -207,6 +210,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -233,7 +237,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -254,6 +258,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -280,7 +285,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -301,6 +306,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -327,7 +333,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -348,6 +354,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -374,7 +381,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -395,6 +402,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -421,7 +429,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -442,6 +450,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -468,7 +477,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -489,6 +498,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -515,7 +525,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -536,6 +546,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -562,7 +573,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -583,6 +594,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -609,7 +621,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -630,6 +642,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -656,7 +669,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -677,6 +690,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -703,7 +717,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -724,6 +738,7 @@
       "canvas": true,
       "covered": false,
       "banner": "Connection lost",
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -750,7 +765,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -771,6 +786,7 @@
       "canvas": true,
       "covered": false,
       "banner": "Connection lost",
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -797,7 +813,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -818,6 +834,7 @@
       "canvas": true,
       "covered": true,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -844,7 +861,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -865,6 +882,7 @@
       "canvas": true,
       "covered": true,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -891,7 +909,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -912,6 +930,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 390,
@@ -938,7 +957,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -959,6 +978,7 @@
       "canvas": true,
       "covered": false,
       "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
       "layout": {
         "size": {
           "width": 430,
@@ -1170,7 +1190,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1204,7 +1224,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BS-T8P-D.js",
+          "source": "assets/index-DcsfV6W6.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1389,16 +1409,16 @@
             },
             "spinner": {
               "pack": {
-                "x": 108.93660736083984,
-                "y": 492.9053649902344,
-                "w": 19.59552764892578,
-                "h": 19.595550537109375
+                "x": 108.93905639648438,
+                "y": 492.9078063964844,
+                "w": 19.59063720703125,
+                "h": 19.590667724609375
               },
               "stage": {
-                "x": 108.93658447265625,
-                "y": 492.9053649902344,
-                "w": 19.5955810546875,
-                "h": 19.595550537109375
+                "x": 108.93902587890625,
+                "y": 492.9078063964844,
+                "w": 19.5906982421875,
+                "h": 19.590667724609375
               },
               "words": null
             },
@@ -1557,16 +1577,16 @@
             },
             "spinner": {
               "pack": {
-                "x": 128.9350128173828,
-                "y": 536.9037475585938,
-                "w": 19.598724365234375,
-                "h": 19.5987548828125
+                "x": 128.9374542236328,
+                "y": 536.9061889648438,
+                "w": 19.593841552734375,
+                "h": 19.5938720703125
               },
               "stage": {
-                "x": 128.93499755859375,
-                "y": 536.9037475585938,
-                "w": 19.5987548828125,
-                "h": 19.5987548828125
+                "x": 128.93743896484375,
+                "y": 536.9061889648438,
+                "w": 19.5938720703125,
+                "h": 19.5938720703125
               },
               "words": null
             },
@@ -1607,7 +1627,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BS-T8P-D.js",
+        "source": "assets/index-DcsfV6W6.js",
         "line": 1,
         "column": 3180,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
