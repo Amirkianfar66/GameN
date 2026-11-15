@@ -33,7 +33,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/phone-shell');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
 /** Each state at the two development sizes; the Largest text at 320 × 568 (preview.mjs PREVIEW_STATES). */
-const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, talk: 2, stale: 2, concealed: 2, film: 2, large: ['320x568'] };
+const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, talk: 2, stale: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'] };
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
 const AT = 130;
 
@@ -65,7 +65,11 @@ const EXPECT = {
   talk: s => s.kind === 'pair' && s.talk === 2 && s.tabs === 0,
   stale: s => s.banner === 'Connection lost' && s.status === 'stale',
   concealed: s => s.buttons === 0 && s.name === null && s.figures === 0,
-  film: s => s.kind === 'none' && s.layout.bars.top === 0 && s.tabs === 0 && s.banner === 'Connection lost',
+  // Edge to edge, and the banner at the bar's place: the top safe area, the bar's 52 px at the 16 px root (kit.css
+  // .ph --bar-h), and 8 px, as the pack's banner on its bar-less film.
+  film: s => s.kind === 'none' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0
+    && s.banner === 'Connection lost' && s.bannerTop === s.layout.safe.top + 52 + 8,
+  poster: s => s.kind === 'phase' && s.name === 'Setting course' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0,
   large: s => s.name === 'Your turn' && s.tabs === 4,
 };
 try {
@@ -88,7 +92,8 @@ try {
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
           target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), sheet: t('.ms-ps-sheet h2'),
           sheetActions: root.querySelectorAll('.ms-ps-sheet-foot button').length, buttons: root.querySelectorAll('.ms-ps-tb button, .ms-ps-tabs button, .ms-ps-talk button, .ms-ps-over button, .ms-ps-sheet button').length,
-          figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, cover: q('.ms-ps-cover')?.children.length ?? 0, layout: window.__phoneShell.mounted[0].shell.layout() };
+          figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, cover: q('.ms-ps-cover')?.children.length ?? 0,
+          bannerTop: q('.ms-ps-banner') ? Math.round(q('.ms-ps-banner').getBoundingClientRect().top - root.getBoundingClientRect().top) : null, layout: window.__phoneShell.mounted[0].shell.layout() };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
@@ -98,7 +103,7 @@ try {
       const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 82, clip: { x: 0, y: 0, width, height, scale: 1 } });
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
-      const crew = !['dark', 'talk', 'concealed', 'film'].includes(state);
+      const crew = !['dark', 'talk', 'concealed', 'film', 'poster'].includes(state);
       const drawn = EXPECT[state](seen);
       const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn && (!crew || seen.figures > 0);
       if (!ok) failed += 1;
