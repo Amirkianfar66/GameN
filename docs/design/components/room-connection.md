@@ -100,7 +100,7 @@ The scene does not draw the films yet; they are its next components. Until it do
 | The window stations | In the scene, under the feet |
 | The Officer's move block | In the scene, on the person's press square |
 | Office badges | The scene's tags show each office's icon, so the old "Captain · Officer" text badge is not drawn |
-| The Blackout | The fade over a lit room stays the game's film. The full dark is the scene's own lights-out picture and held frame, with only the windows moving and the offered positions showing (sheet 30); the slot markers are not drawn over it |
+| The Blackout | The game's film (S1): its darkness over the lit scene at the board's depth (z 3000), in the flicker and the lights' return, and its position markers throughout (z 3010), as the Lead asked, since both are approved motion. In the dark the scene's own lights-out picture is the film's darkness, so no layer is drawn over it, and its windows still move (z 2802). The lights cut out at the same instant in both (`previewEndsAt`), so the hand-over has no jump. **Sheet 30 shows no markers**, lit or dark: the markers are a departure from it, raised with the Lead |
 
 **Why 0.4.0.** The connection's first version laid the films over the scene, which is its own stacking context. The check's first run showed the problem: the Hospital patient's film figure covered the scene's own figure and its "3 Crew 3 · Injured" tag. The room scene's 0.4.0 (`72c1ae8`) added `standIns`, `brace` and `scene.films` for it.
 
