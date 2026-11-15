@@ -22,16 +22,12 @@
 //   node design/tools/vote-check.mjs
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size: not a phone,
 // not Safari, not a performance measure.
+// The bundling, the headers and the policy reports are every component check's (lib/component-check.mjs).
 
-import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
-import { createServer } from 'node:http';
-import { cp, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { extname, join, normalize, resolve, sep } from 'node:path';
+import { cp, mkdir, readdir, rm, writeFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build } from 'vite';
-import { createHostedPreviewCsp } from '../../scripts/hosted-preview-policy.mjs';
+import { POLICY_LISTENER, bundlePreview, classify, recordedHeaders, serve, sha256, sourceState } from './lib/component-check.mjs';
 import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -73,72 +69,22 @@ const WORDS = {
   'large-runoff': { sheet: 'Captain runoff', foot: 'Abstain|Vote' },
   'jail-stale': { sheet: 'Jail vote', foot: 'Abstain|Vote for Ava', banner: 'Connection lost' }, 'jail-concealed': {}, 'result-concealed': {},
 };
-/** The hosted game's response headers, as scripts/prepare-hosted-preview.mjs writes them for staging (the same list as the room scene's and the shell's checks). */
-export const PRODUCTION_HEADERS = Object.freeze([
-  ['Cache-Control', 'no-store'],
-  ['Content-Security-Policy', createHostedPreviewCsp('gamen-mothership-staging')],
-  ['X-Content-Type-Options', 'nosniff'],
-  ['X-Frame-Options', 'DENY'],
-  ['Referrer-Policy', 'no-referrer'],
-  ['X-Robots-Tag', 'noindex, nofollow'],
-  ['Permissions-Policy', 'camera=(), microphone=(), geolocation=()'],
-]);
 const LARGE = new Set(Object.keys(CELLS).filter(k => k.startsWith('large-')));
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.json': 'application/json', '.woff2': 'font/woff2' };
-const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
-
 /**
- * One report is known and not the component's: zod's eval feature probe, which zod catches before falling
- * back to its ordinary parser; the game's own bundle has the same probe (the shell's check says more). A
- * report is that one only when the bundled code at the reported place is the probe; every other report
- * fails the capture.
+ * The preview bundled as the game bundles a component (lib/component-check.mjs). The agreement draws the pinned
+ * pack beside the component, and the pack's art.mjs also finds the rooms' pictures from its own place at run time
+ * (design/board-v2/assets/), which no bundle carries; they are copied to where it looks from the bundle, as the
+ * pack's own pages serve them (the library copies the crew's portraits).
  */
-async function classify(out, violation) {
-  if (violation.directive !== 'script-src' || violation.blocked !== 'eval' || !violation.source) return 'unexpected';
-  const code = (await readFile(join(out, violation.source), 'utf8').catch(() => '')).split('\n')[violation.line - 1] ?? '';
-  const near = code.slice(Math.max(0, violation.column - 160), violation.column + 60);
-  return /Cloudflare[\s\S]*try\{return Function\(``\),!0\}catch\{return!1\}/.test(near) ? 'known: zod eval probe, caught; the live game bundle has it too' : 'unexpected';
-}
-
 async function bundle() {
-  const out = await mkdtemp(join(tmpdir(), 'vote-check-'));
-  await build({
-    root: join(COMPONENT, 'preview'), base: './', logLevel: 'warn', configFile: false, publicDir: false,
-    // Bundled, the game's package imports resolve from node_modules: the preview's import map is for the
-    // unbundled page only, and an inline script would be refused by the production policy anyway.
-    plugins: [{ name: 'vote-check-no-import-map', transformIndexHtml: html => html.replace(/<script type="importmap">[\s\S]*?<\/script>\n?/, '') }],
-    build: { outDir: out, emptyOutDir: true, target: 'es2022', assetsInlineLimit: 0, sourcemap: false, cssMinify: false },
-  });
-  // The agreement draws the pinned pack beside the component. The pack's art.mjs finds the crew's portraits
-  // and the rooms' pictures from its own place at run time (design/crew-drawing/assets/portraits/ and
-  // design/board-v2/assets/), which no bundle carries; they are copied to where it looks from the bundle,
-  // as the pack's own pages serve them. The component's own pictures come through the bundle, as in the game.
-  await cp(join(REPO, 'design/crew-drawing/assets/portraits'), join(out, 'crew-drawing/assets/portraits'), { recursive: true });
+  const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'vote-check' });
   await cp(join(REPO, 'design/board-v2/assets'), join(out, 'board-v2/assets'), { recursive: true });
   return out;
 }
 
-function serve(root) {
-  const server = createServer(async (request, response) => {
-    const path = normalize(join(root, decodeURIComponent(new URL(request.url, 'http://check').pathname)));
-    if (!path.startsWith(root + sep) && path !== root) { response.writeHead(403).end(); return; }
-    try {
-      const body = await readFile(path.endsWith(sep) ? join(path, 'index.html') : path);
-      response.writeHead(200, Object.fromEntries([['Content-Type', TYPES[extname(path)] ?? 'application/octet-stream'], ...PRODUCTION_HEADERS]));
-      response.end(body);
-    } catch {
-      response.writeHead(404, Object.fromEntries(PRODUCTION_HEADERS)).end('Not found');
-    }
-  });
-  return new Promise(done => server.listen(0, '127.0.0.1', () => done({ server, origin: `http://127.0.0.1:${server.address().port}` })));
-}
-
 // The source the captures show, read before anything is written: the components' files, the room pictures
-// and the result art, without the review folder this check writes.
-const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: REPO, encoding: 'utf8' }).trim();
-const sourceClean = execFileSync('git', ['status', '--porcelain', '--', 'design/phone-ui/components', ':!design/phone-ui/components/vote/review',
-  'design/room-drawing/assets', 'apps/game/hosted/scene-drawing/phone-kit-art.mjs'], { cwd: REPO, encoding: 'utf8' }).trim() === '';
+// and the result art, without the review folders checks write.
+const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets', 'apps/game/hosted/scene-drawing/phone-kit-art.mjs']);
 const out = await bundle();
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
@@ -147,7 +93,6 @@ const results = {};
 const probes = {};
 let agreement = null;
 let failed = 0;
-const POLICY_LISTENER = 'window.__policy = []; document.addEventListener("securitypolicyviolation", e => window.__policy.push({ directive: e.violatedDirective, blocked: String(e.blockedURI), source: String(e.sourceFile).replace(location.origin + "/", ""), line: e.lineNumber, column: e.columnNumber }));';
 try {
   await mkdir(REVIEW, { recursive: true });
   // A clean review folder: captures of states that no longer exist do not linger.
@@ -223,13 +168,12 @@ try {
   server.close();
   if (process.argv.includes('--keep')) console.log(`kept the bundle in ${out}`); else await rm(out, { recursive: true, force: true });
 }
-const headers = PRODUCTION_HEADERS.map(([key, value]) => ({ key, value }));
 const record = {
   tool: 'design/tools/vote-check.mjs',
   component: 'design/phone-ui/components/vote',
   sourceCommit, sourceClean,
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.',
-  headers, headersSha256: sha256(JSON.stringify(headers)),
+  ...recordedHeaders(),
   voyageAt: AT,
   captures: results,
   probe: probes,
