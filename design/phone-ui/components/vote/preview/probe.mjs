@@ -14,6 +14,7 @@
 //             shows none of the last viewer's pick or ballot
 //   result    the window draws the tally as it is given: each candidate's count once, 0 as 0, none on a
 //             seat that was not a candidate, the chosen amber, no control and no ballot; concealed, nothing
+//             drawn and no words left in the page; shown again, drawn afresh
 //   words     the headline and its line for all six outcomes, and no claim the tally does not hold
 //   compact   at 320 × 568 with 200 % text the art and stamp step aside, the roster is a list of whole
 //             names and the window scrolls as one column; at 390 × 844 the window is whole
@@ -189,11 +190,15 @@ export async function runVoteProbe({ sizes, versions, room }) {
       const box = root.getBoundingClientRect(), stage = p.shell.stage.getBoundingClientRect();
       detail.inset = { left: Math.round(box.left - stage.left), right: Math.round(stage.right - box.right), top: Math.round(box.top - stage.top), bottom: Math.round(stage.bottom - box.bottom) };
       result.update({ status: 'concealed' });
-      detail.concealed = { hidden: root.hidden, shown: root.getClientRects().length };
+      detail.concealed = { hidden: root.hidden, shown: root.getClientRects().length, text: root.textContent.trim(), cells: root.querySelectorAll('.ms-k-cell').length };
+      // Shown again, drawn afresh from the same public tally.
+      result.update({ status: 'live' });
+      detail.again = { title: root.querySelector('.ms-result-title').textContent, cells: root.querySelectorAll('.ms-k-grid9 > .ms-k-cell').length };
       result.dispose(); p.dispose();
       return { ok: counts && detail.buttons === 0 && detail.chosen === 'winner' && detail.you && detail.label === 'Player 7, Gus, 5 votes' && !detail.ballots
         && detail.foot === 'Ballots stay private Round 3' && detail.inset.left === 10 && detail.inset.right === 10 && detail.inset.top === 8 && detail.inset.bottom === 10
-        && detail.concealed.hidden && detail.concealed.shown === 0, ...detail };
+        && detail.concealed.hidden && detail.concealed.shown === 0 && detail.concealed.text === '' && detail.concealed.cells === 0
+        && detail.again.title === 'Gus goes to Jail' && detail.again.cells === 9, ...detail };
     });
 
     await check('words', async () => {

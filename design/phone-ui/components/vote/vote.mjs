@@ -431,7 +431,7 @@ export function mountVoteResult(host, input = {}) {
   const foot = kit.h('div', 'ms-result-foot');
   const lock = kit.h('span', 'ms-result-lock', { 'aria-hidden': 'true' });
   kit.setIcon(lock, 'lock', true);
-  const privateWords = kit.text(kit.h('span', 'ms-result-private'), VOTE_WORDS.ballotsPrivate);
+  const privateWords = kit.h('span', 'ms-result-private');
   const round = kit.h('span', 'ms-result-round');
   foot.append(lock, privateWords, round);
   inner.append(scroll, foot);
@@ -443,10 +443,22 @@ export function mountVoteResult(host, input = {}) {
     if (disposed) return;
     const s = state, r = s.result, head0 = HEADS[r.outcome], w = resultWords(s);
     root.dataset.status = s.status;
-    root.dataset.outcome = r.outcome;
-    // Concealed, as the shell and the room scene: nothing drawn and nothing for a screen reader, though the
-    // totals are public. The elements stay, so the window comes back as it was when the phone shows again.
+    // Concealed, as the shell and the room scene: nothing drawn, nothing for a screen reader and no words
+    // left in the page, though the totals are public. Shown again, the window is drawn afresh.
     root.hidden = s.status === 'concealed';
+    if (root.hidden) {
+      for (const node of cells.values()) node.remove();
+      cells.clear();
+      for (const node of [title, line, round, privateWords]) kit.text(node, '');
+      kit.setStamp(stamp, { text: '', tone: null });
+      art.replaceChildren();
+      artKey = null;
+      root.removeAttribute('aria-label');
+      grid.removeAttribute('aria-label');
+      delete root.dataset.outcome;
+      return;
+    }
+    root.dataset.outcome = r.outcome;
     root.setAttribute('aria-label', VOTE_WORDS.resultName[r.kind]);
     if (s.reducedMotion) root.dataset.motion = 'reduced'; else delete root.dataset.motion;
     head.dataset.tone = head0.tone;
@@ -461,6 +473,7 @@ export function mountVoteResult(host, input = {}) {
     kit.text(title, w.title);
     kit.text(line, w.line);
     grid.setAttribute('aria-label', VOTE_WORDS.resultRoster);
+    kit.text(privateWords, VOTE_WORDS.ballotsPrivate);
     kit.text(round, s.round !== null ? VOTE_WORDS.round(s.round) : '');
     round.hidden = s.round === null;
     // "You" is the phone's: never drawn while concealed.
