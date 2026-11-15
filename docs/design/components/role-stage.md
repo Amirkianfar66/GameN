@@ -134,7 +134,9 @@ The interface is approved with these decisions:
 2. **No ⋮** during the stage, as sheet 17 draws it.
 3. **The facts are Frontend's accepted copy.** The pack's drafts stay in the preview only.
 4. **The 20/10 split is always the server's:** `roleFilmStartsAt` → `clock.filmAtMs`, never constants. The probe draws an 18/12 split to prove the strip follows what it is given; a hard-coded 20/10 fails it.
-5. **The toast over the film:** the shell is taking `bar: null` (#265): no top bar, the stage full-bleed under the status bar, the toast and the reconnecting banner still above it under the safe area. In the film's view the stage gives the shell `bar: null` and the film mounts in the shell's stage. Until that lands, the two `late` captures fail.
+5. **The toast over the film:** the shell takes `bar: null` and `edge: true` (#265). In the film's view the stage gives the shell `bar: null, tabs: null, edge: true`, and the film mounts in the shell's stage, edge to edge.
+   - The shell's overlays (the toast, the reconnecting banner) keep the bar's place with or without a bar: the rejoined toast sits over the film, under its clock chip, as sheet 18 draws it.
+   - The two `late` captures pass.
 
 Also approved: the card's `device` from Frontend's `planetRoleLook(...).device` (one table), the `.ms-own-card` root, and Show's 44 px eye in the card's own part.
 
