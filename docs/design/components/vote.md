@@ -82,12 +82,16 @@ Both are synchronous, keep no timers, and survive any number of updates. `suspen
 | `versions` | Public | The match's art versions, for the portraits |
 | `kind` | Public | `'jail'` or `'captain'` |
 | `runoff` | Public | `null`, or `{ tied: [seat, …] }`: "Captain runoff", "Ava and Ben tied" |
-| `roster` | Public | `[{ seat, name, character, note }]`, one per seat in the match (7–9). `note` is the public status Frontend words ("Injured", "In Jail", "Out"), or `null` |
-| `choices` | This viewer's | `{ [seat]: { enabled, reason } }` from `ballot.eligibleTargets` and the `VOTE` offer. A seat left out is not available, with its `note` or "Not available now". The component never works out who may be chosen |
+| `roster` | Public | `[{ seat, name, character, note, candidate, reason }]`, one per seat in the match (7–9). `seat` is the number, or the `'seat-n'` id (as the shell). `candidate`: in `ballot.eligibleTargets` (public). `note`: the public status Frontend words ("Injured", "In Jail", "Out"), or `null`. `reason`: an unavailable reason where the projection gives one, else `null` |
 | `selected` | This viewer's | The seat picked and not yet sent, or `null`. Frontend holds it; the component only draws it |
 | `own` | This viewer's | `null` (no ballot yet), `{ seat }` (sent), or `{ abstained: true }`, from `ownBallot` for this phase |
-| `mode` | This viewer's | `'open'`, `'closed'` (the clock reached 0; result next) or `'cannot'` (this viewer may not vote: not in `ballot.eligibleVoters`) |
+| `mode` | This viewer's | `'open'` (the `VOTE` offer is there), `'closed'` (the clock reached 0; result next) or `'cannot'` (this viewer may not vote: not in `ballot.eligibleVoters`) |
 | `busy` | This viewer's | `'vote'` or `'abstain'` while that request is sending, else `null` |
+
+**Each cell, from these inputs alone:**
+- **available:** a candidate, `mode: 'open'`, no ballot sent; **selected** when it is `selected`;
+- **not available** (dimmed, focusable, `aria-disabled`): not a candidate, while the ballot is open. Its note is `reason`; else, in a runoff, "Not in runoff" (the runoff's pair is the server's `runoff.tied`); else the public `note`; else "Not available now";
+- **your vote:** the seat in `own`; **faded:** every other cell once a ballot is sent, the vote is closed, or this viewer can't vote. A faded non-candidate keeps its note.
 
 `ballotSheet(input)` returns the shell's `sheet` input with the pack's words: title "Jail vote", "Captain election" or "Captain runoff"; sub "7 players" / "8 players" under 9, or the runoff's tie; and the actions:
 - open, no ballot: Abstain (`id: 'abstain'`, secondary) and Vote (`id: 'vote'`, primary), Vote unavailable until a seat is selected, then "Vote for Ava";
@@ -100,16 +104,17 @@ The footer's taps arrive through the shell's `onSheetAction('abstain' | 'vote', 
 | Input | Audience | What |
 | --- | --- | --- |
 | `status`, `reducedMotion`, `viewer`, `versions` | As the ballot | Concealed, the window keeps the public totals and drops "You" |
-| `tally` | Public | `lastTally` as it is: `{ kind, outcome, counts, eligibleVoterCount, selectedSeatId, tiedSeatIds }`, with seat ids as numbers |
-| `roster` | Public | As the ballot's; `candidate: true` on each seat that could be chosen in that vote |
+| `tally` | Public | `lastTally` exactly as the projection gives it: `{ kind, outcome, counts, eligibleVoterCount, selectedSeatId, tiedSeatIds }`, with its `'seat-n'` ids. The component reads each id's seat number, as the shell's `seatNumber()` does; Frontend does not reshape it. `phaseId` is ignored |
+| `roster` | Public | As the ballot's; `candidate` on each seat that could be chosen in that vote. No count is drawn on a non-candidate |
 | `needed` | Public | The number of votes a Jail vote needed, for "4 needed of 8" and "No one reached 4 votes.", or `null` |
 | `round` | Public | For the foot's "Round 3" |
 
 `resultWords(input)` returns the stamp, the headline and its line, so the preview, the test and Frontend's screen-reader announcement use the same words.
 
-**Two questions for Integration and Backend (raise on #222; please don't infer):**
+**Questions (1 and 2 for Integration and Backend on #222; please don't infer):**
 1. **The Jail threshold.** `lastTally` carries `eligibleVoterCount` but not the votes needed. The component will not work it out from the rules. With `needed: null`, the line reads "7 votes · 8 could vote" and `NO_JAIL_SELECTION` reads "No one was chosen."; the pack's words need the threshold in the projection.
 2. **Candidates with no votes.** Item 4 asks for zero shown as 0. If `counts` leaves out a candidate with no votes, Frontend needs the closed vote's candidates (`ballot.eligibleTargets` of that phase) to mark `candidate: true`; the component draws 0 for a candidate missing from `counts`, and no count for a seat that was not a candidate.
+3. **For the Lead: a non-candidate's note and T3.** The pack writes the public status ("Injured", "In Jail", "Out") under a cell that can't be chosen, and only there: an injured Eli has no note in the Jail vote, where he can be chosen, and "Injured" in the election, where he can't. The owner's T3 says the phone uses the server's reason or "Not available now", and never works a reason out from the rules. The component only prints what it is given: `reason`, the runoff's words, the public status, or "Not available now". Is the public status acceptable under T3 here, as a fact about the person rather than a reason? If not, Frontend passes `note: null` and the cell says "Not available now" until the projection carries reasons.
 
 ## Callbacks
 
@@ -134,7 +139,7 @@ The result window has no controls and no callbacks. It shows no ballots: no list
 | — | Reconnecting | Ballot: cells refused, look kept. Result: unchanged (public) |
 | — | Concealed | Ballot: nothing (no names, picks or own ballot), nothing for a screen reader. Result: the public totals, without "You" |
 
-**Privacy:** `choices`, `selected`, `own`, `mode` and `busy` are this viewer's. Concealed, they are dropped and not kept for when the phone shows again; a change of `viewer` drops them unless the same update gives the new viewer's. The result window receives only the public tally.
+**Privacy:** `selected`, `own`, `mode` and `busy` are this viewer's. Concealed, they are dropped and not kept for when the phone shows again; a change of `viewer` drops them unless the same update gives the new viewer's. The result window receives only the public tally.
 
 **Motion:** a selected cell's ring and check (120 ms); nothing else of its own. The window's arrival belongs to Motion & Cinematics; under Reduce motion everything is still.
 
@@ -144,7 +149,8 @@ The result window has no controls and no callbacks. It shows no ballots: no list
 | --- | --- |
 | Ballot shown | `phase.kind` `JAIL_VOTE` or `CAPTAIN_ELECTION`, and the player opened it with the shell's Vote |
 | `roster` | `identities`; `note` from the public status (Hospital, Jail, eliminated) |
-| `choices` | `ballot.eligibleTargets` while `canVote`; reasons from the offers, or none |
+| `candidate` | `ballot.eligibleTargets` (public); for the result, the closed vote's |
+| `reason` | The projection's unavailable reason, where it gives one; none today |
 | `own` | `ownBallot` when its `phaseId` is the phase's |
 | `mode` | `'cannot'` when the viewer is not in `ballot.eligibleVoters`; `'closed'` at 0 before the result |
 | Result shown | `phase.kind` `VOTE_RESULT` with `lastTally` |
