@@ -217,4 +217,28 @@ Listed, not omitted:
 
 ## Checks run on this version
 
-Filled in from the recorded check below.
+- **Tests:**
+
+  | Check | Result |
+  | --- | --- |
+  | `packages/design-tokens/test/vote.test.mjs` | 10 of 10: the runtime-safe graph, every style scoped (and kit controls only placed and sized), the pinned pack unchanged, the pack's words, no claim beyond the tally, each cell's rules, the sheet's footer, the inputs' refusals, the privacy rules and the check's record |
+  | `npm run test:design` | 390 of 390 |
+  | `npm run test:tooling` | 337 of 337 |
+  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `node design/tools/check-assets.mjs` | 15 passed |
+
+- **`node design/tools/vote-check.mjs`:** recorded on `99f7aeb`, with the source clean. It exits non-zero until the kit's paper cells land: the 7 result frames below.
+  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's and the shell's.
+  - **Captures:** 46 of 46 pass, each drawing what its state asks: every seat's cell state, the sheet's words and footer or the result's headline and line, and the room's crew behind.
+    - Twenty states at 390 × 844 and 430 × 932.
+    - Sheet 56's six at 320 × 568 with 200 % text.
+  - **The lifecycle probe** (`preview/probe.mjs`): 11 of 11 checks pass.
+    - **As the page comes (10):** select, refused, stale, focus, private, result, words, compact, dispose and motion.
+    - **With the device's Reduce motion emulated (1):** motion.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 16 of 23 frames agree to within half a pixel.
+    - **What is compared:** each frame drawn by the pack's own `screens-vote.mjs` beside the component, from the same fixtures: the words, each seat's state, note, count, "You" and mark, and the boxes of every part and badge.
+    - **Agree:** all ten ballot frames at 390 × 844, and all six of sheet 56 at 320 × 568 with 200 % text.
+    - **Differ in boxes only:** the seven result frames at 390 × 844. Each cell is 22 px taller, with the kit's 92 px portrait and padding against the paper card's 74 px, and "You" sits on the count, top-left. Not one word, state or count differs. Both wait on the kit's paper form; `vote.test.mjs` holds that list, which can only shrink.
+  - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
+  - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
+- **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
