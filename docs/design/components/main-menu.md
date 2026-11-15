@@ -1,6 +1,6 @@
 # Main menu: Designer's runtime component
 
-**Version:** `main-menu-0.1.0`, **proposed interface only**. **Status (15 November 2026):** the interface, for the Lead Designer's review, then Frontend's on #4. Nothing is built yet.
+**Version:** `main-menu-0.1.0`, **interface approved by the Lead Designer** (15 November 2026), with the decisions below; posted on #4 for Frontend before building. Nothing is built yet: the build waits until Frontend has reviewed or connected the role stage (#268) or the boarding stage (#272), and for the kit's `errorNote` icon (kit 0.4.0).
 
 **What it is:** the phone's main menu after the intro, as sheet 10 draws it. It is #222 item 5 (P1). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -30,13 +30,15 @@ Designer's, runtime-safe, in `design/phone-ui/components/main-menu/`:
 | --- | --- |
 | `main-menu.mjs` | `mountMainMenu()`, `nextMainMenuInput()`, `MAIN_MENU_DEFAULTS`, `MAIN_MENU_VERSION`, `MENU_WORDS` |
 | `main-menu.css` | Every style, under `.ms-main-menu ms-kit`; starts with `@import url("../kit/kit.css");` |
+| `../entry-parts/entry-parts.mjs`, `entry-parts.css` | `entry()` and `setEntry()`, the pack's two-line entry choice (`.entry`), with its own version and root class. Mine, not the kit's: the pack uses it only in `screens-entry.mjs` (sheets 10 and 12). The menu and the join screen both import it; it is checked through the menu's agreement |
 | `preview/` | Development only: the preview on the pack's fixtures (a still of the approved brand film where the hero goes), `probe.mjs`, and `agree.mjs` (the menu beside the frozen pack's `ENTRY_SCREENS.menu`) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/main-menu-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/main-menu.test.mjs`.
 
 **Uses unchanged:**
-- **The kit:** the display-settings icon button; "Recover my seat" as a plain button with the key icon; the error note; the control policy. The Join and Host choices need the kit's **entry** (question 1).
+- **The kit:** the display-settings icon button; "Recover my seat" as a plain button with the key icon; the offline note, `kit.errorNote(words, { icon: 'offline', filled: false })` (kit 0.4.0); the control policy.
+- **Entry parts:** Join and Host are my `entry-parts` module's entry choice.
 - **No phone shell:** the menu has no bar, tabs or match status. It fills its host with the pack's canvas (`--ms-k-canvas`), under the safe areas.
 
 ## Mount, update and dispose
@@ -86,8 +88,8 @@ Each reports a tap, and only that.
 | --- | --- |
 | The hero | `menu.hero`, the top 58 % of the screen, with the canvas fading over its lower 40 % (the pack's `.menu-hero`) |
 | Display settings | The kit's 44 px icon button with the settings icon, at the top right, under the top safe area; its name "Display settings" |
-| The choices | At the foot, 16 px from the sides and 18 px above the bottom safe area, 12 px apart: Join (the kit's entry, primary: the person-plus icon on ink, amber), Host (the kit's entry: the host icon), Recover my seat (the kit's plain button with the filled key, centred) |
-| Offline | The kit's error note with the offline icon, above Join; the three choices dimmed and refused |
+| The choices | At the foot, 16 px from the sides and 18 px above the bottom safe area, 12 px apart: Join (the entry choice, primary: the person-plus icon on ink, amber), Host (the entry choice: the host icon), Recover my seat (the kit's plain button with the filled key, centred) |
+| Offline | The kit's error note with the offline icon, unfilled, above Join; the three choices dimmed and refused |
 | Larger text | The choices grow with the text and take the space they need from the foot up; the hero stays behind them |
 
 **Motion:** none of its own. The intro is the brand film's.
@@ -99,12 +101,12 @@ Each reports a tap, and only that.
 3. Map the session: `notice: 'offline'` while the connection is down; `join`, `host` and `recover` from the session's own availability (today `model.busy` and the connection); `settings: { enabled: true }`.
 4. Route `onJoin`, `onHost`, `onRecover` and `onSettings` to their screens. Today's Join, Host and Recover tabs, their open forms, the Device drop-down and the "Mothership" heading leave the entry screen.
 
-## Questions for the Lead
+## Decisions (the Lead Designer's review, 15 November 2026)
 
-1. **The entry choice** (the pack's `.entry`: a 76 px two-line button with a 48 px icon tile, a chevron, and a primary amber tone) is a control the kit doesn't draw. Sheet 12's "Player phone / Shared display" may use the same shape. Could the kit add `kit.entry({ title, sub, icon, tone })`?
-2. **The offline note** is the pack's `.error` with the offline icon. The kit's `errorNote(words)` always draws the warning icon. Could it take an icon (`errorNote(words, { icon: 'offline' })`)?
-3. **The hero:** Frontend's existing player draws the brand film's frame, as for the role and boarding films. Agreed?
+1. **The entry choice is mine, not the kit's:** a small module, `components/entry-parts/`, with its own version. The pack uses `.entry` only in `screens-entry.mjs` (sheets 10 and 12), both in my area; the kit holds what both screen builders draw. If another builder needs it, the Lead moves it into the kit.
+2. **The offline note is the kit's:** kit 0.4.0 adds `errorNote(words, { icon, filled })`, defaulting to the filled warning, with the pack's offline note as a comparison case. The menu uses `kit.errorNote('No connection. Join, Host and Recover return when you are back online.', { icon: 'offline', filled: false })`.
+3. **The hero:** Frontend's existing player draws the brand film's frame at 1.65 s, held still; the menu draws the fade to the canvas over it, as for the role and boarding films.
 
 ## Not in this version
 
-Everything: this is the interface. Next, after the Lead's review and Frontend's on #4: the module and styles, the preview's states, the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack and the test.
+Everything: this is the interface. Next, when Frontend has reviewed or connected #268 or #272, and kit 0.4.0 has landed: the entry parts, the module and styles, the preview's states, the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack and the test.
