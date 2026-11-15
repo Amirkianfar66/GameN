@@ -5,7 +5,7 @@ import test from 'node:test';
 import {PLANET_FOOD_TASK_PINS,PLANET_FOOD_TASK_ENGINE_PROFILE,PLANET_BLACKOUT_PINS,FOOD_TASK_VERTICAL as Y,
   PlanetSessionSnapshotSchema,FoodTaskPlayerViewSchema,FoodTaskPublicViewSchema} from '@mothership/contracts';
 import {createPlanetGame,projectPlanetPublic,projectPlanetPlayer} from '@mothership/engine';
-import {createPlanetService} from '../dist/planet-game.js';
+import {createPlanetService,withPlanetRequestTiming} from '../dist/planet-game.js';
 import {FOOD_BOT_WORKER_LEASE_MS,FOOD_PREFIX_WORKER_LEASE_MS} from '../dist/planet-food-service.js';
 import {chooseFoodBotInput} from '../dist/food-bot-policy.js';
 const clone=v=>structuredClone(v),hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
@@ -41,7 +41,7 @@ function memory(seed){
         };
         const first=await attempt(false);
         let selected=first;
-        if(retry&&first.writes.some(k=>k.startsWith(retry.prefix))){const r=retry;retry=null;r.mutate?.(records);selected=await attempt(true);}
+        if(retry&&first.writes.some(k=>k.startsWith(retry.prefix))){const r=retry;retry=null;r.mutate?.(records,first.draft);selected=await attempt(true);}
         else attempts.at(-1).commit=true;
         records=selected.draft;
         if(lost&&selected.writes.some(k=>k.startsWith(lost))){lost=null;throw new Error('Synthetic committed ACK loss');}
@@ -752,6 +752,103 @@ test('an eligible own snapshot renews private contact metadata without a Session
     assert.equal(a.writes.includes('session/food-match'),false);assert.equal(a.reads[0],'foodIngressControl/food-match');}
   assert.equal(ingress(h).length,entries);assert.equal(result.result.foodPlayerView.serverNowMs,result.serverTimeMs);
 });
+
+for(const count of [7,8,9])test(`${count}: READ refreshes a fence changed only by another authorized snapshot`,{timeout:2000},async()=>{
+  const h=harness({count}),matchId='food-match',controlPath='foodIngressControl/'+matchId,contactPath='foodContact/'+matchId;
+  const ownRatePath='foodTransportRate/'+hash(['p1','snapshot']),displayRatePath='foodTransportRate/'+hash(['display','snapshot']);
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  const before=new Map(h.store.export()),entries=ingress(h).length,start=h.store.attempts.length;
+  h.setNow(6500);
+  let afterDisplay,timing;
+  const paused=h.store.pauseReadNext(controlPath);
+  const pending=withPlanetRequestTiming(()=>h.handle('read',{matchId}),summary=>{timing=summary;});
+  try{
+    await paused.reached;
+    const capture=h.store.attempts.at(-1);
+    assert.equal(capture.readOnly,true);
+    assert.deepEqual(capture.reads,['session/'+matchId,controlPath]);
+    h.setNow(6750);
+    const display=await h.handle('read',{matchId},'display');
+    assert.equal(display.ok,true);assert.equal(display.serverTimeMs,6750);
+    afterDisplay=new Map(h.store.export());
+    assert.deepEqual(afterDisplay,new Map(before).set(controlPath,{...before.get(controlPath),lastAdmittedAt:6750,advancedThroughAt:6750})
+      .set(displayRatePath,{since:6750,count:1}));
+    h.setNow(7000);
+  }finally{paused.resume();}
+  const result=await pending;
+  assert.equal(result.ok,true);assert.equal(result.serverTimeMs,7000);
+  assert.equal(ingress(h).length,entries,'a benign fence mismatch must not create an ingress entry');
+  assert.equal(timing.stages.readFenceRefresh?.count,1);assert.equal(timing.stages.admission,undefined);
+  assert.equal(result.result.foodPlayerView.seatId,'seat-1');
+  assert.equal(result.result.foodPlayerView.serverNowMs,7000);
+  const after=new Map(h.store.export());
+  assert.deepEqual(after,new Map(afterDisplay)
+    .set(controlPath,{...afterDisplay.get(controlPath),lastAdmittedAt:7000,advancedThroughAt:7000})
+    .set(ownRatePath,{...before.get(ownRatePath),count:before.get(ownRatePath).count+1})
+    .set(contactPath,{'seat-1':{taskId:'task-2',bindingRevision:1,admittedAt:7000,expiresAt:9000}}));
+  const writes=h.store.attempts.slice(start).filter(a=>a.commit&&a.writes.length>0);
+  assert.equal(writes.length,2);
+  for(const attempt of writes){assert.equal(attempt.reads[0],controlPath);assert.equal(attempt.reads.includes('session/'+matchId),false);}
+});
+
+for(const reason of ['another fence mismatch','a newly due presence boundary'])test(`READ falls back after one fresh capture hits ${reason}`,{timeout:2000},async()=>{
+  const h=harness({presence:true}),matchId='food-match',sessionPath='session/'+matchId,controlPath='foodIngressControl/'+matchId;
+  const ownRatePath='foodTransportRate/'+hash(['p1','snapshot']);
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  const before=ingress(h).length,initialRate=new Map(h.store.export()).get(ownRatePath).count;
+  const presenceDue=reason==='a newly due presence boundary',finalTime=presenceDue?8000:7250;
+  h.setNow(6500);
+  let recapture,recaptureReads,timing;
+  const paused=h.store.pauseReadNext(controlPath);
+  const pending=withPlanetRequestTiming(()=>h.handle('read',{matchId}),summary=>{timing=summary;});
+  try{
+    await paused.reached;
+    h.setNow(6750);
+    assert.equal((await h.handle('read',{matchId},'display')).ok,true);
+    recapture=h.store.pauseReadNext(sessionPath);
+    paused.resume();
+    await recapture.reached;
+    recaptureReads=h.store.attempts.at(-1).reads;
+    if(!presenceDue){
+      h.setNow(7000);
+      assert.equal((await h.handle('read',{matchId},'display')).ok,true);
+    }
+    h.setNow(finalTime);
+  }finally{paused.resume();recapture?.resume();}
+  const result=await pending;
+  assert.equal(result.ok,true);assert.equal(result.serverTimeMs,finalTime);
+  assert.deepEqual(recaptureReads,[sessionPath,controlPath]);
+  const entries=ingress(h);
+  assert.equal(entries.length,before+1,'ordered fallback admits exactly one original READ');
+  assert.equal(timing.stages.readFenceRefresh?.count,1);assert.equal(timing.stages.sessionWriterWait?.count,1);
+  const entry=entries.at(-1)[1];
+  assert.deepEqual(entry.request,{operation:'read',matchId});assert.equal(entry.context.now,finalTime);
+  assert.deepEqual(entry.response,result);
+  const after=new Map(h.store.export());
+  assert.equal(after.get(ownRatePath).count,initialRate+1);
+  assert.equal(after.has('foodContact/'+matchId),false,'the failed fast attempts renew no contact metadata');
+  const presence=after.get(sessionPath).state.trace.filter(event=>event.kind==='presence')
+    .map(event=>[event.actor,event.online,event.context.now]);
+  assert.deepEqual(presence,presenceDue?[['seat-1',false,8000],['seat-2',false,8000],['seat-1',true,8000]]:[]);
+});
+
+test('a retried READ callback cannot take the new refresh after a possibly committed write',async()=>{
+  const h=harness(),matchId='food-match',ownRatePath='foodTransportRate/'+hash(['p1','snapshot']);
+  assert.equal((await h.handle('read',{matchId})).ok,true);
+  const before=ingress(h).length;
+  h.setNow(6500);
+  // Model a committed first callback followed by an SDK retry after a lost ACK.
+  h.store.setRetry(ownRatePath,(records,committed)=>{
+    records.clear();
+    for(const [key,value] of committed)records.set(key,value);
+  });
+  let timing;
+  const result=await withPlanetRequestTiming(()=>h.handle('read',{matchId}),summary=>{timing=summary;});
+  assert.equal(result.ok,true);assert.equal(ingress(h).length,before+1);
+  assert.equal(timing.stages.readFenceRefresh,undefined);
+  assert.equal(timing.stages.admission?.count,1);
+});
+
 test('the prior durable expiry wake hydrates contacts and rearms their later exact absence boundary',async()=>{
   const h=harness({presence:true});await h.handle('read',{matchId:'food-match'});
   const oldWake=h.store.export().find(([key,j])=>key.startsWith('deadline/')&&j.endsAt===8000&&j.status!=='complete')[1];
