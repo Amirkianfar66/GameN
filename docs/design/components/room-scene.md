@@ -273,7 +273,7 @@ These are listed, not omitted:
 | The Officer's "Blocked" pill (sheet 21) | Its component, next |
 | The room films: rescue, attack, eject, Blackhole | The next components |
 | Ship life (#230) | The gameplay contract |
-| The top bar, the tabs and Pass | The shell component, next |
+| The top bar, the tabs and Pass | In the shell component, `phone-shell-0.1.0` ([phone-shell](phone-shell.md)), which hosts this scene in its stage |
 | Captures of the other rooms | Not taken yet; the component draws all five rooms |
 
 ## Checks run on this version

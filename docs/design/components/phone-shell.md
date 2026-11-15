@@ -1,0 +1,222 @@
+# Phone shell: Designer's runtime component
+
+**Version:** `phone-shell-0.1.0`. **Status (15 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+
+**What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
+
+**Covers:**
+- **The top bar** (sheets 07, 08, 27.6 and 56):
+  - a turn, your turn, a phase, a private talk, and the Blackout's dark;
+  - Promises with its count, ⋮, the round, and the clock (amber in the last 10 s, a ring for the 5 s result and the 6 s presentation);
+  - a place beside the clock for Food's gauge;
+  - at larger text, the round leaves, a short title, and the two-line title with the clock and ⋮ beside it (#222 item 3).
+- **The tabs** (sheets 08, 27 and 56):
+  - Board or Room, Actions, Card and Panels;
+  - the raised round button: Pass, Vote or Voted, usable or not, and busy;
+  - the open tab amber with a filled icon, and badges;
+  - whole labels capped at 14 px, with the large-content view on a long press (#222 item 2).
+- **During a private talk** (sheet 25): its own two buttons, Promises and My card, in place of the tabs.
+- **The stage:** the space between the bars, where Frontend mounts the room scene or the board.
+- **Over the stage:**
+  - the target bar with its Cancel (sheet 29; the owner's T2);
+  - the floating chip ("Other rooms · n", "List");
+  - the reconnecting banner, "Connection lost · Controls return when the match is current · Retry" (sheet 45, #222 item 33);
+  - a toast.
+- **The docked sheet's frame:** clear glass over the room (the owner's 56 %), solid under Reduce transparency, with its title, back, close, scrolling body and footer actions. "Pass your turn?" (27.3) is one.
+
+## Files
+
+Designer's, runtime-safe, in `design/phone-ui/components/`:
+
+| Path | What |
+| --- | --- |
+| `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
+| `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell` |
+| `icons.mjs` | The phone interface's icon family (from #261) |
+| `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`) |
+| `phone-shell/review/` | The check's captures and `check.json` |
+
+**Used unchanged:** `apps/game/hosted/crew-runtime.mjs`'s `crewPortraitVariable`, for the turn's and the talk's portraits, through `@mothership/contracts`. The shell does not import the room scene: Frontend mounts that in the stage.
+
+**One source:**
+- The shell's looks are the pack's: `design/phone-ui/prototype/ui.mjs` (`topBar()`, `tabs()`, `sheet()`) and `kit.css`.
+- Those two files are pinned byte for byte by the frozen Food release (`docs/integration/food-consumer-source-2026-11-13.json`), so they stay as they are. `phone-shell.test.mjs` checks they are unchanged.
+- **The agreement:** the check draws the pinned `topBar()` and `tabs()` beside the shell in the same page, from the same inputs, and compares every part.
+  - **What is compared:** the words, the states (open, unavailable, the round button's mode and name), and where each part sits.
+  - **Cases:** five, plus two at 200 % text on 320 × 568.
+  - **Result:** every part agrees to within half a pixel.
+- When Integration moves those pins, the pack's two files can import the shell's.
+
+## Mount, update and dispose
+
+```js
+import { mountPhoneShell } from '…/design/phone-ui/components/phone-shell/phone-shell.mjs';
+import '…/design/phone-ui/components/phone-shell/phone-shell.css';
+
+const shell = mountPhoneShell(host, input, handlers);
+shell.stage;                 // the element between the bars: mount the room scene or the board here
+shell.layout();              // { size, bars: { top, bottom }, stage: { width, height }, covered: { bottom } }
+shell.sheetBody;             // the open sheet's scrolling body (null with no sheet): mount its content here
+shell.slot('clock');         // the place beside the clock: Food's gauge goes here
+shell.update({ ...changes }); // each key given replaces that key; the rest stay
+shell.suspend();             // backgrounded: a toast and a long press end
+shell.resume();
+shell.dispose();             // removes the element and its listeners
+```
+
+- **The host:** the element the match screen fills, positioned and sized by Frontend. The shell appends one child, `.ms-phone-shell`, which fills it.
+- **The stage and the room scene:**
+  - Mount the room scene in `shell.stage`, with `size: shell.layout().stage`.
+  - On `onLayout(layout)`, pass `layout.stage` to the room scene's `update({ size })`.
+  - The stage keeps its size when the shell is concealed.
+- **On update:**
+  - Every control is kept by its identity and changed in place: Promises, ⋮, each tab, the round button, the target bar's Cancel, the chip, Retry, and each sheet button by its id. A focused control keeps its element and the focus through clock ticks, counts and label changes.
+  - A sheet is kept while its `id` stays. A new `id` is a new sheet, with an empty body.
+  - `tabs: null`, `target: null`, `chip: null`, `banner: null`, `toast: null` and `sheet: null` remove what was there.
+- **Lifecycle guarantees:**
+  - `dispose()` is safe to call twice. After it, `update()`, `suspend()` and `resume()` do nothing, `layout()`, `slot()` and `sheetBody` are `null`, and no callback fires.
+  - `slot('clock')` and `stage` are the same elements for the shell's whole life, concealment included, so what Frontend mounts in them stays.
+  - Each mount is independent. A new match or seat is a new mount, after disposing the old one.
+
+## Inputs
+
+| Input | Audience | What |
+| --- | --- | --- |
+| `status` | Phone | `'live'`, `'stale'` (reconnecting) or `'concealed'` |
+| `interactive` | Phone | `false`: every control refuses taps (a shared display, a film over the screen) |
+| `reducedMotion` | Phone | The game's Reduce motion. The device's is honoured as well |
+| `insets` | Phone | `null`: the safe areas from `env(safe-area-inset-*)`; or `{ top, right, bottom, left }` in CSS px |
+| `viewer` | Phone | Whose phone this is (a seat id, or `null` for a shared display). When it changes, this viewer's inputs are dropped unless the same update gives the new viewer's |
+| `versions` | Public | The match's art versions, for the portraits |
+| `bar.kind` | Public | `'turn'`, `'phase'` or `'pair'` |
+| `bar.who` | Public | Turn: `{ seat, name, character }` of the active seat |
+| `bar.self` | This viewer's | Turn: whether it is this viewer's turn: "Your turn", amber |
+| `bar.pair` | Public | Pair: the two people talking, as the talk is public |
+| `bar.title`, `short`, `icon`, `sub`, `tone` | Public | Phase: its name, an optional short form for narrow bars (the full one stays for screen readers), its icon, the line under it, and `'dark'` for the Blackout |
+| `bar.round` | Public | A whole number, or `null` |
+| `bar.timer` | Public | `null`, or `{ remainingMs, urgentAtMs = 10000, ring: null \| 0…1 }` |
+| `bar.promises` | This viewer's | `null` (hidden), or `{ count, open, enabled, reason }` |
+| `bar.menu` | Phone | `null` (hidden), or `{ open, enabled }` |
+| `tabs` | This viewer's | `null` (no tab bar: a shared display); `{ variant: 'talk', open, enabled, reasons }`; or `{ variant: 'game', view: 'room' \| 'board', open: 'actions' \| 'card' \| 'panels' \| null, hero, enabled, reasons, badges }` |
+| `tabs.hero` | This viewer's | `{ mode: 'pass' \| 'vote' \| 'voted', enabled, busy, reason }`. Left out, Pass is unavailable, as the pack's `pass-off` |
+| `target` | This viewer's | `null`, or `{ icon, title, sub }`: the target bar, with Cancel |
+| `chip` | This viewer's | `null`, or `{ id, label, icon, tone: 'paper' \| 'steel', enabled }` |
+| `banner` | Phone | `null`, or `{ kind: 'reconnecting', busy }` |
+| `toast` | This viewer's | `null`, or `{ id, text, icon }`: shown once per `id`, for `TOAST_MS` (2.4 s), then it fades |
+| `sheet` | This viewer's | `null`, or `{ id, title, sub, back, close, detent: 'auto' \| 'large', actions: [{ id, label, kind: 'primary' \| 'secondary', icon, enabled, busy, reason }] }` |
+
+- **Privacy:** concealed, the shell drops this viewer's inputs (the tabs, the target bar, the chip, the sheet, the toast and the Promises count). Shown again, they come back only when given again. Offers given while concealed are dropped too.
+- **The tab bar's shape** (game, talk or none) is kept while concealed, so the stage keeps its size.
+- **The shell decides nothing:**
+  - `enabled: false` and `reason` come from Frontend: from the projection's offers and reasons, or its own words.
+  - The shell never works out availability or a reason from the rules.
+  - It shows the clock as given and never counts it down.
+
+## Callbacks
+
+Each reports a tap, and only that.
+
+| Callback | When |
+| --- | --- |
+| `onTab(key)` | A tab: `'switch'`, `'actions'`, `'card'` or `'panels'`. During a talk: `'promises'` or `'my-card'`. Switching views is Frontend's local navigation, and never sends `MOVE` |
+| `onHero(mode)` | The round button: `'pass'`, `'vote'` or `'voted'`. On `'pass'` Frontend opens the "Pass your turn?" sheet, whose Pass action then sends `PASS_TURN` |
+| `onPromises()`, `onMenu()` | Promises and ⋮ in the top bar |
+| `onCancelTarget()` | The target bar's Cancel |
+| `onChip(id)` | The floating chip |
+| `onRetry()` | The reconnecting banner's Retry |
+| `onSheetAction(id, sheetId)`, `onSheetBack(sheetId)`, `onSheetClose(sheetId)` | A sheet's buttons |
+| `onLayout(layout)` | The bars or the stage changed size: text size, insets, a tab bar shown or hidden, the phone's size |
+| `onFocusReturn({ intent, value })` | The focused control ended (a sheet closed, the target bar left): the focus is on the shell, for Frontend to move on |
+
+**The controls, as in the room scene:**
+- One delegated listener; pointer and keyboard both arrive as the button's `click`.
+- **Refused:** a control that is unavailable (`enabled: false`), busy, or not taking taps now. It keeps its focus and carries `aria-disabled="true"` (or `aria-busy`).
+- **Its reason** is its accessible description (`aria-describedby`).
+- **Dimmed:** only an unavailable control, as the pack draws it.
+- **Reconnecting** (`status: 'stale'`):
+  - only Retry, ⋮ and a sheet's back and close take taps;
+  - the rest are refused, described by "Controls return when the match is current";
+  - they keep their look, as on sheet 45.
+- **If Integration records the appearance/function split** ([6886927938](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6886927938)), these controls move into Frontend's shared functional module, with the same markup and classes, and the shell and its preview import that module.
+
+## States
+
+| State | Drawn |
+| --- | --- |
+| A turn | The active player's portrait, name and "Player n · Turn". Pass unavailable |
+| Your turn | "Your turn" and, in amber, "Player n · Name". Pass amber |
+| The last 10 s | The clock amber |
+| Vote, Voted | A phase bar, the round button paper (Vote), or paper with a check (Voted) |
+| The 5 s result, the 6 s presentation | The clock as a ring; no Promises (pass `promises: null`), ⋮ only |
+| Blackout | The dark bar and the moon tile |
+| Choosing a target | The target bar with Cancel; the round button stays (T2) |
+| A sheet | Docked between the bars, glass. Pass the room scene `control: null` while one is open: the pack hides the room's own control under a sheet |
+| Private talk | The pair bar; Promises and My card at the foot; the stage runs to the bottom, and `layout().covered.bottom` says how much the two buttons cover |
+| Reconnecting | The phase bar "Reconnecting…", the banner with Retry, the controls refused. The room scene dims itself (`status: 'stale'`) |
+| Concealed | The bars' empty material only: no name, number, time or control, and nothing for a screen reader |
+| Largest text | The pack's container queries: the handshake alone, no clock icon, the round out of the bar, a phase's short title, the two-line title |
+
+**Motion:**
+- A sheet slides in (220 ms) and a toast drops in.
+- With Reduce motion, the game's or the device's, both fade in 80 ms, and the busy spinners stand still.
+- Suspended, nothing runs.
+
+## Frontend's connection
+
+1. **Mount** the shell once for the match screen, mount the room scene in `shell.stage`, and connect `onLayout` to the room scene's `size`.
+2. **Map the presentation model** (`PlanetScreenModel`):
+
+   | Input | From |
+   | --- | --- |
+   | `status` | `concealed` → `'concealed'`; `connection` `'live'` → `'live'`; `'connecting'`, `'stale'` or `'error'` → `'stale'` |
+   | `viewer` | `ownSeatId` (`null` on a shared display) |
+   | `bar` | A turn when not `dark`, the phase is `ORDINARY_TURN` and `activeSeatId` is set, from `identities`. A pair on the two talking phones (`talk`). Otherwise the phase, with today's names (`render.mjs` `phaseNames`). `round`; `phase.remainingMs` while trusted, with `ring` for `VOTE_RESULT` and `BLACKHOLE_PRESENTATION`; `tone: 'dark'` while `dark` |
+   | `bar.promises` | `{ count: promiseOfferCount, open: panel === 'promises' }` on a player's phone; `null` on a display and during the two fixed presentations |
+   | `bar.menu` | `{ open: panel === 'settings' }` |
+   | `tabs` | `null` on a shared display; `{ variant: 'talk' }` on the two talking phones; else the game's, with `view` the scene mode and `open` the panel |
+   | `tabs.hero` | In `JAIL_VOTE` or `CAPTAIN_ELECTION`: `'voted'` when `ownBallot.phaseId` is the phase's, else `'vote'` with `enabled: canVote`. Otherwise `'pass'` with `enabled: canPass`, and `busy` while its request is sending |
+   | `target` | While `action.step` is `targets` or `slots`: `action.label` and `action.prompt` |
+   | `banner` | `{ kind: 'reconnecting', busy: recovery?.status === 'checking' }` while stale |
+   | `sheet` | The open panel's frame; "Pass your turn? · The turn goes to Name · Player n", with Cancel and Pass |
+
+3. **Leave none of the old renderer's header, nav or Pass button active** beside the shell.
+4. **Food's gauge:** mount it in `shell.slot('clock')`, wrapped as today (`span.planet-food`). The frozen Food release keeps drawing it.
+5. **Captures:** take them from the deployed candidate or under the production headers, at 390 × 844 and 430 × 932: a turn, your turn, the ballot, the result, the Blackout, a target, a sheet, reconnecting and concealed. Designer then gives visual acceptance in the PR.
+
+## Integration's part
+
+- **Admit the graph:** admit `phone-shell/phone-shell.mjs` and `phone-shell/phone-shell.css` with the room scene's graph (`icons.mjs` is already in it).
+  - The shell has no pictures of its own.
+  - `preview/` and `review/` stay out.
+- **The pinned pack:** `prototype/ui.mjs` and `kit.css` stay pinned for the Food release. When their pins move, they can import the shell.
+
+## Not in this version yet
+
+Listed, not omitted:
+
+| What | Waiting on |
+| --- | --- |
+| The sheets' contents: the Actions tiles, Card, Panels, Promises, Settings and the ballot | Their components, next |
+| The private-talk capsule in the stage | Its component, next |
+| The board in the stage, and its "List" | Its component, next |
+| A shared display's own top bar | Its sheet; a display uses the bar without Promises or ⋮ today |
+| The room scene's name tags at the largest text: they meet at 320 × 568 with 200 % text (the `large` capture) | The room scene, #228 |
+
+## Checks run on this version
+
+- **Tests:**
+
+  | Check | Result |
+  | --- | --- |
+  | `packages/design-tokens/test/phone-shell.test.mjs` | See the PR |
+  | `npm run test:design`, `npm run test:tooling` | See the PR |
+  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | See the PR |
+
+- **`node design/tools/phone-shell-check.mjs`:**
+  - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260.
+  - **Captures:** thirteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 27 of 27 pass, each drawing what its state asks.
+  - **The lifecycle probe** (`preview/probe.mjs`): focus, refused taps, reconnecting, privacy, the clock, layout, the toast, the large-content view, dispose and motion, as the page comes and with the device's Reduce motion emulated.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): seven cases.
+  - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
+  - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw. The PR names the commit they were recorded on.
+- **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.

@@ -1,0 +1,745 @@
+// The phone shell: the match's frame on a phone, as the phone pack draws it (sheets 07 and 08 the bars,
+// 25 the private talk's two buttons, 27–29 the tabs, the docked sheets and the target bar, 45
+// reconnecting, 56 at large text). Runtime source, Designer's (the owner, 14 and 15 November 2026:
+// Designer builds each visual component once, in design/; the game and the preview use it as it is).
+// Frontend mounts it once for the match screen, gives it this phone's view, mounts the room scene (or the
+// board) in its stage, mounts each sheet's content in the sheet's body, and connects its intents.
+//
+// What it draws: the top bar (a turn, your turn, a phase, a private talk, the Blackout's dark) with
+// Promises, ⋮, the round and the clock; the tabs with the raised Pass, Vote or Voted button, or the
+// private talk's Promises and My card; over the stage, the target bar with its Cancel, the floating chip,
+// the reconnecting banner and a toast; the docked glass sheet's frame. It takes its looks from the pack
+// (design/phone-ui/prototype/ui.mjs and kit.css, which the frozen Food release pins, so they stay as
+// they are; the shell's test checks that the two agree).
+//
+// What it never does: decide what is offered, send a command, open a sheet, count a clock down or
+// invent an outcome. Each callback reports a tap; Frontend checks the current offer and acts. The bar is
+// the public match status; the Promises count, the tabs, the target bar, the chip, the sheet and the
+// toast are this viewer's own, and the shell drops them when it is concealed or its viewer changes.
+
+import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
+import { iconSvg } from '../icons.mjs';
+
+export const PHONE_SHELL_VERSION = 'phone-shell-0.1.0';
+const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
+const KINDS = Object.freeze(['turn', 'phase', 'pair']);
+const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
+
+/** The game's tabs, in order, and the private talk's two buttons (sheet 25). */
+export const GAME_TABS = Object.freeze(['switch', 'actions', 'hero', 'card', 'panels']);
+export const TALK_BUTTONS = Object.freeze(['promises', 'my-card']);
+
+/** The pack's words: the hero's accessible names (ui.mjs tabs()) and the reconnecting banner (sheet 45). */
+export const HERO_WORDS = Object.freeze({
+  pass: Object.freeze({ label: 'Pass', aria: 'Pass your turn', icon: 'pass' }),
+  vote: Object.freeze({ label: 'Vote', aria: 'Open the ballot', icon: 'vote' }),
+  voted: Object.freeze({ label: 'Voted', aria: 'Ballot registered', icon: 'vote' }),
+});
+export const RECONNECTING = Object.freeze({ title: 'Connection lost', sub: 'Controls return when the match is current', action: 'Retry' });
+/** How long a toast shows before it fades, in milliseconds: a local confirmation, never game time. */
+export const TOAST_MS = 2400;
+
+/** Every input, with its default. */
+export const PHONE_SHELL_DEFAULTS = Object.freeze({
+  status: 'live', interactive: true, reducedMotion: false,
+  // null: the safe areas come from the browser (env(safe-area-inset-*)); or { top, right, bottom, left } in px.
+  insets: null,
+  // An opaque id for whose phone this is (a seat id, or null for a shared display): when it changes, this
+  // viewer's inputs are dropped unless the same update gives the new viewer's own.
+  viewer: null,
+  versions: null,
+  bar: Object.freeze({ kind: 'phase', title: '', icon: 'hourglass' }),
+  tabs: null, target: null, chip: null, banner: null, toast: null, sheet: null,
+});
+
+/** The inputs that belong to this viewer, not to the public match status. */
+const VIEWER_KEYS = Object.freeze(['tabs', 'target', 'chip', 'sheet', 'toast']);
+
+const isText = value => typeof value === 'string' && value.length > 0;
+const optionalText = (value, what) => {
+  if (value !== null && value !== undefined && typeof value !== 'string') throw new TypeError(`${what} is text, or null`);
+  return value ?? null;
+};
+/** The number on a seat: `number`, or the digits at the end of its id ("seat-4" → 4). */
+export const seatNumber = person => person?.number ?? (typeof person?.seat === 'number' ? person.seat : Number(String(person?.seat ?? '').match(/\d+$/)?.[0] ?? NaN));
+
+function checkPerson(person, what) {
+  if (!person || typeof person !== 'object') throw new TypeError(`${what} is { seat, name, character }`);
+  if (!isText(person.name)) throw new TypeError(`${what} needs a name`);
+  if (person.seat === null || person.seat === undefined) throw new TypeError(`${what} needs a seat`);
+  return { seat: person.seat, number: person.number ?? null, name: person.name, character: person.character ?? null };
+}
+
+/** The top bar's input, checked, with the pack's defaults (ui.mjs topBar()). */
+export function checkBar(bar) {
+  if (!bar || typeof bar !== 'object') throw new TypeError('bar is the top bar\'s input');
+  const kind = bar.kind ?? 'phase';
+  if (!KINDS.includes(kind)) throw new TypeError(`A bar's kind is ${KINDS.join(', ')}, not ${JSON.stringify(kind)}`);
+  const out = { kind, who: null, self: !!bar.self, pair: null, title: '', short: null, icon: bar.icon ?? 'hourglass', sub: optionalText(bar.sub, 'sub'),
+    tone: bar.tone === 'dark' ? 'dark' : null, round: null, timer: null, promises: null, menu: null };
+  if (kind === 'turn') out.who = checkPerson(bar.who, 'A turn bar\'s who');
+  if (kind === 'pair') {
+    if (!Array.isArray(bar.pair) || bar.pair.length !== 2) throw new TypeError('A pair bar names the two people talking');
+    out.pair = bar.pair.map((p, i) => checkPerson(p, `pair[${i}]`));
+  }
+  if (kind === 'phase') {
+    if (typeof bar.title !== 'string') throw new TypeError('A phase bar needs a title');
+    out.title = bar.title;
+    out.short = optionalText(bar.short, 'short');
+  }
+  if (bar.round !== null && bar.round !== undefined) {
+    if (!Number.isSafeInteger(bar.round) || bar.round < 0) throw new TypeError('round is a whole number, or null');
+    out.round = bar.round;
+  }
+  if (bar.timer) {
+    const { remainingMs, urgentAtMs = 10000, ring = null } = bar.timer;
+    if (!Number.isFinite(remainingMs) || remainingMs < 0) throw new TypeError('timer.remainingMs is the time left in milliseconds');
+    if (ring !== null && !(Number.isFinite(ring) && ring >= 0 && ring <= 1)) throw new TypeError('timer.ring is 0…1, or null');
+    out.timer = { remainingMs, urgentAtMs, ring };
+  }
+  if (bar.promises) out.promises = { count: Math.max(0, Number(bar.promises.count) || 0), open: !!bar.promises.open, enabled: bar.promises.enabled !== false, reason: optionalText(bar.promises.reason, 'promises.reason') };
+  if (bar.menu) out.menu = { open: !!bar.menu.open, enabled: bar.menu.enabled !== false };
+  return out;
+}
+
+function checkHero(hero) {
+  if (hero === null || hero === undefined) return { mode: 'pass', enabled: false, busy: false, reason: null };
+  if (!HERO_MODES.includes(hero.mode)) throw new TypeError(`The hero's mode is ${HERO_MODES.join(', ')}, not ${JSON.stringify(hero.mode)}`);
+  return { mode: hero.mode, enabled: hero.enabled !== false, busy: !!hero.busy, reason: optionalText(hero.reason, 'hero.reason') };
+}
+
+/** The tabs' input, checked. `null` is no tab bar (a shared display). */
+export function checkTabs(tabs) {
+  if (tabs === null || tabs === undefined) return null;
+  const variant = tabs.variant ?? 'game';
+  if (!['game', 'talk'].includes(variant)) throw new TypeError(`The tabs' variant is game or talk, not ${JSON.stringify(variant)}`);
+  const keys = variant === 'game' ? GAME_TABS.filter(k => k !== 'hero') : TALK_BUTTONS;
+  const open = tabs.open ?? null;
+  if (open !== null && !keys.includes(open)) throw new TypeError(`An open tab is one of ${keys.join(', ')}, or null`);
+  const view = tabs.view ?? 'room';
+  if (!['room', 'board'].includes(view)) throw new TypeError(`The view is room or board, not ${JSON.stringify(view)}`);
+  const enabled = Object.fromEntries(keys.map(k => [k, tabs.enabled?.[k] !== false]));
+  const reasons = Object.fromEntries(keys.map(k => [k, optionalText(tabs.reasons?.[k], `reasons.${k}`)]));
+  const badges = Object.fromEntries(keys.map(k => [k, Math.max(0, Number(tabs.badges?.[k]) || 0)]));
+  return { variant, view, open, enabled, reasons, badges, hero: variant === 'game' ? checkHero(tabs.hero) : null };
+}
+
+function checkAction(action, i) {
+  if (!action || !isText(String(action.id ?? '')) || !isText(action.label)) throw new TypeError(`sheet.actions[${i}] is { id, label }`);
+  return { id: String(action.id), label: action.label, kind: action.kind === 'primary' ? 'primary' : 'secondary', icon: action.icon ?? null,
+    enabled: action.enabled !== false, busy: !!action.busy, reason: optionalText(action.reason, `sheet.actions[${i}].reason`) };
+}
+
+/**
+ * The next input from the previous one and an update. Each key an update gives replaces that key's
+ * value; the rest stay. This viewer's own inputs (the tabs, the target bar, the chip, the sheet, the
+ * toast and the Promises count) are dropped while the shell is concealed, never kept for when it shows
+ * again, and when the viewer changes, unless the same update gives the new viewer's own.
+ */
+export function nextPhoneShellInput(previous, input) {
+  const next = { ...previous, ...input };
+  if (!STATUSES.includes(next.status)) throw new TypeError(`Status is ${STATUSES.join(', ')}, not ${JSON.stringify(next.status)}`);
+  if (next.insets !== null && !['top', 'right', 'bottom', 'left'].every(k => next.insets[k] === undefined || Number.isFinite(next.insets[k]))) throw new TypeError('insets are null, or { top, right, bottom, left } in px');
+  next.bar = checkBar(next.bar);
+  next.tabs = checkTabs(next.tabs);
+  // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
+  // stage between the bars keeps its size and nothing on the phone moves.
+  next.shape = 'tabs' in input ? (next.tabs ? next.tabs.variant : 'none') : (previous.shape ?? 'none');
+  if (next.target) next.target = { icon: next.target.icon ?? 'actions', title: String(next.target.title ?? ''), sub: optionalText(next.target.sub, 'target.sub') };
+  else next.target = null;
+  if (next.chip) {
+    if (!isText(next.chip.label)) throw new TypeError('A chip needs a label');
+    next.chip = { id: String(next.chip.id ?? ''), label: next.chip.label, icon: next.chip.icon ?? 'chevronRight', tone: next.chip.tone === 'steel' ? 'steel' : 'paper', enabled: next.chip.enabled !== false };
+  } else next.chip = null;
+  if (next.banner) {
+    if (next.banner.kind !== 'reconnecting') throw new TypeError('The banner is { kind: \'reconnecting\' }, or null');
+    next.banner = { kind: 'reconnecting', busy: !!next.banner.busy };
+  } else next.banner = null;
+  if (next.toast) {
+    if (!isText(next.toast.text)) throw new TypeError('A toast needs its text');
+    next.toast = { id: String(next.toast.id ?? next.toast.text), text: next.toast.text, icon: next.toast.icon ?? 'check' };
+  } else next.toast = null;
+  if (next.sheet) {
+    const s = next.sheet;
+    if (!isText(String(s.id ?? '')) || typeof s.title !== 'string') throw new TypeError('A sheet is { id, title, … }');
+    next.sheet = { id: String(s.id), title: s.title, sub: optionalText(s.sub, 'sheet.sub'), back: !!s.back, close: s.close !== false,
+      detent: s.detent === 'large' ? 'large' : 'auto', actions: (s.actions ?? []).map(checkAction) };
+  } else next.sheet = null;
+  const viewerChanged = 'viewer' in input && previous.viewer !== input.viewer;
+  if (next.status === 'concealed') {
+    for (const key of VIEWER_KEYS) next[key] = null;
+    next.bar = { ...next.bar, promises: null };
+  } else if (viewerChanged) {
+    for (const key of VIEWER_KEYS) if (!(key in input)) next[key] = null;
+    if (!('bar' in input)) next.bar = { ...next.bar, promises: null };
+  }
+  return next;
+}
+
+/** The pack's clock: m:ss of the whole seconds left, rounded up (ui.mjs timer()). */
+export const clockText = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+
+/**
+ * Mounts the shell in `host`, which it fills (position it, and give it the phone's size). Returns
+ * { update, suspend, resume, dispose, layout, slot, stage, sheetBody, element }.
+ */
+export function mountPhoneShell(host, input = {}, handlers = {}) {
+  if (!host?.ownerDocument) throw new TypeError('A phone shell needs a host element');
+  const doc = host.ownerDocument, win = doc.defaultView;
+  const el = (tag, className, attrs = {}) => {
+    const node = doc.createElement(tag);
+    if (className) node.className = className;
+    for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) node.setAttribute(k, v);
+    return node;
+  };
+  const icon = (name, filled = false) => {
+    const t = doc.createElement('template');
+    t.innerHTML = iconSvg(name, { filled, className: 'ms-ps-ic' }).trim();
+    return t.content.firstChild;
+  };
+  const setIcon = (holder, name, filled = false) => {
+    const key = `${name}:${filled ? 'filled' : ''}`;
+    if (holder.dataset.icon === key) return;
+    holder.replaceChildren(icon(name, filled));
+    holder.dataset.icon = key;
+  };
+  const text = (node, value) => { if (node.textContent !== value) node.textContent = value; };
+  const attr = (node, name, value) => {
+    if (value === null || value === undefined || value === false) { if (node.hasAttribute(name)) node.removeAttribute(name); }
+    else if (node.getAttribute(name) !== String(value)) node.setAttribute(name, String(value));
+  };
+
+  const root = el('div', 'ms-phone-shell', { tabindex: '-1' });
+  const stage = el('div', 'ms-ps-stage');
+  const bar = el('header', 'ms-ps-tb', { 'aria-label': 'Match status' });
+  const over = el('div', 'ms-ps-over');
+  const reasons = el('div', 'ms-ps-vh');
+  root.append(stage, bar, over, reasons);
+  host.append(root);
+
+  let state = nextPhoneShellInput(PHONE_SHELL_DEFAULTS, input);
+  let disposed = false, suspended = false, seq = 0, lastLayout = null, toastShown = null, toastTimer = null, press = null;
+  const on = Object.fromEntries(['onTab', 'onHero', 'onPromises', 'onMenu', 'onCancelTarget', 'onChip', 'onRetry', 'onSheetAction', 'onSheetBack',
+    'onSheetClose', 'onLayout', 'onFocusReturn'].map(k => [k, handlers[k] ?? null]));
+  const uid = `ms-ps-${(mountPhoneShell.count = (mountPhoneShell.count ?? 0) + 1)}`;
+  // Every optional part, kept by identity so a focused control survives every ordinary update.
+  const parts = { who: null, whoKey: null, promises: null, divs: null, right: null, round: null, clock: null, timer: null, slot: null, menu: null,
+    tabs: null, tabsKey: null, tabNodes: new Map(), target: null, chip: null, banner: null, sheet: null, toast: null, hud: null };
+
+  // ── Taps ────────────────────────────────────────────────────────────
+  // Taken while reconnecting: Retry, and what stays on this phone (⋮, a sheet's back and close).
+  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close']);
+  const accepts = intent => !disposed && state.interactive && state.status !== 'concealed' && (state.status === 'live' || LOCAL.has(intent));
+  const onClick = event => {
+    const target = event.target.closest?.('button[data-intent]');
+    if (!target || !root.contains(target)) return;
+    const { intent, value } = target.dataset;
+    if (target.getAttribute('aria-disabled') === 'true' || target.getAttribute('aria-busy') === 'true' || !accepts(intent)) return;
+    if (intent === 'tab') on.onTab?.(value);
+    else if (intent === 'hero') on.onHero?.(value);
+    else if (intent === 'promises') on.onPromises?.();
+    else if (intent === 'menu') on.onMenu?.();
+    else if (intent === 'cancel-target') on.onCancelTarget?.();
+    else if (intent === 'chip') on.onChip?.(value);
+    else if (intent === 'retry') on.onRetry?.();
+    else if (intent === 'sheet-action') on.onSheetAction?.(value, state.sheet?.id ?? null);
+    else if (intent === 'sheet-back') on.onSheetBack?.(state.sheet?.id ?? null);
+    else if (intent === 'sheet-close') on.onSheetClose?.(state.sheet?.id ?? null);
+  };
+  root.addEventListener('click', onClick);
+
+  /**
+   * A control's state: `off` dims it (the control itself is unavailable now, as the pack draws it);
+   * aria-disabled says it takes no tap now (off, or the shell not taking that tap); `reason` is the
+   * accessible description Frontend gives, or, while reconnecting, the banner's own words.
+   */
+  function control(node, { intent, off = false, busy = false, reason = null }) {
+    const refused = off || !accepts(intent);
+    attr(node, 'aria-disabled', refused ? 'true' : null);
+    attr(node, 'aria-busy', busy ? 'true' : null);
+    attr(node, 'data-off', off ? '' : null);
+    const why = reason ?? (state.status === 'stale' && !LOCAL.has(intent) ? RECONNECTING.sub : null);
+    let note = node.__msReason;
+    if (why) {
+      if (!note) { note = el('span', null, { id: `${uid}-r${(seq += 1)}` }); reasons.append(note); node.__msReason = note; }
+      text(note, why);
+      attr(node, 'aria-describedby', note.id);
+    } else if (note) { note.remove(); node.__msReason = null; attr(node, 'aria-describedby', null); }
+  }
+
+  /**
+   * Removes a node. If it held the focus (a control that ended), the focus moves to the shell itself,
+   * and then onFocusReturn({ intent, value }) tells Frontend which one ended, so it can move the focus
+   * on. That is the only time the shell moves the focus.
+   */
+  function remove(node) {
+    if (!node) return;
+    for (const c of [node, ...node.querySelectorAll('[aria-describedby]')]) if (c.__msReason) { c.__msReason.remove(); c.__msReason = null; }
+    const active = doc.activeElement;
+    const focused = !!active && node.contains(active);
+    const ended = focused ? active.closest?.('[data-intent]') : null;
+    node.remove();
+    if (!focused || disposed) return;
+    root.focus({ preventScroll: true });
+    const detail = ended ? { intent: ended.dataset.intent, value: ended.dataset.value ?? null } : null;
+    queueMicrotask(() => { if (!disposed && doc.activeElement === root) on.onFocusReturn?.(detail); });
+  }
+  function keep(name, wanted, make, parent = over, before = null) {
+    if (!wanted) { remove(parts[name]); parts[name] = null; return null; }
+    if (!parts[name]) { parts[name] = make(); parent.insertBefore(parts[name], before); }
+    return parts[name];
+  }
+  const button = (className, intent, value = null, attrs = {}) => {
+    const node = el('button', className, { type: 'button', ...attrs });
+    node.dataset.intent = intent;
+    if (value !== null) node.dataset.value = value;
+    return node;
+  };
+  // The person's portrait from the match's crew bundle; none without a character (never an empty tile).
+  const portrait = person => {
+    if (!person.character) return null;
+    const node = el('span', 'ms-ps-pt', { 'aria-hidden': 'true' });
+    node.style.backgroundImage = crewPortraitVariable(person.character, state.versions);
+    return node;
+  };
+
+  // ── The top bar (ui.mjs topBar) ─────────────────────────────────────
+  function paintWho(b) {
+    const key = JSON.stringify([b.kind, b.who, b.self, b.pair, b.icon, b.tone, b.title, b.short, b.sub, state.versions]);
+    if (parts.whoKey === key && parts.who) return;
+    const who = el('div', 'ms-ps-who');
+    const lines = el('div', 'ms-ps-lines');
+    const name = el('span', 'ms-ps-name'), sub = el('span', 'ms-ps-sub');
+    if (b.kind === 'turn') {
+      const n = seatNumber(b.who), face = portrait(b.who);
+      if (face) who.append(face);
+      name.textContent = b.self ? 'Your turn' : b.who.name;
+      if (b.self) { const strong = el('b'); strong.textContent = `Player ${n} · ${b.who.name}`; sub.append(strong); }
+      else sub.textContent = `Player ${n} · Turn`;
+      lines.append(name, sub);
+    } else if (b.kind === 'pair') {
+      const faces = b.pair.map(portrait).filter(Boolean);
+      if (faces.length) { const pair = el('span', 'ms-ps-pair'); pair.append(...faces); who.append(pair); }
+      name.textContent = b.pair.map(p => p.name).join(' + ');
+      sub.textContent = b.sub ?? 'Private talk';
+      lines.append(name, sub);
+    } else {
+      const glyph = el('span', 'ms-ps-glyph', { 'data-tone': b.tone });
+      glyph.append(icon(b.icon, true));
+      who.append(glyph);
+      // A long phase title has a short form for the narrowest bars; the full title stays for screen readers.
+      if (b.short) {
+        const long = el('span', 'ms-ps-long'), short = el('span', 'ms-ps-short', { 'aria-hidden': 'true' });
+        long.textContent = b.title; short.textContent = b.short;
+        name.append(long, short);
+      } else name.textContent = b.title;
+      lines.append(name);
+      if (b.sub) { sub.textContent = b.sub; lines.append(sub); }
+    }
+    who.append(lines);
+    if (parts.who) parts.who.replaceWith(who); else bar.prepend(who);
+    parts.who = who; parts.whoKey = key;
+  }
+
+  function paintBar() {
+    const concealed = state.status === 'concealed';
+    const b = state.bar;
+    bar.dataset.kind = b.kind;
+    attr(bar, 'data-tone', b.tone);
+    attr(bar, 'aria-hidden', concealed ? 'true' : null);
+    // The right-hand side: the round, the clock with the place beside it for Food's gauge, and ⋮. The
+    // clock and its place stay for the shell's whole life, so what Frontend mounts there is never lost.
+    const right = keep('right', true, () => el('div', 'ms-ps-right'), bar, null);
+    const clock = keep('clock', true, () => {
+      const node = el('span', 'ms-ps-clock');
+      parts.slot = el('span', 'ms-ps-slot');
+      parts.slot.dataset.slot = 'clock';
+      node.append(parts.slot);
+      return node;
+    }, right, null);
+    parts.slot.hidden = concealed;
+    if (concealed) {
+      // The bars' empty material only: no name, number, time or control for anyone to read.
+      for (const name of ['who', 'promises', 'round', 'timer', 'menu']) { remove(parts[name]); parts[name] = null; }
+      for (const d of parts.divs ?? []) d.remove();
+      parts.divs = null; parts.whoKey = null;
+      return;
+    }
+    paintWho(b);
+    // Promises after the name, between two dividers (the owner, 9 November).
+    const pr = keep('promises', !!b.promises, () => {
+      const node = button('ms-ps-promises', 'promises');
+      const pill = el('span', 'ms-ps-pill');
+      const glyph = el('span', 'ms-ps-pill-icon'), label = el('span', 'ms-ps-pill-label');
+      label.textContent = 'Promises';
+      pill.append(glyph, label);
+      node.append(pill, el('b', 'ms-ps-badge', { 'aria-hidden': 'true' }));
+      return node;
+    }, bar, parts.right);
+    if (pr) {
+      const p = b.promises;
+      setIcon(pr.querySelector('.ms-ps-pill-icon'), 'promise', p.open);
+      const badge = pr.querySelector('.ms-ps-badge');
+      text(badge, p.count ? String(p.count) : '');
+      badge.hidden = !p.count;
+      attr(pr, 'aria-label', p.count ? `Promises, ${p.count} new` : 'Promises');
+      attr(pr, 'aria-expanded', String(p.open));
+      control(pr, { intent: 'promises', off: !p.enabled, reason: p.reason });
+      if (!parts.divs) { parts.divs = [el('span', 'ms-ps-div', { 'aria-hidden': 'true' }), el('span', 'ms-ps-div', { 'aria-hidden': 'true' })]; }
+      pr.before(parts.divs[0]); pr.after(parts.divs[1]);
+    } else if (parts.divs) { for (const d of parts.divs) d.remove(); parts.divs = null; }
+    if (right !== bar.lastElementChild) bar.append(right);
+    const round = keep('round', b.round !== null, () => el('span', 'ms-ps-round'), right, clock);
+    if (round) { text(round, `R${b.round}`); attr(round, 'aria-label', `Round ${b.round}`); }
+    const t = b.timer;
+    const timer = keep('timer', !!t, () => {
+      const node = el('span', 'ms-ps-timer', { role: 'timer' });
+      node.append(el('span', 'ms-ps-timer-mark'), el('span', 'ms-ps-timer-text'));
+      return node;
+    }, clock, parts.slot);
+    if (timer) {
+      const mark = timer.firstChild;
+      if (t.ring === null) { if (mark.dataset.kind !== 'icon') { mark.className = 'ms-ps-timer-mark'; mark.replaceChildren(icon('timer')); mark.dataset.kind = 'icon'; mark.style.removeProperty('--p'); } }
+      else {
+        if (mark.dataset.kind !== 'ring') { mark.replaceChildren(); mark.className = 'ms-ps-timer-mark ms-ps-ring'; mark.dataset.kind = 'ring'; }
+        mark.style.setProperty('--p', String(t.ring));
+      }
+      text(timer.lastChild, clockText(t.remainingMs));
+      attr(timer, 'aria-label', `${Math.ceil(t.remainingMs / 1000)} seconds left`);
+      attr(timer, 'data-urgent', t.remainingMs <= t.urgentAtMs ? '' : null);
+    }
+    const menu = keep('menu', !!b.menu, () => {
+      const node = button('ms-ps-menu', 'menu', null, { 'aria-label': 'Settings' });
+      node.append(icon('menu'));
+      return node;
+    }, right, null);
+    if (menu) { attr(menu, 'aria-expanded', String(b.menu.open)); control(menu, { intent: 'menu', off: !b.menu.enabled }); }
+  }
+
+  // ── The tabs (ui.mjs tabs) and the private talk's two buttons ───────
+  const TAB_WORDS = {
+    actions: { icon: 'actions', label: 'Actions' }, card: { icon: 'card', label: 'Card' }, panels: { icon: 'panels', label: 'Panels' },
+    promises: { icon: 'promise', label: 'Promises' }, 'my-card': { icon: 'card', label: 'My card' },
+  };
+  function dropTabs() {
+    if (!parts.tabs) return;
+    observer?.unobserve(parts.tabs);
+    remove(parts.tabs);
+    parts.tabs = null; parts.tabsKey = null;
+    parts.tabNodes.clear();
+  }
+  function paintTabs() {
+    const concealed = state.status === 'concealed';
+    const tabs = concealed ? null : state.tabs;
+    // Concealed, the bar keeps its shape as empty material; otherwise it is there when the tabs are given.
+    const variant = concealed ? (state.shape === 'none' ? null : state.shape) : tabs?.variant ?? null;
+    root.dataset.tabs = variant ?? 'none';
+    if (!variant) { dropTabs(); return; }
+    if (parts.tabsKey !== variant) {
+      dropTabs();
+      parts.tabs = variant === 'game' ? el('nav', 'ms-ps-tabs', { 'aria-label': 'Game' }) : el('div', 'ms-ps-talk', { role: 'group', 'aria-label': 'Private talk' });
+      parts.tabsKey = variant;
+      root.append(parts.tabs);
+    }
+    attr(parts.tabs, 'aria-hidden', tabs ? null : 'true');
+    if (!tabs) {
+      // No control in it, and nothing for a screen reader to read.
+      for (const node of parts.tabNodes.values()) remove(node);
+      parts.tabNodes.clear();
+      return;
+    }
+    const nav = parts.tabs;
+    const order = variant === 'game' ? GAME_TABS : TALK_BUTTONS;
+    for (const key of order) {
+      let node = parts.tabNodes.get(key);
+      if (!node) {
+        if (variant === 'talk') {
+          node = button('ms-ps-btn ms-ps-btn-secondary', 'tab', key);
+          node.append(el('span', 'ms-ps-btn-icon'), el('span', 'ms-ps-btn-label'));
+        } else if (key === 'hero') {
+          node = el('div', 'ms-ps-tab ms-ps-tab-hero');
+          const hero = button('ms-ps-hero', 'hero');
+          hero.append(el('span', 'ms-ps-hero-icon'), el('b', 'ms-ps-hero-label'));
+          node.append(hero, el('span', 'ms-ps-hero-space', { 'aria-hidden': 'true' }));
+        } else {
+          node = button('ms-ps-tab', 'tab', key);
+          node.append(el('span', 'ms-ps-tab-icon'), el('span', 'ms-ps-tab-label'), el('b', 'ms-ps-badge', { 'aria-hidden': 'true' }));
+        }
+        parts.tabNodes.set(key, node);
+      }
+      if (node.parentNode !== nav || nav.children[order.indexOf(key)] !== node) nav.insertBefore(node, nav.children[order.indexOf(key)] ?? null);
+      if (variant === 'talk') {
+        const w = TAB_WORDS[key];
+        setIcon(node.firstChild, w.icon, tabs.open === key);
+        text(node.lastChild, w.label);
+        attr(node, 'aria-expanded', String(tabs.open === key));
+        control(node, { intent: 'tab', off: !tabs.enabled[key], reason: tabs.reasons[key] });
+        continue;
+      }
+      if (key === 'hero') {
+        const h = tabs.hero, words = HERO_WORDS[h.mode], hero = node.firstChild;
+        hero.dataset.mode = h.mode;
+        hero.dataset.value = h.mode;
+        setIcon(hero.firstChild, words.icon, true);
+        text(hero.lastChild, words.label);
+        text(node.lastChild, words.label);
+        attr(hero, 'aria-label', words.aria);
+        control(hero, { intent: 'hero', off: !h.enabled, busy: h.busy, reason: h.reason });
+        continue;
+      }
+      const w = key === 'switch' ? (tabs.view === 'room' ? { icon: 'board', label: 'Board', aria: 'Show the whole board' } : { icon: 'room', label: 'Room', aria: 'Show my room' }) : TAB_WORDS[key];
+      const open = key !== 'switch' && tabs.open === key;
+      setIcon(node.firstChild, w.icon, open);
+      text(node.children[1], w.label);
+      const badge = tabs.badges[key];
+      text(node.lastChild, badge ? String(badge) : '');
+      node.lastChild.hidden = !badge;
+      attr(node, 'aria-label', w.aria ?? (badge ? `${w.label}, ${badge} new` : null));
+      attr(node, 'aria-expanded', key === 'switch' ? null : String(open));
+      control(node, { intent: 'tab', off: !tabs.enabled[key], reason: tabs.reasons[key] });
+    }
+  }
+
+  // ── Over the stage: the target bar, the chip, the banner ─────────────
+  function paintOver() {
+    const concealed = state.status === 'concealed';
+    // The target bar replaces the sheet while picking on the scene; Cancel is in it (the owner, T2).
+    const target = keep('target', !concealed && !!state.target, () => {
+      const node = el('div', 'ms-ps-target', { role: 'status' });
+      const glyph = el('span', 'ms-ps-target-icon'), words = el('div', 'ms-ps-text');
+      words.append(el('b'), el('span'));
+      const cancel = button('ms-ps-btn ms-ps-btn-secondary ms-ps-btn-sm', 'cancel-target');
+      cancel.append(el('span', 'ms-ps-btn-label'));
+      cancel.lastChild.textContent = 'Cancel';
+      node.append(glyph, words, cancel);
+      return node;
+    });
+    if (target) {
+      setIcon(target.firstChild, state.target.icon, true);
+      text(target.children[1].firstChild, state.target.title);
+      text(target.children[1].lastChild, state.target.sub ?? '');
+      target.children[1].lastChild.hidden = !state.target.sub;
+      control(target.lastChild, { intent: 'cancel-target' });
+    }
+    const banner = keep('banner', !concealed && !!state.banner, () => {
+      const node = el('div', 'ms-ps-banner', { role: 'status' });
+      const glyph = el('span', 'ms-ps-banner-icon');
+      glyph.append(icon('offline', true));
+      const words = el('div', 'ms-ps-text');
+      const b = el('b'), s = el('span');
+      b.textContent = RECONNECTING.title; s.textContent = RECONNECTING.sub;
+      words.append(b, s);
+      const retry = button('ms-ps-btn ms-ps-btn-secondary ms-ps-btn-sm', 'retry');
+      retry.append(el('span', 'ms-ps-btn-label'));
+      retry.lastChild.textContent = RECONNECTING.action;
+      node.append(glyph, words, retry);
+      return node;
+    });
+    if (banner) control(banner.lastChild, { intent: 'retry', busy: state.banner.busy });
+    const chip = keep('chip', !concealed && !!state.chip, () => {
+      const node = el('div', 'ms-ps-chip');
+      const b = button('ms-ps-btn ms-ps-btn-sm ms-ps-chip-btn', 'chip');
+      b.append(el('span', 'ms-ps-btn-icon'), el('span', 'ms-ps-btn-label'));
+      node.append(b);
+      return node;
+    });
+    if (chip) {
+      const b = chip.firstChild, c = state.chip;
+      b.dataset.value = c.id;
+      b.dataset.tone = c.tone;
+      setIcon(b.firstChild, c.icon, true);
+      text(b.lastChild, c.label);
+      control(b, { intent: 'chip', off: !c.enabled });
+    }
+  }
+
+  // ── The docked sheet's frame (ui.mjs sheet) ─────────────────────────
+  function paintSheet() {
+    const s = state.status === 'concealed' ? null : state.sheet;
+    if (parts.sheet && (!s || parts.sheet.dataset.sheet !== s.id)) { remove(parts.sheet); parts.sheet = null; }
+    root.toggleAttribute('data-sheet', !!s);
+    if (!s) return;
+    if (!parts.sheet) {
+      const node = el('section', 'ms-ps-sheet', { role: 'dialog' });
+      node.dataset.sheet = s.id;
+      const head = el('div', 'ms-ps-sheet-head');
+      const title = el('div', 'ms-ps-sheet-title');
+      const h2 = el('h2', null, { id: `${uid}-t${(seq += 1)}` });
+      title.append(h2, el('p'));
+      head.append(title);
+      node.setAttribute('aria-labelledby', h2.id);
+      node.append(el('div', 'ms-ps-sheet-grab', { 'aria-hidden': 'true' }), head, el('div', 'ms-ps-sheet-body'));
+      parts.sheet = node;
+      const before = parts.tabs && parts.tabs.parentNode === root ? parts.tabs : null;
+      root.insertBefore(node, before);
+    }
+    const node = parts.sheet, head = node.querySelector('.ms-ps-sheet-head'), title = head.querySelector('.ms-ps-sheet-title');
+    node.dataset.detent = s.detent;
+    text(title.firstChild, s.title);
+    text(title.lastChild, s.sub ?? '');
+    title.lastChild.hidden = !s.sub;
+    let back = head.querySelector('[data-intent="sheet-back"]'), close = head.querySelector('[data-intent="sheet-close"]');
+    if (s.back && !back) { back = button('ms-ps-icon-btn', 'sheet-back', null, { 'aria-label': 'Back' }); back.append(icon('chevronLeft')); head.prepend(back); }
+    else if (!s.back && back) { remove(back); back = null; }
+    if (s.close && !close) { close = button('ms-ps-icon-btn', 'sheet-close', null, { 'aria-label': 'Close' }); close.append(icon('close')); head.append(close); }
+    else if (!s.close && close) { remove(close); close = null; }
+    if (back) control(back, { intent: 'sheet-back' });
+    if (close) control(close, { intent: 'sheet-close' });
+    // The footer's buttons, kept by id.
+    let foot = node.querySelector(':scope > .ms-ps-sheet-foot');
+    if (s.actions.length && !foot) { foot = el('div', 'ms-ps-sheet-foot'); node.append(foot); }
+    if (!s.actions.length && foot) { remove(foot); foot = null; }
+    if (!foot) return;
+    const ids = s.actions.map(a => a.id);
+    for (const b of [...foot.children]) if (!ids.includes(b.dataset.value)) remove(b);
+    s.actions.forEach((a, i) => {
+      let b = [...foot.children].find(c => c.dataset.value === a.id);
+      if (!b) { b = button('ms-ps-btn', 'sheet-action', a.id); b.append(el('span', 'ms-ps-btn-icon'), el('span', 'ms-ps-btn-label')); }
+      if (foot.children[i] !== b) foot.insertBefore(b, foot.children[i] ?? null);
+      b.className = `ms-ps-btn ms-ps-btn-${a.kind}`;
+      if (a.icon) setIcon(b.firstChild, a.icon, a.kind === 'primary'); else { b.firstChild.replaceChildren(); b.firstChild.dataset.icon = ''; }
+      b.firstChild.hidden = !a.icon;
+      text(b.lastChild, a.label);
+      control(b, { intent: 'sheet-action', off: !a.enabled, busy: a.busy, reason: a.reason });
+    });
+  }
+
+  // ── A toast: a local confirmation, shown once per id ────────────────
+  function paintToast() {
+    const t = state.status === 'concealed' ? null : state.toast;
+    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { parts.toast.remove(); parts.toast = null; } return; }
+    if (toastShown === t.id) return;
+    toastShown = t.id;
+    if (parts.toast) parts.toast.remove();
+    const node = el('div', 'ms-ps-toast', { role: 'status' });
+    const glyph = el('span', 'ms-ps-toast-icon');
+    glyph.append(icon(t.icon, true));
+    const words = el('span');
+    words.textContent = t.text;
+    node.append(glyph, words);
+    root.append(node);
+    parts.toast = node;
+    if (toastTimer) win.clearTimeout(toastTimer);
+    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { node.dataset.leaving = ''; win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
+  }
+
+  // ── The large-content view: a tab's word, large, on a long press ────
+  // As iOS shows a capped tab label at large text sizes (the handoff's Tabs). Only while the labels are
+  // capped at 14 px: then the word is shown large over the stage while the finger stays down.
+  const labelsCapped = () => parseFloat(win.getComputedStyle(doc.documentElement).fontSize) * 0.75 > 14;
+  function showHud(node) {
+    const words = node.querySelector('.ms-ps-tab-label, .ms-ps-hero-label, .ms-ps-btn-label')?.textContent ?? '';
+    const mark = node.querySelector('.ms-ps-tab-icon, .ms-ps-hero-icon, .ms-ps-btn-icon')?.dataset.icon?.split(':')[0];
+    const hud = keep('hud', true, () => {
+      const h = el('div', 'ms-ps-hud', { 'aria-hidden': 'true' });
+      h.append(el('span', 'ms-ps-hud-icon'), el('b'));
+      return h;
+    }, root, null);
+    if (mark) setIcon(hud.firstChild, mark, true);
+    text(hud.lastChild, words);
+  }
+  const hideHud = () => { if (press?.timer) win.clearTimeout(press.timer); press = null; if (parts.hud) { parts.hud.remove(); parts.hud = null; } };
+  const onPointerDown = event => {
+    const node = event.target.closest?.('.ms-ps-tabs button[data-intent], .ms-ps-talk button[data-intent]');
+    if (!node || disposed) return;
+    hideHud();
+    press = { node, timer: win.setTimeout(() => { if (press?.node === node && labelsCapped()) showHud(node); }, 450) };
+  };
+  root.addEventListener('pointerdown', onPointerDown);
+  for (const type of ['pointerup', 'pointercancel', 'pointerleave']) root.addEventListener(type, hideHud);
+
+  // ── Layout ──────────────────────────────────────────────────────────
+  function applyInsets() {
+    const i = state.insets;
+    for (const side of ['top', 'right', 'bottom', 'left']) {
+      if (i && Number.isFinite(i[side])) root.style.setProperty(`--ms-ps-safe-${side[0]}`, `${i[side]}px`);
+      else root.style.removeProperty(`--ms-ps-safe-${side[0]}`);
+    }
+  }
+  /**
+   * Where things are, in the shell's CSS pixels: its size, the bars' heights (the top safe area and bar;
+   * the tabs and the bottom safe area), the stage between them, and how much of the stage's foot the
+   * private talk's buttons cover. After dispose(), null.
+   */
+  function layout() {
+    if (disposed) return null;
+    const box = root.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    const covered = parts.tabsKey === 'talk' && parts.tabs ? Math.max(0, s.bottom - parts.tabs.getBoundingClientRect().top) : 0;
+    const round = v => Math.round(v * 100) / 100;
+    return {
+      size: { width: round(box.width), height: round(box.height) },
+      bars: { top: round(s.top - box.top), bottom: round(box.bottom - s.bottom) },
+      stage: { width: round(s.width), height: round(s.height) },
+      covered: { bottom: round(covered) },
+    };
+  }
+  const reportLayout = () => {
+    if (disposed || !root.isConnected) return;
+    const next = layout(), key = JSON.stringify(next);
+    if (key === lastLayout) return;
+    lastLayout = key;
+    on.onLayout?.(next);
+  };
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => reportLayout()) : null;
+  observer?.observe(root);
+  observer?.observe(bar);
+  observer?.observe(stage);
+
+  // ── Render ──────────────────────────────────────────────────────────
+  function render() {
+    if (disposed) return;
+    root.dataset.status = state.status;
+    root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
+    applyInsets();
+    paintBar();
+    paintTabs();
+    if (parts.tabs) observer?.observe(parts.tabs);
+    paintOver();
+    paintSheet();
+    paintToast();
+    if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
+    reportLayout();
+  }
+  function update(next = {}) {
+    if (disposed) return;
+    state = nextPhoneShellInput(state, next);
+    render();
+  }
+  /**
+   * Stops what runs by itself: a toast (its confirmation is over, and it does not come back on resume)
+   * and a long press. The shell draws nothing else that moves without an update.
+   */
+  function suspend() {
+    if (disposed) return;
+    suspended = true;
+    hideHud();
+    if (toastTimer) { win.clearTimeout(toastTimer); toastTimer = null; }
+    if (parts.toast) { parts.toast.remove(); parts.toast = null; }
+    render();
+  }
+  function resume() { if (disposed) return; suspended = false; render(); }
+  function dispose() {
+    if (disposed) return;
+    disposed = true;
+    hideHud();
+    if (toastTimer) win.clearTimeout(toastTimer);
+    observer?.disconnect();
+    root.removeEventListener('click', onClick);
+    root.removeEventListener('pointerdown', onPointerDown);
+    for (const type of ['pointerup', 'pointercancel', 'pointerleave']) root.removeEventListener(type, hideHud);
+    root.remove();
+  }
+  /** A place the shell keeps for another component: 'clock', beside the clock (Food's gauge). */
+  function slot(name) {
+    if (disposed) return null;
+    if (name !== 'clock') throw new TypeError(`No slot ${JSON.stringify(name)}: the shell has 'clock'`);
+    return parts.slot;
+  }
+
+  render();
+  return Object.freeze({
+    update, suspend, resume, dispose, layout, slot, stage, element: root,
+    /** The open sheet's scrolling body, where its content mounts; null with no sheet. */
+    get sheetBody() { return disposed ? null : parts.sheet?.querySelector('.ms-ps-sheet-body') ?? null; },
+  });
+}
