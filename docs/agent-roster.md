@@ -1,10 +1,10 @@
 # Agreed development team
 
-## Current allocation and visual ownership — 14 November 2026
+## Current allocation and visual ownership — 15 November 2026
 
 The owner moved Frontend to an existing Codex chat; Backend and Integration also run in Codex. Visual and Motion Design remains in the owner's Claude Code session, as does the separate Game Design and Balance workstream. No session or model is created or changed by this document.
 
-The approved [single-source visual workflow](architecture/visual-component-ownership.md) now governs handoffs: Designer owns canonical visual components and their preview; Frontend owns app integration, screen lifecycle, accessibility behavior and performance; Backend owns authority; Integration coordinates component contracts, adoption and release checks. Verified generated copies are permitted, independent visual reimplementations are not. The phone visual merge gate remains mandatory. The frozen Food release is not a migration project.
+The approved [single-source visual workflow](architecture/visual-component-ownership.md) now governs handoffs: Designer builds and delivers usable canonical visual components and their preview; Frontend owns app integration, screen lifecycle, accessibility behavior and performance; Backend owns authority; Integration coordinates component contracts, adoption and release checks. Frontend consumes the runtime-safe source directly: no rebuilding, restyling or copying into a second visual implementation. Ordinary bundling is allowed. The owner's later 14 November decision supersedes the earlier generated-copy allowance for new work. Sheets alone do not complete Designer's component delivery. The phone visual merge gate remains mandatory. Existing immutable releases remain intact; the frozen Food correction is not a migration project.
 
 The launch plan below is retained as historical evidence. Its bootstrap status, initial runner allocation and proposed handoff no longer describe current delivery. Read the current PR and pinned task baseline rather than restarting these assignments.
 

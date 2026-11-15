@@ -47,10 +47,16 @@ On exit, foregrounding and reconnect, restore the current authorized interface a
 
 ## Delivery and review
 
+The owner's **15 November 2026** clarification makes delivery of the usable visual component Designer's responsibility. A sheet, image, film or stand-alone prototype can support review, but does not by itself complete a runtime-component handoff. Reuse existing approved art and code; do not create another visual implementation to satisfy this requirement.
+
+For each handoff, Designer supplies the canonical importable files and assets, a preview consuming those files, and concise inputs/callbacks/lifecycle instructions with dependencies and unimplemented states listed. Frontend confirms the component can be connected to the app, then supplies authorized data and handlers. If it cannot, Frontend returns the specific constraint to Designer; it does not fill the gap by redrawing or copying the component. Integration resolves packaging/source-fence dependencies without turning a fixture or simulator into gameplay authority.
+
 1. Agree the interface and exact ownership while the feature is small.
 2. Integrate one representative component in the real app early, including an unavailable/recovery state and reduced motion where relevant. Designer previews that same source.
 3. Finish the remaining approved states using the established component. Keep fixture/scenario code separate.
 4. Frontend supplies native comparison evidence; Designer checks the implemented visual result; Integration checks behavior, privacy, packaging and release eligibility.
+
+Comparison is a final check of the shared component's actual integration and environment, not a second implementation process. It still catches missing assets, wrong input mapping and production-policy failures; one source does not remove the need to check the delivered app.
 
 Review at 390 × 844 and 430 × 932 during this development phase; broader size coverage is deferred. Captures must come from the deployed candidate or a harness with the production headers, and identify source, art, URL and header provenance. A passing header-free capture does not establish deployable visual behavior. Account explicitly for approved work that is included and any omission; deferral requires the owner's decision.
 

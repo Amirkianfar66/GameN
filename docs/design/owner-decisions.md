@@ -6,6 +6,14 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 15 November 2026: Designer delivers the usable visual component
+
+**Recorded by Integration from the owner's Integration chat.** The owner clarified the purpose of the direct-component workflow:
+
+> We should not look for difference we should ask designer to also responsible to share the design not the frontend build it again
+
+Applied with the owner's 14 November decision below: Designer is accountable for delivering the working reusable visual component and its assets in `design/`, with a preview using the same source and a concise integration handoff. Sheets and screenshots remain review material, not instructions for Frontend to build a second interface. Frontend connects authorized data, actions, navigation and lifecycle, and returns any source change to Designer. Comparisons remain integration verification rather than a cycle of independently rebuilding and correcting the appearance. The existing phone review gate, privacy boundaries and pinned historical releases remain in force.
+
 ## 14 November 2026: live visual review, direct component reuse and two phone sizes
 
 **Recorded by Integration from the owner's later Integration message.** This supersedes conflicting workflow and capture requirements below, including the earlier generated-port allowance.
