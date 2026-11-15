@@ -78,7 +78,7 @@ Everything on this sheet is this viewer's own private view. Nothing is public, a
   - under "Scans", one row per scan result: "Round 2 · Player 7", and "Guess Blue · matched · in the Code".
     - `matched: false` reads "not matched".
     - `inCode: false` reads "not in the Code"; `inCode: null` says nothing about the Code.
-  - **With none of these:** "You have no knowledge of other players." (the Lead's decision, below).
+  - **With none of these:** "You have no knowledge of other players." (the Lead's decision, [confirmed by the owner on 15 November 2026](../owner-decisions.md#15-november-2026-the-cards-empty-knowledge-line) (#280); below).
   - **With `knowledge` not given:** nothing at all, not that line.
 - **Resource rows:** each `kind`'s icon, tint and title are the pack's (Weapons, Role Action, Move, Shared injections, Promises). Each `value` is Frontend's.
   - **Why the component doesn't word the values:** "2 of 2" needs the role's total, and "Available" needs the offers. Those are the rules' and the projection's, not the component's.
@@ -155,8 +155,8 @@ The pack draws "Hide card" as an icon button in the sheet's head, between the ti
 1. **The empty Knowledge line** reads "You have no knowledge of other players."
    - **Why not the pack's:** "Your role starts with no knowledge of other players." states a rule about the role, which the phone can't know.
    - **Why no "yet":** it would claim the role learns something later, which is a rule too.
-   - **Status:** a departure from sheet 31's words under T3's principle, pending the owner's confirmation. If the owner says no, it is one string, `CARD_SHEET_WORDS.noKnowledge`.
-   - **In the agreement:** it is the one accepted amendment, recorded with T3's principle and "pending the owner's confirmation".
+   - **Status:** a departure from sheet 31's words under T3's principle, [confirmed by the owner on 15 November 2026](../owner-decisions.md#15-november-2026-the-cards-empty-knowledge-line). It is `CARD_SHEET_WORDS.noKnowledge`.
+   - **In the agreement:** it is the one accepted amendment, recorded with T3's principle and "confirmed by the owner on 15 November 2026".
 2. **The head action:** the shell's `sheet.head` (above).
 3. **The card back's 240 px:** the Card sheet's own layout, as the pack sets it in its `card()` screen only. The role card is unchanged.
 4. **Resources:** the Lead asks Integration and Backend on #4 whether the projection should carry the injections' total ("2 of 2"). "Available" from the offers and "Used this round" from `self` stay Frontend's words.
@@ -167,7 +167,6 @@ Listed, not omitted:
 
 | What | Waiting on |
 | --- | --- |
-| The owner's confirmation of the empty Knowledge line | The owner, through the Lead |
 | The injections' total in the projection | Integration and Backend (through the Lead on #4) |
 
 ## Checks run on this version
@@ -200,7 +199,7 @@ Listed, not omitted:
       - each row's words and place, the group label and the note.
 
       Every comparison is to within half a pixel, measured once the shell's sheet has finished sliding in.
-    - **The one accepted amendment:** the empty Knowledge line, T3's principle, pending the owner's confirmation.
+    - **The one accepted amendment:** the empty Knowledge line, T3's principle, [confirmed by the owner on 15 November 2026](../owner-decisions.md#15-november-2026-the-cards-empty-knowledge-line).
     - **Agree:** all six: the card (Doctor and Hacker), Knowledge (Hacker, and empty), Resources and the hidden card. "Hide card" sits in the sheet's head where the pack draws it. `card.test.mjs` allows no differing part.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe.
   - **Where the record is:** the captures and `check.json` are in `review/`.

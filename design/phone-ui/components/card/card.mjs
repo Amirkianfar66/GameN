@@ -28,7 +28,7 @@ const FACTIONS = Object.freeze(['Blue', 'Red', 'Alien']);
  * The pack's words (screens-game.mjs card(), sheet 31). The empty Knowledge line is the one departure: the
  * pack's "Your role starts with no knowledge of other players." states a rule the phone can't know; under
  * T3's principle (the phone never works out anything from the rules itself) it says only what is so. The
- * Lead's decision on #270, pending the owner's confirmation.
+ * Lead's decision on #270, confirmed by the owner on 15 November 2026 (docs/design/owner-decisions.md, #280).
  */
 export const CARD_SHEET_WORDS = Object.freeze({
   title: 'Your role', sub: 'Only on this phone', hide: 'Hide card',

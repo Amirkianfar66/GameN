@@ -20,13 +20,13 @@ const TOLERANCE = 0.5;
  * The one accepted difference from the pinned pack: the empty Knowledge line. The pack's "Your role starts with
  * no knowledge of other players." states a rule the phone can't know. Under the principle of the owner's T3
  * (docs/design/owner-decisions.md, 11 November 2026: the phone never works out anything from the rules itself),
- * the Lead's decision on #270 is "You have no knowledge of other players.", pending the owner's confirmation.
+ * the Lead's decision on #270 is "You have no knowledge of other players.", confirmed by the owner on 15 November 2026.
  * Before comparing, the pack's drawing in this page (never its source) is amended to it, and the amendment is
  * recorded; everything else is compared as the pack draws it.
  */
 const PACK_EMPTY = 'Your role starts with no knowledge of other players.';
 const AMENDED_EMPTY = 'You have no knowledge of other players.';
-const WHY = 'T3\'s principle (the owner, 11 November 2026: the phone never works out anything from the rules itself): the Lead\'s decision on #270, pending the owner\'s confirmation';
+const WHY = 'T3\'s principle (the owner, 11 November 2026: the phone never works out anything from the rules itself): the Lead\'s decision on #270, confirmed by the owner on 15 November 2026';
 function amend(pack) {
   const accepted = [];
   for (const note of pack.querySelectorAll('.sheet-body .group-note')) {

@@ -117,7 +117,7 @@ test('its words are the pack\'s (screens-game.mjs card()), and the one T3 amendm
   for (const [kind, { icon, tint, title }] of Object.entries(RESOURCE_KINDS)) {
     assert.ok(pack.includes(`icon: '${icon}', tint: '${tint}', title: '${title}'`), `${kind}: the pack's ${icon}, ${tint}, ${title}`);
   }
-  // The empty Knowledge line: the pack's states a rule; the Lead's decision on #270 (T3's principle), pending the owner.
+  // The empty Knowledge line: the pack's states a rule; the Lead's decision on #270 (T3's principle), confirmed by the owner on 15 November 2026.
   assert.ok(pack.includes('Your role starts with no knowledge of other players.'));
   assert.equal(CARD_SHEET_WORDS.noKnowledge, 'You have no knowledge of other players.');
 });
@@ -204,11 +204,11 @@ test('the check\'s record: every capture and probe check passed under the produc
   const agree = record.agree;
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
   assert.equal(agree.checks.length, 6);
-  // The one accepted difference: the empty Knowledge line, T3's principle, pending the owner.
+  // The one accepted difference: the empty Knowledge line, T3's principle, confirmed by the owner on 15 November 2026.
   const accepted = agree.checks.flatMap(c => c.detail.accepted);
   assert.equal(accepted.length, 1);
   assert.deepEqual([accepted[0].pack, accepted[0].amended], ['Your role starts with no knowledge of other players.', 'You have no knowledge of other players.']);
-  assert.match(accepted[0].why, /T3.*pending the owner/);
+  assert.match(accepted[0].why, /T3.*confirmed by the owner on 15 November 2026/);
   // No part may differ: the shell's sheet.head (8cfebb68) draws "Hide card" where the pack does.
   for (const c of agree.checks) {
     const state = c.id.match(/^agree: ([\w-]+)/)[1];
