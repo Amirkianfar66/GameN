@@ -1,0 +1,1291 @@
+{
+  "tool": "design/tools/card-check.mjs",
+  "component": "design/phone-ui/components/card",
+  "sourceCommit": "342fec9316f3185daa2bc72ae3218f35a098fbe4",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/card": {
+      "file": "design/phone-ui/components/card/review/390x844-card.jpg",
+      "sha256": "3b254790509a52c46640aab25aea250f5c976480d072b174fb9559b074aaaa52",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "DOCTOR",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Blue team",
+        "Two shared injections",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/card": {
+      "file": "design/phone-ui/components/card/review/430x932-card.jpg",
+      "sha256": "aba25e10140ad82c657a835668e1388f0b43c32b2909224c2ec5312cdba4fd6f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "DOCTOR",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Blue team",
+        "Two shared injections",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/knowledge-hacker": {
+      "file": "design/phone-ui/components/card/review/390x844-knowledge-hacker.jpg",
+      "sha256": "df4bb01171a5acfe27781ae7bf5062f1d649b97b2786e63d4aea865e0eb2cf87",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [
+        "Undercover",
+        "Round 2 · Player 7"
+      ],
+      "label": "Scans",
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Undercover",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/knowledge-hacker": {
+      "file": "design/phone-ui/components/card/review/430x932-knowledge-hacker.jpg",
+      "sha256": "e7bbcc254bc78bcdfcb5435f4385fabc3806c71d05570d3cf2cca1661c532ccf",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [
+        "Undercover",
+        "Round 2 · Player 7"
+      ],
+      "label": "Scans",
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Undercover",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/resources": {
+      "file": "design/phone-ui/components/card/review/390x844-resources.jpg",
+      "sha256": "ee489fae6d4e7dfd83454c5ec00c378405760c5e766e8057006d6812f23b1d36",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "resources",
+      "card": null,
+      "back": null,
+      "open": "Resources",
+      "local": true,
+      "rows": [
+        "Weapons",
+        "Role Action",
+        "Move",
+        "Shared injections",
+        "Promises"
+      ],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Weapons",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/resources": {
+      "file": "design/phone-ui/components/card/review/430x932-resources.jpg",
+      "sha256": "7465f590d7b7b6e636a49551ee342b797df5f1eb3ba007a9752c303c403a5171",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "resources",
+      "card": null,
+      "back": null,
+      "open": "Resources",
+      "local": true,
+      "rows": [
+        "Weapons",
+        "Role Action",
+        "Move",
+        "Shared injections",
+        "Promises"
+      ],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Weapons",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/hidden": {
+      "file": "design/phone-ui/components/card/review/390x844-hidden.jpg",
+      "sha256": "5736168f72cec39c45588521593a33c2c33610151460dca8c2494b12b211b219",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "hidden",
+      "card": null,
+      "back": "Hidden",
+      "open": null,
+      "local": null,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/hidden": {
+      "file": "design/phone-ui/components/card/review/430x932-hidden.jpg",
+      "sha256": "ec971bad74f5c49627632f23cb7237001087e712d4607b4909a63d64656578a7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "hidden",
+      "card": null,
+      "back": "Hidden",
+      "open": null,
+      "local": null,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/knowledge-empty": {
+      "file": "design/phone-ui/components/card/review/390x844-knowledge-empty.jpg",
+      "sha256": "4d31a4754efec5b366eb62e3f96e60dd279c04ab649df181f01ebb24dff371cf",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": "You have no knowledge of other players.",
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/knowledge-empty": {
+      "file": "design/phone-ui/components/card/review/430x932-knowledge-empty.jpg",
+      "sha256": "9ee6fc64eee2bf138a24a50b76dbc32b3478881a6062d568261c1e7ffbe62481",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": "You have no knowledge of other players.",
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/knowledge-insider": {
+      "file": "design/phone-ui/components/card/review/390x844-knowledge-insider.jpg",
+      "sha256": "c384685c6ccec534e5bba154aea67eebb64fbf016907d1adabe5f8700e86a1a6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [
+        "Unmapped trio"
+      ],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/knowledge-insider": {
+      "file": "design/phone-ui/components/card/review/430x932-knowledge-insider.jpg",
+      "sha256": "317f7a5792b907c44416a64eef732b6239967874352ec661793dbc7a0c0da498",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [
+        "Unmapped trio"
+      ],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/card-hacker": {
+      "file": "design/phone-ui/components/card/review/390x844-card-hacker.jpg",
+      "sha256": "36c300f811897f36888d40229712da96169bc4264db11a7f87e486b2e4bd8720",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "HACKER",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-hacker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/card-hacker": {
+      "file": "design/phone-ui/components/card/review/430x932-card-hacker.jpg",
+      "sha256": "d84c191ef01a70a39ae0d5ded5049fc09e8debb0d336ab9eb236ebbc230b42b7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "HACKER",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-hacker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/card/review/390x844-stale.jpg",
+      "sha256": "904367aa53276e89c74c91f6238f03162529b26ab461fe4a7c0b900e5c359629",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "DOCTOR",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": "Connection lost",
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Blue team",
+        "Two shared injections",
+        "Your role"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/card/review/430x932-stale.jpg",
+      "sha256": "3b61950a30c9ef5b3e94c81312d86786bd9bc285878abe39cc333d6f26309ce7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "DOCTOR",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": "Connection lost",
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Blue team",
+        "Two shared injections",
+        "Your role"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/card/review/390x844-concealed.jpg",
+      "sha256": "649dbe13ae4e54b8e322e001f19dbe58ec7d4567d1b6f3d698305dafd1fa2a64",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": null,
+      "card": null,
+      "back": null,
+      "open": null,
+      "local": null,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/card/review/430x932-concealed.jpg",
+      "sha256": "445de7686b89b61f0258ed6ccec3ddc72b3d488b1cc35495ca0932aff73c1839",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": null,
+      "card": null,
+      "back": null,
+      "open": null,
+      "local": null,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "320x568/large-card": {
+      "file": "design/phone-ui/components/card/review/320x568-large-card.jpg",
+      "sha256": "57c8daf62331e2f4b88586cfa6eee50ea8888d51431dd35c22b477168fb1bdb9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "card",
+      "card": "DOCTOR",
+      "back": null,
+      "open": "Card",
+      "local": true,
+      "rows": [],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Blue team",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "320x568/large-knowledge": {
+      "file": "design/phone-ui/components/card/review/320x568-large-knowledge.jpg",
+      "sha256": "b5b48a3953070cb3538a82d4dd9f199764183ef1d75fac6eb158caf01f0c17e4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "knowledge",
+      "card": null,
+      "back": null,
+      "open": "Knowledge",
+      "local": true,
+      "rows": [
+        "Undercover",
+        "Round 2 · Player 7"
+      ],
+      "label": "Scans",
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Undercover",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/large-resources": {
+      "file": "design/phone-ui/components/card/review/320x568-large-resources.jpg",
+      "sha256": "015e2616c10ad7194617144bd37eb3b2401bf3d928e7b44d12a3ef2fe04896e0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "resources",
+      "card": null,
+      "back": null,
+      "open": "Resources",
+      "local": true,
+      "rows": [
+        "Weapons",
+        "Role Action",
+        "Move",
+        "Shared injections",
+        "Promises"
+      ],
+      "label": null,
+      "note": null,
+      "banner": null,
+      "sheet": "Your role",
+      "figures": 4,
+      "leaked": [
+        "Weapons",
+        "Your role"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "reported": [
+              "knowledge"
+            ],
+            "unchanged": true,
+            "view": "knowledge",
+            "kept": true,
+            "checked": "true",
+            "rows": [],
+            "cardShown": false,
+            "segFirst": true
+          }
+        },
+        {
+          "id": "hide",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "head": [
+              [
+                "hide",
+                "Hide card"
+              ]
+            ],
+            "headHidden": [],
+            "text": "HiddenShowCardKnowledgeResources",
+            "secrets": [],
+            "showReported": 1,
+            "view": "hidden",
+            "back": true,
+            "seg": false
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "offTaps": 0,
+            "disabled": "true",
+            "staleTaps": [
+              "resources"
+            ],
+            "staleShow": 1,
+            "offShow": 1
+          }
+        },
+        {
+          "id": "private",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "concealed": {
+              "text": "HiddenShowCardKnowledgeResources",
+              "hidden": "true",
+              "card": 0,
+              "rows": 0
+            },
+            "back": {
+              "text": "HiddenShowCardKnowledgeResources",
+              "rows": 0,
+              "card": 0,
+              "view": "card"
+            },
+            "other": {
+              "text": "HiddenShowCardKnowledgeResources",
+              "rows": 0,
+              "card": 0
+            }
+          }
+        },
+        {
+          "id": "knowledge",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "knowledge-hacker": {
+              "rows": [
+                [
+                  "Undercover",
+                  "Player 6",
+                  null
+                ],
+                [
+                  "Round 2 · Player 7",
+                  null,
+                  "Guess Blue · matched · in the Code"
+                ]
+              ],
+              "label": "Scans",
+              "note": null
+            },
+            "knowledge-insider": {
+              "rows": [
+                [
+                  "Unmapped trio",
+                  "Players 2, 6, 8",
+                  null
+                ]
+              ],
+              "label": null,
+              "note": null
+            },
+            "knowledge-empty": {
+              "rows": [],
+              "label": null,
+              "note": "You have no knowledge of other players."
+            },
+            "notGiven": {
+              "text": "",
+              "shown": false
+            }
+          }
+        },
+        {
+          "id": "resources",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "rows": [
+              [
+                "Weapons",
+                "0"
+              ],
+              [
+                "Role Action",
+                "Available"
+              ],
+              [
+                "Move",
+                "Used this round"
+              ],
+              [
+                "Shared injections",
+                "2 of 2"
+              ],
+              [
+                "Promises",
+                "Given 0/1 · Received 1/1"
+              ]
+            ],
+            "given": [
+              [
+                "Promises",
+                "Given 1/1 · Received 0/1"
+              ],
+              [
+                "Weapons",
+                "1"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "fit",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "card": {
+              "w": 314,
+              "h": 440,
+              "ratio": 0.714,
+              "centred": true,
+              "inBody": true,
+              "aboveSeg": true,
+              "segShown": true,
+              "labels": [
+                {
+                  "text": "Card",
+                  "whole": true
+                },
+                {
+                  "text": "Knowledge",
+                  "whole": true
+                },
+                {
+                  "text": "Resources",
+                  "whole": true
+                }
+              ]
+            },
+            "hidden": {
+              "w": 240,
+              "h": 336,
+              "ratio": 0.714,
+              "centred": true,
+              "inBody": true,
+              "aboveSeg": null,
+              "segShown": false,
+              "labels": [
+                {
+                  "text": "Card",
+                  "whole": true
+                },
+                {
+                  "text": "Knowledge",
+                  "whole": true
+                },
+                {
+                  "text": "Resources",
+                  "whole": true
+                }
+              ]
+            },
+            "large": {
+              "w": 126,
+              "h": 177,
+              "ratio": 0.714,
+              "centred": true,
+              "inBody": true,
+              "aboveSeg": true,
+              "segShown": true,
+              "labels": [
+                {
+                  "text": "Card",
+                  "whole": true
+                },
+                {
+                  "text": "Knowledge",
+                  "whole": true
+                },
+                {
+                  "text": "Resources",
+                  "whole": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": 0,
+            "taps": 0
+          }
+        },
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "deviceReduced": false,
+            "as-set": {
+              "moving": 0,
+              "attr": null
+            },
+            "game-reduced": {
+              "moving": 0,
+              "attr": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "deviceReduced": true,
+            "as-set": {
+              "moving": 0,
+              "attr": null
+            },
+            "game-reduced": {
+              "moving": 0,
+              "attr": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Bq_iuyAU.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": false,
+    "checks": [
+      {
+        "id": "agree: card (card&role=Doctor)",
+        "ok": false,
+        "detail": {
+          "differences": [
+            {
+              "part": "hide card",
+              "what": "box",
+              "pack": {
+                "x": 278,
+                "y": 21,
+                "w": 44,
+                "h": 44
+              },
+              "component": null
+            }
+          ],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: knowledge-hacker (card&role=Hacker&state=knows)",
+        "ok": false,
+        "detail": {
+          "differences": [
+            {
+              "part": "hide card",
+              "what": "box",
+              "pack": {
+                "x": 278,
+                "y": 21,
+                "w": 44,
+                "h": 44
+              },
+              "component": null
+            }
+          ],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: resources (card&role=Doctor&state=holds)",
+        "ok": false,
+        "detail": {
+          "differences": [
+            {
+              "part": "hide card",
+              "what": "box",
+              "pack": {
+                "x": 278,
+                "y": 21,
+                "w": 44,
+                "h": 44
+              },
+              "component": null
+            }
+          ],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: hidden (card&role=Doctor&state=hidden)",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: knowledge-empty (card&role=Doctor&state=knows)",
+        "ok": false,
+        "detail": {
+          "differences": [
+            {
+              "part": "hide card",
+              "what": "box",
+              "pack": {
+                "x": 278,
+                "y": 21,
+                "w": 44,
+                "h": 44
+              },
+              "component": null
+            }
+          ],
+          "accepted": [
+            {
+              "part": "knowledge",
+              "what": "empty line",
+              "pack": "Your role starts with no knowledge of other players.",
+              "amended": "You have no knowledge of other players.",
+              "why": "T3's principle (the owner, 11 November 2026: the phone never works out anything from the rules itself): the Lead's decision on #270, pending the owner's confirmation"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: card-hacker (card&role=Hacker)",
+        "ok": false,
+        "detail": {
+          "differences": [
+            {
+              "part": "hide card",
+              "what": "box",
+              "pack": {
+                "x": 278,
+                "y": 21,
+                "w": 44,
+                "h": 44
+              },
+              "component": null
+            }
+          ],
+          "accepted": []
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-Bq_iuyAU.js",
+        "line": 1,
+        "column": 6050,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
