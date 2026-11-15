@@ -45,7 +45,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.1.0', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.2.0', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -57,21 +57,36 @@ test('its styles apply only inside an ms-kit root, to elements with its own clas
   const split = (list, at) => { const out = ['']; let depth = 0; for (const ch of list) { if (ch === '(') depth += 1; if (ch === ')') depth -= 1; if (at.test(ch) && depth === 0) out.push(''); else out[out.length - 1] += ch; } return out.map(s => s.trim()).filter(Boolean); };
   const selectors = [...body.matchAll(/(^|[{}])([^{}]*?)\{/g)].map(m => m[2].trim()).filter(s => s && !s.startsWith('@')).flatMap(s => split(s, /,/));
   assert.ok(selectors.length > 80, `found the rules (${selectors.length})`);
+  const ROOT = ':where(.ms-kit)', GLASS_GREYS = '.ms-kit :where([data-ms-surface="glass"], [data-ms-surface="glass"] .ms-kit)';
   for (const selector of selectors) {
-    assert.match(selector, /^\.ms-kit(?:[\s.:\[]|$)/, `"${selector}" is scoped`);
+    assert.ok(selector === ROOT || /^\.ms-kit(?:[\s:]|$)/.test(selector), `"${selector}" is scoped`);
     assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
-    // Every element it styles carries a kit class (ms-k-…), save the root itself and a surface marker.
-    const subject = split(selector.replace(/::?(?:before|after)$/, ''), /[\s>+~]/).at(-1);
-    // A component's own root on glass (.ms-kit inside a glass surface) takes the glass greys too.
-    if (subject !== '.ms-kit' && subject !== '[data-ms-surface="glass"]') assert.match(subject, /ms-k-|^:is\(\[class/, `"${selector}": its subject is a kit element`);
+    // Every element it styles carries a kit class (ms-k-…), save the root and the glass greys' surface and nested root.
+    if (selector === ROOT || selector === GLASS_GREYS) continue;
+    const subject = split(selector.replace(/::?(?:before|after|placeholder)$/, ''), /[\s>+~]/).at(-1);
+    assert.match(subject, /ms-k-|:where\(\[class/, `"${selector}": its subject is a kit element`);
   }
   const declared = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))];
   assert.deepEqual(declared.filter(p => !p.startsWith('--ms-k-') && p !== '--ic-knock'), []);
 });
 
+test('every rule weighs one class at most, so a component\'s own rules outrank the kit whatever order they load in', () => {
+  const css = KIT_CSS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/@keyframes[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
+  const split = list => { const out = ['']; let depth = 0; for (const ch of list) { if (ch === '(') depth += 1; if (ch === ')') depth -= 1; if (ch === ',' && depth === 0) out.push(''); else out[out.length - 1] += ch; } return out.map(s => s.trim()).filter(Boolean); };
+  /** The selector with every :where(…) taken out: what is left carries all of its weight. */
+  const weighed = selector => { let out = '', depth = 0; for (let i = 0; i < selector.length; i += 1) { if (depth === 0 && selector.startsWith(':where(', i)) { depth = 1; i += 6; continue; } if (depth > 0) { if (selector[i] === '(') depth += 1; if (selector[i] === ')') depth -= 1; continue; } out += selector[i]; } return out.trim(); };
+  const selectors = [...css.matchAll(/(^|[{}])([^{}]*?)\{/g)].map(m => m[2].trim()).filter(s => s && !s.startsWith('@')).flatMap(split);
+  for (const selector of selectors) {
+    const left = weighed(selector).replace(/::(?:before|after|placeholder)$/, '').trim();
+    if (selector === ':where(.ms-kit)') { assert.equal(left, '', 'the root weighs nothing'); continue; }
+    assert.equal(left, '.ms-kit', `"${selector}" weighs one class: everything but .ms-kit inside :where()`);
+  }
+  assert.ok(selectors.length > 100, `found the rules (${selectors.length})`);
+});
+
 test('its values are the pack\'s: every token, and the pack\'s control kinds, tones, tints and states', () => {
-  const pack = tokens(PACK_CSS, ':root'), kit = tokens(KIT_CSS, '.ms-kit');
-  const same = { canvas: 'canvas', 'surface-1': 'surface-1', 'surface-2': 'panel', 'surface-3': 'surface-3', 'surface-4': 'surface-4', paper: 'paper', 'paper-deep': 'paper-deep',
+  const pack = tokens(PACK_CSS, ':root'), kit = tokens(KIT_CSS, ':where(.ms-kit)');
+  const same = { canvas: 'canvas', 'surface-1': 'surface-1', 'surface-2': 'panel', 'surface-3': 'surface-3', 'surface-4': 'surface-4', paper: 'paper', 'paper-deep': 'paper-deep', 'paper-shade': 'paper-shade',
     ink: 'ink', text: 'text-primary', 'text-2': 'text-secondary', 'text-3': 'steel-light', accent: 'accent', caption: 'caption', 'steel-mid': 'steel-mid', 'steel-light': 'steel-light',
     hairline: 'hairline', 'glass-fill': 'glass-fill', 'glass-fill-2': 'glass-fill-2', 'glass-line': 'glass-line', 'shadow-ink': 'shadow-ink', 'radius-control': 'radius-control',
     'radius-group': 'radius-group', target: 'target', font: 'font-ui', letter: 'font-letter', 't-card': 't-card' };
@@ -83,7 +98,7 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   for (const tone of PILL_TONES.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.pill\\[data-tone="${tone}"\\]`), `the pack has a ${tone} pill`);
   for (const tint of ROW_TINTS.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.row-icon\\[data-tint="${tint}"\\]`), `the pack has a ${tint} row icon`);
   // On glass, the pack's lighter greys.
-  assert.match(KIT_CSS, /\.ms-kit \[data-ms-surface="glass"\],\n\.ms-kit \[data-ms-surface="glass"\] \.ms-kit \{ --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; \}/, 'on glass, and in a component root on glass');
+  assert.ok(KIT_CSS.includes('.ms-kit :where([data-ms-surface="glass"], [data-ms-surface="glass"] .ms-kit) { --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; }'), 'on glass, and in a component root on glass');
   assert.match(PACK_CSS, /--text-secondary: #DCE3EC; --text-tertiary: #D3DBE5;/);
   assert.equal(seatNumber({ seat: 'seat-7' }), 7);
 });
@@ -94,7 +109,7 @@ test('its comparison with the pack is development only: the pages, the cases, th
   }
   for (const page of ['pack', 'kit']) assert.match(read(`design/phone-ui/components/kit/preview/${page}.html`), /^<!doctype html>\n<!-- mothership:dev-only/, page);
   // Each half loads only its own styles: the pack's page the pack's, the kit's page the kit's and the shell's.
-  assert.deepEqual([...read('design/phone-ui/components/kit/preview/pack.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../../../prototype/kit.css']);
+  assert.deepEqual([...read('design/phone-ui/components/kit/preview/pack.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../../../prototype/kit.css', '../../../prototype/screens.css']);
   assert.deepEqual([...read('design/phone-ui/components/kit/preview/kit.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../kit.css', '../../phone-shell/phone-shell.css']);
   assert.ok(ACCEPTED.every(a => a.why.length > 40 && a.keys.length > 0), 'every accepted difference says why');
 });
