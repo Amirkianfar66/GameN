@@ -7,7 +7,8 @@
 // not a second design of it.
 //
 // Not compared: the film's picture (Motion & Cinematics', accepted in #266; the pack draws it with its own
-// review frame). Skip's place and words are compared.
+// review frame, an iframe the production policy refuses, so the agreement leaves it out). Skip's place and
+// words are compared.
 
 import { PREGAME_SCREENS } from '../../../prototype/screens-pregame.mjs';
 import { mountBoardingStage } from '../boarding-stage.mjs';
@@ -66,6 +67,9 @@ export async function runBoardingStageAgreement({ sizes }) {
     pack.style.setProperty('--safe-t', `${size.insets.top}px`);
     pack.style.setProperty('--safe-b', `${size.insets.bottom}px`);
     PREGAME_SCREENS.boarding(pack, c.pack);
+    // The pack draws its film through the films' review stage in an iframe, which the production policy refuses
+    // (frame-src) and which is not compared: it leaves before the pack's phone enters the page. Skip stays.
+    for (const frame of pack.querySelectorAll('iframe')) frame.remove();
     const host = document.createElement('div');
     Object.assign(host.style, { position: 'absolute', left: `${size.width + 20}px`, top: '0', width: `${size.width}px`, height: `${size.height}px` });
     document.body.append(pack, host);
