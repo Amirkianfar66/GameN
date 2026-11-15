@@ -5,7 +5,8 @@
 // headers (lib/component-check.mjs: the Content Security Policy of scripts/hosted-preview-policy.mjs and the six
 // other headers), and:
 //   captures every preview state at the two development phone sizes, 390 × 844 and 430 × 932, in full motion and
-//   with the device's Reduce motion emulated, the film in the phone shell's stage with the tabs hidden (sheet 41);
+//   with the device's Reduce motion emulated, the film in the phone shell's stage, edge to edge under a phase bar with
+//   no tabs (sheet 41), the caption 24 px above the bottom safe area;
 //   runs the lifecycle probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion;
 //   compares the film's still with the approved poster (apps/game/candidates/planet-library/transit.poster.webp,
 //   whose SHA-256 must be the one Integration approved): at the poster's own 1920 × 1080, in the ship's box and the
@@ -86,12 +87,16 @@ const report = async (page, violations) => {
   return page.problems().filter(p => !/\/favicon\.ico$/.test(p));
 };
 const SEEN = `(() => {
-  const root = document.querySelector('.ms-ship-travel'), film = window.__shipTravel.mounted[0].film;
-  const pill = root.querySelector('.ms-k-pill');
+  const root = document.querySelector('.ms-ship-travel'), { film, shell } = window.__shipTravel.mounted[0];
+  const pill = root.querySelector('.ms-k-pill'), phone = document.querySelector('.pv-phone').getBoundingClientRect();
+  const layout = shell.layout();
   return { violations: window.__policy, frame: film.frame(), label: root.getAttribute('aria-label'), motion: root.dataset.motion ?? null,
     pill: pill?.textContent ?? null, pillShown: !!pill && getComputedStyle(root.querySelector('.ms-st-caption')).display !== 'none',
     layersShown: [...root.querySelectorAll('.ms-st-layer')].filter(n => getComputedStyle(n).display !== 'none').length,
-    banner: document.querySelector('.ms-ps-banner b')?.textContent ?? null, shell: document.querySelector('.ms-ps-tb .ms-ps-name')?.textContent ?? null };
+    banner: document.querySelector('.ms-ps-banner b')?.textContent ?? null, shell: document.querySelector('.ms-ps-tb .ms-ps-name')?.textContent ?? null,
+    edge: layout.bars.top === 0 && layout.bars.bottom === 0 && layout.stage.height === layout.size.height, safe: layout.safe,
+    filmBox: [root.getBoundingClientRect().top - phone.top, phone.bottom - root.getBoundingClientRect().bottom],
+    pillGap: pill && getComputedStyle(root.querySelector('.ms-st-caption')).display !== 'none' ? Math.round((phone.bottom - pill.getBoundingClientRect().bottom) * 100) / 100 : null };
 })()`;
 
 try {
@@ -112,7 +117,9 @@ try {
         const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 82, clip: { x: 0, y: 0, width, height, scale: 1 } });
         const bytes = Buffer.from(data, 'base64');
         await writeFile(file, bytes);
-        const drawn = (motion === 'reduced' ? EXPECT_REDUCED : EXPECT)[state](seen);
+        // Edge to edge, the film covers the whole phone; the caption sits 24 px above the bottom safe area (sheet 41).
+        const placed = seen.edge && seen.filmBox.every(v => Math.abs(v) < 0.5) && (seen.pillGap === null || Math.abs(seen.pillGap - (seen.safe.bottom + 24)) < 0.5);
+        const drawn = (motion === 'reduced' ? EXPECT_REDUCED : EXPECT)[state](seen) && placed;
         const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
         if (!ok) failed += 1;
         captures[`${sizeKey}/${state}/${motion}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn, ...seen, problems };

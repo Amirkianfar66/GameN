@@ -1,6 +1,6 @@
 # Ship travel: Designer's runtime component
 
-**Version:** `ship-travel-0.1.0`. **Status (15 November 2026):** built to the interface agreed on #269, with the Lead Designer's four review changes, and ready for the Lead's review before Frontend's. It is not in the game yet. Integration first admits its module graph to the hosted build, including `ship-art.mjs`, a new runtime derivative of approved drawing (see Art). It is not a release.
+**Version:** `ship-travel-0.1.0`. **Status (15 November 2026):** built to the interface agreed on #269, with the Lead Designer's four review changes, mounted in the phone shell's stage edge to edge (the shell's `edge: true`, `28f7d219`), and ready for the Lead's review before Frontend's. It is not in the game yet. Integration first admits its module graph to the hosted build, including `ship-art.mjs`, a new runtime derivative of approved drawing (see Art). It is not a release.
 
 **What it is:** the public film of sheet 41 (#222 item 18). For the whole navigation window, every phone sees the ship travel through space, the same picture at the same moment. Then it sees "The ship moved". Today the game shows only a line of text in Panels.
 
@@ -22,7 +22,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `ship-travel/ship-travel.css` | Starts with `@import url("../kit/kit.css");`; every rule of its own is under `.ms-ship-travel` |
 | `ship-travel/ship-art.mjs` | The approved transit's drawing, ported unchanged: the ship, the stars, the streaks, the vignette, grain and letterbox, and the insert's composition |
 | `kit/kit.mjs`, `kit/kit.css`, `icons.mjs` | Used unchanged: the kit's paper pill with the `course` icon, for the caption |
-| `ship-travel/preview/` | Development only. `index.html` and `preview.mjs`: the film in the phone shell's stage, tabs hidden, on a synthetic window and clock. `probe.mjs`: the lifecycle probe. `compare.mjs`: the comparison with the approved poster |
+| `ship-travel/preview/` | Development only. `index.html` and `preview.mjs`: the film in the phone shell's stage (a phase bar, no tabs, edge to edge), on a synthetic window and clock. `probe.mjs`: the lifecycle probe. `compare.mjs`: the comparison with the approved poster |
 | `ship-travel/review/` | The check's captures, comparisons, beats strip and `check.json` |
 
 It loads no picture or video: the film is drawn from code, so it has no art-loading failure state. It imports nothing from `prototype/`, `preview/` or fixtures. Its one package import is the game's `@mothership/contracts`, through the kit's `crew-runtime.mjs`. It depends on neither the room scene nor the shell.
@@ -33,11 +33,13 @@ It loads no picture or video: the film is drawn from code, so it has no art-load
 import { mountShipTravel } from '…/design/phone-ui/components/ship-travel/ship-travel.mjs';
 import '…/design/phone-ui/components/ship-travel/ship-travel.css';
 
+// The shell: a phase bar, no tabs, and the stage edge to edge, under the bar's glass (sheet 41).
+const shell = mountPhoneShell(host, { bar, tabs: null, edge: true, … }, { onLayout: layout => film.update({ size: layout.stage, safe: layout.safe }) });
 const film = mountShipTravel(shell.stage, {
   window: { id: phase.id, startedAt: phase.startedAt, endsAt: phase.endsAt }, // the published NAV_SETTING phase
   clock,                                     // { now() }: the match's trusted server time
-  size: shell.layout().stage,
-  insets: { top: shell.layout().bars.top, bottom: shell.layout().bars.bottom },
+  size: shell.layout().stage,                // edge to edge: the whole phone
+  safe: shell.layout().safe,                 // the caption keeps 24 px above the bottom safe area
 });
 film.update({ ...changes });  // each key given replaces that key; the rest stay
 film.suspend();               // backgrounded: stands still, asks for no frames
@@ -46,8 +48,8 @@ film.frame();                 // a plain snapshot (below); null after dispose()
 film.dispose();               // removes the element and stops its frames; safe to call twice
 ```
 
-- **The host:** the phone shell's stage, with the shell's tabs hidden (`tabs: null`), as sheet 41 draws the public screen under the top bar alone. The component appends one child, `.ms-ship-travel.ms-kit`, of exactly `size`.
-- **On the shell's `onLayout(layout)`:** pass `{ size: layout.stage, insets: { top: layout.bars.top, bottom: layout.bars.bottom } }`.
+- **The host:** the phone shell's stage with a phase bar, no tabs (`tabs: null`) and `edge: true`. The stage then fills the whole phone and the bar's glass lies over the film, as the pack's `nav` screen lays the bar over the poster (`inset: 0`, `background-size: cover`). The component appends one child, `.ms-ship-travel.ms-kit`, of exactly `size`.
+- **On the shell's `onLayout(layout)`:** pass `{ size: layout.stage, safe: layout.safe }`. Edge to edge, `layout().bars` is `{ top: 0, bottom: 0 }`, so `insets` stays at its default.
 - **It takes no taps** and has no controls. It reports nothing, so it has no callbacks and needs no control policy. To assistive technology it is one image with a text alternative.
 - **`frame()`** returns:
 
@@ -72,7 +74,8 @@ film.dispose();               // removes the element and stops its frames; safe 
 | `clock` | Public | `null` | `{ now() }`: the match's trusted server time, as the room scene takes it. `null` means no trusted clock |
 | `state` | Public | `'setting'` | `'setting'` while the window runs. `'moved'` once the public projection says the ship moved this round (`navigation.lastMovedRound`). The film never infers `'moved'` from its own time |
 | `size` | Phone | 390 × 711 | `{ width, height }`: the host's size in CSS px |
-| `insets` | Phone | `{ top: 0, bottom: 0 }` | How far the phone's screen reaches above and below the host (the shell's `layout().bars`). The poster is framed for the whole screen, as the pack draws it, so the ship sits where sheet 41 shows it. The caption sits 24 px above the bottom safe area |
+| `insets` | Phone | `{ top: 0, bottom: 0 }` | How far the phone's screen reaches above and below the host: 0 when the host is the whole phone (the shell's `edge: true`). For a host between bars, the shell's `layout().bars`. Either way the poster is framed for the whole screen, as the pack draws it, so the ship sits where sheet 41 shows it |
+| `safe` | Phone | `null` | `{ top, bottom }`: the phone's safe areas, the shell's `layout().safe`. The caption sits 24 px above the bottom one, as sheet 41 draws it. `null`: the device's `env(safe-area-inset-bottom)` |
 | `caption` | Phone | `true` | Show sheet 41's caption: the kit's `pill({ text, icon: 'course', tone: 'paper' })` |
 | `status` | Phone | `'live'` | `'live'`, `'stale'` (reconnecting) or `'concealed'` |
 | `reducedMotion` | Phone | `false` | The game's Reduce motion, shown as `data-motion="reduced"` on the root, as every Designer component does. The device's `prefers-reduced-motion` is honoured as well |
@@ -151,9 +154,9 @@ Each function is its source's text, character for character; only `export` is ad
   - **The words:** sheet 41's, and no planet or route hue in anything drawn.
   - **The check's record**, last.
 - **`node design/tools/ship-travel-check.mjs`**, under the production headers (Content Security Policy and six others). The record is `ship-travel/review/check.json`, against the commit it names.
-  - **Captures:** 32 of 32, eight states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: setting (4 s), enter (0.6 s), settle (14.4 s), moved, the game's Reduce motion, stale (9 s), concealed and no clock.
-  - **Probe:** 27 of 27 checks.
-    - **Full:** time and seeking, a late phone, two phones on one clock, frame-by-frame following, the end held, a new window, a short window, the still, the game's Reduce motion and its fade, suspend and resume, stale and live, concealed and shown, one loop, dispose twice, and the privacy of inputs and words.
+  - **Captures:** 32 of 32, eight states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: setting (4 s), enter (0.6 s), settle (14.4 s), moved, the game's Reduce motion, stale (9 s), concealed and no clock. Each in the shell's stage edge to edge: the film covers the whole phone, and the caption sits 24 px above the bottom safe area (58 px from the foot at a 34 px safe area).
+  - **Probe:** 28 of 28 checks.
+    - **Full:** time and seeking, a late phone, two phones on one clock, frame-by-frame following, the end held, a new window, a short window, the still, the game's Reduce motion and its fade, suspend and resume, stale and live, concealed and shown, one loop, dispose twice, the caption's place (edge to edge, or above the safe area), and the privacy of inputs and words.
     - **Device Reduce motion:** its four checks.
   - **The still against the approved poster** (lossy WebP), in 0–255 levels per channel. The limit is 3, and each control must be beyond it and at least twice the still's difference.
 
@@ -161,9 +164,9 @@ Each function is its source's text, character for character; only `export` is ad
     | --- | --- | --- |
     | At 1920 × 1080: the ship's box | 1.48 | 4.14; 7.41 |
     | At 1920 × 1080: the whole frame | 0.76 | — |
-    | At 390 × 844, beside the poster as the pack's nav screen draws it: the film's area | 1.17 | — |
+    | At 390 × 844, beside the poster as the pack's nav screen draws it: the film below the bar | 1.11 | — |
     | At 390 × 844: the ship's box | 1.52 | 4.73 (3 px only) |
-    | At 430 × 932: the film's area | 1.21 | — |
+    | At 430 × 932: the film below the bar | 1.16 | — |
     | At 430 × 932: the ship's box | 1.65 | 4.64 (3 px only) |
 
   - **The beats strip:** ten moments of the window side by side, for review.
@@ -171,7 +174,7 @@ Each function is its source's text, character for character; only `export` is ad
 
 ## For Frontend
 
-- Mount it in the shell's stage for the public `NAV_SETTING` window, on every phone except the offices', and on the shared display. Pass the phase as `window`, the trusted clock, and the stage's size and the bars as `insets`.
+- Mount it in the shell's stage for the public `NAV_SETTING` window, on every phone except the offices', and on the shared display. The shell takes a phase bar, `tabs: null` and `edge: true`. Pass the phase as `window`, the trusted clock, the stage's size and the shell's `layout().safe`.
 - When the projection shows the move (`navigation.lastMovedRound` reaches the round), pass `state: 'moved'` and keep the film until the next screen. The shell's top bar shows "The ship moved · Round n complete" with no clock.
 - `suspend()` when the app goes to the background and `resume()` when it returns. Pass `status: 'stale'` while reconnecting and `'concealed'` when the app conceals the match. Use `dispose()` on leaving the screen.
 - Missing an input, or the film doesn't fit: tell the Designer team on #4. The source is changed here, not in the app.

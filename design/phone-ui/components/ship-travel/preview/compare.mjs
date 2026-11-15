@@ -79,14 +79,14 @@ export async function compareFull({ poster, shot }) {
 
 /**
  * The pair at a phone size (a capture of both phones side by side): the pack's poster on the left, the shell and the
- * film on the right, compared in the film's area, from below the top bar to above the bottom safe area.
+ * film on the right, compared in the film's area below the top bar (`top`, in CSS px), to the phone's foot.
  */
-export async function comparePhone({ shot, size, layout, scale = 1 }) {
+export async function comparePhone({ shot, size, top, scale = 1 }) {
   const S = await image(shot);
   const W = size.width, H = size.height, side = { sy: 0, sw: W * scale, sh: H * scale };
   const left = pixels(S, W, H, { ...side, sx: 0 });
   const right = pixels(S, W, H, { ...side, sx: W * scale });
-  const area = { x: 0, y: Math.ceil(layout.bars.top), w: W, h: Math.floor(H - layout.bars.top - layout.bars.bottom) };
+  const area = { x: 0, y: Math.ceil(top), w: W, h: H - Math.ceil(top) };
   // The ship's box where the cover puts it on this phone, inside the film's area.
   const k = Math.max(W / 1920, H / 1080), ox = (W - 1920 * k) / 2, oy = (H - 1080 * k) / 2;
   const x0 = Math.max(0, Math.floor(ox + SHIP_BOX.x * k)), x1 = Math.min(W, Math.ceil(ox + (SHIP_BOX.x + SHIP_BOX.w) * k));

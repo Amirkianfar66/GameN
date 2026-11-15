@@ -1,8 +1,10 @@
 // mothership:dev-only
 //
 // The ship travel's preview: the runtime component itself (../ship-travel.mjs, unchanged) in the phone shell's
-// stage (../../phone-shell/phone-shell.mjs, unchanged, with its tabs hidden as sheet 41 draws the public screen), on
-// a labelled synthetic clock and window, at the two development phone sizes. The top bar's words are sheet 41's.
+// stage (../../phone-shell/phone-shell.mjs, unchanged), as sheet 41 draws the public screen: a phase bar, no tabs,
+// and the stage edge to edge (`edge: true`), so the film covers the whole phone under the bar's glass, as the pack
+// draws the poster. On a labelled synthetic clock and window, at the two development phone sizes; the top bar's
+// words are sheet 41's.
 //   index.html                                        every state at 390 × 844 and 430 × 932, and a live phone
 //   index.html?single=1&size=390x844&state=setting    one phone at the state's moment, for the check's captures
 //   index.html?probe=1                                the lifecycle probe (probe.mjs), for the check
@@ -49,7 +51,7 @@ export const PREVIEW_STATES = Object.freeze({
 /** The moments of the beats strip, in ms into the window. */
 export const STRIP = Object.freeze([0, 150, 400, 700, 1200, 7500, 13800, 14300, 14800, 15000]);
 
-/** A phone at a development size: the shell, tabs hidden, and the film in its stage, framed for the whole phone. */
+/** A phone at a development size: the shell (a bar, no tabs, edge to edge) and the film in its stage. */
 function phone(sizeKey, stateKey, { clock = null, hold = true } = {}) {
   const size = PREVIEW_SIZES[sizeKey], state = PREVIEW_STATES[stateKey];
   const frame = document.createElement('div');
@@ -57,8 +59,9 @@ function phone(sizeKey, stateKey, { clock = null, hold = true } = {}) {
   Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
   return { frame, mount: () => {
     let film = null;
-    const fit = layout => ({ size: layout.stage, insets: { top: layout.bars.top, bottom: layout.bars.bottom } });
-    const shell = mountPhoneShell(frame, { viewer: null, tabs: null, insets: size.insets, ...state.shell }, { onLayout: layout => film?.update(fit(layout)) });
+    // Edge to edge, the stage is the whole phone and the bars are { 0, 0 }; the caption keeps above the safe area.
+    const fit = layout => ({ size: layout.stage, insets: { top: layout.bars.top, bottom: layout.bars.bottom }, safe: layout.safe });
+    const shell = mountPhoneShell(frame, { viewer: null, tabs: null, edge: true, insets: size.insets, ...state.shell }, { onLayout: layout => film?.update(fit(layout)) });
     film = mountShipTravel(shell.stage, { window: WINDOW, clock: clock ?? fixed(state.at), ...fit(shell.layout()), ...state.film });
     // A fixed moment is a still picture: the film holds it.
     if (hold && !clock) film.suspend();
@@ -123,7 +126,9 @@ if (params.get('probe')) {
   const m = p.mount();
   m.film.update({ caption: false });
   mounted.push(m);
-  compare = import('./compare.mjs').then(cmp => ({ phone: options => cmp.comparePhone({ size, layout: m.shell.layout(), ...options }) }));
+  // Compared below the bar, whose glass lies over the film as over the pack's poster.
+  const top = m.shell.element.querySelector('.ms-ps-tb').getBoundingClientRect().bottom - p.frame.getBoundingClientRect().top;
+  compare = import('./compare.mjs').then(cmp => ({ phone: options => cmp.comparePhone({ size, top, ...options }) }));
 } else if (params.get('strip')) {
   // The beats, side by side: the space opens and the ship comes in, it cruises, it settles into the still.
   document.body.classList.add('pv-single');

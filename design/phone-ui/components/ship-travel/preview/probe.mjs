@@ -9,6 +9,7 @@
 //   still     "moved", Reduce motion, no clock and no window show the still, the approved poster's pose
 //   reduced   the game's setting (data-motion="reduced") and the device's: the still, one 80 ms fade, no frames
 //   lifecycle suspend and resume, stale and live, concealed and shown, dispose twice; one frame loop at most
+//   caption   24 px above the phone's bottom safe area, edge to edge or above it
 //   privacy   any input the film does not know is refused, and nothing it draws names a course
 // With the device's Reduce motion (the check emulates it), it checks that setting too.
 // design/tools/ship-travel-check.mjs runs it under the production headers and records each result.
@@ -233,6 +234,22 @@ export async function runShipTravelProbe() {
     await frames(3);
     check('lifecycle: dispose() twice is safe; after it nothing runs and frame() is null', threw === null && film.frame() === null && !film.element.isConnected
       && requested === afterDispose && host.childElementCount === 0, { threw, requested: requested - afterDispose });
+  });
+
+  await guarded('caption', async () => {
+    // Sheet 41's caption sits 24 px above the phone's bottom safe area: edge to edge (the shell's `edge: true`, the
+    // host the whole phone), or with the host stopping above the safe area (insets).
+    now = EPOCH + 4000;
+    const gap = film => host.getBoundingClientRect().bottom - film.element.querySelector('.ms-k-pill').getBoundingClientRect().bottom;
+    host.style.height = '844px';
+    const edge = mount({ size: { width: 390, height: 844 }, insets: { top: 0, bottom: 0 }, safe: { top: 47, bottom: 34 } });
+    const a = gap(edge);
+    edge.dispose();
+    host.style.height = '711px';
+    const between = mount({ size: { width: 390, height: 711 }, insets: { top: 99, bottom: 34 }, safe: { top: 47, bottom: 34 } });
+    const b = gap(between);
+    between.dispose();
+    check('caption: 24 px above the phone\'s bottom safe area, edge to edge or above it', Math.abs(a - 58) < 0.5 && Math.abs(b - 24) < 0.5, { edgeToEdge: a, aboveSafeArea: b });
   });
 
   await guarded('privacy', async () => {

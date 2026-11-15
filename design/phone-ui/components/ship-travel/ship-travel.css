@@ -20,11 +20,12 @@
    box, and the film's root clips it. */
 .ms-ship-travel .ms-st-ship { overflow: visible; }
 .ms-ship-travel .ms-st-open { position: absolute; inset: 0; background: #05060C; opacity: 0; }
-/* Sheet 41's caption: 24 px above the phone's bottom safe area, as the pack's nav screen places it. --ms-st-below is
-   how much of the screen lies below the film (the shell's bottom bar), set from the insets. */
+/* Sheet 41's caption: 24 px above the phone's bottom safe area, as the pack's nav screen places it. --ms-st-safe-b is
+   that safe area as the shell gives it (the device's without one); --ms-st-below is how much of the screen lies below
+   the film, from the insets (0 when the film runs edge to edge). */
 .ms-ship-travel .ms-st-caption {
   position: absolute; left: 16px; right: 16px;
-  bottom: calc(max(0px, env(safe-area-inset-bottom, 0px) - var(--ms-st-below, 0px)) + 24px);
+  bottom: calc(max(0px, var(--ms-st-safe-b, env(safe-area-inset-bottom, 0px)) - var(--ms-st-below, 0px)) + 24px);
   display: flex; justify-content: center;
 }
 .ms-ship-travel :is(.ms-st-layer, .ms-st-open, .ms-st-caption)[hidden] { display: none !important; }

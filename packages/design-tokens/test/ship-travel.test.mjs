@@ -208,7 +208,8 @@ test('framing: the poster covers the whole phone, as the pack draws it, and the 
 });
 
 test('inputs: public only, checked, and anything unknown refused, a course\'s above all', () => {
-  assert.deepEqual(Object.keys(SHIP_TRAVEL_DEFAULTS), ['window', 'clock', 'state', 'size', 'insets', 'caption', 'status', 'reducedMotion']);
+  assert.deepEqual(Object.keys(SHIP_TRAVEL_DEFAULTS), ['window', 'clock', 'state', 'size', 'insets', 'safe', 'caption', 'status', 'reducedMotion']);
+  assert.deepEqual(nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, { safe: { top: 47, bottom: 34 } }).safe, { top: 47, bottom: 34 }, 'the shell\'s layout().safe');
   const ok = nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, { window: { id: 'p1', startedAt: 1000, endsAt: 16000 }, clock: { now: () => 0 }, state: 'moved' });
   assert.equal(ok.state, 'moved');
   assert.ok(Object.isFrozen(ok));
@@ -218,7 +219,8 @@ test('inputs: public only, checked, and anything unknown refused, a course\'s ab
   const refused = [
     { window: { id: 'p1', startedAt: 1, endsAt: 2, direction: 'Blue' } }, { window: { id: 'p1', startedAt: 5, endsAt: 1 } }, { window: { startedAt: 1, endsAt: 2 } },
     { window: 'p1' }, { clock: Date.now }, { state: 'arrived' }, { status: 'hidden' }, { size: { width: 0, height: 10 } }, { size: { width: 1, height: 1, depth: 1 } },
-    { insets: { top: -1, bottom: 0 } }, { insets: { top: 0, bottom: 0, left: 0 } }, { caption: 'yes' }, { reducedMotion: 1 },
+    { insets: { top: -1, bottom: 0 } }, { insets: { top: 0, bottom: 0, left: 0 } }, { safe: { top: 0 } }, { safe: { top: 0, bottom: -2 } }, { safe: { top: 0, bottom: 0, left: 0 } },
+    { caption: 'yes' }, { reducedMotion: 1 },
   ];
   for (const changes of refused) assert.throws(() => nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, changes), TypeError, JSON.stringify(changes));
   assert.throws(() => nextShipTravelInput(SHIP_TRAVEL_DEFAULTS, null), TypeError);
@@ -255,6 +257,9 @@ test('the check\'s record: every capture, probe check and comparison passed unde
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
   for (const size of ['390x844', '430x932']) {
+    const setting = record.captures[`${size}/setting/full`];
+    assert.ok(setting.edge && setting.filmBox.every(v => v === 0), `${size}: the film covers the whole phone, the shell's stage edge to edge`);
+    assert.equal(setting.pillGap, setting.safe.bottom + 24, `${size}: the caption 24 px above the bottom safe area`);
     assert.equal(record.captures[`${size}/moved/full`].pill, CAPTIONS.moved, `${size}: moved, sheet 41's caption`);
     assert.ok(record.captures[`${size}/setting/reduced`].frame.still, `${size}: Reduce motion, the still`);
     assert.equal(record.captures[`${size}/concealed/full`].layersShown, 0, `${size}: concealed, nothing drawn`);
@@ -265,7 +270,7 @@ test('the check\'s record: every capture, probe check and comparison passed unde
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = new Set(record.probe.full.checks.map(c => c.id.split(':')[0]));
-  for (const group of ['time', 'still', 'reduced', 'lifecycle', 'privacy']) assert.ok(groups.has(group), `probe group ${group}`);
+  for (const group of ['time', 'still', 'reduced', 'lifecycle', 'caption', 'privacy']) assert.ok(groups.has(group), `probe group ${group}`);
   // The still against the approved poster, and the controls a redrawn ship would fail.
   const full = record.compare.full;
   assert.ok(full.ok && full.ship.mean <= full.limits.ship && full.frame.mean <= full.limits.frame, 'the still is the poster');
