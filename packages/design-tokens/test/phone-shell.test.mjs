@@ -49,7 +49,8 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     if (path.startsWith('design/')) assert.doesNotMatch(read(path), /mothership:dev-only/, `${path}: no development marker`);
   }
   assert.deepEqual(packages, ['@mothership/contracts'], 'one package import, the game\'s own contracts (through crew-runtime.mjs)');
-  for (const path of [`${COMPONENT}/phone-shell.mjs`, `${COMPONENT}/phone-shell.css`, 'design/phone-ui/components/icons.mjs', 'apps/game/hosted/crew-runtime.mjs']) {
+  for (const path of [`${COMPONENT}/phone-shell.mjs`, `${COMPONENT}/phone-shell.css`, 'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css',
+    'design/phone-ui/components/icons.mjs', 'apps/game/hosted/crew-runtime.mjs']) {
     assert.ok(local.includes(path), `${path} is in the graph`);
   }
   assert.ok(!local.some(p => p.includes('/room-scene/')), 'the shell does not depend on the room scene: Frontend mounts that in the stage');
@@ -91,6 +92,8 @@ test('its styles reach nothing outside the shell: every rule is scoped under .ms
       assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
       assert.doesNotMatch(selector, /\.ms-ps-(?:stage|sheet-body)[\s>+~]/, `"${selector}": nothing inside the stage or a sheet's body`);
       assert.doesNotMatch(selector, /^\.ms-phone-shell(?:\[[^\]]*\])?\s+(?::is\()?(?:button|div|span|b|p|h2|svg|nav|header|section)\b/, `"${selector}": no bare element straight under the shell`);
+      // The kit's controls are styled only inside the shell's own parts, never another component's.
+      if (/\.ms-k-/.test(selector)) assert.match(selector, /\.ms-ps-[\w-]+[^,]*\.ms-k-/, `"${selector}": a kit control styled only inside the shell's own parts`);
     }
   }
   // Custom properties are the shell's own, besides --ic-knock, which the shared icons read.

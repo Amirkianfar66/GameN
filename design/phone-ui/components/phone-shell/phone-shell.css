@@ -6,22 +6,24 @@
  * frozen Food release pins it. Sizes are in rem where the pack's are, so the bars follow the game's text
  * size (Standard, Large 150%, Largest 200%), with the pack's container queries for a narrow bar.
  */
+@import url("../kit/kit.css");
+
 
 .ms-phone-shell {
-  --ms-ps-canvas: #10141C;
-  --ms-ps-paper: #F4EBDD;
-  --ms-ps-paper-deep: #CBBBA2;
-  --ms-ps-ink: #151923;
-  --ms-ps-text: #F4EBDD;
-  --ms-ps-text-2: #B9C4D3;
-  --ms-ps-accent: #F1B84B;
-  --ms-ps-on-accent: #151923;
+  --ms-ps-canvas: var(--ms-k-canvas);
+  --ms-ps-paper: var(--ms-k-paper);
+  --ms-ps-paper-deep: var(--ms-k-paper-deep);
+  --ms-ps-ink: var(--ms-k-ink);
+  --ms-ps-text: var(--ms-k-text);
+  --ms-ps-text-2: var(--ms-k-text-2);
+  --ms-ps-accent: var(--ms-k-accent);
+  --ms-ps-on-accent: var(--ms-k-on-accent);
   --ms-ps-focus: #FFD36D;
-  --ms-ps-surface-2: #202837;
-  --ms-ps-surface-3: #2A3346;
-  --ms-ps-surface-4: #343F55;
+  --ms-ps-surface-2: var(--ms-k-surface-2);
+  --ms-ps-surface-3: var(--ms-k-surface-3);
+  --ms-ps-surface-4: var(--ms-k-surface-4);
   --ms-ps-steel-pale: #B9C4D3;
-  --ms-ps-hairline: rgba(185, 196, 211, 0.16);
+  --ms-ps-hairline: var(--ms-k-hairline);
   --ms-ps-material: rgba(16, 20, 28, 0.78);
   --ms-ps-material-strong: rgba(16, 20, 28, 0.9);
   --ms-ps-glass-tint: linear-gradient(180deg, rgba(30, 37, 52, 0.2) 0%, rgba(14, 18, 26, 0.34) 100%);
@@ -32,11 +34,11 @@
   /* A soft dark halo under light words on glass (the owner kept the glass at 56%, 10 November). */
   --ms-ps-glass-halo: 0 0 1px rgba(8, 11, 18, 0.85), 0 0 3px rgba(8, 11, 18, 0.7), 0 0 8px rgba(8, 11, 18, 0.45);
   --ms-ps-shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.45);
-  --ms-ps-radius-control: 14px;
+  --ms-ps-radius-control: var(--ms-k-radius-control);
   --ms-ps-radius-sheet: 22px;
-  --ms-ps-target: 44px;
-  --ms-ps-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
-  --ms-ps-letter: "Arial Narrow", "Helvetica Neue", "Inter Display", Arial, sans-serif;
+  --ms-ps-target: var(--ms-k-target);
+  --ms-ps-font: var(--ms-k-font);
+  --ms-ps-letter: var(--ms-k-letter);
   --ms-ps-t-sheet: 220ms;
   --ms-ps-t-reduced: 80ms;
   --ms-ps-ease: cubic-bezier(0.16, 0.84, 0.3, 1);
@@ -66,11 +68,10 @@
 .ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"]),
 .ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"])::before,
 .ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"])::after { box-sizing: border-box; }
-.ms-phone-shell :is(.ms-ps-promises, .ms-ps-menu, .ms-ps-tab, .ms-ps-hero, .ms-ps-btn, .ms-ps-icon-btn) { font: inherit; color: inherit; cursor: pointer; margin: 0; }
-.ms-phone-shell :is(.ms-ps-promises, .ms-ps-menu, .ms-ps-tab, .ms-ps-hero, .ms-ps-btn, .ms-ps-icon-btn):focus-visible { outline: 3px solid var(--ms-ps-focus); outline-offset: 2px; }
+.ms-phone-shell :is(.ms-ps-promises, .ms-ps-menu, .ms-ps-tab, .ms-ps-hero) { font: inherit; color: inherit; cursor: pointer; margin: 0; }
+.ms-phone-shell :is(.ms-ps-promises, .ms-ps-menu, .ms-ps-tab, .ms-ps-hero):focus-visible { outline: 3px solid var(--ms-ps-focus); outline-offset: 2px; }
 .ms-phone-shell:focus { outline: none; }
 .ms-phone-shell .ms-ps-ic { display: block; flex: none; }
-.ms-phone-shell .ms-ps-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .ms-phone-shell :is(.ms-ps-tb, .ms-ps-tabs, .ms-ps-talk, .ms-ps-over, .ms-ps-sheet-head, .ms-ps-sheet-foot, .ms-ps-toast, .ms-ps-hud) [hidden],
 .ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"])[hidden] { display: none !important; }
 
@@ -192,21 +193,6 @@
 .ms-phone-shell .ms-ps-hud .ms-ps-ic { width: 48px; height: 48px; }
 .ms-phone-shell .ms-ps-hud b { font: 600 1.5rem/1.15 var(--ms-ps-font); text-align: center; overflow-wrap: anywhere; }
 
-/* ── Buttons (kit.css .btn) ───────────────────────────────────────── */
-.ms-phone-shell .ms-ps-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 18px; border-radius: var(--ms-ps-radius-control); border: 0; font: 600 1.0625rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; text-align: center; }
-.ms-phone-shell .ms-ps-btn .ms-ps-ic { width: 22px; height: 22px; }
-.ms-phone-shell .ms-ps-btn-primary { background: var(--ms-ps-accent); color: var(--ms-ps-on-accent); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18); --ic-knock: var(--ms-ps-accent); text-shadow: none; }
-.ms-phone-shell .ms-ps-btn-secondary { background: var(--ms-ps-surface-3); color: var(--ms-ps-text); --ic-knock: var(--ms-ps-surface-3); }
-.ms-phone-shell .ms-ps-btn[data-off] { opacity: 0.4; }
-.ms-phone-shell .ms-ps-btn[aria-busy="true"] { color: transparent !important; }
-.ms-phone-shell .ms-ps-btn[aria-busy="true"]::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--ms-ps-on-accent); border-right-color: transparent; animation: ms-ps-spin 0.9s linear infinite; }
-.ms-phone-shell .ms-ps-btn-secondary[aria-busy="true"]::after { border-color: var(--ms-ps-text); border-right-color: transparent; }
-.ms-phone-shell .ms-ps-btn-sm { min-height: 36px; padding: 0 12px; font-size: 0.9375rem; border-radius: 10px; }
-.ms-phone-shell .ms-ps-btn-sm::before { content: ""; position: absolute; inset: -4px 0; }
-.ms-phone-shell .ms-ps-icon-btn { flex: none; position: relative; width: var(--ms-ps-target); height: var(--ms-ps-target); padding: 0; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--ms-ps-text-2); }
-.ms-phone-shell .ms-ps-icon-btn::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--ms-ps-glass-fill-2); }
-.ms-phone-shell .ms-ps-icon-btn .ms-ps-ic { position: relative; width: 18px; height: 18px; }
-
 /* ── Over the stage: the target bar, the banner, the chip ───────────── */
 .ms-phone-shell .ms-ps-over { position: absolute; inset: 0; z-index: 41; pointer-events: none; }
 .ms-phone-shell .ms-ps-over > :is(.ms-ps-target, .ms-ps-banner, .ms-ps-chip) { pointer-events: auto; }
@@ -218,18 +204,18 @@
 .ms-phone-shell .ms-ps-target-icon { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--ms-ps-accent); color: var(--ms-ps-ink); --ic-knock: var(--ms-ps-accent); flex: none; }
 .ms-phone-shell .ms-ps-target-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-target .ms-ps-text b { font-weight: 700; }
-.ms-phone-shell .ms-ps-target .ms-ps-btn { min-height: 40px; }
+.ms-phone-shell .ms-ps-target .ms-k-btn { min-height: 40px; }
 /* Reconnecting: the last room stays, dimmed by the room scene, under this banner (sheet 45). */
 .ms-phone-shell .ms-ps-banner { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-top) + 8px); z-index: 43; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline), var(--ms-ps-shadow-soft); }
 .ms-phone-shell .ms-ps-banner-icon { flex: none; color: var(--ms-ps-accent); --ic-knock: var(--ms-ps-canvas); }
 .ms-phone-shell .ms-ps-banner-icon .ms-ps-ic { width: 22px; height: 22px; }
-.ms-phone-shell .ms-ps-banner .ms-ps-btn { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
+.ms-phone-shell .ms-ps-banner .ms-k-btn { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
 /* A floating chip above the tabs: "Other rooms · n", the board's "List" (kit.css .offroom). */
 .ms-phone-shell .ms-ps-chip { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--ms-ps-bottom) + 32px); white-space: nowrap; max-width: calc(100% - 32px); }
 .ms-phone-shell .ms-ps-chip-btn { min-height: 44px; padding: 0 16px; border-radius: 999px; box-shadow: var(--ms-ps-shadow-soft); max-width: 100%; }
 .ms-phone-shell .ms-ps-chip-btn[data-tone="paper"] { background: var(--ms-ps-paper); color: var(--ms-ps-ink); --ic-knock: var(--ms-ps-paper); }
 .ms-phone-shell .ms-ps-chip-btn[data-tone="steel"] { background: var(--ms-ps-surface-3); color: var(--ms-ps-text); --ic-knock: var(--ms-ps-surface-3); }
-.ms-phone-shell .ms-ps-chip-btn .ms-ps-btn-label { overflow: hidden; text-overflow: ellipsis; }
+.ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: hidden; text-overflow: ellipsis; }
 
 /* ── A toast (kit.css .toast) ─────────────────────────────────────── */
 .ms-phone-shell .ms-ps-toast { position: absolute; left: 50%; top: calc(var(--ms-ps-top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-ps-paper); color: var(--ms-ps-ink); font: 600 0.9375rem/1.2 var(--ms-ps-font); box-shadow: var(--ms-ps-shadow-soft); white-space: nowrap; --ic-knock: var(--ms-ps-paper); animation: ms-ps-toast-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both; transition: opacity 180ms linear; }
@@ -255,31 +241,28 @@
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
-.ms-phone-shell .ms-ps-sheet-head:has(> .ms-ps-icon-btn:first-child) { padding-left: 8px; }
+.ms-phone-shell .ms-ps-sheet-head:has(> .ms-k-icon-btn:first-child) { padding-left: 8px; }
 .ms-phone-shell .ms-ps-sheet-title { flex: 1; min-width: 0; }
 .ms-phone-shell .ms-ps-sheet-title h2 { margin: 0; font: 700 1.25rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; }
 .ms-phone-shell .ms-ps-sheet-title p { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
 .ms-phone-shell .ms-ps-sheet-body { flex: 1; min-height: 0; overflow: auto; padding: 0 16px 16px; overscroll-behavior: contain; }
 .ms-phone-shell .ms-ps-sheet:not(:has(.ms-ps-sheet-foot)) .ms-ps-sheet-body { padding-bottom: 30px; }
 .ms-phone-shell .ms-ps-sheet-foot { flex: none; display: flex; gap: 10px; padding: 10px 16px 28px; border-top: 1px solid var(--ms-ps-glass-line); }
-.ms-phone-shell .ms-ps-sheet-foot .ms-ps-btn { flex: 1; }
-.ms-phone-shell .ms-ps-sheet .ms-ps-btn-secondary { background: rgba(8, 11, 18, 0.3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+.ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1; }
 /* Where glass can't be drawn, or the phone asks for less transparency, the sheet is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); } }
 @media (prefers-reduced-transparency: reduce) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 
 /* ── Reduce motion: the game's setting or the device's. Slides become the 80 ms fade. ── */
 .ms-phone-shell[data-motion="reduced"] :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
-.ms-phone-shell[data-motion="reduced"] :is(.ms-ps-hero, .ms-ps-btn)[aria-busy="true"]::before,
-.ms-phone-shell[data-motion="reduced"] :is(.ms-ps-hero, .ms-ps-btn)[aria-busy="true"]::after { animation: none; }
+.ms-phone-shell[data-motion="reduced"] .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   .ms-phone-shell :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
-  .ms-phone-shell :is(.ms-ps-hero, .ms-ps-btn)[aria-busy="true"]::before,
-  .ms-phone-shell :is(.ms-ps-hero, .ms-ps-btn)[aria-busy="true"]::after { animation: none; }
+  .ms-phone-shell .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 }
 @keyframes ms-ps-fade { from { opacity: 0; } }
 /* Suspended (the app in the background): the shell's own motion stands still. The room scene in the stage
    has its own suspend(), and the shell leaves it alone. */
 .ms-phone-shell[data-suspended] :is(.ms-ps-sheet, .ms-ps-toast),
-.ms-phone-shell[data-suspended] :is(.ms-ps-hero, .ms-ps-btn)::before,
-.ms-phone-shell[data-suspended] :is(.ms-ps-hero, .ms-ps-btn)::after { animation-play-state: paused; }
+.ms-phone-shell[data-suspended] .ms-ps-hero::before,
+.ms-phone-shell[data-suspended] :is(.ms-ps-tb, .ms-ps-tabs, .ms-ps-talk, .ms-ps-over, .ms-ps-sheet-head, .ms-ps-sheet-foot) .ms-k-btn::after { animation-play-state: paused; }

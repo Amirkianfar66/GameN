@@ -31,7 +31,8 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | Path | What |
 | --- | --- |
 | `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
-| `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell` |
+| `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell`. It imports the kit's styles |
+| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.1.0`, [its page](kit.md)): the shell's buttons, icon buttons and control policy are the kit's, as every Designer component's are |
 | `icons.mjs` | The phone interface's icon family (from #261) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
@@ -128,7 +129,7 @@ Each reports a tap, and only that.
 | `onLayout(layout)` | The bars or the stage changed size: text size, insets, a tab bar shown or hidden, the phone's size |
 | `onFocusReturn({ intent, value })` | The focused control ended (a sheet closed, the target bar left): the focus is on the shell, for Frontend to move on |
 
-**The controls, as in the room scene:**
+**The controls, as in the room scene** (the kit's control policy, `createControlPolicy()`, which every Designer component shares):
 - One delegated listener; pointer and keyboard both arrive as the button's `click`.
 - **Refused:** a control that is unavailable (`enabled: false`), busy, or not taking taps now. It keeps its focus and carries `aria-disabled="true"` (or `aria-busy`).
 - **Its reason** is its accessible description (`aria-describedby`).
@@ -185,7 +186,7 @@ Each reports a tap, and only that.
 
 ## Integration's part
 
-- **Admit the graph:** admit `phone-shell/phone-shell.mjs` and `phone-shell/phone-shell.css` with the room scene's graph (`icons.mjs` is already in it).
+- **Admit the graph:** admit `phone-shell/phone-shell.mjs`, `phone-shell/phone-shell.css`, `kit/kit.mjs` and `kit/kit.css` with the room scene's graph (`icons.mjs` is already in it). The kit is admitted once, for every Designer component that uses it.
   - The shell has no pictures of its own.
   - `preview/` and `review/` stay out.
 - **The pinned pack:** `prototype/ui.mjs` and `kit.css` stay pinned for the Food release. When their pins move, they can import the shell.
@@ -208,10 +209,12 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph, every style scoped, the pinned pack unchanged, the pack's words, the clock, the inputs' refusals, the privacy rules and the check's record |
-  | `npm run test:design` | 377 of 377 |
+  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts), the pinned pack unchanged, the pack's words, the clock, the inputs' refusals, the privacy rules and the check's record |
+  | `packages/design-tokens/test/kit.test.mjs` | 3 of 3 ([the kit's page](kit.md)) |
+  | `npm run test:design` | 380 of 380 |
   | `npm run test:tooling` | 337 of 337 |
-  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
+  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
@@ -225,7 +228,7 @@ Listed, not omitted:
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `cbd6ae89`, with the source clean.
-    - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements. The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
+    - Recorded on `aea6dab4`, the shell built from the kit, with the source clean. Against the record on `cbd6ae89`, before the kit, the captures differ only by noise: at most 84 pixels per capture, in the room's ambient motion, and none in the shell's controls.
+    - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements, with the same font, size, weight, line height and colour (checked again on `aea6dab4`). The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
     - The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
