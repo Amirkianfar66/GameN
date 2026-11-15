@@ -208,15 +208,23 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/phone-shell.test.mjs` | See the PR |
-  | `npm run test:design`, `npm run test:tooling` | See the PR |
-  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | See the PR |
+  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph, every style scoped, the pinned pack unchanged, the pack's words, the clock, the inputs' refusals, the privacy rules and the check's record |
+  | `npm run test:design` | 377 of 377 |
+  | `npm run test:tooling` | 337 of 337 |
+  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260.
   - **Captures:** thirteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 27 of 27 pass, each drawing what its state asks.
-  - **The lifecycle probe** (`preview/probe.mjs`): focus, refused taps, reconnecting, privacy, the clock, layout, the toast, the large-content view, dispose and motion, as the page comes and with the device's Reduce motion emulated.
-  - **The agreement with the pinned pack** (`preview/agree.mjs`): seven cases.
+  - **The lifecycle probe** (`preview/probe.mjs`): 14 of 14 checks pass.
+    - **As the page comes (13):** focus, refused taps, reconnecting, privacy, the clock, layout, the toast, the large-content view, dispose and motion.
+    - **With the device's Reduce motion emulated (1):** motion.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 7 of 7 cases.
+    - The cases: a turn, your turn, the 5 s result, a private talk, the Blackout, and your turn and the result at 200 % text on 320 × 568.
+    - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw. The PR names the commit they were recorded on.
+  - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
+    - Recorded on `82a1e189`, with the source clean.
+    - The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.

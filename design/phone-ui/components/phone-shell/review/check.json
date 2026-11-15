@@ -1,0 +1,3772 @@
+{
+  "tool": "design/tools/phone-shell-check.mjs",
+  "component": "design/phone-ui/components/phone-shell",
+  "sourceCommit": "82a1e189b42eb64f57a1b28c7504befd38610576",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/turn": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
+      "sha256": "f56ece8e576b1d7b010e6a5e402e54f7c65c51e5c651354c70271a19a72872d4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Fay",
+      "sub": "Player 6 · Turn",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/turn": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-turn.jpg",
+      "sha256": "41f06bed9cdaaa07e8de9b060ad734e68cc4f03ea374dbed954a969f5cb9f520",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Fay",
+      "sub": "Player 6 · Turn",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/own": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-own.jpg",
+      "sha256": "203178a4dc3cf0fa18b3b4921759d2ee22b284633751a8aeca63cd5745407489",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/own": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
+      "sha256": "7f26120fad743978eb2c5169efada213fb85aa11cfbd209fbd12d8c01265f9f3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/urgent": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
+      "sha256": "ee177b8b6eda1eb4b886e9e20e8afd564c2f5bdd1c2d4bf0a74b912a57367879",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:08",
+      "urgent": true,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/urgent": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-urgent.jpg",
+      "sha256": "daf769b511bce36531a868026e9a68e5f0c0fa4fe60e1265968a2619514897ae",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:08",
+      "urgent": true,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/vote": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
+      "sha256": "3633f4b00f1a5b3ba35a65fe2ba8785146daf186c96a1820f97265e953ec161e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Jail vote",
+      "sub": "Choose who goes to Jail",
+      "round": "R3",
+      "timer": "0:24",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "vote",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/vote": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
+      "sha256": "58c26e363f426073f7a01d5ba85338c580dd1848a6a8e70612477565a838c739",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Jail vote",
+      "sub": "Choose who goes to Jail",
+      "round": "R3",
+      "timer": "0:24",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "vote",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/voted": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-voted.jpg",
+      "sha256": "149baf29ecd1c4e16e325928b8f01625ef74b294792f92c4208cc9bdb4785f4f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Jail vote",
+      "sub": "Your ballot is in",
+      "round": "R3",
+      "timer": "0:19",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "voted",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/voted": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
+      "sha256": "82c60c7bec17d33416315e5ea721d27736d45f63ead17a77ce7835cae4aeca85",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Jail vote",
+      "sub": "Your ballot is in",
+      "round": "R3",
+      "timer": "0:19",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "voted",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/result": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-result.jpg",
+      "sha256": "17812d81bfdf9473430c22d31051f8a35927c276face49e7bfdc2e2caf10f471",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Jail vote · resultVote result",
+      "sub": null,
+      "round": "R3",
+      "timer": "0:03",
+      "urgent": true,
+      "ring": true,
+      "promises": null,
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "vote",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 6,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/result": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-result.jpg",
+      "sha256": "8e1c8001a2dc5f878b92e1bcf8ab6314d70e0ab46321d86b715e8585ded7a7ae",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": null,
+      "name": "Jail vote · resultVote result",
+      "sub": null,
+      "round": "R3",
+      "timer": "0:03",
+      "urgent": true,
+      "ring": true,
+      "promises": null,
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "vote",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 6,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/dark": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-dark.jpg",
+      "sha256": "e5a9c71dccbee1cd01ff8d78ddcca2ad04fa6758800c8bf010e4963ef0af4490",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": "dark",
+      "name": "Blackout",
+      "sub": "Lights out",
+      "round": "R3",
+      "timer": "0:18",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 0,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg",
+        "assets/room-b.dark-NvXI4ylh.svg",
+        "assets/room-b.extend-dark-Ci_cOjc8.svg"
+      ],
+      "problems": []
+    },
+    "430x932/dark": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-dark.jpg",
+      "sha256": "c57312c07928b4b0a02b20635a71412bd09d10bbafa8f5fd013a93c22a21414d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "phase",
+      "tone": "dark",
+      "name": "Blackout",
+      "sub": "Lights out",
+      "round": "R3",
+      "timer": "0:18",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 0,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg",
+        "assets/room-b.dark-NvXI4ylh.svg",
+        "assets/room-b.extend-dark-Ci_cOjc8.svg"
+      ],
+      "problems": []
+    },
+    "390x844/target": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
+      "sha256": "4045f833dbc9aaf9401f8a0e6da2f564e211d767945dcd6f96eea7fb78532683",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": "Rescue",
+      "chip": "Other rooms · 1",
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 9,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/target": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
+      "sha256": "7e007b05d21ff793b390e719db9a5f9789ba69aac36169ba6b2276090d170ad1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": "Rescue",
+      "chip": "Other rooms · 1",
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 9,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/pass": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
+      "sha256": "fae0883e4acada3fa856ab2f64e1bddf3d3867c4bdd2bf25b3d3c17c193949b7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": "Pass your turn?",
+      "sheetActions": 2,
+      "buttons": 9,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/pass": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
+      "sha256": "2ec83d321883db99a0d5a7458c66260ee6437d1d297c1bd43e62dd84ef450a09",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": "Pass your turn?",
+      "sheetActions": 2,
+      "buttons": 9,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/actions": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-actions.jpg",
+      "sha256": "288c37eed52fdaaa0609b98633e2ee594c741365da7dd8b97a78f0762ed3da31",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": "actions",
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": "Actions",
+      "sheetActions": 0,
+      "buttons": 8,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/actions": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
+      "sha256": "721e4de5d12c709e93099f450dcaf34a568a2533f709bd69cf5938a3291bc4be",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": "actions",
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": "Actions",
+      "sheetActions": 0,
+      "buttons": 8,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/talk": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-talk.jpg",
+      "sha256": "a55433fb64878a5497bb6ffb11f94ea661fdbbdd911bb716bf080d0504baf43c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "pair",
+      "tone": null,
+      "name": "Ava + Dev",
+      "sub": "Private talk",
+      "round": "R3",
+      "timer": "0:47",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 0,
+      "open": null,
+      "hero": null,
+      "heroOff": false,
+      "talk": 2,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 4,
+      "figures": 0,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 0
+        },
+        "stage": {
+          "width": 390,
+          "height": 745
+        },
+        "covered": {
+          "bottom": 102
+        }
+      },
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg"
+      ],
+      "problems": []
+    },
+    "430x932/talk": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-talk.jpg",
+      "sha256": "568dcba8d818a151673a84459d2d6e2c8f525d4675fe81672bfaf36bcc68d288",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "pair",
+      "tone": null,
+      "name": "Ava + Dev",
+      "sub": "Private talk",
+      "round": "R3",
+      "timer": "0:47",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 0,
+      "open": null,
+      "hero": null,
+      "heroOff": false,
+      "talk": 2,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 4,
+      "figures": 0,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 0
+        },
+        "stage": {
+          "width": 430,
+          "height": 833
+        },
+        "covered": {
+          "bottom": 102
+        }
+      },
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
+      "sha256": "d933da756068fdeddabdc5f8ee0739275bf039973c0dab86a3ea4b45aa2d27d4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "kind": "phase",
+      "tone": null,
+      "name": "Reconnecting…",
+      "sub": "Showing Round 3 as last seen",
+      "round": "R3",
+      "timer": null,
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": "Connection lost",
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 8,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
+      "sha256": "56029586d9c896b9ba18edcc676b6569ae10e8b6ac5746aacd3a0b276212aa43",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "kind": "phase",
+      "tone": null,
+      "name": "Reconnecting…",
+      "sub": "Showing Round 3 as last seen",
+      "round": "R3",
+      "timer": null,
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": "Connection lost",
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 8,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-concealed.jpg",
+      "sha256": "649dbe13ae4e54b8e322e001f19dbe58ec7d4567d1b6f3d698305dafd1fa2a64",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "kind": "turn",
+      "tone": null,
+      "name": null,
+      "sub": null,
+      "round": null,
+      "timer": null,
+      "urgent": false,
+      "ring": false,
+      "promises": null,
+      "menu": false,
+      "tabs": 0,
+      "open": null,
+      "hero": null,
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 0,
+      "figures": 0,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-concealed.jpg",
+      "sha256": "445de7686b89b61f0258ed6ccec3ddc72b3d488b1cc35495ca0932aff73c1839",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "kind": "turn",
+      "tone": null,
+      "name": null,
+      "sub": null,
+      "round": null,
+      "timer": null,
+      "urgent": false,
+      "ring": false,
+      "promises": null,
+      "menu": false,
+      "tabs": 0,
+      "open": null,
+      "hero": null,
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 0,
+      "figures": 0,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [],
+      "problems": []
+    },
+    "320x568/large": {
+      "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
+      "sha256": "e91df71bd793163d6a7c988e0dc4a13bd4211e370f4c1d8aeadaca88a178d31c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "buttons": 7,
+      "figures": 5,
+      "layout": {
+        "size": {
+          "width": 320,
+          "height": 568
+        },
+        "bars": {
+          "top": 113.69,
+          "bottom": 60.19
+        },
+        "stage": {
+          "width": 320,
+          "height": 394.13
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "focus: the hero, a tab and Promises keep their element and the focus through eight clock ticks and a badge change",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": [
+              {
+                "selector": ".ms-ps-hero",
+                "same": true,
+                "focused": true
+              },
+              {
+                "selector": ".ms-ps-tab[data-value=\"panels\"]",
+                "same": true,
+                "focused": true
+              },
+              {
+                "selector": ".ms-ps-promises",
+                "same": true,
+                "focused": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "focus: a sheet's focused button ending moves the focus to the shell, then onFocusReturn once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "focusOnShell": true,
+            "returns": [
+              {
+                "intent": "sheet-action",
+                "value": "pass"
+              }
+            ],
+            "cancelReturn": [
+              {
+                "intent": "cancel-target",
+                "value": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "refused: an unavailable hero takes no tap and is described by its reason; a busy one takes none; an offered one fires once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "off": {
+              "calls": 0,
+              "ariaDisabled": "true",
+              "dimmed": true,
+              "reason": "Not your turn"
+            },
+            "busy": {
+              "calls": 0,
+              "ariaBusy": "true",
+              "dimmed": false
+            },
+            "on": {
+              "calls": [
+                "pass"
+              ],
+              "ariaDisabled": null,
+              "reason": null
+            }
+          }
+        },
+        {
+          "id": "refused: interactive: false takes no tap anywhere",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "buttons": 13,
+            "fired": []
+          }
+        },
+        {
+          "id": "stale: only Retry, ⋮ and a sheet's back and close work; the rest say why",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "fired": [
+              "onMenu",
+              "onRetry",
+              "onSheetBack",
+              "onSheetClose"
+            ],
+            "game": 10,
+            "described": true,
+            "localOpen": true,
+            "live": {
+              "hero": 1,
+              "reason": null
+            }
+          }
+        },
+        {
+          "id": "private: concealed, nothing to read and no control; the clock's place and the stage keep their size",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "concealed": {
+              "leaks": [],
+              "buttons": 0,
+              "slotSame": true,
+              "slotHidden": true,
+              "sheetBody": null,
+              "stage": {
+                "width": 390,
+                "height": 653
+              },
+              "liveStage": {
+                "width": 390,
+                "height": 653
+              },
+              "barHidden": "true"
+            },
+            "after": {
+              "name": "Your turn",
+              "promises": false,
+              "tabs": 0,
+              "sheet": false,
+              "target": false,
+              "chip": false,
+              "toast": false
+            }
+          }
+        },
+        {
+          "id": "private: a new viewer drops the last one's tabs, sheet, target, chip and Promises, unless the update gives the new viewer's",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "dropped": {
+              "tabs": 0,
+              "sheet": false,
+              "target": false,
+              "chip": false,
+              "promises": false
+            },
+            "given": {
+              "tabs": 4,
+              "hero": "vote",
+              "promises": "Promises, 2 new"
+            }
+          }
+        },
+        {
+          "id": "time: the clock shows what it is given (m:ss, rounded up), amber at 10 s and under, a ring when asked, and never counts by itself",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "rounded": {
+              "text": "0:42",
+              "urgent": false,
+              "label": "42 seconds left",
+              "ring": null
+            },
+            "notYet": {
+              "text": "0:11",
+              "urgent": false,
+              "label": "11 seconds left",
+              "ring": null
+            },
+            "urgent": {
+              "text": "0:10",
+              "urgent": true,
+              "label": "10 seconds left",
+              "ring": null
+            },
+            "minutes": {
+              "text": "2:05",
+              "urgent": false,
+              "label": "125 seconds left",
+              "ring": null
+            },
+            "ring": {
+              "text": "0:03",
+              "urgent": true,
+              "label": "3 seconds left",
+              "ring": "0.6"
+            },
+            "before": {
+              "text": "0:42",
+              "urgent": false,
+              "label": "42 seconds left",
+              "ring": null
+            },
+            "after": {
+              "text": "0:42",
+              "urgent": false,
+              "label": "42 seconds left",
+              "ring": null
+            },
+            "none": false
+          }
+        },
+        {
+          "id": "layout: the bars and the stage are measured; text size, insets and the bars' changes are reported",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 99,
+                "bottom": 92
+              },
+              "stage": {
+                "width": 390,
+                "height": 653
+              },
+              "covered": {
+                "bottom": 0
+              }
+            },
+            "large": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 117.27,
+                "bottom": 94.19
+              },
+              "stage": {
+                "width": 390,
+                "height": 632.55
+              },
+              "covered": {
+                "bottom": 0
+              }
+            },
+            "insets": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 111,
+                "bottom": 92
+              },
+              "stage": {
+                "width": 390,
+                "height": 641
+              },
+              "covered": {
+                "bottom": 0
+              }
+            },
+            "display": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 99,
+                "bottom": 34
+              },
+              "stage": {
+                "width": 390,
+                "height": 711
+              },
+              "covered": {
+                "bottom": 0
+              }
+            },
+            "talk": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 99,
+                "bottom": 0
+              },
+              "stage": {
+                "width": 390,
+                "height": 745
+              },
+              "covered": {
+                "bottom": 102
+              }
+            },
+            "reports": 6
+          }
+        },
+        {
+          "id": "toast: shown once per id, gone after its time, and cleared by suspend()",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "shown": true,
+            "gone": true,
+            "notAgain": true,
+            "next": "Registered",
+            "suspended": true,
+            "resumed": true
+          }
+        },
+        {
+          "id": "hud: a long press shows a capped tab's word large at 200% text, and nothing at 100%",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "plain": {
+              "hud": null,
+              "after": false
+            },
+            "large": {
+              "hud": "Board",
+              "after": false
+            }
+          }
+        },
+        {
+          "id": "dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": 0
+          }
+        },
+        {
+          "id": "motion: the sheet slides in, or fades in 80 ms with Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "normal": {
+              "name": "ms-ps-sheet-in",
+              "duration": "0.22s"
+            },
+            "reduced": {
+              "name": "ms-ps-fade",
+              "duration": "0.08s"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: the sheet slides in, or fades in 80 ms with Reduce motion (the device's, emulated)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "normal": {
+              "name": "ms-ps-fade",
+              "duration": "0.08s"
+            },
+            "reduced": {
+              "name": "ms-ps-fade",
+              "duration": "0.08s"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-J4R4jW3m.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: turn",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 56.78125,
+                "w": 72.359375,
+                "h": 17.84375
+              },
+              "shell": {
+                "x": 52,
+                "y": 56.78125,
+                "w": 72.359375,
+                "h": 17.84375
+              },
+              "words": "Fay"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 75.625,
+                "w": 72.359375,
+                "h": 12.59375
+              },
+              "shell": {
+                "x": 52,
+                "y": 75.625,
+                "w": 72.359375,
+                "h": 12.59375
+              },
+              "words": "Player 6 · Turn"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 161.625,
+                "y": 50.5,
+                "w": 85.640625,
+                "h": 44
+              },
+              "shell": {
+                "x": 161.625,
+                "y": 50.5,
+                "w": 85.640625,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": {
+                "x": 233.515625,
+                "y": 52.5,
+                "w": 18.75,
+                "h": 18
+              },
+              "shell": {
+                "x": 233.515625,
+                "y": 52.5,
+                "w": 18.75,
+                "h": 18
+              },
+              "words": "1"
+            },
+            "round": {
+              "pack": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "shell": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "shell": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "words": "0:42"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "PASS"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: own",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 56.78125,
+                "w": 69.78125,
+                "h": 17.84375
+              },
+              "shell": {
+                "x": 52,
+                "y": 56.78125,
+                "w": 69.78125,
+                "h": 17.84375
+              },
+              "words": "Your turn"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 75.625,
+                "w": 69.78125,
+                "h": 12.59375
+              },
+              "shell": {
+                "x": 52,
+                "y": 75.625,
+                "w": 69.78125,
+                "h": 12.59375
+              },
+              "words": "Player 4 · Dev"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 161.625,
+                "y": 50.5,
+                "w": 85.640625,
+                "h": 44
+              },
+              "shell": {
+                "x": 161.625,
+                "y": 50.5,
+                "w": 85.640625,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "round": {
+              "pack": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "shell": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "shell": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "words": "0:08"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "PASS"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: phase-result",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 63.578125,
+                "w": 110.578125,
+                "h": 17.84375
+              },
+              "shell": {
+                "x": 52,
+                "y": 63.578125,
+                "w": 110.578125,
+                "h": 17.84375
+              },
+              "words": "Jail vote · result"
+            },
+            "sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "portrait": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "round": {
+              "pack": {
+                "x": 252.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "shell": {
+                "x": 252.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 273.625,
+                "y": 56.5,
+                "w": 72.375,
+                "h": 32
+              },
+              "shell": {
+                "x": 273.625,
+                "y": 56.5,
+                "w": 72.375,
+                "h": 32
+              },
+              "words": "0:03"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "VOTE"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: pair",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 72,
+                "y": 56.78125,
+                "w": 71.046875,
+                "h": 17.84375
+              },
+              "shell": {
+                "x": 72,
+                "y": 56.78125,
+                "w": 71.046875,
+                "h": 17.84375
+              },
+              "words": "Ava + Dev"
+            },
+            "sub": {
+              "pack": {
+                "x": 72,
+                "y": 75.625,
+                "w": 71.046875,
+                "h": 12.59375
+              },
+              "shell": {
+                "x": 72,
+                "y": 75.625,
+                "w": 71.046875,
+                "h": 12.59375
+              },
+              "words": "Private talk"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "pair": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 52,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 52,
+                "h": 32
+              },
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 209.265625,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 209.265625,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "round": {
+              "pack": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "shell": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "shell": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "words": "0:47"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Room"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "VOTE"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels 2"
+            },
+            "panels-badge": {
+              "pack": {
+                "x": 359,
+                "y": 758,
+                "w": 20.9375,
+                "h": 18
+              },
+              "shell": {
+                "x": 359,
+                "y": 758,
+                "w": 20.9375,
+                "h": 18
+              },
+              "words": "2"
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: dark",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 56.78125,
+                "w": 61.203125,
+                "h": 17.84375
+              },
+              "shell": {
+                "x": 52,
+                "y": 56.78125,
+                "w": 61.203125,
+                "h": 17.84375
+              },
+              "words": "Blackout"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 75.625,
+                "w": 61.203125,
+                "h": 12.59375
+              },
+              "shell": {
+                "x": 52,
+                "y": 75.625,
+                "w": 61.203125,
+                "h": 12.59375
+              },
+              "words": "Lights out"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "portrait": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 209.265625,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 209.265625,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "round": {
+              "pack": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "shell": {
+                "x": 258.265625,
+                "y": 66.8125,
+                "w": 16.359375,
+                "h": 11.375
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "shell": {
+                "x": 279.625,
+                "y": 56.5,
+                "w": 66.375,
+                "h": 32
+              },
+              "words": "0:18"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "VOTED"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: large-own at 200% text, 320 × 568",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 320,
+                "h": 113.6875
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 320,
+                "h": 113.6875
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 28.953125,
+                "w": 106.265625,
+                "h": 74.78125
+              },
+              "shell": {
+                "x": 52,
+                "y": 28.953125,
+                "w": 106.265625,
+                "h": 74.78125
+              },
+              "words": "Your turn"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 28.953125,
+                "w": 1,
+                "h": 1
+              },
+              "shell": {
+                "x": 52,
+                "y": 28.953125,
+                "w": 1,
+                "h": 1
+              },
+              "words": "Player 4 · Dev"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": {
+                "x": 12,
+                "y": 50.34375,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 50.34375,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 163.265625,
+                "y": 44.34375,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 163.265625,
+                "y": 44.34375,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": {
+                "x": 193.078125,
+                "y": 46.34375,
+                "w": 19.1875,
+                "h": 18
+              },
+              "shell": {
+                "x": 193.078125,
+                "y": 46.34375,
+                "w": 19.1875,
+                "h": 18
+              },
+              "words": "1"
+            },
+            "round": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 212.265625,
+                "y": 50.34375,
+                "w": 63.734375,
+                "h": 32
+              },
+              "shell": {
+                "x": 212.265625,
+                "y": 50.34375,
+                "w": 63.734375,
+                "h": 32
+              },
+              "words": "0:42"
+            },
+            "menu": {
+              "pack": {
+                "x": 276,
+                "y": 44.34375,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 276,
+                "y": 44.34375,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 507.8125,
+                "w": 320,
+                "h": 60.1875
+              },
+              "shell": {
+                "x": 0,
+                "y": 507.8125,
+                "w": 320,
+                "h": 60.1875
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 0,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 64,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 64,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 127,
+                "y": 488.8125,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 127,
+                "y": 488.8125,
+                "w": 66,
+                "h": 66
+              },
+              "words": "PASS"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 192,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 192,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 256,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 256,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: large-phase at 200% text, 320 × 568",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 320,
+                "h": 113.6875
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 320,
+                "h": 113.6875
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 12,
+                "y": 28.953125,
+                "w": 169.265625,
+                "h": 74.78125
+              },
+              "shell": {
+                "x": 12,
+                "y": 28.953125,
+                "w": 169.265625,
+                "h": 74.78125
+              },
+              "words": "Jail vote · result Vote result"
+            },
+            "sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "round": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 186.265625,
+                "y": 50.34375,
+                "w": 89.734375,
+                "h": 32
+              },
+              "shell": {
+                "x": 186.265625,
+                "y": 50.34375,
+                "w": 89.734375,
+                "h": 32
+              },
+              "words": "0:03"
+            },
+            "menu": {
+              "pack": {
+                "x": 276,
+                "y": 44.34375,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 276,
+                "y": 44.34375,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 507.8125,
+                "w": 320,
+                "h": 60.1875
+              },
+              "shell": {
+                "x": 0,
+                "y": 507.8125,
+                "w": 320,
+                "h": 60.1875
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 0,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 64,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 64,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 127,
+                "y": 488.8125,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 127,
+                "y": 488.8125,
+                "w": 66,
+                "h": 66
+              },
+              "words": "VOTE"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 192,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 192,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 256,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 256,
+                "y": 508.8125,
+                "w": 64,
+                "h": 59.1875
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-J4R4jW3m.js",
+        "line": 1,
+        "column": 6048,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
