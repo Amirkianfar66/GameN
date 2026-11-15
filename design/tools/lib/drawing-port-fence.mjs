@@ -18,6 +18,8 @@ export const PREGAME_PRODUCTION_DRAWING_POLICY = 'design/releases/pregame-produc
 export const PHONE_UI_PRODUCTION_DRAWING_POLICY = 'design/releases/phone-ui-production-drawing-approval.json';
 export const HOST_ABORT_DRAWING_POLICY = 'design/releases/host-abort-production-drawing-approval.json';
 export const FOOD_SOURCE_DRAWING_POLICY = 'design/releases/food-source-drawing-policy.json';
+export const RELEASE_PRESERVATION_DRAWING_POLICY = 'design/releases/release-preservation-tooling-drawing.json';
+const RELEASE_PRESERVATION_DRAWING_POLICY_SHA256 = '47e0fec753a92d9a14776ad2bed4e9c759d727233b78f8f4211b1af2f7311f03';
 const FOOD_SOURCE_DRAWING_POLICY_SHA256 = '7dc8fa97ee1f6ce0647dc842b25a7ec43ba149871bb41821d8c2b1836ea73237';
 const HOST_ABORT_DRAWING_POLICY_SHA256 = '375018d9eb9bdb7fb745bde516e712f3c5b7160cc07e9b60f2b311c702eb84c4';
 const PHONE_UI_PRODUCTION_DRAWING_POLICY_SHA256 = '1ee59db128b1216e8f39e7b4af5893bcb0d01aff3411ae12504859fc0af21039';
@@ -112,7 +114,30 @@ export function readDrawingPolicy(root) {
   if (food.schema !== 'mothership.food-source-drawing-policy/1' || food.status !== 'technical-source-registration' ||
     food.parentApprovalSha256 !== HOST_ABORT_DRAWING_POLICY_SHA256) throw Error('Food drawing policy parent differs');
   for (const key of ['ports', 'requiredFiles', 'sourceHashes', 'buildFiles']) policy[key] = { ...policy[key], ...food[key] };
+  applyToolingSupplement(root, policy, RELEASE_PRESERVATION_DRAWING_POLICY,
+    RELEASE_PRESERVATION_DRAWING_POLICY_SHA256, FOOD_SOURCE_DRAWING_POLICY_SHA256,
+    'mothership.release-preservation-tooling-drawing/1');
   return policy;
+}
+
+// Tooling follow-ups retain every historical art/port/style pin. Only exact
+// required inputs and named build dependencies can change in this supplement.
+function applyToolingSupplement(root, policy, path, expected, parent, schema) {
+  let stat;
+  try { stat = lstatSync(resolve(root, path)); }
+  catch (error) { if (error.code === 'ENOENT') return; throw error; }
+  if (stat.isSymbolicLink() || !stat.isFile()) throw Error('Release preservation drawing approval must be a regular file');
+  const bytes = readFileSync(resolve(root, path));
+  if (contentSha256(bytes) !== expected) throw Error('Release preservation drawing approval content hash differs');
+  const supplement = JSON.parse(bytes);
+  if (supplement.schema !== schema || supplement.status !== 'technical-source-registration' ||
+    supplement.parentApprovalSha256 !== parent) throw Error('Release preservation drawing parent differs');
+  policy.requiredFiles = { ...policy.requiredFiles, ...supplement.requiredFiles, [path]: expected };
+  for (const [buildPath, assetHashes] of Object.entries(supplement.buildAssetHashes ?? {})) {
+    const build = policy.buildFiles[buildPath];
+    if (!build) throw Error('Release preservation cannot add a build adapter');
+    policy.buildFiles[buildPath] = { ...build, assetHashes: { ...build.assetHashes, ...assetHashes } };
+  }
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/', 'apps/game/hosted/pregame-films/'];
 const isFoodDrawingPath = path => /^apps\/game\/hosted\/planet\/food(?:-|\.)/.test(path);
