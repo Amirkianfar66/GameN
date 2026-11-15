@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.1.0",
-  "sourceCommit": "10496d18d9f9d560f9b0d371c1ec874d4933d2c1",
+  "version": "component-kit-0.2.0",
+  "sourceCommit": "b51b715c2c79a3a56ac43fb80e74afeae6320d62",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -101,87 +101,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "3d3971cf2f0eb7715c513aa5eac082cbfcbef6f080f6a70d4113be1e31522062",
+      "sha256": "11ba55b13c983d8aeba7597abbb8ad5f0df6b1258d937b26736fe46d8ce68e2e",
       "size": {
         "width": 390,
-        "height": 6285
+        "height": 6684
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8f4EMKX.js",
+          "source": "assets/page-B1TGIGlL.js",
           "line": 1,
-          "column": 3874,
+          "column": 3870,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "217d3e7d81f3133be6c4f9e0de7ae6456ac795e323c265ce3fb4d841b634320c"
+      "measurementSha256": "b15e764228961046b3065b33463521b56b316b635fe7aebed0a72bf62f50a4ba"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "316138cff2c77f96c675914a3af70c61b15df63fe5235ef3b5f215c9b1cc4c21",
+      "sha256": "489620b30cad9aa7737b086108f3d740b65535117cb831de234865bcc591a4ef",
       "size": {
         "width": 390,
-        "height": 6354
+        "height": 6755
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8f4EMKX.js",
+          "source": "assets/page-B1TGIGlL.js",
           "line": 1,
-          "column": 3874,
+          "column": 3870,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "40176db415df983e9785589e153ca44bd1b83093190d9d3b6bf8ddaaf2405106"
+      "measurementSha256": "57d017d1f2951dc0b05b094930a315138737155e5949ab432e4508b70c6d66b7"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "0718ff271f463d9faf5e532592c9320b70bece6e599acee09bd2bf8d9f7e5af5",
+      "sha256": "ec472187623628fa24b77b71a861e8ee045fe31771431c1e8d483f04ac7c142e",
       "size": {
         "width": 390,
-        "height": 8213
+        "height": 8810
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8f4EMKX.js",
+          "source": "assets/page-B1TGIGlL.js",
           "line": 1,
-          "column": 3874,
+          "column": 3870,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "3d4735d212763bf5e4aa57a71d99846ecc01a4439d0a5f9723d9851cca60c304"
+      "measurementSha256": "05f87f86a05a4bb4b933e2ffeafd2af465642a98214e4da33fbcfd8de3c41813"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "3cd19c328d639aaca4e8035ee54ad2f3f440b9eaa20fa2bf0ebc8455b82ced8a",
+      "sha256": "f176e59312da9e55fca5a83f004ebe724e07c88819b9a3774c68b73dc8748ae1",
       "size": {
         "width": 390,
-        "height": 8263
+        "height": 8860
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8f4EMKX.js",
+          "source": "assets/page-B1TGIGlL.js",
           "line": 1,
-          "column": 3874,
+          "column": 3870,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "d970e1e379a02c1e89a2457c5f472cf0f8f76a85e24e9847c16d621ed278e58d"
+      "measurementSha256": "75448567b5bf045986ad949779ab4f24ac4f9e80a716bde6b3a00184c4fcd751"
     }
   },
   "agreement": {
@@ -464,6 +464,12 @@
         "cells": {
           "ok": true,
           "parts": 52,
+          "differences": [],
+          "accepted": []
+        },
+        "cells on paper": {
+          "ok": true,
+          "parts": 49,
           "differences": [],
           "accepted": []
         }
@@ -1075,6 +1081,12 @@
           "parts": 51,
           "differences": [],
           "accepted": []
+        },
+        "cells on paper": {
+          "ok": true,
+          "parts": 48,
+          "differences": [],
+          "accepted": []
         }
       },
       "glass": {
@@ -1405,9 +1417,9 @@
     }
   },
   "summary": {
-    "cases": 126,
-    "agree": 126,
-    "parts": 760,
+    "cases": 128,
+    "agree": 128,
+    "parts": 857,
     "accepted": 62
   }
 }

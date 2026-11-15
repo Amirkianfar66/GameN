@@ -11,6 +11,10 @@
 //             the viewer changes
 //   time      the clock shows what it is given, amber in the last 10 s, and never counts by itself
 //   layout    the bars and the stage are measured, and a change of text size, insets or bars reported
+//   layers    the cover lies over the stage and above all it holds, under the overlays and the sheet; with a
+//             sheet open the toast stays above it and the banner under it, as the pack's
+//   nobar     with bar: null the stage runs to the top edge, the overlays sit under the safe area, and
+//             slot('clock') keeps its element
 //   toast     shown once per id, gone after its time, cleared by suspend()
 //   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
@@ -214,6 +218,65 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       s.shell.dispose();
       return { ok: first.bars.top === 99 && first.bars.bottom === 92 && first.stage.height === 653 && large.bars.top > first.bars.top && insets.bars.top === 111
         && display.bars.bottom === 34 && talk.bars.bottom === 0 && talk.covered.bottom > 60 && seen.length >= 4, first, large, insets, display, talk, reports: seen.length };
+    });
+
+    await check('layers: the cover lies over the stage and above all it holds, under the target bar, the banner, the toast and the sheet; over a sheet the toast stays on top and the banner under, as the pack', async () => {
+      const s = mount();
+      // What the stage holds may stack as high as it likes inside it: the room scene's tags sit at 3150.
+      const high = document.createElement('div');
+      Object.assign(high.style, { position: 'absolute', inset: '0', zIndex: '3150' });
+      s.shell.stage.append(high);
+      const card = document.createElement('div');
+      Object.assign(card.style, { position: 'absolute', inset: '0', pointerEvents: 'auto' });
+      s.shell.slot('cover').append(card);
+      await frames();
+      const at = node => { const r = node.getBoundingClientRect(); return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); };
+      const settle = async selector => { await frames(); await Promise.all((s.q(selector)?.getAnimations() ?? []).map(a => a.finished.catch(() => null))); };
+      const stageBox = s.shell.stage.getBoundingClientRect(), coverBox = s.shell.slot('cover').getBoundingClientRect();
+      const sameBox = ['top', 'left', 'width', 'height'].every(k => Math.abs(stageBox[k] - coverBox[k]) < 0.5);
+      const middle = () => document.elementFromPoint(stageBox.left + stageBox.width / 2, stageBox.top + stageBox.height * 0.6);
+      const overStage = middle() === card;
+      // Each overlay alone (they share the strip under the bar), over the cover.
+      const alone = async (input, selector) => { s.shell.update({ target: null, banner: null, toast: null, ...input }); await settle(selector); const node = s.q(selector); return !!node && node.contains(at(node)); };
+      const target = await alone({ target: { title: 'Rescue' } }, '.ms-ps-target');
+      const banner = await alone({ banner: { kind: 'reconnecting' } }, '.ms-ps-banner');
+      const toast = await alone({ toast: { id: 'layers-1', text: 'Registered' } }, '.ms-ps-toast');
+      // A large docked sheet lies over the cover and the banner, and the toast stays above it (the pack: toast 70, sheet 45, banner 42).
+      s.shell.update({ toast: null, banner: { kind: 'reconnecting' }, sheet: { ...passSheet, id: 'layers', detent: 'large' } });
+      await settle('.ms-ps-sheet');
+      const sheet = s.q('.ms-ps-sheet');
+      const sheetOverCover = sheet.contains(middle());
+      const bannerUnderSheet = sheet.contains(at(s.q('.ms-ps-banner')));
+      s.shell.update({ banner: null, toast: { id: 'layers-2', text: 'Over the sheet' } });
+      await settle('.ms-ps-toast');
+      const toastOverSheet = s.q('.ms-ps-toast').contains(at(s.q('.ms-ps-toast')));
+      const keptCover = s.shell.slot('cover') === card.parentElement;
+      s.shell.dispose();
+      return { ok: sameBox && overStage && target && banner && toast && sheetOverCover && bannerUnderSheet && toastOverSheet && keptCover,
+        sameBox, overStage, target, banner, toast, sheetOverCover, bannerUnderSheet, toastOverSheet, keptCover };
+    });
+
+    await check('nobar: with bar: null the stage runs to the top edge, the overlays sit under the safe area, and slot(\'clock\') keeps its element', async () => {
+      const s = mount({ ...own(), bar: null, tabs: null, banner: { kind: 'reconnecting' }, toast: { id: 'rejoined', text: 'Rejoined · the stage carried on', icon: 'retry' } });
+      // Measured at rest: the toast drops in.
+      await frames();
+      await Promise.all(s.q('.ms-ps-toast').getAnimations().map(a => a.finished.catch(() => null)));
+      const box = s.root.getBoundingClientRect(), clock = s.shell.slot('clock');
+      const first = s.shell.layout();
+      const top = selector => Math.round((s.q(selector).getBoundingClientRect().top - box.top) * 100) / 100;
+      const banner = top('.ms-ps-banner'), toast = top('.ms-ps-toast'), cover = top('.ms-ps-cover');
+      const bar = s.q('.ms-ps-tb'), hidden = getComputedStyle(bar).display === 'none' && bar.getAttribute('aria-hidden') === 'true';
+      // Concealed with no bar, nothing to read; the bar comes back when given again, its clock place unchanged.
+      s.shell.update({ status: 'concealed' });
+      const concealed = s.root.innerText.trim() === '';
+      s.shell.update({ status: 'live', bar: own().bar });
+      await frames();
+      const back = s.shell.layout();
+      const sameClock = s.shell.slot('clock') === clock;
+      s.shell.dispose();
+      const safe = size.insets.top;
+      return { ok: first.bars.top === 0 && cover === 0 && hidden && Math.abs(banner - (safe + 8)) < 0.5 && Math.abs(toast - (safe + 10)) < 0.5 && concealed && back.bars.top === 99 && sameClock,
+        bars: first.bars, cover, banner, toast, hidden, concealed, back: back.bars, sameClock };
     });
 
     await check('toast: shown once per id, gone after its time, and cleared by suspend()', async () => {

@@ -59,6 +59,7 @@ shell.stage;                 // the element between the bars: mount the room sce
 shell.layout();              // { size, bars: { top, bottom }, stage: { width, height }, covered: { bottom } }
 shell.sheetBody;             // the open sheet's scrolling body (null with no sheet): mount its content here
 shell.slot('clock');         // the place beside the clock: Food's gauge goes here
+shell.slot('cover');         // the stage's cover: a layer over the stage, for a result window over the room
 shell.update({ ...changes }); // each key given replaces that key; the rest stay
 shell.suspend();             // backgrounded: a toast and a long press end
 shell.resume();
@@ -76,7 +77,11 @@ shell.dispose();             // removes the element and its listeners
   - `tabs: null`, `target: null`, `chip: null`, `banner: null`, `toast: null` and `sheet: null` remove what was there.
 - **Lifecycle guarantees:**
   - `dispose()` is safe to call twice. After it, `update()`, `suspend()` and `resume()` do nothing, `layout()`, `slot()` and `sheetBody` are `null`, and no callback fires.
-  - `slot('clock')` and `stage` are the same elements for the shell's whole life, concealment included, so what Frontend mounts in them stays.
+  - `slot('clock')`, `slot('cover')` and `stage` are the same elements for the shell's whole life, concealment included, so what Frontend mounts in them stays.
+- **The cover** (`slot('cover')`): a layer exactly over the stage. It lies above everything the stage holds, including the room scene's tags, which stack inside the stage, and under the bars, the target bar, the chip, the banner, the toast and the sheet.
+  - It takes no taps itself: content that should catch them sets `pointer-events: auto` on its root.
+  - Mount the vote's result window there (#267). The shell leaves it as it is while concealed, as it does the stage: the component mounted there hides itself.
+- **The layers, as the pack's:** a docked sheet lies over the cover, the target bar, the chip and the reconnecting banner. The toast stays above the sheet.
   - Each mount is independent. A new match or seat is a new mount, after disposing the old one.
 
 ## Inputs
@@ -89,6 +94,7 @@ shell.dispose();             // removes the element and its listeners
 | `insets` | Phone | `null`: the safe areas from `env(safe-area-inset-*)`; or `{ top, right, bottom, left }` in CSS px |
 | `viewer` | Phone | Whose phone this is (a seat id, or `null` for a shared display). When it changes, this viewer's inputs are dropped unless the same update gives the new viewer's |
 | `versions` | Public | The match's art versions, for the portraits |
+| `bar` | Public | The top bar's input, below. `null`: no top bar at all, as the role stage's full-bleed film. The stage then runs to the top edge, and the target bar, the banner, the toast and a large sheet sit under the top safe area |
 | `bar.kind` | Public | `'turn'`, `'phase'` or `'pair'` |
 | `bar.who` | Public | Turn: `{ seat, name, character }` of the active seat |
 | `bar.self` | This viewer's | Turn: whether it is this viewer's turn: "Your turn", amber |
@@ -210,8 +216,8 @@ Listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts), the pinned pack unchanged, the pack's words, the clock, the inputs' refusals, the privacy rules and the check's record |
-  | `packages/design-tokens/test/kit.test.mjs` | 5 of 5, with the kit's own check: every builder agrees with the pinned pack's ([the kit's page](kit.md)) |
-  | `npm run test:design` | 382 of 382 |
+  | `packages/design-tokens/test/kit.test.mjs` | 6 of 6, with the kit's own check: every builder agrees with the pinned pack's ([the kit's page](kit.md)) |
+  | `npm run test:design` | 383 of 383 |
   | `npm run test:tooling` | 337 of 337 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
@@ -219,16 +225,21 @@ Listed, not omitted:
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** thirteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 27 of 27 pass, each drawing what its state asks.
-  - **The lifecycle probe** (`preview/probe.mjs`): 14 of 14 checks pass.
-    - **As the page comes (13):** focus, refused taps, reconnecting, privacy, the clock, layout, the toast, the large-content view, dispose and motion.
+  - **Captures:** fourteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 29 of 29 pass, each drawing what its state asks.
+    - The 5 s result carries a stand-in for the vote's result window in the cover.
+    - `film` draws no top bar: a full-bleed stand-in with the reconnecting banner over it.
+  - **The lifecycle probe** (`preview/probe.mjs`): 16 of 16 checks pass.
+    - **As the page comes (15):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, no bar, the toast, the large-content view, dispose and motion.
+      - **The layers:** the cover is over the stage and above a z-index 3150 inside it; the target bar, the banner and the toast are each over the cover; over a large sheet the toast stays on top and the banner under.
     - **With the device's Reduce motion emulated (1):** motion.
   - **The agreement with the pinned pack** (`preview/agree.mjs`): 7 of 7 cases.
     - The cases: a turn, your turn, the 5 s result, a private talk, the Blackout, and your turn and the result at 200 % text on 320 × 568.
     - In each case 10 to 15 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `10496d18`, the shell built from the kit as it now agrees with the pack, with the source clean. Against the records on `cbd6ae89` (before the kit) and `aea6dab4` (its first form), the captures differ only by noise: at most 151 pixels per capture, all in the room's ambient motion, none in the shell's controls.
+    - Recorded on `b51b715c`, with kit 0.2.0, the cover and no-bar mode, and the source clean.
+    - **At the game's text size:** the preview's root is now the browser's 16 px, as the game's. Until `10496d18` it forced 14 px, so every rem-sized word in the shell and the room scene drew an eighth small. The bars keep their pixel minimums (99 and 92 px at 390 × 844); the words and the room's tags are larger. The agreement with the pack, drawn in the same page, holds at 16 px.
+    - Against `10496d18`, before these, the captures differ by the larger words, which is the fix, and by noise in the room's ambient motion.
     - **The room scene in the stage:** its name tags and its control measure exactly as in the room scene's own preview, all nine elements, with the same font, size, weight, line height and colour (checked on `aea6dab4`). The first record, on `82a1e189`, had the shell's resets reaching into the stage, and its tags were 8 px narrower; `cbd6ae89` scoped the resets to the shell's own parts.
     - The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the room scene's.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
