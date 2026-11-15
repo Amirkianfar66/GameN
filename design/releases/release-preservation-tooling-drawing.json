@@ -1,0 +1,30 @@
+{
+  "schema": "mothership.release-preservation-tooling-drawing/1",
+  "status": "technical-source-registration",
+  "scope": "Exact reviewed release lookup and production-header tooling only. No artwork, drawing ports, visual acceptance or release activation is changed.",
+  "parentApprovalSha256": "7dc8fa97ee1f6ce0647dc842b25a7ec43ba149871bb41821d8c2b1836ea73237",
+  "requiredFiles": {
+    "scripts/runtime-art-release.mjs": "82cbd5d1d415c7b3745215f1297cf7909e0b8a4f5d098213573d86404e4d69c9",
+    "scripts/prepare-hosted-preview.mjs": "696403bf2f6750085e16b155cddec4f4974cdcf887c26dbd7954bab8e5361e4b",
+    "scripts/hosted-preview-policy.mjs": "21b6b9ecf3196a73ee2571824f441515815a25a52d7beb8b6020a8d841595f7c",
+    "packages/contracts/src/planet-release-capabilities.ts": "1e79a7fc27d9114152f51b7da9fee8d60c161acf2fe35624eb4bd681dfa8b419",
+    "packages/contracts/src/planet-art-capabilities.json": "b1bec58487c318ab1e16269a61be64fd547cdbdb9192961a9c36d0840e1286f9",
+    "design/releases/historical-blobs/3fb2d318fa048f7722f3fc6b696eb967385b9194a4887da4f4ef57b0a0160294": "3fb2d318fa048f7722f3fc6b696eb967385b9194a4887da4f4ef57b0a0160294",
+    "design/releases/historical-blobs/9bc95c1ccd30a98f1e28ecfd4e8e1520da04244ec6b986c98020c79c6145edd7": "9bc95c1ccd30a98f1e28ecfd4e8e1520da04244ec6b986c98020c79c6145edd7"
+  },
+  "predecessorTooling": {
+    "scripts/runtime-art-release.mjs": {
+      "sha256": "3fb2d318fa048f7722f3fc6b696eb967385b9194a4887da4f4ef57b0a0160294",
+      "blob": "design/releases/historical-blobs/3fb2d318fa048f7722f3fc6b696eb967385b9194a4887da4f4ef57b0a0160294"
+    },
+    "scripts/prepare-hosted-preview.mjs": {
+      "sha256": "9bc95c1ccd30a98f1e28ecfd4e8e1520da04244ec6b986c98020c79c6145edd7",
+      "blob": "design/releases/historical-blobs/9bc95c1ccd30a98f1e28ecfd4e8e1520da04244ec6b986c98020c79c6145edd7"
+    }
+  },
+  "buildAssetHashes": {
+    "apps/game/hosted/comic-assets.mjs": {
+      "scripts/runtime-art-release.mjs": "82cbd5d1d415c7b3745215f1297cf7909e0b8a4f5d098213573d86404e4d69c9"
+    }
+  }
+}

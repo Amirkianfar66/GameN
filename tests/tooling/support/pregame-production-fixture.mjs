@@ -1,7 +1,8 @@
 import {cpSync, existsSync, mkdirSync, readFileSync, rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {dirname, join} from 'node:path';
-import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY, FOOD_SOURCE_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
+import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY, FOOD_SOURCE_DRAWING_POLICY,
+  RELEASE_PRESERVATION_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL, readPregameConsumerApproval} from '../../../scripts/pregame-consumer-approval.mjs';
 import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval, HOST_ABORT_CONSUMER_APPROVAL,
   readHostAbortConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
@@ -79,6 +80,17 @@ export function restoreBeforeFoodFixture(root, destination) {
     }
   }
   if (!food) return;
+  if (existsSync(join(root, RELEASE_PRESERVATION_DRAWING_POLICY))) {
+    const tooling = JSON.parse(readFileSync(join(root, RELEASE_PRESERVATION_DRAWING_POLICY)));
+    rmSync(join(destination, RELEASE_PRESERVATION_DRAWING_POLICY), {force: true});
+    for (const [path, entry] of Object.entries(tooling.predecessorTooling)) {
+      const source = join(root, entry.blob);
+      if (createHash('sha256').update(readFileSync(source)).digest('hex') !== entry.sha256)
+        throw Error(`Historical tooling fixture source differs: ${path}`);
+      mkdirSync(dirname(join(destination, path)), {recursive: true});
+      cpSync(source, join(destination, path));
+    }
+  }
   for (const path of [FOOD_CONSUMER_SOURCE, FOOD_SOURCE_DRAWING_POLICY]) rmSync(join(destination,path),{force:true});
   for (const [path, entry] of Object.entries(food.files)) {
     if (entry.previousSha256 === null) rmSync(join(destination,path),{force:true});
