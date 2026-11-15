@@ -10,6 +10,8 @@ const closureMode=q.get('holdClosure')==='1',closureRecordKey='mothership:dev:fo
 // Opt-in timing gates for the synthetic browser review. No fixture payloads or IDs
 // enter its persisted timing report.
 const causal=q.get('causal'),gates=new Map(),causalEvents=[];
+// The heartbeat probe makes the fallback due without changing the fixture's Task interval.
+let heartbeatClockOffset=0;
 function park(operation){
  if(!causal||gates.has(operation))throw Error('A causal fixture gate is already active');
  let resume;const promise=new Promise(done=>{resume=done;});
@@ -21,16 +23,16 @@ function waitAt(operation){
  gate.waiting=true;
  return gate.promise;
 }
-function openGate(operation){
+function openGate(operation,result){
  const gate=gates.get(operation);
  if(!gate?.waiting)throw Error('The causal fixture gate has no request');
- gates.delete(operation);gate.resume();
+ gates.delete(operation);gate.resume(result);
  return performance.now();
 }
 if(causal==='recovered'){park('foodCommand');park('foodReceipt');}
 let record=copy(config.initial),uid='food-native-app',lost=false,holdCommands=false,readHold=false,finishRefusal=null,fixtureCommandId=null;
 if(closureMode&&sessionStorage.getItem(closureRecordKey))record=JSON.parse(sessionStorage.getItem(closureRecordKey));
-const sent=[],lookups=[],receipts=new Map(),clock={now:()=>record.now},ports={clock,scheduler:{setTimeout:(f,ms)=>setTimeout(f,ms),clearTimeout:h=>clearTimeout(h)},ids:{next:()=>{const id=fixtureCommandId;fixtureCommandId=null;return id??crypto.randomUUID();}},unresolved:memory()};
+const sent=[],lookups=[],receipts=new Map(),clock={now:()=>record.now+heartbeatClockOffset},ports={clock,scheduler:{setTimeout:(f,ms)=>setTimeout(f,ms),clearTimeout:h=>clearTimeout(h)},ids:{next:()=>{const id=fixtureCommandId;fixtureCommandId=null;return id??crypto.randomUUID();}},unresolved:memory()};
 function memory(){let value=null;return {load:()=>value,save:v=>{value=v;},clear:()=>{value=null;}};}
 const foodStore=closureMode?{load:()=>sessionStorage.getItem(closureStoreKey),save:v=>sessionStorage.setItem(closureStoreKey,v),clear:()=>sessionStorage.removeItem(closureStoreKey)}:memory();
 const stores={resume:memory(),requests:memory(),rolePrivacy:memory(),food:()=>foodStore};
@@ -52,8 +54,17 @@ const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async 
   if(readHold)return new Promise(()=>{});
   if(lost)return null;
   const packet=copy(record),gate=waitAt('read');
+  if(causal==='heartbeat'){
+   packet.now=clock.now();
+   for(const view of [packet.value.foodPublicView,packet.value.foodPlayerView])if(view)view.serverNowMs=packet.now;
+  }
   if(gate)await gate;
   return {ok:true,serverTimeMs:packet.now,result:packet.value};
+ }
+ if(request.operation==='foodHeartbeat'&&causal==='heartbeat'){
+  const gate=waitAt('foodHeartbeat'),refused=gate&&await gate;
+  return refused?{ok:false,serverTimeMs:clock.now(),error:{code:'FORBIDDEN'}}
+   :{ok:true,serverTimeMs:clock.now(),result:{renewed:true}};
  }
  if(chromeCase&&request.operation==='command'){
   if(JSON.stringify(PlanetCommandRequestSchema.parse(request.request))!==JSON.stringify(PlanetCommandRequestSchema.parse(chromeCase.pass.request)))throw Error('Physical Pass must send the exact candidate-engine original');
@@ -147,6 +158,7 @@ applySafe();
 window.foodAppHarness={app,entry,sent,lookups,recoveryTransitions,scope:fixtures.scope,ready:true,
  chromeCase,
  ...(causal?{causal:{events:causalEvents,park,open:openGate,waiting:op=>gates.get(op)?.waiting===true,
+  ...(causal==='heartbeat'?{allowFallback(){heartbeatClockOffset+=1100;},refuseHeartbeat(){openGate('foodHeartbeat',true);}}:{}),
   async stage(id,refresh=true){
    const next=fixtures.cases.find(c=>c.id===id)?.native?.initial;
    if(!next||next.value.matchId!==record.value.matchId||next.value.selfSeatId!==record.value.selfSeatId)throw Error('Wrong causal fixture context');
