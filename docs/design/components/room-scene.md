@@ -1,6 +1,6 @@
 # Room scene: Designer's runtime component
 
-**Version:** `room-scene-0.3.0`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, with the owner's "a fifth wider" framing added, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
+**Version:** `room-scene-0.4.0`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, with the owner's "a fifth wider" framing added, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
 
 **What it is:** the room surface of the phone's room view, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -12,6 +12,18 @@
 - the framing, the room's own control and the name tags of #222 items 1 and 34;
 - the approved room pictures, `room-drawing-1.0.0` (DSN-REQ-18), through the art bundles;
 - the owner's "a fifth wider" framing, with the rooms' extension above and below the pictures (11 November).
+
+## What changed in 0.4.0
+
+The owner decided on 15 November that Designer writes the game's connection for all five rooms ([owner-decisions.md](../owner-decisions.md), #280). The game's room view keeps films that this component does not draw yet: the medical and rescue films, the captain's walk, the Jail's release and eject, the transit, Blackhole and arrival field, "ATTACK BLOCKED" and the Blackout's fade. 0.4.0 adds what they need to sit inside the scene at their own depth:
+
+| Added | What it does |
+| --- | --- |
+| `standIns: [seat]` | Those people's figures are not drawn, because the game's film draws them (a gowned patient, a walk, a release). Their tag, turn mark, press square and place in `layout()` stay |
+| `brace: { seat, dx, dy }` | Moves that person's figure by `dx`, `dy` CSS pixels: the recoil of "ATTACK BLOCKED". The tag, press square and everyone else stay. Updates that change only `brace` or `standIns` redraw nothing else, so a film can send one every frame |
+| `scene.films` | A container for the game's films inside the scene's stacking context, making none of its own, so what the game puts there interleaves with the scene by z-index (see [Films](#films)). Hidden while concealed; `null` after `dispose()` |
+
+Nothing else changes: the same pictures, framing, people, offers, states and records. The probe adds three `films` checks.
 
 ## What changed in 0.3.0
 
@@ -90,6 +102,7 @@ scene.update({ ...changes });  // any inputs; the rest stay
 scene.suspend();               // backgrounded: every animation stands still
 scene.resume();                // foregrounded: back on the clock
 scene.layout();                // { frame, places, people }: see below
+scene.films;                   // 0.4.0: the container for the game's films, or null after dispose()
 scene.dispose();               // removes the element, its listener and the crew's mounts
 ```
 
@@ -133,6 +146,25 @@ scene.dispose();               // removes the element, its listener and the crew
 - **After `dispose()`:** `null`.
 - **The text alternative** (the list of people, #222 R3) is Frontend's, built from `layout().people`, so in the dark and concealed it lists nobody.
 
+### Films
+
+`scene.films` is where the game puts the films this component does not draw yet. It is a container in the scene's own stacking context that makes none of its own, so each film interleaves with the scene by its z-index, on the scene's scale:
+
+| Layer | z-index |
+| --- | --- |
+| A room picture at a depth | 2 × depth + 1 |
+| A person's body at a depth | 2 × depth |
+| A person's front parts (a desk, a bench) | 1500 + depth |
+| The turn mark | 3001 |
+| An offered position | 3050 |
+| A press square | 3100 |
+| A tag | 3150 |
+| The room's name and its control | 3200 |
+
+- **Coordinates:** CSS pixels from the scene's top left, as in `layout()`. `layout().frame` (`k`, `tx`, `ty`) places the room's 1024 × 768 drawing.
+- **A film that draws a person itself** names that seat in `standIns`, and the scene leaves the person's figure out. A recoil is `brace`.
+- **The scene never touches** what the game puts in `films`. It hides the container while concealed, and removes it with the scene on `dispose()`.
+
 ## Inputs
 
 There are two audiences:
@@ -164,6 +196,8 @@ No input carries a role, a team or any other private fact.
 | `interactive` | Phone | `true` | Whether this surface takes taps now |
 | `versions` | Public | `null` | The match's pinned art versions, passed to the crew runtime |
 | `label` | Phone | `true` | Show the room's name |
+| `standIns` | Public | `[]` | 0.4.0: seats whose figure the game's film draws instead. Their tag, turn mark, press square and place stay |
+| `brace` | Public | `null` | 0.4.0: `{ seat, dx, dy }`, the recoil: that person's figure moves by `dx`, `dy` CSS pixels |
 | `roomArt` | Public | `null` | The room-art release the match's bundles carry. `'room-drawing-1.0.0'` frames a fifth wider, with the extension; anything else, or `null`, keeps the pack's framing. A change frames afresh, even within a hold |
 
 ## Callbacks
@@ -282,9 +316,9 @@ These are listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/room-scene.test.mjs` | 10 of 10 |
-  | `npm run test:design` | 369 of 369 |
-  | `npm run test:tooling` | 337 of 337 |
+  | `packages/design-tokens/test/room-scene.test.mjs` | 11 of 11 |
+  | `npm run test:design` | 370 of 370 |
+  | `npm run test:tooling` | 337 of 337 (on 0.3.0) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
   | `node design/tools/phone-ui-figure-extents.mjs --check` | Current |
@@ -293,16 +327,21 @@ These are listed, not omitted:
 - **`node design/tools/room-scene-check.mjs`:**
   - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
   - **Captures:** eleven states at 390 × 844 and 430 × 932: 22 of 22 pass. Ten show the approved pictures a fifth wider; `today` shows older art in the pack's framing.
-  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 23 of 23 checks pass.
+  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 26 of 26 checks pass.
     - Held: one window through 390 × 653 → 430 × 741, lit and dark, and new insets, then its end.
     - Private: `layout()` lit, dark and concealed; the offers and the control after concealment and after a change of viewer; after `dispose()`.
     - Time: Reduce motion with the clock moving from 1 s to 9 s, as in Frontend's review; eight 250 ms model updates; reconnecting; running again; suspended and resumed; the clock withdrawn; no clock; and, from Frontend's re-review, the clock withdrawn, reconnecting or Reduce motion in the same update as a resize, and concealment while running.
     - Focus: the control, a position and a press square across updates, reconnecting and their end.
+    - Films (0.4.0):
+      - a stand-in keeps its tag, place and press square without its figure, and only its own;
+      - the recoil moves one figure, and not its tag or anyone else;
+      - the films container interleaves by z-index (under a press square at 3000, over it at 3300), hides while concealed and is gone after `dispose()`.
     - The device's Reduce motion, emulated.
   - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `191700a1` (0.3.0, with `main` after #260 merged in), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `e56b9c5d` (0.4.0), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
   - **At the game's text size:** the preview's root is the browser's 16 px, as the game's (its html sets no size). Until `191700a1` the preview forced 14 px, so the name tags and the room's control drew an eighth small (11.375 px tags against the game's 13 px). At 16 px every tag stays whole and apart in all 22 captures; the probe's checks are unchanged.
+  - 0.4.0 draws nothing new until the game uses its new inputs. Its captures differ from 0.3.0's only where the crew's idle motion and the voyage stood at another moment.
   - 0.3.0's captures show the approved pictures a fifth wider, so they differ from 0.2.1's by design. The new `today` state shows older art in the pack's framing, as 0.2.1's captures showed every state.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.

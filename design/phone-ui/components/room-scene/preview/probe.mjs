@@ -12,6 +12,9 @@
 //             included, and goes back on the clock when it runs
 //   focus     the control, the positions and the press squares are kept across updates, and the focus
 //             with them; it moves to the scene only when its offer ends, and onFocusReturn says which
+//   films     (0.4.0, for the game's films) a stand-in keeps its tag and press square without its
+//             figure; the recoil moves one figure, not its tag; the films container interleaves with
+//             the scene by z-index, hides while concealed and is gone after dispose()
 // With the device's Reduce motion (the check emulates it), it checks that setting instead.
 // design/tools/room-scene-check.mjs runs it under the production headers and records each result.
 // Desktop Chromium: not a phone, not Safari, not a screen reader.
@@ -263,6 +266,65 @@ export async function runRoomSceneProbe({ host, base, size, large }) {
     check('focus: a press square is kept through updates and a pick; only the focused one ending moves the focus', pressKept && quiet && pressMoved,
       { pressKept, quiet, pressMoved });
     scene.dispose();
+  });
+
+  // 5 · films (0.4.0): what the game's films need from the scene.
+  await guarded('films', async () => {
+    const scene = mount({ targets: null });
+    const root = scene.element;
+    const first = base.people[0].seat, seat = String(first);
+    const person = s => root.querySelector(`.ms-rs-person[data-seat="${s}"]`);
+    const figs = s => [...(person(s)?.querySelectorAll('.ms-rs-fig') ?? [])];
+    const seen = s => figs(s).length > 0 && figs(s).every(n => getComputedStyle(n).visibility === 'visible');
+    const others = base.people.slice(1).map(p => String(p.seat));
+
+    // A stand-in: its figure is not drawn; its tag, its place in layout() and its press square stay.
+    scene.update({ standIns: [first], targets: { seats: [first], picked: [] } });
+    const hidden = figs(seat).length > 0 && figs(seat).every(n => getComputedStyle(n).visibility === 'hidden');
+    const kept = !!person(seat)?.querySelector('.ms-rs-tag') && !!person(seat)?.querySelector('.ms-rs-press')
+      && scene.layout().people.some(p => String(p.seat) === seat);
+    const othersSeen = others.every(seen);
+    scene.update({ standIns: [] });
+    const restored = seen(seat);
+    check('films: a stand-in keeps its tag, its place and its press square without its figure, and only its own',
+      hidden && kept && othersSeen && restored, { hidden, kept, othersSeen, restored });
+
+    // The recoil: one figure moves by dx, dy; its tag stays; null puts it back. No other figure moves.
+    const at = n => { const r = n.getBoundingClientRect(); return [r.left, r.top]; };
+    const figure = figs(seat)[0], tagNode = person(seat).querySelector('.ms-rs-tag'), other = figs(others[0])[0];
+    const [fx, fy] = at(figure), tagBefore = at(tagNode), otherBefore = at(other);
+    scene.update({ brace: { seat: first, dx: 6, dy: -3 } });
+    const [bx, by] = at(figure);
+    const moved = near(bx - fx, 6, 0.5) && near(by - fy, -3, 0.5) && figs(seat)[0] === figure;
+    const still = JSON.stringify(at(tagNode)) === JSON.stringify(tagBefore) && JSON.stringify(at(other)) === JSON.stringify(otherBefore);
+    scene.update({ brace: null });
+    const back = JSON.stringify(at(figure)) === JSON.stringify([fx, fy]);
+    check('films: the recoil moves one figure by dx, dy, and not its tag or anyone else; null puts it back',
+      moved && still && back, { moved: [bx - fx, by - fy], still, back });
+
+    // The films container: in the scene's own stacking context, making none of its own, so a film at
+    // z-index 3000 lies under a press square (3100) and one at 3300 over it.
+    const films = scene.films;
+    const style = getComputedStyle(films);
+    const own = films.parentElement === root && style.position === 'absolute' && style.zIndex === 'auto'
+      && films.getAttribute('aria-hidden') === 'true' && films.childElementCount === 0;
+    const press = person(seat).querySelector('.ms-rs-press');
+    const box = press.getBoundingClientRect(), x = box.left + box.width / 2, y = box.top + box.height / 2;
+    const film = document.createElement('span');
+    Object.assign(film.style, { position: 'absolute', inset: '0', pointerEvents: 'auto', zIndex: '3000' });
+    films.append(film);
+    const under = document.elementFromPoint(x, y) === press;
+    film.style.zIndex = '3300';
+    const over = document.elementFromPoint(x, y) === film;
+    film.remove();
+    scene.update({ status: 'concealed' });
+    const concealed = films.hidden && getComputedStyle(films).display === 'none';
+    scene.update({ status: 'live' });
+    const shown = !films.hidden && getComputedStyle(films).display !== 'none';
+    scene.dispose();
+    const gone = scene.films === null && !films.isConnected;
+    check('films: the films container interleaves with the scene by z-index, hides while concealed and is gone after dispose()',
+      own && under && over && concealed && shown && gone, { own, under, over, concealed, shown, gone });
   });
   return { mode: 'full', ok: checks.every(c => c.ok), checks };
 }
