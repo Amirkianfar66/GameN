@@ -302,6 +302,6 @@ These are listed, not omitted:
   - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `992b83b2` (0.2.1, with `main` after #260 merged in), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
-  - Against 0.1.0's and 0.2.0's captures, the still states are byte-identical. The five with moving crew differ by at most 25 pixels, all on the figures: the crew's idle motion at the moment of capture.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `a1124292` (0.3.0, with `main` after #260 merged in), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - 0.3.0's captures show the approved pictures a fifth wider, so they differ from 0.2.1's by design. The new `today` state shows older art in the pack's framing, as 0.2.1's captures showed every state.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
