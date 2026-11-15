@@ -2,7 +2,7 @@
   "tool": "design/tools/ship-travel-check.mjs",
   "component": "design/phone-ui/components/ship-travel",
   "version": "ship-travel-0.1.0",
-  "sourceCommit": "feebe26d58287dfdac5af2342b7fc50e1569e018",
+  "sourceCommit": "e457e6f6c76d1d1ff3d2606ea373f83b8e8b8f08",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels, the poster comparison at 1x; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -53,16 +53,16 @@
   "captures": {
     "390x844/setting/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-setting.jpg",
-      "sha256": "870c8006fe1cfac79ccc5a9b573296540f3182432a96c6e22dfa822ae05cd77f",
+      "sha256": "5f3f8af4ae1db1d837cbea0183e25127bcf7c6283bccd15239c7268435b4fe65",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -84,20 +84,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/setting/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-setting.jpg",
-      "sha256": "8fa5a18a779d5a2a30a75d4b74ed94318292816b858e14f32e7a249a072f4198",
+      "sha256": "b1c07f96491f7f643ff25396526cf604e7f0bde140fed9fb2d5f23df0f77a167",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -119,20 +129,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/enter/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-enter.jpg",
-      "sha256": "03a7ae7d089152dd635607acdb704a8d38d586d719dbcea2efd29ad6e9bc80d2",
+      "sha256": "fffc17849f12052376d667faeac3728b3f2bdf61058e7335af68881ec757dc5e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -154,20 +174,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/enter/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-enter.jpg",
-      "sha256": "001d988353d8c02207acc8c216f51a6f79d7d95e70c1122ea14e04ef52134283",
+      "sha256": "b2c8ad8a7c4ab430fd9d0824c4f26859dfc60e7ec801cf75a8ee6a5db4aaa745",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -189,20 +219,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/settle/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-settle.jpg",
-      "sha256": "639131462532332b637c5f1da0dbce6e47d08b975a57581a6016bc080db28b8e",
+      "sha256": "23ed32402b673bba0a4d99f99521abc6fa350234df426cf231529a05952bdf0c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -224,20 +264,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/settle/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-settle.jpg",
-      "sha256": "dd33bc7d40b0a63697fc0813ded3dae889a4b6829489a940bb97a8dee1742069",
+      "sha256": "ce4ab08814cea94edbc6cd7e826cb74d9307ff6388f76e75361b71ef3192941f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -259,20 +309,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/moved/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-moved.jpg",
-      "sha256": "1f45d636e865cb781dd5c1c0b12ca32a8069f45c605a5ca613a267fb1bf075aa",
+      "sha256": "20e230648b715a2dba8d12b93db98d341d22f09198073cbb3b15f1571cba5a4b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -294,20 +354,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/moved/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-moved.jpg",
-      "sha256": "610ce2900231f53bbc929dc765b3a8037aaf0bc05d5493ba6dc1bfc1c884166a",
+      "sha256": "de2daffb9174868933f7b48e63d792987e8f9a2dfc1beb28d0b32900e00b94d8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -329,20 +399,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/reduced/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-reduced.jpg",
-      "sha256": "0cb4f3403228070ff02edb6bea8526538d7dddd76acb3228e4887bb83671cc41",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -364,20 +444,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/reduced/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-reduced.jpg",
-      "sha256": "99a68e5684a1d463ec69b2b284ee4091d65e0e89533d98b0b2746df0c68bd74f",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -399,20 +489,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/stale/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-stale.jpg",
-      "sha256": "16a38e0bb4dc6b6b7a90449f57f819dbd995f90da84afeb1b38f9b165442ce91",
+      "sha256": "e555375110f939bc2d5a70948d970e0c1a3821b4094e1e86ed77090d1d5c71f6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -434,20 +534,30 @@
       "layersShown": 3,
       "banner": "Connection lost",
       "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/stale/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-stale.jpg",
-      "sha256": "33e63c65682e177b9c8c3841f17baf7d9d9c2c9c69f138730343694b07595c71",
+      "sha256": "579de875da7c800229bebc5f710142731bba68ccf3aa51503b49c3db917b5bef",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -469,20 +579,30 @@
       "layersShown": 3,
       "banner": "Connection lost",
       "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/concealed/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-concealed.jpg",
-      "sha256": "604ebb08370b497924ce4687322ffa0bb1fabb7045488a424300971dec35c961",
+      "sha256": "99a68f750804b822934f4b097ffc19b4bd930d84cde5386037b5030a5c60af9f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -504,20 +624,30 @@
       "layersShown": 0,
       "banner": null,
       "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
       "problems": []
     },
     "430x932/concealed/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-concealed.jpg",
-      "sha256": "b33b0fdf72a15c9762278ad61c528f1885f7d6afeb7ae7946c74f77ee4171636",
+      "sha256": "bad6056478a50a87d7e4a3aeaa79035b233b84b92bb5504d81b27a649a223242",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -539,20 +669,30 @@
       "layersShown": 0,
       "banner": null,
       "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
       "problems": []
     },
     "390x844/noclock/full": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-noclock.jpg",
-      "sha256": "0cb4f3403228070ff02edb6bea8526538d7dddd76acb3228e4887bb83671cc41",
+      "sha256": "d406d6342c48d1f975aa1a21803ea27689c1b45aa9c6c7e52d6ea08ae82bc863",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -574,20 +714,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/noclock/full": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-noclock.jpg",
-      "sha256": "99a68e5684a1d463ec69b2b284ee4091d65e0e89533d98b0b2746df0c68bd74f",
+      "sha256": "1d4860dec1d2f19fbe63f20e697b4a9f2293b44ed61fd6d4ada90b867b000b61",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -609,20 +759,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/setting/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-setting-reduced.jpg",
-      "sha256": "0cb4f3403228070ff02edb6bea8526538d7dddd76acb3228e4887bb83671cc41",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -644,20 +804,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/setting/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-setting-reduced.jpg",
-      "sha256": "99a68e5684a1d463ec69b2b284ee4091d65e0e89533d98b0b2746df0c68bd74f",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -679,20 +849,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/enter/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-enter-reduced.jpg",
-      "sha256": "d7823ce5823cb4d08f332058499f53d1705ad41b90bc3e3bd79c8f7a11933865",
+      "sha256": "1fc7958b379d71f9dac85cc2c6a7daa7641e67e777ef8c8133973e4829c7baf9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -714,20 +894,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/enter/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-enter-reduced.jpg",
-      "sha256": "c03b176b99f6a2251a39ca5fdcbb0847aad5f27c0bdb487c95974469f4bb9849",
+      "sha256": "4a8a4e7a3e98f60fc9260abc77a2e9f112bf651f8305f9300f8c48b0266587ce",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -749,20 +939,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/settle/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-settle-reduced.jpg",
-      "sha256": "7395e6344d0936799e9517c450c9fb3ea10f78f681d98de2b305bdb62616bed0",
+      "sha256": "664223e2ce025e4728aa5dc56af60e8e722db4289085f3c483e0c3add6c0cf1b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -784,20 +984,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/settle/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-settle-reduced.jpg",
-      "sha256": "dcfb9f99aa299ba4748c158403d56ef427b608b4641d62ea85dc2ea676e3c686",
+      "sha256": "48a8a83026084c93382e904256824793f879635e834d3b9c97f640f883c57abe",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -819,20 +1029,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/moved/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-moved-reduced.jpg",
-      "sha256": "1f45d636e865cb781dd5c1c0b12ca32a8069f45c605a5ca613a267fb1bf075aa",
+      "sha256": "e990f9dbe54b7e15c8540ee15f116a558327e66f4456f1ae3edfbad3e3aaf325",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -854,20 +1074,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/moved/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-moved-reduced.jpg",
-      "sha256": "610ce2900231f53bbc929dc765b3a8037aaf0bc05d5493ba6dc1bfc1c884166a",
+      "sha256": "de2daffb9174868933f7b48e63d792987e8f9a2dfc1beb28d0b32900e00b94d8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -889,20 +1119,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/reduced/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-reduced-reduced.jpg",
-      "sha256": "0cb4f3403228070ff02edb6bea8526538d7dddd76acb3228e4887bb83671cc41",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -924,20 +1164,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/reduced/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-reduced-reduced.jpg",
-      "sha256": "99a68e5684a1d463ec69b2b284ee4091d65e0e89533d98b0b2746df0c68bd74f",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -959,20 +1209,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/stale/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-stale-reduced.jpg",
-      "sha256": "313563b4bc2bef56d660545b3e5d5b00446c9a867c8c3c286e4ae854e32eb0a6",
+      "sha256": "0693271bf9bdd992e0eba4ffc270773aec41d44d7ab19e7168f4d5f6c9f16457",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -994,20 +1254,30 @@
       "layersShown": 3,
       "banner": "Connection lost",
       "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/stale/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-stale-reduced.jpg",
-      "sha256": "45d430e164355f48a8d2819a401df819ad8ebf2d32ddb13e3780a8e34dd105d8",
+      "sha256": "8bb816c1011106da40994837aebe705f213ddb8499da92d3c00dba8d4e1e971d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1029,20 +1299,30 @@
       "layersShown": 3,
       "banner": "Connection lost",
       "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "390x844/concealed/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-concealed-reduced.jpg",
-      "sha256": "604ebb08370b497924ce4687322ffa0bb1fabb7045488a424300971dec35c961",
+      "sha256": "99a68f750804b822934f4b097ffc19b4bd930d84cde5386037b5030a5c60af9f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1064,20 +1344,30 @@
       "layersShown": 0,
       "banner": null,
       "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
       "problems": []
     },
     "430x932/concealed/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-concealed-reduced.jpg",
-      "sha256": "b33b0fdf72a15c9762278ad61c528f1885f7d6afeb7ae7946c74f77ee4171636",
+      "sha256": "bad6056478a50a87d7e4a3aeaa79035b233b84b92bb5504d81b27a649a223242",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1099,20 +1389,30 @@
       "layersShown": 0,
       "banner": null,
       "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
       "problems": []
     },
     "390x844/noclock/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/390x844-noclock-reduced.jpg",
-      "sha256": "0cb4f3403228070ff02edb6bea8526538d7dddd76acb3228e4887bb83671cc41",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1134,20 +1434,30 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     },
     "430x932/noclock/reduced": {
       "file": "design/phone-ui/components/ship-travel/review/430x932-noclock-reduced.jpg",
-      "sha256": "99a68e5684a1d463ec69b2b284ee4091d65e0e89533d98b0b2746df0c68bd74f",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1169,6 +1479,16 @@
       "layersShown": 3,
       "banner": null,
       "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
       "problems": []
     }
   },
@@ -1586,6 +1906,14 @@
           }
         },
         {
+          "id": "caption: 24 px above the phone's bottom safe area, edge to edge or above it",
+          "ok": true,
+          "detail": {
+            "edgeToEdge": 58,
+            "aboveSafeArea": 24
+          }
+        },
+        {
           "id": "privacy: every input the film does not know is refused, a course's above all",
           "ok": true,
           "detail": {
@@ -1648,9 +1976,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1718,9 +2046,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1774,9 +2102,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-xqI8qtP-.js",
+          "source": "assets/index-d3AI4-aF.js",
           "line": 1,
-          "column": 3181,
+          "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1789,7 +2117,7 @@
     "phones": {
       "390x844": {
         "file": "design/phone-ui/components/ship-travel/review/compare-390x844.jpg",
-        "sha256": "588a1fb24158beef33da15c7e594bda10154c635d59f5e086d1a5f0123cb1ddb",
+        "sha256": "700476cb66d9a3197720c89be1341de1eb94799cb2d1431e2ac0825b78a58ec1",
         "size": {
           "width": 390,
           "height": 844,
@@ -1803,7 +2131,7 @@
           "x": 0,
           "y": 99,
           "w": 390,
-          "h": 711
+          "h": 745
         },
         "ship": {
           "x": 0,
@@ -1812,7 +2140,7 @@
           "h": 181
         },
         "film": {
-          "mean": 1.17,
+          "mean": 1.11,
           "far": 0.0004
         },
         "shipBox": {
@@ -1830,9 +2158,9 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-xqI8qtP-.js",
+            "source": "assets/index-d3AI4-aF.js",
             "line": 1,
-            "column": 3181,
+            "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
           }
         ],
@@ -1840,7 +2168,7 @@
       },
       "430x932": {
         "file": "design/phone-ui/components/ship-travel/review/compare-430x932.jpg",
-        "sha256": "68d0642f1b47b3e4d9cdc5def8a0fabcf7fb2cba2f54a45b6b4e745160c3fc4b",
+        "sha256": "17216b2f29501713ccc6070742ef27ded1c21bc283f60596860c521181e89ecc",
         "size": {
           "width": 430,
           "height": 932,
@@ -1854,7 +2182,7 @@
           "x": 0,
           "y": 99,
           "w": 430,
-          "h": 799
+          "h": 833
         },
         "ship": {
           "x": 0,
@@ -1863,7 +2191,7 @@
           "h": 199
         },
         "film": {
-          "mean": 1.21,
+          "mean": 1.16,
           "far": 0.0006
         },
         "shipBox": {
@@ -1881,9 +2209,9 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/index-xqI8qtP-.js",
+            "source": "assets/index-d3AI4-aF.js",
             "line": 1,
-            "column": 3181,
+            "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
           }
         ],
@@ -1893,7 +2221,7 @@
   },
   "beats": {
     "file": "design/phone-ui/components/ship-travel/review/beats-390x844.jpg",
-    "sha256": "c531a513a1a5dd1827bc8c13e2c63f24507fe58ca581e4964c719bf28d43daae",
+    "sha256": "ac32fc2d637f2ca63630204ca197437a1c4b01ed954e959ecf38cbb9bc5fb6c9",
     "moments": [
       0,
       150,
@@ -1923,9 +2251,9 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-xqI8qtP-.js",
+        "source": "assets/index-d3AI4-aF.js",
         "line": 1,
-        "column": 3181,
+        "column": 3180,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
       }
     ],
