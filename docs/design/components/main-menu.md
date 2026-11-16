@@ -119,7 +119,7 @@ Each reports a tap, and only that.
 
 ## Checks run on this version
 
-On `9da41b8b`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `component-check.mjs`):
+On `9aec5f4a`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `component-check.mjs`):
 - **Tests:** `packages/design-tokens/test/main-menu.test.mjs`:
   - the runtime-safe graph, with the kit and the entry parts and no phone shell;
   - styles scoped, placing kit and entry parts only through the menu's own parts;

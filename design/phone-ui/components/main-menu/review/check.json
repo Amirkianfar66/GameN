@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/main-menu-check.mjs",
   "component": "design/phone-ui/components/main-menu",
-  "sourceCommit": "9da41b8be0fb30cff309a52e3561e402c9d259cb",
+  "sourceCommit": "9aec5f4a7adab3bd6969950b28fdb67f5e65f731",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -67,11 +67,14 @@
         "1",
         "1"
       ],
-      "hero": 1,
+      "hero": 489.515625,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 572,
+      "cover": false,
+      "coverTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -98,7 +101,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -120,11 +123,14 @@
         "1",
         "1"
       ],
-      "hero": 1,
+      "hero": 540.546875,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 660,
+      "cover": false,
+      "coverTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -151,7 +157,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -173,11 +179,14 @@
         "1",
         "0.4"
       ],
-      "hero": 1,
+      "hero": 489.515625,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 499.5,
+      "cover": false,
+      "coverTop": null,
       "layout": {
         "size": {
           "width": 390,
@@ -204,7 +213,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -226,11 +235,14 @@
         "1",
         "0.4"
       ],
-      "hero": 1,
+      "hero": 540.546875,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 587.5,
+      "cover": false,
+      "coverTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -250,14 +262,14 @@
     },
     "390x844/large": {
       "file": "design/phone-ui/components/main-menu/review/390x844-large.jpg",
-      "sha256": "2fa48291b58c98a8f9b5de735324983f58b625e75cb1c5f1bb84209b9ec228e8",
+      "sha256": "e695eb98c48e2d925695b1aa59134fe0ecaa05c5fc057cc72427382520a6423c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -279,11 +291,14 @@
         "1",
         "1"
       ],
-      "hero": 1,
+      "hero": 489.515625,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 435.25,
+      "cover": true,
+      "coverTop": 411.25,
       "layout": {
         "size": {
           "width": 390,
@@ -310,7 +325,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -332,11 +347,14 @@
         "1",
         "1"
       ],
-      "hero": 1,
+      "hero": 540.546875,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 559.640625,
+      "cover": false,
+      "coverTop": null,
       "layout": {
         "size": {
           "width": 430,
@@ -356,14 +374,14 @@
     },
     "390x844/large-offline": {
       "file": "design/phone-ui/components/main-menu/review/390x844-large-offline.jpg",
-      "sha256": "5da7f6c3d2917a3bb8a8d0395a17fd12799ce41f6d1166c582b85f96056a4edb",
+      "sha256": "e19867056330aa063252cf8f86926fa68a9a1e6f5c5e1d39c7ced5bb7eadb154",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -385,11 +403,14 @@
         "1",
         "0.4"
       ],
-      "hero": 1,
+      "hero": 489.515625,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 241.25,
+      "cover": true,
+      "coverTop": 217.25,
       "layout": {
         "size": {
           "width": 390,
@@ -409,14 +430,14 @@
     },
     "430x932/large-offline": {
       "file": "design/phone-ui/components/main-menu/review/430x932-large-offline.jpg",
-      "sha256": "b7518bf90a69a13c241f73f0b562d726a8466972ac2bf14b54516bd1197ea82e",
+      "sha256": "303f44e8d56ab42fc99d3cf78beea7fbd3cca8dcffe4ae08958e7b6c879f9928",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -438,11 +459,14 @@
         "1",
         "0.4"
       ],
-      "hero": 1,
+      "hero": 540.546875,
       "canvas": "rgb(16, 20, 28)",
       "settingsTop": 51,
       "choicesBottom": 52,
       "clear": true,
+      "stackTop": 365.640625,
+      "cover": true,
+      "coverTop": 341.625,
       "layout": {
         "size": {
           "width": 430,
@@ -685,15 +709,56 @@
           }
         },
         {
-          "id": "text: with the Largest text (200 %) the choices grow from the foot up, keep their place over the safe area and stay clear of the settings button",
+          "id": "text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them",
           "ok": true,
           "detail": {
             "ok": true,
             "seen": {
-              "actionsTop": 233.25,
-              "actionsBottom": 52,
-              "settingsBottom": 95,
-              "join": 144.375
+              "100": {
+                "stackTop": 572,
+                "hero": 489.515625,
+                "cover": false,
+                "coverTop": null,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 76
+              },
+              "200": {
+                "stackTop": 435.25,
+                "hero": 489.515625,
+                "cover": true,
+                "coverTop": 411.25,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 144.375
+              },
+              "100 offline": {
+                "stackTop": 499.5,
+                "hero": 489.515625,
+                "cover": false,
+                "coverTop": null,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 76
+              },
+              "150 offline": {
+                "stackTop": 398.609375,
+                "hero": 489.515625,
+                "cover": true,
+                "coverTop": 374.609375,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 87.484375
+              },
+              "200 offline": {
+                "stackTop": 241.25,
+                "hero": 489.515625,
+                "cover": true,
+                "coverTop": 217.25,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 144.375
+              }
             }
           }
         },
@@ -739,7 +804,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -770,7 +835,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-_2XFr8Tp.js",
+          "source": "assets/index-g6_6XJRY.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1070,7 +1135,8 @@
               },
               "words": null
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -1379,7 +1445,8 @@
               },
               "words": null
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -1668,7 +1735,8 @@
               },
               "words": null
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -1977,7 +2045,8 @@
               },
               "words": null
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -2266,6 +2335,11 @@
               },
               "words": null
             }
+          },
+          "improvement": {
+            "what": "the canvas covers the hero from 24 px above the choices",
+            "coverTop": 411.25,
+            "stackTop": 435.25
           }
         }
       },
@@ -2575,6 +2649,11 @@
               },
               "words": null
             }
+          },
+          "improvement": {
+            "what": "the canvas covers the hero from 24 px above the choices",
+            "coverTop": 341.625,
+            "stackTop": 365.640625
           }
         }
       }
@@ -2583,7 +2662,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-_2XFr8Tp.js",
+        "source": "assets/index-g6_6XJRY.js",
         "line": 1,
         "column": 3180,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
