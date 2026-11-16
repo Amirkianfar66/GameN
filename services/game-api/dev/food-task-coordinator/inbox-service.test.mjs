@@ -458,6 +458,8 @@ test('one real-time bounded worker covers the full common return under concurren
       receivedToIntakeAck:stats(rows.flatMap(row=>row.intakeAck===undefined?[]:[row.intakeAck-row.received])),
       receivedToAdmittedClock:stats(rows.flatMap(row=>row.admittedAt===undefined?[]:[row.admittedAt-row.received])),
       appendAckToApplyAck:stats(rows.flatMap(row=>row.appendAck===undefined||row.applyAck===undefined?[]:[row.applyAck-row.appendAck])),
+      receivedToApplyAck:stats(rows.flatMap(row=>row.applyAck===undefined?[]:[row.applyAck-row.received])),
+      receivedToExactResponse:stats(rows.map(row=>row.response-row.received)),
       applyAckToExactResponse:stats(rows.flatMap(row=>row.applyAck===undefined?[]:[row.response-row.applyAck])),
       };
     };
