@@ -1,0 +1,514 @@
+TAP version 13
+# Subtest: causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+ok 1 - causal UP leaves while DOWN is pending; late DOWN receipt cannot regress the newer feedback or move the crate
+  ---
+  duration_ms: 4.718667
+  type: 'test'
+  ...
+# Subtest: release retains original Task/session/context after offers and crate generation change
+ok 2 - release retains original Task/session/context after offers and crate generation change
+  ---
+  duration_ms: 0.776792
+  type: 'test'
+  ...
+# Subtest: connection loss alone sends no release; observed backgrounding sends UP before conceal
+ok 3 - connection loss alone sends no release; observed backgrounding sends UP before conceal
+  ---
+  duration_ms: 0.3765
+  type: 'test'
+  ...
+# Subtest: wrong authentication cannot release an original contact or expose its view
+ok 4 - wrong authentication cannot release an original contact or expose its view
+  ---
+  duration_ms: 0.39975
+  type: 'test'
+  ...
+# Subtest: unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+ok 5 - unknown responses retain both original identities; a null lookup never means rejection or permission for a replacement DOWN
+  ---
+  duration_ms: 0.39875
+  type: 'test'
+  ...
+# Subtest: reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+ok 6 - reloading an unknown Ask retains context/family, excludes its private Partner and never replays it
+  ---
+  duration_ms: 0.735042
+  type: 'test'
+  ...
+# Subtest: recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+ok 7 - recovered Hold never replays DOWN; explicit finger-off closes actual older holder and newer pending contact atomically
+  ---
+  duration_ms: 0.814166
+  type: 'test'
+  ...
+# Subtest: recorded finger-off closes a fresh live contact before stalled original lookups
+    # Subtest: currentHolder
+    ok 1 - currentHolder
+      ---
+      duration_ms: 1.23475
+      type: 'test'
+      ...
+    # Subtest: pendingIntent
+    ok 2 - pendingIntent
+      ---
+      duration_ms: 0.695292
+      type: 'test'
+      ...
+    1..2
+ok 8 - recorded finger-off closes a fresh live contact before stalled original lookups
+  ---
+  duration_ms: 2.258792
+  type: 'test'
+  ...
+# Subtest: untracked blur or disposal preserves a lookup-first off marker
+    # Subtest: blur
+    ok 1 - blur
+      ---
+      duration_ms: 0.543084
+      type: 'test'
+      ...
+    # Subtest: dispose
+    ok 2 - dispose
+      ---
+      duration_ms: 0.589458
+      type: 'test'
+      ...
+    1..2
+ok 9 - untracked blur or disposal preserves a lookup-first off marker
+  ---
+  duration_ms: 1.260292
+  type: 'test'
+  ...
+# Subtest: a live Winch holder cannot use an off proof outside its own context
+    # Subtest: phaseId
+    ok 1 - phaseId
+      ---
+      duration_ms: 0.357584
+      type: 'test'
+      ...
+    # Subtest: foodStepId
+    ok 2 - foodStepId
+      ---
+      duration_ms: 0.3505
+      type: 'test'
+      ...
+    # Subtest: controlSessionId
+    ok 3 - controlSessionId
+      ---
+      duration_ms: 0.335583
+      type: 'test'
+      ...
+    # Subtest: ownerUid
+    ok 4 - ownerUid
+      ---
+      duration_ms: 0.244917
+      type: 'test'
+      ...
+    1..4
+ok 10 - a live Winch holder cannot use an off proof outside its own context
+  ---
+  duration_ms: 1.38025
+  type: 'test'
+  ...
+# Subtest: a stale closure-first receipt leaves every original unresolved
+ok 11 - a stale closure-first receipt leaves every original unresolved
+  ---
+  duration_ms: 0.528833
+  type: 'test'
+  ...
+# Subtest: saved unacknowledged high-water participates in fresh explicit off recovery
+ok 12 - saved unacknowledged high-water participates in fresh explicit off recovery
+  ---
+  duration_ms: 0.363541
+  type: 'test'
+  ...
+# Subtest: verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload
+ok 13 - verified finger-off closure retires never-delivered Hold originals, enables an offered KEY and stays closed after reload
+  ---
+  duration_ms: 1.976875
+  type: 'test'
+  ...
+# Subtest: verified closure preserves unknown commands outside its exact original contact boundary
+    # Subtest: other Task
+    ok 1 - other Task
+      ---
+      duration_ms: 0.479417
+      type: 'test'
+      ...
+    # Subtest: other control session
+    ok 2 - other control session
+      ---
+      duration_ms: 0.364792
+      type: 'test'
+      ...
+    # Subtest: higher sequence
+    ok 3 - higher sequence
+      ---
+      duration_ms: 0.312375
+      type: 'test'
+      ...
+    # Subtest: other phase
+    ok 4 - other phase
+      ---
+      duration_ms: 0.397083
+      type: 'test'
+      ...
+    # Subtest: other Food step
+    ok 5 - other Food step
+      ---
+      duration_ms: 0.327792
+      type: 'test'
+      ...
+    # Subtest: other round
+    ok 6 - other round
+      ---
+      duration_ms: 0.33075
+      type: 'test'
+      ...
+    # Subtest: non-Hold input
+    ok 7 - non-Hold input
+      ---
+      duration_ms: 0.312959
+      type: 'test'
+      ...
+    1..7
+ok 14 - verified closure preserves unknown commands outside its exact original contact boundary
+  ---
+  duration_ms: 2.7255
+  type: 'test'
+  ...
+# Subtest: rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN
+    # Subtest: rejected
+    ok 1 - rejected
+      ---
+      duration_ms: 0.269
+      type: 'test'
+      ...
+    # Subtest: wrong boundary
+    ok 2 - wrong boundary
+      ---
+      duration_ms: 0.201416
+      type: 'test'
+      ...
+    1..2
+ok 15 - rejected or mismatched recovery cannot retire unknown Hold inputs or permit a replacement DOWN
+  ---
+  duration_ms: 0.537
+  type: 'test'
+  ...
+# Subtest: a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt
+ok 16 - a late original Hold completion after verified closure does not restore pending state or replace the recovery receipt
+  ---
+  duration_ms: 0.260708
+  type: 'test'
+  ...
+# Subtest: only the original matching receipt can settle; a foreign Task/session or command remains unknown
+ok 17 - only the original matching receipt can settle; a foreign Task/session or command remains unknown
+  ---
+  duration_ms: 0.149334
+  type: 'test'
+  ...
+# Subtest: clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+ok 18 - clock-only polls preserve revision; body changes, stale revisions and unrelated response context close the view
+  ---
+  duration_ms: 0.4875
+  type: 'test'
+  ...
+# Subtest: server time unavailability and deadline shut inputs without advancing or extending the Task
+ok 19 - server time unavailability and deadline shut inputs without advancing or extending the Task
+  ---
+  duration_ms: 0.125458
+  type: 'test'
+  ...
+# Subtest: a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+ok 20 - a storage failure blocks a new DOWN but cannot swallow an existing causal UP
+  ---
+  duration_ms: 0.179875
+  type: 'test'
+  ...
+# Subtest: one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+ok 21 - one Hold follows only its own pointer/key contact and closes on cancel, blur or disposal once
+  ---
+  duration_ms: 0.110041
+  type: 'test'
+  ...
+# Subtest: assistive activation releases a recovered pressed Hold through the same single control
+ok 22 - assistive activation releases a recovered pressed Hold through the same single control
+  ---
+  duration_ms: 0.031666
+  type: 'test'
+  ...
+# Subtest: accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+ok 23 - accepted ordinary Food input waits for its new view before a second press, while Hold release remains independent
+  ---
+  duration_ms: 0.143708
+  type: 'test'
+  ...
+# Subtest: a same-Task death or outcome cannot be rewritten by a later view revision
+ok 24 - a same-Task death or outcome cannot be rewritten by a later view revision
+  ---
+  duration_ms: 0.277958
+  type: 'test'
+  ...
+# Subtest: an adapter cannot mutate the original DOWN that a later UP must close
+ok 25 - an adapter cannot mutate the original DOWN that a later UP must close
+  ---
+  duration_ms: 0.153584
+  type: 'test'
+  ...
+# Subtest: future original receipt time stays unknown and lookup sends only its strict identity context
+ok 26 - future original receipt time stays unknown and lookup sends only its strict identity context
+  ---
+  duration_ms: 0.182125
+  type: 'test'
+  ...
+# Subtest: network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it
+ok 27 - network-only loss retains the authorized timed scene with inputs closed; revocation and hidden screens conceal it
+  ---
+  duration_ms: 0.13575
+  type: 'test'
+  ...
+# Subtest: display accepts only the new subscription, ordered epoch, complete bound projection and current revision
+ok 28 - display accepts only the new subscription, ordered epoch, complete bound projection and current revision
+  ---
+  duration_ms: 7.320334
+  type: 'test'
+  ...
+# Subtest: push uses new clock pairs after hide and can refresh freshness without changing the view body
+ok 29 - push uses new clock pairs after hide and can refresh freshness without changing the view body
+  ---
+  duration_ms: 17.4195
+  type: 'test'
+  ...
+# Subtest: input, verified original receipt and authority paint have separate clocks and witnesses
+ok 30 - input, verified original receipt and authority paint have separate clocks and witnesses
+  ---
+  duration_ms: 2.368583
+  type: 'test'
+  ...
+# Subtest: apply notification is an interruptible lookup wake only
+ok 31 - apply notification is an interruptible lookup wake only
+  ---
+  duration_ms: 0.174084
+  type: 'test'
+  ...
+# Subtest: Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+ok 32 - Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+  ---
+  duration_ms: 5.612167
+  type: 'test'
+  ...
+# Subtest: a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+ok 33 - a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+  ---
+  duration_ms: 3.0645
+  type: 'test'
+  ...
+# Subtest: one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+ok 34 - one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+  ---
+  duration_ms: 3.587875
+  type: 'test'
+  ...
+# Subtest: snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+ok 35 - snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+  ---
+  duration_ms: 5.654042
+  type: 'test'
+  ...
+# Subtest: an accepted Panel RELEASE still gets its own READ after a prior wire read outlives the local timeout
+    # Subtest: old wire READ settles at 8250 ms
+    ok 1 - old wire READ settles at 8250 ms
+      ---
+      duration_ms: 3.52225
+      type: 'test'
+      ...
+    # Subtest: old wire READ settles at 8600 ms
+    ok 2 - old wire READ settles at 8600 ms
+      ---
+      duration_ms: 2.973083
+      type: 'test'
+      ...
+    1..2
+ok 36 - an accepted Panel RELEASE still gets its own READ after a prior wire read outlives the local timeout
+  ---
+  duration_ms: 6.672458
+  type: 'test'
+  ...
+# Subtest: a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+ok 37 - a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+  ---
+  duration_ms: 2.949625
+  type: 'test'
+  ...
+# Subtest: hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+ok 38 - hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+  ---
+  duration_ms: 0.949959
+  type: 'test'
+  ...
+# Subtest: a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+ok 39 - a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+  ---
+  duration_ms: 2.668833
+  type: 'test'
+  ...
+# Subtest: mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+ok 40 - mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+  ---
+  duration_ms: 1.203625
+  type: 'test'
+  ...
+# Subtest: lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+ok 41 - lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+  ---
+  duration_ms: 1.016542
+  type: 'test'
+  ...
+# Subtest: explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+ok 42 - explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+  ---
+  duration_ms: 7.543583
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ idToken settles at its actual deadline
+ok 43 - a stalled hosted READ idToken settles at its actual deadline
+  ---
+  duration_ms: 6.651333
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ appCheck settles at its actual deadline
+ok 44 - a stalled hosted READ appCheck settles at its actual deadline
+  ---
+  duration_ms: 1.1605
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ headers settles at its actual deadline
+ok 45 - a stalled hosted READ headers settles at its actual deadline
+  ---
+  duration_ms: 1.108375
+  type: 'test'
+  ...
+# Subtest: a stalled hosted READ body settles at its actual deadline
+ok 46 - a stalled hosted READ body settles at its actual deadline
+  ---
+  duration_ms: 0.958208
+  type: 'test'
+  ...
+# Subtest: the scheduled poll recovers after a transient READ failure without refresh or reload
+ok 47 - the scheduled poll recovers after a transient READ failure without refresh or reload
+  ---
+  duration_ms: 5.15925
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled idToken keeps one logical READ and the same seat
+ok 48 - scheduled recovery after a stalled idToken keeps one logical READ and the same seat
+  ---
+  duration_ms: 8.791
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled appCheck keeps one logical READ and the same seat
+ok 49 - scheduled recovery after a stalled appCheck keeps one logical READ and the same seat
+  ---
+  duration_ms: 5.603708
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled headers keeps one logical READ and the same seat
+ok 50 - scheduled recovery after a stalled headers keeps one logical READ and the same seat
+  ---
+  duration_ms: 13.435333
+  type: 'test'
+  ...
+# Subtest: scheduled recovery after a stalled body keeps one logical READ and the same seat
+ok 51 - scheduled recovery after a stalled body keeps one logical READ and the same seat
+  ---
+  duration_ms: 3.747459
+  type: 'test'
+  ...
+# Subtest: a finite READ past8s retains its original clock window and never starts an overlapping read
+ok 52 - a finite READ past8s retains its original clock window and never starts an overlapping read
+  ---
+  duration_ms: 1.685958
+  type: 'test'
+  ...
+# Subtest: overdue idToken cannot beat a delayed deadline timer
+ok 53 - overdue idToken cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.400292
+  type: 'test'
+  ...
+# Subtest: overdue appCheck cannot beat a delayed deadline timer
+ok 54 - overdue appCheck cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.335917
+  type: 'test'
+  ...
+# Subtest: overdue headers cannot beat a delayed deadline timer
+ok 55 - overdue headers cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.351041
+  type: 'test'
+  ...
+# Subtest: overdue body cannot beat a delayed deadline timer
+ok 56 - overdue body cannot beat a delayed deadline timer
+  ---
+  duration_ms: 0.318917
+  type: 'test'
+  ...
+# Subtest: an overdue credential completion expires acquisition even if its sibling is still pending
+ok 57 - an overdue credential completion expires acquisition even if its sibling is still pending
+  ---
+  duration_ms: 0.147583
+  type: 'test'
+  ...
+# Subtest: deadline cancellation owns the old READ until headers actually settle
+ok 58 - deadline cancellation owns the old READ until headers actually settle
+  ---
+  duration_ms: 3.874084
+  type: 'test'
+  ...
+# Subtest: blur/focus during a stalled old-generation READ recovers automatically with a fresh clock and role
+ok 59 - blur/focus during a stalled old-generation READ recovers automatically with a fresh clock and role
+  ---
+  duration_ms: 11.517625
+  type: 'test'
+  ...
+# Subtest: a finite old-generation reply cannot repaint private data or calibrate the resumed clock
+ok 60 - a finite old-generation reply cannot repaint private data or calibrate the resumed clock
+  ---
+  duration_ms: 1.620125
+  type: 'test'
+  ...
+# Subtest: a stalled READ cannot delay or cancel the original causal Hold UP
+ok 61 - a stalled READ cannot delay or cancel the original causal Hold UP
+  ---
+  duration_ms: 4.974875
+  type: 'test'
+  ...
+# Subtest: an unknown committed Abort keeps its original ID/body across reads, reload and Retry
+ok 62 - an unknown committed Abort keeps its original ID/body across reads, reload and Retry
+  ---
+  duration_ms: 8.652916
+  type: 'test'
+  ...
+# Subtest: successful READ cleanup removes its deadline rather than aborting a later operation
+ok 63 - successful READ cleanup removes its deadline rather than aborting a later operation
+  ---
+  duration_ms: 0.426458
+  type: 'test'
+  ...
+# Subtest: mutation token acquisition remains unchanged and never inherits a READ deadline
+ok 64 - mutation token acquisition remains unchanged and never inherits a READ deadline
+  ---
+  duration_ms: 0.084584
+  type: 'test'
+  ...
+1..64
+# tests 83
+# suites 0
+# pass 83
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 172.432041
