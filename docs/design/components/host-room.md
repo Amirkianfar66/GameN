@@ -184,7 +184,7 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 
 ### Checks run on this version
 
-On `5b360c34`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`). 21 of the 22 captures are byte-identical to those on `90e82d4d`; the other, 430 × 932 Opening…, differs only by the busy spinner's frame (63 pixels on Open room's icon):
+On `56519d09`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; decision 5; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`). Against `5b360c34`'s record, 19 of the 22 captures are byte-identical. The two Full captures change because + now keeps its look, and 390 × 844 Opening… changes by the busy spinner's frame:
 - **Captures:** **22 of 22 pass.** Each asserts:
   - the pack's words, the chosen count and its mix, and the canvas;
   - its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits);
