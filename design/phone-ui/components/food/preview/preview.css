@@ -28,6 +28,14 @@ body { min-height: 100vh; font: 14px/1.4 system-ui, -apple-system, "Segoe UI", s
 body[data-single] { overflow: hidden; }
 body[data-single] .preview-page > :not(.preview-stage), body[data-single] .preview-stage > :not(.preview-phone) { display: none; }
 body[data-single] .preview-page, body[data-single] .preview-stage { display: block; padding: 0; margin: 0; }
+/* both.html: the frozen port's phone and the component's, side by side with nothing between them. For a capture
+   (?stack=1) they stand one on the other at the page's corner, each where a phone alone stands, and the one asked
+   for is in front: a drawing is rasterized a little differently at another place in the page. */
+body[data-single][data-both] .preview-stage { display: flex; flex-wrap: nowrap; gap: 0; }
+body[data-single][data-both][data-stack] .preview-stage { display: block; position: relative; }
+/* Each phone keeps what it draws to itself (the Food host's own z-index would otherwise lift the phone behind over the one in front). */
+body[data-single][data-both][data-stack] .preview-phone { position: absolute; left: 0; top: 0; z-index: 0; isolation: isolate; }
+body[data-single][data-both][data-stack] .preview-phone[data-front] { z-index: 1; }
 
 .preview-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 16px; max-width: 1180px; margin: 0 auto; }
 .preview-page h1 { margin: 0; font-size: 18px; font-weight: 650; }

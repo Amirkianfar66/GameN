@@ -3,7 +3,7 @@ import {createFoodUi} from './food-ui.mjs';
 
 /** A display receives only neutral Food facts. No own-seat controller or cards. */
 export function mountFoodPublic(root,game){
- const document=root.ownerDocument,ui=createFoodUi(document),frame=ui.h('div.planet-food.ph');root.classList.add('planet-food-host');root.append(frame);
+ const document=root.ownerDocument,ui=createFoodUi(document),frame=ui.h('div.planet-food.ph',{'data-food-component':''});root.classList.add('planet-food-host');root.append(frame);
  let previous=null,doses=null;
  const stop=game.subscribe(model=>{
   if(!model.food||model.concealed||model.connection!=='live'){frame.hidden=true;return;}

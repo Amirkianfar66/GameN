@@ -102,15 +102,15 @@
       "source": "apps/game/hosted/planet/food.css",
       "sourceSha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
       "sourceBytes": 30798,
-      "sha256": "88ea0772705a55b232dc9c4849f826c793f243df4b0ff110a76d09aca94cbe62",
-      "bytes": 31438,
+      "sha256": "74053c03e247fad5d39374001961dd05565f007c037cf1632b2efbee34545ed5",
+      "bytes": 31732,
       "differences": [
         {
           "kind": "correction",
           "fix": 3,
           "was": "/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
-          "now": "/* The role row, corrected (sources.json, fix 3): the Partner's label is two whole pieces, the seat number with its name\n   (\"8 Hana\") and the rest (\"· Winch\"). Where they do not fit side by side beside the pill, they stand one above the\n   other; where a piece does not fit beside the pill either, the label takes a line of its own. No word is broken. */\n.planet-food:is(.fs-role), .planet-food :is(.fs-role) { flex-wrap: wrap; row-gap: 4px; }\n.planet-food:is(.fs-who), .planet-food :is(.fs-who) { flex: 1 1 0%; flex-wrap: wrap; justify-content: flex-end; row-gap: 0; min-width: min-content; white-space: nowrap; overflow-wrap: normal; }\n/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
-          "why": "At the larger text the role row squeezed the Partner's label: the seat number left its name and a word broke inside (\"· / Winc / h\"). The label is now two unbreakable pieces that wrap whole. The row is still dropped at the largest text, as before."
+          "now": "/* The role row, corrected (sources.json, fix 3): the Partner's label is two whole pieces, the seat number with its name\n   (\"8 Hana\") and the rest (\"· Winch\"). Where they do not fit side by side beside the pill, they stand one above the\n   other; where a piece does not fit beside the pill either, the label takes a line of its own. No word is broken.\n   Both rules are written under the component's own mark (data-food-component, on the root the component draws). In a\n   page that also holds the frozen port's sheets and surface, the port's surface can never take them, and they outweigh\n   the port's rules for the row whatever order the sheets load in. */\n.planet-food[data-food-component] :is(.fs-role) { flex-wrap: wrap; row-gap: 4px; }\n.planet-food[data-food-component] :is(.fs-who) { flex: 1 1 0%; flex-wrap: wrap; justify-content: flex-end; row-gap: 0; min-width: min-content; white-space: nowrap; overflow-wrap: normal; }\n/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
+          "why": "At the larger text the role row squeezed the Partner's label: the seat number left its name and a word broke inside (\"· / Winc / h\"). The label is now two unbreakable pieces that wrap whole. The row is still dropped at the largest text, as before. The two rules are under the component's mark, so they reach no other surface."
         }
       ]
     },
@@ -141,8 +141,8 @@
       "source": "apps/game/hosted/planet/food-render.mjs",
       "sourceSha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
       "sourceBytes": 35737,
-      "sha256": "d75763c63140565a3b4fa8364243fce9ab426e14534f8e8cae9726620188f78b",
-      "bytes": 36194,
+      "sha256": "beeb90c35d07ed9f3d4a6eac760dae04488a36d733aaf9345d093191d3e57188",
+      "bytes": 36527,
       "differences": [
         {
           "kind": "connector-seam",
@@ -199,6 +199,12 @@
           "why": "The listeners removed above are not there to remove."
         },
         {
+          "kind": "component-mark",
+          "was": "const frame=h('div.planet-food.ph');",
+          "now": "const frame=h('div.planet-food.ph',{'data-food-component':''});",
+          "why": "The root the component draws says it is the component's (data-food-component). The corrected style rules are written under that mark: in a page that also holds the frozen port's sheets and surface, the port's surface can never take a corrected rule, and a corrected rule outweighs the port's whatever order the sheets load in."
+        },
+        {
           "kind": "correction",
           "fix": 1,
           "was": "node.className='pt food-portrait';node.style.width=`${size}px`;node.style.height=`${size}px`;",
@@ -217,7 +223,21 @@
           "fix": 4,
           "was": "  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;\n  if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}\n  else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}\n",
           "now": "  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;\n  // An outcome card stays inside the view (sources.json, fix 4): it ends 12 px above the view's lower edge and scrolls there.\n  // Its limit is given before it is shown, so that it never shows taller, and again whenever the view's height changes.\n  const limit=card&&card.key!=='briefing'?`max(${Math.round(nodes.view.getBoundingClientRect().bottom-frame.getBoundingClientRect().top)-top-36}px, min(calc(100% - var(--top) - 36px), 6rem))`:null;\n  if(limit)card.node.style.maxHeight=limit;\n  if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}\n  else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}\n  else if(limit&&limit!==nodes.limit)nodes.cards.querySelector('.fs-card').style.maxHeight=limit;\n  nodes.limit=limit;\n",
-          "why": "At the larger text an outcome card ran over the role row, and at the largest over the hint. It now ends 12 px above the view's lower edge, as far inside the view as it is from its sides, and scrolls with the port's fade when its words need more. It keeps the port's own limit as the most it may take, and 6rem as the least (the largest text on a phone under about 640 px tall), so that its words stay in sight there. The briefing is left alone: by the package's rule it never scrolls."
+          "why": "At the larger text an outcome card ran over the role row, and at the largest over the hint. It now ends 12 px above the view's lower edge, as far inside the view as it is from its sides, and its words scroll inside it when they need more. It keeps the port's own limit as the most it may take, and 6rem as the least (the largest text on a phone under about 640 px tall), so that its words stay in sight there. The briefing is left alone: by the package's rule it never scrolls."
+        },
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": "h('span.stamp.fs-stamp',{'data-tone':tone},stamp),h('h2',title),body)};",
+          "now": "h('div.fs-card-body',{style:{margin:'-16px',padding:'16px',outlineOffset:'-5px'}},h('span.stamp.fs-stamp',{'data-tone':tone},stamp),h('h2',title),body))};",
+          "why": "An outcome card's words are in a scroller inside the card (.fs-card-body), as a request card's are. The port faded a card that scrolls as a whole, its background and its edge with its words: once the card ends inside the view, the scene behind it showed through its foot. Now only the words fade, with the port's own fade for a card's words, and the card stays opaque to its edge. The scroller takes the card's whole inside, its 16 px of padding with it (a margin of -16 px and a padding of 16 px, set on the scroller itself): what scrolls, and where it is cut, is what the port's card scrolls and cuts, so the tilted stamp is whole and, where the words fit, no pixel changes. Its focus ring is drawn inside it, where the card does not cut it."
+        },
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": "  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body'))attr(node,'data-scrolls',node.scrollHeight>node.clientHeight+1?'':null);\n",
+          "now": "  // A card's words that scroll take a place in the Tab order, so that the keys can scroll them (sources.json, fixes 4 and 5).\n  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body')){const scrolls=node.scrollHeight>node.clientHeight+1;attr(node,'data-scrolls',scrolls?'':null);if(node.matches('.fs-card-body'))attr(node,'tabindex',scrolls?'0':null);}\n",
+          "why": "The port's outcome card scrolled as a whole and held the focus, so the arrow keys scrolled it. Its words now scroll inside it, and a request card's words scroll at the larger text since correction 5: the words take a place in the Tab order while they scroll, so that the keys still reach them. They take none where they fit."
         },
         {
           "kind": "correction",
@@ -254,8 +274,8 @@
       "source": "apps/game/hosted/planet/food-app.mjs",
       "sourceSha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
       "sourceBytes": 3270,
-      "sha256": "4551ad087e6400299e8786d61a02ff6687cc038ec719557d92d2f57391fe62bd",
-      "bytes": 1221,
+      "sha256": "cb08ee8739c17dde8a79517be4b909348af4c3efa18ac439f16607d03bcce4d0",
+      "bytes": 1248,
       "differences": [
         {
           "kind": "connector-seam",
@@ -280,6 +300,12 @@
           "was": "const top=root.parentElement?.querySelector('.planet-header')?.getBoundingClientRect().height??0;",
           "now": "const top=game.top();",
           "why": "A component can't reach into the app's page: the ordinary header's height is given."
+        },
+        {
+          "kind": "component-mark",
+          "was": "frame=ui.h('div.planet-food.ph');",
+          "now": "frame=ui.h('div.planet-food.ph',{'data-food-component':''});",
+          "why": "The root the component draws says it is the component's (data-food-component). The corrected style rules are written under that mark: in a page that also holds the frozen port's sheets and surface, the port's surface can never take a corrected rule, and a corrected rule outweighs the port's whatever order the sheets load in."
         }
       ]
     },

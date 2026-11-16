@@ -269,7 +269,8 @@ export function describe(root, assets = null) {
   const frame = root.querySelector('.planet-food.ph');
   if (!frame) return { present: false };
   const origin = root.getBoundingClientRect(), names = pictureNames(assets);
-  const box = el => { const r = el.getBoundingClientRect(); return [r.left - origin.left, r.top - origin.top, r.width, r.height].map(n => Math.round(n * 100) / 100); };
+  // What is not drawn has no place: its box is all zeros, wherever the phone stands in the page.
+  const box = el => { if (!el.getClientRects().length) return [0, 0, 0, 0]; const r = el.getBoundingClientRect(); return [r.left - origin.left, r.top - origin.top, r.width, r.height].map(n => Math.round(n * 100) / 100); };
   const shown = el => !el.closest('[hidden]');
   const html = frame.outerHTML.replace(/blob:[^"')\s&]+/g, url => `picture:${names.get(url) ?? 'unknown'}`);
   const active = frame.ownerDocument.activeElement;
@@ -284,18 +285,27 @@ export function describe(root, assets = null) {
     return { text: node.textContent.trim(), lines: tops.size, box: lines.length ? [left - origin.left, top - origin.top, right - left, bottom - top].map(n => Math.round(n * 100) / 100) : null };
   };
   const holds = el => [el.scrollHeight, el.clientHeight];
+  /** Whether an element is faded by a mask: a faded element fades its own background and edge with what it holds. */
+  const masked = el => { const style = getComputedStyle(el), mask = style.maskImage || style.webkitMaskImage; return !!mask && mask !== 'none'; };
   const bar = part(':scope > .tb'), slot = part('.food-instrument') ?? frame.querySelector('.food-instrument'), role = frame.querySelector('.fs-role'), card = part('.fs-card'), pass = part('.tabs .hero');
   const layout = {
     bar: bar && { kind: bar.dataset.kind, who: box(bar.querySelector('.tb-who')), name: box(bar.querySelector('.tb-name')), portraits: [...bar.querySelectorAll('.tb-who .pt')].map(box) },
     slot: slot && { empty: slot.childElementCount === 0, hidden: slot.hidden },
     role: role && (role.getClientRects().length ? { shown: true, row: box(role), pill: box(role.querySelector('.pill')), pieces: [...role.querySelector('.fs-who').childNodes].map(piece) } : { shown: false }),
     card: card && { kind: card.matches('.fs-brief') ? 'briefing' : frame.dataset.screen === 'food-task' ? 'outcome' : 'request', box: box(card), holds: holds(card),
-      words: card.querySelector('.fs-card-body') && { box: box(card.querySelector('.fs-card-body')), holds: holds(card.querySelector('.fs-card-body')) },
+      // What fades: the card as a whole (its background and edge too), only its words, or nothing. And what the card is drawn on.
+      fades: masked(card) ? 'card' : card.querySelector('.fs-card-body') && masked(card.querySelector('.fs-card-body')) ? 'words' : null,
+      colour: getComputedStyle(card).backgroundColor, radius: parseFloat(getComputedStyle(card).borderTopLeftRadius), opacity: Number(getComputedStyle(card).opacity),
+      // The card's stamp as it is drawn, tilted: a scroller that held it too tightly would cut its corner.
+      stamp: card.querySelector('.fs-stamp') && card.querySelector('.fs-stamp').getClientRects().length ? box(card.querySelector('.fs-stamp')) : null,
+      words: card.querySelector('.fs-card-body') && { box: box(card.querySelector('.fs-card-body')), holds: holds(card.querySelector('.fs-card-body')), tab: card.querySelector('.fs-card-body').getAttribute('tabindex') },
       answers: [...card.querySelectorAll('.fs-card-foot .btn')].map(box), timer: card.querySelector('.fs-timer') && box(card.querySelector('.fs-timer')) },
     pass: pass && box(pass),
   };
   return {
     present: true, hidden: frame.hidden, screen: frame.dataset.screen ?? null, motion: frame.dataset.motion ?? null,
+    // The component's mark on the root it draws (sources.json, kind "component-mark"). The frozen port's root has none.
+    marked: frame.hasAttribute('data-food-component'),
     html, text: frame.innerText, pictures: [...new Set(html.match(/picture:[^"')\s&]+/g) ?? [])].sort(),
     controls: [...frame.querySelectorAll('.fs-ctl')].filter(shown).map(node => ({ act: node.dataset.act, enabled: node.getAttribute('aria-disabled') !== 'true', busy: node.getAttribute('aria-busy') === 'true',
       label: node.querySelector('.fs-label')?.firstChild?.textContent ?? null, sub: node.querySelector('.fs-sub')?.textContent ?? null, box: box(node) })),

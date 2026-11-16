@@ -22,7 +22,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   if(alt){node.setAttribute('role','img');node.setAttribute('aria-label',alt);}else node.setAttribute('aria-hidden','true');return node;
  }});
  const {h,ic,topBar,tabs,pill,toast,banner,button,row,list,groupLabel,groupNote,sheet}=ui;
- const frame=h('div.planet-food.ph');root.classList.add('planet-food-host');root.append(frame);
+ const frame=h('div.planet-food.ph',{'data-food-component':''});root.classList.add('planet-food-host');root.append(frame);
  const person=seatId=>{const identity=identities().find(x=>x.seatId===seatId);return {seat:Number(seatId?.slice(5)??0),name:identity?.displayName??`Player ${seatId?.slice(5)??''}`,character:identity?.characterId??null,seatId};};
  const name=id=>person(id).name;
  const room=()=>ordinary()?.board?.seats.find(s=>s.seatId===controller.getModel().view?.seatId)?.location??null;
@@ -107,7 +107,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
    else if(o.kind==='CANCELLED'){title='Task cancelled';stamp='Cancelled';body=[h('p',o.disconnectedSeatId===model.view.seatId?'You lost your connection. Nothing was delivered.':`${name(o.disconnectedSeatId)} lost their connection. Nothing was delivered.`),back];}
    else {title='Task lost';stamp='Lost';body=[h('p',({TIME:'The time ran out before the crate went down.',CRATE_BROKEN_NO_FETCHER:'The crate broke, and no one was left to fetch another.',NOT_OVER_PLATFORM:'The crate was not over the platform.'})[o.reason]),back];}
   }else return null;
-  return {key:JSON.stringify([title,stamp,body.map(n=>n.textContent)]),node:h('section.fs-card',{role:'alertdialog','aria-label':title,style:{top:'calc(var(--top) + 24px)',maxHeight:'calc(100% - var(--top) - 36px)'}},h('span.stamp.fs-stamp',{'data-tone':tone},stamp),h('h2',title),body)};
+  return {key:JSON.stringify([title,stamp,body.map(n=>n.textContent)]),node:h('section.fs-card',{role:'alertdialog','aria-label':title,style:{top:'calc(var(--top) + 24px)',maxHeight:'calc(100% - var(--top) - 36px)'}},h('div.fs-card-body',{style:{margin:'-16px',padding:'16px',outlineOffset:'-5px'}},h('span.stamp.fs-stamp',{'data-tone':tone},stamp),h('h2',title),body))};
  }
  function updateTask(v,now,reduced){
   if(taskId!==v.task.taskId||!taskNodes)taskSkeleton(v.task);frame.dataset.screen='food-task';updateHeader(v,now);
@@ -195,7 +195,8 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const show=true;
   frame.hidden=!show;if(!show){if(taskNodes){hold.releaseAll();taskNodes=null;taskId=null;replace(frame);lastStructure=null;lastHeader=null;}return;}
   if(taskVisible){hadTask=task;updateTask(foodDisplay(model,now,{reduced,names:name}),now,reduced);}else updateFlow(now,chrome);
-  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body'))attr(node,'data-scrolls',node.scrollHeight>node.clientHeight+1?'':null);
+  // A card's words that scroll take a place in the Tab order, so that the keys can scroll them (sources.json, fixes 4 and 5).
+  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body')){const scrolls=node.scrollHeight>node.clientHeight+1;attr(node,'data-scrolls',scrolls?'':null);if(node.matches('.fs-card-body'))attr(node,'tabindex',scrolls?'0':null);}
   surface({active:chrome,exclusive:!!taskVisible,top:chrome?frame.querySelector(':scope > .tb')?.offsetHeight??0:null,bottom:chrome?frame.querySelector(':scope > .tabs')?.offsetHeight??0:null});
  }
  function pointerDown(e){const node=e.target.closest?.('.fs-ctl');if(!node||e.button!==0||e.isPrimary===false)return;

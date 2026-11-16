@@ -33,8 +33,9 @@
 //   corrections  the six corrections to the port (sources.json): the top bar's portraits are the kit's 32 px; with no
 //              instrument the dock has no slot; at the Large text the Partner's label is whole pieces and at the
 //              Largest the role row is dropped; an outcome card stays inside the view and a request card clear of the
-//              Pass button and the tab bar, each scrolling to its last line; and a sheet, a card or the top bar that
-//              is built again gives the focus back, never taking it from outside the surface
+//              Pass button and the tab bar, each with its words scrolling inside it to their last line; no card is
+//              faded as a whole, and words that scroll take a place in the Tab order; and a sheet, a card or the top
+//              bar that is built again gives the focus back, never taking it from outside the surface
 //   pictures   the pictures may come after the mount; the loader's signal is listened to once and let go
 //   adapter    Frontend's own controller and contact adapter, wired as the adapter will wire them: a hold goes down
 //              and up through them, survives the redraws in between, and is let go by suspend; the surface shows the
@@ -722,11 +723,22 @@ export async function runProbe(document) {
   // surface: at the Standard, the Large and the Largest text and in both phone sizes where the text size matters.
   await step('corrections', async () => {
     const root = document.documentElement, was = root.style.fontSize, PHONES = ['390x844', '430x932'];
-    const at = async (stateId, text, sizeKey = '390x844', changes = {}) => { root.style.fontSize = `${text * 100}%`; const m = open(stateId, changes, null, sizeKey); await frames.frames(4); return m; };
+    // The phone is brought to the top of the page's window, so that what is asked of a point in it (which element is topmost there) has an answer.
+    const at = async (stateId, text, sizeKey = '390x844', changes = {}) => { root.style.fontSize = `${text * 100}%`; const m = open(stateId, changes, null, sizeKey); m.device.el.scrollIntoView({ block: 'start' }); await frames.frames(4); return m; };
     const rect = node => { const r = node.getBoundingClientRect(); return { left: r.left, top: r.top, right: r.right, bottom: r.bottom }; };
     const within = (a, b) => a.left >= b.left - 0.5 && a.right <= b.right + 0.5 && a.top >= b.top - 0.5 && a.bottom <= b.bottom + 0.5;
     const overlap = (a, b) => a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5;
     const longNames = stateId => ({ people: situation(stateId).input.people.map(person => ({ ...person, name: 'WWWWWWWWWWWW' })) });
+    /** Whether an element is faded by a mask, which fades its own background and edge with what it holds. */
+    const masked = node => { const style = getComputedStyle(node), mask = style.maskImage || style.webkitMaskImage; return !!mask && mask !== 'none'; };
+    /** A card as it stands over what lies behind it: never faded as a whole, drawn on one opaque colour, and the topmost thing just inside its lower edge. */
+    const standing = (m, card) => {
+      const box = rect(card), style = getComputedStyle(card), words = card.querySelector('.fs-card-body');
+      const under = [0.25, 0.5, 0.75].map(share => document.elementFromPoint(box.left + (box.right - box.left) * share, box.bottom - 3));
+      return { whole: !masked(card) && Number(style.opacity) === 1, colour: style.backgroundColor, opaque: /^rgb\(/.test(style.backgroundColor), fades: masked(card) ? 'card' : words && masked(words) ? 'words' : null,
+        atFoot: under.every(node => !!node && card.contains(node)), wordsScroll: !!words && words.scrollHeight > words.clientHeight + 1, tab: words ? words.getAttribute('tabindex') : null };
+    };
+    const stood = [];
 
     // 1. The top bar's portraits.
     {
@@ -777,20 +789,25 @@ export async function runProbe(document) {
       const cards = [];
       for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) {
         for (const stateId of ['case-food-panel-16', 'case-food-panel-17', 'case-food-winch-14', 'case-food-winch-17']) {
-          const m = await at(stateId, text, sizeKey), card = m.find('.fs-card'), box = rect(card), view = rect(m.find('.fs-view'));
+          const m = await at(stateId, text, sizeKey), card = m.find('.fs-card'), box = rect(card), view = rect(m.find('.fs-view')), words = card.querySelector('.fs-card-body');
           const under = [...m.frame().querySelectorAll('.fs-role, .fs-hint, .fs-strip, .fs-meter-wrap, .fs-ctl')].filter(node => node.getClientRects().length && !node.closest('[hidden]')).map(rect);
-          const scrolls = card.scrollHeight > card.clientHeight + 1;
-          card.scrollTop = card.scrollHeight;
+          // The words' scroller is the card's whole inside; the tilted stamp, drawn past its line box and with a shadow 4 px further, is whole in it.
+          const inside = !!words && same(rect(words), box), stamp = rect(card.querySelector('.fs-stamp')), stampWhole = stamp.left >= box.left && stamp.top >= box.top && stamp.right + 4 <= box.right && stamp.bottom + 4 <= box.bottom;
+          const scrolls = !!words && words.scrollHeight > words.clientHeight + 1, cardScrolls = card.scrollHeight > card.clientHeight + 1;
+          stood.push({ sizeKey, text, stateId, kind: 'outcome', ...standing(m, card) });
+          if (words) words.scrollTop = words.scrollHeight;
           await frames.frames(1);
+          // At the end of its scroll the last line stands the card's 16 px of padding above its edge, where the fade has all but ended.
           cards.push({ sizeKey, text, stateId, outcome: !card.classList.contains('fs-brief'), clear: Math.round((view.bottom - box.bottom) * 100) / 100, covers: under.filter(part => overlap(box, part)).length, parts: under.length,
-            scrolls, marked: card.hasAttribute('data-scrolls'), lastLine: rect(card.lastElementChild).bottom <= box.bottom + 0.5 });
+            inside, stampWhole, scrolls, cardScrolls, marked: !!words?.hasAttribute('data-scrolls'), cardMarked: card.hasAttribute('data-scrolls'), lastLineClear: words ? Math.round((box.bottom - rect(words.lastElementChild).bottom) * 100) / 100 : null });
           m.close();
         }
       }
       check('corrections: at every text size, on both phones, an outcome card ends 12 px above the view\'s lower edge or higher, over no row and no control',
         cards.length === 24 && cards.every(c => c.outcome && c.clear >= 11.5 && c.covers === 0 && c.parts >= 2), { cards });
-      check('corrections: an outcome card with more words than room scrolls to its last line, with the port\'s fade; at the Standard text none needs to',
-        cards.every(c => c.scrolls === c.marked && c.lastLine) && cards.filter(c => c.text === 1).every(c => !c.scrolls) && [1.5, 2].every(text => PHONES.every(sizeKey => cards.some(c => c.text === text && c.sizeKey === sizeKey && c.scrolls))), { cards });
+      check('corrections: an outcome card\'s words are in a scroller that is the card\'s whole inside, with its stamp whole; with more words than room they scroll there to their last line, 16 px clear of the card\'s edge, and the card itself never scrolls; at the Standard text none needs to',
+        cards.every(c => c.inside && c.stampWhole && !c.cardScrolls && !c.cardMarked && c.scrolls === c.marked && c.lastLineClear >= 15.5) && cards.filter(c => c.text === 1).every(c => !c.scrolls)
+          && [1.5, 2].every(text => PHONES.every(sizeKey => cards.some(c => c.text === text && c.sizeKey === sizeKey && c.scrolls))), { cards });
     }
 
     // 5. A request card.
@@ -800,6 +817,7 @@ export async function runProbe(document) {
         const m = await at('case-food-flow-04', text, sizeKey), card = m.find('.fs-card'), box = rect(card), words = m.find('.fs-card-body'), tabs = rect(m.find('.planet-food .tabs')), pass = rect(m.find('.planet-food .hero'));
         const answers = [...card.querySelectorAll('.fs-card-foot .btn, .fs-card-foot .fs-timer')].map(rect), inner = { left: box.left + 16, top: box.top + 16, right: box.right - 16, bottom: box.bottom - 16 };
         const scrolls = words.scrollHeight > words.clientHeight + 1;
+        stood.push({ sizeKey, text, stateId: 'case-food-flow-04', kind: 'request', ...standing(m, card) });
         words.scrollTop = words.scrollHeight;
         await frames.frames(1);
         cards.push({ sizeKey, text, abovePass: Math.round((pass.top - box.bottom) * 100) / 100, aboveTabs: Math.round((tabs.top - box.bottom) * 100) / 100, answers: answers.length, whole: answers.every(part => within(part, inner)),
@@ -810,6 +828,19 @@ export async function runProbe(document) {
         cards.length === 6 && cards.every(c => c.abovePass >= 7.5 && c.aboveTabs >= 27.5 && c.answers === 3 && c.whole), { cards });
       check('corrections: where the request\'s words need more room they scroll above the answers to their last line, with the port\'s fade, and keep room to be read',
         cards.every(c => c.scrolls === c.marked && c.lastLine && c.wordsShown >= 200) && cards.filter(c => c.scrolls).length >= 3 && cards.filter(c => c.text === 1).every(c => !c.scrolls), { cards });
+    }
+
+    // 4 and 5, every card: opaque to its edge, and its words within reach of the keys. The briefing too, which no correction touches.
+    {
+      for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) for (const stateId of ['case-food-winch-01', 'case-food-panel-01']) {
+        const m = await at(stateId, text, sizeKey);
+        stood.push({ sizeKey, text, stateId, kind: 'briefing', ...standing(m, m.find('.fs-card')) });
+        m.close();
+      }
+      check('corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card',
+        stood.length === 42 && stood.every(c => c.whole && c.opaque && c.atFoot && c.fades === (c.wordsScroll ? 'words' : null)) && new Set(stood.map(c => c.colour)).size === 1, { stood });
+      check('corrections: a card\'s words that scroll take a place in the Tab order, so that the keys can scroll them, and words that fit take none',
+        stood.filter(c => c.kind !== 'briefing').every(c => c.tab === (c.wordsScroll ? '0' : null)) && stood.filter(c => c.kind === 'briefing').every(c => c.tab === null && !c.wordsScroll) && stood.filter(c => c.wordsScroll).length >= 12, { tabs: stood.map(c => ({ sizeKey: c.sizeKey, text: c.text, stateId: c.stateId, wordsScroll: c.wordsScroll, tab: c.tab })) });
     }
 
     // 6. The focus, when a sheet, a card or the top bar is built again.

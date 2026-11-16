@@ -7,7 +7,7 @@
 // 0–255 levels per colour channel: the mean difference, the largest, how many pixels differ at all, and the share of
 // pixels more than 24 levels apart. For each box it also measures a control, the second picture moved 3 px sideways, so that the record shows
 // what a drawing a little out of place would measure there. Afterwards the page can show the pictures side by side,
-// for the review folder.
+// for the review folder. It also counts the colours of one picture in a box: a place drawn flat has one.
 
 import './preview.css';
 
@@ -79,4 +79,28 @@ async function compare({ a, b, boxes, scale = 1, labels = null, extra = [] }) {
   return { a: { width: W, height: H }, b: { width: B.naturalWidth, height: B.naturalHeight }, sameSize, scale, boxes: measured };
 }
 
-window.__compare = { compare };
+/**
+ * The colours of one picture in a box, leaving out the boxes in `skip`: how many there are, and the first one. A
+ * place drawn in one flat colour, with nothing showing through it, has one.
+ */
+async function colours({ a, box, skip = [], scale = 1 }) {
+  const A = await image(a), W = A.naturalWidth, H = A.naturalHeight, data = pixels(A, W, H), seen = new Set();
+  const px = ([x, y, w, h]) => {
+    const x0 = Math.max(0, Math.floor(x * scale)), y0 = Math.max(0, Math.floor(y * scale)), x1 = Math.min(W, Math.ceil((x + w) * scale)), y1 = Math.min(H, Math.ceil((y + h) * scale));
+    return { x: x0, y: y0, w: Math.max(0, x1 - x0), h: Math.max(0, y1 - y0) };
+  };
+  const area = px(box), left = skip.map(px);
+  let n = 0, first = null;
+  for (let y = area.y; y < area.y + area.h; y += 1) {
+    for (let x = area.x; x < area.x + area.w; x += 1) {
+      if (left.some(s => x >= s.x && x < s.x + s.w && y >= s.y && y < s.y + s.h)) continue;
+      const i = (y * W + x) * 4;
+      if (first === null) first = `rgb(${data[i]}, ${data[i + 1]}, ${data[i + 2]})`;
+      seen.add((data[i] << 16) | (data[i + 1] << 8) | data[i + 2]);
+      n += 1;
+    }
+  }
+  return { box: area, pixels: n, colours: seen.size, first };
+}
+
+window.__compare = { compare, colours };

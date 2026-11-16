@@ -185,9 +185,12 @@
 .planet-food:is(.fs-hint > span), .planet-food :is(.fs-hint > span), .planet-food:is(.fs-ctl .fs-label), .planet-food :is(.fs-ctl .fs-label), .planet-food:is(.fs-ctl .fs-sub), .planet-food :is(.fs-ctl .fs-sub), .planet-food:is(.fs-card :is(h2, p, li)), .planet-food :is(.fs-card :is(h2, p, li)), .planet-food:is(.fs-who), .planet-food :is(.fs-who), .planet-food:is(.fs-banner .banner-text), .planet-food :is(.fs-banner .banner-text), .planet-food:is(.fs-banner .toast > span), .planet-food :is(.fs-banner .toast > span) { min-width: 0; overflow-wrap: anywhere; }
 /* The role row, corrected (sources.json, fix 3): the Partner's label is two whole pieces, the seat number with its name
    ("8 Hana") and the rest ("· Winch"). Where they do not fit side by side beside the pill, they stand one above the
-   other; where a piece does not fit beside the pill either, the label takes a line of its own. No word is broken. */
-.planet-food:is(.fs-role), .planet-food :is(.fs-role) { flex-wrap: wrap; row-gap: 4px; }
-.planet-food:is(.fs-who), .planet-food :is(.fs-who) { flex: 1 1 0%; flex-wrap: wrap; justify-content: flex-end; row-gap: 0; min-width: min-content; white-space: nowrap; overflow-wrap: normal; }
+   other; where a piece does not fit beside the pill either, the label takes a line of its own. No word is broken.
+   Both rules are written under the component's own mark (data-food-component, on the root the component draws). In a
+   page that also holds the frozen port's sheets and surface, the port's surface can never take them, and they outweigh
+   the port's rules for the row whatever order the sheets load in. */
+.planet-food[data-food-component] :is(.fs-role) { flex-wrap: wrap; row-gap: 4px; }
+.planet-food[data-food-component] :is(.fs-who) { flex: 1 1 0%; flex-wrap: wrap; justify-content: flex-end; row-gap: 0; min-width: min-content; white-space: nowrap; overflow-wrap: normal; }
 /* A name tag holds a whole name: when the tag would leave the view, its state ("· Offline", "· Out") goes to a
    second line (phone.mjs fitTags gives each tag the width it has on its side of its anchor). */
 .planet-food:is(.fs-art .tag), .planet-food :is(.fs-art .tag) { width: max-content; flex-wrap: wrap; height: auto; min-height: 26px; padding-block: 3px; row-gap: 2px; }

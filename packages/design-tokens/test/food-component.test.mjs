@@ -112,7 +112,7 @@ test('every copy is its pinned source in the frozen port, with only the recorded
     assert.equal(source.length, entry.sourceBytes);
     let text = source.toString('utf8');
     for (const difference of entry.differences) {
-      assert.ok(['import-path', 'connector-seam', 'host-rule', 'correction'].includes(difference.kind), `${entry.file}: a difference is an import path, a connector seam, a host rule or a correction`);
+      assert.ok(['import-path', 'connector-seam', 'host-rule', 'component-mark', 'correction'].includes(difference.kind), `${entry.file}: a difference is an import path, a connector seam, a host rule, the component's mark or a correction`);
       assert.equal('fix' in difference, difference.kind === 'correction', `${entry.file}: a correction, and nothing else, names the fix it belongs to`);
       if (difference.kind === 'correction') {
         assert.ok([1, 2, 3, 4, 5, 6].includes(difference.fix), `${entry.file}: a correction is one of the six`);
@@ -130,12 +130,15 @@ test('every copy is its pinned source in the frozen port, with only the recorded
     assert.equal(copy.length, entry.bytes);
   }
   const changed = record.files.filter(f => f.differences.length).map(f => [f.file, f.differences.length]);
-  assert.deepEqual(changed, [['food.css', 1], ['food-ink.mjs', 2], ['food-render.mjs', 16], ['food-notice.mjs', 4], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
-  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, correction: 8 });
+  assert.deepEqual(changed, [['food.css', 1], ['food-ink.mjs', 2], ['food-render.mjs', 19], ['food-notice.mjs', 5], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
+  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, 'component-mark': 2, correction: 10 });
   // The corrections are the only differences that change what is drawn or done: six, each by its number. They are
   // in the renderer and its styles, and the check's record holds what each one shows.
-  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 3 }, 'the portraits, the dock, the role row, the outcome card, the request card, and the focus (the top bar, and a sheet or card: remembered, then given back)');
+  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 3, 5: 1, 6: 3 }, 'the portraits, the dock, the role row, the outcome card (its limit, its words\' scroller, and the words\' place in the Tab order), the request card, and the focus (the top bar, and a sheet or card: remembered, then given back)');
   assert.deepEqual(record.files.filter(f => f.differences.some(d => d.kind === 'correction')).map(f => f.file), ['food.css', 'food-render.mjs']);
+  // The component's mark: each of the two roots the component draws says it is the component's, and nothing else does.
+  const marks = record.files.flatMap(f => f.differences.filter(d => d.kind === 'component-mark').map(d => [f.file, d.was, d.now]));
+  assert.deepEqual(marks, [['food-render.mjs', "const frame=h('div.planet-food.ph');", "const frame=h('div.planet-food.ph',{'data-food-component':''});"], ['food-notice.mjs', "frame=ui.h('div.planet-food.ph');", "frame=ui.h('div.planet-food.ph',{'data-food-component':''});"]]);
   // The seams do not draw: they are imports, the contact adapter, the app's own listeners, the handle, the connector,
   // and the notice's reach into the app's page.
   const seams = record.files.flatMap(f => f.differences.filter(d => d.kind === 'connector-seam').map(d => `${d.was}\n${d.now}`)).join('\n');
@@ -145,6 +148,29 @@ test('every copy is its pinned source in the frozen port, with only the recorded
   for (const type of ['pointerup', 'pointercancel', 'keyup']) assert.equal(render.split(`win.addEventListener('${type}'`).length, 2, `one ${type} listener on the window`);
   for (const type of ['blur', 'focus', 'visibilitychange', 'mothership:preferences-change']) assert.ok(!render.includes(`'${type}'`), `the ${type} listener stays Frontend's`);
   assert.match(render, /const hold=contacts;/);
+});
+
+test('every corrected style rule is under the component\'s mark: the frozen port\'s surface can take none, whatever sheets a page holds', () => {
+  // A page that keeps the frozen port for its pinned matches may hold the port's sheets and the component's together.
+  // Their class names are the same. So whatever the component's sheets say that the port's do not is written under
+  // data-food-component, which only a root the component draws carries: the port's surface cannot match it, and with
+  // the mark's own weight such a rule outweighs the port's rule for the same element whichever sheet comes last.
+  const rules = css => [...css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(m => `${m[1].trim()} { ${m[2].trim()} }`);
+  const pairs = [['food-kit.css', 'food-kit.css'], ['food.css', 'food.css'], ['food-surface.css', 'food-host.css']];
+  const theirs = new Set(pairs.flatMap(([, source]) => rules(read(`${PORT}/${source}`))));
+  const added = pairs.flatMap(([file]) => rules(read(`${COMPONENT}/${file}`))).filter(rule => !theirs.has(rule));
+  assert.deepEqual(added.map(rule => rule.slice(0, rule.indexOf(' {'))), ['.planet-food[data-food-component] :is(.fs-role)', '.planet-food[data-food-component] :is(.fs-who)'], 'the role row\'s two rules, and no other');
+  for (const rule of added) assert.match(rule, /^\.planet-food\[data-food-component\] :is\(\.[\w-]+\) \{/, `${rule.slice(0, 60)}… is under the mark`);
+  // The port's own rules for the same two elements weigh less: (0,2,0) against the mark's (0,3,0).
+  const port = read(`${PORT}/food.css`);
+  assert.match(port, /\.planet-food:is\(\.fs-role\), \.planet-food :is\(\.fs-role\) \{/);
+  assert.match(port, /\.planet-food :is\(\.fs-who\)/);
+  // The mark is on the two roots the component draws, and nowhere in the frozen port.
+  for (const file of ['food-render.mjs', 'food-notice.mjs']) assert.equal(read(`${COMPONENT}/${file}`).split("'data-food-component':''").length, 2, `${file}: the root it draws carries the mark`);
+  for (const file of readdirSync(join(REPO, PORT))) assert.ok(!read(`${PORT}/${file}`).includes('data-food-component'), `${PORT}/${file}: the frozen port knows nothing of the mark`);
+  // Every other correction is in the renderer or set on the element itself, and cannot reach another surface either way.
+  const sources = JSON.parse(read(`${COMPONENT}/sources.json`));
+  assert.deepEqual(sources.files.filter(f => f.file.endsWith('.css')).flatMap(f => f.differences.filter(d => d.kind === 'correction').map(d => [f.file, d.fix])), [['food.css', 3]], 'of the corrections only the role row\'s is a style rule');
 });
 
 test('its styles reach nothing outside the surface: the port\'s scoped sheets, and none of the ordinary app\'s rules', () => {
@@ -380,7 +406,7 @@ test('the words are the design\'s: every sentence of the approved package\'s hin
 
 test('the preview is development-only, and Frontend\'s packet is carried unchanged with its provenance beside it', () => {
   const folder = join(REPO, COMPONENT, 'preview');
-  assert.deepEqual(readdirSync(folder).sort(), ['compare.html', 'compare.mjs', 'food-component-preview-inputs.json', 'index.html', 'port.html', 'port.mjs', 'preview.css', 'preview.mjs', 'probe.mjs', 'provenance.json', 'stage.mjs']);
+  assert.deepEqual(readdirSync(folder).sort(), ['both.html', 'both.mjs', 'compare.html', 'compare.mjs', 'food-component-preview-inputs.json', 'index.html', 'port.html', 'port.mjs', 'preview.css', 'preview.mjs', 'probe.mjs', 'provenance.json', 'stage.mjs']);
   for (const file of readdirSync(folder)) assert.match(read(`${COMPONENT}/preview/${file}`), /mothership:dev-only/, `${file} carries the development marker`);
   const packet = bytes(PACKET.file);
   assert.equal(sha256(packet), PACKET.sha256, 'the packet is Frontend\'s, byte for byte');
@@ -403,6 +429,11 @@ test('the preview is development-only, and Frontend\'s packet is carried unchang
   assert.match(read(`${COMPONENT}/preview/probe.mjs`), /from '\.\.\/food\.mjs';/);
   assert.match(read(`${COMPONENT}/preview/port.mjs`), /from '\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/apps\/game\/hosted\/planet\/food-render\.mjs';/);
   assert.doesNotMatch(read(`${COMPONENT}/preview/port.mjs`), /from '\.\.\/food(?:-render|-notice|-ui|-gauge)?\.mjs'/, 'the port\'s page draws with nothing of the component');
+  // The page that holds both imports each renderer only when it is asked for, so that the page decides whose sheets come first.
+  const both = read(`${COMPONENT}/preview/both.mjs`);
+  assert.match(both, /component: \(\) => import\('\.\.\/food\.mjs'\)/);
+  assert.match(both, /await import\('\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/apps\/game\/hosted\/planet\/food-render\.mjs'\)/);
+  assert.doesNotMatch(both, /^import .*(?:food\.mjs|food-render\.mjs)';$/m, 'neither renderer is imported before the page says in which order');
   // The shared check helper is #265's, carried unchanged.
   assert.equal(sha256(bytes('design/tools/lib/component-check.mjs')), SHARED_CHECK_SHA256, 'lib/component-check.mjs is #265\'s blob, not edited here');
 });
