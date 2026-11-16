@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.2.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.5.1';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -255,23 +255,72 @@ export function createKit(doc) {
     return node;
   }
   const codeBoxes = props => setCodeBoxes(h('div'), props);
-  const errorNote = words => { const note = h('p', 'ms-k-error', { role: 'alert' }); note.append(icon('warning', true), text(h('span', 'ms-k-error-text'), words)); return note; };
+  /**
+   * The inline error (ui.mjs errorNote): paper and ink with the filled warning shape, never red. `icon` and
+   * `filled` change only the shape, as the pack's menu draws its offline note with the plain offline icon.
+   */
+  const errorNote = (words, { icon: shape = 'warning', filled = true } = {}) => {
+    const note = h('p', 'ms-k-error', { role: 'alert' });
+    note.append(icon(shape, filled), text(h('span', 'ms-k-error-text'), words));
+    return note;
+  };
+
+  // ── A waiting block (screens.css .wait) ──────────────────────────────
+  /**
+   * { icon, filled, lead, title, line, busy, size: 'large' | 'small' }: the 76 px tile with an icon (the pack's
+   * .big-icon), or `lead`, a node in its place (a portrait); the title; the line, with the pack's 16 px spinner
+   * before it when `busy`; and the 1.25rem title the pack uses inside sheets with `size: 'small'`. As "Waiting for
+   * the host", "Starting Round 1 · Waiting for the ship", "No window here" and "Ben is choosing an Officer".
+   */
+  function setWait(node, props) {
+    if (!props?.title) throw new TypeError('A waiting block needs its title');
+    node.className = 'ms-k-wait';
+    attr(node, 'data-size', props.size === 'small' ? 'small' : null);
+    if (!node.firstChild) node.append(h('span', 'ms-k-wait-tile'), h('h2', 'ms-k-wait-title'), h('p', 'ms-k-wait-line'));
+    let lead = node.children[0];
+    const [, title, line] = node.children;
+    if (props.lead) {
+      if (lead !== props.lead) { lead.replaceWith(props.lead); lead = props.lead; }
+    } else {
+      if (!lead.classList.contains('ms-k-wait-tile')) { const tile = h('span', 'ms-k-wait-tile'); lead.replaceWith(tile); lead = tile; }
+      setIcon(lead, props.icon ?? null, !!props.filled);
+    }
+    text(title, props.title);
+    // The line's words, after the spinner and a space while busy, as the pack writes them.
+    const words = props.line ?? '';
+    const spinner = line.querySelector(':scope > .ms-k-spinner');
+    if (props.busy && !spinner) line.prepend(h('span', 'ms-k-spinner', { 'aria-hidden': 'true' }));
+    if (!props.busy && spinner) spinner.remove();
+    const said = props.busy ? ` ${words}` : words;
+    const last = line.lastChild?.nodeType === 3 ? line.lastChild : null;
+    if (last) { if (last.data !== said) last.data = said; } else line.append(doc.createTextNode(said));
+    line.hidden = !words;
+    return node;
+  }
+  const wait = props => setWait(h('div'), props);
 
   // ── The segmented control, the stepper, the switch ───────────────────
-  /** options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen. */
-  function setSeg(node, { options, value, label = null, intent = 'seg' }) {
+  /**
+   * options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen.
+   * `stack`: the options are words that may not fit side by side at the Largest text; there, in a .ms-k-phone
+   * root, they stack one per row (the pack's .seg[data-stack]). Short options (7 · 8 · 9) leave it off.
+   */
+  function setSeg(node, { options, value, label = null, intent = 'seg', stack = false }) {
     node.className = 'ms-k-seg';
     node.setAttribute('role', 'radiogroup');
     attr(node, 'aria-label', label);
+    attr(node, 'data-stack', stack ? '' : null);
     const ids = options.map(o => String(o.id));
     for (const b of [...node.children]) if (!ids.includes(b.dataset.value)) b.remove();
     options.forEach((o, i) => {
       let b = [...node.children].find(c => c.dataset.value === String(o.id));
       if (!b) { b = h('button', 'ms-k-seg-btn', { type: 'button', role: 'radio' }); b.append(h('span', 'ms-k-seg-icon'), h('span', 'ms-k-seg-label')); b.dataset.value = String(o.id); b.dataset.intent = intent; }
       if (node.children[i] !== b) node.insertBefore(b, node.children[i] ?? null);
-      setIcon(b.firstChild, o.icon ?? null, false);
+      // The chosen option's icon is filled and the others plain, as the pack draws Join's device choice (sheet 12).
+      const chosen = String(o.id) === String(value);
+      setIcon(b.firstChild, o.icon ?? null, chosen);
       text(b.lastChild, o.label);
-      attr(b, 'aria-checked', String(String(o.id) === String(value)));
+      attr(b, 'aria-checked', String(chosen));
     });
     return node;
   }
@@ -304,7 +353,7 @@ export function createKit(doc) {
 
   return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
-    seg, setSeg, stepper, setStepper, switchControl, setSwitch });
+    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait });
 }
 
 /**

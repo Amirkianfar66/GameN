@@ -52,11 +52,14 @@
   --ms-ps-bar-h: max(52px, calc(1.0625rem * 1.25 + 1.6rem));
   --ms-ps-tab-h: max(58px, calc(26px + clamp(12px, 0.75rem, 14px) * 1.3 + 16px));
   --ms-ps-top: calc(var(--ms-ps-safe-t) + var(--ms-ps-bar-h));
-  /* Where the overlays (the target bar, the banner, the toast, a large sheet) start: under the bar. */
-  --ms-ps-over-top: var(--ms-ps-top);
+  /* Where the overlays (the target bar, the banner, the toast, a large sheet) start: under the bar's place,
+     which they keep with no bar, as the pack's do on its films (its --top keeps the bar's height there). */
+  --ms-ps-over-top: calc(var(--ms-ps-safe-t) + var(--ms-ps-bar-h));
   --ms-ps-bottom: calc(var(--ms-ps-safe-b) + var(--ms-ps-tab-h));
   --ms-ps-stage-bottom: var(--ms-ps-bottom);
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+  /* Behind the bars and wherever nothing is drawn: the room view's space by default (the pack's .scene), or the
+     phone's canvas for a screen with no room (backdrop: 'canvas', the pack's .ph). */
   background: #07090F; color: var(--ms-ps-text);
   font: 400 1rem/1.4 var(--ms-ps-font);
   -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%;
@@ -82,9 +85,15 @@
 /* The stage's cover (slot('cover')): exactly over the stage, above all it holds (the room's tags included, which
    stack inside the stage), under the bars, the overlays and the sheet. It takes no taps itself. */
 .ms-phone-shell .ms-ps-cover { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 1; overflow: hidden; pointer-events: none; }
-/* No top bar (bar: null, a full-bleed film): the stage runs to the top edge; the overlays sit under the safe area. */
-.ms-phone-shell[data-bar="none"] { --ms-ps-top: 0px; --ms-ps-over-top: var(--ms-ps-safe-t); }
+/* No top bar (bar: null, a full-bleed film): the stage runs to the top edge; the overlays keep the bar's place. */
+.ms-phone-shell[data-bar="none"] { --ms-ps-top: 0px; }
 .ms-phone-shell[data-bar="none"] .ms-ps-tb { display: none; }
+/* Edge to edge (edge: true, a full-screen film or poster): the stage and its cover fill the whole shell, under the
+   safe areas and any bar or tabs, whose glass lies over them, as the pack draws its films and posters (inset 0). */
+.ms-phone-shell[data-edge] :is(.ms-ps-stage, .ms-ps-cover) { top: 0; bottom: 0; }
+.ms-phone-shell[data-backdrop="canvas"] { background: var(--ms-ps-canvas); }
+/* The safe areas' guide, which layout() measures: empty, unseen and untouchable. */
+.ms-phone-shell .ms-ps-guide { position: absolute; left: 0; top: var(--ms-ps-safe-t); bottom: var(--ms-ps-safe-b); width: 0; visibility: hidden; pointer-events: none; }
 
 /* ── The top bar (kit.css .tb) ───────────────────────────────────── */
 .ms-phone-shell .ms-ps-tb {
@@ -246,6 +255,10 @@
   animation: ms-ps-sheet-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both;
 }
 .ms-phone-shell .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + 8px); }
+/* While the reconnecting banner shows (8 px under the bar), a docked sheet stays 8 px below it, so Retry and the
+   sheet's Close are both in sight; the banner stays under the sheet, as the pack's layers it. */
+.ms-phone-shell[data-banner] .ms-ps-sheet { max-height: calc(100% - var(--ms-ps-over-top) - var(--ms-ps-banner-h, 56px) - 16px - var(--ms-ps-bottom)); }
+.ms-phone-shell[data-banner] .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }

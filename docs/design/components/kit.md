@@ -1,6 +1,6 @@
 # Component kit: the controls every Designer component shares
 
-**Version:** `component-kit-0.2.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (15 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
+**Version:** `component-kit-0.5.1` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (16 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
 
 **What it is:** one look and one behaviour for the controls in every Designer component: the shell, and the screens the Designer team builds next (the role card and Ready, the ballot and results, the sheets' contents, the lobby).
 - It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds each visual component once, and Frontend connects it without rebuilding, restyling or copying it.
@@ -93,10 +93,11 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
 | `cell`, `setCell`, `grid9()` | `cell()` | `person` (`{ seat, name, character }`), `state` (below), `note`, `count`, `mark` (an icon), `you`, `label`, `tag`, `intent`, `versions` |
 | `field(props)`, `setField` | `field()` | `label`, `value`, `placeholder`, `maxLength`, `autocomplete`, `secret`, `mono`, `invalid`, `count` ("3/12"), `icon`. Returns `{ field, input }`: the pack's box around a real `input`. `setField(field, props)` changes the label, placeholder, icon, count and invalid state; the typing, and so the value, is the component's |
 | `codeBoxes`, `setCodeBoxes` | `codeBoxes()` | `code`, `focusAt`, `invalid`, `length` (6), `label` ("Room code"). The typing itself is the component's |
-| `errorNote(words)` | `errorNote()` | Paper and ink with a warning shape, never red |
+| `errorNote(words, { icon, filled })` | `errorNote()`, and the menu's offline note | Paper and ink with the filled warning shape, never red. `icon` and `filled` change only the shape: the menu's offline note (sheet 10) is `{ icon: 'offline', filled: false }` |
 | `seg`, `setSeg` | `.seg` | `options` (`[{ id, label, icon }]`), `value`, `label`, `intent`. A radio group |
 | `stepper`, `setStepper` | `.stepper` | `value`, `label`, `intent`. Its two buttons report `down` and `up`; each side's availability is the component's (`policy.control`) |
 | `switchControl`, `setSwitch` | `.switch` | `checked`, `label`, `intent` |
+| `wait`, `setWait` | `screens.css` `.wait`, `.big-icon`, `.spinner` | The waiting block: `icon` (+ `filled`) in the 76 px tile, or `lead`, a node in its place (a portrait); `title`; `line`, with the 16 px spinner before it when `busy`; `size: 'small'` for the 1.25rem title the pack uses in sheets. Boarding's "Starting Round 1 · Waiting for the ship" (sheet 19), "Waiting for the host" (13), "No window here" and "Ben is choosing an Officer". The spinner stands still with Reduce motion |
 
 **The cells' states:** `available`, `selected`, `confirmed`, `taken`, `ineligible`, `empty`, `winner`, `faded`.
 - Seat *n* is always cell *n*. An empty seat (a 7- or 8-player match) is an empty frame, hidden from screen readers.
@@ -120,6 +121,15 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
 - **Any rule of yours outranks the kit, whatever the load order.** Every kit rule weighs one class (`.ms-kit :where(…)`) and its root nothing (`:where(.ms-kit)`). Each component's stylesheet imports `kit.css`, so the game's bundle holds a copy per component, and a later copy must never undo an earlier component's rule. Two classes of your own (your part and the kit's class) is enough. The game's bare element rules still lose to the kit. `kit.test.mjs` holds every kit selector to that weight.
 - **Never restyle the kit's colours, type or states** from a component, and never redeclare an `--ms-k-` property. If a screen needs something the kit doesn't draw, ask the Lead Designer: it goes into the kit, for every component.
 - **Pass `extra`** to add your part's class to a kit button (the shell's chip is `extra: ['ms-ps-chip-btn']`).
+- **A part you can tap turns off the browser's tap highlight.** Chrome highlights a tap only on an element with the hand cursor. Its default, `rgba(51, 181, 229, 0.4)`, stays about a quarter of a second over the pressed and in-flight looks, which should be a press's only feedback. The native Food Panel's RELEASE showed it in [#276](https://github.com/Amirkianfar66/GameN/pull/276#issuecomment-6899774350).
+  - The kit's controls set `-webkit-tap-highlight-color: transparent` in the same rule that gives the hand cursor.
+  - The property is inherited, so the shell and the room scene set it once, on their roots.
+  - If a part of yours sets `cursor: pointer`, it must either inherit the transparent colour from your root or set it in the same rule.
+- **Larger text on a narrow phone (0.5.0).** A component that fills the phone puts `ms-k-phone` on its root, as the shell does. It is the container the kit's two larger-text rules ask, the pack's own rules for these parts (#228). They fix text that overlapped or was cut at the Largest text, found on the Card sheet's Resources. Nothing changes at the Standard text: every phone 320 px or wider is 20 em or more across there.
+  - **Rows:** under 19 em across (the Large or Largest text on any phone up to 456 px wide), a row's value goes under its title instead of beside it, so "Promises" and "Given 0/1 · Received 1/1" no longer run into each other. A long value wraps. The icon or portrait and the chevron, switch or stepper keep their places at the sides.
+  - **Segmented controls:** `seg({ …, stack: true })` for options that are words, which may not fit side by side ("Card · Knowledge · Resources"). Under 15 em across (the Largest text on any phone, or Large on the smallest) they stack, one per row, each still 44 px. Leave `stack` off for short options ("7 · 8 · 9"), which stay a row.
+  - A component inside the shell (its sheets, its cover) is already in the shell's container and needs nothing more.
+- **A segmented control's chosen icon (0.5.1).** The chosen option's icon is filled and the others plain, as sheet 12 draws Join's device choice ("Player phone" filled, "Shared display" plain). Options without icons are unchanged.
 
 ## Writing your component's check
 
@@ -144,11 +154,16 @@ The component's own check draws its states, runs its probe and writes its record
   - **The check's record**, below.
 - **`node design/tools/kit-check.mjs`:**
   - **The setup:** the two halves are bundled by Vite and served with the hosted game's production headers (the same SHA-256 as the shell's check). They are drawn in two separate pages, so neither half's styles can stand in for the other's. The pack's half loads its `kit.css` and, for the result's paper card, its `screens.css`, whose rules are all contextual.
-  - **The cases:** 33 at 390 px wide: every builder and its states, including the busy spinners, an unavailable button and row, the seven row kinds, the four fields, both code boxes, the switch on and off, every pill, stamp, caption and portrait, the 3 × 3 in all eight states with a count, "You" and a mark, and the 3 × 3 on the result's paper card.
-    - Each is drawn on a plain surface. 31 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
-    - Everything is drawn at 100 % and at 200 % text: 128 comparisons in all.
+  - **The cases:** 37 at 390 px wide: every builder and its states, including the busy spinners, an unavailable button and row, the seven row kinds, the four fields, both code boxes, the switch on and off, every pill, stamp, caption and portrait, the 3 × 3 in all eight states with a count, "You" and a mark, the 3 × 3 on the result's paper card, the waiting block with its spinner, in a sheet's small form and with a portrait, and the menu's offline note.
+    - Each is drawn on a plain surface. 33 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
+    - Everything is drawn at 100 % and at 200 % text: 140 comparisons in all.
   - **What is compared, part by part:** the box to within half a pixel, the computed type, colours, spacing and shape, the `::before` and `::after`, each icon's drawing and knock-out colour, and the words.
-  - **Result:** all 128 agree, 857 parts. The only remaining differences are the four kinds the kit has on purpose (above), 62 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
+  - **0.5.1 against 0.5.0:** the device choice is a new case (four comparisons, 5 parts each), drawn as sheet 12 draws it: the chosen icon filled.
+    - At 100 % it agrees with the pack, plain and on glass.
+    - At 200 %, plain, the pack squeezes its two long options' icons to 12.8 and 11.4 px. The kit's keep their 18 px.
+    - At 200 % on glass, inside the shell's phone root, the kit stacks the two options, the 0.5.0 rule.
+    - Both are accepted with their reason. The other 140 comparisons agree as before.
+  - **Result:** all 144 agree, 931 parts. The only remaining differences are the nine kinds the kit has on purpose (above, and the larger-text forms), 124 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
   - **It catches drift:** three changes injected one at a time each fail it: one pixel of a button's padding, one pill tone's alpha, and a glass grey by 1/255.
   - **What it found, fixed before 0.1.0's record:**
     - a busy spinner 5 px small, and turning faster;
@@ -158,6 +173,9 @@ The component's own check draws its states, runs its probe and writes its record
     - a component's own root resetting the glass greys;
     - the field's input losing the glass halo.
   - **0.2.0 against 0.1.0:** moving every rule to one class's weight changed no comparison; the 126 earlier comparisons agree as before.
-  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `b51b715c`, with the source clean.
+  - **0.4.0 against 0.3.0:** the inline error takes an icon (two comparisons, the menu's offline note, 6 parts); the 138 earlier comparisons agree as before.
+  - **0.5.0 against 0.4.0:** the glass cases sit in the shell, whose root is now the phone container. So at 200 % two of them, the list and the group, take the larger-text row rule: the rows with a value put it under their title, and what follows moves down. Those 47 differences are accepted with their reason (three entries in `ACCEPTED`), where the pinned pack's title and value run into each other. The other 138 comparisons agree as before. The rule itself, and the stacking segmented control, are measured in the shell's probe (`large`: under its title at 200 %, beside it at 100 %; three stacked options at 200 %, one row of short ones at both).
+  - **0.3.0 against 0.2.0:** the waiting block is new (ten comparisons, 48 parts). The 128 earlier comparisons agree as before. In the pack, its portrait is the 44 px `.pt` even where a screen asks `pt(…, 76)`, because the CSS sizes every `.pt`; the kit's portrait agrees.
+  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `48110520`, with the source clean.
 - **In the shell:** the shell's check draws the kit's buttons and icon buttons in its 29 captures, and its probe drives the control policy (focus kept, refused taps, reasons, reconnecting, focus return). Recorded on `b51b715c` ([the shell's page](phone-shell.md)).
 - **Not run:** physical phones, Safari, screen readers.

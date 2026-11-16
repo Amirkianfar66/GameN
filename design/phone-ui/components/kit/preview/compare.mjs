@@ -20,10 +20,22 @@ export const ACCEPTED = Object.freeze([
     why: 'At 200 % text the pack\'s span wraps the long name onto a second line and its box grows; a real input keeps one line and scrolls its words, as a phone\'s own fields do' },
   { sections: ['glass'], cases: /^field/, part: 'count', keys: ['text-shadow'],
     why: 'On glass, the pack\'s reset for the cell\'s vote count (.sheet .count, a dark badge) also takes the halo from the field\'s light count, which its class shares; the kit keeps the halo on light words on glass, as the pack\'s glass rule intends' },
+  // Kit 0.5.0: the larger-text rule for rows. The glass cases sit in the shell, whose root is the kit's phone container.
+  { texts: [200], sections: ['glass'], cases: /^list$/, partMatch: /^row (2|6)( (title|value|icon))?$/, keys: ['display', 'column-gap', 'row-gap', 'h', '::before bottom', 'w', 'x', 'y', 'margin-right'],
+    why: 'At 200 % text in a phone root (the shell\'s, which the glass cases sit in), a row with a value puts the value under its title, the pack\'s own large-text rule for rows (#228): in the pinned pack the title and the value run into each other there. The row is a grid, and its icon keeps its 12 px as a margin' },
+  { texts: [200], sections: ['glass'], cases: /^(list|group)$/, partMatch: /^(note|row [3-7]( .+)?)$/, keys: ['y'],
+    why: 'What follows a row whose value went under its title moves down by that line' },
+  { texts: [200], sections: ['glass'], cases: /^(list|group)$/, part: 'list', keys: ['h'],
+    why: 'The list grows by the line its rows\' values took under their titles' },
+  // Kit 0.5.1: the device choice (sheet 12), with its chosen option's icon filled.
+  { texts: [200], sections: ['plain'], cases: /^segmented icons$/, partMatch: /^option \d icon$/, keys: ['w'],
+    why: 'At 200 % text the pack\'s two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit\'s icons keep their 18 px, as at 100 %' },
+  { texts: [200], sections: ['glass'], cases: /^segmented icons$/, partMatch: /^(control|option \d( icon)?)$/, keys: ['h', 'w', 'x', 'y'],
+    why: 'At 200 % in a phone root (the shell\'s, which the glass cases sit in), a stacking segmented control puts one option per row, the kit 0.5.0 rule (#228\'s .seg[data-stack]); the pinned pack keeps the two options side by side, squeezed' },
 ]);
 
 const accepted = ({ section, text }, caseId, part, key) => ACCEPTED.find(a => (!a.sections || a.sections.includes(section)) && (!a.texts || a.texts.includes(text))
-  && a.cases.test(caseId) && (a.parts ?? [a.part]).includes(part) && a.keys.includes(key));
+  && a.cases.test(caseId) && (a.partMatch ? a.partMatch.test(part) : (a.parts ?? [a.part]).includes(part)) && a.keys.includes(key));
 
 /** The differences between the pack's and the kit's measurement of one case, on one surface ({ section, text }). */
 export function compareCase(where, caseDef, pack, kit) {

@@ -36,6 +36,16 @@ const ROW = n => {
   ];
 };
 
+/** A waiting block's parts (screens.css .wait): the tile and its drawing, or a portrait; the title; the line and its spinner. */
+const WAIT = ({ lead = false, spinner = false } = {}) => [
+  ['wait', ':scope > .wait', ':scope > .ms-k-wait'],
+  ...(lead ? [['portrait', ':scope > .wait > .pt', ':scope > .ms-k-wait > .ms-k-pt', { portrait: true }]]
+    : [['tile', ':scope > .wait > .big-icon', ':scope > .ms-k-wait > .ms-k-wait-tile'], ['tile drawing', ':scope > .wait > .big-icon > svg', ':scope > .ms-k-wait > .ms-k-wait-tile > svg', { svg: true }]]),
+  ['title', ':scope > .wait > h2', ':scope > .ms-k-wait > .ms-k-wait-title', { words: true }],
+  ['line', ':scope > .wait > p', ':scope > .ms-k-wait > .ms-k-wait-line', { words: true }],
+  ...(spinner ? [['spinner', ':scope > .wait > p > .spinner', ':scope > .ms-k-wait > .ms-k-wait-line > .ms-k-spinner']] : []),
+];
+
 /** A cell's parts, the n-th of the 3 × 3. */
 const CELL = n => {
   const p = `.grid9 > :nth-child(${n})`, k = `.ms-k-grid9 > :nth-child(${n})`;
@@ -123,12 +133,26 @@ export const CASES = Object.freeze([
     parts: [['group', ':scope > .code-boxes', ':scope > .ms-k-code'], ['box 1', ':scope > .code-boxes > b:nth-child(1)', ':scope > .ms-k-code > b:nth-child(1)', { words: true }]] },
   { id: 'error', where: 'both', pack: ({ ui }) => ui.errorNote('That code is not a match in progress.'), kit: ({ kit }) => kit.errorNote('That code is not a match in progress.'),
     parts: [['note', ':scope > .error', ':scope > .ms-k-error'], ['drawing', ':scope > .error > svg', ':scope > .ms-k-error > svg', { svg: true }], ['words', ':scope > .error > span', ':scope > .ms-k-error > span', { words: true }]] },
+  // The menu's offline note (screens-entry.mjs, sheet 10): the same note with the plain offline icon.
+  { id: 'error offline', where: 'plain',
+    pack: ({ ui }) => ui.h('p.error', { role: 'alert' }, ui.ic('offline'), ui.h('span', 'No connection. Join, Host and Recover return when you are back online.')),
+    kit: ({ kit }) => kit.errorNote('No connection. Join, Host and Recover return when you are back online.', { icon: 'offline', filled: false }),
+    parts: [['note', ':scope > .error', ':scope > .ms-k-error'], ['drawing', ':scope > .error > svg', ':scope > .ms-k-error > svg', { svg: true }], ['words', ':scope > .error > span', ':scope > .ms-k-error > span', { words: true }]] },
 
   // ── The segmented control, the stepper, the switch ──
   { id: 'segmented', where: 'both',
     pack: ({ ui }) => ui.h('div.seg', { role: 'radiogroup', 'aria-label': 'Players' }, [7, 8, 9].map(n => ui.h('button', { type: 'button', role: 'radio', 'aria-checked': String(n === 8) }, String(n)))),
     kit: ({ kit }) => kit.seg({ options: [7, 8, 9].map(n => ({ id: n, label: String(n) })), value: 8, label: 'Players' }),
     parts: [['control', ':scope > .seg', ':scope > .ms-k-seg'], ...[1, 2].map(n => [`option ${n}`, `:scope > .seg > button:nth-child(${n})`, `:scope > .ms-k-seg > button:nth-child(${n})`, { words: true }])] },
+  // Kit 0.5.1: the chosen option's icon filled, the other plain, as Join's device choice (screens-entry.mjs, sheet 12).
+  { id: 'segmented icons', where: 'both',
+    pack: ({ ui }) => ui.h('div.seg', { role: 'radiogroup', 'aria-label': 'This device' },
+      ui.h('button', { type: 'button', role: 'radio', 'aria-checked': 'true' }, ui.ic('phone', { filled: true }), 'Player phone'),
+      ui.h('button', { type: 'button', role: 'radio', 'aria-checked': 'false' }, ui.ic('display'), 'Shared display')),
+    kit: ({ kit }) => kit.seg({ options: [{ id: 'phone', label: 'Player phone', icon: 'phone' }, { id: 'display', label: 'Shared display', icon: 'display' }], value: 'phone', label: 'This device', stack: true }),
+    parts: [['control', ':scope > .seg', ':scope > .ms-k-seg'],
+      ...[1, 2].flatMap(n => [[`option ${n}`, `:scope > .seg > button:nth-child(${n})`, `:scope > .ms-k-seg > button:nth-child(${n})`, { words: true }],
+        [`option ${n} icon`, `:scope > .seg > button:nth-child(${n}) > svg`, `:scope > .ms-k-seg > button:nth-child(${n}) svg`, { svg: true }]])] },
   { id: 'stepper', where: 'both',
     pack: ({ ui }) => ui.h('span.stepper', ui.h('button', { type: 'button', 'aria-label': 'Fewer', 'aria-disabled': 'true' }, ui.ic('minus')), ui.h('output', '0'), ui.h('button', { type: 'button', 'aria-label': 'More' }, ui.ic('plus'))),
     kit: ({ kit, control }) => { const s = kit.stepper({ value: 0, label: 'Bots' }); control(s.children[0], { off: true }); return s; },
@@ -161,6 +185,20 @@ export const CASES = Object.freeze([
     kit: ({ kit, versions }) => [kit.portrait(seat(2), versions), kit.portrait(null)],
     parts: [['portrait', ':scope > .pt:not(.pt-empty)', ':scope > .ms-k-pt:not(.ms-k-pt-empty)', { portrait: true }], ['empty', ':scope > .pt-empty', ':scope > .ms-k-pt-empty'],
       ['empty drawing', ':scope > .pt-empty > svg', ':scope > .ms-k-pt-empty > svg', { svg: true }]] },
+
+  // ── The waiting block (screens.css .wait): boarding's (sheet 19), the Windows panel's and the offices' in a sheet ──
+  { id: 'wait', where: 'plain',
+    pack: ({ ui }) => ui.h('div.wait', ui.h('span.big-icon', ui.ic('hourglass', { filled: true })), ui.h('h2', 'Starting Round 1'), ui.h('p', ui.h('span.spinner', { 'aria-hidden': 'true' }), ' Waiting for the ship')),
+    kit: ({ kit }) => kit.wait({ icon: 'hourglass', filled: true, title: 'Starting Round 1', line: 'Waiting for the ship', busy: true }),
+    parts: WAIT({ spinner: true }) },
+  { id: 'wait small', where: 'both',
+    pack: ({ ui }) => ui.h('div.wait', ui.h('span.big-icon', ui.ic('window')), ui.h('h2', { style: { fontSize: '1.25rem' } }, 'No window here'), ui.h('p', 'The Command Room has no window')),
+    kit: ({ kit }) => kit.wait({ icon: 'window', title: 'No window here', line: 'The Command Room has no window', size: 'small' }),
+    parts: WAIT() },
+  { id: 'wait portrait', where: 'both',
+    pack: ({ ui }) => ui.h('div.wait', ui.pt(seat(2).character, 76), ui.h('h2', { style: { fontSize: '1.25rem' } }, 'Ben is choosing an Officer'), ui.h('p', 'Chosen at random if time runs out')),
+    kit: ({ kit, versions }) => kit.wait({ lead: kit.portrait(seat(2), versions), title: 'Ben is choosing an Officer', line: 'Chosen at random if time runs out', size: 'small' }),
+    parts: WAIT({ lead: true }) },
 
   // ── The 3 × 3: every state, a count, You and a mark (in a list in seat order when it is narrow) ──
   { id: 'cells', where: 'both',
