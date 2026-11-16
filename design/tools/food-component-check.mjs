@@ -76,7 +76,8 @@ const { FOOD_VERSION } = await import(pathToFileURL(join(REPO, COMPONENT, 'food-
  * with other fonts, the scene outside the notices is held to a mean of 3 levels and 2 % of its pixels more than 24
  * levels apart; each control must measure at least twice what the comparison measures. Against the frozen port, a
  * request card's tilted stamp outside what the port cut of it: no pixel more than 24 levels apart (the browser draws a
- * tilted thing a little differently along its slanted edges when the scroller it stands in is another box: 17 at most).
+ * tilted thing a little differently along its slanted edges when the scroller it stands in is another box: 17 levels
+ * at most at the Standard text, and 22 at the Large; the record holds each capture's own number).
  */
 export const LIMITS = Object.freeze({ box: 0.5, packageSame: 0, packageSceneMean: 0.05, packageSceneFar: 0.001, packageGlass: 1, packageBar: 3, nativeSceneMean: 3, nativeSceneFar: 0.02, controlFactor: 2, stampEdge: 24 });
 /**
