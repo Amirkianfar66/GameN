@@ -362,12 +362,12 @@ const hallView = view => ({ ...view, f: 560 * view.u });
 /** The camera inside: above the crew, looking down the corridor at them, so each row's faces show over the row in front. */
 function hallCamera(t) {
   const e = ease.outCubic(progress(t, SHOTS.inside[0], 9700));
-  return { x: 0, y: lerp(382, 362, e), z: lerp(20, 150, e), tilt: lerp(-0.275, -0.25, e) };
+  return { x: 0, y: lerp(382, 340, e), z: lerp(20, 252, e), tilt: lerp(-0.275, -0.22, e) };
 }
 /** Where each of the crew stands inside: rows back to front, each between the places in front. */
 function standing(view, roster) {
   const wide = view.W > view.H, rows = ROWS[wide ? 'wide' : 'narrow'][roster.length];
-  const depths = rows.length === 3 ? [836, 700, 564] : [770, 600], gap = wide ? 132 : rows.some(n => n > 3) ? 76 : 90;
+  const depths = rows.length === 3 ? [836, 700, 564] : [770, 600], gap = wide ? 132 : rows.some(n => n > 3) ? 66 : 76;
   const out = [];
   let i = 0;
   rows.forEach((count, r) => {

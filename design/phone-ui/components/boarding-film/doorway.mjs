@@ -4,7 +4,7 @@
 // about 225 high). Only the hull's wall is a picture drawn once (the crew's ink); the rest is laid on the canvas.
 
 import { inkCanvas } from '../../../../apps/game/hosted/crew-drawing/ink.mjs';
-import { clamp01, ease, hash, lerp, noise } from '../../../../apps/game/hosted/pregame-films/kit/math.mjs';
+import { clamp01, hash, lerp, noise } from '../../../../apps/game/hosted/pregame-films/kit/math.mjs';
 import { beam, glow, rgba, streak } from './engine.mjs';
 
 const INK = '#0B0E15';
@@ -330,5 +330,3 @@ function lerpColor(a, b, k) {
   const ch = shift => Math.round(lerp((pa >> shift) & 255, (pb >> shift) & 255, t));
   return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
 }
-
-export { ease };

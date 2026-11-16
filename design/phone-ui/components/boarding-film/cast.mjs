@@ -355,4 +355,4 @@ export function createCaster(doc) {
   return { figure, shadow, dispose() { work.width = 0; work.height = 0; } };
 }
 
-export { CREW_HEAD_SCALE, clamp01, lerp };
+export { CREW_HEAD_SCALE };

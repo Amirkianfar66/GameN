@@ -6,7 +6,7 @@
 // Within the hosted game's Content Security Policy: no script is evaluated, nothing external is loaded and no worker
 // is started. A picture is made from the film's own SVG text through a `blob:` image, which `img-src` allows.
 
-import { clamp, clamp01, hash, lerp, noise } from '../../../../apps/game/hosted/pregame-films/kit/math.mjs';
+import { clamp01, hash, lerp, noise } from '../../../../apps/game/hosted/pregame-films/kit/math.mjs';
 
 export const NIGHT = '#07090F';
 

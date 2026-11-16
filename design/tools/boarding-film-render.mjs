@@ -81,7 +81,7 @@ try {
     await page.close();
   }
   if (wanted('pilot-sheet')) {
-    const moments = [700, 1900, 2500, 3300, 4300, 5250, 5990, 6480, 6760, 7350, 8600, 9450], dir = mkdtempSync(join(tmpdir(), 'boarding-sheet-'));
+    const moments = [700, 1900, 2500, 3300, 4300, 5250, 6040, 6480, 6760, 7350, 8600, 9450], dir = mkdtempSync(join(tmpdir(), 'boarding-sheet-'));
     const page = await openPage(browser, { width: 390, height: 844, scale: 1 });
     await page.goto(`${origin}/index.html?size=390x844&t=0&bar=0`, 'window.__boardingFilm');
     const files = [];

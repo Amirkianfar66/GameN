@@ -37,9 +37,9 @@ const { BOARDING_FILM_VERSION, MEMORY_BUDGET, STILLS, TITLE, boardingFrame } = a
 
 /** The named moments (preview/preview.mjs STATES, which needs a page to import): the time, the crew's size, the game's Reduce motion. */
 const STATES = {
-  dusk: { t: 1200 }, arrive: { t: 1950 }, foot: { t: 2800 }, faces: { t: 4600 }, glare: { t: 5320 }, look: { t: 5990 }, sealed: { t: 6520 }, wake: { t: 6760 },
+  dusk: { t: 1200 }, arrive: { t: 1950 }, foot: { t: 2800 }, faces: { t: 4600 }, glare: { t: 5320 }, look: { t: 6040 }, sealed: { t: 6520 }, wake: { t: 6760 },
   dark: { t: 7300 }, lit: { t: 8600 }, mark: { t: 9450 }, tide: { t: 9800 }, night: { t: 9980 },
-  seven: { t: 8600, n: 7 }, nine: { t: 5990, n: 9 },
+  seven: { t: 8600, n: 7 }, nine: { t: 6040, n: 9 },
   ...Object.fromEntries(STILLS.map((still, i) => [`still${i + 1}`, { t: still.at + 200, motion: 'reduced' }])),
 };
 /** The moments drawn again with the device's Reduce motion: each must be a held picture. */

@@ -7,7 +7,7 @@
 // the canvas each frame from shapes kept ready: sharp at any size, and no memory.
 
 import { inkCanvas } from '../../../../apps/game/hosted/crew-drawing/ink.mjs';
-import { clamp01, ease, hash, lerp, noise, progress, rng } from '../../../../apps/game/hosted/pregame-films/kit/math.mjs';
+import { clamp01, ease, hash, lerp, noise, rng } from '../../../../apps/game/hosted/pregame-films/kit/math.mjs';
 import { beam, glow, rgba, streak } from './engine.mjs';
 
 export const GROUND = 650;
@@ -426,9 +426,7 @@ export function paintForeground(ctx, plane, alpha = 1) {
     ctx.closePath();
     ctx.fillStyle = rgba('#07060A', alpha);
     ctx.fill();
-    ctx.strokeStyle = rgba('#C97F5A', 0.5 * alpha); ctx.lineWidth = 1.4;
+    ctx.strokeStyle = rgba('#C97F5A', 0.5 * alpha); ctx.lineWidth = Math.max(1, 1.6 * T.s);
     ctx.stroke();
   }
 }
-
-export { progress };

@@ -115,9 +115,8 @@ export function paintCone(ctx, at, z, on) {
   if (on <= 0) return;
   const [x, y, s] = at(0, HALL.high - 10, z), [, fy] = at(0, 0, z);
   beam(ctx, [x, y], [x, fy], 150 * s, 500 * s, '#DCEBFF', 0.07 * on, { layers: 3, fade: 0.62 });
-  // Its pool on the deck, and the deck's shine under it.
-  glow(ctx, x, fy, 330 * s, '#CFE2FF', 0.3 * on, { sy: 0.34, core: 0.22 });
-  glow(ctx, x, fy + 30 * s, 110 * s, '#E8F4FF', 0.12 * on, { sy: 1.8, core: 0.2 });
+  // Its pool on the deck.
+  glow(ctx, x, fy, 330 * s, '#CFE2FF', 0.13 * on, { sy: 0.34, core: 0.22 });
 }
 
 /** How woken lamp `i` is at `t` (0..1), for lamps waking over `[from, to]` far to near, each catching with a flicker. */
