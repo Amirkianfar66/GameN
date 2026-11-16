@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createPlanetFoodInboxEnqueuer, isPlanetFoodInboxWake, planetFoodInboxQueueId} from '../dist/planet-food-worker.js';
+import {createPlanetFoodInboxEnqueuer, createPlanetFoodInboxHandler, isPlanetFoodInboxWake, planetFoodInboxQueueId} from '../dist/planet-food-worker.js';
 
 const fixture = () => ({kind: 'food-inbox', id: 'wake-1', wakeAt: 1_800_000_000_000,
   scope: {version: 'food-inbox-1', matchId: 'match-1', phaseId: 'phase-1', taskId: 'task-1'}});
@@ -53,4 +53,21 @@ test('only the provider already-exists result completes duplicate dispatch', asy
     const enqueue = createPlanetFoodInboxEnqueuer({enqueue: async () => { throw failure; }});
     await assert.rejects(enqueue(fixture()), error => error === failure);
   }
+});
+
+test('the private handler waits for worker completion and rejects failed work for retry', async () => {
+  const run = Promise.withResolvers(), calls = [];
+  let returned = false;
+  const handle = createPlanetFoodInboxHandler({runFoodInbox: async wake => { calls.push(wake); await run.promise; }});
+  await assert.rejects(handle({...fixture(), owner: 'forged'}), /Invalid private Food wake/);
+  assert.equal(calls.length, 0);
+  const wake = fixture(), pending = handle(wake).then(() => { returned = true; });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(returned, false);
+  assert.deepEqual(calls, [wake]);
+  run.resolve();
+  await pending;
+  assert.equal(returned, true);
+  const fail = createPlanetFoodInboxHandler({runFoodInbox: async () => { throw new Error('sensitive worker details'); }});
+  await assert.rejects(fail(wake), error => error.message === 'Planet Food worker unavailable');
 });

@@ -41,3 +41,14 @@ export function createPlanetFoodInboxEnqueuer(queue: {
     }
   };
 }
+
+/** Resolves only after bounded work finishes or its continuation is durable. */
+export function createPlanetFoodInboxHandler(service: {
+  runFoodInbox(wake: PlanetFoodInboxWake): Promise<void>;
+}) {
+  return async (payload: unknown): Promise<void> => {
+    if (!isPlanetFoodInboxWake(payload)) throw new Error('Invalid private Food wake');
+    try { await service.runFoodInbox(payload); }
+    catch { throw new Error('Planet Food worker unavailable'); }
+  };
+}
