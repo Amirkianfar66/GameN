@@ -21,7 +21,7 @@ import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.1.0';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.0';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -234,7 +234,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   };
 
   // The root carries the kit (kit.css applies inside it) as well as the shell's own styles.
-  const root = el('div', 'ms-phone-shell ms-kit', { tabindex: '-1' });
+  // The root is the kit's phone container (.ms-k-phone): the kit's rows and segmented controls ask its width.
+  const root = el('div', 'ms-phone-shell ms-kit ms-k-phone', { tabindex: '-1' });
   const stage = el('div', 'ms-ps-stage');
   // The stage's cover: a layer exactly over the stage, above all it holds and under the bars, the
   // target bar, the chip, the banner, the toast and the sheet (a result window over the room).
@@ -535,6 +536,12 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       return node;
     });
     if (banner) control(banner.lastChild, { intent: 'retry', busy: state.banner.busy });
+    // While the banner shows, a docked sheet stays below it (phone-shell.css [data-banner]), so Retry and the
+    // sheet's Close are both in sight: the banner is in the over layer, under the sheet, as the pack's.
+    attr(root, 'data-banner', banner ? '' : null);
+    if (banner && banner !== observedBanner) { observedBanner = banner; observer?.observe(banner); }
+    if (!banner) observedBanner = null;
+    if (!observer) placeBanner();
     const chip = keep('chip', !concealed && !!state.chip, () => {
       const node = el('div', 'ms-ps-chip');
       node.append(kit.button({ label: '', kind: 'secondary', small: true, intent: 'chip', extra: ['ms-ps-chip-btn'] }));
@@ -689,7 +696,14 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     lastLayout = key;
     on.onLayout?.(next);
   };
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => reportLayout()) : null;
+  /** The banner's height, for the sheet to stay below it: measured when the banner's size changes, not on each update. */
+  function placeBanner() {
+    const b = parts.banner;
+    if (b && b.isConnected) root.style.setProperty('--ms-ps-banner-h', `${Math.ceil(b.getBoundingClientRect().height)}px`);
+    else root.style.removeProperty('--ms-ps-banner-h');
+  }
+  let observedBanner = null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); reportLayout(); }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);

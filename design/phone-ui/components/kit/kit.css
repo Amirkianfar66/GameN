@@ -255,6 +255,28 @@
 /* On paper the 3 × 3 keeps the pack's 8 px gap in both its forms (screens.css .result-body .grid9 comes after the list form). */
 .ms-kit :where([data-ms-surface="paper"] .ms-k-grid9) { gap: 8px; }
 
+/* ── Larger text on a narrow phone ──────────────────────────────────── */
+/* A phone-sized root that kit parts sit in (the shell's; an entry screen's) carries .ms-k-phone: the container
+   the two rules below ask. They fix text that overlaps or is cut, with the pack's own rules for these two
+   parts (#228); nothing changes at the Standard text, where every phone 320 px or wider is 20 em or more across. */
+.ms-kit:where(.ms-k-phone), .ms-kit :where(.ms-k-phone) { container: ms-k-phone / inline-size; }
+/* Under 19 em across (the Large or Largest text on any phone up to 456 px wide): a row's value goes under its
+   title instead of beside it, so neither runs into the other ("Promises" and "Given 0/1 · Received 1/1"). A long
+   value wraps. The lead (icon, portrait) and the trail (chevron, switch, stepper) keep their places at the sides. */
+@container ms-k-phone (max-width: 19em) {
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden]))) { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 0; row-gap: 2px; }
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden])) > .ms-k-row-icon, .ms-k-row:has(> .ms-k-row-value:not([hidden])) > .ms-k-row-lead > .ms-k-pt) { grid-column: 1; grid-row: 1 / span 2; margin-inline-end: 12px; }
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden])) > .ms-k-row-main) { grid-column: 2; grid-row: 1; }
+  .ms-kit :where(.ms-k-row > .ms-k-row-value) { grid-column: 2; grid-row: 2; justify-self: start; text-align: left; flex-wrap: wrap; }
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden])) > :is(.ms-k-row-chev, .ms-k-row-trail > :is(.ms-k-switch, .ms-k-stepper))) { grid-column: 3; grid-row: 1 / span 2; margin-inline-start: 12px; }
+}
+/* Under 15 em across (the Largest text on any phone, or Large on the smallest): a segmented control whose words
+   don't fit side by side (Card · Knowledge · Resources) stacks its options, one per row, each still 44 px. One
+   of short options (7 · 8 · 9) doesn't ask to (seg's `stack`), and stays a row. */
+@container ms-k-phone (max-width: 15em) {
+  .ms-kit :where(.ms-k-seg[data-stack]) { grid-auto-flow: row; }
+}
+
 /* ── Reduce motion: the game's (data-motion="reduced" on a component's root) or the device's ── */
 .ms-kit:where([data-motion="reduced"]) :where(.ms-k-btn, .ms-k-switch)::after { animation: none; transition-duration: 80ms; }
 @media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-btn, .ms-k-switch)::after { animation: none; transition-duration: 80ms; } }
