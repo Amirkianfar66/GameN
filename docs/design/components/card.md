@@ -181,7 +181,7 @@ Listed, not omitted:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `6c142c0d` (the shell at `3fb12935` merged in as `45758c57`, and the switcher's `stack: true`), with the source clean. The same result as on `1679a0e`, `b1559cf` and `a35c414`, with three changes in the captures, all from the shell and the kit:
+- **`node design/tools/card-check.mjs`:** recorded on `6c142c0d` (the shell at `3fb12935` merged in as `45758c57`, and the switcher's `stack: true`), with the source clean. The same result as on `1679a0e`, `b1559cf` and `a35c414`. Two kinds of captures changed, both from the shell and the kit; the others differ only by JPEG noise, with no pixel changing by more than 24 levels:
   - **The three 200 % captures at 320 × 568** show the kit's Largest-text forms: the switcher's three words one per row, and a row's value under its title. This is the fix for my Largest-text finding.
   - **Reconnecting:** the sheet stays 8 px below the shell's banner, so Retry is in sight.
   - **Found, for the Lead:** in the Card view at 200 % on 320 × 568, the stacked switcher leaves the card's place about 80 px tall, so the card shrinks to its corner (`review/320x568-large-card.jpg`). Before the fix the card was about 290 px tall, but the switcher clipped "Resources". A floor on the card's place, with the sheet's body scrolling, would keep the card readable. That layout change waits for the Lead's decision.
