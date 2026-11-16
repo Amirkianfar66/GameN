@@ -346,7 +346,9 @@ for(const recovery of ['direct watchdog','periodic repair'])test(`closed inbox r
 for(const outcome of ['receipt timeout','progress read failure','applied heartbeat'])test(`Food inbox result timing records ${outcome}`, {timeout:60_000},async t=>{
   const {h,task,winch,route,store,read,pump,setCommitObserver}=await inboxMatch(t);
   const scopeKey=foodInboxScopeKey(route.scope);
+  const sessionKey='session/'+h.matchId,progressPrefix='foodInboxProgress/'+scopeKey+'/';
   const intake=Promise.withResolvers();
+  const readOnlyScans=[];
   let original,summary,failedReads=0;
   setCommitObserver(rows=>{
     for(const {stage,item} of rows){
@@ -356,14 +358,22 @@ for(const outcome of ['receipt timeout','progress read failure','applied heartbe
     }
   });
   const faultText='synthetic private details from the inbox progress read';
-  if(outcome==='progress read failure')h.reload({store:{...store,
-    readOnly:action=>store.readOnly(tx=>action({...tx,async get(path){
-      if(path.startsWith('foodInboxProgress/'+scopeKey+'/')){
-        failedReads++;
-        throw Object.assign(new Error(faultText),{code:14});
+  h.reload({store:{...store,
+    async readOnly(action){
+      const paths=new Set();
+      try{
+        return await store.readOnly(tx=>action({...tx,async get(path){
+          paths.add(path);
+          if(outcome==='progress read failure'&&path.startsWith(progressPrefix)){
+            failedReads++;
+            throw Object.assign(new Error(faultText),{code:14});
+          }
+          return tx.get(path);
+        }}));
+      }finally{
+        readOnlyScans.push(paths);
       }
-      return tx.get(path);
-    }})),
+    },
   }});
   h.setTime(task.options.startedAt+100);
   const responsePromise=withPlanetRequestTiming(()=>h.invoke(winch,'foodHeartbeat',{matchId:h.matchId,taskId:route.scope.taskId}),
@@ -391,7 +401,18 @@ for(const outcome of ['receipt timeout','progress read failure','applied heartbe
   if(outcome==='receipt timeout'){
     assert.ok(summary.stages.inboxResultWait.totalMs>=1800);
     assert.equal(summary.stages.inboxResultTimeout?.count,1);
-  }else assert.equal(summary.stages.inboxResultTimeout,undefined);
+    assert.equal(summary.stages.inboxResultNoProgress?.count,1);
+    const emptyPolls=readOnlyScans.filter(paths=>paths.has(progressPrefix+original.id));
+    assert.ok(emptyPolls.length>0,'the request observed missing progress');
+    assert.ok(emptyPolls.every(paths=>!paths.has(sessionKey)),'empty polls never load Session');
+    const sessionScans=readOnlyScans.filter(paths=>paths.has(sessionKey));
+    assert.equal(sessionScans.length,2,'classification and final authorization are the only Session-bearing reads');
+    assert.equal(readOnlyScans.at(-1),sessionScans.at(-1),'the terminal read only rechecks authorization');
+  }else{
+    assert.equal(summary.stages.inboxResultTimeout,undefined);
+    assert.equal(summary.stages.inboxResultNoProgress,undefined);
+  }
+  assert.equal(summary.stages.inboxResultPendingApply,undefined);
 
   assert.deepEqual(Object.keys(summary).sort(),['elapsedMs','stages']);
   assert.ok(Number.isFinite(summary.elapsedMs));
@@ -402,6 +423,119 @@ for(const outcome of ['receipt timeout','progress read failure','applied heartbe
   const serialized=JSON.stringify(summary);
   for(const privateValue of [faultText,winch,h.matchId,route.scope.taskId,scopeKey,original.id]){
     assert.equal(serialized.includes(privateValue),false);
+  }
+});
+
+function startHeartbeatWithPausedPoll({h,store,winch,route},getOriginal,{pauseOn=1,hideProgress=false}={}){
+  const paused=Promise.withResolvers(),resume=Promise.withResolvers(),scans=[];
+  const progressPrefix='foodInboxProgress/'+foodInboxScopeKey(route.scope)+'/';
+  let summary;
+  const heartbeatService=createPlanetService({...h.options,store:{...store,
+    async readOnly(action){
+      const original=getOriginal();
+      if(!original)return store.readOnly(action);
+      const paths=new Map(),first=scans.length===0;
+      scans.push(paths);
+      if(scans.length===pauseOn){
+        paused.resolve();
+        await resume.promise;
+      }
+      return store.readOnly(tx=>action({...tx,async get(path){
+        const hide=hideProgress&&!first&&path===progressPrefix+original.id;
+        const value=hide?null:await tx.get(path);
+        paths.set(path,value===null);
+        return value;
+      }}));
+    },
+  }});
+  const reply=withPlanetRequestTiming(()=>heartbeatService.handle(winch,{operation:'foodHeartbeat',matchId:h.matchId,taskId:route.scope.taskId}),
+    observed=>{summary=observed;});
+  return {reply,paused:paused.promise,resume:resume.resolve,scans,get summary(){return summary;}};
+}
+
+test('Food inbox result timing records admission without application', {timeout:60_000},async t=>{
+  const {h,task,winch,route,store,read,pump,setCommitObserver}=await inboxMatch(t);
+  const scopeKey=foodInboxScopeKey(route.scope);
+  let original,admitted;
+  const workerExit='simulated worker exit after durable heartbeat admission';
+  setCommitObserver(rows=>{
+    const queued=rows.find(row=>row.stage==='intake'&&row.item.request.operation==='foodHeartbeat'&&row.item.binding.uid===winch);
+    if(queued)original=queued.item;
+    const progress=rows.find(row=>row.stage==='progress'&&row.id===original?.id&&row.item.kind==='admitted');
+    if(progress){
+      admitted=progress.item;
+      throw new Error(workerExit);
+    }
+  });
+  h.setTime(task.options.startedAt+100);
+  const pending=startHeartbeatWithPausedPoll({h,store,winch,route},()=>original);
+  try{
+    await Promise.race([pending.paused,pending.reply.then(()=>assert.fail('Expected the first poll before the heartbeat reply'))]);
+    await assert.rejects(pump(),error=>error.message===workerExit);
+    assert.equal(admitted.kind,'admitted');
+    pending.resume();
+    assert.deepEqual(await pending.reply,{ok:false,serverTimeMs:h.now(),error:{code:'UNAVAILABLE'}});
+    assert.deepEqual(await read('foodInboxProgress/'+scopeKey+'/'+original.id),admitted);
+    const ingress=await read('foodIngress/'+h.matchId+'/'+String(admitted.sequence).padStart(16,'0'));
+    assert.equal(ingress.response,null);
+    assert.equal(pending.summary.stages.inboxResultTimeout?.count,1);
+    assert.equal(pending.summary.stages.inboxResultPendingApply?.count,1);
+    assert.equal(pending.summary.stages.inboxResultNoProgress,undefined);
+  }finally{
+    pending.resume();
+    await pending.reply;
+  }
+});
+
+for(const outcome of ['applied receipt','timeout','resolved refusal'])test(`Food inbox heartbeat checks current binding at ${outcome}`, {timeout:60_000},async t=>{
+  const {h,task,winch,route,store,read,pump,call,setCommitObserver}=await inboxMatch(t);
+  const scopeKey=foodInboxScopeKey(route.scope),inbox=createPlanetFoodInbox(store);
+  h.setTime(task.options.startedAt+100);
+  const member=(await h.current()).members.find(row=>row.uid===winch);
+  const recovery=ok(await call(h.host,'issueRecovery',{matchId:h.matchId,requestId:h.nextId(),seatId:member.seatId}));
+  let original;
+  setCommitObserver(rows=>{
+    const queued=rows.find(row=>row.stage==='intake'&&row.item.request.operation==='foodHeartbeat'&&row.item.binding.uid===winch);
+    if(queued)original=queued.item;
+  });
+  const pending=startHeartbeatWithPausedPoll({h,store,winch,route},()=>original,{pauseOn:2,hideProgress:outcome==='timeout'});
+  try{
+    await Promise.race([pending.paused,pending.reply.then(()=>assert.fail('Expected the second poll before the heartbeat reply'))]);
+    const progressKey='foodInboxProgress/'+scopeKey+'/'+original.id;
+    assert.equal(pending.scans[0].get(progressKey),true,'a real empty poll completed before recovery');
+    let entryKey,applied;
+    const refusal={kind:'resolved',response:{ok:false,serverTimeMs:h.now(),error:{code:'NOT_ALLOWED'}}};
+    if(outcome==='resolved refusal')await store.transaction(tx=>inbox.consume(tx,original,refusal));
+    else{
+      await pump();
+      const progress=await read(progressKey);
+      assert.equal(progress.kind,'admitted');
+      entryKey='foodIngress/'+h.matchId+'/'+String(progress.sequence).padStart(16,'0');
+      applied=await read(entryKey);
+      assert.deepEqual(applied.response,{ok:true,serverTimeMs:h.now(),result:{renewed:true}});
+    }
+    const replacement='replacement-'+h.nextId();
+    ok(await call(replacement,'redeemRecovery',{matchId:h.matchId,requestId:h.nextId(),recoveryCode:recovery.recoveryCode}));
+    assert.equal((await read('foodInboxRoute/'+h.matchId)).bindingEpoch,1);
+    pending.resume();
+    assert.deepEqual(await pending.reply,{ok:false,serverTimeMs:h.now(),error:{code:'FORBIDDEN'}});
+    if(outcome==='timeout'){
+      assert.ok(pending.summary.stages.inboxResultWait.totalMs>=1800);
+      assert.equal(pending.summary.stages.inboxResultTimeout,undefined);
+      const sessionKey='session/'+h.matchId,final=pending.scans.at(-1);
+      assert.equal(final.has(progressKey),false,'the final authorization does not poll for a receipt again');
+      assert.equal(final.has(sessionKey),true);
+      assert.ok(pending.scans.slice(1,-1).every(scan=>scan.get(progressKey)===true&&!scan.has(sessionKey)));
+    }else{
+      const final=pending.scans.at(-1);
+      assert.equal(final.get(progressKey),false);
+      assert.equal(final.has('session/'+h.matchId),true,'the terminal result and authorization use the same snapshot');
+    }
+    if(entryKey)assert.deepEqual(await read(entryKey),applied);
+    else assert.deepEqual(await read(progressKey),refusal);
+  }finally{
+    pending.resume();
+    await pending.reply;
   }
 });
 

@@ -990,20 +990,43 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
 
   async function waitForInbox(intent:PlanetFoodInboxIntent):Promise<PlanetServiceResponse>{
     const began=performance.now(),{inbox}=inboxPorts(),{matchId}=intent.scope;
+    const heartbeat=intent.request.operation==='foodHeartbeat';
+    const authorizeResult=async(tx:PlanetReadTransaction)=>{
+      const s=await d.load(tx,matchId);
+      const actor=authorize(s,intent.binding.uid,intent.request);
+      if(intent.request.operation!=='redeemRecovery'&&(actor!==intent.binding.seatId
+        ||member(s,intent.binding.uid)?.bindingRevision!==(intent.binding.revision??undefined)))d.reject('FORBIDDEN');
+    };
+    const readResult=async(tx:PlanetReadTransaction)=>{
+      const progress=await inbox.progress(tx,intent);
+      if(!progress)return 'inboxResultNoProgress' as const;
+      const result=progress.kind==='resolved'?progress.response:(
+        await tx.get<Entry>(entryKey(matchId,progress.sequence))
+      )?.response;
+      return result??('inboxResultPendingApply' as const);
+    };
+    let pending:'inboxResultNoProgress'|'inboxResultPendingApply'|undefined;
     while(performance.now()-began<1800){
       const settled=await readOnly(async tx=>{
-        const s=await d.load(tx,matchId);
-        const actor=authorize(s,intent.binding.uid,intent.request);
-        if(intent.request.operation!=='redeemRecovery'&&(actor!==intent.binding.seatId
-          ||member(s,intent.binding.uid)?.bindingRevision!==(intent.binding.revision??undefined)))d.reject('FORBIDDEN');
-        const progress=await inbox.progress(tx,intent);
-        if(!progress)return null;
-        if(progress.kind==='resolved')return progress.response;
-        return (await tx.get<Entry>(entryKey(matchId,progress.sequence)))?.response??null;
+        if(!heartbeat)await authorizeResult(tx);
+        const result=await readResult(tx).catch(async error=>{
+          // Recheck the binding when this snapshot is still readable.
+          if(heartbeat)await authorizeResult(tx);
+          throw error;
+        });
+        // Pending heartbeats do not load the Session. An exact response still
+        // requires the original binding in the same snapshot as that response.
+        if(heartbeat&&typeof result!=='string')await authorizeResult(tx);
+        return result;
       });
-      if(settled)return settled;
+      if(typeof settled!=='string')return settled;
+      pending=settled;
       await new Promise<void>(resolve=>setTimeout(resolve,40));
     }
+    // Preserve the revoked caller's refusal at expiry without polling the
+    // result again after its original wait budget.
+    if(heartbeat)await readOnly(authorizeResult);
+    if(pending)beginPlanetTiming(pending)?.();
     beginPlanetTiming('inboxResultTimeout')?.();
     return d.reject('UNAVAILABLE');
   }
