@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.7.0",
-  "sourceCommit": "b19174274e56e8ac83f222cd660bac41ba442222",
+  "version": "component-kit-0.7.1",
+  "sourceCommit": "92a67b7af6d67119589fdc83b02c5f166412774f",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -252,87 +252,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "e590bb301984320f2ec598ad62fe288803de3aea1689f4c68c1f4b905ee41b9b",
+      "sha256": "dd6b6100d736940137cb495304d4b11b5097f2da83ec203bfb7c7525733f5f6d",
       "size": {
         "width": 390,
-        "height": 10930
+        "height": 11597
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8YUumQ-.js",
+          "source": "assets/page-BKI3WgbR.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "538ef879a0237637af04f644dba4f8ae91b237ebb13b6955f068b876211515f9"
+      "measurementSha256": "5bce18c5a8c63c8ea3ad07b005849d8dac88be055b871ba10f81b2e529ebf58f"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "f9d236598a512a6bed32af29f644cdad3070b76ad68ada9dbff78771dca8159f",
+      "sha256": "80f8eb54960d451151e626b30c3edac4df3a7579e100ecb592744364667a60bf",
       "size": {
         "width": 390,
-        "height": 10999
+        "height": 11666
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8YUumQ-.js",
+          "source": "assets/page-BKI3WgbR.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "614a45e7738a2e214a4667e4799a4d0fb5cb9858a649b9a6ea26e55997bcad76"
+      "measurementSha256": "f2f0cfafa52c36f319740459f6a7afbd755d4115f5e9bec40b8bc958537aed4d"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "603979c2a14c8d45c15f09007818c1b76079750863b765a7304c3e69282a70e6",
+      "sha256": "8db495ce781bb24d2b574e6a890200eec78bfc9a471f6dea0740e5c990a6d207",
       "size": {
         "width": 390,
-        "height": 16058
+        "height": 16824
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8YUumQ-.js",
+          "source": "assets/page-BKI3WgbR.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "34d1daa95f5a7273399a3625c0d844bab39cd7f75b3b5316dae75d56b10285a0"
+      "measurementSha256": "90efc006a0cc8e4c94adeb7201645eb294d4db804f8b2b0253e554acbf76c4a4"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "ff9b0d8fe9fef84f6f50b3bb9a194dd9f000e6932139e83433ee8725ab23dc25",
+      "sha256": "aa68b8f06ce7be2274fc1ccbd8dbc8109799c720d57e9ae4ff60b82ab502dcd5",
       "size": {
         "width": 390,
-        "height": 16119
+        "height": 16882
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D8YUumQ-.js",
+          "source": "assets/page-BKI3WgbR.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "e7755246f779fad88689f9bce8cd5ccca155fb4dc2d1a328f19284e8813e1235"
+      "measurementSha256": "b9739dfaa130eb609818beea84641cc6d4c34e3b278327ed77deb3e91e5899db"
     }
   },
   "agreement": {
@@ -786,6 +786,18 @@
               "rule": 9
             }
           ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
         },
         "paper card": {
           "ok": true,
@@ -1343,6 +1355,18 @@
             }
           ]
         },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
         "cells": {
           "ok": true,
           "parts": 52,
@@ -1844,6 +1868,18 @@
               "rule": 9
             }
           ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
         },
         "paper card": {
           "ok": true,
@@ -3400,6 +3436,18 @@
             }
           ]
         },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
         "cells": {
           "ok": true,
           "parts": 51,
@@ -3410,9 +3458,9 @@
     }
   },
   "summary": {
-    "cases": 186,
-    "agree": 186,
-    "parts": 1341,
+    "cases": 194,
+    "agree": 194,
+    "parts": 1377,
     "accepted": 274
   }
 }
