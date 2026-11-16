@@ -225,6 +225,22 @@ For the Lead; each follows the pack or makes a privacy point provable, and none 
 | Promises during the talk (sheet 33) | A later component of mine; the shell's Promises button reports the tap |
 | Lights out in the capsule | Sheet 25 draws the capsule lit |
 
+## Found while building (for the Lead)
+
+- **The talk's foot at the Largest text** (the shell's): on 320 × 568 at 200 %, Promises and My card stay side by side and "My card" runs past the right edge (`review/320x568-largest-talk.jpg`). Shell 0.2.1's row-per-button rule reaches the sheet's footer, not `.ms-ps-talk`.
+- **The capsule's tags under the talk's foot** at the same size: the taller buttons cover the two name tags. The shell already reports how much of the stage they cover (`layout().covered.bottom`). If the Lead agrees, the capsule could take it and keep the tags above it. At Standard and Large, and on every development size, the tags already clear the buttons, so nothing there would change.
+- **The pack's portrait size in who:** `pt(…, 56)` in the pack's code is drawn at 64 px by its own `.confirm-who .pt` rule; the component follows the drawn frame (as built, item 1).
+
 ## Checks run on this version
 
-Recorded after the source commit; see the PR (#293) and `review/check.json`.
+At `808f4dcb`, with the source clean (the components, the hosted drawings, the room, capsule and crew pictures, and the tool):
+- **`node design/tools/private-talk-check.mjs`,** on the shared `design/tools/lib/component-check.mjs`, under the production headers (SHA-256 `424e5dec…`):
+  - **Captures:** 42 of 42: eighteen states at 390 × 844 and 430 × 932, and six at 320 × 568 (the small phone, and the Largest text there). Concealed, no private word is in the page; on a third phone, the pair bar and the room only.
+  - **Probe:** 14 of 14: declare, refused, claim, wait, capsule, audience, private, leaks, inputs, focus, text, dispose and motion, plus motion again with the device's Reduce motion. The Lead's five privacy points are audience, private and leaks: no side or claim in any attribute of any state's whole phone, in the console, in `onLayout` or in a callback but `onSide`; "Not for your role" only on the declarer's phone.
+  - **Agreement with the pinned pack's own `talk()` frames:** 4 of 4 (declare with the role's own side and with any side, the claim, the talk), with no differing part and no word amended: the pair bar, the sheet and its footer, who, each card's place, state, choice, words, lock, art and look, the line under the cards, the claim's card, and the capsule's pictures, the two seated, their tags, the ambient and the talk's two buttons, each to within half a pixel.
+  - **The tool exits 0.** `private-talk.test.mjs` checks the record: every capture and its hash, every probe check, the privacy details, every frame.
+- **`private-talk.test.mjs`** 8 of 8 and **`play-parts.test.mjs`** 5 of 5.
+- **Actions on `play-parts-0.2.0`:** Actions' probe 14 of 14 and its agreement with all its frames, run on this branch: the parts' new options leave its drawing as it was.
+- **On `808f4dcb`:** `npm run build` passes; `test:design` 404 of 405 before the record (the one, the record's own test), 405 of 405 with it.
+- **The owner's test page:** a private page, sent to the Lead, built from these files at the record's commit.
+- **Not run:** physical phones, Safari, screen readers, frame rate, the real app's connection.
