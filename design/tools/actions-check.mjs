@@ -128,15 +128,15 @@ try {
         const q = s => document.querySelector(s), all = s => [...document.querySelectorAll(s)], shown = n => !!n && n.getClientRects().length > 0;
         const t = n => (shown(n) ? n.textContent.replace(/\\s+/g, ' ').trim() : null);
         const root = q('.ms-actions'), room = q('.ms-room-scene');
-        const tiles = all('.ms-actions .ms-pp-tile');
+        const tiles = all('.ms-actions .ms-k-tile');
         const top = n => Math.round(n.getBoundingClientRect().top);
         return { violations: window.__policy, part: root?.dataset.part ?? null, status: root?.dataset.status ?? null,
           sheet: t(q('.ms-ps-sheet-title h2')), sub: t(q('.ms-ps-sheet-title p')),
           footer: all('.ms-ps-sheet-foot .ms-k-btn').map(b => b.textContent.replace(/\\s+/g, ' ').trim()).join('|') || null,
-          head: root?.querySelector('.ms-ac-head') ? [t(root.querySelector('.ms-ac-head h3')), t(root.querySelector('.ms-ac-head span'))].join('|') : null,
+          head: root?.querySelector('.ms-k-section-head') ? [t(root.querySelector('.ms-k-section-title')), t(root.querySelector('.ms-k-section-aside'))].join('|') : null,
           tiles: tiles.map(n => n.dataset.value + ':' + n.dataset.state).join(',') || null,
-          lines: tiles.map(n => t(n.querySelector('.ms-pp-tile-note'))).join('|') || null,
-          mark: t(q('.ms-actions .ms-pp-tile-stamp:not([hidden])')),
+          lines: tiles.map(n => t(n.querySelector('.ms-k-tile-note'))).join('|') || null,
+          mark: t(q('.ms-actions .ms-k-tile-stamp:not([hidden])')),
           perRow: tiles.length ? tiles.filter(n => top(n) === top(tiles[0])).length : null,
           refused: tiles.length ? tiles.every(n => n.getAttribute('aria-disabled') === 'true') : null,
           note: t(q('.ms-actions .ms-k-group-note')),
@@ -145,12 +145,12 @@ try {
           rows: all('.ms-ac-list .ms-k-row-title').map(n => n.textContent).join('|') || null,
           groups: all('.ms-ac-list .ms-k-group-label').map(n => n.textContent).join('|') || null,
           picked: all('.ms-ac-list .ms-k-row[data-picked] .ms-k-row-title').map(n => n.textContent).join('|') || null,
-          who: q('.ms-pp-who') ? [t(q('.ms-pp-who-title')), t(q('.ms-pp-who-sub'))].join('|') : null,
-          portraits: all('.ms-pp-who-lead .ms-k-pt').length, facts: all('.ms-pp-facts li').length,
+          who: q('.ms-k-who') ? [t(q('.ms-k-who-title')), t(q('.ms-k-who-sub'))].join('|') : null,
+          portraits: all('.ms-k-who-lead .ms-k-pt').length, facts: all('.ms-k-facts li').length,
           error: t(q('.ms-actions .ms-k-error')),
           stamp: t(q('.ms-ac-after-head .ms-k-stamp')), headline: t(q('.ms-ac-after-head h3')),
           steps: all('.ms-pp-steps li').filter(shown).length, people: all('.ms-ac-after-people .ms-k-row').length,
-          notice: t(q('.ms-pp-notice p')), banner: t(q('.ms-ps-banner b')),
+          notice: t(q('.ms-k-notice p')), banner: t(q('.ms-ps-banner b')),
           page: document.body.innerText, figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0 };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));

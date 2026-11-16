@@ -1,67 +1,19 @@
 @import url("../kit/kit.css");
 /*
- * The pack's gameplay parts (play-parts.mjs): the tile, who, facts, the notice and the time line. Runtime
- * source, Designer's. The pack's own values (design/phone-ui/prototype/screens.css .tile, .confirm-who, .facts,
- * .registered, .steps, and kit.css .sheet .tile for glass), on the kit's tokens (../kit/kit.css).
+ * The pack's gameplay part that is still drawn here: the time line. The tile, who, the facts and the notice are
+ * the kit's (component-kit-0.6.0 and 0.7.0), so their styles are in kit.css. Runtime source, Designer's. The
+ * pack's own values (design/phone-ui/prototype/screens.css .steps), on the kit's tokens (../kit/kit.css).
  *
  * Scope and weight, as the kit's: everything applies inside a component's .ms-kit root and styles only ms-pp-
  * elements (or a kit element inside one of them); every rule weighs one class (.ms-kit :where(…)), so a
- * component's own rule (two classes) outranks a part, whatever order the stylesheets load in. The two rules
- * that size the kit's portrait inside who weigh two (.ms-kit .ms-pp-who-lead :where(…)), so they outrank the
- * kit's own portrait rule (one class) in any order too. Order alone
- * decides between the parts' own rules, and this file is ordered as the pack's cascade resolves: the base
- * forms, the glass forms, the states, the list form and motion.
- * A part you can tap sets the hand cursor and turns off the browser's tap highlight in the same rule (kit.md).
+ * component's own rule (two classes) outranks a part, whatever order the stylesheets load in. Order alone
+ * decides between the parts' own rules, and this file is ordered as the pack's cascade resolves.
+ * It takes no taps and does not move.
  */
 
-/* ── Every part ──────────────────────────────────────────────────────── */
+/* ── The part ────────────────────────────────────────────────────────── */
 /* As the pack's `* { box-sizing: border-box }`. */
-.ms-kit :where([class^="ms-pp-"], [class*=" ms-pp-"], .ms-pp-facts li, .ms-pp-steps li, .ms-pp-steps li > div, .ms-pp-notice > p) { box-sizing: border-box; }
-
-/* ── The tile (screens.css .tile) ────────────────────────────────────── */
-.ms-kit :where(.ms-pp-tile) {
-  position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 104px; padding: 12px 6px 10px;
-  margin: 0; border: 0; border-radius: 16px; background: var(--ms-k-surface-3); color: var(--ms-k-text); font: inherit; text-align: center;
-}
-.ms-kit :where(button.ms-pp-tile) { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.ms-kit :where(.ms-pp-tile:focus-visible) { outline: 3px solid #FFD36D; outline-offset: 2px; }
-.ms-kit :where(.ms-pp-tile-icon) { position: relative; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--ms-k-paper); color: var(--ms-k-ink); --ic-knock: var(--ms-k-paper); }
-.ms-kit :where(.ms-pp-tile-icon .ms-k-ic) { width: 28px; height: 28px; }
-.ms-kit :where(.ms-pp-tile-name) { font: 600 0.9375rem/1.15 var(--ms-k-font); }
-.ms-kit :where(.ms-pp-tile-note) { font: 500 0.75rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); }
-.ms-kit :where(.ms-pp-tile-badge) { position: absolute; top: 8px; right: 8px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--ms-k-ink); color: var(--ms-k-paper); font: 700 0.75rem/22px var(--ms-k-font); box-shadow: 0 0 0 1.5px rgba(244, 235, 221, 0.4); }
-.ms-kit :where(.ms-pp-tile-stamp) { position: absolute; left: 50%; top: 40px; transform: translateX(-50%) rotate(-6deg); padding: 3px 7px 2px; border: 2px solid var(--ms-k-ink); border-radius: 5px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.6875rem/1 var(--ms-k-letter); letter-spacing: 0.06em; box-shadow: 2px 2px 0 #05070B; white-space: nowrap; }
-.ms-kit :where(.ms-pp-tile [hidden]) { display: none; }
-/* A card's art in place of the icon (0.2.0; the pack's .hack-card svg): the tile's width, at the card's own shape. */
-.ms-kit :where(.ms-pp-tile-art) { display: block; width: 100%; }
-.ms-kit :where(.ms-pp-tile-art svg) { display: block; width: 100%; height: auto; }
-/* A note with its icon before it (the private talk's lock; the pack's .declare-sides .tile small, whose icon may
-   shrink a little beside a wrapped note, as the pack's does). */
-.ms-kit :where(.ms-pp-tile-note[data-has-icon]) { display: inline-flex; align-items: center; gap: 4px; }
-.ms-kit :where(.ms-pp-tile-note[data-has-icon] .ms-k-ic) { width: 14px; height: 14px; flex: 0 1 auto; }
-
-/* ── Who: the check's person, people or icon (screens.css .confirm-who) ─ */
-.ms-kit :where(.ms-pp-who) { display: flex; align-items: center; gap: 14px; padding: 4px 0 6px; }
-.ms-kit :where(.ms-pp-who-lead) { display: flex; flex: none; }
-.ms-kit .ms-pp-who-lead :where(.ms-k-pt) { width: 64px; height: 64px; }
-/* Two people (Supply, the Lead's L4): both portraits, the second a little over the first, as the pair bar's. */
-.ms-kit .ms-pp-who-lead:where([data-form="pair"]) :where(.ms-k-pt + .ms-k-pt) { margin-left: -14px; box-shadow: 0 0 0 2px var(--ms-k-surface-2); }
-/* The action's own tile. The pack's .confirm-who span rule reaches it too: its 2 px top margin and its type. */
-.ms-kit :where(.ms-pp-who-lead[data-form="icon"]) { width: 64px; height: 64px; margin-top: 2px; border-radius: 18px; display: grid; place-items: center; background: var(--ms-k-paper); color: var(--ms-k-ink); --ic-knock: var(--ms-k-paper); font: 500 0.9375rem/1.35 var(--ms-k-font); }
-.ms-kit :where(.ms-pp-who-lead[data-form="icon"] .ms-k-ic) { width: 36px; height: 36px; }
-.ms-kit :where(.ms-pp-who-title) { display: block; font: 700 1.25rem/1.2 var(--ms-k-font); }
-.ms-kit :where(.ms-pp-who-sub) { display: block; margin-top: 2px; font: 500 0.9375rem/1.35 var(--ms-k-font); color: var(--ms-k-text-2); }
-.ms-kit :where(.ms-pp-who [hidden]) { display: none; }
-
-/* ── Facts (screens.css .facts) ──────────────────────────────────────── */
-.ms-kit :where(.ms-pp-facts) { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-.ms-kit :where(.ms-pp-facts li) { display: flex; gap: 10px; align-items: flex-start; font: 500 0.9375rem/1.35 var(--ms-k-font); color: var(--ms-k-text-2); }
-.ms-kit :where(.ms-pp-facts li .ms-k-ic) { flex: none; width: 20px; height: 20px; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-2); }
-.ms-kit :where(.ms-pp-facts[hidden]) { display: none; }
-
-/* ── The notice (screens.css .registered; its icon as the pack draws it there) ─ */
-.ms-kit :where(.ms-pp-notice) { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 0 8px; text-align: center; }
-.ms-kit :where(.ms-pp-notice > p) { margin: 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.35 var(--ms-k-font); }
+.ms-kit :where([class^="ms-pp-"], [class*=" ms-pp-"], .ms-pp-steps li, .ms-pp-steps li > div) { box-sizing: border-box; }
 
 /* ── The time line (screens.css .steps) ──────────────────────────────── */
 .ms-kit :where(.ms-pp-steps) { list-style: none; margin: 2px 0 0; padding: 0; }
@@ -76,26 +28,3 @@
 .ms-kit :where(.ms-pp-steps li > div > b) { display: block; font: 700 0.9375rem/1.3 var(--ms-k-font); color: var(--ms-k-text); }
 .ms-kit :where(.ms-pp-steps li > div > span) { display: block; font: 500 0.875rem/1.35 var(--ms-k-font); color: var(--ms-k-text-2); }
 .ms-kit :where(.ms-pp-steps[hidden], .ms-pp-steps [hidden]) { display: none; }
-
-/* ── On glass, the base forms (kit.css .sheet .tile) ─────────────────── */
-.ms-kit :where([data-ms-surface="glass"] .ms-pp-tile) { background: var(--ms-k-glass-fill); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
-/* Dark words on a light fill take no halo (kit.css .sheet … .mini-stamp). */
-.ms-kit :where([data-ms-surface="glass"] .ms-pp-tile-stamp) { text-shadow: none; }
-
-/* ── The tile's states (screens.css .tile[data-state]) ───────────────── */
-.ms-kit :where(.ms-pp-tile[data-state="selected"]) { box-shadow: inset 0 0 0 3px var(--ms-k-accent); background: rgba(241, 184, 75, 0.12); }
-.ms-kit :where(.ms-pp-tile[data-state="selected"] .ms-pp-tile-icon) { background: var(--ms-k-accent); --ic-knock: var(--ms-k-accent); }
-.ms-kit :where(.ms-pp-tile[data-state="unavailable"] .ms-pp-tile-icon) { background: var(--ms-k-surface-4); color: var(--ms-k-steel-light); --ic-knock: var(--ms-k-surface-4); }
-.ms-kit :where(.ms-pp-tile[data-state="unavailable"] .ms-pp-tile-name) { color: var(--ms-k-text-2); }
-/* An unavailable card's art fades to grey (the pack's .declare-sides .tile[data-state="unavailable"] .hack-card). */
-.ms-kit :where(.ms-pp-tile[data-state="unavailable"] .ms-pp-tile-art) { opacity: 0.35; filter: grayscale(1); }
-.ms-kit :where(.ms-pp-tile[data-state="registered"]) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
-.ms-kit :where(.ms-pp-tile[data-state="registered"] .ms-pp-tile-icon) { background: var(--ms-k-ink); color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); --ic-knock: var(--ms-k-ink); }
-/* Sending: a spinner in place of the icon (screens.css .tile[data-state="submitting"]). */
-.ms-kit :where(.ms-pp-tile[data-state="sending"] .ms-pp-tile-icon .ms-k-ic) { visibility: hidden; }
-.ms-kit :where(.ms-pp-tile[data-state="sending"] .ms-pp-tile-icon)::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--ms-k-ink); border-right-color: transparent; animation: ms-k-spin 0.8s linear infinite; }
-
-/* ── Reduce motion: the game's (data-motion="reduced" on a component's root) or the device's ── */
-/* The sending spinner stands still, as the kit's do. */
-.ms-kit:where([data-motion="reduced"]) :where(.ms-pp-tile[data-state="sending"] .ms-pp-tile-icon)::after { animation: none; }
-@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-pp-tile[data-state="sending"] .ms-pp-tile-icon)::after { animation: none; } }

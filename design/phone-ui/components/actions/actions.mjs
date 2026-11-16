@@ -262,20 +262,23 @@ export function actionsSheet({ role = null, room = null } = {}) {
 export function targetListSheet({ type }) {
   return { id: 'action-list', title: ACTION_WORDS.list, sub: ACTION_WORDS.listSub(lookOf(type).title), back: true, close: false };
 }
-/** The check's sheet: Cancel and Register; while sending, Register busy and named as it sends. */
+/**
+ * The check's sheet: Cancel and Register; while sending, Register busy and named as it sends. Cancel only closes
+ * the sheet on this phone, so it is local (shell 0.2.4) and works while reconnecting; Register stands for the command.
+ */
 export function checkSheet({ type, phase = 'ready', canRegister = true }) {
   const l = lookOf(type);
   if (!l.register) throw new TypeError(`${type} has no check of this component's`);
   if (!['ready', 'sending'].includes(phase)) throw new TypeError('phase is ready or sending');
   const sending = phase === 'sending';
   return { id: 'action-check', title: ACTION_WORDS.check, close: false, actions: [
-    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary' },
+    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', local: true },
     { id: 'register', label: sending ? l.sending : l.register, kind: 'primary', busy: sending, enabled: sending || !!canRegister },
   ] };
 }
-/** After Register's sheet: the action's title, and Done. */
+/** After Register's sheet: the action's title, and Done, which only closes it on this phone (local: it works while reconnecting). */
 export function afterSheet({ type }) {
-  return { id: 'action-after', title: lookOf(type).title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary' }] };
+  return { id: 'action-after', title: lookOf(type).title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary', local: true }] };
 }
 /** Sheet 45's "Outcome unknown": "Retry the same" and "Check receipt", each busy while it asks. */
 export function unknownSheet({ type, busy = null } = {}) {
@@ -286,11 +289,14 @@ export function unknownSheet({ type, busy = null } = {}) {
     { id: 'check', label: ACTION_WORDS.checkReceipt, kind: 'primary', icon: 'check', busy: busy === 'check', enabled: busy === null || busy === 'check' },
   ] };
 }
-/** Pass asks once (27.3): "The turn goes to Eli · Player 5" when the next player is known (B5), else no sub. */
+/**
+ * Pass asks once (27.3): "The turn goes to Eli · Player 5" when the next player is known (B5), else no sub. Cancel only
+ * closes the sheet (local: it works while reconnecting, except while Pass is sending); Pass stands for PASS_TURN.
+ */
 export function passSheet({ next = null, busy = false } = {}) {
   const who = next ? person(next, 'next') : null;
   return { id: 'pass', title: ACTION_WORDS.passTitle, sub: who ? ACTION_WORDS.passNext(who.name, who.seat) : null, close: false, actions: [
-    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', enabled: !busy },
+    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', local: true, enabled: !busy },
     { id: 'pass', label: ACTION_WORDS.pass, kind: 'primary', icon: 'pass', busy: !!busy },
   ] };
 }
@@ -300,6 +306,9 @@ export function passSheet({ next = null, busy = false } = {}) {
  */
 export function targetBar({ type, where = 'room', picked = [] }) {
   const l = lookOf(type);
+  // The Hacker's are the Hacker component's (the Lead's note 2, 16 November): its words exist once, there.
+  if (type === 'SCAN') throw new TypeError('Scan\'s target bar is the Hacker component\'s scanBar() (design/phone-ui/components/hacker)');
+  if (type === 'SUBMIT_CODE') throw new TypeError('The final Code has no target bar: it is the Hacker component\'s codeSheet() and mountFinalCode()');
   if (!['room', 'board'].includes(where)) throw new TypeError('where is room or board');
   const sub = l.people === 2 ? (picked.length ? ACTION_WORDS.chooseSecond : ACTION_WORDS.chooseTwo) : ACTION_WORDS.choosePlayer;
   return { icon: l.icon, title: l.title, sub: where === 'board' ? ACTION_WORDS.everyRoom(sub) : sub };
@@ -377,8 +386,8 @@ function mountPart(host, name, model, input, handlers, paint) {
  */
 export function mountActions(host, input = {}, handlers = {}) {
   return mountPart(host, 'tiles', TILES, input, handlers, ({ doc, kit, parts, root, policy }) => {
-    const head = kit.h('div', 'ms-ac-head');
-    head.append(kit.h('h3'), kit.h('span'));
+    // The turn head is the kit's section head (0.7.0), as sheet 28 draws it.
+    const head = kit.sectionHead({ title: ACTION_WORDS.yourTurn });
     const wrap = kit.h('div', 'ms-ac-tiles-wrap');
     const grid = kit.h('div', 'ms-ac-tiles', { role: 'group', 'aria-label': ACTION_WORDS.tilesLabel });
     wrap.append(grid);
@@ -397,9 +406,7 @@ export function mountActions(host, input = {}, handlers = {}) {
           return;
         }
         if (!head.isConnected) root.prepend(head, wrap);
-        kit.text(head.firstChild, s.turn === 'own' ? ACTION_WORDS.yourTurn : ACTION_WORDS.notYourTurn);
-        kit.text(head.lastChild, s.round === null ? '' : ACTION_WORDS.round(s.round));
-        head.lastChild.hidden = s.round === null;
+        kit.setSectionHead(head, { title: s.turn === 'own' ? ACTION_WORDS.yourTurn : ACTION_WORDS.notYourTurn, aside: s.round === null ? null : ACTION_WORDS.round(s.round) });
         const wanted = new Set(s.tiles.map(t => t.type));
         for (const [type, node] of nodes) if (!wanted.has(type)) { policy.remove(node); nodes.delete(type); }
         // A tile moved to its new place keeps its element; the focus, which a move drops, is put back on it.
@@ -555,14 +562,14 @@ export function mountAfterRegister(host, input = {}, handlers = {}) {
 
 /** Sheet 45's "Outcome unknown", exactly: the warning icon and its two lines. The shell draws its two buttons (unknownSheet()). */
 export function mountOutcomeUnknown(host, input = {}, handlers = {}) {
-  return mountPart(host, 'unknown', UNKNOWN, input, handlers, ({ parts, root }) => {
+  return mountPart(host, 'unknown', UNKNOWN, input, handlers, ({ kit, root }) => {
     let notice = null;
     return {
       paint: s => {
         if (s.status === 'concealed' || s.type === null) { notice?.remove(); notice = null; return; }
         const { what } = actionWords({ type: s.type, targets: s.targets, viewer: s.viewer });
         const props = { icon: 'warning', filled: true, lines: [ACTION_WORDS.noAnswer(what), ACTION_WORDS.checkFirst] };
-        if (!notice) { notice = parts.notice(props); root.append(notice); } else parts.setNotice(notice, props);
+        if (!notice) { notice = kit.notice(props); root.append(notice); } else kit.setNotice(notice, props);
       },
     };
   });

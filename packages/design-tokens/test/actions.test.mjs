@@ -74,7 +74,7 @@ test('its styles reach nothing outside the component: every rule is under its ro
   assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), ['ms-ac-stamp-in'], 'its one motion, the stamp\'s snap');
   // Every rule's prelude, those inside @container and @media too.
   const selectors = [...css.matchAll(/([^{}]+)\{/g)].map(m => m[1].trim()).filter(s => s && !s.startsWith('@') && !/^(?:from|to|\d+%)$/.test(s));
-  assert.ok(selectors.length >= 25, `found the rules (${selectors.length})`);
+  assert.ok(selectors.length >= 22, `found the rules (${selectors.length})`);
   for (const list of selectors) {
     for (const selector of split(list)) {
       assert.match(selector, /^\.ms-actions(?:\.ms-kit)?(?:\[[^\]]+\]|:focus)?(?:\s|$)/, `"${selector}" is under the component's root`);
@@ -184,19 +184,23 @@ test('the frames and the shell\'s words, from the type alone', () => {
   assert.deepEqual(actionsSheet({ role: 'Doctor', room: 'Room A' }), { id: 'actions', title: 'Actions', sub: 'Doctor · Room A', close: true });
   assert.equal(actionsSheet().sub, null);
   assert.deepEqual(targetListSheet({ type: 'PROTECT' }), { id: 'action-list', title: 'Choose from a list', sub: 'Grant Protection · everyone you can reach', back: true, close: false });
-  assert.deepEqual(checkSheet({ type: 'RESCUE' }).actions.map(a => [a.id, a.label, a.busy ?? false, a.enabled ?? true]), [['cancel', 'Cancel', false, true], ['register', 'Register Rescue', false, true]]);
+  // Cancel and Done only close their sheet on this phone: local, so the shell takes them while reconnecting (0.2.4).
+  assert.deepEqual(checkSheet({ type: 'RESCUE' }).actions.map(a => [a.id, a.label, a.busy ?? false, a.enabled ?? true, a.local ?? false]), [['cancel', 'Cancel', false, true, true], ['register', 'Register Rescue', false, true, false]]);
   assert.deepEqual(checkSheet({ type: 'ACTIVATE_CLONE', phase: 'sending' }).actions[1], { id: 'register', label: 'Activating…', kind: 'primary', busy: true, enabled: true });
   assert.equal(checkSheet({ type: 'RESCUE', canRegister: false }).actions[1].enabled, false, 'Register only while the server still offers the action');
   assert.throws(() => checkSheet({ type: 'MOVE' }), /MOVE has no check of this component's/, 'Move\'s choosing is not this component\'s');
-  assert.deepEqual(afterSheet({ type: 'ENGINEER_SUPPRESS' }), { id: 'action-after', title: 'Suppress navigation', close: false, actions: [{ id: 'done', label: 'Done', kind: 'secondary' }] });
-  assert.deepEqual(unknownSheet({ type: 'RESCUE', busy: 'check' }).actions.map(a => [a.id, a.label, a.busy, a.enabled]), [['retry', 'Retry the same', false, false], ['check', 'Check receipt', true, true]]);
+  assert.deepEqual(afterSheet({ type: 'ENGINEER_SUPPRESS' }), { id: 'action-after', title: 'Suppress navigation', close: false, actions: [{ id: 'done', label: 'Done', kind: 'secondary', local: true }] });
+  assert.deepEqual(unknownSheet({ type: 'RESCUE', busy: 'check' }).actions.map(a => [a.id, a.label, a.busy, a.enabled, a.local ?? false]), [['retry', 'Retry the same', false, false, false], ['check', 'Check receipt', true, true, false]]);
   assert.equal(passSheet({ next: { seat: 'seat-5', name: 'Eli' } }).sub, 'The turn goes to Eli · Player 5');
   assert.equal(passSheet({}).sub, null, 'without the next player (B5), no sub');
-  assert.deepEqual(passSheet({ busy: true }).actions.map(a => [a.id, a.busy ?? false, a.enabled ?? true]), [['cancel', false, false], ['pass', true, true]]);
+  assert.deepEqual(passSheet({ busy: true }).actions.map(a => [a.id, a.busy ?? false, a.enabled ?? true, a.local ?? false]), [['cancel', false, false, true], ['pass', true, true, false]]);
   assert.deepEqual(targetBar({ type: 'RESCUE' }), { icon: 'rescue', title: 'Rescue', sub: 'Choose a player' });
   assert.deepEqual(targetBar({ type: 'SUPPLY' }).sub, 'Choose two players');
   assert.deepEqual(targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), { icon: 'supply', title: 'Supply', sub: 'Choose the second player' });
   assert.deepEqual(targetBar({ type: 'REQUEST_HACK', where: 'board' }), { icon: 'talk', title: 'Private talk', sub: 'Choose a player · every room' });
+  // The Hacker's bar and the Code are the Hacker component's: no second copy here (the Lead's note 2).
+  assert.throws(() => targetBar({ type: 'SCAN' }), /the Hacker component's scanBar\(\)/);
+  assert.throws(() => targetBar({ type: 'SUBMIT_CODE' }), /the Hacker component's codeSheet\(\)/);
   assert.deepEqual(targetChip({ kind: 'other-rooms', count: 2 }), { id: 'other-rooms', label: 'Other rooms · 2', icon: 'board', tone: 'paper' });
   assert.deepEqual(targetChip({ kind: 'list' }), { id: 'list', label: 'List', icon: 'players', tone: 'paper' });
   assert.throws(() => targetChip({ kind: 'other-rooms', count: 0 }), /how many people are elsewhere/);
@@ -247,7 +251,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
     assert.ok(run.ok && run.checks.length > 0 && run.checks.every(c => c.ok), `probe ${mode}: every check passed`);
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
-  assert.deepEqual(record.probe.full.checks.map(c => c.id), ['tiles', 'refused', 't3', 'list', 'check', 'after', 'words', 'unknown', 'inputs', 'private', 'focus', 'text', 'dispose', 'motion']);
+  assert.deepEqual(record.probe.full.checks.map(c => c.id), ['tiles', 'refused', 't3', 'list', 'check', 'after', 'words', 'footer', 'unknown', 'inputs', 'private', 'focus', 'text', 'dispose', 'motion']);
   assert.deepEqual(record.probe['device-reduced'].checks.map(c => c.id), ['motion'], 'with the device\'s Reduce motion, the motion check');
   const agree = record.agree;
   assert.ok(agree.ok, 'the agreement with the pack');

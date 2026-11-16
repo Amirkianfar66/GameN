@@ -18,6 +18,9 @@
 //             no time line after a reload; nothing drawn outside the sheet (nothing on the target)
 //   words     the frames and the shell's words: the sheets' ids, titles, subs and buttons; the target bar
 //             (Supply's second pick, the board); the chip; the toast; Pass without a next player
+//   footer    the sheets' buttons in the real shell: live, each is taken; reconnecting, Cancel (the check's and
+//             Pass's) and Done are taken, being this phone's own (local), and Register, Pass, Retry the same and
+//             Check receipt, which stand for commands, are refused, described by the banner's words
 //   unknown   "Outcome unknown" names the action and its people, or the action alone
 //   inputs    an unknown key, a type twice, an unknown type or state, too many people: each an error; a
 //             checked input checks to itself
@@ -64,7 +67,7 @@ export async function runActionsProbe({ sizes, versions }) {
     return { frame, shell, part, intents, root: part.element, dispose: () => { part.dispose(); shell.dispose(); frame.remove(); } };
   }
   const tap = node => node.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-  const tile = (root, type) => root.querySelector(`.ms-pp-tile[data-value="${type}"]`);
+  const tile = (root, type) => root.querySelector(`.ms-k-tile[data-value="${type}"]`);
   const text = root => root.textContent.replace(/\s+/g, ' ').trim();
   const reported = (p, name) => p.intents.filter(i => i[0] === name).map(i => i[1]);
 
@@ -84,10 +87,10 @@ export async function runActionsProbe({ sizes, versions }) {
       // Rescue moves to the end; it keeps the focus.
       p.part.update({ tiles: [{ type: 'MOVE', state: 'available', note: 'Once a round' }, { type: 'RESCUE', state: 'sending', note: '2 injections', badge: 2 }] });
       await frames();
-      const moved = p.root.querySelectorAll('.ms-pp-tile')[1] === rescue && document.activeElement === rescue;
+      const moved = p.root.querySelectorAll('.ms-k-tile')[1] === rescue && document.activeElement === rescue;
       p.part.update({ tiles: [{ type: 'RESCUE', state: 'registered', note: 'Eli · end of round', badge: 2 }, { type: 'MOVE', state: 'available', note: 'Once a round' }] });
       const detail = { taps, unchanged, selected, selectedTap: reported(p, 'onTile').length === 3, moved, kept: tile(p.root, 'RESCUE') === rescue && document.activeElement === rescue,
-        registered: rescue.dataset.state, mark: rescue.querySelector('.ms-pp-tile-stamp')?.textContent, label: rescue.getAttribute('aria-label') };
+        registered: rescue.dataset.state, mark: rescue.querySelector('.ms-k-tile-stamp')?.textContent, label: rescue.getAttribute('aria-label') };
       p.dispose();
       return { ok: JSON.stringify(taps) === '["RESCUE","MOVE"]' && unchanged && selected === 'selected' && detail.selectedTap && moved && detail.kept
         && detail.registered === 'registered' && detail.mark === 'REGISTERED' && detail.label === 'Rescue, Eli · end of round, registered', ...detail };
@@ -119,9 +122,9 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('t3', async () => {
       const p = phone('tiles-t3');
-      const lines = [...p.root.querySelectorAll('.ms-pp-tile')].map(n => [n.dataset.value, n.dataset.state, n.querySelector('.ms-pp-tile-note:not([hidden])')?.textContent ?? null]);
+      const lines = [...p.root.querySelectorAll('.ms-k-tile')].map(n => [n.dataset.value, n.dataset.state, n.querySelector('.ms-k-tile-note:not([hidden])')?.textContent ?? null]);
       p.part.update({ tiles: [{ type: 'REQUEST_HACK', state: 'unavailable', reason: 'Used' }] });
-      const reason = tile(p.root, 'REQUEST_HACK').querySelector('.ms-pp-tile-note').textContent;
+      const reason = tile(p.root, 'REQUEST_HACK').querySelector('.ms-k-tile-note').textContent;
       p.dispose();
       return { ok: JSON.stringify(lines) === JSON.stringify([['RESCUE', 'available', '2 injections'], ['MOVE', 'available', 'Once a round'], ['REQUEST_HACK', 'unavailable', 'Not available now'], ['REGISTER_SHOT', 'unavailable', 'Not available now']])
         && reason === 'Used', lines, reason };
@@ -149,8 +152,8 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('check', async () => {
       const p = phone('check');
-      const read = () => ({ title: p.root.querySelector('.ms-pp-who-title').textContent, sub: p.root.querySelector('.ms-pp-who-sub').textContent, form: p.root.querySelector('.ms-pp-who-lead').dataset.form,
-        portraits: p.root.querySelectorAll('.ms-pp-who-lead .ms-k-pt').length, facts: [...p.root.querySelectorAll('.ms-pp-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null,
+      const read = () => ({ title: p.root.querySelector('.ms-k-who-title').textContent, sub: p.root.querySelector('.ms-k-who-sub').textContent, form: p.root.querySelector('.ms-k-who-lead').dataset.form,
+        portraits: p.root.querySelectorAll('.ms-k-who-lead .ms-k-pt').length, facts: [...p.root.querySelectorAll('.ms-k-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null,
         alert: p.root.querySelector('.ms-k-error')?.getAttribute('role') ?? null });
       const one = read();
       p.part.update({ targets: [{ seat: 'seat-4', name: 'Dev', character: 'c1', room: 'Room A' }] });
@@ -182,7 +185,7 @@ export async function runActionsProbe({ sizes, versions }) {
       p.part.update({ type: 'RESCUE', kind: 'registered', title: 'The server accepted your action.', people: null, steps: [] });
       const reload = read();
       // Nothing is drawn on the target: the component draws only in the sheet.
-      const outside = [...document.querySelectorAll('.ms-ac-after, .ms-pp-tile-stamp')].filter(n => !n.closest('.ms-ps-sheet')).length;
+      const outside = [...document.querySelectorAll('.ms-ac-after, .ms-k-tile-stamp')].filter(n => !n.closest('.ms-ps-sheet')).length;
       p.dispose();
       return { ok: captured.kind === 'now' && captured.stamp === 'CAPTURED' && captured.tone === 'steel' && captured.status === 'status' && captured.people === 3 && captured.steps.join() === 'done,next'
         && JSON.stringify(kinds) === JSON.stringify({ registered: ['REGISTERED', 'pending', 'waits'], accepted: ['ACCEPTED', 'pending', 'waits'], active: ['ACTIVE', 'amber', 'now'], captured: ['CAPTURED', 'steel', 'now'] })
@@ -192,27 +195,55 @@ export async function runActionsProbe({ sizes, versions }) {
     await check('words', async () => {
       const sheets = [actionsSheet({ role: 'Doctor', room: 'Room A' }), targetListSheet({ type: 'RESCUE' }), checkSheet({ type: 'RESCUE' }), checkSheet({ type: 'REQUEST_HACK', phase: 'sending' }),
         afterSheet({ type: 'PROTECT' }), unknownSheet({ type: 'RESCUE' }), passSheet({ next: { seat: 'seat-5', name: 'Eli' } }), passSheet({})];
-      const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}`).join('|') || null]);
+      const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
       const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
       const chips = [targetChip({ kind: 'other-rooms', count: 1 }), targetChip({ kind: 'list' })].map(c => `${c.id}|${c.label}|${c.icon}`);
       const toasts = [registeredToast({ type: 'RESCUE', id: 'c-1' }), registeredToast({ type: 'REQUEST_HACK', kind: 'accepted', id: 'c-2' }), registeredToast({ type: 'ACTIVATE_CLONE', kind: 'active', id: 'c-3' }),
         registeredToast({ type: 'ENGINEER_SUPPRESS', kind: 'captured', id: 'c-4' })].map(t => t.text);
-      const want = [['actions', 'Actions', 'Doctor · Room A', null], ['action-list', 'Choose from a list', 'Rescue · everyone you can reach', null], ['action-check', 'Check and register', null, 'cancel:Cancel|register:Register Rescue'],
-        ['action-check', 'Check and register', null, 'cancel:Cancel|register:Requesting…:busy'], ['action-after', 'Grant Protection', null, 'done:Done'], ['action-unknown', 'Outcome unknown', null, 'retry:Retry the same|check:Check receipt'],
-        ['pass', 'Pass your turn?', 'The turn goes to Eli · Player 5', 'cancel:Cancel|pass:Pass'], ['pass', 'Pass your turn?', null, 'cancel:Cancel|pass:Pass']];
+      const want = [['actions', 'Actions', 'Doctor · Room A', null], ['action-list', 'Choose from a list', 'Rescue · everyone you can reach', null], ['action-check', 'Check and register', null, 'cancel:Cancel:local|register:Register Rescue'],
+        ['action-check', 'Check and register', null, 'cancel:Cancel:local|register:Requesting…:busy'], ['action-after', 'Grant Protection', null, 'done:Done:local'], ['action-unknown', 'Outcome unknown', null, 'retry:Retry the same|check:Check receipt'],
+        ['pass', 'Pass your turn?', 'The turn goes to Eli · Player 5', 'cancel:Cancel:local|pass:Pass'], ['pass', 'Pass your turn?', null, 'cancel:Cancel:local|pass:Pass']];
       return { ok: JSON.stringify(said) === JSON.stringify(want)
         && JSON.stringify(bars) === JSON.stringify(['rescue|Rescue|Choose a player', 'supply|Supply|Choose two players', 'supply|Supply|Choose the second player', 'rescue|Rescue|Choose a player · every room'])
         && JSON.stringify(chips) === JSON.stringify(['other-rooms|Other rooms · 1|board', 'list|List|players'])
         && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed']), said, bars, chips, toasts };
     });
 
+    await check('footer', async () => {
+      // Each sheet with buttons, in the real shell, live and reconnecting; every button tapped once.
+      const sheets = { check: checkSheet({ type: 'RESCUE' }), after: afterSheet({ type: 'RESCUE' }), unknown: unknownSheet({ type: 'RESCUE' }), pass: passSheet({ next: { seat: 'seat-5', name: 'Eli' } }) };
+      const size = sizes['390x844'];
+      const run = status => Object.fromEntries(Object.entries(sheets).map(([key, sheet]) => {
+        const frame = document.createElement('div');
+        frame.className = 'pv-phone';
+        Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
+        document.body.append(frame);
+        const taken = [];
+        const shell = mountPhoneShell(frame, { ...ACTIONS_STATES.check.shell, sheet, status, viewer: 'seat-4', versions, insets: size.insets, ...(status === 'stale' ? { banner: { kind: 'reconnecting' } } : {}) },
+          { onSheetAction: (id, sheetId) => taken.push(`${sheetId}:${id}`) });
+        const buttons = [...frame.querySelectorAll('.ms-ps-sheet-foot > button')];
+        for (const b of buttons) tap(b);
+        const why = Object.fromEntries(buttons.map(b => [b.dataset.value, b.getAttribute('aria-describedby') ? document.getElementById(b.getAttribute('aria-describedby'))?.textContent ?? null : null]));
+        shell.dispose();
+        frame.remove();
+        return [key, { taken, why }];
+      }));
+      const live = run('live'), stale = run('stale');
+      const refusedWhy = { register: ACTION_WORDS.stale, retry: ACTION_WORDS.stale, check: ACTION_WORDS.stale, pass: ACTION_WORDS.stale };
+      return { ok: JSON.stringify(Object.values(live).map(r => r.taken)) === JSON.stringify([['action-check:cancel', 'action-check:register'], ['action-after:done'], ['action-unknown:retry', 'action-unknown:check'], ['pass:cancel', 'pass:pass']])
+        && Object.values(live).every(r => Object.values(r.why).every(w => w === null))
+        && JSON.stringify(Object.values(stale).map(r => r.taken)) === JSON.stringify([['action-check:cancel'], ['action-after:done'], [], ['pass:cancel']])
+        && Object.values(stale).every(r => Object.entries(r.why).every(([id, w]) => w === (refusedWhy[id] ?? null)))
+        && stale.check.why.cancel === null && stale.after.why.done === null && stale.pass.why.cancel === null, live, stale };
+    });
+
     await check('unknown', async () => {
       const p = phone('unknown');
-      const lines = () => [...p.root.querySelectorAll('.ms-pp-notice p')].map(n => n.textContent);
+      const lines = () => [...p.root.querySelectorAll('.ms-k-notice p')].map(n => n.textContent);
       const one = lines();
       p.part.update({ type: 'REQUEST_BLACKOUT', targets: [] });
       const none = lines();
-      const status = p.root.querySelector('.ms-pp-notice').getAttribute('role');
+      const status = p.root.querySelector('.ms-k-notice').getAttribute('role');
       p.dispose();
       return { ok: JSON.stringify(one) === JSON.stringify(['Rescue Eli was sent, but no answer came back.', 'Check before doing anything else.'])
         && JSON.stringify(none) === JSON.stringify(['Request Blackout was sent, but no answer came back.', 'Check before doing anything else.']) && status === 'status', one, none, status };
@@ -271,11 +302,11 @@ export async function runActionsProbe({ sizes, versions }) {
         document.documentElement.style.fontSize = `${percent}%`;
         const p = phone(key, {}, sizeKey);
         if (width) p.root.style.width = `${width}px`;
-        const tiles = [...p.root.querySelectorAll('.ms-pp-tile')];
+        const tiles = [...p.root.querySelectorAll('.ms-k-tile')];
         const top = n => Math.round(n.getBoundingClientRect().top);
         const perRow = tiles.filter(n => top(n) === top(tiles[0])).length;
         // Every word whole: nothing in a tile runs past it.
-        const whole = tiles.every(n => n.scrollWidth <= n.clientWidth + 1 && [...n.querySelectorAll('.ms-pp-tile-name, .ms-pp-tile-note:not([hidden])')].every(w => w.getBoundingClientRect().right <= n.getBoundingClientRect().right + 0.5));
+        const whole = tiles.every(n => n.scrollWidth <= n.clientWidth + 1 && [...n.querySelectorAll('.ms-k-tile-name, .ms-k-tile-note:not([hidden])')].every(w => w.getBoundingClientRect().right <= n.getBoundingClientRect().right + 0.5));
         const listForm = getComputedStyle(tiles[0]).display === 'grid';
         const tall = tiles.every(n => n.getBoundingClientRect().height >= 44);
         p.dispose();
@@ -309,9 +340,9 @@ export async function runActionsProbe({ sizes, versions }) {
     await frames();
     const reduced = q.root.querySelector('.ms-ac-after-head .ms-k-stamp').getAnimations().length;
     const r = phone('tiles-sending', { reducedMotion: true });
-    const spinner = getComputedStyle(tile(r.root, 'RESCUE').querySelector('.ms-pp-tile-icon'), '::after').animationName;
+    const spinner = getComputedStyle(tile(r.root, 'RESCUE').querySelector('.ms-k-tile-icon'), '::after').animationName;
     const s = phone('tiles-sending');
-    const spinning = getComputedStyle(tile(s.root, 'RESCUE').querySelector('.ms-pp-tile-icon'), '::after').animationName;
+    const spinning = getComputedStyle(tile(s.root, 'RESCUE').querySelector('.ms-k-tile-icon'), '::after').animationName;
     for (const x of [p, q, r, s]) x.dispose();
     const detail = { anim, reduced, spinner, spinning };
     // With the device's Reduce motion, nothing animates even without the game's setting.

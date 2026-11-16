@@ -1,6 +1,6 @@
 # Actions: Designer's runtime component
 
-**Version:** `actions-0.1.0`, with its parts module `play-parts-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the decisions below (L1–L7) and posted on #4 for Frontend on 15 November. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). The Lead asks Backend and Integration B1–B8 on #4. Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) at `67989624`: `phone-shell-0.2.1`, which keeps the sheet below the reconnecting banner and wraps a sheet's footer at the Larger text, with the shared kit `component-kit-0.5.1`.
+**Version:** `actions-0.1.0`, with its parts module `play-parts-0.1.2`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the decisions below (L1–L7) and posted on #4 for Frontend on 15 November. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). The Lead asks Backend and Integration B1–B8 on #4. Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) at `7900a7a7`: `phone-shell-0.2.7`, which keeps the sheet below the reconnecting banner, wraps a sheet's footer at the Larger text, takes a footer's local actions while reconnecting (0.2.4), starts a title with Back at the pack's 72 px (0.2.5) and takes the target bar's Cancel while reconnecting (0.2.7), with the shared kit `component-kit-0.7.0`, which holds the tile, who and the facts since 0.6.0, and the notice and the section head since 0.7.0.
 
 **What it is:** the phone's Actions during a match, as the phone pack draws them: sheets 27.2, 27.3, 28, 29, 29.1 and 29.2, the Actions frames of 50 (320 × 568) and 53 (Large text), and 45's "Outcome unknown". It is #222 items 9–13, with the owner's T2 and T3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -22,18 +22,16 @@
 - **The phone shell** (#265): the docked sheet's frame (title, sub, back, close, footer actions with their busy state), the target bar with Cancel, the floating chip, the toast, the raised Pass. This component fills the sheet's body and gives the frame's words.
 - **The room scene** (#261): the rings on the offered people, the picked one, the dimming (`targets: { seats, picked }`).
 - **The board** (sheet 26): the same `targets` for people in other rooms. Its component is next in my area. Until then, Frontend's board view shows them.
-- **The kit** (`component-kit-0.5.1`): rows, lists, group labels and notes for the list; the stamp; portraits; the inline error; the control policy. The shell draws the buttons.
+- **The kit** (`component-kit-0.7.0`): the tile, who and the facts (0.6.0) and the notice (0.7.0), all from my parts module (below); the section head for the turn (0.7.0); rows, lists, group labels and notes for the list; the stamp; portraits; the inline error; the control policy. The shell draws the buttons.
 - **My parts module** (`play-parts/`, L2): the pack's gameplay parts that several of my components draw, each built once:
-  - the tile (Actions; the private talk's declaration, 25);
-  - the check's person and facts (Actions; Promises, 33; the Captain's Release and Eject, 40; a private talk, 25; Scan, 42);
-  - the notice: a stamp or a large icon, centred over its lines (45's "Outcome unknown"; Scan and the Code's results, 42; the Hospital panel, 32; the office's block, 40);
-  - the time line (After Register).
+  - the time line (After Register), the one part still drawn there;
+  - the tile (Actions; the private talk's declaration, 25), the check's person and facts (Actions; Promises, 33; the Captain's Release and Eject, 40; a private talk, 25; Scan, 42), and the notice: a stamp or a large icon, centred over its lines (45's "Outcome unknown"; Scan and the Code's results, 42; the Hospital panel, 32; the office's block, 40). The kit took the first three in 0.6.0, when Promises needed them too, and the notice in 0.7.0. The module hands the kit's builders on with the same calls (`play-parts-0.1.1` and `0.1.2`), so Actions' calls did not change.
 
-  If another builder ever needs one of them, the Lead moves that part into the kit.
+  If another builder ever needs the time line, the Lead moves it into the kit.
 
 **Not in this component:**
 - Move's positions. The Move tile only starts it; the room scene's and the board's empty positions and the shell's target bar draw the rest (sheets 20, 26).
-- Scan and the final Code (42; #222 items 14 and 15). The Hacker's tiles start them; their sheets are the next components, on the same parts.
+- Scan and the final Code (42; #222 items 14 and 15): the Hacker component (#301). The Hacker's tiles start them: `targetBar({ type: 'SCAN' })` refuses and names its `scanBar()`, and the final Code, which has no target bar, is its `codeSheet()` and `mountFinalCode()` (the Lead's note 2, 16 November). Their words exist once, there, and neither component imports the other.
 - A private talk after it is accepted (25; item 20), Promises (33; item 19) and the office decisions (40–41; item 17).
 
 ## Files
@@ -44,8 +42,8 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | --- | --- |
 | `actions/actions.mjs` | `ACTIONS_VERSION`, `ACTION_WORDS`, `ACTION_LOOKS`; each part's defaults and check: `ACTIONS_DEFAULTS`, `checkActions()` and `nextActionsInput()`, `TARGET_LIST_DEFAULTS` and `checkTargetList()`, `ACTION_CHECK_DEFAULTS` and `checkActionCheck()`, `AFTER_REGISTER_DEFAULTS` and `checkAfterRegister()`, `OUTCOME_UNKNOWN_DEFAULTS` and `checkOutcomeUnknown()`, `PASS_NOTE_DEFAULTS` and `checkPassNote()`; the words from the inputs `actionWords()` and `tileLine()`; the parts' frames `actionsSheet()`, `targetListSheet()`, `checkSheet()`, `afterSheet()`, `unknownSheet()`, `passSheet()`; the shell's words `targetBar()`, `targetChip()`, `registeredToast()`; the mounts `mountActions()`, `mountTargetList()`, `mountActionCheck()`, `mountAfterRegister()`, `mountOutcomeUnknown()`, `mountPassNote()` |
 | `actions/actions.css` | The Actions sheets' own layout, scoped under `.ms-actions`. It imports the kit's and the parts' styles |
-| `play-parts/play-parts.mjs` | `PLAY_PARTS_VERSION` (`play-parts-0.1.0`), `TILE_STATES`, `STEP_STATES`, `PLAY_PARTS_WORDS` (the REGISTERED mark), and `createPlayParts(document)`, whose builders have setters, as the kit's: `tile`/`setTile`, `who`/`setWho` (the check's person, people or icon), `facts`/`setFacts`, `notice`/`setNotice`, `timeline`/`setTimeline` |
-| `play-parts/play-parts.css` | Every part's style, scoped so that it weighs one class, as the kit's. The two rules that size the kit's portrait inside who weigh two, so they outrank the kit's own portrait rule in any order |
+| `play-parts/play-parts.mjs` | `PLAY_PARTS_VERSION` (`play-parts-0.1.2`), `TILE_STATES` and `PLAY_PARTS_WORDS` (the REGISTERED mark), both the kit's, `STEP_STATES`, and `createPlayParts(document)`, whose builders have setters, as the kit's: `tile`/`setTile`, `who`/`setWho` (the check's person, people or icon), `facts`/`setFacts` and `notice`/`setNotice`, the kit's own, handed on; and `timeline`/`setTimeline` |
+| `play-parts/play-parts.css` | The time line's style, scoped so that it weighs one class, as the kit's. The tile's, who's, the facts' and the notice's are in the kit's `kit.css` |
 | `actions/preview/` | Development only: the preview on the pack's synthetic fixtures (`states.mjs`: 40 states), in the shell over the room scene; the lifecycle probe (`probe.mjs`); the agreement with the pack (`agree.mjs`) |
 | `actions/review/` | The check's captures (JPEG at 2× pixels) and `check.json` |
 
@@ -75,6 +73,7 @@ Frontend's model already has the steps (`PlanetActionModel.step` in `packages/pr
 - **Supply's two players** (L4): the first tap rings the first player as picked and the target bar's sub turns from "Choose two players" to "Choose the second player" (Frontend's `compound.supplySecond`). The second tap opens the check with both.
 - **An action without a person** (Blackout, Suppress navigation, Clone, and, L7, Hack Ship and Blackhole) goes from its tile straight to the check. The check shows the action's icon, its verb ("Request Blackout") and "Only you see this".
 - **Cancel** on the target bar or the check returns to the tiles. Done closes the sheet.
+- **While reconnecting** (shell 0.2.4): Cancel on the check and on Pass, and Done, only close their sheet on this phone, so they are the footer's local actions (`local: true`) and still work. Register and Pass stand for commands, and the shell refuses them then, with the banner's words.
 - **Cancel while registering** (L5): kept as drawn. It only closes the check: it can't recall a sent command, and nothing may read as a withdrawal. The outcome then says itself: the tile's sending and then REGISTERED state, and the shell's toast from `registeredToast()` ("Rescue registered").
 - **"Retry the same"** resends the same command with the same identity (Food's receipt rule); **"Check receipt"** asks the server what became of it. Both are Frontend's; the sheet only draws them.
 
@@ -104,7 +103,7 @@ tiles.dispose();
 | Field | Audience | Default | What |
 | --- | --- | --- | --- |
 | `viewer` | This viewer | `null` | The viewer's seat (`'seat-4'`). A new viewer drops this viewer's inputs |
-| `status` | Public | `'live'` | `'live'`, `'stale'` (reconnecting: shown as last seen, no taps) or `'concealed'` |
+| `status` | Public | `'live'` | `'live'`, `'stale'` (reconnecting: shown as last seen; no tile or row takes a tap) or `'concealed'` |
 | `interactive` | This viewer | `true` | `false`: every control keeps its look and its focus, takes no tap, and says so (`aria-disabled`) |
 | `reducedMotion` | This viewer | `false` | The game's Reduce motion: After Register's stamp is there at once, and the sending tile's spinner stands still. The device's setting does the same by itself |
 | `versions` | Public | `null` | The crew bundle's versions, for the portraits |
@@ -214,10 +213,10 @@ It draws the pack's notice exactly: the warning icon, "Rescue Eli was sent, but 
 | --- | --- |
 | `actionsSheet({ role, room })` | `{ id: 'actions', title: 'Actions', sub: 'Doctor · Room A', close: true }` |
 | `targetListSheet({ type })` | `{ id: 'action-list', title: 'Choose from a list', sub: 'Rescue · everyone you can reach', back: true, close: false }` |
-| `checkSheet({ type, phase, canRegister })` | `{ id: 'action-check', title: 'Check and register', close: false, actions: [Cancel, Register] }`. `phase`: `'ready'` or `'sending'` (Register busy, named "Registering…") |
-| `afterSheet({ type })` | `{ id: 'action-after', title: 'Rescue', close: false, actions: [Done] }` |
+| `checkSheet({ type, phase, canRegister })` | `{ id: 'action-check', title: 'Check and register', close: false, actions: [Cancel, Register] }`. Cancel is `local`. `phase`: `'ready'` or `'sending'` (Register busy, named "Registering…") |
+| `afterSheet({ type })` | `{ id: 'action-after', title: 'Rescue', close: false, actions: [Done] }`. Done is `local` |
 | `unknownSheet({ type, busy })` | `{ id: 'action-unknown', title: 'Outcome unknown', close: false, actions: ["Retry the same" (secondary, `retry`), "Check receipt" (primary, `check`)] }`, as sheet 45 draws them |
-| `passSheet({ next, busy })` | `{ id: 'pass', title: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', close: false, actions: [Cancel, Pass] }`. Without `next`, no sub (B5) |
+| `passSheet({ next, busy })` | `{ id: 'pass', title: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', close: false, actions: [Cancel, Pass] }`. Cancel is `local`, and off while Pass sends. Without `next`, no sub (B5) |
 | `targetBar({ type, where, picked })` | `{ icon, title, sub }`: "Rescue · Choose a player" in the room; "Choose a player · every room" on the board; Supply's "Choose two players", then "Choose the second player" (L4) |
 | `targetChip({ kind, count })` | `{ id: 'other-rooms', label: 'Other rooms · 1', icon: 'board', tone: 'paper' }`, or `{ id: 'list', label: 'List', icon: 'players', tone: 'paper' }` |
 | `registeredToast({ type, kind, id })` | The shell's toast, `{ id, text, icon: 'check' }`: "Rescue registered", "Private talk accepted", "Clone active", "Navigation suppressed" (L5). `id` is the command's, so it shows once |
@@ -248,7 +247,7 @@ The rest are the shell's and the scene's: `onSheetAction(id, sheetId)` for Cance
 | Registering | The check unchanged; the shell's Register busy |
 | After Register | The stamp, the headline, the detail, the captured players, the time line |
 | Outcome unknown | Sheet 45's notice: the warning icon and its two lines; "Retry the same" and "Check receipt" |
-| Stale | As last seen; nothing takes a tap, the focus stays |
+| Stale | As last seen; no tile or row takes a tap, and the focus stays. The footer's Cancel and Done still close their sheet (local); Register, Pass, Retry the same and Check receipt are refused, with the banner's words |
 | Concealed | Nothing: no tile, row, name, fact, stamp or step is left in the page |
 
 **Motion:** the stamp snaps in over 120 ms when After Register opens; with Reduce motion it is there at once (the handoff's motion table). The sheet's slide and the toast are the shell's.
@@ -294,6 +293,7 @@ The rest are the shell's and the scene's: `onSheetAction(id, sheetId)` for Cance
 
 - **L1. The pack's words in the agreement.** The pack's reasons go in as `reason` text, as the projection would give them (B1), so no word is amended. T3's "Not available now", with no line under the tiles, is its own set of states.
 - **L2. Shared parts.** The tile, the check's person and facts, the notice and the time line are my own module, `play-parts/`, with its own version, not the kit: the kit holds what both screen builders draw. It is checked beside the pack through the Actions agreement, and Integration admits it once.
+  - **16 November:** Promises needed the tile, who and the facts too, so the Lead moved them into the kit (0.6.0). play-parts hands them on with the same calls (0.1.1). The Hacker's results and the office's block need the notice, so the kit took it too (0.7.0), and play-parts hands it on (0.1.2); only the time line stays in it.
 - **L3. Largest text.** Three to a row, then two, then a list row under 13 em, as the kit's 3 × 3.
 - **L4. Supply's two players.** As above: composed from the pack's own patterns, not a departure.
 - **L5. Cancel while registering.** Kept as drawn, closing only. The outcome says itself, through the tile's REGISTERED state and the toast. Nothing may read as a withdrawal.
@@ -335,6 +335,10 @@ Listed, not omitted:
 For the Lead. Nothing here changes the agreed interface:
 
 - **The shell's footer at the Largest text** (fixed). On 320 × 568 at 200 %, "Register Rescue" ran past the sheet's right edge. The Lead fixed it in the shell, 0.2.1 (16 November): under 19 em a footer's buttons that don't fit side by side take a row each, and a long label wraps inside its button. Merged in here, the capture now fits (`review/320x568-largest-check.jpg`).
+- **Cancel and Done while reconnecting** (16 November). They only close their sheet, so they are now the footer's local actions, which the shell takes while reconnecting (0.2.4); before, it refused them with the rest. Register, Pass, Retry the same and Check receipt stand for commands and stay refused. The probe's `footer` check taps each, live and reconnecting.
+- **The list's title with Back** (shell 0.2.5): "Choose from a list" and its line start at the pack's 72 px, with Back at 18.
+- **The notice and the turn head in the kit** (kit 0.7.0, 16 November). "Outcome unknown" draws the kit's notice (`ms-k-notice`), and the turn head ("Your turn · Round 3") is the kit's section head (`ms-k-section-head`), with the same values as Actions' own rules, which are gone. The probe, the agreement and the check name the kit's classes. Every recorded field, the probe and the agreement are unchanged.
+- **The tile, who and the facts in the kit** (kit 0.6.0 and 0.6.1, 16 November). Their elements now carry the kit's classes (`ms-k-tile`, `ms-k-who`, `ms-k-facts`), so Actions' list-row tile rules, its probe, its agreement and its check name those. With 0.6.1, a registered, sending or unavailable tile's words take the sheet's halo, as the pack's do: the pack draws such a tile as a div, which keeps the sheet's halo, where a button drops it. Every recorded field, the probe and the agreement are unchanged.
 - **Sheet 45's icon.** The pack draws "Outcome unknown"'s warning icon at its own 24 px, because its 76 px `.big-icon` tile is styled only inside a waiting block (`.wait`). The notice draws it as the pack does; a larger icon would be a change to the pack.
 - **The pack's `.confirm-who span` rule** also reaches the action's own icon tile: a 2 px top margin and the sub's type. Who mirrors it, so the agreement holds.
 - **Supply's first pick in the list** (L4) is marked "Picked", in the accent, as the kit's row value. The pack draws no such row: it is composed from the kit's row. In the room, the room scene marks the same person with its stronger ring.
@@ -346,21 +350,29 @@ For the Lead. Nothing here changes the agreed interface:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/actions.test.mjs` | 9 of 9: the runtime-safe graph, every style scoped at two classes (the kit's and the parts' placed only inside the component's own), the pinned pack unchanged, the pack's words and the decisions' additions, the inputs' checks and privacy rules, every preview state a valid input, the frames' and the shell's words, the check's and "Outcome unknown"'s words and T3's line, and the check's record |
-  | `packages/design-tokens/test/play-parts.test.mjs` | 5 of 5: the parts draw on the kit alone, every rule at the kit's weight (the two portrait rules at two classes), the tap-highlight rule, the pack's own colours, and the kit's spinner as their one motion |
-  | `npm run test:design` | 397 of 397 |
+  | `packages/design-tokens/test/actions.test.mjs` | 9 of 9: the runtime-safe graph, every style scoped at two classes (the kit's and the parts' placed only inside the component's own), the pinned pack unchanged, the pack's words and the decisions' additions, the inputs' checks and privacy rules, every preview state a valid input, the frames' and the shell's words (Cancel and Done local, the commands not; the Scan bar and the Code refused, as the Hacker's), the check's and "Outcome unknown"'s words and T3's line, and the check's record |
+  | `packages/design-tokens/test/play-parts.test.mjs` | 6 of 6: the parts draw on the kit alone; the tile, who, the facts and the notice are the kit's (the same states, words and calls, and no styles of their own here); every rule at the kit's weight; the time line takes no taps; the pack's own colour; and no motion |
+  | `npm run test:design` | 398 of 398 |
   | `npm run test:tooling` | 337 of 337 |
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/actions-check.mjs`:** recorded on `5ed5718e` (the shell at `67989624`, 0.2.1, merged in), with the source clean. The same result as on `422e3f27` (shell 0.2.0) and `f902dc1a` (shell `e6b4a385`, kit 0.4.0); with 0.2.1 the check's footer at the Largest text on 320 × 568 takes a row per button.
+- **`node design/tools/actions-check.mjs`:** recorded on `81d7ae59` (play-parts 0.1.2 on kit 0.7.0, with the shell at `7900a7a7`, merged in as `3a0f30e7`), with the source clean.
+  - **Against `27d38864`'s record** (kit 0.6.1): every recorded field of the 75 captures is the same, and so are the probe's 16 checks and the agreement's 26. 19 captures did not change; the rest differ by at most 169 pixels, inside the room's picture (its ambient motion) and in the sending spinner's angle.
+  - **Before:** `27d38864` (play-parts 0.1.1 on kit 0.6.1, with the shell at `f04ab116`, merged in as `ebd2cea5`). Against `16c8acd1`'s record (shell 0.2.6, kit 0.5.1): every recorded field of the 75 captures is the same, and so are the probe's 16 checks and the agreement's 26. 19 captures did not change; the rest differ by at most 230 pixels, inside the room's picture (its ambient motion, seen through the sheet), in the sending spinner's angle, and in the words' halo on a registered, sending or unavailable tile (kit 0.6.1).
+  - **Before:** `16c8acd1` (Cancel and Done local, with the shell at `98aca824`, 0.2.6, merged in as `e9fb5bd6`). Against `5ed5718e`'s record (shell 0.2.1):
+    - the four list captures: Back and "Choose from a list" with its line start at the pack's 18 and 72 px (0.2.5);
+    - both reconnecting captures: the bar's glyph at 24 px (0.2.2);
+    - the rest differ only inside the room's picture, where the crew's idle motion was caught at another moment (seen through the sheet), and in the sending spinner's angle; 12 captures did not change.
+    - No capture shows a footer while reconnecting; the probe's `footer` check measures it.
+  - **Before:** `5ed5718e` (shell 0.2.1), with the same result as on `422e3f27` (shell 0.2.0) and `f902dc1a` (shell `e6b4a385`, kit 0.4.0); with 0.2.1 the check's footer at the Largest text on 320 × 568 takes a row per button.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does. Each part is mounted in the shell's sheet body, over the room scene, as Frontend would.
   - **Captures:** 75 of 75 pass, each drawing what its state asks: the part, the sheet, the tiles with their states and lines, the head and the note, the target bar and the chip, the rows and the picked one, who, the facts, the error, the stamp, the headline, the steps, the people, the notice, the footer, the banner, the refused taps, the tiles to a row and the list form's mark, and the room's crew behind.
     - 35 states at 390 × 844 and 430 × 932.
     - 320 × 568 (sheet 50); Large text, 150 %, at 390 × 844 (sheet 53); and the Largest, 200 %, at 320 × 568 for the tiles, the check and After Register (L3).
     - Concealed, no private word is in the page.
-  - **The lifecycle probe** (`preview/probe.mjs`): 15 of 15 checks pass.
-    - **As the page comes (14):** tiles, refused, t3, list, check, after, words, unknown, inputs, private, focus, text, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 16 of 16 checks pass.
+    - **As the page comes (15):** tiles, refused, t3, list, check, after, words, footer, unknown, inputs, private, focus, text, dispose and motion.
     - **With the device's Reduce motion emulated (1):** motion.
   - **The agreement with the pinned pack** (`preview/agree.mjs`): 26 of 26 frames agree, with no differing part.
     - **What is compared:** each frame drawn by the pack's own `screens-game.mjs` and `screens-more.mjs` beside the component, from the same fixtures:

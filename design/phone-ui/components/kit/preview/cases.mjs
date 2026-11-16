@@ -11,6 +11,7 @@
 // part's box, its type and colours, its ::before and ::after, and an icon's drawing.
 
 import { seatOf as seat } from '../../../prototype/fixtures.mjs';
+import { HACK_ART } from '../../../../../apps/game/hosted/scene-drawing/phone-kit-art.mjs';
 
 const BUTTON = (p, k) => [
   ['button', p, k, { pseudo: ['::before', '::after'] }],
@@ -36,6 +37,38 @@ const ROW = n => {
   ];
 };
 
+/** The pill a row holds as its value (0.6.1), as the pack's Promise rows put it (screens-more.mjs promiseRow). */
+const ROW_PILL = n => {
+  const p = `:scope > .list > li:nth-child(${n}) > .row > .row-value > .pill`, k = `:scope > .ms-k-list > li:nth-child(${n}) > .ms-k-row > .ms-k-row-value > .ms-k-pill`;
+  return [
+    [`row ${n} pill`, p, k],
+    [`row ${n} pill drawing`, `${p} > svg`, `${k} > .ms-k-pill-icon > svg`, { svg: true }],
+    [`row ${n} pill words`, `${p} > span`, `${k} > .ms-k-pill-label`, { words: true }],
+  ];
+};
+
+/** A side card's parts (sheet 25's .declare-sides; 0.7.0): the tile, its art, its name, and its note with the lock. */
+const CARD = n => {
+  const p = `:scope > .declare-sides > :nth-child(${n})`, k = `:scope > .ms-k-tiles > :nth-child(${n})`;
+  return [
+    [`card ${n}`, p, k],
+    [`card ${n} art`, `${p} > .hack-card`, `${k} > .ms-k-tile-art`],
+    [`card ${n} art drawing`, `${p} > .hack-card > svg`, `${k} > .ms-k-tile-art > svg`],
+    [`card ${n} name`, `${p} > b`, `${k} > .ms-k-tile-name`, { words: true }],
+    [`card ${n} note`, `${p} > small`, `${k} > .ms-k-tile-note:not([hidden])`, { words: true }],
+    [`card ${n} lock`, `${p} > small > svg`, `${k} > .ms-k-tile-note > svg`, { svg: true }],
+  ];
+};
+
+/** A notice's parts (screens.css .registered; 0.7.0): the box, its stamp or its icon, and its lines. */
+const NOTICE = ({ stamp = false, icon = false, lines = 1 } = {}) => [
+  ['notice', ':scope > .registered', ':scope > .ms-k-notice'],
+  ...(stamp ? [['stamp', ':scope > .registered > .stamp', ':scope > .ms-k-notice > .ms-k-stamp', { words: true }]] : []),
+  ...(icon ? [['icon', ':scope > .registered > .big-icon', ':scope > .ms-k-notice > .ms-k-notice-icon'],
+    ['icon drawing', ':scope > .registered > .big-icon > svg', ':scope > .ms-k-notice > .ms-k-notice-icon > svg', { svg: true }]] : []),
+  ...Array.from({ length: lines }, (_, i) => [`line ${i + 1}`, `:scope > .registered > p:nth-of-type(${i + 1})`, `:scope > .ms-k-notice > p:nth-of-type(${i + 1})`, { words: true }]),
+];
+
 /** A waiting block's parts (screens.css .wait): the tile and its drawing, or a portrait; the title; the line and its spinner. */
 const WAIT = ({ lead = false, spinner = false } = {}) => [
   ['wait', ':scope > .wait', ':scope > .ms-k-wait'],
@@ -45,6 +78,43 @@ const WAIT = ({ lead = false, spinner = false } = {}) => [
   ['line', ':scope > .wait > p', ':scope > .ms-k-wait > .ms-k-wait-line', { words: true }],
   ...(spinner ? [['spinner', ':scope > .wait > p > .spinner', ':scope > .ms-k-wait > .ms-k-wait-line > .ms-k-spinner']] : []),
 ];
+
+/** A tile's parts, the n-th in the grid (screens.css .tile; the kit's from 0.6.0). */
+const TILE = n => {
+  const p = `:scope > .tiles > :nth-child(${n})`, k = `:scope > .ms-k-tiles > :nth-child(${n})`;
+  return [
+    [`tile ${n}`, p, k],
+    [`tile ${n} icon`, `${p} > .tile-icon`, `${k} > .ms-k-tile-icon`, { pseudo: ['::after'] }],
+    [`tile ${n} drawing`, `${p} > .tile-icon > svg`, `${k} > .ms-k-tile-icon > svg`, { svg: true }],
+    [`tile ${n} name`, `${p} > b`, `${k} > .ms-k-tile-name`, { words: true }],
+    [`tile ${n} note`, `${p} > small`, `${k} > .ms-k-tile-note:not([hidden])`, { words: true }],
+    [`tile ${n} badge`, `${p} > .tile-badge`, `${k} > .ms-k-tile-badge:not([hidden])`, { words: true }],
+    [`tile ${n} stamp`, `${p} > .mini-stamp`, `${k} > .ms-k-tile-stamp:not([hidden])`, { words: true }],
+  ];
+};
+/** The pack's tile, as screens-game.mjs tile() builds it: a button while it can be chosen, else a div. */
+const packTile = (ui, icon, label, { state = 'available', note = null, badge = null } = {}) => {
+  const interactive = ['available', 'selected'].includes(state);
+  return ui.h(interactive ? 'button.tile' : 'div.tile', { type: interactive ? 'button' : null, 'data-state': state, 'aria-disabled': interactive ? null : 'true' },
+    ui.h('span.tile-icon', ui.ic(icon, { filled: state !== 'unavailable' && state !== 'spent' })),
+    ui.h('b', label), note ? ui.h('small', note) : null,
+    badge ? ui.h('span.tile-badge', badge) : null,
+    state === 'registered' ? ui.h('span.mini-stamp', 'REGISTERED') : null);
+};
+/** Who's parts (screens.css .confirm-who): the person or the action's tile, the title and the line. */
+const WHO = icon => [
+  ['who', ':scope > .confirm-who', ':scope > .ms-k-who'],
+  ...(icon ? [['lead', ':scope > .confirm-who > .tile-icon', ':scope > .ms-k-who > .ms-k-who-lead'],
+    ['lead drawing', ':scope > .confirm-who > .tile-icon > svg', ':scope > .ms-k-who > .ms-k-who-lead > svg', { svg: true }]]
+    : [['portrait', ':scope > .confirm-who > .pt', ':scope > .ms-k-who > .ms-k-who-lead > .ms-k-pt', { portrait: true }]]),
+  ['title', ':scope > .confirm-who > div > b', ':scope > .ms-k-who > .ms-k-who-words > .ms-k-who-title', { words: true }],
+  ['sub', ':scope > .confirm-who > div > span', ':scope > .ms-k-who > .ms-k-who-words > .ms-k-who-sub', { words: true }],
+];
+/** The facts' parts (screens.css .facts): the list, and each line's icon and words. */
+const FACTS = n => [['facts', ':scope > .facts', ':scope > .ms-k-facts'], ...Array.from({ length: n }, (_, i) => {
+  const p = `:scope > .facts > li:nth-child(${i + 1})`, k = `:scope > .ms-k-facts > .ms-k-fact:nth-child(${i + 1})`;
+  return [[`fact ${i + 1}`, p, k], [`fact ${i + 1} icon`, `${p} > svg`, `${k} > svg`, { svg: true }], [`fact ${i + 1} words`, `${p} > span`, `${k} > .ms-k-fact-text`, { words: true }]];
+}).flat()];
 
 /** A cell's parts, the n-th of the 3 × 3. */
 const CELL = n => {
@@ -102,6 +172,25 @@ export const CASES = Object.freeze([
     pack: ({ ui }) => ui.list(ui.row({ icon: 'jail', tint: 'paper', title: 'Jail', sub: 'Not this round', disabled: true })),
     kit: ({ kit, control }) => kit.list(control(kit.row({ icon: 'jail', tint: 'paper', title: 'Jail', sub: 'Not this round' }), { off: true })),
     parts: [...ROW(1), ['row 1 main', ':scope > .list > li > .row > .row-main', ':scope > .ms-k-list > li > .ms-k-row > .ms-k-row-main']] },
+  // Kit 0.6.1: a row's value may be a node. Sheets 33 and 33.1 put a Promise's status there as a pill.
+  { id: 'row pill value', where: 'both',
+    pack: ({ ui }) => ui.list(
+      ui.row({ tag: 'div', lead: ui.pt(seat(1).character, 36), title: 'Meet in Room A', sub: 'Offered to Ava · not counted yet', value: ui.pill('Offered') }),
+      ui.row({ tag: 'div', lead: ui.pt(seat(2).character, 36), title: 'Vote with me', sub: 'From Ben · Round 2', value: ui.pill('Fulfilled', { icon: 'check', tone: 'amber' }) }),
+      ui.row({ tag: 'div', lead: ui.pt(seat(3).character, 36), title: 'Captain Support', sub: 'To Cleo · Round 2', value: ui.pill('Not fulfilled') })),
+    kit: ({ kit, versions }) => kit.list(
+      kit.row({ tag: 'div', lead: kit.portrait(seat(1), versions), title: 'Meet in Room A', sub: 'Offered to Ava · not counted yet', value: kit.pill({ text: 'Offered' }) }),
+      kit.row({ tag: 'div', lead: kit.portrait(seat(2), versions), title: 'Vote with me', sub: 'From Ben · Round 2', value: kit.pill({ text: 'Fulfilled', icon: 'check', tone: 'amber' }) }),
+      kit.row({ tag: 'div', lead: kit.portrait(seat(3), versions), title: 'Captain Support', sub: 'To Cleo · Round 2', value: kit.pill({ text: 'Not fulfilled' }) })),
+    parts: [['list', ':scope > .list', ':scope > .ms-k-list'], ...[1, 2, 3].flatMap(n => [...ROW(n), ...ROW_PILL(n)])] },
+  // Kit 0.7.0: the section head (screens.css .section-head), as sheet 34 heads a window and sheet 28 the turn.
+  { id: 'section head', where: 'both',
+    pack: ({ ui }) => [ui.h('div.section-head', ui.h('h3', 'Room A ↔ Hospital'), ui.h('span', 'Your station · A2')), ui.h('div.section-head', ui.h('h3', 'Your turn'), ui.h('span', 'Round 3'))],
+    kit: ({ kit }) => [kit.sectionHead({ title: 'Room A ↔ Hospital', aside: 'Your station · A2' }), kit.sectionHead({ title: 'Your turn', aside: 'Round 3' })],
+    parts: [1, 2].flatMap(n => [
+      [`head ${n}`, `:scope > .section-head:nth-child(${n})`, `:scope > .ms-k-section-head:nth-child(${n})`],
+      [`head ${n} title`, `:scope > .section-head:nth-child(${n}) > h3`, `:scope > .ms-k-section-head:nth-child(${n}) > .ms-k-section-title`, { words: true }],
+      [`head ${n} aside`, `:scope > .section-head:nth-child(${n}) > span`, `:scope > .ms-k-section-head:nth-child(${n}) > .ms-k-section-aside`, { words: true }]]) },
   { id: 'group', where: 'both',
     pack: ({ ui }) => [ui.groupLabel('In the match'), ui.list(ui.row({ title: 'Seats', value: '9' })), ui.groupNote('The host can change this before the match starts.')],
     kit: ({ kit }) => [kit.groupLabel('In the match'), kit.list(kit.row({ title: 'Seats', value: '9' })), kit.groupNote('The host can change this before the match starts.')],
@@ -173,6 +262,26 @@ export const CASES = Object.freeze([
     parts: [1, 2, 3, 4].flatMap(n => [[`pill ${n}`, `:scope > .pill:nth-child(${n})`, `:scope > .ms-k-pill:nth-child(${n})`],
       [`pill ${n} drawing`, `:scope > .pill:nth-child(${n}) > svg`, `:scope > .ms-k-pill:nth-child(${n}) > .ms-k-pill-icon > svg`, { svg: true }],
       [`pill ${n} words`, `:scope > .pill:nth-child(${n}) > span`, `:scope > .ms-k-pill:nth-child(${n}) > .ms-k-pill-label`, { words: true }]]) },
+  // Kit 0.7.0: the notice (screens.css .registered), moved in from play-parts: sheet 40's BLOCKED, sheet 43's
+  // spent attempt, and sheet 42's MATCHED with its row inside.
+  { id: 'notice stamp', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.stamp('BLOCKED', 'amber'), ui.h('p', 'Gus can’t move this round'), ui.h('p', 'Everyone sees the block')),
+    kit: ({ kit }) => kit.notice({ stamp: { text: 'BLOCKED', tone: 'amber' }, lines: ['Gus can’t move this round', 'Everyone sees the block'] }),
+    parts: NOTICE({ stamp: true, lines: 2 }) },
+  { id: 'notice icon', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.h('span.big-icon', ui.ic('lock', { filled: true })), ui.h('p', 'Your attempt is used')),
+    kit: ({ kit }) => kit.notice({ icon: 'lock', lines: ['Your attempt is used'] }),
+    parts: NOTICE({ icon: true, lines: 1 }) },
+  { id: 'notice extra', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.stamp('MATCHED', 'amber'), ui.h('p', 'Gus · Blue guess'), ui.list(ui.row({ tag: 'div', icon: 'code', tint: 'paper', title: 'In the Code', value: 'Yes' }))),
+    kit: ({ kit }) => kit.notice({ stamp: { text: 'MATCHED', tone: 'amber' }, lines: ['Gus · Blue guess'], extra: kit.list(kit.row({ tag: 'div', icon: 'code', tint: 'paper', title: 'In the Code', value: 'Yes' })) }),
+    parts: [...NOTICE({ stamp: true, lines: 1 }),
+      ['list', ':scope > .registered > .list', ':scope > .ms-k-notice > .ms-k-list'],
+      ['row', ':scope > .registered > .list > li > .row', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row', { pseudo: ['::before'] }],
+      ['row icon', ':scope > .registered > .list > li > .row > .row-icon', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row > .ms-k-row-icon'],
+      ['row icon drawing', ':scope > .registered > .list > li > .row > .row-icon > svg', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row > .ms-k-row-icon > svg', { svg: true }],
+      ['row title', ':scope > .registered .row-title', ':scope > .ms-k-notice .ms-k-row-title', { words: true }],
+      ['row value', ':scope > .registered .row-value', ':scope > .ms-k-notice .ms-k-row-value', { words: true }]] },
   { id: 'stamps', where: 'both',
     pack: ({ ui }) => [ui.stamp('Jailed'), ui.stamp('Saved', 'amber'), ui.stamp('Sent', 'pending'), ui.stamp('Winner', 'gold'), ui.stamp('Out', 'steel')],
     kit: ({ kit }) => [kit.stamp({ text: 'Jailed' }), kit.stamp({ text: 'Saved', tone: 'amber' }), kit.stamp({ text: 'Sent', tone: 'pending' }), kit.stamp({ text: 'Winner', tone: 'gold' }), kit.stamp({ text: 'Out', tone: 'steel' })],
@@ -199,6 +308,57 @@ export const CASES = Object.freeze([
     pack: ({ ui }) => ui.h('div.wait', ui.pt(seat(2).character, 76), ui.h('h2', { style: { fontSize: '1.25rem' } }, 'Ben is choosing an Officer'), ui.h('p', 'Chosen at random if time runs out')),
     kit: ({ kit, versions }) => kit.wait({ lead: kit.portrait(seat(2), versions), title: 'Ben is choosing an Officer', line: 'Chosen at random if time runs out', size: 'small' }),
     parts: WAIT({ lead: true }) },
+
+  // ── The tile, who, the facts and the paper card (0.6.0: moved from play-parts; screens.css and kit.css .comic) ──
+  // Every tile state the kit has (sending is the pack's submitting), with a note, a badge and the registered mark.
+  { id: 'tiles', where: 'both',
+    pack: ({ ui }) => ui.h('div.tiles',
+      packTile(ui, 'rescue', 'Rescue', { note: '2 injections', badge: '2' }), packTile(ui, 'protect', 'Protect', { state: 'selected' }),
+      packTile(ui, 'scan', 'Scan', { state: 'submitting' }), packTile(ui, 'talk', 'Talk', { state: 'registered' }),
+      packTile(ui, 'clone', 'Clone', { state: 'unavailable', note: 'From Round 4' })),
+    kit: ({ kit }) => kit.tiles(
+      kit.tile({ icon: 'rescue', name: 'Rescue', note: '2 injections', badge: 2 }), kit.tile({ icon: 'protect', name: 'Protect', state: 'selected' }),
+      kit.tile({ icon: 'scan', name: 'Scan', state: 'sending' }), kit.tile({ icon: 'talk', name: 'Talk', state: 'registered' }),
+      kit.tile({ icon: 'clone', name: 'Clone', state: 'unavailable', note: 'From Round 4' })),
+    parts: [['tiles', ':scope > .tiles', ':scope > .ms-k-tiles'], ...[1, 2, 3, 4, 5].flatMap(TILE)] },
+  // Who: the check before Register's person (sheet 29), and an office's action on its own tile (sheet 40).
+  { id: 'who', where: 'both',
+    pack: ({ ui }) => ui.h('div.confirm-who', ui.pt(seat(5).character, 64), ui.h('div', ui.h('b', 'Rescue Eli'), ui.h('span', 'Player 5 · Hospital'))),
+    kit: ({ kit, versions }) => kit.who({ people: [seat(5)], title: 'Rescue Eli', sub: 'Player 5 · Hospital', versions }),
+    parts: WHO(false) },
+  { id: 'who icon', where: 'both',
+    pack: ({ ui }) => ui.h('div.confirm-who', ui.h('span.tile-icon', ui.ic('release', { filled: true })), ui.h('div', ui.h('b', 'Release the Jail'), ui.h('span', 'Fay and Ike are in Jail'))),
+    kit: ({ kit }) => kit.who({ icon: 'release', title: 'Release the Jail', sub: 'Fay and Ike are in Jail' }),
+    parts: WHO(true) },
+  // The facts, with the pack's amber "i" and Promises' lock (sheet 33).
+  { id: 'facts', where: 'both',
+    pack: ({ ui }) => ui.h('ul.facts', ui.h('li', ui.ic('info', { filled: true }), ui.h('span', 'Uses your one given Promise only if Ava accepts')),
+      ui.h('li', ui.ic('lock', { filled: true }), ui.h('span', 'Only you and Ava see it'))),
+    kit: ({ kit }) => kit.facts(['Uses your one given Promise only if Ava accepts', { icon: 'lock', text: 'Only you and Ava see it' }]),
+    parts: FACTS(2) },
+  // The paper card (kit.css .comic), padded by its screen as sheet 33's offer card is.
+  // Kit 0.7.0: sheet 25's side cards, the tile with the card's art, its lock before the note, and no label of its own.
+  // The grid and the cards' height and colour are the private talk's own rules, given here as its own styles.
+  { id: 'tiles art', where: 'both',
+    pack: ({ ui }) => {
+      const sides = ui.h('div.declare-sides', ['blue', 'red', 'alien'].map((s, i) => ui.h('button.tile', { type: 'button', 'data-state': i === 0 ? 'selected' : 'unavailable', 'aria-disabled': i === 0 ? null : 'true' },
+        ui.h('span.hack-card', { html: HACK_ART[`hack-side-${s}`]() }), ui.h('b', ['Blue', 'Red', 'Alien'][i]), i === 0 ? null : ui.h('small', ui.ic('lock', { filled: true }), 'Not for your role'))));
+      // As screens-more.mjs talk() does once it has drawn: each card's art at the tile's width.
+      sides.querySelectorAll('.hack-card svg').forEach(svg => { svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.display = 'block'; });
+      return sides;
+    },
+    kit: ({ kit }) => {
+      const grid = kit.tiles(['blue', 'red', 'alien'].map((s, i) => kit.tile({ art: HACK_ART[`hack-side-${s}`](), name: ['Blue', 'Red', 'Alien'][i], label: false,
+        ...(i === 0 ? { state: 'selected' } : { state: 'unavailable', note: 'Not for your role', noteIcon: 'lock' }) })));
+      grid.style.marginTop = '6px';
+      for (const card of grid.children) { card.style.minHeight = '150px'; card.style.background = '#0A1530'; }
+      return grid;
+    },
+    parts: [1, 2, 3].flatMap(CARD) },
+  { id: 'paper card', where: 'plain',
+    pack: ({ ui }) => ui.h('article.comic', { style: { padding: '14px' } }, ui.h('div', { style: { height: '60px' } })),
+    kit: ({ kit }) => { const card = kit.comic(kit.h('div', null, { style: 'height: 60px' })); card.style.padding = '14px'; return card; },
+    parts: [['card', ':scope > .comic', ':scope > .ms-k-comic']] },
 
   // ── The 3 × 3: every state, a count, You and a mark (in a list in seat order when it is narrow) ──
   { id: 'cells', where: 'both',
