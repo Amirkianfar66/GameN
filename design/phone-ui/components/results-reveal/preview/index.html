@@ -1,0 +1,18 @@
+<!doctype html>
+<!-- mothership:dev-only · The results reveal's preview: the runtime component (../results-reveal.mjs) in the phone shell's cover (../../phone-shell/phone-shell.mjs), with the room scene (../../room-scene/room-scene.mjs) in the shell's stage and the vote's own result window (../../vote/vote.mjs) mounted in the reveal's host, on the phone pack's synthetic fixtures, at the two development phone sizes. Not the game, not a release. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Results reveal · preview</title>
+<!-- Unbundled, the preview resolves the game's two package imports here; the bundled check (design/tools/results-reveal-check.mjs) needs none. -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="../../phone-shell/phone-shell.css">
+<link rel="stylesheet" href="../../room-scene/room-scene.css">
+<link rel="stylesheet" href="../../vote/vote.css">
+<link rel="stylesheet" href="../results-reveal.css">
+<link rel="stylesheet" href="./preview.css">
+<script type="module" src="./preview.mjs"></script>
+</head>
+<body></body>
+</html>
