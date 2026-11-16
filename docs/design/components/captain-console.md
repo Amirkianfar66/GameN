@@ -141,6 +141,7 @@ The commands carry nothing else: the contract's `CAPTAIN_RELEASE` and `CAPTAIN_E
 `node design/tools/captain-console-check.mjs` bundles the preview as the game bundles the component, serves it with the hosted game's production headers, and writes `design/phone-ui/components/captain-console/review/`:
 - **14 captures:** sheets 22 and 24's console states (the console, the commands used, each confirm), Release in flight, reconnecting and the Largest text, at 390 × 844 and 430 × 932;
 - **the probe:** the plates and their lines, the art, the footer, the confirm's words, the Captain's privacy, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
+- **the pack's plate pictures in the bundle:** the check copies `apps/game/hosted/board-v2-film-art/captain/` to where the frozen pack's screen looks for them at run time, as the pack's own pages serve them. The shared check lib copies only the crew's portraits, and stays untouched;
 - **the agreement, 9 cases:** the sheet beside the frozen pack's `captain` in its four console states at both sizes, and the console at the Largest text: the same words, states, look and boxes to within half a pixel, and each plate's picture by its file.
 
 **Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.

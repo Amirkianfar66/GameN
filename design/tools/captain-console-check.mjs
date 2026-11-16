@@ -8,6 +8,10 @@
 // sizes, 390 × 844 and 430 × 932, in desktop Chromium at 2× pixels.
 // A capture passes with no policy violation, no failed or refused request and no page error, with the sheet drawn as
 // the state asks.
+// The bundle also carries the pack's plate pictures (apps/game/hosted/board-v2-film-art/captain/), copied by this tool
+// to where the frozen pack's captain screen looks for them at run time, as the pack's own pages serve them: the shared
+// lib (lib/component-check.mjs) copies only the crew's portraits, and stays untouched. The component's own plates are
+// the preview's bundled images, on the film bundle's CSS properties.
 // It then runs, in the same bundle under the same headers:
 //   the lifecycle probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion
 //   emulated: the plates and their lines, the art, the footer's Cancel and commands, the confirm's words, the
