@@ -127,7 +127,7 @@ The agreement draws the frozen pack's `ENTRY_SCREENS.choose` beside the screen a
 
 `node design/tools/character-select-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the five of sheet 16, time up after a choice, choosing not offered, reconnecting, and the Large and Largest text. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-The result is recorded in `review/check.json`, with the source commit.
+**Recorded against `fb47970d` (clean):** 20 of 20 captures, the probe 21 of 21 checks (20 as the page comes, the motion check with the device's Reduce motion), and the agreement 10 of 10, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
 
 ## Frontend's connection
 
