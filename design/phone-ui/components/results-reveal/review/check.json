@@ -1,0 +1,3614 @@
+{
+  "tool": "design/tools/results-reveal-check.mjs",
+  "component": "design/phone-ui/components/results-reveal",
+  "version": "results-reveal-0.1.0",
+  "sourceCommit": "290d0553c23bbea20bb28bd2c239624a3486cc80",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. A held moment is the component suspended on a clock that stands at that moment. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "curveSlackPx": 0.05,
+  "captures": {
+    "390x844/rise-120": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rise-120.jpg",
+      "sha256": "b6013394252d4e723981ef53f9c45d591c89b3cf2bc0c5e6b0258b46b8118211",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 78.85336303710938,
+      "wantBelowPx": 78.85335340227779,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rise",
+        "offset": 0.121,
+        "still": false,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "width": 390,
+        "height": 653
+      },
+      "host": {
+        "left": 0,
+        "top": 78.85336303710938,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "matrix(1, 0, 0, 1, 0, 78.8534)",
+        "opacity": "1",
+        "style": null,
+        "animations": [
+          {
+            "state": "paused",
+            "time": 120
+          }
+        ]
+      },
+      "window": {
+        "left": 10,
+        "top": 86.85336303710938,
+        "width": 370,
+        "height": 635
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/rest": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest.jpg",
+      "sha256": "c633aad2dac45fdc1ae0c170caa1268b343978ac290f30a6cea71d8727d65b0f",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 0,
+      "wantBelowPx": 0,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 1200,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "width": 390,
+        "height": 653
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": {
+        "left": 10,
+        "top": 8,
+        "width": 370,
+        "height": 635
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/reduced": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-reduced.jpg",
+      "sha256": "c633aad2dac45fdc1ae0c170caa1268b343978ac290f30a6cea71d8727d65b0f",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 0,
+      "wantBelowPx": 0,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 1200,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "width": 390,
+        "height": 653
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": {
+        "left": 10,
+        "top": 8,
+        "width": 370,
+        "height": 635
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/device-reduced": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-device-reduced.jpg",
+      "sha256": "6a42bd9cccae87c12eafbb0534a2929b6374cbc3ec72beb75310e8650ff7eafb",
+      "ok": true,
+      "drawn": true,
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "hostBelowPx": 0,
+      "wantBelowPx": 0,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "width": 390,
+        "height": 653
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": {
+        "left": 10,
+        "top": 8,
+        "width": 370,
+        "height": 635
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/stale-120": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-stale-120.jpg",
+      "sha256": "601f3a017f7933c73be0c8c13fd945867b66ede9397909394c7af923bf354bb8",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 78.85336303710938,
+      "wantBelowPx": 78.85335340227779,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rise",
+        "offset": 0.121,
+        "still": false,
+        "running": false,
+        "status": "stale",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "width": 390,
+        "height": 653
+      },
+      "host": {
+        "left": 0,
+        "top": 78.85336303710938,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "matrix(1, 0, 0, 1, 0, 78.8534)",
+        "opacity": "1",
+        "style": null,
+        "animations": [
+          {
+            "state": "paused",
+            "time": 120
+          }
+        ]
+      },
+      "window": {
+        "left": 10,
+        "top": 86.85336303710938,
+        "width": 370,
+        "height": 635
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "stale",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-concealed.jpg",
+      "sha256": "649dbe13ae4e54b8e322e001f19dbe58ec7d4567d1b6f3d698305dafd1fa2a64",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": -99,
+      "wantBelowPx": null,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "concealed",
+        "reduced": false,
+        "shown": false
+      },
+      "cover": {
+        "width": 390,
+        "height": 653
+      },
+      "host": {
+        "left": 0,
+        "top": -99,
+        "width": 0,
+        "height": 0,
+        "hidden": true,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": null,
+      "title": null,
+      "line": null,
+      "figures": 0,
+      "status": "concealed",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/rise-120": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rise-120.jpg",
+      "sha256": "92098b1eb45642e4516079eae2f3cddcc1fda71766ab484f81e2b7c2518ac932",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 89.47984313964844,
+      "wantBelowPx": 89.4798390062601,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rise",
+        "offset": 0.121,
+        "still": false,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "width": 430,
+        "height": 741
+      },
+      "host": {
+        "left": 0,
+        "top": 89.47984313964844,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "matrix(1, 0, 0, 1, 0, 89.4798)",
+        "opacity": "1",
+        "style": null,
+        "animations": [
+          {
+            "state": "paused",
+            "time": 120
+          }
+        ]
+      },
+      "window": {
+        "left": 10,
+        "top": 97.47984313964844,
+        "width": 410,
+        "height": 723
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/rest": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest.jpg",
+      "sha256": "aa5b2d9e7bd4bca67cd921692967eaef258f3f827bdd0f86918e18fcbf46e930",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 0,
+      "wantBelowPx": 0,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 1200,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "width": 430,
+        "height": 741
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": {
+        "left": 10,
+        "top": 8,
+        "width": 410,
+        "height": 723
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/reduced": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-reduced.jpg",
+      "sha256": "aa5b2d9e7bd4bca67cd921692967eaef258f3f827bdd0f86918e18fcbf46e930",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 0,
+      "wantBelowPx": 0,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 1200,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "width": 430,
+        "height": 741
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": {
+        "left": 10,
+        "top": 8,
+        "width": 410,
+        "height": 723
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/device-reduced": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-device-reduced.jpg",
+      "sha256": "ce7b03228626e35d8cc21498e276dcd0835c28112aebbf70115f4cd2fcf856ea",
+      "ok": true,
+      "drawn": true,
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "hostBelowPx": 0,
+      "wantBelowPx": 0,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "width": 430,
+        "height": 741
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": {
+        "left": 10,
+        "top": 8,
+        "width": 410,
+        "height": 723
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/stale-120": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-stale-120.jpg",
+      "sha256": "a303e4c09ce92910f7d50d1bf1b61b080035a3c347e61ae0291ff486f5cf31a8",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": 89.47984313964844,
+      "wantBelowPx": 89.4798390062601,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rise",
+        "offset": 0.121,
+        "still": false,
+        "running": false,
+        "status": "stale",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "width": 430,
+        "height": 741
+      },
+      "host": {
+        "left": 0,
+        "top": 89.47984313964844,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "matrix(1, 0, 0, 1, 0, 89.4798)",
+        "opacity": "1",
+        "style": null,
+        "animations": [
+          {
+            "state": "paused",
+            "time": 120
+          }
+        ]
+      },
+      "window": {
+        "left": 10,
+        "top": 97.47984313964844,
+        "width": 410,
+        "height": 723
+      },
+      "title": "GUS GOES TO JAIL",
+      "line": "7 votes · 4 needed of 8",
+      "figures": 4,
+      "status": "stale",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-concealed.jpg",
+      "sha256": "445de7686b89b61f0258ed6ccec3ddc72b3d488b1cc35495ca0932aff73c1839",
+      "ok": true,
+      "drawn": true,
+      "emulated": {},
+      "hostBelowPx": -99,
+      "wantBelowPx": null,
+      "frame": {
+        "window": "fixture-vote-result-1",
+        "t": 120,
+        "beat": "rest",
+        "offset": 0,
+        "still": true,
+        "running": false,
+        "status": "concealed",
+        "reduced": false,
+        "shown": false
+      },
+      "cover": {
+        "width": 430,
+        "height": 741
+      },
+      "host": {
+        "left": 0,
+        "top": -99,
+        "width": 0,
+        "height": 0,
+        "hidden": true,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "window": null,
+      "title": null,
+      "line": null,
+      "figures": 0,
+      "status": "concealed",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "strips": {
+    "390x844": {
+      "file": "design/phone-ui/components/results-reveal/review/strip-390x844.jpg",
+      "sha256": "03c45f86173dc8aa0f867b9da0c3f535a78f9898473ab472d511b3dbc725d58f",
+      "width": 3264,
+      "height": 940,
+      "ok": true,
+      "moments": [
+        {
+          "t": 0,
+          "beat": "rise",
+          "hostBelowPx": 653,
+          "wantBelowPx": 653,
+          "share": 0,
+          "ok": true
+        },
+        {
+          "t": 40,
+          "beat": "rise",
+          "hostBelowPx": 320.1458740234375,
+          "wantBelowPx": 320.1458577032538,
+          "share": 0.51,
+          "ok": true
+        },
+        {
+          "t": 80,
+          "beat": "rise",
+          "hostBelowPx": 157.04388427734375,
+          "wantBelowPx": 157.04386742898944,
+          "share": 0.76,
+          "ok": true
+        },
+        {
+          "t": 120,
+          "beat": "rise",
+          "hostBelowPx": 78.85336303710938,
+          "wantBelowPx": 78.85335340227779,
+          "share": 0.879,
+          "ok": true
+        },
+        {
+          "t": 160,
+          "beat": "rise",
+          "hostBelowPx": 38.63639831542969,
+          "wantBelowPx": 38.63639750932168,
+          "share": 0.9410000000000001,
+          "ok": true
+        },
+        {
+          "t": 240,
+          "beat": "rise",
+          "hostBelowPx": 6.2864532470703125,
+          "wantBelowPx": 6.286447619480398,
+          "share": 0.99,
+          "ok": true
+        },
+        {
+          "t": 320,
+          "beat": "rest",
+          "hostBelowPx": 0,
+          "wantBelowPx": 0,
+          "share": 1,
+          "ok": true
+        },
+        {
+          "t": null,
+          "beat": "rest",
+          "hostBelowPx": 0,
+          "wantBelowPx": 0,
+          "share": 1,
+          "ok": true
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932": {
+      "file": "design/phone-ui/components/results-reveal/review/strip-430x932.jpg",
+      "sha256": "151a4ffff0a938e06cb194258d5546962ed7d910f7a914c24d6e0d8e476b7ead",
+      "width": 3584,
+      "height": 1028,
+      "ok": true,
+      "moments": [
+        {
+          "t": 0,
+          "beat": "rise",
+          "hostBelowPx": 741,
+          "wantBelowPx": 741,
+          "share": 0,
+          "ok": true
+        },
+        {
+          "t": 40,
+          "beat": "rise",
+          "hostBelowPx": 363.28955078125,
+          "wantBelowPx": 363.28955675055295,
+          "share": 0.51,
+          "ok": true
+        },
+        {
+          "t": 80,
+          "beat": "rise",
+          "hostBelowPx": 178.20751953125,
+          "wantBelowPx": 178.20751265678587,
+          "share": 0.76,
+          "ok": true
+        },
+        {
+          "t": 120,
+          "beat": "rise",
+          "hostBelowPx": 89.47984313964844,
+          "wantBelowPx": 89.4798390062601,
+          "share": 0.879,
+          "ok": true
+        },
+        {
+          "t": 160,
+          "beat": "rise",
+          "hostBelowPx": 43.8431396484375,
+          "wantBelowPx": 43.84314020583058,
+          "share": 0.9410000000000001,
+          "ok": true
+        },
+        {
+          "t": 240,
+          "beat": "rise",
+          "hostBelowPx": 7.1336212158203125,
+          "wantBelowPx": 7.1336258591653525,
+          "share": 0.99,
+          "ok": true
+        },
+        {
+          "t": 320,
+          "beat": "rest",
+          "hostBelowPx": 0,
+          "wantBelowPx": 0,
+          "share": 1,
+          "ok": true
+        },
+        {
+          "t": null,
+          "beat": "rest",
+          "hostBelowPx": 0,
+          "wantBelowPx": 0,
+          "share": 1,
+          "ok": true
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "unchanged": {
+    "390x844/result-elected": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-elected.jpg",
+      "sha256": "0730b09bb0632332fdef52cf88b6b5df0b74982ad47a689ddb687edea391942a",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "67470c09455f536613cc3af2c1781ce5aa9ca5f353a4f8703bfff5491e53955f",
+        "direct": "67470c09455f536613cc3af2c1781ce5aa9ca5f353a4f8703bfff5491e53955f"
+      },
+      "title": "BEN IS CAPTAIN",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/result-runoff": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-runoff.jpg",
+      "sha256": "446df14d9741ced08996bf57efae0c6d147b5b34b1b6377178f0947d95580e33",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "eed1b26f4576bc9b032fc5aa10617dbd65309a409caa98002e75ae078d1f6567",
+        "direct": "eed1b26f4576bc9b032fc5aa10617dbd65309a409caa98002e75ae078d1f6567"
+      },
+      "title": "TIE · RUNOFF",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/result-no-captain": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-no-captain.jpg",
+      "sha256": "db8f2147fff5f06007f852b5860f9031df50ca07b8065502ba6ae1e5bed203de",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "f340c10aa71ada8c5b8cd0054b2d1b42af1c6a6ee6005d707b22c1626c2c7702",
+        "direct": "f340c10aa71ada8c5b8cd0054b2d1b42af1c6a6ee6005d707b22c1626c2c7702"
+      },
+      "title": "NO CAPTAIN",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/result-jailed": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-jailed.jpg",
+      "sha256": "c633aad2dac45fdc1ae0c170caa1268b343978ac290f30a6cea71d8727d65b0f",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "6d038985ff7eb8674d6789b5184d3b494b67c9316371fd66a4b723da6dc1aea7",
+        "direct": "6d038985ff7eb8674d6789b5184d3b494b67c9316371fd66a4b723da6dc1aea7"
+      },
+      "title": "GUS GOES TO JAIL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/result-jail-full": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-jail-full.jpg",
+      "sha256": "f5dfab439c9bffaccb56661a5e2f0a1503f47ab8266b1890aa4ea1151b2d49e8",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "fecc8dcd8a7a7ff9ac2ad2fa1db8bfe5ae3bb667a72e17f0d1bbee55a1615837",
+        "direct": "fecc8dcd8a7a7ff9ac2ad2fa1db8bfe5ae3bb667a72e17f0d1bbee55a1615837"
+      },
+      "title": "GUS CHOSEN · JAIL FULL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/result-no-one": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-no-one.jpg",
+      "sha256": "13df8c2555c9a193e8808bf50635336f866156f676d55052c5df842aa27eb89e",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "6a7b931835caa46363a46c69f477098b9e231465225b330384e81c05ed16ea02",
+        "direct": "6a7b931835caa46363a46c69f477098b9e231465225b330384e81c05ed16ea02"
+      },
+      "title": "NO ONE GOES TO JAIL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/result-jailed-8": {
+      "file": "design/phone-ui/components/results-reveal/review/390x844-rest-result-jailed-8.jpg",
+      "sha256": "a87a2a0187dc744967e52cd734f873cd31ebd0b36de27d71240c20e7a3c353c5",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "53e0a0d46c94369007b402684d17f605c7de66e682cf97f6bb1fc4c2cd804af9",
+        "direct": "53e0a0d46c94369007b402684d17f605c7de66e682cf97f6bb1fc4c2cd804af9"
+      },
+      "title": "GUS GOES TO JAIL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 370,
+          "height": 635
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 390,
+        "height": 653,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-elected": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-elected.jpg",
+      "sha256": "027f3f42ee605c06255eba08395eddf40810e858b8536083174a114904eba811",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "474385dee8960c19260360e56f809b0431abf4338e92185d6de34f7f4bdb8365",
+        "direct": "474385dee8960c19260360e56f809b0431abf4338e92185d6de34f7f4bdb8365"
+      },
+      "title": "BEN IS CAPTAIN",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-runoff": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-runoff.jpg",
+      "sha256": "250249dec073d14ad4b4c4f3f0105a6ce0d14652d908c5fb65cdd9a66650e42c",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "eb8041b689b7b2de925dde748687b336753328792b2dd8bd88736c1a15120ac9",
+        "direct": "eb8041b689b7b2de925dde748687b336753328792b2dd8bd88736c1a15120ac9"
+      },
+      "title": "TIE · RUNOFF",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-no-captain": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-no-captain.jpg",
+      "sha256": "524d0536524356b3d2cb9569a69e452c600af7c916938ebdeeee60d5965d616f",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "728255ae73dd167c9a575de95672780cf0c5bf598105ae90caf35d3ee3799a30",
+        "direct": "728255ae73dd167c9a575de95672780cf0c5bf598105ae90caf35d3ee3799a30"
+      },
+      "title": "NO CAPTAIN",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-jailed": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-jailed.jpg",
+      "sha256": "aa5b2d9e7bd4bca67cd921692967eaef258f3f827bdd0f86918e18fcbf46e930",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "c5457473dde1fc099df35780f38d5a5ce25cd9085edafe836cfbd2ef64559e95",
+        "direct": "c5457473dde1fc099df35780f38d5a5ce25cd9085edafe836cfbd2ef64559e95"
+      },
+      "title": "GUS GOES TO JAIL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-jail-full": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-jail-full.jpg",
+      "sha256": "94fd19fad4c92317cf12c88abbec0222c7ba3dcba47e1d76d19afa3f62ac19c0",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "6879a4928a1968041be3c6a083652343004139861c78dca0c64c4013b9301ed1",
+        "direct": "6879a4928a1968041be3c6a083652343004139861c78dca0c64c4013b9301ed1"
+      },
+      "title": "GUS CHOSEN · JAIL FULL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-no-one": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-no-one.jpg",
+      "sha256": "153adf397a6601e61630d1ae533bcadcf5175b6f713bbeb6683c92b0f8e4cab7",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "f0ab279b01ff6326c0e1d84201f6d5360cd544d520d4c7343be6c38a83761226",
+        "direct": "f0ab279b01ff6326c0e1d84201f6d5360cd544d520d4c7343be6c38a83761226"
+      },
+      "title": "NO ONE GOES TO JAIL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/result-jailed-8": {
+      "file": "design/phone-ui/components/results-reveal/review/430x932-rest-result-jailed-8.jpg",
+      "sha256": "fdeb22ca51ecc04c96a1bdb7dc630d4cd4990a39aa601ca5cd271bdb629b81ae",
+      "ok": true,
+      "differingPixels": 0,
+      "sameBytes": true,
+      "pngSha256": {
+        "hosted": "c877e7001ea70377e91cf7998d5358d6698a533066b3048100c6f6f5a6d178b6",
+        "direct": "c877e7001ea70377e91cf7998d5358d6698a533066b3048100c6f6f5a6d178b6"
+      },
+      "title": "GUS GOES TO JAIL",
+      "window": {
+        "hosted": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        },
+        "direct": {
+          "left": 10,
+          "top": 8,
+          "width": 410,
+          "height": 723
+        }
+      },
+      "host": {
+        "left": 0,
+        "top": 0,
+        "width": 430,
+        "height": 741,
+        "hidden": false,
+        "transform": "none",
+        "opacity": "1",
+        "style": null,
+        "animations": []
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        },
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "seek",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "t": 0,
+                "animations": 1,
+                "state": "paused",
+                "time": 0,
+                "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                "duration": 320,
+                "fill": "none",
+                "properties": [
+                  "transform"
+                ],
+                "below": 653,
+                "want": 653,
+                "frame": {
+                  "window": "probe-phase-1",
+                  "t": 0,
+                  "beat": "rise",
+                  "offset": 1,
+                  "still": false,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 40,
+                "animations": 1,
+                "state": "paused",
+                "time": 40,
+                "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                "duration": 320,
+                "fill": "none",
+                "properties": [
+                  "transform"
+                ],
+                "below": 320.1458740234375,
+                "want": 320.1458577032538,
+                "frame": {
+                  "window": "probe-phase-2",
+                  "t": 40,
+                  "beat": "rise",
+                  "offset": 0.49,
+                  "still": false,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 120,
+                "animations": 1,
+                "state": "paused",
+                "time": 120,
+                "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                "duration": 320,
+                "fill": "none",
+                "properties": [
+                  "transform"
+                ],
+                "below": 78.85336303710938,
+                "want": 78.85335340227779,
+                "frame": {
+                  "window": "probe-phase-3",
+                  "t": 120,
+                  "beat": "rise",
+                  "offset": 0.121,
+                  "still": false,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 240,
+                "animations": 1,
+                "state": "paused",
+                "time": 240,
+                "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                "duration": 320,
+                "fill": "none",
+                "properties": [
+                  "transform"
+                ],
+                "below": 6.286445617675781,
+                "want": 6.286447619480398,
+                "frame": {
+                  "window": "probe-phase-4",
+                  "t": 240,
+                  "beat": "rise",
+                  "offset": 0.01,
+                  "still": false,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 319,
+                "animations": 1,
+                "state": "paused",
+                "time": 319,
+                "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                "duration": 320,
+                "fill": "none",
+                "properties": [
+                  "transform"
+                ],
+                "below": 0.00069427490234375,
+                "want": 0.0006968699101550513,
+                "frame": {
+                  "window": "probe-phase-5",
+                  "t": 319,
+                  "beat": "rise",
+                  "offset": 0,
+                  "still": false,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 1
+                }
+              }
+            ],
+            "moved": {
+              "time": 200,
+              "frame": {
+                "window": "probe-phase-6",
+                "t": 200,
+                "beat": "rise",
+                "offset": 0.026,
+                "still": false,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "asked": {
+                "frames": 0,
+                "animations": 0
+              }
+            }
+          }
+        },
+        {
+          "id": "late",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "size": "390x844",
+                "t": 320,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-7",
+                  "t": 320,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 321,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-8",
+                  "t": 321,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 2000,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-9",
+                  "t": 2000,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 5000,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-10",
+                  "t": 5000,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 9000,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-11",
+                  "t": 5000,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 370,
+                  "height": 635
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 320,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-12",
+                  "t": 320,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 321,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-13",
+                  "t": 321,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 2000,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-14",
+                  "t": 2000,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 5000,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-15",
+                  "t": 5000,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 9000,
+                "rest": true,
+                "frame": {
+                  "window": "probe-phase-16",
+                  "t": 5000,
+                  "beat": "rest",
+                  "offset": 0,
+                  "still": true,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "box": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "want": {
+                  "left": 10,
+                  "top": 8,
+                  "width": 410,
+                  "height": 723
+                },
+                "asked": {
+                  "frames": 0,
+                  "animations": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "runs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 0,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-17",
+                "t": 0,
+                "beat": "rise",
+                "offset": 1,
+                "still": false,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "below": 653,
+              "height": 653,
+              "asked": {
+                "frames": 0,
+                "animations": 1
+              }
+            },
+            "mid": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 142.29800000000003,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "below": 53.33497619628906,
+              "frame": {
+                "window": "probe-phase-17",
+                "t": 142,
+                "beat": "rise",
+                "offset": 0.082,
+                "still": false,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "last": {
+              "rest": true,
+              "frame": {
+                "window": "probe-phase-17",
+                "t": 592,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "box": {
+                "left": 10,
+                "top": 8,
+                "width": 370,
+                "height": 635
+              },
+              "want": {
+                "left": 10,
+                "top": 8,
+                "width": 370,
+                "height": 635
+              }
+            }
+          }
+        },
+        {
+          "id": "behind",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "animations": 1,
+            "time": 192.00000000000017,
+            "clock": 192,
+            "behindMs": -1.7053025658242404e-13,
+            "state": "running",
+            "frame": {
+              "window": "probe-phase-18",
+              "t": 192,
+              "beat": "rise",
+              "offset": 0.031,
+              "still": false,
+              "running": true,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "suspend",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "held": {
+              "animations": [
+                {
+                  "state": "paused",
+                  "time": 61,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "below": 219.2103271484375,
+              "frame": {
+                "window": "probe-phase-19",
+                "t": 61,
+                "beat": "rise",
+                "offset": 0.336,
+                "still": false,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "still": {
+              "animations": [
+                {
+                  "state": "paused",
+                  "time": 61,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "below": 219.2103271484375
+            },
+            "back": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 152,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-19",
+                "t": 152,
+                "beat": "rise",
+                "offset": 0.069,
+                "still": false,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "clock": 152,
+              "asked": {
+                "frames": 0,
+                "animations": 0
+              }
+            },
+            "waiting": {
+              "animations": 1,
+              "below": 266.9659118652344
+            },
+            "after": {
+              "rest": true,
+              "frame": {
+                "window": "probe-phase-20",
+                "t": 432,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            }
+          }
+        },
+        {
+          "id": "stale",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "stood": {
+              "animations": [
+                {
+                  "state": "paused",
+                  "time": 100,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-21",
+                "t": 100,
+                "beat": "rise",
+                "offset": 0.17,
+                "still": false,
+                "running": false,
+                "status": "stale",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "stays": {
+              "animations": [
+                {
+                  "state": "paused",
+                  "time": 100,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-21",
+                "t": 100,
+                "beat": "rise",
+                "offset": 0.17,
+                "still": false,
+                "running": false,
+                "status": "stale",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "live": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 180,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-21",
+                "t": 180,
+                "beat": "rise",
+                "offset": 0.04,
+                "still": false,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "past": {
+              "rest": true,
+              "frame": {
+                "window": "probe-phase-21",
+                "t": 400,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "stale",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "shown": {
+              "animations": [
+                {
+                  "state": "paused",
+                  "time": 120,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-22",
+                "t": 120,
+                "beat": "rise",
+                "offset": 0.121,
+                "still": false,
+                "running": false,
+                "status": "stale",
+                "reduced": false,
+                "shown": true
+              },
+              "below": 78.85336303710938,
+              "want": 78.85335340227779
+            }
+          }
+        },
+        {
+          "id": "concealed",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "hidden": true,
+              "display": "none",
+              "animations": 0,
+              "frame": {
+                "window": "probe-phase-23",
+                "t": 100,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "concealed",
+                "reduced": false,
+                "shown": false
+              },
+              "status": "concealed"
+            },
+            "shown": {
+              "hidden": false,
+              "animations": [
+                {
+                  "state": "paused",
+                  "time": 150,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-23",
+                "t": 150,
+                "beat": "rise",
+                "offset": 0.071,
+                "still": false,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "later": {
+              "hidden": false,
+              "rest": true,
+              "frame": {
+                "window": "probe-phase-23",
+                "t": 900,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            }
+          }
+        },
+        {
+          "id": "phase",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "rest": true
+            },
+            "arrived": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 60,
+                  "duration": 320,
+                  "easing": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+                  "fill": "none",
+                  "properties": [
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-25",
+                "t": 60,
+                "beat": "rise",
+                "offset": 0.342,
+                "still": false,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "asked": {
+                "frames": 0,
+                "animations": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "one",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "most": [
+              {
+                "name": "mount",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "update at 20",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "update at 60",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "update at 90",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "suspend",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "resume",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "stale",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "live",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "reduced",
+                "animations": 0,
+                "asked": 0
+              },
+              {
+                "name": "full",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "new phase",
+                "animations": 1,
+                "asked": 0
+              },
+              {
+                "name": "concealed",
+                "animations": 0,
+                "asked": 0
+              },
+              {
+                "name": "shown",
+                "animations": 1,
+                "asked": 0
+              }
+            ],
+            "everywhere": 1,
+            "started": 3
+          }
+        },
+        {
+          "id": "taps",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "host": "none",
+            "window": "auto",
+            "over": true,
+            "beside": "ms-room-scene",
+            "besideInCover": false,
+            "position": "absolute",
+            "inset": [
+              "0px",
+              "0px",
+              "0px",
+              "0px"
+            ],
+            "hostBox": {
+              "left": 0,
+              "top": 0,
+              "width": 390,
+              "height": 653
+            },
+            "cover": {
+              "width": 390,
+              "height": 653
+            }
+          }
+        },
+        {
+          "id": "quiet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "attributes": [
+              "class",
+              "data-status"
+            ],
+            "role": null,
+            "tabindex": null,
+            "aria": [],
+            "children": [
+              "ms-vote ms-vote-result ms-kit"
+            ],
+            "ownText": 0,
+            "title": "Gus goes to Jail",
+            "label": "Jail vote result",
+            "focusable": false
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusals": {
+              "tally": "TypeError: The results reveal takes no \"tally\". Its inputs are window, clock, status, reducedMotion: the phase and the clock, and nothing of the result",
+              "viewer": "TypeError: The results reveal takes no \"viewer\". Its inputs are window, clock, status, reducedMotion: the phase and the clock, and nothing of the result",
+              "roster": "TypeError: The results reveal takes no \"roster\". Its inputs are window, clock, status, reducedMotion: the phase and the clock, and nothing of the result",
+              "size": "TypeError: The results reveal takes no \"size\". Its inputs are window, clock, status, reducedMotion: the phase and the clock, and nothing of the result",
+              "window.outcome": "TypeError: window takes only id, startedAt, endsAt, not \"outcome\"",
+              "window.selectedSeatId": "TypeError: window takes only id, startedAt, endsAt, not \"selectedSeatId\"",
+              "window no end": "TypeError: window.endsAt is the phase's end, in server milliseconds, after its start",
+              "window ends before it starts": "TypeError: window.endsAt is the phase's end, in server milliseconds, after its start",
+              "window no id": "TypeError: window.id is the phase's id",
+              "clock": "TypeError: clock is null, or { now() }: the match's trusted server time",
+              "status": "TypeError: status is live, stale, concealed",
+              "reducedMotion": "TypeError: reducedMotion is true or false",
+              "not an object": "TypeError: The results reveal takes an object of inputs",
+              "no element": "TypeError: The results reveal needs an element to mount in: the shell's cover",
+              "mount with a result": "TypeError: The results reveal takes no \"result\". Its inputs are window, clock, status, reducedMotion: the phase and the clock, and nothing of the result"
+            },
+            "unchanged": true,
+            "hosts": 1
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "once": {
+              "connected": false,
+              "stray": false,
+              "window": false,
+              "children": 0,
+              "frame": null,
+              "animations": 0
+            },
+            "twice": {
+              "threw": null,
+              "frame": null,
+              "frames": 0,
+              "animations": 0,
+              "children": 0
+            }
+          }
+        },
+        {
+          "id": "reduced",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "deviceReduced": false,
+            "first": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 0,
+                  "duration": 80,
+                  "easing": "linear",
+                  "fill": "none",
+                  "properties": [
+                    "opacity"
+                  ]
+                }
+              ],
+              "motion": "reduced",
+              "frame": {
+                "window": "probe-phase-32",
+                "t": 0,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": true,
+                "status": "live",
+                "reduced": true,
+                "shown": true
+              },
+              "below": 0,
+              "box": {
+                "left": 10,
+                "top": 8,
+                "width": 370,
+                "height": 635
+              },
+              "want": {
+                "left": 10,
+                "top": 8,
+                "width": 370,
+                "height": 635
+              },
+              "asked": {
+                "frames": 0,
+                "animations": 1
+              }
+            },
+            "same": {
+              "animations": 1,
+              "asked": 0
+            },
+            "after": {
+              "rest": true,
+              "frame": {
+                "window": "probe-phase-32",
+                "t": 0,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "live",
+                "reduced": true,
+                "shown": true
+              }
+            },
+            "second": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 0,
+                  "duration": 80,
+                  "easing": "linear",
+                  "fill": "none",
+                  "properties": [
+                    "opacity"
+                  ]
+                }
+              ],
+              "samePhase": 0,
+              "asked": 1
+            },
+            "held": {
+              "animations": 0,
+              "rest": true
+            },
+            "stale": {
+              "animations": 0,
+              "rest": true
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "reduced",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "deviceReduced": true,
+            "first": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 0,
+                  "duration": 80,
+                  "easing": "linear",
+                  "fill": "none",
+                  "properties": [
+                    "opacity"
+                  ]
+                }
+              ],
+              "motion": null,
+              "frame": {
+                "window": "probe-phase-1",
+                "t": 0,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": true,
+                "status": "live",
+                "reduced": true,
+                "shown": true
+              },
+              "below": 0,
+              "box": {
+                "left": 10,
+                "top": 8,
+                "width": 370,
+                "height": 635
+              },
+              "want": {
+                "left": 10,
+                "top": 8,
+                "width": 370,
+                "height": 635
+              },
+              "asked": {
+                "frames": 0,
+                "animations": 1
+              }
+            },
+            "same": {
+              "animations": 1,
+              "asked": 0
+            },
+            "after": {
+              "rest": true,
+              "frame": {
+                "window": "probe-phase-1",
+                "t": 0,
+                "beat": "rest",
+                "offset": 0,
+                "still": true,
+                "running": false,
+                "status": "live",
+                "reduced": true,
+                "shown": true
+              }
+            },
+            "second": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 0,
+                  "duration": 80,
+                  "easing": "linear",
+                  "fill": "none",
+                  "properties": [
+                    "opacity"
+                  ]
+                }
+              ],
+              "samePhase": 0,
+              "asked": 1
+            },
+            "held": {
+              "animations": 0,
+              "rest": true
+            },
+            "stale": {
+              "animations": 0,
+              "rest": true
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CNGUVIbP.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "390x844/result-elected",
+        "ok": true,
+        "detail": {
+          "parts": 86,
+          "drawn": 77,
+          "sameParts": true,
+          "apartPx": 0.0000152587890625,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-1",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "390x844/result-runoff",
+        "ok": true,
+        "detail": {
+          "parts": 84,
+          "drawn": 75,
+          "sameParts": true,
+          "apartPx": 0.00006103515625,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-2",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "390x844/result-no-captain",
+        "ok": true,
+        "detail": {
+          "parts": 88,
+          "drawn": 79,
+          "sameParts": true,
+          "apartPx": 0.000091552734375,
+          "worst": "ellipse",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-3",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "390x844/result-jailed",
+        "ok": true,
+        "detail": {
+          "parts": 100,
+          "drawn": 91,
+          "sameParts": true,
+          "apartPx": 0.00006103515625,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-4",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "390x844/result-jail-full",
+        "ok": true,
+        "detail": {
+          "parts": 100,
+          "drawn": 91,
+          "sameParts": true,
+          "apartPx": 0.00006103515625,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-5",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "390x844/result-no-one",
+        "ok": true,
+        "detail": {
+          "parts": 96,
+          "drawn": 87,
+          "sameParts": true,
+          "apartPx": 0.00006103515625,
+          "worst": "rect",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-6",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "390x844/result-jailed-8",
+        "ok": true,
+        "detail": {
+          "parts": 104,
+          "drawn": 87,
+          "sameParts": true,
+          "apartPx": 0.00006103515625,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-7",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-elected",
+        "ok": true,
+        "detail": {
+          "parts": 86,
+          "drawn": 77,
+          "sameParts": true,
+          "apartPx": 0.0000457763671875,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-8",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-runoff",
+        "ok": true,
+        "detail": {
+          "parts": 84,
+          "drawn": 75,
+          "sameParts": true,
+          "apartPx": 0.0001220703125,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-9",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-no-captain",
+        "ok": true,
+        "detail": {
+          "parts": 88,
+          "drawn": 79,
+          "sameParts": true,
+          "apartPx": 0.00011444091796875,
+          "worst": "span.ms-k-stamp",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-10",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-jailed",
+        "ok": true,
+        "detail": {
+          "parts": 100,
+          "drawn": 91,
+          "sameParts": true,
+          "apartPx": 0.000091552734375,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-11",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-jail-full",
+        "ok": true,
+        "detail": {
+          "parts": 100,
+          "drawn": 91,
+          "sameParts": true,
+          "apartPx": 0.00011444091796875,
+          "worst": "span.ms-k-stamp",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-12",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-no-one",
+        "ok": true,
+        "detail": {
+          "parts": 96,
+          "drawn": 87,
+          "sameParts": true,
+          "apartPx": 0.0000457763671875,
+          "worst": "rect",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-13",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      },
+      {
+        "id": "430x932/result-jailed-8",
+        "ok": true,
+        "detail": {
+          "parts": 104,
+          "drawn": 87,
+          "sameParts": true,
+          "apartPx": 0.000091552734375,
+          "worst": "path",
+          "sameLook": true,
+          "look": {
+            "position": "absolute",
+            "zIndex": "50",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "transform": "none",
+            "opacity": "1",
+            "containerType": "inline-size",
+            "containerName": "ms-vote-result"
+          },
+          "sameScroll": true,
+          "sameText": true,
+          "rest": {
+            "animations": 0,
+            "transform": "none",
+            "opacity": "1",
+            "style": null,
+            "frame": {
+              "window": "fixture-vote-result-14",
+              "t": 1200,
+              "beat": "rest",
+              "offset": 0,
+              "still": true,
+              "running": false,
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-CNGUVIbP.js",
+        "line": 1,
+        "column": 6048,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
