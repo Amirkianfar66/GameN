@@ -62,6 +62,9 @@ export const TALK_WORDS = Object.freeze({
   noSide: 'No side declared',
   onlyPartner: name => `Unverified · only ${name} sees this`,
   onlyYou: 'Unverified · only you see this',
+  // With no side declared there is no claim to verify: only who sees it (the Lead, 16 November 2026).
+  noSidePartner: name => `Only ${name} sees this`,
+  noSideYou: 'Only you see this',
   choosing: name => `${name} is choosing a side`,
   you: 'You',
   stale: 'Controls return when the match is current',
@@ -155,8 +158,12 @@ export const WAIT_DEFAULTS = Object.freeze({ ...COMMON, partner: null, declarer:
 const WAIT = part(WAIT_DEFAULTS, ['partner', 'declarer'], next => checkTwo(next));
 export const checkWait = input => WAIT.normalize(input);
 
-/** The capsule's inputs (HACK; frame 4, D5): the pair from the public board, the stage's size, the game's clock. */
-export const CAPSULE_DEFAULTS = Object.freeze({ ...COMMON, pair: null, size: Object.freeze({ width: 390, height: 640 }), clock: null });
+/**
+ * The capsule's inputs (HACK; frame 4, D5): the pair from the public board, the stage's size, how much of the
+ * stage's foot the talk's buttons cover (the shell's `layout().covered.bottom`, as Frontend gives it and updates it
+ * from `onLayout`; the Lead, 16 November 2026), and the game's clock.
+ */
+export const CAPSULE_DEFAULTS = Object.freeze({ ...COMMON, pair: null, size: Object.freeze({ width: 390, height: 640 }), covered: 0, clock: null });
 const CAPSULE = part(CAPSULE_DEFAULTS, ['pair'], next => {
   let pair = null;
   if (next.pair !== null && next.pair !== undefined) {
@@ -167,6 +174,7 @@ const CAPSULE = part(CAPSULE_DEFAULTS, ['pair'], next => {
   const size = next.size;
   if (!size || !(size.width > 0) || !(size.height > 0)) throw new TypeError('size is the stage\'s { width, height }, both above 0');
   if (next.clock !== null && typeof next.clock?.now !== 'function') throw new TypeError('clock is { now() }, or null');
+  if (!Number.isFinite(next.covered) || next.covered < 0) throw new TypeError('covered is the px of the stage\'s foot the talk\'s buttons cover, 0 or more');
   return { ...next, pair, size: Object.freeze({ width: size.width, height: size.height }) };
 });
 export const checkCapsule = input => CAPSULE.normalize(input);
@@ -329,8 +337,9 @@ export function mountClaim(host, input = {}, handlers = {}) {
         const mine = s.view === 'declarer' ? isDeclarer(s) : s.view === 'initiator' ? isPartner(s) : false;
         if (s.status === 'concealed' || !mine) { clear(); return; }
         const d = s.declarer;
-        const props = { people: [d], title: s.claim ? TALK_WORDS.claims(d.name, s.claim) : TALK_WORDS.noSide,
-          sub: s.view === 'declarer' ? TALK_WORDS.onlyPartner(s.partner.name) : TALK_WORDS.onlyYou, versions: s.versions };
+        const sub = s.claim ? (s.view === 'declarer' ? TALK_WORDS.onlyPartner(s.partner.name) : TALK_WORDS.onlyYou)
+          : s.view === 'declarer' ? TALK_WORDS.noSidePartner(s.partner.name) : TALK_WORDS.noSideYou;
+        const props = { people: [d], title: s.claim ? TALK_WORDS.claims(d.name, s.claim) : TALK_WORDS.noSide, sub, versions: s.versions };
         if (!box) {
           box = kit.h('div', 'ms-pt-claim', { role: 'status' });
           who = parts.who(props);
@@ -463,12 +472,13 @@ export function mountCapsule(host, input = {}, handlers = {}) {
             if (!drawn) entry.figure.innerHTML = crewFigureSvg(p.character, sk, { versions: s.versions, outfit, layer: 'body', prefix: `pt${++seq}` }) ?? '';
             entry.key = figureKey;
           }
-          // The tag under the chest (the pack's paintCapsule()), "You" on this phone's own.
+          // The tag under the chest (the pack's paintCapsule()), "You" on this phone's own; above the talk's buttons
+          // wherever they cover the stage's foot (the Largest text on a small phone), and where the pack puts it elsewhere.
           const t = targets[i], self = p.seat === s.viewer;
           kit.text(entry.tag.firstChild, String(p.seat));
           kit.text(entry.tag.lastChild, self ? TALK_WORDS.you : p.name);
           kit.attr(entry.tag, 'data-self', self ? '' : null);
-          Object.assign(entry.tag.style, { left: `${t.left + t.side / 2}px`, top: `${Math.min(panel.height - 30, t.top + t.side + 2)}px` });
+          Object.assign(entry.tag.style, { left: `${t.left + t.side / 2}px`, top: `${Math.min(panel.height - s.covered - 30, t.top + t.side + 2)}px` });
         });
         settle(s, rebuilt, standing);
       },

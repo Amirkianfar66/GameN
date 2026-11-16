@@ -9,11 +9,13 @@
 //             and none for two; who asked, at the pack's 64 px; the sheet's words while choosing and sending
 //   refused   a locked card takes no tap, keeps the focus, is aria-disabled and says "Not for your role"; not
 //             interactive or reconnecting, no card takes a tap, and reconnecting says why
-//   claim     the claim's words on both phones (D2), for each side and for no declaration (D3); the card or the
-//             blank card, hidden from assistive technology; a status; the sheet's titles
+//   claim     the claim's words on both phones (D2), for each side and for no declaration (D3: no "Unverified",
+//             only who sees it); the card or the blank card, hidden from assistive technology; a status; the titles
 //   wait      the initiator's wait (D1): the declarer's portrait and "Dev is choosing a side"; its sheet's words
 //   capsule   the cabin's three pictures on the bundles' properties, the two seated (the lower seat on the left),
 //             the tags ("You" on this phone's), the ambient; nothing a control; it follows the stage's size
+//   covered   at the Largest text on 320 × 568 both tags clear the band the talk's buttons cover (the shell's
+//             covered.bottom, given and updated as Frontend does); at the Standard text they stay where the pack has them
 //   audience  only the two talking phones draw the declaration or the claim (each part only for its own viewer);
 //             any other viewer, the shared display (no viewer) and a concealed phone get only the pair bar
 //   private   a viewer change drops everything, and nothing returns until given again; "Not for your role" is
@@ -36,7 +38,7 @@ import { HACK_ART } from '../../../../../apps/game/hosted/scene-drawing/phone-ki
 import { crewMountStats } from '../../../../../apps/game/hosted/crew-runtime.mjs';
 import { SKY_EPOCH } from '../../room-scene/ambient.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
-import { mountPart, mountStage } from './preview.mjs';
+import { mountPart, mountStage, stageLayout } from './preview.mjs';
 import { TALK_STATES } from './states.mjs';
 
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
@@ -67,7 +69,7 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
     const shell = mountPhoneShell(frame, { ...state.shell, viewer: `seat-${who}`, versions, insets: size.insets }, { onSheetAction: record('onSheetAction'), onLayout: record('onLayout') });
     const kind = state.part.kind;
     const host = kind === 'capsule' ? shell.stage : shell.sheetBody;
-    const input = { viewer: `seat-${who}`, versions, ...(kind === 'capsule' ? { size: shell.layout().stage, clock: null } : {}), ...state.part.input, ...extra };
+    const input = { viewer: `seat-${who}`, versions, ...(kind === 'capsule' ? { size: shell.layout().stage, covered: shell.layout().covered.bottom, clock: null } : {}), ...state.part.input, ...extra };
     const part = MOUNTS[kind](host, input, { onSide: record('onSide'), onFocusReturn: record('onFocusReturn') });
     return { frame, shell, part, intents, root: part.element, dispose: () => { part.dispose(); shell.dispose(); frame.remove(); } };
   }
@@ -163,8 +165,8 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
       const [d, i] = seen;
       return { ok: JSON.stringify(d.blue.said) === '["Dev claims Blue","Unverified · only Ava sees this"]' && JSON.stringify(i.blue.said) === '["Dev claims Blue","Unverified · only you see this"]'
         && seen.every(s => s.blue.art && s.blue.hidden === 'true' && s.blue.status === 'status' && s.blue.portrait === 64 && s.kept)
-        && JSON.stringify(d.sides) === JSON.stringify([['Dev claims Red', 'Unverified · only Ava sees this', true], ['Dev claims Alien', 'Unverified · only Ava sees this', true], ['No side declared', 'Unverified · only Ava sees this', true]])
-        && JSON.stringify(i.sides) === JSON.stringify([['Dev claims Red', 'Unverified · only you see this', true], ['Dev claims Alien', 'Unverified · only you see this', true], ['No side declared', 'Unverified · only you see this', true]])
+        && JSON.stringify(d.sides) === JSON.stringify([['Dev claims Red', 'Unverified · only Ava sees this', true], ['Dev claims Alien', 'Unverified · only Ava sees this', true], ['No side declared', 'Only Ava sees this', true]])
+        && JSON.stringify(i.sides) === JSON.stringify([['Dev claims Red', 'Unverified · only you see this', true], ['Dev claims Alien', 'Unverified · only you see this', true], ['No side declared', 'Only you see this', true]])
         && JSON.stringify(titles) === JSON.stringify(['talk-claim|Ava sees your claim|false|0', 'talk-claim|Dev’s claim|false|0']), seen, titles };
     });
 
@@ -200,6 +202,36 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
         && JSON.stringify(tags.map(t => t.slice(0, 2))) === '[["1 Ava",false],["4 You",true]]' && tags[0][2] < tags[1][2] && detail.amb === 'capsule'
         && quiet.hidden === 'true' && quiet.controls === 0 && JSON.stringify(resized) === '["430px","800px"]'
         && JSON.stringify(theirs) === '[["1 You",true],["4 Dev",false]]' && JSON.stringify(reversed) === '["1 You","4 Dev"]', ...detail };
+    });
+
+    await check('covered', async () => {
+      // The whole talk as Frontend mounts it: the shell with the talk's buttons, the capsule in its stage, given the
+      // shell's covered band and updated from onLayout.
+      const measure = async (key, sizeKey, percent, covered = true) => {
+        document.documentElement.style.fontSize = percent ? `${percent}%` : '';
+        const size = sizes[sizeKey], inputs = inputsFor(key, size);
+        const frame = document.createElement('div');
+        frame.className = 'pv-phone';
+        Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
+        document.body.append(frame);
+        let stage = null;
+        const shell = mountPhoneShell(frame, inputs.shell, { onLayout: layout => { if (layout.stage.width > 0 && layout.stage.height > 0) stage?.update(covered ? stageLayout(inputs, layout) : { size: layout.stage }); } });
+        stage = mountCapsule(shell.stage, { ...inputs.capsule, ...(covered ? stageLayout(inputs, shell.layout()) : { size: shell.layout().stage }) }, {});
+        await frames();
+        const band = shell.layout().covered.bottom, box = shell.stage.getBoundingClientRect(), foot = frame.querySelector('.ms-ps-talk')?.getBoundingClientRect() ?? null;
+        const tags = [...stage.element.querySelectorAll('.ms-pt-tag')].map(t => t.getBoundingClientRect());
+        const out = { band, tagBottoms: tags.map(t => Math.round(t.bottom - box.top)), tagTops: tags.map(t => Math.round(t.top - box.top)), bandTop: Math.round(box.bottom - band - box.top),
+          footTop: foot ? Math.round(foot.top - box.top) : null, clear: tags.length === 2 && tags.every(t => t.bottom <= box.bottom - band + 0.5 && (!foot || t.bottom <= foot.top + 0.5)) };
+        stage.dispose(); shell.dispose(); frame.remove();
+        document.documentElement.style.fontSize = '';
+        return out;
+      };
+      const largest = await measure('largest-talk', '320x568', 200);
+      const standard = await measure('talk', '390x844', null), standardBare = await measure('talk', '390x844', null, false);
+      const small = await measure('small-talk', '320x568', null), smallBare = await measure('small-talk', '320x568', null, false);
+      return { ok: largest.clear && largest.band > 0 && standard.clear && small.clear
+        && JSON.stringify(standard.tagTops) === JSON.stringify(standardBare.tagTops) && JSON.stringify(small.tagTops) === JSON.stringify(smallBare.tagTops),
+        largest, standard, small, unchangedAtStandard: JSON.stringify(standard.tagTops) === JSON.stringify(standardBare.tagTops) && JSON.stringify(small.tagTops) === JSON.stringify(smallBare.tagTops) };
     });
 
     await check('audience', async () => {

@@ -12,7 +12,7 @@
 
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
-import { mountPart, mountStage } from './preview.mjs';
+import { mountPart, mountStage, stageLayout } from './preview.mjs';
 import { PACK_FRAMES } from './states.mjs';
 
 const TOLERANCE = 0.5;
@@ -69,7 +69,7 @@ export async function runTalkAgreement({ sizes, inputsFor }) {
     document.body.append(host);
     const inputs = inputsFor(c.state, size);
     let stage = null;
-    const shell = mountPhoneShell(host, inputs.shell, { onLayout: layout => { if (layout.stage.width > 0 && layout.stage.height > 0) stage?.update({ size: layout.stage }); } });
+    const shell = mountPhoneShell(host, inputs.shell, { onLayout: layout => { if (layout.stage.width > 0 && layout.stage.height > 0) stage?.update(stageLayout(inputs, layout)); } });
     stage = mountStage(shell, inputs);
     stage.suspend();
     const part = mountPart(shell, inputs.part);

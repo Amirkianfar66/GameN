@@ -86,11 +86,17 @@ export function mountPart(shell, part, handlers = {}) {
   return MOUNTS[part.kind](shell.sheetBody, part.input, { onSide: record('onSide'), onFocusReturn: record('onFocusReturn'), ...handlers });
 }
 
+/**
+ * What the stage's content takes from the shell's layout, as Frontend gives it: the stage's size, and for the
+ * capsule how much of the stage's foot the talk's buttons cover (`covered.bottom`).
+ */
+export const stageLayout = (inputs, layout) => (inputs.capsule ? { size: layout.stage, covered: layout.covered.bottom } : { size: layout.stage });
+
 /** The stage's content: the capsule in the talk, otherwise the room scene, sized as the stage. */
-export function mountStage(shell, { scene, capsule }, handlers = {}) {
-  const size = shell.layout().stage;
-  if (capsule) return mountCapsule(shell.stage, { ...capsule, size }, { onFocusReturn: record('onFocusReturn'), ...handlers });
-  return mountRoomScene(shell.stage, { ...scene, size }, { onSeat: record('onSeat'), onSlot: record('onSlot') });
+export function mountStage(shell, inputs, handlers = {}) {
+  const fit = stageLayout(inputs, shell.layout());
+  if (inputs.capsule) return mountCapsule(shell.stage, { ...inputs.capsule, ...fit }, { onFocusReturn: record('onFocusReturn'), ...handlers });
+  return mountRoomScene(shell.stage, { ...inputs.scene, ...fit }, { onSeat: record('onSeat'), onSlot: record('onSlot') });
 }
 
 /** A phone at a development size: the shell in it, the room scene or the capsule in its stage, the part in its sheet. */
@@ -102,7 +108,7 @@ function phone(sizeKey, stateKey) {
   Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
   return { frame, mount: () => {
     let stage = null;
-    const shell = mountPhoneShell(frame, inputs.shell, { ...shellHandlers, onLayout: layout => { record('onLayout')(layout); if (layout.stage.width > 0 && layout.stage.height > 0) stage?.update({ size: layout.stage }); } });
+    const shell = mountPhoneShell(frame, inputs.shell, { ...shellHandlers, onLayout: layout => { record('onLayout')(layout); if (layout.stage.width > 0 && layout.stage.height > 0) stage?.update(stageLayout(inputs, layout)); } });
     stage = mountStage(shell, inputs);
     // A fixed moment is a still picture: the voyage and the crew hold where they are.
     if (at !== null) stage.suspend();

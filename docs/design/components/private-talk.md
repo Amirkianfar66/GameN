@@ -1,6 +1,6 @@
 # The private talk: Designer's runtime component
 
-**Version:** `private-talk-0.1.0`, with its parts module at `play-parts-0.2.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #293 at `7e068512` with the decisions D1–D8 below, and posted on #4 with Q1–Q3 for Backend and Integration. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on Actions (#273) at `6d67dd2f`, whose parts module it extends, on the phone shell at `67989624` (`phone-shell-0.2.1`, `component-kit-0.5.1`). What changed from the approved interface while building is under [As built](#as-built-what-changed-from-the-interface), for the Lead.
+**Version:** `private-talk-0.1.0`, with its parts module at `play-parts-0.2.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #293 at `7e068512` with the decisions D1–D8 below, and posted on #4 with Q1–Q3 for Backend and Integration. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. Accepted by the Lead at `0b4da23f`, with three follow-ups now applied: the words with no side declared, the shell 0.2.6 merge and the capsule's `covered` input. It is stacked on Actions (#273) at `6d67dd2f`, whose parts module it extends, on the phone shell at `98aca824` (`phone-shell-0.2.6`, `component-kit-0.5.1`). What changed from the approved interface while building is under [As built](#as-built-what-changed-from-the-interface).
 
 **What it is:** sheet 25, the private talk on the two talking phones. The game's name for it is the Standard Hack (`REQUEST_HACK`, `DECLARE_HACK_SIDE`); the pack's word is "Private talk", and the pack is the specification for words (11 November). It is #222 item 20. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -22,7 +22,7 @@ Every other phone and the shared display see only who is talking: the shell's pa
   - the line under them: "Your role declares its own side: Blue. Only you see this." or "Your role may claim any side. Only you see this.";
   - "Declare Blue" in the shell's footer ("Declare a side", off, before a choice), busy while it sends.
 - **The wait** (the partner's phone, D1): the declarer's portrait and "Dev is choosing a side", in the kit's waiting block, only while the view says it waits (Q1). Without that, no sheet: the bar's "Private talk · declare" carries it.
-- **The claim** (5 s, both phones): the declarer's portrait, "Dev claims Blue", "Unverified · only Ava sees this" on the declarer's phone or "Unverified · only you see this" on the partner's (D2), and the side card. With no declaration, "No side declared" and the blank card, never an invented side (D3, HACK-DECLARE-03).
+- **The claim** (5 s, both phones): the declarer's portrait, "Dev claims Blue", "Unverified · only Ava sees this" on the declarer's phone or "Unverified · only you see this" on the partner's (D2), and the side card. With no declaration, "No side declared", "Only Ava sees this" or "Only you see this", and the blank card, never an invented side (D3, HACK-DECLARE-03; the Lead's decision of 16 November for the line under it).
 - **Talk** (60 s, both phones): the capsule in the shell's stage, both people seated at its table, its door shut and its light lit, its lamps and the dust in the lamp's light, and each one's name tag, "You" on this phone's. The shell draws the pair bar ("Private talk", the time left) and the talk's own foot, Promises and My card (D7).
 
 **Built on, not redrawn:**
@@ -124,6 +124,7 @@ Callback: `onSide(side)`, for an offered card. While the declaration sends, Fron
 | --- | --- | --- |
 | `pair` | Public | `[initiator, target]` from `hackSession`, each `{ seat, name, character, health, location, jailed }` from the public board. The lower seat sits on the left, as the board seats them; `location` dresses them (`'Hospital'`, the gown; `'Jail'`, the prisoner's suit); Injured and Jailed change the seated pose, as on the board |
 | `size` | — | The stage's size, from the shell's layout, as the room scene takes it |
+| `covered` | — | How much of the stage's foot the talk's buttons cover, in px: the shell's `layout().covered.bottom`, which Frontend gives and updates from `onLayout`. The two tags stay above it; the capsule never calls the shell. Default 0 |
 | `clock` | — | The game's clock (`{ now() }`), for the ambient; `null` holds it still at 0 s |
 
 "You" goes on the tag of this phone's `viewer`.
@@ -182,13 +183,13 @@ Also:
 - Declare: mount when this viewer's `DECLARE_HACK_SIDE` offer exists, with its `declaredSides`; keep `selected`; on `onSheetAction('declare', 'talk-declare')`, send `DECLARE_HACK_SIDE` with it, and pass `interactive: false` until the server answers.
 - The wait: mount on the partner's phone while its view's `hackFeedback.status` is `AWAITING_DECLARATION` (Q1).
 - The claim: mount on either phone during `HACK_RESULT` from that phone's `hackFeedback` (Q2).
-- The capsule: mount in `shell.stage` in place of the room scene during `HACK`, with the pair from `hackSession` and the board, and the game's clock; update `size` from `onLayout`.
+- The capsule: mount in `shell.stage` in place of the room scene during `HACK`, with the pair from `hackSession` and the board, the game's clock, `size` from `shell.layout().stage` and `covered` from `shell.layout().covered.bottom`; update both from `onLayout`.
 - On any other phone, mount nothing: the pair bar is the shell's.
 - Replace the current "Hack" copy with these words (D4).
 
 ## As built: what changed from the interface
 
-For the Lead; each follows the pack or makes a privacy point provable, and none changes a rule:
+Accepted by the Lead on 16 November (1 to 7 as built; 8 decided). Each follows the pack or makes a privacy point provable, and none changes a rule:
 1. **Who stays at 64 px** (D8 smaller). The pack's code asks `pt(…, 56)`, but its own `.confirm-who .pt` rule draws every portrait there at 64 px, and the agreement measures 64 in sheet 25's frames. So who has no `size`, and play-parts 0.2.0 adds only the tile's art, its note's icon and `label: false`.
 2. **Every private part takes both people.** Declare takes `declarer` as well as `partner`, and the wait `partner` and `declarer`, so each part checks its own viewer and the probe proves "only the two talking phones" in the component itself.
 3. **The capsule's "You" is the `viewer`** every part has: the interface also listed `self`, the same seat, so it is not a second input.
@@ -196,7 +197,7 @@ For the Lead; each follows the pack or makes a privacy point provable, and none 
 5. **`talkBar()` takes `remainingMs`,** the shell's timer, which Frontend works out from the phase's deadline (the interface said `endsAt`).
 6. **Two sides offered: no line** under the cards, since neither of the pack's lines would be true.
 7. **The wait's sheet** is titled "Private talk", with the declarer's portrait in the waiting block's 76 px place.
-8. **Under "No side declared"** the sub stays "Unverified · only Ava sees this" (or "only you"): D3 changed the headline and the card only. A different line would be the Lead's to choose.
+8. **Under "No side declared"** (decided by the Lead): no claim was made, so no "Unverified". Only who sees it, capitalised: "Only Ava sees this" on Dev's phone and "Only you see this" on Ava's. The titles stay the step's names. It fills an undrawn state, so it is not a departure from a sheet.
 
 ## Decisions and questions
 
@@ -225,10 +226,10 @@ For the Lead; each follows the pack or makes a privacy point provable, and none 
 | Promises during the talk (sheet 33) | A later component of mine; the shell's Promises button reports the tap |
 | Lights out in the capsule | Sheet 25 draws the capsule lit |
 
-## Found while building (for the Lead)
+## Found while building, and resolved
 
-- **The talk's foot at the Largest text** (the shell's): on 320 × 568 at 200 %, Promises and My card stay side by side and "My card" runs past the right edge (`review/320x568-largest-talk.jpg`). Shell 0.2.1's row-per-button rule reaches the sheet's footer, not `.ms-ps-talk`.
-- **The capsule's tags under the talk's foot** at the same size: the taller buttons cover the two name tags. The shell already reports how much of the stage they cover (`layout().covered.bottom`). If the Lead agrees, the capsule could take it and keep the tags above it. At Standard and Large, and on every development size, the tags already clear the buttons, so nothing there would change.
+- **The talk's foot at the Largest text** (the shell's): on 320 × 568 at 200 %, Promises and My card stayed side by side and "My card" ran past the right edge. Fixed in shell 0.2.6 (`98aca824`, merged here as `52524365`): under 19 em they take a row each when their words don't fit, and what docks above them follows their height.
+- **The capsule's tags under the talk's foot** at the same size: the capsule now takes `covered` (above) and keeps its two tags over the band, 4 px clear at 200 % on 320 × 568. The probe's `covered` check measures it; at the Standard text the tags stay where the pack has them.
 - **The pack's portrait size in who:** `pt(…, 56)` in the pack's code is drawn at 64 px by its own `.confirm-who .pt` rule; the component follows the drawn frame (as built, item 1).
 
 ## Checks run on this version

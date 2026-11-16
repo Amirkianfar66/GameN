@@ -133,11 +133,14 @@ test('its words are the pack\'s (screens-more.mjs talk()), and the few the Lead\
   const doc = read('docs/design/components/private-talk.md');
   // Before a choice the footer reads the pack's own phrase, from its line under who asked.
   assert.ok(W.askedSub.startsWith(`${W.declareNone}.`) && doc.includes(`"${W.declareNone}"`), 'the footer before a choice is the pack\'s phrase, recorded');
-  for (const w of [W.claimOf('Dev'), W.onlyYou, W.noSide, W.choosing('Dev')]) {
+  for (const w of [W.claimOf('Dev'), W.onlyYou, W.noSide, W.choosing('Dev'), W.noSidePartner('Ava')]) {
     assert.ok(!pack.includes(w), `"${w}" is not the pack's`);
     assert.ok(doc.includes(`"${w}"`), `"${w}" is recorded in the interface`);
   }
   assert.equal(W.stale, 'Controls return when the match is current', 'the same words as Actions\' while reconnecting');
+  // With no side declared, only who sees it (the Lead, 16 November 2026): the pack's own "Only you see this".
+  assert.ok(pack.includes(W.noSideYou) || read('design/phone-ui/prototype/screens-game.mjs').includes(`'${W.noSideYou}'`), `"${W.noSideYou}" is the pack's`);
+  assert.equal(W.noSidePartner('Ava'), 'Only Ava sees this');
 });
 
 test('inputs: checked and normalized, an error for anything unknown; this viewer\'s dropped when concealed or for a new viewer', () => {
@@ -148,7 +151,7 @@ test('inputs: checked and normalized, an error for anything unknown; this viewer
   assert.deepEqual(Object.keys(DECLARE_DEFAULTS), ['viewer', 'status', 'interactive', 'reducedMotion', 'versions', 'partner', 'declarer', 'sides', 'selected']);
   assert.deepEqual(Object.keys(CLAIM_DEFAULTS), ['viewer', 'status', 'interactive', 'reducedMotion', 'versions', 'view', 'partner', 'declarer', 'claim']);
   assert.deepEqual(Object.keys(WAIT_DEFAULTS), ['viewer', 'status', 'interactive', 'reducedMotion', 'versions', 'partner', 'declarer']);
-  assert.deepEqual(Object.keys(CAPSULE_DEFAULTS), ['viewer', 'status', 'interactive', 'reducedMotion', 'versions', 'pair', 'size', 'clock']);
+  assert.deepEqual(Object.keys(CAPSULE_DEFAULTS), ['viewer', 'status', 'interactive', 'reducedMotion', 'versions', 'pair', 'size', 'covered', 'clock']);
   for (const [what, fn] of [
     ['an unknown key', () => checkDeclare({ colour: 'red' })], ['a side that is not one', () => checkDeclare({ sides: ['Green'] })], ['no side, as a side', () => checkDeclare({ sides: [null] })],
     ['a side twice', () => checkDeclare({ sides: ['Red', 'Red'] })], ['a choice not offered', () => checkDeclare({ sides: ['Blue'], selected: 'Alien' })],
@@ -156,6 +159,7 @@ test('inputs: checked and normalized, an error for anything unknown; this viewer
     ['a claim that is not a side', () => checkClaim({ claim: 'blue' })], ['a pair of three', () => checkCapsule({ pair: [AVA, DEV, AVA] })],
     ['a pair of one person twice', () => checkCapsule({ pair: [AVA, AVA] })], ['a stage without a size', () => checkCapsule({ size: { width: 390, height: 0 } })],
     ['a clock without now', () => checkCapsule({ clock: {} })], ['a status that is not one', () => checkClaim({ status: 'away' })],
+    ['a covered band below 0', () => checkCapsule({ covered: -1 })], ['a covered band that is not a number', () => checkCapsule({ covered: '128' })],
   ]) assert.throws(fn, TypeError, what);
   // Concealed, and for a new viewer, this viewer's inputs go; the phone's stay.
   const concealed = nextDeclareInput(once, { status: 'concealed' });
@@ -230,7 +234,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
     assert.ok(run.ok && run.checks.length > 0 && run.checks.every(c => c.ok), `probe ${mode}: every check passed`);
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
-  assert.deepEqual(record.probe.full.checks.map(c => c.id), ['declare', 'refused', 'claim', 'wait', 'capsule', 'audience', 'private', 'leaks', 'inputs', 'focus', 'text', 'dispose', 'motion']);
+  assert.deepEqual(record.probe.full.checks.map(c => c.id), ['declare', 'refused', 'claim', 'wait', 'capsule', 'covered', 'audience', 'private', 'leaks', 'inputs', 'focus', 'text', 'dispose', 'motion']);
   assert.deepEqual(record.probe['device-reduced'].checks.map(c => c.id), ['motion'], 'with the device\'s Reduce motion, the motion check');
   // The Lead's five privacy points, as the probe saw them.
   const full = Object.fromEntries(record.probe.full.checks.map(c => [c.id, c.detail]));
@@ -238,6 +242,9 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.deepEqual(full.leaks.console, [], 'nor in the console');
   assert.deepEqual(full.leaks.onLayout, [], 'nor in onLayout');
   assert.deepEqual(full.private.lockWords, {}, '"Not for your role" only on the declarer\'s phone');
+  // The capsule's tags clear the talk's buttons at the Largest text on 320 × 568, and stay put at the Standard text.
+  assert.ok(full.covered.largest.clear && full.covered.largest.band > 0, 'at 200 % on 320 × 568 both tags clear the covered band');
+  assert.ok(full.covered.unchangedAtStandard, 'at the Standard text the tags stay where the pack has them');
   const agree = record.agree;
   assert.ok(agree.ok, 'the agreement with the pack');
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');

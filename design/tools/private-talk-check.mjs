@@ -11,8 +11,8 @@
 // error, with what the state asks drawn (below), and people drawn: the room's crew behind, or the two seated.
 // It then runs, in the same bundle under the same headers:
 //   the probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion emulated:
-//   declare, refused, claim, wait, capsule, audience, private, leaks, inputs, focus, text, dispose, motion (the
-//   Lead's five privacy points are audience, private and leaks);
+//   declare, refused, claim, wait, capsule, covered, audience, private, leaks, inputs, focus, text, dispose, motion
+//   (the Lead's five privacy points are audience, private and leaks);
 //   the agreement (preview/agree.mjs): the component beside the pinned pack's own drawing of sheet 25's four
 //   frames, the same words, boxes (to within half a pixel) and looks.
 // It writes design/phone-ui/components/private-talk/review/: one JPEG per state and size, and check.json (the
@@ -55,8 +55,8 @@ const EXPECT = {
   wait: { part: 'wait', bar: DECLARING, sheet: 'Private talk', wait: 'Dev is choosing a side', footer: null },
   'declare-other': { part: null, bar: DECLARING, sheet: null, capsule: false },
   'claim-initiator': claimOf('Dev’s claim', 'Dev claims Blue|Unverified · only you see this'),
-  'claim-none-declarer': claimOf('Ava sees your claim', 'No side declared|Unverified · only Ava sees this'),
-  'claim-none-initiator': claimOf('Dev’s claim', 'No side declared|Unverified · only you see this'),
+  'claim-none-declarer': claimOf('Ava sees your claim', 'No side declared|Only Ava sees this'),
+  'claim-none-initiator': claimOf('Dev’s claim', 'No side declared|Only you see this'),
   'claim-alien': claimOf('Dev’s claim', 'Dev claims Alien|Unverified · only you see this'),
   'talk-initiator': talkOf('1 You|4 Dev'),
   'talk-status': talkOf('1 Ava|4 You'),
