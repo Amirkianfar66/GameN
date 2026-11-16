@@ -120,6 +120,7 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
   - at 200 % text a long name stays on one line and scrolls, where the pack's span wraps to a second;
   - on glass the count keeps the halo under its light words. The pack's reset for the cell's dark vote count (`.sheet .count`) also catches the field's count, which shares its class.
 - A cell's tag is the component's choice, and its availability is the policy's, where the pack infers both from the state.
+- The toast (0.8.0) cuts its words with an ellipsis where they would run past the phone (the phone's width less 16 px a side), as the shell's and the entry screens' toasts did; the pack's words run on past the edge. Words that fit are drawn the same. `preview/compare.mjs` gives the reason.
 - The seat number comes from `number`, or from the digits at the end of the seat's id (`seat-4` → 4).
 - A tile is always a button, so a focused tile keeps its element and its focus through every state; its availability is the policy's. The pack makes a tile that can't be chosen now (`sending`, `registered`, `unavailable`) a `div`, so the kit gives those the `div`'s look: no hand cursor, and on glass the sheet's halo under their words, which a button's own styles drop. `sending` is the pack's `submitting`.
 

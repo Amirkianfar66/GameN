@@ -33,7 +33,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | --- | --- |
 | `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
 | `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell`. It imports the kit's styles |
-| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.5.0`, [its page](kit.md)): the shell's buttons, icon buttons and control policy are the kit's, as every Designer component's are |
+| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.0`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are |
 | `icons.mjs` | The phone interface's icon family (from #261) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
