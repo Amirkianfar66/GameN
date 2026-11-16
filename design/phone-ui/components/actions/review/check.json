@@ -2,7 +2,7 @@
   "tool": "design/tools/actions-check.mjs",
   "component": "design/phone-ui/components/actions",
   "parts": "design/phone-ui/components/play-parts",
-  "sourceCommit": "8f80c09ecb79a5efa7556254f9935923d3e2e2b3",
+  "sourceCommit": "56f6afb9050c23617c8719923a5ba4b1c70728e8",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -40,7 +40,7 @@
   "captures": {
     "390x844/tiles-doctor": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-doctor.jpg",
-      "sha256": "4eaab4322d011b4d9c2d9ba35e20fd235990b4500857e60f6c3f500e98cbe971",
+      "sha256": "ace4375229051596612ff4def878c15b55e6f66cc1e405b1b969e82c19b9f2bf",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -48,7 +48,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -82,6 +82,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -99,7 +101,7 @@
     },
     "430x932/tiles-doctor": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-doctor.jpg",
-      "sha256": "5df3d9ce259917bb5308a9ba12b4eeaf36f042b65a1dbf57045f49d15e1ebd78",
+      "sha256": "c774399ec6dece44a97505b061819c264923b53f248da5851538726abe59abcc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -107,7 +109,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -141,6 +143,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -158,7 +162,7 @@
     },
     "390x844/tiles-hacker": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-hacker.jpg",
-      "sha256": "00765e190a8d93b7c60f3fc9418798c4b93b0aa9a6d8476fe2ddb99272ab60d8",
+      "sha256": "f15cf86c15ed7dcc75bfcafdc338ac113dc6f34b9f90a18745d12919e72fa938",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -166,7 +170,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -200,6 +204,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Private talk",
@@ -214,7 +220,7 @@
     },
     "430x932/tiles-hacker": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-hacker.jpg",
-      "sha256": "40729850ad6b0e2effa0323c1b12e5cc6adfe0f0dbb1631d7012b1d7bb2a985f",
+      "sha256": "e846d7e5e0da9bbdeef0e01c25c5fd83eb7ed311d641181138f59aedb86b56c3",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -222,7 +228,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -256,6 +262,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Private talk",
@@ -270,7 +278,7 @@
     },
     "390x844/tiles-undercover-other": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-undercover-other.jpg",
-      "sha256": "3bdc8f16a67ac7f9cee1978f563a51c5258e0929b149490f2226cd1f2f3ab89c",
+      "sha256": "51f6b0861ae9801b39a39c9670beaf2ed6f6d6e0f03c3be314740d0d7ad05e75",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -278,7 +286,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -312,6 +320,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Private talk"
@@ -325,7 +335,7 @@
     },
     "430x932/tiles-undercover-other": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-undercover-other.jpg",
-      "sha256": "79c7807e5ba48ef5aa9f25bbb2d79e80b4452e9717c2085150c8d7374c46c07a",
+      "sha256": "be9beb56381edd2c5a55422849a7c026c3b47a3a5a81a6d865ef6370599b6386",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -333,7 +343,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -367,6 +377,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Private talk"
@@ -380,7 +392,7 @@
     },
     "390x844/tiles-spent": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-spent.jpg",
-      "sha256": "954160054defd871a3a1dbf8363a04ab20c50bb5b3d4bff53ac989ad67c6da6f",
+      "sha256": "eb21adbadfe3f02d03b23ff1a80b9e11a9da7bc5e608c1c7756695b27a17dea4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -388,7 +400,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -422,6 +434,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -438,7 +452,7 @@
     },
     "430x932/tiles-spent": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-spent.jpg",
-      "sha256": "04aa7b86396bab7406c277217d2d74453598c3d0969830cd482641a944430e25",
+      "sha256": "48f0c6b00570e39eb6e380a5c0f19be2ba2dd09b03314ff7aad9d0b20dd68ac5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -446,7 +460,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -480,6 +494,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -496,7 +512,7 @@
     },
     "390x844/tiles-doctor-other": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-doctor-other.jpg",
-      "sha256": "f7ed9302e4aa3201a4f685bbc50a7bdebef3993671c7a9707a52f74d8282fee7",
+      "sha256": "dc7e38af64f763215544928f679ecf7eb9f3aa19caa5d4483d8b00de1af8a9d1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -504,7 +520,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -538,6 +554,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -553,7 +571,7 @@
     },
     "430x932/tiles-doctor-other": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-doctor-other.jpg",
-      "sha256": "b76277bfa42654f368793c1ffec303e3887ab5db4dd6183ffeff169e409810c3",
+      "sha256": "c5677fe2d7df6bea6c88938e0eb4aab17a6e18b5d751c2832d7cecb777c16728",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -561,7 +579,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -595,6 +613,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -610,7 +630,7 @@
     },
     "390x844/tiles-t3": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-t3.jpg",
-      "sha256": "4dc9e4c30f24d8c9c140fdff9bd19e7ab8f7c46b36ac25588f4c248f944778cf",
+      "sha256": "76bf22940700b3c318140d80317086c41bc6718d4de3d7d94231cae599dd7c46",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -618,7 +638,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -652,6 +672,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -669,7 +691,7 @@
     },
     "430x932/tiles-t3": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-t3.jpg",
-      "sha256": "2adb3140b97f543ce8acaffff6a1219a3ae99e95f7df4c8b63e843be42792f70",
+      "sha256": "6e8d483e033580b33d46e1d004830a4ffdb3819d9ad72c7b6c861563bffb4b80",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -677,7 +699,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -711,6 +733,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -728,7 +752,7 @@
     },
     "390x844/tiles-sending": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-sending.jpg",
-      "sha256": "9e26fe249af7ccc6bd257859c3effc410306bfcf4189c1346cf44aba52afaeb8",
+      "sha256": "0b05484f4b6316c3cf9d218a693bc081be5cbbbf2a80a44d3423ffcd931a6039",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -736,7 +760,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -770,6 +794,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -787,7 +813,7 @@
     },
     "430x932/tiles-sending": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-sending.jpg",
-      "sha256": "bf5bc15302cd334ece01073e874d5e3dec27eb8dbc04912f51105f48e0cd9a98",
+      "sha256": "67111014b6eebb2983c7984f6b74568d1f0281e4b209f9b86713d61613cc4e13",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -795,7 +821,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -829,6 +855,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -846,7 +874,7 @@
     },
     "390x844/targeting": {
       "file": "design/phone-ui/components/actions/review/390x844-targeting.jpg",
-      "sha256": "fd8282ab6d37bf7a1997da4d7f356669593914843e1c9fa15b17ee85319f7687",
+      "sha256": "08c7d81a6a3fdcecbc9f23a78cbd7ee802f4c2dd128a86cd525c075b422e33c7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -854,7 +882,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -888,6 +916,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -902,7 +932,7 @@
     },
     "430x932/targeting": {
       "file": "design/phone-ui/components/actions/review/430x932-targeting.jpg",
-      "sha256": "9cd6cdddf4ee6b4ba563eada91ea099bc8e2718b46c1c37c808d2fd27ccfde74",
+      "sha256": "c32d710428e37c4860f186fb6338bc111c5e0ed9a2cf4665d0efe388b27978bf",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -910,7 +940,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -944,6 +974,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -958,7 +990,7 @@
     },
     "390x844/targeting-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-targeting-supply.jpg",
-      "sha256": "0f83868b33c9436c276a2c33e99b0d443d1fbafcc9f74ade13201730c0c20ab4",
+      "sha256": "dd4ba76b11408f9ff42cf38f18c90f07a19734d748e8939cf9c0711e3b9f60ac",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -966,7 +998,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1000,6 +1032,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1013,7 +1047,7 @@
     },
     "430x932/targeting-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-targeting-supply.jpg",
-      "sha256": "a99167d8654524c718ec1a1c555b9014ac9113b575b933db505f8038eb9000e0",
+      "sha256": "868f3103a93e2e12416540be756793682412bf25dae7d436133e7ec0547add16",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1021,7 +1055,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1055,6 +1089,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1068,7 +1104,7 @@
     },
     "390x844/list": {
       "file": "design/phone-ui/components/actions/review/390x844-list.jpg",
-      "sha256": "9bdd0eea9179f6e59d08e829a72d3a0416dd17408978cdd5a0e35e44df262d85",
+      "sha256": "e727c90fde2f445d1eb69e30d95f097463b8555d904fb1fe4b4e973c3e13eddd",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1076,7 +1112,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1110,6 +1146,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1128,7 +1166,7 @@
     },
     "430x932/list": {
       "file": "design/phone-ui/components/actions/review/430x932-list.jpg",
-      "sha256": "dc34cab43038a61ccdb232232ef64d8d603133547e81972cbf3bb279fc93f18b",
+      "sha256": "56ac6e41e4cb49f641dae6529141294af9012da88da10f0c76f9e33ea30319e4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1136,7 +1174,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1170,6 +1208,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1188,7 +1228,7 @@
     },
     "390x844/list-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-list-supply.jpg",
-      "sha256": "a36253e6c2a81082349aa5b320be507bcee16c1f9026acf8a75548962bbf686f",
+      "sha256": "a9a0a9d3512418b5376b02e88a0f46a3eaeff801fe89d54ba6454714c789daab",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1196,7 +1236,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1230,6 +1270,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1247,7 +1289,7 @@
     },
     "430x932/list-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-list-supply.jpg",
-      "sha256": "ae2a628354c331a4dbec7885da268256d27e5c43f860b65b82594fb037e2851d",
+      "sha256": "0f0dd05efc153638dddb7f1efa961cc0ec9c52654d52481ecb2560ac2289304f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1255,7 +1297,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1289,6 +1331,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1306,7 +1350,7 @@
     },
     "390x844/check": {
       "file": "design/phone-ui/components/actions/review/390x844-check.jpg",
-      "sha256": "7f6fd692692a01ecc5d90903d751c3e419d24cf7ea12d8f788196fd4ea8672d6",
+      "sha256": "9712edda27b7edf9e8ccd97e3ab074b9f91347cf6f452904402d76a01211a3a7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1314,7 +1358,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1348,6 +1392,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1364,7 +1410,7 @@
     },
     "430x932/check": {
       "file": "design/phone-ui/components/actions/review/430x932-check.jpg",
-      "sha256": "087e2ad3b45686aebbca1be0cbf0daae2f995263ca413dbac4f4f2b6dcbc5d72",
+      "sha256": "be52b4eb73fa77b997304b37632127a01ee2ed17fbc246349c949d3350c1f03a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1372,7 +1418,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1406,6 +1452,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1422,7 +1470,7 @@
     },
     "390x844/check-ava": {
       "file": "design/phone-ui/components/actions/review/390x844-check-ava.jpg",
-      "sha256": "6f1ee30c578bbaceca8f25d382a217b057d84513ddfda9f5c5dd233945a2a959",
+      "sha256": "a3c6f0f3b6fc5e61bdeb9a6961bebd9e878cd9bfead422cc170534367dffc9fa",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1430,7 +1478,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1464,6 +1512,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1480,7 +1530,7 @@
     },
     "430x932/check-ava": {
       "file": "design/phone-ui/components/actions/review/430x932-check-ava.jpg",
-      "sha256": "b4c4045f252effa6f8297a6698d459ae589d03400d8ad2373bdb64e8ac4e1b77",
+      "sha256": "9350cf86dfdbcdfbeaa318d664840b60344a8269f60e3addc581f9be04781914",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1488,7 +1538,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1522,6 +1572,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1538,7 +1590,7 @@
     },
     "390x844/sending": {
       "file": "design/phone-ui/components/actions/review/390x844-sending.jpg",
-      "sha256": "810d37534bedb168e74312251f9dc1020b7a3ca82d2e624f725c65bb7c5a4e18",
+      "sha256": "82edd8367a5b7ee9a0bc5ec2f924d5b9ed05d374731861694d803dbf6b42c6b3",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1546,7 +1598,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1580,6 +1632,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1596,7 +1650,7 @@
     },
     "430x932/sending": {
       "file": "design/phone-ui/components/actions/review/430x932-sending.jpg",
-      "sha256": "1ada7cdfcccc711c7cd84254dc73ff8dd2def9eda16d8cc0caf4b55e314ff9c8",
+      "sha256": "b0453080f3969262987617feccd31fb6d8268a4b2536ca267d92e70aece9a2e4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1604,7 +1658,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1638,6 +1692,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -1654,7 +1710,7 @@
     },
     "390x844/check-blackout": {
       "file": "design/phone-ui/components/actions/review/390x844-check-blackout.jpg",
-      "sha256": "faa8ae04e397069977c3931d1eb2437f75d940eb3e10f1c24e6681dcf130d4af",
+      "sha256": "fb58b67dce06bfe5b795b865e2c68d81cc515ce15fdc1751af1fcc5bcfc5043b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1662,7 +1718,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1696,6 +1752,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1709,7 +1767,7 @@
     },
     "430x932/check-blackout": {
       "file": "design/phone-ui/components/actions/review/430x932-check-blackout.jpg",
-      "sha256": "2fa9218ac81e86e0c7cc00c96b23213f7da533882ebb3bd9b902d803fc8e7ec6",
+      "sha256": "18d075156576dabe0e85bf85ec5727312beb6eb9bcab5b87c09abf68147a9543",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1717,7 +1775,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1751,6 +1809,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1764,7 +1824,7 @@
     },
     "390x844/check-clone": {
       "file": "design/phone-ui/components/actions/review/390x844-check-clone.jpg",
-      "sha256": "5b65f96cb891a6d552d90540431b9bab7bb1257829e92db223ee933074c0caab",
+      "sha256": "0baf13f3f6d9c87fed4a850ef229a8165346fd53b957d8dcaf2116fa95adcf7e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1772,7 +1832,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1806,6 +1866,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1819,7 +1881,7 @@
     },
     "430x932/check-clone": {
       "file": "design/phone-ui/components/actions/review/430x932-check-clone.jpg",
-      "sha256": "1b32f4487b35f1c6c6398224eff04d745356aaa11e3f1297daffded7d65dc831",
+      "sha256": "67ef8db1b52c9d9766b62c52c7172f34866ce557fa10e72f735cef98a3030699",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1827,7 +1889,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1861,6 +1923,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1874,7 +1938,7 @@
     },
     "390x844/check-suppress": {
       "file": "design/phone-ui/components/actions/review/390x844-check-suppress.jpg",
-      "sha256": "d00e82d570bb06a0bd42a3d9721b25ec52be3b66e614bd2c30ee2bcc2df14195",
+      "sha256": "bf74de8e17df902ed268f38a6df0434b49527092e20ace687a9eb6f1d20e42fb",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1882,7 +1946,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1916,6 +1980,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1929,7 +1995,7 @@
     },
     "430x932/check-suppress": {
       "file": "design/phone-ui/components/actions/review/430x932-check-suppress.jpg",
-      "sha256": "038ae732ae530b73a3da316f909edc363808e1caa764d46dd4ed44e8e2e486ca",
+      "sha256": "dbac522e37ddea743dac5deab932adb51bb3447166146e7fa126010efd84f3c6",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1937,7 +2003,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1971,6 +2037,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -1984,7 +2052,7 @@
     },
     "390x844/check-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-check-supply.jpg",
-      "sha256": "9d79627633e919d0bd0a2be0b95daa846640dcd22f1eff2e4a49def2bdd7cf80",
+      "sha256": "6a1b71f357e238769068c3993e0dc69ef3acdff9b3a99f1950ef00a253a2a32c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1992,7 +2060,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2026,6 +2094,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2041,7 +2111,7 @@
     },
     "430x932/check-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-check-supply.jpg",
-      "sha256": "4cdea2ffb931ba392f7fe5460a37382596505369f17c1092dd91fa59cb26255f",
+      "sha256": "1ebad74773abcccaea6b5a52895bcb15584c3f16fd978a2ab9d32293cd95515f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2049,7 +2119,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2083,6 +2153,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2098,7 +2170,7 @@
     },
     "390x844/check-shiphack": {
       "file": "design/phone-ui/components/actions/review/390x844-check-shiphack.jpg",
-      "sha256": "66e2af63fccc174e571f72d12029182f014873dccb3b33e2d6adf5d07f2603b4",
+      "sha256": "b7c3db015aef8d8d752fe999344413f168ef9fcc0aac6fa73487d7d3eac2941a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2106,7 +2178,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2140,6 +2212,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2153,7 +2227,7 @@
     },
     "430x932/check-shiphack": {
       "file": "design/phone-ui/components/actions/review/430x932-check-shiphack.jpg",
-      "sha256": "0da7042e774f2ef22368e6d80e5c46817ff521339b7ae1b629fa571013ffa667",
+      "sha256": "755709e679131fd8c42f287190479ad5b278deb69593c4da8d70cf46c6cd300f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2161,7 +2235,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2195,6 +2269,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2208,7 +2284,7 @@
     },
     "390x844/check-error": {
       "file": "design/phone-ui/components/actions/review/390x844-check-error.jpg",
-      "sha256": "fe775d7984c4a280818884e58ef98f1ab0cc7cc27b83909eed69a1fa590b2155",
+      "sha256": "ab5a54cda3571704094d6d6e5d18a7a5e3fb56b6dde81c4d1d8b0d23172fddd6",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2216,7 +2292,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2250,6 +2326,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -2266,7 +2344,7 @@
     },
     "430x932/check-error": {
       "file": "design/phone-ui/components/actions/review/430x932-check-error.jpg",
-      "sha256": "224538ad43b4a3d9c94a2be8eeb16f13f913259f4d0c4c8b2167194689401463",
+      "sha256": "55b4080ca1ea7f34a38ca93d07ab2936f6a42256197ecfd7319016c731d09178",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2274,7 +2352,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2308,6 +2386,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -2324,7 +2404,7 @@
     },
     "390x844/after-rescue": {
       "file": "design/phone-ui/components/actions/review/390x844-after-rescue.jpg",
-      "sha256": "3a893fb2df7bbcc57d5dd07880bf4acc80cef1e83c8591ac41b5f5a5b13816b9",
+      "sha256": "78cf2b53a819b51e95c24a81a5c42f24200314be36b9513e03e067a9c31c7114",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2332,7 +2412,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2366,6 +2446,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -2380,7 +2462,7 @@
     },
     "430x932/after-rescue": {
       "file": "design/phone-ui/components/actions/review/430x932-after-rescue.jpg",
-      "sha256": "fb3da6f03c2c19eafb7dd804d3aeb15811ccf5c670910544c5399d2288046687",
+      "sha256": "92895430b26a3decf27747f90ff652b61059d29f82ab4ca4e033190d3d7a8d52",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2388,7 +2470,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2422,6 +2504,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -2436,7 +2520,7 @@
     },
     "390x844/after-rescue-ava": {
       "file": "design/phone-ui/components/actions/review/390x844-after-rescue-ava.jpg",
-      "sha256": "8d7a3d237bf7e03b321c405e598d12c62e9c020fc5d35efa6e5606ac4ae5ca5a",
+      "sha256": "2da9f3da29f86e303fa6d96de199dff0579cbfca3d9ff4848da8e9012ae6d2fd",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2444,7 +2528,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2478,6 +2562,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -2492,7 +2578,7 @@
     },
     "430x932/after-rescue-ava": {
       "file": "design/phone-ui/components/actions/review/430x932-after-rescue-ava.jpg",
-      "sha256": "5061c6cc2d80773123495525bc50fcf6667c5ce44aca94ae1e03d0248d413119",
+      "sha256": "f3c35231406827f9c48beca2bf6eca05ae5134faea1b5108b1819f69146fec99",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2500,7 +2586,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2534,6 +2620,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -2548,7 +2636,7 @@
     },
     "390x844/after-protect": {
       "file": "design/phone-ui/components/actions/review/390x844-after-protect.jpg",
-      "sha256": "6734860e2ebc96c03342b1c25eb1fe9bc87cbee256f555ba4b0801dea16b6187",
+      "sha256": "112d1a03d0dae9094e9abba68d58ba7732ae410fa774cac96970027caaff75d5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2556,7 +2644,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2590,6 +2678,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2603,7 +2693,7 @@
     },
     "430x932/after-protect": {
       "file": "design/phone-ui/components/actions/review/430x932-after-protect.jpg",
-      "sha256": "fcf1ced81a9e20588177e9f583037c801f430711644cad644a5a83e3c6c479fc",
+      "sha256": "7b64bf724393c9f5c839b0503b87a4f9f5f04621d942a8fe6d633c1c09af4571",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2611,7 +2701,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2645,6 +2735,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2658,7 +2750,7 @@
     },
     "390x844/after-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-after-supply.jpg",
-      "sha256": "dcc7eb589be53ddb450498f89cec35b9a6a3869c5d0cd078650e352d7704eac9",
+      "sha256": "582de52e9999c638081d2aa15c41c951a062fdce3f65a0c474796b4b88aeca81",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2666,7 +2758,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2700,6 +2792,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2713,7 +2807,7 @@
     },
     "430x932/after-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-after-supply.jpg",
-      "sha256": "66c314c5d426c1cc4ab4753bf24c7d953936ca3a718b560e7fe2c4425fa01ea1",
+      "sha256": "3613c8b75c1f4643a0dad70f20e9b87ec7771c1b39d5c0efb6ce7a88d6efe4ee",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2721,7 +2815,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2755,6 +2849,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2768,7 +2864,7 @@
     },
     "390x844/after-shot": {
       "file": "design/phone-ui/components/actions/review/390x844-after-shot.jpg",
-      "sha256": "c279e0d8a6be54e74ddbc2a481fc471d309df30d41b45c4fbd02e8c1447f5971",
+      "sha256": "8ad08eb7bc3e4349a91a74a45cb371e99ae73cddcf4fecb78d28cb7948ca15b5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2776,7 +2872,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2810,6 +2906,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2823,7 +2921,7 @@
     },
     "430x932/after-shot": {
       "file": "design/phone-ui/components/actions/review/430x932-after-shot.jpg",
-      "sha256": "37538adb96031944e067d6355c47318c14b6fa45955681982d85677d489f22ea",
+      "sha256": "abc9b0b93fcc8d31147a005644c6b868b161d48babf021d99c1234703caedd06",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2831,7 +2929,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2865,6 +2963,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2878,7 +2978,7 @@
     },
     "390x844/after-blackout": {
       "file": "design/phone-ui/components/actions/review/390x844-after-blackout.jpg",
-      "sha256": "479a55d769a401165661e66c620b706dcf31d32291586a5254b6586b23ce93f5",
+      "sha256": "873694f7e0a4a1cf70f307b255277f71f41fe095a805f81b077fa76208b943c4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2886,7 +2986,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2920,6 +3020,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2933,7 +3035,7 @@
     },
     "430x932/after-blackout": {
       "file": "design/phone-ui/components/actions/review/430x932-after-blackout.jpg",
-      "sha256": "01fcf3f7569dcd531c5b4c8c2c4fb1154f78b6fec6c68a99aeb8c28871e6dd74",
+      "sha256": "c7763c1ce4c8e456170a35cc6d232a078d44df33e2f13a366afb737283682aaf",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2941,7 +3043,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2975,6 +3077,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -2988,7 +3092,7 @@
     },
     "390x844/after-talk": {
       "file": "design/phone-ui/components/actions/review/390x844-after-talk.jpg",
-      "sha256": "bd99344f20003d6431a26cabfa4dcab68bfd68ca3a75124ac25b2df883eb21e4",
+      "sha256": "091cf62fd7bfc232fe5bcda8eeda64523d753d5e859ad9360f31b1ee3bad1f67",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2996,7 +3100,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3030,6 +3134,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Private talk",
@@ -3044,7 +3150,7 @@
     },
     "430x932/after-talk": {
       "file": "design/phone-ui/components/actions/review/430x932-after-talk.jpg",
-      "sha256": "31eee295d2c060deab188abe98f08829efc5ea4df9a127fe146b924d074c88ed",
+      "sha256": "44fd166192489c543026643e58a8f0f668e933ee71fa34aa75769a0ff80dcb68",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3052,7 +3158,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3086,6 +3192,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Private talk",
@@ -3100,7 +3208,7 @@
     },
     "390x844/after-clone": {
       "file": "design/phone-ui/components/actions/review/390x844-after-clone.jpg",
-      "sha256": "397e1a0b52d66e83764e000888f03681e0442d048cbfd7fa37cd3a048376b67b",
+      "sha256": "231966e06c60abf7f8283417f55ba132fc0169b5ee7c1b3500454651e650294c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3108,7 +3216,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3142,6 +3250,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3155,7 +3265,7 @@
     },
     "430x932/after-clone": {
       "file": "design/phone-ui/components/actions/review/430x932-after-clone.jpg",
-      "sha256": "f69cf4dfa39a244dfc15536e6d68dfe9bc4b7b756d23eb20f35e372f64061703",
+      "sha256": "29a6937f834da6323a8e8bb2fe9c51f1ebcf5250d57c6ce6c5404b2a671b958b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3163,7 +3273,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3197,6 +3307,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3210,7 +3322,7 @@
     },
     "390x844/after-suppress": {
       "file": "design/phone-ui/components/actions/review/390x844-after-suppress.jpg",
-      "sha256": "ca6b2c56bb7938915dd57ab8e2c7f9d55918cbcfb6ed754021591b391ededf5b",
+      "sha256": "69f426c244ed0d138c36796114599e52d4c6edd82e999cad46824e3973626ea5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3218,7 +3330,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3252,6 +3364,8 @@
       "people": 3,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3268,7 +3382,7 @@
     },
     "430x932/after-suppress": {
       "file": "design/phone-ui/components/actions/review/430x932-after-suppress.jpg",
-      "sha256": "79ba798a98bedcda8b8813ee1ec1f578feb1c137450c99b8cab794a7660ee0cc",
+      "sha256": "0201270d6adb5046ca12c0125659cd389f70ab5421a30e52b38078c57d38d581",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3276,7 +3390,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3310,6 +3424,8 @@
       "people": 3,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3326,7 +3442,7 @@
     },
     "390x844/after-reload": {
       "file": "design/phone-ui/components/actions/review/390x844-after-reload.jpg",
-      "sha256": "bcd2a87c9278447c8109869683819a9213726282e5bbe74eaca618d4a2fc51db",
+      "sha256": "9f7cb27c4226df1c5ed0862f2bfaa78499c1d3422218a60ffd8bf6d357c9bab7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3334,7 +3450,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3368,6 +3484,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -3382,7 +3500,7 @@
     },
     "430x932/after-reload": {
       "file": "design/phone-ui/components/actions/review/430x932-after-reload.jpg",
-      "sha256": "4604d24046415d336322d5ecab5a24ca771bf9d00487fcbbe478b65901c5b953",
+      "sha256": "e057da45205ac38811de583a33254705f0c05ed14513e3141baa7fb9e5a5947d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3390,7 +3508,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3424,6 +3542,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -3438,7 +3558,7 @@
     },
     "390x844/unknown": {
       "file": "design/phone-ui/components/actions/review/390x844-unknown.jpg",
-      "sha256": "6e6f6fa48fe48a5d75efd615357343217f81e041d0da0227c8d7bab545763f04",
+      "sha256": "d0cde673cc27c8f9f011486d1982fee506ebaf5baefd6e10ecd014523c36b7de",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3446,7 +3566,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3480,6 +3600,8 @@
       "people": 0,
       "notice": "Rescue Eli was sent, but no answer came back.",
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -3494,7 +3616,7 @@
     },
     "430x932/unknown": {
       "file": "design/phone-ui/components/actions/review/430x932-unknown.jpg",
-      "sha256": "23c4dcd611865d0a463cbd257350b91321e6a94ecbe1c755ab9db2b6c6e11bc2",
+      "sha256": "d668a82387559f66eea661f81b2e0f9f288237ff96df597a1f82d6b24698a60d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3502,7 +3624,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3536,6 +3658,8 @@
       "people": 0,
       "notice": "Rescue Eli was sent, but no answer came back.",
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -3550,7 +3674,7 @@
     },
     "390x844/unknown-blackout": {
       "file": "design/phone-ui/components/actions/review/390x844-unknown-blackout.jpg",
-      "sha256": "ba70eea2bb5256c19052b22c08978b130d502ab5fbb6549de89e019065348633",
+      "sha256": "f1eb2c8cf57e891e2ebb727174353108cfabf471f2cefcae1420742691da5bde",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3558,7 +3682,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3592,6 +3716,8 @@
       "people": 0,
       "notice": "Request Blackout was sent, but no answer came back.",
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3605,7 +3731,7 @@
     },
     "430x932/unknown-blackout": {
       "file": "design/phone-ui/components/actions/review/430x932-unknown-blackout.jpg",
-      "sha256": "849391a925a0be7d3776a107a1aa817096bdef15ab2c3eaa6d8ba039810cacd9",
+      "sha256": "d67cddb597e4923feb3d27ac0d7f10595f9acf0c9e2af63ae1935cfe31760f4f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3613,7 +3739,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3647,6 +3773,8 @@
       "people": 0,
       "notice": "Request Blackout was sent, but no answer came back.",
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3660,7 +3788,7 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/actions/review/390x844-pass.jpg",
-      "sha256": "76509130b76b4054693615ccf9838762b240e543397603fcb0c29f5f1e3a39cb",
+      "sha256": "f324e51a519a650c026d48f3c160905072e6f37b908edd03c8fb7e85148c653b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3668,7 +3796,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3702,6 +3830,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3715,7 +3845,7 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/actions/review/430x932-pass.jpg",
-      "sha256": "4b2f0bd79e8c84304f05c6c9815a5759e0d30eb5506fe0a4028ecb2932b757f9",
+      "sha256": "986e941e073b2735dd37ba02a82e896cf23aeb4f39128d227ac0c3925a6d6071",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3723,7 +3853,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3757,6 +3887,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Your turn"
@@ -3770,7 +3902,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/actions/review/390x844-stale.jpg",
-      "sha256": "da6b75bfdea409ae47b9b225ac532f50a86c07d405765e5be1259789231c0cae",
+      "sha256": "fc08caba8b91ebbf07ac4ef669c1567b276fbf510cb318451aa03d70d260cc60",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3778,7 +3910,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3812,6 +3944,8 @@
       "people": 0,
       "notice": null,
       "banner": "Connection lost",
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -3827,7 +3961,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/actions/review/430x932-stale.jpg",
-      "sha256": "f9d4db7b5d422ab42ea3e9eda7819e7b2055055b3c7dc0c73d34b092202abf10",
+      "sha256": "49a31d29e16ee9191d7dc509cb71ab58612b373361687b1f8f6dcc1f099920c7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3835,7 +3969,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3869,6 +4003,8 @@
       "people": 0,
       "notice": null,
       "banner": "Connection lost",
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -3892,7 +4028,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3926,6 +4062,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 0,
       "leaked": [],
       "art": [],
@@ -3941,7 +4079,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3975,6 +4113,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 0,
       "leaked": [],
       "art": [],
@@ -3982,7 +4122,7 @@
     },
     "320x568/small-tiles": {
       "file": "design/phone-ui/components/actions/review/320x568-small-tiles.jpg",
-      "sha256": "8c0795148d1bc5047857430bd6021ba2cdfb1f7dd310ede7abe6f56f16a5420a",
+      "sha256": "d6672db09d89a70ce2e064cefdb05a76695678177ea9e32c523237ea4e2ec57d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3990,7 +4130,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4024,6 +4164,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -4041,7 +4183,7 @@
     },
     "390x844/large-tiles": {
       "file": "design/phone-ui/components/actions/review/390x844-large-tiles.jpg",
-      "sha256": "0090970d941c445a0fdbf132d12b6f2a6ee731825d529242fe34623a0aa8b406",
+      "sha256": "124f207f47f89f260567949200c43978a1304fb7c5ff843e53971a6ed767424f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4049,7 +4191,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4083,6 +4225,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -4100,7 +4244,7 @@
     },
     "320x568/largest-tiles": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-tiles.jpg",
-      "sha256": "1b2c94f3959c409769d9a7ec82135dbf11324cea9788df639a0915e62314c997",
+      "sha256": "ffb6b2ce5055714f01e4686b380294c6627640961d83fb29250cf8ccacd99a90",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4108,7 +4252,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4142,6 +4286,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -4158,7 +4304,7 @@
     },
     "320x568/largest-check": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-check.jpg",
-      "sha256": "06e52e0e4b4e1fe9c0aa2e6a9e057e8e122ed19b5c288b73fa38f7f6f8767e85",
+      "sha256": "3c1de0a93ca3a35d8f5bc8dbf4377b6ec7c914617e09257135a29410e91cc610",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4166,7 +4312,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4200,6 +4346,8 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
@@ -4216,7 +4364,7 @@
     },
     "320x568/largest-after": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-after.jpg",
-      "sha256": "b2e269abfd8973546be1454210977c882138d58ead22877476cb53e963b93e80",
+      "sha256": "37e123b475877acba9c672a8879466f56471287758bbadf6d57aeb535cecea28",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4224,7 +4372,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4258,9 +4406,1597 @@
       "people": 0,
       "notice": null,
       "banner": null,
+      "toast": null,
+      "slots": null,
       "figures": 4,
       "leaked": [
         "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-room": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-room.jpg",
+      "sha256": "6888a1a638b07979dbe355e44a147a59b4d06b7553f770355a460ddedc05a742",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position · or another room on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-room": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-room.jpg",
+      "sha256": "e8df0bf17112c64673283f0a1de69014be4faf9ad93648deb49be753021512bf",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position · or another room on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-board": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-board.jpg",
+      "sha256": "5fb59d143c02bc6c8c18457860642ca9ff9c811baa1c661a2160fd33c06823b2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move|Choose an empty position · uses this round’s move",
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 0,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-board": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-board.jpg",
+      "sha256": "696b28c47a496331d98e30be60abeb1e9b440f5c4c37ec4930d2cf5406a5739d",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move|Choose an empty position · uses this round’s move",
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 0,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-room-only": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-room-only.jpg",
+      "sha256": "6f9c70839074ec46600c63c456c31e2808172921229a83287df9c2f609f98ec1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position",
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-room-only": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-room-only.jpg",
+      "sha256": "d7bb47b09d65164a75bab4c2887e8a116dea45efd8d7271cf3ee80ef237205d3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position",
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-room-full": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-room-full.jpg",
+      "sha256": "f1dbd6e1f093950031ea4bdc93a118751d324e222ce17d8a74e1fc78271f1bd3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move|No empty position in Room A · choose one on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-room-full": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-room-full.jpg",
+      "sha256": "0642c3b7a09a7f973d406507ae54003d2e26a664f7701783029fbdd300746af5",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move|No empty position in Room A · choose one on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-move-none": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-move-none.jpg",
+      "sha256": "c00c0e1ed50331b3f148e95a77bb8c54912213e93cfaa83be8131cc62413a089",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:unavailable,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Not available now|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-move-none": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-move-none.jpg",
+      "sha256": "6895023412125518e0202115cb474aed2e77fa1ee539520ff72cb176df017e61",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:unavailable,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Not available now|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-check": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-check.jpg",
+      "sha256": "5b3633f86b3e8a23d148f001fa6181d7a05303e6184b0c829494731f13b46f4f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-check": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-check.jpg",
+      "sha256": "ca3d1f12d4eb8d7b486d4cff6f5d30dfcecd23d0acd652696771a2a0c19646af",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-check-board": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-check-board.jpg",
+      "sha256": "b906128ddd929846d41a82c2fbb650b50eedb7d00c6599de8892598895730d8c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to B4|Room B",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 0,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-check-board": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-check-board.jpg",
+      "sha256": "bf722214258702b1bea57c10082ebadf15cb1ac21a60cea4abee65f097797d41",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to B4|Room B",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 0,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-sending": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-sending.jpg",
+      "sha256": "d9f7dd9ab27cf4789f6149237e8f359b886d447a78baa42e2a009ca3edb22eae",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Registering…",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-sending": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-sending.jpg",
+      "sha256": "093a60e2ccddacc65d28d7717ea9a61e0d91080f0f441ff246828b851444d749",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Registering…",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-error": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-error.jpg",
+      "sha256": "d5d8ebc38dad9dac1afa7fe7695676234975e0a632762afe32e20ce23dd25872",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": "The server did not accept the move. Choose a position again.",
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-error": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-error.jpg",
+      "sha256": "172b10c4680fce425b5a7778e22632ea5c6e227d0dc2bbbae3ac898d354f6d98",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": "The server did not accept the move. Choose a position again.",
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-unknown": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-unknown.jpg",
+      "sha256": "0f55fcb99fabfdc73d4967140ded716414f5226d8ad696b9d3cab8de7d62475c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "unknown",
+      "status": "live",
+      "sheet": "Outcome unknown",
+      "sub": null,
+      "footer": "Retry the same|Check receipt",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": "Move to A5 was sent, but no answer came back.",
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-unknown": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-unknown.jpg",
+      "sha256": "f96f9fb61359d107bd511da884d90e285bb99943e052eeaeb374699e1f9401fc",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "unknown",
+      "status": "live",
+      "sheet": "Outcome unknown",
+      "sub": null,
+      "footer": "Retry the same|Check receipt",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": "Move to A5 was sent, but no answer came back.",
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-moved": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-moved.jpg",
+      "sha256": "5736e01572553389cc01b86a44f07b8c4331728c76a0a9cdf00b02ef7ec72cc5",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": "Moved to A5",
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-moved": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-moved.jpg",
+      "sha256": "66af07bdecbd1d04b1c39f7c6c21ecdc074aa684fc5f960fb5905d11152f810b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": "Moved to A5",
+      "slots": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/passed": {
+      "file": "design/phone-ui/components/actions/review/390x844-passed.jpg",
+      "sha256": "802058e71c30eeaab6d44b665ab6ecd3688d8e0a5356dd70ac881bbd42d65bc1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": "Turn passed",
+      "slots": null,
+      "figures": 4,
+      "leaked": [],
+      "art": [
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/passed": {
+      "file": "design/phone-ui/components/actions/review/430x932-passed.jpg",
+      "sha256": "23bfd5df1085174d40bb74aab2d45b8848c5dfc46523d1f95f8eda2dd1e7ad7b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": "Turn passed",
+      "slots": null,
+      "figures": 4,
+      "leaked": [],
+      "art": [
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/move-stale": {
+      "file": "design/phone-ui/components/actions/review/390x844-move-stale.jpg",
+      "sha256": "f7026f9b28c77a560abf4d801824187dae8bb40f7eec668460522f0864ca85c1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position · or another room on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": "Connection lost",
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/move-stale": {
+      "file": "design/phone-ui/components/actions/review/430x932-move-stale.jpg",
+      "sha256": "31e601c1a427c0c85ad641539b07520611438260a00b832efce72e304e915fdc",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position · or another room on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": "Connection lost",
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-move": {
+      "file": "design/phone-ui/components/actions/review/320x568-largest-move.jpg",
+      "sha256": "9a2f668a08dc72b3a6a505e36022845b8f181a2399320848a576b21572aedee5",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Move within Room A|Choose an empty position · or another room on the Board",
+      "chip": "Other rooms on the Board",
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5",
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-move-check": {
+      "file": "design/phone-ui/components/actions/review/320x568-largest-move-check.jpg",
+      "sha256": "d6e14ce0967b1a18bd2aae40e0ff47e89e190ef95c012906af7aac3830a34f6d",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CuJj7S8r.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register move",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Move to A5|Room A",
+      "portraits": 0,
+      "facts": 1,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": "A5*",
+      "figures": 4,
+      "leaked": [
         "Your turn"
       ],
       "art": [
@@ -4685,6 +6421,90 @@
           }
         },
         {
+          "id": "move",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "bars": [
+              "move|Move within Room A|Choose an empty position · or another room on the Board",
+              "move|Move within Room A|Choose an empty position",
+              "move|Move|No empty position in Room A · choose one on the Board",
+              null,
+              "move|Move|Choose an empty position · uses this round’s move",
+              null
+            ],
+            "chips": [
+              "move-board|Other rooms on the Board|board|paper",
+              null
+            ],
+            "refused": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "toasts": [
+              "m-1|Moved to A5|info",
+              "p-1|Turn passed|info"
+            ],
+            "shown": [
+              "Move within Room A",
+              "Choose an empty position · or another room on the Board",
+              "Other rooms on the Board"
+            ],
+            "live": [
+              "onCancelTarget",
+              "onChip:move-board"
+            ],
+            "stale": [
+              "onCancelTarget"
+            ],
+            "toastSaid": [
+              "Moved to A5",
+              "info:filled"
+            ],
+            "room": {
+              "form": "icon",
+              "icon": "move:filled",
+              "title": "Move to A5",
+              "sub": "Room A",
+              "facts": [
+                "Uses this round’s move"
+              ],
+              "error": null
+            },
+            "board": {
+              "form": "icon",
+              "icon": "move:filled",
+              "title": "Move to B4",
+              "sub": "Room B",
+              "facts": [
+                "Uses this round’s move"
+              ],
+              "error": null
+            },
+            "kept": true,
+            "error": {
+              "form": "icon",
+              "icon": "move:filled",
+              "title": "Move to B4",
+              "sub": "Room B",
+              "facts": [
+                "Uses this round’s move"
+              ],
+              "error": "The server did not accept the move. Choose a position again."
+            },
+            "footer": [
+              "cancel:Cancel:local|register:Register move",
+              "cancel:Cancel:local|register:Registering…:busy"
+            ],
+            "unknown": [
+              "Move to A5 was sent, but no answer came back.",
+              "Check before doing anything else."
+            ]
+          }
+        },
+        {
           "id": "inputs",
           "ok": true,
           "detail": {
@@ -4707,7 +6527,7 @@
                 true
               ],
               [
-                "a check for Move, which is not this component's",
+                "a check for Scan, which is the Hacker component's",
                 true
               ],
               [
@@ -4716,6 +6536,22 @@
               ],
               [
                 "an unknown key in an update",
+                true
+              ],
+              [
+                "Move without its position",
+                true
+              ],
+              [
+                "a person for Move",
+                true
+              ],
+              [
+                "a position for Rescue",
+                true
+              ],
+              [
+                "After Register for Move",
                 true
               ]
             ],
@@ -4753,6 +6589,18 @@
                 "leaked": []
               },
               "unknown": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "move-check": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "move-unknown": {
                 "concealed": "",
                 "back": "",
                 "other": "",
@@ -4837,7 +6685,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4868,7 +6716,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-C1HFVRym.js",
+          "source": "assets/index-CuJj7S8r.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5063,13 +6911,37 @@
         "detail": {
           "differences": []
         }
+      },
+      {
+        "id": "agree: move-room (room&room=room-a&state=move)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: move-board (board&state=move)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: passed (room&room=room-a&state=passed)",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "notCompared": [
+            "chip \"Window · Hospital\": the room's own control, the room scene's (#261)"
+          ]
+        }
       }
     ],
     "violations": [
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-C1HFVRym.js",
+        "source": "assets/index-CuJj7S8r.js",
         "line": 1,
         "column": 6050,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
