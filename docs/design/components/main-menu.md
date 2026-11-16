@@ -1,6 +1,6 @@
 # Main menu: Designer's runtime component
 
-**Version:** `main-menu-0.1.0`, with `entry-parts-0.1.0`. The host room (#287) extends the entry parts to 0.2.0: the entry choice is unchanged, and the entry screens' frame is added ([host-room.md](host-room.md), decision 1). **Status (16 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0 (`e6b4a385`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (docs/design/owner-decisions.md, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `main-menu-0.1.0`, with `entry-parts-0.1.0`. The host room (#287) extends the entry parts to 0.2.0: the entry choice is unchanged, and the entry screens' frame is added ([host-room.md](host-room.md), decision 1). **Status (16 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0 (`e6b4a385`), now merged to the kit 0.5.0 (`13167281`, #265), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (docs/design/owner-decisions.md, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the phone's main menu after the intro, as sheet 10 draws it. It is #222 item 5 (P1). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -94,7 +94,7 @@ Each reports a tap, and only that.
 | Display settings | The kit's 44 px icon button with the settings icon, at the top right, under the top safe area; its name "Display settings" |
 | The choices | At the foot, 16 px from the sides and 18 px above the bottom safe area, 12 px apart: Join (the entry choice, primary: the person-plus icon on ink, amber), Host (the entry choice: the host icon), Recover my seat (the kit's plain button with the filled key, centred) |
 | Offline | The kit's error note with the offline icon, unfilled, above Join, 8 px under the choices' top (the pack's `.error` margin); the three choices refused. Join and Host keep their look and Recover is dimmed, as sheet 10 draws them |
-| Larger text | The choices grow with the text and take the space they need from the foot up. When they reach into the hero, the canvas covers it from 24 px above their top, so none of their words sits on the hero's (decision 5) |
+| Larger text | The choices grow with the text and take the space they need from the foot up. When they reach into the hero, the canvas covers it from 24 px above their top, so none of their words sits on the hero's; where that would cut the brand words, it covers them whole (decision 5) |
 
 **Motion:** none of its own. The intro is the brand film's.
 
@@ -115,22 +115,37 @@ Each reports a tap, and only that.
    - **When larger text raises the choices into the hero,** the canvas covers the hero from 24 px above the choices' top (the note's, or Join's), fading in over those 24 px, solid from their top down. It is the menu's own layer over the pack's fade (`.ms-mm-cover`), placed by `main-menu.mjs` from the choices' boxes and kept current as they grow.
    - **At the Standard text** the choices start below the hero at both sizes, so there is no cover and the menu is the pack's, to half a pixel.
    - **The note stays unfilled,** as sheet 10 has it: the cover leaves only canvas behind it.
-   - **The trade-off,** for the Lead's eye: at 390 × 844 offline with the Largest text the note starts at 241 px, so the cover begins at 217 px and the lower part of "Game N" fades into it. At 430 × 932 the cover begins under "by Plan B".
+   - **The brand words go whole or not at all** (the Lead's review of `9aec5f4a`): a "Game N" with its lower half faded looks broken. When the cover's top (the choices' top − 24 px) would fall inside the words' box, or within the 24 px fade above it, the cover starts 24 px above the words' top instead, so both lines are hidden whole and the hero's night shows above.
+     - **The words' box** is `brandWordsBox(W, H)`: the held frame's ink, "Game N" and "by Plan B", from the brand film's own `layout()` (the hosted game's copy, `apps/game/hosted/pregame-films/brand/brand.mjs`, which lays them out as the preview's still does), with the strokes' width, their round ends and "by"'s descender. The probe and the check hold it to the still's drawn ink to half a pixel. The glow is left out: at 430 × 932 it would have cut words that are whole.
+     - **Where it applies:** at 390 × 844 offline with the Largest text. The note starts at 241 px, so the cover would begin at 217 px, inside the words (192–302 px), and begins at 168 px instead. Everywhere else the cover starts below the words, which stay whole: 390 × 844 online with the Largest text (411 px), both sizes offline with the Large text (375 and 463 px), and 430 × 932 offline with the Largest text (342 px, under "by Plan B" at 334).
+     - **The words return** at the Standard and Large text at both sizes. The intro film shows them just before the menu, so a player with the Largest text has seen them.
+   - **`ms-k-phone`** is on the menu's root (kit 0.5.0): the phone-sized container the kit's larger-text rules ask. The menu has no kit rows with values, so nothing of it changes.
 
 ## Checks run on this version
 
-On `9aec5f4a`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `component-check.mjs`):
+On `a1131c94`, clean (the kit 0.5.0 at `13167281`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
 - **Tests:** `packages/design-tokens/test/main-menu.test.mjs`:
-  - the runtime-safe graph, with the kit and the entry parts and no phone shell;
+  - the runtime-safe graph, with the kit, the entry parts and the hosted brand film's layout, and no phone shell or development film;
   - styles scoped, placing kit and entry parts only through the menu's own parts;
   - the entry parts under their root class, a hand cursor never without the tap highlight off, and no dimming of a refused choice;
+  - the brand words' box from the hosted film's layout, which lays the words out as the preview's still does;
   - the pack's words; the inputs' refusals; the check's record.
-  
+
   `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `test:design`, `test:tooling` and `check-assets.mjs` run before every push.
 - **`node design/tools/main-menu-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (`lib/component-check.mjs`).
-  - **Captures:** the menu, offline, and both with the Largest text (200 %), at 390 × 844 and 430 × 932: **8 of 8 pass**. Each asserts the pack's words, the canvas, the settings button 4 px under the top safe area and the choices 18 px over the bottom one; offline, the note, the three refusals, and Join and Host undimmed with Recover at 0.4; and the cover exactly where the choices reach into the hero, from 24 px above them (none at the Standard text; at the Largest text offline at both sizes, and online at 390 × 844).
-  - **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion): the parts and the hero's element, taps, offline and back, busy, not interactive, focus through updates, the safe areas (given and the browser's), layout and `onLayout`, the text at 100, 150 and 200 % (the cover none at 100 %, and from 24 px above the choices whenever they reach into the hero), malformed input, dispose and motion.
-  - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text, agree to within half a pixel in every part (the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, Recover and its key), in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero, and in their states (refused, the alert, the hero hidden from screen readers). A choice 2 px off fails every case. The cover is the one difference, at the Largest text only, and each case records it (none at the Standard text).
+  - **Captures:** the menu, offline, and both with the Largest text (200 %), at 390 × 844 and 430 × 932: **8 of 8 pass**. Each asserts:
+    - the pack's words, the canvas, the settings button 4 px under the top safe area and the choices 18 px over the bottom one;
+    - offline, the note, the three refusals, and Join and Host undimmed with Recover at 0.4;
+    - the words' box against the still's drawn ink, to half a pixel (192–302 px at 390 × 844, 212–334 px at 430 × 932);
+    - the cover exactly where the rule puts it, with the words whole or hidden whole. There is none at the Standard text. At 390 × 844 with the Largest text it starts at 411 px online, under the words, and at 168 px offline, 24 px above them, so they are hidden whole. At 430 × 932 offline with the Largest text it starts at 342 px, under the words.
+  - Only the 390 × 844 Largest-text offline capture differs from those on `9aec5f4a`. The other seven are byte-identical, with kit 0.5.0 merged. Above the lifted cover, the glow's tail leaves at most 1/255 of brightness over the plain fade.
+  - **The lifecycle probe:** 15 of 15 (14 as the page comes, 1 with the device's Reduce motion). It covers the parts and the hero's element, taps, offline and back, busy, not interactive, focus through updates, the safe areas (given and the browser's), layout and `onLayout`, the words' box against the drawn ink at both sizes, the text at 100, 150 and 200 % (the cover by the rule, the words whole or hidden whole), malformed input, dispose and motion.
+  - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text.
+    - They agree to within half a pixel in every part: the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, and Recover and its key.
+    - They agree in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero.
+    - They agree in their states: refused, the alert, and the hero hidden from screen readers.
+    - A choice 2 px off fails every case.
+    - The cover is the one difference, at the Largest text only, and each case records it, with whether it was lifted above the words. Neither Largest-text case lifts it; the lifted one, 390 × 844 offline, is in the captures and the probe.
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
 **Again on `90e82d4d`, clean, with `entry-parts-0.2.0`** (the host room's build and its code card, #287): 8 of 8 captures, 14 of 14 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `9aec5f4a`. The entry parts' additions leave the menu's drawing unchanged.

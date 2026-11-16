@@ -15,11 +15,31 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
+import { layout as brandLayout } from '../../../../apps/game/hosted/pregame-films/brand/brand.mjs';
 
 export const MAIN_MENU_VERSION = 'main-menu-0.1.0';
 const NOTICES = Object.freeze([null, 'offline']);
 /** How far above the choices' top the cover over the hero begins, fading in to the canvas at their top. */
 export const COVER_LEAD_PX = 24;
+/** The brand frame's strokes (brand.mjs brandSvg): the name's and the credit's weights, of a letter's unit. */
+const BRAND_INK = Object.freeze({ name: 0.78, credit: 0.95 });
+
+/**
+ * Where "Game N" and "by Plan B" are drawn in the hero's held frame (the brand film at 1.65 s, every letter
+ * landed) on a W × H hero: { top, bottom } in px from the hero's top, from the frame's own layout (the hosted
+ * brand film's): the strokes' ink, with their width and round ends ("by"'s descender included).
+ */
+export function brandWordsBox(W, H) {
+  const L = brandLayout(W, H);
+  let top = Infinity, bottom = -Infinity;
+  for (const [chars, y0, k, weight] of [[L.name, L.y1, L.k1, BRAND_INK.name], [L.credit, L.y2, L.k2, BRAND_INK.credit]]) {
+    for (const c of chars) for (const line of c.lines) for (const [, v] of line) {
+      top = Math.min(top, y0 + v * k - (weight * k) / 2);
+      bottom = Math.max(bottom, y0 + v * k + (weight * k) / 2);
+    }
+  }
+  return Object.freeze({ top, bottom });
+}
 
 /** The pack's words (screens-entry.mjs, the menu; sheet 10). */
 export const MENU_WORDS = Object.freeze({
@@ -78,7 +98,8 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
   const on = Object.fromEntries(['onJoin', 'onHost', 'onRecover', 'onSettings', 'onLayout'].map(k => [k, handlers[k] ?? null]));
 
   // ── The parts ───────────────────────────────────────────────────────
-  const root = el('div', 'ms-main-menu ms-kit ms-entry-parts', { tabindex: '-1', role: 'group', 'aria-label': MENU_WORDS.name });
+  // ms-k-phone: the phone-sized container the kit's larger-text rules ask (kit 0.5.0).
+  const root = el('div', 'ms-main-menu ms-kit ms-k-phone ms-entry-parts', { tabindex: '-1', role: 'group', 'aria-label': MENU_WORDS.name });
   // The hero: Frontend's player draws the brand film's held frame in `hero`; the fade to the canvas is drawn over it.
   const heroFrame = el('div', 'ms-mm-heroframe', { 'aria-hidden': 'true' });
   const hero = el('div', 'ms-mm-hero');
@@ -131,6 +152,8 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
    * Nothing in the choices ever sits on the hero's words. At the Standard text they start below the hero, as
    * sheet 10 draws them, and only the pack's fade is drawn. When larger text raises them into the hero, the
    * canvas covers it from COVER_LEAD_PX above their top (the note's, or Join's), fading in over that distance.
+   * The brand words go whole or not at all (the Lead's review of #278): when that top would fall inside their
+   * box, the cover starts COVER_LEAD_PX above the words' top instead, so both lines are hidden whole.
    */
   function placeCover() {
     if (disposed || !root.isConnected) return;
@@ -139,7 +162,12 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
     const top = (actions.firstElementChild ?? actions).getBoundingClientRect().top - frame.top;
     const raised = top < frame.height;
     cover.hidden = !raised;
-    const value = raised ? `${Math.round((top - COVER_LEAD_PX) * 100) / 100}px` : '';
+    let coverTop = top - COVER_LEAD_PX;
+    if (raised) {
+      const words = brandWordsBox(frame.width, frame.height);
+      if (coverTop > words.top - COVER_LEAD_PX && coverTop < words.bottom) coverTop = words.top - COVER_LEAD_PX;
+    }
+    const value = raised ? `${Math.round(coverTop * 100) / 100}px` : '';
     if (root.style.getPropertyValue('--ms-mm-cover-top') !== value) {
       if (value) root.style.setProperty('--ms-mm-cover-top', value); else root.style.removeProperty('--ms-mm-cover-top');
     }

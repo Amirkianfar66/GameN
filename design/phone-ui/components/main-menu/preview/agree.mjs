@@ -11,7 +11,7 @@
 // out). The hero's place and the fade over it are compared.
 
 import { ENTRY_SCREENS } from '../../../prototype/screens-entry.mjs';
-import { mountMainMenu } from '../main-menu.mjs';
+import { brandWordsBox, COVER_LEAD_PX, mountMainMenu } from '../main-menu.mjs';
 
 const TOLERANCE = 0.5;
 
@@ -140,10 +140,14 @@ export async function runMainMenuAgreement({ sizes, offline }) {
       ['note is an alert', pack.querySelector('.error')?.getAttribute('role') ?? null, root.querySelector('.ms-k-error')?.getAttribute('role') ?? null],
       ['hero hidden from screen readers', pack.querySelector('.menu-hero')?.getAttribute('aria-hidden'), root.querySelector('.ms-mm-heroframe')?.getAttribute('aria-hidden')],
     ];
-    // The one difference from the pack, at larger text only: the menu's cover over the hero (the Lead's review of
-    // #278, 16 November). At the Standard text there is none, as in the pack; with larger text it is recorded.
+    // The one difference from the pack, at larger text only: the menu's cover over the hero (the Lead's reviews of
+    // #278, 16 November), from 24 px above the choices, or above the brand words where it would cut them. At the
+    // Standard text there is none, as in the pack; with larger text it is recorded.
     const cover = root.querySelector('.ms-mm-cover');
-    const improvement = cover.hidden ? null : { what: 'the canvas covers the hero from 24 px above the choices', coverTop: box(host, cover).y, stackTop: box(host, root.querySelector('.ms-mm-actions').firstElementChild).y };
+    const heroBox = root.querySelector('.ms-mm-hero').getBoundingClientRect(), brandWords = brandWordsBox(heroBox.width, heroBox.height);
+    const coverTop = cover.hidden ? null : box(host, cover).y;
+    const improvement = cover.hidden ? null : { what: 'the canvas covers the hero from 24 px above the choices, or above the brand words where it would cut them',
+      coverTop, stackTop: box(host, root.querySelector('.ms-mm-actions').firstElementChild).y, words: brandWords, lifted: Math.abs(coverTop - (brandWords.top - COVER_LEAD_PX)) < 0.05 };
     if (!c.text && improvement) differences.push({ part: 'cover', what: 'drawn at the Standard text', pack: null, menu: improvement });
     for (const [what, a, b] of states) if (a !== b) differences.push({ part: 'state', what, pack: a, menu: b });
     checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0, detail: { differences, parts, improvement } });

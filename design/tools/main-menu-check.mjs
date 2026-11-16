@@ -51,10 +51,19 @@ let agreement = null;
 let failed = 0;
 /** What every state shows, and what each one adds, from the menu's own DOM. */
 /**
- * The cover over the hero: drawn exactly when the choices reach into the hero, from 24 px above their top. At the
- * Standard text they never do, so there is none, as in the pack.
+ * The cover over the hero: drawn exactly when the choices reach into the hero, from 24 px above their top, or from
+ * 24 px above the brand words where that would cut them (the Lead's review of #278): the words go whole or not at
+ * all. At the Standard text the choices never reach the hero, so there is none, as in the pack. The words' box is
+ * the menu's brandWordsBox, held to the still's drawn ink to half a pixel.
  */
-const covered = s => (s.stackTop >= s.hero ? !s.cover : s.cover && Math.abs(s.coverTop - (s.stackTop - 24)) < 0.05) && (s.root !== 16 || !s.cover);
+const coverFor = s => {
+  if (s.stackTop >= s.hero) return null;
+  const top = s.stackTop - 24;
+  return top > s.words.top - 24 && top < s.words.bottom ? s.words.top - 24 : top;
+};
+const whole = s => !s.cover || s.ink.bottom <= s.coverTop + 0.05 || s.ink.top >= s.coverTop + 24 - 0.05;
+const covered = s => Math.abs(s.words.top - s.ink.top) < 0.5 && Math.abs(s.words.bottom - s.ink.bottom) < 0.5
+  && (coverFor(s) === null ? !s.cover : s.cover && Math.abs(s.coverTop - coverFor(s)) < 0.05) && whole(s) && (s.root !== 16 || !s.cover);
 const drawn = s => covered(s) && s.join === 'Join Enter a room code' && s.host === 'Host Open a room for 7–9 players' && s.recover === 'Recover my seat'
   && s.settings === 'Display settings' && s.hero > 0 && s.canvas === 'rgb(16, 20, 28)' && s.settingsTop === 51 && s.choicesBottom === 52 && s.clear;
 const online = s => s.note === null && s.refused.every(v => v === null) && s.opacity.every(v => v === '1');
@@ -63,7 +72,8 @@ const EXPECT = {
   menu: s => drawn(s) && online(s) && s.root === 16,
   offline: s => drawn(s) && offline(s) && s.root === 16,
   large: s => drawn(s) && online(s) && s.root === 32,
-  // The Largest text offline raises the choices into the hero at both sizes: the cover is drawn.
+  // The Largest text offline raises the choices into the hero at both sizes: the cover is drawn; at 390 × 844 it
+  // would cut the brand words, so it starts 24 px above them (coverFor).
   'large-offline': s => drawn(s) && offline(s) && s.root === 32 && s.cover,
 };
 try {
@@ -90,6 +100,7 @@ try {
           settingsTop: rel(settings).top - f.top, choicesBottom: f.bottom - rel(actions).bottom, clear: rel(actions).top > rel(settings).bottom,
           stackTop: rel(actions.firstElementChild).top - f.top, hero: rel(q('.ms-mm-heroframe')).height,
           cover: !q('.ms-mm-cover').hidden, coverTop: q('.ms-mm-cover').hidden ? null : rel(q('.ms-mm-cover')).top - f.top,
+          words: window.__mainMenu.brandWordsBox(rel(q('.ms-mm-hero')).width, rel(q('.ms-mm-hero')).height), ink: window.__mainMenu.heroInk(q('.ms-mm-hero')),
           layout: window.__mainMenu.mounted[0]?.layout?.() ?? null };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));

@@ -1,6 +1,6 @@
 # Component kit: the controls every Designer component shares
 
-**Version:** `component-kit-0.4.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (15 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
+**Version:** `component-kit-0.5.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (16 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
 
 **What it is:** one look and one behaviour for the controls in every Designer component: the shell, and the screens the Designer team builds next (the role card and Ready, the ballot and results, the sheets' contents, the lobby).
 - It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds each visual component once, and Frontend connects it without rebuilding, restyling or copying it.
@@ -125,6 +125,10 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
   - The kit's controls set `-webkit-tap-highlight-color: transparent` in the same rule that gives the hand cursor.
   - The property is inherited, so the shell and the room scene set it once, on their roots.
   - If a part of yours sets `cursor: pointer`, it must either inherit the transparent colour from your root or set it in the same rule.
+- **Larger text on a narrow phone (0.5.0).** A component that fills the phone puts `ms-k-phone` on its root, as the shell does. It is the container the kit's two larger-text rules ask, the pack's own rules for these parts (#228). They fix text that overlapped or was cut at the Largest text, found on the Card sheet's Resources. Nothing changes at the Standard text: every phone 320 px or wider is 20 em or more across there.
+  - **Rows:** under 19 em across (the Large or Largest text on any phone up to 456 px wide), a row's value goes under its title instead of beside it, so "Promises" and "Given 0/1 · Received 1/1" no longer run into each other. A long value wraps. The icon or portrait and the chevron, switch or stepper keep their places at the sides.
+  - **Segmented controls:** `seg({ …, stack: true })` for options that are words, which may not fit side by side ("Card · Knowledge · Resources"). Under 15 em across (the Largest text on any phone, or Large on the smallest) they stack, one per row, each still 44 px. Leave `stack` off for short options ("7 · 8 · 9"), which stay a row.
+  - A component inside the shell (its sheets, its cover) is already in the shell's container and needs nothing more.
 
 ## Writing your component's check
 
@@ -153,7 +157,7 @@ The component's own check draws its states, runs its probe and writes its record
     - Each is drawn on a plain surface. 33 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
     - Everything is drawn at 100 % and at 200 % text: 140 comparisons in all.
   - **What is compared, part by part:** the box to within half a pixel, the computed type, colours, spacing and shape, the `::before` and `::after`, each icon's drawing and knock-out colour, and the words.
-  - **Result:** all 140 agree, 911 parts. The only remaining differences are the four kinds the kit has on purpose (above), 62 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
+  - **Result:** all 140 agree, 911 parts. The only remaining differences are the seven kinds the kit has on purpose (above, and the larger-text rows), 109 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
   - **It catches drift:** three changes injected one at a time each fail it: one pixel of a button's padding, one pill tone's alpha, and a glass grey by 1/255.
   - **What it found, fixed before 0.1.0's record:**
     - a busy spinner 5 px small, and turning faster;
@@ -164,7 +168,8 @@ The component's own check draws its states, runs its probe and writes its record
     - the field's input losing the glass halo.
   - **0.2.0 against 0.1.0:** moving every rule to one class's weight changed no comparison; the 126 earlier comparisons agree as before.
   - **0.4.0 against 0.3.0:** the inline error takes an icon (two comparisons, the menu's offline note, 6 parts); the 138 earlier comparisons agree as before.
+  - **0.5.0 against 0.4.0:** the glass cases sit in the shell, whose root is now the phone container. So at 200 % two of them, the list and the group, take the larger-text row rule: the rows with a value put it under their title, and what follows moves down. Those 47 differences are accepted with their reason (three entries in `ACCEPTED`), where the pinned pack's title and value run into each other. The other 138 comparisons agree as before. The rule itself, and the stacking segmented control, are measured in the shell's probe (`large`: under its title at 200 %, beside it at 100 %; three stacked options at 200 %, one row of short ones at both).
   - **0.3.0 against 0.2.0:** the waiting block is new (ten comparisons, 48 parts). The 128 earlier comparisons agree as before. In the pack, its portrait is the 44 px `.pt` even where a screen asks `pt(…, 76)`, because the CSS sizes every `.pt`; the kit's portrait agrees.
-  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `a3c99f01`, with the source clean.
+  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `4429def4`, with the source clean.
 - **In the shell:** the shell's check draws the kit's buttons and icon buttons in its 29 captures, and its probe drives the control policy (focus kept, refused taps, reasons, reconnecting, focus return). Recorded on `b51b715c` ([the shell's page](phone-shell.md)).
 - **Not run:** physical phones, Safari, screen readers.
