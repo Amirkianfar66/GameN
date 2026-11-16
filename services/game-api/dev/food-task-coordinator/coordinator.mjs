@@ -160,7 +160,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     return result;
   }
   async function persistAdmission(taskId, source, receivedAt, route) {
-    const {kind, uid, request, token} = source;
+    const {kind, uid, request, token, inbox, consume} = source;
     let entropy;
     const admitted = await transaction(`append-${kind}`, async tx => {
       // The routed variant fences every append. Neither ingress path reads or
@@ -168,9 +168,16 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       const owner = route ? await tx.get(ownerKey(taskId)) : null;
       const head = await tx.get(headKey(taskId));
       if (!head) fail('NOT_FOUND');
-      const member = token ? source.member : activeTaskMember(head, uid);
-      if (source.inbox && (source.inbox.binding.seatId !== member.seatId
-        || source.inbox.binding.revision !== member.bindingRevision)) fail('STALE_BINDING');
+      const member = token ? source.member : inbox
+        ? head.members.find(row => row.uid === uid && row.controller === 'human')
+        : activeTaskMember(head, uid);
+      if (inbox && (!member || !head.participants.includes(member.seatId)
+        || inbox.binding.seatId !== member.seatId || inbox.binding.revision !== member.bindingRevision)) {
+        const at = assertTime(clock(), head.admittedAt);
+        ownerAt(owner, route, at);
+        consume(tx, inbox, {kind: 'resolved', response: {ok: false, serverTimeMs: at, error: {code: 'FORBIDDEN'}}});
+        return {refusal: 'FORBIDDEN'};
+      }
       if (request && (request.matchId !== head.matchId || request.command.taskId !== taskId)) fail('NOT_ALLOWED');
       const key = request ? dedupKey(taskId, member, request.commandId) : null;
       const fingerprint = request ? digest(request) : null;
@@ -179,6 +186,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       if (route) ownerAt(owner, route, at);
       if (previous) {
         if (previous.fingerprint !== fingerprint) fail('COMMAND_ID_CONFLICT');
+        if (inbox) consume(tx, inbox, {kind: 'admitted', sequence: previous.sequence, admittedAt: previous.admittedAt});
         return {admittedAt: previous.admittedAt, duplicate: true, sequence: previous.sequence};
       }
       if (head.closed) fail('NOT_ALLOWED');
@@ -213,10 +221,10 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
         tx.set(key, {fingerprint, context, sequence, admittedAt: at});
       }
       tx.set(headKey(taskId), {...head, tail: sequence, admittedAt: at});
-      source.consume?.(tx, source.inbox, {kind: 'admitted', sequence, admittedAt: at});
+      if (inbox) consume(tx, inbox, {kind: 'admitted', sequence, admittedAt: at});
       return {admittedAt: at, duplicate: false, sequence};
     });
-    if (admitted && !admitted.duplicate) event('durably-admitted', {kind, commandId: request?.commandId ?? null, admittedAt: admitted.admittedAt});
+    if (admitted?.duplicate === false) event('durably-admitted', {kind, commandId: request?.commandId ?? null, admittedAt: admitted.admittedAt});
     return admitted;
   }
   async function submit(taskId, uid, input) {
