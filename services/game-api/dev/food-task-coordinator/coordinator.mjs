@@ -39,6 +39,9 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   if (!['shared-cursor', 'owner-fifo'].includes(admissionMode)) throw new TypeError('Invalid admission mode');
   const ownedAdmission = admissionMode === 'owner-fifo';
   const localOwners = new Map(), admissionLanes = new Map();
+  const operation = (name, run) => store.operation ? store.operation(name, run) : run();
+  const transaction = (name, action) => operation(name, () => store.transaction(action));
+  const readOnly = (name, action) => operation(name, () => store.readOnly(action));
   const path = (id, suffix) => {
     if (typeof id !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(id)) fail('INVALID_TASK');
     return `prototypeFoodTask/${id}/${suffix}`;
@@ -93,7 +96,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     for (const member of head.members.filter(row => row.controller === 'human' && head.participants.includes(row.seatId))) {
       if (leases[member.seatId]?.taskId !== id) fail('INVALID_SEED_LEASE');
     }
-    await store.transaction(async tx => {
+    await transaction('seed', async tx => {
       if (await tx.get(headKey(id))) fail('TASK_EXISTS');
       tx.set(headKey(id), head);
       tx.set(stateKey(id), {cursor: 0, appliedAt: state.evaluatedAt, state, leases});
@@ -102,7 +105,8 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   }
   async function acquire(taskId, id) {
     if (!id) throw new TypeError('Owner identity is required');
-    const token = await store.transaction(async tx => {
+    const name = localOwners.get(taskId)?.id === id ? 'renew-owner' : 'acquire-owner';
+    const token = await transaction(name, async tx => {
       const previous = await tx.get(ownerKey(taskId));
       const at = assertTime(clock());
       const live = previous && previous.expiresAt > at;
@@ -116,7 +120,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     return token;
   }
   function restore(taskId, token) {
-    return store.readOnly(async tx => {
+    return readOnly('restore', async tx => {
       const owner = await tx.get(ownerKey(taskId));
       ownerAt(owner, token, assertTime(clock()));
       const checkpoint = await tx.get(stateKey(taskId)), head = await tx.get(headKey(taskId));
@@ -151,7 +155,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   async function persistAdmission(taskId, source, receivedAt, route) {
     const {kind, uid, request, token} = source;
     let entropy;
-    const admitted = await store.transaction(async tx => {
+    const admitted = await transaction(`append-${kind}`, async tx => {
       // The routed variant fences every append. Neither ingress path reads or
       // updates the gameplay checkpoint, including during contact admission.
       const owner = route ? await tx.get(ownerKey(taskId)) : null;
@@ -267,7 +271,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     }
   }
   async function load(taskId, token) {
-    return store.readOnly(async tx => {
+    return readOnly('load-next', async tx => {
       const owner = await tx.get(ownerKey(taskId));
       ownerAt(owner, token, assertTime(clock()));
       const checkpoint = await tx.get(stateKey(taskId));
@@ -282,7 +286,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     const {next, applied, drift, cpuMs, kind, commandId} = trial;
     const returned = taskOf(previous.state) && !taskOf(next.state);
     const commitStarted = performance.now();
-    const committed = await store.transaction(async tx => {
+    const committed = await transaction(`apply-${kind}`, async tx => {
       const owner = await tx.get(ownerKey(taskId));
       const current = await tx.get(stateKey(taskId));
       // Usually the append cursor lives on a separate document. Seal the Task
@@ -344,7 +348,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     return {nextAt: clock(), pending: null};
   }
   async function receipt(taskId, uid, context) {
-    return store.readOnly(async tx => {
+    return readOnly('receipt', async tx => {
       const head = await tx.get(headKey(taskId)), member = activeTaskMember(head, uid);
       const admitted = await tx.get(dedupKey(taskId, member, context.commandId));
       if (!admitted || !receiptFields.every(field => admitted.context[field] === context[field])) return null;
@@ -354,7 +358,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     });
   }
   async function captureSnapshot(taskId, uid) {
-    return store.readOnly(async tx => {
+    return readOnly('publish-read', async tx => {
       const head = await tx.get(headKey(taskId)), member = authorize(head, uid);
       const checkpoint = await tx.get(stateKey(taskId));
       const at = assertTime(clock(), checkpoint.appliedAt);
@@ -400,7 +404,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   }
   const clockSample = async (taskId, uid) => {
     const receivedAt = assertTime(clock());
-    await store.readOnly(async tx => authorize(await tx.get(headKey(taskId)), uid));
+    await readOnly('clock-sample', async tx => authorize(await tx.get(headKey(taskId)), uid));
     return {receivedAt, serverTimeMs: assertTime(clock(), receivedAt)};
   };
   return {openTask, acquire, restore, submit, heartbeat, runDue, receipt, subscribe, snapshot, clockSample,

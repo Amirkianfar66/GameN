@@ -1,19 +1,23 @@
 import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
 import {performance} from 'node:perf_hooks';
 import {setTimeout as sleep} from 'node:timers/promises';
 import {withPlanetRequestTiming} from '../../dist/planet-game.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
+import {createFoodStorageTrace} from './trace.mjs';
 import {createFoodTaskCoordinator} from './coordinator.mjs';
 import {startFoodTaskOwner} from './drive.mjs';
 import {envelope, seedTwoHumanTask} from './fixture.mjs';
 
 // One paired synthetic script. No browser or network-hop timestamps are included.
-const [variant = 'baseline', run = 'pilot', duration = '14000', roster = '7'] = process.argv.slice(2);
+const [variant = 'baseline', run = 'pilot', duration = '14000', roster = '7', traceFile] = process.argv.slice(2);
 assert.ok(['baseline', 'coordinator', 'owner-fifo'].includes(variant));
 const spanMs = Number(duration), count = Number(roster);
 assert.ok([7, 9].includes(count) && spanMs >= 10000 && spanMs <= 33000);
 
-const adapter = createLoopbackFoodStore();
+const traces = [];
+const trace = traceFile ? createFoodStorageTrace(row => { if (recording) traces.push(row); }) : undefined;
+const adapter = createLoopbackFoodStore({trace});
 const pending = new Map(), timers = new Set(), subscriptions = [], errors = [], measurements = [], stages = {};
 const jobs = new Map(), seenOutbox = new Set();
 const traffic = {logicalReads: 0, logicalWrites: 0, logicalWriteBytes: 0, sdkCallbacks: 0};
@@ -125,6 +129,7 @@ try {
   const c = createFoodTaskCoordinator({store, clock, admissionMode: variant === 'owner-fifo' ? 'owner-fifo' : 'shared-cursor', randomSamples: () => Array(64).fill(.2), onEvent(row) {
     if (!recording) return;
     const at = elapsed();
+    trace?.emit(`lifecycle:${row.stage}`, {elapsedMs: at, kind: row.kind, queueDepth: row.queueDepth, queueWaitMs: row.queueWaitMs});
     if (row.stage === 'received') {
       if (row.kind === 'heartbeat') contacts.received++;
       recordCommand(row.commandId, {receivedMs: at});
@@ -245,6 +250,7 @@ try {
   let cap;
   drained = await Promise.race([closing.then(() => true), new Promise(resolve => { cap = setTimeout(() => resolve(false), 25_000); })]);
   clearTimeout(cap);
+  trace?.emit('comparison:tail', {elapsedMs: elapsed(), unresolved: [...pending.values()], ownerSettled: owner ? drained : null});
   const tail = {boundedMs: 25_000, settledAfterWindow: measurements.filter(row => row.endMs > spanMs).length,
     unresolved: [...pending.values()], ownerSettled: owner ? drained : null};
   recording = false;
@@ -266,5 +272,6 @@ try {
   const stopped = owner?.stop();
   if (drained) await stopped;
   for (const unsubscribe of subscriptions) unsubscribe();
+  if (traceFile) writeFileSync(traceFile, traces.map(row => JSON.stringify(row)).join('\n') + '\n');
   await adapter.close();
 }
