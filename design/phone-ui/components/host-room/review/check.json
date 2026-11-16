@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/host-room-check.mjs",
   "component": "design/phone-ui/components/host-room",
-  "sourceCommit": "90e82d4de4bcfa409b3e2005cd202fd79da5fd2c",
+  "sourceCommit": "5b360c349997cde61d9384722b1927853c213d51",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -106,7 +106,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -167,7 +167,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -228,7 +228,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -289,7 +289,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -343,14 +343,14 @@
     },
     "430x932/opening": {
       "file": "design/phone-ui/components/host-room/review/430x932-opening.jpg",
-      "sha256": "3fb66b6df2a9c90693cc171141905e4ddb6c5ccbd7ef832369416b260ef11a47",
+      "sha256": "459577e13524de780fbc0586fa4c40515e1af176ef4a63daf175637d8c2ed4f1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -411,7 +411,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -472,7 +472,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -533,7 +533,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -591,7 +591,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -649,7 +649,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -707,7 +707,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -765,7 +765,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -823,7 +823,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -881,7 +881,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -939,7 +939,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -997,7 +997,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1055,7 +1055,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1113,7 +1113,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1174,7 +1174,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1235,7 +1235,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1293,7 +1293,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1708,7 +1708,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1744,7 +1744,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2wDM3ud.js",
+          "source": "assets/index-K9cQgBxt.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3093,7 +3093,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-B2wDM3ud.js",
+        "source": "assets/index-K9cQgBxt.js",
         "line": 1,
         "column": 3328,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

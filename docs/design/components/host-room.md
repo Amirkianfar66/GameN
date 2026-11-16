@@ -183,7 +183,7 @@ It is a change from what the pack draws at the larger text, not from a sheet (th
 
 ### Checks run on this version
 
-On `90e82d4d`, clean (the kit 0.4.0; `entry-parts-0.2.0` with the code card's larger-text rules; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+On `5b360c34`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`). 21 of the 22 captures are byte-identical to those on `90e82d4d`; the other, 430 × 932 Opening…, differs only by the busy spinner's frame (63 pixels on Open room's icon):
 - **Captures:** **22 of 22 pass.** Each asserts:
   - the pack's words, the chosen count and its mix, and the canvas;
   - its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits);
@@ -192,7 +192,7 @@ On `90e82d4d`, clean (the kit 0.4.0; `entry-parts-0.2.0` with the code card's la
 - **The agreement with the frozen pack:** **11 of 11 cases** agree to within half a pixel in every part compared, in their look and their states, the toast's included.
   - The one difference, + refused at the most bots, is recorded in the Full case only.
   - The one improvement is recorded in the three lobby cases with the larger text only. In the pack, Copy ends at 411 px (Large, 390 × 844) and at 517 px (Largest, both sizes), past the card's content at 358 and 398 px. In the screens it ends at 142 and 161 px, under the code.
-- **The main menu**, whose entry parts these share, passes again on the same commit with captures byte-identical to those on `9aec5f4a` ([main-menu.md](main-menu.md)).
+- **The main menu**, whose entry parts these share, passes again on the same commit with its brand-words fix (#278), its captures byte-identical to #278's own record on `a1131c94` ([main-menu.md](main-menu.md)).
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
 ## Not in this version

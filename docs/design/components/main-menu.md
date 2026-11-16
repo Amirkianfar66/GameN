@@ -148,7 +148,7 @@ On `a1131c94`, clean (the kit 0.5.0 at `13167281`; the check on the shared `comp
     - The cover is the one difference, at the Largest text only, and each case records it, with whether it was lifted above the words. Neither Largest-text case lifts it; the lifted one, 390 × 844 offline, is in the captures and the probe.
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
-**Again on `90e82d4d`, clean, with `entry-parts-0.2.0`** (the host room's build and its code card, #287): 8 of 8 captures, 14 of 14 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `9aec5f4a`. The entry parts' additions leave the menu's drawing unchanged.
+**On #287's branch, at `5b360c34`, clean, with `entry-parts-0.2.0`** (the host room's build, its code card and kit 0.5.0): 8 of 8 captures, 15 of 15 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `a1131c94` above. The entry parts' additions leave the menu's drawing unchanged.
 
 ## Not in this version
 
