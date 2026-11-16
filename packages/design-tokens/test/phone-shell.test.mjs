@@ -96,9 +96,10 @@ test('its styles reach nothing outside the shell: every rule is scoped under .ms
       if (/\.ms-k-/.test(selector)) assert.match(selector, /\.ms-ps-[\w-]+[^,]*\.ms-k-/, `"${selector}": a kit control styled only inside the shell's own parts`);
     }
   }
-  // Custom properties are the shell's own, besides --ic-knock, which the shared icons read.
+  // Custom properties are the shell's own, besides --ic-knock, which the shared icons read, and the kit toast's top
+  // (kit 0.8.0), which the shell sets to its overlays' place.
   const declared = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))];
-  assert.deepEqual(declared.filter(p => !p.startsWith('--ms-ps-') && p !== '--ic-knock' && p !== '--p'), []);
+  assert.deepEqual(declared.filter(p => !p.startsWith('--ms-ps-') && p !== '--ic-knock' && p !== '--p' && p !== '--ms-k-toast-top'), []);
   // The cover's reach is public (0.2.3): the shell places its cover by the two lengths a part in the cover reads.
   assert.match(css, /\.ms-phone-shell \.ms-ps-cover \{[^}]*top: var\(--ms-ps-cover-top\);[^}]*bottom: var\(--ms-ps-cover-bottom\);/);
   assert.match(css, /\.ms-phone-shell\[data-edge\] \{ --ms-ps-cover-top: 0px; --ms-ps-cover-bottom: 0px; \}/);

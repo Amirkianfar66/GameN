@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.7.2';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.8.0';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -498,6 +498,28 @@ export function createKit(doc) {
   /** The pack's paper card (kit.css .comic): paper, an ink border and the ink shadow. The caller fills it and pads it. */
   const comic = (...children) => { const card = h('article', 'ms-k-comic'); card.append(...children.flat().filter(Boolean)); return card; };
 
+  // ── The toast (ui.mjs toast; kit.css .toast; 0.8.0) ─────────────────
+  /**
+   * { text, icon, filled, leaving, extra }: a local confirmation ("Copied", "Turn passed"), read as it is drawn.
+   * The icon is filled, as the pack's (default `check`); long words are cut with an ellipsis inside the phone.
+   * It takes no tap: a tap reaches what is under it. It drops in where it is added and fades out once `leaving`.
+   * How long it shows and when it goes are its owner's (the shell's TOAST_MS, once per id), and so is where it sits:
+   * 10 px under --ms-k-toast-top, which the owner sets to where its bar ends (the pack's --top). `extra` adds the
+   * owner's classes. Changed in place.
+   */
+  function setToast(node, props) {
+    if (!isText(props?.text)) throw new TypeError('A toast needs its text');
+    const cls = ['ms-k-toast', ...(props.extra ?? [])].join(' ');
+    if (node.className !== cls) node.className = cls;
+    attr(node, 'role', 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-toast-icon'), h('span', 'ms-k-toast-text'));
+    setIcon(node.firstChild, isText(props.icon) ? props.icon : 'check', props.filled !== false);
+    text(node.lastChild, props.text);
+    attr(node, 'data-leaving', props.leaving ? '' : null);
+    return node;
+  }
+  const toast = props => setToast(h('div'), props);
+
   // ── The segmented control, the stepper, the switch ───────────────────
   /**
    * options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen.
@@ -552,7 +574,7 @@ export function createKit(doc) {
 
   return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead, notice, setNotice,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
-    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic });
+    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic, toast, setToast });
 }
 
 /**

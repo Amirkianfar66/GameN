@@ -244,12 +244,8 @@
 .ms-phone-shell .ms-ps-chip-btn[data-tone="steel"] { background: var(--ms-ps-surface-3); color: var(--ms-ps-text); --ic-knock: var(--ms-ps-surface-3); }
 .ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: hidden; text-overflow: ellipsis; }
 
-/* ── A toast (kit.css .toast) ─────────────────────────────────────── */
-.ms-phone-shell .ms-ps-toast { position: absolute; left: 50%; top: calc(var(--ms-ps-over-top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-ps-paper); color: var(--ms-ps-ink); font: 600 0.9375rem/1.2 var(--ms-ps-font); box-shadow: var(--ms-ps-shadow-soft); white-space: nowrap; --ic-knock: var(--ms-ps-paper); animation: ms-ps-toast-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both; transition: opacity 180ms linear; }
-.ms-phone-shell .ms-ps-toast > span:last-child { overflow: hidden; text-overflow: ellipsis; }
-.ms-phone-shell .ms-ps-toast-icon .ms-ps-ic { width: 20px; height: 20px; }
-.ms-phone-shell .ms-ps-toast[data-leaving] { opacity: 0; }
-@keyframes ms-ps-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
+/* ── A toast: the kit's (kit.css .ms-k-toast, 0.8.0), 10 px under the overlays' place ── */
+.ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }
 
 /* ── The docked sheet: clear glass over the room (kit.css .sheet) ──── */
 /* It always leaves the top bar and the tabs in view: docked between them, auto or large height. */
@@ -299,10 +295,10 @@
 @media (prefers-reduced-transparency: reduce) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 
 /* ── Reduce motion: the game's setting or the device's. Slides become the 80 ms fade. ── */
-.ms-phone-shell[data-motion="reduced"] :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
+.ms-phone-shell[data-motion="reduced"] .ms-ps-sheet { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
 .ms-phone-shell[data-motion="reduced"] .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 @media (prefers-reduced-motion: reduce) {
-  .ms-phone-shell :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
+  .ms-phone-shell .ms-ps-sheet { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
   .ms-phone-shell .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 }
 @keyframes ms-ps-fade { from { opacity: 0; } }

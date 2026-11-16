@@ -46,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.7.2', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.0', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -108,6 +108,31 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   assert.ok(KIT_CSS.includes('.ms-kit :where([data-ms-surface="glass"], [data-ms-surface="glass"] .ms-kit) { --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; }'), 'on glass, and in a component root on glass');
   assert.match(PACK_CSS, /--text-secondary: #DCE3EC; --text-tertiary: #D3DBE5;/);
   assert.equal(seatNumber({ seat: 'seat-7' }), 7);
+});
+
+test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'s drop and fade (0.8.0)', () => {
+  const block = (css, selector) => { const start = css.indexOf(`${selector} {`); assert.ok(start >= 0, selector); return css.slice(start + selector.length + 2, css.indexOf('}', start)); };
+  const declarations = body => Object.fromEntries(body.split(';').map(d => d.trim()).filter(Boolean).map(d => [d.slice(0, d.indexOf(':')).trim(), d.slice(d.indexOf(':') + 1).trim()]));
+  const pack = declarations(block(PACK_CSS, '.toast')), kit = declarations(block(KIT_CSS, '.ms-kit :where(.ms-k-toast)'));
+  const as = { 'calc(var(--top) + 10px)': 'calc(var(--ms-k-toast-top, 0px) + 10px)', 'var(--paper)': 'var(--ms-k-paper)', 'var(--ink)': 'var(--ms-k-ink)',
+    '600 0.9375rem/1.2 var(--font-ui)': '600 0.9375rem/1.2 var(--ms-k-font)', 'var(--shadow-soft)': tokens(PACK_CSS, ':root')['--shadow-soft'] };
+  for (const [key, value] of Object.entries(pack)) assert.equal(kit[key], as[value] ?? value, `the toast's ${key} is the pack's`);
+  assert.match(PACK_CSS, /\.toast \.ic \{ width: 20px; height: 20px; \}/);
+  assert.ok(KIT_CSS.includes('.ms-kit :where(.ms-k-toast .ms-k-ic) { width: 20px; height: 20px; }'));
+  // Its own: inside the phone, no tap (it has no action), the shell's drop and fade (since 0.1.0) and its 80 ms fade
+  // with Reduce motion.
+  assert.equal(kit['max-width'], 'calc(100% - 32px)');
+  assert.equal(kit['pointer-events'], 'none');
+  assert.equal(kit.animation, 'ms-k-toast-in 220ms cubic-bezier(0.16, 0.84, 0.3, 1) both');
+  assert.equal(kit.transition, 'opacity 180ms linear');
+  assert.ok(KIT_CSS.includes('@keyframes ms-k-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }'));
+  assert.ok(KIT_CSS.includes('.ms-kit:where([data-motion="reduced"]) :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; }'));
+  assert.ok(KIT_CSS.includes('@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; } }'));
+  // The shell draws its toast with the kit's and only places it: no second look.
+  const shell = read('design/phone-ui/components/phone-shell/phone-shell.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.ok(shell.includes('.ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }'), 'the shell sets the toast\'s top to its overlays\' place');
+  assert.doesNotMatch(shell, /\.ms-ps-toast[^{]*\{[^}]*(?:background|padding|font|animation:|opacity|[{;]\s*top:|pointer-events)/, 'the shell draws no second look for its toast');
+  assert.match(read('design/phone-ui/components/phone-shell/phone-shell.mjs'), /kit\.toast\(props\)/);
 });
 
 test('its comparison with the pack is development only: the pages, the cases, the rules and the tools', () => {

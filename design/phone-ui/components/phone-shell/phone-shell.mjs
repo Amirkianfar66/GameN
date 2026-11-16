@@ -636,16 +636,13 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (toastShown === t.id) return;
     toastShown = t.id;
     if (parts.toast) parts.toast.remove();
-    const node = el('div', 'ms-ps-toast', { role: 'status' });
-    const glyph = el('span', 'ms-ps-toast-icon');
-    glyph.append(icon(t.icon, true));
-    const words = el('span');
-    words.textContent = t.text;
-    node.append(glyph, words);
+    // The kit's toast (0.8.0) draws it, drops it in and fades it out; its time and its place are the shell's.
+    const props = { text: t.text, icon: t.icon, extra: ['ms-ps-toast'] };
+    const node = kit.toast(props);
     root.append(node);
     parts.toast = node;
     if (toastTimer) win.clearTimeout(toastTimer);
-    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { node.dataset.leaving = ''; win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
+    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
   }
 
   // ── The large-content view: a tab's word, large, on a long press ────

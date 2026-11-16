@@ -69,6 +69,14 @@ const NOTICE = ({ stamp = false, icon = false, lines = 1 } = {}) => [
   ...Array.from({ length: lines }, (_, i) => [`line ${i + 1}`, `:scope > .registered > p:nth-of-type(${i + 1})`, `:scope > .ms-k-notice > p:nth-of-type(${i + 1})`, { words: true }]),
 ];
 
+/** A toast's parts (kit.css .toast; 0.8.0): the pill, its icon and its words. Each half draws it in a holder whose top is where a bar
+    would end (the pack's --top, the kit's --ms-k-toast-top), so it sits 10 px under it. */
+const TOAST = [
+  ['toast', ':scope > div > .toast', ':scope > div > .ms-k-toast'],
+  ['toast icon', ':scope > div > .toast > svg', ':scope > div > .ms-k-toast > .ms-k-toast-icon > svg', { svg: true }],
+  ['toast words', ':scope > div > .toast > span', ':scope > div > .ms-k-toast > .ms-k-toast-text', { words: true }],
+];
+
 /** A waiting block's parts (screens.css .wait): the tile and its drawing, or a portrait; the title; the line and its spinner. */
 const WAIT = ({ lead = false, spinner = false } = {}) => [
   ['wait', ':scope > .wait', ':scope > .ms-k-wait'],
@@ -380,6 +388,16 @@ export const CASES = Object.freeze([
     pack: ({ ui }) => ui.h('article.comic', { style: { padding: '14px' } }, ui.h('div', { style: { height: '60px' } })),
     kit: ({ kit }) => { const card = kit.comic(kit.h('div', null, { style: 'height: 60px' })); card.style.padding = '14px'; return card; },
     parts: [['card', ':scope > .comic', ':scope > .ms-k-comic']] },
+
+  // ── The toast (0.8.0): the lobby's "Copied" and the shell's "Turn passed", each 10 px under where a bar ends ──
+  { id: 'toast', where: 'both',
+    pack: ({ ui }) => ui.h('div', { style: { position: 'relative', height: '5rem', '--top': '0px' } }, ui.toast('Copied')),
+    kit: ({ kit }) => { const holder = kit.h('div', null, { style: 'position: relative; height: 5rem; --ms-k-toast-top: 0px' }); holder.append(kit.toast({ text: 'Copied' })); return holder; },
+    parts: TOAST },
+  { id: 'toast info', where: 'both',
+    pack: ({ ui }) => ui.h('div', { style: { position: 'relative', height: '5rem', '--top': '0px' } }, ui.toast('Turn passed', 'info')),
+    kit: ({ kit }) => { const holder = kit.h('div', null, { style: 'position: relative; height: 5rem; --ms-k-toast-top: 0px' }); holder.append(kit.toast({ text: 'Turn passed', icon: 'info' })); return holder; },
+    parts: TOAST },
 
   // ── The 3 × 3: every state, a count, You and a mark (in a list in seat order when it is narrow) ──
   { id: 'cells', where: 'both',
