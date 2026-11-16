@@ -1,8 +1,10 @@
 # Host controls: Designer's runtime component
 
-**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** the interface, proposed for the Lead Designer's review. Nothing is built. The build starts when the Lead approves it, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.4. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
+
+**Audience:** the host's own phone only. The sheet, and above all the code view, never reaches the shared display: Frontend opens it only on the host's phone, and the code is private to that phone (the Lead's privacy note on #295).
 
 **Covers** (sheet 15):
 
@@ -21,25 +23,34 @@
 
 **Not in it:**
 - **The commands and their answers:** checking the deadline (today's `advance`), running bots (`runBots`), issuing a seat's code (`issueRecovery`) and aborting (`abort`) are Frontend's to send and the server's to answer. The component reports a tap; Frontend gives each command's state and the issued code.
-- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.3). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, question 1), so they stay in Designer's source.
+- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.4). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, answer 1), so they stay in Designer's source.
 - **The host's lobby controls** (seats, bots before the start, admitting players): the host room (#287).
 
-## Files (proposed)
+## The Lead's answers (#295)
+
+1. **The split:** the body is the component's; the frame and footer are the shell's through `hostControlsSheet(input)`; the view is Frontend's, from the taps and Back. The same pattern as the private talk's `declareSheet()` and `claimSheet()`.
+2. **In flight and refused:** in flight, the row busy with the kit's spinner at its end, and Abort match busy in the footer; refused, the row dimmed, Frontend's reason in place of its line and as its description; receipts in the shell's toast. While a command is in flight only that row is busy; the others keep their own state as Frontend gives it. The component never infers one command's state from another's.
+3. **Abort match:** the shell draws it. Shell 0.2.4's sheet actions take `kind: 'warn'`, the kit's warn button (the pack's `.btn-warn`: a paper outline, no fill, the same on glass). The confirm's footer is Keep playing (secondary) and Abort match (warn).
+4. **The code:** the server issues it with `expiresAt` 15 minutes ahead, and a `used` flag makes it single-use (`services/game-api/src/planet-game.ts`), so "Works once" is the server's fact. `minutes` are the minutes left, which Frontend works out from `expiresAt` and the trusted clock, rounded up and updated as they change; without them the line is dropped, and the component never counts down. Once it expires, Frontend drops the code. The value is in the page only while revealed, never in an attribute, a report or the layout, and it is dropped on a viewer change and when concealed; the probe checks each.
+5. **Reconnecting:** shell 0.2.4 adds `local: true` to a footer action: this phone's own, like Back, ✕ and the head actions, working while reconnecting and standing for no command. Reveal, Hide, Copy and Keep playing are local, so Hide always works; Abort match stays a command, refused while reconnecting with the banner's words, as the command rows are. `interactive: false` still refuses everything, and concealed draws no sheet.
+6. **The seats:** Frontend lists them, and the component draws only what it is given: names given, portraits by character. Whether the host's own seat or a bot's seat is listed is Frontend's and the server's call.
+
+## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/host-controls/`:
 
 | Path | What |
 | --- | --- |
-| `host-controls.mjs` | `mountHostControls()`, `hostControlsSheet()`, `nextHostControlsInput()`, `HOST_CONTROLS_DEFAULTS`, `HOST_CONTROLS_VERSION`, `HOST_WORDS`, `CODE_MASK` |
-| `host-controls.css` | Every style, under `.ms-host-controls`; starts with the kit's stylesheet. Its own: the code card (only sheet 15 draws it) |
+| `host-controls.mjs` | `mountHostControls()`, `hostControlsSheet()`, `nextHostControlsInput()`, `HOST_CONTROLS_DEFAULTS`, `HOST_CONTROLS_VERSION`, `HOST_SHEET_ID`, `HOST_WORDS`, `CODE_MASK` |
+| `host-controls.css` | Every style, under `.ms-host-controls`; starts with the kit's stylesheet. Its own: the code card (only sheet 15 draws it, in the pack's values and inline styles) and the 14 px before Abort match |
 | `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A, as sheet 15 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `host-controls`, its `code`, `reveal` and `abort` states) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/host-controls-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/host-controls.test.mjs`.
 
 **Uses unchanged:**
-- **The kit (0.5.1):** `list` and `row` (icon tiles, portraits as leads, the chevron), `groupLabel`, `groupNote`, `wait` (the abort's warning tile), the spinner, and the control policy.
-- **The phone shell (0.2.3):** its sheet (`back`, `sub`, `detent: 'large'`, `actions`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
+- **The kit (0.5.1):** `list` and `row` (icon tiles, portraits as leads, the chevron, the spinner as a trail), `groupLabel`, `groupNote`, `wait` (`size: 'small'`, the abort's warning tile and its 1.25rem title), and the control policy.
+- **The phone shell (0.2.4):** its sheet (`back`, `sub`, `detent: 'large'`, `actions` with `kind: 'warn'` and `local: true`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
 
 ## Mount, update and dispose
 
@@ -61,13 +72,13 @@ host.dispose();                                             // safe twice; after
 
 | Input | Audience | What |
 | --- | --- | --- |
-| `view` | The host's | `list`, `code` or `abort`: Frontend's, from the taps (question 1) |
-| `status` | Phone | `live` or `stale`: while reconnecting, the commands are refused with the banner's words (question 5) |
+| `view` | The host's | `list`, `code` or `abort`: Frontend's, from the taps (answer 1) |
+| `status` | Phone | `live`, `stale` or `concealed`: while reconnecting, the commands are refused with the banner's words, not dimmed, and the confirm still opens (answer 5); concealed drops the code |
 | `interactive`, `viewer`, `versions` | Phone | As the shell's; `versions` for the portraits |
-| `deadline`, `bots` | The host's | `{ enabled, busy, reason }`: Check the deadline's and Run bots' states, from Frontend (question 2) |
-| `seats` | The host's | `[{ seat, name, character, enabled, busy, reason }]`: the seats Frontend lists for a code (today, every human seat; question 6) |
+| `deadline`, `bots` | The host's | `{ enabled, busy, reason }`: Check the deadline's and Run bots' states, from Frontend; not offered until given (answer 2) |
+| `seats` | The host's | `[{ seat, name, character, enabled, busy, reason }]`: the seats Frontend lists for a code, each offered unless Frontend says otherwise (answer 6) |
 | `abort` | The host's | `{ enabled, busy, reason }`: the abort's state; the row opens the confirm, the footer's Abort match sends it |
-| `code` | The host's, private | `null`, or `{ seat, name, matchId, revealed, value, minutes }`: the issued code. `value` only while `revealed`; `minutes` from the server's code (question 4) |
+| `code` | The host's, private | `null`, or `{ seat, name, matchId, revealed, value, minutes }`: the issued code. `value` only while `revealed` (given hidden, it is refused); `minutes` left, from the server's `expiresAt` (answer 4) |
 
 **The component decides nothing:** it never works out whether a deadline has passed, whether a bot can act, who may have a code, how long a code lasts, or whether the match may end. Frontend gives each state from the session; the reasons and receipts are Frontend's words.
 
@@ -91,8 +102,8 @@ Each reports a tap, and only that.
 | Part | Drawn (sheet 15) |
 | --- | --- |
 | The list | On the sheet's glass: the kit's rows with steel icon tiles (the timer, the bot), "Recovery codes" and the seats' rows (portrait, "n · Name", "New code", chevron), 14 px, then the Abort match row (the warning on paper, chevron) |
-| A command in flight | The row refused (`aria-busy`), the kit's spinner at its end (the pack draws none; question 2) |
-| A command refused | The row dimmed and refused, Frontend's reason as its line in place of the usual one and as its description (question 2) |
+| A command in flight | That row only refused (`aria-busy`), the kit's spinner at its end (the pack draws none; answer 2) |
+| A command refused | The row dimmed and refused, Frontend's reason as its line in place of the usual one and as its description (answer 2) |
 | The code card | Sheet 15's own: "Recovery for Player 4 · Dev" in capitals, "Match ID" and the ID, "Code" and the dots or the code (mono, broken anywhere), the timer and "Works once · 15 minutes" |
 | The note | "Show it only to Player 4. It never appears on the shared display." |
 | The confirm | The kit's waiting block: the warning tile, "Abort the match?", "It ends now for everyone, with no winner." |
@@ -102,6 +113,19 @@ Each reports a tap, and only that.
 
 **The code's privacy:** the code is on the page only while revealed. Hidden, the card shows the pack's fixed dots, so neither the code nor its length is there; it is never in an attribute, a report or the layout, and it leaves the page when hidden, when the view changes, when the viewer changes and on dispose.
 
+### Against the pack
+
+The agreement draws the frozen pack's `host-controls` screen beside the sheet (its list, the code hidden and revealed, the copy's toast, and the abort's confirm; at both sizes and the Largest text) and compares, to within half a pixel: the sheet, its title, line and body; the footer and its buttons and icons; the toast; the group label, the lists, the rows, their icon tiles and drawings, portraits (by file), titles, lines and chevrons; the code card and each of its six lines and its timer icon; the note; and the confirm's tile, icon, title and line: their boxes, words, looks, states (`aria-disabled`, `aria-busy`, names, roles) and drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; what the pack does not draw (a command in flight or refused, reconnecting) is the probe's.
+
+- **The shell's, recorded (raised with the Lead on #295):** with Back in its head, the shell's sheet head keeps 8 px at its left where the pack's keeps 18 px, so the title and its line start 10 px further left (x 62 against 72); and at the Larger text the shell's footer buttons take their own widths (0.2.1's `flex: 1 1 auto`) where the pack draws two equal halves. Each is measured against the shell as it is and recorded in `detail.shell`; then the shell side is drawn with the pack's two values, so everything of this component's is compared as usual. They are the shell's to settle.
+- **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
+
+## Check
+
+`node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, and the revealed code at the Largest text; each asserts the code is in the page only while revealed. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
+
+The result is recorded in `review/check.json`, with the source commit.
+
 ## Frontend's connection
 
 1. Show the Settings sheet's Host controls row to the host (#294's `hostControls`); on `onHostControls`, open this sheet: `shell.update({ sheet: hostControlsSheet(input) })` and mount the body in `shell.sheetBody`.
@@ -109,18 +133,6 @@ Each reports a tap, and only that.
 3. Route the callbacks and the shell's `onSheetAction` and `onSheetBack` (code and confirm back to the list; the list back to Settings) as above; show each receipt in the shell's toast in Frontend's words.
 4. Today's host controls inside Settings leave the screen.
 
-## Questions for the Lead
-
-1. **The split:** the component draws the sheet's body for its three views; the sheet's frame and footer stay the shell's. The module exports `hostControlsSheet(input)`, which gives Frontend the shell's sheet for the view (the title, "Private to this phone", Back, `detent: 'large'`, and the footer's buttons with the pack's words and icons and Frontend's states), so the words stay in Designer's source. The view is Frontend's, from the taps. Is that the split you want?
-2. **Commands, in flight and refused:** each of the four commands is `{ enabled, busy, reason }` from Frontend, sent by Frontend, answered by the server. The pack draws none of these states. I propose:
-   - **in flight:** the row refused (`aria-busy`) with the kit's spinner at its end; the confirm's Abort match busy in the shell's footer;
-   - **refused:** the row dimmed and refused, Frontend's reason as its line in place of the usual one and as its description, as your decision 3 on #294;
-   - **receipts:** Frontend's words in the shell's toast; the component adds none.
-3. **Abort match's look:** the pack draws the confirm's Abort match as the kit's `warn` button (outlined in paper). Shell 0.2.3's sheet actions take only `primary` and `secondary`. Would you add `kind: 'warn'` to the shell's sheet actions (a shell change, yours), or should the confirm draw it another way?
-4. **The code:** given only while revealed (`value` with `revealed: true`; hidden, `value: null`), so the page never holds it hidden. Hidden shows the pack's fixed dots. Frontend copies it to the clipboard and shows "Copied" in the shell's toast. "Works once · 15 minutes" takes the minutes from the server's code (`minutes`), and drops the line without them, rather than the component stating the rule. Agreed?
-5. **Reconnecting:** the command rows are refused with the banner's words, as the shell refuses commands; opening the confirm, Back and ✕ stay this phone's. The shell also refuses its footer's buttons while reconnecting, which includes Reveal and Copy. Is that acceptable for this version?
-6. **The seats:** Frontend lists the seats a code can be issued for (today, every human seat, the host's own included), with names given and portraits from the crew runtime by character, as character selection does.
-
 ## Not in this version
 
-Everything: this is the interface. Next, once the Lead approves it: the module and its styles, the preview's states (the list, a command in flight and refused, the code hidden and revealed, the confirm, reconnecting, Largest), the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack, the test, and the owner's test page.
+The comparison through Frontend's native build (the `host-controls` part) waits for Frontend's PR that mounts it.
