@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.6.0",
-  "sourceCommit": "e7da9b4ff5242d7816c17c9897f379035ccb0f39",
+  "version": "component-kit-0.6.1",
+  "sourceCommit": "50888f35d73b0f78c94a1d2d1865b1fc0c97a351",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -154,6 +154,30 @@
       "why": "The list grows by the line its rows' values took under their titles"
     },
     {
+      "cases": "/^row pill value$/",
+      "parts": [
+        "/^(list|row [1-3]( .+)?)$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "w",
+        "x",
+        "y",
+        "::before bottom",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), a row puts its value under its title, the kit 0.5.0 rule (#228), now also when the value is a pill, as the Promise rows give it: in the pinned pack the pill keeps its place and squeezes the title onto narrow lines, where a longer title is cut"
+    },
+    {
       "cases": "/^segmented icons$/",
       "parts": [
         "/^option \\d icon$/"
@@ -192,87 +216,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "74fa88a2501503a1b448af0efb133de24449bb1982749ce49e70d2f06c2e6959",
+      "sha256": "35773b9eddc2496d11743a771dd01f5fd756cd4b3f72c19c0e5c720035d2426f",
       "size": {
         "width": 390,
-        "height": 9094
+        "height": 9453
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CyXmwK5n.js",
+          "source": "assets/page-9tffnkGc.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "d8bcb6b69bd27ed3631b00a39aa17887becf72ca97ad620d3f5b1e2282c1023c"
+      "measurementSha256": "dd440dce288f17cc1f8df1b821bb8084c3f97073d0e332673c8f94827e523988"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "7d8808786ab00c074f36ae3a969eb650510c1c90b5204868d1d3865b602b84f3",
+      "sha256": "2f681a55c5f46a749b28e06c4129319da2b150185a71371bc6d7633dbae7aa15",
       "size": {
         "width": 390,
-        "height": 9163
+        "height": 9522
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CyXmwK5n.js",
+          "source": "assets/page-9tffnkGc.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "a592ca0406acbf9a85c7763c884e9b3e7dc273150348b8c526b2a79b0ec4a3fe"
+      "measurementSha256": "aead5b5616619aab56f36c84c12c825b8fbeb78948db4c3200a65eb850aae60c"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "8af6541cb21cfb72f095c6c08bb38174c8a441448367676300df9179eef05f8a",
+      "sha256": "891a7ab3416deb0c3db6e790368d2a881966ca0bc1332234df38dbeab8e8eb37",
       "size": {
         "width": 390,
-        "height": 12771
+        "height": 13952
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CyXmwK5n.js",
+          "source": "assets/page-9tffnkGc.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "f52fd7f41570236787a5d4683ed267a2258af1e06848d44fa99324cbaaf00ef3"
+      "measurementSha256": "51410efd2d74e39a54e8f047d9dcdee877ef84f06d075021be41cdc32eba4667"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "ad0cfa28f24b4fc9303d0a9ce07f7feea32e5ff5c0333ca7d6b845fc13837d60",
+      "sha256": "ec51f5add25f7341ab57039e162d6d57b87d8750cc8d76bf60dc6adf69310f6f",
       "size": {
         "width": 390,
-        "height": 12963
+        "height": 13970
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CyXmwK5n.js",
+          "source": "assets/page-9tffnkGc.js",
           "line": 1,
           "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "2230751abc80d56a04827d8fa56d4c518816c73e75193455a4d8cf5d476838c4"
+      "measurementSha256": "3fdb73ebe29fab4121253fceae9241eb67cc0f07c7076380cc03e61720ffefdd"
     }
   },
   "agreement": {
@@ -359,6 +383,12 @@
         "row unavailable": {
           "ok": true,
           "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
           "differences": [],
           "accepted": []
         },
@@ -701,6 +731,12 @@
         "row unavailable": {
           "ok": true,
           "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
           "differences": [],
           "accepted": []
         },
@@ -1051,6 +1087,12 @@
           "differences": [],
           "accepted": []
         },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
         "group": {
           "ok": true,
           "parts": 3,
@@ -1237,14 +1279,14 @@
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 7
+              "rule": 8
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 7
+              "rule": 8
             }
           ]
         },
@@ -1752,6 +1794,433 @@
           "differences": [],
           "accepted": []
         },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 570.38,
+              "kit": 397.69,
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "h",
+              "pack": 201.39,
+              "kit": 155.09,
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 7
+            },
+            {
+              "part": "row 1 portrait",
+              "key": "y",
+              "pack": 82.69,
+              "kit": 59.55,
+              "rule": 7
+            },
+            {
+              "part": "row 1 portrait",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 7
+            },
+            {
+              "part": "row 1 title",
+              "key": "w",
+              "pack": 152.77,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 1 title",
+              "key": "h",
+              "pack": 85,
+              "kit": 42.5,
+              "rule": 7
+            },
+            {
+              "part": "row 1 sub",
+              "key": "y",
+              "pack": 93,
+              "kit": 50.5,
+              "rule": 7
+            },
+            {
+              "part": "row 1 sub",
+              "key": "w",
+              "pack": 152.77,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 1 sub",
+              "key": "h",
+              "pack": 101.39,
+              "kit": 67.59,
+              "rule": 7
+            },
+            {
+              "part": "row 1 value",
+              "key": "x",
+              "pack": 226.77,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 1 value",
+              "key": "y",
+              "pack": 86.69,
+              "kit": 120.09,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill",
+              "key": "x",
+              "pack": 226.77,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill",
+              "key": "y",
+              "pack": 86.69,
+              "kit": 120.09,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill words",
+              "key": "x",
+              "pack": 237.77,
+              "kit": 73,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill words",
+              "key": "y",
+              "pack": 87.69,
+              "kit": 121.09,
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "y",
+              "pack": 201.39,
+              "kit": 155.09,
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "h",
+              "pack": 167.59,
+              "kit": 121.3,
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "::before bottom",
+              "pack": "166.594px",
+              "kit": "120.297px",
+              "rule": 7
+            },
+            {
+              "part": "row 2 portrait",
+              "key": "y",
+              "pack": 267.19,
+              "kit": 197.73,
+              "rule": 7
+            },
+            {
+              "part": "row 2 portrait",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 7
+            },
+            {
+              "part": "row 2 title",
+              "key": "y",
+              "pack": 208.39,
+              "kit": 162.09,
+              "rule": 7
+            },
+            {
+              "part": "row 2 title",
+              "key": "w",
+              "pack": 127.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 2 title",
+              "key": "h",
+              "pack": 85,
+              "kit": 42.5,
+              "rule": 7
+            },
+            {
+              "part": "row 2 sub",
+              "key": "y",
+              "pack": 294.39,
+              "kit": 205.59,
+              "rule": 7
+            },
+            {
+              "part": "row 2 sub",
+              "key": "w",
+              "pack": 127.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 2 sub",
+              "key": "h",
+              "pack": 67.59,
+              "kit": 33.8,
+              "rule": 7
+            },
+            {
+              "part": "row 2 value",
+              "key": "x",
+              "pack": 201.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 2 value",
+              "key": "y",
+              "pack": 271.19,
+              "kit": 241.39,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill",
+              "key": "x",
+              "pack": 201.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill",
+              "key": "y",
+              "pack": 271.19,
+              "kit": 241.39,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill drawing",
+              "key": "x",
+              "pack": 212.59,
+              "kit": 73,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill drawing",
+              "key": "y",
+              "pack": 277.69,
+              "kit": 247.89,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill words",
+              "key": "x",
+              "pack": 233.59,
+              "kit": 94,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill words",
+              "key": "y",
+              "pack": 272.19,
+              "kit": 242.39,
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "y",
+              "pack": 368.98,
+              "kit": 276.39,
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "h",
+              "pack": 201.39,
+              "kit": 121.3,
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "::before bottom",
+              "pack": "200.391px",
+              "kit": "120.297px",
+              "rule": 7
+            },
+            {
+              "part": "row 3 portrait",
+              "key": "y",
+              "pack": 451.67,
+              "kit": 319.03,
+              "rule": 7
+            },
+            {
+              "part": "row 3 portrait",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 7
+            },
+            {
+              "part": "row 3 title",
+              "key": "y",
+              "pack": 375.98,
+              "kit": 283.39,
+              "rule": 7
+            },
+            {
+              "part": "row 3 title",
+              "key": "w",
+              "pack": 101.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 3 title",
+              "key": "h",
+              "pack": 85,
+              "kit": 42.5,
+              "rule": 7
+            },
+            {
+              "part": "row 3 sub",
+              "key": "y",
+              "pack": 461.98,
+              "kit": 326.89,
+              "rule": 7
+            },
+            {
+              "part": "row 3 sub",
+              "key": "w",
+              "pack": 101.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 3 sub",
+              "key": "h",
+              "pack": 101.39,
+              "kit": 33.8,
+              "rule": 7
+            },
+            {
+              "part": "row 3 value",
+              "key": "x",
+              "pack": 175.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 3 value",
+              "key": "y",
+              "pack": 455.67,
+              "kit": 362.69,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill",
+              "key": "x",
+              "pack": 175.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill",
+              "key": "y",
+              "pack": 455.67,
+              "kit": 362.69,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill words",
+              "key": "x",
+              "pack": 186.59,
+              "kit": 73,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill words",
+              "key": "y",
+              "pack": 456.67,
+              "kit": 363.69,
+              "rule": 7
+            }
+          ]
+        },
         "group": {
           "ok": true,
           "parts": 3,
@@ -1968,91 +2437,91 @@
               "key": "h",
               "pack": 78.38,
               "kit": 97,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 1",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 1",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 1 icon",
               "key": "x",
               "pack": 9,
               "kit": 65.83,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 1 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 16,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2",
               "key": "x",
               "pack": 180.5,
               "kit": 3,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2",
               "key": "y",
               "pack": 3,
               "kit": 50,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2 icon",
               "key": "x",
               "pack": 186.5,
               "kit": 52.66,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 63,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 8
+              "rule": 9
             }
           ]
         },
@@ -2150,9 +2619,9 @@
     }
   },
   "summary": {
-    "cases": 162,
-    "agree": 162,
-    "parts": 1093,
-    "accepted": 124
+    "cases": 166,
+    "agree": 166,
+    "parts": 1185,
+    "accepted": 184
   }
 }
