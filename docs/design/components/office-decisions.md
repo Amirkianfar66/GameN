@@ -158,7 +158,7 @@ Anything that names one person or one move comes from Frontend: the Captain, the
 - **the probe, 17 checks:** the choices and their notes, the footer's commands and Skip, the words, the tie, the route map, the offices' privacy, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
 - **the agreement, 15 cases:** the sheet beside the frozen pack's `captain`, `officer` and `nav` in each of their states at both sizes, and choosing an Officer at the Largest text: the same words, states, look and boxes to within half a pixel, and the route map shape by shape.
 
-**Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.
+**Recorded against** (the check's `sourceCommit`): `594142c0`, clean: 20 of 20 captures, the probe 17 of 17, the agreement 15 of 15.
 
 ## Not in this version
 
