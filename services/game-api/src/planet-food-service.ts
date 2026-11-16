@@ -721,10 +721,19 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     d.record(tx,s,{kind:'OPERATION',operation:q.operation,context:ctx,ingressSequence:entry.sequence});
     return response({matchId:s.matchId},ctx.now);
   }
-  async function updateBotWakes(s:T,at:number,tx:PlanetTransaction):Promise<void>{
+  function botsInFoodOrder(s:T,at:number,scoped:boolean){
+    const step=scoped&&s.state?engine().projectPlanetFoodPublic(s.state,at).step:null;
+    const away=step?.kind==='AWAY'?step.awaySeatIds:null;
+    // The already-admitted prefix is considered before bot planning. During a
+    // scoped AWAY period only the two away seats can obtain Task input offers.
+    return s.members.filter(member=>member.controller==='bot'&&(!away||away.includes(member.seatId)));
+  }
+  async function updateBotWakes(s:T,at:number,tx:PlanetTransaction,scoped=false):Promise<void>{
     if(!s.state||s.status!=='running')return;
-    const f=service(s),e=engine();
-    for(const m of s.members.filter(m=>m.controller==='bot')){
+    const f=service(s),e=engine(),bots=botsInFoodOrder(s,at,scoped);
+    if(scoped)for(const id of Object.keys(f.botWakes) as SeatId[])
+      if(!bots.some(bot=>bot.seatId===id))delete f.botWakes[id];
+    for(const m of bots){
       const intent=await tx.get<BotIntent>(key('foodBotIntent',[s.matchId,m.seatId]));
       if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at){f.botWakes[m.seatId]=intent.retryAt;continue;}
       const v=e.projectPlanetFoodPlayer(s.state,m.seatId,at),decision=chooseFoodBotInput(v);
@@ -770,7 +779,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           tx.set(entry.botIntentPath,{sequence:entry.sequence,request:entry.request,done:true,
             retryAt:!entry.response.ok||receipt?.status==='rejected'?entry.context.now+250:null} satisfies BotIntent);
         }
-        await updateBotWakes(s,entry.context.now,tx);
+        await updateBotWakes(s,entry.context.now,tx,inboxAuthority!==undefined);
         if(s.foodAuthorityProfile)await publishInboxRoute(tx,s,control,entry,routing);
         if(entry.job){const jobKey='deadline/'+hash([matchId,entry.job.phaseId,entry.job.deadlineToken]);
           const old=await tx.get<PlanetDeadlineJob>(jobKey);if(old)tx.set(jobKey,{...old,status:'complete'});}
@@ -945,9 +954,10 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
     const intent=await inbox.next(authority.scope);
     if(intent){
+      let admitted:AdmissionResult|null=null;
       try{
         if(closed)d.reject('NOT_ALLOWED');
-        await admit(matchId,intent.binding.uid,intent.request,{inboxAuthority:authority,inboxIntent:intent});
+        admitted=await admit(matchId,intent.binding.uid,intent.request,{inboxAuthority:authority,inboxIntent:intent});
       }catch(error){
         const code=error!==null&&typeof error==='object'&&'code' in error?error.code as FailureCode:null;
         if(code===null||!inboxExpectedRefusals.has(code))throw error;
@@ -960,6 +970,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           }});
         });
       }
+      if(admitted&&!admitted.response&&admitted.sequence>0)
+        await processOne(matchId,authority.owner.id,admitted.sequence,authority);
       return 'again';
     }
     if(closed)return {closed:true,nextAt:null};
@@ -1153,7 +1165,6 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       request:Extract<Request,{operation:'foodCommand'}>|null};
     type UpProposal=Pick<LockProposal,'seatId'|'view'|'command'>;
     type Probe={prefix:number|null;work:boolean;nextWakeAt:number|null;lock:LockProposal|null;up?:UpProposal};
-    const botsInOrder=(s:T)=>s.members.filter(m=>m.controller==='bot');
     const plannedLocks=new Map<SeatId,{request:Extract<Request,{operation:'foodCommand'}>;endsAt:number}>();
     const currentPlannedLock=(seat:SeatId,view:FoodTaskPlayerView)=>{
       const planned=plannedLocks.get(seat);if(!planned)return null;const request=planned.request;
@@ -1187,7 +1198,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at)
           ||engineDue&&d.engine.hasOnlyDuePlanetFoodWarnings?.(s.state,at)!==true)return {prefix:null,work:true,nextWakeAt:null,lock:null};
         let nextWakeAt:number|null=null;
-        for(const bot of botsInOrder(s)){
+        for(const bot of botsInFoodOrder(s,at,inboxAuthority!==undefined)){
           const intent=await tx.get<BotIntent>(key('foodBotIntent',[matchId,bot.seatId]));
           if(intent&&!intent.done)return {prefix:intent.sequence,work:false,nextWakeAt:null,lock:null};
           if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at){
@@ -1275,7 +1286,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(!s.state||s.status!=='running')break;
       if(inboxAuthority&&!await readOnly(tx=>activeInboxRoute(tx,s)))break;
       let progressed=false,needsRefresh=false;
-      for(const bot of botsInOrder(s)){
+      for(const bot of botsInFoodOrder(s,inboxAuthority?clock():0,inboxAuthority!==undefined)){
         if(inputs>=MAX_BOT_INPUTS||remaining()<=0)break;
         const intentPath=key('foodBotIntent',[matchId,bot.seatId]);
         const intent=await readOnly(tx=>tx.get<BotIntent>(intentPath));
