@@ -148,14 +148,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       foodIds:{requestId:uuid([...base,'request']),taskId:uuid([...base,'task']),
         winchControlSessionId:uuid([...base,'winch']),panelControlSessionId:uuid([...base,'panel'])}};
   }
-  async function inspect(matchId:string):Promise<T|null>{
-    return readOnly(async tx=>{
-      const saved=await tx.get<T>('session/'+matchId);
-      if(saved&&Object.hasOwn(saved,'foodAuthorityProfile')&&saved.foodAuthorityProfile!==PLANET_FOOD_OWNER_INBOX_PROFILE)
-        throw new Error('Unsupported saved Planet Food authority profile');
-      return saved;
-    });
+  async function inspectSession(tx:PlanetReadTransaction,matchId:string):Promise<T|null>{
+    const saved=await tx.get<T>('session/'+matchId);
+    if(saved&&Object.hasOwn(saved,'foodAuthorityProfile')&&saved.foodAuthorityProfile!==PLANET_FOOD_OWNER_INBOX_PROFILE)
+      throw new Error('Unsupported saved Planet Food authority profile');
+    return saved;
   }
+  const inspect=(matchId:string)=>readOnly(tx=>inspectSession(tx,matchId));
   const technicalContext=(owner:string,now:number):PlanetContext=>({now,nextPhaseId:owner,nextDeadlineToken:d.newId(),random:[]});
   async function acquireWorker(matchId:string):Promise<string|null>{
     const live=await readOnly(tx=>tx.get<BotWorkerLease>(workerKey(matchId)));
@@ -1008,15 +1007,17 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     return d.reject('UNAVAILABLE');
   }
 
-  async function tryHandleInbox(initial:T,uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
+  async function captureInbox(tx:PlanetReadTransaction,matchId:string,uid:string,q:Request){
+    const s=await d.load(tx,matchId),route=await activeInboxRoute(tx,s);
+    if(!route)return null;
+    const actor=authorize(s,uid,q),revision=actor?member(s,uid)!.bindingRevision:null;
+    return {s,route,actor,revision,liveListener:await inboxPorts().worker.liveListener(tx,route.scope)};
+  }
+  type InboxCapture=Awaited<ReturnType<typeof captureInbox>>;
+  async function tryHandleInbox(initial:T,uid:string,q:Request,authorized?:InboxCapture):Promise<PlanetServiceResponse|undefined>{
     if(!initial.foodAuthorityProfile||q.operation==='receipt'||q.operation==='foodReceipt')return undefined;
     const {inbox,worker}=inboxPorts(),matchId=initial.matchId;
-    const captured=await readOnly(async tx=>{
-      const s=await d.load(tx,matchId),route=await activeInboxRoute(tx,s);
-      if(!route)return null;
-      const actor=authorize(s,uid,q),revision=actor?member(s,uid)!.bindingRevision:null;
-      return {s,route,actor,revision,liveListener:await worker.liveListener(tx,route.scope)};
-    });
+    const captured=authorized===undefined?await readOnly(tx=>captureInbox(tx,matchId,uid,q)):authorized;
     if(!captured)return undefined;
     const {s,route,actor,revision,liveListener}=captured,at=clock();
     const verify=async(tx:PlanetReadTransaction)=>{
@@ -1065,7 +1066,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function handleWithRoute(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
     const matchId=matchOf(q);if(matchId===null)return undefined;
-    const initial=await timePlanetStage('classification',()=>inspect(matchId));
+    const timed=q.operation==='foodHeartbeat'||q.operation==='foodCommand'&&q.request.command.type==='TASK_PRESS';
+    const {initial,authorized}=await timePlanetStage('classification',()=>readOnly(async tx=>{
+      const initial=await inspectSession(tx,matchId);
+      // Validated load reuses the envelope cached in this same storage snapshot.
+      const authorized=timed&&initial?.foodAuthorityProfile&&isFood(initial)&&initial.state&&initial.status==='running'
+        ?await captureInbox(tx,matchId,uid,q):undefined;
+      return {initial,authorized};
+    }));
     if(!initial||!isFood(initial)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
@@ -1085,7 +1093,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         return original.response;
       });
     }
-    const privateResult=await tryHandleInbox(initial,uid,q);
+    const privateResult=await tryHandleInbox(initial,uid,q,authorized);
     if(privateResult!==undefined)return privateResult;
     if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
     if(q.operation==='foodHeartbeat')return humanFoodHeartbeat(matchId,uid,q);

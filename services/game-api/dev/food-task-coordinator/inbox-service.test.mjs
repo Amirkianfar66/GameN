@@ -11,7 +11,7 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   const real=createLoopbackFoodStore();
   let failAfterOwnerClaim=false, ownerWasClaimed=false;
   const joined=Promise.withResolvers(), trailing=Promise.withResolvers();
-  let joinId, trailingId, trailingReply, trailingRequest,recordCommit;
+  let joinId, trailingId, trailingReply, trailingRequest,recordCommit,afterInboxCapture;
   const store={...real,...(live?{}:{watchFoodInbox:undefined}),
     async transaction(action){
       let claim=false, observed, recorded=[];
@@ -46,7 +46,18 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
         ownerWasClaimed=false;failAfterOwnerClaim=false;
         throw new Error('simulated worker exit after claiming ownership');
       }
-      return real.readOnly(action);
+      if(!afterInboxCapture)return real.readOnly(action);
+      let captured=false;
+      const value=await real.readOnly(tx=>action({...tx,async get(path){
+        if(path.startsWith('foodInboxRoute/'))captured=true;
+        return tx.get(path);
+      }}));
+      if(captured&&afterInboxCapture){
+        const after=afterInboxCapture;
+        afterInboxCapture=undefined;
+        await after();
+      }
+      return value;
     },
   };
   t.after(()=>store.close());
@@ -89,7 +100,7 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
     }
     return result;
   }
-  return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,setCommitObserver:observe=>{recordCommit=observe;},failNextOwner:()=>{failAfterOwnerClaim=true;}};
+  return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,setCommitObserver:observe=>{recordCommit=observe;},afterCapture:next=>{afterInboxCapture=next;},failNextOwner:()=>{failAfterOwnerClaim=true;}};
 
 }
 
@@ -152,6 +163,32 @@ test('production inbox orders recovery, revokes old projection, and commits one 
   const after=await h.current(),result=await read('foodInboxResult/'+foodInboxScopeKey(route.scope));
   assert.equal(after.status,'aborted');
   assert.equal(after.journalSequence,result.journalSequence);
+});
+
+test('timed intake reauthorizes across a binding replacement after its captured snapshot', {timeout:60_000},async t=>{
+  const {h,task,winch,route,call,read,afterCapture}=await inboxMatch(t);
+  h.setTime(task.runningAt);
+  const member=(await h.current()).members.find(row=>row.uid===winch);
+  const recovery=ok(await call(h.host,'issueRecovery',{matchId:h.matchId,requestId:h.nextId(),seatId:member.seatId}));
+  const view=(await h.service.projectFoodInboxSnapshot(winch,h.matchId)).foodPlayerView;
+  const own=view.participantTask;
+  const request=envelope(view,{type:'TASK_PRESS',taskId:route.scope.taskId,controlSessionId:own.controlSessionId,
+    expectedControlRevision:own.controlRevision,input:{kind:'HOLD',edge:'UP',gestureSequence:1,crateId:own.crate.id}});
+  const input={operation:'foodCommand',request};
+  const original=createFoodInboxIntent(route.scope,{uid:winch,seatId:member.seatId,revision:member.bindingRevision},input,request.commandId);
+  const replacement='replacement-'+h.nextId();
+  afterCapture(async()=>{
+    ok(await call(replacement,'redeemRecovery',{matchId:h.matchId,requestId:h.nextId(),recoveryCode:recovery.recoveryCode}));
+  });
+  assert.equal((await h.invoke(winch,'foodCommand',{request})).error.code,'FORBIDDEN');
+  assert.equal((await read('foodInboxRoute/'+h.matchId)).bindingEpoch,1);
+  assert.equal(await read('foodInboxIntent/'+foodInboxScopeKey(route.scope)+'/'+original.id),null);
+  const control=await read('foodIngressControl/'+h.matchId);
+  const replacementReceipt=ok(await call(replacement,'foodCommand',{request})).receipt;
+  assert.equal(replacementReceipt.status,'accepted');
+  assert.equal(replacementReceipt.commandId,request.commandId);
+  assert.deepEqual(ok(await h.invoke(replacement,'foodCommand',{request})).receipt,replacementReceipt);
+  assert.equal((await read('foodIngressControl/'+h.matchId)).processedSequence,control.processedSequence+1);
 });
 
 test('persisted expiry wake recovers queued work after claimant exits', {timeout:60_000},async t=>{
