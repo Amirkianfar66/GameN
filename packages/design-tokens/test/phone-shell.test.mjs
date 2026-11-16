@@ -137,7 +137,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.8');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.9');
   assert.ok(TOAST_MS > 0);
 });
 

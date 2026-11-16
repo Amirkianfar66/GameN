@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.8`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.9`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -100,6 +100,15 @@ shell.dispose();             // removes the element and its listeners
   - It is this viewer's: dropped while concealed and for a new viewer, unless the same update gives the new viewer's own. The reconnecting banner is the phone's, and a new viewer keeps it.
   - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
 - **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
+- **The target bar below a banner, and at the Largest text (0.2.9).** Two findings from the Gameplay builder's Move test page.
+  - **Below a banner.** While a banner shows, the target bar stays 8 px below it, as a docked sheet does (0.2.0).
+    - Before, the two sat at the same place with the banner over the bar, so Retry lay over the bar's Cancel.
+    - Cancel works while reconnecting (0.2.7), so it has to stay in reach.
+  - **At the Largest text.** Under 14 em across (200 % text on the 390 and 430 px phones), the bar's words keep the whole width beside its icon, and Cancel goes under them, lined up with the words.
+    - Before, the words stood in a narrow column beside Cancel, many lines deep: the bar grew to about 290 px at 390 × 844.
+    - Every word still shows, at its full size.
+  - **The chip** wraps its label at that size instead of cutting it ("Other rooms on th…").
+  - **Not solved yet:** a tall bar can still lie over an offered place near the top of the room, as Room A's A5 at 200 %. The same places stay offered on the Board. Keeping offered places clear of the overlays needs the room scene's framing to know what the overlays cover, which is the room scene's next change.
 - **The target bar's Cancel while reconnecting (0.2.7).** It only ends the choosing on this phone, so it works while reconnecting, as Back and Close do. Before, it was refused with the banner's words, so a player who had started choosing a target couldn't leave the choosing until the match was current again. The Gameplay builder asked for it after making Actions' Cancel and Done local. The tabs, the chip and the hero stay refused while reconnecting, as sheet 45 draws them.
 - **The private talk's two buttons at larger text (0.2.6).** Under 19 em across, Promises and My card take the sheet footer's rule: side by side in equal halves while their words fit, a row each when they don't. What docks above them, a sheet or the chip, stays 10 px clear by their measured height (`--ms-ps-talk-h`), and `layout().covered.bottom` says how much of the stage's foot they cover, so the capsule can keep its tags above them.
   - Before, at the Largest text on a 320 px phone, the two stayed on one row, "My card" ran past the phone's edge, and a docked sheet covered them by 21.6 px. The Gameplay builder found it on the private talk.

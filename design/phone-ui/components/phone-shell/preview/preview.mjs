@@ -93,6 +93,10 @@ export const PREVIEW_STATES = Object.freeze({
   // edge under a bar, as ship travel's public poster (#269, sheet 41): the bar's glass lies over the stage.
   poster: { caption: 'Edge to edge under the bar · a poster, no tabs', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'course', title: 'Setting course', sub: 'The offices are setting it', round: 3, timer: seconds(11), promises: { count: 0 }, menu: {} }, tabs: null, edge: true }, scene: null, standIn: 'A full-screen poster · ship travel (#269) mounts it in the stage, under the bar' },
   large: { caption: 'Largest text (200%) · 320 × 568', shell: own, scene: { ...room, active: SELF }, sizes: ['320x568'], text: 200 },
+  // 0.2.9: while reconnecting, the target bar stays below the banner, so its Cancel (local, 0.2.7) stays in reach.
+  'target-stale': { caption: 'Choosing a target while reconnecting · the bar under the banner', shell: { ...own, status: 'stale', bar: { kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, promises: { count: 0 }, menu: {} }, banner: { kind: 'reconnecting' }, target: { icon: 'rescue', title: 'Rescue', sub: 'Choose a player · in your room' }, chip: { id: 'other-rooms', label: 'Other rooms · 1', icon: 'board' } }, scene: { ...room, status: 'stale', active: SELF, control: null, targets: { seats: [3, 6, 8], picked: null } } },
+  // 0.2.9: the Largest text on the two phones: Cancel under the bar's words, and the chip's label wrapping, whole.
+  'target-large': { caption: 'Choosing a target at the Largest text (200%)', shell: { ...own, target: { icon: 'move', title: 'Move within Room A', sub: 'Choose an empty position · or another room on the Board' }, chip: { id: 'move-board', label: 'Other rooms on the Board', icon: 'board', tone: 'paper' } }, scene: { ...room, active: SELF, control: null }, sizes: ['390x844', '430x932'], text: 200 },
 });
 
 const intents = [];
