@@ -35,7 +35,7 @@ export function foodRenderEffect(request, before, after) {
   return after.hold.state === 'held' ? 'Crate held' : after.hold.state === 'pending' ? 'Hold pending' : null;
 }
 
-export function observeFoodTrial(root, {seatId, arm}) {
+export function observeFoodTrial(root, {seatId, arm: trialArm}) {
   const document = root.ownerDocument, win = document.defaultView;
   const trace = createFoodTrialTrace({now: () => win.performance.now(), timeOriginMs: win.performance.timeOrigin, seatId});
   const heldPointers = new Set(), heldKeys = new Set(), scheduled = new Set();
@@ -63,7 +63,7 @@ export function observeFoodTrial(root, {seatId, arm}) {
       availability.push({atMs: win.performance.now(), ...state});
     }
   }
-  const mutations = arm === 'production' ? new win.MutationObserver(recordAvailability) : null;
+  const mutations = trialArm === 'production' ? new win.MutationObserver(recordAvailability) : null;
   mutations?.observe(root, {subtree: true, childList: true, attributes: true,
     attributeFilter: ['data-screen', 'aria-disabled', 'disabled', 'hidden', 'inert', 'data-holding']});
 
