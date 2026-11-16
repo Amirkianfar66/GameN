@@ -1,0 +1,2116 @@
+{
+  "tool": "design/tools/display-settings-check.mjs",
+  "component": "design/phone-ui/components/display-settings",
+  "sourceCommit": "3b29786fb7afd1487d0b5eba3ffcce06866fabc3",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/page": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-page.jpg",
+      "sha256": "3e5a5f54a4e74fe81eacaee18ac74850b3b50ec264ddd11be394f8365a9bc640",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/page": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-page.jpg",
+      "sha256": "f2f5defd2293ea566119b2b8624b9b2c1187b764d094ea4ea3a0a993976963fd",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/page-on": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-page-on.jpg",
+      "sha256": "c107be3c60dc7e67054215de7357268259b498fb0b86546c172c25349d3c0d71",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "true",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/page-on": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-page-on.jpg",
+      "sha256": "93dd2343447e60b9babdb945d5ab285e3841488612385d9feac24dd573e0753c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "true",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/page-locked": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-page-locked.jpg",
+      "sha256": "974aac35b42d6543f8d15b51f07db7b31e37aafc6878b7138ff06502c5918fea",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "On, because this phone asks for less motion",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "true",
+      "locked": true,
+      "dimmed": true,
+      "why": "On, because this phone asks for less motion",
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/page-locked": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-page-locked.jpg",
+      "sha256": "91c1604ba389aeafbb4a5279d4733ee73ea79576c9bca877277ef0b72b6cc755",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "On, because this phone asks for less motion",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "true",
+      "locked": true,
+      "dimmed": true,
+      "why": "On, because this phone asks for less motion",
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/page-large": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-page-large.jpg",
+      "sha256": "7f3700039d1dac9831e55a213e9b67747ac89d1bb201d551bf31f267bd6a0f28",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 24,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1.5",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/page-large": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-page-large.jpg",
+      "sha256": "77a0a67c56b2a683b69630fce8f54cf3cb57dad0ece9b36447d88a5d11289053",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 24,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1.5",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/page-largest": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-page-largest.jpg",
+      "sha256": "5a7b8549eb67147685c2269a70a9e78d7cb689d28142a4929b471bf7ad02c452",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "2",
+      "stacked": true,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/page-largest": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-page-largest.jpg",
+      "sha256": "554576b0e27b415daf76097cc6e68a4b64b83140169d177d9bd6fd050028992e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "view": "page",
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Display",
+      "back": "Menu",
+      "sheetTitle": null,
+      "banner": false,
+      "labels": "Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "2",
+      "stacked": true,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/sheet": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-sheet.jpg",
+      "sha256": "4a0ee1b4581a10053f1741ffa28240bd01f282338ba04a0238ba75bbdf3e86ee",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sheet": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-sheet.jpg",
+      "sha256": "0a9dea82246d3a5e77a62ff2a556ddce1cb30e4202750b1ac81bda4e409b1075",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": null,
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sheet-host": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-sheet-host.jpg",
+      "sha256": "89ae0a330991e4a39ab1ed2b6d0ff16acf19ce80d1d0457ae68ca3547c6333a4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sheet-host": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-sheet-host.jpg",
+      "sha256": "18bf44eb93ef4b719558751e6141df60612b294350bfef0f3597f629957e7d35",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sheet-locked": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-sheet-locked.jpg",
+      "sha256": "38c8ac45c1ff34b27e075a640d4d570d3c4efbc370f6acfa5997908656213637",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "On, because this phone asks for less motion",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "true",
+      "locked": true,
+      "dimmed": true,
+      "why": "On, because this phone asks for less motion",
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sheet-locked": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-sheet-locked.jpg",
+      "sha256": "85e94a0ccf63b0e0427ce1e0af0f7eaac52ed9bb99696e5c3e6cbe0afd929a44",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "On, because this phone asks for less motion",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "true",
+      "locked": true,
+      "dimmed": true,
+      "why": "On, because this phone asks for less motion",
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sheet-stale": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-sheet-stale.jpg",
+      "sha256": "cab91ed51e2728b67500ac2bdf9616c16c62961aa2cd778a15533795b057d9a2",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": true,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sheet-stale": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-sheet-stale.jpg",
+      "sha256": "5e630e0fa9b89258969cd4d7242e7d881a7690112cd10eec7c3509a02b6dc77b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": true,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "1",
+      "stacked": false,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sheet-largest": {
+      "file": "design/phone-ui/components/display-settings/review/390x844-sheet-largest.jpg",
+      "sha256": "3c9fc892e2511639cff6207b17a8d06855607c77bdd6596d1c81af75bc119916",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "2",
+      "stacked": true,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sheet-largest": {
+      "file": "design/phone-ui/components/display-settings/review/430x932-sheet-largest.jpg",
+      "sha256": "1a9354e0526f38895bf498be36b208df3c223275240e66f7992cd5171ad7faea",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "view": "sheet",
+      "canvas": null,
+      "title": null,
+      "back": null,
+      "sheetTitle": "Settings",
+      "banner": false,
+      "labels": "Display|Text size|Host",
+      "motion": "Reduce motion",
+      "line": "Films become stills; no shake or travel",
+      "note": "These stay on this phone. They never change the match.",
+      "toggleName": "switch:Reduce motion",
+      "checked": "false",
+      "locked": false,
+      "dimmed": false,
+      "why": null,
+      "seg": "radiogroup:Text size",
+      "sizes": "Standard|Large|Largest",
+      "chosen": "2",
+      "stacked": true,
+      "host": "Host controls Bots, deadlines, recovery, abort",
+      "refused": 0,
+      "cut": [],
+      "layout": null,
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "report: the page's switch asks for its other setting, a size reports its scale, the current one nothing; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              [
+                "onReducedMotion",
+                true
+              ],
+              [
+                "onReducedMotion",
+                false
+              ],
+              [
+                "onTextScale",
+                1.5
+              ],
+              [
+                "onTextScale",
+                2
+              ]
+            ],
+            "first": "false"
+          }
+        },
+        {
+          "id": "report: the sheet's switch asks for its other setting, a size reports its scale, the current one nothing; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              [
+                "onReducedMotion",
+                true
+              ],
+              [
+                "onReducedMotion",
+                false
+              ],
+              [
+                "onTextScale",
+                1.5
+              ],
+              [
+                "onTextScale",
+                2
+              ]
+            ],
+            "first": "false"
+          }
+        },
+        {
+          "id": "report: Menu on the page, Host controls in the sheet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "page": [
+              [
+                "onBack"
+              ]
+            ],
+            "sheet": [
+              [
+                "onHostControls"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "lock: the page: the switch on, dimmed and refused; Frontend's reason as the row's line and the switch's description; the sizes still work; unlocked, the usual line",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "checked": "true",
+              "refused": true,
+              "dimmed": true,
+              "why": "On, because this phone asks for less motion",
+              "line": "On, because this phone asks for less motion",
+              "focus": true,
+              "rowLocked": true
+            },
+            "after": {
+              "checked": "false",
+              "refused": false,
+              "why": null,
+              "line": "Films become stills; no shake or travel",
+              "same": true
+            },
+            "got": [
+              [
+                "onTextScale",
+                1.5
+              ]
+            ]
+          }
+        },
+        {
+          "id": "lock: the sheet: the switch on, dimmed and refused; Frontend's reason as the row's line and the switch's description; the sizes still work; unlocked, the usual line",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "checked": "true",
+              "refused": true,
+              "dimmed": true,
+              "why": "On, because this phone asks for less motion",
+              "line": "On, because this phone asks for less motion",
+              "focus": true,
+              "rowLocked": true
+            },
+            "after": {
+              "checked": "false",
+              "refused": false,
+              "why": null,
+              "line": "Films become stills; no shake or travel",
+              "same": true
+            },
+            "got": [
+              [
+                "onTextScale",
+                1.5
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: not interactive, every control refused and nothing dimmed; taps come back with the input",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "refused": true,
+                "dimmed": false
+              },
+              {
+                "refused": true,
+                "dimmed": false
+              },
+              {
+                "refused": true,
+                "dimmed": false
+              },
+              {
+                "refused": true,
+                "dimmed": false
+              },
+              {
+                "refused": true,
+                "dimmed": false
+              }
+            ],
+            "got": [
+              [
+                "onReducedMotion",
+                true
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: reconnecting refuses nothing: the sheet under the shell's banner still takes every tap",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "banner": true,
+            "got": [
+              [
+                "onReducedMotion",
+                true
+              ],
+              [
+                "onTextScale",
+                2
+              ],
+              [
+                "onHostControls"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "host: the Host group only with hostControls; unavailable, dimmed and refused with Frontend's reason; a focus in it returns once when it goes",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "none": {
+              "group": false,
+              "labels": [
+                "Display",
+                "Text size"
+              ]
+            },
+            "off": {
+              "refused": true,
+              "dimmed": true,
+              "why": "Opens when the round ends"
+            },
+            "on": {
+              "same": true,
+              "refused": false,
+              "labels": [
+                "Display",
+                "Text size",
+                "Host"
+              ]
+            },
+            "gone": {
+              "group": false,
+              "active": true
+            },
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "host-controls",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "focus: the switch and the chosen size keep their elements and the focus through updates and a new text size",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "switchKept": true,
+            "sizeKept": true
+          }
+        },
+        {
+          "id": "words: the page is a group named \"Display\"; the switch is a switch named \"Reduce motion\"; the sizes a radio group named \"Text size\"; Menu",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "page": [
+                "group",
+                "Display"
+              ],
+              "toggle": [
+                "switch",
+                "Reduce motion"
+              ],
+              "seg": [
+                "radiogroup",
+                "Text size"
+              ],
+              "radios": [
+                "radio:Standard:true",
+                "radio:Large:false",
+                "radio:Largest:false"
+              ],
+              "back": "Menu",
+              "title": "Display",
+              "note": "These stay on this phone. They never change the match."
+            }
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the page under the safe areas, its options 16 px in; layout() and onLayout agree",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "navTop": 55,
+              "listLeft": 16,
+              "listRight": 16,
+              "layout": {
+                "size": {
+                  "width": 390,
+                  "height": 844
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              },
+              "reported": {
+                "size": {
+                  "width": 390,
+                  "height": 844
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the page under the safe areas, its options 16 px in; layout() and onLayout agree",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "navTop": 55,
+              "listLeft": 16,
+              "listRight": 16,
+              "layout": {
+                "size": {
+                  "width": 430,
+                  "height": 932
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              },
+              "reported": {
+                "size": {
+                  "width": 430,
+                  "height": 932
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "layout: the page with the Large text (150 %): the sizes side by side, every word whole, every control reachable",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "asRows": false,
+            "cut": [],
+            "reachable": true
+          }
+        },
+        {
+          "id": "layout: the page with the Largest text (200 %): the sizes one a row, every word whole, every control reachable",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "asRows": true,
+            "cut": [],
+            "reachable": true
+          }
+        },
+        {
+          "id": "layout: the sheet with the Largest text (200 %): the sizes one a row, every word whole, every control reachable",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "asRows": true,
+            "cut": [],
+            "reachable": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left, nothing fires, and the page's layout() is null",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "page": {
+              "left": 0,
+              "layout": null,
+              "calls": 0,
+              "connected": false
+            },
+            "sheet": {
+              "body": 0,
+              "calls": 0,
+              "connected": false
+            }
+          }
+        },
+        {
+          "id": "motion: the switch's thumb slides in 220 ms, and in 80 ms with the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "0.22s",
+            "reduced": "0.08s"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: the switch's thumb slides in 80 ms with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "0.08s",
+            "reduced": "0.08s"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DOe1DzSW.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: the Display page at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the Display page, Reduce motion on, at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the Display page with the Large text (150 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the Display page with the Largest text (200 %) at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": {
+            "what": "the three sizes stack, one a row (kit 0.5.0's stack, #228's .seg[data-stack]; the Lead's review of #294, question 5)",
+            "pack": {
+              "x": 16,
+              "y": 286.28125,
+              "w": 398,
+              "h": 50
+            },
+            "screen": {
+              "x": 16,
+              "y": 286.28125,
+              "w": 398,
+              "h": 144
+            },
+            "packStacked": false,
+            "screenStacked": true
+          }
+        }
+      },
+      {
+        "id": "agree: Settings in a match at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: Settings · host at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevron drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: Settings · host at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevron drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: Settings · host with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevron drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "switch": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sizes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "size buttons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": {
+            "what": "the three sizes stack, one a row (kit 0.5.0's stack, #228's .seg[data-stack]; the Lead's review of #294, question 5)",
+            "pack": {
+              "x": 16,
+              "y": 541.484375,
+              "w": 358,
+              "h": 50
+            },
+            "screen": {
+              "x": 16,
+              "y": 541.484375,
+              "w": 358,
+              "h": 144
+            },
+            "packStacked": false,
+            "screenStacked": true
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-DOe1DzSW.js",
+        "line": 1,
+        "column": 6050,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
