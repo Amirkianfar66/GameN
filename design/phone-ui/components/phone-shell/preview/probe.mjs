@@ -6,7 +6,9 @@
 //   focus     a focused control keeps its element and the focus through ordinary updates; the focused
 //             control ending moves the focus to the shell and reports it once (onFocusReturn)
 //   refused   an unavailable, busy or non-interactive control takes no tap, and says why
-//   stale     reconnecting, only Retry, ⋮ and a sheet's back and close work
+//   stale     reconnecting, only Retry, ⋮, the target bar's Cancel and a sheet's back and close work
+//   out       an eliminated player's banner (0.2.8): the pack's words and icon, no Retry, the controls as given;
+//             a docked sheet stays below it; it is this viewer's, and reconnecting takes its place while given
 //   private   concealed, nothing to read and no control; this viewer's inputs are dropped, also when
 //             the viewer changes
 //   time      the clock shows what it is given, amber in the last 10 s, and never counts by itself
@@ -31,13 +33,15 @@
 //             Reveal, Hide and Copy, a confirm's Keep playing) works while reconnecting, a command does not
 //   talk      the private talk's two buttons stay inside the phone at the Largest text, a row each when they
 //             don't fit; a docked sheet stays 10 px above them; layout().covered.bottom is what they cover
-//   toast     shown once per id, gone after its time, cleared by suspend()
-//   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
+//   toast     shown once per id, gone after its time, cleared by suspend(); it takes no tap, so a tap at its
+//             centre reaches the control under it (kit 0.8.0)
+//   motion    the sheet slides and the toast drops in (the kit's, 0.8.0), or each fades in 80 ms with Reduce
+//             motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
 //   dispose   after dispose(), nothing is left and nothing fires
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { mountPhoneShell, TOAST_MS, RECONNECTING } from '../phone-shell.mjs';
+import { mountPhoneShell, TOAST_MS, RECONNECTING, OUT } from '../phone-shell.mjs';
 import { createKit } from '../../kit/kit.mjs';
 
 const wait = ms => new Promise(done => setTimeout(done, ms));
@@ -140,9 +144,9 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok: buttons.length >= 8 && fired.length === 0 && refused, buttons: buttons.length, fired };
     });
 
-    await check('stale: only Retry, ⋮ and a sheet\'s back and close work; the rest say why', async () => {
+    await check('stale: only Retry, ⋮, the target bar\'s Cancel and a sheet\'s back and close work; the rest say why', async () => {
       const s = mount({ ...own(), status: 'stale', banner: { kind: 'reconnecting' }, sheet: passSheet, target: { title: 'Rescue' }, chip: { id: 'other', label: 'Other rooms · 1' } });
-      const local = ['retry', 'menu', 'sheet-back', 'sheet-close'];
+      const local = ['retry', 'menu', 'cancel-target', 'sheet-back', 'sheet-close'];
       const buttons = s.qa('button[data-intent]');
       for (const b of buttons) b.click();
       const fired = s.calls.filter(c => !['onLayout', 'onFocusReturn'].includes(c[0])).map(c => c[0]);
@@ -154,9 +158,55 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       hero.click();
       const live = { hero: named(s.calls, 'onHero').length, reason: describedBy(hero) };
       s.shell.dispose();
-      const want = ['onRetry', 'onMenu', 'onSheetBack', 'onSheetClose'];
-      return { ok: fired.length === 4 && want.every(n => fired.includes(n)) && described && localOpen && game.length >= 6 && live.hero === 1 && live.reason === null,
+      const want = ['onRetry', 'onMenu', 'onCancelTarget', 'onSheetBack', 'onSheetClose'];
+      return { ok: fired.length === 5 && want.every(n => fired.includes(n)) && described && localOpen && game.length >= 5 && live.hero === 1 && live.reason === null,
         fired, game: game.length, described, localOpen, live };
+    });
+
+    await check('out: an eliminated player\'s banner has the pack\'s words and icon and no Retry, and leaves the controls as given; a docked sheet stays below it; it is this viewer\'s, so a new viewer or concealment drops it, and reconnecting takes its place while given', async () => {
+      const tabs = { variant: 'game', view: 'room', hero: { mode: 'pass', enabled: false }, enabled: { actions: false }, reasons: { actions: 'You’re out' } };
+      const s = mount({ ...own(), tabs, banner: { kind: 'out' } });
+      await frames();
+      const node = s.q('.ms-ps-banner');
+      const look = { kind: node?.dataset.kind ?? null, title: node?.querySelector('.ms-ps-text b')?.textContent ?? null, sub: node?.querySelector('.ms-ps-text span')?.textContent ?? null,
+        icon: !!node?.querySelector('.ms-ps-banner-icon svg'), buttons: node?.querySelectorAll('button').length ?? null, role: node?.getAttribute('role') ?? null };
+      const words = look.kind === 'out' && look.title === OUT.title && look.sub === OUT.sub && look.icon && look.buttons === 0 && look.role === 'status';
+      // The controls are as Frontend gives them: the phone is live, a tab it offers takes a tap, and the one it doesn't
+      // is described by its reason.
+      s.q('.ms-ps-tab[data-value="card"]').click();
+      const actions = s.q('.ms-ps-tab[data-value="actions"]');
+      actions.click();
+      const controls = { taps: named(s.calls, 'onTab').length, actionsOff: actions.getAttribute('aria-disabled') === 'true', reason: describedBy(actions) };
+      const asGiven = controls.taps === 1 && controls.actionsOff && controls.reason === 'You’re out';
+      // A large docked sheet stays below it, as below the reconnecting banner.
+      s.shell.update({ sheet: { ...passSheet, id: 'out-sheet', detent: 'large' } });
+      await frames();
+      await Promise.all(s.q('.ms-ps-sheet').getAnimations().map(a => a.finished.catch(() => null)));
+      await frames();
+      const gap = s.q('.ms-ps-sheet').getBoundingClientRect().top - s.q('.ms-ps-banner').getBoundingClientRect().bottom;
+      s.shell.update({ sheet: null });
+      // Reconnecting takes its place while it is given, with Retry; the eliminated player's comes back when given again.
+      s.shell.update({ status: 'stale', banner: { kind: 'reconnecting' } });
+      const swapped = s.q('.ms-ps-banner')?.dataset.kind === 'reconnecting' && !!s.q('.ms-ps-banner [data-intent="retry"]');
+      s.shell.update({ status: 'live', banner: { kind: 'out' } });
+      const back = s.q('.ms-ps-banner')?.dataset.kind === 'out' && !s.q('.ms-ps-banner button');
+      // It is this viewer's: a new viewer drops it unless the update gives the new viewer's own; concealment drops it,
+      // and it does not come back by itself.
+      s.shell.update({ viewer: 5 });
+      const newViewer = !s.q('.ms-ps-banner');
+      s.shell.update({ viewer: SELF, banner: { kind: 'out' } });
+      const given = s.q('.ms-ps-banner')?.dataset.kind === 'out';
+      s.shell.update({ status: 'concealed' });
+      const concealed = !s.q('.ms-ps-banner') && !s.root.textContent.includes(OUT.title) && !s.root.textContent.includes(OUT.sub);
+      s.shell.update({ status: 'live' });
+      const notBack = !s.q('.ms-ps-banner');
+      // The reconnecting banner is the phone's, not the viewer's: a new viewer keeps it.
+      s.shell.update({ status: 'stale', banner: { kind: 'reconnecting' } });
+      s.shell.update({ viewer: 6 });
+      const phoneKept = s.q('.ms-ps-banner')?.dataset.kind === 'reconnecting';
+      s.shell.dispose();
+      return { ok: words && asGiven && gap >= 7.5 && swapped && back && newViewer && given && concealed && notBack && phoneKept,
+        look, controls, gap: Math.round(gap * 10) / 10, swapped, back, newViewer, given, concealed, notBack, phoneKept };
     });
 
     await check('private: concealed, nothing to read and no control; the clock\'s place and the stage keep their size', async () => {
@@ -248,13 +298,16 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       s.shell.slot('cover').append(card);
       await frames();
       const at = node => { const r = node.getBoundingClientRect(); return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); };
+      // The toast takes no tap (kit 0.8.0), so a hit test passes through it: its paint order is read with its pointer
+      // events on for that one measurement only.
+      const painted = node => { node.style.pointerEvents = 'auto'; const hit = node.contains(at(node)); node.style.pointerEvents = ''; return hit; };
       const settle = async selector => { await frames(); await Promise.all((s.q(selector)?.getAnimations() ?? []).map(a => a.finished.catch(() => null))); };
       const stageBox = s.shell.stage.getBoundingClientRect(), coverBox = s.shell.slot('cover').getBoundingClientRect();
       const sameBox = ['top', 'left', 'width', 'height'].every(k => Math.abs(stageBox[k] - coverBox[k]) < 0.5);
       const middle = () => document.elementFromPoint(stageBox.left + stageBox.width / 2, stageBox.top + stageBox.height * 0.6);
       const overStage = middle() === card;
       // Each overlay alone (they share the strip under the bar), over the cover.
-      const alone = async (input, selector) => { s.shell.update({ target: null, banner: null, toast: null, ...input }); await settle(selector); const node = s.q(selector); return !!node && node.contains(at(node)); };
+      const alone = async (input, selector) => { s.shell.update({ target: null, banner: null, toast: null, ...input }); await settle(selector); const node = s.q(selector); return !!node && painted(node); };
       const target = await alone({ target: { title: 'Rescue' } }, '.ms-ps-target');
       const banner = await alone({ banner: { kind: 'reconnecting' } }, '.ms-ps-banner');
       const toast = await alone({ toast: { id: 'layers-1', text: 'Registered' } }, '.ms-ps-toast');
@@ -278,7 +331,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const bannerUnderSheet = bannerLayered && bothInSight && backUp;
       s.shell.update({ banner: null, toast: { id: 'layers-2', text: 'Over the sheet' } });
       await settle('.ms-ps-toast');
-      const toastOverSheet = s.q('.ms-ps-toast').contains(at(s.q('.ms-ps-toast')));
+      const toastOverSheet = painted(s.q('.ms-ps-toast'));
       const keptCover = s.shell.slot('cover') === card.parentElement;
       s.shell.dispose();
       return { ok: sameBox && overStage && target && banner && toast && sheetOverCover && bannerUnderSheet && toastOverSheet && keptCover,
@@ -574,6 +627,31 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok: shown && gone && notAgain && next === 'Registered' && suspended && resumed, shown, gone, notAgain, next, suspended, resumed };
     });
 
+    await check('toast: it takes no tap; a tap at its centre reaches the control under it', async () => {
+      const s = mount({ ...own(), toast: { id: 'through-1', text: 'Copied' } });
+      // A control under the toast's place: a button over the whole cover, where a component draws over the stage.
+      const under = document.createElement('button');
+      under.type = 'button';
+      under.textContent = 'Under';
+      Object.assign(under.style, { position: 'absolute', inset: '0', pointerEvents: 'auto' });
+      let taps = 0;
+      under.addEventListener('click', () => { taps += 1; });
+      s.shell.slot('cover').append(under);
+      const node = s.q('.ms-ps-toast');
+      await frames();
+      await Promise.all(node.getAnimations().map(a => a.finished.catch(() => null)));
+      const r = node.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+      const none = getComputedStyle(node).pointerEvents === 'none';
+      // The toast does lie over that point: with its pointer events on, the same point finds it.
+      node.style.pointerEvents = 'auto';
+      const over = node.contains(document.elementFromPoint(x, y));
+      node.style.pointerEvents = '';
+      const hit = document.elementFromPoint(x, y);
+      hit?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
+      s.shell.dispose();
+      return { ok: none && over && hit === under && taps === 1, none, over, hit: hit === under ? 'the control' : hit?.className ?? null, taps };
+    });
+
     await check('hud: a long press shows a capped tab\'s word large at 200% text, and nothing at 100%', async () => {
       const s = mount();
       const press = async () => {
@@ -605,15 +683,18 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
     });
   }
 
-  await check(`motion: the sheet slides in, or fades in 80 ms with Reduce motion${deviceReduced ? ' (the device\'s, emulated)' : ''}`, async () => {
-    const s = mount({ ...own(), sheet: passSheet });
-    const look = () => { const st = getComputedStyle(s.q('.ms-ps-sheet')); return { name: st.animationName, duration: st.animationDuration }; };
-    const normal = look();
+  await check(`motion: the sheet slides in and the toast drops in, or each fades in 80 ms with Reduce motion${deviceReduced ? ' (the device\'s, emulated)' : ''}`, async () => {
+    const s = mount({ ...own(), sheet: passSheet, toast: { id: 'motion-1', text: 'Turn passed', icon: 'info' } });
+    const look = selector => { const st = getComputedStyle(s.q(selector)); return { name: st.animationName, duration: st.animationDuration }; };
+    const normal = look('.ms-ps-sheet'), normalToast = look('.ms-ps-toast');
     s.shell.update({ reducedMotion: true, sheet: { ...passSheet, id: 'pass-2' } });
-    const reduced = look();
+    const reduced = look('.ms-ps-sheet'), reducedToast = look('.ms-ps-toast');
     s.shell.dispose();
-    const fade = r => r.name === 'ms-ps-fade' && r.duration === '0.08s';
-    return { ok: fade(reduced) && (deviceReduced ? fade(normal) : normal.name === 'ms-ps-sheet-in'), normal, reduced };
+    // The toast is the kit's (kit 0.8.0): its drop and its fade are kit.css's.
+    const fade = (r, name = 'ms-ps-fade') => r.name === name && r.duration === '0.08s';
+    const drop = r => r.name === 'ms-k-toast-in' && r.duration === '0.22s';
+    return { ok: fade(reduced) && fade(reducedToast, 'ms-k-fade') && (deviceReduced ? fade(normal) && fade(normalToast, 'ms-k-fade') : normal.name === 'ms-ps-sheet-in' && drop(normalToast)),
+      normal, reduced, normalToast, reducedToast };
   });
 
   frame.remove();

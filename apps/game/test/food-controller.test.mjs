@@ -81,6 +81,99 @@ test('recovered Hold never replays DOWN; explicit finger-off closes actual older
  r.controller.holdUp();await flush();assert.equal(r.sent.length,1);assert.deepEqual(r.sent[0].command.input,{kind:'HOLD_RECOVER_OFF',recoveryRevision:6,throughSequence:2});
  assert.equal(r.sent.some(q=>q.command.input.kind==='HOLD'),false);r.controller.dispose();
 });
+async function storedHoldContact({release=true}={}){
+ const seed=rig({send:async()=>null});seed.observe();seed.controller.holdDown();
+ if(release)seed.controller.holdUp();
+ await flush();
+ const stored={saved:seed.saved(),original:seed.sent[0]};
+ seed.controller.dispose();
+ return stored;
+}
+function liveWinchContact(kind='currentHolder'){
+ const view=playerView(7),task=view.participantTask;
+ if(kind==='currentHolder')Object.assign(task.crate,{state:'HELD',holder:'WINCH',height:1});
+ Object.assign(task.ownGesture,{highestSequence:1,recoveryRevision:2,[kind]:{sequence:1,crateId:task.crate.id}});
+ return view;
+}
+
+test('recorded finger-off closes a fresh live contact before stalled original lookups',async t=>{
+ for(const kind of ['currentHolder','pendingIntent'])await t.test(kind,async()=>{
+  const {saved,original}=await storedHoldContact(),lookup=deferred(),ack=deferred(),calls=[];
+  const r=rig({saved,idStart:2,send:q=>{calls.push(q.command.input.kind);return ack.promise;},
+   lookup:()=>{calls.push('lookup');return lookup.promise;}});
+  assert.equal(r.observe(liveWinchContact(kind)),true);
+  assert.deepEqual(calls,['HOLD_RECOVER_OFF','lookup']);
+  assert.equal(r.sent.length,1);
+  assert.deepEqual(r.sent[0].command.input,{kind:'HOLD_RECOVER_OFF',recoveryRevision:2,throughSequence:1});
+  assert.equal(r.controller.getModel().canHold,false);
+  ack.resolve({receipt:receipt(r.sent[0]),serverTimeMs:6000});await flush();
+  const closed=r.controller.getModel();
+  assert.equal(closed.feedback.receipt.result.effect,'RECOVERED_CLOSED');
+  assert.equal(closed.pendingCount,0);
+  assert.equal(closed.canHold,false,'a receipt alone does not change the authorized contact');
+  lookup.resolve({receipt:receipt(original),serverTimeMs:6000});await flush();
+  assert.deepEqual(JSON.parse(r.saved()).entries,[]);
+  assert.equal(r.controller.getModel().feedback.commandId,r.sent[0].commandId);
+  r.controller.dispose();
+ });
+});
+
+test('untracked blur or disposal preserves a lookup-first off marker',async t=>{
+ for(const action of ['blur','dispose'])await t.test(action,async()=>{
+  const {saved}=await storedHoldContact({release:false}),stalled=deferred();
+  const r=rig({saved,idStart:1,lookup:()=>stalled.promise});
+  assert.equal(r.observe(liveWinchContact()),true);
+  if(action==='blur')r.controller.setVisible(false);
+  else r.controller.dispose();
+  await flush();
+  assert.equal(r.sent.length,0);
+  const memory=JSON.parse(r.saved());
+  assert.equal(memory.contact.offObserved,true);
+  assert.deepEqual(memory.entries.map(q=>q.command.input.edge),['DOWN']);
+  r.controller.dispose();
+
+  const original=deferred(),reloaded=rig({saved:JSON.stringify(memory),idStart:1,lookup:()=>original.promise});
+  assert.equal(reloaded.observe(liveWinchContact()),true);
+  assert.equal(reloaded.lookups.length,1);
+  assert.equal(reloaded.sent.length,0);
+  original.resolve({receipt:null,serverTimeMs:6000});await flush();
+  assert.deepEqual(reloaded.sent.map(q=>q.command.input.kind),['HOLD_RECOVER_OFF']);
+  reloaded.controller.dispose();
+ });
+});
+
+test('a live Winch holder cannot use an off proof outside its own context',async t=>{
+ for(const key of ['phaseId','foodStepId','controlSessionId','ownerUid'])await t.test(key,async()=>{
+  const {saved}=await storedHoldContact(),memory=JSON.parse(saved);
+  (key==='ownerUid'?memory:memory.contact)[key]='different-scope';
+  const r=rig({saved:JSON.stringify(memory),idStart:2});
+  assert.equal(r.observe(liveWinchContact()),true);
+  await r.controller.recoverOff();await flush();
+  assert.equal(r.sent.length,0);
+  if(key==='ownerUid'){
+   assert.equal(r.lookups.length,0);
+   assert.equal(r.controller.getModel().recoveryBlocked,true);
+  }else{
+   assert.ok(r.lookups.length>=2);
+   assert.equal(r.controller.getModel().pendingCount,2);
+  }
+  r.controller.dispose();
+ });
+});
+
+test('a stale closure-first receipt leaves every original unresolved',async()=>{
+ const {saved}=await storedHoldContact(),original=deferred();
+ const r=rig({saved,idStart:2,lookup:()=>original.promise,
+  send:async q=>({receipt:receipt(q,{status:'rejected',code:'STALE_RECOVERY'}),serverTimeMs:6000})});
+ assert.equal(r.observe(liveWinchContact()),true);
+ assert.deepEqual(r.sent.map(q=>q.command.input.kind),['HOLD_RECOVER_OFF']);
+ await flush();
+ assert.equal(r.controller.getModel().feedback.receipt.code,'STALE_RECOVERY');
+ assert.equal(r.controller.getModel().canHold,false);
+ assert.deepEqual(JSON.parse(r.saved()).entries,JSON.parse(saved).entries);
+ r.controller.setVisible(false);r.controller.dispose();
+});
+
 test('saved unacknowledged high-water participates in fresh explicit off recovery',async()=>{
  const first=rig({send:async()=>null});first.observe();first.controller.holdDown();first.controller.holdUp();await flush();const saved=first.saved();first.controller.dispose();
  const r=rig({saved,idStart:2});r.observe();await flush();

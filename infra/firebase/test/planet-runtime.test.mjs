@@ -60,3 +60,13 @@ test('Food runtime remains an explicit profile without changing creation, setup 
   assert.equal(selected.setupFlowVersion,undefined);
   assert.equal(selected.assetManifestVersion,defaults.assetManifestVersion);
 });
+
+test('request timing is an independent strict opt-in and leaves match configuration unchanged',()=>{
+  const defaults=assertPlanetRuntimeEnvironment(emulator);
+  assert.equal(defaults.requestTimingEnabled,undefined);
+  assert.deepEqual(assertPlanetRuntimeEnvironment({...emulator,MOTHERSHIP_PLANET_REQUEST_TIMING:'false'}),defaults);
+  const {requestTimingEnabled,...enabled}=assertPlanetRuntimeEnvironment({...emulator,MOTHERSHIP_PLANET_REQUEST_TIMING:'true'});
+  assert.equal(requestTimingEnabled,true);assert.deepEqual(enabled,defaults);
+  for(const value of ['', 'yes', '1', ' true'])assert.throws(()=>assertPlanetRuntimeEnvironment({...emulator,
+    MOTHERSHIP_PLANET_REQUEST_TIMING:value}),/Invalid Planet request timing switch/);
+});

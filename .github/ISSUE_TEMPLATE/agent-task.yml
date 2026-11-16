@@ -8,6 +8,7 @@ body:
       label: Workstream
       options:
         - Backend
+        - Integration
         - Frontend
         - Designer
         - Game Balance
@@ -32,6 +33,13 @@ body:
     attributes:
       label: Acceptance criteria
       description: State observable checks and unresolved decisions; do not invent expected outcomes.
+    validations:
+      required: true
+  - type: textarea
+    id: delivery
+    attributes:
+      label: Delivery owner and release
+      description: Name one implementation owner and the intended release. Integration tracks Approved → Design ready → Integrated → Verified → Deployed here, with evidence and actual deployment identity. Link an existing feature record instead of duplicating it.
     validations:
       required: true
   - type: textarea

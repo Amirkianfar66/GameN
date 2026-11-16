@@ -67,8 +67,8 @@ const LOBBY = [
   ['stepper value', '.stepper output', '.ms-k-stepper-value', true, ['fontSize', 'fontWeight']],
   ['stepper −', '.stepper button:first-of-type', '.ms-k-stepper-btn:first-of-type', false, ['opacity']],
   ['stepper +', '.stepper button:last-of-type', '.ms-k-stepper-btn:last-of-type', false, ['opacity']],
-  ['toast', '.toast', '.ms-ep-toast', true, ['backgroundColor', 'color', 'borderRadius', 'boxShadow', 'fontSize', 'fontWeight', 'paddingLeft', 'paddingTop']],
-  ['toast icon', '.toast svg', '.ms-ep-toast svg', false, null],
+  ['toast', '.toast', '.ms-k-toast', true, ['backgroundColor', 'color', 'borderRadius', 'boxShadow', 'fontSize', 'fontWeight', 'paddingLeft', 'paddingTop']],
+  ['toast icon', '.toast svg', '.ms-k-toast svg', false, null],
 ];
 
 /** Each case: the pack's screen and parameters, the preview's state, a size, and what it records instead of comparing. */
