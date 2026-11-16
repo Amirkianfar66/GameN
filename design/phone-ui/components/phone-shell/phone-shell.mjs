@@ -21,7 +21,7 @@ import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.1';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.6';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -131,10 +131,18 @@ export function checkTabs(tabs) {
   return { variant, view, open, enabled, reasons, badges, hero: variant === 'game' ? checkHero(tabs.hero) : null };
 }
 
+/** A footer action's looks: the kit's buttons the pack's sheets use. 'warn' is the pack's Abort match (paper, outlined). */
+const ACTION_KINDS = Object.freeze(['primary', 'secondary', 'warn']);
+
+/**
+ * A footer action. It stands for a command, so it is refused while reconnecting, unless it is `local` (0.2.4): this
+ * phone's own, as Back, Close and the head actions are, such as a recovery code's Reveal, Hide and Copy, or a
+ * confirm's Keep playing. A local action works while reconnecting and stands for no command.
+ */
 function checkAction(action, i) {
   if (!action || !isText(String(action.id ?? '')) || !isText(action.label)) throw new TypeError(`sheet.actions[${i}] is { id, label }`);
-  return { id: String(action.id), label: action.label, kind: action.kind === 'primary' ? 'primary' : 'secondary', icon: action.icon ?? null,
-    enabled: action.enabled !== false, busy: !!action.busy, reason: optionalText(action.reason, `sheet.actions[${i}].reason`) };
+  return { id: String(action.id), label: action.label, kind: ACTION_KINDS.includes(action.kind) ? action.kind : 'secondary', icon: action.icon ?? null,
+    local: action.local === true, enabled: action.enabled !== false, busy: !!action.busy, reason: optionalText(action.reason, `sheet.actions[${i}].reason`) };
 }
 
 /**
@@ -259,7 +267,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
 
   // ── Taps ────────────────────────────────────────────────────────────
   // Taken while reconnecting: Retry, and what stays on this phone (⋮, a sheet's back and close).
-  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close', 'sheet-head']);
+  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close', 'sheet-head', 'sheet-local']);
   const accepts = intent => !disposed && state.interactive && state.status !== 'concealed' && (state.status === 'live' || LOCAL.has(intent));
   const onClick = event => {
     const target = event.target.closest?.('button[data-intent]');
@@ -273,7 +281,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else if (intent === 'cancel-target') on.onCancelTarget?.();
     else if (intent === 'chip') on.onChip?.(value);
     else if (intent === 'retry') on.onRetry?.();
-    else if (intent === 'sheet-action' || intent === 'sheet-head') on.onSheetAction?.(value, state.sheet?.id ?? null);
+    else if (intent === 'sheet-action' || intent === 'sheet-head' || intent === 'sheet-local') on.onSheetAction?.(value, state.sheet?.id ?? null);
     else if (intent === 'sheet-back') on.onSheetBack?.(state.sheet?.id ?? null);
     else if (intent === 'sheet-close') on.onSheetClose?.(state.sheet?.id ?? null);
   };
@@ -609,11 +617,13 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const ids = s.actions.map(a => a.id);
     for (const b of [...foot.children]) if (!ids.includes(b.dataset.value)) remove(b);
     s.actions.forEach((a, i) => {
+      // A local action is this phone's own and works while reconnecting; any other stands for a command.
+      const intent = a.local ? 'sheet-local' : 'sheet-action';
       let b = [...foot.children].find(c => c.dataset.value === a.id);
-      if (!b) b = kit.button({ label: a.label, kind: a.kind, intent: 'sheet-action', value: a.id });
+      if (!b) b = kit.button({ label: a.label, kind: a.kind, intent, value: a.id });
       if (foot.children[i] !== b) foot.insertBefore(b, foot.children[i] ?? null);
-      kit.setButton(b, { label: a.label, kind: a.kind, icon: a.icon, intent: 'sheet-action', value: a.id });
-      control(b, { intent: 'sheet-action', off: !a.enabled, busy: a.busy, reason: a.reason });
+      kit.setButton(b, { label: a.label, kind: a.kind, icon: a.icon, intent, value: a.id });
+      control(b, { intent, off: !a.enabled, busy: a.busy, reason: a.reason });
     });
   }
 
@@ -702,8 +712,17 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (b && b.isConnected) root.style.setProperty('--ms-ps-banner-h', `${Math.ceil(b.getBoundingClientRect().height)}px`);
     else root.style.removeProperty('--ms-ps-banner-h');
   }
+  /**
+   * The private talk's two buttons: their height, so what docks above them (a sheet, the chip) stays 10 px clear at
+   * any text size (0.2.6). Measured when their size changes, not on each update; to the hundredth of a pixel.
+   */
+  function placeTalk() {
+    const t = parts.tabsKey === 'talk' ? parts.tabs : null;
+    if (t && t.isConnected) root.style.setProperty('--ms-ps-talk-h', `${Math.round(t.getBoundingClientRect().height * 100) / 100}px`);
+    else root.style.removeProperty('--ms-ps-talk-h');
+  }
   let observedBanner = null;
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); reportLayout(); }) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); reportLayout(); }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
@@ -720,6 +739,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     paintBar();
     paintTabs();
     if (parts.tabs) observer?.observe(parts.tabs);
+    if (!observer) placeTalk();
     paintOver();
     paintSheet();
     paintToast();
