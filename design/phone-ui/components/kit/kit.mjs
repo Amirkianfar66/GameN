@@ -12,14 +12,14 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.7.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.7.1';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
 export const PILL_TONES = Object.freeze([null, 'amber', 'paper', 'accent']);
 export const ROW_TINTS = Object.freeze([null, 'amber', 'paper', 'steel', 'teal', 'slate']);
 /** A tile's states (0.6.0, from play-parts): offered, being chosen, with the server, accepted and waiting, or not offered. */
-export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable']);
+export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable', 'spent']);
 /** The words a tile draws itself: only the registered mark. Everything else is the caller's. */
 export const TILE_WORDS = Object.freeze({ registered: 'REGISTERED', registeredSaid: 'registered' });
 
@@ -339,7 +339,8 @@ export function createKit(doc) {
   const tileArt = new WeakMap();
   function setTile(node, props) {
     if (!isText(props?.name)) throw new TypeError('A tile needs its name');
-    if (!isText(props.icon) && !isText(props.art)) throw new TypeError('A tile needs its icon or its art');
+    const art = isText(props.art) || isNode(props.art) ? props.art : null;
+    if (!isText(props.icon) && art === null) throw new TypeError('A tile needs its icon or its art');
     const state = props.state ?? 'available';
     if (!TILE_STATES.includes(state)) throw new TypeError(`A tile's state is ${TILE_STATES.join(', ')}, not ${JSON.stringify(state)}`);
     const note = optionalText(props.note, 'A tile\'s note');
@@ -352,21 +353,25 @@ export function createKit(doc) {
     }
     const [glyph, name, small, count, mark] = node.children;
     node.dataset.state = state;
-    if (isText(props.art)) {
+    if (art !== null) {
       // A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card): the game's own art
-      // markup (HACK_ART), never words or anything a player gave. Kept while it is the same markup.
+      // markup (HACK_ART), never words or anything a player gave; or (0.7.1) a picture node the component draws, as
+      // the Captain console's plates (the film bundle's pictures). Kept while it is the same markup or node.
       if (glyph.className !== 'ms-k-tile-art') { glyph.className = 'ms-k-tile-art'; glyph.dataset.icon = ''; glyph.hidden = false; }
       glyph.setAttribute('aria-hidden', 'true');
-      if (tileArt.get(glyph) !== props.art) {
-        const t = doc.createElement('template');
-        t.innerHTML = props.art.trim();
-        glyph.replaceChildren(t.content);
-        tileArt.set(glyph, props.art);
+      if (tileArt.get(glyph) !== art) {
+        if (isNode(art)) glyph.replaceChildren(art);
+        else {
+          const t = doc.createElement('template');
+          t.innerHTML = art.trim();
+          glyph.replaceChildren(t.content);
+        }
+        tileArt.set(glyph, art);
       }
     } else {
       if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
-      // The pack fills the icon, but not on an unavailable tile.
-      setIcon(glyph, props.icon, state !== 'unavailable');
+      // The pack fills the icon, but not on an unavailable or a spent tile.
+      setIcon(glyph, props.icon, state !== 'unavailable' && state !== 'spent');
     }
     text(name, props.name);
     if (note !== null && isText(props.noteIcon)) {
