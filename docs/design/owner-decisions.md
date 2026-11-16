@@ -52,6 +52,19 @@ The owner answered:
 - The pre-game films' direction after the test.
 - Whether #305 and #285 continue.
 
+**Later the same evening.** The Pre-game Animation builder had sent its plan for the Doctor test: 0–4,000 ms, with Mira acting, on twos, from the rig and new face and hand drawings. The owner then wrote:
+
+> Preanimations for now are not our concern for deploy human test
+
+The Lead read that as a pause, and told the builder to stop. The owner corrected it:
+
+> I would not say pause it it can work in parallel but as I told before pregame animations can continue the work and I review them but I don't need them for this deploy
+
+So:
+- **The pre-game animation work continues in parallel.** The owner reviews it through the Lead.
+- **It is not part of the human test's deploy,** and nothing in the deploy waits for it.
+- **The builder's approved plan stands,** with its test pages only and no PR.
+
 ## 16 November 2026: Designer connects its parts in the game, in four test releases; the films don't hold them
 
 **Recorded by the Lead Designer from the owner's answer in the Lead's session.**
