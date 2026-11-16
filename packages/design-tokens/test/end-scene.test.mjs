@@ -21,6 +21,8 @@ const COMPONENT = 'design/phone-ui/components/end-scene';
 const read = path => readFileSync(join(REPO, path), 'utf8');
 const sha256 = value => createHash('sha256').update(value).digest('hex');
 const DRAW = { surface: 'display', width: 1920, height: 1080, variant: 'full' };
+/** Larger text (0.1.1): the root size, in px, at which the title block's words stop growing, as agreed with the Lead. */
+const TITLE_CAP_PX = 20;
 const RESULTS = {
   Blue: { winner: 'Blue', reason: 'ARRIVAL', alienCoWinner: false },
   Red: { winner: 'Red', reason: 'ARRIVAL', alienCoWinner: false },
@@ -129,10 +131,17 @@ test('its styles reach nothing outside the scene: every rule is scoped under .ms
   assert.match(rule('.ms-end-scene .ms-es-hero'), /top: 0; width: 100%; height: 50%/);
   assert.equal(rule('.ms-end-scene .ms-es-hero[data-field="none"]'), 'background: radial-gradient(circle at 50% 40%, #1B2333, #0A0D14);');
   assert.match(rule('.ms-end-scene .ms-es-hero::after'), /bottom: 0; height: 50%; background: linear-gradient\(to bottom, rgba\(16, 20, 28, 0\), var\(--ms-k-canvas\)\);/);
-  assert.equal(rule('.ms-end-scene .ms-es-title'), 'position: absolute; left: 16px; right: 16px; top: calc(var(--ms-es-safe-t, 0px) + 34%); z-index: 2; text-align: center;');
-  assert.equal(rule('.ms-end-scene .ms-es-stamp .ms-k-stamp'), 'font-size: 1.375rem;');
-  assert.equal(rule('.ms-end-scene .ms-es-heading'), 'margin: 12px 0 0; font: 800 2rem/1.05 var(--ms-k-letter); letter-spacing: 0.04em; text-transform: uppercase; text-shadow: 0 2px 0 #05070B;');
-  assert.equal(rule('.ms-end-scene .ms-es-line'), 'margin: 6px 0 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.3 var(--ms-k-font);');
+  // Larger text (0.1.1): each of the pack's sizes stands first, as the pack writes it, and then its cap: that size at the
+  // root the block's words stop growing at. Up to there every size is the pack's own; the block's own size is capped
+  // with them, since it sets the height of the line the stamp stands on.
+  const px = rem => `${Math.round(rem * TITLE_CAP_PX * 10000) / 10000}px`;
+  assert.ok(TITLE_CAP_PX > 16 && TITLE_CAP_PX <= 24, 'the cap lies between the game\'s Standard and Large root sizes');
+  assert.equal(rule('.ms-end-scene .ms-es-title'), `position: absolute; left: 16px; right: 16px; top: calc(var(--ms-es-safe-t, 0px) + 34%); z-index: 2; text-align: center; font-size: min(1rem, ${px(1)});`);
+  assert.equal(rule('.ms-end-scene .ms-es-stamp .ms-k-stamp'), `font-size: 1.375rem; font-size: min(1.375rem, ${px(1.375)});`);
+  assert.equal(rule('.ms-end-scene .ms-es-heading'), `margin: 12px 0 0; font: 800 2rem/1.05 var(--ms-k-letter); font-size: min(2rem, ${px(2)}); letter-spacing: 0.04em; text-transform: uppercase; text-shadow: 0 2px 0 #05070B;`);
+  assert.equal(rule('.ms-end-scene .ms-es-line'), `margin: 6px 0 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.3 var(--ms-k-font); font-size: min(0.9375rem, ${px(0.9375)});`);
+  // Nothing else in the scene's styles is sized in rem: only the title block's words follow the game's text size.
+  assert.deepEqual([...css.matchAll(/[\d.]+rem/g)].map(m => m[0]), ['1rem', '1.375rem', '1.375rem', '2rem', '2rem', '0.9375rem', '0.9375rem']);
   // The stamp's punch is on the wrapper: the kit's stamp keeps its own tilt.
   assert.equal(rule('.ms-end-scene .ms-es-stamp'), 'display: inline-block;');
   // Reduce motion is the one fade.
@@ -284,7 +293,12 @@ test('inputs: public only, checked as the contract checks the result, and anythi
   ];
   for (const changes of refused) assert.throws(() => nextEndSceneInput(END_SCENE_DEFAULTS, changes), TypeError, JSON.stringify(changes));
   assert.throws(() => nextEndSceneInput(END_SCENE_DEFAULTS, null), TypeError);
-  assert.equal(END_SCENE_VERSION, 'end-scene-0.1.0');
+  assert.equal(END_SCENE_VERSION, 'end-scene-0.1.1');
+  // The handle: layout() is read, never called back. The scene takes no handler and its source calls none.
+  const source = read(`${COMPONENT}/end-scene.mjs`);
+  assert.match(source, /return Object\.freeze\(\{ update, suspend, resume, frame, layout, dispose, element: root \}\);/);
+  assert.match(source, /export function mountEndScene\(host, input = \{\}\) \{/, 'no handlers argument');
+  assert.match(source, /if \(title\.hasAttribute\('hidden'\) \|\| !\(box\.height > 0\)\) return \{ titleBottom: null \};/, 'no title block, no titleBottom');
 });
 
 test('privacy: it draws a planet only for an arrival, and says nothing of a seat, a name, a role or a code', () => {
@@ -332,7 +346,12 @@ test('the check\'s record: every capture, probe check and comparison passed unde
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = new Set(record.probe.full.checks.map(c => c.id.split(':')[0]));
-  for (const group of ['time', 'still', 'words', 'reduced', 'lifecycle', 'layout', 'privacy']) assert.ok(groups.has(group), `probe group ${group}`);
+  for (const group of ['time', 'still', 'words', 'reduced', 'lifecycle', 'layout', 'text', 'privacy']) assert.ok(groups.has(group), `probe group ${group}`);
+  const probed = id => record.probe.full.checks.find(c => c.id.startsWith(id));
+  for (const id of ['layout: layout() says where the title block ends', 'layout: layout() follows the size and the safe area', 'layout: under a scaled ancestor', 'layout: with no title block there is no titleBottom',
+    'text: at 100 %, 150 % and 200 %', 'text: no word is cut', 'text: up to the cap every size is the pack\'s own', 'text: past the cap the block holds']) assert.ok(probed(id)?.ok, `probe: ${id}`);
+  assert.equal(probed('text: up to the cap').detail.capRootPx, TITLE_CAP_PX, 'the probe measured the agreed cap');
+  assert.equal(probed('text: at 100 %').detail.titleBottom.length, 12, 'six results at two sizes');
   // The still against both approved posters, and the controls a redrawn ship would fail.
   for (const side of ['Red', 'Blue']) {
     const full = record.compare.full[side];
@@ -348,4 +367,28 @@ test('the check\'s record: every capture, probe check and comparison passed unde
     assert.ok(existsSync(join(REPO, a.file)), `${key}: ${a.file}`);
   }
   for (const kind of ['arrival', 'none']) assert.ok(record.beats[kind].ok && existsSync(join(REPO, record.beats[kind].file)), `the ${kind} beats strip`);
+  // Larger text: every still at both sizes, at the game's Standard, Large and 200 %.
+  const larger = record.largerText;
+  assert.deepEqual(larger.texts, [1, 1.5, 2]);
+  assert.equal(larger.capRootPx, TITLE_CAP_PX);
+  assert.deepEqual(Object.keys(larger.stills).sort(), Object.keys(RESULTS).map(k => (k === 'Blue' ? 'blue' : k === 'Red' ? 'red' : k)).flatMap(s => ['390x844', '430x932'].map(z => `${z}/${s}`)).sort());
+  for (const [key, s] of Object.entries(larger.stills)) {
+    const [, height] = key.split('/')[0].split('x').map(Number);
+    assert.ok(s.ok && s.notes.length === 0, `${key}: every larger-text check passed`);
+    for (const [text, m] of Object.entries(s.at)) {
+      assert.ok(m.titleBottom > 0 && m.titleBottom < height, `${key} at ${text}: the block ends inside the phone`);
+      assert.ok(Math.abs(m.titleBottom - (m.boxes.title.y + m.boxes.title.h)) <= 0.02, `${key} at ${text}: titleBottom is the block's foot`);
+      assert.ok(m.ink.under.painted === 0 && m.ink.gap >= 0 && m.ink.gap <= 0.5 * m.fonts[2] + 1, `${key} at ${text}: the capture's ink ends just above titleBottom, with nothing painted under it`);
+      assert.ok(Math.abs(m.listTop - Math.max(0.58 * height, m.titleBottom + 13)) <= 0.5, `${key} at ${text}: the stand-in starts at the pack's 58 %, or 13 px under the block`);
+      assert.deepEqual(m.fonts, [1.375, 2, 0.9375].map(rem => rem * Math.min(16 * parseFloat(text) / 100, TITLE_CAP_PX)), `${key} at ${text}: the pack's sizes, up to the cap`);
+    }
+    assert.deepEqual([s.at['200%'].boxes, s.at['200%'].titleBottom], [s.at['150%'].boxes, s.at['150%'].titleBottom], `${key}: at 200 % the block is the block at 150 %`);
+    assert.ok(Math.abs(s.at['100%'].listTop - 0.58 * height) <= 0.5, `${key}: at the Standard text the list keeps the pack's place`);
+    if (s.composed) { assert.deepEqual(s.pack, {}, `${key}: composed, no pack screen`); continue; }
+    assert.ok(Object.values(s.pack.atCap.delta).every(d => d <= 0.5), `${key}: held at the cap, every box is the pack's at that root size`);
+    assert.ok(s.pack.at200.packTitleBottom > s.at['200%'].titleBottom, `${key}: at 200 % the pack's block has grown past the scene's`);
+    for (const f of s.files) assert.ok(existsSync(join(REPO, f.file)), `${key}: ${f.file}`);
+  }
+  assert.equal(Object.values(larger.stills).flatMap(s => s.files).length, 4, 'Red and the Alien result at larger text, at both sizes, kept as pictures');
+  for (const [key, s] of Object.entries(larger.stills)) assert.ok(s.sameCaptureAt150And200, `${key}: the capture at 200 % is the capture at 150 %, pixel for pixel`);
 });

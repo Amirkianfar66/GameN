@@ -7,9 +7,11 @@
 // phase, at the two development phone sizes, with the pack's review frames' safe areas.
 //   index.html                                        every state at 390 × 844 and 430 × 932, and a live phone
 //   index.html?single=1&size=390x844&state=red        one phone at the state's moment, for the check's captures
+//   …&text=1.5                                        the game's larger text (1, 1.5 or 2), set on the root as the game sets it
 //   index.html?probe=1                                the lifecycle probe (probe.mjs), for the check
 //   index.html?compare=full&side=Red                  the still's hero at the poster's 1920 × 1080, for the comparison
-//   index.html?compare=agree                          the comparisons' page: reads the check's captures (compare.mjs)
+//   index.html?compare=agree                          the comparisons' page: reads the check's captures (compare.mjs),
+//                                                     for the agreement with the pack and for where the title's ink ends
 //   index.html?strip=arrival&size=390x844             the scene at ten moments, side by side (the beats); strip=none
 
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
@@ -33,6 +35,10 @@ const EPOCH = Date.UTC(2026, 10, 15, 12, 0, 0);
 export const WINDOW = Object.freeze({ id: 'synthetic-end-r6', startedAt: EPOCH });
 export const ROUND = 6;
 const fixed = ms => Object.freeze({ now: () => EPOCH + ms });
+
+/** Sheet 44's Roles list starts at the pack's 58 %, or this far under the title block where the block ends lower. */
+export const LIST_TOP = 0.58;
+export const LIST_GAP = 13;
 
 /** The public results the preview shows, as the contract has them (PlanetResultSchema). */
 export const RESULTS = Object.freeze({
@@ -77,19 +83,26 @@ function phone(sizeKey, stateKey, { clock = null, hold = true } = {}) {
   frame.className = 'pv-phone';
   Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
   return { frame, mount: () => {
-    let scene = null;
+    let scene = null, place = () => {};
     // Edge to edge, the stage is the whole phone; the title block sits at the shell's top safe area + 34 %.
     const fit = layout => ({ size: layout.stage, safe: { top: layout.safe.top } });
-    const shell = mountPhoneShell(frame, { viewer: null, bar: null, tabs: null, edge: true, insets: size.insets, ...state.shell }, { onLayout: layout => scene?.update(fit(layout)) });
+    const shell = mountPhoneShell(frame, { viewer: null, bar: null, tabs: null, edge: true, insets: size.insets, ...state.shell }, { onLayout: layout => { scene?.update(fit(layout)); place(); } });
     scene = mountEndScene(shell.stage, { window: WINDOW, clock: clock ?? fixed(state.at), round: ROUND, ...fit(shell.layout()), ...state.scene });
     const standin = document.createElement('div');
     standin.className = 'pv-standin';
     standin.style.setProperty('--pv-safe-b', `${shell.layout().safe.bottom}px`);
     standin.textContent = 'Stand-in · sheet 44’s Roles list and “Return to lobby” are the screen’s (the Gameplay UI builder’s), in the shell’s cover';
     shell.slot('cover').append(standin);
+    // The list's place, as the screen works it out from the scene's layout(): the pack's 58 %, or 13 px under the title
+    // block where larger text makes the block end lower. With no title block (concealed, no result), the pack's place.
+    place = () => {
+      const foot = scene.layout()?.titleBottom ?? null;
+      standin.style.top = foot === null ? '' : `max(${LIST_TOP * 100}%, ${foot + LIST_GAP}px)`;
+    };
+    place();
     // A fixed moment is a still picture: the scene holds it.
     if (hold && !clock) scene.suspend();
-    return { shell, scene, standin };
+    return { shell, scene, standin, place };
   } };
 }
 
@@ -110,6 +123,9 @@ function livePhone(sizeKey) {
 }
 
 const params = new URLSearchParams(location.search);
+// The game's text size: Standard (1), Large (1.5) and 2. The game sets its root's size, and so does the preview.
+export const TEXT = [1, 1.5, 2].includes(Number(params.get('text'))) ? Number(params.get('text')) : 1;
+if (TEXT !== 1) document.documentElement.style.fontSize = `${TEXT * 100}%`;
 const mounted = [];
 let probe = null, compare = null;
 if (params.get('probe')) {
@@ -130,7 +146,7 @@ if (params.get('probe')) {
 } else if (params.get('compare') === 'agree') {
   // The comparisons with the pack's own end screen read two captures the check saves next to the bundle.
   document.body.classList.add('pv-single');
-  compare = import('./compare.mjs').then(m => ({ agree: options => m.compareAgree(options) }));
+  compare = import('./compare.mjs').then(m => ({ agree: options => m.compareAgree(options), painted: options => m.comparePainted(options) }));
 } else if (params.get('strip')) {
   // The beats, side by side: the arrival (Red), or no winner.
   document.body.classList.add('pv-single');
@@ -156,7 +172,7 @@ if (params.get('probe')) {
 } else {
   const head = document.createElement('header');
   head.className = 'pv-head';
-  head.innerHTML = `<h1>End scene · preview</h1><p>The runtime component (${END_SCENE_VERSION}) in the phone shell's stage, no bar and no tabs: the top of sheet 44. ${FIXTURE_LABEL}. The first phone runs on a clock, a new end phase every 7 s through the results; the others hold one moment. The Roles list's place is a labelled stand-in. Desktop browser at each phone's CSS size: not a phone.</p>`;
+  head.innerHTML = `<h1>End scene · preview</h1><p>The runtime component (${END_SCENE_VERSION}) in the phone shell's stage, no bar and no tabs: the top of sheet 44. ${FIXTURE_LABEL}. The first phone runs on a clock, a new end phase every 7 s through the results; the others hold one moment. The Roles list's place is a labelled stand-in, which starts 13 px under the title block where larger text makes the block end lower (add <code>?text=1.5</code> or <code>?text=2</code> for the game's larger text). Desktop browser at each phone's CSS size: not a phone.</p>`;
   const grid = document.createElement('div');
   grid.className = 'pv-grid';
   document.body.append(head, grid);
@@ -189,6 +205,6 @@ if (params.get('probe')) {
 
 // For the check: settled once fonts and two frames have passed.
 window.__endScene = {
-  mounted, probe, compare,
+  mounted, probe, compare, text: TEXT, list: { top: LIST_TOP, gap: LIST_GAP },
   ready: document.fonts.ready.then(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))),
 };

@@ -12,7 +12,12 @@
 //   words     each result's stamp, tone, title, line and text alternative, as the pack's end screen writes them
 //   reduced   the game's setting (data-motion="reduced") and the device's: the still, one 80 ms fade, no frames
 //   lifecycle suspend and resume, stale and live, concealed and shown, dispose twice; one frame loop at most
-//   layout    the hero is the top half; the title block sits at the shell's top safe area + 34 %
+//   layout    the hero is the top half; the title block sits at the shell's top safe area + 34 %; layout() says where
+//             the block ends, at rest, in CSS px from the stage's top, and follows the size and the safe area
+//   text      the game's larger text (its root's size): at 100 %, 150 % and 200 %, at both phone sizes and for every
+//             result, titleBottom is where the block ends; no word is cut; up to the cap (the root size the style
+//             sheet stops at) every size is the pack's own, and past it the block holds: at 200 % it is the block at
+//             150 %
 //   privacy   any input the scene does not know is refused, a result the contract refuses too, and it draws no seat,
 //             name, role or code, and no planet without an arrival
 // With the device's Reduce motion (the check emulates it), it checks that setting too.
@@ -32,6 +37,11 @@ const RED = Object.freeze({ winner: 'Red', reason: 'ARRIVAL', alienCoWinner: fal
 const BLUE = Object.freeze({ winner: 'Blue', reason: 'ARRIVAL', alienCoWinner: false });
 const NONE = Object.freeze({ winner: null, reason: 'NO_SURVIVORS', alienCoWinner: false });
 const ABORTED = Object.freeze({ winner: null, reason: 'ABORTED', alienCoWinner: false });
+const ALIEN = Object.freeze({ winner: 'Blue', reason: 'ARRIVAL', alienCoWinner: true });
+const RED_ALIEN = Object.freeze({ winner: 'Red', reason: 'ARRIVAL', alienCoWinner: true });
+/** The game's text sizes (Standard, Large, and 200 %), and the title block's sizes in rem as the pack writes them. */
+const TEXTS = Object.freeze([1, 1.5, 2]);
+const PACK_REM = Object.freeze([1.375, 2, 0.9375]);
 const SVG = 'http://www.w3.org/2000/svg';
 
 /** What a scene shows, read from its DOM. */
@@ -310,6 +320,100 @@ export async function runEndSceneProbe() {
     check('layout: the hero is the top half of the phone, the scene the whole phone', Math.abs(heroBox.height - 422) < 0.5 && Math.abs(heroBox.width - 390) < 0.5
       && Math.abs(box(scene.element).height - 844) < 0.5, { hero: [heroBox.width, heroBox.height] });
     scene.dispose();
+  });
+
+  await guarded('layout', async () => {
+    const box = node => node.getBoundingClientRect();
+    const foot = s => Math.round((box(s.element.querySelector('.ms-es-title')).bottom - box(s.element).top) * 100) / 100;
+    const near = (a, b, slack = 0.01) => typeof a === 'number' && Math.abs(a - b) <= slack + 1e-9;
+    now = EPOCH + 6000;
+    const scene = mount();
+    const still = { foot: scene.layout().titleBottom, measured: foot(scene), frame: scene.frame().still };
+    // The stamp's punch and the words' rise are transforms: while they run, and before the stamp lands, the block ends
+    // where it will rest.
+    now = EPOCH + 4000;
+    scene.update({});
+    const rising = { t: scene.frame().t, foot: scene.layout().titleBottom, rise: drawn(scene).words[0].transform };
+    now = EPOCH + 1500;
+    scene.update({});
+    const before = { t: scene.frame().t, foot: scene.layout().titleBottom, stamp: drawn(scene).stamp.opacity };
+    check('layout: layout() says where the title block ends, from the stage\'s top: in the still, while the words rise and before the stamp lands, the same',
+      still.frame && near(still.foot, still.measured) && rising.foot === still.foot && before.foot === still.foot && rising.rise.startsWith('translateY(') && before.stamp === '0', { still, rising, before });
+    now = EPOCH + 6000;
+    scene.update({ size: { width: 430, height: 932 } });
+    const larger = { foot: scene.layout().titleBottom, measured: foot(scene) };
+    scene.update({ safe: { top: 0 } });
+    const noSafe = { foot: scene.layout().titleBottom, measured: foot(scene) };
+    check('layout: layout() follows the size and the safe area', near(larger.foot, larger.measured) && larger.foot > still.foot && near(noSafe.foot, noSafe.measured) && near(larger.foot - noSafe.foot, 47, 0.02),
+      { at390x844: still.foot, at430x932: larger.foot, withNoSafeArea: noSafe.foot });
+    // A phone drawn smaller on a page (an ancestor's scale) gets the same answer: it is in the scene's own CSS px.
+    Object.assign(host.style, { transform: 'scale(0.5)', transformOrigin: '0 0' });
+    const scaled = scene.layout().titleBottom;
+    Object.assign(host.style, { transform: '', transformOrigin: '' });
+    check('layout: under a scaled ancestor the answer is still in the scene\'s CSS px', near(scaled, noSafe.foot), { scaled, unscaled: noSafe.foot });
+    scene.update({ status: 'concealed' });
+    const concealed = scene.layout();
+    scene.update({ status: 'live', result: null });
+    const empty = scene.layout();
+    scene.update({ result: RED });
+    const back = scene.layout();
+    scene.dispose();
+    check('layout: with no title block there is no titleBottom (concealed, no result); it is back with the block; null after dispose()',
+      concealed.titleBottom === null && empty.titleBottom === null && near(back.titleBottom, noSafe.foot) && scene.layout() === null, { concealed, empty, back, disposed: scene.layout() });
+  });
+
+  await guarded('text', async () => {
+    // The game's larger text is its root's size (apps/game/hosted/planet/preferences.mjs); the probe sets it the same
+    // way, and puts the page's own size and the host's back whatever happens.
+    const html = document.documentElement, pageSize = html.style.fontSize, hostBox = { width: host.style.width, height: host.style.height };
+    const r2 = v => Math.round(v * 100) / 100;
+    const measure = scene => {
+      const root = scene.element, rb = root.getBoundingClientRect();
+      const part = selector => root.querySelector(selector);
+      const stampBox = part('.ms-es-stamp'), stamp = part('.ms-k-stamp'), heading = part('.ms-es-heading'), line = part('.ms-es-line');
+      const rel = node => { const b = node.getBoundingClientRect(); return { left: r2(b.left - rb.left), top: r2(b.top - rb.top), width: r2(b.width), height: r2(b.height) }; };
+      const bottom = node => r2(node.getBoundingClientRect().bottom - rb.top);
+      // Every line of words as the browser lays it: inside the phone, and no word wider than its own box.
+      const lines = [stamp, heading, line].map(node => { const range = document.createRange(); range.selectNodeContents(node); return [...range.getClientRects()]; });
+      const inside = lines.flat().every(r => r.left >= rb.left && r.right <= rb.right && r.top >= rb.top && r.bottom <= rb.bottom);
+      const whole = [stamp, heading, line].every(node => node.scrollWidth <= node.clientWidth + 1);
+      return { foot: scene.layout().titleBottom, ends: Math.max(bottom(stampBox), bottom(heading), bottom(line)), fonts: [stamp, heading, line].map(node => parseFloat(getComputedStyle(node).fontSize)),
+        own: parseFloat(getComputedStyle(part('.ms-es-title')).fontSize),
+        boxes: { title: rel(part('.ms-es-title')), stamp: rel(stampBox), heading: rel(heading), line: rel(line) }, lines: lines.map(l => l.length), inside, whole, height: r2(rb.height) };
+    };
+    const rows = [];
+    try {
+      now = EPOCH + 6000;
+      for (const size of [{ width: 390, height: 844 }, { width: 430, height: 932 }]) {
+        Object.assign(host.style, { width: `${size.width}px`, height: `${size.height}px` });
+        for (const [result, value] of Object.entries({ Blue: BLUE, Red: RED, alien: ALIEN, redAlien: RED_ALIEN, none: NONE, aborted: ABORTED })) {
+          const scene = mount({ size, result: value });
+          const at = {};
+          // The text size changes under a mounted scene, with no update(): layout() is measured when it is asked for.
+          for (const text of TEXTS) { html.style.fontSize = `${text * 100}%`; at[text] = measure(scene); }
+          html.style.fontSize = pageSize;
+          rows.push({ size: `${size.width}x${size.height}`, result, at });
+          scene.dispose();
+          host.replaceChildren();
+        }
+      }
+    } finally {
+      html.style.fontSize = pageSize;
+      Object.assign(host.style, hostBox);
+    }
+    const every = test => rows.every(row => TEXTS.every(text => test(row.at[text], text, row)));
+    const brief = pick => rows.map(row => ({ size: row.size, result: row.result, ...Object.fromEntries(TEXTS.map(text => [`${text * 100}%`, pick(row.at[text])])) }));
+    check('text: at 100 %, 150 % and 200 %, at both sizes and for every result, titleBottom is where the block ends, read with no update() after the text size changes',
+      rows.length === 12 && every(m => typeof m.foot === 'number' && Math.abs(m.foot - m.ends) <= 0.01 && m.foot < m.height), { titleBottom: brief(m => m.foot) });
+    check('text: no word is cut: every line lies inside the phone, and none is wider than its own box', every(m => m.inside && m.whole), { lines: brief(m => m.lines.join('+')) });
+    // The cap is the root size at which the style sheet stops the block's words: at 200 % the block's own size is it.
+    const cap = rows[0]?.at[2].own ?? null;
+    check('text: up to the cap every size is the pack\'s own (1.375, 2 and 0.9375 rem), and past it each holds at the cap\'s', cap > 16 && cap <= 24
+      && every((m, text) => Math.abs(m.own - Math.min(16 * text, cap)) < 0.001 && m.fonts.every((px, i) => Math.abs(px - PACK_REM[i] * Math.min(16 * text, cap)) < 0.001)),
+      { capRootPx: cap, px: Object.fromEntries(TEXTS.map(text => [`${text * 100}%`, rows[0].at[text].fonts])) });
+    check('text: past the cap the block holds: at 200 % it has the same sizes, the same boxes and the same foot as at 150 %',
+      rows.every(row => JSON.stringify([row.at[2].fonts, row.at[2].boxes, row.at[2].foot, row.at[2].lines]) === JSON.stringify([row.at[1.5].fonts, row.at[1.5].boxes, row.at[1.5].foot, row.at[1.5].lines])),
+      { titleBottom: brief(m => m.foot).map(row => ({ size: row.size, result: row.result, '150%': row['150%'], '200%': row['200%'] })) });
   });
 
   await guarded('privacy', async () => {

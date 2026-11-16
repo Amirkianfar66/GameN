@@ -11,6 +11,9 @@
 // and reaching the end only holds the last picture. The still is the approved poster's frame with the stamp and the
 // words; it is also the Reduce motion picture.
 //
+// Larger text (0.1.1): the title block's words grow with the game's text size up to a 20 px root (125 %) and then
+// hold (end-scene.css), and layout() says where the block ends, for the Roles list the screen lays under it.
+//
 // Privacy: everything it takes is public or this phone's own setting: the result, the round and the end phase, which
 // the server publishes to everyone at the end. It takes no seat, name, role, team, code or reveal, and refuses any
 // input it does not know. It draws a planet only for an arrival (result.reason 'ARRIVAL'), when the destination is
@@ -20,7 +23,7 @@ import { createKit } from '../kit/kit.mjs';
 import { clamp01, easeOutCubic, lerp } from '../ship-travel/ship-art.mjs';
 import { ARRIVAL_POSTERS, arrivalSvg } from './arrival-art.mjs';
 
-export const END_SCENE_VERSION = 'end-scene-0.1.0';
+export const END_SCENE_VERSION = 'end-scene-0.1.1';
 
 /**
  * The beats, in ms from the end phase's start. An arrival: the approved film at its own pace, its clock slowing from
@@ -232,8 +235,8 @@ const SVG = 'http://www.w3.org/2000/svg';
 
 /**
  * Mounts the scene in `host`: Frontend's element, the phone shell's stage with no bar, no tabs and `edge: true`, so the
- * scene covers the whole phone, as the pack draws sheet 44. Returns { update, suspend, resume, frame, dispose, element }.
- * It takes no taps and reports nothing.
+ * scene covers the whole phone, as the pack draws sheet 44. Returns { update, suspend, resume, frame, layout, dispose,
+ * element }. It takes no taps and reports nothing: layout() is read, never called back.
  */
 export function mountEndScene(host, input = {}) {
   if (!host?.ownerDocument) throw new TypeError('mountEndScene needs a host element');
@@ -411,6 +414,21 @@ export function mountEndScene(host, input = {}) {
       shown: state.status !== 'concealed',
     };
   }
+  /**
+   * Where the title block ends, for what the screen lays under it (sheet 44's Roles list, in the shell's cover):
+   * { titleBottom }, in CSS px from the scene's top, which is the stage's. It is measured when it is asked for, so it
+   * is current after a change of size, safe area or text size, and it is the block at rest: the stamp's punch and
+   * the words' rise are transforms, which do not move it. titleBottom is null while no title block is drawn
+   * (concealed, no result) or the scene is not laid out; layout() is null after dispose().
+   */
+  function layout() {
+    if (disposed) return null;
+    const box = root.getBoundingClientRect();
+    if (title.hasAttribute('hidden') || !(box.height > 0)) return { titleBottom: null };
+    // The scene's own height against its box: whatever scale an ancestor puts on the phone, the answer is in CSS px.
+    const k = box.height / state.size.height;
+    return { titleBottom: Math.round(((title.getBoundingClientRect().bottom - box.top) / k) * 100) / 100 };
+  }
   function dispose() {
     if (disposed) return;
     disposed = true;
@@ -422,5 +440,5 @@ export function mountEndScene(host, input = {}) {
   motionQuery?.addEventListener?.('change', onMotion);
 
   settle();
-  return Object.freeze({ update, suspend, resume, frame, dispose, element: root });
+  return Object.freeze({ update, suspend, resume, frame, layout, dispose, element: root });
 }

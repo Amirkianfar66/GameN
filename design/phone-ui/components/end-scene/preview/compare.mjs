@@ -8,7 +8,10 @@
 //   compareFull   the still's hero at the poster's own 1920 × 1080: the ship's box, and the whole frame;
 //   compareAgree  the pack's end screen beside the scene, at a development phone size: the hero (its picture and the
 //                 pack's fade, the title block left out), the ship's box in it, and the title block (the stamp and the
-//                 words as drawn).
+//                 words as drawn);
+//   comparePainted  one capture of the scene, at any text size: where the title block's ink ends, against the
+//                 titleBottom the scene's layout() gives, and whether anything is painted between there and the
+//                 stand-in for sheet 44's Roles list.
 // Each also measures controls, the same capture moved 3 px (and, at full size, scaled 2 % about the ship's centre), in
 // the ship's box and the title block, where the picture has its finest ink, so the record shows the measure would
 // catch a scene drawn a little differently. The rest of the frame is mostly smooth space and the planet's shading,
@@ -118,4 +121,27 @@ export async function compareAgree({ pack, shot, scale, hero, title, width, heig
     title: difference(p, s, W, titleBox),
     controls: { ship3px: difference(p, shifted, W, shipBox), title3px: difference(p, shifted, W, titleBox) },
   };
+}
+
+/**
+ * Where the title block's ink ends in a capture, against `foot` (the scene's layout().titleBottom, in CSS px from the
+ * phone's top). Between `x0` and `x1` (the block's sides): the lowest row with ink above `foot`, where ink is a pixel
+ * more than 24 levels from the scene's canvas colour; and the pixels more than 3 levels from the canvas in the rows
+ * from `foot` down to `until`, where the stand-in for the Roles list begins. The block ends at `foot` if no pixel is
+ * painted under it and its last ink lies a little above it (the last line's own space under its letters).
+ */
+export async function comparePainted({ shot, scale, x0, x1, top, foot, until, canvas }) {
+  const S = await image(shot);
+  const W = S.naturalWidth, H = S.naturalHeight;
+  const s = pixels(S, W, H);
+  const from = Math.max(0, Math.floor(x0 * scale)), to = Math.min(W, Math.ceil(x1 * scale));
+  const far = (x, y) => { const i = (y * W + x) * 4; return Math.max(Math.abs(s[i] - canvas[0]), Math.abs(s[i + 1] - canvas[1]), Math.abs(s[i + 2] - canvas[2])); };
+  const footRow = Math.min(H, Math.round(foot * scale)), topRow = Math.max(0, Math.floor(top * scale)), untilRow = Math.min(H, Math.floor(until * scale));
+  let last = null;
+  for (let y = footRow - 1; y >= topRow && last === null; y -= 1) for (let x = from; x < to; x += 1) if (far(x, y) > 24) { last = y; break; }
+  let under = 0, worst = 0;
+  for (let y = footRow; y < untilRow; y += 1) for (let x = from; x < to; x += 1) { const d = far(x, y); if (d > 3) under += 1; if (d > worst) worst = d; }
+  const inkEnds = last === null ? null : Math.round(((last + 1) / scale) * 100) / 100;
+  return { shot: { width: W, height: H }, scale, foot, inkEnds, gap: inkEnds === null ? null : Math.round((foot - inkEnds) * 100) / 100,
+    under: { rows: Math.max(0, untilRow - footRow), painted: under, farthest: worst } };
 }
