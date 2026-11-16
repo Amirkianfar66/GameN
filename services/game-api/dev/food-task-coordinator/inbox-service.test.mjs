@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {setTimeout as sleep} from 'node:timers/promises';
-import {createPlanetService,PLANET_FOOD_OWNER_INBOX_PROFILE} from '../../dist/index.js';
+import {createPlanetService,PLANET_FOOD_OWNER_INBOX_PROFILE,withPlanetRequestTiming} from '../../dist/index.js';
 import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey} from '../../dist/planet-food-inbox.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {envelope,seedTwoHumanTask} from './fixture.mjs';
@@ -19,6 +19,7 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
         return action({...tx,
           create(path,item){
             if(recordCommit&&path.startsWith('foodInboxIntent/'))recorded.push({stage:'intake',item});
+            if(recordCommit&&path.startsWith('foodInboxProgress/'))recorded.push({stage:'progress',item,id:path.split('/').at(-1)});
             tx.create(path,item);
           },
           set(path,item){
@@ -311,25 +312,26 @@ test('one real-time bounded worker covers the full common return under concurren
   }
   assert.ok(owner, 'Expected the outbox acknowledgement and scoped ownership claim to settle concurrently');
   const localBootstrapMs=performance.now()-timeOfDispatch;
-  const heartbeatMs=[],buttonMs=[],contacts=[];
-  const actions=new Map();
+  const heartbeatMs=[],buttonMs=[],contacts=[],transientContacts=[];
+  const actions=new Map(),admissions=new Map(),applicationAcks=new Map();
   const actionKey=(uid,request)=>request.operation==='foodCommand'?request.request.commandId:
     request.operation==='foodHeartbeat'?uid:null;
   setCommitObserver(rows=>{
     const ack=performance.now();
-    for(const {stage,item} of rows){
-      const request=item.request,uid=stage==='intake'?item.binding.uid:item.uid;
-      if(!request||!uid)continue;
-      const action=actions.get(actionKey(uid,request));
-      if(!action)continue;
-      if(stage==='intake')action.intakeAck??=ack;
-      if(stage==='append'){
-        action.admittedAt??=origin+item.context.now-start;
-        action.appendAck??=ack;
+    for(const {stage,item,id} of rows){
+      if(stage==='progress'&&item.kind==='admitted'){
+        admissions.set(id,{sequence:item.sequence,admittedAt:origin+item.admittedAt-start,appendAck:ack});
+      }else if(stage==='apply')applicationAcks.set(item.sequence,ack);
+      else if(stage==='intake'){
+        const action=actions.get(actionKey(item.binding.uid,item.request));
+        if(action){action.intakeAck=ack;action.intentId=item.id;}
       }
-      if(stage==='apply')action.applyAck??=ack;
     }
   });
+  function allStages(action){
+    const admitted=admissions.get(action.intentId);
+    return admitted?{...action,...admitted,applyAck:applicationAcks.get(admitted.sequence)}:action;
+  }
   function startAction(uid,request){
     const action={kind:request.operation==='foodHeartbeat'?'heartbeat':request.request.command.input.kind,
       received:performance.now()};
@@ -337,7 +339,7 @@ test('one real-time bounded worker covers the full common return under concurren
     return action;
   }
   const staleReasons={},spans=new Map(),staleSpanMs=[];
-  let sampled=0,stale=0,botWakes=0,observerReads=0;
+  let sampled=0,stale=0,freshWithEngineDue=0,botWakes=0,observerReads=0;
   let sampledDocs;
   const projectionService=createPlanetService({...h.options,clock:now,store:{...store,
     readOnly(action){
@@ -355,9 +357,10 @@ test('one real-time bounded worker covers the full common return under concurren
       if(frame.snapshot.foodPublicView?.step?.kind!=='AWAY'||frame.snapshot.foodPlayerView.participantTask.stage==='ENDED')return;
       const request={operation:'foodHeartbeat',matchId:h.matchId,taskId:route.scope.taskId};
       const action=startAction(uid,request);
-      const response=await h.invoke(uid,'foodHeartbeat',request);
+      const response=await withPlanetRequestTiming(()=>h.invoke(uid,'foodHeartbeat',request),summary=>{action.service=summary;});
       action.response=performance.now();
       if(response.ok){heartbeatMs.push(action.response-action.received);contacts.push(action);}
+      else if(response.error.code==='UNAVAILABLE')transientContacts.push(action);
       else assert.equal(response.error.code,'NOT_ALLOWED',JSON.stringify(response));
       await sleep(800);
     }
@@ -370,16 +373,18 @@ test('one real-time bounded worker covers the full common return under concurren
         const at=delivery.snapshot.foodPublicView?.serverNowMs;
         if(delivery.snapshot.foodStream){
           sampled++;
+          const session=sampledDocs.get('session/'+h.matchId),currentOwner=sampledDocs.get(ownerPath);
+          const due=h.options.engine.planetDeadlineAt(session.state);
           if(delivery.fresh){
+            if(due!==null&&due<=at)freshWithEngineDue++;
             if(spans.has(uid))staleSpanMs.push(at-spans.get(uid));
             spans.delete(uid);
             continue;
           }
           stale++;
           if(!spans.has(uid))spans.set(uid,at);
-          const session=sampledDocs.get('session/'+h.matchId),currentOwner=sampledDocs.get(ownerPath);
           const ownId=delivery.snapshot.foodPlayerView.seatId,task=delivery.snapshot.foodPlayerView.participantTask;
-          const leases=session.foodService.leases,own=leases[ownId],due=h.options.engine.planetDeadlineAt(session.state);
+          const leases=session.foodService.leases,own=leases[ownId];
           const reasons=new Map();
           if(!currentOwner||currentOwner.expiresAt<=at)reasons.set('owner',currentOwner?at-currentOwner.expiresAt:null);
           if(task.stage!=='ENDED'&&(!own||own.offline||own.expiresAt<=at))reasons.set('ownPresence',own?at-own.expiresAt:null);
@@ -447,23 +452,32 @@ test('one real-time bounded worker covers the full common return under concurren
     assert.ok(watchdogs.length>=2, 'The same leased owner persisted multiple expiry wake revisions');
     const percentile=(values,p)=>values.length?Math.round([...values].sort((a,b)=>a-b)[Math.ceil(values.length*p)-1]):null;
     const stats=values=>({n:values.length,p95:percentile(values,.95),max:percentile(values,1)});
-    const timings=(rows)=>({
+    const timings=(actions)=>{
+      const rows=actions.map(allStages);
+      return {
       receivedToIntakeAck:stats(rows.flatMap(row=>row.intakeAck===undefined?[]:[row.intakeAck-row.received])),
       receivedToAdmittedClock:stats(rows.flatMap(row=>row.admittedAt===undefined?[]:[row.admittedAt-row.received])),
       appendAckToApplyAck:stats(rows.flatMap(row=>row.appendAck===undefined||row.applyAck===undefined?[]:[row.applyAck-row.appendAck])),
       applyAckToExactResponse:stats(rows.flatMap(row=>row.applyAck===undefined?[]:[row.response-row.applyAck])),
-    });
+      };
+    };
     t.diagnostic(JSON.stringify({localBootstrapMs:Math.round(localBootstrapMs),heartbeats:heartbeatMs.length,
       heartbeatP95Ms:percentile(heartbeatMs,.95),heartbeatMaxMs:percentile(heartbeatMs,1),
       controlCount:buttonMs.length,controlP95Ms:percentile(buttonMs,.95),controlMaxMs:percentile(buttonMs,1),
       ownerHandoffs:finalOwner.epoch-owner.epoch,watchdogs:watchdogs.length,staleParticipantSamples:stale,
-      participantSamples:sampled,botWakes,observerReads,returnDriftMs:completed.closedAt-task.returnsAt,
+      participantSamples:sampled,freshWithEngineDue,botWakes,observerReads,returnDriftMs:completed.closedAt-task.returnsAt,
       staleReasons:Object.fromEntries(Object.entries(staleReasons).map(([reason,ages])=>[reason,{
         count:ages.length,ageMs:stats(ages.filter(age=>age!==null)),
       }])),sampledStaleSpanMs:stats(staleSpanMs),staleSpansCensored:spans.size,
       stagedHeartbeatMs:timings(contacts.filter(row=>row.kind==='heartbeat')),
       stagedControlMs:timings(contacts.filter(row=>row.kind!=='heartbeat')),
+      unavailableHeartbeats:transientContacts.map(allStages).map(row=>({atSinceJoinMs:Math.round(row.received-origin),
+        serviceMs:Math.round(row.response-row.received),intakeAck:row.intakeAck!==undefined,
+        admitted:row.admittedAt===undefined?null:Math.round(row.admittedAt-row.received),
+        applied:row.applyAck===undefined?null:Math.round(row.applyAck-row.received),
+        requestTiming:row.service})),
     }));
+    assert.equal(transientContacts.length,0,'No live heartbeat should exceed the service recovery budget');
   }finally{
     stopping=true;
     if(!(await read('foodInboxResult/'+foodInboxScopeKey(route.scope)))){
@@ -472,4 +486,16 @@ test('one real-time bounded worker covers the full common return under concurren
     await Promise.allSettled([ownerRun,...traffic]);
   }
   await Promise.all(traffic);
+});
+
+test('an invalid saved authority profile never falls back to detached legacy intake', {timeout:60_000},async t=>{
+  const {h,winch,route,store,read}=await inboxMatch(t);
+  const controlKey='foodIngressControl/'+h.matchId;
+  const original=await read(controlKey),path='session/'+h.matchId;
+  for(const corrupt of [null,'unknown-food-authority']){
+    await store.transaction(async tx=>tx.set(path,{...await tx.get(path),foodAuthorityProfile:corrupt}));
+    const command=await h.invoke(winch,'foodHeartbeat',{matchId:h.matchId,taskId:route.scope.taskId});
+    assert.equal(command.error.code,'UNAVAILABLE');
+    assert.deepEqual(await read(controlKey),original);
+  }
 });

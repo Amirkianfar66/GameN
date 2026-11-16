@@ -148,7 +148,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       foodIds:{requestId:uuid([...base,'request']),taskId:uuid([...base,'task']),
         winchControlSessionId:uuid([...base,'winch']),panelControlSessionId:uuid([...base,'panel'])}};
   }
-  async function inspect(matchId:string):Promise<T|null>{return readOnly(tx=>tx.get<T>('session/'+matchId));}
+  async function inspect(matchId:string):Promise<T|null>{
+    return readOnly(async tx=>{
+      const saved=await tx.get<T>('session/'+matchId);
+      if(saved&&Object.hasOwn(saved,'foodAuthorityProfile')&&saved.foodAuthorityProfile!==PLANET_FOOD_OWNER_INBOX_PROFILE)
+        throw new Error('Unsupported saved Planet Food authority profile');
+      return saved;
+    });
+  }
   const technicalContext=(owner:string,now:number):PlanetContext=>({now,nextPhaseId:owner,nextDeadlineToken:d.newId(),random:[]});
   async function acquireWorker(matchId:string):Promise<string|null>{
     const live=await readOnly(tx=>tx.get<BotWorkerLease>(workerKey(matchId)));
@@ -1308,13 +1315,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const {worker}=inboxPorts(),route=await activeInboxRoute(tx,s);
     if(!route||route.scope.taskId!==task.taskId)return {fresh:false};
     const owner=await worker.readOwner(tx,route.scope);
-    const due=s.state?d.engine.planetDeadlineAt(s.state):null;
     const leases=service(s).leases,own=leases[view.foodPlayerView!.seatId];
     const expirations=Object.values(leases).filter(lease=>lease&&!lease.offline).map(lease=>lease!.expiresAt);
-    const deadlines=[owner?.expiresAt,due,...expirations];
+    const deadlines=[owner?.expiresAt,...expirations];
     const future=deadlines.filter((time):time is number=>typeof time==='number'&&time>at);
-    const fresh=!!owner&&owner.expiresAt>at
-      &&![due,...expirations].some(time=>typeof time==='number'&&time<=at)
+    // A due engine boundary does not invalidate the last committed authorized
+    // projection. The owner still applies it before evaluating a new command.
+    const fresh=!!owner&&owner.expiresAt>at&&expirations.every(expiry=>expiry>at)
       &&(task.stage==='ENDED'||!!own&&!own.offline&&own.taskId===task.taskId&&own.expiresAt>at);
     return {fresh,...(future.length?{recheckAt:Math.min(...future)}:{})};
   }
