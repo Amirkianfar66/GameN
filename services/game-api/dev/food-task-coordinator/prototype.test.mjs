@@ -5,6 +5,8 @@ import {setTimeout as sleep} from 'node:timers/promises';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {createFoodTaskCoordinator} from './coordinator.mjs';
 import {envelope, seedTwoHumanTask} from './fixture.mjs';
+import {runNativeFoodWorkersThrough} from '../../test/planet-food-native-service-control.mjs';
+import {chooseFoodBotInput} from '../../dist/food-bot-policy.js';
 
 const contextOf = ({command: _command, ...context}) => context;
 const key = (taskId, suffix) => `prototypeFoodTask/${taskId}/${suffix}`;
@@ -21,7 +23,7 @@ function deadlineOf(store, taskId) {
   return read(store, key(taskId, 'state'));
 }
 
-test('seven-player, two-human Food Task with durable Firestore ingress, takeover and audience push', {timeout: 60000}, async t => {
+for (const admissionMode of ['shared-cursor', 'owner-fifo']) test(`seven-player, two-human Food Task with ${admissionMode} ingress, takeover and audience push`, {timeout: 60000}, async t => {
   const store = createLoopbackFoodStore();
   const subscriptions = [];
   t.after(async () => { for (const unsubscribe of subscriptions) unsubscribe(); await store.close(); });
@@ -40,7 +42,7 @@ test('seven-player, two-human Food Task with durable Firestore ingress, takeover
     }
     return result;
   }};
-  const c = createFoodTaskCoordinator({store: measured, clock: () => time, randomSamples: () => Array(64).fill(.2)});
+  const c = createFoodTaskCoordinator({store: measured, admissionMode, clock: () => time, randomSamples: () => Array(64).fill(.2)});
   const taskId = await c.openTask({session});
   let owner = await c.acquire(taskId, randomUUID());
   assert.equal(owner.epoch, 1);
@@ -103,9 +105,10 @@ test('seven-player, two-human Food Task with durable Firestore ingress, takeover
     assert.equal(whilePaused.pending, beforePause.pending + 1);
     assert.equal(await c.acquire(taskId, randomUUID()), null);
     time = owner.expiresAt;
-    const replacement = createFoodTaskCoordinator({store, clock: () => time});
+    const replacement = createFoodTaskCoordinator({store, admissionMode, clock: () => time});
     owner = await replacement.acquire(taskId, randomUUID());
     assert.equal(owner.epoch, 2);
+    if (admissionMode === 'owner-fifo') await assert.rejects(c.heartbeat(taskId, winch), {code: 'STALE_OWNER'});
     assert.equal((await replacement.restore(taskId, owner)).pending, whilePaused.pending);
     await replacement.runDue(taskId, owner);
   } finally { switched.resolve(); }
@@ -144,4 +147,77 @@ test('seven-player, two-human Food Task with durable Firestore ingress, takeover
   assert.equal((await read(store, entry(taskId, headZero.processed + 1))).context.now, start + 1500);
   assert.deepEqual(errors, []);
   assert.ok(frames.every((frame, i) => frame.frameSequence === i + 1));
+});
+
+test('the same authoritative input times deliver the same Food result once in both durable runtimes', {timeout: 90000}, async t => {
+  const store = createLoopbackFoodStore();
+  t.after(() => store.close());
+  const {h, session, task, winch, panel} = await seedTwoHumanTask(store);
+  const start = task.options.startedAt, taskId = task.options.taskId;
+  let time = start;
+  const c = createFoodTaskCoordinator({store, admissionMode: 'owner-fifo', clock: () => time, randomSamples: () => Array(64).fill(.2)});
+  await c.openTask({session});
+  const ownerId = randomUUID();
+  let owner = await c.acquire(taskId, ownerId);
+  let nextContact = start + 1000, at = nextContact, completed = false;
+  const inputKinds = [];
+  for (let pass = 0; pass < 120; pass++) {
+    time = at;
+    if (at >= owner.expiresAt - 1000) owner = await c.acquire(taskId, ownerId);
+    await runNativeFoodWorkersThrough(h, at);
+    h.setTime(at);
+    await c.runDue(taskId, owner);
+    if (at >= nextContact) {
+      for (const uid of [winch, panel]) {
+        const beat = await h.invoke(uid, 'foodHeartbeat', {matchId: h.matchId, taskId});
+        assert.equal(beat.ok, true);
+        assert.equal((await c.heartbeat(taskId, uid)).admittedAt, at);
+      }
+      await c.runDue(taskId, owner);
+      nextContact = at + 1000;
+    }
+    let nextBot = Infinity;
+    for (const uid of [winch, panel]) {
+      const original = (await h.read(uid)).foodPlayerView, proposed = (await c.snapshot(taskId, uid)).playerView;
+      assert.deepEqual(proposed.participantTask, original.participantTask);
+      const policy = chooseFoodBotInput(original);
+      assert.deepEqual(chooseFoodBotInput(proposed), policy);
+      if (policy.nextWakeAt !== null) nextBot = Math.min(nextBot, policy.nextWakeAt);
+      if (!policy.command) continue;
+      const request = envelope(original, policy.command);
+      const baseline = await h.invoke(uid, 'foodCommand', {request});
+      const admitted = await c.submit(taskId, uid, request);
+      assert.equal(admitted.admittedAt, at);
+      await c.runDue(taskId, owner);
+      const alternative = await c.receipt(taskId, uid, contextOf(request));
+      assert.equal(baseline.ok, true);
+      assert.equal(baseline.result.receipt.status, 'accepted');
+      assert.deepEqual(alternative.receipt, baseline.result.receipt);
+      inputKinds.push(policy.command.input.edge ?? policy.command.input.kind);
+    }
+    const after = (await c.snapshot(taskId, panel)).playerView.participantTask;
+    if (after.outcome) {
+      assert.equal(after.outcome.kind, 'DELIVERED');
+      completed = true;
+      break;
+    }
+    const existing = (await h.current()).foodService.scheduler?.endsAt ?? Infinity;
+    const expected = (await c.restore(taskId, owner)).nextAt ?? Infinity;
+    at = Math.max(at + 1, Math.min(nextBot, existing, expected, nextContact));
+  }
+  assert.equal(completed, true);
+  assert.deepEqual(inputKinds, ['DOWN', 'PANEL_RELEASE', 'PANEL_LOCK', 'UP', 'KEY', 'KEY']);
+  await runNativeFoodWorkersThrough(h, task.returnsAt);
+  time = task.returnsAt;
+  owner = await c.acquire(taskId, ownerId);
+  await c.runDue(taskId, owner);
+  const result = await read(store, key(taskId, 'returned-result'));
+  const baseline = (await h.current()).state;
+  const currentFood = state => state.worlds[state.currentWorldId].food;
+  assert.deepEqual(currentFood(result.state), currentFood(baseline));
+  assert.deepEqual(currentFood(result.state).deliveredTaskIds, [taskId]);
+  assert.equal(currentFood(result.state).doses, 20);
+  assert.equal(result.returnedAt, baseline.phase.startedAt);
+  await c.runDue(taskId, owner);
+  assert.deepEqual(await read(store, key(taskId, 'returned-result')), result);
 });

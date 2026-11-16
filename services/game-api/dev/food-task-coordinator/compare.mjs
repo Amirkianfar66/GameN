@@ -9,7 +9,7 @@ import {envelope, seedTwoHumanTask} from './fixture.mjs';
 
 // One paired synthetic script. No browser or network-hop timestamps are included.
 const [variant = 'baseline', run = 'pilot', duration = '14000', roster = '7'] = process.argv.slice(2);
-assert.ok(['baseline', 'coordinator'].includes(variant));
+assert.ok(['baseline', 'coordinator', 'owner-fifo'].includes(variant));
 const spanMs = Number(duration), count = Number(roster);
 assert.ok([7, 9].includes(count) && spanMs >= 10000 && spanMs <= 33000);
 
@@ -18,6 +18,7 @@ const pending = new Map(), timers = new Set(), subscriptions = [], errors = [], 
 const jobs = new Map(), seenOutbox = new Set();
 const traffic = {logicalReads: 0, logicalWrites: 0, logicalWriteBytes: 0, sdkCallbacks: 0};
 const publications = {player: 0, public: 0};
+const appendQueue = {depths: [], waitMs: []};
 const contacts = {received: 0, admitted: 0, applied: 0, readRenewals: 0};
 const presses = new Map();
 let active = false, recording = false, clock, elapsed, owner, deadlineDrift = [], presenceDrift = [], baselineCpu = [], candidateCpu = [], depths = [];
@@ -121,7 +122,7 @@ try {
     };
   }
   h.reload({clock, engine: instrumented});
-  const c = createFoodTaskCoordinator({store, clock, randomSamples: () => Array(64).fill(.2), onEvent(row) {
+  const c = createFoodTaskCoordinator({store, clock, admissionMode: variant === 'owner-fifo' ? 'owner-fifo' : 'shared-cursor', randomSamples: () => Array(64).fill(.2), onEvent(row) {
     if (!recording) return;
     const at = elapsed();
     if (row.stage === 'received') {
@@ -131,7 +132,10 @@ try {
       if (row.kind === 'heartbeat') contacts.admitted++;
       recordCommand(row.commandId, {admittedMs: row.admittedAt - taskStart, appendAckMs: at});
     } else if (row.stage === 'picked-up') depths.push(row.queueDepth);
-    else if (row.stage === 'applied') {
+    else if (row.stage === 'append-start') {
+      appendQueue.depths.push(row.queueDepth);
+      appendQueue.waitMs.push(row.queueWaitMs);
+    } else if (row.stage === 'applied') {
       if (row.kind === 'heartbeat') contacts.applied++;
       recordCommand(row.commandId, {appliedMs: at});
       candidateCpu.push(row.cpuMs);
@@ -139,7 +143,7 @@ try {
     } else if (row.stage === 'published') recordCommand(row.commandId, {correlatedFrameMs: at});
   }});
   const taskId = task.options.taskId;
-  if (variant === 'coordinator') await c.openTask({session});
+  if (variant !== 'baseline') await c.openTask({session});
   function lookup(uid, request) {
     void issue('receiptLookup', () => c.receipt(taskId, uid, toContext(request)), out => {
       if (out?.phase === 'applied') {
@@ -154,7 +158,7 @@ try {
     const request = envelope(view, {type: 'TASK_PRESS', taskId,
       controlSessionId: t.controlSessionId, expectedControlRevision: t.controlRevision, input});
     presses.set(request.commandId, {label, offerObservedMs: elapsed()});
-    if (variant === 'coordinator') {
+    if (variant !== 'baseline') {
       void issue(label, () => c.submit(taskId, uid, request), () => lookup(uid, request));
     } else {
       recordCommand(request.commandId, {receivedMs: elapsed()});
@@ -224,10 +228,10 @@ try {
   for (const uid of [winch, panel]) {
     let busy = false;
     const presence = () => {
-      if (!busy && (variant === 'coordinator' || elapsed() - lastRead.get(uid) >= 1000)) {
+      if (!busy && (variant !== 'baseline' || elapsed() - lastRead.get(uid) >= 1000)) {
         busy = true;
         if (variant === 'baseline') contacts.received++;
-        const beat = variant === 'coordinator' ? () => c.heartbeat(taskId, uid) : () => h.invoke(uid, 'foodHeartbeat', {matchId: h.matchId, taskId});
+        const beat = variant !== 'baseline' ? () => c.heartbeat(taskId, uid) : () => h.invoke(uid, 'foodHeartbeat', {matchId: h.matchId, taskId});
         void issue('heartbeat', beat).finally(() => { busy = false; });
       }
       schedule(1000, presence);
@@ -253,6 +257,7 @@ try {
   process.stdout.write(JSON.stringify({variant, run, count, scenario: 'two-human-down-release', viewerCount: viewers.length,
     spanMs, mode: 'offer-driven closed loop', commands: [...presses.values()], latency, tail, traffic, sdk: stages, contacts, publications,
     deadlineDriftMs: summarize(deadlineDrift), presenceDriftMs: summarize(presenceDrift), queueDepth: summarize(depths),
+    appendQueueDepth: summarize(appendQueue.depths), appendQueueWaitMs: summarize(appendQueue.waitMs),
     engineCpuMs: summarize(variant === 'baseline' ? baselineCpu : candidateCpu), errors, cleanup}) + '\n');
 } finally {
   active = false;

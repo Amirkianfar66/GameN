@@ -48,5 +48,6 @@ export function createFoodTaskCoordinator(options: {
   engine?: typeof import('@mothership/engine');
   clock?: () => number;
   randomSamples?: () => number[];
+  admissionMode?: 'shared-cursor' | 'owner-fifo';
   onEvent?: (row: Readonly<{stage: string; localMs: number; [key: string]: unknown}>) => void;
 }): FoodTaskCoordinator;

@@ -33,8 +33,12 @@ function boundaryContext(context, ordinal, state, at) {
 }
 
 /** Server-side development port. Caller supplies an already authenticated UID. */
-export function createFoodTaskCoordinator({store, engine = planet, clock = Date.now, randomSamples = sample, onEvent = () => {}}) {
+export function createFoodTaskCoordinator({store, engine = planet, clock = Date.now, randomSamples = sample,
+  admissionMode = 'shared-cursor', onEvent = () => {}}) {
   if (!store?.readOnly || !store?.watch) throw new TypeError('A snapshot-capable durable store is required');
+  if (!['shared-cursor', 'owner-fifo'].includes(admissionMode)) throw new TypeError('Invalid admission mode');
+  const ownedAdmission = admissionMode === 'owner-fifo';
+  const localOwners = new Map(), admissionLanes = new Map();
   const path = (id, suffix) => {
     if (typeof id !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(id)) fail('INVALID_TASK');
     return `prototypeFoodTask/${id}/${suffix}`;
@@ -98,7 +102,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   }
   async function acquire(taskId, id) {
     if (!id) throw new TypeError('Owner identity is required');
-    return store.transaction(async tx => {
+    const token = await store.transaction(async tx => {
       const previous = await tx.get(ownerKey(taskId));
       const at = assertTime(clock());
       const live = previous && previous.expiresAt > at;
@@ -108,6 +112,8 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       tx.set(ownerKey(taskId), next);
       return Object.freeze(next);
     });
+    if (ownedAdmission && token) localOwners.set(taskId, token);
+    return token;
   }
   function restore(taskId, token) {
     return store.readOnly(async tx => {
@@ -119,14 +125,36 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     });
   }
   async function append(taskId, source) {
-    const {kind, uid, request, token} = source;
     const receivedAt = assertTime(clock());
-    event('received', {kind, commandId: request?.commandId ?? null, receivedAt});
+    const info = {kind: source.kind, commandId: source.request?.commandId ?? null, receivedAt};
+    event('received', info);
+    if (!ownedAdmission) return persistAdmission(taskId, source, receivedAt, source.token);
+    // The ingress bridge must deliver to the same coordinator instance that
+    // acquired this owner. A new process cannot admit until it has acquired.
+    const route = source.token ?? localOwners.get(taskId);
+    if (!route) fail('NOT_OWNER');
+    let lane = admissionLanes.get(taskId);
+    if (!lane) {
+      lane = {tail: Promise.resolve(), depth: 0};
+      admissionLanes.set(taskId, lane);
+    }
+    const queuedAt = performance.now(), depth = ++lane.depth;
+    const result = lane.tail.then(() => {
+      event('append-start', {...info, queueDepth: depth, queueWaitMs: performance.now() - queuedAt});
+      return persistAdmission(taskId, source, receivedAt, route);
+    });
+    lane.tail = result.catch(() => {}).finally(() => {
+      if (--lane.depth === 0) admissionLanes.delete(taskId);
+    });
+    return result;
+  }
+  async function persistAdmission(taskId, source, receivedAt, route) {
+    const {kind, uid, request, token} = source;
     let entropy;
     const admitted = await store.transaction(async tx => {
-      // Connection and human command intake never access the gameplay checkpoint
-      // or owner record. Bot/clock proposals additionally fence their owner.
-      const owner = token ? await tx.get(ownerKey(taskId)) : null;
+      // The routed variant fences every append. Neither ingress path reads or
+      // updates the gameplay checkpoint, including during contact admission.
+      const owner = route ? await tx.get(ownerKey(taskId)) : null;
       const head = await tx.get(headKey(taskId));
       if (!head) fail('NOT_FOUND');
       const member = token ? source.member : activeTaskMember(head, uid);
@@ -135,7 +163,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       const fingerprint = request ? digest(request) : null;
       const previous = key ? await tx.get(key) : null;
       const at = assertTime(clock(), head.admittedAt);
-      if (token) ownerAt(owner, token, at);
+      if (route) ownerAt(owner, route, at);
       if (previous) {
         if (previous.fingerprint !== fingerprint) fail('COMMAND_ID_CONFLICT');
         return {admittedAt: previous.admittedAt, duplicate: true, sequence: previous.sequence};
