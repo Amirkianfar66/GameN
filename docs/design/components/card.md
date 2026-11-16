@@ -175,13 +175,16 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/card.test.mjs` | 9 of 9: the runtime-safe graph, every style scoped (layout only, the role card's parts untouched), the pinned pack unchanged, the pack's words and the one amendment, the Knowledge rows, the sheet's words and head, the inputs' refusals, the privacy rules and the check's record |
-  | `npm run test:design` | 400 of 400 |
-  | `npm run test:tooling` | 337 of 337 |
+  | `packages/design-tokens/test/card.test.mjs` | 9 of 9 (also on `6c142c0d`, after the shell's merge): the runtime-safe graph, every style scoped (layout only, the role card's parts untouched), the pinned pack unchanged, the pack's words and the one amendment, the Knowledge rows, the sheet's words and head, the inputs' refusals, the privacy rules and the check's record |
+  | `npm run test:design` | 400 of 400 (on `96bd1fe`, before the shell's merge; CI runs the suites on each push) |
+  | `npm run test:tooling` | 337 of 337 (on `96bd1fe`) |
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `1679a0e` (the owner's confirmation in the accepted amendment's reason; the role stage's `d1919d7` merged in, with the shell at `05e2d1d0`), with the source clean. The same result as on `b1559cf` and `a35c414`.
+- **`node design/tools/card-check.mjs`:** recorded on `6c142c0d` (the shell at `3fb12935` merged in as `45758c57`, and the switcher's `stack: true`), with the source clean. The same result as on `1679a0e`, `b1559cf` and `a35c414`, with three changes in the captures, all from the shell and the kit:
+  - **The three 200 % captures at 320 × 568** show the kit's Largest-text forms: the switcher's three words one per row, and a row's value under its title. This is the fix for my Largest-text finding.
+  - **Reconnecting:** the sheet stays 8 px below the shell's banner, so Retry is in sight.
+  - **Found, for the Lead:** in the Card view at 200 % on 320 × 568, the stacked switcher leaves the card's place about 80 px tall, so the card shrinks to its corner (`review/320x568-large-card.jpg`). Before the fix the card was about 290 px tall, but the switcher clipped "Resources". A floor on the card's place, with the sheet's body scrolling, would keep the card readable. That layout change waits for the Lead's decision.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does.
   - **Captures:** 21 of 21 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
     - Nine states at 390 × 844 and 430 × 932.
