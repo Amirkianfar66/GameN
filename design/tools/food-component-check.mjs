@@ -249,6 +249,25 @@ const report = async (page, violations) => {
   return page.problems().filter(p => !/\/favicon\.ico$/.test(p));
 };
 
+/**
+ * A picture of a page at rest: taken again and again, REST ms apart, until two in a row are the same. For a moment
+ * after a page is first drawn the browser may draw an edge that lies on a fraction of a pixel a little differently
+ * (twelve pixels of one row, in one load in ten, on the port's page as on the component's; never after 150 ms). A
+ * picture taken in that moment is not the page's, and no animation says so.
+ */
+const REST = 150;
+const rest = { ms: REST, pictures: 0, retaken: 0 };
+async function atRest(page, options) {
+  const take = async () => Buffer.from((await page.send('Page.captureScreenshot', options)).data, 'base64');
+  let last = await take();
+  for (let turn = 0; turn < 12; turn += 1) {
+    await sleep(REST);
+    const next = await take();
+    if (next.equals(last)) { rest.pictures += 1; if (turn > 0) rest.retaken += 1; return next; }
+    last = next;
+  }
+  throw new Error('a page\'s picture never came to rest');
+}
 /** What is not held on a page: each animation or transition that is running, by its name or property. */
 const MOVING = 'document.getAnimations().filter(a => a.playState === "running").map(a => a.transitionProperty ?? a.animationName ?? "animation")';
 /** One preview page on one state: what it shows, its policy reports and problems, and its picture as PNG bytes. */
@@ -263,13 +282,13 @@ async function draw(pageName, state, sizeKey, motion, extra = '') {
     await page.evaluate('window.__food.freeze(300)');
     const seen = await page.evaluate('window.__food.describe()');
     const expected = await page.evaluate('window.__food.expected');
-    const { data } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
+    const png = await atRest(page, { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
     // A picture taken while something still moves is not one picture: it is named here, not left to the comparison.
     const moving = await page.evaluate(MOVING);
     const violations = await page.evaluate('window.__policy');
     const problems = await report(page, violations);
     if (moving.length) problems.push(`still moving when the picture was taken: ${moving.join(', ')}`);
-    return { seen, expected, png: Buffer.from(data, 'base64'), violations, problems };
+    return { seen, expected, png, violations, problems };
   } finally { await page.close(); }
 }
 /** A page mounted at the Standard text whose text size then changes, told to lay out again or not: what it shows, and its picture. */
@@ -286,12 +305,12 @@ async function relaid(pageName, state, sizeKey, tell) {
     await page.evaluate('window.__food.freeze(300)');
     const seen = await page.evaluate('window.__food.describe()');
     const banner = await page.evaluate(`document.querySelector('.planet-food .fs-banner')?.style.top ?? null`);
-    const { data } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
+    const png = await atRest(page, { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
     const moving = await page.evaluate(MOVING);
     const violations = await page.evaluate('window.__policy');
     const problems = await report(page, violations);
     if (moving.length) problems.push(`still moving when the picture was taken: ${moving.join(', ')}`);
-    return { seen, banner, png: Buffer.from(data, 'base64'), violations, problems };
+    return { seen, banner, png, violations, problems };
   } finally { await page.close(); }
 }
 /** A picture of the component for the review folder, at two device pixels per CSS pixel. */
@@ -303,8 +322,7 @@ async function picture(state, sizeKey, motion, file, extra = '') {
     await page.goto(`${origin}/index.html?state=${state}&size=${sizeKey}&single=1${extra}`, 'document.readyState === "complete" && window.__food');
     await page.evaluate('window.__food.ready');
     await page.evaluate('window.__food.freeze(300)');
-    const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 76, clip: { x: 0, y: 0, width, height, scale: 1 } });
-    const bytes = Buffer.from(data, 'base64');
+    const bytes = await atRest(page, { format: 'jpeg', quality: 76, clip: { x: 0, y: 0, width, height, scale: 1 } });
     await writeFile(join(REVIEW, file), bytes);
     return { file: `${COMPONENT}/review/${file}`, sha256: sha256(bytes) };
   } finally { await page.close(); }
@@ -318,8 +336,7 @@ async function shot(pageName, state, sizeKey, extra = '') {
     await page.evaluate('window.__food.ready');
     await page.evaluate('window.__food.freeze(300)');
     const seen = await page.evaluate('window.__food.describe()');
-    const { data } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
-    return { seen, png: Buffer.from(data, 'base64') };
+    return { seen, png: await atRest(page, { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } }) };
   } finally { await page.close(); }
 }
 
@@ -744,7 +761,8 @@ const record = {
   sourceCommit, sourceClean,
   environment: `Desktop Chromium (headless, ${chrome.version}); the comparisons at one device pixel per CSS pixel, the review pictures at two; the preview bundled by Vite and served with the production headers below, the hosted game's own art beside it; the package's pages served unchanged by design/tools/phone-ui-render.mjs's reference server. Not a phone, not Safari, no server, and not a performance measure.`,
   ...recordedHeaders(),
-  harness: 'The preview\'s phone: the review frames\' safe areas (47 px above, 34 px below) given through a preview style rule where a phone gives its own through env(); stand-ins for the ordinary app\'s header, bar and board; the app\'s own background (#060C1C) beneath; a fixed clock; each page brought to rest for its picture: every animation and transition held at 300 ms, those that start afterwards too, and a picture taken while anything still runs fails.',
+  harness: 'The preview\'s phone: the review frames\' safe areas (47 px above, 34 px below) given through a preview style rule where a phone gives its own through env(); stand-ins for the ordinary app\'s header, bar and board; the app\'s own background (#060C1C) beneath; a fixed clock; each page brought to rest for its picture: every animation and transition held at 300 ms, those that start afterwards too; a picture taken while anything still runs fails; and a picture is kept only when two takes 150 ms apart are the same.',
+  rest,
   limits: LIMITS,
   packet, port, package: pack, native: { ...native, files: native.files }, art,
   captures,
