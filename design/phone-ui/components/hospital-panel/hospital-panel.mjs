@@ -17,9 +17,10 @@
 // component works nothing out: the keys are the PANEL_CODE offer's, the record is the projection's, and the pick
 // is Frontend's. Sheet 43: "An empty injection pool must not confirm the Doctor's number" — the component never
 // reads the Doctor, the pool or anyone's health, and "unavailable" is the same, word for word, whatever the reason.
-// Privacy (the Lead, 16 November): the picked number never reaches an attribute's value, the console, the layout
-// or a callback but onPick. It is the display's words, and the picked key is pressed (aria-pressed="true", as
-// the pack's). Every key's own value is a public player number, the same on every phone.
+// Privacy (the Lead, 16 November): the picked number never reaches an attribute's value, the console or the
+// layout. It is the display's words, and the picked key is pressed (aria-pressed="true", as the pack's). Every
+// key's own value is a public player number, the same on every phone: onPick reports a tapped key's seat, and
+// onFocusReturn the key that had the focus by its number, as the control policy reports every control.
 
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 
