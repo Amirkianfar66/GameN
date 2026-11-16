@@ -93,7 +93,7 @@ try {
     }
     await page.close();
     const file = join(REVIEW, 'pilot-sheet.jpg');
-    const res = spawnSync('ffmpeg', ['-v', 'error', '-y', ...files.flatMap(f => ['-i', f]), '-filter_complex', `${files.map((_, i) => `[${i}:v]scale=260:-2[v${i}]`).join(';')};${files.map((_, i) => `[v${i}]`).join('')}xstack=inputs=${files.length}:layout=${files.map((_, i) => `${(i % 6) * 260}_${Math.floor(i / 6) * 563}`).join('|')}`, '-frames:v', '1', '-q:v', '3', file], { encoding: 'utf8' });
+    const res = spawnSync('ffmpeg', ['-v', 'error', '-y', ...files.flatMap(f => ['-i', f]), '-filter_complex', `${files.map((_, i) => `[${i}:v]scale=260:562[v${i}]`).join(';')};${files.map((_, i) => `[v${i}]`).join('')}xstack=inputs=${files.length}:layout=${files.map((_, i) => `${(i % 6) * 260}_${Math.floor(i / 6) * 562}`).join('|')}`, '-frames:v', '1', '-q:v', '3', file], { encoding: 'utf8' });
     if (res.status !== 0) throw new Error(`ffmpeg sheet: ${res.stderr}`);
     await rm(dir, { recursive: true, force: true });
     const bytes = await readFile(file);

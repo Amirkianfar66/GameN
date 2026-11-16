@@ -2,6 +2,8 @@
 
 **Status (15 November 2026):** an audit by the Motion & Cinematics builder for the Lead Designer, at the owner's word of 15 November: "improve the cinematics to make it more like AAA animation cinematic". The owner had played the live staging build. Nothing here changes a film; the pilot that follows is the boarding, as a new version.
 
+**16 November 2026:** the pilot is built and measured, for the Lead's review and then the owner's: [the boarding film, version 2](components/boarding-film.md). The plan below is as it was written before the build; where the two differ, the component's document is what was built.
+
 Each film is judged against six things: **camera** (multi-plane depth, push-ins, rack focus, match cuts), **light** (beams, rim light, bloom, a grade per beat), **acting** (anticipation, overlap, follow-through, secondary motion), **effects** (particles, sparks, dust, shockwaves, flares), **timing** (establish, build, payoff; holds; eases; smears) and **titles** (how the type moves).
 
 ## The first finding: the live films stutter
