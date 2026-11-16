@@ -15,7 +15,7 @@ export interface PlanetFoodInboxAuthority {
   readonly scope:PlanetFoodInboxScope;
   readonly owner:PlanetFoodInboxOwner;
 }
-export type PlanetFoodInboxStep='again'|'drained'|{readonly closed:boolean;readonly nextAt:number|null};
+export type PlanetFoodInboxStep='again'|{readonly closed:boolean;readonly nextAt:number|null};
 export class LostFoodInboxAuthority extends Error {}
 export const foodInboxRouteKey=(matchId:string)=>'foodInboxRoute/'+matchId;
 const scopedRouteKey=(scope:PlanetFoodInboxScope)=>'foodInboxScopeRoute/'+foodInboxScopeKey(scope);
@@ -28,7 +28,7 @@ const wakeId=(parts:unknown)=>createHash('sha256').update(JSON.stringify(parts))
 
 export function createPlanetFoodInboxWorker(d:{
   store:PlanetPersistence;inbox:ReturnType<typeof createPlanetFoodInbox>;clock:()=>number;newId:()=>string;
-  step:(authority:PlanetFoodInboxAuthority,confirmedDrained:boolean)=>Promise<PlanetFoodInboxStep>;
+  step:(authority:PlanetFoodInboxAuthority)=>Promise<PlanetFoodInboxStep>;
 }){
   const {store,inbox,clock}=d;
   const scopeMatches=(a:PlanetFoodInboxScope,b:PlanetFoodInboxScope)=>foodInboxScopeKey(a)===foodInboxScopeKey(b);
@@ -126,25 +126,22 @@ export function createPlanetFoodInboxWorker(d:{
       changed=false;
       if(failure)throw failure;
     }
-    let next:PlanetFoodInboxStep='again',passes=0,confirmedDrained=false;
+    let next:PlanetFoodInboxStep='again',passes=0;
     try{
       // Ordered append, apply and renewal are all awaited on this one lane.
       // Neither a task acknowledgement nor request cleanup leaves a running loop.
       while(passes++<MAX_PASSES&&performance.now()-started<MAX_WALL_MS){
         if(failure)throw failure;
         if(authority.owner.expiresAt-clock()<=LEASE_MS/2)authority=await renew(authority);
-        next=await d.step(authority,confirmedDrained);
-        if(typeof next==='string'){
-          confirmedDrained=next==='drained';
-          continue;
-        }
+        next=await d.step(authority);
+        if(next==='again')continue;
         if(next.closed||!stop)break;
         const budget=MAX_WALL_MS-(performance.now()-started);
         const due=next.nextAt===null?Infinity:next.nextAt-clock();
         const renewAt=authority.owner.expiresAt-clock()-LEASE_MS/2;
         await wait(Math.max(0,Math.min(budget,due,renewAt)));
       }
-      await release(authority,typeof next==='string'||!!stop&&!next.closed);
+      await release(authority,next==='again'||!!stop&&!next.closed);
     }finally{
       stop?.();
     }
