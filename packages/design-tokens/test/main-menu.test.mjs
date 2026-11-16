@@ -104,13 +104,12 @@ test('the entry parts\' styles: scoped under their root class at one class\'s we
   const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '');
   assert.deepEqual([...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))], ['--ic-knock'], 'only the icons\' knock-out colour, as the kit sets it');
   assert.doesNotMatch(css, /\[aria-disabled|\[data-off/, 'a refused choice keeps its look, as sheet 10 draws Join and Host offline');
-  for (const [selectors, body] of all) {
-    if (/opacity/.test(body)) assert.ok(selectors.every(s => s.includes('.ms-ep-toast')), `"${selectors.join(', ')}": only the toast fades; nothing else is dimmed`);
-  }
-  assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), ['ms-ep-toast-in', 'ms-ep-fade'], 'the toast\'s motion, and its plain fade with Reduce motion: the only motion');
-  assert.match(css, /\.ms-entry-parts:where\(\[data-motion="reduced"\]\) :where\(\.ms-ep-toast\) \{ animation: ms-ep-fade 80ms linear both; \}/, 'the game\'s Reduce motion');
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.ms-entry-parts :where\(\.ms-ep-toast\) \{ animation: ms-ep-fade 80ms linear both; \}/, 'the device\'s Reduce motion');
-  assert.equal(ENTRY_PARTS_VERSION, 'entry-parts-0.2.0');
+  // The toast is the kit's (entry-parts 0.3.0, kit 0.8.0): the entry parts dim nothing and have no motion of their own.
+  for (const [selectors, body] of all) assert.doesNotMatch(body, /opacity|animation|transition/, `"${selectors.join(', ')}": nothing is dimmed or moved here`);
+  assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), [], 'no motion of its own: the toast\'s is the kit\'s');
+  assert.doesNotMatch(css, /ms-ep-toast/, 'no toast of its own');
+  assert.match(read(`${PARTS}/entry-parts.mjs`), /node = kit\.toast\(props\)/, 'the toast is drawn by the kit\'s');
+  assert.equal(ENTRY_PARTS_VERSION, 'entry-parts-0.3.0');
   assert.deepEqual(ENTRY_TONES, [null, 'primary']);
   assert.throws(() => createEntryParts(null), /need a document/);
   assert.doesNotMatch(read(`${PARTS}/entry-parts.mjs`), /mothership:dev-only/);

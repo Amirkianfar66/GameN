@@ -1,6 +1,6 @@
 # Host setup and lobby: Designer's runtime components
 
-**Version:** `host-setup-0.1.0` and `host-lobby-0.1.0`, with `entry-parts-0.2.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#287 at `43e71d29`), with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0, with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `host-setup-0.1.0` and `host-lobby-0.1.1`, with `entry-parts-0.3.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#287 at `43e71d29`), with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0, now merged to the kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the host's two screens before a match, as sheet 11 draws them. They are #222 items 21 (host setup) and 22 (host lobby), P3. The game imports them as they are, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -36,20 +36,20 @@ Designer's, runtime-safe, in `design/phone-ui/components/host-room/`:
 | `host-setup.mjs` | `mountHostSetup()`, `nextHostSetupInput()`, `HOST_SETUP_DEFAULTS`, `HOST_SETUP_VERSION`, `SETUP_WORDS` |
 | `host-lobby.mjs` | `mountHostLobby()`, `nextHostLobbyInput()`, `HOST_LOBBY_DEFAULTS`, `HOST_LOBBY_VERSION`, `LOBBY_WORDS` |
 | `host-room.css` | Every style of both, under `.ms-host-setup` and `.ms-host-lobby`; starts with the kit's and the entry parts' stylesheets |
-| `../entry-parts/entry-parts.mjs`, `entry-parts.css` | `entry-parts-0.2.0`: the entry choice (0.1.0, unchanged), and now the entry screens' frame (decision 1): `navBar`/`setNavBar`, `screen`, `foot`, `largeTitle`, `codeCard`/`setCodeCard` with `CODE_WORDS`, and `createToast(host)` with `ENTRY_TOAST_MS` |
+| `../entry-parts/entry-parts.mjs`, `entry-parts.css` | `entry-parts-0.3.0`: the entry choice (0.1.0, unchanged), and the entry screens' frame (decision 1, 0.2.0): `navBar`/`setNavBar`, `screen`, `foot`, `largeTitle`, `codeCard`/`setCodeCard` with `CODE_WORDS`, and `createToast(host)` with `ENTRY_TOAST_MS`, drawn by the kit's toast (0.3.0) |
 | `preview/` | Development only: eleven states on the pack's fixtures (`ROOM_CODE`, the roster's names; the mix per count, the bot range and Start's reason standing in for Frontend's), `probe.mjs`, and `agree.mjs` (each screen beside the frozen pack's `ENTRY_SCREENS['host-setup']` and `ENTRY_SCREENS['host-lobby']`) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/host-room-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/host-room.test.mjs`.
 
 **Uses unchanged:**
-- **The kit:** the segmented control (7, 8, 9), group labels and notes, lists and rows (with their icon tiles and seat numbers), the stepper, buttons (Open room and Start: block primary; Copy: small tinted; Admit: small primary), the inline error, the control policy.
+- **The kit:** the segmented control (7, 8, 9), group labels and notes, lists and rows (with their icon tiles and seat numbers), the stepper, buttons (Open room and Start: block primary; Copy: small tinted; Admit: small primary), the inline error, the toast (kit 0.8.0, through `createToast`), the control policy.
 - **Entry parts, extended to 0.2.0** (decision 1): the entry screens' own frame, which only sheets 11–16 draw.
   - `navBar`: the back link and the centred title (the pack's `.nav-bar`).
   - `screen`: the scrolling screen inside the safe areas, with its foot (`.screen`, `.screen-foot`).
   - `largeTitle` (`.large-title`).
   - `codeCard`: the room code card (`.code-card`), which the join screen's lobby (sheet 13) shows too.
-  - `createToast`: the entry screens' toast (`.toast`), for "Copied" (decision 3). It stands alone, so the Lead can fold it and the shell's into one kit part.
+  - `createToast`: the entry screens' toast (`.toast`), for "Copied" (decision 3). It keeps the shell's timing here and, since 0.3.0, draws with the kit's toast, the one the shell uses too (below).
 - **No phone shell:** neither screen has a bar, tabs or match status. Each fills its host with the pack's canvas, under the safe areas.
 - **`ms-k-phone`** on each root (`ms-host-setup` or `ms-host-lobby`, with `ms-kit` and `ms-entry-parts`): the phone-sized container kit 0.5.0's larger-text rules ask. The 7 · 8 · 9 control leaves `stack` off, and no row here has a value, so nothing moves.
 
@@ -131,12 +131,12 @@ Each reports a tap, and only that.
 | Seats | "Seats": each row the seat number, the name, "Host" or "Bot" under it, and a bot's steel bot tile at the right |
 | Bots | "Bots": the steel bot tile, "Bots", "Up to n", and the stepper; − refused at 0 and dimmed, as the pack's; + refused at Frontend's most and keeping its look, as sheet 11 draws Full (decision 5); both dimmed when Frontend refuses them |
 | Start | Block primary with the Pass icon; unavailable, dimmed with the reason centred under it |
-| Toast | The pack's `.toast`: paper and ink, the icon and the words, 10 px under the nav bar (decision 3), over the code card |
+| Toast | The kit's toast, the pack's `.toast`: paper and ink, the icon and the words, 10 px under the nav bar (decision 3), over the code card. It takes no tap: a tap at it reaches the code card under it (0.1.1) |
 | Offline | The kit's inline error under the code card, with the offline icon: "No connection. Admit, Bots and Start return when you are back online." |
 | A failed opening | The kit's inline error over the foot, with Frontend's words (decision 2) |
 | Larger text | Rows and controls grow with the text; the screen scrolls and its foot is reached; the toast follows the nav bar. From the Large text, Copy goes under the code, inside the card (below) |
 
-**Motion:** only the toast moves, with the shell's timing: in from 8 px above over 220 ms, then after 2.4 s a 180 ms fade. With Reduce motion (`reducedMotion`, or the device's), an 80 ms fade in, without the travel. Nothing else moves.
+**Motion:** only the toast moves, the kit's, with the shell's timing: in from 8 px above over 220 ms, then after 2.4 s a 180 ms fade. With Reduce motion (`reducedMotion`, or the device's), an 80 ms fade in, without the travel. Nothing else moves.
 
 ## Frontend's connection
 
@@ -147,13 +147,21 @@ Each reports a tap, and only that.
 
 ## Decisions (the Lead's review of #287)
 
-1. **The entry screens' frame is mine:** the nav bar, the screen and its foot, the large title, the code card and the toast are in `entry-parts` 0.2.0, not the kit, as #278's decision 1 placed the entry choice. The toast matches the pack's `.toast` exactly (an agreement case compares it), keeps the shell's timing (`TOAST_MS` 2400, Reduce motion without travel, once per id), and stands alone so the Lead can fold it and the shell's into one kit part.
+1. **The entry screens' frame is mine:** the nav bar, the screen and its foot, the large title, the code card and the toast are in `entry-parts` 0.2.0, not the kit, as #278's decision 1 placed the entry choice. The toast matches the pack's `.toast` exactly (an agreement case compares it), keeps the shell's timing (`TOAST_MS` 2400, Reduce motion without travel, once per id), and stands alone so the Lead can fold it and the shell's into one kit part. The Lead folded them on 16 November: the toast is the kit's since `entry-parts-0.3.0` (below).
 2. **A failed opening** is the kit's inline error over the foot, with Frontend's words.
 3. **The toast** sits 10 px under the nav bar. A refused clipboard leaves the code selectable, and the toast shows Frontend's words, "Select the room code to copy.".
 4. **Offline:** `notice: 'offline'` only draws the note under the code card. Frontend refuses the controls; the component never infers a refusal from the notice, as in the menu. Leave and Copy have no availability input, so they stay usable.
 5. **The bots' + at the most, as sheet 11 draws Full** (agreed by the Lead, 16 November, as the menu's decision 4): + keeps its look and is still refused through the kit's policy. It goes through the policy's `accepts` path, which refuses without dimming: `aria-disabled`, with Frontend's reason as its description, so a tap does nothing and a screen reader hears why. − at none is dimmed, as the pack draws it.
 
 **Changed in the build, from the interface (both accepted by the Lead, 16 November):** a `toast` input (`{ id, text, icon }`) carries the toast, so it shows once per id and can carry the refused clipboard's words; `copied` now only turns Copy to "✓ Copied". With Reduce motion the toast follows the shell: a plain 80 ms fade, without the travel (decision 1). The interface had said it would appear and leave at once.
+
+## The toast is the kit's (host-lobby 0.1.1, entry-parts 0.3.0)
+
+The Lead folded the entry screens' toast and the shell's into one kit part on 16 November (kit 0.8.0 and shell 0.2.8, #265 at `0e5a0b8a`, from the Pre-game builder's patch; the Lead's old #198).
+- `createToast` keeps its timing (`ENTRY_TOAST_MS`, once per id, the 200 ms removal) and draws with `kit.toast`. `entry-parts.css` drops its own toast rules and motion.
+- The lobby sets the kit's `--ms-k-toast-top` to its nav bar's foot, and the kit adds the 10 px. It set `--ms-ep-toast-top` 10 px lower before, so the toast sits where it did, at 109 px.
+- **Its look is unchanged:** both "Copied" captures are byte-identical to `56519d09`'s, and the agreement compares the kit's toast with the pack's `.toast`.
+- **It takes no tap,** as the Lead decided for the kit's toast: a toast has no action, so a tap at it reaches the code card under it. The entry toast had this already; the probe now checks it.
 
 ## The difference from the pack
 
@@ -177,10 +185,10 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 `node design/tools/host-room-check.mjs` bundles the preview with Vite, serves it with the production headers (SHA-256 `424e5dec…`, `lib/component-check.mjs`), and in desktop Chromium at 2× pixels:
 
 - captures the eleven states at 390 × 844 and 430 × 932: 22 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks;
-- runs the probe as the page comes and with the device's Reduce motion: setup, the lobby, the stepper, keyed rows and focus, offline (a notice with every control enabled refuses nothing), the toast, not interactive, insets, the Largest text, input, dispose, motion;
+- runs the probe as the page comes and with the device's Reduce motion: setup, the lobby, the stepper, keyed rows and focus, offline (a notice with every control enabled refuses nothing), the toast and a tap through it, not interactive, insets, the Largest text, input, dispose, motion;
 - runs the agreement: eleven cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look and boxes to within half a pixel, the toast's included. For the three lobby cases with the larger text, the pack is drawn with the code card's two rules, so everything else is compared, and each case records the improvement against the pack as it is.
 
-`packages/design-tokens/test/host-room.test.mjs` checks the runtime-safe graph (the kit, the entry parts, no shell, no menu), that the styles are the two screen roots only, the pack's words, both inputs (a notice changes no control), and the check's record. The entry parts' styles are checked in `main-menu.test.mjs`: scoped in `:where()`, the hand cursor with the tap highlight off, no dimming of a refused choice, and only the toast's motion.
+`packages/design-tokens/test/host-room.test.mjs` checks the runtime-safe graph (the kit, the entry parts, no shell, no menu), that the styles are the two screen roots only, the pack's words, both inputs (a notice changes no control), and the check's record. The entry parts' styles are checked in `main-menu.test.mjs`: scoped in `:where()`, the hand cursor with the tap highlight off, no dimming of a refused choice, and no motion of their own (the toast's is the kit's, 0.3.0).
 
 ### Checks run on this version
 

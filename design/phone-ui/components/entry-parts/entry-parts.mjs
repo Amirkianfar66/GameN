@@ -10,9 +10,9 @@
 //   screen, foot             the scrolling screen inside the safe areas, and its foot (.screen, .screen-foot)
 //   largeTitle               the large title (.large-title)
 //   codeCard, setCodeCard    the room code card: the code, Copy, the seats and their bar (.code-card)
-//   createToast              the entry screens' toast (.toast), with the shell's timing: TOAST_MS, shown once
-//                            per id, no travel with Reduce motion. The Lead will fold it and the shell's into
-//                            one kit part, so it stands alone and is easy to swap.
+//   createToast              the entry screens' toast with the shell's timing: TOAST_MS, shown once per id. It is
+//                            drawn by the kit's toast (kit.toast, kit 0.8.0; the shell draws its own with it too),
+//                            so it looks, moves and takes no tap as the shell's does (0.3.0).
 //
 // A component that draws them adds `ms-entry-parts` to its root (beside `ms-kit`), imports entry-parts.css,
 // and gives each control to its control policy: a refused choice keeps its look, as sheet 10 draws Join and
@@ -21,7 +21,7 @@
 import { iconSvg } from '../icons.mjs';
 import { createKit } from '../kit/kit.mjs';
 
-export const ENTRY_PARTS_VERSION = 'entry-parts-0.2.0';
+export const ENTRY_PARTS_VERSION = 'entry-parts-0.3.0';
 /** The pack's two tones of an entry choice: the primary (amber) choice, and the plain one. */
 export const ENTRY_TONES = Object.freeze([null, 'primary']);
 /** How long a toast shows before it fades, in milliseconds: the shell's TOAST_MS, a local confirmation. */
@@ -126,11 +126,12 @@ export function createEntryParts(doc) {
   }
   const codeCard = props => setCodeCard(h('div'), props);
 
-  // ── The toast (.toast) ───────────────────────────────────────────────
+  // ── The toast (the kit's, 0.3.0) ─────────────────────────────────────
   /**
    * The entry screens' toast in `host` (the component's root): update({ id, text, icon } | null). Each id shows
-   * once, for ENTRY_TOAST_MS, then fades; a new id replaces it. With Reduce motion (the component's
-   * data-motion or the device's) it fades in without its travel. Its top is the component's --ms-ep-toast-top.
+   * once, for ENTRY_TOAST_MS, then fades; a new id replaces it. The kit's toast draws it (kit 0.8.0): the pack's
+   * look, the drop, and an 80 ms fade with Reduce motion (the component's data-motion or the device's), and it
+   * takes no tap. It sits 10 px under the component's --ms-k-toast-top: set it to where the nav bar ends.
    */
   function createToast(host) {
     const win = doc.defaultView;
@@ -142,14 +143,14 @@ export function createEntryParts(doc) {
       if (shown === toast.id) return;
       shown = toast.id;
       clear();
-      node = h('div', 'ms-ep-toast', { role: 'status' });
-      node.append(svg(toast.icon ?? 'check', true), text(h('span', 'ms-ep-toast-text'), toast.text));
+      const props = { text: toast.text, icon: toast.icon ?? 'check' };
+      node = kit.toast(props);
       host.append(node);
       const mine = node;
       timer = win.setTimeout(() => {
         timer = null;
         if (node !== mine) return;
-        mine.dataset.leaving = '';
+        kit.setToast(mine, { ...props, leaving: true });
         leaveTimer = win.setTimeout(() => { leaveTimer = null; if (node === mine) { mine.remove(); node = null; } }, 200);
       }, ENTRY_TOAST_MS);
     }
