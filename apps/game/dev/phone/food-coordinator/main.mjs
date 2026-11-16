@@ -1,11 +1,12 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 
 import {createPlanetController, createPlanetSession} from '@mothership/game';
+import {PLANET_FOOD_TASK_PINS} from '@mothership/contracts';
 import {postHostedPlanetFoodDelivery, postHostedPlanetRequest} from '../../../dist/browser/planet-request.js';
 import {loadArt} from '../../../hosted/art.mjs';
 import {setCrewPictureSurface} from '../../../hosted/crew-runtime.mjs';
 import {mountPlanetRenderer} from '../../../hosted/planet/render.mjs';
-import {mountFoodApp} from '../../../hosted/planet/food-app.mjs';
+import {foodPresentationFor} from '../../../hosted/planet/food-presentation.mjs';
 import {createFoodAssets} from '../../../hosted/planet/food-assets.mjs';
 import {createPlanetPreferences} from '../../../hosted/planet/preferences.mjs';
 import {PLANET_LIBRARY_MEDIA} from '../../../hosted/planet/library-assets.mjs';
@@ -67,12 +68,13 @@ async function start() {
   // Both trial arms mount the same installed Food controller and Designer
   // renderer with the same surrounding Planet board. Only the feed ports vary.
   const game = createPlanetController(ordinaryTransport, ports, {matchId: binding.matchId, surface: 'player'});
+  const presentation = foodPresentationFor({...PLANET_FOOD_TASK_PINS, assetManifestVersion: 'design-0.9.0'});
   let food;
   root.classList.add('planet-container');
   const gameRoot = document.createElement('div');
   root.append(gameRoot);
   const renderer = mountPlanetRenderer(gameRoot, game, {cinematics: PLANET_LIBRARY_MEDIA,
-    settings: parent => preferences.controls(parent), food: {openTasks: () => food?.openTasks()}});
+    settings: parent => preferences.controls(parent), food: {openTasks: () => food?.openTasks(), gauge: presentation.gauge}});
   const observeTransport = {...ordinaryTransport, listen(audience, listener) {
     return ordinaryTransport.listen(audience, {
       snapshot(packet) {
@@ -82,7 +84,7 @@ async function start() {
       error(kind) { observation.invalidate(); listener.error(kind); },
     });
   }};
-  food = mountFoodApp(gameRoot, {session: {foodTransport: () => observation.wrapFoodTransport(session.foodTransport())},
+  food = presentation.mountPlayer(gameRoot, {session: {foodTransport: () => observation.wrapFoodTransport(session.foodTransport())},
     game, transport: observeTransport, binding, ports, recovery: storage('food'), assets,
     preferences: preferences.get, renderer});
   observation.attach(food.controller);

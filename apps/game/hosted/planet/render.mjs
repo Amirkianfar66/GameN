@@ -14,8 +14,6 @@ import {createPlanetLibrary} from './library.mjs';
 import {createPlanetCinematic} from './cinematic.mjs';
 import {phoneLayouts,phoneRoom,createBlackoutGeometry} from './phone-layout.mjs';
 import {labelPhoneControl,phoneIcon,phoneActionIcon,phonePanelIcon} from './phone-controls.mjs';
-import {createFoodUi} from './food-ui.mjs';
-import {foodGauge} from './food-gauge.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -35,7 +33,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const portrait=el('span',null,'planet-active-portrait'),identity=el('div',null,'planet-active-identity'),detail=el('span',null,'planet-active-detail');portrait.setAttribute('aria-hidden','true');identity.append(phase,detail);
  const promises=labelPhoneControl(button('Promises','panel','promises'),'Promises','promises'),menu=labelPhoneControl(button('Settings','panel','settings'),'Settings','settings');promises.id='planet-top-promises';menu.id='planet-top-settings';
  instruction.id='ms-action-step';header.append(portrait,identity,promises,timer,menu,offices,checkpoint,instruction);
- const foodUi=createFoodUi(document),foodClock=foodUi.h('span.planet-food.fs-clock.food-native-clock');let gaugeDoses=null;
+ const foodClock=el('span',null,'planet-food fs-clock food-native-clock');let gaugeDoses=null;
  const stage=el('main',null,'planet-stage');stage.setAttribute('aria-label','Ship view');
  const holder=el('div',null,'bv2-mount planet-board'),targets=el('div',null,'planet-targets');
  const nav=el('nav',null,'planet-nav');nav.setAttribute('aria-label','Player controls');
@@ -291,10 +289,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   timer.dataset.urgent=String(model.phase?.remainingMs!==null&&model.phase?.remainingMs<=10000);
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
   // phones and the display get the same gauge; no private Task is consulted.
-  if(model.food&&!model.concealed&&model.connection==='live'){
+  if(food?.gauge&&model.food&&!model.concealed&&model.connection==='live'){
    if(timer.parentElement!==foodClock){header.insertBefore(foodClock,timer);foodClock.prepend(timer);}
    const doses=model.food.stock.doses;
-   if(doses!==gaugeDoses){foodClock.querySelector('.fs-food')?.remove();foodClock.append(foodGauge(foodUi,doses));gaugeDoses=doses;}
+   if(doses!==gaugeDoses){foodClock.querySelector('.fs-food')?.remove();foodClock.append(food.gauge(document,doses));gaugeDoses=doses;}
   }else if(foodClock.isConnected){header.insertBefore(timer,foodClock);foodClock.remove();foodClock.querySelector('.fs-food')?.remove();gaugeDoses=null;}
   offices.textContent=model.dark?'':`Captain ${number(model.offices?.captainSeatId)} · Officer ${number(model.offices?.officerSeatId)}${model.offices?.blockedSeatId?` · Move blocked: ${number(model.offices.blockedSeatId)}`:''}`;
   checkpoint.textContent=model.dark?'Blackout':model.boardLabel??'';
@@ -313,7 +311,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const picking=model.action&&['targets','slots'].includes(model.action.step)&&!['VOTE','SUBMIT_CODE','PANEL_CODE'].includes(model.action.type);
   labelPhoneControl(pass,picking?`Cancel ${model.action.label}`:voting?voted?'Voted':'Vote':'Pass',picking?'close':voting?'vote':'pass');pass.dataset.planetAction=picking?'close':'begin';pass.dataset.value=voting?'VOTE':'PASS_TURN';pass.dataset.picking=String(!!picking);
   pass.disabled=picking?false:voting?!model.canVote:!model.canPass;pass.setAttribute('aria-disabled',String(pass.disabled));pass.hidden=model.surface==='display'||model.concealed;
-  nav.hidden=model.surface==='display'||model.concealed;
+  header.hidden=foodSurface.active;
+  nav.hidden=model.surface==='display'||model.concealed||foodSurface.active;
   if(lastPanel!==model.panel){drawings.clear();more=false;lastPanel=model.panel;}
   if(model.privateArea===null||model.concealed||model.dark||model.phase?.expired)drawings.clear();
   const ownRoom=phoneRoom(model.board?.seats.find(s=>s.seatId===model.ownSeatId)?.location);

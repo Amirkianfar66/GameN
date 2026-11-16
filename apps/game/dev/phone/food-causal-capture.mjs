@@ -12,6 +12,7 @@ import {fileURLToPath} from 'node:url';
 import {build} from 'vite';
 import {connect,launchBrowser,openPage} from '../../../../design/tools/lib/chrome.mjs';
 import {applyHostedPreviewHeaders,createHostedPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+import {foodPresentationBuild} from './food-presentation-vite.mjs';
 
 const root=fileURLToPath(new URL('../../../../',import.meta.url));
 const fixture=join(root,'apps/game/dev/phone/food');
@@ -24,6 +25,7 @@ function pathArg(name){
 }
 const output=pathArg('output'),hosted=pathArg('baseline-hosted-output');
 const recoveryFeedbackOnly=process.argv.includes('--recovery-feedback-only');
+const winchSmoke=process.argv.includes('--winch-smoke');
 const releaseBytes=await readFile(join(hosted,'preview-release.json')),release=JSON.parse(releaseBytes);
 const project='gamen-mothership-staging',headers=createHostedPreviewHeaders(project);
 assert.equal(release.projectId,project);
@@ -63,6 +65,7 @@ function stage(page,caseId,refresh){
  return page.evaluate(harness+'.causal.stage('+JSON.stringify(caseId)+','+refresh+')');
 }
 async function capture(page,part,label){
+ if(winchSmoke)return;
  const size=await page.evaluate('[innerWidth,innerHeight]');
  const file=size.join('x')+'-'+label+'.png';
  const result=await page.send('Page.captureScreenshot',{format:'png',fromSurface:true});
@@ -185,8 +188,9 @@ await mkdir(output,{recursive:true});
 try{
  // The fixture bundles the current app. The art files are the verified, immutable
  // baseline bytes, while the registered-hosted consumer follows its own admission.
- await build({root:fixture,publicDir:false,configFile:false,logLevel:'warn',
+ await build({root:fixture,publicDir:false,configFile:false,logLevel:'warn',plugins:[foodPresentationBuild()],
   build:{outDir:buildDir,emptyOutDir:true,cssMinify:false,target:'es2022',rollupOptions:{input:join(fixture,'app.html')}}});
+ report.composition=JSON.parse(await readFile(join(buildDir,'food-composition.json')));
  const files=(await readdir(buildDir,{recursive:true,withFileTypes:true})).filter(entry=>entry.isFile());
  report.fixtureFiles=await Promise.all(files.map(async entry=>{
   const file=join(entry.parentPath,entry.name),bytes=await readFile(file);
@@ -210,7 +214,7 @@ try{
  for(const {key,value}of headers)assert.equal(response.headers.get(key),value,key);
  await response.text();
  chrome=await launchBrowser();report.browser=chrome.version;browser=await connect(chrome.endpoint);
- for(const [width,height]of [[390,844],[430,932]]){
+ for(const [width,height]of winchSmoke?[[390,844]]:[[390,844],[430,932]]){
   const page=await openPage(browser,{width,height,mobile:true});
   try{
    await page.send('Page.addScriptToEvaluateOnNewDocument',{source:[
@@ -219,7 +223,8 @@ try{
     'directive:e.violatedDirective,blocked:e.blockedURI,path:new URL(e.sourceFile||location.href).pathname,line:e.lineNumber,column:e.columnNumber',
     '}));',
    ].join('\n')});
-   if(recoveryFeedbackOnly)report.viewports.push({width,height,releaseFeedback:await releaseFeedback(page,origin,width)});
+   if(winchSmoke)report.viewports.push({width,height,winch:await winch(page,origin)});
+   else if(recoveryFeedbackOnly)report.viewports.push({width,height,releaseFeedback:await releaseFeedback(page,origin,width)});
    else report.viewports.push({width,height,panel:await panel(page,origin),winch:await winch(page,origin)});
   }finally{await page.close();}
  }
