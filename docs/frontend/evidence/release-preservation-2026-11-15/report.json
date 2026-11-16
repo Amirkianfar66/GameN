@@ -1,0 +1,669 @@
+{
+  "scope": "Local desktop Chromium with synthetic session transport, running the actual Planet app and film renderer.",
+  "candidate": {
+    "commit": "de6126dcb00fb1c7875de5396c8ab8783c55465e",
+    "dirty": ""
+  },
+  "artwork": {
+    "baseline": {
+      "commit": "ea37de4c2cc2c76e87717be6f053cf4bca47558a",
+      "clean": true
+    },
+    "publishedSource": "6722dbc545d88076c1ae55da6ec72c635d471a43",
+    "publishedBundleSha256": "bc381ada656d211c9ba99cb67bedd5a4fa352a72701a6790fc850b4dcfda390b",
+    "publishedReleaseSha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+    "artManifestSha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "files": 67
+  },
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "checks": [
+    {
+      "name": "Food card, animated SVG and manual Ready follow the 20s/10s server window",
+      "detail": {
+        "cardMs": 15551.4501953125,
+        "firstFilmMs": 20069.75,
+        "readyMs": 30013.35009765625
+      }
+    },
+    {
+      "name": "Food recovery uses the same saved window and Skip stays local across reload",
+      "detail": {
+        "beforeReloadMs": 22553.199951171875,
+        "revealAfterReloadMs": 22614.89990234375
+      }
+    },
+    {
+      "name": "Food role concealment persists on reload, and disclosure clears on authorization loss"
+    },
+    {
+      "name": "Food boarding SVG, local Skip, expiry wait and server transition",
+      "detail": {
+        "boardingMs": 4354.300048828125,
+        "finalPhase": "FOOD_SUPPLY"
+      }
+    },
+    {
+      "name": "Saved design-0.8.0 flow 2 renders both films"
+    },
+    {
+      "name": "Mixed and forged tuples fail closed while a saved earlier artwork tuple still shows the card"
+    },
+    {
+      "name": "Device Reduce motion keeps a still Role beat and renders Boarding"
+    }
+  ],
+  "captures": [
+    {
+      "part": "role-card",
+      "label": "Admitted Food player, card before the film",
+      "file": "/private/tmp/gamen-film-preservation-integration/390x844-food-role-card.jpg",
+      "sha256": "e43ff4408ead4278ba4a4d78b6881361f2e86922ae89c36dadb93b64946336e0",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-2",
+        "startedAt": 1794753883260,
+        "roleFilmStartsAt": 1794753903260,
+        "endsAt": 1794753913260
+      },
+      "now": 1794753898812.55,
+      "canReady": false,
+      "readyButtonDisabled": true,
+      "role": "Doctor",
+      "film": null,
+      "svg": false,
+      "stats": null,
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-film",
+      "label": "Food role film in its final ten seconds",
+      "file": "/private/tmp/gamen-film-preservation-integration/390x844-food-role-full.jpg",
+      "sha256": "aae4028def15108e059d6820e72378cbba1def1433e8c2638ac15932cb0f1860",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-2",
+        "startedAt": 1794753883260,
+        "roleFilmStartsAt": 1794753903260,
+        "endsAt": 1794753913260
+      },
+      "now": 1794753908761.45,
+      "canReady": false,
+      "readyButtonDisabled": true,
+      "role": "Doctor",
+      "film": "role",
+      "svg": true,
+      "stats": {
+        "samples": 127,
+        "figureMounts": 3,
+        "poseUpdates": 184,
+        "headUpdates": 127,
+        "environmentInsertions": 229,
+        "attributes": 50744,
+        "largestSampleBytes": 208468
+      },
+      "operations": [
+        "requestAdmission",
+        "read",
+        "read",
+        "read",
+        "read",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-ready",
+      "label": "Reading ends at 30 seconds with Ready enabled",
+      "file": "/private/tmp/gamen-film-preservation-integration/390x844-food-role-ready.jpg",
+      "sha256": "a91337ceac07cd13611259a806d890c22f80f433d0ae62d8e7e20b14f8becde9",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-2",
+        "startedAt": 1794753883260,
+        "roleFilmStartsAt": 1794753903260,
+        "endsAt": 1794753913260
+      },
+      "now": 1794753913273.75,
+      "canReady": true,
+      "readyButtonDisabled": false,
+      "role": "Doctor",
+      "film": null,
+      "svg": false,
+      "stats": null,
+      "operations": [
+        "requestAdmission",
+        "read",
+        "read",
+        "read",
+        "read",
+        "read",
+        "read",
+        "read",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "boarding",
+      "label": "Shared display, Food boarding film inside the saved interval",
+      "file": "/private/tmp/gamen-film-preservation-integration/390x844-food-boarding-full.jpg",
+      "sha256": "f7f5076b2c2b8ecaf2009cef6b49944b8840b5a61e041631d7c5eca93d840fb0",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "boarding",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-boarding-6",
+        "startedAt": 1794753911888,
+        "endsAt": 1794753921888
+      },
+      "now": 1794753916249,
+      "canReady": false,
+      "readyButtonDisabled": null,
+      "role": null,
+      "film": "boarding",
+      "svg": true,
+      "stats": {
+        "samples": 4,
+        "figureMounts": 8,
+        "poseUpdates": 32,
+        "headUpdates": 0,
+        "environmentInsertions": 3,
+        "attributes": 891,
+        "largestSampleBytes": 284834
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-film",
+      "label": "Food role film with device Reduce motion",
+      "file": "/private/tmp/gamen-film-preservation-integration/390x844-food-role-reduced.jpg",
+      "sha256": "3cd6450ec56238a11ee5a80f1be6b4f0d860fd0e8447f6a2c36226bcb5b34e92",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-14",
+        "startedAt": 1794753898102,
+        "roleFilmStartsAt": 1794753918102,
+        "endsAt": 1794753928102
+      },
+      "now": 1794753922661.3,
+      "canReady": false,
+      "readyButtonDisabled": true,
+      "role": "Hacker",
+      "film": "role",
+      "svg": true,
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "boarding",
+      "label": "Food boarding film with device Reduce motion",
+      "file": "/private/tmp/gamen-film-preservation-integration/390x844-food-boarding-reduced.jpg",
+      "sha256": "b3b241eed41eeecb755908c6c801233db9bcf493d0369ab1c628631d665eb34c",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "boarding",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-boarding-15",
+        "startedAt": 1794753917205,
+        "endsAt": 1794753927205
+      },
+      "now": 1794753922745.5,
+      "canReady": false,
+      "readyButtonDisabled": null,
+      "role": null,
+      "film": "boarding",
+      "svg": true,
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-card",
+      "label": "Admitted Food player, card before the film",
+      "file": "/private/tmp/gamen-film-preservation-integration/430x932-food-role-card.jpg",
+      "sha256": "8cac153b821507369d997220859d638e7230c00218382b7704e72aecc10bede4",
+      "viewport": [
+        430,
+        932
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-2",
+        "startedAt": 1794753918427,
+        "roleFilmStartsAt": 1794753938427,
+        "endsAt": 1794753948427
+      },
+      "now": 1794753922967.65,
+      "canReady": false,
+      "readyButtonDisabled": true,
+      "role": "Doctor",
+      "film": null,
+      "svg": false,
+      "stats": null,
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-film",
+      "label": "Food role film, full motion",
+      "file": "/private/tmp/gamen-film-preservation-integration/430x932-food-role-full.jpg",
+      "sha256": "e1f624b6fb01196d463afb64ffe1417b5f38991148c21c88d286d5e5152baa26",
+      "viewport": [
+        430,
+        932
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-3",
+        "startedAt": 1794753897516,
+        "roleFilmStartsAt": 1794753917516,
+        "endsAt": 1794753927516
+      },
+      "now": 1794753923097.6,
+      "canReady": false,
+      "readyButtonDisabled": true,
+      "role": "Doctor",
+      "film": "role",
+      "svg": true,
+      "stats": {
+        "samples": 2,
+        "figureMounts": 2,
+        "poseUpdates": 4,
+        "headUpdates": 2,
+        "environmentInsertions": 0,
+        "attributes": 750,
+        "largestSampleBytes": 214629
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "boarding",
+      "label": "Food boarding film, full motion",
+      "file": "/private/tmp/gamen-film-preservation-integration/430x932-food-boarding-full.jpg",
+      "sha256": "f1fe8cd199356061ed96d4eb2bdd1583cd337036c4ee62d6bd66e32a81b11875",
+      "viewport": [
+        430,
+        932
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "boarding",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-boarding-4",
+        "startedAt": 1794753917682,
+        "endsAt": 1794753927682
+      },
+      "now": 1794753923241.2002,
+      "canReady": false,
+      "readyButtonDisabled": null,
+      "role": null,
+      "film": "boarding",
+      "svg": true,
+      "stats": {
+        "samples": 2,
+        "figureMounts": 2,
+        "poseUpdates": 4,
+        "headUpdates": 0,
+        "environmentInsertions": 1,
+        "attributes": 234,
+        "largestSampleBytes": 276831
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-film",
+      "label": "Food role film, reduced motion",
+      "file": "/private/tmp/gamen-film-preservation-integration/430x932-food-role-reduced.jpg",
+      "sha256": "ebd7009f9a845d26e4fd2732d8e945c3bbb3a57cae31b336648177601c772304",
+      "viewport": [
+        430,
+        932
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-5",
+        "startedAt": 1794753897805,
+        "roleFilmStartsAt": 1794753917805,
+        "endsAt": 1794753927805
+      },
+      "now": 1794753923363.4001,
+      "canReady": false,
+      "readyButtonDisabled": true,
+      "role": "Doctor",
+      "film": "role",
+      "svg": true,
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "boarding",
+      "label": "Food boarding film, reduced motion",
+      "file": "/private/tmp/gamen-film-preservation-integration/430x932-food-boarding-reduced.jpg",
+      "sha256": "f9b37b8e5542904e015ca6c08a0223035d63abda406572ea4c3784d0c97dc1e6",
+      "viewport": [
+        430,
+        932
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "boarding",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-boarding-6",
+        "startedAt": 1794753917905,
+        "endsAt": 1794753927905
+      },
+      "now": 1794753923444.0999,
+      "canReady": false,
+      "readyButtonDisabled": null,
+      "role": null,
+      "film": "boarding",
+      "svg": true,
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    },
+    {
+      "part": "role-ready",
+      "label": "Reading ends at 30 seconds with Ready enabled",
+      "file": "/private/tmp/gamen-film-preservation-integration/430x932-food-role-ready.jpg",
+      "sha256": "bea985f85debfc6576822cd4ae37229af6e035d0bfdb059b08192f3f663ffc88",
+      "viewport": [
+        430,
+        932
+      ],
+      "dpr": 1,
+      "connection": "live",
+      "status": "reading",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.4.0",
+        "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+        "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+        "assetManifestVersion": "design-0.9.0"
+      },
+      "flow": 3,
+      "setup": {
+        "id": "synthetic-reading-7",
+        "startedAt": 1794753893081,
+        "roleFilmStartsAt": 1794753913081,
+        "endsAt": 1794753923081
+      },
+      "now": 1794753923514.2,
+      "canReady": true,
+      "readyButtonDisabled": false,
+      "role": "Doctor",
+      "film": null,
+      "svg": false,
+      "stats": null,
+      "operations": [
+        "requestAdmission",
+        "read"
+      ],
+      "gamePhase": null
+    }
+  ],
+  "policy": [
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "source": "/assets/index-vFBtRa-y.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Zod caught eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "source": "/assets/index-vFBtRa-y.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Zod caught eval probe"
+    }
+  ],
+  "fixtureFiles": [
+    {
+      "path": "assets/favicon-DoDriC4k.svg",
+      "bytes": 114,
+      "sha256": "4e03733a6504ce1645b1ddd3a6c487c53ab6d93b262da6228d5995614b70ead0"
+    },
+    {
+      "path": "assets/index-DLMupB0z.css",
+      "bytes": 256469,
+      "sha256": "41f184dca038cbd69dbca51d09be55323ccacbcb2d973ec1cb128025787914fc"
+    },
+    {
+      "path": "assets/index-vFBtRa-y.js",
+      "bytes": 1165122,
+      "sha256": "3019105bba54001aafc6597a5c00d4ed39a8bd7a4a51d0f2d2cb51d77bec2e8f"
+    },
+    {
+      "path": "index.html",
+      "bytes": 540,
+      "sha256": "3eaffb49f697883bef30b0922343f96c2f3a0cbde33bf0d59ec9f6c45b5cdc8d"
+    }
+  ],
+  "url": "http://127.0.0.1:49258/",
+  "browser": "Google Chrome 157.0.8103.51",
+  "passed": true
+}

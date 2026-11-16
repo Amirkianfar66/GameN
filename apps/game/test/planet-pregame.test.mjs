@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
+import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS,PLANET_FOOD_TASK_PINS} from '@mothership/contracts';
 import {createPlanetPregame,publicFilmRoster,PREGAME_ROLE_IDS} from '../dist/index.js';
 
 function memory(initial=null){let value=initial;return {load:()=>value,save:next=>{value=next},clear:()=>{value=null},get value(){return value}};}
 const visibility={visible:true,focused:true,uid:'synthetic-owner'};
-function state(count=9){return {mode:'synthetic',connection:'live',message:null,matchId:'pregame-synthetic',roomCode:'ABCDEF',status:'reading',versions:{assetManifestVersion:'design-0.8.0'},isHost:false,selfSeatId:'seat-4',playerCount:count,members:Array.from({length:count},(_,i)=>({seatId:`seat-${i+1}`,characterId:`c${i+1}`,displayName:`Player ${i+1}`,controller:'human',ready:false})),pendingAdmissions:[],setup:{id:'reading-synthetic',endsAt:31000},setupFlowVersion:2,setupClock:{status:'synced',serverNowMs:1000,uncertaintyMs:0},remainingMs:30000,canChoose:false,canReady:false,canReturnToLobby:false,busy:false,uncertain:false,ownRole:{role:'Hacker'},recoveryCode:null,pendingAdmission:null};}
+const historical={...PLANET_GAME_PINS,assetManifestVersion:'design-0.8.0'};
+const food={...PLANET_FOOD_TASK_PINS,assetManifestVersion:'design-0.9.0'};
+function state(count=9){return {mode:'synthetic',connection:'live',message:null,matchId:'pregame-synthetic',roomCode:'ABCDEF',status:'reading',versions:historical,isHost:false,selfSeatId:'seat-4',playerCount:count,members:Array.from({length:count},(_,i)=>({seatId:`seat-${i+1}`,characterId:`c${i+1}`,displayName:`Player ${i+1}`,controller:'human',ready:false})),pendingAdmissions:[],setup:{id:'reading-synthetic',endsAt:31000},setupFlowVersion:2,setupClock:{status:'synced',serverNowMs:1000,uncertaintyMs:0},remainingMs:30000,canChoose:false,canReady:false,canReturnToLobby:false,busy:false,uncertain:false,ownRole:{role:'Hacker'},recoveryCode:null,pendingAdmission:null};}
 function rig(options={},store=memory()){let now=1000;const controller=createPlanetPregame({now:()=>now},store,options);return {controller,store,setNow:t=>{now=t},advance:ms=>{now+=ms},update:(s,v=visibility)=>controller.update(s,v)};}
 function boarding(count=9){return {...state(count),status:'boarding',ownRole:null,setup:{id:'boarding-synthetic',startedAt:1000,endsAt:11000},remainingMs:10000};}
 
@@ -37,7 +40,7 @@ test('late reveal, unavailable storage and historical artwork keep the authorize
  for(const remainingMs of [0,9999]){const r=rig();r.update({...state(),remainingMs});assert.equal(r.controller.sample(),null);}
  const failed=rig({}, {load(){throw new Error()},save(){throw new Error()},clear(){}});failed.update(state());assert.equal(failed.controller.sample(),null);
  const corrupt=rig({},memory('not-json'));corrupt.update(state());assert.equal(corrupt.controller.sample(),null);
- const historical=rig();historical.update({...state(),versions:{assetManifestVersion:'design-0.7.0'}});assert.equal(historical.controller.sample(),null);
+ const historical=rig();historical.update({...state(),versions:{...historical,assetManifestVersion:'design-0.7.0'}});assert.equal(historical.controller.sample(),null);
 });
 test('private films conceal immediately on blur, background, stale state, identity/role/character change or Ready',()=>{
  const variants=[{v:{...visibility,focused:false}},{v:{...visibility,visible:false}},{v:{...visibility,uid:null}},{v:{...visibility,uid:'different-owner'}},{s:{connection:'stale'}},{s:{ownRole:null}},{s:{ownRole:{role:'Doctor'}}},{s:{status:'boarding'}},{s:{members:state().members.map(m=>m.seatId==='seat-4'?{...m,ready:true}:m)}},{s:{members:state().members.map(m=>m.seatId==='seat-4'?{...m,characterId:'c9'}:m)}}];
@@ -51,7 +54,7 @@ test('boarding seeks the server interval on recovery for 7/8/9 and expiry never 
  for(const count of [7,8,9]){const r=rig(),s=boarding(count);r.update({...s,setupClock:{status:'synced',serverNowMs:6000,uncertaintyMs:0}});assert.equal(r.controller.sample().t,5000);assert.equal(r.controller.sample().roster.length,count);r.advance(4999);assert.equal(r.controller.sample().t,9999);r.advance(1);assert.equal(r.controller.sample(),null);r.update({...s,setupClock:{status:'synced',serverNowMs:12000,uncertaintyMs:0},remainingMs:0});assert.equal(r.controller.sample(),null);assert.equal(s.status,'boarding');assert.equal(s.ownRole,null);}
 });
 test('boarding requires explicit flow2, trusted clock, valid interval, supported art and admitted public roster',()=>{
- const s=boarding();for(const change of [{setupFlowVersion:null},{setup:null},{setup:{id:'x',startedAt:1000,endsAt:10999}},{setupClock:{status:'unsynced'}},{setupClock:{status:'synced',serverNowMs:10999,uncertaintyMs:2}},{setupClock:{status:'synced',serverNowMs:999,uncertaintyMs:0}},{versions:{assetManifestVersion:'design-0.7.0'}},{members:[]},{connection:'stale'}]){const r=rig();r.update({...s,...change});assert.equal(r.controller.sample(),null);}
+ const s=boarding();for(const change of [{setupFlowVersion:null},{setup:null},{setup:{id:'x',startedAt:1000,endsAt:10999}},{setupClock:{status:'unsynced'}},{setupClock:{status:'synced',serverNowMs:10999,uncertaintyMs:2}},{setupClock:{status:'synced',serverNowMs:999,uncertaintyMs:0}},{versions:{...historical,assetManifestVersion:'design-0.7.0'}},{members:[]},{connection:'stale'}]){const r=rig();r.update({...s,...change});assert.equal(r.controller.sample(),null);}
 });
 test('boarding clock correction does not rewind or restart a stable stage',()=>{
  const r=rig(),s=boarding();r.update({...s,setupClock:{status:'synced',serverNowMs:6000,uncertaintyMs:0}});assert.equal(r.controller.sample().t,5000);r.update({...s,setupClock:{status:'synced',serverNowMs:5500,uncertaintyMs:0}});assert.equal(r.controller.sample().t,5000);r.update({...s,setupClock:{status:'synced',serverNowMs:7000,uncertaintyMs:0}});assert.equal(r.controller.sample().t,6000);
@@ -81,4 +84,58 @@ test('timed Skip persists only neutral identifiers; no new match inherits that S
 });
 test('flow3 boarding is the independent full10s interval and timed expiry never creates it',()=>{
  const r=rig();r.update(timed(31000));assert.equal(r.controller.sample(),null);r.update({...boarding(),setupFlowVersion:3});assert.equal(r.controller.sample().kind,'boarding');r.advance(10000);assert.equal(r.controller.sample(),null);
+});
+
+test('saved 0.8 tuples keep both films and mixed or forged tuples keep neither',()=>{
+ const supported=[historical,{...PLANET_PHONE_OFFER_PINS,assetManifestVersion:'design-0.8.0'},{...PLANET_BLACKOUT_PINS,assetManifestVersion:'design-0.8.0'}];
+ for(const versions of supported){
+  const r=rig();
+  r.update({...timed(24000),versions});assert.equal(r.controller.sample()?.kind,'role');
+  r.update({...boarding(),setupFlowVersion:3,versions});assert.equal(r.controller.sample()?.kind,'boarding');
+ }
+ for(const versions of [
+  {...food,assetManifestVersion:historical.assetManifestVersion},
+  {...historical,assetManifestVersion:food.assetManifestVersion},
+  {...food,rulesetHash:historical.rulesetHash},
+  {...historical,protocolVersion:2},
+  {assetManifestVersion:historical.assetManifestVersion},
+  {...food,assetManifestVersion:'design-0.10.0'},
+ ]){
+  const r=rig();
+  r.update({...state(),versions});assert.equal(r.controller.sample(),null);
+  r.update({...timed(24000),versions});assert.equal(r.controller.sample(),null);
+  r.update({...boarding(),setupFlowVersion:3,versions});assert.equal(r.controller.sample(),null);
+ }
+});
+
+test('Food films follow the saved reading and boarding intervals across recovery and Skip',()=>{
+ const r=rig({skipRoleOnEntry:true});
+ const reading={...timed(1000),versions:food};
+ r.update(reading);r.advance(19999);assert.equal(r.controller.sample(),null);
+ r.advance(1);assert.equal(r.controller.sample()?.t,0);
+ r.update({...timed(26000),versions:food},{...visibility,focused:false});assert.equal(r.controller.sample(),null);
+ r.update({...timed(28000),versions:food});assert.equal(r.controller.sample()?.t,7000);
+ const reloaded=rig({skipEntry:true,skipRoleOnEntry:true},r.store);
+ reloaded.update({...timed(28000),versions:food});assert.equal(reloaded.controller.sample()?.t,7000);
+ reloaded.controller.skip();assert.equal(reloaded.controller.sample(),null);
+ const postSkip=rig({},r.store);
+ postSkip.update({...timed(29000),versions:food});assert.equal(postSkip.controller.sample(),null);
+ r.advance(3000);assert.equal(r.controller.sample(),null);assert.equal(reading.members[3].ready,false);
+ const stage={...boarding(),versions:food,setupFlowVersion:3,setupClock:{status:'synced',serverNowMs:6000,uncertaintyMs:0}};
+ r.update(stage);assert.equal(r.controller.sample()?.t,5000);
+ r.advance(4999);assert.equal(r.controller.sample()?.t,9999);
+ r.advance(1);assert.equal(r.controller.sample(),null);assert.equal(stage.status,'boarding');
+});
+
+test('Food flows before 3 keep reading and boarding without either film',()=>{
+ for(const setupFlowVersion of [null,2]){
+  const r=rig();
+  r.update({...state(),versions:food,setupFlowVersion});
+  assert.equal(r.controller.sample(),null);
+  r.update({...boarding(),versions:food,setupFlowVersion});
+  assert.equal(r.controller.sample(),null);
+ }
+ const legacy=rig();
+ legacy.update({...state(),setupFlowVersion:null});
+ assert.equal(legacy.controller.sample()?.kind,'role');
 });
