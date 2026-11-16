@@ -53,7 +53,7 @@ const EXPECT = {
   'code-correct': outcomeOf('CODE CORRECT', 'Hack Spaceship is unlocked|Using it is a separate action on your turn'),
   'scan-nomatch': resultOf('NO MATCH', 'Gus · Red guess', 'Scan|Blocked in Round 4'),
   'code-pick': codeOf('Next', PICKED, PICK_LINE),
-  'code-wrong': outcomeOf('CODE WRONG', 'Your one attempt is used|Scan stays available'),
+  'code-wrong': outcomeOf('CODE WRONG', 'Your one attempt is used'),
   'scan-no-guess': guessOf('Cancel|Scan', 'Blue:false,Red:false,Alien:false', { off: 'Scan' }),
   'scan-sending': guessOf('Cancel|Scanning…', 'Blue:true,Red:false,Alien:false', { off: 'Cancel', refused: true }),
   'scan-error': guessOf('Cancel|Scan', 'Blue:true,Red:false,Alien:false', { error: 'The server did not accept the scan. Check the player, then scan again.' }),

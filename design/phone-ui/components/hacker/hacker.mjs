@@ -7,8 +7,10 @@
 //   - mountScanResult(): MATCHED or NO MATCH, the guess, and its row; Done;
 //   - mountFinalCode() with codeSheet(): the nine portraits with names, Pick 1–4 in order; Next, then Back and
 //     Submit Code;
-//   - mountCodeResult(): CODE CORRECT or CODE WRONG, with its two lines; Done.
-// It is built on the kit alone (component-kit-0.7.0): who, the segmented control, the cells and the 3 × 3, the
+//   - mountCodeResult(): CODE CORRECT with its two lines, or CODE WRONG with "Your one attempt is used"; Done.
+// The four results' stamps snap in as REGISTERED does, over 120 ms, and are there at once with Reduce motion (the
+// handoff's motion table; hacker.css).
+// It is built on the kit alone (component-kit-0.7.1): who, the segmented control, the cells and the 3 × 3, the
 // row, the group note, the inline error, and the notice with its extra for Scan's row.
 // Each part is mounted in the shell's sheet body for its step and returns { element, update, suspend, resume,
 // dispose }; the helpers give the shell its words. It is all this viewer's: the Hacker's own phone. The component
@@ -24,7 +26,11 @@ import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 export const HACKER_VERSION = 'hacker-0.1.0';
 /** The sides a guess may take: the contract's PlanetFaction, in the pack's order. */
 export const SIDES = Object.freeze(['Blue', 'Red', 'Alien']);
-/** The pack's words (screens-more.mjs scan() and code()), and the undrawn states' (Q2, Q3, T3). */
+/**
+ * The pack's words (screens-more.mjs scan() and code()), and the undrawn states' (Q2, Q3, T3). Not the pack's "Scan
+ * stays available" under CODE WRONG: the Lead dropped it (Q-b, docs/design/phone-ui-handoff.md), as it states a
+ * rule the planet-navigation overlay leaves open (CODE-OPEN-02), so Scan's state shows on its Actions tile alone.
+ */
 export const HACKER_WORDS = Object.freeze({
   scan: 'Scan', chooseInRoom: 'Choose a player in your room', onlyHere: 'Only on this phone',
   scanWho: name => `Scan ${name}`, guessLine: 'Guess a side. A wrong guess also blocks your next round.', guess: 'Guess',
@@ -34,7 +40,7 @@ export const HACKER_WORDS = Object.freeze({
   code: 'Final Code', pickLine: 'Choose four players. Order doesn’t matter.', confirmLine: 'One attempt for the whole match. It can’t be retried.',
   pick: n => `Pick ${n}`, cell: (n, name, note) => `Player ${n}, ${name}${note ? `, ${note}` : ''}`, next: 'Next', back: 'Back', submit: 'Submit Code', submitting: 'Submitting…',
   correct: 'CODE CORRECT', wrong: 'CODE WRONG', unlocked: 'Hack Spaceship is unlocked', separate: 'Using it is a separate action on your turn',
-  used: 'Your one attempt is used', scanStays: 'Scan stays available',
+  used: 'Your one attempt is used',
   notAvailable: 'Not available now', stale: 'Controls return when the match is current',
 });
 
@@ -317,7 +323,8 @@ export function mountScanGuess(host, input = {}, handlers = {}) {
 
 /**
  * A result, as the pack's .registered: the kit's notice (0.7.0), its stamp and lines, and Scan's row in a list as
- * the notice's `extra`, after the lines inside it. The row is kept while the result changes in place.
+ * the notice's `extra`, after the lines inside it. The row is kept while the result changes in place. The notice
+ * carries the component's own class (ms-hk-result), under which its stamp snaps in (hacker.css).
  */
 function paintResult(ctx, holder, props, row) {
   const { kit, root } = ctx;
@@ -325,7 +332,7 @@ function paintResult(ctx, holder, props, row) {
     if (!holder.row) { holder.row = kit.row(row); holder.list = kit.list(holder.row); } else kit.setRow(holder.row, row);
   } else holder.list = holder.row = null;
   const next = { ...props, extra: holder.list };
-  if (!holder.notice) { holder.notice = kit.notice(next); root.prepend(holder.notice); } else kit.setNotice(holder.notice, next);
+  if (!holder.notice) { holder.notice = kit.notice(next); holder.notice.classList.add('ms-hk-result'); root.prepend(holder.notice); } else kit.setNotice(holder.notice, next);
 }
 const emptyResult = holder => { holder.notice?.remove(); holder.notice = holder.list = holder.row = null; };
 
@@ -438,7 +445,10 @@ export function mountFinalCode(host, input = {}, handlers = {}) {
   });
 }
 
-/** The Code's outcome (sheet 42): CODE CORRECT (amber) or CODE WRONG, with the pack's two lines. It reads as it opens. */
+/**
+ * The Code's outcome (sheet 42): CODE CORRECT (amber) with the pack's two lines, or CODE WRONG with "Your one attempt
+ * is used" alone (the Lead's Q-b). It reads as it opens.
+ */
 export function mountCodeResult(host, input = {}, handlers = {}) {
   return mountPart(host, 'code-result', OUTCOME, input, handlers, ctx => {
     const holder = { notice: null, list: null, row: null };
@@ -447,7 +457,7 @@ export function mountCodeResult(host, input = {}, handlers = {}) {
         if (hidden(s) || s.correct === null) { emptyResult(holder); return; }
         paintResult(ctx, holder, s.correct
           ? { stamp: { text: HACKER_WORDS.correct, tone: 'amber' }, lines: [HACKER_WORDS.unlocked, HACKER_WORDS.separate] }
-          : { stamp: { text: HACKER_WORDS.wrong, tone: null }, lines: [HACKER_WORDS.used, HACKER_WORDS.scanStays] }, null);
+          : { stamp: { text: HACKER_WORDS.wrong, tone: null }, lines: [HACKER_WORDS.used] }, null);
       },
     };
   });

@@ -13,7 +13,8 @@
 //   refused   while sending, the guess and the cells take no tap; in the confirm step, no cell does; not
 //             interactive or reconnecting, none does, and reconnecting says the shell's words
 //   results   MATCHED with "In the Code · Yes" or "No"; NO MATCH with "Scan · Blocked in Round 4", or no row;
-//             CODE CORRECT and CODE WRONG with their lines; each a status, which reads as it opens
+//             CODE CORRECT with its two lines; CODE WRONG with "Your one attempt is used" alone (the Lead's Q-b);
+//             each a status, which reads as it opens
 //   words     the target bar, and every sheet's id, title, sub, close, detent and buttons
 //   footer    the sheets' buttons in the real shell: live, each enabled one is taken; reconnecting, only Cancel,
 //             Next, Back and Done (this phone's own) are, and Scan and Submit Code are refused with the
@@ -22,7 +23,9 @@
 //             from the public view, has no part and none of the Hacker's words; a part handed to another viewer
 //             empties itself
 //   leaks     no guess, pick, result, "In the Code" or blocked round reaches an attribute, the console, the
-//             shell's onLayout, or a callback but onGuess and onPick, in any state, through any tap or update
+//             shell's onLayout, or a callback but onGuess and onPick, in any state, through any tap or update; the
+//             Code's visually hidden names (ids ms-hk-…) are in the page while the Code is drawn, and leave it with
+//             the rest when concealed or handed to another viewer
 //   inputs    an unknown key, a side that is not one, a result that does not hold together, five picks, a pick
 //             twice, not offered or not in the match, the confirm step without four: each an error; a checked
 //             input checks to itself
@@ -34,7 +37,8 @@
 //             whole names, each row at least 44 px; the results' lines whole. At Large (150 %) on 390 × 844 the
 //             Code stays a 3 × 3
 //   dispose   after dispose(), nothing is left and nothing fires; update() does nothing
-//   motion    nothing of its own moves, with or without Reduce motion (the game's or the device's)
+//   motion    each result's stamp snaps in over 120 ms, as REGISTERED (the handoff's motion table), and with
+//             Reduce motion (the game's or the device's) is there at once; nothing else of its own moves
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
 import { HACKER_WORDS, SIDES, checkCodeResult, checkFinalCode, checkScanGuess, checkScanResult, codeSheet, mountCodeResult, mountFinalCode,
@@ -46,7 +50,7 @@ const frames = () => new Promise(done => requestAnimationFrame(() => requestAnim
 const microtasks = () => new Promise(done => setTimeout(done, 0));
 const MOUNTS = { guess: mountScanGuess, result: mountScanResult, code: mountFinalCode, outcome: mountCodeResult };
 /** The Hacker's own words: a guess, a pick, a result. None may reach an attribute, the console or the layout. */
-const SECRET = /\b(?:Blue|Red|Alien)\b|Pick \d|MATCHED|NO MATCH|In the Code|Blocked in Round|CODE (?:CORRECT|WRONG)|unlocked|attempt is used|Scan stays/i;
+const SECRET = /\b(?:Blue|Red|Alien)\b|Pick \d|MATCHED|NO MATCH|In the Code|Blocked in Round|CODE (?:CORRECT|WRONG)|unlocked|attempt is used/i;
 const PART_STATES = ['scan-guess', 'scan-matched', 'scan-not-in-code', 'scan-nomatch', 'scan-nomatch-free', 'code-pick', 'code-confirm', 'code-not-offered', 'code-eight', 'code-correct', 'code-wrong'];
 
 export async function runHackerProbe({ sizes, versions }) {
@@ -191,7 +195,7 @@ export async function runHackerProbe({ sizes, versions }) {
         'scan-nomatch': { stamp: 'NO MATCH', tone: null, lines: ['Gus · Red guess'], row: ['Scan', 'Blocked in Round 4', 'steel'], status: 'status' },
         'scan-nomatch-free': { stamp: 'NO MATCH', tone: null, lines: ['Gus · Alien guess'], row: null, status: 'status' },
         'code-correct': { stamp: 'CODE CORRECT', tone: 'amber', lines: ['Hack Spaceship is unlocked', 'Using it is a separate action on your turn'], row: null, status: 'status' },
-        'code-wrong': { stamp: 'CODE WRONG', tone: null, lines: ['Your one attempt is used', 'Scan stays available'], row: null, status: 'status' },
+        'code-wrong': { stamp: 'CODE WRONG', tone: null, lines: ['Your one attempt is used'], row: null, status: 'status' },
       };
       // The row follows the result as it changes in place.
       const p = phone('scan-matched');
@@ -278,7 +282,10 @@ export async function runHackerProbe({ sizes, versions }) {
     });
 
     await check('leaks', async () => {
-      const said = [], layouts = [], callbacks = [], hits = [];
+      const said = [], layouts = [], callbacks = [], hits = [], names = [];
+      // The Code's visually hidden names (ms-k-vh spans, id ms-hk-N-cN), which its cells' aria-labelledby reads.
+      const named = frame => frame.querySelectorAll('[id^="ms-hk-"]').length;
+      const isCode = key => HACKER_STATES[key].part?.kind === 'code';
       const spied = ['log', 'info', 'warn', 'error', 'debug', 'trace'];
       const original = Object.fromEntries(spied.map(k => [k, console[k]]));
       for (const k of spied) console[k] = (...args) => { said.push([k, ...args.map(String)]); original[k](...args); };
@@ -302,11 +309,23 @@ export async function runHackerProbe({ sizes, versions }) {
             }
           }
           for (const b of p.frame.querySelectorAll('.ms-ps-sheet-foot .ms-k-btn')) tap(b);
+          const drawn = named(p.frame);
           p.part?.update({ status: 'concealed' });
           await microtasks();
           scan(p.frame, `${key} concealed`);
+          if (isCode(key)) names.push({ key, when: 'concealed', drawn, left: named(p.frame) });
           // Every callback but onGuess and onPick, as it was said.
           callbacks.push(...p.intents.filter(i => !['onGuess', 'onPick'].includes(i[0])).map(i => [i[0], JSON.stringify(i.slice(1))]));
+          p.dispose();
+        }
+        // Handed to another viewer, the names leave with the rest.
+        for (const key of [...PART_STATES, 'code-two', 'code-sending', 'code-error'].filter(isCode)) {
+          const p = phone(key);
+          const drawn = named(p.frame);
+          p.part.update({ viewer: 'seat-7' });
+          await microtasks();
+          scan(p.frame, `${key} another viewer`);
+          names.push({ key, when: 'another viewer', drawn, left: named(p.frame) });
           p.dispose();
         }
       } finally {
@@ -315,8 +334,11 @@ export async function runHackerProbe({ sizes, versions }) {
       const loud = said.filter(s => s.slice(1).some(t => SECRET.test(t)));
       const laid = layouts.filter(l => SECRET.test(l));
       const told = callbacks.filter(c => SECRET.test(c[1]));
-      return { ok: hits.length === 0 && loud.length === 0 && laid.length === 0 && told.length === 0 && layouts.length > 0 && callbacks.length > 0,
-        hits: hits.slice(0, 20), console: loud.slice(0, 10), onLayout: laid.slice(0, 5), callbacks: told.slice(0, 10), layoutsSeen: layouts.length, callbacksSeen: callbacks.length };
+      const stayed = names.filter(n => !(n.drawn > 0 && n.left === 0));
+      return { ok: hits.length === 0 && loud.length === 0 && laid.length === 0 && told.length === 0 && layouts.length > 0 && callbacks.length > 0
+        && names.length > 0 && stayed.length === 0,
+        hits: hits.slice(0, 20), console: loud.slice(0, 10), onLayout: laid.slice(0, 5), callbacks: told.slice(0, 10), layoutsSeen: layouts.length, callbacksSeen: callbacks.length,
+        names: { checked: names.length, stayed } };
     });
 
     await check('inputs', async () => {
@@ -387,9 +409,12 @@ export async function runHackerProbe({ sizes, versions }) {
     });
 
     await check('text', async () => {
-      const at = (key, sizeKey, percent, read) => {
+      // Measured at rest: a result's stamp snaps in from 1.3 times its size, so its finite animations finish first.
+      const rest = root => Promise.all(root.getAnimations({ subtree: true }).filter(a => a.effect?.getTiming?.().iterations !== Infinity).map(a => a.finished.catch(() => null)));
+      const at = async (key, sizeKey, percent, read) => {
         document.documentElement.style.fontSize = `${percent}%`;
         const p = phone(key, {}, sizeKey);
+        await rest(p.root);
         const out = read(p.root);
         p.dispose();
         document.documentElement.style.fontSize = '';
@@ -397,18 +422,18 @@ export async function runHackerProbe({ sizes, versions }) {
       };
       const inside = (node, box) => { const r = node.getBoundingClientRect(), b = box.getBoundingClientRect(); return r.left >= b.left - 0.5 && r.right <= b.right + 0.5; };
       const whole = nodes => nodes.every(n => n.scrollWidth <= n.clientWidth + 1);
-      const guess = at('scan-guess', '320x568', 200, root => {
+      const guess = await at('scan-guess', '320x568', 200, root => {
         const opts = guesses(root), top = n => Math.round(n.getBoundingClientRect().top);
         return { row: opts.every(o => top(o) === top(opts[0])), whole: whole(opts) && opts.every(o => inside(o, root)), who: whole([...root.querySelectorAll('.ms-k-who-title, .ms-k-who-sub')]) };
       });
-      const code = at('code-pick', '320x568', 200, root => {
+      const code = await at('code-pick', '320x568', 200, root => {
         const cells = [...root.querySelectorAll('.ms-k-cell:not([data-state="empty"])')];
         const left = n => Math.round(n.getBoundingClientRect().left);
         return { list: cells.every(c => left(c) === left(cells[0])), whole: cells.every(c => c.scrollWidth <= c.clientWidth + 1 && inside(c, root)), tall: cells.every(c => c.getBoundingClientRect().height >= 44),
           names: cells.every(c => [...c.querySelectorAll('.ms-k-cell-label, .ms-k-cell-note:not([hidden])')].every(w => inside(w, c))) };
       });
-      const result = at('scan-nomatch', '320x568', 200, root => ({ whole: [...root.querySelectorAll('.ms-k-notice > p, .ms-k-row-title, .ms-k-row-value, .ms-k-stamp')].every(n => inside(n, root)) }));
-      const large = at('code-pick', '390x844', 150, root => {
+      const result = await at('scan-nomatch', '320x568', 200, root => ({ whole: [...root.querySelectorAll('.ms-k-notice > p, .ms-k-row-title, .ms-k-row-value, .ms-k-stamp')].every(n => inside(n, root)) }));
+      const large = await at('code-pick', '390x844', 150, root => {
         const cells = [...root.querySelectorAll('.ms-k-cell')], top = n => Math.round(n.getBoundingClientRect().top);
         return { perRow: cells.filter(c => top(c) === top(cells[0])).length };
       });
@@ -429,16 +454,25 @@ export async function runHackerProbe({ sizes, versions }) {
   }
 
   await check('motion', async () => {
+    const STAMPED = ['scan-matched', 'scan-nomatch', 'code-correct', 'code-wrong'];
     const seen = {};
-    for (const key of ['scan-guess', 'scan-matched', 'code-pick', 'code-correct']) {
+    for (const key of ['scan-guess', 'code-pick', ...STAMPED]) {
       for (const reducedMotion of [false, true]) {
         const p = phone(key, { reducedMotion });
         await frames();
-        seen[`${key}${reducedMotion ? ' reduced' : ''}`] = p.root.getAnimations({ subtree: true }).map(a => a.animationName ?? a.constructor.name);
+        seen[`${key}${reducedMotion ? ' reduced' : ''}`] = p.root.getAnimations({ subtree: true }).map(a => ({
+          name: a.animationName ?? a.constructor.name, duration: a.effect?.getTiming?.().duration ?? null, stamp: !!a.effect?.target?.matches?.('.ms-hk-result > .ms-k-stamp') }));
         p.dispose();
       }
     }
-    return { ok: Object.values(seen).every(list => list.length === 0), seen };
+    // The stamp snaps only where a result shows and Reduce motion is off; the device's Reduce motion stops it too.
+    const snaps = key => !deviceReduced && STAMPED.includes(key);
+    const ok = Object.entries(seen).every(([k, list]) => {
+      const [key, reduced] = k.split(' ');
+      if (reduced || !snaps(key)) return list.length === 0;
+      return list.length === 1 && list[0].name === 'ms-hk-stamp-in' && list[0].duration === 120 && list[0].stamp;
+    });
+    return { ok, seen };
   });
 
   return { mode, ok: checks.length > 0 && checks.every(c => c.ok), checks };
