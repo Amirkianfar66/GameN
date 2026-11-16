@@ -242,7 +242,14 @@ test('periodic repair replaces a lost continuation after the owner exhausts its 
 
   await h.service.runFoodInbox(continuation.wake);
   await h.service.runFoodInbox(replacement);
-  assert.deepEqual(await read(ownerKey),owner);
+
+  // A matching continuation can outlive the owner's final acknowledgement.
+  const late={...continuation.wake,id:digest(['closed-continuation',scopeKey]),wakeAt:h.now()};
+  const inbox=createPlanetFoodInbox(store);
+  await store.transaction(tx=>inbox.stageWake(tx,late,{continuationFor:owner.id}));
+  await h.service.runFoodInbox(late);
+  assert.deepEqual(await read(ownerKey),owner,'a late continuation must not reclaim a closed Task');
+  assert.equal((await read('foodInboxWake/'+late.id)).status,'handled');
   assert.deepEqual(await read(resultKey),completed);
   assert.equal((await h.current()).journalSequence,parent.journalSequence);
 });

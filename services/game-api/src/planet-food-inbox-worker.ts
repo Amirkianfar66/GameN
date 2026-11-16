@@ -91,12 +91,12 @@ export function createPlanetFoodInboxWorker(d:{
       const stored=tracked?await inbox.loadWake(tx,wake):payload;
       if(!stored)return null;
       const current=await tx.get<PlanetFoodInboxRoute>(scopedRouteKey(wake.scope));
-      if(!current||!scopeMatches(current.scope,wake.scope)){
+      if(!current||current.closedAt!==null||!scopeMatches(current.scope,wake.scope)){
         if(tracked)inbox.handleWake(tx,stored);
         return null;
       }
       const previous=await owner(tx,wake.scope);
-      if(!wakeOwnerMatches(stored,previous)||stored.bootstrap===true&&current.closedAt!==null){
+      if(!wakeOwnerMatches(stored,previous)){
         if(tracked)inbox.handleWake(tx,stored);
         return null;
       }
