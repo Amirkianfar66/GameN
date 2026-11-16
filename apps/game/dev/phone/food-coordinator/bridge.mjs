@@ -132,6 +132,8 @@ export async function startFoodTrialBridge({
   await once(server, 'listening');
   const host = '127.0.0.1:' + server.address().port, origin = 'http://' + host;
   const productionRequests = Object.fromEntries(actors.map(actor => [actor.label, {}]));
+  const productionAcks = Object.fromEntries(actors.map(actor => [actor.label, {}]));
+  const productionWatches = new Map();
   const planetApi = production?.({
     origin,
     verifyIdToken: async token => {
@@ -143,7 +145,13 @@ export async function startFoodTrialBridge({
   });
   return {
     origin,
-    productionRequests,
+    productionRequests, productionAcks,
+    suspendFoodWatch(label) {
+      const stream = productionWatches.get(label);
+      if (!stream || stream.response.destroyed) throw Error('Expected an open Food watch');
+      stream.silent = true;
+      return {withheld: () => stream.withheld, close: () => stream.response.destroy()};
+    },
     urls: Object.fromEntries([...tickets].map(([ticket, {actor}]) => [actor.label, origin + '/#' + ticket])),
     start() {
       if (started) return Promise.resolve();
@@ -187,10 +195,26 @@ export async function startFoodTrialBridge({
       if (!allowedProduction.has(q?.operation) || (q.request?.matchId ?? q.matchId) !== matchId) badRequest();
       const counts = productionRequests[actor.label];
       counts[q.operation] = (counts[q.operation] ?? 0) + 1;
+      if (q.operation === 'foodWatch') {
+        const stream = {response: res, silent: false, withheld: 0}, write = res.write.bind(res);
+        productionWatches.set(actor.label, stream);
+        res.once('close', () => { if (productionWatches.get(actor.label) === stream) productionWatches.delete(actor.label); });
+        res.write = (...args) => {
+          if (!stream.silent) return write(...args);
+          stream.withheld++;
+          return true;
+        };
+      }
       return planetApi({method: req.method, headers: req.headers, body: q}, Object.assign(res, {
         set(name, value) { res.setHeader(name, value); },
         status(status) { res.statusCode = status; return res; },
-        json(value) { return json(res, res.statusCode, value); },
+        json(value) {
+          if (value?.ok === true) {
+            const acks = productionAcks[actor.label];
+            acks[q.operation] = (acks[q.operation] ?? 0) + 1;
+          }
+          return json(res, res.statusCode, value);
+        },
       }));
     }
     if (path === '/trial/baseline' && req.method === 'POST' && arm === 'read') {

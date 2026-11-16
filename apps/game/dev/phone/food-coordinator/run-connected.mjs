@@ -31,7 +31,7 @@ for (const argument of process.argv.slice(2)) {
   }
 }
 assert.ok(paths.size === 6 && tests.length > 0 && new Set(tests).size === tests.length
-  && tests.every(name => ['invitations', 'timed', 'lifecycle'].includes(name)),
+  && tests.every(name => ['invitations', 'timed', 'lifecycle'].includes(name) || productionRef && name === 'silence'),
 'Pass --backend, --bundle, --artwork, --output, --java and --firestore-jar as =PATH options, followed by one or more case names');
 const root = fileURLToPath(new URL('../../../../../', import.meta.url));
 const backend = paths.get('backend'), bundle = paths.get('bundle'), artwork = paths.get('artwork'), output = paths.get('output');
@@ -202,7 +202,7 @@ async function prepare(kind, trial) {
       assert.equal(await page.evaluate(domMatch), true, label + ' visible and focused');
       trial.surfaces[label] = await page.evaluate('[innerWidth,innerHeight,matchMedia("(prefers-reduced-motion: reduce)").matches]');
     }
-    return {pages, lab, async close() {
+    return {pages, lab, bridge, async close() {
       for (const page of Object.values(pages)) await page.close().catch(() => {});
       await bridge.close();
       await lab.close();
@@ -297,7 +297,32 @@ async function lifecycle({pages}, trial) {
   trial.acceptance = 'Causal UP before DOWN acknowledgement and an observed hide/reconnect';
 }
 
-async function confirmProduction({pages}, trial) {
+async function silence({pages, bridge}, trial) {
+  const {winch, panel} = pages;
+  await touchDown(winch, controls.hold, 10_000);
+  await receipt(winch, 'HOLD_DOWN');
+  await wait(panel, enabled(controls.release), 'native Panel RELEASE before transport silence');
+  const before = await panel.evaluate(reported);
+  const beforeEpoch = before.wireFrames.at(-1).epoch;
+  const heartbeatAcks = bridge.productionAcks.panel.foodHeartbeat ?? 0;
+  const suspended = bridge.suspendFoodWatch('panel'), started = performance.now();
+  await touchUp(winch);
+  await receipt(winch, 'HOLD_UP');
+  await sleep(Math.max(0, 4500 - (performance.now() - started)));
+  const after = await panel.evaluate(reported);
+  trial.silence = {durationMs: Math.round(performance.now() - started), withheldWrites: suspended.withheld(),
+    panelHeartbeatAcks: (bridge.productionAcks.panel.foodHeartbeat ?? 0) - heartbeatAcks,
+    remainedLive: after.connection === 'live', releaseStillEnabled: await panel.evaluate(enabled(controls.release))};
+  assert.ok(trial.silence.withheldWrites > 0, 'The open response withheld a real server update');
+  assert.ok(trial.silence.panelHeartbeatAcks >= 2, 'Independent authenticated heartbeats completed during silence');
+  assert.equal(after.wireFrames.length, before.wireFrames.length, 'The affected browser saw no watch traffic');
+  suspended.close();
+  await wait(panel, `${reported}.wireFrames.some(frame=>frame.kind==="snapshot"&&frame.fresh&&frame.epoch!==${JSON.stringify(beforeEpoch)}) && ${reported}.connection==="live"`,
+    'same actor reconnects after silent watch is closed');
+  trial.acceptance = 'Measured the native Panel during open-socket silence and verified a fresh same-seat reconnect';
+}
+
+async function confirmProduction({pages, lab}, trial) {
   if (trial.name === 'timed') {
     await Promise.all(Object.values(pages).map(page => wait(page,
       `${reported}.wireFrames.some(frame=>frame.reason==="phase-ended") && ${reported}.connection==="live" && ${reported}.phase && ${reported}.phase!=="FOOD_SUPPLY" && ${reported}.foodStep===null`,
@@ -319,6 +344,8 @@ async function confirmProduction({pages}, trial) {
         label + ' resumed ordinary READ after the verified closure');
     }
   }
+  trial.authority = await lab.evidence();
+  if (trial.name === 'timed') assert.equal(trial.authority.returned, true);
   assert.equal(trial.activity.workerFailures + trial.activity.dispatchFailures, 0);
 }
 
@@ -334,7 +361,7 @@ try {
     let rig;
     try {
       rig = await prepare(name, trial);
-      await ({invitations, timed, lifecycle}[name])(rig, trial);
+      await ({invitations, timed, lifecycle, silence}[name])(rig, trial);
       if (productionRef) await confirmProduction(rig, trial);
       trial.status = 'passed';
     } catch (error) {

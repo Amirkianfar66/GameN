@@ -16,6 +16,7 @@ export async function prepareProductionFoodTrial({backend, backendSource, kind})
     {createLoopbackFoodStore}, {seedTwoHumanTask}, {planetServiceHarness, ok}, {enterTimedPlanetBoarding},
     {PLANET_FOOD_OWNER_INBOX_PROFILE: foodAuthorityProfile, createProductionPlanetService},
     {createPlanetHttpHandler, createPlanetDeadlineHandler}, {createPlanetFoodInboxEnqueuer, createPlanetFoodInboxHandler},
+    {foodInboxScopeKey},
   ] = await Promise.all([
     load('services/game-api/dev/food-task-coordinator/firestore.mjs'),
     load('services/game-api/dev/food-task-coordinator/fixture.mjs'),
@@ -24,6 +25,7 @@ export async function prepareProductionFoodTrial({backend, backendSource, kind})
     load('services/game-api/dist/index.js'),
     load('infra/firebase/dist/planet.js'),
     load('infra/firebase/dist/planet-food-worker.js'),
+    load('services/game-api/dist/planet-food-inbox.js'),
   ]);
   const store = createLoopbackFoodStore();
   const activity = {wakeEnqueues: 0, workerStarts: 0, workerFailures: 0, dispatchFailures: 0};
@@ -87,6 +89,19 @@ export async function prepareProductionFoodTrial({backend, backendSource, kind})
       variant: 'production-food-inbox', backendSource, activity,
       production: ({origin, ...verifiers}) => createPlanetHttpHandler({service, clock,
         configuration: {allowedOrigins: [origin], emulator: false}, ...verifiers}),
+      async evidence() {
+        return store.readOnly(async tx => {
+          const match = await tx.get('session/' + h.matchId);
+          const route = await tx.get('foodInboxRoute/' + h.matchId);
+          assert.equal(match.foodAuthorityProfile, foodAuthorityProfile);
+          assert.equal(route?.scope.matchId, h.matchId);
+          const scopeKey = foodInboxScopeKey(route.scope);
+          const owner = await tx.get('foodInboxOwner/' + scopeKey);
+          assert.ok(owner?.epoch > 0, 'The private scoped worker claimed ownership');
+          return {storedProfile: match.foodAuthorityProfile, ownerEpoch: owner.epoch,
+            returned: route.closedAt !== null, activeOwner: owner.expiresAt > clock()};
+        });
+      },
       async startTrial() {
         if (clockStartedAt !== null) return;
         if (boarding) await createPlanetDeadlineHandler(service)(boarding);
