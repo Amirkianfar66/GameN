@@ -255,6 +255,10 @@
   animation: ms-ps-sheet-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both;
 }
 .ms-phone-shell .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + 8px); }
+/* While the reconnecting banner shows (8 px under the bar), a docked sheet stays 8 px below it, so Retry and the
+   sheet's Close are both in sight; the banner stays under the sheet, as the pack's layers it. */
+.ms-phone-shell[data-banner] .ms-ps-sheet { max-height: calc(100% - var(--ms-ps-over-top) - var(--ms-ps-banner-h, 56px) - 16px - var(--ms-ps-bottom)); }
+.ms-phone-shell[data-banner] .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
