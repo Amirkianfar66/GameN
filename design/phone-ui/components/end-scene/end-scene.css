@@ -1,0 +1,25 @@
+@import url("../kit/kit.css");
+/* The end scene: runtime source, Designer's. The top of sheet 44 (the pack's .end-hero and .end-title,
+   design/phone-ui/prototype/screens.css), in the phone shell's stage edge to edge. Every rule is under .ms-end-scene;
+   the kit's stamp is sized through this scene's own part, as the pack's .end-title .stamp sizes it. */
+.ms-end-scene { position: absolute; left: 0; top: 0; overflow: hidden; contain: strict; background: var(--ms-k-canvas); -webkit-user-select: none; user-select: none; pointer-events: none; }
+/* The hero: the top half of the phone, the arrival covering it (or the dark field), fading to the canvas. */
+.ms-end-scene .ms-es-hero { position: absolute; left: 0; top: 0; width: 100%; height: 50%; overflow: hidden; }
+.ms-end-scene .ms-es-hero[data-field="none"] { background: radial-gradient(circle at 50% 40%, #1B2333, #0A0D14); }
+.ms-end-scene .ms-es-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(to bottom, rgba(16, 20, 28, 0), var(--ms-k-canvas)); }
+.ms-end-scene .ms-es-layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; overflow: hidden; will-change: transform; }
+/* The title block: at the top safe area + 34 %, 16 px from each side.
+   Larger text: its words grow with the game's text size up to a 20 px root (125 % of the 16 px one), then hold, so
+   that sheet 44's Roles list, which the screen lays under it, keeps room for its label and two rows at the game's
+   largest text. Each cap is the pack's size at that root, so up to there every size is the pack's own. The pack's
+   size stands first, for a browser without min(). The block's own size is capped with them: it sets the height of
+   the line the stamp stands on. */
+.ms-end-scene .ms-es-title { position: absolute; left: 16px; right: 16px; top: calc(var(--ms-es-safe-t, 0px) + 34%); z-index: 2; text-align: center; font-size: min(1rem, 20px); }
+.ms-end-scene .ms-es-stamp { display: inline-block; }
+.ms-end-scene .ms-es-stamp .ms-k-stamp { font-size: 1.375rem; font-size: min(1.375rem, 27.5px); }
+.ms-end-scene .ms-es-heading { margin: 12px 0 0; font: 800 2rem/1.05 var(--ms-k-letter); font-size: min(2rem, 40px); letter-spacing: 0.04em; text-transform: uppercase; text-shadow: 0 2px 0 #05070B; }
+.ms-end-scene .ms-es-line { margin: 6px 0 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.3 var(--ms-k-font); font-size: min(0.9375rem, 18.75px); }
+.ms-end-scene :is(.ms-es-hero, .ms-es-layer, .ms-es-title, .ms-es-line)[hidden] { display: none !important; }
+/* Reduce motion: the still comes in with one 80 ms fade. */
+.ms-end-scene[data-fade] { animation: ms-es-fade 80ms linear both; }
+@keyframes ms-es-fade { from { opacity: 0; } }
