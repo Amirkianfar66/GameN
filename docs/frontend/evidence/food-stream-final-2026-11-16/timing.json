@@ -1,0 +1,887 @@
+{
+  "schema": "mothership.food-stream-clock-corrected-browser-evidence/1",
+  "candidate": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+  "outcomes": {
+    "attempted": 3,
+    "delivered": 3,
+    "lockHits": 3,
+    "lockMisses": 0,
+    "trustedInputs": 18,
+    "acceptedOriginalReceipts": 18
+  },
+  "samples": {
+    "pendingDomMs": {
+      "count": 18,
+      "maximum": 5.6,
+      "over300Ms": 0
+    },
+    "authorizedFrameMs": {
+      "count": 18,
+      "maximum": 326.9,
+      "over300Ms": 3
+    },
+    "matchedDomMs": {
+      "count": 18,
+      "maximum": 331.9,
+      "over300Ms": 3
+    },
+    "visibleRenderMs": {
+      "count": 18,
+      "maximum": 359.7,
+      "over300Ms": 6
+    },
+    "exactReceiptMs": {
+      "count": 18,
+      "maximum": 364.9,
+      "over300Ms": 6
+    }
+  },
+  "attempts": [
+    {
+      "number": 1,
+      "candidate": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+      "backend": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+      "sourceReportSha256": "19635a5d250d39601cce7dad6ad31e2ae67f4745689b187c5c74154ba7436417",
+      "cleanSource": true,
+      "chrome": {
+        "product": "Chrome/157.0.8103.51",
+        "protocolVersion": "1.3"
+      },
+      "network": {
+        "nominalRttMs": 100,
+        "oneWayJitterMs": 10,
+        "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+      },
+      "bundle": {
+        "index-Cn_Jgcou.js": "0c67eb727b9b4d972dd5afc733a6b1bc7ae1b4aa4d66ab0d445118e55bd43e79",
+        "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+      },
+      "backendInputs": {
+        "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+        "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+        "services/game-api/dist/planet-food-service.js": "8437a03c2d5795b4398e8c201c3b91396dc8322d70dcc3d7004d2b010a2b8010",
+        "services/game-api/dist/planet-food-inbox-worker.js": "1b3f9b5c55e7601ac451ffc9ed5b2854cc39d28139e665e4d7eec8a675431e42",
+        "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+        "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+        "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+        "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+        "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+        "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+        "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+        "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+      },
+      "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+      "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+      "status": "passed",
+      "lock": {
+        "cueAtMs": 6352.200000047684,
+        "cueStop": 6,
+        "cueNext": true,
+        "cueHazard": false,
+        "pointerAtMs": 6374.5,
+        "pointerStop": 6,
+        "pointerNext": true,
+        "admissionAfterReleaseMs": 1201,
+        "appliedStop": 6,
+        "appliedOutcome": null
+      },
+      "authority": {
+        "storedProfile": "food-owner-inbox-1",
+        "ownerEpoch": 1,
+        "returned": true,
+        "activeOwner": false
+      },
+      "activity": {
+        "wakeEnqueues": 13,
+        "workerStarts": 11,
+        "workerFailures": 0,
+        "dispatchFailures": 0
+      },
+      "surfaces": {
+        "winch": [
+          390,
+          844,
+          false
+        ],
+        "panel": [
+          430,
+          932,
+          true
+        ]
+      },
+      "productionRequests": {
+        "winch": {
+          "read": 1,
+          "foodWatch": 1,
+          "foodClock": 1,
+          "foodHeartbeat": 7,
+          "foodCommand": 4
+        },
+        "panel": {
+          "read": 1,
+          "foodWatch": 1,
+          "foodClock": 1,
+          "foodHeartbeat": 7,
+          "foodCommand": 3
+        }
+      },
+      "actors": {
+        "winch": {
+          "connection": "live",
+          "phase": "PRE_TURN",
+          "foodStep": null,
+          "watchPulses": 33,
+          "staleFrames": 2,
+          "staleEnabledStates": 0,
+          "outcomes": [
+            "DELIVERED"
+          ],
+          "inputs": [
+            {
+              "kind": "HOLD_DOWN",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 5.6,
+              "authorizedFrameMs": 325.2,
+              "matchedDomMs": 330.5,
+              "visibleRenderMs": 352.8,
+              "exactReceiptMs": 364.9,
+              "visibleEffect": "Crate held",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 359.4
+                }
+              ]
+            },
+            {
+              "kind": "HOLD_UP",
+              "trusted": true,
+              "event": "pointerup",
+              "pointerStop": null,
+              "pendingDomMs": 4.6,
+              "authorizedFrameMs": 229,
+              "matchedDomMs": 234.9,
+              "visibleRenderMs": 263.3,
+              "exactReceiptMs": 254.7,
+              "visibleEffect": "Hold cleared",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 250.1
+                }
+              ]
+            },
+            {
+              "kind": "HOLD_RECOVER_OFF",
+              "trusted": false,
+              "event": null,
+              "pointerStop": null,
+              "pendingDomMs": null,
+              "authorizedFrameMs": null,
+              "matchedDomMs": null,
+              "visibleRenderMs": null,
+              "exactReceiptMs": null,
+              "visibleEffect": null,
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 291
+                }
+              ]
+            },
+            {
+              "kind": "KEY",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.6,
+              "authorizedFrameMs": 209.4,
+              "matchedDomMs": 214.1,
+              "visibleRenderMs": 237.3,
+              "exactReceiptMs": 229.5,
+              "visibleEffect": "Key turned",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 225
+                }
+              ]
+            }
+          ]
+        },
+        "panel": {
+          "connection": "live",
+          "phase": "PRE_TURN",
+          "foodStep": null,
+          "watchPulses": 33,
+          "staleFrames": 1,
+          "staleEnabledStates": 0,
+          "outcomes": [
+            "DELIVERED"
+          ],
+          "inputs": [
+            {
+              "kind": "PANEL_RELEASE",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 5.1,
+              "authorizedFrameMs": 263.6,
+              "matchedDomMs": 269.5,
+              "visibleRenderMs": 295.4,
+              "exactReceiptMs": 299.7,
+              "visibleEffect": "Panel moving",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 294.7
+                }
+              ]
+            },
+            {
+              "kind": "PANEL_LOCK",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": 6,
+              "pendingDomMs": 5.6,
+              "authorizedFrameMs": 293.4,
+              "matchedDomMs": 299.4,
+              "visibleRenderMs": 326.7,
+              "exactReceiptMs": 330.7,
+              "visibleEffect": "Panel locked",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 325.2
+                }
+              ]
+            },
+            {
+              "kind": "KEY",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 5.5,
+              "authorizedFrameMs": 268.6,
+              "matchedDomMs": 279.4,
+              "visibleRenderMs": 304.7,
+              "exactReceiptMs": 261.8,
+              "visibleEffect": "Delivered",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 256.3
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "captures": [
+        {
+          "path": "delivered-full-390x844.png",
+          "size": [
+            390,
+            844
+          ],
+          "sha256": "403aba50be715cb0e36a27755177d866eac06aa336d8cfdd4aa26ec721782f0f"
+        },
+        {
+          "path": "delivered-reduced-430x932.png",
+          "size": [
+            430,
+            932
+          ],
+          "sha256": "6fb6eccb55930160203174acea1bdf1ba613f73013c8f5a198d37d92e0772604"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "candidate": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+      "backend": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+      "sourceReportSha256": "5c309f542e521fa1433b8e1076dd868ad1a971b38c5fcb2bf5450bfcc4bcd018",
+      "cleanSource": true,
+      "chrome": {
+        "product": "Chrome/157.0.8103.51",
+        "protocolVersion": "1.3"
+      },
+      "network": {
+        "nominalRttMs": 100,
+        "oneWayJitterMs": 10,
+        "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+      },
+      "bundle": {
+        "index-Cn_Jgcou.js": "0c67eb727b9b4d972dd5afc733a6b1bc7ae1b4aa4d66ab0d445118e55bd43e79",
+        "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+      },
+      "backendInputs": {
+        "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+        "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+        "services/game-api/dist/planet-food-service.js": "8437a03c2d5795b4398e8c201c3b91396dc8322d70dcc3d7004d2b010a2b8010",
+        "services/game-api/dist/planet-food-inbox-worker.js": "1b3f9b5c55e7601ac451ffc9ed5b2854cc39d28139e665e4d7eec8a675431e42",
+        "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+        "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+        "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+        "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+        "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+        "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+        "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+        "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+      },
+      "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+      "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+      "status": "passed",
+      "lock": {
+        "cueAtMs": 6349.5,
+        "cueStop": 6,
+        "cueNext": true,
+        "cueHazard": false,
+        "pointerAtMs": 6371.699999809265,
+        "pointerStop": 6,
+        "pointerNext": true,
+        "admissionAfterReleaseMs": 1186,
+        "appliedStop": 6,
+        "appliedOutcome": null
+      },
+      "authority": {
+        "storedProfile": "food-owner-inbox-1",
+        "ownerEpoch": 1,
+        "returned": true,
+        "activeOwner": false
+      },
+      "activity": {
+        "wakeEnqueues": 9,
+        "workerStarts": 7,
+        "workerFailures": 0,
+        "dispatchFailures": 0
+      },
+      "surfaces": {
+        "winch": [
+          390,
+          844,
+          false
+        ],
+        "panel": [
+          430,
+          932,
+          true
+        ]
+      },
+      "productionRequests": {
+        "winch": {
+          "read": 1,
+          "foodWatch": 1,
+          "foodClock": 1,
+          "foodHeartbeat": 9,
+          "foodCommand": 4
+        },
+        "panel": {
+          "read": 1,
+          "foodWatch": 1,
+          "foodClock": 1,
+          "foodHeartbeat": 9,
+          "foodCommand": 3
+        }
+      },
+      "actors": {
+        "winch": {
+          "connection": "live",
+          "phase": "PRE_TURN",
+          "foodStep": null,
+          "watchPulses": 32,
+          "staleFrames": 0,
+          "staleEnabledStates": 0,
+          "outcomes": [
+            "DELIVERED"
+          ],
+          "inputs": [
+            {
+              "kind": "HOLD_DOWN",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.9,
+              "authorizedFrameMs": 294.7,
+              "matchedDomMs": 299.7,
+              "visibleRenderMs": 327.4,
+              "exactReceiptMs": 349.5,
+              "visibleEffect": "Crate held",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 344.7
+                }
+              ]
+            },
+            {
+              "kind": "HOLD_UP",
+              "trusted": true,
+              "event": "pointerup",
+              "pointerStop": null,
+              "pendingDomMs": 4.5,
+              "authorizedFrameMs": 225,
+              "matchedDomMs": 230.7,
+              "visibleRenderMs": 249.9,
+              "exactReceiptMs": 250.7,
+              "visibleEffect": "Hold cleared",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 246.3
+                }
+              ]
+            },
+            {
+              "kind": "HOLD_RECOVER_OFF",
+              "trusted": false,
+              "event": null,
+              "pointerStop": null,
+              "pendingDomMs": null,
+              "authorizedFrameMs": null,
+              "matchedDomMs": null,
+              "visibleRenderMs": null,
+              "exactReceiptMs": null,
+              "visibleEffect": null,
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 343.5
+                }
+              ]
+            },
+            {
+              "kind": "KEY",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.7,
+              "authorizedFrameMs": 227.6,
+              "matchedDomMs": 232.6,
+              "visibleRenderMs": 262.4,
+              "exactReceiptMs": 254.1,
+              "visibleEffect": "Key turned",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 249.5
+                }
+              ]
+            }
+          ]
+        },
+        "panel": {
+          "connection": "live",
+          "phase": "PRE_TURN",
+          "foodStep": null,
+          "watchPulses": 32,
+          "staleFrames": 0,
+          "staleEnabledStates": 0,
+          "outcomes": [
+            "DELIVERED"
+          ],
+          "inputs": [
+            {
+              "kind": "PANEL_RELEASE",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.9,
+              "authorizedFrameMs": 262.7,
+              "matchedDomMs": 268.4,
+              "visibleRenderMs": 290.6,
+              "exactReceiptMs": 247.1,
+              "visibleEffect": "Panel moving",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 242.2
+                }
+              ]
+            },
+            {
+              "kind": "PANEL_LOCK",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": 6,
+              "pendingDomMs": 5.4,
+              "authorizedFrameMs": 258.2,
+              "matchedDomMs": 264.5,
+              "visibleRenderMs": 293.3,
+              "exactReceiptMs": 315.4,
+              "visibleEffect": "Panel locked",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 310
+                }
+              ]
+            },
+            {
+              "kind": "KEY",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 5,
+              "authorizedFrameMs": 229.3,
+              "matchedDomMs": 237.4,
+              "visibleRenderMs": 261.7,
+              "exactReceiptMs": 249.2,
+              "visibleEffect": "Delivered",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 244.3
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "captures": [
+        {
+          "path": "delivered-reduced-430x932.png",
+          "size": [
+            430,
+            932
+          ],
+          "sha256": "6fb6eccb55930160203174acea1bdf1ba613f73013c8f5a198d37d92e0772604"
+        },
+        {
+          "path": "delivered-full-390x844.png",
+          "size": [
+            390,
+            844
+          ],
+          "sha256": "a93af9ae853b1b890258c7f6c3801e46b4a3236c21c77819704409b87b6e6eb1"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "candidate": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+      "backend": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+      "sourceReportSha256": "a55bd5d8aab1296327b36a04f642fdc691e3fd7a0b0d4b4089010f44df51b8de",
+      "cleanSource": true,
+      "chrome": {
+        "product": "Chrome/157.0.8103.51",
+        "protocolVersion": "1.3"
+      },
+      "network": {
+        "nominalRttMs": 100,
+        "oneWayJitterMs": 10,
+        "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+      },
+      "bundle": {
+        "index-Cn_Jgcou.js": "0c67eb727b9b4d972dd5afc733a6b1bc7ae1b4aa4d66ab0d445118e55bd43e79",
+        "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+      },
+      "backendInputs": {
+        "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+        "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+        "services/game-api/dist/planet-food-service.js": "8437a03c2d5795b4398e8c201c3b91396dc8322d70dcc3d7004d2b010a2b8010",
+        "services/game-api/dist/planet-food-inbox-worker.js": "1b3f9b5c55e7601ac451ffc9ed5b2854cc39d28139e665e4d7eec8a675431e42",
+        "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+        "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+        "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+        "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+        "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+        "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+        "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+        "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+      },
+      "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+      "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+      "status": "passed",
+      "lock": {
+        "cueAtMs": 6319.399999856949,
+        "cueStop": 6,
+        "cueNext": true,
+        "cueHazard": false,
+        "pointerAtMs": 6330.5,
+        "pointerStop": 6,
+        "pointerNext": true,
+        "admissionAfterReleaseMs": 1215,
+        "appliedStop": 6,
+        "appliedOutcome": null
+      },
+      "authority": {
+        "storedProfile": "food-owner-inbox-1",
+        "ownerEpoch": 1,
+        "returned": true,
+        "activeOwner": false
+      },
+      "activity": {
+        "wakeEnqueues": 11,
+        "workerStarts": 9,
+        "workerFailures": 0,
+        "dispatchFailures": 0
+      },
+      "surfaces": {
+        "winch": [
+          390,
+          844,
+          false
+        ],
+        "panel": [
+          430,
+          932,
+          true
+        ]
+      },
+      "productionRequests": {
+        "winch": {
+          "read": 1,
+          "foodWatch": 1,
+          "foodClock": 1,
+          "foodHeartbeat": 9,
+          "foodCommand": 4
+        },
+        "panel": {
+          "read": 1,
+          "foodWatch": 1,
+          "foodClock": 1,
+          "foodHeartbeat": 9,
+          "foodCommand": 3
+        }
+      },
+      "actors": {
+        "winch": {
+          "connection": "live",
+          "phase": "PRE_TURN",
+          "foodStep": null,
+          "watchPulses": 32,
+          "staleFrames": 0,
+          "staleEnabledStates": 0,
+          "outcomes": [
+            "DELIVERED"
+          ],
+          "inputs": [
+            {
+              "kind": "HOLD_DOWN",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.8,
+              "authorizedFrameMs": 326.9,
+              "matchedDomMs": 331.9,
+              "visibleRenderMs": 359.7,
+              "exactReceiptMs": 337.1,
+              "visibleEffect": "Crate held",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 332.3
+                }
+              ]
+            },
+            {
+              "kind": "HOLD_UP",
+              "trusted": true,
+              "event": "pointerup",
+              "pointerStop": null,
+              "pendingDomMs": 4.7,
+              "authorizedFrameMs": 216.9,
+              "matchedDomMs": 222.3,
+              "visibleRenderMs": 241.1,
+              "exactReceiptMs": 236.9,
+              "visibleEffect": "Hold cleared",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 232.2
+                }
+              ]
+            },
+            {
+              "kind": "HOLD_RECOVER_OFF",
+              "trusted": false,
+              "event": null,
+              "pointerStop": null,
+              "pendingDomMs": null,
+              "authorizedFrameMs": null,
+              "matchedDomMs": null,
+              "visibleRenderMs": null,
+              "exactReceiptMs": null,
+              "visibleEffect": null,
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 239.3
+                }
+              ]
+            },
+            {
+              "kind": "KEY",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.5,
+              "authorizedFrameMs": 221.6,
+              "matchedDomMs": 226.4,
+              "visibleRenderMs": 253.7,
+              "exactReceiptMs": 254.7,
+              "visibleEffect": "Key turned",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 250.2
+                }
+              ]
+            }
+          ]
+        },
+        "panel": {
+          "connection": "live",
+          "phase": "PRE_TURN",
+          "foodStep": null,
+          "watchPulses": 32,
+          "staleFrames": 0,
+          "staleEnabledStates": 0,
+          "outcomes": [
+            "DELIVERED"
+          ],
+          "inputs": [
+            {
+              "kind": "PANEL_RELEASE",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 5.2,
+              "authorizedFrameMs": 261.9,
+              "matchedDomMs": 268,
+              "visibleRenderMs": 290.1,
+              "exactReceiptMs": 280.3,
+              "visibleEffect": "Panel moving",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 275.2
+                }
+              ]
+            },
+            {
+              "kind": "PANEL_LOCK",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": 6,
+              "pendingDomMs": 5.6,
+              "authorizedFrameMs": 305.4,
+              "matchedDomMs": 311.7,
+              "visibleRenderMs": 333.1,
+              "exactReceiptMs": 324.6,
+              "visibleEffect": "Panel locked",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 319
+                }
+              ]
+            },
+            {
+              "kind": "KEY",
+              "trusted": true,
+              "event": "pointerdown",
+              "pointerStop": null,
+              "pendingDomMs": 4.9,
+              "authorizedFrameMs": 226.6,
+              "matchedDomMs": 234.8,
+              "visibleRenderMs": 255,
+              "exactReceiptMs": 246.6,
+              "visibleEffect": "Delivered",
+              "originalReceiptStatus": "accepted",
+              "receiptCode": null,
+              "attempts": [
+                {
+                  "source": "command",
+                  "disposition": "accepted",
+                  "elapsedMs": 241.7
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "captures": [
+        {
+          "path": "delivered-reduced-430x932.png",
+          "size": [
+            430,
+            932
+          ],
+          "sha256": "6fb6eccb55930160203174acea1bdf1ba613f73013c8f5a198d37d92e0772604"
+        },
+        {
+          "path": "delivered-full-390x844.png",
+          "size": [
+            390,
+            844
+          ],
+          "sha256": "a3cc2be8e892436ab922ef7b70c24dd2a86001323e6415a8275f933beab47d9a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "schema": "mothership.food-watch-silence-evidence/1",
+  "candidate": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+  "backend": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+  "sourceReportSha256": "eeba6df8690cb3cf4f54c20d53acc1ac6010d629916f9b4d82a89d62009292a3",
+  "cleanSource": true,
+  "chrome": {
+    "product": "Chrome/157.0.8103.51",
+    "protocolVersion": "1.3"
+  },
+  "network": {
+    "nominalRttMs": 100,
+    "oneWayJitterMs": 10,
+    "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+  },
+  "bundle": {
+    "index-Cn_Jgcou.js": "0c67eb727b9b4d972dd5afc733a6b1bc7ae1b4aa4d66ab0d445118e55bd43e79",
+    "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+  },
+  "backendInputs": {
+    "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+    "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+    "services/game-api/dist/planet-food-service.js": "8437a03c2d5795b4398e8c201c3b91396dc8322d70dcc3d7004d2b010a2b8010",
+    "services/game-api/dist/planet-food-inbox-worker.js": "1b3f9b5c55e7601ac451ffc9ed5b2854cc39d28139e665e4d7eec8a675431e42",
+    "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+    "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+    "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+    "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+    "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+    "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+    "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+    "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+  },
+  "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "name": "silence",
+  "status": "passed",
+  "silence": {
+    "durationMs": 4501,
+    "withheldWrites": 3,
+    "panelHeartbeatAcks": 5,
+    "remainedLive": false,
+    "releaseStillEnabled": false,
+    "watchRequestsDuringSilence": 1,
+    "disabledAfterLastDeliveryMs": 3006
+  },
+  "authority": {
+    "storedProfile": "food-owner-inbox-1",
+    "ownerEpoch": 1,
+    "returned": false,
+    "activeOwner": true
+  },
+  "actors": {
+    "winch": {
+      "connection": "live",
+      "phase": "FOOD_SUPPLY",
+      "foodStep": "AWAY",
+      "watchPulses": 10,
+      "staleFrames": 0,
+      "staleEnabledStates": 0,
+      "outcomes": [],
+      "inputs": [
+        {
+          "kind": "HOLD_DOWN",
+          "trusted": true,
+          "event": "pointerdown",
+          "pointerStop": null,
+          "pendingDomMs": 5,
+          "authorizedFrameMs": 316.8,
+          "matchedDomMs": 322.2,
+          "visibleRenderMs": 345.1,
+          "exactReceiptMs": 351.6,
+          "visibleEffect": "Crate held",
+          "originalReceiptStatus": "accepted",
+          "receiptCode": null,
+          "attempts": [
+            {
+              "source": "command",
+              "disposition": "accepted",
+              "elapsedMs": 346.7
+            }
+          ]
+        },
+        {
+          "kind": "HOLD_UP",
+          "trusted": true,
+          "event": "pointerup",
+          "pointerStop": null,
+          "pendingDomMs": 4,
+          "authorizedFrameMs": 232.6,
+          "matchedDomMs": 237.7,
+          "visibleRenderMs": 255.2,
+          "exactReceiptMs": 260.2,
+          "visibleEffect": "Hold cleared",
+          "originalReceiptStatus": "accepted",
+          "receiptCode": null,
+          "attempts": [
+            {
+              "source": "command",
+              "disposition": "accepted",
+              "elapsedMs": 256.2
+            }
+          ]
+        },
+        {
+          "kind": "HOLD_RECOVER_OFF",
+          "trusted": false,
+          "event": null,
+          "pointerStop": null,
+          "pendingDomMs": null,
+          "authorizedFrameMs": null,
+          "matchedDomMs": null,
+          "visibleRenderMs": null,
+          "exactReceiptMs": null,
+          "visibleEffect": null,
+          "originalReceiptStatus": "accepted",
+          "receiptCode": null,
+          "attempts": [
+            {
+              "source": "command",
+              "disposition": "accepted",
+              "elapsedMs": 266.6
+            }
+          ]
+        }
+      ]
+    },
+    "panel": {
+      "connection": "live",
+      "phase": "FOOD_SUPPLY",
+      "foodStep": "AWAY",
+      "watchPulses": 4,
+      "staleFrames": 0,
+      "staleEnabledStates": 0,
+      "outcomes": [],
+      "inputs": []
+    }
+  },
+  "captures": [
+    {
+      "part": "food-panel-18",
+      "reviewMode": "connected open-socket silence",
+      "path": "docs/frontend/evidence/food-stream-final-2026-11-16/food-panel-18-watch-silence-430x932.png",
+      "bytes": 166834,
+      "sha256": "1fc88ef2b944719952e2834cfcb9f93c31ac111c420099328facae153989b89a",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "part": "food-panel-18",
+      "reviewMode": "connected open-socket silence",
+      "path": "docs/frontend/evidence/food-stream-final-2026-11-16/food-panel-18-watch-silence-390x844.png",
+      "bytes": 147343,
+      "sha256": "75c3bfa4fd33cf43335b5d0f3d7c6ffbe95a5db25829b06c9188b67aa11e0fbc",
+      "viewport": [
+        390,
+        844
+      ]
+    }
+  ]
+}
