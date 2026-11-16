@@ -1,6 +1,6 @@
 # Recover: Designer's runtime component
 
-**Version:** `recover-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `recover-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, now merged to kit 0.8.0, shell 0.2.8 and entry-parts 0.4.0 (#265 at `0e5a0b8a`, through #287 and #289 at `2f501780`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the screen a player uses to take their seat back with the host's code, as sheet 14 draws it. It is #222 item 25, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -130,7 +130,9 @@ recover.dispose();              // safe twice, and empties the code's box; after
 
 ### Checks run on this version
 
-On `e31ee89f`, clean (kit 0.5.1 at `3fb12935`; `entry-parts-0.3.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+On `a20f6f72`, clean: #289 merged at `2f501780` (kit 0.8.0 and shell 0.2.8, #265 at `0e5a0b8a`; `entry-parts-0.4.0`); the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. 18 of 18 captures, the probe 14 of 14 and the agreement 7 of 7 pass. Against `e31ee89f`'s record, 17 captures are byte-identical; "Checking…" at 390 × 844 differs only by the busy spinner's frame.
+
+Before, on `e31ee89f`, clean (kit 0.5.1 at `3fb12935`; `entry-parts-0.3.0`):
 - **Captures:** **18 of 18 pass**: the nine states at 390 × 844 and 430 × 932. Each asserts:
   - the pack's words and note, the mono Match ID, the code's box a password box with no autocomplete, autocapitalize or spellcheck, and the canvas;
   - its state: the Match ID ringed while typed; the hint from Frontend's length, and none without one; the code kept in its box (32 dots) when refused, with the box ringed in paper and the words under it; Recover seat refused, busy ("Checking…") or open as Frontend gives it; recovered, with no box left; offline, with Frontend's refusal;
