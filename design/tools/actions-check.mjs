@@ -110,19 +110,24 @@ const PRIVATE = ['Rescue', 'Doctor', 'injections', 'Private talk', 'Your turn', 
 
 /**
  * The preview bundled as the game bundles a component (lib/component-check.mjs). The agreement's pack finds the
- * rooms' pictures (design/board-v2/assets/) from its own place at run time, which no bundle carries; they are
- * copied to where it looks from the bundle, as the pack's own pages serve them (the library copies the crew's
- * portraits). In the game, the art bundles' CSS properties carry them.
+ * rooms' pictures (design/board-v2/assets/), and for the whole board (Move's, sheet 26) the Hospital's
+ * (apps/game/hosted/board-v2-film-art/), from its own place at run time, which no bundle carries; they are copied
+ * to where it looks from the bundle, as the pack's own pages serve them (the library copies the crew's portraits;
+ * board-tags-check.mjs does the same). In the game, the art bundles' CSS properties carry them.
  */
 async function bundle() {
   const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'actions-check' });
   await cp(join(REPO, 'design/board-v2/assets'), join(out, 'board-v2/assets'), { recursive: true });
+  for (const part of ['scenes', 'lighting']) {
+    await cp(join(REPO, 'apps/game/hosted/board-v2-film-art', part), join(out, 'apps/game/hosted/board-v2-film-art', part), { recursive: true });
+  }
   return out;
 }
 
-// The source the captures show, read before anything is written: the components' files, the room pictures and
-// the crew's, without the review folders checks write.
-const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets', 'design/crew-drawing/assets', 'design/tools/actions-check.mjs']);
+// The source the captures show, read before anything is written: the components' files, the room pictures, the
+// crew's, and the pictures the pack's board draws in the agreement, without the review folders checks write.
+const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets', 'design/crew-drawing/assets',
+  'design/board-v2/assets', 'apps/game/hosted/board-v2-film-art', 'design/tools/actions-check.mjs']);
 const out = await bundle();
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
