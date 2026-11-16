@@ -6,6 +6,43 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: three new branches, for the Hospital panel and the next films
+
+**Recorded by the Lead Designer from the owner's answers in the Lead's session.**
+
+**What was asked.** On 16 November the Lead asked:
+
+> May the builders create these three new branches?
+> - `claude/designer-hospital-panel`: the Hospital panel.
+> - `claude/designer-brand-film`: the brand intro.
+> - `claude/designer-role-films-2`: the role films. The plain name already belongs to the role films you merged earlier.
+
+The owner asked:
+
+> Why we need new branches
+
+The Lead explained three things:
+- Each separately reviewable change gets its own branch and pull request (`AGENTS.md`).
+- The existing branches hold accepted work that is waiting to be merged, and adding new work to one would reopen its review.
+- The two films could share one branch, but the Lead recommended keeping them apart: the 2 s intro could be accepted quickly, while the eight role films take longer.
+
+The owner answered:
+
+> All three branches, when can I have the work to have a test deploy playable
+
+**What it covers:**
+- **`claude/designer-hospital-panel`:** the Gameplay builder's Hospital panel (sheets 23 and 43). It comes after Move (`actions-0.2.0` on #273), and its interface comes to the Lead before the build.
+- **`claude/designer-brand-film`:** the brand intro 2.0.0, by the Motion & Cinematics builder, from #285's head.
+- **`claude/designer-role-films-2`:** the role films 2.0.0, by the same builder, with the Doctor first, from #285's head.
+- Each one is a stacked draft PR.
+
+**What stays the same:**
+- The interface comes before each build.
+- The films keep their length, timing and privacy (the [film decision](#16-november-2026-the-films-follow-the-boarding-pilot-with-no-sound-on-phones) below).
+- Integration owns merge and publication.
+
+**What it leaves open:** when a playable test deploy will carry this work. That depends on Integration's merges and deploys, and on the game-side connections. The Lead asked Integration for its plan and dates on #222 ([6930095114](https://github.com/Amirkianfar66/GameN/issues/222#issuecomment-6930095114)).
+
 ## 16 November 2026: the films follow the boarding pilot, with no sound on phones
 
 **Recorded by the Lead Designer from the owner's answer in the Lead's session.**
