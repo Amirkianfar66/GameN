@@ -1,0 +1,4547 @@
+{
+  "tool": "design/tools/round-stamp-check.mjs",
+  "component": "design/phone-ui/components/round-stamp",
+  "version": "round-stamp-0.1.0",
+  "sourceCommit": "d689abfdb519fde9cbefaa9bc0375a05f2b76fc1",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels (the strips at 1x); the preview bundled by Vite and served with the production headers below; the pinned pack served unchanged by design/tools/phone-ui-render.mjs's reference server. A held moment is the component suspended on a clock that stands at that moment. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "limits": {
+    "curve": 0.003,
+    "centrePx": 0.5,
+    "boxPx": 0.5,
+    "face": 3,
+    "controlFactor": 2
+  },
+  "pack": {
+    "page": "design/phone-ui/prototype/index.html?s=room&room=room-a&stamp=round1&safe=47,34&chrome=0",
+    "files": {
+      "design/phone-ui/prototype/app.mjs": "dae89295546ae06eec591f57dc5647ffbc2072f155d210b1b57d6dc91a4a4fbe",
+      "design/phone-ui/prototype/screens-game.mjs": "0a28198f36511da98c3075cfb676ed746f69a04df18021c08ecb57623504581c",
+      "design/phone-ui/prototype/screens.mjs": "616bf234b265a69520cb342f81ec4da61abb5ab474d9a855d3bd8dc9b4beb21c",
+      "design/phone-ui/prototype/screens.css": "0f3fd3b349b0a14c35eccb34abec4e448a03337dd9214abd1297bf66c02b602b",
+      "design/phone-ui/prototype/kit.css": "b1dbcb4f381458b4ef1cf8a93c670c311cb2753e3df164f5f951e75f0bf6624e",
+      "design/phone-ui/prototype/ui.mjs": "75fdf8d081028fb5e403cbd34c2bd1d0e915038a9f57e13755fe03d23add6118"
+    }
+  },
+  "captures": {
+    "390x844/snap-30": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-snap-30.jpg",
+      "sha256": "bd73ef9cb37c3c16d54f10c827c5c3fcafd22db491a99191d61ba18833c99bbe",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "snap",
+        "scale": 1.064,
+        "opacity": 0.893
+      },
+      "drawn": {
+        "scale": 1.064,
+        "opacity": 0.893,
+        "centre": {
+          "x": 195.01,
+          "y": 422.01
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 30,
+        "beat": "snap",
+        "scale": 1.064,
+        "opacity": 0.893,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 77.97,
+        "y": 382.13,
+        "w": 234.07,
+        "h": 79.75
+      },
+      "inCover": {
+        "x": 77.97,
+        "y": 283.13,
+        "w": 234.07,
+        "h": 79.75
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.893208,
+      "transform": "matrix(1.06408, 0, 0, 1.06408, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 30
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/snap-80": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-snap-80.jpg",
+      "sha256": "c070914c622130d4af6b627857b7ace7f35ef3757b0c0c0c589c8e0715c4979d",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "snap",
+        "scale": 0.986,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 0.986,
+        "opacity": 1,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 80,
+        "beat": "snap",
+        "scale": 0.986,
+        "opacity": 1,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 86.5,
+        "y": 385.03,
+        "w": 217,
+        "h": 73.93
+      },
+      "inCover": {
+        "x": 86.5,
+        "y": 286.03,
+        "w": 217,
+        "h": 73.93
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "matrix(0.986489, 0, 0, 0.986489, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 80
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/hold": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-hold.jpg",
+      "sha256": "36dd5147b7f93b6df0c7f63f605bea78efe36bb577cdebedf8ea8f5a7ad3ff6c",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 1,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 600,
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 85.01,
+        "y": 384.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 85.01,
+        "y": 285.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 600
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/leave-1250": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-leave-1250.jpg",
+      "sha256": "fb08c1aa588a7fb346dc042203989717723c9afa957e351a6ab816565b2fb833",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "leave",
+        "scale": 1,
+        "opacity": 0.287
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0.287,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 1250,
+        "beat": "leave",
+        "scale": 1,
+        "opacity": 0.287,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 85.01,
+        "y": 384.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 85.01,
+        "y": 285.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.287194,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 1250
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/gone": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-gone.jpg",
+      "sha256": "44f17a1bc78caed909b39913f4de5fda55cb018c0d765f403ce13f0a9561967c",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 4000,
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 85.01,
+        "y": 384.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 85.01,
+        "y": 285.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/reduced-in-40": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-reduced-in-40.jpg",
+      "sha256": "6988002091874fc000871cb2e088d6833dba7712facd8bca39ab86acde53deb8",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0.5,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 40,
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": "reduced",
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 85.01,
+        "y": 384.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 85.01,
+        "y": 285.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.5,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 40
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/reduced": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-reduced.jpg",
+      "sha256": "d7b42a15e4db61785fed10902a53035cbd9861c104803a6f4f9f7cf4c33f78ec",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 1,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 600,
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": "reduced",
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 85.01,
+        "y": 384.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 85.01,
+        "y": 285.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 600
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/device-reduced-40": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-device-reduced-40.jpg",
+      "sha256": "6988002091874fc000871cb2e088d6833dba7712facd8bca39ab86acde53deb8",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "want": {
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0.5,
+        "centre": {
+          "x": 195,
+          "y": 422
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 40,
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 85.01,
+        "y": 384.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 85.01,
+        "y": 285.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.5,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 40
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/stale-60": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-stale-60.jpg",
+      "sha256": "ce5f23e9c15dd7c92762a8c6d265a33dacc92ce3228928855c682fe6c5e3be63",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "snap",
+        "scale": 0.983,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 0.983,
+        "opacity": 1,
+        "centre": {
+          "x": 195,
+          "y": 422.01
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 60,
+        "beat": "snap",
+        "scale": 0.983,
+        "opacity": 1,
+        "running": false,
+        "status": "stale",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "stale",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 86.91,
+        "y": 385.18,
+        "w": 216.17,
+        "h": 73.65
+      },
+      "inCover": {
+        "x": 86.91,
+        "y": 286.18,
+        "w": 216.17,
+        "h": 73.65
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "matrix(0.982722, 0, 0, 0.982722, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 60
+        }
+      ],
+      "figures": 4,
+      "bar": "Reconnecting… Showing Round 1 as last seen R1",
+      "status": "stale",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/round-stamp/review/390x844-concealed.jpg",
+      "sha256": "649dbe13ae4e54b8e322e001f19dbe58ec7d4567d1b6f3d698305dafd1fa2a64",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0
+      },
+      "drawn": {
+        "scale": null,
+        "opacity": null,
+        "centre": null
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 600,
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0,
+        "running": false,
+        "status": "concealed",
+        "reduced": false,
+        "shown": false
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 390,
+        "h": 653
+      },
+      "root": {
+        "hidden": true,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "concealed",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": null,
+      "inCover": null,
+      "size": null,
+      "words": null,
+      "tone": "gold",
+      "opacity": null,
+      "transform": null,
+      "look": null,
+      "animations": [],
+      "figures": 0,
+      "bar": "",
+      "status": "concealed",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/snap-30": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-snap-30.jpg",
+      "sha256": "ebb9462f1bed811f633799c1bf79151988d870182660e4c83c16ebd6e3c21ea1",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "snap",
+        "scale": 1.064,
+        "opacity": 0.893
+      },
+      "drawn": {
+        "scale": 1.064,
+        "opacity": 0.893,
+        "centre": {
+          "x": 215.01,
+          "y": 466.01
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 30,
+        "beat": "snap",
+        "scale": 1.064,
+        "opacity": 0.893,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 97.97,
+        "y": 426.13,
+        "w": 234.07,
+        "h": 79.75
+      },
+      "inCover": {
+        "x": 97.97,
+        "y": 327.13,
+        "w": 234.07,
+        "h": 79.75
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.893208,
+      "transform": "matrix(1.06408, 0, 0, 1.06408, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 30
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/snap-80": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-snap-80.jpg",
+      "sha256": "624aebaf8ba6f51012b463dc40c0b9d16e391a29ebe9c375771c97ac5d18ca0f",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "snap",
+        "scale": 0.986,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 0.986,
+        "opacity": 1,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 80,
+        "beat": "snap",
+        "scale": 0.986,
+        "opacity": 1,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 106.5,
+        "y": 429.03,
+        "w": 217,
+        "h": 73.93
+      },
+      "inCover": {
+        "x": 106.5,
+        "y": 330.03,
+        "w": 217,
+        "h": 73.93
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "matrix(0.986489, 0, 0, 0.986489, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 80
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/hold": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-hold.jpg",
+      "sha256": "07a7c7a68bb59eace80b6c1b37d38ef427b19c214b36f2a6334f7d6a4c75f407",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 1,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 600,
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 105.01,
+        "y": 428.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 105.01,
+        "y": 329.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 600
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/leave-1250": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-leave-1250.jpg",
+      "sha256": "be26cdc184d48a92c7f7dffad3da688cc38a503ad19dde1aae9dd09376449e20",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "leave",
+        "scale": 1,
+        "opacity": 0.287
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0.287,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 1250,
+        "beat": "leave",
+        "scale": 1,
+        "opacity": 0.287,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 105.01,
+        "y": 428.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 105.01,
+        "y": 329.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.287194,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 1250
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/gone": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-gone.jpg",
+      "sha256": "e932686a0ea0ab916a79a70b2a75843eb17f775646bc59851be706ece5c1fcaf",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 4000,
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0,
+        "running": false,
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 105.01,
+        "y": 428.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 105.01,
+        "y": 329.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/reduced-in-40": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-reduced-in-40.jpg",
+      "sha256": "77d1d8d3161730d488b8cd1c7db03de0c83b79cf1d1736bff51bb10d11986ffc",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0.5,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 40,
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": "reduced",
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 105.01,
+        "y": 428.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 105.01,
+        "y": 329.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.5,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 40
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/reduced": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-reduced.jpg",
+      "sha256": "1f669445f61fd909fabfc2ecbf0f156668b9ba342f7574b124a95dbc0c213d6d",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 1,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 600,
+        "beat": "hold",
+        "scale": 1,
+        "opacity": 1,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": "reduced",
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 105.01,
+        "y": 428.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 105.01,
+        "y": 329.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 600
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/device-reduced-40": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-device-reduced-40.jpg",
+      "sha256": "77d1d8d3161730d488b8cd1c7db03de0c83b79cf1d1736bff51bb10d11986ffc",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "want": {
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5
+      },
+      "drawn": {
+        "scale": 1,
+        "opacity": 0.5,
+        "centre": {
+          "x": 215,
+          "y": 466
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 40,
+        "beat": "in",
+        "scale": 1,
+        "opacity": 0.5,
+        "running": false,
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "live",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 105.01,
+        "y": 428.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "inCover": {
+        "x": 105.01,
+        "y": 329.53,
+        "w": 219.97,
+        "h": 74.94
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 0.5,
+      "transform": "none",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 40
+        }
+      ],
+      "figures": 4,
+      "bar": "Gus Player 7 · Turn Promises R1 1:00",
+      "status": "live",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/stale-60": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-stale-60.jpg",
+      "sha256": "41d0e0219449217104aae8708389dbb50b47103647e92f0163dc804099887138",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "snap",
+        "scale": 0.983,
+        "opacity": 1
+      },
+      "drawn": {
+        "scale": 0.983,
+        "opacity": 1,
+        "centre": {
+          "x": 215,
+          "y": 466.01
+        }
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 60,
+        "beat": "snap",
+        "scale": 0.983,
+        "opacity": 1,
+        "running": false,
+        "status": "stale",
+        "reduced": false,
+        "shown": true
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": false,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "stale",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": {
+        "x": 106.91,
+        "y": 429.18,
+        "w": 216.17,
+        "h": 73.65
+      },
+      "inCover": {
+        "x": 106.91,
+        "y": 330.18,
+        "w": 216.17,
+        "h": 73.65
+      },
+      "size": {
+        "w": 216,
+        "h": 60
+      },
+      "words": "ROUND 1",
+      "tone": "gold",
+      "opacity": 1,
+      "transform": "matrix(0.982722, 0, 0, 0.982722, 0, 0)",
+      "look": {
+        "fontSize": "36px",
+        "fontWeight": "800",
+        "fontFamily": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+        "letterSpacing": "2.16px",
+        "lineHeight": "36px",
+        "padding": "10px 20px 8px",
+        "border": "3px solid rgb(21, 25, 35)",
+        "radius": "7px",
+        "background": "rgb(247, 197, 43)",
+        "color": "rgb(21, 25, 35)",
+        "shadow": "rgb(5, 7, 11) 4px 4px 0px 0px",
+        "tilt": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+        "textTransform": "uppercase"
+      },
+      "animations": [
+        {
+          "state": "paused",
+          "time": 60
+        }
+      ],
+      "figures": 4,
+      "bar": "Reconnecting… Showing Round 1 as last seen R1",
+      "status": "stale",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/round-stamp/review/430x932-concealed.jpg",
+      "sha256": "445de7686b89b61f0258ed6ccec3ddc72b3d488b1cc35495ca0932aff73c1839",
+      "ok": true,
+      "asExpected": true,
+      "emulated": {},
+      "want": {
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0
+      },
+      "drawn": {
+        "scale": null,
+        "opacity": null,
+        "centre": null
+      },
+      "frame": {
+        "window": "fixture-round-1-1",
+        "round": 1,
+        "t": 600,
+        "beat": "gone",
+        "scale": 1,
+        "opacity": 0,
+        "running": false,
+        "status": "concealed",
+        "reduced": false,
+        "shown": false
+      },
+      "cover": {
+        "x": 0,
+        "y": 99,
+        "w": 430,
+        "h": 741
+      },
+      "root": {
+        "hidden": true,
+        "ariaHidden": "true",
+        "pointer": "none",
+        "status": "concealed",
+        "motion": null,
+        "focusable": 0
+      },
+      "stamp": null,
+      "inCover": null,
+      "size": null,
+      "words": null,
+      "tone": "gold",
+      "opacity": null,
+      "transform": null,
+      "look": null,
+      "animations": [],
+      "figures": 0,
+      "bar": "",
+      "status": "concealed",
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "strips": {
+    "390x844/full": {
+      "file": "design/phone-ui/components/round-stamp/review/strip-390x844.jpg",
+      "sha256": "dc4b4262d5a24271a0e3f09fedc4c44dd37755296e3f9d7998fce52cda73ff0d",
+      "width": 3264,
+      "height": 940,
+      "ok": true,
+      "moments": [
+        {
+          "t": 0,
+          "ok": true,
+          "want": {
+            "beat": "snap",
+            "scale": 1.6,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1.6,
+            "opacity": 0,
+            "centre": {
+              "x": 195,
+              "y": 422.01
+            }
+          }
+        },
+        {
+          "t": 30,
+          "ok": true,
+          "want": {
+            "beat": "snap",
+            "scale": 1.064,
+            "opacity": 0.893
+          },
+          "drawn": {
+            "scale": 1.064,
+            "opacity": 0.893,
+            "centre": {
+              "x": 195.01,
+              "y": 422.01
+            }
+          }
+        },
+        {
+          "t": 80,
+          "ok": true,
+          "want": {
+            "beat": "snap",
+            "scale": 0.986,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 0.986,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 120,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 600,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 1250,
+          "ok": true,
+          "want": {
+            "beat": "leave",
+            "scale": 1,
+            "opacity": 0.287
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.287,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 1330,
+          "ok": true,
+          "want": {
+            "beat": "leave",
+            "scale": 1,
+            "opacity": 0.042
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.042,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": null,
+          "ok": true,
+          "want": {
+            "beat": "gone",
+            "scale": 1,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/reduced": {
+      "file": "design/phone-ui/components/round-stamp/review/strip-390x844-reduced.jpg",
+      "sha256": "04beb715204d45525e12b98ca86470d03b188631edd009982221e929241367df",
+      "width": 3264,
+      "height": 940,
+      "ok": true,
+      "moments": [
+        {
+          "t": 0,
+          "ok": true,
+          "want": {
+            "beat": "in",
+            "scale": 1,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 30,
+          "ok": true,
+          "want": {
+            "beat": "in",
+            "scale": 1,
+            "opacity": 0.375
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.375,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 80,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 120,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 600,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 1250,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": 1330,
+          "ok": true,
+          "want": {
+            "beat": "leave",
+            "scale": 1,
+            "opacity": 0.875
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.875,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        },
+        {
+          "t": null,
+          "ok": true,
+          "want": {
+            "beat": "gone",
+            "scale": 1,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0,
+            "centre": {
+              "x": 195,
+              "y": 422
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/full": {
+      "file": "design/phone-ui/components/round-stamp/review/strip-430x932.jpg",
+      "sha256": "324b3bfd0c80d0e3b4f341c5eae152a50ed2d44936837b4c5841ac94aa4072ca",
+      "width": 3584,
+      "height": 1028,
+      "ok": true,
+      "moments": [
+        {
+          "t": 0,
+          "ok": true,
+          "want": {
+            "beat": "snap",
+            "scale": 1.6,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1.6,
+            "opacity": 0,
+            "centre": {
+              "x": 215,
+              "y": 466.01
+            }
+          }
+        },
+        {
+          "t": 30,
+          "ok": true,
+          "want": {
+            "beat": "snap",
+            "scale": 1.064,
+            "opacity": 0.893
+          },
+          "drawn": {
+            "scale": 1.064,
+            "opacity": 0.893,
+            "centre": {
+              "x": 215.01,
+              "y": 466.01
+            }
+          }
+        },
+        {
+          "t": 80,
+          "ok": true,
+          "want": {
+            "beat": "snap",
+            "scale": 0.986,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 0.986,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 120,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 600,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 1250,
+          "ok": true,
+          "want": {
+            "beat": "leave",
+            "scale": 1,
+            "opacity": 0.287
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.287,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 1330,
+          "ok": true,
+          "want": {
+            "beat": "leave",
+            "scale": 1,
+            "opacity": 0.042
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.042,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": null,
+          "ok": true,
+          "want": {
+            "beat": "gone",
+            "scale": 1,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/reduced": {
+      "file": "design/phone-ui/components/round-stamp/review/strip-430x932-reduced.jpg",
+      "sha256": "04e1a03573976f775337588df5239429b4eb28980bff4055f3c38a650f5c9c2c",
+      "width": 3584,
+      "height": 1028,
+      "ok": true,
+      "moments": [
+        {
+          "t": 0,
+          "ok": true,
+          "want": {
+            "beat": "in",
+            "scale": 1,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 30,
+          "ok": true,
+          "want": {
+            "beat": "in",
+            "scale": 1,
+            "opacity": 0.375
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.375,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 80,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 120,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 600,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 1250,
+          "ok": true,
+          "want": {
+            "beat": "hold",
+            "scale": 1,
+            "opacity": 1
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 1,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": 1330,
+          "ok": true,
+          "want": {
+            "beat": "leave",
+            "scale": 1,
+            "opacity": 0.875
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0.875,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        },
+        {
+          "t": null,
+          "ok": true,
+          "want": {
+            "beat": "gone",
+            "scale": 1,
+            "opacity": 0
+          },
+          "drawn": {
+            "scale": 1,
+            "opacity": 0,
+            "centre": {
+              "x": 215,
+              "y": 466
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "390x844": {
+      "pack": "design/phone-ui/prototype/index.html?s=room&room=room-a&stamp=round1&safe=47,34&chrome=0",
+      "file": "design/phone-ui/components/round-stamp/review/agree-390x844.jpg",
+      "sha256": "d70ffceed64fe49eacefce7fff4e8e5477752f856ef5097dedc39cae5ecac623",
+      "ok": true,
+      "words": {
+        "pack": "ROUND 1",
+        "stamp": "ROUND 1",
+        "tone": {
+          "pack": "gold",
+          "stamp": "gold"
+        },
+        "ok": true
+      },
+      "look": {
+        "fontSize": {
+          "pack": "36px",
+          "stamp": "36px",
+          "ok": true
+        },
+        "fontWeight": {
+          "pack": "800",
+          "stamp": "800",
+          "ok": true
+        },
+        "fontFamily": {
+          "pack": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+          "stamp": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+          "ok": true
+        },
+        "letterSpacing": {
+          "pack": "2.16px",
+          "stamp": "2.16px",
+          "ok": true
+        },
+        "lineHeight": {
+          "pack": "36px",
+          "stamp": "36px",
+          "ok": true
+        },
+        "padding": {
+          "pack": "10px 20px 8px",
+          "stamp": "10px 20px 8px",
+          "ok": true
+        },
+        "border": {
+          "pack": "3px solid rgb(21, 25, 35)",
+          "stamp": "3px solid rgb(21, 25, 35)",
+          "ok": true
+        },
+        "radius": {
+          "pack": "7px",
+          "stamp": "7px",
+          "ok": true
+        },
+        "background": {
+          "pack": "rgb(247, 197, 43)",
+          "stamp": "rgb(247, 197, 43)",
+          "ok": true
+        },
+        "color": {
+          "pack": "rgb(21, 25, 35)",
+          "stamp": "rgb(21, 25, 35)",
+          "ok": true
+        },
+        "shadow": {
+          "pack": "rgb(5, 7, 11) 4px 4px 0px 0px",
+          "stamp": "rgb(5, 7, 11) 4px 4px 0px 0px",
+          "ok": true
+        },
+        "tilt": {
+          "pack": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+          "stamp": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+          "ok": true
+        },
+        "textTransform": {
+          "pack": "uppercase",
+          "stamp": "uppercase",
+          "ok": true
+        }
+      },
+      "box": {
+        "pack": {
+          "x": 85.01,
+          "y": 384.53,
+          "w": 219.97,
+          "h": 74.94
+        },
+        "stamp": {
+          "x": 85.01,
+          "y": 384.53,
+          "w": 219.97,
+          "h": 74.94
+        },
+        "size": {
+          "pack": {
+            "w": 216,
+            "h": 60
+          },
+          "stamp": {
+            "w": 216,
+            "h": 60
+          }
+        },
+        "delta": 0,
+        "ok": true
+      },
+      "pixels": {
+        "box": {
+          "x": 92.06,
+          "y": 403.13,
+          "w": 205.87,
+          "h": 37.73
+        },
+        "boxPixels": {
+          "x": 185,
+          "y": 807,
+          "w": 410,
+          "h": 74
+        },
+        "tiltDegrees": 4,
+        "face": {
+          "mean": 0,
+          "max": 0,
+          "far": 0,
+          "pixels": 30340
+        },
+        "controls": {
+          "moved1px": {
+            "mean": 11.54,
+            "max": 226,
+            "far": 0.1153,
+            "pixels": 30340,
+            "ok": true
+          },
+          "larger3percent": {
+            "mean": 12.22,
+            "max": 226,
+            "far": 0.1261,
+            "pixels": 30340,
+            "ok": true
+          }
+        },
+        "ok": true
+      },
+      "layer": {
+        "pack": {
+          "in": "the phone",
+          "position": "absolute",
+          "inset": "0px 0px 0px 0px",
+          "pointer": "none",
+          "stampPointer": "auto"
+        },
+        "stamp": {
+          "pointer": "none"
+        }
+      },
+      "bar": {
+        "pack": "Gus Player 7 · Turn Promises R1 1:00",
+        "shell": "Gus Player 7 · Turn Promises R1 1:00"
+      },
+      "packProblems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932": {
+      "pack": "design/phone-ui/prototype/index.html?s=room&room=room-a&stamp=round1&safe=47,34&chrome=0",
+      "file": "design/phone-ui/components/round-stamp/review/agree-430x932.jpg",
+      "sha256": "96028acef054e8497c28f3e7b228a7cc6bb9c7c80a71dc5b302ca3bbc01143f5",
+      "ok": true,
+      "words": {
+        "pack": "ROUND 1",
+        "stamp": "ROUND 1",
+        "tone": {
+          "pack": "gold",
+          "stamp": "gold"
+        },
+        "ok": true
+      },
+      "look": {
+        "fontSize": {
+          "pack": "36px",
+          "stamp": "36px",
+          "ok": true
+        },
+        "fontWeight": {
+          "pack": "800",
+          "stamp": "800",
+          "ok": true
+        },
+        "fontFamily": {
+          "pack": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+          "stamp": "\"Arial Narrow\", \"Helvetica Neue\", \"Inter Display\", Arial, sans-serif",
+          "ok": true
+        },
+        "letterSpacing": {
+          "pack": "2.16px",
+          "stamp": "2.16px",
+          "ok": true
+        },
+        "lineHeight": {
+          "pack": "36px",
+          "stamp": "36px",
+          "ok": true
+        },
+        "padding": {
+          "pack": "10px 20px 8px",
+          "stamp": "10px 20px 8px",
+          "ok": true
+        },
+        "border": {
+          "pack": "3px solid rgb(21, 25, 35)",
+          "stamp": "3px solid rgb(21, 25, 35)",
+          "ok": true
+        },
+        "radius": {
+          "pack": "7px",
+          "stamp": "7px",
+          "ok": true
+        },
+        "background": {
+          "pack": "rgb(247, 197, 43)",
+          "stamp": "rgb(247, 197, 43)",
+          "ok": true
+        },
+        "color": {
+          "pack": "rgb(21, 25, 35)",
+          "stamp": "rgb(21, 25, 35)",
+          "ok": true
+        },
+        "shadow": {
+          "pack": "rgb(5, 7, 11) 4px 4px 0px 0px",
+          "stamp": "rgb(5, 7, 11) 4px 4px 0px 0px",
+          "ok": true
+        },
+        "tilt": {
+          "pack": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+          "stamp": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+          "ok": true
+        },
+        "textTransform": {
+          "pack": "uppercase",
+          "stamp": "uppercase",
+          "ok": true
+        }
+      },
+      "box": {
+        "pack": {
+          "x": 105.01,
+          "y": 428.53,
+          "w": 219.97,
+          "h": 74.94
+        },
+        "stamp": {
+          "x": 105.01,
+          "y": 428.53,
+          "w": 219.97,
+          "h": 74.94
+        },
+        "size": {
+          "pack": {
+            "w": 216,
+            "h": 60
+          },
+          "stamp": {
+            "w": 216,
+            "h": 60
+          }
+        },
+        "delta": 0,
+        "ok": true
+      },
+      "pixels": {
+        "box": {
+          "x": 112.06,
+          "y": 447.13,
+          "w": 205.87,
+          "h": 37.73
+        },
+        "boxPixels": {
+          "x": 225,
+          "y": 895,
+          "w": 410,
+          "h": 74
+        },
+        "tiltDegrees": 4,
+        "face": {
+          "mean": 0,
+          "max": 0,
+          "far": 0,
+          "pixels": 30340
+        },
+        "controls": {
+          "moved1px": {
+            "mean": 11.54,
+            "max": 226,
+            "far": 0.1153,
+            "pixels": 30340,
+            "ok": true
+          },
+          "larger3percent": {
+            "mean": 12.22,
+            "max": 226,
+            "far": 0.1261,
+            "pixels": 30340,
+            "ok": true
+          }
+        },
+        "ok": true
+      },
+      "layer": {
+        "pack": {
+          "in": "the phone",
+          "position": "absolute",
+          "inset": "0px 0px 0px 0px",
+          "pointer": "none",
+          "stampPointer": "auto"
+        },
+        "stamp": {
+          "pointer": "none"
+        }
+      },
+      "bar": {
+        "pack": "Gus Player 7 · Turn Promises R1 1:00",
+        "shell": "Gus Player 7 · Turn Promises R1 1:00"
+      },
+      "packProblems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "seek",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "t": 0,
+                "animations": 1,
+                "state": "paused",
+                "time": 0,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1.6,
+                "opacity": 0,
+                "want": {
+                  "beat": "snap",
+                  "scale": 1.6,
+                  "opacity": 0
+                },
+                "frame": {
+                  "window": "probe-phase-1",
+                  "round": 1,
+                  "t": 0,
+                  "beat": "snap",
+                  "scale": 1.6,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 30,
+                "animations": 1,
+                "state": "paused",
+                "time": 30,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1.06408,
+                "opacity": 0.893208,
+                "want": {
+                  "beat": "snap",
+                  "scale": 1.064075219840809,
+                  "opacity": 0.8932079669319852
+                },
+                "frame": {
+                  "window": "probe-phase-2",
+                  "round": 1,
+                  "t": 30,
+                  "beat": "snap",
+                  "scale": 1.064,
+                  "opacity": 0.893,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 80,
+                "animations": 1,
+                "state": "paused",
+                "time": 80,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 0.986489,
+                "opacity": 1,
+                "want": {
+                  "beat": "snap",
+                  "scale": 0.986488792010637,
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-3",
+                  "round": 1,
+                  "t": 80,
+                  "beat": "snap",
+                  "scale": 0.986,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 119,
+                "animations": 1,
+                "state": "paused",
+                "time": 119,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 0.999988,
+                "opacity": 1,
+                "want": {
+                  "beat": "snap",
+                  "scale": 0.999988468216238,
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-4",
+                  "round": 1,
+                  "t": 119,
+                  "beat": "snap",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 120,
+                "animations": 1,
+                "state": "paused",
+                "time": 120,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-5",
+                  "round": 1,
+                  "t": 120,
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 600,
+                "animations": 1,
+                "state": "paused",
+                "time": 600,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-6",
+                  "round": 1,
+                  "t": 600,
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 1180,
+                "animations": 1,
+                "state": "paused",
+                "time": 1180,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-7",
+                  "round": 1,
+                  "t": 1180,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 1250,
+                "animations": 1,
+                "state": "paused",
+                "time": 1250,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1,
+                "opacity": 0.287194,
+                "want": {
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.28719403303211366
+                },
+                "frame": {
+                  "window": "probe-phase-8",
+                  "round": 1,
+                  "t": 1250,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.287,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 1330,
+                "animations": 1,
+                "state": "paused",
+                "time": 1330,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1,
+                "opacity": 0.0418635,
+                "want": {
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.041863494754357355
+                },
+                "frame": {
+                  "window": "probe-phase-9",
+                  "round": 1,
+                  "t": 1330,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.042,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              },
+              {
+                "t": 1399,
+                "animations": 1,
+                "state": "paused",
+                "time": 1399,
+                "duration": 1400,
+                "fill": "none",
+                "properties": [
+                  "opacity",
+                  "transform"
+                ],
+                "scale": 1,
+                "opacity": 0.0000069052,
+                "want": {
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.000006905199833484588
+                },
+                "frame": {
+                  "window": "probe-phase-10",
+                  "round": 1,
+                  "t": 1399,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 1
+                }
+              }
+            ],
+            "moved": {
+              "time": 900,
+              "frame": {
+                "window": "probe-phase-11",
+                "round": 1,
+                "t": 900,
+                "beat": "hold",
+                "scale": 1,
+                "opacity": 1,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "asked": {
+                "frames": 0,
+                "timers": 0,
+                "animations": 0
+              }
+            }
+          }
+        },
+        {
+          "id": "late",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "size": "390x844",
+                "t": 1400,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-12",
+                  "round": 1,
+                  "t": 1400,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 1401,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-13",
+                  "round": 1,
+                  "t": 1401,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 5000,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-14",
+                  "round": 1,
+                  "t": 5000,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 60000,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-15",
+                  "round": 1,
+                  "t": 60000,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "390x844",
+                "t": 3600000,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-16",
+                  "round": 1,
+                  "t": 3600000,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 1400,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-17",
+                  "round": 1,
+                  "t": 1400,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 1401,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-18",
+                  "round": 1,
+                  "t": 1401,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 5000,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-19",
+                  "round": 1,
+                  "t": 5000,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 60000,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-20",
+                  "round": 1,
+                  "t": 60000,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              },
+              {
+                "size": "430x932",
+                "t": 3600000,
+                "gone": true,
+                "frame": {
+                  "window": "probe-phase-21",
+                  "round": 1,
+                  "t": 3600000,
+                  "beat": "gone",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": false,
+                  "shown": true
+                },
+                "asked": {
+                  "frames": 0,
+                  "timers": 0,
+                  "animations": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "runs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 0,
+                  "duration": 1400,
+                  "fill": "none",
+                  "properties": [
+                    "opacity",
+                    "transform"
+                  ]
+                }
+              ],
+              "frame": {
+                "window": "probe-phase-22",
+                "round": 1,
+                "t": 0,
+                "beat": "snap",
+                "scale": 1.6,
+                "opacity": 0,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "asked": {
+                "frames": 0,
+                "timers": 0,
+                "animations": 1
+              }
+            },
+            "mid": {
+              "animations": [
+                {
+                  "state": "running",
+                  "time": 493.21799999999996,
+                  "duration": 1400,
+                  "fill": "none",
+                  "properties": [
+                    "opacity",
+                    "transform"
+                  ]
+                }
+              ],
+              "scale": 1,
+              "opacity": 1,
+              "frame": {
+                "window": "probe-phase-22",
+                "round": 1,
+                "t": 493,
+                "beat": "hold",
+                "scale": 1,
+                "opacity": 1,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "last": {
+              "gone": true,
+              "frame": {
+                "window": "probe-phase-22",
+                "round": 1,
+                "t": 1439,
+                "beat": "gone",
+                "scale": 1,
+                "opacity": 0,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "ended": true
+            }
+          }
+        },
+        {
+          "id": "behind",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "busyMs": 192,
+            "clock": 193,
+            "time": 193.00000000000006,
+            "behindMs": 0,
+            "state": "running"
+          }
+        },
+        {
+          "id": "suspend",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "held": {
+              "time": 61,
+              "state": "paused",
+              "frame": {
+                "window": "probe-phase-24",
+                "round": 1,
+                "t": 61,
+                "beat": "snap",
+                "scale": 0.982,
+                "opacity": 1,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "clock": 61
+            },
+            "later": {
+              "time": 61,
+              "state": "paused"
+            },
+            "resumed": {
+              "time": 223,
+              "state": "running",
+              "clock": 223,
+              "asked": {
+                "frames": 0,
+                "timers": 0,
+                "animations": 0
+              }
+            },
+            "across": {
+              "time": 223,
+              "state": "paused"
+            },
+            "after": {
+              "gone": true,
+              "frame": {
+                "window": "probe-phase-24",
+                "round": 1,
+                "t": 1624,
+                "beat": "gone",
+                "scale": 1,
+                "opacity": 0,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            }
+          }
+        },
+        {
+          "id": "stale",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "stood": {
+              "time": 60,
+              "state": "paused",
+              "status": "stale",
+              "frame": {
+                "window": "probe-phase-25",
+                "round": 1,
+                "t": 60,
+                "beat": "snap",
+                "scale": 0.983,
+                "opacity": 1,
+                "running": false,
+                "status": "stale",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "still": {
+              "time": 60,
+              "state": "paused",
+              "scale": 0.982722
+            },
+            "live": {
+              "time": 700,
+              "state": "running",
+              "asked": {
+                "frames": 0,
+                "timers": 0,
+                "animations": 0
+              }
+            },
+            "past": {
+              "gone": true,
+              "frame": {
+                "window": "probe-phase-25",
+                "round": 1,
+                "t": 1900,
+                "beat": "gone",
+                "scale": 1,
+                "opacity": 0,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "never": {
+              "gone": true,
+              "asked": 0,
+              "frame": {
+                "window": "probe-phase-26",
+                "round": 1,
+                "t": 60,
+                "beat": "gone",
+                "scale": 1,
+                "opacity": 0,
+                "running": false,
+                "status": "stale",
+                "reduced": false,
+                "shown": true
+              }
+            },
+            "then": {
+              "time": 200,
+              "state": "running"
+            }
+          }
+        },
+        {
+          "id": "concealed",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "hidden": true,
+              "animations": 0,
+              "frame": {
+                "window": "probe-phase-27",
+                "round": 1,
+                "t": 300,
+                "beat": "gone",
+                "scale": 1,
+                "opacity": 0,
+                "running": false,
+                "status": "concealed",
+                "reduced": false,
+                "shown": false
+              },
+              "display": "none"
+            },
+            "back": {
+              "hidden": false,
+              "time": 700,
+              "state": "running",
+              "asked": 1
+            },
+            "mounted": {
+              "hidden": true,
+              "animations": 0,
+              "asked": 0
+            }
+          }
+        },
+        {
+          "id": "phase",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "gone": true
+            },
+            "arrived": {
+              "time": 40,
+              "state": "running",
+              "frame": {
+                "window": "probe-next-phase",
+                "round": 2,
+                "t": 40,
+                "beat": "snap",
+                "scale": 1.014,
+                "opacity": 0.977,
+                "running": true,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              },
+              "words": "ROUND 2",
+              "asked": 1
+            },
+            "same": {
+              "animations": 1,
+              "asked": 0
+            },
+            "none": {
+              "gone": true,
+              "frame": {
+                "window": "probe-next-phase",
+                "round": null,
+                "t": null,
+                "beat": "gone",
+                "scale": 1,
+                "opacity": 0,
+                "running": false,
+                "status": "live",
+                "reduced": false,
+                "shown": true
+              }
+            }
+          }
+        },
+        {
+          "id": "one",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "most": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              1,
+              1
+            ],
+            "everywhere": 1
+          }
+        },
+        {
+          "id": "taps",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "drawn": true,
+            "pointer": [
+              "none",
+              "none",
+              "none"
+            ],
+            "under": "div.ms-room-scene",
+            "inStamp": false,
+            "inRoom": true,
+            "control": {
+              "atPoint": true,
+              "intents": [
+                [
+                  "onControl",
+                  "windows"
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "quiet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "ariaHidden": "true",
+            "role": null,
+            "label": null,
+            "tabindex": null,
+            "focusable": 0,
+            "live": 0,
+            "elements": 1,
+            "children": 1,
+            "words": "ROUND 1",
+            "tone": "gold"
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusals": [
+              {
+                "name": "an unknown input",
+                "refused": true,
+                "message": "The round stamp takes no \"seat\". Its inputs are round, window, clock, status, reducedMotion: the round, its phase and the clock, and nothing of a player"
+              },
+              {
+                "name": "a role",
+                "refused": true,
+                "message": "The round stamp takes no \"role\". Its inputs are round, window, clock, status, reducedMotion: the round, its phase and the clock, and nothing of a player"
+              },
+              {
+                "name": "a turn",
+                "refused": true,
+                "message": "The round stamp takes no \"active\". Its inputs are round, window, clock, status, reducedMotion: the round, its phase and the clock, and nothing of a player"
+              },
+              {
+                "name": "a callback",
+                "refused": true,
+                "message": "The round stamp takes no \"onDone\". Its inputs are round, window, clock, status, reducedMotion: the round, its phase and the clock, and nothing of a player"
+              },
+              {
+                "name": "window.endsAt",
+                "refused": true,
+                "message": "window takes only id, startedAt, not \"endsAt\""
+              },
+              {
+                "name": "a window with no id",
+                "refused": true,
+                "message": "window.id is the phase's id"
+              },
+              {
+                "name": "a window with no start",
+                "refused": true,
+                "message": "window.startedAt is the phase's start, in server milliseconds"
+              },
+              {
+                "name": "round 0",
+                "refused": true,
+                "message": "round is null, or the match's round: a whole number from 1"
+              },
+              {
+                "name": "round 1.5",
+                "refused": true,
+                "message": "round is null, or the match's round: a whole number from 1"
+              },
+              {
+                "name": "round as text",
+                "refused": true,
+                "message": "round is null, or the match's round: a whole number from 1"
+              },
+              {
+                "name": "a clock with no now()",
+                "refused": true,
+                "message": "clock is null, or { now() }: the match's trusted server time"
+              },
+              {
+                "name": "an unknown status",
+                "refused": true,
+                "message": "status is live, stale, concealed"
+              },
+              {
+                "name": "reducedMotion as text",
+                "refused": true,
+                "message": "reducedMotion is true or false"
+              }
+            ],
+            "notAnObject": true,
+            "noTarget": true,
+            "unchanged": true
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": 0,
+            "frame": null,
+            "state": "idle",
+            "again": 0,
+            "asked": {
+              "frames": 0,
+              "timers": 0,
+              "animations": 0
+            },
+            "frameAfter": null,
+            "connected": false
+          }
+        },
+        {
+          "id": "reduced",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "t": 0,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 0,
+                "scale": 1,
+                "opacity": 0,
+                "want": {
+                  "beat": "in",
+                  "opacity": 0
+                },
+                "frame": {
+                  "window": "probe-phase-35",
+                  "round": 1,
+                  "t": 0,
+                  "beat": "in",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              },
+              {
+                "t": 40,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 40,
+                "scale": 1,
+                "opacity": 0.5,
+                "want": {
+                  "beat": "in",
+                  "opacity": 0.5
+                },
+                "frame": {
+                  "window": "probe-phase-36",
+                  "round": 1,
+                  "t": 40,
+                  "beat": "in",
+                  "scale": 1,
+                  "opacity": 0.5,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              },
+              {
+                "t": 80,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 80,
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "hold",
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-37",
+                  "round": 1,
+                  "t": 80,
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              },
+              {
+                "t": 600,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 600,
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "hold",
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-38",
+                  "round": 1,
+                  "t": 600,
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              },
+              {
+                "t": 1320,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 1320,
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "leave",
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-39",
+                  "round": 1,
+                  "t": 1320,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              },
+              {
+                "t": 1360,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 1360,
+                "scale": 1,
+                "opacity": 0.5,
+                "want": {
+                  "beat": "leave",
+                  "opacity": 0.5
+                },
+                "frame": {
+                  "window": "probe-phase-40",
+                  "round": 1,
+                  "t": 1360,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.5,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              },
+              {
+                "t": 1399,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 1399,
+                "scale": 1,
+                "opacity": 0.0125,
+                "want": {
+                  "beat": "leave",
+                  "opacity": 0.012499999999999956
+                },
+                "frame": {
+                  "window": "probe-phase-41",
+                  "round": 1,
+                  "t": 1399,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.012,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": "reduced"
+              }
+            ],
+            "gone": {
+              "gone": true,
+              "asked": 0
+            },
+            "turned": {
+              "before": [
+                "opacity",
+                "transform"
+              ],
+              "after": [
+                "opacity"
+              ],
+              "time": 60,
+              "animations": 1,
+              "frame": {
+                "window": "probe-phase-43",
+                "round": 1,
+                "t": 60,
+                "beat": "in",
+                "scale": 1,
+                "opacity": 0.75,
+                "running": true,
+                "status": "live",
+                "reduced": true,
+                "shown": true
+              },
+              "asked": 1
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "reduced",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "t": 0,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 0,
+                "scale": 1,
+                "opacity": 0,
+                "want": {
+                  "beat": "in",
+                  "opacity": 0
+                },
+                "frame": {
+                  "window": "probe-phase-1",
+                  "round": 1,
+                  "t": 0,
+                  "beat": "in",
+                  "scale": 1,
+                  "opacity": 0,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              },
+              {
+                "t": 40,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 40,
+                "scale": 1,
+                "opacity": 0.5,
+                "want": {
+                  "beat": "in",
+                  "opacity": 0.5
+                },
+                "frame": {
+                  "window": "probe-phase-2",
+                  "round": 1,
+                  "t": 40,
+                  "beat": "in",
+                  "scale": 1,
+                  "opacity": 0.5,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              },
+              {
+                "t": 80,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 80,
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "hold",
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-3",
+                  "round": 1,
+                  "t": 80,
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              },
+              {
+                "t": 600,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 600,
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "hold",
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-4",
+                  "round": 1,
+                  "t": 600,
+                  "beat": "hold",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              },
+              {
+                "t": 1320,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 1320,
+                "scale": 1,
+                "opacity": 1,
+                "want": {
+                  "beat": "leave",
+                  "opacity": 1
+                },
+                "frame": {
+                  "window": "probe-phase-5",
+                  "round": 1,
+                  "t": 1320,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 1,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              },
+              {
+                "t": 1360,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 1360,
+                "scale": 1,
+                "opacity": 0.5,
+                "want": {
+                  "beat": "leave",
+                  "opacity": 0.5
+                },
+                "frame": {
+                  "window": "probe-phase-6",
+                  "round": 1,
+                  "t": 1360,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.5,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              },
+              {
+                "t": 1399,
+                "animations": 1,
+                "properties": [
+                  "opacity"
+                ],
+                "duration": 1400,
+                "time": 1399,
+                "scale": 1,
+                "opacity": 0.0125,
+                "want": {
+                  "beat": "leave",
+                  "opacity": 0.012499999999999956
+                },
+                "frame": {
+                  "window": "probe-phase-7",
+                  "round": 1,
+                  "t": 1399,
+                  "beat": "leave",
+                  "scale": 1,
+                  "opacity": 0.012,
+                  "running": false,
+                  "status": "live",
+                  "reduced": true,
+                  "shown": true
+                },
+                "motion": null
+              }
+            ],
+            "gone": {
+              "gone": true,
+              "asked": 0
+            },
+            "turned": null
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYoYRAW2.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  }
+}
