@@ -1,0 +1,164 @@
+{
+  "originalGate": {
+    "source": "cae0b995c0ebcf86c87176a34ce4a666f2a6ef55",
+    "correctnessPassed": false,
+    "fullInterval": {
+      "localBootstrapMs": 32,
+      "heartbeats": 53,
+      "heartbeatP95Ms": 243,
+      "heartbeatMaxMs": 277,
+      "controlCount": 3,
+      "controlP95Ms": 230,
+      "controlMaxMs": 230,
+      "ownerHandoffs": 0,
+      "watchdogs": 9,
+      "staleParticipantSamples": 59,
+      "participantSamples": 284,
+      "botWakes": 47,
+      "observerReads": 47,
+      "returnDriftMs": 72,
+      "staleReasons": {
+        "engineBoundary": {
+          "count": 32,
+          "ageMs": {
+            "n": 32,
+            "p95": 157,
+            "max": 184
+          }
+        },
+        "ownPresence": {
+          "count": 32,
+          "ageMs": {
+            "n": 32,
+            "p95": 7204,
+            "max": 7427
+          }
+        }
+      },
+      "sampledStaleSpanMs": {
+        "n": 26,
+        "p95": 241,
+        "max": 7470
+      },
+      "staleSpansCensored": 2,
+      "stagedHeartbeatMs": {
+        "receivedToIntakeAck": {
+          "n": 53,
+          "p95": 42,
+          "max": 44
+        },
+        "receivedToAdmittedClock": {
+          "n": 53,
+          "p95": 139,
+          "max": 188
+        },
+        "appendAckToApplyAck": {
+          "n": 53,
+          "p95": 62,
+          "max": 65
+        },
+        "applyAckToExactResponse": {
+          "n": 53,
+          "p95": 56,
+          "max": 61
+        }
+      },
+      "stagedControlMs": {
+        "receivedToIntakeAck": {
+          "n": 3,
+          "p95": 29,
+          "max": 29
+        },
+        "receivedToAdmittedClock": {
+          "n": 3,
+          "p95": 153,
+          "max": 153
+        },
+        "appendAckToApplyAck": {
+          "n": 3,
+          "p95": 65,
+          "max": 65
+        },
+        "applyAckToExactResponse": {
+          "n": 3,
+          "p95": 61,
+          "max": 61
+        }
+      }
+    }
+  },
+  "correctedGate": {
+    "source": "f0db7186d087824df29aa6af957498fb663f454c",
+    "correctnessPassed": true,
+    "fullInterval": {
+      "localBootstrapMs": 24,
+      "heartbeats": 62,
+      "heartbeatP95Ms": 229,
+      "heartbeatMaxMs": 247,
+      "controlCount": 3,
+      "controlP95Ms": 230,
+      "controlMaxMs": 230,
+      "ownerHandoffs": 0,
+      "watchdogs": 9,
+      "staleParticipantSamples": 0,
+      "participantSamples": 284,
+      "freshWithEngineDue": 32,
+      "botWakes": 47,
+      "observerReads": 47,
+      "returnDriftMs": 100,
+      "staleReasons": {},
+      "sampledStaleSpanMs": {
+        "n": 0,
+        "p95": null,
+        "max": null
+      },
+      "staleSpansCensored": 0,
+      "stagedHeartbeatMs": {
+        "receivedToIntakeAck": {
+          "n": 62,
+          "p95": 38,
+          "max": 43
+        },
+        "receivedToAdmittedClock": {
+          "n": 62,
+          "p95": 121,
+          "max": 147
+        },
+        "appendAckToApplyAck": {
+          "n": 62,
+          "p95": 66,
+          "max": 68
+        },
+        "applyAckToExactResponse": {
+          "n": 62,
+          "p95": 65,
+          "max": 69
+        }
+      },
+      "stagedControlMs": {
+        "receivedToIntakeAck": {
+          "n": 3,
+          "p95": 29,
+          "max": 29
+        },
+        "receivedToAdmittedClock": {
+          "n": 3,
+          "p95": 153,
+          "max": 153
+        },
+        "appendAckToApplyAck": {
+          "n": 3,
+          "p95": 59,
+          "max": 59
+        },
+        "applyAckToExactResponse": {
+          "n": 3,
+          "p95": 50,
+          "max": 50
+        }
+      },
+      "unavailableHeartbeats": []
+    }
+  },
+  "measurement": "Stage clocks are local service observations and SDK acknowledgement except the saved authoritative append clock. Sampled stale spans end on the next current projection sample."
+}

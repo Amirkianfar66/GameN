@@ -1,0 +1,40 @@
+{
+  "source": "6f4ce31e5ac6c32dc8dbe863355f927bcfb91ddb",
+  "sourceClean": true,
+  "toolchain": {
+    "node": "22.21.1",
+    "firestoreEmulator": "1.20.2"
+  },
+  "suite": {
+    "pass": 11,
+    "fail": 0
+  },
+  "warmOwner": {
+    "heartbeatCount": 12,
+    "heartbeatMaxMs": 159,
+    "downToExactReceiptMs": 132
+  },
+  "fullProductionWorker": {
+    "localBootstrapMs": 27,
+    "heartbeats": 61,
+    "heartbeatP95Ms": 213,
+    "heartbeatMaxMs": 235,
+    "controlCount": 3,
+    "controlP95Ms": 278,
+    "controlMaxMs": 278,
+    "ownerHandoffs": 0,
+    "watchdogs": 9,
+    "staleParticipantSamples": 27,
+    "participantSamples": 282,
+    "botWakes": 47,
+    "observerReads": 47,
+    "returnDriftMs": 95
+  },
+  "baselineFailure": {
+    "source": "607e360f8b86e0e7ae94a6fd4f900db90c553dea",
+    "pass": 10,
+    "fail": 1,
+    "stage": "outbox dispatch acknowledgement and owner claim",
+    "result": "owner not visible before test wait ended"
+  }
+}

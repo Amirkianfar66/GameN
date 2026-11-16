@@ -1,0 +1,27 @@
+{
+  "portOnlyRuntimePatchSha256": "0e2c741b912e1e45f99ffc5f02c2e5165c80af3dc596171c418187f94048136f",
+  "localEmulatorConfigSha256": "9057562df48996478a30d65505bbb57f24c8252de31031cf8be7f1412ab0b8de",
+  "ports": {
+    "functions": 27501,
+    "auth": 27599,
+    "firestore": 27580,
+    "eventarc": 27629,
+    "tasks": 27649
+  },
+  "legacyBaseline": {
+    "source": "f394d927867535bca76e327668d86d40cf7c5486",
+    "result": "7-seat delivered legacy match; local Functions entrypoint omitted the Food authority profile"
+  },
+  "strictFirstAttempt": {
+    "source": "cae4e675afc6b2de55810deb80be77d5a313c5a6",
+    "result": "accepted JOIN, no persisted inbox route"
+  },
+  "strictAfterEntrypointFix": {
+    "source": "75c01e22c119648055c64565252dcc0286509839",
+    "entrypointFix": "d4967a1aec0d967216da9adf99de5a23fa7e77f3",
+    "passed": true,
+    "bootFromAuthoritativeJoinMs": 1584,
+    "concurrentHeartbeatPairMs": 860,
+    "result": "verified opted-in match; owner booted before any post-JOIN READ or heartbeat"
+  }
+}
