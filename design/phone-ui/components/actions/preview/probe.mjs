@@ -18,6 +18,9 @@
 //             no time line after a reload; nothing drawn outside the sheet (nothing on the target)
 //   words     the frames and the shell's words: the sheets' ids, titles, subs and buttons; the target bar
 //             (Supply's second pick, the board); the chip; the toast; Pass without a next player
+//   footer    the sheets' buttons in the real shell: live, each is taken; reconnecting, Cancel (the check's and
+//             Pass's) and Done are taken, being this phone's own (local), and Register, Pass, Retry the same and
+//             Check receipt, which stand for commands, are refused, described by the banner's words
 //   unknown   "Outcome unknown" names the action and its people, or the action alone
 //   inputs    an unknown key, a type twice, an unknown type or state, too many people: each an error; a
 //             checked input checks to itself
@@ -192,18 +195,46 @@ export async function runActionsProbe({ sizes, versions }) {
     await check('words', async () => {
       const sheets = [actionsSheet({ role: 'Doctor', room: 'Room A' }), targetListSheet({ type: 'RESCUE' }), checkSheet({ type: 'RESCUE' }), checkSheet({ type: 'REQUEST_HACK', phase: 'sending' }),
         afterSheet({ type: 'PROTECT' }), unknownSheet({ type: 'RESCUE' }), passSheet({ next: { seat: 'seat-5', name: 'Eli' } }), passSheet({})];
-      const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}`).join('|') || null]);
+      const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
       const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
       const chips = [targetChip({ kind: 'other-rooms', count: 1 }), targetChip({ kind: 'list' })].map(c => `${c.id}|${c.label}|${c.icon}`);
       const toasts = [registeredToast({ type: 'RESCUE', id: 'c-1' }), registeredToast({ type: 'REQUEST_HACK', kind: 'accepted', id: 'c-2' }), registeredToast({ type: 'ACTIVATE_CLONE', kind: 'active', id: 'c-3' }),
         registeredToast({ type: 'ENGINEER_SUPPRESS', kind: 'captured', id: 'c-4' })].map(t => t.text);
-      const want = [['actions', 'Actions', 'Doctor · Room A', null], ['action-list', 'Choose from a list', 'Rescue · everyone you can reach', null], ['action-check', 'Check and register', null, 'cancel:Cancel|register:Register Rescue'],
-        ['action-check', 'Check and register', null, 'cancel:Cancel|register:Requesting…:busy'], ['action-after', 'Grant Protection', null, 'done:Done'], ['action-unknown', 'Outcome unknown', null, 'retry:Retry the same|check:Check receipt'],
-        ['pass', 'Pass your turn?', 'The turn goes to Eli · Player 5', 'cancel:Cancel|pass:Pass'], ['pass', 'Pass your turn?', null, 'cancel:Cancel|pass:Pass']];
+      const want = [['actions', 'Actions', 'Doctor · Room A', null], ['action-list', 'Choose from a list', 'Rescue · everyone you can reach', null], ['action-check', 'Check and register', null, 'cancel:Cancel:local|register:Register Rescue'],
+        ['action-check', 'Check and register', null, 'cancel:Cancel:local|register:Requesting…:busy'], ['action-after', 'Grant Protection', null, 'done:Done:local'], ['action-unknown', 'Outcome unknown', null, 'retry:Retry the same|check:Check receipt'],
+        ['pass', 'Pass your turn?', 'The turn goes to Eli · Player 5', 'cancel:Cancel:local|pass:Pass'], ['pass', 'Pass your turn?', null, 'cancel:Cancel:local|pass:Pass']];
       return { ok: JSON.stringify(said) === JSON.stringify(want)
         && JSON.stringify(bars) === JSON.stringify(['rescue|Rescue|Choose a player', 'supply|Supply|Choose two players', 'supply|Supply|Choose the second player', 'rescue|Rescue|Choose a player · every room'])
         && JSON.stringify(chips) === JSON.stringify(['other-rooms|Other rooms · 1|board', 'list|List|players'])
         && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed']), said, bars, chips, toasts };
+    });
+
+    await check('footer', async () => {
+      // Each sheet with buttons, in the real shell, live and reconnecting; every button tapped once.
+      const sheets = { check: checkSheet({ type: 'RESCUE' }), after: afterSheet({ type: 'RESCUE' }), unknown: unknownSheet({ type: 'RESCUE' }), pass: passSheet({ next: { seat: 'seat-5', name: 'Eli' } }) };
+      const size = sizes['390x844'];
+      const run = status => Object.fromEntries(Object.entries(sheets).map(([key, sheet]) => {
+        const frame = document.createElement('div');
+        frame.className = 'pv-phone';
+        Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
+        document.body.append(frame);
+        const taken = [];
+        const shell = mountPhoneShell(frame, { ...ACTIONS_STATES.check.shell, sheet, status, viewer: 'seat-4', versions, insets: size.insets, ...(status === 'stale' ? { banner: { kind: 'reconnecting' } } : {}) },
+          { onSheetAction: (id, sheetId) => taken.push(`${sheetId}:${id}`) });
+        const buttons = [...frame.querySelectorAll('.ms-ps-sheet-foot > button')];
+        for (const b of buttons) tap(b);
+        const why = Object.fromEntries(buttons.map(b => [b.dataset.value, b.getAttribute('aria-describedby') ? document.getElementById(b.getAttribute('aria-describedby'))?.textContent ?? null : null]));
+        shell.dispose();
+        frame.remove();
+        return [key, { taken, why }];
+      }));
+      const live = run('live'), stale = run('stale');
+      const refusedWhy = { register: ACTION_WORDS.stale, retry: ACTION_WORDS.stale, check: ACTION_WORDS.stale, pass: ACTION_WORDS.stale };
+      return { ok: JSON.stringify(Object.values(live).map(r => r.taken)) === JSON.stringify([['action-check:cancel', 'action-check:register'], ['action-after:done'], ['action-unknown:retry', 'action-unknown:check'], ['pass:cancel', 'pass:pass']])
+        && Object.values(live).every(r => Object.values(r.why).every(w => w === null))
+        && JSON.stringify(Object.values(stale).map(r => r.taken)) === JSON.stringify([['action-check:cancel'], ['action-after:done'], [], ['pass:cancel']])
+        && Object.values(stale).every(r => Object.entries(r.why).every(([id, w]) => w === (refusedWhy[id] ?? null)))
+        && stale.check.why.cancel === null && stale.after.why.done === null && stale.pass.why.cancel === null, live, stale };
     });
 
     await check('unknown', async () => {

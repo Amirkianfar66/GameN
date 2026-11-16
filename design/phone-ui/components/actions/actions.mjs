@@ -262,20 +262,23 @@ export function actionsSheet({ role = null, room = null } = {}) {
 export function targetListSheet({ type }) {
   return { id: 'action-list', title: ACTION_WORDS.list, sub: ACTION_WORDS.listSub(lookOf(type).title), back: true, close: false };
 }
-/** The check's sheet: Cancel and Register; while sending, Register busy and named as it sends. */
+/**
+ * The check's sheet: Cancel and Register; while sending, Register busy and named as it sends. Cancel only closes
+ * the sheet on this phone, so it is local (shell 0.2.4) and works while reconnecting; Register stands for the command.
+ */
 export function checkSheet({ type, phase = 'ready', canRegister = true }) {
   const l = lookOf(type);
   if (!l.register) throw new TypeError(`${type} has no check of this component's`);
   if (!['ready', 'sending'].includes(phase)) throw new TypeError('phase is ready or sending');
   const sending = phase === 'sending';
   return { id: 'action-check', title: ACTION_WORDS.check, close: false, actions: [
-    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary' },
+    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', local: true },
     { id: 'register', label: sending ? l.sending : l.register, kind: 'primary', busy: sending, enabled: sending || !!canRegister },
   ] };
 }
-/** After Register's sheet: the action's title, and Done. */
+/** After Register's sheet: the action's title, and Done, which only closes it on this phone (local: it works while reconnecting). */
 export function afterSheet({ type }) {
-  return { id: 'action-after', title: lookOf(type).title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary' }] };
+  return { id: 'action-after', title: lookOf(type).title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary', local: true }] };
 }
 /** Sheet 45's "Outcome unknown": "Retry the same" and "Check receipt", each busy while it asks. */
 export function unknownSheet({ type, busy = null } = {}) {
@@ -286,11 +289,14 @@ export function unknownSheet({ type, busy = null } = {}) {
     { id: 'check', label: ACTION_WORDS.checkReceipt, kind: 'primary', icon: 'check', busy: busy === 'check', enabled: busy === null || busy === 'check' },
   ] };
 }
-/** Pass asks once (27.3): "The turn goes to Eli · Player 5" when the next player is known (B5), else no sub. */
+/**
+ * Pass asks once (27.3): "The turn goes to Eli · Player 5" when the next player is known (B5), else no sub. Cancel only
+ * closes the sheet (local: it works while reconnecting, except while Pass is sending); Pass stands for PASS_TURN.
+ */
 export function passSheet({ next = null, busy = false } = {}) {
   const who = next ? person(next, 'next') : null;
   return { id: 'pass', title: ACTION_WORDS.passTitle, sub: who ? ACTION_WORDS.passNext(who.name, who.seat) : null, close: false, actions: [
-    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', enabled: !busy },
+    { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', local: true, enabled: !busy },
     { id: 'pass', label: ACTION_WORDS.pass, kind: 'primary', icon: 'pass', busy: !!busy },
   ] };
 }
