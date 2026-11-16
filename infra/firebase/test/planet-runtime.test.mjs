@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {assertPlanetRuntimeEnvironment} from '../dist/planet-runtime.js';
 import {PLANET_PHONE_ENGINE_PROFILE,PLANET_FOOD_TASK_ENGINE_PROFILE} from '@mothership/contracts';
+import {PLANET_FOOD_OWNER_INBOX_PROFILE} from '@mothership/game-api';
 const emulator={GCLOUD_PROJECT:'demo-mothership',FUNCTIONS_EMULATOR:'true',FIREBASE_AUTH_EMULATOR_HOST:'127.0.0.1:9199',FIRESTORE_EMULATOR_HOST:'127.0.0.1:8180',MOTHERSHIP_FUNCTIONS_EMULATOR_HOST:'127.0.0.1:5101'};
 test('Planet creation is explicitly off by default and independently configures reviewed artwork',()=>{
   assert.equal(assertPlanetRuntimeEnvironment(emulator).creationEnabled,false);
@@ -69,4 +70,20 @@ test('request timing is an independent strict opt-in and leaves match configurat
   assert.equal(requestTimingEnabled,true);assert.deepEqual(enabled,defaults);
   for(const value of ['', 'yes', '1', ' true'])assert.throws(()=>assertPlanetRuntimeEnvironment({...emulator,
     MOTHERSHIP_PLANET_REQUEST_TIMING:value}),/Invalid Planet request timing switch/);
+});
+
+test('Food ownership selection is explicit, Food-only and cannot enable creation',()=>{
+  const environment={...emulator,MOTHERSHIP_PLANET_ENGINE_PROFILE:PLANET_FOOD_TASK_ENGINE_PROFILE};
+  const ordinary=assertPlanetRuntimeEnvironment(environment);
+  assert.equal(Object.hasOwn(ordinary,'foodAuthorityProfile'),false);
+  const {foodAuthorityProfile,...selected}=assertPlanetRuntimeEnvironment({...environment,
+    MOTHERSHIP_PLANET_FOOD_AUTHORITY_PROFILE:PLANET_FOOD_OWNER_INBOX_PROFILE});
+  assert.equal(foodAuthorityProfile,PLANET_FOOD_OWNER_INBOX_PROFILE);
+  assert.deepEqual(selected,ordinary);
+  assert.equal(selected.creationEnabled,false);
+  for(const value of ['', 'true', 'food-owner-inbox-2', ' '+PLANET_FOOD_OWNER_INBOX_PROFILE])
+    assert.throws(()=>assertPlanetRuntimeEnvironment({...environment,MOTHERSHIP_PLANET_FOOD_AUTHORITY_PROFILE:value}),/Food authority profile/);
+  for(const engineProfile of [undefined,PLANET_PHONE_ENGINE_PROFILE])
+    assert.throws(()=>assertPlanetRuntimeEnvironment({...emulator,MOTHERSHIP_PLANET_ENGINE_PROFILE:engineProfile,
+      MOTHERSHIP_PLANET_FOOD_AUTHORITY_PROFILE:PLANET_FOOD_OWNER_INBOX_PROFILE}),/Food authority profile/);
 });
