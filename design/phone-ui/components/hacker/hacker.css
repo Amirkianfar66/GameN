@@ -1,0 +1,23 @@
+@import url("../kit/kit.css");
+/*
+ * The Hacker's Scan and final Code (hacker.mjs): the layout of their sheets' content. Runtime source, Designer's.
+ * The pack's own values (design/phone-ui/prototype/screens-more.mjs scan() and code(), screens.css .registered),
+ * on the kit's tokens. Who, the guesses, the cells and the 3 × 3, the row, the stamp, the group note, the inline
+ * error and the results' notice are the kit's (component-kit-0.7.0); the sheet's frame, its buttons and the target
+ * bar are the shell's.
+ *
+ * Scope: every rule is under the component's root (.ms-hacker, which is also .ms-kit) and names a class of its
+ * own, so it weighs two classes and outranks the kit (one class), whatever order the
+ * stylesheets load in (kit.md).
+ */
+
+/* ── The root: it fills the sheet's body, and adds nothing to it ─────── */
+.ms-hacker.ms-kit { display: block; }
+.ms-hacker.ms-kit:focus { outline: none; }
+.ms-hacker.ms-kit [hidden] { display: none; }
+
+/* ── Scan · guess: the pack's segmented control, 6 px under who ──────── */
+.ms-hacker .ms-hk-guess { margin-top: 6px; }
+
+/* ── Not accepted (L6): the kit's inline note, as Actions' check ────── */
+.ms-hacker .ms-hk-error { margin-top: 14px; }
