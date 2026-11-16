@@ -1,6 +1,6 @@
 # Actions: Designer's runtime component
 
-**Version:** `actions-0.1.0`, with its parts module `play-parts-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the decisions below (L1–L7) and posted on #4 for Frontend on 15 November. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). The Lead asks Backend and Integration B1–B8 on #4. Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) at `3fb12935`: `phone-shell-0.2.0`, which keeps the sheet below the reconnecting banner, with the shared kit `component-kit-0.5.1`.
+**Version:** `actions-0.1.0`, with its parts module `play-parts-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the decisions below (L1–L7) and posted on #4 for Frontend on 15 November. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). The Lead asks Backend and Integration B1–B8 on #4. Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) at `67989624`: `phone-shell-0.2.1`, which keeps the sheet below the reconnecting banner and wraps a sheet's footer at the Larger text, with the shared kit `component-kit-0.5.1`.
 
 **What it is:** the phone's Actions during a match, as the phone pack draws them: sheets 27.2, 27.3, 28, 29, 29.1 and 29.2, the Actions frames of 50 (320 × 568) and 53 (Large text), and 45's "Outcome unknown". It is #222 items 9–13, with the owner's T2 and T3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -334,7 +334,7 @@ Listed, not omitted:
 
 For the Lead. Nothing here changes the agreed interface:
 
-- **The shell's footer at the Largest text.** On 320 × 568 at 200 %, the check's two footer buttons do not fit side by side: "Register Rescue" runs past the sheet's right edge (`review/320x568-largest-check.jpg`). The footer is the shell's and the button the kit's, so I have not changed either.
+- **The shell's footer at the Largest text** (fixed). On 320 × 568 at 200 %, "Register Rescue" ran past the sheet's right edge. The Lead fixed it in the shell, 0.2.1 (16 November): under 19 em a footer's buttons that don't fit side by side take a row each, and a long label wraps inside its button. Merged in here, the capture now fits (`review/320x568-largest-check.jpg`).
 - **Sheet 45's icon.** The pack draws "Outcome unknown"'s warning icon at its own 24 px, because its 76 px `.big-icon` tile is styled only inside a waiting block (`.wait`). The notice draws it as the pack does; a larger icon would be a change to the pack.
 - **The pack's `.confirm-who span` rule** also reaches the action's own icon tile: a 2 px top margin and the sub's type. Who mirrors it, so the agreement holds.
 - **Supply's first pick in the list** (L4) is marked "Picked", in the accent, as the kit's row value. The pack draws no such row: it is composed from the kit's row. In the room, the room scene marks the same person with its stronger ring.
@@ -353,7 +353,7 @@ For the Lead. Nothing here changes the agreed interface:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/actions-check.mjs`:** recorded on `422e3f27` (the shell at `3fb12935` merged in), with the source clean. The same result as on `f902dc1a`, on the shell at `e6b4a385` with kit 0.4.0.
+- **`node design/tools/actions-check.mjs`:** recorded on `5ed5718e` (the shell at `67989624`, 0.2.1, merged in), with the source clean. The same result as on `422e3f27` (shell 0.2.0) and `f902dc1a` (shell `e6b4a385`, kit 0.4.0); with 0.2.1 the check's footer at the Largest text on 320 × 568 takes a row per button.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does. Each part is mounted in the shell's sheet body, over the room scene, as Frontend would.
   - **Captures:** 75 of 75 pass, each drawing what its state asks: the part, the sheet, the tiles with their states and lines, the head and the note, the target bar and the chip, the rows and the picked one, who, the facts, the error, the stamp, the headline, the steps, the people, the notice, the footer, the banner, the refused taps, the tiles to a row and the list form's mark, and the room's crew behind.
     - 35 states at 390 × 844 and 430 × 932.
