@@ -12,7 +12,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  FOOD_ANSWERS, FOOD_CAN, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
+  FOOD_ANSWERS, FOOD_CAN, FOOD_CLOSURE_KEYS, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
   foodIdentities, foodModel, foodNoticeModel, foodNow, foodOrdinary, nextFoodInput, nextFoodNoticeInput,
 } from '../../../design/phone-ui/components/food/food-input.mjs';
 
@@ -198,11 +198,43 @@ test('inputs: each key given replaces that key, and anything the surface does no
     'a negative bar': { bars: { top: -1, bottom: 0 } },
   };
   for (const [what, changes] of Object.entries(refused)) assert.throws(() => nextFoodInput(base, changes), { name: 'TypeError', message: /^Food: / }, what);
+  // Of the contract's Food player view (packages/contracts/src/planet-food-task.ts) the surface takes twelve keys. The
+  // other ten are refused by name: the binding and envelope, the roster, the turn ends, and the viewer's cursor and meals.
+  const contractView = ['schemaVersion', 'versions', 'matchId', 'round', 'phaseId', 'viewRevision', 'serverNowMs', 'playerCount', 'rosterSeatIds', 'turnEnds', 'audience', 'seatId',
+    'step', 'stock', 'ownAvailability', 'partnerChoices', 'requestClosures', 'invitation', 'participantTask', 'offers', 'privateCursor', 'ownMeals'];
+  const schema = read('packages/contracts/src/planet-food-task.ts');
+  for (const key of contractView) assert.match(schema, new RegExp(`\\b${key}:`), `${key} is a key of the contract's view`);
+  const notTaken = contractView.filter(key => !FOOD_VIEW_KEYS.includes(key));
+  assert.deepEqual(notTaken, ['schemaVersion', 'matchId', 'phaseId', 'serverNowMs', 'playerCount', 'rosterSeatIds', 'turnEnds', 'audience', 'privateCursor', 'ownMeals']);
+  for (const key of notTaken) assert.throws(() => nextFoodInput(base, { view: { ...view, [key]: 1 } }), { name: 'TypeError', message: `Food: view takes no "${key}"` }, `the view's ${key}`);
+  // Of a refused press's closure, the six fields the request cards read; of an accepted press's request, its two.
+  assert.deepEqual(FOOD_CLOSURE_KEYS, ['requestId', 'state', 'round', 'foodStepId', 'volunteerSeatId', 'partnerSeatId']);
+  const closure = { requestId: 'r', state: 'EXPIRED', round: 3, foodStepId: 's', volunteerSeatId: 'seat-1', partnerSeatId: 'seat-2' };
+  const feedback = more => ({ sending: { ...sending, feedback: { key: 'k', name: 'request', recovered: false, ...more } } });
+  assert.deepEqual(nextFoodInput(base, feedback({ status: 'rejected', closure })).sending.feedback.closure, closure, 'the six are taken');
+  assert.deepEqual(nextFoodInput(base, feedback({ status: 'accepted', request: { requestId: 'r', state: 'JOINED' } })).sending.feedback.request, { requestId: 'r', state: 'JOINED' });
+  for (const key of ['requestRevision', 'askedAt', 'answerEndsAt', 'closedAt', 'commandId', 'receipt']) {
+    assert.throws(() => nextFoodInput(base, feedback({ status: 'rejected', closure: { ...closure, [key]: 1 } })), { name: 'TypeError', message: `Food: sending.feedback.closure takes no "${key}"` }, `a closure's ${key}`);
+  }
+  for (const key of ['commandId', 'receipt', 'partnerSeatId']) {
+    assert.throws(() => nextFoodInput(base, feedback({ status: 'accepted', request: { requestId: 'r', state: 'PENDING', [key]: 1 } })), { name: 'TypeError', message: `Food: sending.feedback.request takes no "${key}"` }, `a request's ${key}`);
+  }
   const notice = nextFoodNoticeInput(FOOD_NOTICE_DEFAULTS, { step: { kind: 'AWAY', stepId: 's', awaySeatIds: ['seat-3', 'seat-8'] }, stock: { doses: 2 }, bars: { top: 103 } });
   assert.deepEqual(notice.step, { kind: 'AWAY' }, 'of the published step the notice keeps its kind, and not who is away');
   for (const [what, changes] of Object.entries({ 'a view': { view }, 'a seat': { seatId: 'seat-3' }, 'the viewer': { viewer: { promiseOfferCount: 1 } }, 'the people': { people: [] }, 'more than the doses': { stock: { doses: 2, ownMeals: 1 } }, 'a bottom bar': { bars: { top: 0, bottom: 0 } } })) {
     assert.throws(() => nextFoodNoticeInput(FOOD_NOTICE_DEFAULTS, changes), { name: 'TypeError', message: /^Food: / }, `the notice takes no ${what}`);
   }
+  // The entry's own names: what it gives the adapter, and the phone surface's handle. One meaning per call:
+  // update({ reducedMotion }) changes motion, and relayout() lays the surface out again.
+  const entry = read(`${COMPONENT}/food.mjs`);
+  const reexported = /export \{([^}]+)\} from '\.\/food-input\.mjs';/.exec(entry)[1].split(',').map(name => name.trim()).filter(Boolean);
+  assert.deepEqual(reexported, ['FOOD_ANSWERS', 'FOOD_CAN', 'FOOD_CLOSURE_KEYS', 'FOOD_DEFAULTS', 'FOOD_NAVIGATION_TARGETS', 'FOOD_NOTICE_DEFAULTS', 'FOOD_PRESSES', 'FOOD_STATUSES', 'FOOD_VERSION', 'FOOD_VIEW_KEYS', 'nextFoodInput', 'nextFoodNoticeInput']);
+  assert.deepEqual([...entry.matchAll(/^export (?:const|function) (\w+)/gm)].map(m => m[1]), ['FOOD_HANDLERS', 'mountFood', 'mountFoodNotice', 'foodGauge']);
+  const phone = entry.slice(entry.indexOf('export function mountFood('), entry.indexOf('export function mountFoodNotice(')), handle = phone.slice(phone.indexOf('return Object.freeze({'));
+  assert.deepEqual([...handle.matchAll(/^    (\w+)\(/gm)].map(m => m[1]), ['update', 'suspend', 'resume', 'relayout', 'openTasks', 'close', 'dispose'], 'the phone surface\'s handle');
+  assert.doesNotMatch(handle.slice(handle.indexOf('    update('), handle.indexOf('    suspend(')), /layoutDue|relayout/, 'update lays nothing out');
+  assert.match(phone, /crewSurfaceOf\(host, current\);/, 'the host is checked at mount');
+  assert.match(handle, /const before = current, next = nextFoodInput\(current, changes\);\n\s+crewSurfaceOf\(host, next\);\n\s+current = next;/, 'and by update, before anything changes');
 });
 
 test('audiences: what the drawing reads is built from the inputs alone, and live, stale and concealed keep to their words', () => {
@@ -345,14 +377,30 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   // Larger text: the port's own support, drawn the same by the component.
   const larger = Object.entries(record.largerText.drawn);
   assert.deepEqual(record.largerText.texts, [1.5, 2]);
-  assert.equal(larger.length, 32, 'eight states at two sizes, at the Large and the Largest text');
+  assert.equal(larger.length, 36, 'nine states at two sizes, at the Large and the Largest text');
   for (const [key, l] of larger) {
     assert.ok(l.ok && Object.values(l.equal).every(Boolean), `${key}: the frozen port draws the same DOM and the same pixels`);
     assert.equal(l.bars.top, { 24: 117, 32: 141 }[l.rootPx], `${key}: the text is larger: the surface's own bar has grown`);
     assert.deepEqual(l.problems, [], `${key}: no page problem`);
     if (l.file) assert.ok(existsSync(join(REPO, l.file)), `${key}: ${l.file}`);
   }
-  assert.equal(larger.filter(([, l]) => l.file).length, 4, 'four larger-text pictures kept for review');
+  assert.equal(larger.filter(([, l]) => l.file).length, 6, 'six larger-text pictures kept for review');
+  // Laid out again after a text-size change: relayout() is what the port draws on the app's preferences event.
+  assert.deepEqual([record.relayout.text, record.relayout.portEvent, record.relayout.states], [1.5, 'mothership:preferences-change', { 'case-food-flow-09': 'banner', 'case-food-flow-04': 'card' }]);
+  assert.deepEqual(Object.keys(record.relayout.drawn), ['390x844/case-food-flow-09', '390x844/case-food-flow-04', '430x932/case-food-flow-09', '430x932/case-food-flow-04']);
+  for (const [key, r] of Object.entries(record.relayout.drawn)) {
+    assert.ok(r.ok && Object.values(r.equal).every(Boolean), `laid out again, ${key}: the port, on its preferences event, draws the same DOM, focus and pixels`);
+    assert.equal(r.bars.top, 117, `laid out again, ${key}: the bar has grown`);
+    assert.deepEqual(r.problems, [], `laid out again, ${key}: no page problem`);
+    if (r.kind === 'banner') {
+      assert.ok(r.asNew.html && r.asNew.pixels, `${key}: it is what a new mount draws`);
+      assert.deepEqual(r.banner, { told: '161px', port: '161px', untold: '143px' }, `${key}: told, the banner sits under the taller bar; not told, it stays where it was built`);
+    } else {
+      // The known issue, unchanged from the port: a card that is built again is not focused again.
+      assert.ok(r.asNew.htmlButFocus, `${key}: its focus aside, it is what a new mount draws`);
+      assert.deepEqual(r.focus, { newMount: 'fs-card', notTold: 'fs-card', told: null, port: null }, `${key}: the card built again is not focused again, here as in the port`);
+    }
+  }
   assert.match(record.captures['390x844/food-panel-18/full'].synthetic, /a synthetic equivalent \(a retained RELEASE-capable view marked stale\), not a connected payload/);
   for (const part of PACKET.parts) {
     for (const size of ['390x844', '430x932']) {
@@ -405,9 +453,14 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = new Set(record.probe.full.checks.map(c => c.id.split(':')[0]));
-  for (const group of ['contacts', 'listeners', 'presses', 'offers', 'requests', 'stale', 'focus', 'lifecycle', 'quiet', 'exits', 'ownership', 'privacy', 'notice', 'gauge', 'motion', 'pictures', 'handlers', 'adapter']) assert.ok(groups.has(group), `probe group ${group}`);
+  for (const group of ['contacts', 'listeners', 'presses', 'offers', 'requests', 'stale', 'focus', 'lifecycle', 'quiet', 'exits', 'ownership', 'privacy', 'notice', 'gauge', 'host', 'motion', 'layout', 'pictures', 'handlers', 'adapter']) assert.ok(groups.has(group), `probe group ${group}`);
   // Frontend's four answers, each by its own check.
   const passed = id => record.probe.full.checks.some(c => c.ok && c.id.startsWith(id));
   for (const id of ['listeners: one set on the window per mount', 'contacts: Hold still reports the contact then', 'adapter: with a contact-off owed and no hold offered', 'stale: the tabs, Promises and Settings still report onNavigate',
     'focus: the same control stays focused across redraws', 'lifecycle: resume drew the current state at the current time', 'privacy: concealed, nothing of the surface is left in the page', 'ownership: a Task covers the whole screen, said once']) assert.ok(passed(id), `probe: ${id}`);
+  // The Lead Designer's answers of 16 November on the interface, each by its own check.
+  for (const id of ['contacts: a contact is plain data and nothing else', 'privacy: of the contract\'s view the surface takes twelve keys and refuses the other ten by name', 'pictures: the loader\'s signal is listened to once and let go on dispose',
+    'layout: update({ reducedMotion }) changes motion and lays nothing out', 'layout: relayout() lays the surface out again', 'layout: suspended, relayout() waits, and resume draws the new layout',
+    'host: outside the game\'s crew picture surface a view is refused at mount with a TypeError', 'host: with no view, or concealed, nothing is asked of the host', 'host: inside the surface the app marked']) assert.ok(passed(id), `probe: ${id}`);
+  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 92, 'ninety-two checks in each mode');
 });

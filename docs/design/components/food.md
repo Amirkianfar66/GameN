@@ -1,6 +1,6 @@
 # Food surface: Designer's runtime component
 
-**Version:** `food-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer posted on #4 for #213, with Frontend's four answers (relayed by Integration). It is the minimal extraction Integration asked for: the accepted native port's drawing, moved into Designer's folder with no change to the drawing. It is not in the game yet. Frontend adopts it by importing it in place of the port's drawing files, under Integration's source fence and version admission. It is not a release, and it does not replace the Designer's visual acceptance of the integrated result.
+**Version:** `food-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer posted on #4 for #213, with Frontend's four answers (relayed by Integration) and the Lead Designer's answers of 16 November on nine points of the built interface. It is the minimal extraction Integration asked for: the accepted native port's drawing, moved into Designer's folder with no change to the drawing. It is not in the game yet. Frontend adopts it by importing it in place of the port's drawing files, under Integration's source fence and version admission. It is not a release, and it does not replace the Designer's visual acceptance of the integrated result.
 
 **What it is:** the Food surface as the game draws it today.
 
@@ -34,7 +34,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/food/`:
 | Path | What |
 | --- | --- |
 | `food.mjs` | The entry: `mountFood()`, `mountFoodNotice()`, `foodGauge()`, `FOOD_HANDLERS`, and the names below re-exported |
-| `food-input.mjs` | The inputs, checked: `nextFoodInput()`, `nextFoodNoticeInput()`, `FOOD_DEFAULTS`, `FOOD_NOTICE_DEFAULTS`, `FOOD_VERSION`, `FOOD_STATUSES`, `FOOD_CAN`, `FOOD_VIEW_KEYS`, `FOOD_PRESSES`, `FOOD_ANSWERS`, `FOOD_NAVIGATION_TARGETS`. Pure: it imports nothing |
+| `food-input.mjs` | The inputs, checked: `nextFoodInput()`, `nextFoodNoticeInput()`, `FOOD_DEFAULTS`, `FOOD_NOTICE_DEFAULTS`, `FOOD_VERSION`, `FOOD_STATUSES`, `FOOD_CAN`, `FOOD_VIEW_KEYS`, `FOOD_CLOSURE_KEYS`, `FOOD_PRESSES`, `FOOD_ANSWERS`, `FOOD_NAVIGATION_TARGETS`. Pure: it imports nothing |
 | `food-render.mjs`, `food-notice.mjs` | The port's drawing of the phone surface and of the display's notice, with the connector seams listed under The copies |
 | `food-geometry.mjs`, `food-machine.mjs`, `food-scene.mjs`, `food-pose.mjs`, `food-display.mjs`, `food-ui.mjs`, `food-icons.mjs`, `food-gauge.mjs`, `food-tags.mjs`, `food-ink.mjs` | The port's files. Nine are byte for byte; `food-ink.mjs` differs by two import paths |
 | `food-kit.css`, `food.css` | The port's scoped sheets, byte for byte. Every rule is under `.planet-food` |
@@ -43,7 +43,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/food/`:
 | `preview/` | Development only. `index.html` and `preview.mjs`: the component on sample states. `port.html` and `port.mjs`: the frozen port on the same states, for the comparison. `stage.mjs`: what the two share. `probe.mjs`: the lifecycle probe. `compare.html` and `compare.mjs`: the picture comparisons. `food-component-preview-inputs.json`: Frontend's five inputs, unchanged. `provenance.json`: where the packet and #290's captures come from |
 | `review/` | The check's pictures and `check.json` |
 
-**Module graph:** `food.mjs` reaches the folder's other 16 runtime files, and from the hosted game `apps/game/hosted/crew-runtime.mjs` (the public crew portraits) and `apps/game/hosted/crew-drawing/ink.mjs` (the admitted crew ink), with what those two import. Two packages: `@mothership/contracts`, and `@mothership/presentation` for the nine pure Food functions (`foodPackageCount`, `foodPackagesText`, `foodPanelAt`, `foodCrateAt`, `foodGaugeLabel`, `foodGaugeLevel`, `foodTrajectoryAt`, `foodClamp`, `foodEase`), by name from its existing entry. It imports nothing from `@mothership/game`, `prototype/`, `preview/` or fixtures, and carries no development marker.
+**Module graph:** `food.mjs` reaches the folder's other 16 runtime files, and from the hosted game `apps/game/hosted/crew-runtime.mjs` (the public crew portraits, and whether a view's versions have the crew drawing) and `apps/game/hosted/crew-drawing/ink.mjs` (the admitted crew ink), with what those two import. They are the admitted crew release. Two packages: `@mothership/contracts`, and `@mothership/presentation` for the nine pure Food functions (`foodPackageCount`, `foodPackagesText`, `foodPanelAt`, `foodCrateAt`, `foodGaugeLabel`, `foodGaugeLevel`, `foodTrajectoryAt`, `foodClamp`, `foodEase`), by name from its existing entry. It imports nothing from `@mothership/game`, `prototype/`, `preview/` or fixtures, and carries no development marker.
 
 It sends nothing and keeps nothing: no request, no timer of its own, no storage.
 
@@ -70,14 +70,36 @@ const food = mountFood(host, {
 food.update(changes);   // each key given replaces that key; the rest stay
 food.openTasks();       // the app's Actions entry: opens "Start a Task"
 food.close();           // closes whichever Food sheet is open
+food.relayout();        // lays the surface out again: call it after the game's text size changes
 food.suspend();         // lets everything go, then stops the frames
 food.resume();          // draws the current state at the current time, and starts the frames again
 food.dispose();         // lets everything go, gives up what Food covered, removes the surface. Safe twice
 ```
 
-`host` is an element inside the app's own screen, as the port's is today. The component adds the class `planet-food-host` to it, which lays it over its parent (absolute, edge to edge, taking no pointer of its own), and removes the class on dispose. The host must be inside the game's crew picture surface (`setCrewPictureSurface`), as the port's is: the top bar's portraits are the game's own.
-
 An input the surface does not know is refused with a `TypeError`, at every level, and changes nothing.
+
+### The host
+
+`host` is an element inside the app's own screen, as the port's is today.
+
+**What the component does to it.** It adds the class `planet-food-host`, and removes it on dispose. The rule is the port's own:
+
+```css
+.planet-food-host { position: absolute; inset: 0; z-index: 7000; pointer-events: none; }
+```
+
+- The host is laid over its nearest positioned ancestor, edge to edge.
+- With `z-index: 7000` it sits above its neighbours in whatever stacking context holds it: the nearest ancestor that makes one, or else the page's.
+- The host takes no pointer. The surface's own bars, sheets, cards and Task screen take theirs.
+
+What Food covers in the app is Frontend's call: where the host is put, and what stacking context holds it.
+
+**What the host has to provide.** The top bar's portraits are the game's own pictures, as in the port. For a view whose versions have the crew drawing, that takes two things:
+
+1. **The crew picture surface around the host.** The host, or an ancestor of it, is the element the app marked with `setCrewPictureSurface(root, versions)` (`apps/game/hosted/crew-runtime.mjs`). The mark is `data-crew-art="crew-drawing-1.0.0"`.
+2. **The game's crew art sheet in the page** (`art/crew-public-board.<hash>.css`). It gives that element the nine portraits, `--ms-asset-crew-portrait-c1` to `-c9`. It may load after the mount: the portraits show when it does.
+
+`mountFood` checks the first, and `update` checks it too. The check looks for that mark on the host or on an ancestor of it: `host.closest('[data-crew-art="crew-drawing-1.0.0"]')`. A view whose versions have the crew drawing, on a host outside that surface, is refused with a `TypeError`, and nothing changes: no blank portraits are drawn. So mark the root before giving the surface a view, as the app does today. With no view, or concealed, nothing is drawn and nothing is asked of the host.
 
 ## Inputs, by audience
 
@@ -87,7 +109,7 @@ An input the surface does not know is refused with a `TypeError`, at every level
 | `board.seats`, `board.activeSeatId`, `board.phase` | Public | Where a player is, whose turn the top bar shows, the phase's time |
 | `clock` | Public | The moment drawn. With no time, no Task is drawn |
 | `assets` | Public | The Supply Room and the operators. They may arrive after the mount |
-| `view` | This viewer's | The Task, the request, the choices. Twelve keys and no other: `seatId`, `round`, `versions`, `viewRevision`, `step`, `stock`, `ownAvailability`, `partnerChoices`, `offers`, `invitation`, `requestClosures`, `participantTask` |
+| `view` | This viewer's | The Task, the request, the choices. Twelve keys and no other (see below) |
 | `can` | This viewer's | Which control is enabled. Nothing else enables one |
 | `viewer.promiseOfferCount` | This viewer's | The Promises badge |
 | `sending` | This phone's | The press on its way, the unknown answer, the refusal, the recovered press, the hold still held or owed |
@@ -95,9 +117,28 @@ An input the surface does not know is refused with a `TypeError`, at every level
 | `navigation` | This phone's | Another open panel hides Food; `boardMode` marks the board's tab |
 | `reducedMotion`, `bars` | This phone's | Motion; where a notice sits when Food draws no bar of its own |
 
-`sending.feedback` is `{ key, name, status, recovered }`: the press's own key, its name (`Hold`, `let-go`, `LOCK`, `RELEASE`, `key`, `request`, `Join`, `Decline`, `Cancel`), `sending`, `unknown`, `accepted` or `rejected`, and whether it was found again after a lost answer. Two optional fields carry what the request cards read and nothing more: `request: { requestId, state }` on an accepted press, and `closure` (the request's closure, as the contract writes it) on a refused one. The envelopes, bindings, cursors and receipts stay with Frontend.
+### The view's twelve keys
 
-A recovered press is told on the original press's own feedback (`recovered: true`). It never replaces it.
+Of the contract's Food player view the surface takes the eleven keys the drawing reads (`seatId`, `round`, `versions`, `step`, `stock`, `ownAvailability`, `partnerChoices`, `offers`, `invitation`, `requestClosures`, `participantTask`) and a twelfth, `viewRevision`, which Frontend's inputs carry and the drawing does not read. Each is passed whole, `stock` too.
+
+Any other key is refused, because it is not on that list. So `turnEnds` is refused, and `privateCursor` and `ownMeals`, and the view's other seven: `schemaVersion`, `audience`, `matchId`, `phaseId`, `serverNowMs`, `playerCount` and `rosterSeatIds`.
+
+### This phone's press: `sending.feedback`
+
+`null`, or the last press and how it went. Every field, and every value it may hold:
+
+| Field | Values | What the surface does with it |
+| --- | --- | --- |
+| `key` | Any string that differs from press to press, and is the same press's again when that press is recovered | Tells one press's feedback from the next. Never drawn, never reported. It need not be the command's id: the preview's adapter numbers the presses |
+| `name` | `Hold`, `let-go`, `LOCK`, `RELEASE`, `key`, `request`, `Join`, `Decline`, `Cancel` | Which control or card the feedback is told on |
+| `status` | `sending`, `unknown`, `accepted`, `rejected` | The press on its way, the unknown answer, done, or not done |
+| `recovered` | `true`, `false` | Whether the press was found again after a lost answer |
+| `request` (optional, on an accepted press) | `{ requestId, state }`; `state` is `PENDING`, `JOINED`, `DECLINED` or `WITHDRAWN` | The request card's next step. `requestId` only matches the card to the view's request: it is never drawn or reported |
+| `closure` (optional, on a refused press) | `{ requestId, state, round, foodStepId, volunteerSeatId, partnerSeatId }`; `state` is `JOINED`, `DECLINED`, `WITHDRAWN` or `EXPIRED` | Why the request is over, on the request card. These are the six fields the cards read of the request's closure; `FOOD_CLOSURE_KEYS` names them, for the adapter to pick |
+
+Nothing more is taken: no envelope, no receipt, no command id, no binding and no cursor. Any other field is refused, in `request` and `closure` too.
+
+A recovered press is told on the original press's own feedback (`recovered: true`, under the same `key`). It never replaces it.
 
 ## What the surface reports
 
@@ -106,8 +147,8 @@ Every handler is optional. A handler that throws is reported to the page and nev
 | Handler | When |
 | --- | --- |
 | `onHold(contact)` | A pointer, a key or an assistive activation goes down on Hold. `contact` is `{ pointerId }`, `{ key, repeat }` or `{ assistive: true }` |
-| `onLetGo(contact)` | Any pointer comes up or is cancelled, or any key comes up, anywhere on the page: `{ pointerId }` or `{ key }` |
-| `onReleaseAll()` | Everything must be let go: on suspend, on entering or leaving a Task, on losing the view, when concealed, on dispose |
+| `onLetGo(contact)` | Any pointer comes up or is cancelled, or any key comes up, anywhere on the page, as the port forwards them: `{ pointerId }` or `{ key }`. Matching it to a hold is the adapter's |
+| `onReleaseAll()` | Everything must be let go: on suspend, each time a Task screen is built, on leaving a Task, on losing the view, when concealed, on dispose. It is safe with nothing held, and safe twice |
 | `onPress(name)` | `PANEL_RELEASE`, `PANEL_LOCK` or `KEY`, once per press |
 | `onAsk(seatId)`, `onAnswer(answer)`, `onWithdraw()` | Ask a Partner; `JOIN` or `DECLINE`; Cancel |
 | `onNavigate(target)` | `settings`, `promises`, `switch`, `card` or `panels`: a tap on the surface's own bars |
@@ -116,12 +157,14 @@ Every handler is optional. A handler that throws is reported to the page and nev
 
 `onSurface` and `onBars` are separate, each said once per change, and both are cleared on exit and on dispose.
 
+**A contact is plain data and nothing else:** `{ pointerId }`, `{ key, repeat }` or `{ assistive: true }` going down, and `{ pointerId }` or `{ key }` coming up. It is never the event, its target, or where on the screen it was.
+
 ## Contacts on Hold
 
 The component reports contacts and matches none. Which contact holds, and whether a press becomes a DOWN at all, is `createFoodHoldInput`'s and the controller's.
 
 - **One set of window listeners per mount:** `pointerup`, `pointercancel` and `keyup`. They stay through redraws and through the control being disabled.
-- **Everything is let go** on suspend, on Task or scope exit, when concealed and on dispose, while Frontend's controller is still there. `onReleaseAll` may arrive when nothing is held; it is safe to run twice.
+- **Everything is let go** on suspend, on Task or scope exit, when concealed and on dispose, while Frontend's controller is still there. `onReleaseAll` also arrives each time a Task screen is built, as the port lets go there, so it can come when nothing is held. It is safe then, and safe to run twice.
 - **A disabled Hold reports nothing**, unless a contact is still held or owed (`physicalHolding` or `needsContactOff`). Then it still reports, so that the hold can be let go. Whether that becomes a new DOWN is the controller's to refuse, and it does: on Frontend's own fixture for that state, with Frontend's controller and adapter, a press sends no DOWN and its let-go sends the contact-off.
 - **The surface never shows a hold the ship has not confirmed.** A press shows as on its way; "Holding" comes from the view.
 
@@ -138,7 +181,7 @@ With `view: null` the surface is empty and covers nothing. With another panel op
 ## Focus and keys
 
 - The same control stays focused across redraws.
-- A new card or sheet takes focus.
+- A new card or sheet takes focus. One that is only built again, by a change of text size, does not take it back: known issue 6.
 - Escape closes the surface's own sheet and goes no further. During a Task or a pending request it is held and closes nothing. Otherwise it is left to the app.
 - Space and Enter are taken on the surface's controls only.
 
@@ -153,16 +196,24 @@ header.append(foodGauge(document, doses));   // null when there is nothing to sh
 
 The notice takes the finalized public stock (`{ doses }`) and step (it keeps its `kind` alone), this screen's status and the ordinary header's height. It takes no view, seat or viewer. It says who is away, then the stock's rise, and hides when stale or concealed.
 
+Its host takes the same `planet-food-host` class and rule as the phone surface's. The notice draws no portrait, so it asks for no crew picture surface.
+
 `foodGauge` returns the header's gauge as the port draws it. The header and its wrapper (`.planet-food.fs-clock.food-native-clock`) stay Frontend's.
 
 ## Motion and text size
 
-- **Reduce motion:** the game's (`reducedMotion`) or the device's. Either way the surface is drawn reduced: no spinner turns, and the pose steps where it would glide.
-- **Text size:** the styles are in rem. The app scales the root, as today. After a change of text size, call `update({ reducedMotion })` with the current value: it lays the surface out again.
+One meaning per call: `update({ reducedMotion })` changes motion, and `relayout()` lays the surface out again. Frontend calls each from its preferences handler, where the port heard the app's `mothership:preferences-change` event.
+
+- **Reduce motion:** the game's (`reducedMotion`) or the device's. Either way the surface is drawn reduced: no spinner turns, and the pose steps where it would glide. `update({ reducedMotion })` changes that and lays nothing out.
+- **Text size:** the styles are in rem. The app scales the root, as today. After the text size changes, call `relayout()`.
+  - Most of the surface follows the new size on its own frames. What it measured when a part was built stays until that part is built again: the "away" banner's place under the top bar is one. `relayout()` builds the surface's parts again, as the port did on that event.
+  - Suspended, it waits for `resume()`. Concealed or disposed, it does nothing.
 
 ## Art
 
-The component loads no picture. It draws with what `assets` gives: the Supply Room's back, and the nine characters at both stations, alive and out (37 pictures, `/art/food-supply/`). Frontend's loader fetches them, as today. If the loader offers `subscribe`, the surface listens once and lets go on dispose.
+The component loads no picture. It draws with what `assets` gives: the Supply Room's back, and the nine characters at both stations, alive and out (37 pictures, `/art/food-supply/`). Frontend's loader fetches them, as today.
+
+`assets.subscribe` is optional. If the loader has it, `subscribe(listener)` must return a function that ends the subscription. The surface subscribes once per loader, and calls that function when the loader is replaced and on dispose.
 
 ## The copies
 
@@ -177,18 +228,31 @@ The component loads no picture. It draws with what `assets` gives: the Supply Ro
 
 A test re-derives each copy from its pinned source and its recorded differences, and fails on any other byte.
 
-## Found while checking
+## Known issues (port, unchanged)
 
-Three things in the accepted port that a later version may want to change. The component keeps all three, since the port is the baseline; each would then be a recorded difference. The first two are differences from the approved package's own pages.
+Six things in the accepted port. The component keeps each of them in 0.1.0, since the port is the baseline and its proof. None is a redesign: they are defects, most of them in states the port's captures did not draw. They are to be fixed in `food-0.1.1` once the extraction lands, with its own record and the Lead Designer's review, each then a recorded difference from the port.
 
-- **The Task top bar's two portraits are 36 px in the port, 32 px on the package's page.** The pack's rule holds its `<img width="36">` at 32 px; the port's portrait sets its size inline, which that rule does not reach. The title starts 8 px further right. It is in the captures accepted on #276 and #290.
-- **With no instrument (the crate landed), the port's dock is 10 px taller than the package's.** The port keeps an empty slot for the instrument, and the dock's gap applies to it. Nothing is drawn there, and the control sits where the package puts it.
-- **At the Large text (150 %) on 390 × 844, the Partner's label in the role row wraps inside a word** ("8 Hana · Winc/h"). At 430 × 932 it fits on one line, and at the Largest text (200 %) the port drops the row. See `review/390x844-food-panel-04-text150.jpg`.
+The first two differ from the approved package's own pages. The next three show at the larger text sizes. The last is about focus.
+
+1. **The Task top bar's two portraits are 36 px in the port, 32 px on the package's page.** The pack's rule holds its `<img width="36">` at 32 px; the port's portrait sets its size inline, which that rule does not reach. The title starts 8 px further right. It is in the captures accepted on #276 and #290.
+2. **With no instrument (the crate landed), the port's dock is 10 px taller than the package's.** The port keeps an empty slot for the instrument, and the dock's gap applies to it. Nothing is drawn there, and the control sits where the package puts it.
+3. **Large text (150 %) on 390 × 844: the role row squeezes the Partner's label into a narrow column.**
+   - The seat number sits above the name ("8 / Hana", "3 / Cleo").
+   - On the Panel the station breaks inside the word ("· / Winc / h").
+   - On the Winch (`food-winch-03`) it breaks after its dot ("· / Panel") in the check's captures, and inside the word ("Pane / l") on the test page as the Lead Designer saw it.
+   - At 430 × 932 the row fits on one line on both. At the Largest text (200 %) the port drops the row.
+   - See `review/390x844-food-panel-04-text150.jpg` and `review/390x844-food-winch-03-text150.jpg`.
+4. **Large text, the Task's outcome card (`case-food-panel-16`): the card ends over the role row.** At 390 × 844 the card covers the row's first 39 px, and the rest of its wrapped words show under the card's foot ("a", "· Out"). At the Standard text the card ends 56 px above the row. See `review/390x844-case-food-panel-16-text150.jpg`.
+5. **Larger text, the Partner request (`case-food-flow-04`): the card runs over the surface's tab bar.** By 82 px at the Largest text at both sizes, where the bar shows at the card's sides and under its foot. By 16 px already at the Large text on 390 × 844. See `review/390x844-case-food-flow-04-text200.jpg`.
+6. **When the text size changes while a sheet or a request card is open, it loses the focus.** The sheet or card is built again, and one that is built again is not focused again: the focus goes to the page.
+   - It happens on `relayout()`, as it does in the port on the app's preferences event. The check holds the two to each other.
+   - It also happens without the call, when the Largest text makes the surface build an open sheet or card again.
 
 ## Not in this version yet
 
 | Not here | Why |
 | --- | --- |
+| A fix for the six known issues above | `food-0.1.1`, once the extraction lands, with its own record and review |
 | The shared kit and the shell's bars | The surface carries the port's own frozen copy of the pack's kit and icons. Moving it onto the shared kit would change pixels, so it is a later step with its own review |
 | The small phone (320 × 568), as captures | The owner deferred that coverage. The styles are the port's, unchanged |
 | A change to any word, layout or art | Out of scope for the extraction |
@@ -199,16 +263,20 @@ Three things in the accepted port that a later version may want to change. The c
 
 - **Captures:** 33 synthetic states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: 132, each showing what its state must. The states are Frontend's five inputs, three variants of them (a refused, a recovered and an unknown press), nineteen of Frontend's native fixtures run on Frontend's own controller, three gauge states, and three notices.
 - **The frozen port:** the same state drawn by the port's own renderer in the same phone gives the same DOM, the same boxes and the same pixels in all 132. A clock one second off is told apart.
-- **Larger text:** eight states (the five parts, a briefing, a sheet and a request) at both sizes, at the game's Large (150 %) and Largest (200 %) text: the port draws the same DOM and the same pixels in all 32. The larger-text support is the port's own, unchanged.
+- **Larger text:** nine states (the five parts, a briefing, a sheet, a request and an outcome card) at both sizes, at the game's Large (150 %) and Largest (200 %) text: the port draws the same DOM and the same pixels in all 36. The larger-text support is the port's own, unchanged, with the known issues above.
+- **Laid out again:** the text size changed under a mounted surface, at both sizes, on two states.
+  - Told by `relayout()`, the component draws what the port draws on the app's preferences event: the same DOM, boxes, focus and pixels, in all four.
+  - On the "away" banner (`case-food-flow-09`) that is also what a new mount draws at that text size. Not told, the banner stays where it was built, 18 px too high under the taller bar: the control.
+  - On an open request card (`case-food-flow-04`) it is what a new mount draws, its focus aside: known issue 6, the same in the port.
 - **The approved package's own pages** (`design/food-supply/phone.html`, served unchanged) for #290's five parts, at both sizes:
-  - Every part lies where the package lays it, to half a pixel. The one exception is the dock's empty slot above.
+  - Every part lies where the package lays it, to half a pixel. The one exception is the dock's empty slot (known issue 2).
   - The words differ only by the packet's own press state: "Sending…" on the RELEASE part, the "Checking your let-go…" notice on the Winch part. `food-panel-18` is another moment than the package's page (see below).
   - The scene outside the notices is the package's pixel for pixel on `food-panel-04` and `food-winch-12`. On `food-panel-03`, 512 of 106,860 pixels differ at 390 × 844 (558 of 129,860 at 430 × 932), around the moving crate and the two name tags. On `food-winch-03`, 624 of 55,380 differ by one level.
   - The instrument and the control are the package's pixel for pixel wherever the words agree.
 - **Frontend's ten native captures from #290** (read from `3247fc3d`, each held to its SHA-256, none copied): for the four causal parts at both sizes, the scene outside the notices is within 1.41 to 1.61 levels on average, with 0.5 % to 0.7 % of its pixels more than 24 levels apart. The limit is 3 levels and 2 %. The same capture moved 3 px measures about 10 levels and 12 %.
-- **The lifecycle probe:** 80 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, exits, ownership, privacy, the notice, the gauge, motion, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
+- **The lifecycle probe:** 92 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, quiet (no request, timer or storage), exits, ownership, privacy, the notice, the gauge, the host, motion, layout, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
 
-`packages/design-tokens/test/food-component.test.mjs` (9 tests) holds the module graph, the copies, the styles' reach, the inputs and audiences, the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
+`packages/design-tokens/test/food-component.test.mjs` (9 tests) holds the module graph, the copies, the styles' reach, the inputs and audiences (the contract's ten view keys that are refused, by name), the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
 
 **What the comparisons do not show:**
 
@@ -235,8 +303,14 @@ const food = mountFood(host, inputsFromModel(controller.getModel(), publicFacts)
   onSurface: next => { /* hide the ordinary bars, make the host inert */ }, onBars: next => { /* lay the app out */ },
 });
 controller.subscribe(() => food.update(inputsFromModel(controller.getModel(), publicFacts)));
+
+// The app's preferences handler, where the port heard `mothership:preferences-change`:
+food.update({ reducedMotion });   // motion
+food.relayout();                  // after the text size changes
 ```
 
+- Mark the app's root with `setCrewPictureSurface(root, versions)` before the surface is given a view, as the app does today. A view on a host outside that surface is refused.
+- `inputsFromModel` gives each press a key of its own and picks the closure's six fields (`FOOD_CLOSURE_KEYS`). The command's id, the receipt and the envelope stay in the controller.
 - Dispose the surface before the controller, so that the last `onReleaseAll` reaches it.
 - On blur and on a hidden page, do as today: let the hold go and tell the controller it is not visible. Its model then says so, and the adapter sends `status: 'concealed'`, as it does when the viewer loses authorization.
 - `suspend()` and `resume()` are for when the app stops showing the surface while the viewer stays authorized.
