@@ -1,10 +1,11 @@
 import type { MonotonicClock } from '../ports.js';
 
-/** One request/response pair that carried a server timestamp. Times are local monotonic readings. */
+/** The request and response times are local monotonic readings. Server stamps use one clock. */
 export interface ClockSample {
   readonly requestedAt: number;
   readonly receivedAt: number;
   readonly serverTimeMs: number;
+  readonly serverReceivedAtMs?: number;
 }
 
 export type ClockReading =
@@ -28,9 +29,14 @@ export function createServerClock(clock: MonotonicClock): ServerClock {
     addSample(sample) {
       const roundTripMs = sample.receivedAt - sample.requestedAt;
       if (!Number.isFinite(roundTripMs) || roundTripMs < 0 || !Number.isFinite(sample.serverTimeMs)) return false;
-      // The response was stamped somewhere inside the round trip; assume its midpoint.
-      const uncertaintyMs = roundTripMs / 2;
-      const offsetMs = sample.serverTimeMs - (sample.requestedAt + uncertaintyMs);
+      const serverWorkMs = sample.serverReceivedAtMs === undefined ? 0 : sample.serverTimeMs - sample.serverReceivedAtMs;
+      if (!Number.isFinite(serverWorkMs) || serverWorkMs < 0 || serverWorkMs > roundTripMs) return false;
+      // Center the offset in the allowable transit interval. A send-only sample
+      // still uses the round-trip midpoint.
+      const halfTransitMs = (roundTripMs - serverWorkMs) / 2;
+      const offsetMs = sample.serverTimeMs - (sample.requestedAt + serverWorkMs + halfTransitMs);
+      // Allow for the whole-millisecond server stamps in a four-timestamp sample.
+      const uncertaintyMs = halfTransitMs + (sample.serverReceivedAtMs === undefined ? 0 : 1);
       if (calibration) {
         const consistent = Math.abs(offsetMs - calibration.offsetMs) <= uncertaintyMs + calibration.uncertaintyMs;
         // A sample that disagrees beyond both error bars means local time stopped or jumped

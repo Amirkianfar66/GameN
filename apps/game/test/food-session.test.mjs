@@ -198,6 +198,41 @@ test('Food stream selects only on the verified offer and needs one fresh frame p
   await session.refresh();assert.equal(r.watch.length,1);assert.equal(r.clock.length,1);
  }finally{stop();stopDisplay();session.dispose();}
 });
+test('Food clock excludes handler time and bounds the offset on uneven links',async t=>{
+ const cases=[
+  {name:'short handler',outbound:45,inbound:45,handler:15,displayError:0},
+  {name:'slow handler',outbound:45,inbound:45,handler:360,displayError:0},
+  {name:'uneven link with a slow handler',outbound:20,inbound:70,handler:360,displayError:-25},
+ ];
+ for(const {name,outbound,inbound,handler,displayError} of cases)await t.test(name,async()=>{
+  const r=streamingRig(),session=r.session,serverOffset=500;
+  try{
+   await session.start(r.scope.matchId);
+   const sentAt=r.ports.clock.now(),serverReceivedAt=sentAt+serverOffset+outbound;
+   r.frame(0,1,{},r.value,sentAt+serverOffset);
+   await r.advance(outbound+handler+inbound);
+   const actualServerNow=r.ports.clock.now()+serverOffset;
+   r.clock[0].resolve({ok:true,scope:r.scope,receivedAt:serverReceivedAt,serverTimeMs:serverReceivedAt+handler});
+   await flush();
+   assert.equal(session.getModel().connection,'live');
+   const reading=session.getModel().setupClock;
+   assert.deepEqual(reading,{status:'synced',serverNowMs:actualServerNow+displayError,uncertaintyMs:46});
+   assert.ok(Math.abs(reading.serverNowMs-actualServerNow)<=reading.uncertaintyMs);
+  }finally{session.dispose();}
+ });
+});
+test('Food clock rejects handler time longer than the measured round trip',async()=>{
+ const r=streamingRig(),session=r.session;
+ try{
+  await session.start(r.scope.matchId);
+  r.frame(0,1);
+  await r.advance(90);
+  r.clock[0].resolve({ok:true,scope:r.scope,receivedAt:6545,serverTimeMs:6636});
+  await flush();
+  assert.deepEqual(session.gameTransport('player').readClock(),{status:'unsynced'});
+  assert.equal(session.getModel().connection,'stale');
+ }finally{session.dispose();}
+});
 test('EOF and hide fence old frames and clock samples, then a verified planned closure resumes ordinary reads',async()=>{
  const r=streamingRig(),s=r.session;await s.start(r.scope.matchId);const t=s.gameTransport('player');
  r.frame(0,1);assert.equal(s.getModel().connection,'stale');r.watch[0].resolve();await flush();await r.advance(500);

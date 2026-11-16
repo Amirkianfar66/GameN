@@ -393,7 +393,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
     // can still deliver its explicit, authorized return within the wait window.
     return;
    }
-   const sample={requestedAt,receivedAt,serverTimeMs:checked.data.serverTimeMs};
+   const sample={requestedAt,receivedAt,serverReceivedAtMs:checked.data.receivedAt,serverTimeMs:checked.data.serverTimeMs};
    if(!clock.addSample(sample))return;
    presenceClock.addSample(sample);
    watch.calibrated=true;ready();
