@@ -108,12 +108,13 @@ test('recorded finger-off closes a fresh live contact before stalled original lo
   assert.equal(r.controller.getModel().canHold,false);
   ack.resolve({receipt:receipt(r.sent[0]),serverTimeMs:6000});await flush();
   const closed=r.controller.getModel();
-  assert.equal(closed.feedback.receipt.result.effect,'RECOVERED_CLOSED');
+  assert.equal(closed.feedback,null);
+  assert.equal(closed.recoveryFeedback.receipt.result.effect,'RECOVERED_CLOSED');
   assert.equal(closed.pendingCount,0);
   assert.equal(closed.canHold,false,'a receipt alone does not change the authorized contact');
   lookup.resolve({receipt:receipt(original),serverTimeMs:6000});await flush();
   assert.deepEqual(JSON.parse(r.saved()).entries,[]);
-  assert.equal(r.controller.getModel().feedback.commandId,r.sent[0].commandId);
+  assert.equal(r.controller.getModel().recoveryFeedback.commandId,r.sent[0].commandId);
   r.controller.dispose();
  });
 });
@@ -168,7 +169,8 @@ test('a stale closure-first receipt leaves every original unresolved',async()=>{
  assert.equal(r.observe(liveWinchContact()),true);
  assert.deepEqual(r.sent.map(q=>q.command.input.kind),['HOLD_RECOVER_OFF']);
  await flush();
- assert.equal(r.controller.getModel().feedback.receipt.code,'STALE_RECOVERY');
+ assert.equal(r.controller.getModel().feedback.status,'unknown');
+ assert.equal(r.controller.getModel().recoveryFeedback.receipt.code,'STALE_RECOVERY');
  assert.equal(r.controller.getModel().canHold,false);
  assert.deepEqual(JSON.parse(r.saved()).entries,JSON.parse(saved).entries);
  r.controller.setVisible(false);r.controller.dispose();
@@ -188,7 +190,8 @@ test('verified finger-off closure retires never-delivered Hold originals, enable
  assert.deepEqual(r.lookups.map(q=>q.commandId),originals.map(q=>q.commandId));
  recovery.resolve({receipt:receipt(q),serverTimeMs:6000});await off;
  assert.equal(r.controller.getModel().pendingCount,0);assert.equal(r.controller.getModel().canCheck,false);
- assert.equal(r.controller.getModel().feedback.receipt.result.effect,'RECOVERED_CLOSED');
+ assert.equal(r.controller.getModel().feedback,null);
+ assert.equal(r.controller.getModel().recoveryFeedback.receipt.result.effect,'RECOVERED_CLOSED');
  assert.equal(r.observe(landed()),true);await flush();assert.equal(r.controller.getModel().canKey,true);
  const saved=r.saved();assert.deepEqual(JSON.parse(saved).entries,[]);assert.equal(JSON.parse(saved).contact.highestSequence,1);
  r.controller.dispose();
@@ -233,7 +236,81 @@ test('a late original Hold completion after verified closure does not restore pe
  assert.equal(r.controller.getModel().pendingCount,0);r.observe(landed());
  a.resolve(null);b.resolve({receipt:receipt(r.sent[1],{effect:'GESTURE_CLOSED'}),serverTimeMs:6000});await flush();
  const m=r.controller.getModel();assert.equal(m.pendingCount,0);assert.equal(m.canCheck,false);assert.equal(m.canKey,true);
- assert.equal(m.feedback.commandId,recoveryId);assert.equal(m.feedback.receipt.result.effect,'RECOVERED_CLOSED');assert.deepEqual(JSON.parse(r.saved()).entries,[]);r.controller.dispose();
+ assert.equal(m.feedback,null);assert.equal(m.recoveryFeedback.commandId,recoveryId);
+ assert.equal(m.recoveryFeedback.receipt.result.effect,'RECOVERED_CLOSED');assert.deepEqual(JSON.parse(r.saved()).entries,[]);r.controller.dispose();
+});
+
+test('stale automatic reconciliation leaves the accepted original UP and fresh released view intact',async()=>{
+ const upReply=deferred(),recoveryReply=deferred();
+ const r=rig({send:async q=>{
+  const input=q.command.input;
+  if(input.kind==='HOLD_RECOVER_OFF')return recoveryReply.promise;
+  if(input.edge==='UP')return upReply.promise;
+  return {receipt:receipt(q),serverTimeMs:6000};
+ }});
+ r.observe();assert.equal(r.controller.holdDown(),true);await flush();
+ const held=liveWinchContact();held.viewRevision++;assert.equal(r.observe(held),true);
+ r.controller.holdUp();
+ const original=r.sent.at(-1),pending=copy(held);pending.viewRevision++;
+ assert.equal(r.observe(pending),true);
+ const recovery=r.sent.at(-1);
+ assert.equal(recovery.command.input.kind,'HOLD_RECOVER_OFF');
+ assert.equal(r.controller.getModel().feedback.commandId,original.commandId);
+ upReply.resolve({receipt:receipt(original),serverTimeMs:6000});await flush();
+ const released=playerView(7);released.viewRevision=pending.viewRevision+1;
+ Object.assign(released.participantTask.ownGesture,{highestSequence:1,recoveryRevision:3});
+ assert.equal(r.observe(released),true);
+ recoveryReply.resolve({receipt:receipt(recovery,{status:'rejected',code:'STALE_RECOVERY'}),serverTimeMs:6000});await flush();
+ const model=r.controller.getModel();
+ assert.equal(model.feedback.commandId,original.commandId);
+ assert.equal(model.feedback.receipt.status,'accepted');
+ assert.equal(model.recoveryFeedback.commandId,recovery.commandId);
+ assert.equal(model.recoveryFeedback.receipt.code,'STALE_RECOVERY');
+ assert.equal(model.view.participantTask.ownGesture.currentHolder,null);
+ assert.equal(model.canHold,true);
+ assert.equal(model.pendingCount,0);
+ r.controller.dispose();
+});
+
+test('unresolved original UP stays visible and older off proof cannot extend to a newer Hold',async t=>{
+ for(const staleResolved of [true,false])await t.test(staleResolved?'confirmed stale reconciliation':'unknown reconciliation',async()=>{
+  const recoveryReply=deferred();
+  const r=rig({send:async q=>{
+   const input=q.command.input;
+   if(input.kind==='HOLD_RECOVER_OFF')return recoveryReply.promise;
+   if(input.edge==='UP')return null;
+   return {receipt:receipt(q),serverTimeMs:6000};
+  }});
+  r.observe();assert.equal(r.controller.holdDown(),true);await flush();
+  const held=liveWinchContact();held.viewRevision++;assert.equal(r.observe(held),true);
+  r.controller.holdUp();await flush();
+  const up=r.sent.at(-1),beforeClosure=copy(held);beforeClosure.viewRevision++;
+  assert.equal(r.observe(beforeClosure),true);
+  const recovery=r.sent.at(-1);
+  assert.equal(recovery.command.input.throughSequence,1);
+  recoveryReply.resolve(staleResolved?{receipt:receipt(recovery,{status:'rejected',code:'STALE_RECOVERY'}),serverTimeMs:6000}:null);
+  await flush();
+  const newer=copy(beforeClosure),gesture=newer.participantTask.ownGesture;
+  newer.viewRevision++;gesture.highestSequence=2;gesture.recoveryRevision++;gesture.currentHolder.sequence=2;
+  assert.equal(r.observe(newer),true);
+  await r.controller.recoverOff();await flush();
+  assert.equal(r.sent.length,3);
+  assert.equal(r.controller.getModel().feedback.commandId,up.commandId);
+  assert.equal(r.controller.getModel().feedback.status,'unknown');
+  assert.equal(r.controller.getModel().view.participantTask.ownGesture.currentHolder.sequence,2);
+  assert.equal(r.controller.getModel().canHold,false);
+  await r.controller.retry();await flush();
+  assert.deepEqual(r.sent.slice(3),[up],'only the unresolved original UP is eligible for retry');
+  assert.ok(JSON.parse(r.saved()).entries.some(entry=>entry.commandId===up.commandId));
+  if(!staleResolved){
+   const reloaded=rig({saved:r.saved(),idStart:3});assert.equal(reloaded.observe(newer),true);await flush();
+   assert.equal(reloaded.controller.getModel().feedback.commandId,up.commandId);
+   assert.equal(reloaded.controller.getModel().recoveryFeedback.commandId,recovery.commandId);
+   assert.equal(reloaded.sent.length,0);
+   reloaded.controller.dispose();
+  }
+  r.controller.dispose();
+ });
 });
 test('only the original matching receipt can settle; a foreign Task/session or command remains unknown',async()=>{
  const r=rig({send:async q=>({receipt:{...receipt(q),commandId:'other-command'},serverTimeMs:6000})});r.observe();r.controller.holdDown();await flush();

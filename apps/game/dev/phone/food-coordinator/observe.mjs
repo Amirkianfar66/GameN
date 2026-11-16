@@ -154,7 +154,10 @@ export function observeFoodTrial(root, {seatId}) {
     attach(foodController) {
       controller = foodController;
       stop?.();
-      stop = controller.subscribe(model => trace.feedback(model.feedback));
+      stop = controller.subscribe(model => {
+        trace.feedback(model.feedback);
+        trace.feedback(model.recoveryFeedback);
+      });
     },
     wrapFoodTransport(transport) {
       return {...transport,

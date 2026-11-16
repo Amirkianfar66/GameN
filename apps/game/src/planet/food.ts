@@ -18,7 +18,7 @@ export type FoodPressName = 'Hold'|'let-go'|'LOCK'|'RELEASE'|'key'|'request'|'Jo
 export interface FoodFeedback {readonly commandId:string;readonly name:FoodPressName;readonly status:'sending'|'unknown'|'accepted'|'rejected';readonly receipt:FoodTaskReceipt|null;readonly recovered:boolean}
 export interface FoodTaskModel {
  readonly visible:boolean;readonly fresh:boolean;readonly message:string|null;readonly view:FoodTaskPlayerView|null;
- readonly clock:ClockReading;readonly feedback:FoodFeedback|null;readonly pendingCount:number;
+ readonly clock:ClockReading;readonly feedback:FoodFeedback|null;readonly recoveryFeedback:Omit<FoodFeedback,'name'>|null;readonly pendingCount:number;
  readonly canAsk:boolean;readonly canAnswer:boolean;readonly canWithdraw:boolean;
  readonly canHold:boolean;readonly canPanelRelease:boolean;readonly canPanelLock:boolean;readonly canKey:boolean;
  readonly physicalHolding:boolean;readonly needsContactOff:boolean;readonly canCheck:boolean;
@@ -35,6 +35,7 @@ export interface FoodTaskController {
 }
 interface Entry {original:FoodStoredRequest;request:FoodTaskCommandRequest|null;status:'sending'|'unknown'|'checking';order:number;observedRevision:number}
 const isHold=(q:FoodStoredRequest)=>q.command.type==='TASK_PRESS'&&q.command.input.kind==='HOLD';
+const isContactRecovery=(q:FoodStoredRequest)=>q.command.type==='TASK_PRESS'&&q.command.input.kind==='HOLD_RECOVER_OFF';
 function pressName(q:FoodStoredRequest):FoodPressName {
  const c=q.command;
  if(c.type==='TASK_ASK')return 'request';
@@ -50,7 +51,8 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  const {binding}=options,listeners=new Set<(model:FoodTaskModel)=>void>(),entries:Entry[]=[];
  let view:FoodTaskPlayerView|null=null,context:FoodSnapshotContext|null=null,visible=true,fresh=false,displayable=false,disposed=false,storageBlocked=false;
  let message:string|null=null,contact:FoodContactMemory|null=null,down:FoodTaskCommandRequest|null=null;
- let feedback:FoodFeedback|null=null,feedbackOrder=-1,order=0,checking:Promise<void>|null=null,recovering=false;
+ let feedback:FoodFeedback|null=null,recoveryFeedback:Omit<FoodFeedback,'name'>|null=null;
+ let feedbackOrder=-1,recoveryFeedbackOrder=-1,order=0,checking:Promise<void>|null=null,recovering=false;
  let accepted:{phaseId:string;revision:number}|null=null;
  const finishes=new Set<()=>void>();
  const auth=()=>!disposed&&transport.currentUid()===binding.uid;
@@ -81,13 +83,17 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  try{
   const raw=ports.recovery.load();
   if(raw!==null){const saved=readFoodRecovery(raw,binding);contact=saved.contact;
-   for(const original of saved.entries)entries.push({original,request:null,status:'unknown',order:++order,observedRevision:-1});
-   if(entries.length){const e=entries.at(-1)!;feedback={commandId:e.original.commandId,name:pressName(e.original),status:'unknown',receipt:null,recovered:false};feedbackOrder=e.order;}}
+   for(const original of saved.entries){
+    const e:Entry={original,request:null,status:'unknown',order:++order,observedRevision:-1};
+    entries.push(e);announce(e,'unknown');
+   }}
  }catch{storageBlocked=true;message='Command recovery could not be verified. Reconnect the original seat.';}
  function getModel():FoodTaskModel {
   const open=shown(),r=time(),v=open?view:null,now=r.status==='synced'?r.serverNowMs+r.uncertaintyMs:Infinity;
   const invite=v?.invitation;
-  return {visible:visible&&auth(),fresh:open&&fresh,message,view:v,clock:open?r:{status:'unsynced'},feedback:visible&&auth()?feedback:null,pendingCount:entries.length,
+  const authorized=visible&&auth();
+  return {visible:authorized,fresh:open&&fresh,message,view:v,clock:open?r:{status:'unsynced'},
+   feedback:authorized?feedback:null,recoveryFeedback:authorized?recoveryFeedback:null,pendingCount:entries.length,
    canAsk:base()&&v?.step?.kind==='ASKING'&&now<v.step.askingEndsAt&&v.ownAvailability.canAsk,
    canAnswer:base()&&!!invite&&now<invite.answerEndsAt&&!!v?.offers.some(o=>o.type==='TASK_ANSWER'),
    canWithdraw:base()&&!!invite&&now<invite.answerEndsAt&&!!v?.offers.some(o=>o.type==='TASK_ASK_WITHDRAW'),
@@ -108,7 +114,14 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    commandId:ports.ids.next(),phaseId:view.phaseId,foodStepId:view.step.stepId,round:view.round,command});
  }
  function announce(e:Entry,status:FoodFeedback['status'],receipt:FoodTaskReceipt|null=null,recovered=false){
-  if(e.order<feedbackOrder)return;feedbackOrder=e.order;feedback={commandId:e.original.commandId,name:pressName(e.original),status,receipt,recovered};
+  const next={commandId:e.original.commandId,status,receipt,recovered};
+  // Reconciliation settles its own request. Its outcome cannot replace the
+  // receipt or uncertainty of the actual player input.
+  if(isContactRecovery(e.original)){
+   if(e.order>=recoveryFeedbackOrder){recoveryFeedbackOrder=e.order;recoveryFeedback=next;}
+   return;
+  }
+  if(e.order>=feedbackOrder){feedbackOrder=e.order;feedback={...next,name:pressName(e.original)};}
  }
  function settle(e:Entry,payload:unknown,serverTimeMs:number,recovered=false){
   if(!auth()||!entries.includes(e))return;
@@ -118,15 +131,26 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    if(receipt===null){e.status='unknown';announce(e,'unknown');save();emit();return;}
    if(receipt.status==='accepted'&&receipt.result.kind==='INPUT'&&receipt.result.effect==='RECOVERED_CLOSED'){
     const q=e.original.command,through=receipt.result.closedThroughSequence!;
+    let retiredFeedback=false;
     // The verified recovery receipt closes these contacts even if their inputs
     // never arrived and can have no individual receipt. Retire only that exact
     // boundary so reload cannot restore them as unresolved. No input outcome is
     // inferred; unrelated originals remain available for their own receipt.
     if(q.type==='TASK_PRESS'&&q.input.kind==='HOLD_RECOVER_OFF')for(let i=entries.length-1;i>=0;i--){const old=entries[i]!,o=old.original,c=o.command;
      if(o.phaseId===e.original.phaseId&&o.foodStepId===e.original.foodStepId&&o.round===e.original.round
-      &&c.type==='TASK_PRESS'&&c.taskId===q.taskId&&c.controlSessionId===q.controlSessionId&&c.input.kind==='HOLD'&&c.input.gestureSequence<=through)entries.splice(i,1);}
+     &&c.type==='TASK_PRESS'&&c.taskId===q.taskId&&c.controlSessionId===q.controlSessionId&&c.input.kind==='HOLD'&&c.input.gestureSequence<=through){
+      entries.splice(i,1);
+      if(feedback?.commandId===o.commandId)retiredFeedback=true;
+     }}
+    // The exact closure retired this unknown original without deciding its
+    // outcome. Keep any independent unresolved player input visible.
+    if(retiredFeedback){
+     feedback=null;feedbackOrder=-1;
+     const remaining=[...entries].reverse().find(entry=>!isContactRecovery(entry.original));
+     if(remaining)announce(remaining,remaining.status==='sending'?'sending':'unknown');
+    }
    }
-   if(receipt.status==='accepted'&&!isHold(e.original)&&!(e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF')
+   if(receipt.status==='accepted'&&!isHold(e.original)&&!isContactRecovery(e.original)
     &&(receipt.result.kind==='REQUEST'||receipt.result.effect==='APPLIED')&&view?.phaseId===e.original.phaseId){
     const c=e.original.command,stillOffered=view.offers.some(o=>o.type===c.type&&(o.type!=='TASK_PRESS'||c.type==='TASK_PRESS'&&o.controlRevision===c.expectedControlRevision)
      &&(o.type!=='TASK_ANSWER'&&o.type!=='TASK_ASK_WITHDRAW'||'requestId' in c&&o.requestId===c.requestId&&o.requestRevision===c.requestRevision));
@@ -134,7 +158,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    }
    entries.splice(entries.indexOf(e),1);announce(e,receipt.status==='accepted'?'accepted':'rejected',receipt,recovered);save();
    transport.refresh();emit();
-  }catch{e.status='unknown';message='The original command answer could not be verified.';announce(e,'unknown');save();emit();}
+  }catch{e.status='unknown';if(!isContactRecovery(e.original))message='The original command answer could not be verified.';announce(e,'unknown');save();emit();}
  }
  async function send(e:Entry){
   if(!auth()||e.request===null)return;
@@ -168,10 +192,10 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  function observedOffContact(){
   const t=task(),gesture=t?.ownGesture,proof=contact;
   if(!t||!gesture||!proof?.offObserved||down!==null||!taskOpen()||!sameContact(t)
-   ||proof.phaseId!==view?.phaseId||proof.foodStepId!==t.foodStepId||proof.round!==t.round)return null;
+   ||proof.phaseId!==view?.phaseId||proof.foodStepId!==t.foodStepId||proof.round!==t.round||gesture.highestSequence>proof.highestSequence)return null;
   return {t,gesture,proof};
  }
- const closurePending=()=>entries.some(e=>e.original.command.type==='TASK_PRESS'&&e.original.command.input.kind==='HOLD_RECOVER_OFF');
+ const closurePending=()=>entries.some(e=>isContactRecovery(e.original));
  function hasRecordedRelease(proof:FoodContactMemory):boolean{
   return entries.some(({original:q})=>{
    const c=q.command;
@@ -191,7 +215,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
    if(!closeFirst){await checkReceipts();observed=observedOffContact();}
    if(!observed||closurePending())return;
    const {t,gesture,proof}=observed;
-   const through=Math.max(gesture.highestSequence,proof.highestSequence);
+   const through=proof.highestSequence;
    const uncertain=entries.some(e=>{const c=e.original.command;return c.type==='TASK_PRESS'&&c.taskId===t.taskId&&c.controlSessionId===t.controlSessionId&&isHold(e.original);});
    if(!gesture.currentHolder&&!gesture.pendingIntent&&!uncertain)return;
    const closing=enqueue(request({type:'TASK_PRESS',taskId:t.taskId,controlSessionId:t.controlSessionId,expectedControlRevision:t.controlRevision,
@@ -248,9 +272,24 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   async press(input){const m=getModel(),t=task();if(!t||!(input==='KEY'?m.canKey:input==='PANEL_LOCK'?m.canPanelLock:m.canPanelRelease))return;
    await enqueue(request({type:'TASK_PRESS',taskId:t.taskId,controlSessionId:t.controlSessionId,expectedControlRevision:t.controlRevision,input:{kind:input}}));},
   holdDown,holdUp,recoverOff,checkReceipts,
-  async retry(){if(!visible||!auth())return;const e=[...entries].reverse().find(e=>e.status==='unknown'&&e.request
-   &&!(e.request.command.type==='TASK_PRESS'&&e.request.command.input.kind==='HOLD'&&e.request.command.input.edge==='DOWN'));
-   if(e)await send(e);},
+  async retry(){
+   if(!visible||!auth())return;
+   const recent=[...entries].reverse();
+   const e=recent.find(entry=>entry.status==='unknown'&&entry.request&&!isContactRecovery(entry.original)
+    &&!(entry.request.command.type==='TASK_PRESS'&&entry.request.command.input.kind==='HOLD'&&entry.request.command.input.edge==='DOWN'));
+   if(e){await send(e);return;}
+   const observed=observedOffContact();
+   if(!observed)return;
+   const recovery=recent.find(entry=>{
+    const q=entry.request,c=q?.command;
+    return entry.status==='unknown'&&q&&c?.type==='TASK_PRESS'&&c.input.kind==='HOLD_RECOVER_OFF'
+     &&q.phaseId===observed.proof.phaseId&&q.foodStepId===observed.proof.foodStepId&&q.round===observed.proof.round
+     &&c.taskId===observed.t.taskId&&c.controlSessionId===observed.t.controlSessionId
+     &&c.expectedControlRevision===observed.t.controlRevision&&c.input.recoveryRevision===observed.gesture.recoveryRevision
+     &&c.input.throughSequence===observed.proof.highestSequence;
+   });
+   if(recovery)await send(recovery);
+  },
   setVisible(next){if(disposed||next===visible)return;if(!next)holdUp();visible=next;fresh=false;displayable=false;emit();},
   disconnect(kind='network'){fresh=false;if(kind==='authorization')displayable=false;emit();},
   dispose(){if(disposed)return;holdUp();disposed=true;for(const finish of [...finishes])finish();listeners.clear();view=null;down=null;},
