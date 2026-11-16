@@ -1,0 +1,7 @@
+/* mothership:dev-only · The review videos' page: today's film and the pilot side by side, each under its name. */
+.cp-row { display: flex; gap: 16px; padding: 0 16px; }
+.cp-film { width: 390px; }
+.cp-film h2 { margin: 0; height: 56px; display: flex; flex-direction: column; justify-content: center; font: 600 15px/1.25 system-ui, sans-serif; color: #F4EBDD; }
+.cp-film h2 small { font: 400 12px/1.25 system-ui, sans-serif; color: #9AA6BA; }
+.cp-film .pv-phone { width: 390px; height: 844px; }
+.cp-film .pv-phone > svg { display: block; }
