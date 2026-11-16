@@ -1,6 +1,6 @@
 # Main menu: Designer's runtime component
 
-**Version:** `main-menu-0.1.0`, with `entry-parts-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0 (`e6b4a385`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (docs/design/owner-decisions.md, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `main-menu-0.1.0`, with `entry-parts-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0 (`e6b4a385`), now merged to the kit 0.5.0 (`13167281`, #265), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (docs/design/owner-decisions.md, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the phone's main menu after the intro, as sheet 10 draws it. It is #222 item 5 (P1). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -94,7 +94,7 @@ Each reports a tap, and only that.
 | Display settings | The kit's 44 px icon button with the settings icon, at the top right, under the top safe area; its name "Display settings" |
 | The choices | At the foot, 16 px from the sides and 18 px above the bottom safe area, 12 px apart: Join (the entry choice, primary: the person-plus icon on ink, amber), Host (the entry choice: the host icon), Recover my seat (the kit's plain button with the filled key, centred) |
 | Offline | The kit's error note with the offline icon, unfilled, above Join, 8 px under the choices' top (the pack's `.error` margin); the three choices refused. Join and Host keep their look and Recover is dimmed, as sheet 10 draws them |
-| Larger text | The choices grow with the text and take the space they need from the foot up. When they reach into the hero, the canvas covers it from 24 px above their top, so none of their words sits on the hero's (decision 5) |
+| Larger text | The choices grow with the text and take the space they need from the foot up. When they reach into the hero, the canvas covers it from 24 px above their top, so none of their words sits on the hero's; where that would cut the brand words, it covers them whole (decision 5) |
 
 **Motion:** none of its own. The intro is the brand film's.
 
@@ -115,7 +115,11 @@ Each reports a tap, and only that.
    - **When larger text raises the choices into the hero,** the canvas covers the hero from 24 px above the choices' top (the note's, or Join's), fading in over those 24 px, solid from their top down. It is the menu's own layer over the pack's fade (`.ms-mm-cover`), placed by `main-menu.mjs` from the choices' boxes and kept current as they grow.
    - **At the Standard text** the choices start below the hero at both sizes, so there is no cover and the menu is the pack's, to half a pixel.
    - **The note stays unfilled,** as sheet 10 has it: the cover leaves only canvas behind it.
-   - **The trade-off,** for the Lead's eye: at 390 × 844 offline with the Largest text the note starts at 241 px, so the cover begins at 217 px and the lower part of "Game N" fades into it. At 430 × 932 the cover begins under "by Plan B".
+   - **The brand words go whole or not at all** (the Lead's review of `9aec5f4a`): a "Game N" with its lower half faded looks broken. When the cover's top (the choices' top − 24 px) would fall inside the words' box, or within the 24 px fade above it, the cover starts 24 px above the words' top instead, so both lines are hidden whole and the hero's night shows above.
+     - **The words' box** is `brandWordsBox(W, H)`: the held frame's ink, "Game N" and "by Plan B", from the brand film's own `layout()` (the hosted game's copy, `apps/game/hosted/pregame-films/brand/brand.mjs`, which lays them out as the preview's still does), with the strokes' width, their round ends and "by"'s descender. The probe and the check hold it to the still's drawn ink to half a pixel. The glow is left out: at 430 × 932 it would have cut words that are whole.
+     - **Where it applies:** at 390 × 844 offline with the Largest text. The note starts at 241 px, so the cover would begin at 217 px, inside the words (192–302 px), and begins at 168 px instead. Everywhere else the cover starts below the words, which stay whole: 390 × 844 online with the Largest text (411 px), both sizes offline with the Large text (375 and 463 px), and 430 × 932 offline with the Largest text (342 px, under "by Plan B" at 334).
+     - **The words return** at the Standard and Large text at both sizes. The intro film shows them just before the menu, so a player with the Largest text has seen them.
+   - **`ms-k-phone`** is on the menu's root (kit 0.5.0): the phone-sized container the kit's larger-text rules ask. The menu has no kit rows with values, so nothing of it changes.
 
 ## Checks run on this version
 

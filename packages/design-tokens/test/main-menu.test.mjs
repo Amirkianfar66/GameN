@@ -7,7 +7,9 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MAIN_MENU_DEFAULTS, MAIN_MENU_VERSION, MENU_WORDS, nextMainMenuInput } from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
+import { MAIN_MENU_DEFAULTS, MAIN_MENU_VERSION, MENU_WORDS, brandWordsBox, nextMainMenuInput } from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
+import { layout as hostedBrandLayout } from '../../../apps/game/hosted/pregame-films/brand/brand.mjs';
+import { layout as designBrandLayout } from '../../../design/pregame-films/brand/brand.mjs';
 import { ENTRY_PARTS_VERSION, ENTRY_TONES, createEntryParts } from '../../../design/phone-ui/components/entry-parts/entry-parts.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
@@ -51,7 +53,8 @@ test('the menu and its entry parts are runtime sources: the whole graph is runti
   const packages = [...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))];
   for (const path of local) {
     assert.ok(path.startsWith('design/phone-ui/components/') || path.startsWith('apps/game/hosted/'), `${path}: only the components' own files and the hosted game's`);
-    assert.doesNotMatch(path, /(?:^|\/)(?:dev|test|tests|fixtures|reference|prototype|preview|pregame-films)(?:\/|\.)/, `${path}: nothing development-only`);
+    assert.doesNotMatch(path, /(?:^|\/)(?:dev|test|tests|fixtures|reference|prototype|preview)(?:\/|\.)/, `${path}: nothing development-only`);
+    assert.ok(!path.startsWith('design/pregame-films/'), `${path}: not the films' development source; the hosted game's runtime copy`);
     if (path.startsWith('design/')) assert.doesNotMatch(read(path), /mothership:dev-only/, `${path}: no development marker`);
   }
   assert.deepEqual(packages, ['@mothership/contracts'], 'one package import, the game\'s own contracts (through the kit\'s crew-runtime.mjs)');
@@ -59,6 +62,7 @@ test('the menu and its entry parts are runtime sources: the whole graph is runti
     assert.ok(local.includes(path), `${path} is in the graph`);
   }
   assert.ok(!local.some(p => p.includes('phone-shell')), 'no phone shell: the menu has no bar, tabs or match status');
+  assert.ok(local.includes('apps/game/hosted/pregame-films/brand/brand.mjs'), 'the brand frame\'s own layout, from the hosted game\'s film (brandWordsBox)');
   for (const path of ['preview/index.html', 'preview/preview.css', 'preview/preview.mjs', 'preview/probe.mjs', 'preview/agree.mjs']) {
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
@@ -105,6 +109,16 @@ test('the entry parts\' styles: scoped under their root class at one class\'s we
   assert.doesNotMatch(read(`${PARTS}/entry-parts.mjs`), /mothership:dev-only/);
 });
 
+test('the brand words\' box is the held frame\'s: from the hosted film\'s own layout, which the preview\'s still shares', () => {
+  for (const [W, H] of [[390, 844 * 0.58], [430, 932 * 0.58], [320, 568 * 0.58]]) {
+    assert.deepEqual(JSON.stringify(hostedBrandLayout(W, H)), JSON.stringify(designBrandLayout(W, H)), `${W} × ${H}: the hosted film lays the words out as the preview's still`);
+    const L = hostedBrandLayout(W, H), box = brandWordsBox(W, H);
+    // The ink reaches past the lines' boxes: half a stroke above "Game N", and "by"'s descender below "by Plan B".
+    assert.ok(box.top < L.y1 && box.top > L.y1 - L.k1, `${W} × ${H}: the top half a stroke over the name`);
+    assert.ok(box.bottom > L.y2 + L.cap * 0.4 && box.bottom < L.y2 + L.cap * 0.4 + 3 * L.k2, `${W} × ${H}: the bottom under the credit's descender`);
+  }
+});
+
 test('its words are the pack\'s: the main menu of sheet 10', () => {
   const entry = read('design/phone-ui/prototype/screens-entry.mjs');
   for (const words of [MENU_WORDS.join, MENU_WORDS.joinSub, MENU_WORDS.host, MENU_WORDS.hostSub, MENU_WORDS.recover, MENU_WORDS.settings, MENU_WORDS.offline]) {
@@ -148,10 +162,18 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   }
   for (const size of ['390x844', '430x932']) {
     // Nothing of the choices sits on the hero: no cover at the Standard text, as in the pack; at the Largest
-    // text offline, the choices rise into the hero and the canvas covers it from 24 px above them.
+    // text offline, the choices rise into the hero and the canvas covers it from 24 px above them, or from 24 px
+    // above the brand words where that would cut them, so the words go whole or not at all.
     for (const state of ['menu', 'offline']) assert.ok(!record.captures[`${size}/${state}`].cover && record.captures[`${size}/${state}`].stackTop >= record.captures[`${size}/${state}`].hero, `${size}/${state}: no cover at the Standard text`);
+    for (const state of ['menu', 'offline', 'large', 'large-offline']) {
+      const c = record.captures[`${size}/${state}`];
+      assert.ok(Math.abs(c.words.top - c.ink.top) < 0.5 && Math.abs(c.words.bottom - c.ink.bottom) < 0.5, `${size}/${state}: the words' box holds the drawn ink`);
+      assert.ok(!c.cover || c.ink.bottom <= c.coverTop + 0.05 || c.ink.top >= c.coverTop + 24 - 0.05, `${size}/${state}: the words whole or hidden whole`);
+    }
     const raised = record.captures[`${size}/large-offline`];
-    assert.ok(raised.cover && Math.abs(raised.coverTop - (raised.stackTop - 24)) < 0.05, `${size}/large-offline: the cover from 24 px above the note`);
+    const lifted = size === '390x844';
+    assert.ok(raised.cover && Math.abs(raised.coverTop - (lifted ? raised.words.top - 24 : raised.stackTop - 24)) < 0.05,
+      `${size}/large-offline: the cover from 24 px above ${lifted ? 'the brand words, which the note\'s would cut' : 'the note, under the words'}`);
     assert.equal(record.captures[`${size}/offline`].note, MENU_WORDS.offline, `${size}: sheet 10's offline note`);
     assert.deepEqual(record.captures[`${size}/offline`].opacity, ['1', '1', '0.4'], `${size}: Join and Host keep their look, Recover dimmed`);
     assert.equal(record.captures[`${size}/large-offline`].root, 32, `${size}: the Largest text`);
@@ -162,7 +184,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['mount', 'taps', 'offline', 'online again', 'busy', 'not interactive', 'focus', 'insets', 'layout', 'text', 'input', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['mount', 'taps', 'offline', 'online again', 'busy', 'not interactive', 'focus', 'insets', 'layout', 'words', 'text', 'input', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length === 6 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the menu agrees with the frozen pack\'s main menu');
   // The one difference from the pack, recorded where it is drawn: the cover, at the Largest text only.
   for (const c of record.agree.checks) assert.equal(c.detail.improvement !== null, c.id.includes('Largest'), `${c.id}: the cover only with the Largest text`);

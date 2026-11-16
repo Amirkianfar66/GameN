@@ -15,18 +15,32 @@
 //   insets    Frontend's safe areas, or the browser's, place the settings button and the choices
 //   layout    the size, the safe areas and the hero (the top 58 %), reported on mount and on a change of size
 //   text      with larger text the choices grow from the foot up, clear of the settings button, and the canvas
-//             covers the hero from 24 px above them, so nothing of theirs sits on its words; none at the Standard text
+//             covers the hero from 24 px above them, so nothing of theirs sits on its words; none at the Standard text;
+//             the brand words go whole or not at all: where that top would cut them, the cover starts 24 px above them
+//   words     brandWordsBox holds the held frame's drawn ink to half a pixel, at both sizes
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    none of its own: nothing animates (with the device's Reduce motion too)
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { mountMainMenu, MENU_WORDS, nextMainMenuInput, MAIN_MENU_DEFAULTS } from '../main-menu.mjs';
+import { brandWordsBox, COVER_LEAD_PX, mountMainMenu, MENU_WORDS, nextMainMenuInput, MAIN_MENU_DEFAULTS } from '../main-menu.mjs';
 import { iconSvg } from '../../icons.mjs';
 
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
 
-export async function runMainMenuProbe({ sizes, offline, drawHero }) {
+/**
+ * Where the cover starts (px from the hero's top), or null for none: COVER_LEAD_PX above the choices when they reach
+ * into the hero, or COVER_LEAD_PX above the brand words when that would cut them (the Lead's review of #278).
+ */
+export function coverFor(stackTop, hero, words) {
+  if (stackTop >= hero) return null;
+  const top = stackTop - COVER_LEAD_PX;
+  return top > words.top - COVER_LEAD_PX && top < words.bottom ? words.top - COVER_LEAD_PX : top;
+}
+/** The words are whole: above the cover's top, or under its opaque part (COVER_LEAD_PX below its top). */
+export const wordsWhole = (coverTop, ink) => coverTop === null || ink.bottom <= coverTop + 0.05 || ink.top >= coverTop + COVER_LEAD_PX - 0.05;
+
+export async function runMainMenuProbe({ sizes, offline, drawHero, heroInk }) {
   const deviceReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mode = deviceReduced ? 'device-reduced' : 'full';
   const size = sizes['390x844'];
@@ -67,7 +81,7 @@ export async function runMainMenuProbe({ sizes, offline, drawHero }) {
         heroHidden: s.q('.ms-mm-heroframe').getAttribute('aria-hidden'), note: s.q('.ms-k-error') !== null, keyFilled: s.recover.querySelector('svg')?.outerHTML.includes('fill="currentColor"'),
       };
       s.menu.dispose();
-      return { ok: seen.root === 'ms-main-menu ms-kit ms-entry-parts' && seen.name === MENU_WORDS.name && seen.join === 'Join Enter a room code' && seen.host === 'Host Open a room for 7–9 players'
+      return { ok: seen.root === 'ms-main-menu ms-kit ms-k-phone ms-entry-parts' && seen.name === MENU_WORDS.name && seen.join === 'Join Enter a room code' && seen.host === 'Host Open a room for 7–9 players'
         && seen.recover === 'Recover my seat' && seen.settings === 'Display settings' && seen.heroSame && seen.heroHidden === 'true' && !seen.note && seen.keyFilled, seen };
     });
 
@@ -168,7 +182,22 @@ export async function runMainMenuProbe({ sizes, offline, drawHero }) {
         && second.size.height === 700 && Math.abs(second.hero.height - 700 * 0.58) < 0.01 && reported.includes(844) && reported.includes(700), seen };
     });
 
-    await check('text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them', async () => {
+    await check('words: brandWordsBox holds the held frame’s drawn ink, “Game N” and “by Plan B”, to half a pixel at both sizes', async () => {
+      const seen = {};
+      for (const [key, s] of Object.entries(sizes)) {
+        Object.assign(frame.style, { width: `${s.width}px`, height: `${s.height}px` });
+        const m = mount({ insets: s.insets });
+        drawHero(m.menu.hero);
+        await frames();
+        const box = m.menu.hero.getBoundingClientRect();
+        seen[key] = { words: brandWordsBox(box.width, box.height), ink: heroInk(m.menu.hero) };
+        m.menu.dispose();
+      }
+      Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
+      return { ok: Object.values(seen).every(v => v.ink && Math.abs(v.words.top - v.ink.top) < 0.5 && Math.abs(v.words.bottom - v.ink.bottom) < 0.5), seen };
+    });
+
+    await check('text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them, or from 24 px above the brand words where it would cut them, so they go whole or not at all', async () => {
       const seen = {};
       for (const [pct, input] of [[100, { insets: size.insets }], [100, { ...offline, insets: size.insets }], [150, { ...offline, insets: size.insets }], [200, { insets: size.insets }], [200, { ...offline, insets: size.insets }]]) {
         document.documentElement.style.fontSize = `${pct}%`;
@@ -178,14 +207,21 @@ export async function runMainMenuProbe({ sizes, offline, drawHero }) {
         const first = s.q('.ms-mm-actions').firstElementChild, stackTop = rel(s, first).top;
         const hero = s.q('.ms-mm-heroframe').getBoundingClientRect().height, cover = s.q('.ms-mm-cover');
         const coverTop = cover.hidden ? null : rel(s, cover).top;
-        seen[`${pct}${input.notice ? ' offline' : ''}`] = { stackTop, hero, cover: !cover.hidden, coverTop, actionsBottom: actions.bottom, clearOfSettings: actions.top > settings.top + settings.height, join: s.join.getBoundingClientRect().height };
+        const box = s.menu.hero.getBoundingClientRect(), words = brandWordsBox(box.width, box.height);
+        drawHero(s.menu.hero);
+        const ink = heroInk(s.menu.hero);
+        seen[`${pct}${input.notice ? ' offline' : ''}`] = { stackTop, hero, cover: !cover.hidden, coverTop, want: coverFor(stackTop, hero, words), words, whole: wordsWhole(coverTop, ink),
+          actionsBottom: actions.bottom, clearOfSettings: actions.top > settings.top + settings.height, join: s.join.getBoundingClientRect().height };
         s.menu.dispose();
       }
       document.documentElement.style.fontSize = '';
-      const ok = Object.entries(seen).every(([key, v]) => v.actionsBottom === 52 && v.clearOfSettings
-        && (v.stackTop >= v.hero ? !v.cover : v.cover && Math.abs(v.coverTop - (v.stackTop - 24)) < 0.05)
+      // At 390 × 844 the Largest text offline lifts the cover above the words; online it starts below them.
+      const lifted = v => Math.abs(v.coverTop - (v.words.top - COVER_LEAD_PX)) < 0.05;
+      const ok = Object.entries(seen).every(([key, v]) => v.actionsBottom === 52 && v.clearOfSettings && v.whole
+        && (v.want === null ? !v.cover : v.cover && Math.abs(v.coverTop - v.want) < 0.05)
         && (!key.startsWith('100') || (!v.cover && v.stackTop >= v.hero)))
-        && seen['200 offline'].cover && seen['200 offline'].join > 76;
+        && seen['200 offline'].cover && lifted(seen['200 offline']) && seen['200 offline'].join > 76
+        && seen['200'].cover && !lifted(seen['200']) && seen['200'].coverTop >= seen['200'].words.bottom;
       return { ok, seen };
     });
 

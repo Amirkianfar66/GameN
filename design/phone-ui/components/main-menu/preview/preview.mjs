@@ -8,7 +8,7 @@
 //   index.html?single=1&probe=1                    the lifecycle probe (probe.mjs), for the check
 //   index.html?single=1&agree=1                    the menu beside the frozen pack (agree.mjs), for the check
 
-import { mountMainMenu, MENU_WORDS } from '../main-menu.mjs';
+import { brandWordsBox, mountMainMenu, MENU_WORDS } from '../main-menu.mjs';
 // The hero's stand-in: the approved brand film's own frame function, drawn as a still at 1.65 s.
 import { brandSvg } from '../../../../pregame-films/brand/brand.mjs';
 
@@ -30,6 +30,23 @@ export const PREVIEW_STATES = Object.freeze({
   large: { caption: 'Largest text (200%) · the menu', menu: {}, text: 200 },
   'large-offline': { caption: 'Largest text (200%) · offline', menu: OFFLINE, text: 200 },
 });
+
+/**
+ * The held frame's drawn ink in `holder`: the top and bottom of "Game N" and "by Plan B" as the still draws them,
+ * in px from the hero's top (each stroke with its width and round ends; not the glow), for the checks to hold
+ * the menu's brandWordsBox to.
+ */
+export function heroInk(holder) {
+  const svg = holder.querySelector('svg');
+  if (!svg) return null;
+  let top = Infinity, bottom = -Infinity;
+  for (const path of svg.querySelectorAll(':scope > g > path')) {
+    const b = path.getBBox(), half = parseFloat(path.getAttribute('stroke-width')) / 2;
+    top = Math.min(top, b.y - half);
+    bottom = Math.max(bottom, b.y + b.height + half);
+  }
+  return { top, bottom };
+}
 
 /** The hero's still, in the menu's hero element (the player's place). */
 export function drawHero(holder, t = HERO_MS) {
@@ -64,7 +81,7 @@ if (params.get('agree')) {
     .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
 } else if (params.get('probe')) {
   document.body.classList.add('pv-single');
-  probe = document.fonts.ready.then(() => import('./probe.mjs')).then(m => m.runMainMenuProbe({ sizes: PREVIEW_SIZES, offline: OFFLINE, drawHero }))
+  probe = document.fonts.ready.then(() => import('./probe.mjs')).then(m => m.runMainMenuProbe({ sizes: PREVIEW_SIZES, offline: OFFLINE, drawHero, heroInk }))
     .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
 } else if (params.get('single')) {
   document.body.classList.add('pv-single');
@@ -97,6 +114,6 @@ if (params.get('agree')) {
 }
 
 window.__mainMenu = {
-  intents, mounted, probe, agree,
+  intents, mounted, probe, agree, brandWordsBox, heroInk,
   ready: document.fonts.ready.then(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))),
 };
