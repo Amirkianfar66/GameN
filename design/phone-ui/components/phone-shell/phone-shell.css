@@ -110,7 +110,8 @@
 .ms-phone-shell .ms-ps-pair { display: flex; flex: none; }
 .ms-phone-shell .ms-ps-pair .ms-ps-pt + .ms-ps-pt { margin-left: -12px; }
 .ms-phone-shell .ms-ps-glyph { width: 32px; height: 32px; border-radius: 9px; flex: none; display: grid; place-items: center; background: var(--ms-ps-surface-3); color: var(--ms-ps-accent); --ic-knock: var(--ms-ps-surface-3); }
-.ms-phone-shell .ms-ps-glyph .ms-ps-ic { width: 22px; height: 22px; }
+/* 0.2.2: the glyph's icon at the pack's own 24 px (.tb-glyph sets no size, so its icon keeps the icons' default); 0.1.0–0.2.1 drew it at 22 px. */
+.ms-phone-shell .ms-ps-glyph .ms-ps-ic { width: 24px; height: 24px; }
 .ms-phone-shell .ms-ps-glyph[data-tone="dark"] { background: #0A0D14; color: var(--ms-ps-steel-pale); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline); --ic-knock: #0A0D14; }
 .ms-phone-shell .ms-ps-lines { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .ms-phone-shell .ms-ps-name { font: 600 1.0625rem/1.2 var(--ms-ps-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }

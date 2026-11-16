@@ -44,7 +44,7 @@ const CASES = [
 
 /** The parts compared, as [name, the pack's selector, the shell's selector]. */
 const PARTS = [
-  ['bar', '.tb', '.ms-ps-tb'], ['name', '.tb-name', '.ms-ps-name'], ['sub', '.tb-sub', '.ms-ps-sub'], ['glyph', '.tb-glyph', '.ms-ps-glyph'],
+  ['bar', '.tb', '.ms-ps-tb'], ['name', '.tb-name', '.ms-ps-name'], ['sub', '.tb-sub', '.ms-ps-sub'], ['glyph', '.tb-glyph', '.ms-ps-glyph'], ['glyph icon', '.tb-glyph > svg', '.ms-ps-glyph svg'],
   ['portrait', '.tb-who > .pt', '.ms-ps-who > .ms-ps-pt'], ['pair', '.pt-pair', '.ms-ps-pair'],
   ['promises', '.tb-promises', '.ms-ps-promises'], ['promises-badge', '.tb-promises .badge-dot', '.ms-ps-promises .ms-ps-badge'],
   ['round', '.tb-round', '.ms-ps-round'], ['timer', '.timer', '.ms-ps-timer'], ['menu', '.tb-menu', '.ms-ps-menu'],
