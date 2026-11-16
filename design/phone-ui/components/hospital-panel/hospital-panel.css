@@ -1,0 +1,55 @@
+@import url("../kit/kit.css");
+/*
+ * The Hospital panel (hospital-panel.mjs): the layout of its sheet's content. Runtime source, Designer's. The
+ * pack's own values (design/phone-ui/prototype/screens-more.mjs panel(), screens.css .display-num, .keypad and
+ * .key, and kit.css .sheet .key), on the kit's tokens. The notice, the stamp, the group note and the inline error
+ * are the kit's (component-kit-0.8.0); the sheet's frame and its button are the shell's. Its one motion is the
+ * results' stamp snap, as REGISTERED's.
+ *
+ * Scope: every rule is under the component's root (.ms-hospital-panel, which is also .ms-kit) and names a class
+ * of its own, so it weighs two classes and outranks the kit (one class), whatever order the stylesheets load in
+ * (kit.md).
+ */
+
+/* ── The root: it fills the sheet's body, and adds nothing to it ─────── */
+.ms-hospital-panel.ms-kit { display: block; }
+.ms-hospital-panel.ms-kit:focus { outline: none; }
+.ms-hospital-panel.ms-kit [hidden] { display: none; }
+/* As the pack's `* { box-sizing: border-box }` (the kit does the same for its own): the elements, not their ::before and ::after. */
+.ms-hospital-panel :where([class^="ms-hp-"], [class*=" ms-hp-"]) { box-sizing: border-box; }
+
+/* ── The display (the pack's .display-num): its height a minimum, with room above and below the number that
+      grows with the text, so at the Largest text the display grows with it (Q6). At the Standard text the
+      number and its room fit the pack's 74 px. ── */
+.ms-hospital-panel .ms-hp-display {
+  display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 74px; margin-bottom: 12px; padding: 0.375rem 0;
+  border-radius: 16px; background: #0A1A1A; box-shadow: inset 0 0 0 2px #1F8A80; color: #A6DFD0;
+  font: 700 2.25rem/1 var(--ms-k-mono); letter-spacing: 0.2em;
+}
+
+/* ── The keypad (the pack's .keypad and .key): every number in its place in the 3 × 3, at every text size ── */
+.ms-hospital-panel .ms-hp-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ms-hospital-panel .ms-hp-key {
+  min-height: 58px; margin: 0; padding: 0; border: 0; border-radius: 16px; background: var(--ms-k-surface-3);
+  color: var(--ms-k-text); font: 600 1.5rem/1 var(--ms-k-font); font-variant-numeric: tabular-nums;
+  text-shadow: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+/* On glass (the shell's docked sheet), as the pack's .sheet .key. */
+:where([data-ms-surface="glass"]) .ms-hospital-panel .ms-hp-key { background: var(--ms-k-glass-fill); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
+/* The picked key: amber, its dark number with no halo (the pack's .key[aria-pressed="true"]). */
+.ms-hospital-panel .ms-hp-key[aria-pressed="true"] { background: var(--ms-k-accent); color: var(--ms-k-ink); text-shadow: none; }
+.ms-hospital-panel .ms-hp-key[aria-disabled="true"] { cursor: default; }
+.ms-hospital-panel .ms-hp-key:focus-visible { outline: 3px solid var(--ms-k-accent); outline-offset: 2px; }
+/* A number no player has (a 7- or 8-player match): an empty place (the Lead's Q5). */
+.ms-hospital-panel .ms-hp-gap { min-height: 58px; }
+
+/* ── Not accepted: the kit's inline note under the line (Q2) ─────────── */
+.ms-hospital-panel .ms-hp-error { margin-top: 14px; }
+
+/* ── The results' stamps snap in as REGISTERED does: 120 ms ─────────── */
+@keyframes ms-hp-stamp-in { from { opacity: 0; scale: 1.3; } }
+.ms-hospital-panel .ms-hp-result .ms-k-stamp { animation: ms-hp-stamp-in 120ms var(--ms-k-ease) both; }
+
+/* ── Reduce motion: the game's (data-motion="reduced" on the root) or the device's: the stamp is there at once ── */
+.ms-hospital-panel.ms-kit[data-motion="reduced"] .ms-hp-result .ms-k-stamp { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ms-hospital-panel .ms-hp-result .ms-k-stamp { animation: none; } }
