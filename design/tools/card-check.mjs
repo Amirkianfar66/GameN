@@ -46,6 +46,7 @@ const EXPECT = {
   'card-hacker': { view: 'card', card: 'Hacker', open: 'Card', rows: [] },
   stale: { view: 'card', card: 'Doctor', open: 'Card', rows: [], banner: 'Connection lost', local: true },
   concealed: { concealed: true },
+  'large-card-150': { view: 'card', card: 'Doctor', open: 'Card', rows: [] },
   'large-card': { view: 'card', card: 'Doctor', open: 'Card', rows: [] },
   'large-knowledge': { view: 'knowledge', open: 'Knowledge', rows: ['Undercover', 'Round 2 · Player 7'], label: 'Scans' },
   'large-resources': { view: 'resources', open: 'Resources', rows: ['Weapons', 'Role Action', 'Move', 'Shared injections', 'Promises'] },

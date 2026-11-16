@@ -15,7 +15,8 @@
 //             the Hacker's Scans; nothing known says so, and knowledge not given says nothing
 //   resources the rows are the ones Frontend gives, in its order, with its words; no other
 //   fit       the card fills the space above the segmented control at 5 : 7, at most 440 px tall; hidden, the
-//             back is 240 px wide; at 200 % text on 320 × 568 the card still fits and the parts' words are whole
+//             back is 240 px wide; its place never goes below 240 px: at 150 % and 200 % text on 320 × 568 the
+//             card keeps it and the sheet's body scrolls, and the parts' words are whole
 //   dispose   after dispose(), nothing is left, the role card included, and nothing fires
 //   motion    nothing of the component's own moves
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
@@ -163,7 +164,7 @@ export async function runCardProbe({ sizes, versions }) {
 
     await check('fit', async () => {
       const out = {};
-      for (const [key, sizeKey, text, extra] of [['card', '390x844', null, {}], ['hidden', '390x844', null, { hidden: true }], ['large', '320x568', 200, {}]]) {
+      for (const [key, sizeKey, text, extra] of [['card', '390x844', null, {}], ['hidden', '390x844', null, { hidden: true }], ['larger', '320x568', 150, {}], ['large', '320x568', 200, {}], ['small', '320x568', null, {}]]) {
         document.documentElement.style.fontSize = text ? `${text}%` : '';
         const p = phone(sizeKey, 'card', extra);
         await frames();
@@ -179,10 +180,13 @@ export async function runCardProbe({ sizes, versions }) {
         p.dispose();
       }
       document.documentElement.style.fontSize = '';
-      const { card, hidden, large } = out;
-      // At the Largest text on 320 x 568 the card keeps its place's 240 px floor and the sheet's body scrolls to the switcher (the Lead, 16 November 2026).
+      const { card, hidden, larger, large, small } = out;
+      // The card's place never goes below the back's 240 px: at Large and the Largest text on 320 x 568 it keeps the
+      // floor and the sheet's body scrolls to the switcher; where there is room, as at Standard there, nothing scrolls
+      // (the Lead, 16 November 2026).
+      const floored = f => f.aboveSeg && f.inBody && f.labels.every(l => l.whole) && f.h >= 235 && f.ratio === 0.714 && f.scrolls;
       return { ok: card.h <= 440 && card.ratio === 0.714 && card.centred && card.aboveSeg && !card.scrolls && hidden.w === 240 && hidden.h === 336 && hidden.centred && !hidden.segShown
-        && large.aboveSeg && large.inBody && large.labels.every(l => l.whole) && large.h >= 235 && large.ratio === 0.714 && large.scrolls, ...out };
+        && floored(larger) && floored(large) && small.h >= 235 && small.aboveSeg && !small.scrolls, ...out };
     });
 
     await check('dispose', async () => {

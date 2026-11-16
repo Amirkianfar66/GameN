@@ -186,7 +186,7 @@ test('the check\'s record: every capture and probe check passed under the produc
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 21, 'nine states at two sizes, and three at 320 × 568 with the Largest text');
+  assert.equal(captures.length, 22, 'nine states at two sizes, and four at 320 × 568: Large text, and the Largest');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);

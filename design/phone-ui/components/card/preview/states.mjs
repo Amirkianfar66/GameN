@@ -38,6 +38,7 @@ const sheetInput = (role, extra = {}) => ({
   viewer: SELF, view: 'card', hidden: false, card: cardOf(role), knowledge: KNOWLEDGE[role] ?? KNOWLEDGE.Doctor, resources: RESOURCES[role] ?? RESOURCES.Doctor, ...extra,
 });
 const large = state => ({ ...state, sizes: ['320x568'], text: 200 });
+const larger = state => ({ ...state, sizes: ['320x568'], text: 150 });
 
 /** Every state, by key: its caption, the sheet it comes from, and its inputs. */
 export const CARD_STATES = Object.freeze({
@@ -52,6 +53,8 @@ export const CARD_STATES = Object.freeze({
   'card-hacker': { sheet: '31+', caption: 'Card · the Hacker, Red team', shell: shell(), card: sheetInput('Hacker') },
   stale: { sheet: '45', caption: 'Reconnecting · the views still switch', shell: shell(), card: sheetInput('Doctor'), status: 'stale' },
   concealed: { sheet: '—', caption: 'Concealed · nothing drawn', shell: shell(), card: sheetInput('Doctor'), status: 'concealed' },
+  // 320 × 568 at Large (150 %): the card's place keeps its 240 px floor (the Lead, 16 November 2026).
+  'large-card-150': { sheet: '53-like', caption: 'Large text (150 %) · Card, the 240 px floor', ...larger({ shell: shell(), card: sheetInput('Doctor') }) },
   // 320 × 568 at the Largest text (200%).
   'large-card': { sheet: '56-like', caption: 'Largest text · Card', ...large({ shell: shell(), card: sheetInput('Doctor') }) },
   'large-knowledge': { sheet: '56-like', caption: 'Largest text · Knowledge', ...large({ shell: shell(), card: sheetInput('Hacker', { view: 'knowledge' }) }) },
