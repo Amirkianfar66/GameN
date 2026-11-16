@@ -46,6 +46,11 @@ export const PLANET_ROLE_CARD_DURATION_MS=20_000;
 export const PLANET_ROLE_FILM_DURATION_MS=10_000;
 export const PLANET_READING_DURATION_MS=30_000;
 export const PlanetSetupFlowVersionSchema=z.union([z.literal(PLANET_SETUP_FLOW_VERSION),z.literal(PLANET_TIMED_READING_SETUP_FLOW_VERSION)]);
+/** Offered only by the saved Food owner profile. Uses public step identity, never a private task id. */
+export const PlanetFoodStreamOfferSchema=z.strictObject({
+  version:z.literal(1),phaseId:IdentifierSchema,foodStepId:IdentifierSchema,
+});
+export type PlanetFoodStreamOffer=z.infer<typeof PlanetFoodStreamOfferSchema>;
 export const PlanetSessionSnapshotSchema=z.strictObject({
   matchId:IdentifierSchema,roomCode:z.string().regex(/^[A-Z0-9]{6}$/),versions:PlanetVersionsSchema,
   setupFlowVersion:PlanetSetupFlowVersionSchema.optional(),
@@ -61,9 +66,14 @@ export const PlanetSessionSnapshotSchema=z.strictObject({
   }).nullable(),
   publicView:PlanetPublicViewSchema.nullable(),playerView:PlanetPlayerViewSchema.nullable(),
   foodPublicView:FoodTaskPublicViewSchema.nullable().optional(),foodPlayerView:FoodTaskPlayerViewSchema.nullable().optional(),
+  foodStream:PlanetFoodStreamOfferSchema.optional(),
 }).superRefine((value,ctx)=>{
   const denied=value.admission!==null&&value.admission.status!=='admitted';
   const food=value.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion;
+  if(value.foodStream&&(!food||denied||value.status!=='running'||value.publicView?.phase.kind!=='FOOD_SUPPLY'
+    ||value.foodPublicView?.step?.kind!=='AWAY'||value.foodStream.phaseId!==value.publicView.phase.id
+    ||value.foodStream.foodStepId!==value.foodPublicView.step.stepId))
+    ctx.addIssue({code:'custom',message:'Food stream requires the admitted active public Food step'});
   for(const key of ['foodPublicView','foodPlayerView'] as const) {
     if(food ? !Object.hasOwn(value,key) : Object.hasOwn(value,key))ctx.addIssue({code:'custom',message:'Food snapshots are exact-tuple bound'});
   }
