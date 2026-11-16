@@ -51,6 +51,7 @@ The tool is `design/tools/host-room-check.mjs`, on the shared `lib/component-che
   - `codeCard`: the room code card (`.code-card`), which the join screen's lobby (sheet 13) shows too.
   - `createToast`: the entry screens' toast (`.toast`), for "Copied" (decision 3). It stands alone, so the Lead can fold it and the shell's into one kit part.
 - **No phone shell:** neither screen has a bar, tabs or match status. Each fills its host with the pack's canvas, under the safe areas.
+- **`ms-k-phone`** on each root (`ms-host-setup` or `ms-host-lobby`, with `ms-kit` and `ms-entry-parts`): the phone-sized container kit 0.5.0's larger-text rules ask. The 7 · 8 · 9 control leaves `stack` off, and no row here has a value, so nothing moves.
 
 ## Mount, update and dispose
 

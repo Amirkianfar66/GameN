@@ -92,7 +92,7 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
   const on = Object.fromEntries(['onLeave', 'onCopy', 'onAdmit', 'onBots', 'onStart', 'onLayout', 'onFocusReturn'].map(k => [k, handlers[k] ?? null]));
 
   // ── The parts ───────────────────────────────────────────────────────
-  const root = el('div', 'ms-host-lobby ms-kit ms-entry-parts', { tabindex: '-1', role: 'group', 'aria-label': LOBBY_WORDS.title });
+  const root = el('div', 'ms-host-lobby ms-kit ms-k-phone ms-entry-parts', { tabindex: '-1', role: 'group', 'aria-label': LOBBY_WORDS.title });
   const screen = parts.screen();
   const nav = parts.navBar({ title: LOBBY_WORDS.title, back: { label: LOBBY_WORDS.back, intent: 'leave' } });
   const card = parts.codeCard({ code: state.roomCode ?? '······', copied: false, seats: null });

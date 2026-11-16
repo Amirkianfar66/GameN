@@ -73,7 +73,7 @@ export function mountHostSetup(host, input = {}, handlers = {}) {
   const on = Object.fromEntries(['onBack', 'onCount', 'onOpen', 'onLayout', 'onFocusReturn'].map(k => [k, handlers[k] ?? null]));
 
   // ── The parts ───────────────────────────────────────────────────────
-  const root = el('div', 'ms-host-setup ms-kit ms-entry-parts', { tabindex: '-1', role: 'group', 'aria-label': SETUP_WORDS.title });
+  const root = el('div', 'ms-host-setup ms-kit ms-k-phone ms-entry-parts', { tabindex: '-1', role: 'group', 'aria-label': SETUP_WORDS.title });
   const screen = parts.screen();
   const nav = parts.navBar({ title: SETUP_WORDS.title, back: { label: SETUP_WORDS.back, intent: 'back' } });
   const seg = kit.seg({ options: [], value: null, label: SETUP_WORDS.players, intent: 'count' });
