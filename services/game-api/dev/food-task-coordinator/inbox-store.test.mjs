@@ -4,6 +4,8 @@ import {test} from 'node:test';
 import {createFoodInboxIntent, createPlanetFoodInbox, PlanetFoodInboxConflict} from '../../dist/planet-food-inbox.js';
 import {PLANET_FOOD_INBOX_VERSION} from '../../dist/planet-food-inbox-types.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
+import {createFoodTaskCoordinator} from './coordinator.mjs';
+import {envelope, seedTwoHumanTask} from './fixture.mjs';
 
 const scope=()=>({version:PLANET_FOOD_INBOX_VERSION,matchId:randomUUID(),phaseId:randomUUID(),taskId:randomUUID()});
 const binding={uid:'crew-1',seatId:'seat-1',revision:1};
@@ -83,4 +85,49 @@ test('Food inbox drains every same-priority row and persists deletion with progr
   await store.transaction(async tx=>inbox.consume(tx,late,progress));
   assert.equal(await inbox.next(target),null);
   assert.equal((await inbox.next(foreign.scope)).id,foreign.id);
+});
+
+test('fenced owner consumes stale binding and preserves an already-admitted original', {timeout:60_000}, async t=>{
+  const store=createLoopbackFoodStore();t.after(()=>store.close());
+  const {h,session,task,winch}=await seedTwoHumanTask(store);
+  const target={version:PLANET_FOOD_INBOX_VERSION,matchId:h.matchId,phaseId:session.state.phase.id,taskId:task.options.taskId};
+  const actor=session.members.find(m=>m.uid===winch);
+  const trusted={uid:winch,seatId:actor.seatId,revision:actor.bindingRevision};
+  const inbox=createPlanetFoodInbox(store);
+  const blocked=createFoodInboxIntent(target,{...trusted,revision:trusted.revision+1},
+    {operation:'foodHeartbeat',matchId:h.matchId,taskId:target.taskId},'stale');
+  let now=task.options.startedAt+3_000;
+  let loseAppendAck=false;
+  const wrapper={...store,async transaction(action){
+    const result=await store.transaction(action);
+    if(loseAppendAck&&result?.sequence){loseAppendAck=false;throw new Error('lost ordered append ACK');}
+    return result;
+  }};
+  const owner=createFoodTaskCoordinator({store:wrapper,clock:()=>now,admissionMode:'owner-fifo'});
+  await owner.openTask({session});
+  const lease=await owner.acquire(target.taskId,randomUUID());
+  await inbox.intake(blocked,now);
+  assert.deepEqual(await owner.admitInbox(await inbox.next(target),inbox.consume),{refusal:'FORBIDDEN'});
+  assert.deepEqual(await store.readOnly(tx=>inbox.progress(tx,blocked)),
+    {kind:'resolved',response:{ok:false,serverTimeMs:now,error:{code:'FORBIDDEN'}}});
+  const next=createFoodInboxIntent(target,trusted,{operation:'foodHeartbeat',matchId:h.matchId,taskId:target.taskId},'valid');
+  await inbox.intake(next,now);now+=100;
+  loseAppendAck=true;
+  await assert.rejects(owner.admitInbox(await inbox.next(target),inbox.consume),/lost ordered append ACK/);
+  assert.equal(await inbox.next(target),null);
+  assert.deepEqual(await store.readOnly(tx=>inbox.progress(tx,next)),{kind:'admitted',sequence:1,admittedAt:now});
+  await owner.runDue(target.taskId,lease);
+  const view=(await owner.snapshot(target.taskId,winch)).playerView;
+  const ownTask=view.participantTask;
+  const request=envelope(view,{type:'TASK_PRESS',taskId:target.taskId,controlSessionId:ownTask.controlSessionId,
+    expectedControlRevision:ownTask.controlRevision,input:{kind:'HOLD',edge:'DOWN',gestureSequence:1,crateId:ownTask.crate.id}});
+  const original=await owner.submit(target.taskId,winch,request);
+  now+=100;
+  const retried=createFoodInboxIntent(target,trusted,{operation:'foodCommand',request},request.commandId);
+  await inbox.intake(retried,now);
+  const answer=await owner.admitInbox(await inbox.next(target),inbox.consume);
+  assert.equal(answer.duplicate,true);
+  assert.equal(answer.admittedAt,original.admittedAt);
+  assert.equal(await inbox.next(target),null);
+  assert.deepEqual(await store.readOnly(tx=>inbox.progress(tx,retried)),{kind:'admitted',sequence:2,admittedAt:original.admittedAt});
 });
