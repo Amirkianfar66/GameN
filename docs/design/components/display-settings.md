@@ -132,7 +132,9 @@ The agreement draws the frozen pack's `settings` screen beside each mount and co
 
 `node design/tools/display-settings-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the page (off, on, locked, Large, Largest) and Settings in a match (as sheet 32, host, locked, reconnecting, Largest). Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded against `3b29786f` (clean):** 20 of 20 captures, the probe 18 of 18 checks (17 as the page comes, the motion check with the device's Reduce motion), and the agreement 8 of 8, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
+**Recorded against `9dcf39d6` (clean):** #291 merged at `24be2cd2`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 18 of 18 and the agreement 8 of 8 pass. The page's 10 captures are byte-identical to `3b29786f`'s; the sheet's 10 differ by 2 to 47 pixels, all in the room's picture above the sheet (its ambient motion).
+
+**Before, recorded against `3b29786f` (clean):** 20 of 20 captures, the probe 18 of 18 checks (17 as the page comes, the motion check with the device's Reduce motion), and the agreement 8 of 8, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
 
 ## Not in this version
 
