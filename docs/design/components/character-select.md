@@ -1,6 +1,6 @@
 # Character selection: Designer's runtime component
 
-**Version:** `character-select-0.1.0`. **Status (16 November 2026):** the interface, proposed for the Lead Designer's review. Nothing is built. The build starts when the Lead approves it, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `character-select-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #292, with the Lead's four decisions below. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the 30-second screen where each player chooses one of the nine characters, as sheet 16 draws it: one screen, the nine in a 3 × 3 grid, the timer in the header, no introduction. It is #222 item 26, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -24,21 +24,30 @@
 - **The rules:** who may take which character, when the 30 seconds end, and who is assigned what are the server's. The screen never works them out: Frontend gives each character's holder and this phone's choice.
 - **The role stage** that follows (sheets 17–18, #268): its own component.
 
-## Files (proposed)
+## The Lead's decisions (#292)
+
+1. **Names:** Frontend gives the nine as `[{ id, name }]` from the game's own character data, as the ballot and the lobby are given names. The component takes only the pictures from the crew runtime, by id (through the kit's portraits). A name it isn't given is refused, never looked up.
+2. **Time is up:** `closed: true` comes from the server's word only, never from the clock reaching 0:00. It dims every character but this phone's and refuses every cell. The timer only shows what it's given.
+3. **Changing your mind:** a tap on another free character reports `onChoose(id)` while `choose` allows it. A tap on your own reports nothing. A taken or closed cell is refused with its reason.
+4. **The foot:** the component's own styles, as only sheet 16 draws it.
+
+And the viewer rule: a new viewer drops this phone's choice, its saving state and the toast (and the offer). The test and the probe check it.
+
+## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/character-select/`:
 
 | Path | What |
 | --- | --- |
-| `character-select.mjs` | `mountCharacterSelect()`, `nextCharacterSelectInput()`, `CHARACTER_SELECT_DEFAULTS`, `CHARACTER_SELECT_VERSION`, `CHOOSE_WORDS` |
-| `character-select.css` | Every style, under `.ms-char-select`; starts with the kit's and the shell's stylesheets. Only the foot (`.choose-foot`) is its own: only sheet 16 draws it |
-| `preview/` | Development only: the preview on the pack's fixtures (the roster's seats and the nine characters), `probe.mjs`, and `agree.mjs` (the screen beside the frozen pack's `ENTRY_SCREENS.choose`) |
+| `character-select.mjs` | `mountCharacterSelect()`, `nextCharacterSelectInput()`, `characterCell()`, `chooseFoot()`, `CHARACTER_SELECT_DEFAULTS`, `CHARACTER_SELECT_VERSION`, `CHOOSE_WORDS`, `CHOOSE_URGENT_MS`, `CHARACTER_COUNT` |
+| `character-select.css` | Every style, under `.ms-char-select`; starts with the phone shell's stylesheet, which starts with the kit's. Its own: the screen's padding, the grid's portraits (to 100 px) and names (capitals, the letter face, no seat number), and the foot |
+| `preview/` | Development only: the preview on the pack's fixtures (the nine in the pack's order, its holders, Player 4's choice), `probe.mjs`, and `agree.mjs` (the screen beside the frozen pack's `ENTRY_SCREENS.choose`) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/character-select-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/character-select.test.mjs`.
 
 **Uses unchanged:**
-- **The phone shell (0.2.0),** mounted inside the component as the role stage mounts it: the phase bar (`bar: { kind: 'phase', icon: 'players', title, sub, timer }`), no tab bar, its reconnecting banner and its toast.
+- **The phone shell (0.2.0),** mounted inside the component as the role stage mounts it: the phase bar (`bar: { kind: 'phase', icon: 'players', title, sub, timer: { remainingMs, urgentAtMs: 5000 } }`), no tab bar, the phone's canvas behind it (`backdrop: 'canvas'`), its reconnecting banner and its toast.
 - **The kit (0.5.1):** `grid9` and `cell` for the nine (available, selected, confirmed, taken; the check mark; the note), `portrait` for the foot, `pill` for "Yours", the spinner and the control policy.
 
 ## Mount, update and dispose
@@ -48,29 +57,42 @@ import { mountCharacterSelect } from '…/design/phone-ui/components/character-s
 import '…/design/phone-ui/components/character-select/character-select.css';
 
 const choose = mountCharacterSelect(host, input, handlers);
-choose.layout();               // { size, safe: { top, bottom } }, as the shell's
+choose.layout();               // { size, bars, safe }, the shell's
 choose.update({ ...changes }); // each key given replaces that key; the rest stay; the clock is given each tick
 choose.dispose();              // safe twice; afterwards nothing fires and layout() is null
 ```
 
-- **On update,** each character's cell keeps its element and the focus, by its id, through clock ticks and changes of holder.
+- **On update,** each character's cell keeps its element and the focus, by its id, through clock ticks, changes of holder, this phone's own choice and a new order. A focused cell that ends moves the focus to the screen, and `onFocusReturn({ intent: 'choose', value })` says which, once.
+- `host` is filled by the screen: position it and give it the phone's size.
 
 ## Inputs
 
 | Input | Audience | What |
 | --- | --- | --- |
-| `status`, `interactive`, `reducedMotion`, `insets`, `viewer`, `versions` | Phone | As the shell's and the role stage's; `versions` for the portraits |
-| `characters` | Public | The nine, in the grid's order: `[{ id, name }]`, from Frontend's crew data (question 1) |
-| `timer` | Public | `{ remainingMs }` from the server's setup clock, given each tick, or `null` when it is not trusted. Amber from 5 s, as sheet 16 draws it |
-| `closed` | Public | `true` once the server's 30 seconds are over: "Time is up", and every character not this phone's dimmed (question 2) |
+| `status`, `interactive`, `reducedMotion`, `insets`, `viewer`, `versions` | Phone | As the shell's and the role stage's (`live`, `stale` or `concealed`); `versions` for the portraits |
+| `characters` | Public | The nine, in the grid's order: `[{ id, name }]`, from Frontend's crew data (decision 1). Nine, or none yet; a missing name is refused |
+| `timer` | Public | `{ remainingMs }` from the server's setup clock, given each tick, or `null` when it is not trusted (no clock). Amber from 5 s, as sheet 16 draws it |
+| `closed` | Public | `true` once the server's 30 seconds are over: "Time is up", and every character not this phone's dimmed and refused (decision 2) |
 | `holders` | Public | `{ [characterId]: seat }`: who holds each character other than this phone, "Taken · 2" |
-| `mine` | This viewer's | `null`, or `{ id, state: 'saving' \| 'confirmed' \| 'assigned' }`: this phone's character and how it stands |
-| `choose` | This viewer's | `{ enabled, reason }`: whether this phone may choose now, the server's offer |
-| `toast` | This viewer's | `null`, or `{ id, text, icon }`: "Assigned: Juno", in Frontend's words (`CHOOSE_WORDS.assigned(name)`), through the shell's toast |
+| `mine` | This viewer's | `null`, or `{ id, state: 'saving' \| 'confirmed' \| 'assigned' }`: this phone's character and how it stands. Drawn as this phone's even if a holder is given for it |
+| `choose` | This viewer's | `{ enabled, reason }`: whether this phone may choose now, the server's offer. Off by default |
+| `toast` | This viewer's | `null`, or `{ id, text, icon }`: "Assigned: Juno", in Frontend's words (`CHOOSE_WORDS.assigned(name)`), through the shell's toast; the info icon by default |
 
-**The screen decides nothing:** it never works out whether a character is free, when the time ends, or what is assigned. A refused character keeps its focus, with `aria-disabled` and Frontend's reason; a taken one is refused with "Taken by player 2" as its name says.
+**The screen decides nothing:** it never works out whether a character is free, when the time ends, or what is assigned.
 
-**When the viewer changes** (another person picks up the phone), this phone's choice and its toast are dropped until Frontend gives the new viewer's, as the role stage does.
+| A cell | Drawn | A tap |
+| --- | --- | --- |
+| Free, offered | Available | `onChoose(id)` |
+| Free, not offered | Available (not dimmed) | Refused, with Frontend's `choose.reason` as its description |
+| Held by another seat | Taken: dimmed, "Taken · 2" | Refused: "Taken by player 2" |
+| Not this phone's, `closed` | Taken: dimmed (with "Taken · 2" if held) | Refused: "Time is up" (or who holds it) |
+| This phone's, saving | Selected: ringed amber, "Saving…"; busy | Refused (busy) |
+| This phone's, confirmed or assigned | Confirmed: ringed, the check, "Yours" or "Assigned" | Nothing: not refused, not dimmed, no report |
+| Any, while reconnecting, concealed or not interactive | As above | Refused (reconnecting: the banner's words) |
+
+Each refused cell keeps its focus (`aria-disabled`, never `disabled`). Each cell's accessible name is the pack's: "Vega", "Atlas, taken by player 2", "Nova, yours"; this phone's own is `aria-pressed`. The grid is a group named "Characters". The foot's line is said as it changes (`aria-live="polite"`).
+
+**When the viewer changes** (another person picks up the phone), this phone's choice, its saving state, the offer and the toast are dropped until Frontend gives the new viewer's in the same update. While concealed they are dropped too, refused if given, and come back only when given again.
 
 ## Callbacks
 
@@ -87,27 +109,38 @@ Each reports a tap, and only that.
 | Part | Drawn (sheet 16) |
 | --- | --- |
 | Top bar | The shell's phase bar: the players icon, "Choose a character" and its line ("Assigned for you if time runs out", or "Time is up"), the clock, amber from 0:05 |
-| The grid | The kit's 3 × 3 grid, 12 px under the bar: each cell the portrait and the name in capitals; free, taken (dimmed, "Taken · 2"), saving (ringed amber, "Saving…"), yours (ringed, the check, "Yours") or assigned ("Assigned") |
-| The foot | At the bottom: the 52 px portrait (or the empty tile with the players icon), the name in bold and the line under it ("Tap one to choose", the spinner and "Saving your choice", "Tap another to change" or "Assigned automatically"), and the amber "✓ Yours" pill once confirmed |
+| The grid | The kit's 3 × 3, 12 px under the bar and 16 px in: each cell the portrait (to 100 px) and the name in capitals, no seat number; free, taken (dimmed, "Taken · 2"), saving (ringed amber, "Saving…"), yours (ringed, the check, "Yours") or assigned ("Assigned") |
+| The foot | 16 px above the bottom safe area: the 52 px portrait (or the empty tile with the players icon), the name in bold and the line under it ("Tap one to choose", the spinner on its own line and "Saving your choice", "Tap another to change" or "Assigned automatically"), and the amber "✓ Yours" pill once confirmed |
 | The toast | The shell's toast, "Assigned: Juno", with the info icon |
-| Larger text | The kit's grid at larger text (its names and notes under the portraits), and the foot's words wrap |
+| Larger text | At the Large text (150 %) the 3 × 3 with every name whole; at the Largest (200 %) the kit's list, every name whole; the screen scrolls to the foot |
 
-**Motion:** the spinner while saving, and the shell's toast; with Reduce motion they don't move.
+**Motion:** the spinner while saving, and the shell's toast; with Reduce motion (the game's or the device's) the spinner stands still.
+
+### Against the pack
+
+The agreement draws the frozen pack's `ENTRY_SCREENS.choose` beside the screen and compares, to within half a pixel, the bar, the grid, every cell, its portrait, name, note and mark, the foot, the spinner, the pill and the toast: their boxes, words, looks, states (`aria-disabled`, `aria-busy`, `aria-pressed`, `aria-label`, `data-state`, `data-urgent`), icon drawings and the portrait files.
+
+- **Accepted, at the Largest text only:** the kit's 3 × 3 sits in its container (`.ms-k-grid-wrap`, the pack's own `.grid-wrap` rule), so where it has under 13 of its em across it becomes a list, every name whole, as the pack's rosters do. The pack's choose grid is not in a `.grid-wrap`, so it keeps the 3 × 3 with each name cut to a letter or two. The case puts the pack's grid in a `.grid-wrap`, compares everything else as usual, and records the list against the pack as it is.
+- **The shell's, recorded:** the phase bar's glyph is drawn at 22 px by the phone shell (`phone-shell.css .ms-ps-glyph .ms-ps-ic`) and at the icons' 24 px default by the pack; the same drawing, centred alike. It is compared by its drawing and centre, and recorded; it is the shell's to settle (raised with the Lead), not this screen's.
+
+## Check
+
+`node design/tools/character-select-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the five of sheet 16, time up after a choice, choosing not offered, reconnecting, and the Large and Largest text. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
+
+The result is recorded in `review/check.json`, with the source commit.
 
 ## Frontend's connection
 
 1. Mount the screen when the session's status is `choosing`; dispose it when the role stage starts.
-2. Give `characters` from its crew data, `holders` from the session's members (each other seat's `characterId`), `mine` from this seat's (`saving` while `chooseCharacter` is in flight), `choose` from today's `model.canChoose`, and the setup clock's remaining time each tick.
+2. Give `characters` from its crew data (`CREW[id].sign`), `holders` from the session's members (each other seat's `characterId`), `mine` from this seat's (`saving` while `chooseCharacter` is in flight), `choose` from today's `model.canChoose`, `closed` from the server, and the setup clock's remaining time each tick.
 3. Route `onChoose` to today's `chooseCharacter`.
 4. Today's choosing grid and its line leave the screen.
 
-## Questions for the Lead
+## Open with the Lead
 
-1. **The characters' names:** I propose Frontend gives the nine as `[{ id, name }]`, from its crew data (today's `CREW[id].sign`), in the order the grid draws them, rather than the component importing the crew data. Or should the component take the order and names from the hosted crew runtime, as the kit's portraits take their pictures?
-2. **Time is up:** sheet 16 dims every character but the assigned one, held or not. I propose `closed: true` does that, and refuses every cell, from the server's word only, never from the clock reaching 0:00.
-3. **Changing your mind:** the sheet says "Tap another to change". I propose a tap on another free character while one is yours reports `onChoose(id)`, and a tap on your own reports nothing. Is that right?
-4. **The foot's own styles:** `.choose-foot` and `.who` are drawn only on sheet 16, so I propose they are this component's own, not the kit's.
+- **Time is up after a choice:** sheet 16 draws "Time is up" only with an assigned character. With a character confirmed before the time ran out, the foot keeps sheet 16's confirmed words, "Tap another to change", while every other character is refused. Keep them, or show another line (which would be a departure, for the Lead and the owner)?
+- **The shell's glyph** (above): 22 px against the pack's 24 px, on every phase bar the shell draws.
 
 ## Not in this version
 
-Everything: this is the interface. Next, once the Lead approves it: the module and its styles, the preview's states, the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack, the test, and the owner's test page.
+The comparison through Frontend's native build (the `characters` part) waits for Frontend's PR that mounts the screen.
