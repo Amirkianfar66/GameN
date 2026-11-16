@@ -1,0 +1,3400 @@
+{
+  "tool": "design/tools/hacker-check.mjs",
+  "component": "design/phone-ui/components/hacker",
+  "sourceCommit": "3480eb27d74252b9e258503d5f60ac3496e49641",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/scan-choose": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-choose.jpg",
+      "sha256": "1d3197706ee51287012ac72e97a155749904cf08f979c0e086867c9458f6ff59",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "off": null,
+      "target": "Scan|Choose a player in your room",
+      "offered": 4,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-choose": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-choose.jpg",
+      "sha256": "4902cdad1a90747a4b371543177cd089d3eca870f98a857be3f33f5edcd30355",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "off": null,
+      "target": "Scan|Choose a player in your room",
+      "offered": 4,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-guess": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-guess.jpg",
+      "sha256": "3f6324fa45487ec70b10fcf06d6d42aeeb974fbcae1089aba1cb0d958ade02ba",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-guess": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-guess.jpg",
+      "sha256": "5dd91546374c0b9fdaa91d3ba26897283a26500a682ffc5c1821b98c9cddbf20",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-matched": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-matched.jpg",
+      "sha256": "f3fa516cd63b6ced7432fb2a047403a65a2b70e6d79d86c3effeeb8d9c59323b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "MATCHED",
+      "lines": "Gus · Blue guess",
+      "row": "In the Code|Yes",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Blue",
+        "MATCHED",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-matched": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-matched.jpg",
+      "sha256": "ed791ea26dfd883393f8e5324a844d8a9442e6db76898e0d0dd6420d32c1921a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "MATCHED",
+      "lines": "Gus · Blue guess",
+      "row": "In the Code|Yes",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Blue",
+        "MATCHED",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-confirm": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-confirm.jpg",
+      "sha256": "fb99a873f919ece77e52f5b6da61e4f17c4fb88176a52e4bedbc8193848960fd",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Back|Submit Code",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": true,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "One attempt for the whole match. It can’t be retried.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-confirm": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-confirm.jpg",
+      "sha256": "96b8da6ef3e95f350c5242f283643fdcd8805155eceddbebbbb4f2ffe2554147",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Back|Submit Code",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": true,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "One attempt for the whole match. It can’t be retried.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-correct": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-correct.jpg",
+      "sha256": "e05cb16cef142012d6d3739e20b88a3822adf1a3357ce7ce9cb3b4dd79b81629",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "code-result",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "CODE CORRECT",
+      "lines": "Hack Spaceship is unlocked|Using it is a separate action on your turn",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-correct": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-correct.jpg",
+      "sha256": "2194771ec4fc6998e1693f202d8d4a95be3b460d98133ff81f0ef06f506e6c54",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "code-result",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "CODE CORRECT",
+      "lines": "Hack Spaceship is unlocked|Using it is a separate action on your turn",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-nomatch": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-nomatch.jpg",
+      "sha256": "4e1a21b3462b263832a0843b079c0422d153543adcc2f3e4227d7bcdf5ef2e9c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO MATCH",
+      "lines": "Gus · Red guess",
+      "row": "Scan|Blocked in Round 4",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-nomatch": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-nomatch.jpg",
+      "sha256": "a4d4a065a2bd6df40c1699be504b8f15941ea0ebc2dd74c71e66c10accd56879",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO MATCH",
+      "lines": "Gus · Red guess",
+      "row": "Scan|Blocked in Round 4",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-pick": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-pick.jpg",
+      "sha256": "90e447239606661ecbe416ed644afec5b389d9a2fc7eb34df95e3b20b06a69fe",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-pick": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-pick.jpg",
+      "sha256": "a0a540d3938779deabc6f9a4614c01970886ea9aec6eb30d17d821fbd02e9e3a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-wrong": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-wrong.jpg",
+      "sha256": "63679eb0dd147816650d546258222c6763048e80d999951d499fac5d04ba372f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "code-result",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "CODE WRONG",
+      "lines": "Your one attempt is used|Scan stays available",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Final Code",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-wrong": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-wrong.jpg",
+      "sha256": "e368309628593a89f77240776a145129a9d08f352310bde46b23b3a492ba6ff8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "code-result",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "CODE WRONG",
+      "lines": "Your one attempt is used|Scan stays available",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Final Code",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-no-guess": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-no-guess.jpg",
+      "sha256": "ee3f3b97b89d44b47e49b19c73d06c6e640a0e6e0a6dc2480b3b2a4cb5a22bef",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": "Scan",
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:false,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-no-guess": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-no-guess.jpg",
+      "sha256": "99c1ea0d1d25b46212d181b6685e00cd62e4adce9c63aa2d6c91e0280ea5050e",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": "Scan",
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:false,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-sending": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-sending.jpg",
+      "sha256": "39f02c53f0502ed2c31d184a82edfa1e46272867dbe22339c5a696c7706180c2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scanning…",
+      "off": "Cancel",
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": true,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-sending": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-sending.jpg",
+      "sha256": "4bd66cb8eeeb86fc683b723ef48d88a0b65a8a5a870beab49e577c42a39b94a7",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scanning…",
+      "off": "Cancel",
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": true,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-error": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-error.jpg",
+      "sha256": "143fd6f1d54d9e8b9d9ac74087722d3fd7fdbffa45febb1fd1c6dbae1128f2e1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": "The server did not accept the scan. Check the player, then scan again.",
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-error": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-error.jpg",
+      "sha256": "e8b4904ec0de72d128ea94c8ae3f018a52528147d3e607cdc460be3bc32dd683",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": "The server did not accept the scan. Check the player, then scan again.",
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-not-in-code": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-not-in-code.jpg",
+      "sha256": "4cf9f6dadcdbf2cc0e2dfcda283cc6542840a14f3e3b8a68b4efcccd7078403a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "MATCHED",
+      "lines": "Gus · Blue guess",
+      "row": "In the Code|No",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Blue",
+        "MATCHED",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-not-in-code": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-not-in-code.jpg",
+      "sha256": "8a6fcce7c0d8866a4398d217ea38e9a51f03c50f62f16aa59c162feb2f2bd112",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "MATCHED",
+      "lines": "Gus · Blue guess",
+      "row": "In the Code|No",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Blue",
+        "MATCHED",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/scan-nomatch-free": {
+      "file": "design/phone-ui/components/hacker/review/390x844-scan-nomatch-free.jpg",
+      "sha256": "125a13767f861d4ed313107144764a05c66e170a09cb0a0ed35216de4252b885",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO MATCH",
+      "lines": "Gus · Alien guess",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/scan-nomatch-free": {
+      "file": "design/phone-ui/components/hacker/review/430x932-scan-nomatch-free.jpg",
+      "sha256": "a763c32f8906b76fcc7ce8cac6750247c7184885059e2722ca2ad54fec731933",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO MATCH",
+      "lines": "Gus · Alien guess",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-two": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-two.jpg",
+      "sha256": "379525920dc799f827256f78a22dbe90541ba243452d6b5277e9dbd0e7eba901",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": "Next",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-two": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-two.jpg",
+      "sha256": "04e02f64907212dcd3cc0d4f08ecb50fe1f0953146d254b71ab31de793700151",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": "Next",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-sending": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-sending.jpg",
+      "sha256": "8c138c7597e088a76e82d2cc79e7c9eac2cf768b91cc30a5deedf8ed441113bc",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Back|Submitting…",
+      "off": "Back",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": true,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "One attempt for the whole match. It can’t be retried.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-sending": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-sending.jpg",
+      "sha256": "a10c685b40c61b755a3929d76fce3b72ba5d3a4f7c05eadd703db831d6c22a2a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Back|Submitting…",
+      "off": "Back",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": true,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "One attempt for the whole match. It can’t be retried.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-error": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-error.jpg",
+      "sha256": "1e719a91879139114148d62b6e01e60c2a868a0c84eba2b47feb94a3855da422",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Back|Submit Code",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": true,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "One attempt for the whole match. It can’t be retried.",
+      "error": "The server did not accept the Code. Check your four, then submit again.",
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-error": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-error.jpg",
+      "sha256": "895ed27b0a5db7eb9e146681d08e098d4590a0a5225c72892f9064aed801272f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Back|Submit Code",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": true,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "One attempt for the whole match. It can’t be retried.",
+      "error": "The server did not accept the Code. Check your four, then submit again.",
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-not-offered": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-not-offered.jpg",
+      "sha256": "15b75f2d0ebea0742cbe3aad00aa31603c42142901eeb9c3ce7fcb0238382c2d",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": "Next",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2",
+      "you": "4",
+      "unoffered": "3,9",
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-not-offered": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-not-offered.jpg",
+      "sha256": "b2c72345af22d32edd5e13a60a827f461e8743f0b9acb31ced8ed1c574614091",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": "Next",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2",
+      "you": "4",
+      "unoffered": "3,9",
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code-eight": {
+      "file": "design/phone-ui/components/hacker/review/390x844-code-eight.jpg",
+      "sha256": "8df2bf1bc44fd7a0ed1879300bb02c3b4ee6b68192fa9de50b3ab1af3f146736",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": "Next",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3",
+      "you": "4",
+      "unoffered": null,
+      "empty": 1,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code-eight": {
+      "file": "design/phone-ui/components/hacker/review/430x932-code-eight.jpg",
+      "sha256": "1bc86d6f3ca03c3488e146c426d208585ed80019f2bf1931f483235aadfd6f60",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": "Next",
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3",
+      "you": "4",
+      "unoffered": null,
+      "empty": 1,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/hacker/review/390x844-stale.jpg",
+      "sha256": "a6234ebd3da2e2b282918ced5cba2060e09eb3abcb232bfea19bd5cc383e4952",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "stale",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": "Scan",
+      "target": null,
+      "offered": 0,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": true,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": "Connection lost",
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/hacker/review/430x932-stale.jpg",
+      "sha256": "8353d783403b6943a011e502576068a37a876a6faef5c3953f611614227a5ba8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "stale",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": "Scan",
+      "target": null,
+      "offered": 0,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": true,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": "Connection lost",
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/hacker/review/390x844-concealed.jpg",
+      "sha256": "039658d724e9e54723261c9d3a560ca18a733d75c92c154c95c5873cf83144f4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/hacker/review/430x932-concealed.jpg",
+      "sha256": "655961c4e3dcb7e0b9408a04a177e76a1936980f86a29381cd2746bfe989efe2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "320x568/small-code": {
+      "file": "design/phone-ui/components/hacker/review/320x568-small-code.jpg",
+      "sha256": "c354c94a1befd49d25db477a1c8d7cdf9fa4ba1ec045a840648a1f146872c50f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 3,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/large-guess": {
+      "file": "design/phone-ui/components/hacker/review/390x844-large-guess.jpg",
+      "sha256": "e945afa65a575e93938fdedac995433523b8dfc25a040857544465609b7e19bf",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-guess": {
+      "file": "design/phone-ui/components/hacker/review/320x568-largest-guess.jpg",
+      "sha256": "8f24f8a9619a0fc551c8472567d12b01cc22acc25cbdb824e30fefe08e6591b6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-guess",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Cancel|Scan",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": "Scan Gus|Guess a side. A wrong guess also blocks your next round.",
+      "guesses": "Blue:true,Red:false,Alien:false",
+      "refused": false,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Guess",
+        "Blue",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-result": {
+      "file": "design/phone-ui/components/hacker/review/320x568-largest-result.jpg",
+      "sha256": "38b157c672393f340c2a8b9f97efff14b4bd36575fbfb00b9b0484ad4fa5812a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "scan-result",
+      "status": "live",
+      "sheet": "Scan",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 1,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO MATCH",
+      "lines": "Gus · Red guess",
+      "row": "Scan|Blocked in Round 4",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Scan",
+        "Gus",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-code": {
+      "file": "design/phone-ui/components/hacker/review/320x568-largest-code.jpg",
+      "sha256": "a73fffaede47072889d7fd7918c5a190f0aed8f51ddae156086078cc7e0e0efa",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "final-code",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Next",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": false,
+      "picks": "2:Pick 1,5:Pick 2,6:Pick 3,8:Pick 4",
+      "you": "4",
+      "unoffered": null,
+      "empty": null,
+      "perRow": 1,
+      "line": "Choose four players. Order doesn’t matter.",
+      "error": null,
+      "stamp": null,
+      "lines": null,
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Pick",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-outcome": {
+      "file": "design/phone-ui/components/hacker/review/320x568-largest-outcome.jpg",
+      "sha256": "103cdff8c3b69d30a6911cda42d83ea5624fbd3dfad95ef79bc91bd193b4778d",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "code-result",
+      "status": "live",
+      "sheet": "Final Code",
+      "sub": "Only on this phone",
+      "footer": "Done",
+      "off": null,
+      "target": null,
+      "offered": 0,
+      "who": null,
+      "guesses": null,
+      "refused": null,
+      "picks": null,
+      "you": null,
+      "unoffered": null,
+      "empty": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "CODE CORRECT",
+      "lines": "Hack Spaceship is unlocked|Using it is a separate action on your turn",
+      "row": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Gus",
+        "Final Code",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "guess",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "none": [
+              "false",
+              "false",
+              "false"
+            ],
+            "told": [
+              "Blue",
+              "Red",
+              "Alien"
+            ],
+            "unchanged": [
+              "false",
+              "false",
+              "false"
+            ],
+            "red": [
+              "false",
+              "true",
+              "false"
+            ],
+            "kept": true,
+            "role": "radiogroup",
+            "label": "Guess",
+            "words": [
+              "Blue",
+              "Red",
+              "Alien"
+            ],
+            "places": [
+              "0",
+              "1",
+              "2"
+            ]
+          }
+        },
+        {
+          "id": "picks",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "told": [
+              "seat-2",
+              "seat-5",
+              "seat-6",
+              "seat-8"
+            ],
+            "drawn": {
+              "1": [
+                "available",
+                "false",
+                "",
+                false,
+                null
+              ],
+              "2": [
+                "selected",
+                "true",
+                "Pick 2",
+                true,
+                null
+              ],
+              "4": [
+                "available",
+                "false",
+                "",
+                false,
+                null
+              ],
+              "5": [
+                "selected",
+                "true",
+                "Pick 3",
+                true,
+                null
+              ],
+              "6": [
+                "selected",
+                "true",
+                "Pick 4",
+                true,
+                null
+              ],
+              "8": [
+                "selected",
+                "true",
+                "Pick 1",
+                true,
+                null
+              ]
+            },
+            "more": [
+              "seat-2",
+              "seat-1"
+            ],
+            "kept": true,
+            "you": [
+              "4"
+            ],
+            "names": [
+              "Player 8, Hana, Pick 1",
+              "Player 1, Ava"
+            ],
+            "notOffered": {
+              "state": "ineligible",
+              "note": "Not available now",
+              "disabled": "true",
+              "taps": 0,
+              "name": "Player 3, Cleo, Not available now"
+            },
+            "empty": {
+              "cells": 9,
+              "ninth": "empty",
+              "hidden": "true"
+            }
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "scanSending": {
+              "taps": 0,
+              "disabled": "true,true,true"
+            },
+            "codeSending": 0,
+            "confirm": {
+              "taps": 0,
+              "dimmed": 0
+            },
+            "notInteractive": 0,
+            "stale": {
+              "picks": 0,
+              "guesses": 0,
+              "why": [
+                "Controls return when the match is current",
+                "Controls return when the match is current"
+              ]
+            }
+          }
+        },
+        {
+          "id": "results",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": {
+              "scan-matched": {
+                "stamp": "MATCHED",
+                "tone": "amber",
+                "lines": [
+                  "Gus · Blue guess"
+                ],
+                "row": [
+                  "In the Code",
+                  "Yes",
+                  "paper"
+                ],
+                "status": "status"
+              },
+              "scan-not-in-code": {
+                "stamp": "MATCHED",
+                "tone": "amber",
+                "lines": [
+                  "Gus · Blue guess"
+                ],
+                "row": [
+                  "In the Code",
+                  "No",
+                  "paper"
+                ],
+                "status": "status"
+              },
+              "scan-nomatch": {
+                "stamp": "NO MATCH",
+                "tone": null,
+                "lines": [
+                  "Gus · Red guess"
+                ],
+                "row": [
+                  "Scan",
+                  "Blocked in Round 4",
+                  "steel"
+                ],
+                "status": "status"
+              },
+              "scan-nomatch-free": {
+                "stamp": "NO MATCH",
+                "tone": null,
+                "lines": [
+                  "Gus · Alien guess"
+                ],
+                "row": null,
+                "status": "status"
+              },
+              "code-correct": {
+                "stamp": "CODE CORRECT",
+                "tone": "amber",
+                "lines": [
+                  "Hack Spaceship is unlocked",
+                  "Using it is a separate action on your turn"
+                ],
+                "row": null,
+                "status": "status"
+              },
+              "code-wrong": {
+                "stamp": "CODE WRONG",
+                "tone": null,
+                "lines": [
+                  "Your one attempt is used",
+                  "Scan stays available"
+                ],
+                "row": null,
+                "status": "status"
+              }
+            },
+            "changed": [
+              "NO MATCH",
+              "Blocked in Round 4",
+              1
+            ],
+            "gone": 0
+          }
+        },
+        {
+          "id": "words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "bar": {
+              "icon": "scan",
+              "title": "Scan",
+              "sub": "Choose a player in your room"
+            },
+            "said": [
+              [
+                "scan",
+                "Scan",
+                "Only on this phone",
+                false,
+                null,
+                "cancel:Cancel:local|scan:Scan:scan:off"
+              ],
+              [
+                "scan",
+                "Scan",
+                "Only on this phone",
+                false,
+                null,
+                "cancel:Cancel:local|scan:Scan:scan"
+              ],
+              [
+                "scan",
+                "Scan",
+                "Only on this phone",
+                false,
+                null,
+                "cancel:Cancel:local:off|scan:Scanning…:scan:busy"
+              ],
+              [
+                "scan",
+                "Scan",
+                "Only on this phone",
+                false,
+                null,
+                "done:Done:local"
+              ],
+              [
+                "code",
+                "Final Code",
+                "Only on this phone",
+                false,
+                "large",
+                "next:Next:local:off"
+              ],
+              [
+                "code",
+                "Final Code",
+                "Only on this phone",
+                false,
+                "large",
+                "next:Next:local"
+              ],
+              [
+                "code",
+                "Final Code",
+                "Only on this phone",
+                false,
+                "large",
+                "back:Back:local|submit:Submit Code:code"
+              ],
+              [
+                "code",
+                "Final Code",
+                "Only on this phone",
+                false,
+                "large",
+                "back:Back:local:off|submit:Submitting…:code:busy"
+              ],
+              [
+                "code",
+                "Final Code",
+                "Only on this phone",
+                false,
+                "large",
+                "done:Done:local"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "footer",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "live": {
+              "guess": {
+                "taken": [
+                  "scan:cancel",
+                  "scan:scan"
+                ],
+                "why": {
+                  "cancel": null,
+                  "scan": null
+                }
+              },
+              "result": {
+                "taken": [
+                  "scan:done"
+                ],
+                "why": {
+                  "done": null
+                }
+              },
+              "pick": {
+                "taken": [
+                  "code:next"
+                ],
+                "why": {
+                  "next": null
+                }
+              },
+              "confirm": {
+                "taken": [
+                  "code:back",
+                  "code:submit"
+                ],
+                "why": {
+                  "back": null,
+                  "submit": null
+                }
+              },
+              "done": {
+                "taken": [
+                  "code:done"
+                ],
+                "why": {
+                  "done": null
+                }
+              }
+            },
+            "stale": {
+              "guess": {
+                "taken": [
+                  "scan:cancel"
+                ],
+                "why": {
+                  "cancel": null,
+                  "scan": "Controls return when the match is current"
+                }
+              },
+              "result": {
+                "taken": [
+                  "scan:done"
+                ],
+                "why": {
+                  "done": null
+                }
+              },
+              "pick": {
+                "taken": [
+                  "code:next"
+                ],
+                "why": {
+                  "next": null
+                }
+              },
+              "confirm": {
+                "taken": [
+                  "code:back"
+                ],
+                "why": {
+                  "back": null,
+                  "submit": "Controls return when the match is current"
+                }
+              },
+              "done": {
+                "taken": [
+                  "code:done"
+                ],
+                "why": {
+                  "done": null
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "audience",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": {
+              "scan-guess": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "scan-matched": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "scan-not-in-code": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "scan-nomatch": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "scan-nomatch-free": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "code-pick": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "code-confirm": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "code-not-offered": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "code-eight": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "code-correct": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              },
+              "code-wrong": {
+                "sharedParts": 0,
+                "sharedWords": false,
+                "otherParts": 0,
+                "otherWords": false,
+                "handedWords": false
+              }
+            }
+          }
+        },
+        {
+          "id": "leaks",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hits": [],
+            "console": [],
+            "onLayout": [],
+            "callbacks": [],
+            "layoutsSeen": 17,
+            "callbacksSeen": 24
+          }
+        },
+        {
+          "id": "inputs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "errors": [
+              [
+                "an unknown key",
+                true
+              ],
+              [
+                "a guess that is not a side",
+                true
+              ],
+              [
+                "a target without a name",
+                true
+              ],
+              [
+                "a match without inCode",
+                true
+              ],
+              [
+                "inCode without a match",
+                true
+              ],
+              [
+                "a match that blocks a round",
+                true
+              ],
+              [
+                "a round that is not one",
+                true
+              ],
+              [
+                "a result without its target",
+                true
+              ],
+              [
+                "five picks",
+                true
+              ],
+              [
+                "a pick twice",
+                true
+              ],
+              [
+                "a pick not offered",
+                true
+              ],
+              [
+                "a pick not in the match",
+                true
+              ],
+              [
+                "the confirm step without four",
+                true
+              ],
+              [
+                "a person twice",
+                true
+              ],
+              [
+                "correct that is not true or false",
+                true
+              ],
+              [
+                "a sheet step that is not one",
+                true
+              ],
+              [
+                "a count that is not one",
+                true
+              ],
+              [
+                "an unknown key in an update",
+                true
+              ]
+            ],
+            "idempotent": true
+          }
+        },
+        {
+          "id": "private",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": {
+              "scan-guess": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "scan-matched": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "scan-nomatch": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "code-confirm": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "code-correct": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "code-wrong": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              }
+            }
+          }
+        },
+        {
+          "id": "focus",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "guess": {
+              "onRoot": true,
+              "returned": [
+                {
+                  "intent": "guess",
+                  "value": "2"
+                }
+              ]
+            },
+            "code": {
+              "onRoot": true,
+              "returned": [
+                {
+                  "intent": "pick",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "text",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "guess": {
+              "row": true,
+              "whole": true,
+              "who": true
+            },
+            "code": {
+              "list": true,
+              "whole": true,
+              "tall": true,
+              "names": true
+            },
+            "result": {
+              "whole": true
+            },
+            "large": {
+              "perRow": 3
+            }
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": false,
+            "taps": 0,
+            "body": 0
+          }
+        },
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "scan-guess": [],
+              "scan-guess reduced": [],
+              "scan-matched": [],
+              "scan-matched reduced": [],
+              "code-pick": [],
+              "code-pick reduced": [],
+              "code-correct": [],
+              "code-correct reduced": []
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "scan-guess": [],
+              "scan-guess reduced": [],
+              "scan-matched": [],
+              "scan-matched reduced": [],
+              "code-pick": [],
+              "code-pick reduced": [],
+              "code-correct": [],
+              "code-correct reduced": []
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dzs7WVlX.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: scan-choose (scan&state=target)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: scan-guess (scan&state=guess)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: scan-matched (scan&state=result)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: scan-nomatch (scan&state=wrong)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: code-pick (code&state=pick)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: code-confirm (code&state=confirm)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: code-correct (code&state=correct)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: code-wrong (code&state=wrong)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-Dzs7WVlX.js",
+        "line": 1,
+        "column": 6050,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
