@@ -124,7 +124,7 @@ The agreement draws the frozen pack's `host-controls` screen beside the sheet (i
 
 `node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, and the revealed code at the Largest text; each asserts the code is in the page only while revealed. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-The result is recorded in `review/check.json`, with the source commit.
+**Recorded against `56d35ed7` (clean, with the shell 0.2.4):** 20 of 20 captures, the probe 22 of 22 checks (21 as the page comes, the motion check with the device's Reduce motion), and the agreement 9 of 9, with no unexpected policy report and no page problem; the code in the page only in the revealed captures. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
 
 ## Frontend's connection
 
