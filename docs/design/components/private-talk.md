@@ -234,14 +234,15 @@ Accepted by the Lead on 16 November (1 to 7 as built; 8 decided). Each follows t
 
 ## Checks run on this version
 
-At `808f4dcb`, with the source clean (the components, the hosted drawings, the room, capsule and crew pictures, and the tool):
+At `dbac4888` (the Lead's follow-ups, on shell 0.2.6), with the source clean (the components, the hosted drawings, the room, capsule and crew pictures, and the tool):
 - **`node design/tools/private-talk-check.mjs`,** on the shared `design/tools/lib/component-check.mjs`, under the production headers (SHA-256 `424e5dec…`):
   - **Captures:** 42 of 42: eighteen states at 390 × 844 and 430 × 932, and six at 320 × 568 (the small phone, and the Largest text there). Concealed, no private word is in the page; on a third phone, the pair bar and the room only.
-  - **Probe:** 14 of 14: declare, refused, claim, wait, capsule, audience, private, leaks, inputs, focus, text, dispose and motion, plus motion again with the device's Reduce motion. The Lead's five privacy points are audience, private and leaks: no side or claim in any attribute of any state's whole phone, in the console, in `onLayout` or in a callback but `onSide`; "Not for your role" only on the declarer's phone.
+  - **Probe:** 15 of 15: declare, refused, claim, wait, capsule, covered, audience, private, leaks, inputs, focus, text, dispose and motion, plus motion again with the device's Reduce motion. The Lead's five privacy points are audience, private and leaks: no side or claim in any attribute of any state's whole phone, in the console, in `onLayout` or in a callback but `onSide`; "Not for your role" only on the declarer's phone. `covered`: at 200 % on 320 × 568 the band is 128 px and both tags end 4 px above it; at the Standard text on 390 × 844 (band 102) and 320 × 568 (band 68) the tags stay where the pack has them.
   - **Agreement with the pinned pack's own `talk()` frames:** 4 of 4 (declare with the role's own side and with any side, the claim, the talk), with no differing part and no word amended: the pair bar, the sheet and its footer, who, each card's place, state, choice, words, lock, art and look, the line under the cards, the claim's card, and the capsule's pictures, the two seated, their tags, the ambient and the talk's two buttons, each to within half a pixel.
-  - **The tool exits 0.** `private-talk.test.mjs` checks the record: every capture and its hash, every probe check, the privacy details, every frame.
+  - **The tool exits 0.** `private-talk.test.mjs` checks the record: every capture and its hash, every probe check, the privacy details, the covered band, every frame.
+  - **Against `0b4da23f`'s captures:** `320x568-largest-talk` (the talk's buttons a row each, the tags above them); the four no-declaration claims (the line under "No side declared"); both reconnecting captures (the bar's glyph at 24 px, shell 0.2.2). A few others differ by under 330 pixels, where the crew's idle motion was caught at another moment.
 - **`private-talk.test.mjs`** 8 of 8 and **`play-parts.test.mjs`** 5 of 5.
 - **Actions on `play-parts-0.2.0`:** Actions' probe 14 of 14 and its agreement with all its frames, run on this branch: the parts' new options leave its drawing as it was.
-- **On `808f4dcb`:** `npm run build` passes; `test:design` 404 of 405 before the record (the one, the record's own test), 405 of 405 with it.
-- **The owner's test page:** a private page, sent to the Lead, built from these files at the record's commit.
+- **On `dbac4888`:** `test:design` 405 of 405 with the record; on `808f4dcb`, `npm run build` passed.
+- **The owner's test page:** a private page, sent to the Lead, rebuilt from these files at the record's commit, to the same link.
 - **Not run:** physical phones, Safari, screen readers, frame rate, the real app's connection.
