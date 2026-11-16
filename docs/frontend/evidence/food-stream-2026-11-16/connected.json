@@ -1,0 +1,5160 @@
+{
+  "schema": "mothership.food-stream-browser-evidence/1",
+  "exactVisualReportSha256": "10fd1d45d5e636c9d2dd06e5bbcbee4af430ba2f4044ca7b38436a9090263b64",
+  "runtimeCandidate": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+  "unshapedBefore": {
+    "source": {
+      "file": "report-invitations-timed-lifecycle-silence.json",
+      "sha256": "1fbb2e06722cbd65d43fdd63b780af58f481536da4e4c7cd67079e7ebddd04c0",
+      "frontend": "d8f324f5d6c4427477456b56c5b45dbfb7152a1e",
+      "backend": "d4967a1aec0d967216da9adf99de5a23fa7e77f3",
+      "clean": true,
+      "backendStillIsolated": true,
+      "network": {
+        "method": "Unshaped loopback"
+      },
+      "browser": {
+        "product": "Chrome/157.0.8103.51",
+        "protocolVersion": "1.3"
+      },
+      "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+      "bundle": {
+        "index-DLMZnXmo.js": "3ae6544070db7fad221ea737fb6bee3e9d9e13c10a649dad94ec0a91a75519d4",
+        "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+      },
+      "backendInputs": {
+        "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+        "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+        "services/game-api/dist/planet-food-service.js": "4720ce063524511d22fe5ec1ecf9145e2e5a0a4e1fff59de56fb6cd3d39b62f4",
+        "services/game-api/dist/planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4",
+        "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+        "infra/firebase/dist/planet-food-stream.js": "a1f12542c3af1a37117e9a4caf9bb2f641f9fea9e31bfc99570b9599437ae546",
+        "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+        "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+        "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+        "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+        "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+        "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+      }
+    },
+    "cases": [
+      {
+        "name": "invitations",
+        "status": "passed",
+        "causalUpLeadMs": null,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 3,
+          "workerStarts": 2,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "crew-1": {
+            "read": 5,
+            "foodCommand": 2,
+            "foodClock": 1,
+            "foodWatch": 1
+          },
+          "crew-2": {
+            "read": 5,
+            "foodCommand": 2,
+            "foodClock": 1,
+            "foodWatch": 1
+          }
+        },
+        "surfaces": {
+          "crew-1": [
+            390,
+            844,
+            false
+          ],
+          "crew-2": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "crew-1": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 2,
+            "availability": [
+              {
+                "atMs": 483.9,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 790.7,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-tasks",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 890.3,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-partners",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 3572.1,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5581.2,
+                "fresh": false,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5648.2,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "TASK_ASK",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.8,
+                "receiptMs": 122.6,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "PENDING",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 119.9
+                  }
+                ]
+              },
+              {
+                "kind": "JOIN",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.1,
+                "receiptMs": 114.7,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "JOINED",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 112.6
+                  }
+                ]
+              }
+            ]
+          },
+          "crew-2": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 1,
+            "availability": [
+              {
+                "atMs": 463.9,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 3467.6,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-tasks",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 3534.3,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-partners",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5861.9,
+                "fresh": false,
+                "stage": null,
+                "screen": "food-partners",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5897,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "DECLINE",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.6,
+                "receiptMs": 114.1,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "DECLINED",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 111.6
+                  }
+                ]
+              },
+              {
+                "kind": "TASK_ASK",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.5,
+                "receiptMs": 117.5,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "PENDING",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 115
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "timed",
+        "status": "failed",
+        "error": "Timed out waiting for: native let-go cue",
+        "causalUpLeadMs": null,
+        "activity": {
+          "wakeEnqueues": 15,
+          "workerStarts": 5,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodClock": 1,
+            "foodWatch": 1,
+            "foodHeartbeat": 6,
+            "foodCommand": 1
+          },
+          "panel": {
+            "read": 1,
+            "foodClock": 1,
+            "foodWatch": 1,
+            "foodHeartbeat": 6,
+            "foodCommand": 2
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 10,
+            "availability": [
+              {
+                "atMs": 406.9,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4424.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4457.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 6665.8,
+                "fresh": true,
+                "stage": "ENDED",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 5.2,
+                "receiptMs": 294,
+                "frameMs": 282.1,
+                "effectDomMs": 287.4,
+                "effectRenderMs": 303.5,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 4,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 288.9
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 10,
+            "availability": [
+              {
+                "atMs": 235.1,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4255.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5067.2,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE"
+                ]
+              },
+              {
+                "atMs": 5100.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5294.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_LOCK"
+                ]
+              },
+              {
+                "atMs": 6222.9,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 6493.5,
+                "fresh": true,
+                "stage": "ENDED",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "PANEL_RELEASE",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 5.1,
+                "receiptMs": 193.8,
+                "frameMs": 147.3,
+                "effectDomMs": 153.6,
+                "effectRenderMs": 170.2,
+                "effect": "Panel moving",
+                "watchEpoch": 1,
+                "watchSequence": 6,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 188.7
+                  }
+                ]
+              },
+              {
+                "kind": "PANEL_LOCK",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 5.1,
+                "receiptMs": 291.9,
+                "frameMs": 265.2,
+                "effectDomMs": 275.6,
+                "effectRenderMs": 297.5,
+                "effect": "Panel locked",
+                "watchEpoch": 1,
+                "watchSequence": 10,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 286.8
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "lifecycle",
+        "status": "passed",
+        "hidden": true,
+        "newEpoch": true,
+        "upBeforeDownAck": true,
+        "causalUpLeadMs": 262.1,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 10,
+          "workerStarts": 3,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodClock": 2,
+            "foodWatch": 2,
+            "foodHeartbeat": 4,
+            "foodCommand": 6
+          },
+          "panel": {
+            "read": 1,
+            "foodClock": 1,
+            "foodWatch": 1,
+            "foodHeartbeat": 5
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 2,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 9,
+            "availability": [
+              {
+                "atMs": 373.3,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4405.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4439.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4464.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4694.3,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4782.9,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4892.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4913.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5256.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5270.7,
+                "fresh": false,
+                "stage": null,
+                "screen": null,
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5310.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5411.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5420.3,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.9,
+                "receiptMs": 291.5,
+                "frameMs": 254.5,
+                "effectDomMs": 263.7,
+                "effectRenderMs": 286.8,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 4,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 286.7
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": true,
+                "pointerEvent": "pointerup",
+                "pendingDomMs": 4.4,
+                "receiptMs": 334.8,
+                "frameMs": 317.9,
+                "effectDomMs": 323.1,
+                "effectRenderMs": 345.1,
+                "effect": "Hold cleared",
+                "watchEpoch": 1,
+                "watchSequence": 5,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 330.5
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "rejected",
+                "receiptCode": "STALE_RECOVERY",
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "rejected",
+                    "elapsedMs": 190.6
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.1,
+                "receiptMs": 142,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 137.9
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": "Hold cleared",
+                "watchEpoch": 2,
+                "watchSequence": 2,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 242.7
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 151.7
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 7,
+            "availability": [
+              {
+                "atMs": 207.8,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4240.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": []
+          }
+        }
+      },
+      {
+        "name": "silence",
+        "status": "passed",
+        "silence": {
+          "durationMs": 4501,
+          "withheldWrites": 2,
+          "panelHeartbeatAcks": 5,
+          "remainedLive": true,
+          "releaseStillEnabled": true
+        },
+        "causalUpLeadMs": null,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 13,
+          "workerStarts": 4,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodClock": 1,
+            "foodWatch": 1,
+            "foodHeartbeat": 10,
+            "foodCommand": 3
+          },
+          "panel": {
+            "read": 1,
+            "foodClock": 2,
+            "foodWatch": 2,
+            "foodHeartbeat": 10
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 7,
+            "availability": [
+              {
+                "atMs": 405.9,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4414.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4447.9,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5272,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5399.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5678.3,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.7,
+                "receiptMs": 286.6,
+                "frameMs": 247,
+                "effectDomMs": 252.5,
+                "effectRenderMs": 278.4,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 4,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 282.1
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": true,
+                "pointerEvent": "pointerup",
+                "pendingDomMs": 4.4,
+                "receiptMs": 142.2,
+                "frameMs": 127.3,
+                "effectDomMs": 132,
+                "effectRenderMs": 153.8,
+                "effect": "Hold cleared",
+                "watchEpoch": 1,
+                "watchSequence": 6,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 137.8
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 265.9
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 2,
+            "watchPulses": 0,
+            "staleWireFrames": 1,
+            "frames": 6,
+            "availability": [
+              {
+                "atMs": 236.8,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4245.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5027.2,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE"
+                ]
+              },
+              {
+                "atMs": 9598.9,
+                "fresh": false,
+                "stage": "ACTIVE",
+                "screen": null,
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 10140.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": []
+          }
+        }
+      }
+    ]
+  },
+  "firstShapedDiagnostic": {
+    "source": "6ddf6cae3442f9e461ddcfeb15b6272a1e978c33",
+    "backend": "262d99a9bdc934a8f3b7e679562d87ffd9cc56c6",
+    "status": "diagnostic-only",
+    "error": "Firestore client terminated during runner teardown before the aggregate report was written",
+    "captures": [
+      {
+        "file": "delivered-full-390x844.png",
+        "sha256": "4584f39463ba3267caa7d9e1a69e11b40b5c3ee8172c8f19845f4ce9b45a1d7f"
+      },
+      {
+        "file": "delivered-reduced-430x932.png",
+        "sha256": "6fb6eccb55930160203174acea1bdf1ba613f73013c8f5a198d37d92e0772604"
+      }
+    ]
+  },
+  "shapedBeforeCutoff": {
+    "source": {
+      "file": "report-invitations-timed-lifecycle-silence.json",
+      "sha256": "913e7ec6c6d3072ef0f8faa1f427bba4b4cc5eb3d48d508c80212671ae59aae6",
+      "frontend": "8dd3a832d5f6ef7eba371a051ffd8954507376ab",
+      "backend": "262d99a9bdc934a8f3b7e679562d87ffd9cc56c6",
+      "clean": true,
+      "backendStillIsolated": true,
+      "network": {
+        "nominalRttMs": 100,
+        "oneWayJitterMs": 10,
+        "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+      },
+      "browser": {
+        "product": "Chrome/157.0.8103.51",
+        "protocolVersion": "1.3"
+      },
+      "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+      "bundle": {
+        "index-BMe7rdhU.js": "8d6aa347f2a1071ede3dae56afe3eb0252b66c469ddad48b853426ac2ae0deeb",
+        "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+      },
+      "backendInputs": {
+        "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+        "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+        "services/game-api/dist/planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+        "services/game-api/dist/planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4",
+        "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+        "infra/firebase/dist/planet-food-stream.js": "a1f12542c3af1a37117e9a4caf9bb2f641f9fea9e31bfc99570b9599437ae546",
+        "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+        "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+        "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+        "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+        "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+        "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+      }
+    },
+    "cases": [
+      {
+        "name": "invitations",
+        "status": "passed",
+        "causalUpLeadMs": null,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 2,
+          "workerStarts": 1,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "crew-1": {
+            "read": 5,
+            "foodCommand": 2,
+            "foodWatch": 1,
+            "foodClock": 1
+          },
+          "crew-2": {
+            "read": 5,
+            "foodCommand": 2,
+            "foodClock": 1,
+            "foodWatch": 1
+          }
+        },
+        "surfaces": {
+          "crew-1": [
+            390,
+            844,
+            false
+          ],
+          "crew-2": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "crew-1": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 1,
+            "availability": [
+              {
+                "atMs": 570.8,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 851.5,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-tasks",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 917.2,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-partners",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 3799,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 6149.2,
+                "fresh": false,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 6292.8,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "TASK_ASK",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.6,
+                "receiptMs": 244.5,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "PENDING",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 242
+                  }
+                ]
+              },
+              {
+                "kind": "JOIN",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.2,
+                "receiptMs": 239,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "JOINED",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 236.8
+                  }
+                ]
+              }
+            ]
+          },
+          "crew-2": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 1,
+            "availability": [
+              {
+                "atMs": 554.9,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 3701.1,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-tasks",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 3767.2,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-partners",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 6410.5,
+                "fresh": false,
+                "stage": null,
+                "screen": "food-partners",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 6542.5,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "DECLINE",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.8,
+                "receiptMs": 207.7,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "DECLINED",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 205
+                  }
+                ]
+              },
+              {
+                "kind": "TASK_ASK",
+                "trusted": true,
+                "pointerEvent": "click",
+                "pendingDomMs": 2.6,
+                "receiptMs": 228,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": "PENDING",
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 225.4
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "timed",
+        "status": "passed",
+        "lock": {
+          "cueAtMs": 6285,
+          "cueStop": 6,
+          "cueNext": true,
+          "cueHazard": false,
+          "pointerAtMs": 6296.299999952316,
+          "pointerStop": 6,
+          "pointerNext": true,
+          "admissionAfterReleaseMs": 1209,
+          "appliedStop": 6,
+          "appliedOutcome": null
+        },
+        "causalUpLeadMs": null,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": true,
+          "activeOwner": false
+        },
+        "activity": {
+          "wakeEnqueues": 20,
+          "workerStarts": 14,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodWatch": 1,
+            "foodClock": 1,
+            "foodHeartbeat": 9,
+            "foodCommand": 4
+          },
+          "panel": {
+            "read": 1,
+            "foodWatch": 1,
+            "foodClock": 1,
+            "foodHeartbeat": 9,
+            "foodCommand": 3
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "PRE_TURN",
+            "foodStep": null,
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 16,
+            "availability": [
+              {
+                "atMs": 561.3,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4454.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4474.9,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 8550.3,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 8758,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 9612.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "KEY"
+                ]
+              },
+              {
+                "atMs": 9649.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 10204.2,
+                "fresh": true,
+                "stage": "ENDED",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 32789.2,
+                "fresh": true,
+                "stage": "ENDED",
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 32990,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [
+              "DELIVERED"
+            ],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 5,
+                "receiptMs": 337.2,
+                "frameMs": 293.9,
+                "effectDomMs": 299,
+                "effectRenderMs": 315.6,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 3,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 332.2
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": true,
+                "pointerEvent": "pointerup",
+                "pendingDomMs": 4.9,
+                "receiptMs": 249.6,
+                "frameMs": 206.9,
+                "effectDomMs": 212.7,
+                "effectRenderMs": 227.6,
+                "effect": "Hold cleared",
+                "watchEpoch": 1,
+                "watchSequence": 12,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 244.7
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 233.3
+                  }
+                ]
+              },
+              {
+                "kind": "KEY",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.7,
+                "receiptMs": 262.6,
+                "frameMs": 224.7,
+                "effectDomMs": 229.3,
+                "effectRenderMs": 240.8,
+                "effect": "Key turned",
+                "watchEpoch": 1,
+                "watchSequence": 14,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 258
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "PRE_TURN",
+            "foodStep": null,
+            "motions": "reduced",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 16,
+            "availability": [
+              {
+                "atMs": 364.4,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4302.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5123.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE"
+                ]
+              },
+              {
+                "atMs": 5160.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5409.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_LOCK"
+                ]
+              },
+              {
+                "atMs": 6301.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 6656.9,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE"
+                ]
+              },
+              {
+                "atMs": 8608.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 9440.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE",
+                  "KEY"
+                ]
+              },
+              {
+                "atMs": 9817.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 10055.1,
+                "fresh": true,
+                "stage": "ENDED",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 32617.9,
+                "fresh": true,
+                "stage": "ENDED",
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 32824,
+                "fresh": true,
+                "stage": null,
+                "screen": "food-room",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [
+              "DELIVERED"
+            ],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "PANEL_RELEASE",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.8,
+                "receiptMs": 248.9,
+                "frameMs": 231.5,
+                "effectDomMs": 237.4,
+                "effectRenderMs": 261.4,
+                "effect": "Panel moving",
+                "watchEpoch": 1,
+                "watchSequence": 5,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 244.2
+                  }
+                ]
+              },
+              {
+                "kind": "PANEL_LOCK",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 5.4,
+                "receiptMs": 355.5,
+                "frameMs": 311.8,
+                "effectDomMs": 318.2,
+                "effectRenderMs": 338.2,
+                "effect": "Panel locked",
+                "watchEpoch": 1,
+                "watchSequence": 9,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 350.1
+                  }
+                ]
+              },
+              {
+                "kind": "KEY",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.9,
+                "receiptMs": 253.3,
+                "frameMs": 229.8,
+                "effectDomMs": 242.2,
+                "effectRenderMs": 253.2,
+                "effect": "Delivered",
+                "watchEpoch": 1,
+                "watchSequence": 15,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 248.4
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "lifecycle",
+        "status": "passed",
+        "hidden": true,
+        "newEpoch": true,
+        "upBeforeDownAck": true,
+        "causalUpLeadMs": 242.8,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 3,
+          "workerStarts": 1,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodWatch": 2,
+            "foodClock": 2,
+            "foodHeartbeat": 4,
+            "foodCommand": 6
+          },
+          "panel": {
+            "read": 1,
+            "foodWatch": 1,
+            "foodClock": 1,
+            "foodHeartbeat": 5
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 2,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 8,
+            "availability": [
+              {
+                "atMs": 568.9,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4464.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4492.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4517.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4775,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4856.3,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5023.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5064.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5389.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5405.6,
+                "fresh": false,
+                "stage": null,
+                "screen": null,
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5555.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5695.2,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 5,
+                "receiptMs": 272.4,
+                "frameMs": 281.9,
+                "effectDomMs": 291.4,
+                "effectRenderMs": 302.7,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 3,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 267.4
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": true,
+                "pointerEvent": "pointerup",
+                "pendingDomMs": 4.6,
+                "receiptMs": 333.4,
+                "frameMs": 339.2,
+                "effectDomMs": 343.7,
+                "effectRenderMs": 361.1,
+                "effect": "Hold cleared",
+                "watchEpoch": 1,
+                "watchSequence": 4,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 328.8
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "rejected",
+                "receiptCode": "STALE_RECOVERY",
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "rejected",
+                    "elapsedMs": 240.7
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.1,
+                "receiptMs": 285.1,
+                "frameMs": 257.3,
+                "effectDomMs": 262.1,
+                "effectRenderMs": 279.8,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 6,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 281
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": "Hold cleared",
+                "watchEpoch": 2,
+                "watchSequence": 2,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 311
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": null,
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "waiting",
+                    "elapsedMs": null
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 7,
+            "availability": [
+              {
+                "atMs": 372.3,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4282.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": []
+          }
+        }
+      },
+      {
+        "name": "silence",
+        "status": "passed",
+        "silence": {
+          "durationMs": 4500,
+          "withheldWrites": 2,
+          "panelHeartbeatAcks": 5,
+          "remainedLive": true,
+          "releaseStillEnabled": true,
+          "watchRequestsDuringSilence": 0,
+          "disabledAfterLastDeliveryMs": null
+        },
+        "causalUpLeadMs": null,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 13,
+          "workerStarts": 4,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodWatch": 1,
+            "foodClock": 1,
+            "foodHeartbeat": 10,
+            "foodCommand": 3
+          },
+          "panel": {
+            "read": 1,
+            "foodWatch": 2,
+            "foodClock": 2,
+            "foodHeartbeat": 10
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 6,
+            "availability": [
+              {
+                "atMs": 560.1,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4463.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4498.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5346.9,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5570.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5795.8,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.7,
+                "receiptMs": 278.1,
+                "frameMs": 252.9,
+                "effectDomMs": 258,
+                "effectRenderMs": 277.1,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 3,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 273.6
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": true,
+                "pointerEvent": "pointerup",
+                "pendingDomMs": 3.8,
+                "receiptMs": 258.6,
+                "frameMs": 222.6,
+                "effectDomMs": 227.5,
+                "effectRenderMs": 245.8,
+                "effect": "Hold cleared",
+                "watchEpoch": 1,
+                "watchSequence": 5,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 254.8
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 212
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 2,
+            "watchPulses": 0,
+            "staleWireFrames": 0,
+            "frames": 5,
+            "availability": [
+              {
+                "atMs": 367.5,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4283.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5123.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE"
+                ]
+              },
+              {
+                "atMs": 9662.1,
+                "fresh": false,
+                "stage": "ACTIVE",
+                "screen": null,
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 10281.5,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": []
+          }
+        }
+      }
+    ]
+  },
+  "combinedAttempts": [
+    {
+      "source": {
+        "file": "report-invitations-timed-lifecycle-silence.json",
+        "sha256": "163ef27106b5b1252d82f85d192351e72d19c51137b81f553728e2803be399e3",
+        "frontend": "a53d887406a90bf63a99ba3300f60a8f237394d8",
+        "backend": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+        "clean": true,
+        "backendStillIsolated": true,
+        "network": {
+          "nominalRttMs": 100,
+          "oneWayJitterMs": 10,
+          "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+        },
+        "browser": {
+          "product": "Chrome/157.0.8103.51",
+          "protocolVersion": "1.3"
+        },
+        "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+        "bundle": {
+          "index-DTx-lxhN.js": "1a460032930b759bcd91a190bc165ad567d72e76fa37480b6541b0da78418ca3",
+          "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+        },
+        "backendInputs": {
+          "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+          "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+          "services/game-api/dist/planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+          "services/game-api/dist/planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4",
+          "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+          "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+          "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+          "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+          "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+          "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+          "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+          "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+        }
+      },
+      "cases": [
+        {
+          "name": "invitations",
+          "status": "passed",
+          "causalUpLeadMs": null,
+          "authority": {
+            "storedProfile": "food-owner-inbox-1",
+            "ownerEpoch": 1,
+            "returned": false,
+            "activeOwner": true
+          },
+          "activity": {
+            "wakeEnqueues": 2,
+            "workerStarts": 1,
+            "workerFailures": 0,
+            "dispatchFailures": 0
+          },
+          "productionRequests": {
+            "crew-1": {
+              "read": 5,
+              "foodCommand": 2,
+              "foodWatch": 1,
+              "foodClock": 1
+            },
+            "crew-2": {
+              "read": 5,
+              "foodCommand": 2,
+              "foodClock": 1,
+              "foodWatch": 1
+            }
+          },
+          "surfaces": {
+            "crew-1": [
+              390,
+              844,
+              false
+            ],
+            "crew-2": [
+              430,
+              932,
+              true
+            ]
+          },
+          "actors": {
+            "crew-1": {
+              "connection": "live",
+              "phase": "FOOD_SUPPLY",
+              "foodStep": "AWAY",
+              "motions": "normal",
+              "wireEpochCount": 1,
+              "watchPulses": 0,
+              "staleWireFrames": 0,
+              "frames": 1,
+              "availability": [
+                {
+                  "atMs": 729.7,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 854.8,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-tasks",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 920.8,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-partners",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 3803.3,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6202.8,
+                  "fresh": false,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6340.9,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "TASK_ASK",
+                  "trusted": true,
+                  "pointerEvent": "click",
+                  "pendingDomMs": 3.1,
+                  "receiptMs": 290.1,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": "PENDING",
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 287.1
+                    }
+                  ]
+                },
+                {
+                  "kind": "JOIN",
+                  "trusted": true,
+                  "pointerEvent": "click",
+                  "pendingDomMs": 2.4,
+                  "receiptMs": 243.3,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": "JOINED",
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 241
+                    }
+                  ]
+                }
+              ]
+            },
+            "crew-2": {
+              "connection": "live",
+              "phase": "FOOD_SUPPLY",
+              "foodStep": "AWAY",
+              "motions": "reduced",
+              "wireEpochCount": 1,
+              "watchPulses": 0,
+              "staleWireFrames": 0,
+              "frames": 1,
+              "availability": [
+                {
+                  "atMs": 402.9,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 3702,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-tasks",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 3769.3,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-partners",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6409,
+                  "fresh": false,
+                  "stage": null,
+                  "screen": "food-partners",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6545,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "DECLINE",
+                  "trusted": true,
+                  "pointerEvent": "click",
+                  "pendingDomMs": 3.1,
+                  "receiptMs": 211,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": "DECLINED",
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 207.9
+                    }
+                  ]
+                },
+                {
+                  "kind": "TASK_ASK",
+                  "trusted": true,
+                  "pointerEvent": "click",
+                  "pendingDomMs": 3.3,
+                  "receiptMs": 225,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": "PENDING",
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 221.7
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "timed",
+          "status": "passed",
+          "lock": {
+            "cueAtMs": 6286,
+            "cueStop": 6,
+            "cueNext": true,
+            "cueHazard": false,
+            "pointerAtMs": 6308,
+            "pointerStop": 6,
+            "pointerNext": true,
+            "admissionAfterReleaseMs": 1201,
+            "appliedStop": 6,
+            "appliedOutcome": null
+          },
+          "causalUpLeadMs": null,
+          "authority": {
+            "storedProfile": "food-owner-inbox-1",
+            "ownerEpoch": 1,
+            "returned": true,
+            "activeOwner": false
+          },
+          "activity": {
+            "wakeEnqueues": 20,
+            "workerStarts": 14,
+            "workerFailures": 0,
+            "dispatchFailures": 0
+          },
+          "productionRequests": {
+            "winch": {
+              "read": 2,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 9,
+              "foodCommand": 3
+            },
+            "panel": {
+              "read": 2,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 9,
+              "foodCommand": 3
+            }
+          },
+          "surfaces": {
+            "winch": [
+              390,
+              844,
+              false
+            ],
+            "panel": [
+              430,
+              932,
+              true
+            ]
+          },
+          "actors": {
+            "winch": {
+              "connection": "live",
+              "phase": "PRE_TURN",
+              "foodStep": null,
+              "motions": "normal",
+              "wireEpochCount": 1,
+              "watchPulses": 32,
+              "staleWireFrames": 0,
+              "frames": 16,
+              "availability": [
+                {
+                  "atMs": 568.9,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4475.8,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4515.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 8584.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 8824.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9193.7,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "KEY"
+                  ]
+                },
+                {
+                  "atMs": 9231.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9823.6,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32772.1,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32989.3,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [
+                "DELIVERED"
+              ],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "HOLD_DOWN",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 4.5,
+                  "receiptMs": 288.7,
+                  "frameMs": 270.6,
+                  "effectDomMs": 275.9,
+                  "effectRenderMs": 293,
+                  "effect": "Crate held",
+                  "watchEpoch": 1,
+                  "watchSequence": 3,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 284.3
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_UP",
+                  "trusted": true,
+                  "pointerEvent": "pointerup",
+                  "pendingDomMs": 5.2,
+                  "receiptMs": 232.7,
+                  "frameMs": 240.2,
+                  "effectDomMs": 245.7,
+                  "effectRenderMs": 276.5,
+                  "effect": "Hold cleared",
+                  "watchEpoch": 1,
+                  "watchSequence": 12,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 227.6
+                    }
+                  ]
+                },
+                {
+                  "kind": "KEY",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 4.1,
+                  "receiptMs": 239.1,
+                  "frameMs": 229.3,
+                  "effectDomMs": 234,
+                  "effectRenderMs": 262.2,
+                  "effect": "Key turned",
+                  "watchEpoch": 1,
+                  "watchSequence": 14,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 235
+                    }
+                  ]
+                }
+              ]
+            },
+            "panel": {
+              "connection": "live",
+              "phase": "PRE_TURN",
+              "foodStep": null,
+              "motions": "reduced",
+              "wireEpochCount": 1,
+              "watchPulses": 32,
+              "staleWireFrames": 0,
+              "frames": 16,
+              "availability": [
+                {
+                  "atMs": 366.1,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4292.6,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5127.6,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 5162.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5435,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_LOCK"
+                  ]
+                },
+                {
+                  "atMs": 6313.3,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6627.5,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 8647,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9032.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE",
+                    "KEY"
+                  ]
+                },
+                {
+                  "atMs": 9413,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9650.2,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32601.2,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32822.1,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [
+                "DELIVERED"
+              ],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "PANEL_RELEASE",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.1,
+                  "receiptMs": 272.6,
+                  "frameMs": 254.8,
+                  "effectDomMs": 260.6,
+                  "effectRenderMs": 272.4,
+                  "effect": "Panel moving",
+                  "watchEpoch": 1,
+                  "watchSequence": 5,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 267.6
+                    }
+                  ]
+                },
+                {
+                  "kind": "PANEL_LOCK",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.3,
+                  "receiptMs": 314.5,
+                  "frameMs": 295.1,
+                  "effectDomMs": 301.4,
+                  "effectRenderMs": 321.1,
+                  "effect": "Panel locked",
+                  "watchEpoch": 1,
+                  "watchSequence": 9,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 309.2
+                    }
+                  ]
+                },
+                {
+                  "kind": "KEY",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.5,
+                  "receiptMs": 253.3,
+                  "frameMs": 233.6,
+                  "effectDomMs": 242.6,
+                  "effectRenderMs": 262.3,
+                  "effect": "Delivered",
+                  "watchEpoch": 1,
+                  "watchSequence": 15,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 247.8
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "lifecycle",
+          "status": "passed",
+          "hidden": true,
+          "newEpoch": true,
+          "upBeforeDownAck": true,
+          "causalUpLeadMs": 244.6,
+          "authority": {
+            "storedProfile": "food-owner-inbox-1",
+            "ownerEpoch": 1,
+            "returned": false,
+            "activeOwner": true
+          },
+          "activity": {
+            "wakeEnqueues": 3,
+            "workerStarts": 1,
+            "workerFailures": 0,
+            "dispatchFailures": 0
+          },
+          "productionRequests": {
+            "winch": {
+              "read": 1,
+              "foodWatch": 2,
+              "foodClock": 2,
+              "foodHeartbeat": 4,
+              "foodCommand": 6
+            },
+            "panel": {
+              "read": 1,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 5
+            }
+          },
+          "surfaces": {
+            "winch": [
+              390,
+              844,
+              false
+            ],
+            "panel": [
+              430,
+              932,
+              true
+            ]
+          },
+          "actors": {
+            "winch": {
+              "connection": "live",
+              "phase": "FOOD_SUPPLY",
+              "foodStep": "AWAY",
+              "motions": "normal",
+              "wireEpochCount": 2,
+              "watchPulses": 4,
+              "staleWireFrames": 0,
+              "frames": 8,
+              "availability": [
+                {
+                  "atMs": 569.5,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4455,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4483.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4509.2,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4778.2,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4839.1,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5004.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 5040.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 5364.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 5380.8,
+                  "fresh": false,
+                  "stage": null,
+                  "screen": null,
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5542,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 5591.7,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5738.8,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                }
+              ],
+              "outcomes": [],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "HOLD_DOWN",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 4.6,
+                  "receiptMs": 274.3,
+                  "frameMs": 293.4,
+                  "effectDomMs": 302.7,
+                  "effectRenderMs": 320.2,
+                  "effect": "Crate held",
+                  "watchEpoch": 1,
+                  "watchSequence": 3,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 269.8
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_UP",
+                  "trusted": true,
+                  "pointerEvent": "pointerup",
+                  "pendingDomMs": 4.2,
+                  "receiptMs": 354.8,
+                  "frameMs": 329,
+                  "effectDomMs": 334.1,
+                  "effectRenderMs": 363,
+                  "effect": "Hold cleared",
+                  "watchEpoch": 1,
+                  "watchSequence": 4,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 350.6
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_RECOVER_OFF",
+                  "trusted": false,
+                  "pointerEvent": null,
+                  "pendingDomMs": null,
+                  "receiptMs": null,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "rejected",
+                  "receiptCode": "STALE_RECOVERY",
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "rejected",
+                      "elapsedMs": 218.4
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_DOWN",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 3.9,
+                  "receiptMs": 297.8,
+                  "frameMs": 282.9,
+                  "effectDomMs": 287.8,
+                  "effectRenderMs": 312.9,
+                  "effect": "Crate held",
+                  "watchEpoch": 1,
+                  "watchSequence": 6,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 293.9
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_UP",
+                  "trusted": false,
+                  "pointerEvent": null,
+                  "pendingDomMs": null,
+                  "receiptMs": null,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": "Hold cleared",
+                  "watchEpoch": 2,
+                  "watchSequence": 2,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 244.5
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_RECOVER_OFF",
+                  "trusted": false,
+                  "pointerEvent": null,
+                  "pendingDomMs": null,
+                  "receiptMs": null,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "rejected",
+                  "receiptCode": "STALE_RECOVERY",
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "rejected",
+                      "elapsedMs": 360.9
+                    }
+                  ]
+                }
+              ]
+            },
+            "panel": {
+              "connection": "live",
+              "phase": "FOOD_SUPPLY",
+              "foodStep": "AWAY",
+              "motions": "reduced",
+              "wireEpochCount": 1,
+              "watchPulses": 5,
+              "staleWireFrames": 0,
+              "frames": 7,
+              "availability": [
+                {
+                  "atMs": 375.1,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4297.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [],
+              "ownOutObserved": false,
+              "inputs": []
+            }
+          }
+        },
+        {
+          "name": "silence",
+          "status": "passed",
+          "silence": {
+            "durationMs": 4502,
+            "withheldWrites": 3,
+            "panelHeartbeatAcks": 5,
+            "remainedLive": false,
+            "releaseStillEnabled": false,
+            "watchRequestsDuringSilence": 1,
+            "disabledAfterLastDeliveryMs": 3010
+          },
+          "causalUpLeadMs": null,
+          "authority": {
+            "storedProfile": "food-owner-inbox-1",
+            "ownerEpoch": 1,
+            "returned": false,
+            "activeOwner": true
+          },
+          "activity": {
+            "wakeEnqueues": 13,
+            "workerStarts": 4,
+            "workerFailures": 0,
+            "dispatchFailures": 0
+          },
+          "productionRequests": {
+            "winch": {
+              "read": 1,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 10,
+              "foodCommand": 3
+            },
+            "panel": {
+              "read": 1,
+              "foodWatch": 3,
+              "foodClock": 3,
+              "foodHeartbeat": 10
+            }
+          },
+          "surfaces": {
+            "winch": [
+              390,
+              844,
+              false
+            ],
+            "panel": [
+              430,
+              932,
+              true
+            ]
+          },
+          "actors": {
+            "winch": {
+              "connection": "live",
+              "phase": "FOOD_SUPPLY",
+              "foodStep": "AWAY",
+              "motions": "normal",
+              "wireEpochCount": 1,
+              "watchPulses": 9,
+              "staleWireFrames": 0,
+              "frames": 6,
+              "availability": [
+                {
+                  "atMs": 568.7,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4453.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4480,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 5320.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 5551.2,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5784.6,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                }
+              ],
+              "outcomes": [],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "HOLD_DOWN",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 4.6,
+                  "receiptMs": 290.3,
+                  "frameMs": 262.5,
+                  "effectDomMs": 267.8,
+                  "effectRenderMs": 287,
+                  "effect": "Crate held",
+                  "watchEpoch": 1,
+                  "watchSequence": 3,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 285.7
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_UP",
+                  "trusted": true,
+                  "pointerEvent": "pointerup",
+                  "pendingDomMs": 4,
+                  "receiptMs": 262.7,
+                  "frameMs": 229.5,
+                  "effectDomMs": 234.4,
+                  "effectRenderMs": 258.6,
+                  "effect": "Hold cleared",
+                  "watchEpoch": 1,
+                  "watchSequence": 5,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 258.7
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_RECOVER_OFF",
+                  "trusted": false,
+                  "pointerEvent": null,
+                  "pendingDomMs": null,
+                  "receiptMs": null,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 220.2
+                    }
+                  ]
+                }
+              ]
+            },
+            "panel": {
+              "connection": "live",
+              "phase": "FOOD_SUPPLY",
+              "foodStep": "AWAY",
+              "motions": "reduced",
+              "wireEpochCount": 2,
+              "watchPulses": 4,
+              "staleWireFrames": 0,
+              "frames": 5,
+              "availability": [
+                {
+                  "atMs": 366.8,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4297,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5103.6,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 8106.9,
+                  "fresh": false,
+                  "stage": "ACTIVE",
+                  "screen": null,
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 8721.5,
+                  "fresh": false,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9626.4,
+                  "fresh": false,
+                  "stage": "ACTIVE",
+                  "screen": null,
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 10258.1,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [],
+              "ownOutObserved": false,
+              "inputs": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "report-timed.json",
+        "sha256": "94d62622be39b742a749521496303bf3c04a4f119cb2aae7cfece4a30f353345",
+        "frontend": "a53d887406a90bf63a99ba3300f60a8f237394d8",
+        "backend": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+        "clean": true,
+        "backendStillIsolated": true,
+        "network": {
+          "nominalRttMs": 100,
+          "oneWayJitterMs": 10,
+          "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+        },
+        "browser": {
+          "product": "Chrome/157.0.8103.51",
+          "protocolVersion": "1.3"
+        },
+        "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+        "bundle": {
+          "index-DTx-lxhN.js": "1a460032930b759bcd91a190bc165ad567d72e76fa37480b6541b0da78418ca3",
+          "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+        },
+        "backendInputs": {
+          "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+          "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+          "services/game-api/dist/planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+          "services/game-api/dist/planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4",
+          "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+          "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+          "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+          "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+          "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+          "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+          "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+          "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+        }
+      },
+      "cases": [
+        {
+          "name": "timed",
+          "status": "passed",
+          "lock": {
+            "cueAtMs": 6318.799999952316,
+            "cueStop": 6,
+            "cueNext": true,
+            "cueHazard": false,
+            "pointerAtMs": 6340.299999952316,
+            "pointerStop": 6,
+            "pointerNext": true,
+            "admissionAfterReleaseMs": 1227,
+            "appliedStop": 6,
+            "appliedOutcome": null
+          },
+          "causalUpLeadMs": null,
+          "authority": {
+            "storedProfile": "food-owner-inbox-1",
+            "ownerEpoch": 1,
+            "returned": true,
+            "activeOwner": false
+          },
+          "activity": {
+            "wakeEnqueues": 10,
+            "workerStarts": 8,
+            "workerFailures": 0,
+            "dispatchFailures": 0
+          },
+          "productionRequests": {
+            "winch": {
+              "read": 1,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 9,
+              "foodCommand": 4
+            },
+            "panel": {
+              "read": 1,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 9,
+              "foodCommand": 3
+            }
+          },
+          "surfaces": {
+            "winch": [
+              390,
+              844,
+              false
+            ],
+            "panel": [
+              430,
+              932,
+              true
+            ]
+          },
+          "actors": {
+            "winch": {
+              "connection": "live",
+              "phase": "PRE_TURN",
+              "foodStep": null,
+              "motions": "normal",
+              "wireEpochCount": 1,
+              "watchPulses": 32,
+              "staleWireFrames": 0,
+              "frames": 16,
+              "availability": [
+                {
+                  "atMs": 584.3,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4469.6,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4493.3,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 8619.3,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 8841.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9207.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "KEY"
+                  ]
+                },
+                {
+                  "atMs": 9225.7,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9820.3,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32791.1,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32996.2,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [
+                "DELIVERED"
+              ],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "HOLD_DOWN",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 4.9,
+                  "receiptMs": 340.3,
+                  "frameMs": 326.5,
+                  "effectDomMs": 331.7,
+                  "effectRenderMs": 353.6,
+                  "effect": "Crate held",
+                  "watchEpoch": 1,
+                  "watchSequence": 3,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 335.5
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_UP",
+                  "trusted": true,
+                  "pointerEvent": "pointerup",
+                  "pendingDomMs": 4.9,
+                  "receiptMs": 238.8,
+                  "frameMs": 221.6,
+                  "effectDomMs": 227.6,
+                  "effectRenderMs": 246.6,
+                  "effect": "Hold cleared",
+                  "watchEpoch": 1,
+                  "watchSequence": 12,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 233.9
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_RECOVER_OFF",
+                  "trusted": false,
+                  "pointerEvent": null,
+                  "pendingDomMs": null,
+                  "receiptMs": null,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 247
+                    }
+                  ]
+                },
+                {
+                  "kind": "KEY",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 4.1,
+                  "receiptMs": 245.1,
+                  "frameMs": 216.5,
+                  "effectDomMs": 221.2,
+                  "effectRenderMs": 231.6,
+                  "effect": "Key turned",
+                  "watchEpoch": 1,
+                  "watchSequence": 14,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 241
+                    }
+                  ]
+                }
+              ]
+            },
+            "panel": {
+              "connection": "live",
+              "phase": "PRE_TURN",
+              "foodStep": null,
+              "motions": "reduced",
+              "wireEpochCount": 1,
+              "watchPulses": 32,
+              "staleWireFrames": 0,
+              "frames": 16,
+              "availability": [
+                {
+                  "atMs": 399.7,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4315.2,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5157.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 5183.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5505.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_LOCK"
+                  ]
+                },
+                {
+                  "atMs": 6346.1,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6706.1,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 8666.7,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9025.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE",
+                    "KEY"
+                  ]
+                },
+                {
+                  "atMs": 9411.1,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 9643.2,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32600.3,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32827.9,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [
+                "DELIVERED"
+              ],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "PANEL_RELEASE",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.1,
+                  "receiptMs": 322,
+                  "frameMs": 272.8,
+                  "effectDomMs": 278.6,
+                  "effectRenderMs": 305.2,
+                  "effect": "Panel moving",
+                  "watchEpoch": 1,
+                  "watchSequence": 5,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 316.9
+                    }
+                  ]
+                },
+                {
+                  "kind": "PANEL_LOCK",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.9,
+                  "receiptMs": 360.7,
+                  "frameMs": 321.7,
+                  "effectDomMs": 328,
+                  "effectRenderMs": 340.4,
+                  "effect": "Panel locked",
+                  "watchEpoch": 1,
+                  "watchSequence": 9,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 354.9
+                    }
+                  ]
+                },
+                {
+                  "kind": "KEY",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.3,
+                  "receiptMs": 249.8,
+                  "frameMs": 228.7,
+                  "effectDomMs": 237.3,
+                  "effectRenderMs": 260.6,
+                  "effect": "Delivered",
+                  "watchEpoch": 1,
+                  "watchSequence": 15,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 244.5
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "report-timed.json",
+        "sha256": "99b13b98699fdc3470cdbe33342d9fc3955bafabbedffd27bec712972f181a10",
+        "frontend": "a53d887406a90bf63a99ba3300f60a8f237394d8",
+        "backend": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+        "clean": true,
+        "backendStillIsolated": true,
+        "network": {
+          "nominalRttMs": 100,
+          "oneWayJitterMs": 10,
+          "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+        },
+        "browser": {
+          "product": "Chrome/157.0.8103.51",
+          "protocolVersion": "1.3"
+        },
+        "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+        "bundle": {
+          "index-DTx-lxhN.js": "1a460032930b759bcd91a190bc165ad567d72e76fa37480b6541b0da78418ca3",
+          "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+        },
+        "backendInputs": {
+          "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+          "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+          "services/game-api/dist/planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+          "services/game-api/dist/planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4",
+          "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+          "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+          "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+          "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+          "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+          "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+          "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+          "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+        }
+      },
+      "cases": [
+        {
+          "name": "timed",
+          "status": "failed",
+          "error": "Timed out waiting for: native let-go cue",
+          "lock": {
+            "cueAtMs": 6284.5,
+            "cueStop": 6,
+            "cueNext": true,
+            "cueHazard": false,
+            "pointerAtMs": 6311.899999856949,
+            "pointerStop": 6,
+            "pointerNext": true,
+            "admissionAfterReleaseMs": 1359,
+            "appliedStop": 7,
+            "appliedOutcome": null
+          },
+          "causalUpLeadMs": null,
+          "authority": {
+            "storedProfile": "food-owner-inbox-1",
+            "ownerEpoch": 1,
+            "returned": true,
+            "activeOwner": false
+          },
+          "activity": {
+            "wakeEnqueues": 10,
+            "workerStarts": 8,
+            "workerFailures": 0,
+            "dispatchFailures": 0
+          },
+          "productionRequests": {
+            "winch": {
+              "read": 2,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 29,
+              "foodCommand": 2,
+              "foodReceipt": 1
+            },
+            "panel": {
+              "read": 2,
+              "foodWatch": 1,
+              "foodClock": 1,
+              "foodHeartbeat": 29,
+              "foodCommand": 2
+            }
+          },
+          "surfaces": {
+            "winch": [
+              390,
+              844,
+              false
+            ],
+            "panel": [
+              430,
+              932,
+              true
+            ]
+          },
+          "actors": {
+            "winch": {
+              "connection": "live",
+              "phase": "PRE_TURN",
+              "foodStep": null,
+              "motions": "normal",
+              "wireEpochCount": 1,
+              "watchPulses": 32,
+              "staleWireFrames": 0,
+              "frames": 11,
+              "availability": [
+                {
+                  "atMs": 585.5,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4493.9,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 4535.3,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": [
+                    "HOLD_DOWN"
+                  ]
+                },
+                {
+                  "atMs": 30455.6,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-task",
+                  "physicalHold": true,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32789.9,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32985.1,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [
+                "LOST"
+              ],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "HOLD_DOWN",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.1,
+                  "receiptMs": 294.8,
+                  "frameMs": 277.8,
+                  "effectDomMs": 283,
+                  "effectRenderMs": 305.9,
+                  "effect": "Crate held",
+                  "watchEpoch": 1,
+                  "watchSequence": 3,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 289.7
+                    }
+                  ]
+                },
+                {
+                  "kind": "HOLD_UP",
+                  "trusted": false,
+                  "pointerEvent": null,
+                  "pendingDomMs": null,
+                  "receiptMs": null,
+                  "frameMs": null,
+                  "effectDomMs": null,
+                  "effectRenderMs": null,
+                  "effect": null,
+                  "watchEpoch": null,
+                  "watchSequence": null,
+                  "receipt": null,
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "unknown",
+                      "elapsedMs": 264.8
+                    },
+                    {
+                      "source": "lookup",
+                      "disposition": "waiting",
+                      "elapsedMs": null
+                    }
+                  ]
+                }
+              ]
+            },
+            "panel": {
+              "connection": "live",
+              "phase": "PRE_TURN",
+              "foodStep": null,
+              "motions": "reduced",
+              "wireEpochCount": 1,
+              "watchPulses": 32,
+              "staleWireFrames": 0,
+              "frames": 11,
+              "availability": [
+                {
+                  "atMs": 394.3,
+                  "fresh": true,
+                  "stage": "BRIEFING",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 4306.4,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5143.6,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 5165.3,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 5438,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_LOCK"
+                  ]
+                },
+                {
+                  "atMs": 6318,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 6811.2,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": [
+                    "PANEL_RELEASE"
+                  ]
+                },
+                {
+                  "atMs": 30049.5,
+                  "fresh": true,
+                  "stage": "ACTIVE",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 30297.7,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-task",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32616.2,
+                  "fresh": true,
+                  "stage": "ENDED",
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                },
+                {
+                  "atMs": 32814,
+                  "fresh": true,
+                  "stage": null,
+                  "screen": "food-room",
+                  "physicalHold": false,
+                  "enabled": []
+                }
+              ],
+              "outcomes": [
+                "LOST"
+              ],
+              "ownOutObserved": false,
+              "inputs": [
+                {
+                  "kind": "PANEL_RELEASE",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 5.2,
+                  "receiptMs": 272.8,
+                  "frameMs": 259.4,
+                  "effectDomMs": 265.3,
+                  "effectRenderMs": 289.1,
+                  "effect": "Panel moving",
+                  "watchEpoch": 1,
+                  "watchSequence": 5,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 267.6
+                    }
+                  ]
+                },
+                {
+                  "kind": "PANEL_LOCK",
+                  "trusted": true,
+                  "pointerEvent": "pointerdown",
+                  "pendingDomMs": 6.1,
+                  "receiptMs": 493.5,
+                  "frameMs": 471.4,
+                  "effectDomMs": 479.2,
+                  "effectRenderMs": 499.3,
+                  "effect": "Panel locked",
+                  "watchEpoch": 1,
+                  "watchSequence": 9,
+                  "receipt": "accepted",
+                  "receiptCode": null,
+                  "requestState": null,
+                  "attempts": [
+                    {
+                      "source": "command",
+                      "disposition": "accepted",
+                      "elapsedMs": 487.4
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "supplementalNative": {
+    "source": {
+      "file": "report-silence.json",
+      "sha256": "d7c8b0f1944b420eef264fba736c8defc31c488acf8ca6440145f25cee411d9d",
+      "frontend": "7cbda0fdc9a3cb65e1370f121a9905d3b210bcc0",
+      "backend": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+      "clean": true,
+      "backendStillIsolated": true,
+      "network": {
+        "nominalRttMs": 100,
+        "oneWayJitterMs": 10,
+        "method": "Deterministic loopback POST and reply delay with ordered SSE writes"
+      },
+      "browser": {
+        "product": "Chrome/157.0.8103.51",
+        "protocolVersion": "1.3"
+      },
+      "artworkInventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+      "bundle": {
+        "index-DTx-lxhN.js": "1a460032930b759bcd91a190bc165ad567d72e76fa37480b6541b0da78418ca3",
+        "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+      },
+      "backendInputs": {
+        "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+        "services/game-api/dist/planet-engine.js": "6894bdfba5dc07c6af5d061fb19932a92c4e68bd52badf0beda0d525149b1691",
+        "services/game-api/dist/planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+        "services/game-api/dist/planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4",
+        "infra/firebase/dist/planet.js": "d21c6be0e5b14b341696fa5aef9e91315171f25ae62c6bee23e65e36a9160148",
+        "infra/firebase/dist/planet-food-stream.js": "257d9746b4263240dae5e3021f393f75e214b2a056bd0481bf1215f2274bcc83",
+        "infra/firebase/dist/planet-food-worker.js": "b77f511df56c7964052a2eee31f110c445b1c26bef41940371a01775567885b2",
+        "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+        "services/game-api/dev/food-task-coordinator/fixture.mjs": "d35177d5162590b33be060c4e35c738938515a25cea44256434116ed07984075",
+        "services/game-api/dist/planet-game.js": "413c1639d33197ac1c6c739afa249bade13f20149b1fce878ea7ef2efdab6c2e",
+        "packages/contracts/dist/index.js": "33ec17b9449975a7f659135d2dbedc0b3dd537db860c82a75c3f248817d9b92e",
+        "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+      }
+    },
+    "cases": [
+      {
+        "name": "silence",
+        "status": "passed",
+        "silence": {
+          "durationMs": 4502,
+          "withheldWrites": 3,
+          "panelHeartbeatAcks": 5,
+          "remainedLive": false,
+          "releaseStillEnabled": false,
+          "watchRequestsDuringSilence": 1,
+          "disabledAfterLastDeliveryMs": 3009
+        },
+        "causalUpLeadMs": null,
+        "authority": {
+          "storedProfile": "food-owner-inbox-1",
+          "ownerEpoch": 1,
+          "returned": false,
+          "activeOwner": true
+        },
+        "activity": {
+          "wakeEnqueues": 4,
+          "workerStarts": 2,
+          "workerFailures": 0,
+          "dispatchFailures": 0
+        },
+        "productionRequests": {
+          "winch": {
+            "read": 1,
+            "foodWatch": 1,
+            "foodClock": 1,
+            "foodHeartbeat": 10,
+            "foodCommand": 3
+          },
+          "panel": {
+            "read": 1,
+            "foodWatch": 3,
+            "foodClock": 3,
+            "foodHeartbeat": 10
+          }
+        },
+        "surfaces": {
+          "winch": [
+            390,
+            844,
+            false
+          ],
+          "panel": [
+            430,
+            932,
+            true
+          ]
+        },
+        "actors": {
+          "winch": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "normal",
+            "wireEpochCount": 1,
+            "watchPulses": 10,
+            "staleWireFrames": 0,
+            "frames": 6,
+            "availability": [
+              {
+                "atMs": 582.9,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4472.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 4493.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": true,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5424.7,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              },
+              {
+                "atMs": 5650.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5939.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "HOLD_DOWN"
+                ]
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": [
+              {
+                "kind": "HOLD_DOWN",
+                "trusted": true,
+                "pointerEvent": "pointerdown",
+                "pendingDomMs": 4.9,
+                "receiptMs": 364.4,
+                "frameMs": 353.7,
+                "effectDomMs": 358.6,
+                "effectRenderMs": 385.7,
+                "effect": "Crate held",
+                "watchEpoch": 1,
+                "watchSequence": 3,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 359.5
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_UP",
+                "trusted": true,
+                "pointerEvent": "pointerup",
+                "pendingDomMs": 4.1,
+                "receiptMs": 249.5,
+                "frameMs": 224.9,
+                "effectDomMs": 230.2,
+                "effectRenderMs": 257.6,
+                "effect": "Hold cleared",
+                "watchEpoch": 1,
+                "watchSequence": 5,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 245.4
+                  }
+                ]
+              },
+              {
+                "kind": "HOLD_RECOVER_OFF",
+                "trusted": false,
+                "pointerEvent": null,
+                "pendingDomMs": null,
+                "receiptMs": null,
+                "frameMs": null,
+                "effectDomMs": null,
+                "effectRenderMs": null,
+                "effect": null,
+                "watchEpoch": null,
+                "watchSequence": null,
+                "receipt": "accepted",
+                "receiptCode": null,
+                "requestState": null,
+                "attempts": [
+                  {
+                    "source": "command",
+                    "disposition": "accepted",
+                    "elapsedMs": 275.4
+                  }
+                ]
+              }
+            ]
+          },
+          "panel": {
+            "connection": "live",
+            "phase": "FOOD_SUPPLY",
+            "foodStep": "AWAY",
+            "motions": "reduced",
+            "wireEpochCount": 2,
+            "watchPulses": 4,
+            "staleWireFrames": 0,
+            "frames": 5,
+            "availability": [
+              {
+                "atMs": 399,
+                "fresh": true,
+                "stage": "BRIEFING",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 4318.4,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 5153.1,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": [
+                  "PANEL_RELEASE"
+                ]
+              },
+              {
+                "atMs": 8156.2,
+                "fresh": false,
+                "stage": "ACTIVE",
+                "screen": null,
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 8774.5,
+                "fresh": false,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 9889,
+                "fresh": false,
+                "stage": "ACTIVE",
+                "screen": null,
+                "physicalHold": false,
+                "enabled": []
+              },
+              {
+                "atMs": 10529.6,
+                "fresh": true,
+                "stage": "ACTIVE",
+                "screen": "food-task",
+                "physicalHold": false,
+                "enabled": []
+              }
+            ],
+            "outcomes": [],
+            "ownOutObserved": false,
+            "inputs": []
+          }
+        }
+      }
+    ],
+    "captures": [
+      {
+        "file": "food-panel-18-watch-silence-430x932.png",
+        "viewport": [
+          430,
+          932
+        ],
+        "sha256": "3d3c38661099244c0901503d0bab36f77d6cf74051a620987d38bc2c9fd720ed",
+        "bytes": 166832,
+        "part": "food-panel-18"
+      },
+      {
+        "file": "food-panel-18-watch-silence-390x844.png",
+        "viewport": [
+          390,
+          844
+        ],
+        "sha256": "8615164187041b186b8d696a18695e9b39c858814d42634c14b7ffe3c3c0591b",
+        "bytes": 147309,
+        "part": "food-panel-18"
+      }
+    ]
+  },
+  "resultCaptures": [
+    {
+      "file": "390x844-delivered-attempt-1.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "sha256": "9799e0d0ef29a6a0a3b21a3249208f316d518bd006cab14cffe3116cb67ce67c",
+      "bytes": 87075,
+      "caption": "Combined attempt 1 Delivered"
+    },
+    {
+      "file": "430x932-delivered-attempt-1.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "sha256": "6fb6eccb55930160203174acea1bdf1ba613f73013c8f5a198d37d92e0772604",
+      "bytes": 117506,
+      "caption": "Combined attempt 1 Delivered"
+    },
+    {
+      "file": "390x844-stop-7-attempt-3.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "sha256": "1049a749af9b47e153067fa18506fbbe2732a237b29034375d16c306b6500d8a",
+      "bytes": 161577,
+      "caption": "Combined attempt 3 locked at 7"
+    },
+    {
+      "file": "430x932-stop-7-attempt-3.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "sha256": "ef6c78262c1a043d40e9111340712363aee937ff617779a5638c791f262403d1",
+      "bytes": 182961,
+      "caption": "Combined attempt 3 locked at 7"
+    },
+    {
+      "file": "390x844-d496-eliminated.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "sha256": "91245c4cdd8f7fd0eea0c2448d780ee7bd6f596e782a550836d227f07a74f4db",
+      "bytes": 78902,
+      "caption": "Earlier unshaped d496 stop-7 elimination"
+    },
+    {
+      "file": "430x932-d496-task-lost.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "sha256": "07e59c9179bd701ac397b18ed7fd2c4693843a0d841b6feffc70952d6e63b8ac",
+      "bytes": 90690,
+      "caption": "Earlier unshaped d496 stop-7 elimination"
+    }
+  ],
+  "firstUnshapedDiagnostic": {
+    "source": "f8b6db4e1441df01a9bb7cffbd5bfe3198569902",
+    "backend": "82b378427937ff53ec5a8a239bb331226ace67c8",
+    "sha256": "04d06015552fe884d0b8ff9bdd386674084d30d612e948f2d5e445859659ec3d",
+    "reason": "A development observer parameter collision omitted the availability series. A later observer fix restored the strict evidence gate.",
+    "outcomes": [
+      {
+        "name": "invitations",
+        "status": "failed",
+        "diagnostic": "Cannot read properties of undefined (reading 'find')"
+      },
+      {
+        "name": "timed",
+        "status": "failed",
+        "diagnostic": "Timed out waiting for: authorized closure and restored ordinary board"
+      },
+      {
+        "name": "lifecycle",
+        "status": "failed",
+        "diagnostic": "Cannot read properties of undefined (reading 'find')"
+      }
+    ]
+  }
+}
