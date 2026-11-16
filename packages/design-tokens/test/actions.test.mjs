@@ -74,7 +74,7 @@ test('its styles reach nothing outside the component: every rule is under its ro
   assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), ['ms-ac-stamp-in'], 'its one motion, the stamp\'s snap');
   // Every rule's prelude, those inside @container and @media too.
   const selectors = [...css.matchAll(/([^{}]+)\{/g)].map(m => m[1].trim()).filter(s => s && !s.startsWith('@') && !/^(?:from|to|\d+%)$/.test(s));
-  assert.ok(selectors.length >= 25, `found the rules (${selectors.length})`);
+  assert.ok(selectors.length >= 22, `found the rules (${selectors.length})`);
   for (const list of selectors) {
     for (const selector of split(list)) {
       assert.match(selector, /^\.ms-actions(?:\.ms-kit)?(?:\[[^\]]+\]|:focus)?(?:\s|$)/, `"${selector}" is under the component's root`);
@@ -198,6 +198,9 @@ test('the frames and the shell\'s words, from the type alone', () => {
   assert.deepEqual(targetBar({ type: 'SUPPLY' }).sub, 'Choose two players');
   assert.deepEqual(targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), { icon: 'supply', title: 'Supply', sub: 'Choose the second player' });
   assert.deepEqual(targetBar({ type: 'REQUEST_HACK', where: 'board' }), { icon: 'talk', title: 'Private talk', sub: 'Choose a player · every room' });
+  // The Hacker's bar and the Code are the Hacker component's: no second copy here (the Lead's note 2).
+  assert.throws(() => targetBar({ type: 'SCAN' }), /the Hacker component's scanBar\(\)/);
+  assert.throws(() => targetBar({ type: 'SUBMIT_CODE' }), /the Hacker component's codeSheet\(\)/);
   assert.deepEqual(targetChip({ kind: 'other-rooms', count: 2 }), { id: 'other-rooms', label: 'Other rooms · 2', icon: 'board', tone: 'paper' });
   assert.deepEqual(targetChip({ kind: 'list' }), { id: 'list', label: 'List', icon: 'players', tone: 'paper' });
   assert.throws(() => targetChip({ kind: 'other-rooms', count: 0 }), /how many people are elsewhere/);
