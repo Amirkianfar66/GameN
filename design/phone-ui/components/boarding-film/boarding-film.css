@@ -1,0 +1,12 @@
+/* The boarding film, version 2: runtime source, Designer's. Every rule is under .ms-boarding-film. The film is a
+   canvas, its soft light on a second one over it; over both lies its finish, each its own layer so that no frame has
+   to draw it: the vignette and the grade
+   (.ms-bf-shade) and the grain (.ms-bf-grain, moved 24 times a second by boarding-film.mjs, which also sets both
+   layers' strength as the picture goes into the ink and the night). Nothing here can be tapped. */
+.ms-boarding-film { position: absolute; left: 0; top: 0; overflow: hidden; contain: strict; background: #07090F; pointer-events: none; -webkit-user-select: none; user-select: none; }
+.ms-boarding-film > canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+/* The film's soft light: drawn small on its own canvas (engine.mjs createLight), stretched over the picture and
+   added to it (screen: light only ever brightens what is under it). */
+.ms-boarding-film > .ms-bf-light { opacity: 0; mix-blend-mode: screen; }
+.ms-boarding-film > .ms-bf-shade { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse 72% 72% at 50% 50%, rgba(4, 5, 10, 0) 30%, rgba(4, 5, 10, 0.2) 68%, rgba(4, 5, 10, 0.62) 100%), rgba(42, 40, 72, 0.07); }
+.ms-boarding-film > .ms-bf-grain { position: absolute; left: 0; top: 0; right: -128px; bottom: -128px; opacity: 0; background-repeat: repeat; background-size: 154px 154px; will-change: transform; }

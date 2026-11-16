@@ -1,0 +1,8 @@
+/* mothership:dev-only · The boarding film's preview page: a phone-sized frame and its controls. Not the component's styles. */
+html, body { margin: 0; background: #0B0E14; color: #C9D2E0; font: 13px/1.4 system-ui, sans-serif; }
+.pv-phone { position: relative; overflow: hidden; background: #07090F; }
+.pv-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 8px 10px; }
+.pv-bar[hidden] { display: none; }
+.pv-bar button, .pv-bar select { font: inherit; color: inherit; background: #1A2030; border: 1px solid #2E3850; border-radius: 6px; padding: 4px 8px; }
+.pv-bar input[type="range"] { flex: 1 1 180px; }
+.pv-note { padding: 0 10px 10px; color: #8B96A8; }
