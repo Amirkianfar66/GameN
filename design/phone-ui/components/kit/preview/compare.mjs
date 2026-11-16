@@ -36,6 +36,9 @@ export const ACCEPTED = Object.freeze([
   // Kit 0.7.0: sheet 25's side cards, the tile with a card's art.
   { cases: /^tiles art$/, partMatch: /^card [23]( .+)?$/, keys: ['cursor', 'text-shadow'],
     why: 'Sheet 25 draws its unavailable sides as disabled buttons, with a button\'s hand cursor and, on glass, no halo; the kit draws every tile that takes no tap as sheet 28 does (kit 0.6.0): no hand cursor, and on glass the halo under its words, so an unavailable tile looks the same on both sheets' },
+  // Kit 0.8.0: the toast, the shell's and the entry screens' one part.
+  { cases: /^toast/, part: 'toast words', keys: ['overflow-x', 'overflow-y', 'text-overflow'],
+    why: 'The kit cuts a toast\'s words with an ellipsis where they would run past the phone (its max-width, the phone less 16 px a side), as the shell\'s and the entry screens\' toasts did; the pack\'s words run on past the edge. Words that fit are drawn the same' },
   // Kit 0.5.1: the device choice (sheet 12), with its chosen option's icon filled.
   { texts: [200], sections: ['plain'], cases: /^segmented icons$/, partMatch: /^option \d icon$/, keys: ['w'],
     why: 'At 200 % text the pack\'s two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit\'s icons keep their 18 px, as at 100 %' },
