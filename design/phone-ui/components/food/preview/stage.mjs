@@ -20,7 +20,7 @@ import { createFoodTaskController } from '@mothership/game';
 import { loadArt } from '../../../../../apps/game/hosted/art.mjs';
 import { setCrewPictureSurface } from '../../../../../apps/game/hosted/crew-runtime.mjs';
 import { createFoodAssets, FOOD_ASSET_PATHS } from '../../../../../apps/game/hosted/planet/food-assets.mjs';
-import { FOOD_VIEW_KEYS, foodIdentities, foodModel, foodNow, foodOrdinary, nextFoodInput } from '../food-input.mjs';
+import { FOOD_CLOSURE_KEYS, FOOD_VIEW_KEYS, foodIdentities, foodModel, foodNow, foodOrdinary, nextFoodInput } from '../food-input.mjs';
 
 export const SIZES = Object.freeze({ '390x844': Object.freeze([390, 844]), '430x932': Object.freeze([430, 932]) });
 /** The review frames' safe areas, as Frontend's packet gives them. A real phone gives its own through env(). */
@@ -87,6 +87,10 @@ export const STATES = Object.freeze([
   ...Object.entries(NOTICES).map(([id, n]) => ({ id, kind: 'notice', title: n.title, synthetic: 'Public facts, invented for this preview' })),
 ]);
 
+/** A press's own key, as the surface needs one: it differs from press to press, and is the same press's again when that press is recovered. It is not the command's id, which stays with the controller. */
+const pressKeys = new Map();
+const pressKey = commandId => { if (!pressKeys.has(commandId)) pressKeys.set(commandId, `press-${pressKeys.size + 1}`); return pressKeys.get(commandId); };
+
 /** Frontend's adapter, as this preview writes it: the controller's model and the same response's public facts, as the component's inputs. */
 export function inputsFromModel(model, { people, board, viewer, navigation, clock }) {
   const f = model.feedback, receipt = f?.receipt ?? null;
@@ -94,9 +98,9 @@ export function inputsFromModel(model, { people, board, viewer, navigation, cloc
     view: model.view === null ? null : pick(model.view, FOOD_VIEW_KEYS),
     can: { ask: model.canAsk, answer: model.canAnswer, withdraw: model.canWithdraw, hold: model.canHold, panelRelease: model.canPanelRelease, panelLock: model.canPanelLock, key: model.canKey },
     sending: { pendingCount: model.pendingCount, physicalHolding: model.physicalHolding, needsContactOff: model.needsContactOff,
-      feedback: f === null ? null : { key: f.commandId, name: f.name, status: f.status, recovered: f.recovered,
+      feedback: f === null ? null : { key: pressKey(f.commandId), name: f.name, status: f.status, recovered: f.recovered,
         request: receipt?.status === 'accepted' && receipt.result.kind === 'REQUEST' ? { requestId: receipt.result.requestId, state: receipt.result.state } : null,
-        closure: receipt?.status === 'rejected' ? receipt.requestClosure ?? null : null } },
+        closure: receipt?.status === 'rejected' && receipt.requestClosure ? pick(receipt.requestClosure, FOOD_CLOSURE_KEYS) : null } },
     status: !model.visible ? 'concealed' : model.fresh ? 'live' : 'stale',
     clock, people, board, viewer, navigation,
   };

@@ -13,7 +13,12 @@ export const FOOD_VERSION = 'food-0.1.0';
 export const FOOD_STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The controller's seven offers. Nothing else enables a control. */
 export const FOOD_CAN = Object.freeze(['ask', 'answer', 'withdraw', 'hold', 'panelRelease', 'panelLock', 'key']);
-/** What the drawing reads of the authorized Food player view, and so all the component accepts of it. */
+/**
+ * All the component accepts of the authorized Food player view: the eleven keys the drawing reads, and the view's own
+ * `viewRevision`, which it takes as Frontend's inputs give it and does not read. Every other key of the contract's
+ * view is refused: the binding and envelope (`schemaVersion`, `audience`, `matchId`, `phaseId`, `serverNowMs`), the
+ * roster (`playerCount`, `rosterSeatIds`), `turnEnds`, and the viewer's `privateCursor` and `ownMeals`.
+ */
 export const FOOD_VIEW_KEYS = Object.freeze(['seatId', 'round', 'versions', 'viewRevision', 'step', 'stock', 'ownAvailability', 'partnerChoices', 'offers',
   'invitation', 'requestClosures', 'participantTask']);
 /** The three presses the surface reports with onPress. Hold is reported as contacts, never as a press. */
@@ -25,9 +30,8 @@ export const FOOD_PRESS_NAMES = Object.freeze(['Hold', 'let-go', 'LOCK', 'RELEAS
 export const FOOD_FEEDBACK_STATUSES = Object.freeze(['sending', 'unknown', 'accepted', 'rejected']);
 export const FOOD_REQUEST_STATES = Object.freeze(['PENDING', 'JOINED', 'DECLINED', 'WITHDRAWN']);
 export const FOOD_CLOSURE_STATES = Object.freeze(['JOINED', 'DECLINED', 'WITHDRAWN', 'EXPIRED']);
-/** A request's closure as the contract writes it. The drawing reads the first six. */
-export const FOOD_CLOSURE_KEYS = Object.freeze(['requestId', 'state', 'round', 'foodStepId', 'volunteerSeatId', 'partnerSeatId', 'requestRevision', 'askedAt',
-  'answerEndsAt', 'closedAt']);
+/** Of a refused press's request closure, the six fields the request cards read, and so all that is taken of it. */
+export const FOOD_CLOSURE_KEYS = Object.freeze(['requestId', 'state', 'round', 'foodStepId', 'volunteerSeatId', 'partnerSeatId']);
 export const FOOD_BOARD_MODES = Object.freeze(['room', 'board']);
 /** Where a tap on the surface's own bars asks the app to go. */
 export const FOOD_NAVIGATION_TARGETS = Object.freeze(['settings', 'promises', 'switch', 'card', 'panels']);

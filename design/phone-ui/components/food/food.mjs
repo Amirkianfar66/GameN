@@ -8,6 +8,7 @@
 //   const food = mountFood(host, input, handlers);    // a player's phone
 //   food.update(changes); food.suspend(); food.resume(); food.dispose();
 //   food.openTasks(); food.close();                   // the Actions entry opens "Start a Task"
+//   food.relayout();                                  // after the game's text size changes
 //   const notice = mountFoodNotice(host, input);      // the shared display: update, dispose
 //   foodGauge(document, doses);                       // the ordinary header's gauge, as a node
 //
@@ -15,6 +16,7 @@
 // controller, the contact adapter (createFoodHoldInput), the picture loader, blur, focus and visibility, and the
 // ordinary app's own header and styles. The stylesheets are imported by food-render.mjs, as the port imports them.
 
+import { hasCrewDrawing } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { mountFoodRenderer } from './food-render.mjs';
 import { mountFoodPublic } from './food-notice.mjs';
 import { createFoodUi } from './food-ui.mjs';
@@ -22,17 +24,29 @@ import { foodGauge as gaugeNode } from './food-gauge.mjs';
 import { FOOD_DEFAULTS, FOOD_NOTICE_DEFAULTS, foodIdentities, foodModel, foodNoticeModel, foodNow, foodOrdinary, nextFoodInput, nextFoodNoticeInput } from './food-input.mjs';
 
 export {
-  FOOD_ANSWERS, FOOD_CAN, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
+  FOOD_ANSWERS, FOOD_CAN, FOOD_CLOSURE_KEYS, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
   nextFoodInput, nextFoodNoticeInput,
 } from './food-input.mjs';
 
 /** Every intent the surface reports. Each is optional; a name that is not one of these is refused. */
 export const FOOD_HANDLERS = Object.freeze(['onHold', 'onLetGo', 'onReleaseAll', 'onPress', 'onAsk', 'onAnswer', 'onWithdraw', 'onNavigate', 'onSurface', 'onBars']);
 const HOST_CLASS = 'planet-food-host';
+/** What setCrewPictureSurface(root, versions) leaves on the app's root for versions that have the crew drawing. */
+const CREW_SURFACE = '[data-crew-art="crew-drawing-1.0.0"]';
 
 function hostOf(host, name) {
   if (!host || host.nodeType !== 1 || !host.ownerDocument?.defaultView) throw new TypeError(`${name} needs a host element in a page`);
   return host;
+}
+/**
+ * The top bar's portraits are the game's own pictures. For a view whose versions have the crew drawing, the game's
+ * art sheet gives them to the element the app marked with setCrewPictureSurface(root, versions) and to what is inside
+ * it. A host outside it would be drawn with blank portraits, so a view there is refused, like any input the surface
+ * cannot draw. Nothing is drawn of a concealed surface or with no view, so nothing is asked of the host then.
+ */
+function crewSurfaceOf(host, input) {
+  if (input.status === 'concealed' || input.view === null || !hasCrewDrawing(input.view.versions)) return;
+  if (!host.closest(CREW_SURFACE)) throw new TypeError('Food: the host must be inside the game\'s crew picture surface: mark the app\'s root with setCrewPictureSurface(root, versions) before giving the surface a view');
 }
 
 /**
@@ -56,7 +70,8 @@ export function mountFood(host, input = {}, handlers = {}) {
   const hadClass = host.classList.contains(HOST_CLASS);
   const listeners = new Set();
   let current = nextFoodInput(FOOD_DEFAULTS, input), identities = foodIdentities(current), ordinary = foodOrdinary(current);
-  let renderer = null, suspended = false, disposed = false, relayout = false;
+  crewSurfaceOf(host, current);
+  let renderer = null, suspended = false, disposed = false, layoutDue = false;
   let owned = { active: false, exclusive: false }, measured = { top: null, bottom: null };
 
   /** A handler's own failure is the app's to see, and never stops the surface drawing. */
@@ -94,7 +109,8 @@ export function mountFood(host, input = {}, handlers = {}) {
   const arrived = () => { if (!suspended) for (const listener of [...arrivals]) listener(); };
   function watch() {
     unwatch?.();
-    unwatch = typeof current.assets?.subscribe === 'function' ? current.assets.subscribe(arrived) : null;
+    const end = typeof current.assets?.subscribe === 'function' ? current.assets.subscribe(arrived) : null;
+    unwatch = typeof end === 'function' ? end : null;
   }
   const assets = {
     get back() { return current.assets?.back ?? null; },
@@ -114,6 +130,7 @@ export function mountFood(host, input = {}, handlers = {}) {
       navigate: target => say('onNavigate', target), settings: () => say('onNavigate', 'settings'),
       boardMode: () => current.navigation.boardMode, bars: () => current.bars,
     });
+    layoutDue = false;
     if (suspended) renderer.suspend();
   }
   /** Concealed, the surface is taken down, not hidden: its page, its listeners and everything it remembered of this viewer. */
@@ -125,21 +142,21 @@ export function mountFood(host, input = {}, handlers = {}) {
   }
   function draw() {
     if (!renderer || suspended) return;
-    if (relayout) { relayout = false; renderer.relayout(); } else for (const listener of [...listeners]) listener();
+    if (layoutDue) { layoutDue = false; renderer.relayout(); } else for (const listener of [...listeners]) listener();
   }
 
   watch();
   if (current.status !== 'concealed') { mount(); draw(); }
 
   return Object.freeze({
-    /** Each key given replaces that key. A change of `reducedMotion` also lays the surface out again, which a change of the game's text size needs too. */
+    /** Each key given replaces that key, and the rest stay. A change that is refused changes nothing. */
     update(changes = {}) {
       if (disposed) return;
-      const before = current;
-      current = nextFoodInput(current, changes);
+      const before = current, next = nextFoodInput(current, changes);
+      crewSurfaceOf(host, next);
+      current = next;
       identities = foodIdentities(current);
       ordinary = foodOrdinary(current);
-      if ('reducedMotion' in changes) relayout = true;
       if (current.assets !== before.assets) watch();
       // Concealed, the surface is taken down, and that lets everything go first.
       if (current.status === 'concealed') { unmount(); return; }
@@ -159,7 +176,13 @@ export function mountFood(host, input = {}, handlers = {}) {
       if (disposed || !suspended) return;
       suspended = false;
       renderer?.resume();
-      if (relayout) draw();
+      if (layoutDue) draw();
+    },
+    /** Lays the surface out again. Call it after the game's text size changes: the styles are in rem, the measures are not. Suspended, it is done on resume. */
+    relayout() {
+      if (disposed) return;
+      layoutDue = true;
+      draw();
     },
     /** The Actions entry: opens "Start a Task". */
     openTasks() { if (!disposed) renderer?.openTasks(); },

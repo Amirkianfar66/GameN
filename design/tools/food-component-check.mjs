@@ -14,8 +14,10 @@
 //   pixels, exactly, in the scene outside the surface's notices and wherever the words agree;
 //   agrees with Frontend's ten native captures from #290 (read from that commit, each held to its SHA-256, never
 //   copied): the scene's pixels within a stated limit, another machine's fonts and browser apart, with controls;
-//   draws eight of the states at the game's larger text (its root's size: Large at 150 %, Largest at 200 %) at both
+//   draws nine of the states at the game's larger text (its root's size: Large at 150 %, Largest at 200 %) at both
 //   sizes, and holds them to the frozen port in the same way: the larger-text support is the port's own, unchanged;
+//   changes the text size under a mounted surface and holds relayout() to what the port draws on the app's
+//   preferences event and to what a new mount draws, with a control (not told) that must differ;
 //   runs the lifecycle probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion.
 // A page passes with no policy report but the known one, no failed request and no page error. Every check must
 // pass. It writes design/phone-ui/components/food/review/: pictures of the states and of the comparisons, and
@@ -62,7 +64,17 @@ const { FOOD_VERSION } = await import(pathToFileURL(join(REPO, COMPONENT, 'food-
  */
 export const LIMITS = Object.freeze({ box: 0.5, packageSame: 0, packageSceneMean: 0.05, packageSceneFar: 0.001, packageGlass: 1, nativeSceneMean: 3, nativeSceneFar: 0.02, controlFactor: 2 });
 /** The game's larger text sizes (apps/game/hosted/planet/preferences.mjs: Large and Largest), and the states drawn at them: the five parts, a briefing, a sheet and a request. */
-const LARGER = Object.freeze({ texts: [1.5, 2], states: [...PARTS, 'case-food-winch-01', 'case-food-flow-02', 'case-food-flow-04'], pictures: ['food-panel-04/1.5', 'food-panel-04/2', 'food-winch-03/2', 'case-food-flow-04/2'] });
+const LARGER = Object.freeze({ texts: [1.5, 2], states: [...PARTS, 'case-food-winch-01', 'case-food-flow-02', 'case-food-flow-04', 'case-food-panel-16'],
+  pictures: ['food-panel-04/1.5', 'food-panel-04/2', 'food-winch-03/1.5', 'food-winch-03/2', 'case-food-flow-04/2', 'case-food-panel-16/1.5'] });
+/**
+ * A text-size change on a mounted surface. The port lays itself out again on the app's preferences event; the
+ * component on relayout(). Two states where it shows:
+ *   banner  the "away" banner's place under the top bar is measured when the banner is built, so only a new layout
+ *           moves it under the taller bar;
+ *   card    an open request card is built again, and a card that is built again is not focused again: the port's
+ *           behaviour, kept, and listed in the handoff as a known issue.
+ */
+const RELAYOUT = Object.freeze({ text: 1.5, portEvent: 'mothership:preferences-change', states: Object.freeze({ 'case-food-flow-09': 'banner', 'case-food-flow-04': 'card' }) });
 /** The surface's own top bar, in CSS px, at each text size: the review frames' 47 px safe area and the kit's bar. */
 const BAR_TOP = Object.freeze({ 1: 99, 1.5: 117, 2: 141 });
 /** A notice's shadow reaches past its box: the scene is measured this far clear of each notice, in CSS px. */
@@ -194,7 +206,7 @@ const { server, origin } = await serve(out);
 const reference = await startServer();
 const chrome = await launchBrowser();
 const browser = await connect(chrome.endpoint);
-const captures = {}, probes = {}, larger = {}, agreement = { port: { states: 0, equal: 0, control: null }, package: {}, native: {} };
+const captures = {}, probes = {}, larger = {}, relayouts = {}, agreement = { port: { states: 0, equal: 0, control: null }, package: {}, native: {} };
 let failed = [packet.ok, port.ok, pack.ok, native.ok].filter(ok => !ok).length;
 const report = async (page, violations) => {
   for (const v of violations) v.kind = await classify(out, v);
@@ -223,6 +235,28 @@ async function draw(pageName, state, sizeKey, motion, extra = '') {
     const problems = await report(page, violations);
     if (moving.length) problems.push(`still moving when the picture was taken: ${moving.join(', ')}`);
     return { seen, expected, png: Buffer.from(data, 'base64'), violations, problems };
+  } finally { await page.close(); }
+}
+/** A page mounted at the Standard text whose text size then changes, told to lay out again or not: what it shows, and its picture. */
+async function relaid(pageName, state, sizeKey, tell) {
+  const [width, height] = SIZES[sizeKey];
+  const page = await openPage(browser, { width, height, scale: 1 });
+  await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
+  try {
+    await page.goto(`${origin}/${pageName}.html?state=${state}&size=${sizeKey}&single=1`, 'document.readyState === "complete" && window.__food');
+    await page.evaluate('window.__food.ready');
+    const told = !tell ? '' : pageName === 'port' ? `document.dispatchEvent(new Event(${JSON.stringify(RELAYOUT.portEvent)}));` : 'window.__food.handle().relayout();';
+    await page.evaluate(`(() => { document.documentElement.style.fontSize = '${RELAYOUT.text * 100}%'; ${told} })()`);
+    await page.evaluate('new Promise(done => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(done)))))');
+    await page.evaluate('window.__food.freeze(300)');
+    const seen = await page.evaluate('window.__food.describe()');
+    const banner = await page.evaluate(`document.querySelector('.planet-food .fs-banner')?.style.top ?? null`);
+    const { data } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
+    const moving = await page.evaluate(MOVING);
+    const violations = await page.evaluate('window.__policy');
+    const problems = await report(page, violations);
+    if (moving.length) problems.push(`still moving when the picture was taken: ${moving.join(', ')}`);
+    return { seen, banner, png: Buffer.from(data, 'base64'), violations, problems };
   } finally { await page.close(); }
 }
 /** A picture of the component for the review folder, at two device pixels per CSS pixel. */
@@ -328,6 +362,39 @@ try {
         if (sizeKey === '390x844' && LARGER.pictures.includes(`${stateId}/${text}`)) Object.assign(larger[key], await picture(stateId, sizeKey, 'full', `${sizeKey}-${stateId}-text${text * 100}.jpg`, `&text=${text}`));
         console.log(`${ok ? 'ok  ' : 'FAIL'} larger text ${sizeKey} ${stateId} at ${text * 100} %${ok ? '' : ` · ${notes.join('; ')}`}`);
       }
+    }
+  }
+
+  // ── Laid out again after a text-size change: relayout() here, the app's preferences event in the port ────
+  for (const sizeKey of Object.keys(SIZES)) {
+    for (const [stateId, kind] of Object.entries(RELAYOUT.states).filter(([id]) => states.some(state => state.id === id))) {
+      const notes = [], must = (condition, note) => { if (!condition) notes.push(note); };
+      const mine = await relaid('index', stateId, sizeKey, true), theirs = await relaid('port', stateId, sizeKey, true), untold = await relaid('index', stateId, sizeKey, false);
+      const fresh = await draw('index', stateId, sizeKey, 'full', `&text=${RELAYOUT.text}`);
+      const s = mine.seen, t = theirs.seen, unfocused = html => (html ?? '').replaceAll(' tabindex="-1"', '');
+      const equal = { html: s.html === t.html, text: s.text === t.text, boxes: same(s.boxes, t.boxes), covers: same(s.owned, t.owned) && same(s.measured, t.measured), focus: same(s.focus, t.focus), pixels: mine.png.equals(theirs.png) };
+      must(Object.values(equal).every(Boolean), `the port, on its preferences event, draws the same: ${Object.entries(equal).filter(([, ok]) => !ok).map(([key]) => key).join(', ') || 'everything'}`);
+      must(s.measured.top === BAR_TOP[RELAYOUT.text], `the surface's top bar is ${BAR_TOP[RELAYOUT.text]} px at this text size`);
+      must([...mine.problems, ...theirs.problems, ...untold.problems, ...fresh.problems].length === 0 && [...mine.violations, ...theirs.violations, ...untold.violations].every(v => v.kind !== 'unexpected'), 'no page problem and no policy report but the known one');
+      const entry = { kind, equal, bars: s.measured, pngSha256: sha256(mine.png), violations: mine.violations, problems: mine.problems };
+      if (kind === 'banner') {
+        entry.asNew = { html: s.html === fresh.seen.html, pixels: mine.png.equals(fresh.png) };
+        entry.banner = { told: mine.banner, port: theirs.banner, untold: untold.banner };
+        must(Object.values(entry.asNew).every(Boolean), 'it is what a new mount draws at that text size');
+        must(mine.banner === `${BAR_TOP[RELAYOUT.text] + 44}px`, `the banner sits 44 px under the ${BAR_TOP[RELAYOUT.text]} px bar`);
+        // The control: not told, the bar has grown and the banner is left where it was built, so the two differ.
+        must(untold.seen.measured.top === BAR_TOP[RELAYOUT.text] && untold.banner === `${BAR_TOP[1] + 44}px` && untold.seen.html !== s.html && !untold.png.equals(mine.png), 'not told, the banner stays where it was built: the check can tell');
+      } else {
+        // The card is built again and is not focused again, here as in the port. Its focus aside, it is what a new mount draws.
+        entry.asNew = { htmlButFocus: s.html === unfocused(fresh.seen.html) && s.html !== fresh.seen.html };
+        entry.focus = { newMount: fresh.seen.focus, notTold: untold.seen.focus, told: s.focus, port: t.focus };
+        must(entry.asNew.htmlButFocus, 'its focus aside, it is what a new mount draws at that text size');
+        must(fresh.seen.focus === 'fs-card' && untold.seen.focus === 'fs-card' && s.focus === null && t.focus === null, 'the card that is built again is not focused again, here as in the port: the known issue, unchanged');
+      }
+      const ok = notes.length === 0;
+      if (!ok) failed += 1;
+      relayouts[`${sizeKey}/${stateId}`] = { ok, notes, ...entry };
+      console.log(`${ok ? 'ok  ' : 'FAIL'} laid out again ${sizeKey} ${stateId} at ${RELAYOUT.text * 100} %${ok ? '' : ` · ${notes.join('; ')}`}`);
     }
   }
 
@@ -472,18 +539,19 @@ const record = {
   sourceCommit, sourceClean,
   environment: `Desktop Chromium (headless, ${chrome.version}); the comparisons at one device pixel per CSS pixel, the review pictures at two; the preview bundled by Vite and served with the production headers below, the hosted game's own art beside it; the package's pages served unchanged by design/tools/phone-ui-render.mjs's reference server. Not a phone, not Safari, no server, and not a performance measure.`,
   ...recordedHeaders(),
-  harness: 'The preview\'s phone: the review frames\' safe areas (47 px above, 34 px below) given through a preview style rule where a phone gives its own through env(); stand-ins for the ordinary app\'s header, bar and board; the app\'s own background (#060C1C) beneath; a fixed clock; running animations (the two spinners) held at 300 ms for each capture.',
+  harness: 'The preview\'s phone: the review frames\' safe areas (47 px above, 34 px below) given through a preview style rule where a phone gives its own through env(); stand-ins for the ordinary app\'s header, bar and board; the app\'s own background (#060C1C) beneath; a fixed clock; each page brought to rest for its picture: every animation and transition held at 300 ms, those that start afterwards too, and a picture taken while anything still runs fails.',
   limits: LIMITS,
   packet, port, package: pack, native: { ...native, files: native.files }, art,
   captures,
   agreement,
   largerText: { texts: LARGER.texts, states: LARGER.states, barTop: BAR_TOP, drawn: larger },
+  relayout: { what: 'A mount at the Standard text whose text size then changes: the component told by relayout(), the port by the app\'s preferences event, the component not told, and a new mount at that text size', ...RELAYOUT, drawn: relayouts },
   probe: probes,
 };
 if (!ONLY) await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\n`);
 const passed = Object.values(captures).filter(c => c.ok).length, checks = Object.values(probes).flatMap(p => p.checks ?? []);
 console.log(`pins ${packet.ok && port.ok && pack.ok && native.ok ? 'hold' : 'DO NOT HOLD'}; ${passed} of ${Object.keys(captures).length} captures passed; the frozen port draws the same in ${agreement.port.equal} of ${agreement.port.states}; `
   + `package ${Object.values(agreement.package).filter(a => a.ok).length} of ${Object.keys(agreement.package).length}; native ${Object.values(agreement.native).filter(a => a.ok).length} of ${Object.keys(agreement.native).length}; `
-  + `larger text ${Object.values(larger).filter(a => a.ok).length} of ${Object.keys(larger).length}; `
+  + `larger text ${Object.values(larger).filter(a => a.ok).length} of ${Object.keys(larger).length}; laid out again ${Object.values(relayouts).filter(a => a.ok).length} of ${Object.keys(relayouts).length}; `
   + `probe ${checks.filter(c => c.ok).length} of ${checks.length} checks; ${ONLY ? 'a partial run: no record written' : `record written to ${COMPONENT}/review/check.json`}`);
 if (failed) process.exitCode = 1;

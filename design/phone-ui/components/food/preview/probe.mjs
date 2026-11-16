@@ -22,7 +22,11 @@
 //              exit and on dispose; another open panel hides Food
 //   privacy    concealed, nothing of the viewer is left in the page or remembered; a key the inputs do not know is
 //              refused, on the phone and on the shared display's notice
+//   host       outside the game's crew picture surface a view is refused, at mount and by update, and nothing is
+//              drawn; with no view, or concealed, nothing is asked of the host
 //   motion     the game's Reduce motion and the device's
+//   layout     update({ reducedMotion }) changes motion and lays nothing out; relayout() lays the surface out again
+//              after a text-size change, as a new mount would; suspended, it waits for resume
 //   pictures   the pictures may come after the mount; the loader's signal is listened to once and let go
 //   adapter    Frontend's own controller and contact adapter, wired as the adapter will wire them: a hold goes down
 //              and up through them, survives the redraws in between, and is let go by suspend; the surface shows the
@@ -74,15 +78,15 @@ export async function runProbe(document) {
 
   /** One mount of the component on a preview state, with every report written down. */
   function open(stateId, changes = {}, wire = null) {
-    const sit = situation(stateId), device = phone(document, '390x844'), calls = [];
+    const sit = situation(stateId), device = phone(document, '390x844'), calls = [], raw = [];
     stage.append(device.el);
     const before = listeners.list();
-    const handlers = Object.fromEntries(FOOD_HANDLERS.map(name => [name, (...args) => { calls.push([name, ...structuredClone(args)]); wire?.[name]?.(...args); }]));
+    const handlers = Object.fromEntries(FOOD_HANDLERS.map(name => [name, (...args) => { raw.push([name, args]); calls.push([name, ...structuredClone(args)]); wire?.[name]?.(...args); }]));
     const input = { ...sit.input, assets, bars: device.bars(), ...changes };
     const food = mountFood(device.host, input, handlers);
     const added = () => { const rest = [...before]; return listeners.list().filter(entry => { const at = rest.indexOf(entry); if (at < 0) return true; rest.splice(at, 1); return false; }); };
     return {
-      sit, device, calls, food, input, host: device.host, added,
+      sit, device, calls, raw, food, input, host: device.host, added,
       frame: () => device.host.querySelector('.planet-food.ph'),
       find: selector => device.host.querySelector(selector),
       named: name => calls.filter(call => call[0] === name).map(call => call.slice(1)),
@@ -125,6 +129,10 @@ export async function runProbe(document) {
     pointer(hold, 'pointerdown', { isPrimary: false });
     check('contacts: another button or a second finger reports nothing', m.calls.length === 0, { calls: m.calls });
     check('contacts: the surface sent nothing itself', m.sit.live.sent.length === 0, { sent: m.sit.live.sent.length });
+    const SHAPES = { onHold: ['pointerId', 'key,repeat', 'assistive'], onLetGo: ['pointerId', 'key'] }, contacts = m.raw.filter(([name]) => name in SHAPES);
+    check('contacts: a contact is plain data and nothing else: { pointerId }, { key, repeat } or { assistive } going down, { pointerId } or { key } coming up; never the event, its target or where it was',
+      contacts.length === 9 && contacts.every(([name, args]) => args.length === 1 && Object.getPrototypeOf(args[0]) === Object.prototype && SHAPES[name].includes(Object.keys(args[0]).join())
+        && Object.values(args[0]).every(value => ['number', 'string', 'boolean'].includes(typeof value))), { contacts: contacts.map(([name, args]) => [name, Object.keys(args[0] ?? {}).join()]) });
 
     const mine = m.added();
     check('listeners: one set on the window per mount (pointerup, pointercancel, keyup), and none of the app\'s (blur, focus, visibility, preferences)',
@@ -475,7 +483,14 @@ export async function runProbe(document) {
 
     const html = m.seen().html, refused = [];
     const refuse = (name, run) => { try { run(); refused.push([name, null]); } catch (error) { refused.push([name, error instanceof TypeError ? error.message : `not a TypeError: ${error}`]); } };
-    refuse('a private cursor in the view', () => m.food.update({ view: { ...m.sit.input.view, privateCursor: 'x' } }));
+    // Of the contract's Food player view the surface takes twelve keys. The other ten are refused by name.
+    const NOT_TAKEN = ['schemaVersion', 'audience', 'matchId', 'phaseId', 'serverNowMs', 'playerCount', 'rosterSeatIds', 'turnEnds', 'privateCursor', 'ownMeals'], notTaken = [];
+    for (const name of NOT_TAKEN) { try { m.food.update({ view: { ...m.sit.input.view, [name]: ['rosterSeatIds', 'turnEnds', 'ownMeals'].includes(name) ? [] : 1 } }); notTaken.push([name, null]); } catch (error) { notTaken.push([name, error instanceof TypeError ? error.message : `not a TypeError: ${error}`]); } }
+    check('privacy: of the contract\'s view the surface takes twelve keys and refuses the other ten by name: the binding and envelope, the roster, turnEnds, privateCursor and ownMeals',
+      Object.keys(m.sit.input.view).length === 12 && notTaken.every(([name, message]) => message === `Food: view takes no "${name}"`), { taken: Object.keys(m.sit.input.view), notTaken });
+    const feedback = more => ({ sending: { feedback: { key: 'k', name: 'request', recovered: false, ...more }, pendingCount: 0, physicalHolding: false, needsContactOff: false } });
+    refuse('a seventh field in a refused press\'s closure', () => m.food.update(feedback({ status: 'rejected', closure: { requestId: 'r', state: 'EXPIRED', round: 1, foodStepId: 's', volunteerSeatId: 'seat-1', partnerSeatId: 'seat-2', closedAt: 1 } })));
+    refuse('a command id in an accepted press\'s request', () => m.food.update(feedback({ status: 'accepted', request: { requestId: 'r', state: 'PENDING', commandId: 'c' } })));
     refuse('the viewer\'s Promises count in the public board', () => m.food.update({ board: { ...m.sit.input.board, promiseOfferCount: 2 } }));
     refuse('a role', () => m.food.update({ role: 'ALIEN' }));
     refuse('a receipt in the press\'s feedback', () => m.food.update({ sending: { feedback: { key: 'k', name: 'LOCK', status: 'accepted', recovered: false, receipt: {} }, pendingCount: 0, physicalHolding: false, needsContactOff: false } }));
@@ -512,6 +527,40 @@ export async function runProbe(document) {
       { label: gauge?.getAttribute('aria-label') ?? null, halfLabel: half?.getAttribute('aria-label') ?? null });
   });
 
+  // ── The host ────────────────────────────────────────────────────────────────────────────────────────────────
+  await step('host', async () => {
+    const sit = situation('food-panel-03'), device = phone(document, '390x844');
+    stage.append(device.el);
+    const input = { ...sit.input, assets, bars: device.bars() }, marked = document.body.dataset.crewArt;
+    const message = run => { try { run(); return null; } catch (error) { return error instanceof TypeError ? error.message : `not a TypeError: ${error}`; } };
+    const REFUSED = /^Food: the host must be inside the game's crew picture surface/;
+    // The app has not marked its root: there is no crew picture surface around the host.
+    delete document.body.dataset.crewArt;
+    const atMount = message(() => mountFood(device.host, input).dispose());
+    const untouched = !device.host.classList.contains('planet-food-host') && device.host.childElementCount === 0;
+    // With no view, and concealed, nothing is drawn, so nothing is asked of the host. The view is refused when it comes.
+    const empty = mountFood(device.host, { ...input, view: null });
+    await frames.frames(2);
+    const emptyHtml = device.host.innerHTML, later = message(() => empty.update({ view: input.view }));
+    await frames.frames(2);
+    const stillEmpty = device.host.innerHTML === emptyHtml && !device.host.querySelector('.tb');
+    empty.dispose();
+    const hidden = mountFood(device.host, { ...input, status: 'concealed' }), shown = message(() => hidden.update({ status: 'live' }));
+    await frames.frames(2);
+    const stillHidden = !device.host.querySelector('.planet-food');
+    hidden.dispose();
+    // Marked as the app marks it, the same input mounts, and its portraits are the game's pictures.
+    document.body.dataset.crewArt = marked;
+    const food = mountFood(device.host, input);
+    await frames.frames(2);
+    const portrait = device.host.querySelector('.tb .food-portrait'), picture = portrait ? win.getComputedStyle(portrait).backgroundImage : '';
+    food.dispose();
+    device.el.remove();
+    check('host: outside the game\'s crew picture surface a view is refused at mount with a TypeError, and the host is left untouched', REFUSED.test(atMount ?? '') && untouched, { atMount, untouched });
+    check('host: with no view, or concealed, nothing is asked of the host; the view is then refused by update, which changes nothing', REFUSED.test(later ?? '') && stillEmpty && REFUSED.test(shown ?? '') && stillHidden, { later, stillEmpty, shown, stillHidden });
+    check('host: inside the surface the app marked, the same input mounts and its portraits are the game\'s pictures', marked === 'crew-drawing-1.0.0' && /^url\(/.test(picture), { marked, picture: picture.slice(0, 32) });
+  });
+
   // ── Motion ──────────────────────────────────────────────────────────────────────────────────────────────────
   await step('motion', async () => {
     const m = open('food-panel-03', { reducedMotion: false });
@@ -526,6 +575,49 @@ export async function runProbe(document) {
       deviceReduced ? first === 'reduced' && reduced === 'reduced' && m.frame().dataset.motion === 'reduced' : first === 'normal' && reduced === 'reduced' && spinner === 'none' && m.frame().dataset.motion === 'normal',
       { first, reduced, after: m.frame().dataset.motion, spinner, deviceReduced });
     m.close();
+  });
+
+  // ── Layout ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The surface lays most of itself out on its own frames. What it measured when a part was built stays until that
+  // part is built again: the "away" banner's place under the top bar is one. So a change of text size needs
+  // relayout(), as the port needed the app's preferences event.
+  await step('layout', async () => {
+    const root = document.documentElement, was = root.style.fontSize, STATE = 'case-food-flow-09';
+    const banner = m => m.find('.fs-banner')?.style.top ?? null, bar = m => m.find('.planet-food .tb')?.offsetHeight ?? null;
+    const fresh = async size => { root.style.fontSize = size; const m = open(STATE); await frames.frames(3); const seen = { banner: banner(m), bar: bar(m), html: m.seen().html }; m.close(); return seen; };
+    const standard = await fresh('100%'), large = await fresh('150%');
+    root.style.fontSize = '100%';
+    const m = open(STATE, { reducedMotion: false });
+    await frames.frames(3);
+    root.style.fontSize = '150%';
+    await frames.frames(12);   // with Reduce motion the kit lets the old bar take 80 ms to grow
+    const untold = { banner: banner(m), bar: bar(m) };
+    m.food.update({ reducedMotion: true });
+    await frames.frames(3);
+    const afterMotion = { banner: banner(m), motion: m.frame().dataset.motion };
+    m.food.update({ reducedMotion: false });
+    m.food.relayout();
+    await frames.frames(3);
+    const afterRelayout = { banner: banner(m), same: m.seen().html === large.html };
+    root.style.fontSize = '100%';
+    m.food.suspend();
+    m.food.relayout();
+    await frames.frames(3);
+    const whileSuspended = banner(m);
+    m.food.resume();
+    await frames.frames(3);
+    const afterResume = { banner: banner(m), same: m.seen().html === standard.html };
+    m.food.update({ status: 'concealed' });
+    let quiet = true;
+    try { m.food.relayout(); m.food.dispose(); m.food.relayout(); } catch { quiet = false; }
+    m.device.el.remove();
+    root.style.fontSize = was;
+    check('layout: a new mount puts the "away" banner under its top bar, lower at the Large text', !!standard.banner && !!large.banner && parseFloat(large.banner) - parseFloat(standard.banner) === large.bar - standard.bar && large.bar > standard.bar, { standard: [standard.bar, standard.banner], large: [large.bar, large.banner] });
+    check('layout: when the text size changes, the frames alone grow the bar and leave the banner where it was built', untold.bar === large.bar && untold.banner === standard.banner, { untold });
+    check('layout: update({ reducedMotion }) changes motion and lays nothing out', afterMotion.banner === standard.banner && afterMotion.motion === 'reduced', { afterMotion });
+    check('layout: relayout() lays the surface out again: it is what a new mount draws at that text size', afterRelayout.banner === large.banner && afterRelayout.same, afterRelayout);
+    check('layout: suspended, relayout() waits, and resume draws the new layout', whileSuspended === large.banner && afterResume.banner === standard.banner && afterResume.same, { whileSuspended, afterResume });
+    check('layout: concealed or disposed, relayout() is quiet', quiet, {});
   });
 
   // ── Pictures ────────────────────────────────────────────────────────────────────────────────────────────────
@@ -543,6 +635,11 @@ export async function runProbe(document) {
     try { tell(); } catch { quiet = false; }
     m.close();
     check('pictures: the loader\'s signal is listened to once and let go on dispose', subscribed === 1 && unsubscribed === 1 && quiet, { subscribed, unsubscribed });
+    const bare = open('food-panel-03', { assets: { get back() { return assets.back; }, operator: (...args) => assets.operator(...args), subscribe() {} } });
+    await frames.frames(2);
+    let closed = true;
+    try { bare.close(); } catch { closed = false; }
+    check('pictures: a loader whose subscribe gives nothing back is still let go quietly', closed, {});
   });
 
   // ── A handler's own failure ─────────────────────────────────────────────────────────────────────────────────
