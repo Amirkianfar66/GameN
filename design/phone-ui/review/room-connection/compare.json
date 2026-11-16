@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-15T23:11:28.713Z",
+  "createdAt": "2026-11-16T09:53:32.139Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "bcbaaa20da0d28e1741d7282689e14076e987135",
+    "commit": "9885993168cd097044e66f30e35d5edf7f69befd",
     "dirty": false
   },
   "build": {
-    "folder": "/tmp/room-connection-check-VGwzZB",
-    "head": "0ef1904d0d10e561399f7e2be5e728eae5a364cf",
+    "folder": "/tmp/room-connection-check-xaVflt",
+    "head": "e5b81698a72173e01177a99355f606151ee35a3c",
     "dirty": false,
     "artwork": "c96e0925aa99db891c19ac49ebf67836285e9200"
   },
