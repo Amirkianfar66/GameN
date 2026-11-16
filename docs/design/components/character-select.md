@@ -1,6 +1,6 @@
 # Character selection: Designer's runtime component
 
-**Version:** `character-select-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #292, with the Lead's four decisions below. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `character-select-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #292, with the Lead's four decisions below; accepted by the Lead, with the foot's words once time is up (below) and the phone shell 0.2.2. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the 30-second screen where each player chooses one of the nine characters, as sheet 16 draws it: one screen, the nine in a 3 × 3 grid, the timer in the header, no introduction. It is #222 item 26, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -33,6 +33,11 @@
 
 And the viewer rule: a new viewer drops this phone's choice, its saving state and the toast (and the offer). The test and the probe check it.
 
+**On the build (the Lead's review):**
+- **Time is up after a choice:** the foot must not invite a tap the screen refuses. Once `closed` is true, "Tap another to change" and "Tap one to choose" read "Time is up", sheet 16's own words for the closed state. The character, its portrait and "✓ Yours" stay. "Assigned automatically" (as sheet 16 draws it at 0:00) and "Saving your choice" keep their words, as neither invites a tap.
+- **The list at the Largest text:** accepted, and kept recorded as the one difference (below).
+- **The bar's glyph:** the phone shell 0.2.2 draws its icon at the pack's 24 px (it was 22 px), merged here; the agreement compares it box for box.
+
 ## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/character-select/`:
@@ -47,7 +52,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/character-select/`:
 The tool is `design/tools/character-select-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/character-select.test.mjs`.
 
 **Uses unchanged:**
-- **The phone shell (0.2.0),** mounted inside the component as the role stage mounts it: the phase bar (`bar: { kind: 'phase', icon: 'players', title, sub, timer: { remainingMs, urgentAtMs: 5000 } }`), no tab bar, the phone's canvas behind it (`backdrop: 'canvas'`), its reconnecting banner and its toast.
+- **The phone shell (0.2.2),** mounted inside the component as the role stage mounts it: the phase bar (`bar: { kind: 'phase', icon: 'players', title, sub, timer: { remainingMs, urgentAtMs: 5000 } }`), no tab bar, the phone's canvas behind it (`backdrop: 'canvas'`), its reconnecting banner and its toast.
 - **The kit (0.5.1):** `grid9` and `cell` for the nine (available, selected, confirmed, taken; the check mark; the note), `portrait` for the foot, `pill` for "Yours", the spinner and the control policy.
 
 ## Mount, update and dispose
@@ -110,7 +115,7 @@ Each reports a tap, and only that.
 | --- | --- |
 | Top bar | The shell's phase bar: the players icon, "Choose a character" and its line ("Assigned for you if time runs out", or "Time is up"), the clock, amber from 0:05 |
 | The grid | The kit's 3 × 3, 12 px under the bar and 16 px in: each cell the portrait (to 100 px) and the name in capitals, no seat number; free, taken (dimmed, "Taken · 2"), saving (ringed amber, "Saving…"), yours (ringed, the check, "Yours") or assigned ("Assigned") |
-| The foot | 16 px above the bottom safe area: the 52 px portrait (or the empty tile with the players icon), the name in bold and the line under it ("Tap one to choose", the spinner on its own line and "Saving your choice", "Tap another to change" or "Assigned automatically"), and the amber "✓ Yours" pill once confirmed |
+| The foot | 16 px above the bottom safe area: the 52 px portrait (or the empty tile with the players icon), the name in bold and the line under it ("Tap one to choose", the spinner on its own line and "Saving your choice", "Tap another to change" or "Assigned automatically"; once time is up, "Time is up" in place of a line that invites a tap), and the amber "✓ Yours" pill once confirmed |
 | The toast | The shell's toast, "Assigned: Juno", with the info icon |
 | Larger text | At the Large text (150 %) the 3 × 3 with every name whole; at the Largest (200 %) the kit's list, every name whole; the screen scrolls to the foot |
 
@@ -121,7 +126,6 @@ Each reports a tap, and only that.
 The agreement draws the frozen pack's `ENTRY_SCREENS.choose` beside the screen and compares, to within half a pixel, the bar, the grid, every cell, its portrait, name, note and mark, the foot, the spinner, the pill and the toast: their boxes, words, looks, states (`aria-disabled`, `aria-busy`, `aria-pressed`, `aria-label`, `data-state`, `data-urgent`), icon drawings and the portrait files.
 
 - **Accepted, at the Largest text only:** the kit's 3 × 3 sits in its container (`.ms-k-grid-wrap`, the pack's own `.grid-wrap` rule), so where it has under 13 of its em across it becomes a list, every name whole, as the pack's rosters do. The pack's choose grid is not in a `.grid-wrap`, so it keeps the 3 × 3 with each name cut to a letter or two. The case puts the pack's grid in a `.grid-wrap`, compares everything else as usual, and records the list against the pack as it is.
-- **The shell's, recorded:** the phase bar's glyph is drawn at 22 px by the phone shell (`phone-shell.css .ms-ps-glyph .ms-ps-ic`) and at the icons' 24 px default by the pack; the same drawing, centred alike. It is compared by its drawing and centre, and recorded; it is the shell's to settle (raised with the Lead), not this screen's.
 
 ## Check
 
@@ -135,11 +139,6 @@ The agreement draws the frozen pack's `ENTRY_SCREENS.choose` beside the screen a
 2. Give `characters` from its crew data (`CREW[id].sign`), `holders` from the session's members (each other seat's `characterId`), `mine` from this seat's (`saving` while `chooseCharacter` is in flight), `choose` from today's `model.canChoose`, `closed` from the server, and the setup clock's remaining time each tick.
 3. Route `onChoose` to today's `chooseCharacter`.
 4. Today's choosing grid and its line leave the screen.
-
-## Open with the Lead
-
-- **Time is up after a choice:** sheet 16 draws "Time is up" only with an assigned character. With a character confirmed before the time ran out, the foot keeps sheet 16's confirmed words, "Tap another to change", while every other character is refused. Keep them, or show another line (which would be a departure, for the Lead and the owner)?
-- **The shell's glyph** (above): 22 px against the pack's 24 px, on every phase bar the shell draws.
 
 ## Not in this version
 

@@ -14,7 +14,8 @@
 //             drops them too; what the same update gives the new viewer is kept
 //   time      the clock shows what it is given, amber from 0:05; no clock without one; the clock reaching
 //             0:00 is not "Time is up"; only `closed` is
-//   words     the accessible names, the grid's group, and the foot's line said as it changes
+//   words     the accessible names, the grid's group, and the foot's line said as it changes; once time is
+//             up, the foot invites no tap the screen refuses
 //   layout    the grid 12 px under the bar, the foot 16 px above the bottom safe area, at both sizes; a
 //             change reported; at the Larger texts every name whole and the foot reachable
 //   dispose   after dispose(), nothing is left and nothing fires
@@ -217,6 +218,25 @@ export async function runCharacterSelectProbe({ sizes, choiceOf, characters }) {
         && none === null && closed.sub === CHOOSE_WORDS.closed && closed.free.state === 'taken' && closed.free.refused;
       s.screen.dispose();
       return { ok, texts, atZero, none, closed };
+    });
+    await check('words: once time is up, the foot invites no tap it refuses; assigned and saving keep their words', async () => {
+      const s = mount({ mine: NOVA });
+      const before = footOf(s);
+      s.screen.update({ closed: true, timer: { remainingMs: 0 } });
+      const chosen = footOf(s);
+      s.screen.update({ mine: null });
+      const none = footOf(s);
+      s.screen.update({ mine: { id: 'c7', state: 'assigned' } });
+      const assigned = footOf(s);
+      s.screen.update({ mine: { id: 'c6', state: 'saving' } });
+      const saving = footOf(s);
+      s.screen.update({ closed: false, mine: null });
+      const open = footOf(s);
+      const ok = before.line === CHOOSE_WORDS.change && chosen.name === characters[5].name && chosen.line === CHOOSE_WORDS.closed && chosen.pill === CHOOSE_WORDS.yours && !chosen.empty
+        && none.name === CHOOSE_WORDS.none && none.line === CHOOSE_WORDS.closed && none.empty
+        && assigned.line === CHOOSE_WORDS.auto && saving.line === CHOOSE_WORDS.savingLine && saving.spinner && open.line === CHOOSE_WORDS.tapOne;
+      s.screen.dispose();
+      return { ok, before, chosen, none, assigned, saving, open };
     });
     await check('words: the cells\' names, the grid\'s group, this phone\'s own pressed, and the foot\'s line said as it changes', async () => {
       const s = mount({ mine: { id: 'c6', state: 'saving' } });

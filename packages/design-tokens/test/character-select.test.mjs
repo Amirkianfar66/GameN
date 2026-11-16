@@ -192,12 +192,18 @@ test('each cell follows the server\'s word: free, taken, closed, this phone\'s s
   assert.equal(cell(nextCharacterSelectInput(s, { holders: { c6: 3 } }), 'c6').state, 'selected');
 });
 
-test('the foot says how this phone\'s choice stands', () => {
+test('the foot says how this phone\'s choice stands, and invites no tap once time is up', () => {
   const foot = s => { const { name, line, busy, pill } = chooseFoot(s); return [name, line, busy, pill]; };
   assert.deepEqual(foot(live({ mine: null })), ['No character yet', 'Tap one to choose', false, false]);
   assert.deepEqual(foot(live()), ['Nova', 'Saving your choice', true, false]);
   assert.deepEqual(foot(live({ mine: { id: 'c6', state: 'confirmed' } })), ['Nova', 'Tap another to change', false, true]);
   assert.deepEqual(foot(live({ mine: { id: 'c7', state: 'assigned' }, closed: true })), ['Juno', 'Assigned automatically', false, false]);
+  // Once time is up the foot invites no tap it refuses (the Lead, #292): "Time is up", sheet 16's words for the
+  // closed state; the character and "Yours" stay; "Assigned automatically" and "Saving your choice" keep their words.
+  assert.deepEqual(foot(live({ mine: { id: 'c6', state: 'confirmed' }, closed: true })), ['Nova', 'Time is up', false, true]);
+  assert.deepEqual(foot(live({ mine: null, closed: true })), ['No character yet', 'Time is up', false, false]);
+  assert.deepEqual(foot(live({ closed: true })), ['Nova', 'Saving your choice', true, false]);
+  assert.equal(CHOOSE_WORDS.closed, 'Time is up');
   assert.equal(chooseFoot(live({ mine: null })).character, null, 'none yet: the empty tile');
   assert.equal(chooseFoot(live()).character, 'c6');
 });
@@ -239,7 +245,10 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const listed = agree.checks.filter(c => c.detail.accepted);
   assert.equal(listed.length, 1);
   assert.ok(listed[0].detail.accepted.screenList && !listed[0].detail.accepted.packList);
-  // The shell's glyph: recorded where the bar draws it, the same drawing centred alike, 22 px against the pack's 24.
-  const shell = agree.checks.flatMap(c => c.detail.shell);
-  assert.ok(shell.length > 0 && shell.every(d => d.part === 'glyph icon 1' && d.pack.w === 24 && d.screen.w === 22));
+  // The bar's glyph is compared box for box (shell 0.2.2 draws it at the pack's 24 px).
+  assert.ok(agree.checks.some(c => c.detail.parts['glyph icon'].screen === 1), 'the glyph\'s icon compared');
+  for (const size of ['390x844', '430x932']) {
+    const c = record.captures[`${size}/closed`];
+    assert.ok(c.foot.line === 'Time is up' && c.foot.pill === 'Yours', `${size}: time up after a choice, the foot invites no tap`);
+  }
 });

@@ -29,17 +29,13 @@ function loadPack() {
   }));
 }
 
-/**
- * The parts compared, every match in order: [name, the pack's selector, the screen's selector, words, look, how]
- * (how: 'centre' compares where a part's centre is, not its size).
- */
+/** The parts compared, every match in order: [name, the pack's selector, the screen's selector, words, look]. */
 const PARTS = [
   ['bar', '.tb', '.ms-ps-tb', false, null],
   ['title', '.tb-name', '.ms-ps-name', true, ['fontSize', 'fontWeight', 'color']],
   ['sub', '.tb-sub', '.ms-ps-sub', true, ['fontSize', 'color']],
   ['glyph', '.tb-glyph', '.ms-ps-glyph', false, ['backgroundColor', 'color']],
-  // The shell's (phone-shell.css .ms-ps-glyph .ms-ps-ic): its drawing and its centre; its size is recorded below.
-  ['glyph icon', '.tb-glyph svg', '.ms-ps-glyph svg', false, null, 'centre'],
+  ['glyph icon', '.tb-glyph svg', '.ms-ps-glyph svg', false, null],
   ['timer', '.timer', '.ms-ps-timer', true, ['backgroundColor', 'color', 'fontSize', 'fontWeight']],
   ['timer icon', '.timer svg', '.ms-ps-timer svg', false, null],
   ['grid', '.choose-grid', '.ms-cs-grid', false, null],
@@ -83,7 +79,6 @@ function box(frame, node) {
 }
 const textOf = node => node.innerText.replace(/\s+/g, ' ').trim();
 const near = (a, b) => ['x', 'y', 'w', 'h'].every(k => Math.abs(a[k] - b[k]) <= TOLERANCE);
-const centred = (a, b) => Math.abs(a.x + a.w / 2 - (b.x + b.w / 2)) <= TOLERANCE && Math.abs(a.y + a.h / 2 - (b.y + b.h / 2)) <= TOLERANCE;
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
 const looks = (node, props) => Object.fromEntries(props.map(p => [p, getComputedStyle(node)[p]]));
 const STATE_ATTRS = ['aria-disabled', 'aria-busy', 'aria-pressed', 'aria-label', 'role', 'data-state', 'data-urgent'];
@@ -131,17 +126,14 @@ export async function runCharacterSelectAgreement({ sizes, states }) {
       await frames();
       accepted = { what: 'the 3 × 3 becomes a list at the Largest text, every name whole (the kit\'s .ms-k-grid-wrap, the pack\'s own .grid-wrap rule)', ...asIs };
     }
-    const differences = [], parts = {}, shell = [];
-    for (const [name, packSel, mineSel, compareWords, props, how] of PARTS) {
+    const differences = [], parts = {};
+    for (const [name, packSel, mineSel, compareWords, props] of PARTS) {
       const a = [...pack.querySelectorAll(packSel)].filter(visible), b = [...root.querySelectorAll(mineSel)].filter(visible);
       parts[name] = { pack: a.length, screen: b.length };
       if (a.length !== b.length) { differences.push({ part: name, what: 'count', pack: a.length, screen: b.length }); continue; }
       a.forEach((na, i) => {
         const nb = b[i], pa = box(pack, na), pb = box(host, nb);
-        if (how === 'centre') {
-          if (!centred(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'centre', pack: pa, screen: pb });
-          if (!near(pa, pb)) shell.push({ part: `${name} ${i + 1}`, what: 'the phone shell draws the phase bar\'s glyph at 22 px, the pack at its icons\' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell\'s, raised with the Lead', pack: pa, screen: pb });
-        } else if (!near(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
+        if (!near(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
         if (compareWords && textOf(na) !== textOf(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'words', pack: textOf(na), screen: textOf(nb) });
         if (props) { const la = looks(na, props), lb = looks(nb, props); if (JSON.stringify(la) !== JSON.stringify(lb)) differences.push({ part: `${name} ${i + 1}`, what: 'look', pack: la, screen: lb }); }
         if (na.tagName === 'svg' && drawing(na) !== drawing(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'drawing', pack: drawing(na).slice(0, 160), screen: drawing(nb).slice(0, 160) });
@@ -160,7 +152,7 @@ export async function runCharacterSelectAgreement({ sizes, states }) {
     if (JSON.stringify(packPictures) !== JSON.stringify(minePictures)) differences.push({ part: 'pictures', what: 'files', pack: packPictures, screen: minePictures });
     // A list case shows the screen's nine as a list, as the pack's own rule draws them; a Standard case, the 3 × 3 as the pack.
     const fits = c.list ? accepted.screenList && !accepted.packList && isList(packGrid) : !asIs.screenList && !asIs.packList;
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && fits, detail: { differences, parts, accepted, shell } });
+    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && fits, detail: { differences, parts, accepted } });
     screen.dispose();
     pack.remove();
     host.remove();

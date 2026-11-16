@@ -59,7 +59,8 @@ const EXPECT = {
   confirmed: s => drawn(s) && s.grid === GRID.later && s.marks === 1 && nova(s) && s.foot.pill === 'Yours' && !s.urgent,
   closing: s => drawn(s) && s.timer === '0:04' && s.urgent && s.grid === GRID.later && nova(s) && s.foot.pill === 'Yours',
   auto: s => drawn(s) && s.sub === 'Time is up' && s.timer === '0:00' && s.urgent && s.grid === GRID.auto && s.foot.name === 'Juno' && s.foot.line === 'Assigned automatically' && s.foot.pill === null && s.toast === 'Assigned: Juno',
-  closed: s => drawn(s) && s.sub === 'Time is up' && s.grid === GRID.closed && s.refused === 8 && nova(s),
+  // Time is up after a choice: the foot says so, and invites no tap (the Lead, #292); the pill stays.
+  closed: s => drawn(s) && s.sub === 'Time is up' && s.grid === GRID.closed && s.refused === 8 && nova(s, 'Time is up') && s.foot.pill === 'Yours',
   'not-offered': s => drawn(s) && s.grid === GRID.open && s.refused === 9 && s.reasons.includes('Opens when every seat is filled'),
   stale: s => drawn(s) && s.banner && s.refused === 9 && s.grid === GRID.later && nova(s),
   large: s => drawn(s) && s.root === 24 && s.grid === GRID.later && !s.list && (s.footInView || s.scrolls),

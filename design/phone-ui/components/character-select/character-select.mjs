@@ -143,13 +143,19 @@ export function characterCell(s, character) {
   return { state: 'available', note: '', mark: null, label: character.name, mine: false, busy: false, off: !s.choose.enabled, reason: s.choose.enabled ? null : s.choose.reason };
 }
 
-/** The foot: this phone's character and how it stands, or none yet (sheet 16). */
+/**
+ * The foot: this phone's character and how it stands, or none yet (sheet 16). Once the time is up (`closed`,
+ * the server's word) the foot never invites a tap the screen refuses: "Tap one to choose" and "Tap another to
+ * change" become "Time is up", sheet 16's words for the closed state (the Lead, #292); "Assigned
+ * automatically" and "Saving your choice" stay, and so do the character, its portrait and "✓ Yours".
+ */
 export function chooseFoot(s) {
   const W = CHOOSE_WORDS;
   const character = s.mine ? s.characters.find(c => c.id === s.mine.id) : null;
-  if (!character) return { character: null, name: W.none, line: W.tapOne, busy: false, pill: false };
+  if (!character) return { character: null, name: W.none, line: s.closed ? W.closed : W.tapOne, busy: false, pill: false };
   const st = s.mine.state;
-  return { character: character.id, name: character.name, line: st === 'saving' ? W.savingLine : st === 'assigned' ? W.auto : W.change, busy: st === 'saving', pill: st === 'confirmed' };
+  const line = st === 'saving' ? W.savingLine : st === 'assigned' ? W.auto : s.closed ? W.closed : W.change;
+  return { character: character.id, name: character.name, line, busy: st === 'saving', pill: st === 'confirmed' };
 }
 
 /**
