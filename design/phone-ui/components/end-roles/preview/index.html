@@ -1,0 +1,17 @@
+<!doctype html>
+<!-- mothership:dev-only · The Roles list's preview: the runtime component (../end-roles.mjs, on the kit) in the phone shell's cover (../../phone-shell/phone-shell.mjs, no bar, no tabs, edge to edge), over the end scene (../../end-scene/end-scene.mjs) in its stage, on the phone pack's synthetic fixtures and a labelled synthetic clock, at the two development phone sizes. Not the game, not a release. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roles list · preview</title>
+<!-- Unbundled, the preview resolves the game's two package imports here; the bundled check (design/tools/end-roles-check.mjs) needs none. -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="../../end-scene/end-scene.css">
+<link rel="stylesheet" href="../end-roles.css">
+<link rel="stylesheet" href="../../phone-shell/phone-shell.css">
+<link rel="stylesheet" href="./preview.css">
+<script type="module" src="./preview.mjs"></script>
+</head>
+<body></body>
+</html>

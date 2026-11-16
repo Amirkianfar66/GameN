@@ -1,0 +1,19 @@
+/* mothership:dev-only · The Roles list preview's page: frames, captions and the live phone's controls. */
+/* The page's root keeps the browser's 16 px, as the game's does (its html sets no size): the list's, the scene's and
+   the shell's rem sizes are the game's. Only the preview's own words are 14 px. */
+html, body { margin: 0; background: #0B0E14; color: #F4EBDD; }
+body { font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+.pv-head { padding: 20px 24px 4px; }
+.pv-head h1 { margin: 0 0 4px; font-size: 20px; }
+.pv-head p { margin: 0; color: #B9C4D3; max-width: 960px; }
+.pv-grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 20px 24px 40px; align-items: flex-start; }
+.pv-cell { margin: 0; }
+.pv-cell figcaption { margin: 0 0 8px; font-weight: 600; font-size: 14px; }
+.pv-cell figcaption small { display: block; font-weight: 400; color: #8696AE; }
+.pv-cell figcaption button { margin-top: 6px; font: inherit; color: #151923; background: #F1B84B; border: 0; border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+/* A phone at a development size; the shell fills it. */
+.pv-phone { position: relative; overflow: hidden; border-radius: 28px; background: #07090F; box-shadow: 0 0 0 2px #2A3346; }
+body.pv-single { background: #07090F; }
+body.pv-single .pv-phone { border-radius: 0; box-shadow: none; }
+/* The intents the component reported, under each phone. */
+.pv-log { margin: 6px 0 0; min-height: 1.4em; color: #8696AE; font-size: 12px; }

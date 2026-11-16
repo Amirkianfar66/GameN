@@ -1,0 +1,41 @@
+@import url("../kit/kit.css");
+/* Sheet 44's Roles list and "Return to lobby": runtime source, Designer's. The pack's .end-list, .reveal-row,
+   .team-chip and .menu-actions (design/phone-ui/prototype/screens.css), in the phone shell's cover, edge to edge over
+   the end scene (#271). Every rule is under .ms-end-roles. The root fills the cover and takes no taps; the list (it
+   scrolls) and the button do. */
+.ms-end-roles { position: absolute; inset: 0; pointer-events: none; }
+.ms-end-roles:focus { outline: none; }
+.ms-end-roles .ms-er-list, .ms-end-roles .ms-er-actions { pointer-events: auto; }
+.ms-end-roles .ms-er-list[hidden], .ms-end-roles .ms-er-actions[hidden] { display: none !important; }
+
+/* The list: 58 % down the phone, or 13 px under the end scene's title block when that ends lower (clear.top; the
+   Lead's Q3: the pack's own gap at the Standard text is 13.88 px), to 82 px above the bottom safe area. It scrolls. */
+.ms-end-roles .ms-er-list { position: absolute; left: 12px; right: 12px; top: max(58%, calc(var(--ms-er-clear, 0px) + 13px)); bottom: calc(var(--ms-er-safe-b, 0px) + 82px); overflow: auto; overscroll-behavior: contain; }
+.ms-end-roles .ms-er-label { margin-top: 0; }
+.ms-end-roles .ms-er-rows { margin: 0; padding: 0; list-style: none; }
+.ms-end-roles .ms-er-row { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--ms-k-hairline); }
+.ms-end-roles .ms-er-row .ms-k-pt { width: 34px; height: 34px; }
+/* A name too long for its line wraps, inside a word if it must, rather than pushing the chip out (larger text). */
+.ms-end-roles .ms-er-name { flex: 1; min-width: 0; font: 600 0.9375rem/1.2 var(--ms-k-font); overflow-wrap: anywhere; }
+/* The role's chip keeps its words on one line and its width, and grows with them past the pack's 26 px (above 200 %). */
+.ms-end-roles .ms-er-chip { display: inline-flex; flex: none; align-items: center; gap: 6px; min-height: 26px; padding: 0 10px; border-radius: 13px; font: 700 0.8125rem/1 var(--ms-k-font); white-space: nowrap; background: var(--ms-k-surface-3); }
+.ms-end-roles .ms-er-square { flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--ms-er-team); }
+/* Each team's colour is the kit's (component-kit-0.8.0: the tokens' color.factionPrivateOrRevealed, the pack's
+   --faction-blue, --faction-red and --faction-alien), for a revealed team only: the end reveal is one. */
+.ms-end-roles .ms-er-chip[data-team="Blue"] { --ms-er-team: var(--ms-k-faction-blue); }
+.ms-end-roles .ms-er-chip[data-team="Red"] { --ms-er-team: var(--ms-k-faction-red); }
+.ms-end-roles .ms-er-chip[data-team="Alien"] { --ms-er-team: var(--ms-k-faction-alien); }
+/* No team given: no colour square (the Lead's Q1). */
+.ms-end-roles .ms-er-chip:not([data-team]) .ms-er-square { display: none; }
+
+/* "Return to lobby", pinned 16 px from the sides and 18 px above the bottom safe area. */
+.ms-end-roles .ms-er-actions { position: absolute; left: 16px; right: 16px; bottom: calc(var(--ms-er-safe-b, 0px) + 18px); display: flex; flex-direction: column; gap: 12px; }
+
+/* They come with the end scene's words, as the words do: rising 8 px and fading in over 400 ms (easeOutCubic). */
+.ms-end-roles [data-appear="rise"] { animation: ms-er-rise 400ms cubic-bezier(0.33, 1, 0.68, 1) both; }
+@keyframes ms-er-rise { from { opacity: 0; translate: 0 8px; } }
+/* Reduce motion (the game's or the device's): at once, with one 80 ms fade, as the scene's still comes in. */
+.ms-end-roles [data-appear="fade"] { animation: ms-er-fade 80ms linear both; }
+@keyframes ms-er-fade { from { opacity: 0; } }
+.ms-end-roles.ms-kit[data-motion="reduced"] [data-appear="rise"] { animation: ms-er-fade 80ms linear both; }
+@media (prefers-reduced-motion: reduce) { .ms-end-roles [data-appear="rise"] { animation: ms-er-fade 80ms linear both; } }
