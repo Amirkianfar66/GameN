@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
+import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, TILE_STATES, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
 import { CASES } from '../../../design/phone-ui/components/kit/preview/cases.mjs';
 import { ACCEPTED } from '../../../design/phone-ui/components/kit/preview/compare.mjs';
 
@@ -15,6 +15,7 @@ const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const read = path => readFileSync(join(REPO, path), 'utf8');
 const KIT_CSS = read('design/phone-ui/components/kit/kit.css');
 const PACK_CSS = read('design/phone-ui/prototype/kit.css');
+const SCREENS_CSS = read('design/phone-ui/prototype/screens.css');
 
 function graph(entry) {
   const seen = new Map();
@@ -45,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.5.1', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.6.0', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -97,6 +98,8 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   for (const tone of STAMP_TONES.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.stamp\\[data-tone="${tone}"\\]`), `the pack has a ${tone} stamp`);
   for (const tone of PILL_TONES.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.pill\\[data-tone="${tone}"\\]`), `the pack has a ${tone} pill`);
   for (const tint of ROW_TINTS.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.row-icon\\[data-tint="${tint}"\\]`), `the pack has a ${tint} row icon`);
+  // The tile's states (0.6.0) are the pack's screens.css ones; sending is its submitting.
+  for (const state of TILE_STATES.filter(s => s !== 'available')) assert.match(SCREENS_CSS, new RegExp(`\\.tile\\[data-state="${state === 'sending' ? 'submitting' : state}"\\]`), `the pack draws a ${state} tile`);
   // On glass, the pack's lighter greys.
   assert.ok(KIT_CSS.includes('.ms-kit :where([data-ms-surface="glass"], [data-ms-surface="glass"] .ms-kit) { --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; }'), 'on glass, and in a component root on glass');
   assert.match(PACK_CSS, /--text-secondary: #DCE3EC; --text-tertiary: #D3DBE5;/);

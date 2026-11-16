@@ -46,6 +46,43 @@ const WAIT = ({ lead = false, spinner = false } = {}) => [
   ...(spinner ? [['spinner', ':scope > .wait > p > .spinner', ':scope > .ms-k-wait > .ms-k-wait-line > .ms-k-spinner']] : []),
 ];
 
+/** A tile's parts, the n-th in the grid (screens.css .tile; the kit's from 0.6.0). */
+const TILE = n => {
+  const p = `:scope > .tiles > :nth-child(${n})`, k = `:scope > .ms-k-tiles > :nth-child(${n})`;
+  return [
+    [`tile ${n}`, p, k],
+    [`tile ${n} icon`, `${p} > .tile-icon`, `${k} > .ms-k-tile-icon`, { pseudo: ['::after'] }],
+    [`tile ${n} drawing`, `${p} > .tile-icon > svg`, `${k} > .ms-k-tile-icon > svg`, { svg: true }],
+    [`tile ${n} name`, `${p} > b`, `${k} > .ms-k-tile-name`, { words: true }],
+    [`tile ${n} note`, `${p} > small`, `${k} > .ms-k-tile-note:not([hidden])`, { words: true }],
+    [`tile ${n} badge`, `${p} > .tile-badge`, `${k} > .ms-k-tile-badge:not([hidden])`, { words: true }],
+    [`tile ${n} stamp`, `${p} > .mini-stamp`, `${k} > .ms-k-tile-stamp:not([hidden])`, { words: true }],
+  ];
+};
+/** The pack's tile, as screens-game.mjs tile() builds it: a button while it can be chosen, else a div. */
+const packTile = (ui, icon, label, { state = 'available', note = null, badge = null } = {}) => {
+  const interactive = ['available', 'selected'].includes(state);
+  return ui.h(interactive ? 'button.tile' : 'div.tile', { type: interactive ? 'button' : null, 'data-state': state, 'aria-disabled': interactive ? null : 'true' },
+    ui.h('span.tile-icon', ui.ic(icon, { filled: state !== 'unavailable' && state !== 'spent' })),
+    ui.h('b', label), note ? ui.h('small', note) : null,
+    badge ? ui.h('span.tile-badge', badge) : null,
+    state === 'registered' ? ui.h('span.mini-stamp', 'REGISTERED') : null);
+};
+/** Who's parts (screens.css .confirm-who): the person or the action's tile, the title and the line. */
+const WHO = icon => [
+  ['who', ':scope > .confirm-who', ':scope > .ms-k-who'],
+  ...(icon ? [['lead', ':scope > .confirm-who > .tile-icon', ':scope > .ms-k-who > .ms-k-who-lead'],
+    ['lead drawing', ':scope > .confirm-who > .tile-icon > svg', ':scope > .ms-k-who > .ms-k-who-lead > svg', { svg: true }]]
+    : [['portrait', ':scope > .confirm-who > .pt', ':scope > .ms-k-who > .ms-k-who-lead > .ms-k-pt', { portrait: true }]]),
+  ['title', ':scope > .confirm-who > div > b', ':scope > .ms-k-who > .ms-k-who-words > .ms-k-who-title', { words: true }],
+  ['sub', ':scope > .confirm-who > div > span', ':scope > .ms-k-who > .ms-k-who-words > .ms-k-who-sub', { words: true }],
+];
+/** The facts' parts (screens.css .facts): the list, and each line's icon and words. */
+const FACTS = n => [['facts', ':scope > .facts', ':scope > .ms-k-facts'], ...Array.from({ length: n }, (_, i) => {
+  const p = `:scope > .facts > li:nth-child(${i + 1})`, k = `:scope > .ms-k-facts > .ms-k-fact:nth-child(${i + 1})`;
+  return [[`fact ${i + 1}`, p, k], [`fact ${i + 1} icon`, `${p} > svg`, `${k} > svg`, { svg: true }], [`fact ${i + 1} words`, `${p} > span`, `${k} > .ms-k-fact-text`, { words: true }]];
+}).flat()];
+
 /** A cell's parts, the n-th of the 3 × 3. */
 const CELL = n => {
   const p = `.grid9 > :nth-child(${n})`, k = `.ms-k-grid9 > :nth-child(${n})`;
@@ -199,6 +236,39 @@ export const CASES = Object.freeze([
     pack: ({ ui }) => ui.h('div.wait', ui.pt(seat(2).character, 76), ui.h('h2', { style: { fontSize: '1.25rem' } }, 'Ben is choosing an Officer'), ui.h('p', 'Chosen at random if time runs out')),
     kit: ({ kit, versions }) => kit.wait({ lead: kit.portrait(seat(2), versions), title: 'Ben is choosing an Officer', line: 'Chosen at random if time runs out', size: 'small' }),
     parts: WAIT({ lead: true }) },
+
+  // ── The tile, who, the facts and the paper card (0.6.0: moved from play-parts; screens.css and kit.css .comic) ──
+  // Every tile state the kit has (sending is the pack's submitting), with a note, a badge and the registered mark.
+  { id: 'tiles', where: 'both',
+    pack: ({ ui }) => ui.h('div.tiles',
+      packTile(ui, 'rescue', 'Rescue', { note: '2 injections', badge: '2' }), packTile(ui, 'protect', 'Protect', { state: 'selected' }),
+      packTile(ui, 'scan', 'Scan', { state: 'submitting' }), packTile(ui, 'talk', 'Talk', { state: 'registered' }),
+      packTile(ui, 'clone', 'Clone', { state: 'unavailable', note: 'From Round 4' })),
+    kit: ({ kit }) => kit.tiles(
+      kit.tile({ icon: 'rescue', name: 'Rescue', note: '2 injections', badge: 2 }), kit.tile({ icon: 'protect', name: 'Protect', state: 'selected' }),
+      kit.tile({ icon: 'scan', name: 'Scan', state: 'sending' }), kit.tile({ icon: 'talk', name: 'Talk', state: 'registered' }),
+      kit.tile({ icon: 'clone', name: 'Clone', state: 'unavailable', note: 'From Round 4' })),
+    parts: [['tiles', ':scope > .tiles', ':scope > .ms-k-tiles'], ...[1, 2, 3, 4, 5].flatMap(TILE)] },
+  // Who: the check before Register's person (sheet 29), and an office's action on its own tile (sheet 40).
+  { id: 'who', where: 'both',
+    pack: ({ ui }) => ui.h('div.confirm-who', ui.pt(seat(5).character, 64), ui.h('div', ui.h('b', 'Rescue Eli'), ui.h('span', 'Player 5 · Hospital'))),
+    kit: ({ kit, versions }) => kit.who({ people: [seat(5)], title: 'Rescue Eli', sub: 'Player 5 · Hospital', versions }),
+    parts: WHO(false) },
+  { id: 'who icon', where: 'both',
+    pack: ({ ui }) => ui.h('div.confirm-who', ui.h('span.tile-icon', ui.ic('release', { filled: true })), ui.h('div', ui.h('b', 'Release the Jail'), ui.h('span', 'Fay and Ike are in Jail'))),
+    kit: ({ kit }) => kit.who({ icon: 'release', title: 'Release the Jail', sub: 'Fay and Ike are in Jail' }),
+    parts: WHO(true) },
+  // The facts, with the pack's amber "i" and Promises' lock (sheet 33).
+  { id: 'facts', where: 'both',
+    pack: ({ ui }) => ui.h('ul.facts', ui.h('li', ui.ic('info', { filled: true }), ui.h('span', 'Uses your one given Promise only if Ava accepts')),
+      ui.h('li', ui.ic('lock', { filled: true }), ui.h('span', 'Only you and Ava see it'))),
+    kit: ({ kit }) => kit.facts(['Uses your one given Promise only if Ava accepts', { icon: 'lock', text: 'Only you and Ava see it' }]),
+    parts: FACTS(2) },
+  // The paper card (kit.css .comic), padded by its screen as sheet 33's offer card is.
+  { id: 'paper card', where: 'plain',
+    pack: ({ ui }) => ui.h('article.comic', { style: { padding: '14px' } }, ui.h('div', { style: { height: '60px' } })),
+    kit: ({ kit }) => { const card = kit.comic(kit.h('div', null, { style: 'height: 60px' })); card.style.padding = '14px'; return card; },
+    parts: [['card', ':scope > .comic', ':scope > .ms-k-comic']] },
 
   // ── The 3 × 3: every state, a count, You and a mark (in a list in seat order when it is narrow) ──
   { id: 'cells', where: 'both',
