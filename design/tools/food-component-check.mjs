@@ -14,6 +14,8 @@
 //   pixels, exactly, in the scene outside the surface's notices and wherever the words agree;
 //   agrees with Frontend's ten native captures from #290 (read from that commit, each held to its SHA-256, never
 //   copied): the scene's pixels within a stated limit, another machine's fonts and browser apart, with controls;
+//   draws eight of the states at the game's larger text (its root's size: Large at 150 %, Largest at 200 %) at both
+//   sizes, and holds them to the frozen port in the same way: the larger-text support is the port's own, unchanged;
 //   runs the lifecycle probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion.
 // A page passes with no policy report but the known one, no failed request and no page error. Every check must
 // pass. It writes design/phone-ui/components/food/review/: pictures of the states and of the comparisons, and
@@ -59,6 +61,10 @@ const { FOOD_VERSION } = await import(pathToFileURL(join(REPO, COMPONENT, 'food-
  * levels apart; each control must measure at least twice what the comparison measures.
  */
 export const LIMITS = Object.freeze({ box: 0.5, packageSame: 0, packageSceneMean: 0.05, packageSceneFar: 0.001, packageGlass: 1, nativeSceneMean: 3, nativeSceneFar: 0.02, controlFactor: 2 });
+/** The game's larger text sizes (apps/game/hosted/planet/preferences.mjs: Large and Largest), and the states drawn at them: the five parts, a briefing, a sheet and a request. */
+const LARGER = Object.freeze({ texts: [1.5, 2], states: [...PARTS, 'case-food-winch-01', 'case-food-flow-02', 'case-food-flow-04'], pictures: ['food-panel-04/1.5', 'food-panel-04/2', 'food-winch-03/2', 'case-food-flow-04/2'] });
+/** The surface's own top bar, in CSS px, at each text size: the review frames' 47 px safe area and the kit's bar. */
+const BAR_TOP = Object.freeze({ 1: 99, 1.5: 117, 2: 141 });
 /** A notice's shadow reaches past its box: the scene is measured this far clear of each notice, in CSS px. */
 const NOTICE_CLEAR = 40;
 /** The port keeps an empty slot for the instrument in its dock; with no instrument, the slot's gap makes the dock this much taller than the package's, and draws nothing. */
@@ -188,7 +194,7 @@ const { server, origin } = await serve(out);
 const reference = await startServer();
 const chrome = await launchBrowser();
 const browser = await connect(chrome.endpoint);
-const captures = {}, probes = {}, agreement = { port: { states: 0, equal: 0, control: null }, package: {}, native: {} };
+const captures = {}, probes = {}, larger = {}, agreement = { port: { states: 0, equal: 0, control: null }, package: {}, native: {} };
 let failed = [packet.ok, port.ok, pack.ok, native.ok].filter(ok => !ok).length;
 const report = async (page, violations) => {
   for (const v of violations) v.kind = await classify(out, v);
@@ -215,12 +221,12 @@ async function draw(pageName, state, sizeKey, motion, extra = '') {
   } finally { await page.close(); }
 }
 /** A picture of the component for the review folder, at two device pixels per CSS pixel. */
-async function picture(state, sizeKey, motion, file) {
+async function picture(state, sizeKey, motion, file, extra = '') {
   const [width, height] = SIZES[sizeKey];
   const page = await openPage(browser, { width, height, scale: 2 });
   if (MOTIONS[motion]) await page.media(MOTIONS[motion]);
   try {
-    await page.goto(`${origin}/index.html?state=${state}&size=${sizeKey}&single=1`, 'document.readyState === "complete" && window.__food');
+    await page.goto(`${origin}/index.html?state=${state}&size=${sizeKey}&single=1${extra}`, 'document.readyState === "complete" && window.__food');
     await page.evaluate('window.__food.ready');
     await page.evaluate('window.__food.freeze(300)');
     const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 76, clip: { x: 0, y: 0, width, height, scale: 1 } });
@@ -297,6 +303,27 @@ try {
     agreement.port.control.ok = !agreement.port.control.html && !agreement.port.control.pixels;
     if (!agreement.port.control.ok) failed += 1;
     console.log(`${agreement.port.control.ok ? 'ok  ' : 'FAIL'} the port's clock moved one second: the DOM and the pixels differ`);
+  }
+
+  // ── Larger text: the port's own support, held to the port in the same way ───────────────────────────────
+  for (const sizeKey of Object.keys(SIZES)) {
+    for (const stateId of LARGER.states.filter(id => states.some(state => state.id === id))) {
+      for (const text of LARGER.texts) {
+        const notes = [], must = (condition, note) => { if (!condition) notes.push(note); };
+        const mine = await draw('index', stateId, sizeKey, 'full', `&text=${text}`), theirs = await draw('port', stateId, sizeKey, 'full', `&text=${text}`);
+        const s = mine.seen, t = theirs.seen;
+        const equal = { html: s.html === t.html, text: s.text === t.text, boxes: same(s.boxes, t.boxes), controls: same(s.controls, t.controls), covers: same(s.owned, t.owned) && same(s.measured, t.measured), pixels: mine.png.equals(theirs.png) };
+        must(Object.values(equal).every(Boolean), `the frozen port draws the same: ${Object.entries(equal).filter(([, ok]) => !ok).map(([key]) => key).join(', ') || 'everything'}`);
+        must(s.measured.top === BAR_TOP[text], `the surface's top bar is ${BAR_TOP[text]} px at this text size`);
+        must(same((s.controls ?? []).map(c => [c.act, c.enabled, c.busy, c.label, c.sub]), EXPECT[stateId].controls ?? []) && (EXPECT[stateId].says ?? []).every(words => lines(s.text ?? '').some(line => line.toLowerCase() === words.toLowerCase())), 'it shows its state\'s controls and says its words');
+        must([...mine.problems, ...theirs.problems].length === 0 && [...mine.violations, ...theirs.violations].every(v => v.kind !== 'unexpected'), 'no page problem and no policy report but the known one');
+        const ok = notes.length === 0, key = `${sizeKey}/${stateId}/${text * 100}%`;
+        if (!ok) failed += 1;
+        larger[key] = { ok, notes, rootPx: 16 * text, bars: s.measured, equal, htmlSha256: sha256(s.html ?? ''), pngSha256: sha256(mine.png), violations: mine.violations, problems: mine.problems };
+        if (sizeKey === '390x844' && LARGER.pictures.includes(`${stateId}/${text}`)) Object.assign(larger[key], await picture(stateId, sizeKey, 'full', `${sizeKey}-${stateId}-text${text * 100}.jpg`, `&text=${text}`));
+        console.log(`${ok ? 'ok  ' : 'FAIL'} larger text ${sizeKey} ${stateId} at ${text * 100} %${ok ? '' : ` · ${notes.join('; ')}`}`);
+      }
+    }
   }
 
   // ── The five parts beside the package's own pages, and beside #290's native captures ─────────────────────
@@ -445,11 +472,13 @@ const record = {
   packet, port, package: pack, native: { ...native, files: native.files }, art,
   captures,
   agreement,
+  largerText: { texts: LARGER.texts, states: LARGER.states, barTop: BAR_TOP, drawn: larger },
   probe: probes,
 };
 if (!ONLY) await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\n`);
 const passed = Object.values(captures).filter(c => c.ok).length, checks = Object.values(probes).flatMap(p => p.checks ?? []);
 console.log(`pins ${packet.ok && port.ok && pack.ok && native.ok ? 'hold' : 'DO NOT HOLD'}; ${passed} of ${Object.keys(captures).length} captures passed; the frozen port draws the same in ${agreement.port.equal} of ${agreement.port.states}; `
   + `package ${Object.values(agreement.package).filter(a => a.ok).length} of ${Object.keys(agreement.package).length}; native ${Object.values(agreement.native).filter(a => a.ok).length} of ${Object.keys(agreement.native).length}; `
+  + `larger text ${Object.values(larger).filter(a => a.ok).length} of ${Object.keys(larger).length}; `
   + `probe ${checks.filter(c => c.ok).length} of ${checks.length} checks; ${ONLY ? 'a partial run: no record written' : `record written to ${COMPONENT}/review/check.json`}`);
 if (failed) process.exitCode = 1;
