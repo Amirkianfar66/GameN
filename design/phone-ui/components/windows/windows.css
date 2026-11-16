@@ -1,0 +1,55 @@
+@import url("../kit/kit.css");
+
+/*
+ * Windows' styles: runtime source, Designer's (windows.mjs). The phone pack's own values (screens.css .canvas-box,
+ * .swatches, .swatch and .drawing-meta, and screens-more.mjs windows; sheet 34), scoped under .ms-windows so nothing
+ * here reaches the rest of the app and nothing of the app's reaches in. The group labels, the icon buttons, the
+ * stamp and the waiting block are the shared kit's (../kit/kit.css); the sheet's frame, footer and glass the phone
+ * shell's. Its own: the drawing's dark box, the drawing box's pen, the inks, the drawing's line, the stamp's place, and
+ * the 12 px between windows.
+ */
+
+.ms-windows:focus { outline: none; }
+.ms-windows :where([class^="ms-wn-"], [class*=" ms-wn-"]) { box-sizing: border-box; }
+.ms-windows :is(.ms-k-group-label, .ms-wn-drawings)[hidden] { display: none; }
+
+/* A window's head (the pack's .section-head): the rooms in capitals at the left, its line at the right. */
+.ms-windows .ms-wn-head { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 2px 10px; }
+.ms-windows .ms-wn-head-title { margin: 0; font: 700 0.8125rem/1.2 var(--ms-k-font); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ms-k-text-2); }
+.ms-windows .ms-wn-head-aside { font: 500 0.8125rem/1.2 var(--ms-k-font); color: var(--ms-k-text-3); }
+
+/* The pack's 12 px between one window and the next; the same between drawings at one window (not drawn). Padding,
+   so the head's own 4 px stays as the pack's spacer leaves it. */
+.ms-windows .ms-wn-window + .ms-wn-window, .ms-windows .ms-wn-drawing + .ms-wn-drawing { padding-top: 12px; }
+
+/* A drawing's dark box (.canvas-box): the 512 × 280 proportion, the strokes as SVG filling it. */
+.ms-windows .ms-wn-frame { position: relative; }
+.ms-windows .ms-wn-box { position: relative; aspect-ratio: 512 / 280; border-radius: 14px; background: #0E1420; box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); overflow: hidden; }
+.ms-windows .ms-wn-box > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ms-windows .ms-wn-stamp { position: absolute; right: 10px; top: 10px; }
+
+/* Its line (.drawing-meta): "1 · Hana · Round 3" at the left, "Unverified" at the right. */
+.ms-windows .ms-wn-meta { display: flex; justify-content: space-between; margin: 6px 2px 0; font: 500 0.8125rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); }
+
+/* The drawing box at a station: a finger or a pen draws, and the sheet doesn't scroll under it. The pen's mark
+   only while the keyboard draws (decision 6). */
+.ms-windows .ms-wn-pad { touch-action: none; cursor: crosshair; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+.ms-windows .ms-wn-pad:focus { outline: none; }
+.ms-windows .ms-wn-pad:focus-visible { outline: 3px solid #FFD36D; outline-offset: 2px; }
+.ms-windows .ms-wn-pen { display: none; }
+.ms-windows .ms-wn-pad[data-pen] .ms-wn-pen { display: inline; }
+
+/* The inks, then Undo and Clear (.swatches): four 34 px rounds, the chosen one ringed in amber. */
+.ms-windows .ms-wn-tools { display: flex; gap: 10px; align-items: center; margin: 12px 0 4px; }
+.ms-windows .ms-wn-inks { display: flex; gap: 10px; align-items: center; }
+.ms-windows .ms-wn-spacer { flex: 1; }
+.ms-windows .ms-wn-swatch { appearance: none; margin: 0; padding: 0; font: inherit; width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--ms-k-surface-2); box-shadow: 0 0 0 1.5px var(--ms-k-hairline); position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ms-windows .ms-wn-swatch::before { content: ""; position: absolute; inset: -6px; }
+.ms-windows .ms-wn-swatch[aria-checked="true"] { box-shadow: 0 0 0 2.5px var(--ms-k-accent); }
+.ms-windows .ms-wn-swatch:focus { outline: none; }
+.ms-windows .ms-wn-swatch:focus-visible { outline: 3px solid #FFD36D; outline-offset: 4px; }
+.ms-windows .ms-wn-swatch[data-ink="gold"] { background: #F7D886; }
+.ms-windows .ms-wn-swatch[data-ink="paper"] { background: #F4EBDD; }
+.ms-windows .ms-wn-swatch[data-ink="teal"] { background: #57BBA8; }
+.ms-windows .ms-wn-swatch[data-ink="pink"] { background: #C2408F; }
+.ms-windows .ms-wn-swatch[aria-disabled="true"] { cursor: default; }

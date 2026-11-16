@@ -1,6 +1,6 @@
 # Windows: Designer's runtime component
 
-**Version:** `windows-0.1.0`. **Status (16 November 2026):** the interface, approved by the Lead Designer with the answers below (#299). The build has started, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `windows-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the answers below (#299), without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). Its check's record is at the end.
 
 **What it is:** the Windows sheet, as sheet 34 draws it: the drawings shown at the windows of this player's room, and, at a window's station, a drawing to show. It covers the Windows half of #222 item 32 (P3): "names and portraits instead of player numbers". It is the destination that the Panels row opens (#296). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -32,9 +32,9 @@ Designer's, runtime-safe, in `design/phone-ui/components/windows/`:
 
 | Path | What |
 | --- | --- |
-| `windows.mjs` | `mountWindows()`, `windowsSheet()`, `nextWindowsInput()`, `WINDOWS_DEFAULTS`, `WINDOWS_VERSION`, `WINDOWS_SHEET_ID`, `WINDOWS_WORDS`, `INKS` (the pack's four), `drawingSvg()` (a drawing's strokes as the pack's SVG, in its 512 × 280 box) |
-| `windows.css` | Every style, under `.ms-windows`; starts with the kit's stylesheet. Its own: the drawing box, the inks, the drawing's line, and the stamp's place |
-| `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A, as sheet 34 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `windows` in its four states) |
+| `windows.mjs` | `mountWindows()`, `windowsSheet()`, `nextWindowsInput()`, `WINDOWS_DEFAULTS`, `WINDOWS_VERSION`, `WINDOWS_SHEET_ID`, `WINDOWS_WORDS`, `INKS` (the pack's four), `PEN_WIDTH` (6), `DRAWING_BOX` (512 × 280), `DRAWING_LIMITS` (the contract's), `checkStrokes()` (a drawing's strokes checked against them), `drawingSvg(document, drawing)` (a drawing as the pack's SVG, in its box) |
+| `windows.css` | Every style, under `.ms-windows`; starts with the kit's stylesheet. Its own: the drawing's dark box, the drawing box's pen, the inks, the drawing's line, the stamp's place, and the 12 px between windows |
+| `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A with the Panels tab open, as sheet 34 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `windows` in its four states). Its drawings are the pack's own sketches (Hana's face, Eli's arrow, Dev's "13") turned into the contract's strokes: a line's corners exactly, a curve sampled every 3 units along it |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/windows-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/windows.test.mjs`.
@@ -65,17 +65,17 @@ windows.dispose();                                     // safe twice; afterwards
 | --- | --- | --- |
 | `view` | This phone | `windows` or `shown`: Frontend's (`shown` after a Show it sent is accepted, until Done) |
 | `status`, `interactive`, `viewer` | This phone | `live`, `stale` or `concealed`, as the shell's |
-| `windows` | The window's rooms | `[{ windowId, rooms, station, drawings }]`, from the projection's `windows`. `rooms` are the window's two rooms by name (`['Room A', 'Hospital']`); `station` is this player's place when they can draw there (`'A2'`, from `canDraw` and the seat's place), or `null`; `drawings` are `[{ id, order, round, author: { seat, name }, drawing }]`, this round's, in order, with `drawing` the contract's strokes |
+| `windows` | The window's rooms | `[{ windowId, rooms, station, drawings }]`, from the projection's `windows`, all the room's windows. `rooms` are the window's two rooms by name, this player's first (`['Room A', 'Hospital']`); `station` is this player's place when they can draw there (`'A2'`, from `canDraw` and the seat's place), or `null`, on one window at most; `drawings` are `[{ id, order, round, author: { seat, name }, drawing: { strokes } }]`, this round's, drawn by `order` (then `id`), each `drawing` the contract's and checked against it |
 | `none` | This phone | `{ title, line }`, both Frontend's, when no window is given. The component can't tell a room with no window from closed windows, and doesn't guess (decision 3). Drawn: `{ title: 'No window here', line: 'The Command Room has no window' }` |
-| `draft` | This phone, private | The drawing being made: `{ windowId, ink, strokes }`, Frontend's to keep between mounts. Dropped on a viewer change or when concealed (decision 4) |
-| `show` | This phone | `{ enabled, busy, reason }`: the projection's `SHOW_WINDOW` offer, and Frontend's state while it is sent |
+| `draft` | This phone, private | The drawing being made: `{ windowId, ink, strokes }`, Frontend's to keep between mounts; `ink` one of the four (Gold until chosen), `strokes` none or more within the limits. A draft for another window isn't this one's: the box starts blank. Dropped on a viewer change or when concealed (decision 4) |
+| `show` | This phone | `{ enabled, busy, reason }`: the projection's `SHOW_WINDOW` offer, and Frontend's state while it is sent; the reason drawn as given |
 | `shown` | This phone | In `shown`: the id of the drawing just shown (one of the station window's drawings, by this player) |
 
 ## Callbacks
 
 | Callback | When |
 | --- | --- |
-| `onDraft({ windowId, ink, strokes })` | A stroke ends, Undo or Clear is tapped, or an ink is chosen: the whole draft, as the contract's drawing takes it |
+| `onDraft({ windowId, ink, strokes })` | A stroke ends (the finger lifts, Shift is let go, another arrow or Space, or the box loses the focus), Undo or Clear is tapped, or another ink is chosen: the whole draft, a new copy, as the contract's drawing takes it. A stroke still being drawn when the station, the viewer or the status changes ends unreported |
 | The shell's `onSheetAction(id)` | `show` (Frontend sends `SHOW_WINDOW { windowId, drawing }` with the draft's strokes), `done` (from `shown`: back to `windows`, a new blank draft) |
 | `onFocusReturn({ intent, value })` | As the other components' |
 
@@ -96,6 +96,15 @@ windows.dispose();                                     // safe twice; afterwards
 - Show is off while the draft is empty: the form's own state, not a game rule.
 
 **Motion:** none of its own.
+
+**Not drawn by the pack, and how they're drawn** (each the nearest the pack allows, with no words of their own):
+- **Two drawings at one window:** 12 px between them, as between windows.
+- **A window with no drawing yet:** its head alone; at a station, "Shown this round" is left out.
+- **Nothing drawn:** Undo and Clear dimmed and refused, without words; Show off.
+- **Show in flight:** the shell's busy footer button.
+- **The keyboard's pen:** a ring in the chosen ink (9 in 512, 3 wide) where the pen is.
+- **The inks' radio group:** it holds the four inks only, as radios do. The pack's group also holds Undo and Clear, and its inks also carry `aria-pressed`, which a radio doesn't take. The agreement records both.
+- **The drawing box:** `role="application"`, so a screen reader passes the arrows and Space to it.
 
 ## Frontend's connection
 
@@ -124,20 +133,16 @@ windows.dispose();                                     // safe twice; afterwards
 - That window's drawings are seen from the view state, away from a station.
 - Showing them below would change a drawn state, which needs the owner's approval (decision 2). The component follows the pack.
 
+## The check
+
+`node design/tools/windows-check.mjs` bundles the preview as the game bundles the component, serves it with the hosted game's production headers, and writes `design/phone-ui/components/windows/review/`:
+- **18 captures:** sheet 34's four states, nothing drawn yet, Show in flight, the keyboard's pen, reconnecting and the Largest text, at 390 × 844 and 430 × 932;
+- **the probe, 19 checks:** drawing by finger and by keyboard, the inks, Undo and Clear, the limits, the footer, the views, privacy, a stroke through updates, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
+- **the agreement, 9 cases:** the sheet beside the frozen pack's `windows` in its four states at both sizes, and drawing at the Largest text: the same words, states, look and boxes to within half a pixel, each stroke by its box, ink, width, ends and joins.
+
+**Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.
+
 ## Not in this version
 
-Everything: this is the interface. Next:
-- the module and its styles;
-- the preview's states:
-  - view at both windows;
-  - drawing at A2, with a draft;
-  - shown;
-  - no window;
-  - Show in flight;
-  - reconnecting;
-  - the Largest text;
-- the probe (including drawing by pointer and by keyboard, the limits, Undo and Clear, and the draft's privacy);
-- the check at 390 × 844 and 430 × 932 under the production headers;
-- the agreement with the pack;
-- the test;
-- the owner's test page.
+- **Frontend's connection** (#284 is not started by Designer).
+- **The owner's test page:** built from the preview, published once the owner gives the go-ahead.
