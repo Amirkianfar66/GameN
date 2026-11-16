@@ -1,6 +1,6 @@
 # The Room ↔ Board zoom: Designer's runtime component
 
-**Version:** `view-zoom-0.1.0`, proposed. **Status (16 November 2026):** the interface the Lead Designer approved for the board's option B, with the Lead's changes (below). It is for Frontend's review on #4 before it is built. Nothing here is built yet; it is not in the game, and it is not a release.
+**Version:** `view-zoom-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved for the board's option B, with the Lead's changes (below), and posted for Frontend on #4 ([6909300146](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6909300146)). Frontend has not connected it: it is not in the game yet, and it is not a release.
 
 **What it is:** the switch between the room view and the board, as the handoff's motion table gives it. The board's other open item is the board's name tags ([board-tags.md](board-tags.md)).
 
@@ -57,9 +57,19 @@ const zoom = zoomRoomBoard({ room, board, panel, to, reducedMotion, hold });
 - When `finished` settles, or on `cancel()`, it removes all of these, so neither element keeps a style from the zoom.
 - It never reads the game state and never sends a command.
 
-## Checks, when built
+## As built
 
-The preview puts the room scene and the pack's own `paintBoard` in one stage, under the hosted game's production headers.
+For the Lead. Nothing here changes the approved interface:
+
+1. **Hiding the outgoing view.** When the zoom settles it removes its styles, and the outgoing view would be whole again for a moment. `finished`'s callback runs before the next frame, so Frontend hides the outgoing view there, as the preview does, and it never flashes back.
+2. **The stacking.** For the switch the room view is set one above the board's computed `z-index`, and its own value comes back when the zoom settles.
+3. **A switch partway** starts its keyframes from each view's computed transform and opacity at that moment, and then runs its full 450 ms.
+4. **`panel`** is the panel's layout box in the board, which a transform does not change. Frontend reads it while the board is shown, as the preview does.
+5. **The preview's stage** is the space between the shell's bars at the development sizes (99 px above and 92 below): 390 × 653 and 430 × 741.
+
+## Checks run on this version
+
+The preview puts the room scene and the pack's own `paintBoard` in one stage, under the hosted game's production headers. The record and its numbers are below the list.
 
 - **The frames:**
   - Room → Board starts with the panel covering the stage and ends at the board's own layout; Board → Room is the reverse;
@@ -69,6 +79,15 @@ The preview puts the room scene and the pack's own `paintBoard` in one stage, un
 - **Taps:** the outgoing view takes none from the start of the switch, and the incoming view takes them throughout.
 - **Partway:** `cancel()` resolves `'cancelled'`, and a new switch starts from where the views are.
 - **Nothing left behind** after it settles, or after a cancel: transform, opacity, `pointer-events` and stacking are the elements' own again.
+
+**The record:** `node design/tools/view-zoom-check.mjs`, recorded on `f9eab0f3` with the source clean, under the production headers (SHA-256 `424e5dec…`):
+- **Captures:** 10 of 10 (`review/`), at 390 × 844 and 430 × 932, each held at one moment:
+  - Room → Board at 0, 225 and 450 ms;
+  - Board → Room at 225 ms;
+  - the crossfade with no room at 110 ms.
+- **Probe:** 9 of 9: frames, timing, crossfade, direct, taps, partway, clean, inputs; and direct again with the device's Reduce motion emulated.
+- **Tests:** `view-zoom.test.mjs` 5 of 5: the graph, the timings against the handoff and the kit, the geometry, the inputs, the record.
+- **Not run:** physical phones, Safari, frame rate, and the game's views themselves: Frontend's adoption PR carries the native gate.
 
 ## The Lead's decisions (16 November)
 

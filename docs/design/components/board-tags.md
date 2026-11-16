@@ -1,6 +1,6 @@
 # The board's name tags: Designer's runtime component
 
-**Version:** `board-tags-0.1.0`, proposed. **Status (16 November 2026):** the interface the Lead Designer approved for the board's option B, with four changes and the answers to Q1–Q4 (below). It is for Frontend's review on #4 before it is built. Nothing here is built yet; it is not in the game, and it is not a release.
+**Version:** `board-tags-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved for the board's option B, with four changes and the answers to Q1–Q4 (below), and posted for Frontend on #4 ([6909300146](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6909300146)). Built on the phone shell's branch at `f04ab116` (shell 0.2.7, kit 0.6.1). Frontend has not connected it: it is not in the game yet, and it is not a release.
 
 **What it is:** one layer of name tags for one panel of the board (sheet 26), whole and apart at every text size. It is #222 item 34 on the board:
 
@@ -111,9 +111,9 @@ At every text size:
 | Stale | As last seen |
 | Concealed | Nothing |
 
-## Checks, when built
+## Checks run on this version
 
-Under the hosted game's production headers, through the shared `design/tools/lib/component-check.mjs`. The preview draws the board with the pack's own `paintBoard` and mounts this layer in each panel.
+Under the hosted game's production headers, through the shared `design/tools/lib/component-check.mjs`. The captures and the probe draw the board in the game's own panels with the pack's painters (As built, 4); the agreement draws the pack's own sheet 26 frames. The record and its numbers are below the list.
 
 - **Sizes** (Q2):
   - Standard, Large and Largest on 390 × 844 and 430 × 932;
@@ -131,6 +131,19 @@ Under the hosted game's production headers, through the shared `design/tools/lib
   - dispose.
 - **Agreement with sheet 26** at Standard: each tag's box, words and look, to within half a pixel of the pack's own, on the board, the move and the targets frames.
 
+**The record:** `node design/tools/board-tags-check.mjs`, recorded on `f9eab0f3` with the source clean, under the production headers (SHA-256 `424e5dec…`, as the other components'):
+- **Captures:** 28 of 28 (`review/`):
+  - the board, the two worst boards, and Move, the targets and the talk, at 390 × 844 and 430 × 932;
+  - the board and the two worst boards at Large and Largest there, and at 320 × 568 Standard;
+  - concealed, with no name in the page.
+  - Every tag is drawn, inside its panel, apart, and whole: no word cut, no "…".
+- **Probe:** 10 of 10: whole and apart over 247 tags on 27 boards (every live capture's board), deterministic, still, layer, privacy, inputs, kept, rules, dispose.
+- **Agreement:** 6 of 6 frames: the board, Move and the targets at 390 × 844, the board at 320 × 568 and 430 × 932, and the talk.
+  - The tags agree to within half a pixel in words, look, number, office and status.
+  - The exceptions are where the pack's own tags meet (As built, 3): one tag at 390 × 844, and four at 320 × 568, each moved up and ending apart.
+- **Tests:** `board-tags.test.mjs` 7 of 7: the graph, the styles' scope and 11 px type, the words, the inputs, `layoutTags()`'s rules, the states, the record.
+- **Not run:** physical phones, Safari, screen readers, frame rate, and Board V2 itself: Frontend's adoption PR carries the native gate.
+
 ## The Lead's decisions (16 November)
 
 - **Option B.** Board V2 stays as built. This piece and the Room ↔ Board zoom ([view-zoom.md](view-zoom.md)) are the board's two open items.
@@ -139,6 +152,21 @@ Under the hosted game's production headers, through the shared `design/tools/lib
 - **Q4:** sheet 26's tag replaces Board V2's plate within B, with no owner question. Sheet 26's tag is the approved look, and item 34 redraws the tags anyway.
 - **The changes:** the tags draw above the rings and take no taps; `dim` is this viewer's; the layout is deterministic and still.
 - **`layoutTags()`:** pure, as above.
+
+## As built
+
+For the Lead. Nothing here changes the approved interface:
+
+1. **Rule 4's direction.** "Up, or else down" is built literally. A tag that would meet another takes the nearest place above that fits. Only when nothing above fits does it take the nearest place below. The probe's `rules` check and the unit test measure both.
+2. **The Talk panel's tags.** Sheet 26 sets each capsule tag 2 px under its seat, not 6 px above it, so for the Talk panel Frontend gives `at.bottom` 8 px under the seat's foot (the capsule's `capsuleTargets()`). No input changes.
+3. **Sheet 26's own tags meet.** The pack's board draws two tags overlapping:
+   - in Room B at 390 × 844, "8 Hana" lies 5.7 px over "3 Cleo", as on the sheet;
+   - on the 320 × 568 board, four tags overlap by up to 18.5 px.
+
+   The component moves them apart, up. The agreement accepts only that: a tag moved up or down, its width and words unchanged, in a panel where the pack's own tags meet, and ending apart. Every other tag agrees to within half a pixel.
+4. **Measured in the game's own panels.** The captures and the probe draw the board as Board V2 lays it out (`turnsLayout`, as `board-v2-host.mjs` calls it), each panel by the pack's own `paintRoom` and `paintCapsule`, and the bars' space left empty. The pack's own arrangement is different. At 320 × 568 its Hospital is about 151 × 140: four tags there, two of them twelve-character names, need 117 px and have about 104 below the caption. Board V2's 141 × 174 panel holds them.
+5. **320 × 568 has no board with a status bar.** Board V2 fits the board there only without a top inset, as in a browser tab. With the pack's 20 px status bar it shows its too-short message at every text size, Standard included. The tags are measured there with no inset, in Board V2's 141 px panels.
+6. **Two lines.** A tag is at least 22 px tall, with 2 px above and below its line, so a one-line tag is the pack's 22 px. The status's second line, and a name's, start under the name.
 
 ## Not covered
 

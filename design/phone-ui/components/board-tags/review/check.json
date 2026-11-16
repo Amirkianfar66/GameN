@@ -1,0 +1,983 @@
+{
+  "tool": "design/tools/board-tags-check.mjs",
+  "component": "design/phone-ui/components/board-tags",
+  "sourceCommit": "f9eab0f372e970d3f9b5d61cb0a2b4a59a88965b",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. The board in the game's own panels (Board V2's turnsLayout), each drawn by the pack. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844@100/board": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-board.jpg",
+      "sha256": "e9b24da00f4b134ed2dabf5fa3db0ab8d3afe5c242ed415571d0eda1b2cfde15",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@150/board": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-150-board.jpg",
+      "sha256": "e9194673c6fd1464f0510161c87735595a5c786455b7d495bfaa6beacb7d1f8f",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@200/board": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-200-board.jpg",
+      "sha256": "beca6f3196dc925523431f2d711fbd2b9ebc502c1e42ce87547328f725233975",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@100/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-crowd-ab.jpg",
+      "sha256": "a1c20f53100269f8f49011f88df741af9407fdd4d3453123e15a4fa3c95a3e5e",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@150/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-150-crowd-ab.jpg",
+      "sha256": "26ba22716c69f7844ddfc84d5d7af34bf92a286092e6f0d2a40c167db5e08b4a",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@200/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-200-crowd-ab.jpg",
+      "sha256": "227ff5e05c8baadd8239ddbc83e31a8793dd4975d6985d592f3e16de44a77016",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@100/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-crowd-hj.jpg",
+      "sha256": "49dd42237f432b5ade2b171c1060a51cee97934c7c35b74c9227f26731e5fbf3",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 1,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@150/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-150-crowd-hj.jpg",
+      "sha256": "e09f46ca6ccc6921f1128e3c4672f965c3a8f2695737dd3ce0a6eef44a29da58",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 1,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@200/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-200-crowd-hj.jpg",
+      "sha256": "a8b9f152b809d1efc3280c3d9b8946c8c23b9e2bce8f85214ca5957fe8827b9e",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 1,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@100/board": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-100-board.jpg",
+      "sha256": "d357e87c33909fd1fee1b0c71d751c24356c541ed219762d0b8c8317617659df",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@150/board": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-150-board.jpg",
+      "sha256": "fee699d10f70b682dd0bb5b882f4c84be680bc603a2f23022ba21e366b293736",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@200/board": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-200-board.jpg",
+      "sha256": "27c738268d1359918ce8c3f2e233b0caf55e273d272ba5cfad66660e223d2f65",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@100/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-100-crowd-ab.jpg",
+      "sha256": "2a86ec773d0ee6499499b78dbfa6ba4508a444b89d9f854cd9dca4d9961cee7d",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@150/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-150-crowd-ab.jpg",
+      "sha256": "32a675b77d7bb20209121ce3bcdbe7a1a629fdba51ce86c672df1b6d55fe5453",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@200/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-200-crowd-ab.jpg",
+      "sha256": "cca35f7ce72f14a183530621c1b17cab7b1a4f2ee1f376b6207eed78160dcd31",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@100/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-100-crowd-hj.jpg",
+      "sha256": "f6a9631a9c2af1e840ea48089bdfcb1bd0ac5f0f125568877cba17020feb18a5",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 1,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@150/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-150-crowd-hj.jpg",
+      "sha256": "4a995ad290270ef92a095a38dea2a6bef3f2fbef9062ac05b7e980832d27a7d4",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 1,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@200/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-200-crowd-hj.jpg",
+      "sha256": "48815d8222876dfb1e82058bd724841af3e1e9cf3939741632ca862bcfb16e0d",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 1,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@100/move": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-move.jpg",
+      "sha256": "a7ae7df2847addecf6001f543b669e1b521de054228102364120c90e483ae81b",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@100/move": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-100-move.jpg",
+      "sha256": "d4ea03f1bf00b884db3b157c46f6cb5f344fcfc2d5570520e2385b2863277e0c",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@100/targets": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-targets.jpg",
+      "sha256": "0c81c72f7208c55bda2369726a27dba5e0c9a04df0cc3d7acd4f6990e4047976",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@100/targets": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-100-targets.jpg",
+      "sha256": "a5113014335b75d74270ac92443f1cfd121f361b92e0c7b55b0bcf0575bdafd4",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@100/talk": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-talk.jpg",
+      "sha256": "6f47b6f8afbd91c8f817b84da5acb595cc29c745261ac8d3e1f32fccac83d104",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 11,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured|1 Ava|4 You",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "430x932@100/talk": {
+      "file": "design/phone-ui/components/board-tags/review/430x932-100-talk.jpg",
+      "sha256": "7a2c306fbb308ea25cab423d1731859d2bfb25415aab6f0e8ab127bd1dd480ef",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 11,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured|1 Ava|4 You",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "320x568@100/board": {
+      "file": "design/phone-ui/components/board-tags/review/320x568-100-board.jpg",
+      "sha256": "4e97aeb0b74a2795e3d893d5a951dfc9eda18f9d7a62e9885c69eae866fac201",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "2 Ben|1 Ava|4 You|7 Gus|9 Ike|3 Cleo|6 Fay|8 Hana|5 Eli · Injured",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    },
+    "320x568@100/crowd-ab": {
+      "file": "design/phone-ui/components/board-tags/review/320x568-100-crowd-ab.jpg",
+      "sha256": "bb4e36b8a2d3d3d1f3b7633bd7d2d6c764412fb464ecce2036ca9c270bbb71d2",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW|2 Ben|3 Maximiliana|4 You|5 Eli|6 WWWWWWWWWWWW|7 Bartholomew|8 Hana · Out|9 Gwendolynne",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 2,
+      "figures": 10,
+      "leaked": [],
+      "problems": []
+    },
+    "320x568@100/crowd-hj": {
+      "file": "design/phone-ui/components/board-tags/review/320x568-100-crowd-hj.jpg",
+      "sha256": "0a33e6dcd4019bebac3be451d3cc02e42cf6d4b4fdbac5ad35aa99e0b30976e1",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 9,
+      "words": "1 WWWWWWWWWWWW · Injured|2 Bartholomew · Injured|3 Cleo · Injured|5 Eli · Injured|4 You|6 WWWWWWWWWWWW|7 Gus · Out|8 Gwendolynne|9 Maximiliana",
+      "inside": true,
+      "apart": true,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 3,
+      "figures": 13,
+      "leaked": [],
+      "problems": []
+    },
+    "390x844@100/concealed": {
+      "file": "design/phone-ui/components/board-tags/review/390x844-100-concealed.jpg",
+      "sha256": "9a78ed2ffad644f35b06ff4270350710ec5114eb0ba20e5fedb2ff30d6c50a7a",
+      "ok": true,
+      "mismatched": [],
+      "violations": [],
+      "fits": true,
+      "panels": 6,
+      "layers": 6,
+      "tags": 0,
+      "words": "",
+      "inside": false,
+      "apart": false,
+      "cut": [],
+      "ellipsis": false,
+      "twoLines": 0,
+      "figures": 11,
+      "leaked": [],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "whole",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "boards": 27,
+            "tags": 247,
+            "tooShort": [],
+            "fails": []
+          }
+        },
+        {
+          "id": "apart",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "boards": 27,
+            "fails": []
+          }
+        },
+        {
+          "id": "deterministic",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "crowd-ab": {
+              "page": true,
+              "pure": true
+            },
+            "crowd-hj": {
+              "page": true,
+              "pure": true
+            }
+          }
+        },
+        {
+          "id": "still",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "tags": 9,
+            "animations": 0,
+            "transitions": 0,
+            "moved": false
+          }
+        },
+        {
+          "id": "layer",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "z": "3150",
+            "rings": [
+              "3100"
+            ],
+            "pointerEvents": [
+              "none"
+            ],
+            "through": [
+              {
+                "seat": 2,
+                "hit": "div.",
+                "inLayer": false
+              },
+              {
+                "seat": 1,
+                "hit": "div.",
+                "inLayer": false
+              },
+              {
+                "seat": 4,
+                "hit": "div.",
+                "inLayer": false
+              },
+              {
+                "seat": 7,
+                "hit": "div.",
+                "inLayer": false
+              },
+              {
+                "seat": 9,
+                "hit": "div.",
+                "inLayer": false
+              },
+              {
+                "seat": 3,
+                "hit": "div.",
+                "inLayer": false
+              }
+            ],
+            "set": "4300"
+          }
+        },
+        {
+          "id": "privacy",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "start": {
+              "you": [
+                "4"
+              ],
+              "dimmedB": 3
+            },
+            "handed": {
+              "you": [
+                "7"
+              ],
+              "dimmedB": 0,
+              "textA": "1 Ava 4 Dev 7 You 9 Ike"
+            },
+            "given": {
+              "dimmedB": 1
+            },
+            "concealed": {
+              "children": 0,
+              "text": ""
+            },
+            "shown": {
+              "children": 0
+            },
+            "back": {
+              "children": 4,
+              "you": [
+                "4"
+              ]
+            }
+          }
+        },
+        {
+          "id": "inputs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "errors": [
+              [
+                "an unknown key",
+                true
+              ],
+              [
+                "a seat twice",
+                true
+              ],
+              [
+                "a seat that is not one",
+                true
+              ],
+              [
+                "no place",
+                true
+              ],
+              [
+                "an unknown health",
+                true
+              ],
+              [
+                "an unknown office",
+                true
+              ],
+              [
+                "an unknown status",
+                true
+              ],
+              [
+                "no size",
+                true
+              ],
+              [
+                "a bad box",
+                true
+              ],
+              [
+                "a bad dim seat",
+                true
+              ],
+              [
+                "an unknown key in an update",
+                true
+              ]
+            ],
+            "idempotent": true
+          }
+        },
+        {
+          "id": "kept",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "count": 5,
+            "kept": true,
+            "renamed": true
+          }
+        },
+        {
+          "id": "rules",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "centred": true,
+            "floor": true,
+            "inside": true,
+            "clear": true,
+            "back": [
+              {
+                "seat": 1,
+                "left": 58,
+                "top": 114
+              },
+              {
+                "seat": 2,
+                "left": 62,
+                "top": 90
+              }
+            ],
+            "you": [
+              {
+                "seat": 1,
+                "left": 58,
+                "top": 80
+              },
+              {
+                "seat": 2,
+                "left": 62,
+                "top": 104
+              }
+            ],
+            "one": [
+              {
+                "seat": 1,
+                "left": 58,
+                "top": 114
+              }
+            ]
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "threw": false,
+            "left": false
+          }
+        }
+      ],
+      "violations": [],
+      "problems": []
+    }
+  },
+  "agree": {
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: board (board at 390x844)",
+        "ok": true,
+        "detail": {
+          "compared": 9,
+          "agreed": 8,
+          "movedApart": [
+            {
+              "panel": "Room B",
+              "seat": "8",
+              "packY": 177.15625,
+              "ourY": 157.4375,
+              "packClosest": -5.7421875
+            }
+          ],
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: move (board&state=move at 390x844)",
+        "ok": true,
+        "detail": {
+          "compared": 9,
+          "agreed": 8,
+          "movedApart": [
+            {
+              "panel": "Room B",
+              "seat": "8",
+              "packY": 177.15625,
+              "ourY": 157.4375,
+              "packClosest": -5.7421875
+            }
+          ],
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: targets (board&state=targets at 390x844)",
+        "ok": true,
+        "detail": {
+          "compared": 9,
+          "agreed": 8,
+          "movedApart": [
+            {
+              "panel": "Room B",
+              "seat": "8",
+              "packY": 177.15625,
+              "ourY": 157.4375,
+              "packClosest": -5.7421875
+            }
+          ],
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: board (board at 320x568)",
+        "ok": true,
+        "detail": {
+          "compared": 9,
+          "agreed": 5,
+          "movedApart": [
+            {
+              "panel": "Room A",
+              "seat": "1",
+              "packY": 123.15625,
+              "ourY": 115,
+              "packClosest": -6.15625
+            },
+            {
+              "panel": "Room A",
+              "seat": "4",
+              "packY": 108.25,
+              "ourY": 91,
+              "packClosest": -0.7578125
+            },
+            {
+              "panel": "Room B",
+              "seat": "3",
+              "packY": 130.859375,
+              "ourY": 115,
+              "packClosest": -18.53125
+            },
+            {
+              "panel": "Room B",
+              "seat": "8",
+              "packY": 127.390625,
+              "ourY": 91,
+              "packClosest": -18.53125
+            }
+          ],
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: board (board at 430x932)",
+        "ok": true,
+        "detail": {
+          "compared": 9,
+          "agreed": 9,
+          "movedApart": [],
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: talk (board at 390x844)",
+        "ok": true,
+        "detail": {
+          "compared": 11,
+          "agreed": 10,
+          "movedApart": [
+            {
+              "panel": "Room B",
+              "seat": "8",
+              "packY": 177.15625,
+              "ourY": 157.4375,
+              "packClosest": -5.7421875
+            }
+          ],
+          "differences": []
+        }
+      }
+    ],
+    "violations": [],
+    "problems": []
+  }
+}
