@@ -1,5 +1,6 @@
 import {createHash} from 'node:crypto';
 import {Buffer} from 'node:buffer';
+import {FieldPath,FieldValue} from 'firebase-admin/firestore';
 import type {Firestore,Transaction} from 'firebase-admin/firestore';
 import type {PlanetPersistence,PlanetReadTransaction,PlanetTransaction} from './planet-game.js';
 import {PlanetAtomicCreateConflict} from './planet-persistence-errors.js';
@@ -18,6 +19,10 @@ const timedSdkRead:SdkRead=read=>timePlanetStage('sdkRead',read);
  * records commit in the same transaction. Clients cannot read these collections.
  */
 export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
+  const pending=(scopeKey:string)=>{
+    if(!/^[0-9a-f]{64}$/.test(scopeKey))throw new Error('Invalid Food inbox scope key');
+    return db.collection('planetFoodInboxes').doc(scopeKey).collection('pending');
+  };
   const meta=(key:string)=>db.collection('planetDocuments').doc(hash(key));
   const chunk=(key:string,index:number)=>db.collection('planetChunks').doc(hash(key)+'-'+index);
   // Both modes use the same authenticated JSON envelope and the same SDK transaction
@@ -45,6 +50,11 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
       return structuredClone(value) as T;
     };
   return {
+    async nextFoodInboxIntent(scopeKey:string):Promise<string|null>{
+      const result=await timePlanetStage('sdkRead',()=>pending(scopeKey)
+        .orderBy('priorityAt').orderBy(FieldPath.documentId()).limit(1).get());
+      return result.docs[0]?.id??null;
+    },
     async readOnly<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>{
       return timePlanetStage('sdkReadOnly',()=>db.runTransaction(transaction=>
         timePlanetStage('sdkAttempt',()=>operation(Object.freeze({get:reader(transaction)}))),{readOnly:true}));
@@ -73,8 +83,18 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
         createConflictEligible=false;
         const cached=new Map<string,unknown>(),metadata=new Map<string,Metadata|null>(),writes=new Map<string,unknown|null>();
         const creates=new Set<string>();
+        const inboxWrites=new Map<string,{scopeKey:string;id:string;create:boolean}>();
+        function writeInboxIndex(scopeKey:string,id:string,create:boolean){
+          if(!/^[0-9a-f]{64}$/.test(id))throw new Error('Invalid Food inbox intent ID');
+          const key=scopeKey+'/'+id;
+          if(inboxWrites.has(key))throw new Error('Conflicting Food inbox pending index write');
+          inboxWrites.set(key,{scopeKey,id,create});
+        }
         const read=reader(transaction,cached,metadata,writes,readBeforeCommit);
-        const tx:PlanetTransaction={get:read,
+        const tx:PlanetTransaction={get:read,foodInboxIndex:{
+          create:(scopeKey,id)=>writeInboxIndex(scopeKey,id,true),
+          delete:(scopeKey,id)=>writeInboxIndex(scopeKey,id,false),
+        },
           set:(key,value)=>{
             if(creates.has(key))throw new Error('Conflicting buffered authority create');
             if(value===undefined)throw new Error('Undefined authority');writes.set(key,structuredClone(value));
@@ -119,13 +139,16 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
           const deadlineDueAt=key.startsWith('deadline/')&&value!==null&&typeof value==='object'
             && 'status' in value&&value.status!=='complete'&&'nextAttemptAt' in value&&typeof value.nextAttemptAt==='number'
             ?value.nextAttemptAt:null;
-          return {key,bytes,chunks,deadlineDueAt,create};
+          const inboxWakeMetadata=key.startsWith('foodInboxWake/')&&value!==null&&typeof value==='object'
+            ?{foodInboxWakeDueAt:'status' in value&&value.status==='pending'&&'nextAttemptAt' in value&&typeof value.nextAttemptAt==='number'
+              ?value.nextAttemptAt:null}:{};
+          return {key,bytes,chunks,deadlineDueAt,inboxWakeMetadata,create};
         });
-        if(totalWrites>450||totalBytes>6*1024*1024)throw new Error('Transaction budget exceeded');
-        for(const {key,bytes,chunks,deadlineDueAt,create} of prepared){
+        if(totalWrites+inboxWrites.size>450||totalBytes>6*1024*1024)throw new Error('Transaction budget exceeded');
+        for(const {key,bytes,chunks,deadlineDueAt,inboxWakeMetadata,create} of prepared){
           if(create&&bytes!==null){
             sdkAttemptMayCommit=true;
-            transaction.create(meta(key),{key,namespace:key.split('/')[0],schemaVersion:1,chunks,deadlineDueAt,digest:createHash('sha256').update(bytes).digest('hex')});
+            transaction.create(meta(key),{key,namespace:key.split('/')[0],schemaVersion:1,chunks,deadlineDueAt,...inboxWakeMetadata,digest:createHash('sha256').update(bytes).digest('hex')});
             for(let i=0;i<chunks;i++){
               sdkAttemptMayCommit=true;
               transaction.create(chunk(key,i),{data:bytes.subarray(i*CHUNK_BYTES,(i+1)*CHUNK_BYTES).toString('base64')});
@@ -136,15 +159,23 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
           const previous=metadata.get(key)?.chunks??0;
           if(bytes===null)transaction.delete(meta(key));
           else{
-            transaction.set(meta(key),{key,namespace:key.split('/')[0],schemaVersion:1,chunks,deadlineDueAt,digest:createHash('sha256').update(bytes).digest('hex')});
+            transaction.set(meta(key),{key,namespace:key.split('/')[0],schemaVersion:1,chunks,deadlineDueAt,...inboxWakeMetadata,digest:createHash('sha256').update(bytes).digest('hex')});
             for(let i=0;i<chunks;i++)transaction.set(chunk(key,i),{data:bytes.subarray(i*CHUNK_BYTES,(i+1)*CHUNK_BYTES).toString('base64')});
           }
           for(let i=chunks;i<previous;i++)transaction.delete(chunk(key,i));
         }
+        for(const {scopeKey,id,create} of inboxWrites.values()){
+          const reference=pending(scopeKey).doc(id);
+          sdkAttemptMayCommit=true;
+          if(create)transaction.create(reference,{priorityAt:FieldValue.serverTimestamp()});
+          else transaction.delete(reference);
+        }
         sdkAttemptMayCommit=true;
         // Only a fully returned create-only attempt can classify a later Commit
         // rejection. Any prior possible Commit permanently excludes this outcome.
-        createConflictEligible=!earlierAttemptMayCommit&&writes.size>0&&creates.size===writes.size;
+        createConflictEligible=!earlierAttemptMayCommit
+          &&writes.size+inboxWrites.size>0&&creates.size===writes.size
+          &&[...inboxWrites.values()].every(write=>write.create);
         return result;
       };
       const end=beginPlanetTiming('sdkReadWrite');
@@ -178,7 +209,8 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
     },
     async listKeys(namespace:string,limit:number):Promise<string[]>{
       const collection=db.collection('planetDocuments');
-      const query=namespace==='deadline'?collection.where('deadlineDueAt','>=',0).orderBy('deadlineDueAt'):collection.where('namespace','==',namespace);
+      const dueField=namespace==='deadline'?'deadlineDueAt':namespace==='foodInboxWake'?'foodInboxWakeDueAt':null;
+      const query=dueField?collection.where(dueField,'>=',0).orderBy(dueField):collection.where('namespace','==',namespace);
       const result=await query.limit(Math.min(100,Math.max(1,limit))).get();
       return result.docs.map(doc=>doc.get('key')).filter((key):key is string=>typeof key==='string');
     },

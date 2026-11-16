@@ -169,6 +169,8 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       const head = await tx.get(headKey(taskId));
       if (!head) fail('NOT_FOUND');
       const member = token ? source.member : activeTaskMember(head, uid);
+      if (source.inbox && (source.inbox.binding.seatId !== member.seatId
+        || source.inbox.binding.revision !== member.bindingRevision)) fail('STALE_BINDING');
       if (request && (request.matchId !== head.matchId || request.command.taskId !== taskId)) fail('NOT_ALLOWED');
       const key = request ? dedupKey(taskId, member, request.commandId) : null;
       const fingerprint = request ? digest(request) : null;
@@ -211,6 +213,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
         tx.set(key, {fingerprint, context, sequence, admittedAt: at});
       }
       tx.set(headKey(taskId), {...head, tail: sequence, admittedAt: at});
+      source.consume?.(tx, source.inbox, {kind: 'admitted', sequence, admittedAt: at});
       return {admittedAt: at, duplicate: false, sequence};
     });
     if (admitted && !admitted.duplicate) event('durably-admitted', {kind, commandId: request?.commandId ?? null, admittedAt: admitted.admittedAt});
@@ -225,6 +228,16 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   async function heartbeat(taskId, uid) {
     const {admittedAt} = await append(taskId, {kind: 'heartbeat', uid});
     return {phase: 'durably-admitted', admittedAt};
+  }
+  // Measure the same append with a durable private inbox in front of it.
+  function admitInbox(intent, consume) {
+    if (!ownedAdmission) fail('NOT_OWNER');
+    const taskId = intent.scope.taskId, uid = intent.binding.uid;
+    if (intent.request.operation === 'foodHeartbeat') return append(taskId, {kind: 'heartbeat', uid, inbox: intent, consume});
+    if (intent.request.operation !== 'foodCommand') fail('NOT_ALLOWED');
+    const request = FoodTaskCommandRequestSchema.parse(intent.request.request);
+    if (request.command.type !== 'TASK_PRESS') fail('NOT_ALLOWED');
+    return append(taskId, {kind: 'command', uid, request, inbox: intent, consume});
   }
   function apply(checkpoint, entry, head) {
     const started = performance.now();
@@ -416,6 +429,6 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     await readOnly('clock-sample', async tx => authorize(await tx.get(headKey(taskId)), uid));
     return {receivedAt, serverTimeMs: assertTime(clock(), receivedAt)};
   };
-  return {openTask, acquire, restore, submit, heartbeat, runDue, receipt, subscribe, snapshot, clockSample,
+  return {openTask, acquire, restore, submit, heartbeat, admitInbox, runDue, receipt, subscribe, snapshot, clockSample,
     wakeOnAdmission: (taskId, wake, failed) => store.watch(headKey(taskId), wake, failed)};
 }

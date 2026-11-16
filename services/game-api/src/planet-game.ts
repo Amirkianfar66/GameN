@@ -47,11 +47,17 @@ export interface PlanetTransaction extends PlanetReadTransaction {
   delete(key:string):void;
   /** Optional atomic create; existing metadata or any fragment being created rejects the entire transaction. */
   create?(key:string,value:unknown):void;
+  /** Writes the private ordered pending index in the same SDK transaction. */
+  foodInboxIndex?:{
+    create(scopeKey:string,id:string):void;
+    delete(scopeKey:string,id:string):void;
+  };
 }
 export interface PlanetPersistence {
   transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>;
   readOnly?<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>;
   listKeys(namespace:string,limit:number):Promise<string[]>;
+  nextFoodInboxIntent?(scopeKey:string):Promise<string|null>;
 }
 interface Member {
   seatId:SeatId;uid:string|null;bindingRevision:number;displayName:string;characterId:string|null;

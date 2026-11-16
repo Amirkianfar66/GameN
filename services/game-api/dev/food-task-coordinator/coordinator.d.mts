@@ -1,6 +1,7 @@
 import type {FoodTaskCommandRequest, FoodTaskPlayerView, FoodTaskPublicView, FoodTaskReceipt, PlanetPlayerView, SeatId} from '@mothership/contracts';
 import type {PlanetGameState} from '@mothership/engine';
-import type {PlanetPersistence} from '../../dist/planet-game.js';
+import type {PlanetPersistence, PlanetTransaction} from '../../dist/planet-game.js';
+import type {PlanetFoodInboxIntent, PlanetFoodInboxProgress} from '../../dist/planet-food-inbox-types.js';
 
 export type FoodReceiptContext = Omit<FoodTaskCommandRequest, 'command'>;
 export type OwnerToken = Readonly<{id: string; epoch: number; expiresAt: number}>;
@@ -36,6 +37,8 @@ export interface FoodTaskCoordinator {
   restore(taskId: string, owner: OwnerToken): Promise<{processed: number; pending: number; nextAt: number | null; returned: boolean}>;
   submit(taskId: string, uid: string, input: FoodTaskCommandRequest): Promise<Admission & {commandId: string; duplicate: boolean}>;
   heartbeat(taskId: string, uid: string): Promise<Admission>;
+  admitInbox(intent: PlanetFoodInboxIntent, consume: (tx: PlanetTransaction, intent: PlanetFoodInboxIntent,
+    progress: PlanetFoodInboxProgress) => void): Promise<{admittedAt: number; sequence: number; duplicate: boolean}>;
   runDue(taskId: string, owner: OwnerToken, options?: {beforeCommit?: (kind: string) => Promise<void>}): Promise<{nextAt: number | null; pending: number | null}>;
   receipt(taskId: string, uid: string, context: FoodReceiptContext): Promise<Admission | {phase: 'applied'; admittedAt: number; receipt: FoodTaskReceipt | null; refusal: string | null} | null>;
   snapshot(taskId: string, uid: string): Promise<FoodSnapshot>;
