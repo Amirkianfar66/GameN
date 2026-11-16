@@ -87,7 +87,7 @@ test('their words are the pack\'s: host setup and the lobby of sheet 11', () => 
   assert.match(entry, /'No connection\. Join, Host and Recover return when you are back online\.'/);
   assert.equal(ENTRY_TOAST_MS, 2400, 'the shell\'s toast time');
   assert.equal(HOST_SETUP_VERSION, 'host-setup-0.1.0');
-  assert.equal(HOST_LOBBY_VERSION, 'host-lobby-0.1.0');
+  assert.equal(HOST_LOBBY_VERSION, 'host-lobby-0.1.1');
 });
 
 test('setup\'s inputs are checked, and refused with a reason', () => {

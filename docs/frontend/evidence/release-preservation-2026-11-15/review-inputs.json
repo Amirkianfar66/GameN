@@ -1,0 +1,26 @@
+{
+  "status": "review-only; not source or production approval",
+  "candidate": "de6126dcb00fb1c7875de5396c8ab8783c55465e",
+  "inputs": {
+    "apps/game/hosted/crew-runtime.mjs": {
+      "sha256": "9d666e189d74692ad62644241d9d925a52fb8e3dc39879985726c9af34304b41",
+      "bytes": 11761
+    },
+    "apps/game/src/planet/pregame.ts": {
+      "sha256": "5aded3936cf8ec62e72c21b79b6281f4116f513db37a1fcd367885c710cab6bf",
+      "bytes": 8830
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "sha256": "4199c79a97a9890a0ac50fdf4ade87bf45e4c03f5251114e91c0aff375494a3a",
+      "bytes": 4657
+    },
+    "packages/contracts/src/planet-release-capabilities.ts": {
+      "sha256": "1e79a7fc27d9114152f51b7da9fee8d60c161acf2fe35624eb4bd681dfa8b419",
+      "bytes": 3728
+    },
+    "packages/contracts/src/planet-art-capabilities.json": {
+      "sha256": "b1bec58487c318ab1e16269a61be64fd547cdbdb9192961a9c36d0840e1286f9",
+      "bytes": 1142
+    }
+  }
+}
