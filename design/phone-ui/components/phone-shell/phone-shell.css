@@ -57,7 +57,15 @@
   --ms-ps-over-top: calc(var(--ms-ps-safe-t) + var(--ms-ps-bar-h));
   --ms-ps-bottom: calc(var(--ms-ps-safe-b) + var(--ms-ps-tab-h));
   --ms-ps-stage-bottom: var(--ms-ps-bottom);
+  /* The cover's reach (0.2.3), public: the cover's distance from the phone's top and bottom edges, both 0 edge to
+     edge. A part mounted in the cover that the pack draws over the whole phone reaches past the cover by them, as
+     the round stamp does to centre on the phone: top: calc(0px - var(--ms-ps-cover-top, 0px)). The shell places its
+     cover by them, so they always say where it is. The shell's other custom properties are its own. */
+  --ms-ps-cover-top: var(--ms-ps-top);
+  --ms-ps-cover-bottom: var(--ms-ps-stage-bottom);
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+  /* Behind the bars and wherever nothing is drawn: the room view's space by default (the pack's .scene), or the
+     phone's canvas for a screen with no room (backdrop: 'canvas', the pack's .ph). */
   background: #07090F; color: var(--ms-ps-text);
   font: 400 1rem/1.4 var(--ms-ps-font);
   -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%;
@@ -65,7 +73,9 @@
 }
 /* A shared display has no tab bar; the private talk's two buttons sit over the stage's foot (sheet 25). */
 .ms-phone-shell[data-tabs="none"] { --ms-ps-tab-h: 0px; }
-.ms-phone-shell[data-tabs="talk"] { --ms-ps-bottom: calc(var(--ms-ps-safe-b) + 18px + 50px + 10px); --ms-ps-stage-bottom: 0px; }
+/* What docks above the talk's two buttons (a sheet, the chip) stays 10 px clear of them, by their measured height
+   (--ms-ps-talk-h, phone-shell.mjs placeTalk), which grows with the text (0.2.6); before, it was taken as 50 px. */
+.ms-phone-shell[data-tabs="talk"] { --ms-ps-bottom: calc(var(--ms-ps-safe-b) + 18px + var(--ms-ps-talk-h, 50px) + 10px); --ms-ps-stage-bottom: 0px; }
 /* The shell's own parts only (their classes start ms-ps-): nothing here reaches into the stage, which is
    the room scene's, or into a sheet's body, which is its content's. Each of those styles itself. */
 .ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"]),
@@ -82,13 +92,15 @@
 .ms-phone-shell .ms-ps-stage { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 0; overflow: hidden; }
 /* The stage's cover (slot('cover')): exactly over the stage, above all it holds (the room's tags included, which
    stack inside the stage), under the bars, the overlays and the sheet. It takes no taps itself. */
-.ms-phone-shell .ms-ps-cover { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 1; overflow: hidden; pointer-events: none; }
+.ms-phone-shell .ms-ps-cover { position: absolute; left: 0; right: 0; top: var(--ms-ps-cover-top); bottom: var(--ms-ps-cover-bottom); z-index: 1; overflow: hidden; pointer-events: none; }
 /* No top bar (bar: null, a full-bleed film): the stage runs to the top edge; the overlays keep the bar's place. */
 .ms-phone-shell[data-bar="none"] { --ms-ps-top: 0px; }
 .ms-phone-shell[data-bar="none"] .ms-ps-tb { display: none; }
 /* Edge to edge (edge: true, a full-screen film or poster): the stage and its cover fill the whole shell, under the
    safe areas and any bar or tabs, whose glass lies over them, as the pack draws its films and posters (inset 0). */
+.ms-phone-shell[data-edge] { --ms-ps-cover-top: 0px; --ms-ps-cover-bottom: 0px; }
 .ms-phone-shell[data-edge] :is(.ms-ps-stage, .ms-ps-cover) { top: 0; bottom: 0; }
+.ms-phone-shell[data-backdrop="canvas"] { background: var(--ms-ps-canvas); }
 /* The safe areas' guide, which layout() measures: empty, unseen and untouchable. */
 .ms-phone-shell .ms-ps-guide { position: absolute; left: 0; top: var(--ms-ps-safe-t); bottom: var(--ms-ps-safe-b); width: 0; visibility: hidden; pointer-events: none; }
 
@@ -107,7 +119,8 @@
 .ms-phone-shell .ms-ps-pair { display: flex; flex: none; }
 .ms-phone-shell .ms-ps-pair .ms-ps-pt + .ms-ps-pt { margin-left: -12px; }
 .ms-phone-shell .ms-ps-glyph { width: 32px; height: 32px; border-radius: 9px; flex: none; display: grid; place-items: center; background: var(--ms-ps-surface-3); color: var(--ms-ps-accent); --ic-knock: var(--ms-ps-surface-3); }
-.ms-phone-shell .ms-ps-glyph .ms-ps-ic { width: 22px; height: 22px; }
+/* 0.2.2: the glyph's icon at the pack's own 24 px (.tb-glyph sets no size, so its icon keeps the icons' default); 0.1.0–0.2.1 drew it at 22 px. */
+.ms-phone-shell .ms-ps-glyph .ms-ps-ic { width: 24px; height: 24px; }
 .ms-phone-shell .ms-ps-glyph[data-tone="dark"] { background: #0A0D14; color: var(--ms-ps-steel-pale); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline); --ic-knock: #0A0D14; }
 .ms-phone-shell .ms-ps-lines { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .ms-phone-shell .ms-ps-name { font: 600 1.0625rem/1.2 var(--ms-ps-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
@@ -219,7 +232,9 @@
 .ms-phone-shell .ms-ps-target-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-target .ms-ps-text b { font-weight: 700; }
 .ms-phone-shell .ms-ps-target .ms-k-btn { min-height: 40px; }
-/* Reconnecting: the last room stays, dimmed by the room scene, under this banner (sheet 45). */
+/* A banner: reconnecting, with Retry, where the last room stays, dimmed by the room scene, under it (sheet 45); or
+   an eliminated player's, words only, over the room they watch (sheet 44, 0.2.8). The pack draws both with one
+   builder (ui.mjs banner), so they share one look. */
 .ms-phone-shell .ms-ps-banner { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-over-top) + 8px); z-index: 43; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline), var(--ms-ps-shadow-soft); }
 .ms-phone-shell .ms-ps-banner-icon { flex: none; color: var(--ms-ps-accent); --ic-knock: var(--ms-ps-canvas); }
 .ms-phone-shell .ms-ps-banner-icon .ms-ps-ic { width: 22px; height: 22px; }
@@ -231,12 +246,8 @@
 .ms-phone-shell .ms-ps-chip-btn[data-tone="steel"] { background: var(--ms-ps-surface-3); color: var(--ms-ps-text); --ic-knock: var(--ms-ps-surface-3); }
 .ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: hidden; text-overflow: ellipsis; }
 
-/* ── A toast (kit.css .toast) ─────────────────────────────────────── */
-.ms-phone-shell .ms-ps-toast { position: absolute; left: 50%; top: calc(var(--ms-ps-over-top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-ps-paper); color: var(--ms-ps-ink); font: 600 0.9375rem/1.2 var(--ms-ps-font); box-shadow: var(--ms-ps-shadow-soft); white-space: nowrap; --ic-knock: var(--ms-ps-paper); animation: ms-ps-toast-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both; transition: opacity 180ms linear; }
-.ms-phone-shell .ms-ps-toast > span:last-child { overflow: hidden; text-overflow: ellipsis; }
-.ms-phone-shell .ms-ps-toast-icon .ms-ps-ic { width: 20px; height: 20px; }
-.ms-phone-shell .ms-ps-toast[data-leaving] { opacity: 0; }
-@keyframes ms-ps-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
+/* ── A toast: the kit's (kit.css .ms-k-toast, 0.8.0), 10 px under the overlays' place ── */
+.ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }
 
 /* ── The docked sheet: clear glass over the room (kit.css .sheet) ──── */
 /* It always leaves the top bar and the tabs in view: docked between them, auto or large height. */
@@ -252,10 +263,13 @@
   animation: ms-ps-sheet-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both;
 }
 .ms-phone-shell .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + 8px); }
+/* While a banner shows (8 px under the bar), a docked sheet stays 8 px below it, so the banner (with Retry) and the
+   sheet's Close are both in sight; the banner stays under the sheet, as the pack's layers it. */
+.ms-phone-shell[data-banner] .ms-ps-sheet { max-height: calc(100% - var(--ms-ps-over-top) - var(--ms-ps-banner-h, 56px) - 16px - var(--ms-ps-bottom)); }
+.ms-phone-shell[data-banner] .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
-.ms-phone-shell .ms-ps-sheet-head:has(> .ms-k-icon-btn:first-child) { padding-left: 8px; }
 .ms-phone-shell .ms-ps-sheet-title { flex: 1; min-width: 0; }
 .ms-phone-shell .ms-ps-sheet-title h2 { margin: 0; font: 700 1.25rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; }
 .ms-phone-shell .ms-ps-sheet-title p { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
@@ -263,15 +277,30 @@
 .ms-phone-shell .ms-ps-sheet:not(:has(.ms-ps-sheet-foot)) .ms-ps-sheet-body { padding-bottom: 30px; }
 .ms-phone-shell .ms-ps-sheet-foot { flex: none; display: flex; gap: 10px; padding: 10px 16px 28px; border-top: 1px solid var(--ms-ps-glass-line); }
 .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1; }
+/* Larger text on a narrow phone (0.2.1, #228's .sheet-foot rule): under 19 em across, footer buttons that no
+   longer fit side by side take a row each, in the same order, at full width, and a label that still doesn't
+   fit wraps inside its button. Before, "Register Rescue" ran past the sheet's edge at 200 % (found on Actions).
+   Buttons that do fit side by side keep the pack's equal halves (0.2.5): each grows from nothing, as the pack's
+   flex: 1, and is never narrower than its own words (fit-content), which is what makes a row too narrow wrap.
+   0.2.1-0.2.4 grew each from its words, so two that fit were unequal (169 and 179 px for Hide and Copy at 200 %). */
+@container ms-k-phone (max-width: 19em) {
+  .ms-phone-shell .ms-ps-sheet-foot { flex-wrap: wrap; }
+  .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
+  /* The private talk's two buttons (0.2.6) take the same rule: side by side in equal halves while their words fit,
+     a row each when they don't. Before, at the Largest text on a 320 px phone "My card" ran past the phone's edge
+     (the Gameplay builder found it on the private talk). */
+  .ms-phone-shell .ms-ps-talk { display: flex; flex-wrap: wrap; }
+  .ms-phone-shell .ms-ps-talk .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
+}
 /* Where glass can't be drawn, or the phone asks for less transparency, the sheet is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); } }
 @media (prefers-reduced-transparency: reduce) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 
 /* ── Reduce motion: the game's setting or the device's. Slides become the 80 ms fade. ── */
-.ms-phone-shell[data-motion="reduced"] :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
+.ms-phone-shell[data-motion="reduced"] .ms-ps-sheet { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
 .ms-phone-shell[data-motion="reduced"] .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 @media (prefers-reduced-motion: reduce) {
-  .ms-phone-shell :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
+  .ms-phone-shell .ms-ps-sheet { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
   .ms-phone-shell .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 }
 @keyframes ms-ps-fade { from { opacity: 0; } }
