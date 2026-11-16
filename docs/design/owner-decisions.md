@@ -6,6 +6,52 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: no animation clips for the test; the pre-game films tried as pure animation; the animation work in two
+
+**Recorded by the Lead Designer from the owner's answers in the Lead's session.**
+
+**What was said.** The owner wrote:
+
+> As I told you we can stop building animation clips for test, it is not something really needed for the game test, also I want to restyled the game
+
+Before the Lead had answered, the owner wrote again:
+
+> As I told you we can stop building animation clips for test, it is not something really needed for the game test, also I want to test some restyled game animations , because maybe for animations of pre-game we can use pure animations not motion graphic,  this is just for pregame animation parts and not related to test even we can divide animation agent to 2 , one working one in game animations the other pre game animation which feels more like pure animation.wjat do you think?
+
+The Lead recommended three things.
+1. **Stop the animation clips for the test.**
+   - The brand intro 2.0.0 had just been pushed as a draft (#305). It stays parked.
+   - The role films 2.0.0 were never started.
+2. **Try pure character animation for the pre-game films,** starting with one short test: about 4 seconds of the Doctor's role film.
+   - It goes on a test page for the owner, and is not part of the game test.
+   - It keeps the approved characters' look, the 10-second length, no sound on phones, and the role films' privacy.
+   - The brand intro stays as it is, since it is typing by nature.
+3. **Split the animation work in two:**
+   - the Motion & Cinematics builder takes the in-game animations, and until the test is out helps with screens the test needs;
+   - a new Pre-game Animation builder takes the brand intro, the role films and boarding. It explores through test pages first, and opens PRs only once the owner likes a direction.
+
+The owner answered:
+
+> Yes let's go with your recommendation
+
+**What it covers:**
+- **No animation clip is built for the game test.**
+  - #305, the brand intro 2.0.0, is parked: marked paused and not for review, with its branch kept.
+  - #285, the boarding film 2.0.0, stays as accepted.
+- **The pre-game films are tried as pure animation,** starting with the ~4 s Doctor test, by a new Designer session: the Pre-game Animation builder. Test pages come first, with no branch or PR until the owner likes a direction.
+- **The Motion & Cinematics builder becomes the in-game animation builder.**
+- **The earlier film decision is reopened for the pre-game films.** The boarding pilot's direction ([earlier the same day](#16-november-2026-the-films-follow-the-boarding-pilot-with-no-sound-on-phones)) stands until the owner chooses after the test.
+
+**What stays the same:**
+- No sound on players' phones.
+- Each film's length, timing and privacy.
+- The approved characters' look.
+- No film holds a test release.
+
+**What it leaves open:**
+- The pre-game films' direction after the test.
+- Whether #305 and #285 continue.
+
 ## 16 November 2026: Designer connects its parts in the game, in four test releases; the films don't hold them
 
 **Recorded by the Lead Designer from the owner's answer in the Lead's session.**
