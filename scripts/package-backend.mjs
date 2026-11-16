@@ -138,7 +138,8 @@ try {
       const engine=await import('@mothership/engine'),api=await import('@mothership/game-api');
       for(const name of ['applyPlanetFoodCommand','setPlanetFoodPresence','projectPlanetFoodPublic','projectPlanetFoodPlayer','hasOnlyDuePlanetFoodWarnings'])
         assert.equal(typeof engine[name],'function',name);
-      const food=api.createProductionPlanetService({store:{transaction:async()=>{throw Error('Packaging must not access state');},listKeys:async()=>[]},
+      const food=api.createProductionPlanetService({store:{transaction:async()=>{throw Error('Packaging must not access state');},listKeys:async()=>[],
+        nextFoodInboxIntent:async()=>{throw Error('Packaging must not read the inbox');}},
         enabled:false,assetManifestVersion:'design-0.9.0',engineProfile:contracts.PLANET_FOOD_TASK_ENGINE_PROFILE,setupFlowVersion:3,
         foodAuthorityProfile:api.PLANET_FOOD_OWNER_INBOX_PROFILE});
       assert.equal(typeof food.handle,'function');
