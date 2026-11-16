@@ -128,6 +128,17 @@ recover.dispose();              // safe twice, and empties the code's box; after
 - runs the probe as the page comes and with the device's Reduce motion: the form, the secret code, typing, the refusal, Recover seat, recovered, offline, not interactive, insets, the Largest text, input, dispose, motion;
 - runs the agreement: seven cases, the screen beside the frozen pack's, the same words, states, look, icon drawings and boxes to within half a pixel; the Match ID and the placeholders by their words, and the code by whether the box holds one.
 
+### Checks run on this version
+
+On `e31ee89f`, clean (kit 0.5.1 at `3fb12935`; `entry-parts-0.3.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+- **Captures:** **18 of 18 pass**: the nine states at 390 × 844 and 430 × 932. Each asserts:
+  - the pack's words and note, the mono Match ID, the code's box a password box with no autocomplete, autocapitalize or spellcheck, and the canvas;
+  - its state: the Match ID ringed while typed; the hint from Frontend's length, and none without one; the code kept in its box (32 dots) when refused, with the box ringed in paper and the words under it; Recover seat refused, busy ("Checking…") or open as Frontend gives it; recovered, with no box left; offline, with Frontend's refusal;
+  - the typed sample code in no attribute of the page.
+- **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion). Its secret check fails when the code leaks into a keystroke's report, as a deliberate break showed.
+- **The agreement with the frozen pack:** **7 of 7 cases** agree to within half a pixel in every part compared, in their look, their icon drawings and their states.
+- **Not run:** physical phones, Safari, screen readers, password managers and the real app's connection.
+
 `packages/design-tokens/test/recover.test.mjs` checks the runtime-safe graph, that the styles are the root only, the three places the code box's value is read (handed over at the tap, counted at a keystroke, emptied), the secret field's attributes, the pack's words, the inputs (the code is refused as an input), and the check's record.
 
 ## Not in this version

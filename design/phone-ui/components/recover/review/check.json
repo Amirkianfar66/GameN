@@ -1,0 +1,1871 @@
+{
+  "tool": "design/tools/recover-check.mjs",
+  "component": "design/phone-ui/components/recover",
+  "sourceCommit": "e31ee89f32ac83c93e2df19f22960b4efb93ad8a",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/entry": {
+      "file": "design/phone-ui/components/recover/review/390x844-entry.jpg",
+      "sha256": "f2f3b8b2073a2a19761d38a099a2e3e1f53b9579b307a13560e458b8f12bea06",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "",
+      "idMono": true,
+      "idFocused": true,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 0,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": true,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/entry": {
+      "file": "design/phone-ui/components/recover/review/430x932-entry.jpg",
+      "sha256": "556c55b86fb9c0fd8eda57106eda9e148948af0453e6d95e6e04a6954646e089",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "",
+      "idMono": true,
+      "idFocused": true,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 0,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": true,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/ready": {
+      "file": "design/phone-ui/components/recover/review/390x844-ready.jpg",
+      "sha256": "97f9675e8f3e7ccd2b5ccf968ae37bc4765218e7fc9b36b4f22cbcccd08635c9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/ready": {
+      "file": "design/phone-ui/components/recover/review/430x932-ready.jpg",
+      "sha256": "d6ef480e1495f0f475d17ecbd8121d081b67a8f03d409e524e8663ed3ec4f042",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/refused": {
+      "file": "design/phone-ui/components/recover/review/390x844-refused.jpg",
+      "sha256": "cb712fa25866e4ccf50c8d5094d9108af7eac0c7ccf396edf9bb97e0c07c0ecf",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": true,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [
+        "That code was not accepted. A code works once, for 15 minutes. Ask the host for a new one."
+      ],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/refused": {
+      "file": "design/phone-ui/components/recover/review/430x932-refused.jpg",
+      "sha256": "adfc81add6cbe97e51e320361f43a6a6796b0e66259303657c99d3654a5e2dab",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": true,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [
+        "That code was not accepted. A code works once, for 15 minutes. Ask the host for a new one."
+      ],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/checking": {
+      "file": "design/phone-ui/components/recover/review/390x844-checking.jpg",
+      "sha256": "d7216e22f339925eb54876b106b2a760f88bedaaab10f23594954547522eb750",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Checking…",
+      "actionLabel": "Checking…",
+      "actionRefused": false,
+      "actionBusy": true,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/checking": {
+      "file": "design/phone-ui/components/recover/review/430x932-checking.jpg",
+      "sha256": "7afa36ee9aec4902f016e94f91185b270057c2601a3eb36b84dcc8b2633cfb5a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Checking…",
+      "actionLabel": "Checking…",
+      "actionRefused": false,
+      "actionBusy": true,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/recovered": {
+      "file": "design/phone-ui/components/recover/review/390x844-recovered.jpg",
+      "sha256": "285b9d53e2e50769476ad17b37b2cc513b6ebdc1b5c5db10f6862b636edcc0e8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "recovered",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": null,
+      "labels": "",
+      "fields": 0,
+      "matchId": null,
+      "idMono": false,
+      "idFocused": false,
+      "codeType": null,
+      "codeAttrs": null,
+      "codeLength": null,
+      "codeHint": null,
+      "codeInvalid": false,
+      "note": null,
+      "errors": [],
+      "action": "Continue",
+      "actionLabel": "Continue",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": "Seat 4 is yours again",
+      "line": "Back to the match where it is now",
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/recovered": {
+      "file": "design/phone-ui/components/recover/review/430x932-recovered.jpg",
+      "sha256": "5699ccc0c3b6b19442fd9258e8dbb8dab12bb17fdb387d237a4f004ebf77db24",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "recovered",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": null,
+      "labels": "",
+      "fields": 0,
+      "matchId": null,
+      "idMono": false,
+      "idFocused": false,
+      "codeType": null,
+      "codeAttrs": null,
+      "codeLength": null,
+      "codeHint": null,
+      "codeInvalid": false,
+      "note": null,
+      "errors": [],
+      "action": "Continue",
+      "actionLabel": "Continue",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": "Seat 4 is yours again",
+      "line": "Back to the match where it is now",
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/offline": {
+      "file": "design/phone-ui/components/recover/review/390x844-offline.jpg",
+      "sha256": "68b3fbc94f6c0a95979a50be7794f3a83659cbd8b8a1c4d3137820935e5c90a9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [
+        "No connection. Recover returns when you are back online."
+      ],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": true,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/offline": {
+      "file": "design/phone-ui/components/recover/review/430x932-offline.jpg",
+      "sha256": "8e8f959285f2408d3a9731f74f740b729465372146c54a16c35064679e00115e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [
+        "No connection. Recover returns when you are back online."
+      ],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": true,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/no-hint": {
+      "file": "design/phone-ui/components/recover/review/390x844-no-hint.jpg",
+      "sha256": "545fcbdcfa862c3ab92d9c11f2f9d43f4b7fad23cc36dff9c5e89816b5517098",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 0,
+      "codeHint": null,
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": true,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/no-hint": {
+      "file": "design/phone-ui/components/recover/review/430x932-no-hint.jpg",
+      "sha256": "ef1e513052889bd1bea744c0150dd4d7de342ec8f665fd22848b1ca93a537258",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 0,
+      "codeHint": null,
+      "codeInvalid": false,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": true,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/refused-large": {
+      "file": "design/phone-ui/components/recover/review/390x844-refused-large.jpg",
+      "sha256": "dfe82d1ab81886c5d9a93f68a18758200f4d8d5d80bd633052c3df2185a2e469",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": true,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [
+        "That code was not accepted. A code works once, for 15 minutes. Ask the host for a new one."
+      ],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": true,
+      "actionInView": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/refused-large": {
+      "file": "design/phone-ui/components/recover/review/430x932-refused-large.jpg",
+      "sha256": "eb9652e56e2b9e28e1691fea821c85126d4bb3d0d19949f407b0365f87fd27a6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "form",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": "Recover your seat",
+      "labels": "Match ID|Recovery code",
+      "fields": 2,
+      "matchId": "mtch-8f2c4e",
+      "idMono": true,
+      "idFocused": false,
+      "codeType": "password",
+      "codeAttrs": "off|off|false",
+      "codeLength": 32,
+      "codeHint": "32 characters",
+      "codeInvalid": true,
+      "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+      "errors": [
+        "That code was not accepted. A code works once, for 15 minutes. Ask the host for a new one."
+      ],
+      "action": "Recover seat",
+      "actionLabel": "Recover seat",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": null,
+      "line": null,
+      "secretInPage": false,
+      "scrolls": true,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/recovered-large": {
+      "file": "design/phone-ui/components/recover/review/390x844-recovered-large.jpg",
+      "sha256": "5a639d60b774e4e860a2176a4992c742e9f6fa1c6681e89df00b0a382e618743",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "recovered",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": null,
+      "labels": "",
+      "fields": 0,
+      "matchId": null,
+      "idMono": false,
+      "idFocused": false,
+      "codeType": null,
+      "codeAttrs": null,
+      "codeLength": null,
+      "codeHint": null,
+      "codeInvalid": false,
+      "note": null,
+      "errors": [],
+      "action": "Continue",
+      "actionLabel": "Continue",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": "Seat 4 is yours again",
+      "line": "Back to the match where it is now",
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/recovered-large": {
+      "file": "design/phone-ui/components/recover/review/430x932-recovered-large.jpg",
+      "sha256": "37503efada26e79e53405d95c9b45935f11859190fbc7f05a027a7c7b288ec51",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "view": "recovered",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Recover",
+      "back": "Menu",
+      "heading": null,
+      "labels": "",
+      "fields": 0,
+      "matchId": null,
+      "idMono": false,
+      "idFocused": false,
+      "codeType": null,
+      "codeAttrs": null,
+      "codeLength": null,
+      "codeHint": null,
+      "codeInvalid": false,
+      "note": null,
+      "errors": [],
+      "action": "Continue",
+      "actionLabel": "Continue",
+      "actionRefused": false,
+      "actionBusy": false,
+      "waitTitle": "Seat 4 is yours again",
+      "line": "Back to the match where it is now",
+      "secretInPage": false,
+      "scrolls": false,
+      "actionInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "form: the pack’s words and note; the Match ID’s mono box; the code’s box a secret field; the hint from Frontend’s length, none without it; Back reports its tap",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "title": "Recover",
+              "back": "Menu",
+              "heading": "Recover your seat",
+              "labels": [
+                "Match ID",
+                "Recovery code"
+              ],
+              "note": "The host makes a code for your seat in Host controls. It is never shown on the shared display.",
+              "id": {
+                "mono": true,
+                "placeholder": "From the host",
+                "value": "mtch-8f2c4e"
+              },
+              "code": {
+                "type": "password",
+                "autocomplete": "off",
+                "autocapitalize": "off",
+                "spellcheck": "false",
+                "placeholder": "32 characters"
+              },
+              "action": "Recover seat",
+              "key": true,
+              "noHint": null,
+              "taps": [
+                [
+                  "onBack"
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "secret: the code stays in its box; keystrokes report only its length; onRecover hands it over once; no other report, attribute or layout carries it; Frontend can’t give it back; it leaves the box once recovered, at clearCode() and on dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "lengths": [
+                32,
+                {
+                  "length": 32
+                }
+              ],
+              "handed": [
+                {
+                  "matchId": "mtch-8f2c4e",
+                  "length": 32,
+                  "same": true
+                }
+              ],
+              "others": false,
+              "inPage": false,
+              "inLayout": false,
+              "givenBack": true,
+              "kept": true,
+              "afterRecovered": "",
+              "afterClear": "",
+              "afterDispose": ""
+            }
+          }
+        },
+        {
+          "id": "typing: the Match ID’s keystrokes report what the box holds; Frontend’s value replaces it, the caret at its end; Return recovers when available, and not when refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "given": {
+                "value": "mtch-8f2c4e",
+                "caret": [
+                  11,
+                  11
+                ]
+              },
+              "before": 0,
+              "recovered": 1,
+              "reports": [
+                "MTCH-8f2c4e"
+              ]
+            }
+          }
+        },
+        {
+          "id": "refused: the words under the code’s box, which is ringed in paper and described by them; gone when cleared",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "words": "That code was not accepted. A code works once, for 15 minutes. Ask the host for a new one.",
+              "under": true,
+              "beforeNote": true,
+              "ringed": true,
+              "invalid": "true",
+              "why": "That code was not accepted. A code works once, for 15 minutes. Ask the host for a new one.",
+              "after": {
+                "notes": 0,
+                "ringed": false,
+                "described": null
+              }
+            }
+          }
+        },
+        {
+          "id": "recover: refused with Frontend’s reason, and dimmed; busy reads “Checking…”, is refused and shows the spinner",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "off": {
+                "refused": true,
+                "why": "Type the Match ID and the code",
+                "look": "0.4"
+              },
+              "busy": {
+                "busy": "true",
+                "label": "Checking…"
+              },
+              "taps": 0
+            }
+          }
+        },
+        {
+          "id": "recovered: the check, “Seat 4 is yours again”, the line and Continue; a focused Recover seat that leaves returns the focus to the screen",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "focus": true,
+              "returned": [
+                {
+                  "intent": "recover",
+                  "value": null
+                }
+              ],
+              "title": "Seat 4 is yours again",
+              "line": "Back to the match where it is now",
+              "tile": true,
+              "fields": 0,
+              "action": "Continue",
+              "taps": [
+                [
+                  "onContinue"
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "offline: the words over the foot; with Recover seat enabled they refuse nothing; Frontend’s refusal refuses with the reason; Back stays usable",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "alone": {
+                "words": "No connection. Recover returns when you are back online.",
+                "overFoot": true,
+                "refused": false
+              },
+              "given": {
+                "refused": true,
+                "why": "No connection. Recover returns when you are back online.",
+                "taps": [
+                  [
+                    "onBack"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "not interactive: every control refused, nothing dimmed, the boxes read-only, typing unreported",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "refused": [
+                true,
+                true
+              ],
+              "dimmed": 0,
+              "readOnly": [
+                true,
+                true
+              ],
+              "taps": 0
+            }
+          }
+        },
+        {
+          "id": "insets: Frontend’s safe areas place the screen 8 px under the top one and 16 px over the bottom one; null gives the browser’s",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "given": {
+                "top": 47,
+                "bottom": 34
+              },
+              "browser": {
+                "top": 0,
+                "bottom": 0
+              }
+            }
+          }
+        },
+        {
+          "id": "text: with the Largest text (200 %) the screen scrolls and its foot is reached",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "scrolls": true,
+              "footInView": true
+            }
+          }
+        },
+        {
+          "id": "input: malformed input is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing fires, layout() is null and nothing is left",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "left": 0,
+              "layout": null,
+              "taps": 0
+            }
+          }
+        },
+        {
+          "id": "motion: only the spinner turns, and with the game’s Reduce motion it stands still",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "full": [
+                "ms-k-spin"
+              ],
+              "reduced": [],
+              "idle": []
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: only the spinner turns; with the device’s Reduce motion it stands still",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "full": [],
+              "reduced": [],
+              "idle": []
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DzJ-Y7CB.js",
+          "line": 1,
+          "column": 3330,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: entry, typing the Match ID, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "boxes": {
+              "pack": 2,
+              "screen": 2
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: refused at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "boxes": {
+              "pack": 2,
+              "screen": 2
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: refused at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "boxes": {
+              "pack": 2,
+              "screen": 2
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: checking at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "boxes": {
+              "pack": 2,
+              "screen": 2
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: seat recovered at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait line": {
+              "pack": 1,
+              "screen": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: refused with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "boxes": {
+              "pack": 2,
+              "screen": 2
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: seat recovered with the Largest text (200 %) at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait line": {
+              "pack": 1,
+              "screen": 1
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-DzJ-Y7CB.js",
+        "line": 1,
+        "column": 3330,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
