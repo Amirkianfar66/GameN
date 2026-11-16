@@ -46,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.7.1', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.7.2', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -100,6 +100,10 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   for (const tint of ROW_TINTS.filter(Boolean)) assert.match(PACK_CSS, new RegExp(`\\.row-icon\\[data-tint="${tint}"\\]`), `the pack has a ${tint} row icon`);
   // The tile's states (0.6.0) are the pack's screens.css ones; sending is its submitting.
   for (const state of TILE_STATES.filter(s => s !== 'available')) assert.match(SCREENS_CSS, new RegExp(`\\.tile\\[data-state="${state === 'sending' ? 'submitting' : state}"\\]`), `the pack draws a ${state} tile`);
+  // An unavailable tile fades the art the kit draws from markup, as sheet 25 fades its one picture, and never a
+  // picture node the component draws for its state (0.7.2; the pack's unavailable Eject plate is its own drawing).
+  assert.ok(KIT_CSS.includes('.ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-art:not([data-node])) { opacity: 0.35; filter: grayscale(1); }'));
+  assert.equal(KIT_CSS.match(/\.ms-k-tile-art[^{]*\{[^}]*(?:opacity|filter)/g)?.length, 1, 'one rule fades a tile\'s art');
   // On glass, the pack's lighter greys.
   assert.ok(KIT_CSS.includes('.ms-kit :where([data-ms-surface="glass"], [data-ms-surface="glass"] .ms-kit) { --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; }'), 'on glass, and in a component root on glass');
   assert.match(PACK_CSS, /--text-secondary: #DCE3EC; --text-tertiary: #D3DBE5;/);

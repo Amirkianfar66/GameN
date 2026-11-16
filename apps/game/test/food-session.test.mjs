@@ -31,7 +31,7 @@ function rig(){
    try{if(readGate)await readGate.promise;return answer(out,at);}finally{readsInFlight--;}
   }
   if(q.operation==='foodCommand'){if(commandGate)await commandGate.promise;const {command,...context}=q.request,c=command;
-   return answer({receipt:{...context,status:'accepted',receivedAt:now,result:{kind:'INPUT',taskId:c.taskId,controlSessionId:c.controlSessionId,effect:c.input.edge==='UP'?'GESTURE_CLOSED':'APPLIED',gestureSequence:c.input.gestureSequence,crateId:c.input.crateId}}});}
+   return answer({receipt:{...context,status:'accepted',receivedAt:now,result:{kind:'INPUT',taskId:c.taskId,controlSessionId:c.controlSessionId,effect:c.input.edge==='UP'?'GESTURE_CLOSED':'APPLIED',gestureSequence:c.input.gestureSequence??null,crateId:c.input.crateId??null}}});}
   return answer(q.operation==='foodReceipt'?{receipt:null}:{});
  }};
  const session=createPlanetSession(connection,ports,stores);
@@ -68,6 +68,46 @@ test('snapshot/clock coalescing queues one post-receipt read and never blocks a 
  assert.equal(r.maxReads,1);assert.equal(r.requests.filter(q=>q.operation==='read').length,3,'one read begun before the receipt, then one queued after it');
  food.dispose();r.session.dispose();
 });
+test('an accepted Panel RELEASE still gets its own READ after a prior wire read outlives the local timeout',async t=>{
+ for(const delay of [8250,8600])await t.test('old wire READ settles at '+delay+' ms',async()=>{
+  const r=rig(),s=r.value,v=s.foodPlayerView,task=v.participantTask,seatId=task.panelSeatId;
+  s.selfSeatId=seatId;s.playerView.self.seatId=seatId;v.seatId=seatId;
+  Object.assign(task,{selfControl:'PANEL',controlSessionId:'panel-session-2',ownGesture:null});
+  Object.assign(task.crate,{state:'HELD',holder:'WINCH',height:1});
+  v.partnerChoices=v.partnerChoices.map(row=>row.seatId===seatId?{...row,seatId:task.winchSeatId}:row);
+  v.offers=[{...v.offers[0],controlSessionId:task.controlSessionId,inputs:['PANEL_RELEASE']}];
+  await r.session.start(s.matchId);
+  assert.equal(r.session.getModel().connection,'live');
+  const transport=r.session.gameTransport('player'),foodTransport=r.session.foodTransport();
+  const food=createFoodTaskController(foodTransport,{...r.ports,recovery:memory()},{
+   binding:{uid:'food-session',matchId:s.matchId,seatId},readClock:transport.readClock,
+  });
+  const stop=transport.listen({matchId:s.matchId,seatId},{snapshot(packet){
+   const own=packet.food.playerView;
+   assert.ok(food.observe(own,{matchId:own.matchId,versions:own.versions,phaseId:own.phaseId,
+    round:own.round,serverNowMs:packet.food.serverTimeMs},packet.fresh));
+  },error(kind){food.disconnect(kind);}});
+  const readStarts=()=>r.requests.filter(q=>q.operation==='read').map(q=>q.at);
+  try{
+   const oldGate=r.gateRead();const oldRefresh=r.session.refresh();await flush();
+   assert.equal(food.getModel().canPanelRelease,true);
+   await food.press('PANEL_RELEASE');
+   assert.equal(food.getModel().feedback.status,'accepted');
+   assert.equal(food.getModel().canPanelLock,false);
+   v.viewRevision++;task.revision++;task.controlRevision++;task.panel.locked=false;task.panel.anchorAt=6000;
+   v.offers=[{...v.offers[0],controlRevision:task.controlRevision,inputs:['PANEL_LOCK']}];
+   foodTransport.refresh();
+   await r.advance(delay);
+   assert.deepEqual(readStarts(),[6000,6000],'local timeout cannot free the wire READ slot');
+   assert.equal(food.getModel().canPanelLock,false);
+   oldGate.resolve();await oldRefresh;await flush();
+   assert.deepEqual(readStarts(),[6000,6000,6000+delay],'a real new READ starts at wire settlement');
+   assert.equal(r.maxReads,1);
+   assert.equal(food.getModel().canPanelLock,true);
+  }finally{stop();food.dispose();r.session.dispose();}
+ });
+});
+
 test('a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return',async()=>{
  const r=rig();await r.session.start(r.value.matchId);const gate=r.gateRead();void r.session.refresh();await flush();await r.advance(2100);
  assert.equal(r.maxReads,1);assert.equal(r.requests.filter(q=>q.operation==='foodHeartbeat').length,2);gate.resolve();await flush();

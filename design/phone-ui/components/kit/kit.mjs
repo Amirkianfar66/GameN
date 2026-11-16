@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.7.1';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.7.2';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -357,8 +357,12 @@ export function createKit(doc) {
       // A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card): the game's own art
       // markup (HACK_ART), never words or anything a player gave; or (0.7.1) a picture node the component draws, as
       // the Captain console's plates (the film bundle's pictures). Kept while it is the same markup or node.
+      // The kit fades only the markup when the tile is unavailable, as sheet 25 fades its one picture; a node is drawn
+      // for its state by the component (the pack's unavailable Eject plate is a drawing of its own), so it is left
+      // as given (0.7.2).
       if (glyph.className !== 'ms-k-tile-art') { glyph.className = 'ms-k-tile-art'; glyph.dataset.icon = ''; glyph.hidden = false; }
       glyph.setAttribute('aria-hidden', 'true');
+      glyph.toggleAttribute('data-node', isNode(art));
       if (tileArt.get(glyph) !== art) {
         if (isNode(art)) glyph.replaceChildren(art);
         else {
@@ -369,7 +373,7 @@ export function createKit(doc) {
         tileArt.set(glyph, art);
       }
     } else {
-      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
+      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
       // The pack fills the icon, but not on an unavailable or a spent tile.
       setIcon(glyph, props.icon, state !== 'unavailable' && state !== 'spent');
     }

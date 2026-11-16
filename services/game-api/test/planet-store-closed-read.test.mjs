@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {test} from 'node:test';
 import {createFirestorePlanetStore} from '../dist/planet-store.js';
+import {withPlanetRequestTiming} from '../dist/planet-request-timing.js';
 
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const closed=()=>Object.assign(new Error('3 INVALID_ARGUMENT: Transaction is invalid or closed.'),
@@ -182,4 +183,46 @@ test('the phase latch is invocation-local rather than store-global',async()=>{
   h.onEvent(e=>e.call===2&&e.attempt===1&&e.kind==='get'?fail(original):undefined);
   assert.deepEqual(await h.store.transaction(tx=>tx.get('scope')),{count:1});assert.equal(h.calls.length,2);
   assert.equal(h.calls[1].attempts.length,2);normalized(h.calls[1].attempts[0].error,original);
+});
+
+function timingCounts(summaries,expected){
+  assert.equal(summaries.length,1);
+  const [{elapsedMs,stages}]=summaries;
+  assert.ok(Number.isFinite(elapsedMs)&&elapsedMs>=0);
+  assert.deepEqual(Object.fromEntries(Object.entries(stages).map(([stage,stats])=>[stage,stats.count])),expected);
+  for(const stats of Object.values(stages)){
+    assert.deepEqual(Object.keys(stats).sort(),['count','maxMs','totalMs']);
+    assert.ok(Number.isFinite(stats.maxMs)&&Number.isFinite(stats.totalMs)&&stats.maxMs>=0&&stats.totalMs>=stats.maxMs);
+  }
+}
+
+test('SDK timing counts read-only and retried writes with one final acknowledgement',async()=>{
+  const h=fixture(),key='timing/round-trip',summaries=[],outcome={ok:true};
+  h.seed(key,{count:1});
+  h.onEvent(e=>e.kind==='commit'&&e.attempt===1?fail(sdkError(10)):undefined);
+  const result=await withPlanetRequestTiming(async()=>{
+    assert.deepEqual(await h.store.readOnly(tx=>tx.get(key)),{count:1});
+    return h.store.transaction(async tx=>{tx.set(key,{count:2});return outcome;});
+  },summary=>summaries.push(summary));
+  assert.equal(result,outcome);assert.deepEqual(h.value(key),{count:2});
+  assert.deepEqual(h.calls.map(call=>call.attempts.length),[1,2]);
+  timingCounts(summaries,{sdkReadOnly:1,sdkReadWrite:1,sdkAttempt:3,sdkRead:4,sdkCommitAck:1,sdkRetryGap:1});
+});
+
+test('SDK timing reports final commit rejection separately and retains the SDK error',async()=>{
+  const h=fixture(),summaries=[],original=closed();
+  h.onEvent(e=>e.kind==='commit'?fail(original):undefined);
+  await assert.rejects(withPlanetRequestTiming(()=>h.store.transaction(async tx=>tx.set('timing/commit',{value:1})),
+    summary=>summaries.push(summary)),error=>error===original);
+  defaultInvocation(h,1);assert.equal(h.value('timing/commit'),null);
+  timingCounts(summaries,{sdkReadWrite:1,sdkAttempt:1,sdkRead:1,sdkCommitFailure:1});
+});
+
+test('SDK timing does not record a commit interval for a failed transaction callback',async()=>{
+  const h=fixture(),summaries=[],original=closed();
+  h.onEvent(e=>e.kind==='get'?{error:original,sync:true}:undefined);
+  await assert.rejects(withPlanetRequestTiming(()=>h.store.transaction(tx=>tx.get('timing/precommit')),
+    summary=>summaries.push(summary)),error=>error===original);
+  defaultInvocation(h,1);assert.equal(h.calls[0].attempts[0].commitStarted,false);
+  timingCounts(summaries,{sdkReadWrite:1,sdkAttempt:1,sdkRead:1});
 });

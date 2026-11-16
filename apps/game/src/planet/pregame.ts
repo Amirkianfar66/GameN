@@ -1,7 +1,8 @@
-import type {PlanetRole} from '@mothership/contracts';
+import {planetCanPlayFilm,type PlanetRole} from '@mothership/contracts';
 import type {MonotonicClock,UnresolvedCommandStore} from '../ports.js';
 import type {PlanetSessionModel} from './session.js';
 
+/** First release that carried the pregame films. */
 export const PREGAME_ASSET_VERSION='design-0.8.0';
 export const PREGAME_ROLE_IDS:Readonly<Record<PlanetRole,string>>=Object.freeze({Doctor:'doctor',Insider:'insider','Blue Disabler':'blue-disabler','Red Disabler':'red-disabler',Supplier:'supplier',Engineer:'engineer',Undercover:'undercover',Hacker:'hacker',Alien:'alien'});
 export interface PublicFilmMember {readonly seat:number;readonly character:string}
@@ -45,10 +46,10 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
  try{const raw=seenStore.load();if(raw!==null){const list:unknown=JSON.parse(raw);if(!Array.isArray(list)||list.length>128||list.some(s=>typeof s!=='string'||s.length>1024))throw new Error();for(const value of list)seen.add(value as string);}}catch{storageUsable=false;}
  const remember=(key:string)=>{if(seen.has(key))return true;if(!storageUsable)return false;try{seen.add(key);while(seen.size>128)seen.delete(seen.values().next().value!);seenStore.save(JSON.stringify([...seen]));return true;}catch{storageUsable=false;seen.delete(key);return false;}};
  const safe=()=>!!model&&!disposed&&visibility.visible&&visibility.focused&&visibility.uid!==null&&model.connection==='live'&&!model.uncertain;
- const release=()=>model?.versions?.assetManifestVersion===PREGAME_ASSET_VERSION;
+ const canPlay=(kind:'role'|'boarding')=>planetCanPlayFilm(model?.versions,model?.setupFlowVersion,kind);
  const readingKey=()=>model?.matchId&&model.setup&&model.selfSeatId&&visibility.uid?JSON.stringify(['role',visibility.uid,model.matchId,model.setup.id,model.selfSeatId]):null;
  function ownFilm():{role:string;character:string;seat:number;binding:string}|null{
-  if(!safe()||!model||model.status!=='reading'||!release()||!model.ownRole||!model.selfSeatId)return null;
+  if(!safe()||!model||model.status!=='reading'||!canPlay('role')||!model.ownRole||!model.selfSeatId)return null;
   const role=model.ownRole.role,own=model.members.find(m=>m.seatId===model!.selfSeatId);
   if(typeof role!=='string'||!Object.hasOwn(PREGAME_ROLE_IDS,role)||!own||own.ready||typeof own.characterId!=='string'||!/^c[1-9]$/.test(own.characterId)||!/^seat-[1-9]$/.test(model.selfSeatId))return null;
   const seat=Number(model.selfSeatId.slice(5));if(model.playerCount===null||seat>model.playerCount)return null;
@@ -78,7 +79,7 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
    }
    if(active)return {...active.film,t};
   }
-  if(model.status!=='boarding'||![2,3].includes(model.setupFlowVersion??0)||!release()||model.setup===null||!('startedAt' in model.setup)||model.setupClock.status!=='synced')return null;
+  if(model.status!=='boarding'||!canPlay('boarding')||model.setup===null||!('startedAt' in model.setup)||model.setupClock.status!=='synced')return null;
   const {id,startedAt,endsAt}=model.setup;
   if(typeof startedAt!=='number'||!Number.isFinite(startedAt)||!Number.isFinite(endsAt)||endsAt-startedAt!==10000)return null;
   const serverNow=model.setupClock.serverNowMs+Math.max(0,now-receivedAt),uncertainty=model.setupClock.uncertaintyMs;
