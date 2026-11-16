@@ -73,12 +73,21 @@ export function createPlanetFoodInboxWorker(d:{
     if(stored.continuationFor!==undefined)return previous?.id===stored.continuationFor&&previous.expiresAt===0;
     return stored.watchdogFor===undefined||previous?.id===stored.watchdogFor&&previous.expiresAt===stored.wake.wakeAt;
   }
+  async function canRunWake(stored:FoodInboxWakeRole&{wake:PlanetFoodInboxWake},current:PlanetFoodInboxRoute,
+    previous:PlanetFoodInboxOwner|null):Promise<boolean>{
+    if(!wakeOwnerMatches(stored,previous))return false;
+    if(current.closedAt===null)return true;
+    // Intake is fenced by closure. Only a matching recovery wake can claim
+    // unfinished refusals; stepInbox never admits inputs on a closed route.
+    if(stored.watchdogFor===undefined&&stored.continuationFor===undefined)return false;
+    return inbox.hasPending(current.scope);
+  }
   const repairWakes=(enqueue:EnqueuePlanetFoodInboxWake)=>inbox.repair(enqueue,async(tx,stored)=>{
     const {scope}=stored.wake;
     const current=await tx.get<PlanetFoodInboxRoute>(scopedRouteKey(scope));
-    if(!current||current.closedAt!==null||!scopeMatches(current.scope,scope))return false;
+    if(!current||!scopeMatches(current.scope,scope))return false;
     const previous=await owner(tx,scope);
-    return wakeOwnerMatches(stored,previous);
+    return canRunWake(stored,current,previous);
   });
   async function claim(wake:PlanetFoodInboxWake,id:string):Promise<PlanetFoodInboxAuthority|null>{
     const read=store.readOnly?.bind(store)??store.transaction.bind(store);
@@ -91,12 +100,12 @@ export function createPlanetFoodInboxWorker(d:{
       const stored=tracked?await inbox.loadWake(tx,wake):payload;
       if(!stored)return null;
       const current=await tx.get<PlanetFoodInboxRoute>(scopedRouteKey(wake.scope));
-      if(!current||current.closedAt!==null||!scopeMatches(current.scope,wake.scope)){
+      if(!current||!scopeMatches(current.scope,wake.scope)){
         if(tracked)inbox.handleWake(tx,stored);
         return null;
       }
       const previous=await owner(tx,wake.scope);
-      if(!wakeOwnerMatches(stored,previous)){
+      if(!await canRunWake(stored,current,previous)){
         if(tracked)inbox.handleWake(tx,stored);
         return null;
       }

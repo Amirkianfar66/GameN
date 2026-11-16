@@ -22,6 +22,7 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
           create(path,item){
             if(recordCommit&&path.startsWith('foodInboxIntent/'))recorded.push({stage:'intake',item});
             if(recordCommit&&path.startsWith('foodInboxProgress/'))recorded.push({stage:'progress',item,id:path.split('/').at(-1)});
+            if(recordCommit&&path.startsWith('foodInboxResult/'))recorded.push({stage:'close',item});
             tx.create(path,item);
           },
           set(path,item){
@@ -252,6 +253,93 @@ test('periodic repair replaces a lost continuation after the owner exhausts its 
   assert.equal((await read('foodInboxWake/'+late.id)).status,'handled');
   assert.deepEqual(await read(resultKey),completed);
   assert.equal((await h.current()).journalSequence,parent.journalSequence);
+});
+
+for(const recovery of ['direct watchdog','periodic repair'])test(`closed inbox refuses the original once after ${recovery}`, {timeout:60_000},async t=>{
+  const {h,task,winch,route,store,read,setCommitObserver}=await inboxMatch(t,{live:true});
+  const scopeKey=foodInboxScopeKey(route.scope);
+  const ownerKey='foodInboxOwner/'+scopeKey,resultKey='foodInboxResult/'+scopeKey;
+  const routeKey='foodInboxRoute/'+h.matchId,controlKey='foodIngressControl/'+h.matchId;
+  const ownScope=scope=>foodInboxScopeKey(scope)===scopeKey;
+  const ownWakes=async()=>{
+    const paths=await store.listKeys('foodInboxWake',100);
+    return (await Promise.all(paths.map(read))).filter(row=>row&&ownScope(row.wake.scope));
+  };
+  const [bootstrap]=await ownWakes();
+  assert.ok(bootstrap);
+  const inbox=createPlanetFoodInbox(store,h.now);
+  const member=(await h.current()).members.find(row=>row.uid===winch);
+  const binding={uid:winch,seatId:member.seatId,revision:member.bindingRevision};
+  const request={operation:'foodHeartbeat',matchId:h.matchId,taskId:route.scope.taskId};
+  const originals=['at-return','after-return'].map(label=>createFoodInboxIntent(route.scope,binding,request,label));
+  const progress=intent=>store.readOnly(tx=>inbox.progress(tx,intent));
+  h.setTime(task.returnsAt-1);
+  for(const intent of originals){
+    assert.equal((await inbox.intake(intent,h.now())).duplicate,false);
+    assert.equal(await h.service.dispatchFoodInboxWake(intent.id,async()=>{}),true);
+  }
+  const first=await inbox.next(route.scope),queued=originals.find(intent=>intent.id!==first.id);
+  assert.ok(queued);
+  assert.equal(await h.service.dispatchFoodInboxWake(bootstrap.wake.id,async()=>{}),true);
+
+  let closeAcks=0;
+  const refusals=[];
+  setCommitObserver(rows=>{
+    for(const row of rows){
+      if(row.stage==='close'&&ownScope(row.item.scope)){
+        closeAcks++;
+        throw new Error('simulated lost acknowledgement after committing Food close');
+      }
+      if(row.stage==='progress'&&row.id===queued.id)refusals.push(row.item);
+    }
+  });
+  h.setTime(task.returnsAt);
+  await assert.rejects(h.service.runFoodInbox(bootstrap.wake),/lost acknowledgement after committing Food close/);
+  assert.equal(closeAcks,1);
+  const owner=await read(ownerKey),completed=await read(resultKey),closed=await read(routeKey);
+  const control=await read(controlKey),parent=await h.current();
+  assert.equal(completed.closedAt,task.returnsAt);
+  assert.equal(closed.closedAt,completed.closedAt);
+  assert.equal(parent.state.phase.startedAt,task.returnsAt);
+  assert.equal(completed.journalSequence,parent.journalSequence);
+  assert.equal((await progress(first)).kind,'admitted');
+  assert.equal((await inbox.next(route.scope)).id,queued.id);
+  assert.equal(await progress(queued),null);
+
+  const watchdog=(await ownWakes()).find(row=>row.watchdogFor===owner.id&&row.wake.wakeAt===owner.expiresAt);
+  assert.ok(watchdog);
+  assert.equal(await h.service.dispatchFoodInboxWake(watchdog.wake.id,async()=>{}),true);
+  let cleanup=watchdog.wake;
+  if(recovery==='periodic repair'){
+    h.setTime(watchdog.wake.wakeAt+60_000);
+    const replacements=[];
+    await h.service.repairFoodInboxWakes(async wake=>{if(ownScope(wake.scope))replacements.push(wake);});
+    assert.equal(replacements.length,1,'a closed route with queued work still needs its owner recovery wake');
+    [cleanup]=replacements;
+    assert.notEqual(cleanup.id,watchdog.wake.id);
+    assert.equal(cleanup.wakeAt,watchdog.wake.wakeAt);
+    await h.service.runFoodInbox(watchdog.wake);
+    assert.deepEqual(await read(ownerKey),owner);
+    assert.equal(await progress(queued),null);
+  }else h.setTime(watchdog.wake.wakeAt);
+
+  await h.service.runFoodInbox(cleanup);
+  const refusal={kind:'resolved',response:{ok:false,serverTimeMs:h.now(),error:{code:'NOT_ALLOWED'}}};
+  assert.deepEqual(await progress(queued),refusal);
+  assert.equal(await inbox.next(route.scope),null);
+  const successor=await read(ownerKey);
+  assert.equal(successor.epoch,owner.epoch+1);
+  assert.equal(successor.expiresAt,0);
+  await h.service.runFoodInbox(watchdog.wake);
+  await h.service.runFoodInbox(cleanup);
+  await h.service.runFoodInbox(bootstrap.wake);
+  assert.deepEqual(await read(ownerKey),successor);
+  assert.deepEqual(refusals,[refusal]);
+  assert.deepEqual(await progress(queued),refusal);
+  assert.deepEqual(await read(resultKey),completed);
+  assert.deepEqual(await read(routeKey),closed);
+  assert.deepEqual(await read(controlKey),control);
+  assert.deepEqual(await h.current(),parent);
 });
 
 test('production inbox survives profile switch-off and commits one normal Task return', {timeout:60_000},async t=>{

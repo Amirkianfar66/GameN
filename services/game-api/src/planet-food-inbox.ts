@@ -91,6 +91,7 @@ export function createPlanetFoodInbox(store:PlanetPersistence,clock:()=>number=D
       return {kind:'queued',id:intent.id,duplicate:true};
     }
   }
+  const hasPending=async(scope:PlanetFoodInboxScope)=>(await first(foodInboxScopeKey(scope)))!==null;
   async function next(scope:PlanetFoodInboxScope):Promise<PlanetFoodInboxIntent|null>{
     const scopeKey=foodInboxScopeKey(scope),id=await first!(scopeKey);
     if(!id)return null;
@@ -161,5 +162,5 @@ export function createPlanetFoodInbox(store:PlanetPersistence,clock:()=>number=D
     }
     return counts;
   }
-  return {intake,stageIntake,stageWake,loadWake,handleWake,next,progress,consume,dispatch,repair};
+  return {intake,stageIntake,stageWake,loadWake,handleWake,hasPending,next,progress,consume,dispatch,repair};
 }
