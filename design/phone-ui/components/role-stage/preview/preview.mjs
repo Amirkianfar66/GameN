@@ -73,6 +73,8 @@ export const STAGE_STATES = Object.freeze({
   waiting: { caption: 'Ready · waiting · sheet 18', stage: { ...after(31000), ready: { mode: 'done' }, roster: { ready: 6, total: 9 } } },
   skipped: { caption: 'Film skipped on this phone', stage: { ...base(22000), film: 'skipped' } },
   stale: { caption: 'Reconnecting', stage: { ...base(14000), status: 'stale' } },
+  large: { caption: 'Large text (150%) · 0:12', stage: base(12000), text: 150 },
+  largest: { caption: 'Largest text (200%) · 0:12', stage: base(12000), text: 200 },
 });
 
 /** The film's still, with its captions, in the stage's film element (the player's place). */
@@ -132,6 +134,7 @@ if (params.get('agree')) {
   } else {
     const sizeKey = params.get('size') ?? '390x844';
     if (!STAGE_STATES[key] || !PREVIEW_SIZES[sizeKey]) throw new Error(`Unknown size or state: ${sizeKey} ${key}`);
+    if (STAGE_STATES[key].text) document.documentElement.style.fontSize = `${STAGE_STATES[key].text}%`;
     const p = phone(sizeKey, key);
     document.body.append(p.frame);
     mounted.push(p.mount());
@@ -144,6 +147,7 @@ if (params.get('agree')) {
   grid.className = 'pv-grid';
   document.body.append(head, grid);
   for (const [key, s] of Object.entries(STAGE_STATES)) {
+    if (s.text) continue;
     for (const sizeKey of Object.keys(PREVIEW_SIZES)) {
       const cell = document.createElement('figure');
       cell.className = 'pv-cell';

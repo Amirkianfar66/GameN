@@ -43,6 +43,8 @@ export const STAGE_WORDS = Object.freeze({
 /** The crossfade between the card and the film (the handoff's Motion: 700 ms; 80 ms with Reduce motion). */
 export const CROSSFADE_MS = 700;
 export const CROSSFADE_REDUCED_MS = 80;
+/** The card area's least distance from the bottom, between the bars (the pack's .card-area: 120 px). */
+export const CARD_BOTTOM_PX = 120;
 
 /** Every input, with its default: nothing private, Ready not offered. */
 export const ROLE_STAGE_DEFAULTS = Object.freeze({
@@ -301,6 +303,17 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
       if (root.style.getPropertyValue(name) !== value) root.style.setProperty(name, value);
     }
   }
+  /**
+   * The card ends where the foot begins: 120 px over the bottom, as the pack's .card-area, at the Standard
+   * text, and above the note's own 1em when larger text makes the foot taller, so the note never runs into
+   * the card. Measured from the foot itself, whatever it holds (the note, the count, Ready).
+   */
+  function placeCard() {
+    if (disposed || !foot.isConnected) return;
+    const px = Math.max(CARD_BOTTOM_PX, body.clientHeight - foot.offsetTop);
+    const value = `${Math.round(px * 100) / 100}px`;
+    if (root.style.getPropertyValue('--ms-rst-card-bottom') !== value) root.style.setProperty('--ms-rst-card-bottom', value);
+  }
   function render() {
     if (disposed) return;
     placeFilm();
@@ -310,6 +323,7 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
     shell.update(shellInput());
     paintBody();
     paintFilm();
+    placeCard();
   }
 
   // ── Layout ──────────────────────────────────────────────────────────
@@ -326,9 +340,11 @@ export function mountRoleStage(host, input = {}, handlers = {}) {
     lastLayout = key;
     on.onLayout?.(next);
   }
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => reportLayout()) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeCard(); reportLayout(); }) : null;
   observer?.observe(root);
   observer?.observe(cardArea);
+  // The foot grows with the text: the card follows it.
+  observer?.observe(foot);
 
   function update(next = {}) {
     if (disposed) return;
