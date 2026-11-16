@@ -1,0 +1,32 @@
+{
+  "component": "brand-film",
+  "version": "pregame-brand-2.0.0",
+  "note": "Every file outside its own folder that the brand intro's runtime graph holds, imported as it is: nothing is copied, moved or edited. packages/design-tokens/test/brand-film.test.mjs holds each to its hash.",
+  "imports": [
+    {
+      "path": "design/phone-ui/components/boarding-film/engine.mjs",
+      "sha256": "1bc8dcaa26614371e734bd518ef72e1249cd23e5be8eba4e646c5268b3c3b19c",
+      "uses": "createLight, drawn, glow, rgba, silhouette: pictures made on the spot, the quarter-size light layer"
+    },
+    {
+      "path": "design/phone-ui/components/boarding-film/mark.mjs",
+      "sha256": "3b8da6b4aab40c99c3393820a1dfcf47533ea29e8b42205cff67004b993d0f2b",
+      "uses": "paintTide: the ink that takes the name to the night"
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/letters.mjs",
+      "sha256": "a16b9159d8ab25476417e7389583e103d04f26421854e25fc77ab030b3a7c9b4",
+      "uses": "GLYPHS: the brand's own letters, as strokes"
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/math.mjs",
+      "sha256": "1c27a89fa9803516c1f52292e94b271e2ac5f532e5a2c100d6f95150a4d016af",
+      "uses": "clamp, clamp01, ease, envelope, hash, lerp, progress, shake"
+    },
+    {
+      "path": "apps/game/hosted/pregame-films/kit/fx.mjs",
+      "sha256": "efb684c8ea0ff76d936ee2fb0cac93967ba6c612b20752b1d05636e247b64372",
+      "uses": "nothing by name: mark.mjs and letters.mjs import it (the tide's blots)"
+    }
+  ]
+}

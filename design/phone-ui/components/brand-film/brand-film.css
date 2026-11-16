@@ -1,0 +1,8 @@
+/* The brand intro, version 2: runtime source, Designer's. Every rule is under .ms-brand-film. The film is black, and
+   on it one canvas only as large as its two lines and their light (.ms-brf-ink), with its soft light on a second one
+   over it (.ms-brf-light); brand-film.mjs places and sizes both. Nothing here can be tapped. */
+.ms-brand-film { position: absolute; left: 0; top: 0; overflow: hidden; contain: strict; background: #000000; pointer-events: none; -webkit-user-select: none; user-select: none; }
+.ms-brand-film > canvas { position: absolute; display: block; }
+/* The film's soft light: drawn small on its own canvas (the boarding film's engine.mjs createLight), stretched over
+   the picture and added to it (screen: light only ever brightens what is under it). */
+.ms-brand-film > .ms-brf-light { mix-blend-mode: screen; }
