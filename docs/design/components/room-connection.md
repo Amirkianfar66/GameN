@@ -1,11 +1,11 @@
 # Room connection: the room view on the room scene
 
-**Status (15 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
+**Status (16 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet. On room scene 0.5.0 (#261 at `bdfe90ee`) since 16 November: its name tags stay whole and apart at the Large and Largest text, laid out by the shared `tag-layout.mjs`.
 - Integration first approves the source fence's marked hunk and the frozen releases' consumer pins, which refuse the changed Planet files (see [The gates](#the-gates)).
 - This is not a release.
 
 **What it is:**
-- On a player's phone, the Planet app's room view draws all five rooms through Designer's [room scene](room-scene.md) (`room-scene-0.4.0`):
+- On a player's phone, the Planet app's room view draws all five rooms through Designer's [room scene](room-scene.md) (`room-scene-0.5.0`):
   - Room A, Room B, the Command Room, the Hospital and the Jail.
   - The scene replaces the app's own picture, framing, places, tags, targets and Blackout darkness.
 - The owner decided this on 15 November 2026: "Yes lets do it for all 5 rooms nothing related to design should be inside of frontend".
@@ -21,7 +21,7 @@
 | `apps/game/hosted/planet/room-scene-input.mjs` | New, pure. It maps the presentation model to the scene's inputs, the scene's callbacks and the lifecycle step (`roomSceneInput`, `roomSceneHandlers`, `roomSceneLifecycle`) |
 | `apps/game/hosted/planet/render.mjs` | Mounts, updates, suspends and disposes the scene in the room view. It paints today's films and effects in the scene's films container, framed by its `layout()`, and passes their stand-ins and recoil. It no longer draws those rooms itself |
 | `apps/game/hosted/planet/app.mjs` | Imports `room-scene.css` beside the app's other styles |
-| `apps/game/hosted/vite.config.mjs` | One marked hunk: the scene's directory and `design/phone-ui/components/icons.mjs` join the hosted build's `allowedSources` |
+| `apps/game/hosted/vite.config.mjs` | One marked hunk: the scene's directory, `design/phone-ui/components/icons.mjs` and `design/phone-ui/components/tag-layout.mjs` join the hosted build's `allowedSources` |
 | `apps/game/test/planet-room-scene.test.mjs` | The mapping, privacy, the callbacks and the lifecycle |
 | `design/tools/room-connection-check.mjs` | The check: the real app, under the production headers, at both phone sizes |
 | `design/phone-ui/review/room-connection/` | Its captures and `check.json` |
@@ -102,17 +102,21 @@ The scene does not draw the films yet; they are its next components. Until it do
 | Office badges | The scene's tags show each office's icon, so the old "Captain · Officer" text badge is not drawn |
 | The Blackout | As sheet 30. The lit seconds are the ordinary room: the game's film (S1) draws its darkness over the lit scene at the board's depth (z 3000) for the flicker, and again for the lights' return. In the dark, everyone sees the scene's own lights-out picture, which is that darkness, so no layer is drawn over it and its windows still move (z 2802). The lights cut out at the same instant in both (`previewEndsAt`), so the hand-over has no jump. The film's position markers are not drawn in the room view, since sheet 30 has none: the Disabler's positions are the scene's own offered positions. The board view keeps its markers |
 
+**Why 0.5.0.** Room scene 0.5.0 keeps the name tags whole and apart at the Large and Largest text (#222 item 34). On 0.4.0, at both phone sizes, Room B's number discs spilled out of their pills and one tag covered another's name. Its tags are laid out by the shared `design/phone-ui/components/tag-layout.mjs` (`tag-layout-0.1.0`, also the board's), which the hosted build now admits. At the standard text the tags do not move.
+
 **Why 0.4.0.** The connection's first version laid the films over the scene, which is its own stacking context. The check's first run showed the problem: the Hospital patient's film figure covered the scene's own figure and its "3 Crew 3 · Injured" tag. The room scene's 0.4.0 (`72c1ae8`) added `standIns`, `brace` and `scene.films` for it.
 
 ## The boundary
 
-- **The hunk.** Marked `BEGIN room connection` / `END room connection` in `apps/game/hosted/vite.config.mjs`. It adds two entries to `allowedSources`:
+- **The hunk.** Marked `BEGIN room connection` / `END room connection` in `apps/game/hosted/vite.config.mjs`. It adds three entries to `allowedSources`:
   - `design/phone-ui/components/room-scene/`;
-  - `design/phone-ui/components/icons.mjs`.
+  - `design/phone-ui/components/icons.mjs`;
+  - `design/phone-ui/components/tag-layout.mjs` (room scene 0.5.0's name tags; it imports nothing).
 - **Nothing else.** The fence's other rules are unchanged. The scene's `preview/` and `review/` are never imported.
 - **How it was checked.** The hosted config was built with its own fence plugin and Firebase registry plugin, and without the release plugins, which refuse first (see below):
   - with the hunk, the build passes;
-  - without it, the fence refuses `design/phone-ui/components/room-scene/room-scene.mjs`.
+  - without it, the fence refuses `design/phone-ui/components/room-scene/room-scene.mjs`;
+  - without its `tag-layout.mjs` entry, the fence refuses `design/phone-ui/components/tag-layout.mjs`.
 - **What the production bundle holds.** `test:frontend`'s production-exclusion check scans the bundle's module graph, scene included: "85 modules reachable from 2 production entries … no fixture, test or development module or marker found".
 
 ## The gates
