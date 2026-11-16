@@ -20,7 +20,7 @@
 - Today the lobby is the room code with "Copy room code", then "Admit Gus (player)" buttons, a Bots drop-down with "Set bots", "Start", and the seats folded into "5 of 9 seats filled".
 - Drawn: the two screens above, as sheet 11.
 
-**Comparison parts:** none of their own today (`--list` has the menu and the join screens' parts). These components' captures are their evidence, as for the boarding's holding screens.
+**Comparison parts:** `host-setup` and `host-lobby` (sheet 11), in `design/tools/lib/phone-ui-native-parts.mjs` since 11 November. They apply when Frontend's PR mounts these screens in the game; until then, these components' captures are their evidence.
 
 **Not in it:**
 - **What the host does in a match** (sheet 15, #222 item 28): its own later component.
