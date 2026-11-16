@@ -73,7 +73,11 @@ export function inputsFor(stateKey, size) {
   const status = state.status ?? 'live';
   const shell = { ...state.shell, versions, insets: size.insets, status,
     ...(status === 'stale' ? { bar: { kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, promises: { count: 0 }, menu: {} }, banner: { kind: 'reconnecting' } } : {}) };
-  const scene = { ...ROOM, active: state.scene.active ?? SELF, targets: state.scene.targets ?? null, status };
+  // No room scene on the board's states: the stage there is the board's drawing (#298's), not this preview's.
+  // A move done (Q2) puts the person at their new position, as the board then has them.
+  const moved = state.scene.moved ?? null;
+  const people = moved ? ROOM.people.map(p => (p.seat === moved.seat ? { ...p, slot: moved.slot } : p)) : ROOM.people;
+  const scene = state.scene.none ? null : { ...ROOM, people, active: state.scene.active ?? SELF, targets: state.scene.targets ?? null, status };
   const part = state.part ? { kind: state.part.kind, input: { viewer: `seat-${SELF}`, versions, status, ...state.part.input } } : null;
   return { state, shell, scene, part };
 }
@@ -94,9 +98,9 @@ function phone(sizeKey, stateKey) {
   return { frame, mount: () => {
     let scene = null;
     const shell = mountPhoneShell(frame, shellInput, { ...shellHandlers, onLayout: layout => { if (layout.stage.width > 0 && layout.stage.height > 0) scene?.update({ size: layout.stage }); } });
-    scene = mountRoomScene(shell.stage, { ...sceneInput, size: shell.layout().stage }, { onSeat: record('onSeat'), onSlot: record('onSlot') });
+    if (sceneInput) scene = mountRoomScene(shell.stage, { ...sceneInput, size: shell.layout().stage }, { onSeat: record('onSeat'), onSlot: record('onSlot') });
     // A fixed moment is a still picture: the voyage and the crew hold where they are.
-    if (at !== null) scene.suspend();
+    if (at !== null) scene?.suspend();
     const part = mountPart(shell, partInput);
     return { shell, scene, part };
   } };
@@ -123,7 +127,7 @@ if (params.get('probe') || params.get('agree')) {
 } else {
   const head = document.createElement('header');
   head.className = 'pv-head';
-  head.innerHTML = `<h1>Actions · preview</h1><p>The runtime component inside the phone shell, with the room scene in its stage: Room A, seen by Player 4. ${FIXTURE_LABEL}. The text-size states have their own pages (index.html?single=1&amp;state=large-tiles, largest-tiles, largest-check, largest-after). Desktop browser at each phone’s CSS size: not a phone.</p>`;
+  head.innerHTML = `<h1>Actions · preview</h1><p>The runtime component inside the phone shell, with the room scene in its stage: Room A, seen by Player 4. ${FIXTURE_LABEL}. The text-size states have their own pages (index.html?single=1&amp;state=large-tiles, largest-tiles, largest-check, largest-after, largest-move, largest-move-check). The Board’s Move states draw the bar alone: the board is #298’s. Desktop browser at each phone’s CSS size: not a phone.</p>`;
   document.body.append(head);
   const sections = new Map();
   for (const [stateKey, state] of Object.entries(ACTIONS_STATES)) {

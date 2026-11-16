@@ -1,8 +1,8 @@
 # Actions: Designer's runtime component
 
-**Version:** `actions-0.1.0`, with its parts module `play-parts-0.1.2`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the decisions below (L1–L7) and posted on #4 for Frontend on 15 November. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). The Lead asks Backend and Integration B1–B8 on #4. Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) at `0e5a0b8a`: `phone-shell-0.2.8`, which keeps the sheet below the reconnecting banner, wraps a sheet's footer at the Larger text, takes a footer's local actions while reconnecting (0.2.4), starts a title with Back at the pack's 72 px (0.2.5), takes the target bar's Cancel while reconnecting (0.2.7) and draws an eliminated player's banner (0.2.8), with the shared kit `component-kit-0.8.0`, which holds the tile, who and the facts since 0.6.0, the notice and the section head since 0.7.0, the tile's spent state since 0.7.1, and the toast and the teams' colours since 0.8.0 (Actions uses neither).
+**Version:** `actions-0.2.0`, with its parts module `play-parts-0.1.2`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the decisions below (L1–L7) and posted on #4 for Frontend on 15 November. **0.2.0 adds Move** (sheets 20, 26 and 27.1), to the interface the Lead approved on 16 November with the answers below (Q1–Q4), and Pass's "Turn passed" (27.3). Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). The Lead asks Backend and Integration B1–B8 on #4. Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265) at `0e5a0b8a`: `phone-shell-0.2.8`, which keeps the sheet below the reconnecting banner, wraps a sheet's footer at the Larger text, takes a footer's local actions while reconnecting (0.2.4), starts a title with Back at the pack's 72 px (0.2.5), takes the target bar's Cancel while reconnecting (0.2.7) and draws an eliminated player's banner (0.2.8), with the shared kit `component-kit-0.8.0`, which holds the tile, who and the facts since 0.6.0, the notice and the section head since 0.7.0, the tile's spent state since 0.7.1, and the toast and the teams' colours since 0.8.0 (Actions uses neither).
 
-**What it is:** the phone's Actions during a match, as the phone pack draws them: sheets 27.2, 27.3, 28, 29, 29.1 and 29.2, the Actions frames of 50 (320 × 568) and 53 (Large text), and 45's "Outcome unknown". It is #222 items 9–13, with the owner's T2 and T3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
+**What it is:** the phone's Actions during a match, as the phone pack draws them: sheets 27.2, 27.3, 28, 29, 29.1 and 29.2, the Actions frames of 50 (320 × 568) and 53 (Large text), 45's "Outcome unknown", and Move's words on 20, 26 and 27.1. It is #222 items 9–13, with the owner's T2 and T3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
 **Covers:**
 - **The tiles** (28, 50, 53; item 10):
@@ -11,17 +11,18 @@
   - a count badge, such as Rescue's injections;
   - the tile's state: available, chosen, sending, registered (the REGISTERED mark), unavailable, or spent (used up: Private talk once used, the Final Code after its attempt; kit 0.7.1), each of the last two with the server's reason, or "Not available now" (T3).
 - **Choosing a target** (29; item 13, T2): the words of the shell's target bar ("Rescue · Choose a player", with the shell's Cancel) and of the floating chip ("Other rooms · 1", "List").
+- **Move** (20, 26, 27.1; 0.2.0, the Lead's Q1–Q4): the words of the shell's target bar while choosing a position ("Move within Room A · Choose an empty position · or another room on the Board"; on the board "Move · Choose an empty position · uses this round’s move"), the chip "Other rooms on the Board", the check for the position picked ("Move to A3", "Register move"), and once accepted this phone's toast, "Moved to A3".
 - **The list** (29): "Choose from a list · Rescue · everyone you can reach", room by room, each row going to the check.
 - **The check before Register** (29, 27.2; item 11): the person, both people for Supply, or the action when it has no person; what it costs and when it resolves; Cancel and "Register Rescue" in the shell's footer, the Register button busy while it sends.
 - **After Register** (29, 29.1, 29.2; item 12): the action's own state once the server accepts it. Its stamp (REGISTERED, ACCEPTED, ACTIVE, CAPTURED), headline, detail, the Engineer's captured players, a time line, and Done.
 - **When the answer does not come** (45; L6): the pack's "Outcome unknown" sheet, with "Retry the same" and "Check receipt".
 - **Not accepted, and accepted after a reload** (not drawn; L6): the check's inline error, and After Register without a time line.
-- **Pass** (27.3; item 9): the "Pass your turn?" sheet, "The turn goes to Eli · Player 5", and the line "Your move stays open on the other turns this round."
+- **Pass** (27.3; item 9): the "Pass your turn?" sheet, "The turn goes to Eli · Player 5", and the line "Your move stays open on the other turns this round."; once passed, this phone's toast "Turn passed" (0.2.0).
 
 **Built on, not redrawn:**
 - **The phone shell** (#265): the docked sheet's frame (title, sub, back, close, footer actions with their busy state), the target bar with Cancel, the floating chip, the toast, the raised Pass. This component fills the sheet's body and gives the frame's words.
-- **The room scene** (#261): the rings on the offered people, the picked one, the dimming (`targets: { seats, picked }`).
-- **The board** (sheet 26): the same `targets` for people in other rooms. Its component is next in my area. Until then, Frontend's board view shows them.
+- **The room scene** (#261): the rings on the offered people, the picked one, the dimming (`targets: { seats, picked }`); and Move's offered positions, the picked one filled (`targets: { slots, picked, icon: 'move' }`), as #284 already passes them.
+- **The board** (sheet 26): the same `targets` for people in other rooms, and Move's positions in every room, under its name tags and zoom (#298).
 - **The kit** (`component-kit-0.8.0`): the tile, who and the facts (0.6.0), the notice (0.7.0) and the tile's spent state (0.7.1), all from my parts module (below); the section head for the turn (0.7.0); rows, lists, group labels and notes for the list; the stamp; portraits; the inline error; the control policy. The shell draws the buttons.
 - **My parts module** (`play-parts/`, L2): the pack's gameplay parts that several of my components draw, each built once:
   - the time line (After Register), the one part still drawn there;
@@ -30,7 +31,7 @@
   If another builder ever needs the time line, the Lead moves it into the kit.
 
 **Not in this component:**
-- Move's positions. The Move tile only starts it; the room scene's and the board's empty positions and the shell's target bar draw the rest (sheets 20, 26).
+- Move's positions themselves: the room scene's and the board's (above). This component gives Move's words: the bar, the chip, the check and the toast (0.2.0).
 - Scan and the final Code (42; #222 items 14 and 15): the Hacker component (#301). The Hacker's tiles start them: `targetBar({ type: 'SCAN' })` refuses and names its `scanBar()`, and the final Code, which has no target bar, is its `codeSheet()` and `mountFinalCode()` (the Lead's note 2, 16 November). Their words exist once, there, and neither component imports the other.
 - A private talk after it is accepted (25; item 20), Promises (33; item 19) and the office decisions (40–41; item 17).
 
@@ -40,11 +41,11 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 
 | Path | What |
 | --- | --- |
-| `actions/actions.mjs` | `ACTIONS_VERSION`, `ACTION_WORDS`, `ACTION_LOOKS`; each part's defaults and check: `ACTIONS_DEFAULTS`, `checkActions()` and `nextActionsInput()`, `TARGET_LIST_DEFAULTS` and `checkTargetList()`, `ACTION_CHECK_DEFAULTS` and `checkActionCheck()`, `AFTER_REGISTER_DEFAULTS` and `checkAfterRegister()`, `OUTCOME_UNKNOWN_DEFAULTS` and `checkOutcomeUnknown()`, `PASS_NOTE_DEFAULTS` and `checkPassNote()`; the words from the inputs `actionWords()` and `tileLine()`; the parts' frames `actionsSheet()`, `targetListSheet()`, `checkSheet()`, `afterSheet()`, `unknownSheet()`, `passSheet()`; the shell's words `targetBar()`, `targetChip()`, `registeredToast()`; the mounts `mountActions()`, `mountTargetList()`, `mountActionCheck()`, `mountAfterRegister()`, `mountOutcomeUnknown()`, `mountPassNote()` |
+| `actions/actions.mjs` | `ACTIONS_VERSION`, `ACTION_WORDS`, `ACTION_LOOKS`; each part's defaults and check: `ACTIONS_DEFAULTS`, `checkActions()` and `nextActionsInput()`, `TARGET_LIST_DEFAULTS` and `checkTargetList()`, `ACTION_CHECK_DEFAULTS` and `checkActionCheck()`, `AFTER_REGISTER_DEFAULTS` and `checkAfterRegister()`, `OUTCOME_UNKNOWN_DEFAULTS` and `checkOutcomeUnknown()`, `PASS_NOTE_DEFAULTS` and `checkPassNote()`; the words from the inputs `actionWords()` and `tileLine()`; the parts' frames `actionsSheet()`, `targetListSheet()`, `checkSheet()`, `afterSheet()`, `unknownSheet()`, `passSheet()`; the shell's words `targetBar()`, `targetChip()`, `registeredToast()`, and Move's and Pass's `moveBar()`, `moveChip()`, `movedToast()`, `passedToast()` (0.2.0); the mounts `mountActions()`, `mountTargetList()`, `mountActionCheck()`, `mountAfterRegister()`, `mountOutcomeUnknown()`, `mountPassNote()` |
 | `actions/actions.css` | The Actions sheets' own layout, scoped under `.ms-actions`. It imports the kit's and the parts' styles |
 | `play-parts/play-parts.mjs` | `PLAY_PARTS_VERSION` (`play-parts-0.1.2`), `TILE_STATES` and `PLAY_PARTS_WORDS` (the REGISTERED mark), both the kit's, `STEP_STATES`, and `createPlayParts(document)`, whose builders have setters, as the kit's: `tile`/`setTile`, `who`/`setWho` (the check's person, people or icon), `facts`/`setFacts` and `notice`/`setNotice`, the kit's own, handed on; and `timeline`/`setTimeline` |
 | `play-parts/play-parts.css` | The time line's style, scoped so that it weighs one class, as the kit's. The tile's, who's, the facts' and the notice's are in the kit's `kit.css` |
-| `actions/preview/` | Development only: the preview on the pack's synthetic fixtures (`states.mjs`: 40 states), in the shell over the room scene; the lifecycle probe (`probe.mjs`); the agreement with the pack (`agree.mjs`) |
+| `actions/preview/` | Development only: the preview on the pack's synthetic fixtures (`states.mjs`: 55 states), in the shell over the room scene (the Board's Move states draw the bar or the check alone: the board is #298's); the lifecycle probe (`probe.mjs`); the agreement with the pack (`agree.mjs`) |
 | `actions/review/` | The check's captures (JPEG at 2× pixels) and `check.json` |
 
 Also `design/tools/actions-check.mjs` (on the shared `component-check.mjs`), `packages/design-tokens/test/actions.test.mjs` and `play-parts.test.mjs`, and this page. Integration admits the parts module once, with the first component that uses it.
@@ -68,6 +69,26 @@ Frontend's model already has the steps (`PlanetActionModel.step` in `packages/pr
 | Not accepted | the check stays: `checkSheet({ type, phase: 'ready', canRegister })`, Register again only while the server still offers the action | unchanged | the check's `error` | `rejected` |
 | No answer came | `sheet: unknownSheet({ type })` (id `action-unknown`): "Retry the same" and "Check receipt" | unchanged | `mountOutcomeUnknown()` | `unknown` |
 | Pass | `onHero('pass')`, then `sheet: passSheet({ next })` (id `pass`): Cancel and Pass, busy while sending | the scene's `control: null` | `mountPassNote()` | |
+| Passed | `sheet: null`; `toast: passedToast({ id })`: "Turn passed" (27.3) | the next player's turn | | |
+
+**Move** (sheets 20, 26 and 27.1; the Lead's Q1–Q4, 16 November). `here` and `elsewhere` say whether the MOVE offer's `slotIds` include an empty position in the viewer's room and in another room; Frontend splits them by room as the board does.
+
+| Step | The shell | The room scene or the board | This component | Frontend's `action.step` |
+| --- | --- | --- | --- | --- |
+| The Move tile | as any tile: `onTile('MOVE')` | | `mountActions()` | Frontend starts Move |
+| Choosing in the room | `sheet: null`; `target: moveBar({ where: 'room', room, here, elsewhere })`; `chip: moveChip({ elsewhere })` | `targets: { slots: this room's offered positions, picked: null, icon: 'move' }` | | `slots` |
+| On the board | the board view; `target: moveBar({ where: 'board', here, elsewhere })`; no chip | the board's offered positions in every room | | `slots` |
+| No position anywhere (Q3) | no bar: `moveBar()` returns `null`. The Move tile is `unavailable`, with the server's reason or "Not available now" | none | the tile | |
+| A position picked (Q1, Q4) | `target: null` (the bar gives way); `sheet: checkSheet({ type: 'MOVE' })`: Cancel and "Register move" | the picked position marked, filled: `targets: { slots: [slot], picked: slot, icon: 'move' }` (in this room) | `mountActionCheck()` with `type: 'MOVE'`, `position: { slot, room }` and Frontend's facts | `confirm` |
+| Registering | `checkSheet({ type: 'MOVE', phase: 'sending' })` | unchanged | the check | `sending` |
+| The server accepted (Q2) | `sheet: null`; `toast: movedToast({ slot, id })`: "Moved to A3". No After Register: the move happens at once | `targets: null`; the person at their new position (the public `MOVEMENT_COMPLETED`) | | done |
+| Not accepted | the check stays, Register again while offered | unchanged | the check's `error` | `rejected` |
+| No answer came | `sheet: unknownSheet({ type: 'MOVE' })` | unchanged | `mountOutcomeUnknown()` with the `position`: "Move to A3 was sent, but no answer came back." | `unknown` |
+
+- **Cancel in the check** returns to choosing, with the bar back and nothing picked (Q1). Cancel on the bar returns to the tiles.
+- **The chip** (`onChip('move-board')`) switches to the board view, whose own bar then shows. Reconnecting, the bar's Cancel still works (shell 0.2.7) and no position takes a tap; the chip, like every chip, waits.
+- **The position** is named as the bar and the toast name it: its id ("A3"). Register sends `MOVE { destination, slotId }`, the destination being the position's room.
+- **The facts** are Frontend's: "Uses this round’s move" (the prototype's picked words). The room is the check's own line under "Move to A3", as a person's room is under them, so the facts need not repeat it.
 
 - **A person tapped in the room or on the board** goes to the check with that person, as a row of the list does (27.2, 29).
 - **Supply's two players** (L4): the first tap rings the first player as picked and the target bar's sub turns from "Choose two players" to "Choose the second player" (Frontend's `compound.supplySecond`). The second tap opens the check with both.
@@ -143,7 +164,7 @@ The component works out none of these. It draws the state, note, reason and badg
 | `ACTIVATE_CLONE` | `clone` | Clone | Clone | Activate Clone | Activate Clone | Activating… |
 | `ACTIVATE_SHIP_HACK` | `shipHack` | Hack Ship | Hack Spaceship | Hack Spaceship (L7) | Hack Spaceship | Registering… |
 | `ACTIVATE_BLACKHOLE` | `blackhole` | Blackhole | Blackhole | Activate Blackhole (L7) | Activate Blackhole | Activating… |
-| `MOVE` | `move` | Move | Move | (the room's positions) | | |
+| `MOVE` | `move` | Move | Move (on the board; in the room `moveBar()`'s "Move within Room A") | Move to *position* (Q1) | Register move (Q1) | Registering… |
 | `SCAN` | `scan` | Scan | Scan | (sheet 42) | | |
 | `SUBMIT_CODE` | `code` | Final Code | Final Code | (sheet 42) | | |
 
@@ -176,6 +197,7 @@ A row: the portrait, the name ("Dev (you)" for the viewer), "Player 4", and " ·
 | --- | --- | --- |
 | `type` | This viewer | The action |
 | `targets` | This viewer | `[]`, one person, or two for Supply: `{ seat, name, character, room }`. One: the portrait, "Rescue Eli" and "Player 5 · Hospital". Two (L4): both portraits, "Supply Ava and Gus" and "Players 1 and 7". None: the action's icon, its verb and "Only you see this" |
+| `position` | This viewer | Move's alone, and required for it: `{ slot, room }`. The Move icon, "Move to A3" and "Room A" (0.2.0, Q1 and Q4). `null` for every other action |
 | `facts` | This viewer | Text lines: what it costs and when it resolves ("Uses 1 of 2 shared injections", "Resolved at the end of the round, after the attacks", "Does not revive an eliminated player") |
 | `error` | This viewer | `null` or `{ text, detail }`: why the server did not accept it, in Frontend's words, as the kit's inline note (paper and ink, the warning shape, never red; L6) |
 
@@ -198,8 +220,9 @@ The handoff's [After Register](../phone-ui-handoff.md#after-register) table give
 | --- | --- | --- |
 | `type` | This viewer | The action |
 | `targets` | This viewer | As the check's: the words name them |
+| `position` | This viewer | Move's, as the check's |
 
-It draws the pack's notice exactly: the warning icon, "Rescue Eli was sent, but no answer came back." and "Check before doing anything else." (for an action without a person, "Request Blackout was sent, …").
+It draws the pack's notice exactly: the warning icon, "Rescue Eli was sent, but no answer came back." and "Check before doing anything else." (for an action without a person, "Request Blackout was sent, …"; for a move, "Move to A3 was sent, …").
 
 ### Pass (`mountPassNote`, sheet 27.3)
 
@@ -219,7 +242,11 @@ It draws the pack's notice exactly: the warning icon, "Rescue Eli was sent, but 
 | `passSheet({ next, busy })` | `{ id: 'pass', title: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', close: false, actions: [Cancel, Pass] }`. Cancel is `local`, and off while Pass sends. Without `next`, no sub (B5) |
 | `targetBar({ type, where, picked })` | `{ icon, title, sub }`: "Rescue · Choose a player" in the room; "Choose a player · every room" on the board; Supply's "Choose two players", then "Choose the second player" (L4) |
 | `targetChip({ kind, count })` | `{ id: 'other-rooms', label: 'Other rooms · 1', icon: 'board', tone: 'paper' }`, or `{ id: 'list', label: 'List', icon: 'players', tone: 'paper' }` |
-| `registeredToast({ type, kind, id })` | The shell's toast, `{ id, text, icon: 'check' }`: "Rescue registered", "Private talk accepted", "Clone active", "Navigation suppressed" (L5). `id` is the command's, so it shows once |
+| `registeredToast({ type, kind, id })` | The shell's toast, `{ id, text, icon: 'check' }`: "Rescue registered", "Private talk accepted", "Clone active", "Navigation suppressed" (L5). `id` is the command's, so it shows once. Move refuses: its toast is `movedToast()` |
+| `moveBar({ where, room, here, elsewhere, picked })` | Move's target bar, `{ icon: 'move', title, sub }`, or `null`: in the room "Move within Room A" with "Choose an empty position · or another room on the Board", or "Choose an empty position" when no other room has one (Q3); this room full, "Move" with "No empty position in Room A · choose one on the Board" (Q3); on the board "Move" with "Choose an empty position · uses this round’s move". No position anywhere, or one `picked` (the check then, Q1): `null`. `targetBar({ type: 'MOVE' })` refuses and names it |
+| `moveChip({ elsewhere })` | In the room, while another room has a position: `{ id: 'move-board', label: 'Other rooms on the Board', icon: 'board', tone: 'paper' }`; else `null` |
+| `movedToast({ slot, id })` | Once the server accepts a move (Q2): `{ id, text: 'Moved to A3', icon: 'info' }`, the shell's info toast, on this phone only |
+| `passedToast({ id })` | Once the turn has passed (27.3): `{ id, text: 'Turn passed', icon: 'info' }` |
 
 `actionsSheet()`'s sub names the role: it is this viewer's, and the shell drops its sheet when concealed.
 
@@ -302,6 +329,15 @@ The rest are the shell's and the scene's: `onSheetAction(id, sheetId)` for Cance
   - **(b) Not accepted, and accepted after a reload,** are not drawn: the kit's inline error with Frontend's words, and Register again while still offered; after a reload, "The server accepted your action." with REGISTERED and no time line.
 - **L7. Hack Ship and Blackhole.** The check without a person. After Register only once the projection says what follows.
 
+### The Lead's answers on Move (16 November)
+
+The Lead approved Move's interface (`moveBar()`, `moveChip()`, its intents, states, lifecycle and audiences) after the coverage audit, and checked its words against the pack (`screens-game.mjs` room() and board()). No sheet draws a picked Move, its Register or a "moved" result, so these fill undrawn steps and depart from no approved sheet:
+
+- **Q1. A position picked opens Actions' check,** as every action's does (27.2): the Move icon, "Move to A3", Frontend's facts, then Cancel and Register. The position stays marked under it; the bar gives way to it, as the pack's target bar gives way to the confirm. The prototype's picked words become the check's title and its fact. Cancel returns to choosing, with the bar back and nothing picked. The Register button carries the prototype's "register to confirm": I read that as the button itself, named in the form of the others' ("Register shot"), so it says "Register move".
+- **Q2. Once accepted, a toast: "Moved to A3".** The shell's info toast, as "Turn passed" (27.3), on this phone only; the person walking in the scene is what everyone sees. It names the position as the bar does.
+- **Q3. The undrawn cases:** positions only in this room, "Move within Room A" with "Choose an empty position", and no chip; this room full while others have positions, "Move" with "No empty position in Room A · choose one on the Board", and the chip; no position anywhere, no bar, and the tile unavailable with the server's reason or "Not available now".
+- **Q4. The board opens the same check** ("Move to B4"), and keeps its own choosing words.
+
 ### For Backend and Integration (asked by the Lead on #4)
 
 The contract's offers (`PlanetOfferSchema`) list only what the viewer may do now: `{ type, targetSeatIds, slotIds, windowIds, promiseTargetSeatIds, declaredSides }`. Nothing says why an action is not offered.
@@ -327,13 +363,19 @@ Listed, not omitted:
 | Who is next, for Pass (B5) | "Pass your turn?" has no sub | The same |
 | Where the Engineer's capture was (B8) | The rows say "Player 3" and the detail names no room | The same |
 | After Register for Hack Ship and Blackhole (L7) | The shell's toast and the tile say it | The projection |
-| The people in other rooms on the board (sheet 26) | Frontend's board view shows them; the list reaches everyone | The board, my next component |
+| The people in other rooms and Move's positions on the board (sheet 26) | The board's own drawing, with #298's name tags and zoom; the list reaches everyone. This preview draws the bar or the check over an empty stage on the Board's Move states | Frontend's board view, with #298 |
+| A target bar and its chip at the Largest text | On 320 × 568 at 200 %, a long bar (Move's in the room, `review/320x568-largest-move.jpg`) gives its words a narrow column beside Cancel and runs off the phone. On 390 × 844 at 200 % it stays on the phone but grows to about 290 px and covers Room A's A5, and the chip's label is cut off ("Other rooms on th…"), as the Actions test page shows. The pack's own `.target-bar` would do the same: the pack draws no target bar at the Largest text, and the shell's is the pack's | The shell (the Lead's): a proposal is with the Lead |
+| The target bar while reconnecting | The shell draws its reconnecting banner exactly where the target bar is, over it, so the bar's Cancel, which the shell takes while reconnecting (0.2.7), can't be reached (`review/390x844-move-stale.jpg`, `review/430x932-move-stale.jpg`). The pack draws no bar while reconnecting | The shell (the Lead's): a proposal is with the Lead |
 | The game's connection | The preview and the owner's test page stand in for Frontend | Frontend |
 
 ## Found while building
 
 For the Lead. Nothing here changes the agreed interface:
 
+- **Move's target bar** (0.2.0, the coverage audit): `targetBar({ type: 'MOVE' })` gave Move a person's words ("Choose a player"), and no component held the pack's ("Move within Room A", "Other rooms on the Board"). Move now has its own `moveBar()` and `moveChip()`, and `targetBar()`, `targetListSheet()`, `afterSheet()` and `registeredToast()` refuse Move, naming them.
+- **"Turn passed"** (0.2.0). Sheet 27.3's third frame, "The turn moves on", has the toast "Turn passed", which no component held; it is Pass's, so it is `passedToast()` here. The agreement compares it with the pack (the frame's room shows its own control, "Window · Hospital": the room scene's, named in the record, not compared here).
+- **A target bar at the Largest text** (0.2.0). The first capture of a long bar at 200 % on 320 × 568 shows the shell's target bar running off the phone (above, "Not in this version yet"). On 390 × 844 at 200 % the Actions test page shows the same bar covering the position at A5, and the chip's label cut off. It is the shell's layout, and the pack's; a proposal is with the Lead.
+- **The target bar under the reconnecting banner** (0.2.0, seen on the Actions test page). Choosing a position while reconnecting, the banner covers the bar, its Retry over the bar's Cancel: both sit at the top of the stage (`.ms-ps-banner` and `.ms-ps-target`), the banner above. The shell already moves the sheet below the banner (`[data-banner]`); the bar could go below it the same way. The record's `move-stale` captures show it; the probe tapped Cancel by its intent, so it didn't. A proposal is with the Lead.
 - **The shell's footer at the Largest text** (fixed). On 320 × 568 at 200 %, "Register Rescue" ran past the sheet's right edge. The Lead fixed it in the shell, 0.2.1 (16 November): under 19 em a footer's buttons that don't fit side by side take a row each, and a long label wraps inside its button. Merged in here, the capture now fits (`review/320x568-largest-check.jpg`).
 - **Cancel and Done while reconnecting** (16 November). They only close their sheet, so they are now the footer's local actions, which the shell takes while reconnecting (0.2.4); before, it refused them with the rest. Register, Pass, Retry the same and Check receipt stand for commands and stay refused. The probe's `footer` check taps each, live and reconnecting.
 - **The list's title with Back** (shell 0.2.5): "Choose from a list" and its line start at the pack's 72 px, with Back at 18.
@@ -351,15 +393,22 @@ For the Lead. Nothing here changes the agreed interface:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/actions.test.mjs` | 9 of 9: the runtime-safe graph, every style scoped at two classes (the kit's and the parts' placed only inside the component's own), the pinned pack unchanged, the pack's words and the decisions' additions, the inputs' checks and privacy rules, every preview state a valid input, the frames' and the shell's words (Cancel and Done local, the commands not; the Scan bar and the Code refused, as the Hacker's), the check's and "Outcome unknown"'s words and T3's line, and the check's record |
+  | `packages/design-tokens/test/actions.test.mjs` | 9 of 9: the runtime-safe graph, every style scoped at two classes (the kit's and the parts' placed only inside the component's own), the pinned pack unchanged, the pack's words and the decisions' additions (Move's three: "No empty position in Room A · choose one on the Board", "Moved to A3" and "Register move", recorded here), the inputs' checks and privacy rules (Move's position, Move's alone), every preview state a valid input, the frames' and the shell's words (Cancel and Done local, the commands not; the Scan bar and the Code refused, as the Hacker's; Move's bar in each Q3 case, its chip, its toasts, and every refusal), the check's and "Outcome unknown"'s words (a move's position) and T3's line, and the check's record (Move's captures as drawn, and the room's own control named on 27.3) |
   | `packages/design-tokens/test/play-parts.test.mjs` | 6 of 6: the parts draw on the kit alone; the tile, who, the facts and the notice are the kit's (the same states, words and calls, and no styles of their own here); every rule at the kit's weight; the time line takes no taps; the pack's own colour; and no motion |
   | `npm run test:design` | 401 of 401 |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/actions-check.mjs`:** recorded on `8f80c09e` (the shell at `0e5a0b8a`, shell 0.2.8 and kit 0.8.0, merged in), with the source clean: 75 of 75 captures, probe 16 of 16, agreement 26 of 26.
-  - **Against `8d835f27`'s record** (kit 0.7.1): every recorded field of the 75 captures is the same, and so are the probe's 16 checks and the agreement's 26.
+- **`node design/tools/actions-check.mjs`:** recorded on `56f6afb9` (0.2.0, Move; the shell at `0e5a0b8a`, shell 0.2.8 and kit 0.8.0), with the source clean: 103 of 103 captures, probe 17 of 17 (16 as the page comes, `move` among them, and the motion check with the device's Reduce motion), agreement 29 of 29.
+  - **New in 0.2.0:**
+    - 28 captures of 15 new states: Move in the room, on the Board (the bar alone over an empty stage: the board is #298's), with positions only here, this room full, no position anywhere (the tile, no bar), the check (the position marked), the Board's check ("Move to B4"), registering, not accepted, no answer, moved (the toast, the person at A5), "Turn passed", reconnecting while choosing, and the Largest text on 320 × 568 for the bar and the check. The record reads the offered positions (`slots`) and the toast.
+    - The probe's `move` check: the bar in each Q3 case and on the board, none once picked or with no position; the chip; every refusal; in the real shell, the bar's Cancel and the chip's intents, and reconnecting only Cancel's; the toast's words and info icon; the check (the Move icon, "Move to A5" over "Room A", the fact, the Board's "Move to B4" in the same element, the inline note, "Register move", "Registering…"); "Outcome unknown" naming the position. The `inputs` and `private` checks gain Move's position.
+    - The agreement adds sheet 20's bar and chip (`room&room=room-a&state=move`), the board's bar (`board&state=move`, sheets 26 and 27.1) and 27.3's toast (`room&room=room-a&state=passed`), each to within half a pixel. On 27.3's frame the pack's room shows its own control, "Window · Hospital", the room scene's (#261): the record names it as not compared here. The check's bundle now carries the board's Hospital pictures (`apps/game/hosted/board-v2-film-art/`) to where the pack's board looks for them, as `board-tags-check.mjs` does.
+    - **The checks bite:** "Choose a spot" for the room bar's line, "Board" for the chip, "Pick one" for the board's line and "Passed" for the toast each fail the agreement (tried, then undone).
+  - **Against `8f80c09e`'s record** (0.1.0): every recorded field of the 75 earlier captures is the same, and so are the probe's 16 earlier checks and the agreement's 26 earlier frames. 23 captures did not change; the rest differ by at most 271 pixels, inside the room's picture (its ambient motion) and in the sending spinner's angle.
+  - **Seen in the captures, for the Lead:** `320x568-largest-move.jpg` shows the shell's target bar at the Largest text running off the phone (above).
+  - **Before:** `8f80c09e` (the shell at `0e5a0b8a`, shell 0.2.8 and kit 0.8.0, merged in): 75 of 75 captures, probe 16 of 16, agreement 26 of 26. Against `8d835f27`'s record (kit 0.7.1): every recorded field of the 75 captures is the same, and so are the probe's 16 checks and the agreement's 26.
     - The merge also brings the room scene the preview draws behind the sheet from 0.3.0 to 0.5.0, which keeps the crew's name tags whole and apart at the larger text (#222 item 34). So five captures differ behind the glass sheet, where the tags moved: the four at the larger text by up to 18,910 pixels (`largest-tiles`, `largest-check` and `largest-after` at 320 × 568, and `large-tiles` at 390 × 844), and the small phone's `small-tiles` by 944. Captured twice on the same code, `largest-tiles` differs by 0 pixels.
     - 2 captures did not change; the rest differ by at most 194 pixels, inside the room's picture behind the sheet.
   - **Before:** `8d835f27` (kit 0.7.1, with the shell at `b3e5823e`, merged in as `bd6eab9e`). Against `81d7ae59`'s record (kit 0.7.0): the used-up Private talk is `spent` in the three captures that show it (`tiles-spent` at both sizes, `largest-tiles`), and the agreement now compares the pack's spent tile as spent; every other recorded field, the probe's 16 checks and the agreement's 26 are the same. 18 captures did not change; the rest differ by at most 219 pixels, inside the room's picture (its ambient motion) and in the sending spinner's angle.

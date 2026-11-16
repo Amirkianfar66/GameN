@@ -8,10 +8,12 @@
 // own (320 × 568 and 390 × 844), in desktop Chromium at 2× pixels. The component sits in the phone shell's sheet,
 // with the room scene in the shell's stage, as in the game.
 // A capture passes with no policy violation but the known Zod probe, no failed or refused request and no page
-// error, with what the state asks drawn (below), and the room's crew behind.
+// error, with what the state asks drawn (below), and the room's crew behind (except on the Board's Move states,
+// whose stage is the board's drawing, #298's: there the bar or the check alone).
 // It then runs, in the same bundle under the same headers:
 //   the lifecycle probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion
-//   emulated: tiles, refused, t3, list, check, after, words, unknown, inputs, private, focus, text, dispose, motion;
+//   emulated: tiles, refused, t3, list, check, after, words, footer, unknown, move, inputs, private, focus, text,
+//   dispose, motion;
 //   the agreement (preview/agree.mjs): the component beside the pinned pack's own drawing of each Actions frame,
 //   the same words, boxes (to within half a pixel) and looks.
 // It writes design/phone-ui/components/actions/review/: one JPEG per state and size, and check.json (the headers
@@ -82,27 +84,50 @@ const EXPECT = {
   'largest-tiles': tilesOf('RESCUE:registered,MOVE:available,REQUEST_HACK:spent,REGISTER_SHOT:unavailable', { perRow: 1 }),
   'largest-check': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3 }),
   'largest-after': afterOf('Rescue', 'REGISTERED', 'Rescue of Eli registered.', { steps: 2 }),
+  // Move (sheets 20, 26 and 27.1; the Lead's Q1–Q4). `slots`: the positions the room scene offers, `*` picked.
+  // `board`: the stage is the board's drawing (#298's), which this preview does not draw, so no crew there.
+  'move-room': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', chip: 'Other rooms on the Board', slots: 'A5' },
+  'move-board': { part: null, sheet: null, target: 'Move|Choose an empty position · uses this round’s move', chip: null, board: true },
+  'move-room-only': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position', chip: null, slots: 'A5' },
+  'move-room-full': { part: null, sheet: null, target: 'Move|No empty position in Room A · choose one on the Board', chip: 'Other rooms on the Board', slots: null },
+  'tiles-move-none': tilesOf('RESCUE:available,MOVE:unavailable,REQUEST_HACK:available,REGISTER_SHOT:unavailable', { lines: '2 injections|Not available now|Once a match|From Round 4', target: null }),
+  'move-check': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1, slots: 'A5*', target: null }),
+  'move-check-board': checkOf('Move to B4|Room B', 'Cancel|Register move', { facts: 1, board: true }),
+  'move-sending': checkOf('Move to A5|Room A', 'Cancel|Registering…', { facts: 1, slots: 'A5*' }),
+  'move-error': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1, error: 'The server did not accept the move. Choose a position again.' }),
+  'move-unknown': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Move to A5 was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
+  'move-moved': { part: null, sheet: null, target: null, toast: 'Moved to A5' },
+  passed: { part: null, sheet: null, toast: 'Turn passed' },
+  'move-stale': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', banner: 'Connection lost' },
+  'largest-move': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', chip: 'Other rooms on the Board', slots: 'A5' },
+  'largest-move-check': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1 }),
 };
 /** The text-size states, each at its own size. */
-const OWN_SIZE = { 'small-tiles': '320x568', 'large-tiles': '390x844', 'largest-tiles': '320x568', 'largest-check': '320x568', 'largest-after': '320x568' };
+const OWN_SIZE = { 'small-tiles': '320x568', 'large-tiles': '390x844', 'largest-tiles': '320x568', 'largest-check': '320x568', 'largest-after': '320x568',
+  'largest-move': '320x568', 'largest-move-check': '320x568' };
 /** The private words that must never be in a concealed page. */
 const PRIVATE = ['Rescue', 'Doctor', 'injections', 'Private talk', 'Your turn', 'Actions ·'];
 
 /**
  * The preview bundled as the game bundles a component (lib/component-check.mjs). The agreement's pack finds the
- * rooms' pictures (design/board-v2/assets/) from its own place at run time, which no bundle carries; they are
- * copied to where it looks from the bundle, as the pack's own pages serve them (the library copies the crew's
- * portraits). In the game, the art bundles' CSS properties carry them.
+ * rooms' pictures (design/board-v2/assets/), and for the whole board (Move's, sheet 26) the Hospital's
+ * (apps/game/hosted/board-v2-film-art/), from its own place at run time, which no bundle carries; they are copied
+ * to where it looks from the bundle, as the pack's own pages serve them (the library copies the crew's portraits;
+ * board-tags-check.mjs does the same). In the game, the art bundles' CSS properties carry them.
  */
 async function bundle() {
   const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'actions-check' });
   await cp(join(REPO, 'design/board-v2/assets'), join(out, 'board-v2/assets'), { recursive: true });
+  for (const part of ['scenes', 'lighting']) {
+    await cp(join(REPO, 'apps/game/hosted/board-v2-film-art', part), join(out, 'apps/game/hosted/board-v2-film-art', part), { recursive: true });
+  }
   return out;
 }
 
-// The source the captures show, read before anything is written: the components' files, the room pictures and
-// the crew's, without the review folders checks write.
-const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets', 'design/crew-drawing/assets', 'design/tools/actions-check.mjs']);
+// The source the captures show, read before anything is written: the components' files, the room pictures, the
+// crew's, and the pictures the pack's board draws in the agreement, without the review folders checks write.
+const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets', 'design/crew-drawing/assets',
+  'design/board-v2/assets', 'apps/game/hosted/board-v2-film-art', 'design/tools/actions-check.mjs']);
 const out = await bundle();
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
@@ -150,7 +175,8 @@ try {
           error: t(q('.ms-actions .ms-k-error')),
           stamp: t(q('.ms-ac-after-head .ms-k-stamp')), headline: t(q('.ms-ac-after-head h3')),
           steps: all('.ms-pp-steps li').filter(shown).length, people: all('.ms-ac-after-people .ms-k-row').length,
-          notice: t(q('.ms-k-notice p')), banner: t(q('.ms-ps-banner b')),
+          notice: t(q('.ms-k-notice p')), banner: t(q('.ms-ps-banner b')), toast: t(q('.ms-k-toast-text')),
+          slots: room && room.querySelectorAll('.ms-rs-slot').length ? [...room.querySelectorAll('.ms-rs-slot')].map(n => n.dataset.value + (n.hasAttribute('data-picked') ? '*' : '')).join(',') : null,
           page: document.body.innerText, figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0 };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
@@ -161,12 +187,13 @@ try {
       const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 72, clip: { x: 0, y: 0, width, height, scale: 1 } });
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
-      const want = EXPECT[state];
+      // `board`: the stage is the board's drawing, not in this preview, so no crew is expected there.
+      const { board: onBoard = false, ...want } = EXPECT[state];
       const leaked = PRIVATE.filter(w => seen.page.includes(w));
       const mismatched = want.concealed
         ? (seen.part !== null && seen.status !== 'concealed') || seen.sheet !== null || leaked.length || seen.figures !== 0 ? ['concealed'] : []
         : Object.entries(want).filter(([key, value]) => (key === 'offered' ? seen.offered < value : seen[key] !== value)).map(([key]) => key);
-      const drawn = mismatched.length === 0 && (want.concealed || seen.figures > 0);
+      const drawn = mismatched.length === 0 && (want.concealed || onBoard || seen.figures > 0);
       const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
       if (!ok) failed += 1;
       delete seen.page;

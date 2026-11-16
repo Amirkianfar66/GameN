@@ -14,7 +14,9 @@
 //   - mountOutcomeUnknown(): sheet 45's "Outcome unknown";
 //   - mountPassNote(): Pass's line (27.3).
 // The words of the shell's target bar, chip and toast are targetBar(), targetChip() and registeredToast(). The
-// room scene draws the people offered; the board, those in other rooms.
+// room scene draws the people offered; the board, those in other rooms. Move chooses a position, not a person
+// (sheets 20, 26 and 27.1; the Lead's Q1–Q4, 16 November): its bar and chip are moveBar() and moveChip(), its
+// check is the same check with the position, and once accepted it says movedToast(). Pass's is passedToast().
 //
 // What it never does: decide which actions a role has or which are offered, why one is not, who can be
 // chosen, what an action costs or does, or whether it was accepted. Every state, line, reason, person, fact
@@ -24,7 +26,7 @@
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 import { TILE_STATES, createPlayParts } from '../play-parts/play-parts.mjs';
 
-export const ACTIONS_VERSION = 'actions-0.1.0';
+export const ACTIONS_VERSION = 'actions-0.2.0';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const TURNS = Object.freeze(['own', 'other']);
 const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured']);
@@ -33,7 +35,8 @@ const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured
  * Each command's look and words: its icon, its tile's short name, its title (the target bar, After Register's
  * sheet), the check's verb, the Register button and its words while sending, the noun the toast names, and
  * how many people it takes (none, one or two; `null` for the actions whose choosing is not this component's).
- * The pack's (screens-game.mjs roleTiles() and actions()), and Frontend's labels where the pack draws none.
+ * Move takes no person but a position (moveBar(), the check's `position`). The pack's (screens-game.mjs
+ * roleTiles() and actions()), and Frontend's labels where the pack draws none.
  */
 const look = (icon, tile, title, verb, register, sending, noun, people) => Object.freeze({ icon, tile, title, verb, register, sending, noun, people });
 export const ACTION_LOOKS = Object.freeze({
@@ -47,7 +50,8 @@ export const ACTION_LOOKS = Object.freeze({
   ACTIVATE_CLONE: look('clone', 'Clone', 'Clone', 'Activate Clone', 'Activate Clone', 'Activating…', 'Clone', 0),
   ACTIVATE_SHIP_HACK: look('shipHack', 'Hack Ship', 'Hack Spaceship', 'Hack Spaceship', 'Hack Spaceship', 'Registering…', 'Hack Spaceship', 0),
   ACTIVATE_BLACKHOLE: look('blackhole', 'Blackhole', 'Blackhole', 'Activate Blackhole', 'Activate Blackhole', 'Activating…', 'Blackhole', 0),
-  MOVE: look('move', 'Move', 'Move', null, null, null, 'Move', null),
+  // Its check (Q1): "Move to A3", and Register in the form of the others' ("Register shot").
+  MOVE: look('move', 'Move', 'Move', 'Move to', 'Register move', 'Registering…', 'Move', 0),
   SCAN: look('scan', 'Scan', 'Scan', null, null, null, 'Scan', null),
   SUBMIT_CODE: look('code', 'Final Code', 'Final Code', null, null, null, 'Final Code', null),
 });
@@ -67,8 +71,13 @@ export const ACTION_WORDS = Object.freeze({
   toast: Object.freeze({ registered: noun => `${noun} registered`, accepted: noun => `${noun} accepted`, active: noun => `${noun} active`, captured: () => 'Navigation suppressed' }),
   unknown: 'Outcome unknown', retrySame: 'Retry the same', checkReceipt: 'Check receipt',
   noAnswer: what => `${what} was sent, but no answer came back.`, checkFirst: 'Check before doing anything else.',
-  passTitle: 'Pass your turn?', passNext: (name, n) => `The turn goes to ${name} · Player ${n}`, pass: 'Pass',
+  passTitle: 'Pass your turn?', passNext: (name, n) => `The turn goes to ${name} · Player ${n}`, pass: 'Pass', passed: 'Turn passed',
   stale: 'Controls return when the match is current',
+  // Move (screens-game.mjs room() and board(); the Lead's Q2 and Q3 for the steps the pack leaves undrawn).
+  moveWithin: room => `Move within ${room}`, moveTo: slot => `Move to ${slot}`, moved: slot => `Moved to ${slot}`,
+  moveChoose: 'Choose an empty position', moveOrBoard: 'Choose an empty position · or another room on the Board',
+  moveBoard: 'Choose an empty position · uses this round’s move', moveFull: room => `No empty position in ${room} · choose one on the Board`,
+  moveChip: 'Other rooms on the Board',
 });
 
 /** After Register's stamp for each kind: its words, its tone (an outline while it waits), and whether it waits. */
@@ -114,6 +123,16 @@ function checkTargets(list, type, what = 'targets') {
 function checkLines(list, what) {
   if (!Array.isArray(list) || !list.every(isText)) throw new TypeError(`${what} are lines of text`);
   return Object.freeze([...list]);
+}
+/** Move's position (the Lead's Q1 and Q4): its label, as the bar and the toast say it ("A3"), and its room. Move's alone. */
+function checkPosition(value, type) {
+  const given = value !== null && value !== undefined;
+  if (type !== 'MOVE') {
+    if (given) throw new TypeError('position is Move\'s alone: { slot, room }');
+    return null;
+  }
+  if (!given || !isText(value.slot)) throw new TypeError('Move needs its position: { slot, room }');
+  return Object.freeze({ slot: value.slot, room: optionalText(value.room, 'position.room') });
 }
 
 /** A part's inputs: its defaults, which of them are this viewer's own, and its check. */
@@ -185,16 +204,16 @@ const LIST = part(TARGET_LIST_DEFAULTS, ['type', 'groups', 'picked'], next => {
 });
 export const checkTargetList = input => LIST.normalize(input);
 
-/** The check's inputs (sheets 27.2 and 29). */
-export const ACTION_CHECK_DEFAULTS = Object.freeze({ ...COMMON, type: null, targets: Object.freeze([]), facts: Object.freeze([]), error: null });
-const CHECK = part(ACTION_CHECK_DEFAULTS, ['type', 'targets', 'facts', 'error'], next => {
+/** The check's inputs (sheets 27.2 and 29; Move's position, Q1). */
+export const ACTION_CHECK_DEFAULTS = Object.freeze({ ...COMMON, type: null, targets: Object.freeze([]), position: null, facts: Object.freeze([]), error: null });
+const CHECK = part(ACTION_CHECK_DEFAULTS, ['type', 'targets', 'position', 'facts', 'error'], next => {
   if (next.type !== null) lookOf(next.type);
   let error = next.error ?? null;
   if (error !== null) {
     if (!isText(error.text)) throw new TypeError('error is { text, detail }, or null');
     error = Object.freeze({ text: error.text, detail: optionalText(error.detail, 'error.detail') });
   }
-  return { ...next, targets: checkTargets(next.targets, next.type), facts: checkLines(next.facts, 'facts'), error };
+  return { ...next, targets: checkTargets(next.targets, next.type), position: checkPosition(next.position, next.type), facts: checkLines(next.facts, 'facts'), error };
 });
 export const checkActionCheck = input => CHECK.normalize(input);
 
@@ -202,6 +221,7 @@ export const checkActionCheck = input => CHECK.normalize(input);
 export const AFTER_REGISTER_DEFAULTS = Object.freeze({ ...COMMON, type: null, kind: 'registered', title: null, detail: null, people: null, steps: Object.freeze([]) });
 const AFTER = part(AFTER_REGISTER_DEFAULTS, ['type', 'kind', 'title', 'detail', 'people', 'steps'], next => {
   if (next.type !== null) lookOf(next.type);
+  if (next.type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
   if (!AFTER_KINDS.includes(next.kind)) throw new TypeError(`kind is ${AFTER_KINDS.join(', ')}, not ${JSON.stringify(next.kind)}`);
   let people = next.people ?? null;
   if (people !== null) {
@@ -218,10 +238,10 @@ const AFTER = part(AFTER_REGISTER_DEFAULTS, ['type', 'kind', 'title', 'detail', 
 export const checkAfterRegister = input => AFTER.normalize(input);
 
 /** "Outcome unknown"'s inputs (sheet 45). */
-export const OUTCOME_UNKNOWN_DEFAULTS = Object.freeze({ ...COMMON, type: null, targets: Object.freeze([]) });
-const UNKNOWN = part(OUTCOME_UNKNOWN_DEFAULTS, ['type', 'targets'], next => {
+export const OUTCOME_UNKNOWN_DEFAULTS = Object.freeze({ ...COMMON, type: null, targets: Object.freeze([]), position: null });
+const UNKNOWN = part(OUTCOME_UNKNOWN_DEFAULTS, ['type', 'targets', 'position'], next => {
   if (next.type !== null) lookOf(next.type);
-  return { ...next, targets: checkTargets(next.targets, next.type) };
+  return { ...next, targets: checkTargets(next.targets, next.type), position: checkPosition(next.position, next.type) };
 });
 export const checkOutcomeUnknown = input => UNKNOWN.normalize(input);
 
@@ -235,10 +255,16 @@ export const checkPassNote = input => PASS.normalize(input);
 const named = (p, viewer) => (viewer !== null && p.seat === viewer ? ACTION_WORDS.yourself : p.name);
 /**
  * The check's head, the same for the check and "Outcome unknown": { title, sub, what } where `what` names the
- * action with its people ("Rescue Eli", "Supply Ava and Gus", "Request Blackout").
+ * action with its people ("Rescue Eli", "Supply Ava and Gus", "Request Blackout"), or a move with its position
+ * and its room under it ("Move to A3", "Room A"), as a person's room is under them (Q1 and Q4).
  */
-export function actionWords({ type, targets = [], viewer = null }) {
+export function actionWords({ type, targets = [], viewer = null, position = null }) {
   const l = lookOf(type);
+  if (type === 'MOVE') {
+    if (!position || !isText(position.slot)) throw new TypeError('Move needs its position: { slot, room }');
+    const what = ACTION_WORDS.moveTo(position.slot);
+    return { title: what, sub: position.room ?? null, what };
+  }
   const verb = l.verb ?? l.title;
   if (targets.length === 2) {
     const what = `${verb} ${ACTION_WORDS.and(named(targets[0], viewer), named(targets[1], viewer))}`;
@@ -261,9 +287,11 @@ export const tileLine = t => (t.state === 'unavailable' || t.state === 'spent' ?
 export function actionsSheet({ role = null, room = null } = {}) {
   return { id: 'actions', title: ACTION_WORDS.actions, sub: ACTION_WORDS.actionsSub(role, room), close: true };
 }
-/** The list's sheet: back to the board, no close. */
+/** The list's sheet: back to the board, no close. Move has none: its positions are the room scene's and the board's. */
 export function targetListSheet({ type }) {
-  return { id: 'action-list', title: ACTION_WORDS.list, sub: ACTION_WORDS.listSub(lookOf(type).title), back: true, close: false };
+  const l = lookOf(type);
+  if (type === 'MOVE') throw new TypeError('Move has no list: its positions are the room scene\'s and the board\'s');
+  return { id: 'action-list', title: ACTION_WORDS.list, sub: ACTION_WORDS.listSub(l.title), back: true, close: false };
 }
 /**
  * The check's sheet: Cancel and Register; while sending, Register busy and named as it sends. Cancel only closes
@@ -281,7 +309,9 @@ export function checkSheet({ type, phase = 'ready', canRegister = true }) {
 }
 /** After Register's sheet: the action's title, and Done, which only closes it on this phone (local: it works while reconnecting). */
 export function afterSheet({ type }) {
-  return { id: 'action-after', title: lookOf(type).title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary', local: true }] };
+  const l = lookOf(type);
+  if (type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
+  return { id: 'action-after', title: l.title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary', local: true }] };
 }
 /** Sheet 45's "Outcome unknown": "Retry the same" and "Check receipt", each busy while it asks. */
 export function unknownSheet({ type, busy = null } = {}) {
@@ -312,9 +342,33 @@ export function targetBar({ type, where = 'room', picked = [] }) {
   // The Hacker's are the Hacker component's (the Lead's note 2, 16 November): its words exist once, there.
   if (type === 'SCAN') throw new TypeError('Scan\'s target bar is the Hacker component\'s scanBar() (design/phone-ui/components/hacker)');
   if (type === 'SUBMIT_CODE') throw new TypeError('The final Code has no target bar: it is the Hacker component\'s codeSheet() and mountFinalCode()');
+  if (type === 'MOVE') throw new TypeError('Move chooses a position, not a person: its target bar is moveBar()');
   if (!['room', 'board'].includes(where)) throw new TypeError('where is room or board');
   const sub = l.people === 2 ? (picked.length ? ACTION_WORDS.chooseSecond : ACTION_WORDS.chooseTwo) : ACTION_WORDS.choosePlayer;
   return { icon: l.icon, title: l.title, sub: where === 'board' ? ACTION_WORDS.everyRoom(sub) : sub };
+}
+/**
+ * The shell's target bar while choosing where to move (sheets 20, 26 and 27.1; the Lead's Q3 and Q4, 16 November).
+ * `here` and `elsewhere` say whether the MOVE offer has an empty position in the viewer's room and in another room.
+ *   - In the room: "Move within Room A" with "Choose an empty position · or another room on the Board"; with no
+ *     position elsewhere, "Choose an empty position"; with none here, "Move" with "No empty position in Room A ·
+ *     choose one on the Board".
+ *   - On the board: "Move" with "Choose an empty position · uses this round’s move".
+ * No position anywhere: no bar, as the tile is then unavailable (the server's reason or "Not available now"). A
+ * position picked: no bar either, as the check takes its place (Q1).
+ */
+export function moveBar({ where = 'room', room = null, here = false, elsewhere = false, picked = null } = {}) {
+  if (!['room', 'board'].includes(where)) throw new TypeError('where is room or board');
+  if ((picked !== null && picked !== undefined) || (!here && !elsewhere)) return null;
+  const l = ACTION_LOOKS.MOVE;
+  if (where === 'board') return { icon: l.icon, title: l.title, sub: ACTION_WORDS.moveBoard };
+  if (!isText(room)) throw new TypeError('In the room, the bar names the viewer\'s room');
+  if (!here) return { icon: l.icon, title: l.title, sub: ACTION_WORDS.moveFull(room) };
+  return { icon: l.icon, title: ACTION_WORDS.moveWithin(room), sub: elsewhere ? ACTION_WORDS.moveOrBoard : ACTION_WORDS.moveChoose };
+}
+/** In the room, while the MOVE offer has a position in another room: the chip to the Board, "Other rooms on the Board" (sheet 20). Else null. */
+export function moveChip({ elsewhere = false } = {}) {
+  return elsewhere ? { id: 'move-board', label: ACTION_WORDS.moveChip, icon: 'board', tone: 'paper' } : null;
 }
 /** The floating chip: the way to the people elsewhere ("Other rooms · 1"), or on the board the list. */
 export function targetChip({ kind, count = null }) {
@@ -328,9 +382,24 @@ export function targetChip({ kind, count = null }) {
 /** The shell's toast once the server accepts (L5): "Rescue registered", "Private talk accepted", "Clone active", "Navigation suppressed". */
 export function registeredToast({ type, kind = 'registered', id }) {
   const l = lookOf(type);
+  if (type === 'MOVE') throw new TypeError('A move\'s toast is movedToast(): "Moved to A3" (Q2)');
   if (!AFTER_KINDS.includes(kind)) throw new TypeError(`kind is ${AFTER_KINDS.join(', ')}`);
   if (!isText(String(id ?? ''))) throw new TypeError('A toast needs the command\'s id, so it shows once');
   return { id: String(id), text: ACTION_WORDS.toast[kind](l.noun), icon: 'check' };
+}
+/**
+ * Once the server accepts a move (the Lead's Q2): "Moved to A3", with the position as the bar and the check say
+ * it. The shell's info toast, on this phone only; the person walking in the scene is what everyone sees.
+ */
+export function movedToast({ slot, id }) {
+  if (!isText(slot)) throw new TypeError('A move\'s toast names its position');
+  if (!isText(String(id ?? ''))) throw new TypeError('A toast needs the command\'s id, so it shows once');
+  return { id: String(id), text: ACTION_WORDS.moved(slot), icon: 'info' };
+}
+/** Once the turn has passed (sheet 27.3, "The turn moves on"): "Turn passed", the shell's info toast, on this phone. */
+export function passedToast({ id }) {
+  if (!isText(String(id ?? ''))) throw new TypeError('A toast needs the command\'s id, so it shows once');
+  return { id: String(id), text: ACTION_WORDS.passed, icon: 'info' };
 }
 
 // ── Mounting ────────────────────────────────────────────────────────────
@@ -508,7 +577,7 @@ export function mountActionCheck(host, input = {}, handlers = {}) {
           errorKey = null;
           return;
         }
-        const words = actionWords({ type: s.type, targets: s.targets, viewer: s.viewer });
+        const words = actionWords({ type: s.type, targets: s.targets, viewer: s.viewer, position: s.position });
         const props = { people: s.targets, icon: ACTION_LOOKS[s.type].icon, title: words.title, sub: words.sub, versions: s.versions };
         if (!who) { who = parts.who(props); root.prepend(who); } else parts.setWho(who, props);
         if (!facts) { facts = parts.facts(s.facts); who.after(facts); } else parts.setFacts(facts, s.facts);
@@ -570,7 +639,7 @@ export function mountOutcomeUnknown(host, input = {}, handlers = {}) {
     return {
       paint: s => {
         if (s.status === 'concealed' || s.type === null) { notice?.remove(); notice = null; return; }
-        const { what } = actionWords({ type: s.type, targets: s.targets, viewer: s.viewer });
+        const { what } = actionWords({ type: s.type, targets: s.targets, viewer: s.viewer, position: s.position });
         const props = { icon: 'warning', filled: true, lines: [ACTION_WORDS.noAnswer(what), ACTION_WORDS.checkFirst] };
         if (!notice) { notice = kit.notice(props); root.append(notice); } else kit.setNotice(notice, props);
       },
