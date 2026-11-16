@@ -106,7 +106,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
   async function acquire(taskId, id) {
     if (!id) throw new TypeError('Owner identity is required');
     const name = localOwners.get(taskId)?.id === id ? 'renew-owner' : 'acquire-owner';
-    const token = await transaction(name, async tx => {
+    const persistOwnership = () => transaction(name, async tx => {
       const previous = await tx.get(ownerKey(taskId));
       const at = assertTime(clock());
       const live = previous && previous.expiresAt > at;
@@ -116,6 +116,10 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       tx.set(ownerKey(taskId), next);
       return Object.freeze(next);
     });
+    // Renewal writes the same Firestore record that a routed append reads.
+    // Use the same durable lane while the driver keeps apply outside it.
+    const token = ownedAdmission ? await queueStorage(taskId, 'owner-storage-start', {kind: name}, persistOwnership)
+      : await persistOwnership();
     if (ownedAdmission && token) localOwners.set(taskId, token);
     return token;
   }
@@ -137,6 +141,9 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     // acquired this owner. A new process cannot admit until it has acquired.
     const route = source.token ?? localOwners.get(taskId);
     if (!route) fail('NOT_OWNER');
+    return queueStorage(taskId, 'append-start', info, () => persistAdmission(taskId, source, receivedAt, route));
+  }
+  function queueStorage(taskId, stage, info, persist) {
     let lane = admissionLanes.get(taskId);
     if (!lane) {
       lane = {tail: Promise.resolve(), depth: 0};
@@ -144,8 +151,8 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     }
     const queuedAt = performance.now(), depth = ++lane.depth;
     const result = lane.tail.then(() => {
-      event('append-start', {...info, queueDepth: depth, queueWaitMs: performance.now() - queuedAt});
-      return persistAdmission(taskId, source, receivedAt, route);
+      event(stage, {...info, queueDepth: depth, queueWaitMs: performance.now() - queuedAt});
+      return persist();
     });
     lane.tail = result.catch(() => {}).finally(() => {
       if (--lane.depth === 0) admissionLanes.delete(taskId);
@@ -259,7 +266,7 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
     syncLeases(next);
     next.cursor++;
     next.appliedAt = at;
-    next.lastInput = entry.request ? {seatId: entry.seatId, commandId: entry.request.commandId} : null;
+    next.lastInput = entry.request ? {seatId: entry.seatId, bindingRevision: entry.bindingRevision, commandId: entry.request.commandId} : null;
     return {next, applied: {receipt, refusal, admittedAt: at}, cpuMs: performance.now() - started, drift, kind: entry.kind, commandId: entry.request?.commandId ?? null};
   }
   function syncLeases(checkpoint) {
@@ -370,7 +377,9 @@ export function createFoodTaskCoordinator({store, engine = planet, clock = Date.
       const publicView = engine.projectPlanetFoodPublic(checkpoint.state, publishAt);
       const playerView = member ? engine.projectPlanetFoodPlayer(checkpoint.state, member.seatId, publishAt) : null;
       const ordinaryPlayerView = member ? engine.projectPlanetPlayer(checkpoint.state, member.seatId) : null;
-      const commandId = member && member.seatId === checkpoint.lastInput?.seatId ? checkpoint.lastInput.commandId : null;
+      const lastInput = checkpoint.lastInput;
+      const commandId = member && member.seatId === lastInput?.seatId && member.bindingRevision === lastInput.bindingRevision
+        ? lastInput.commandId : null;
       return {packet: {phase: 'published', publicView, playerView, ordinaryPlayerView, serverTimeMs: publishAt, fresh: publishAt === at}, commandId};
     });
   }
