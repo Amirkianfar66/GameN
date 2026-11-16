@@ -144,7 +144,7 @@ try {
         foodAuthorityProfile:api.PLANET_FOOD_OWNER_INBOX_PROFILE});
       assert.equal(typeof food.handle,'function');
       assert.equal(api.PLANET_FOOD_OWNER_INBOX_PROFILE,'food-owner-inbox-1');
-      assert.equal(api.PLANET_FOOD_INBOX_VERSION,1);
+      assert.equal(api.PLANET_FOOD_INBOX_VERSION,'food-inbox-1');
       for(const name of ['runFoodInbox','dispatchFoodInboxWake','repairFoodInboxWakes','projectFoodInboxDelivery','subscribeFoodInboxMatch'])
         assert.equal(typeof food[name],'function',name);
       assert.equal(typeof engine.createPlanetGame,'function');assert.equal(typeof engine.assertPlanetGameState,'function');
