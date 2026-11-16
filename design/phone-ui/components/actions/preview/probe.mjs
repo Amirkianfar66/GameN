@@ -22,6 +22,11 @@
 //             Pass's) and Done are taken, being this phone's own (local), and Register, Pass, Retry the same and
 //             Check receipt, which stand for commands, are refused, described by the banner's words
 //   unknown   "Outcome unknown" names the action and its people, or the action alone
+//   move      Move's bar in each of the Lead's Q3 cases and on the board, none once picked or with no position;
+//             the chip to the Board; no person's bar, list, After Register or toast for Move; in the real shell,
+//             the bar's Cancel and the chip report, and reconnecting only Cancel does; the "Moved to A5" toast;
+//             the check: the Move icon, "Move to A5" over "Room A", the facts, the board's "Move to B4" in the
+//             same element, the inline note, Register move; "Outcome unknown" names the position
 //   inputs    an unknown key, a type twice, an unknown type or state, too many people: each an error; a
 //             checked input checks to itself
 //   private   concealed, every part empties itself and drops this viewer's inputs; a new viewer's phone
@@ -34,8 +39,8 @@
 //             device's) is there at once; the sending spinner stands still with Reduce motion
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { ACTION_WORDS, actionsSheet, afterSheet, checkActions, checkSheet, mountActionCheck, mountActions, mountAfterRegister, mountOutcomeUnknown,
-  mountTargetList, passSheet, registeredToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
+import { ACTION_WORDS, actionsSheet, afterSheet, checkActions, checkAfterRegister, checkSheet, mountActionCheck, mountActions, mountAfterRegister, mountOutcomeUnknown,
+  mountTargetList, moveBar, moveChip, movedToast, passSheet, passedToast, registeredToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
 import { ACTIONS_STATES } from './states.mjs';
 
@@ -250,6 +255,78 @@ export async function runActionsProbe({ sizes, versions }) {
         && JSON.stringify(none) === JSON.stringify(['Request Blackout was sent, but no answer came back.', 'Check before doing anything else.']) && status === 'status', one, none, status };
     });
 
+    await check('move', async () => {
+      // The bar in each of the Lead's Q3 cases, on the board, once a position is picked (the check then), and with none.
+      const said = b => (b ? `${b.icon}|${b.title}|${b.sub}` : null);
+      const bars = [moveBar({ where: 'room', room: 'Room A', here: true, elsewhere: true }), moveBar({ where: 'room', room: 'Room A', here: true, elsewhere: false }),
+        moveBar({ where: 'room', room: 'Room A', here: false, elsewhere: true }), moveBar({ where: 'room', room: 'Room A' }),
+        moveBar({ where: 'board', here: false, elsewhere: true }), moveBar({ where: 'room', room: 'Room A', here: true, elsewhere: true, picked: 'A5' })].map(said);
+      const chips = [moveChip({ elsewhere: true }), moveChip({ elsewhere: false })].map(c => (c ? `${c.id}|${c.label}|${c.icon}|${c.tone}` : null));
+      // Move has no person's bar, list, After Register or "registered" toast: each refuses, naming Move's own.
+      const refused = [() => targetBar({ type: 'MOVE' }), () => targetListSheet({ type: 'MOVE' }), () => afterSheet({ type: 'MOVE' }), () => registeredToast({ type: 'MOVE', id: 'm' })]
+        .map(f => { try { f(); return false; } catch (error) { return error instanceof TypeError; } });
+      const toasts = [movedToast({ slot: 'A5', id: 'm-1' }), passedToast({ id: 'p-1' })].map(t => `${t.id}|${t.text}|${t.icon}`);
+      // In the real shell: the bar's Cancel and the chip report their intents; reconnecting, Cancel still does (it is
+      // this phone's own, shell 0.2.7) and the chip, like every other, waits.
+      const size = sizes['390x844'];
+      const frame = document.createElement('div');
+      frame.className = 'pv-phone';
+      Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
+      document.body.append(frame);
+      const intents = [];
+      const record = name => (...args) => intents.push([name, ...args]);
+      const shell = mountPhoneShell(frame, { ...ACTIONS_STATES['move-room'].shell, viewer: 'seat-4', versions, insets: size.insets }, { onCancelTarget: record('onCancelTarget'), onChip: record('onChip') });
+      await frames();
+      const bar = frame.querySelector('.ms-ps-target'), chip = frame.querySelector('.ms-ps-chip-btn');
+      const shown = [bar?.querySelector('.ms-ps-text b')?.textContent ?? null, bar?.querySelector('.ms-ps-text span')?.textContent ?? null, chip?.textContent.trim() ?? null];
+      tap(bar.querySelector('button'));
+      tap(chip);
+      const live = intents.map(i => i.join(':'));
+      shell.update({ status: 'stale', banner: { kind: 'reconnecting' } });
+      await frames();
+      intents.length = 0;
+      tap(frame.querySelector('.ms-ps-target button'));
+      tap(frame.querySelector('.ms-ps-chip-btn'));
+      const stale = intents.map(i => i.join(':'));
+      // The toast once moved: the shell's info toast, its words and its icon.
+      shell.update({ status: 'live', banner: null, target: null, chip: null, toast: movedToast({ slot: 'A5', id: 'm-1' }) });
+      await frames();
+      const toast = frame.querySelector('.ms-k-toast');
+      const toastSaid = [toast?.querySelector('.ms-k-toast-text')?.textContent ?? null, toast?.querySelector('.ms-k-toast-icon')?.dataset.icon ?? null];
+      shell.dispose();
+      frame.remove();
+      // The check (Q1 and Q4): the Move icon, "Move to A5" with the room under it, Frontend's facts; the same element
+      // for the board's "Move to B4"; the inline note when not accepted; and "Outcome unknown" names the position.
+      const p = phone('move-check');
+      const read = () => ({ form: p.root.querySelector('.ms-k-who-lead')?.dataset.form ?? null, icon: p.root.querySelector('.ms-k-who-lead')?.dataset.icon ?? null,
+        title: p.root.querySelector('.ms-k-who-title')?.textContent ?? null, sub: p.root.querySelector('.ms-k-who-sub:not([hidden])')?.textContent ?? null,
+        facts: [...p.root.querySelectorAll('.ms-k-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null });
+      const room = read();
+      const who = p.root.querySelector('.ms-k-who');
+      p.part.update({ position: { slot: 'B4', room: 'Room B' } });
+      const board = read();
+      const kept = p.root.querySelector('.ms-k-who') === who;
+      p.part.update({ error: { text: 'The server did not accept the move.', detail: 'Choose a position again.' } });
+      const error = read();
+      const footer = [checkSheet({ type: 'MOVE' }), checkSheet({ type: 'MOVE', phase: 'sending' })].map(s => s.actions.map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|'));
+      p.dispose();
+      const u = phone('move-unknown');
+      const unknown = [...u.root.querySelectorAll('.ms-k-notice p')].map(n => n.textContent);
+      u.dispose();
+      const detail = { bars, chips, refused, toasts, shown, live, stale, toastSaid, room, board, kept, error, footer, unknown };
+      return { ok: JSON.stringify(bars) === JSON.stringify(['move|Move within Room A|Choose an empty position · or another room on the Board', 'move|Move within Room A|Choose an empty position',
+          'move|Move|No empty position in Room A · choose one on the Board', null, 'move|Move|Choose an empty position · uses this round’s move', null])
+        && JSON.stringify(chips) === JSON.stringify(['move-board|Other rooms on the Board|board|paper', null]) && refused.every(Boolean)
+        && JSON.stringify(toasts) === JSON.stringify(['m-1|Moved to A5|info', 'p-1|Turn passed|info'])
+        && JSON.stringify(shown) === JSON.stringify(['Move within Room A', 'Choose an empty position · or another room on the Board', 'Other rooms on the Board'])
+        && JSON.stringify(live) === JSON.stringify(['onCancelTarget', 'onChip:move-board']) && JSON.stringify(stale) === JSON.stringify(['onCancelTarget'])
+        && JSON.stringify(toastSaid) === JSON.stringify(['Moved to A5', 'info:filled'])
+        && room.form === 'icon' && room.icon === 'move:filled' && room.title === 'Move to A5' && room.sub === 'Room A' && JSON.stringify(room.facts) === JSON.stringify(['Uses this round’s move']) && room.error === null
+        && board.title === 'Move to B4' && board.sub === 'Room B' && kept && error.error === 'The server did not accept the move. Choose a position again.'
+        && JSON.stringify(footer) === JSON.stringify(['cancel:Cancel:local|register:Register move', 'cancel:Cancel:local|register:Registering…:busy'])
+        && JSON.stringify(unknown) === JSON.stringify(['Move to A5 was sent, but no answer came back.', 'Check before doing anything else.']), ...detail };
+    });
+
     await check('inputs', async () => {
       const errors = [];
       const expectError = (what, fn) => { try { fn(); errors.push([what, false]); } catch { errors.push([what, true]); } };
@@ -257,19 +334,24 @@ export async function runActionsProbe({ sizes, versions }) {
       expectError('a type twice', () => checkActions({ tiles: [{ type: 'MOVE' }, { type: 'MOVE' }] }));
       expectError('an unknown type', () => checkActions({ tiles: [{ type: 'FLY' }] }));
       expectError('an unknown state', () => checkActions({ tiles: [{ type: 'MOVE', state: 'done' }] }));
-      expectError('a check for Move, which is not this component\'s', () => checkSheet({ type: 'MOVE' }));
+      expectError('a check for Scan, which is the Hacker component\'s', () => checkSheet({ type: 'SCAN' }));
       const p = phone('check');
       expectError('two people for Rescue', () => p.part.update({ targets: [{ seat: 'seat-1', name: 'Ava' }, { seat: 'seat-7', name: 'Gus' }] }));
       expectError('an unknown key in an update', () => p.part.update({ colour: 'red' }));
+      // Move's check takes a position and no person; a position is Move's alone.
+      expectError('Move without its position', () => p.part.update({ type: 'MOVE', targets: [], position: null }));
+      expectError('a person for Move', () => p.part.update({ type: 'MOVE', position: { slot: 'A5', room: 'Room A' } }));
+      expectError('a position for Rescue', () => p.part.update({ position: { slot: 'A5', room: 'Room A' } }));
       p.dispose();
+      expectError('After Register for Move', () => checkAfterRegister({ type: 'MOVE' }));
       const once = checkActions(inputOf('tiles-doctor')), twice = checkActions(once);
       return { ok: errors.every(([, thrown]) => thrown) && JSON.stringify(once) === JSON.stringify(twice), errors, idempotent: JSON.stringify(once) === JSON.stringify(twice) };
     });
 
     await check('private', async () => {
       const results = {};
-      const PRIVATE = ['Rescue', 'injections', 'Eli', 'Ava', 'Gus', 'REGISTERED', 'CAPTURED', 'Uses 1 of 2', 'Navigation', 'Doctor'];
-      for (const key of ['tiles-doctor', 'list', 'check', 'after-suppress', 'unknown']) {
+      const PRIVATE = ['Rescue', 'injections', 'Eli', 'Ava', 'Gus', 'REGISTERED', 'CAPTURED', 'Uses 1 of 2', 'Navigation', 'Doctor', 'Move to', 'A5', 'round’s move'];
+      for (const key of ['tiles-doctor', 'list', 'check', 'after-suppress', 'unknown', 'move-check', 'move-unknown']) {
         const p = phone(key);
         p.part.update({ status: 'concealed' });
         const concealed = text(p.root);

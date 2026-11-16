@@ -12,11 +12,17 @@
 
 import { ROOM_FIXTURES, SELF, board, seatOf } from '../../../prototype/fixtures.mjs';
 import { afterRegister } from '../../../prototype/screens-game.mjs';
-import { actionsSheet, afterSheet, checkSheet, passSheet, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
+import { ACTION_WORDS, actionsSheet, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 
 const ROOM = 'Room A';
 const seats = board({ place: ROOM_FIXTURES['room-a'].place });
 const at = n => seats.find(s => s.seat === n);
+/** The empty positions of a room, as the MOVE offer would list them (the fixture's Room A has one, A5; Room B, B4 and B5). */
+const emptyIn = (room, ids) => ids.filter(id => !seats.some(s => s.location === room && s.slot === id));
+const EMPTY_A = emptyIn(ROOM, ['A1', 'A2', 'A3', 'A4', 'A5']);
+const EMPTY_B = emptyIn('Room B', ['B1', 'B2', 'B3', 'B4', 'B5']);
+/** Whose turn follows the viewer's (the pack's NEXT_SEAT, screens-game.mjs room(): Eli). */
+const NEXT_SEAT = 5;
 /** A person as the check and the list take them: the seat as the projection names it, and where the public board has them. */
 const who = n => { const p = seatOf(n), s = at(n); return { seat: `seat-${n}`, name: p.name, character: p.character, room: s.location, health: s.health }; };
 const inRoomA = seats.filter(s => s.location === ROOM).map(s => s.seat);
@@ -37,6 +43,8 @@ const TILES = {
   // T3: the server gives no reason (B1), so each tile it does not offer says "Not available now".
   t3: [T('RESCUE', 'available', '2 injections', { badge: 2 }), MOVE, T('REQUEST_HACK', 'unavailable', null), T('REGISTER_SHOT', 'unavailable', null)],
   sending: [T('RESCUE', 'sending', '2 injections', { badge: 2 }), MOVE, TALK, SHOOT],
+  // Q3: no empty position anywhere, so the server offers no MOVE and gives no reason: "Not available now", and no bar.
+  moveNone: [T('RESCUE', 'available', '2 injections', { badge: 2 }), T('MOVE', 'unavailable', null), TALK, SHOOT],
 };
 const OTHER_NOTE = 'Move works on any turn, once a round. The rest wait for your turn.';
 
@@ -52,6 +60,9 @@ const FACTS = {
   ACTIVATE_CLONE: ['Once a match', 'Active as soon as the server accepts it', 'Lasts through next round’s attacks'],
   // Not drawn by the pack (L7): its lines would be Frontend's copy; one stands in.
   ACTIVATE_SHIP_HACK: ['Once a match', 'Needs the Code'],
+  // Move's check (the Lead's Q1): the prototype's picked words, "Uses this round’s move", as Frontend's fact; the
+  // room is the check's own line under "Move to A5".
+  MOVE: ['Uses this round’s move'],
 };
 const ACT = { RESCUE: 'rescue', PROTECT: 'protect', SUPPLY: 'supply', REGISTER_SHOT: 'shoot', REQUEST_HACK: 'talk', REQUEST_BLACKOUT: 'blackout', ENGINEER_SUPPRESS: 'suppress', ACTIVATE_CLONE: 'clone' };
 
@@ -67,7 +78,7 @@ function after(type, target) {
 const person = n => { const p = seatOf(n); return { seat: p.seat, name: p.name, character: p.character }; };
 /** The pack's turn bar (screens.mjs turnBar()): whose turn, the round and the clock. */
 const turnBar = (active, seconds, round = 3) => ({ kind: 'turn', who: person(active), self: active === SELF, round, timer: { remainingMs: seconds * 1000 }, promises: { count: 0 }, menu: {} });
-const tabs = ({ own = true, open = null } = {}) => ({ variant: 'game', view: 'room', open, hero: { mode: 'pass', enabled: own } });
+const tabs = ({ own = true, open = null, view = 'room' } = {}) => ({ variant: 'game', view, open, hero: { mode: 'pass', enabled: own } });
 
 /** A state: the shell's input, the room scene's own (active, targets), and the part with its input. */
 const state = (caption, sheet, { shell, scene = {}, part = null }) => ({ caption, sheet, shell: { viewer: `seat-${SELF}`, ...shell }, scene, part });
@@ -87,6 +98,22 @@ const afterState = (caption, sheetNo, type, target, { seconds = 29, round = 3, i
   scene: { active: SELF },
   part: { kind: 'after', input: input ?? after(type, target) },
 });
+/**
+ * Choosing where to move (sheets 20, 26 and 27.1): the shell's bar and chip from moveBar() and moveChip(), and the
+ * offered positions on the room scene. On the board the stage is the board's drawing (#298's), not drawn here.
+ */
+const moveState = (caption, sheetNo, { where = 'room', here = true, elsewhere = true, seconds = 42 } = {}) => state(caption, sheetNo, {
+  shell: { bar: turnBar(SELF, seconds), tabs: tabs({ view: where }), target: moveBar({ where, room: ROOM, here, elsewhere }), chip: where === 'room' ? moveChip({ elsewhere }) : null },
+  scene: where === 'board' ? { none: true } : { active: SELF, targets: here ? { slots: EMPTY_A, picked: null, icon: 'move' } : null },
+});
+/** Move's check (the Lead's Q1 and Q4): the position picked stays marked under it, in this room. */
+const moveCheckState = (caption, sheetNo, position, { phase = 'ready', error = null, board = false } = {}) => state(caption, sheetNo, {
+  shell: { bar: turnBar(SELF, 31), tabs: tabs({ view: board ? 'board' : 'room' }), sheet: checkSheet({ type: 'MOVE', phase }) },
+  scene: board ? { none: true } : { active: SELF, targets: { slots: [position.slot], picked: position.slot, icon: 'move' } },
+  part: { kind: 'check', input: { type: 'MOVE', position, facts: FACTS.MOVE, error } },
+});
+const MOVE_A = { slot: EMPTY_A[0], room: ROOM };
+const MOVE_B = { slot: EMPTY_B[0], room: 'Room B' };
 
 /** Every state, by key: its caption, the sheet it comes from, and its inputs. */
 export const ACTIONS_STATES = Object.freeze({
@@ -158,6 +185,33 @@ export const ACTIONS_STATES = Object.freeze({
     scene: { active: SELF },
     part: { kind: 'unknown', input: { type: 'REQUEST_BLACKOUT', targets: [] } },
   }),
+  // Move (sheets 20, 26 and 27.1), and the steps the pack leaves undrawn, as the Lead answered them (Q1–Q4).
+  'move-room': moveState('Move within the room · the bar and the chip', '20'),
+  'move-board': moveState('Move · choose a position on the Board (the bar: the board is #298’s)', '26', { where: 'board', seconds: 38 }),
+  'move-room-only': moveState('Positions only in this room · no chip (Q3)', '20+', { elsewhere: false }),
+  'move-room-full': moveState('This room full, positions elsewhere · “choose one on the Board” (Q3)', '20+', { here: false }),
+  'tiles-move-none': tilesState('No position anywhere · Move not available, no bar (Q3)', '28+', 'Doctor', TILES.moveNone),
+  'move-check': moveCheckState(`A position picked · the check, “${ACTION_WORDS.moveTo(MOVE_A.slot)}” (Q1)`, '20+', MOVE_A),
+  'move-check-board': moveCheckState(`From the Board · the same check, “${ACTION_WORDS.moveTo(MOVE_B.slot)}” (Q4)`, '26+', MOVE_B, { board: true }),
+  'move-sending': moveCheckState('Move · registering', '20+', MOVE_A, { phase: 'sending' }),
+  'move-error': moveCheckState('Move not accepted · the inline note (L6)', '20+', MOVE_A,
+    { error: { text: 'The server did not accept the move.', detail: 'Choose a position again.' } }),
+  'move-unknown': state('Move · outcome unknown', '45+', {
+    shell: { bar: turnBar(SELF, 19), tabs: tabs(), sheet: unknownSheet({ type: 'MOVE' }) },
+    scene: { active: SELF },
+    part: { kind: 'unknown', input: { type: 'MOVE', position: MOVE_A } },
+  }),
+  'move-moved': state(`Moved · “Moved to ${MOVE_A.slot}”, this phone’s toast (Q2)`, '20+', {
+    shell: { bar: turnBar(SELF, 30), tabs: tabs(), toast: movedToast({ slot: MOVE_A.slot, id: 'move-1' }) },
+    // The viewer now stands at the position, which everyone sees (the room scene's people, from the board).
+    scene: { active: SELF, moved: { seat: SELF, slot: MOVE_A.slot } },
+  }),
+  // Sheet 27.3's third frame: the turn has moved on, and this phone says so.
+  passed: state('The turn moves on · “Turn passed”', '27.3', {
+    shell: { bar: turnBar(NEXT_SEAT, 60), tabs: tabs({ own: false }), toast: passedToast({ id: 'pass-1' }) },
+    scene: { active: NEXT_SEAT },
+  }),
+  'move-stale': { ...moveState('Reconnecting while choosing · Cancel still works, no position taps', '45+'), status: 'stale' },
   stale: { ...tilesState('Reconnecting · as last seen, no taps', '45+', 'Doctor', TILES.doctor), status: 'stale' },
   concealed: { ...tilesState('Concealed · nothing drawn', '—', 'Doctor', TILES.doctor), status: 'concealed' },
   // Text size and the smallest phone (sheets 50 and 53; the Lead's L3 for the Largest text).
@@ -166,6 +220,8 @@ export const ACTIONS_STATES = Object.freeze({
   'largest-tiles': { ...tilesState('Largest text (200 %) · one per row (L3)', '56-like', 'Doctor', TILES.spent), sizes: ['320x568'], text: 200 },
   'largest-check': { ...checkState('Largest text · the check', '56-like', 'RESCUE', [who(5)]), sizes: ['320x568'], text: 200 },
   'largest-after': { ...afterState('Largest text · registered', '56-like', 'RESCUE', who(5)), sizes: ['320x568'], text: 200 },
+  'largest-move': { ...moveState('Largest text · Move within the room', '56-like'), sizes: ['320x568'], text: 200 },
+  'largest-move-check': { ...moveCheckState('Largest text · Move’s check', '56-like', MOVE_A), sizes: ['320x568'], text: 200 },
 });
 
 /** The pack's frame each state is compared with (sheets/catalog.mjs), where the pack draws it, and its size and text. */
@@ -196,4 +252,10 @@ export const PACK_FRAMES = Object.freeze({
   pass: { frame: 'room&room=room-a&state=pass' },
   'small-tiles': { frame: 'actions&role=Doctor&active=4', size: '320x568' },
   'large-tiles': { frame: 'actions&role=Doctor&active=4', text: 150 },
+  // Move: sheet 20's bar and chip, the board's bar (26 and 27.1); and 27.3's "Turn passed".
+  'move-room': { frame: 'room&room=room-a&state=move' },
+  'move-board': { frame: 'board&state=move' },
+  // The pack's room shows its own control here ("Window · Hospital"): the room scene's (#261), compared in its own
+  // agreement, not this component's chip.
+  passed: { frame: 'room&room=room-a&state=passed', roomControl: true },
 });

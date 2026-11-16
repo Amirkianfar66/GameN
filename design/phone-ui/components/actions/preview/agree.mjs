@@ -5,9 +5,9 @@
 // frozen Food release pins ui.mjs and kit.css, so they stay as they are) and the runtime component (../actions.mjs,
 // with ../../play-parts) in the phone shell, drawn in the same page from the same synthetic fixtures, compared
 // frame by frame: the sheet's title, sub and footer; the section head; each tile's place, words, badge, mark and
-// look; the target bar and the chip; the list's groups and rows; the check's person or icon, its words and facts;
-// After Register's stamp, headline, detail, people and time line; "Outcome unknown"'s notice; Pass's line; and
-// where each sits, to within half a pixel. It is how the component shows it draws the pack's frames and not a
+// look; the target bar and the chip (Move's in the room and on the board too); the toast ("Turn passed"); the
+// list's groups and rows; the check's person or icon, its words and facts; After Register's stamp, headline,
+// detail, people and time line; "Outcome unknown"'s notice; Pass's line; and where each sits, to within half a pixel. It is how the component shows it draws the pack's frames and not a
 // second design of them. The pack's reasons are given as text (the Lead's L1), so no word is amended.
 
 import { GAME_SCREENS } from '../../../prototype/screens-game.mjs';
@@ -32,7 +32,7 @@ function loadPack() {
   }));
 }
 
-const CASES = Object.entries(PACK_FRAMES).map(([state, f]) => ({ state, frame: f.frame, size: f.size ?? '390x844', text: f.text ?? null }));
+const CASES = Object.entries(PACK_FRAMES).map(([state, f]) => ({ state, frame: f.frame, size: f.size ?? '390x844', text: f.text ?? null, roomControl: !!f.roomControl }));
 
 const visible = node => !!node && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden';
 function box(origin, node) {
@@ -129,9 +129,19 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     const barA = pack.querySelector('.target-bar'), barB = host.querySelector('.ms-ps-target');
     compare('target bar', 'words', [words(barA?.querySelector('b')), words(barA?.querySelector('.banner-text span'))], [words(barB?.querySelector('.ms-ps-text b')), words(barB?.querySelector('.ms-ps-text span'))]);
     compareBox('target bar', box(pack, barA), box(host, barB));
+    // Where the pack's chip is the room's own control (roomInteraction(): "Window · Hospital"), it is the room
+    // scene's (#261), compared in its agreement; this one says so instead of comparing it.
     const chipA = pack.querySelector('.offroom .btn'), chipB = host.querySelector('.ms-ps-chip-btn');
-    compare('chip', 'words', words(chipA), words(chipB));
-    compareBox('chip', box(pack, chipA), box(host, chipB));
+    const notCompared = c.roomControl ? [`chip "${words(chipA)}": the room's own control, the room scene's (#261)`] : [];
+    if (!c.roomControl) {
+      compare('chip', 'words', words(chipA), words(chipB));
+      compareBox('chip', box(pack, chipA), box(host, chipB));
+    }
+    // A toast (27.3's "Turn passed"): its words, its icon and its place.
+    const toastA = pack.querySelector('.toast'), toastB = host.querySelector('.ms-k-toast');
+    compare('toast', 'words', words(toastA), words(toastB));
+    compareBox('toast', box(pack, toastA), box(host, toastB));
+    compareBox('toast icon', box(toastA, toastA?.querySelector('.ic')), box(toastB, toastB?.querySelector('.ms-k-toast-icon .ms-k-ic')));
     // The list: its group labels and rows.
     const labelsA = [...(bodyA?.querySelectorAll('.offroom-list .group-label') ?? [])], labelsB = [...(root?.querySelectorAll('.ms-ac-list .ms-k-group-label') ?? [])];
     compare('list', 'groups', labelsA.map(words), labelsB.map(words));
@@ -187,7 +197,8 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     compareBox('notice', box(bodyA, noticeA), box(bodyB, noticeB));
     compareBox('notice icon', box(noticeA, noticeA?.querySelector('.big-icon .ic')), box(noticeB, noticeB?.querySelector('.ms-k-notice-icon .ms-k-ic')));
     [...(noticeA?.querySelectorAll('p') ?? [])].forEach((p, i) => compareBox(`notice line ${i + 1}`, box(noticeA, p), box(noticeB, noticeB?.querySelectorAll('p')[i] ?? null)));
-    checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0, detail: { differences } });
+    checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0,
+      detail: { differences, ...(notCompared.length ? { notCompared } : {}) } });
     part?.dispose();
     shell.dispose();
     pack.remove();
