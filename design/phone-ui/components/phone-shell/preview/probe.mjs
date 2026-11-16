@@ -27,6 +27,8 @@
 //   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
 //             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
 //             when it goes
+//   footer    a footer action is primary, secondary or warn (the pack's Abort match); a local one (a code's
+//             Reveal, Hide and Copy, a confirm's Keep playing) works while reconnecting, a command does not
 //   toast     shown once per id, gone after its time, cleared by suspend()
 //   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
@@ -468,6 +470,49 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const ok = order.join(',') === 'title,sheet-head,sheet-close' && label === 'Hide card' && kept && tapped === '[["onSheetAction","hide","card"]]'
         && stale === 'hide,hide' && off && gone && returned === '{"intent":"sheet-head","value":"hide"}';
       return { ok, order, label, kept, tapped, stale, off, gone, returned };
+    });
+
+    await check('footer: an action is primary, secondary or warn (the pack\'s Abort match, outlined in paper); a local one works while reconnecting, a command is refused with the banner\'s words, and interactive: false refuses both', async () => {
+      const abort = { id: 'abort', title: 'Host controls', close: true, back: true, detent: 'large',
+        actions: [{ id: 'keep', label: 'Keep playing', local: true }, { id: 'abort', label: 'Abort match', kind: 'warn' }] };
+      const code = { id: 'code', title: 'Recovery code', sub: 'Private to this phone', close: true, back: true, detent: 'large',
+        actions: [{ id: 'hide', label: 'Hide', icon: 'hide', local: true }, { id: 'copy', label: 'Copy', icon: 'copy', kind: 'primary', local: true }] };
+      const s = mount({ ...own(), sheet: abort });
+      try {
+        const btn = id => s.q(`.ms-ps-sheet-foot [data-value="${id}"]`);
+        const reported = () => named(s.calls, 'onSheetAction').map(c => c[1]).join(',');
+        const warn = btn('abort'), keep = btn('keep');
+        // The warn kind is the kit's warn button, the pack's .btn-warn: no fill, and a 2 px ring in its own paper ink.
+        const cs = getComputedStyle(warn);
+        const warnLook = { bg: cs.backgroundColor, ink: cs.color, ring: cs.boxShadow };
+        const looks = warn.classList.contains('ms-k-btn-warn') && keep.classList.contains('ms-k-btn-secondary')
+          && warnLook.bg === 'rgba(0, 0, 0, 0)' && warnLook.ring.startsWith(warnLook.ink) && /\binset\b/.test(warnLook.ring) && /\b2px\b/.test(warnLook.ring);
+        const intents = `${keep.dataset.intent},${warn.dataset.intent}`;
+        // Any other kind is drawn as secondary, as before.
+        s.shell.update({ sheet: { ...abort, actions: [{ ...abort.actions[0], kind: 'tinted' }, abort.actions[1]] } });
+        const other = btn('keep').classList.contains('ms-k-btn-secondary');
+        // Reconnecting: Keep playing (local) is taken; Abort match (a command) is refused with the banner's words.
+        s.shell.update({ status: 'stale', sheet: abort });
+        keep.click();
+        warn.click();
+        const staleWhy = { keep: describedBy(keep), abort: describedBy(warn) };
+        // A recovery code's Hide and Copy are this phone's own: taken while reconnecting.
+        s.shell.update({ sheet: code });
+        btn('hide').click();
+        btn('copy').click();
+        const whileStale = reported();
+        // interactive: false refuses a local action too.
+        s.shell.update({ status: 'live', interactive: false });
+        btn('hide').click();
+        const refused = reported() === whileStale;
+        // Live: the command is taken.
+        s.shell.update({ interactive: true, sheet: abort });
+        btn('abort').click();
+        const live = reported();
+        const ok = looks && intents === 'sheet-local,sheet-action' && other && staleWhy.keep === null && staleWhy.abort === RECONNECTING.sub
+          && whileStale === 'keep,hide,copy' && refused && live === 'keep,hide,copy,abort';
+        return { ok, looks, warnLook, intents, other, staleWhy, whileStale, refused, live };
+      } finally { s.shell.dispose(); }
     });
 
     await check('toast: shown once per id, gone after its time, and cleared by suspend()', async () => {

@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.3`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.4`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -93,6 +93,9 @@ shell.dispose();             // removes the element and its listeners
 - **The overlays keep the bar's place.** The target bar, the banner, the toast and a large sheet start under where the top bar ends, with or without a bar. On its bar-less films the pack's `--top` keeps the bar's height, so "Rejoined" sits under the film's clock chip (sheet 18).
 - **The layers, as the pack's:** a docked sheet lies over the cover, the target bar, the chip and the reconnecting banner. The toast stays above the sheet.
 - **The sheet stays below the banner (0.2.0).** While the reconnecting banner shows, a docked sheet stays 8 px below it. So Retry and the sheet's Close are both in sight, and when the banner goes, the sheet docks at its place again. Before, a large sheet, such as the ballot, covered Retry; the Gameplay builder found it on the Vote test page. The banner keeps its layer, under the sheet.
+- **A footer's actions (0.2.4).** A footer action stands for a command, so it is refused while reconnecting, with the banner's words.
+  - **`local: true`** marks one that is this phone's own, as Back, Close and the head actions are: a recovery code's Reveal, Hide and Copy, or a confirm's Keep playing (Host controls, #295). It works while reconnecting, reports through the same `onSheetAction`, and stands for no command. Before 0.2.4, a revealed code's Hide was refused while reconnecting, so the private code stayed on screen.
+  - **`kind: 'warn'`** draws the kit's warn button, the pack's `.btn-warn`: no fill, a 2 px ring in paper. The pack draws the confirm's Abort match with it (`screens-more.mjs`, sheet 15). `primary` and `secondary` are as before, and any other kind is drawn as secondary.
 - **The bar's glyph (0.2.2).** Its icon is drawn at the pack's 24 px, which `.tb-glyph` leaves at the icons' default. 0.1.0–0.2.1 drew it at 22 px. The Pre-game builder's character selection agreement found it, and the shell's agreement now compares the glyph's icon too.
 - **The sheet's footer at larger text (0.2.1).** Under 19 em across, footer buttons that no longer fit side by side take a row each, in order, at full width, and a label that still doesn't fit wraps inside its button. This is #228's `.sheet-foot` rule. Before, "Register Rescue" ran past the sheet's edge at 200 %; the Gameplay builder found it on Actions.
 - **The phone container (0.2.0).** The root carries the kit's `ms-k-phone`, so the kit's rows and segmented controls in its sheets and cover take the larger-text rules ([the kit's page](kit.md#styling-a-component-that-uses-it)).
@@ -126,7 +129,7 @@ shell.dispose();             // removes the element and its listeners
 | `chip` | This viewer's | `null`, or `{ id, label, icon, tone: 'paper' \| 'steel', enabled }` |
 | `banner` | Phone | `null`, or `{ kind: 'reconnecting', busy }` |
 | `toast` | This viewer's | `null`, or `{ id, text, icon }`: shown once per `id`, for `TOAST_MS` (2.4 s), then it fades |
-| `sheet` | This viewer's | `null`, or `{ id, title, sub, back, close, detent: 'auto' \| 'large', head: [{ id, icon, label, enabled, reason }], actions: [{ id, label, kind: 'primary' \| 'secondary', icon, enabled, busy, reason }] }`. Every id in `head` and `actions` is the sheet's own |
+| `sheet` | This viewer's | `null`, or `{ id, title, sub, back, close, detent: 'auto' \| 'large', head: [{ id, icon, label, enabled, reason }], actions: [{ id, label, kind: 'primary' \| 'secondary' \| 'warn', icon, local, enabled, busy, reason }] }`. Every id in `head` and `actions` is the sheet's own |
 | `sheet.head` | This viewer's | Icon buttons in the sheet's head, after the title and before Close, as the pack's `sheet({ actions })` draws the Card's "Hide card" (sheet 31). They are this phone's own, as Back and Close are: they work while reconnecting and stand for no command, which belongs in `actions`, the footer |
 
 - **Privacy:** concealed, the shell drops this viewer's inputs (the tabs, the target bar, the chip, the sheet, the toast and the Promises count). Shown again, they come back only when given again. Offers given while concealed are dropped too.
@@ -158,7 +161,7 @@ Each reports a tap, and only that.
 - **Its reason** is its accessible description (`aria-describedby`).
 - **Dimmed:** only an unavailable control, as the pack draws it.
 - **Reconnecting** (`status: 'stale'`):
-  - only Retry, ⋮ and a sheet's back, close and head actions take taps;
+  - only Retry, ⋮ and a sheet's back, close and head actions, and its footer's local actions, take taps;
   - the rest are refused, described by "Controls return when the match is current";
   - they keep their look, as on sheet 45.
 - **If Integration records the appearance/function split** ([6886927938](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6886927938)), these controls move into Frontend's shared functional module, with the same markup and classes, and the shell and its preview import that module.
@@ -249,13 +252,14 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 21 of 21 checks pass.
-    - **As the page comes (20):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the toast, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 22 of 22 checks pass.
+    - **As the page comes (21):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the toast, the large-content view, dispose and motion.
       - **The backdrop:** the room view's space (`#07090F`) by default, the phone's canvas (`#10141C`) with `backdrop: 'canvas'`, and any other value refused.
       - **No bar:** the stage runs to the top edge, and the banner and the toast keep the bar's place (107 and 109 px at a 47 px safe area).
       - **Edge to edge:** the stage and the cover fill the shell, the bar's glass lies over the stage, `layout()` gives the safe areas (also when only they change), the overlays stay put, and `edge: 'yes'` is refused.
       - **The cover's reach (0.2.3):** a part in the cover that reaches past it by `--ms-ps-cover-top` and `--ms-ps-cover-bottom` fills the whole phone, 0 px from each edge, in all four cases. The cover itself lies 99 and 92 px from the edges with the bars, 0 and 92 with no bar, 99 and 0 with the private talk's buttons, and 0 and 0 edge to edge.
       - **Head actions:** "Hide card" sits after the title and before Close, keeps its element and the focus through updates, reports `onSheetAction('hide', 'card')`, is taken while reconnecting (a footer action is not), is refused with its reason when unavailable, and returns the focus when it goes.
+      - **The footer's actions (0.2.4):** the confirm's Abort match (`warn`) draws the kit's warn button: no fill, a 2 px ring in its paper ink. Keep playing is secondary, and an unknown kind is drawn as secondary. While reconnecting, Keep playing and a code's Hide and Copy (`local`) are taken and Abort match is refused, described by the banner's words. `interactive: false` refuses a local action too, and live, Abort match is taken.
       - **The layers:** the cover is over the stage and above a z-index 3150 inside it; the target bar, the banner and the toast are each over the cover; over a large sheet the toast stays on top and the banner under.
         - While the banner shows, the large sheet docks 8.3 px below it: the banner, Retry and the sheet's Close each take a tap at their centre. Without the banner, the sheet docks back at its place.
       - **Larger text** (`large`), in the shell's sheet at 390 × 844, measured at 200 % (12.2 em across) and 100 % (24.4 em):
