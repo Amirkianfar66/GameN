@@ -7,7 +7,7 @@
 //   - mountScanResult(): MATCHED or NO MATCH, the guess, and its row; Done;
 //   - mountFinalCode() with codeSheet(): the nine portraits with names, Pick 1–4 in order; Next, then Back and
 //     Submit Code;
-//   - mountCodeResult(): CODE CORRECT with its two lines, or CODE WRONG with "Your one attempt is used"; Done.
+//   - mountCodeResult(): CODE CORRECT with its two lines, or CODE WRONG with its two; Done.
 // The four results' stamps snap in as REGISTERED does, over 120 ms, and are there at once with Reduce motion (the
 // handoff's motion table; hacker.css).
 // It is built on the kit alone (component-kit-0.7.1): who, the segmented control, the cells and the 3 × 3, the
@@ -23,13 +23,13 @@
 
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 
-export const HACKER_VERSION = 'hacker-0.1.0';
+export const HACKER_VERSION = 'hacker-0.1.1';
 /** The sides a guess may take: the contract's PlanetFaction, in the pack's order. */
 export const SIDES = Object.freeze(['Blue', 'Red', 'Alien']);
 /**
- * The pack's words (screens-more.mjs scan() and code()), and the undrawn states' (Q2, Q3, T3). Not the pack's "Scan
- * stays available" under CODE WRONG: the Lead dropped it (Q-b, docs/design/phone-ui-handoff.md), as it states a
- * rule the planet-navigation overlay leaves open (CODE-OPEN-02), so Scan's state shows on its Actions tile alone.
+ * The pack's words (screens-more.mjs scan() and code()), and the undrawn states' (Q2, Q3, T3). CODE WRONG says the
+ * pack's "Scan stays available" (0.1.1): the owner decided on 16 November that the Hacker keeps Scan after a wrong
+ * final Code (docs/design/owner-decisions.md). Scan's tile still follows the projection's offer alone.
  */
 export const HACKER_WORDS = Object.freeze({
   scan: 'Scan', chooseInRoom: 'Choose a player in your room', onlyHere: 'Only on this phone',
@@ -40,7 +40,7 @@ export const HACKER_WORDS = Object.freeze({
   code: 'Final Code', pickLine: 'Choose four players. Order doesn’t matter.', confirmLine: 'One attempt for the whole match. It can’t be retried.',
   pick: n => `Pick ${n}`, cell: (n, name, note) => `Player ${n}, ${name}${note ? `, ${note}` : ''}`, next: 'Next', back: 'Back', submit: 'Submit Code', submitting: 'Submitting…',
   correct: 'CODE CORRECT', wrong: 'CODE WRONG', unlocked: 'Hack Spaceship is unlocked', separate: 'Using it is a separate action on your turn',
-  used: 'Your one attempt is used',
+  used: 'Your one attempt is used', scanStays: 'Scan stays available',
   notAvailable: 'Not available now', stale: 'Controls return when the match is current',
 });
 
@@ -446,8 +446,8 @@ export function mountFinalCode(host, input = {}, handlers = {}) {
 }
 
 /**
- * The Code's outcome (sheet 42): CODE CORRECT (amber) with the pack's two lines, or CODE WRONG with "Your one attempt
- * is used" alone (the Lead's Q-b). It reads as it opens.
+ * The Code's outcome (sheet 42): CODE CORRECT (amber) with the pack's two lines, or CODE WRONG with its two, "Your one
+ * attempt is used" and "Scan stays available" (the owner, 16 November). It reads as it opens.
  */
 export function mountCodeResult(host, input = {}, handlers = {}) {
   return mountPart(host, 'code-result', OUTCOME, input, handlers, ctx => {
@@ -457,7 +457,7 @@ export function mountCodeResult(host, input = {}, handlers = {}) {
         if (hidden(s) || s.correct === null) { emptyResult(holder); return; }
         paintResult(ctx, holder, s.correct
           ? { stamp: { text: HACKER_WORDS.correct, tone: 'amber' }, lines: [HACKER_WORDS.unlocked, HACKER_WORDS.separate] }
-          : { stamp: { text: HACKER_WORDS.wrong, tone: null }, lines: [HACKER_WORDS.used] }, null);
+          : { stamp: { text: HACKER_WORDS.wrong, tone: null }, lines: [HACKER_WORDS.used, HACKER_WORDS.scanStays] }, null);
       },
     };
   });

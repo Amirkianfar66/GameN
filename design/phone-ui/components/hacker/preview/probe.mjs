@@ -13,7 +13,7 @@
 //   refused   while sending, the guess and the cells take no tap; in the confirm step, no cell does; not
 //             interactive or reconnecting, none does, and reconnecting says the shell's words
 //   results   MATCHED with "In the Code · Yes" or "No"; NO MATCH with "Scan · Blocked in Round 4", or no row;
-//             CODE CORRECT with its two lines; CODE WRONG with "Your one attempt is used" alone (the Lead's Q-b);
+//             CODE CORRECT with its two lines; CODE WRONG with its two (the owner, 16 November);
 //             each a status, which reads as it opens
 //   words     the target bar, and every sheet's id, title, sub, close, detent and buttons
 //   footer    the sheets' buttons in the real shell: live, each enabled one is taken; reconnecting, only Cancel,
@@ -195,7 +195,7 @@ export async function runHackerProbe({ sizes, versions }) {
         'scan-nomatch': { stamp: 'NO MATCH', tone: null, lines: ['Gus · Red guess'], row: ['Scan', 'Blocked in Round 4', 'steel'], status: 'status' },
         'scan-nomatch-free': { stamp: 'NO MATCH', tone: null, lines: ['Gus · Alien guess'], row: null, status: 'status' },
         'code-correct': { stamp: 'CODE CORRECT', tone: 'amber', lines: ['Hack Spaceship is unlocked', 'Using it is a separate action on your turn'], row: null, status: 'status' },
-        'code-wrong': { stamp: 'CODE WRONG', tone: null, lines: ['Your one attempt is used'], row: null, status: 'status' },
+        'code-wrong': { stamp: 'CODE WRONG', tone: null, lines: ['Your one attempt is used', 'Scan stays available'], row: null, status: 'status' },
       };
       // The row follows the result as it changes in place.
       const p = phone('scan-matched');

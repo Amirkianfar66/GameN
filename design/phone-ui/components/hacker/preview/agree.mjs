@@ -7,8 +7,8 @@
 // frame: the sheet's title, sub, close and footer; the target bar and its Cancel; who; the three guesses; each
 // cell's place, words, state, marks and name; the line under the grid; each result's stamp, lines and row; and
 // where each sits, to within half a pixel. It is how the component shows it draws the pack's frames and not a
-// second design of them. No word is amended. One line the Lead dropped is taken out of the pack's frame before it
-// is measured (DROPPED, below), and the check says so.
+// second design of them. No word is amended, and nothing is taken out of the pack's frames: CODE WRONG says the
+// pack's "Scan stays available" (the owner's decision, 16 November).
 
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
@@ -16,15 +16,6 @@ import { mountPart } from './preview.mjs';
 import { PACK_FRAMES } from './states.mjs';
 
 const TOLERANCE = 0.5;
-/**
- * The pack's words the Lead dropped, taken out of the pack's own frame before it is measured, so the rest is
- * compared as drawn. Q-b (16 November; docs/design/phone-ui-handoff.md at b3e5823e): CODE WRONG's "Scan stays
- * available" states a rule the planet-navigation overlay leaves open (rules/overlays/
- * planet-navigation-code-owner-decisions-2026-10-25.json, open_integration_details[5], CODE-OPEN-02), so Scan's
- * state shows on its Actions tile alone. If the pack no longer draws a line here, the frame differs.
- */
-const DROPPED = Object.freeze({ 'code-wrong': Object.freeze([{ in: '.registered', words: 'Scan stays available' }]) });
-
 /** Loads the pack's own stylesheets into this page, for the pack's half of the comparison. */
 function loadPack() {
   // Literal URLs, so the bundler carries both files (a computed one would be left for run time).
@@ -78,11 +69,6 @@ export async function runHackerAgreement({ sizes, inputsFor }) {
     pack.style.setProperty('--safe-b', `${insets.bottom}px`);
     document.body.append(pack);
     MORE_SCREENS[screen](pack, params);
-    const dropped = (DROPPED[c.state] ?? []).map(d => {
-      const line = [...pack.querySelectorAll(`${d.in} > p`)].find(p => p.textContent.trim() === d.words) ?? null;
-      line?.remove();
-      return { words: d.words, found: !!line };
-    });
     // The component's phone: the shell, with the part in its sheet, as the preview draws the state.
     const host = document.createElement('div');
     Object.assign(host.style, { position: 'absolute', left: `${width + 20}px`, top: '0', width: `${width}px`, height: `${height}px` });
@@ -96,7 +82,6 @@ export async function runHackerAgreement({ sizes, inputsFor }) {
     await frames();
     const differences = [];
     const compare = (name, what, a, b) => { if (JSON.stringify(a) !== JSON.stringify(b)) differences.push({ part: name, what, pack: a ?? null, component: b ?? null }); };
-    for (const d of dropped) if (!d.found) differences.push({ part: 'dropped', what: 'the pack no longer draws it', pack: null, component: d.words });
     const compareBox = (name, a, b) => { if (!near(a, b)) differences.push({ part: name, what: 'box', pack: a, component: b }); };
     const compareLook = (name, a, b) => {
       const la = lookOf(a), lb = lookOf(b);
@@ -182,7 +167,7 @@ export async function runHackerAgreement({ sizes, inputsFor }) {
     compareLook('row', rowA, rowB);
     compareBox('row icon', box(rowA, rowA?.querySelector('.row-icon')), box(rowB, rowB?.querySelector('.ms-k-row-icon')));
     compareLook('row icon', rowA?.querySelector('.row-icon'), rowB?.querySelector('.ms-k-row-icon'));
-    checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0, detail: { differences, ...(dropped.length ? { dropped: dropped.map(d => d.words) } : {}) } });
+    checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0, detail: { differences } });
     part?.dispose();
     shell.dispose();
     pack.remove();
