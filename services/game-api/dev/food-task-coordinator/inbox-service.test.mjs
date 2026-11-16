@@ -27,6 +27,7 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
           },
           set(path,item){
             if(path.startsWith('foodInboxOwner/')&&item.expiresAt>0)claim=true;
+            if(recordCommit&&path.startsWith('journal/')&&item.kind==='DEADLINE')recorded.push({stage:'deadline',item});
             if(path.startsWith('foodIngress/')){
               if(!item.response&&item.request?.operation==='foodCommand')observed=item;
               if(recordCommit)recorded.push({stage:item.response?'apply':'append',item});
@@ -631,6 +632,7 @@ test('one real-time bounded worker covers the full common return under concurren
   const localBootstrapMs=performance.now()-timeOfDispatch;
   const heartbeatMs=[],buttonMs=[],contacts=[],transientContacts=[];
   const actions=new Map(),admissions=new Map(),applicationAcks=new Map();
+  const returnBoundaries=[];
   const actionKey=(uid,request)=>request.operation==='foodCommand'?request.request.commandId:
     request.operation==='foodHeartbeat'?uid:null;
   setCommitObserver(rows=>{
@@ -639,7 +641,9 @@ test('one real-time bounded worker covers the full common return under concurren
       if(stage==='progress'&&item.kind==='admitted'){
         admissions.set(id,{sequence:item.sequence,admittedAt:origin+item.admittedAt-start,appendAck:ack});
       }else if(stage==='apply')applicationAcks.set(item.sequence,ack);
-      else if(stage==='intake'){
+      else if(stage==='deadline'&&item.context.phaseId===route.scope.phaseId&&item.context.now>=task.returnsAt){
+        returnBoundaries.push(item.context.now);
+      }else if(stage==='intake'){
         const action=actions.get(actionKey(item.binding.uid,item.request));
         if(action){action.intakeAck=ack;action.intentId=item.id;}
       }
@@ -760,9 +764,16 @@ test('one real-time bounded worker covers the full common return under concurren
     await ownerRun;
     const completed=await read('foodInboxResult/'+foodInboxScopeKey(route.scope));
     const finalOwner=await read(ownerPath);
+    const returnAdmissionLagMs=completed.closedAt-task.returnsAt;
+    const returnCommitAck=applicationAcks.get(completed.finalIngressSequence);
+    const returnCommitAckLagMs=returnCommitAck===undefined?null:Math.round(returnCommitAck-(origin+task.returnsAt-start));
+    t.diagnostic(JSON.stringify({scheduledReturnAt:task.returnsAt,returnBoundaries,closingEntryAdmittedAt:completed.closedAt,
+      returnAdmissionLagMs,returnCommitAckLagMs,closingIngressSequence:completed.finalIngressSequence}));
     assert.equal(finalOwner.epoch,owner.epoch);
     assert.equal(finalOwner.expiresAt,0);
-    assert.ok(completed.closedAt>=task.returnsAt&&completed.closedAt-task.returnsAt<1_000);
+    assert.deepEqual(returnBoundaries,[task.returnsAt],'Journal must record exactly one return at the original boundary');
+    assert.ok(returnAdmissionLagMs>=0,'The closure entry cannot be admitted before the common return');
+    assert.ok(returnAdmissionLagMs<1_000,`Closure entry admitted ${returnAdmissionLagMs} ms after the common return (emulator commit ACK ${returnCommitAckLagMs} ms)`);
     assert.ok(heartbeatMs.length>=48, 'Both clients kept their presence loop until the physical Task ended');
     const retained=await Promise.all((await store.listKeys('foodInboxWake',100)).map(read));
     const watchdogs=retained.filter(record=>record?.watchdogFor===owner.id);
