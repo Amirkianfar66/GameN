@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/hacker-check.mjs",
   "component": "design/phone-ui/components/hacker",
-  "sourceCommit": "32b830b3078f088cc7d5fca80d3223461f7bc73d",
+  "sourceCommit": "61e60d97b411c9fc6ecfbb39da4baef2bdc8f5ca",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,7 +39,7 @@
   "captures": {
     "390x844/scan-choose": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-choose.jpg",
-      "sha256": "230ab58d3c11477f55660d5bfa7af30a5f7442aed733ec02a1258a282f0b4200",
+      "sha256": "de54e4b5883b5fb54baf28e697e8d1dc5c4566158bf386900b12cdaeafdff958",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -89,7 +89,7 @@
     },
     "430x932/scan-choose": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-choose.jpg",
-      "sha256": "c6b2b81f2f10d3bea3552432b72ae8ee9845aa902af61a045bd0d5e1cf43da4d",
+      "sha256": "f0a9dbe7098a0e67a99bcfd725d1cd5455ffe937429104a45adf9f318dbce7d8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -139,7 +139,7 @@
     },
     "390x844/scan-guess": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-guess.jpg",
-      "sha256": "0f417c76c4f52a2f8297c5821124f5146149c57ea1abd5e081269cce87e4cf62",
+      "sha256": "085f27afbde3f26fbbfd51fa0421095d4a193328d1e423ab9ab9891b016699f3",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -193,7 +193,7 @@
     },
     "430x932/scan-guess": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-guess.jpg",
-      "sha256": "c3f08b0312fedd348d7a9fa9f49e2a9e3304a1b4868bfed37e34ea59b0452302",
+      "sha256": "49ba7942b0b50623db9a079b5c6372b1ab13a0ec83997a20de57230cde97c1ad",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -247,7 +247,7 @@
     },
     "390x844/scan-matched": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-matched.jpg",
-      "sha256": "1861191667a51fbeb5d8e82cd455d2771c4ac56d8033513b3318a347aee14c8c",
+      "sha256": "7a029a6511c6133955033fd00e307e6cd616c231d78c7b4a29ab2dc297b96cd7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -300,7 +300,7 @@
     },
     "430x932/scan-matched": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-matched.jpg",
-      "sha256": "366e340c341523471d3e0e40a74420cf791478b8aaaabcaef704ee0611e24789",
+      "sha256": "a5214e78196872ec7a2409559326e3f8139ecf6afcee34ccdfd9509011202e5b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -353,7 +353,7 @@
     },
     "390x844/code-confirm": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-confirm.jpg",
-      "sha256": "c75254c1364f48d903d053f72810976036e552c541632ca977bd6e72e2a3fb25",
+      "sha256": "18883487e7b4cc2ae3e011aab2377a937454697b97e86b635d13d7134a6455ca",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -413,7 +413,7 @@
     },
     "430x932/code-confirm": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-confirm.jpg",
-      "sha256": "8ffa7c2ac06548961a74813b0e2db561f07f1eb95712795c57329cbb80ef6c77",
+      "sha256": "9c423408127520905fa5a65d753ce14c47e2216c845d3a5a8b15d0853766509e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -473,7 +473,7 @@
     },
     "390x844/code-correct": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-correct.jpg",
-      "sha256": "b4334f107dd9ed1c581e6c9d4608fc3c08142d269f2fe49184d75c71c26fb9ae",
+      "sha256": "d9f0e207263b1a0de6312c4425978f678d683d67a01882745952cb493af5fe4c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -524,7 +524,7 @@
     },
     "430x932/code-correct": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-correct.jpg",
-      "sha256": "f45438fe1bf45ded1e8b656f37f26485ac15571d0b3c273673ab0adf9c5d8bb7",
+      "sha256": "b917e9348356edb17d1751c13642c229c8579400026030aaf7ba02b489027ba1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -575,7 +575,7 @@
     },
     "390x844/scan-nomatch": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-nomatch.jpg",
-      "sha256": "252702d91dd7ad583726c683bbb2605c75036030c8d2e326ee727c7997155c43",
+      "sha256": "e3eca4aee00ee7cfabbc0cf6747cc94f858f4b5cf403af4c24fbc6261964f0e8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -626,7 +626,7 @@
     },
     "430x932/scan-nomatch": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-nomatch.jpg",
-      "sha256": "68706a4ae90c62df52c118deed751e5511eb185eef737336abb4750e507776a6",
+      "sha256": "e46edf7993d86e6d01b6fae011b0aa18971486c4b484dc09a6bca07056952805",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -677,7 +677,7 @@
     },
     "390x844/code-pick": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-pick.jpg",
-      "sha256": "f55ac56e4632bd32d1900468da3a24bdcdf3284fe4b530ea1bc3f475a98d7da3",
+      "sha256": "ddf219e9584ea6c9fc61e4298d9020bd8ee7e11f99919e18aab2c2ed40f52568",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -737,7 +737,7 @@
     },
     "430x932/code-pick": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-pick.jpg",
-      "sha256": "17bf355feb0b4c5c8d0e99e61bfa9df87b57a4e1213858764a548dd869123f77",
+      "sha256": "e7c74025b91d7be86c5a654ff683856350b3c72eb59f0fdba5b692c0b3b23944",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -797,7 +797,7 @@
     },
     "390x844/code-wrong": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-wrong.jpg",
-      "sha256": "31ac7102ead6c82c7935571c6536ede124e41452f2611095db048e7b0e1e3cd9",
+      "sha256": "f825302b0dac5d6d37dae5afb0f360f559b1dde58e782f722562a818b33f1704",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -849,7 +849,7 @@
     },
     "430x932/code-wrong": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-wrong.jpg",
-      "sha256": "6652c8d975580288f79ec3fd6a18acac1ac4d01e0feb80b1dea904f12ef82be5",
+      "sha256": "b4bd9231500d9aa9c69b76bc798fc628902366f348e26a726d943d294fc8776a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -901,7 +901,7 @@
     },
     "390x844/scan-no-guess": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-no-guess.jpg",
-      "sha256": "03e06bdcfc1765837addecdf7615a55b2814ca8f2127026fc59274026881df9a",
+      "sha256": "9a6e821141be4064d2891adb848f2b57f3a6fc94335fbe5cd8171a67ffe60a98",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -955,7 +955,7 @@
     },
     "430x932/scan-no-guess": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-no-guess.jpg",
-      "sha256": "e3074a33e86b8bc6ae911538b3b66fb0f1815a1375f6fd8e1a6d8d2822386cee",
+      "sha256": "8827cd7578882a3573c40d8c92335a5a4ffaf1b055d8f3c8aa5d058fda0e5469",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1009,7 +1009,7 @@
     },
     "390x844/scan-sending": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-sending.jpg",
-      "sha256": "33501edf88826208e055a85dbb455a3f7c7932b4d9b15e98a838103677c18672",
+      "sha256": "4c7c14166274725d3fd2d924c3f5ee129dfab995e38c69473433768dd3b31294",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1063,7 +1063,7 @@
     },
     "430x932/scan-sending": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-sending.jpg",
-      "sha256": "7356680b4fe013d9b95e4cc98009f0caa7b5d5b783d0db1e52cbaa313dbeb343",
+      "sha256": "908660f0b8d4c91a8630ffb52852606153665ee8814efaff4a267595266cce84",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1117,7 +1117,7 @@
     },
     "390x844/scan-error": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-error.jpg",
-      "sha256": "07e96722e23ed867fc2c17873e007c4fb9c8289c1251bd6368bde9405183c9aa",
+      "sha256": "f4d50d0e3c2f5eb89742e8b63fb24617eaf0c53f51faac421434870e137ca149",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1171,7 +1171,7 @@
     },
     "430x932/scan-error": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-error.jpg",
-      "sha256": "49e82fb711c4abbc77e943d46b00003af2f91223bfde7fb30905db025ce6f040",
+      "sha256": "8be4d41d0e134fb5e739c09b9ce2686f47a8a402df654f5c1925a5d5acebfc16",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1225,7 +1225,7 @@
     },
     "390x844/scan-not-in-code": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-not-in-code.jpg",
-      "sha256": "3e0dd1506b29d959794c5e77a55791c6841fc703a48941488cd5818522122aad",
+      "sha256": "c3b395c6016f87b229dd97dbed0f74eaedbad3ff0525f08ace6cc7e78ce92054",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1278,7 +1278,7 @@
     },
     "430x932/scan-not-in-code": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-not-in-code.jpg",
-      "sha256": "8cbc66ea6af2dc4045ac6152e984f4c786b6bfb0cb3bd31ae0ce24a58c6c3e28",
+      "sha256": "e1fb14ff269c72fa16561c2f0b1a26fffb2bda8bafb74facf05b2fcd2f5169dc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1331,7 +1331,7 @@
     },
     "390x844/scan-nomatch-free": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-nomatch-free.jpg",
-      "sha256": "325a151c1cf2afc3af3b4ba4dfe88e5f79258bc9c377464044e371493854c616",
+      "sha256": "218b3086be095b422dfc814c93c1743a437c98b84f4a77a0b6a48e2a3965ac22",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1382,7 +1382,7 @@
     },
     "430x932/scan-nomatch-free": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-nomatch-free.jpg",
-      "sha256": "62ec955cc887e2e7306103068aa40924d5dc584016bd22e3d6c187704e657217",
+      "sha256": "0e2a69e1ed2a748eb786ee82e91a32a9b1387b7dc06ed09eb04cdc9b10c78fc1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1433,7 +1433,7 @@
     },
     "390x844/code-two": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-two.jpg",
-      "sha256": "0f89eb4f66be96fd59f4c678b4e3c528cc3c844a83d0ad0df26632420d7a387f",
+      "sha256": "46ef5b44f700a37b9f28ab41182d528b24683e84cd1e2716e77ab3d3661fe5da",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1493,7 +1493,7 @@
     },
     "430x932/code-two": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-two.jpg",
-      "sha256": "15fe9baaa1aa0d8acada068d8878cc9eae6329023fd251b2e704415cbc6e49bd",
+      "sha256": "688462259eb50a887105d8c10c6a5abffe3f576823968883523b70cb61710b50",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1553,7 +1553,7 @@
     },
     "390x844/code-sending": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-sending.jpg",
-      "sha256": "074433c8b60b62ead0b66238b23306b901dccf90d8af856245a204f0d6f1307d",
+      "sha256": "c24c115eaf7fcfbdeb5304825cca1ebec12e0ef3a7b02a062c69f94af928eea8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1613,7 +1613,7 @@
     },
     "430x932/code-sending": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-sending.jpg",
-      "sha256": "97a44d6a1c1336a937b960f76092e32e2a683a199e48d5f8141dc479efdedef3",
+      "sha256": "0848cbdacafcceb6e49d1496c83c75d78487ebf1fccb426085a07c1df5bdea7d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1673,7 +1673,7 @@
     },
     "390x844/code-error": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-error.jpg",
-      "sha256": "a2cd795e7394c4a1d808d6ec3f1c27c2c6d0af9063d4be8052af63e87f09a109",
+      "sha256": "b900e22cda5b65b72662ef27942954ee0f51aedab2fae2a99542ea2f203d1a57",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1733,7 +1733,7 @@
     },
     "430x932/code-error": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-error.jpg",
-      "sha256": "6f39945e5dea782081b58a98014e817763f0faa64f24d3f96eaf37030999619b",
+      "sha256": "bf48960290d5c7a023b4f919efb7f0387c269365bcd3c6203d6fa5269e336314",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1793,7 +1793,7 @@
     },
     "390x844/code-not-offered": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-not-offered.jpg",
-      "sha256": "15b75f2d0ebea0742cbe3aad00aa31603c42142901eeb9c3ce7fcb0238382c2d",
+      "sha256": "100e29b81506d04556573978a4b8f742704da8b8cfdc6e6702bff5c45420a68e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1853,7 +1853,7 @@
     },
     "430x932/code-not-offered": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-not-offered.jpg",
-      "sha256": "361ca7950ff6bdbaec43a5dc81ca1ac7fd6fd9cbb86a729687a67e5494aa050a",
+      "sha256": "aceb53e8d1a40ca31ee6820cd3f3dd60d8d10c3979ef22a1af722ceec257c032",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1913,7 +1913,7 @@
     },
     "390x844/code-eight": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-eight.jpg",
-      "sha256": "3bec60a445b46dbce89b81b74f1133c3118c1df4db1d07bfee995c855a6e05bb",
+      "sha256": "b90a191883be6c67a8d838a89d8fce439c12f7b70b0e545919d6ea802989fd59",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1972,7 +1972,7 @@
     },
     "430x932/code-eight": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-eight.jpg",
-      "sha256": "315ec58c9e94cdc19bc8555fe868468b466a66736767a7bbd467ad0ebff69ff5",
+      "sha256": "a1c02c29e91d94087c777896e869cdd9dce466742ac1ba25fbea0cc69cd18515",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2031,7 +2031,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/hacker/review/390x844-stale.jpg",
-      "sha256": "a6234ebd3da2e2b282918ced5cba2060e09eb3abcb232bfea19bd5cc383e4952",
+      "sha256": "83f88119a302f1e610224854c6811cdca99751edf03b6ed749a3ba975e659278",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2084,7 +2084,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/hacker/review/430x932-stale.jpg",
-      "sha256": "8403c42aa828e029ac66b19865a16c354d4d0017e83d40d2aa7977bb1eb59829",
+      "sha256": "333dae70d9861e293673241d545434f7d02930f4a58ec793a3e396225d4b0887",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2223,7 +2223,7 @@
     },
     "320x568/small-code": {
       "file": "design/phone-ui/components/hacker/review/320x568-small-code.jpg",
-      "sha256": "3234561bb1407e1827a34dc3c9faf32ab1d75efb81dc65266ba9bd02588d2dcd",
+      "sha256": "5a7222dd79125238ff93234a0f135ff4a171b80c7ca763f363f9580e4d731774",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2283,7 +2283,7 @@
     },
     "390x844/large-guess": {
       "file": "design/phone-ui/components/hacker/review/390x844-large-guess.jpg",
-      "sha256": "af69e650e9bc1f67ceb0f3c1c0005b7cd1ce6da53602f7a1b5e3881d3a40238e",
+      "sha256": "f0ffb557df9597e994a2864690fdaf8fc4ab43ea5c0ee408c6325c92d02bb644",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2337,7 +2337,7 @@
     },
     "320x568/largest-guess": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-guess.jpg",
-      "sha256": "5e2be3886ffdc9c306658fcb93478338da751661871768ca76ecdd4385b829ef",
+      "sha256": "1d887837ea4ba274c09d0b314eac5e48830617c3b27547d0c4ffec179b42b4a3",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2391,7 +2391,7 @@
     },
     "320x568/largest-result": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-result.jpg",
-      "sha256": "cdbd8ba5cff74f98c496add6aa722e9e2e0bf54285aeda14fc2e861b1269694f",
+      "sha256": "5805e674082f7e3c6558602526ef9857d874e0d8b50ecbdaf73cec5799d92699",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2442,7 +2442,7 @@
     },
     "320x568/largest-code": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-code.jpg",
-      "sha256": "1489b7b8cae87f68ea9907b444f681999219a5c08439e97de8871c5f83f08c42",
+      "sha256": "65892d9d20364e224e9fe1e32cda1603843da442d5b8d4d68cbc98896aa2c2fd",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2502,7 +2502,7 @@
     },
     "320x568/largest-outcome": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-outcome.jpg",
-      "sha256": "743bbc19c1d0a58ab1d85223cbf6f54cd2a6edecd68232359f9d7f33f4fa3482",
+      "sha256": "ada0baf04e451826ea40378fcf9debb74bd69d2f2adc7fb91e0c5ed31115d86a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
