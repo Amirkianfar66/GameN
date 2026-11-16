@@ -3,7 +3,7 @@ import {performance} from 'node:perf_hooks';
 
 const stages = [
   'classification', 'readFenceRefresh', 'admission', 'sessionWriterWait', 'readWhileWriterWait', 'drain', 'drainLeaseWait', 'drainProbe',
-  'authority', 'cleanup', 'finalReceipt', 'sdkReadOnly', 'sdkReadWrite',
+  'authority', 'cleanup', 'finalReceipt', 'inboxResultWait', 'inboxResultTimeout', 'sdkReadOnly', 'sdkReadWrite',
   'sdkAttempt', 'sdkRead', 'sdkCommitAck', 'sdkCommitFailure', 'sdkRetryGap',
 ] as const;
 export type PlanetTimingStage = typeof stages[number];

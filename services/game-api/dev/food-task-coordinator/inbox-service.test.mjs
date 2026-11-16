@@ -343,6 +343,68 @@ for(const recovery of ['direct watchdog','periodic repair'])test(`closed inbox r
   assert.deepEqual(await h.current(),parent);
 });
 
+for(const outcome of ['receipt timeout','progress read failure','applied heartbeat'])test(`Food inbox result timing records ${outcome}`, {timeout:60_000},async t=>{
+  const {h,task,winch,route,store,read,pump,setCommitObserver}=await inboxMatch(t);
+  const scopeKey=foodInboxScopeKey(route.scope);
+  const intake=Promise.withResolvers();
+  let original,summary,failedReads=0;
+  setCommitObserver(rows=>{
+    for(const {stage,item} of rows){
+      if(stage!=='intake'||item.request.operation!=='foodHeartbeat'||item.binding.uid!==winch)continue;
+      original=item;
+      intake.resolve();
+    }
+  });
+  const faultText='synthetic private details from the inbox progress read';
+  if(outcome==='progress read failure')h.reload({store:{...store,
+    readOnly:action=>store.readOnly(tx=>action({...tx,async get(path){
+      if(path.startsWith('foodInboxProgress/'+scopeKey+'/')){
+        failedReads++;
+        throw Object.assign(new Error(faultText),{code:14});
+      }
+      return tx.get(path);
+    }})),
+  }});
+  h.setTime(task.options.startedAt+100);
+  const responsePromise=withPlanetRequestTiming(()=>h.invoke(winch,'foodHeartbeat',{matchId:h.matchId,taskId:route.scope.taskId}),
+    observed=>{summary=observed;});
+  if(outcome==='applied heartbeat'){
+    try{
+      await Promise.race([intake.promise,responsePromise.then(()=>assert.fail('Expected intake before the heartbeat response'))]);
+      await pump();
+    }finally{await responsePromise;}
+  }
+  const response=await responsePromise;
+  assert.ok(original,'the request got past authorization and committed its intake');
+  const progress=await read('foodInboxProgress/'+scopeKey+'/'+original.id);
+  if(outcome==='applied heartbeat'){
+    assert.deepEqual(response,{ok:true,serverTimeMs:h.now(),result:{renewed:true}});
+    assert.equal(progress.kind,'admitted');
+    assert.equal(progress.admittedAt,h.now());
+  }else{
+    assert.deepEqual(response,{ok:false,serverTimeMs:h.now(),error:{code:'UNAVAILABLE'}});
+    assert.equal(progress,null);
+    assert.equal(await read('foodInboxOwner/'+scopeKey),null);
+  }
+  assert.equal(failedReads,outcome==='progress read failure'?1:0);
+  assert.equal(summary.stages.inboxResultWait?.count,1);
+  if(outcome==='receipt timeout'){
+    assert.ok(summary.stages.inboxResultWait.totalMs>=1800);
+    assert.equal(summary.stages.inboxResultTimeout?.count,1);
+  }else assert.equal(summary.stages.inboxResultTimeout,undefined);
+
+  assert.deepEqual(Object.keys(summary).sort(),['elapsedMs','stages']);
+  assert.ok(Number.isFinite(summary.elapsedMs));
+  for(const stage of Object.values(summary.stages)){
+    assert.deepEqual(Object.keys(stage).sort(),['count','maxMs','totalMs']);
+    assert.ok(Object.values(stage).every(Number.isFinite));
+  }
+  const serialized=JSON.stringify(summary);
+  for(const privateValue of [faultText,winch,h.matchId,route.scope.taskId,scopeKey,original.id]){
+    assert.equal(serialized.includes(privateValue),false);
+  }
+});
+
 test('production inbox survives profile switch-off and commits one normal Task return', {timeout:60_000},async t=>{
   const {h,task,winch,panel,route,read,pump,call,deliveries}=await inboxMatch(t);
   const initial=await read('foodIngressControl/'+h.matchId);

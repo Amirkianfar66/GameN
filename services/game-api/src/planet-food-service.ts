@@ -1004,6 +1004,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(settled)return settled;
       await new Promise<void>(resolve=>setTimeout(resolve,40));
     }
+    beginPlanetTiming('inboxResultTimeout')?.();
     return d.reject('UNAVAILABLE');
   }
 
@@ -1054,7 +1055,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         return d.reject(q.operation==='foodCommand'||q.operation==='command'?'COMMAND_ID_CONFLICT':'REQUEST_ID_CONFLICT');
       throw error;
     }
-    return waitForInbox(intent);
+    return timePlanetStage('inboxResultWait',()=>waitForInbox(intent));
   }
 
   async function tryHandle(uid:string,q:Request,retryRouting=true):Promise<PlanetServiceResponse|undefined>{
