@@ -11,8 +11,10 @@ import {comicAssetsPlugin} from '../../apps/game/hosted/comic-assets.mjs';
 import {planetLibraryAssetsPlugin} from '../../apps/game/hosted/build/planet-library-art.mjs';
 import {crewDrawingAssetsPlugin} from '../../scripts/crew-drawing-art.mjs';
 import {pregameAssetsPlugin} from '../../scripts/pregame-art-release.mjs';
+import {foodSupplyAssetsPlugin} from '../../scripts/food-supply-art.mjs';
 import {PLANET_PHONE_ENGINE_PROFILE, PLANET_PHONE_OFFER_PINS,
-  PLANET_BLACKOUT_ENGINE_PROFILE, PLANET_BLACKOUT_PINS} from '../../packages/contracts/dist/index.js';
+  PLANET_BLACKOUT_ENGINE_PROFILE, PLANET_BLACKOUT_PINS, PLANET_FOOD_TASK_ENGINE_PROFILE,
+  planetCanPlayFilm} from '../../packages/contracts/dist/index.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 
@@ -63,4 +65,23 @@ test('real emitted output retains all27 Planet assets for06,07 and08 and rejects
     assert.throws(() => assertRuntimeArtOutput(release, output), /published output differs: public-board/);
     writeFileSync(path, previous);
   }
+});
+
+test('the explicitly selected Food release retains admitted films and the complete inherited output', t => {
+  const releases = readHostedArtReleases(root, {engineProfile: PLANET_FOOD_TASK_ENGINE_PROFILE});
+  const versions = {...releases.planetRelease.gameplayPins, assetManifestVersion: releases.planetRelease.assetManifestVersion};
+  assert.equal(versions.assetManifestVersion, 'design-0.9.0');
+  assert.equal(planetCanPlayFilm(versions, 3, 'role'), true);
+  assert.equal(planetCanPlayFilm(versions, 3, 'boarding'), true);
+  const output = mkdtempSync(join(tmpdir(), 'gamen-hosted-food-art-'));
+  t.after(() => rmSync(output, {recursive:true, force:true}));
+  const context = {emitFile(file) {
+    const path = join(output, file.fileName); mkdirSync(dirname(path), {recursive:true}); writeFileSync(path, file.source);
+  }};
+  for (const plugin of [comicAssetsPlugin(root), planetLibraryAssetsPlugin(root), crewDrawingAssetsPlugin(root),
+    pregameAssetsPlugin(root), foodSupplyAssetsPlugin(root)]) plugin.buildStart.call(context);
+  assert.deepEqual(releases.validationReleases.map(r => r.manifestVersion),
+    ['design-0.5.0', 'design-0.6.0', 'design-0.7.0', 'design-0.8.0', 'design-0.9.0']);
+  for (const release of releases.validationReleases) assert.ok(assertRuntimeArtOutput(release, output) > 0);
+  // Emitted assets and admission are build evidence; the native playback check is separate.
 });

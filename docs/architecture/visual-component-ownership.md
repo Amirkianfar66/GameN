@@ -64,6 +64,22 @@ The [phone visual merge gate](../../AGENTS.md#phone-interface-specification-and-
 
 A departure from an approved sheet still needs Designer's agreement and the owner's approval recorded in the owner-decision document. This workflow approval is not a blanket approval of visual exceptions. Each role reports what it actually checked, including any untested physical devices.
 
+## Track delivery through the playable release
+
+Integration is accountable for completion through deployment. Keep one feature record in the existing deliverable issue; [#222](https://github.com/Amirkianfar66/GameN/issues/222) carries the current phone/release backlog. Link that record from related PRs rather than maintaining another feature ledger in each handoff. Record the owner request and approved design, observable acceptance criteria, one implementation owner, intended release, exact evidence and actual deployment identity.
+
+Use **Approved → Design ready → Integrated → Verified → Deployed** for each intended release. A design PR merging establishes neither integration nor deployment. A feature is Verified only when its observable behavior passes on the candidate; Deployed additionally requires the reviewed artifact's identity and a live critical-path check. A regression on a later release reopens that release's work without rewriting historical evidence. Approved omissions require an explicit owner decision linked in the same record; silence is not deferral.
+
+Before publishing, Integration checks this compact list:
+
+- The issue accounts for all approved release features and explicitly approved exclusions.
+- Exact gameplay/art combinations and inherited capabilities are admitted by the shared release registry. Unknown combinations fail closed; historical matches retain their pinned behavior. A new art version does not itself grant compatibility.
+- Evidence proves visible behavior: Role and Boarding films actually render when eligible; Food room/crew images load under production policy. A phase name, asset file or successful build alone is insufficient. Skip, recovery, privacy and reduced-motion expectations remain intentional.
+- The required behavioral checks and Designer's native acceptance identify the candidate and inputs. Reuse evidence only for unchanged relevant inputs; state what changed and what was not rerun.
+- Publish the reviewed artifact, verify its source/art/configuration identity, then check the affected critical paths on the deployed URL before recording Deployed.
+
+CI selection and manual release validation are described in [development](../development.md#proportional-ci-and-release-checks). This delivery record adds no new approval round and does not change the existing phone visual gate.
+
 ## Transition without delaying Food test 1
 
 Finish the frozen Food candidate and its existing acceptance checks. Do not replace its exporter, redraw its UI, change gameplay, or add an architectural migration to its release PR solely to apply this policy. The existing generated visual exports can remain; a focused integration fix is not duplicate artwork.

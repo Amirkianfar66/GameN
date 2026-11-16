@@ -7,6 +7,27 @@ import fixtures from './native-fixtures.json';
 import chromeFixtures from './chrome-fixtures.json';
 const q=new URL(location.href).searchParams,entry=fixtures.cases.find(c=>c.id===q.get('case'))??fixtures.cases[0],copy=v=>structuredClone(v),chromeCase=chromeFixtures.cases.find(c=>c.state===q.get('chromeLifecycle')),config=chromeCase?{initial:chromeCase.initial}:entry.native;
 const closureMode=q.get('holdClosure')==='1',closureRecordKey='mothership:dev:food-closure-record',closureStoreKey='mothership:dev:food-closure-originals';
+// Opt-in timing gates for the synthetic browser review. No fixture payloads or IDs
+// enter its persisted timing report.
+const causal=q.get('causal'),gates=new Map(),causalEvents=[];
+function park(operation){
+ if(!causal||gates.has(operation))throw Error('A causal fixture gate is already active');
+ let resume;const promise=new Promise(done=>{resume=done;});
+ gates.set(operation,{promise,resume,waiting:false});
+}
+function waitAt(operation){
+ const gate=gates.get(operation);
+ if(!gate||gate.waiting)return null;
+ gate.waiting=true;
+ return gate.promise;
+}
+function openGate(operation){
+ const gate=gates.get(operation);
+ if(!gate?.waiting)throw Error('The causal fixture gate has no request');
+ gates.delete(operation);gate.resume();
+ return performance.now();
+}
+if(causal==='recovered'){park('foodCommand');park('foodReceipt');}
 let record=copy(config.initial),uid='food-native-app',lost=false,holdCommands=false,readHold=false,finishRefusal=null,fixtureCommandId=null;
 if(closureMode&&sessionStorage.getItem(closureRecordKey))record=JSON.parse(sessionStorage.getItem(closureRecordKey));
 const sent=[],lookups=[],receipts=new Map(),clock={now:()=>record.now},ports={clock,scheduler:{setTimeout:(f,ms)=>setTimeout(f,ms),clearTimeout:h=>clearTimeout(h)},ids:{next:()=>{const id=fixtureCommandId;fixtureCommandId=null;return id??crypto.randomUUID();}},unresolved:memory()};
@@ -22,12 +43,30 @@ function reply(request,status='accepted'){
  return {...context,status,receivedAt:record.now,result};
 }
 const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async request(request){
- sent.push(copy(request));if(request.operation==='read'){if(readHold)return new Promise(()=>{});if(lost)return null;return {ok:true,serverTimeMs:record.now,result:copy(record.value)};}
+ sent.push(copy(request));
+ if(causal){
+  const input=request.request?.command?.input;
+  causalEvents.push({operation:request.operation,input:input?.edge??input?.kind??null,at:performance.now()});
+ }
+ if(request.operation==='read'){
+  if(readHold)return new Promise(()=>{});
+  if(lost)return null;
+  const packet=copy(record),gate=waitAt('read');
+  if(gate)await gate;
+  return {ok:true,serverTimeMs:packet.now,result:packet.value};
+ }
  if(chromeCase&&request.operation==='command'){
   if(JSON.stringify(PlanetCommandRequestSchema.parse(request.request))!==JSON.stringify(PlanetCommandRequestSchema.parse(chromeCase.pass.request)))throw Error('Physical Pass must send the exact candidate-engine original');
   record=copy(chromeCase.pass.after);receipts.set(request.request.commandId,copy(chromeCase.pass.receipt));return {ok:true,serverTimeMs:record.now,result:{receipt:copy(chromeCase.pass.receipt)}};
  }
  if(request.operation==='foodCommand'){
+  if(causal){
+   const receipt=reply(request.request),gate=waitAt('foodCommand');
+   if(gate)await gate;
+   if(closureMode&&request.request.command.input?.kind==='HOLD')return null;
+   receipts.set(request.request.commandId,receipt);
+   return {ok:true,serverTimeMs:receipt.receivedAt,result:{receipt}};
+  }
   if(chromeCase){
    if(JSON.stringify(FoodTaskCommandRequestSchema.parse(request.request))!==JSON.stringify(FoodTaskCommandRequestSchema.parse(chromeCase.transition.request)))throw Error('Physical request action must send the exact candidate-engine original');
    record=copy(chromeCase.current);receipts.set(request.request.commandId,copy(chromeCase.transition.receipt));return {ok:true,serverTimeMs:record.now,result:{receipt:copy(chromeCase.transition.receipt)}};
@@ -47,7 +86,12 @@ const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async 
   if(lost||['unknown','lost'].includes(config.feedback))return null;
   return {ok:true,serverTimeMs:record.now,result:{receipt}};
  }
- if(request.operation==='foodReceipt'){lookups.push(copy(request));if(lost)return null;return {ok:true,serverTimeMs:record.now,result:{receipt:receipts.get(request.commandId)??null}};}
+ if(request.operation==='foodReceipt'){
+  lookups.push(copy(request));
+  const gate=waitAt('foodReceipt');if(gate)await gate;
+  if(lost)return null;
+  return {ok:true,serverTimeMs:record.now,result:{receipt:receipts.get(request.commandId)??null}};
+ }
  return {ok:true,serverTimeMs:record.now,result:{}};
 }};
 localStorage.setItem('mothership:planet:presentation-preferences',JSON.stringify({textScale:Number(q.get('text')??1),reduced:q.get('motion')==='reduced'}));
@@ -102,6 +146,16 @@ if(config.feedback==='lost'){lost=true;app.food.disconnect('network');}
 applySafe();
 window.foodAppHarness={app,entry,sent,lookups,recoveryTransitions,scope:fixtures.scope,ready:true,
  chromeCase,
+ ...(causal?{causal:{events:causalEvents,park,open:openGate,waiting:op=>gates.get(op)?.waiting===true,
+  async stage(id,refresh=true){
+   const next=fixtures.cases.find(c=>c.id===id)?.native?.initial;
+   if(!next||next.value.matchId!==record.value.matchId||next.value.selfSeatId!==record.value.selfSeatId)throw Error('Wrong causal fixture context');
+   record=copy(next);
+   if(closureMode)sessionStorage.setItem(closureRecordKey,JSON.stringify(record));
+   if(refresh)await app.session.refresh();
+   applySafe();
+  },
+ }}:{}),
  prepareChromeAction(){if(!chromeCase)throw Error('Not a closure lifecycle');fixtureCommandId=chromeCase.transition.request.commandId;},
  prepareChromePass(){if(!chromeCase)throw Error('Not a closure lifecycle');fixtureCommandId=chromeCase.pass.request.commandId;},
  async chromeStage(stage){if(!chromeCase||!['current','returned','ownTurn'].includes(stage))throw Error('Not a closure lifecycle stage');record=copy(chromeCase[stage]);await app.session.refresh();applySafe();},
