@@ -98,8 +98,8 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     compare('footer', 'words', footA.map(words), footB.map(words));
     footA.forEach((b, i) => compareBox(`footer ${i + 1}`, box(sheetA, b), box(sheetB, footB[i] ?? null)));
     // The tiles: the section head, each tile, and the line under them.
-    const head = [bodyA?.querySelector('.section-head'), root?.querySelector('.ms-ac-head')];
-    compare('section head', 'words', [words(head[0]?.querySelector('h3')), words(head[0]?.querySelector('span'))], [words(head[1]?.querySelector('h3')), words(head[1]?.querySelector('span'))]);
+    const head = [bodyA?.querySelector('.section-head'), root?.querySelector('.ms-k-section-head')];
+    compare('section head', 'words', [words(head[0]?.querySelector('h3')), words(head[0]?.querySelector('span'))], [words(head[1]?.querySelector('.ms-k-section-title')), words(head[1]?.querySelector('.ms-k-section-aside'))]);
     compareBox('section head', box(bodyA, head[0]), box(bodyB, head[1]));
     const tilesA = [...(bodyA?.querySelectorAll('.tiles .tile') ?? [])], tilesB = [...(root?.querySelectorAll('.ms-ac-tiles .ms-k-tile') ?? [])];
     compare('tiles', 'count', tilesA.length, tilesB.length);
@@ -182,10 +182,10 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
       compareLook(`step ${i + 1} dot`, s.querySelector('.step-dot'), stepsB[i]?.querySelector('.ms-pp-step-dot'));
     });
     // "Outcome unknown": the notice.
-    const noticeA = bodyA?.querySelector('.registered'), noticeB = root?.querySelector('.ms-pp-notice');
+    const noticeA = bodyA?.querySelector('.registered'), noticeB = root?.querySelector('.ms-k-notice');
     compare('notice', 'words', [...(noticeA?.querySelectorAll('p') ?? [])].map(words), [...(noticeB?.querySelectorAll('p') ?? [])].map(words));
     compareBox('notice', box(bodyA, noticeA), box(bodyB, noticeB));
-    compareBox('notice icon', box(noticeA, noticeA?.querySelector('.big-icon .ic')), box(noticeB, noticeB?.querySelector('.ms-pp-notice-icon .ms-k-ic')));
+    compareBox('notice icon', box(noticeA, noticeA?.querySelector('.big-icon .ic')), box(noticeB, noticeB?.querySelector('.ms-k-notice-icon .ms-k-ic')));
     [...(noticeA?.querySelectorAll('p') ?? [])].forEach((p, i) => compareBox(`notice line ${i + 1}`, box(noticeA, p), box(noticeB, noticeB?.querySelectorAll('p')[i] ?? null)));
     checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0, detail: { differences } });
     part?.dispose();

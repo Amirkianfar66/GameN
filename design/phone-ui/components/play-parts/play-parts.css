@@ -1,24 +1,19 @@
 @import url("../kit/kit.css");
 /*
- * The pack's gameplay parts (play-parts.mjs) that are still drawn here: the notice and the time line. The tile,
- * who and the facts are the kit's since component-kit-0.6.0, so their styles are in kit.css. Runtime source,
- * Designer's. The pack's own values (design/phone-ui/prototype/screens.css .registered and .steps), on the kit's
- * tokens (../kit/kit.css).
+ * The pack's gameplay part that is still drawn here: the time line. The tile, who, the facts and the notice are
+ * the kit's (component-kit-0.6.0 and 0.7.0), so their styles are in kit.css. Runtime source, Designer's. The
+ * pack's own values (design/phone-ui/prototype/screens.css .steps), on the kit's tokens (../kit/kit.css).
  *
  * Scope and weight, as the kit's: everything applies inside a component's .ms-kit root and styles only ms-pp-
  * elements (or a kit element inside one of them); every rule weighs one class (.ms-kit :where(…)), so a
  * component's own rule (two classes) outranks a part, whatever order the stylesheets load in. Order alone
  * decides between the parts' own rules, and this file is ordered as the pack's cascade resolves.
- * Neither part takes taps or moves.
+ * It takes no taps and does not move.
  */
 
-/* ── Every part ──────────────────────────────────────────────────────── */
+/* ── The part ────────────────────────────────────────────────────────── */
 /* As the pack's `* { box-sizing: border-box }`. */
-.ms-kit :where([class^="ms-pp-"], [class*=" ms-pp-"], .ms-pp-steps li, .ms-pp-steps li > div, .ms-pp-notice > p) { box-sizing: border-box; }
-
-/* ── The notice (screens.css .registered; its icon as the pack draws it there) ─ */
-.ms-kit :where(.ms-pp-notice) { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 0 8px; text-align: center; }
-.ms-kit :where(.ms-pp-notice > p) { margin: 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.35 var(--ms-k-font); }
+.ms-kit :where([class^="ms-pp-"], [class*=" ms-pp-"], .ms-pp-steps li, .ms-pp-steps li > div) { box-sizing: border-box; }
 
 /* ── The time line (screens.css .steps) ──────────────────────────────── */
 .ms-kit :where(.ms-pp-steps) { list-style: none; margin: 2px 0 0; padding: 0; }

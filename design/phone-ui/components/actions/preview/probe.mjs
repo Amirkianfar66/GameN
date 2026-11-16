@@ -239,11 +239,11 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('unknown', async () => {
       const p = phone('unknown');
-      const lines = () => [...p.root.querySelectorAll('.ms-pp-notice p')].map(n => n.textContent);
+      const lines = () => [...p.root.querySelectorAll('.ms-k-notice p')].map(n => n.textContent);
       const one = lines();
       p.part.update({ type: 'REQUEST_BLACKOUT', targets: [] });
       const none = lines();
-      const status = p.root.querySelector('.ms-pp-notice').getAttribute('role');
+      const status = p.root.querySelector('.ms-k-notice').getAttribute('role');
       p.dispose();
       return { ok: JSON.stringify(one) === JSON.stringify(['Rescue Eli was sent, but no answer came back.', 'Check before doing anything else.'])
         && JSON.stringify(none) === JSON.stringify(['Request Blackout was sent, but no answer came back.', 'Check before doing anything else.']) && status === 'status', one, none, status };
