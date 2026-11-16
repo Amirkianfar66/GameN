@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/hacker-check.mjs",
   "component": "design/phone-ui/components/hacker",
-  "sourceCommit": "3480eb27d74252b9e258503d5f60ac3496e49641",
+  "sourceCommit": "c83caa3be59fed1827391eaa9df83cc680b3f31d",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,7 +39,7 @@
   "captures": {
     "390x844/scan-choose": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-choose.jpg",
-      "sha256": "1d3197706ee51287012ac72e97a155749904cf08f979c0e086867c9458f6ff59",
+      "sha256": "7995e354848cafc17b4e67a628b7a0017b9784792fc404bbc391b3b19387e8ba",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -47,7 +47,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -89,7 +89,7 @@
     },
     "430x932/scan-choose": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-choose.jpg",
-      "sha256": "4902cdad1a90747a4b371543177cd089d3eca870f98a857be3f33f5edcd30355",
+      "sha256": "745f4375bba8504e5740adf2a8bd570ea16e764388de32c4447d8541b7806bbc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -97,7 +97,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -139,7 +139,7 @@
     },
     "390x844/scan-guess": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-guess.jpg",
-      "sha256": "3f6324fa45487ec70b10fcf06d6d42aeeb974fbcae1089aba1cb0d958ade02ba",
+      "sha256": "0b36ff1409762ffea537dee11c03c83e6dbb02d18871359e69bd5fcd25321ad8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -147,7 +147,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -193,7 +193,7 @@
     },
     "430x932/scan-guess": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-guess.jpg",
-      "sha256": "5dd91546374c0b9fdaa91d3ba26897283a26500a682ffc5c1821b98c9cddbf20",
+      "sha256": "69b603abc73bbfadaac55fc5e698aa966ef3038778a14bda9813466498d4930c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -201,7 +201,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -247,7 +247,7 @@
     },
     "390x844/scan-matched": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-matched.jpg",
-      "sha256": "f3fa516cd63b6ced7432fb2a047403a65a2b70e6d79d86c3effeeb8d9c59323b",
+      "sha256": "da34f9aa307d2c6d04c10389479846e0e53b57c7dcc26335b3b616707836b732",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -255,7 +255,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -300,7 +300,7 @@
     },
     "430x932/scan-matched": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-matched.jpg",
-      "sha256": "ed791ea26dfd883393f8e5324a844d8a9442e6db76898e0d0dd6420d32c1921a",
+      "sha256": "a92ff60d3164257305296ef23c6775bc39b9dba9b80b8f4d08c61346acba7176",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -308,7 +308,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -353,7 +353,7 @@
     },
     "390x844/code-confirm": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-confirm.jpg",
-      "sha256": "fb99a873f919ece77e52f5b6da61e4f17c4fb88176a52e4bedbc8193848960fd",
+      "sha256": "a2cd795e7394c4a1d808d6ec3f1c27c2c6d0af9063d4be8052af63e87f09a109",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -361,7 +361,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -413,7 +413,7 @@
     },
     "430x932/code-confirm": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-confirm.jpg",
-      "sha256": "96b8da6ef3e95f350c5242f283643fdcd8805155eceddbebbbb4f2ffe2554147",
+      "sha256": "d01a3faf7f24e99668888015c0f155b8c18f7010ebd012a7a71b02f75bb726e5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -421,7 +421,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -473,7 +473,7 @@
     },
     "390x844/code-correct": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-correct.jpg",
-      "sha256": "e05cb16cef142012d6d3739e20b88a3822adf1a3357ce7ce9cb3b4dd79b81629",
+      "sha256": "5fa7e9644bfd73527d3f7f53c042f3d93bd23dd1e6427cba3d32c723568739d1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -481,7 +481,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -524,7 +524,7 @@
     },
     "430x932/code-correct": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-correct.jpg",
-      "sha256": "2194771ec4fc6998e1693f202d8d4a95be3b460d98133ff81f0ef06f506e6c54",
+      "sha256": "531e93629c9d9750c40a57899d7a1e9ddd53a93367bfe3f74427c615669b6e32",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -532,7 +532,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -575,7 +575,7 @@
     },
     "390x844/scan-nomatch": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-nomatch.jpg",
-      "sha256": "4e1a21b3462b263832a0843b079c0422d153543adcc2f3e4227d7bcdf5ef2e9c",
+      "sha256": "3701bddc4f3bb0fc98dbd931df63711011bf0942e43718991a5268bebb4335ec",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -583,7 +583,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -626,7 +626,7 @@
     },
     "430x932/scan-nomatch": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-nomatch.jpg",
-      "sha256": "a4d4a065a2bd6df40c1699be504b8f15941ea0ebc2dd74c71e66c10accd56879",
+      "sha256": "08667a62db694dd173b475519458de74b77fe50ddccbe30979749b3ac76da39b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -634,7 +634,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -677,7 +677,7 @@
     },
     "390x844/code-pick": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-pick.jpg",
-      "sha256": "90e447239606661ecbe416ed644afec5b389d9a2fc7eb34df95e3b20b06a69fe",
+      "sha256": "94605923f1ff5189d650efda80524eb2623d28630dfe9b4b606de12bea7faae5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -685,7 +685,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -737,7 +737,7 @@
     },
     "430x932/code-pick": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-pick.jpg",
-      "sha256": "a0a540d3938779deabc6f9a4614c01970886ea9aec6eb30d17d821fbd02e9e3a",
+      "sha256": "ce0e9a600383a5d16f0c119d28d8411b7487f631e2547fcafacc2254917beb1e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -745,7 +745,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -797,7 +797,7 @@
     },
     "390x844/code-wrong": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-wrong.jpg",
-      "sha256": "63679eb0dd147816650d546258222c6763048e80d999951d499fac5d04ba372f",
+      "sha256": "3c13449427aba4caab3792244b7f6dbdc8b3e8b3bcba09fca03d1e27b201f607",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -805,7 +805,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -830,12 +830,11 @@
       "line": null,
       "error": null,
       "stamp": "CODE WRONG",
-      "lines": "Your one attempt is used|Scan stays available",
+      "lines": "Your one attempt is used",
       "row": null,
       "banner": null,
       "figures": 4,
       "leaked": [
-        "Scan",
         "Gus",
         "Final Code",
         "Only on this phone"
@@ -849,7 +848,7 @@
     },
     "430x932/code-wrong": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-wrong.jpg",
-      "sha256": "e368309628593a89f77240776a145129a9d08f352310bde46b23b3a492ba6ff8",
+      "sha256": "3a4795364c74b4be77d60c36cc08c2719589e1c0c13aa47b35947954959883cc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -857,7 +856,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -882,12 +881,11 @@
       "line": null,
       "error": null,
       "stamp": "CODE WRONG",
-      "lines": "Your one attempt is used|Scan stays available",
+      "lines": "Your one attempt is used",
       "row": null,
       "banner": null,
       "figures": 4,
       "leaked": [
-        "Scan",
         "Gus",
         "Final Code",
         "Only on this phone"
@@ -901,7 +899,7 @@
     },
     "390x844/scan-no-guess": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-no-guess.jpg",
-      "sha256": "ee3f3b97b89d44b47e49b19c73d06c6e640a0e6e0a6dc2480b3b2a4cb5a22bef",
+      "sha256": "918aa0ffe4c643eeaa4eafe0a24951cddb9f21261c39876cd060251b87b55e7b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -909,7 +907,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -955,7 +953,7 @@
     },
     "430x932/scan-no-guess": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-no-guess.jpg",
-      "sha256": "99c1ea0d1d25b46212d181b6685e00cd62e4adce9c63aa2d6c91e0280ea5050e",
+      "sha256": "c733cd2780bc8ef6c08eea7e7e6c1dd06721488d886b509a2052b4fad0484184",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -963,7 +961,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1009,7 +1007,7 @@
     },
     "390x844/scan-sending": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-sending.jpg",
-      "sha256": "39f02c53f0502ed2c31d184a82edfa1e46272867dbe22339c5a696c7706180c2",
+      "sha256": "48ae62ce83f877247879940fcf84dac5e7052d6668e9d9f8e73abeaf14a6d1e0",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1017,7 +1015,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1063,7 +1061,7 @@
     },
     "430x932/scan-sending": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-sending.jpg",
-      "sha256": "4bd66cb8eeeb86fc683b723ef48d88a0b65a8a5a870beab49e577c42a39b94a7",
+      "sha256": "e53a4409fe1629b8d51a9e8b8ebb2abdc83960affac3cd6092c6b673673f3ebb",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1071,7 +1069,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1117,7 +1115,7 @@
     },
     "390x844/scan-error": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-error.jpg",
-      "sha256": "143fd6f1d54d9e8b9d9ac74087722d3fd7fdbffa45febb1fd1c6dbae1128f2e1",
+      "sha256": "10c147dba7731b580ff97ab24153fe1673515d4e96719b6489cbe101a83076c5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1125,7 +1123,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1171,7 +1169,7 @@
     },
     "430x932/scan-error": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-error.jpg",
-      "sha256": "e8b4904ec0de72d128ea94c8ae3f018a52528147d3e607cdc460be3bc32dd683",
+      "sha256": "1d9ebf4b9e5e092d5aa3a05ee06cf4f15344ed0469a76c094e86f7191fa5216b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1179,7 +1177,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1225,7 +1223,7 @@
     },
     "390x844/scan-not-in-code": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-not-in-code.jpg",
-      "sha256": "4cf9f6dadcdbf2cc0e2dfcda283cc6542840a14f3e3b8a68b4efcccd7078403a",
+      "sha256": "b00cadeb7ca00a0041e731fd066cf771d47bdb66e37f0f7a43af9348f2d53261",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1233,7 +1231,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1278,7 +1276,7 @@
     },
     "430x932/scan-not-in-code": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-not-in-code.jpg",
-      "sha256": "8a6fcce7c0d8866a4398d217ea38e9a51f03c50f62f16aa59c162feb2f2bd112",
+      "sha256": "ed9aab02331ee4744edbfda4609186e6ad3f02287d8c438676e88c2d1971d83c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1286,7 +1284,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1331,7 +1329,7 @@
     },
     "390x844/scan-nomatch-free": {
       "file": "design/phone-ui/components/hacker/review/390x844-scan-nomatch-free.jpg",
-      "sha256": "125a13767f861d4ed313107144764a05c66e170a09cb0a0ed35216de4252b885",
+      "sha256": "e7e923959737003a2988eb4325c77545c0155ec7b00a80053628ca15d2871608",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1339,7 +1337,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1382,7 +1380,7 @@
     },
     "430x932/scan-nomatch-free": {
       "file": "design/phone-ui/components/hacker/review/430x932-scan-nomatch-free.jpg",
-      "sha256": "a763c32f8906b76fcc7ce8cac6750247c7184885059e2722ca2ad54fec731933",
+      "sha256": "369d69562de4ed5b08f6c7fca1e7b7a147ef79622eca84cb3df4d00839e04b2d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1390,7 +1388,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1433,7 +1431,7 @@
     },
     "390x844/code-two": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-two.jpg",
-      "sha256": "379525920dc799f827256f78a22dbe90541ba243452d6b5277e9dbd0e7eba901",
+      "sha256": "4aa48e2269adc9390aa110f0af73b5873add9fbf61aa4332e1fafa98f77473a0",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1441,7 +1439,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1493,7 +1491,7 @@
     },
     "430x932/code-two": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-two.jpg",
-      "sha256": "04e02f64907212dcd3cc0d4f08ecb50fe1f0953146d254b71ab31de793700151",
+      "sha256": "847284f363bd5979ee1a82935b198dc0cd3862e0c9735620cb69376560a4e5e1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1501,7 +1499,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1553,7 +1551,7 @@
     },
     "390x844/code-sending": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-sending.jpg",
-      "sha256": "8c138c7597e088a76e82d2cc79e7c9eac2cf768b91cc30a5deedf8ed441113bc",
+      "sha256": "b02061c42ccdc3d3045bb2f139e54f70b02066256b6ed10afb120a39ef256bda",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1561,7 +1559,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1613,7 +1611,7 @@
     },
     "430x932/code-sending": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-sending.jpg",
-      "sha256": "a10c685b40c61b755a3929d76fce3b72ba5d3a4f7c05eadd703db831d6c22a2a",
+      "sha256": "75b486bdf6ef8007c06d769f9f13de1bd2f10e13af31e90be85208b670e59985",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1621,7 +1619,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1673,7 +1671,7 @@
     },
     "390x844/code-error": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-error.jpg",
-      "sha256": "1e719a91879139114148d62b6e01e60c2a868a0c84eba2b47feb94a3855da422",
+      "sha256": "bfd46c6e7951f04db2fe576ce2bd05d43030bb33ecbd56e393b14482f66e771c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1681,7 +1679,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1733,7 +1731,7 @@
     },
     "430x932/code-error": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-error.jpg",
-      "sha256": "895ed27b0a5db7eb9e146681d08e098d4590a0a5225c72892f9064aed801272f",
+      "sha256": "25f664dd8a37e694e4b81ea1a89ea4e6b3573ff3947019b425df237865d0d752",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1741,7 +1739,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1793,7 +1791,7 @@
     },
     "390x844/code-not-offered": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-not-offered.jpg",
-      "sha256": "15b75f2d0ebea0742cbe3aad00aa31603c42142901eeb9c3ce7fcb0238382c2d",
+      "sha256": "ef6e2622865b93a7f416116301a7811024de90fadbe605f90420d399b4efaaed",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1801,7 +1799,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1853,7 +1851,7 @@
     },
     "430x932/code-not-offered": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-not-offered.jpg",
-      "sha256": "b2c72345af22d32edd5e13a60a827f461e8743f0b9acb31ced8ed1c574614091",
+      "sha256": "4095881ecb2357d071f74bceb2d8853242d159ef87c8c9cef49a61a82f3a3f9c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1861,7 +1859,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1913,7 +1911,7 @@
     },
     "390x844/code-eight": {
       "file": "design/phone-ui/components/hacker/review/390x844-code-eight.jpg",
-      "sha256": "8df2bf1bc44fd7a0ed1879300bb02c3b4ee6b68192fa9de50b3ab1af3f146736",
+      "sha256": "5222dae5c9f548c2dfd7e3da6c0088dda40f47a10727a40a619c354f791798e8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1921,7 +1919,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1972,7 +1970,7 @@
     },
     "430x932/code-eight": {
       "file": "design/phone-ui/components/hacker/review/430x932-code-eight.jpg",
-      "sha256": "1bc86d6f3ca03c3488e146c426d208585ed80019f2bf1931f483235aadfd6f60",
+      "sha256": "66716226c42394cb393b90c42b436abaf02061cc03c7945091d844d442161774",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1980,7 +1978,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2031,7 +2029,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/hacker/review/390x844-stale.jpg",
-      "sha256": "a6234ebd3da2e2b282918ced5cba2060e09eb3abcb232bfea19bd5cc383e4952",
+      "sha256": "ace757673df3b8b6b98c29b9054b07950a3c4c973e88a39a3e01f4446c7c6c9f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2039,7 +2037,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2084,7 +2082,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/hacker/review/430x932-stale.jpg",
-      "sha256": "8353d783403b6943a011e502576068a37a876a6faef5c3953f611614227a5ba8",
+      "sha256": "dee4320a74b2dc1a48336d8e2bc5387aac34bcc07fe55214fa16b8ce505924e4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2092,7 +2090,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2145,7 +2143,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2188,7 +2186,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2223,7 +2221,7 @@
     },
     "320x568/small-code": {
       "file": "design/phone-ui/components/hacker/review/320x568-small-code.jpg",
-      "sha256": "c354c94a1befd49d25db477a1c8d7cdf9fa4ba1ec045a840648a1f146872c50f",
+      "sha256": "fc2408614c3675eca091e8b30b2a3795e658281726ea217e0374b07e9a7fe060",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2231,7 +2229,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2283,7 +2281,7 @@
     },
     "390x844/large-guess": {
       "file": "design/phone-ui/components/hacker/review/390x844-large-guess.jpg",
-      "sha256": "e945afa65a575e93938fdedac995433523b8dfc25a040857544465609b7e19bf",
+      "sha256": "fdcf3835447ed727a46c725b6e6751e242caae6254aee094bd1d0519cdddf78a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2291,7 +2289,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2337,7 +2335,7 @@
     },
     "320x568/largest-guess": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-guess.jpg",
-      "sha256": "8f24f8a9619a0fc551c8472567d12b01cc22acc25cbdb824e30fefe08e6591b6",
+      "sha256": "ab3211a77051aecdd19437b42644cf97a922572730470c7a8b4b3fae9db73d3f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2345,7 +2343,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2391,7 +2389,7 @@
     },
     "320x568/largest-result": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-result.jpg",
-      "sha256": "38b157c672393f340c2a8b9f97efff14b4bd36575fbfb00b9b0484ad4fa5812a",
+      "sha256": "35c512c041991b05ee479e31c94e9b55db86605649fb7ac68ee9340a8ac67172",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2399,7 +2397,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2442,7 +2440,7 @@
     },
     "320x568/largest-code": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-code.jpg",
-      "sha256": "a73fffaede47072889d7fd7918c5a190f0aed8f51ddae156086078cc7e0e0efa",
+      "sha256": "96a6d9296951eeda56b8d9e1328b2cf9831b1acf4ca6b37e60cadc33245a6cce",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2450,7 +2448,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2502,7 +2500,7 @@
     },
     "320x568/largest-outcome": {
       "file": "design/phone-ui/components/hacker/review/320x568-largest-outcome.jpg",
-      "sha256": "103cdff8c3b69d30a6911cda42d83ea5624fbd3dfad95ef79bc91bd193b4778d",
+      "sha256": "1be5ea360302155075f469d67600eb75527b5c28610e3a3ee5bfef2e87d6ee69",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2510,7 +2508,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2772,8 +2770,7 @@
                 "stamp": "CODE WRONG",
                 "tone": null,
                 "lines": [
-                  "Your one attempt is used",
-                  "Scan stays available"
+                  "Your one attempt is used"
                 ],
                 "row": null,
                 "status": "status"
@@ -3066,7 +3063,11 @@
             "onLayout": [],
             "callbacks": [],
             "layoutsSeen": 17,
-            "callbacksSeen": 24
+            "callbacksSeen": 24,
+            "names": {
+              "checked": 14,
+              "stayed": []
+            }
           }
         },
         {
@@ -3263,12 +3264,40 @@
             "seen": {
               "scan-guess": [],
               "scan-guess reduced": [],
-              "scan-matched": [],
-              "scan-matched reduced": [],
               "code-pick": [],
               "code-pick reduced": [],
-              "code-correct": [],
-              "code-correct reduced": []
+              "scan-matched": [
+                {
+                  "name": "ms-hk-stamp-in",
+                  "duration": 120,
+                  "stamp": true
+                }
+              ],
+              "scan-matched reduced": [],
+              "scan-nomatch": [
+                {
+                  "name": "ms-hk-stamp-in",
+                  "duration": 120,
+                  "stamp": true
+                }
+              ],
+              "scan-nomatch reduced": [],
+              "code-correct": [
+                {
+                  "name": "ms-hk-stamp-in",
+                  "duration": 120,
+                  "stamp": true
+                }
+              ],
+              "code-correct reduced": [],
+              "code-wrong": [
+                {
+                  "name": "ms-hk-stamp-in",
+                  "duration": 120,
+                  "stamp": true
+                }
+              ],
+              "code-wrong reduced": []
             }
           }
         }
@@ -3277,7 +3306,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3300,12 +3329,16 @@
             "seen": {
               "scan-guess": [],
               "scan-guess reduced": [],
-              "scan-matched": [],
-              "scan-matched reduced": [],
               "code-pick": [],
               "code-pick reduced": [],
+              "scan-matched": [],
+              "scan-matched reduced": [],
+              "scan-nomatch": [],
+              "scan-nomatch reduced": [],
               "code-correct": [],
-              "code-correct reduced": []
+              "code-correct reduced": [],
+              "code-wrong": [],
+              "code-wrong reduced": []
             }
           }
         }
@@ -3314,7 +3347,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Dzs7WVlX.js",
+          "source": "assets/index-DECQ66qH.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3381,7 +3414,10 @@
         "id": "agree: code-wrong (code&state=wrong)",
         "ok": true,
         "detail": {
-          "differences": []
+          "differences": [],
+          "dropped": [
+            "Scan stays available"
+          ]
         }
       }
     ],
@@ -3389,7 +3425,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-Dzs7WVlX.js",
+        "source": "assets/index-DECQ66qH.js",
         "line": 1,
         "column": 6050,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

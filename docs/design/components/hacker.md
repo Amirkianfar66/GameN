@@ -1,6 +1,6 @@
 # The Hacker's Scan and final Code: Designer's runtime component
 
-**Version:** `hacker-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on 16 November, with the answers to Q1–Q4, the three notes and the two details below, and posted by the Lead on #4 for Frontend. Built without waiting for Frontend, as the owner decided on 16 November (recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release.
+**Version:** `hacker-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on 16 November, with the answers to Q1–Q4 and Q-a–Q-b, the three notes and the two details below, and posted by the Lead on #4 for Frontend. Built without waiting for Frontend, as the owner decided on 16 November (recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release.
 
 **What it is:** the Hacker's own phone during Scan and the final Code, as the phone pack draws them: sheet 42 and the pack's own `scan()` and `code()` (`design/phone-ui/prototype/screens-more.mjs`). It is #222 items 14 and 15:
 
@@ -8,11 +8,11 @@
 >
 > 15. **Hacker: final Code** (sheet 42): the nine portraits with names, marked Pick 1–4, instead of nine "Player n" buttons.
 
-**Stacked on Actions (#273),** as the private talk (#293) is, at `3c452e80`, which carries the phone shell at `7900a7a7` (`phone-shell-0.2.7`, `component-kit-0.7.0`). The Lead kept this base: the results were to be play-parts' notice, which is on Actions' branch, and a branch is not rewritten. Since kit 0.7.0 the notice is the kit's, so the component is built on the kit alone and imports neither Actions nor play-parts.
+**Stacked on Actions (#273),** as the private talk (#293) is, at `9f88c154`, which carries the phone shell at `b3e5823e` (`phone-shell-0.2.7`, `component-kit-0.7.1`). The Lead kept this base: the results were to be play-parts' notice, which is on Actions' branch, and a branch is not rewritten. Since kit 0.7.0 the notice is the kit's, so the component is built on the kit alone and imports neither Actions nor play-parts.
 
 ## The pack's eight frames
 
-Sheet 42 draws five of them. The pack's code draws all eight, and the agreement compares each, with no word amended.
+Sheet 42 draws five of them. The pack's code draws all eight, and the agreement compares each, with no word amended. One line the Lead dropped, CODE WRONG's "Scan stays available" (Q-b, below), is taken out of the pack's frame before it is measured.
 
 | Frame | On sheet 42 | What the pack draws |
 | --- | --- | --- |
@@ -23,13 +23,13 @@ Sheet 42 draws five of them. The pack's code draws all eight, and the agreement 
 | Code · pick | No | A large sheet, "Final Code · Only on this phone", no ✕. The nine portraits with names in the 3 × 3; each pick selected, with a check and "Pick 1"–"Pick 4"; "You" on this phone's own seat. "Choose four players. Order doesn't matter." Next |
 | Code · four players | Yes | The same grid. "One attempt for the whole match. It can't be retried." Back and Submit Code |
 | Code · correct | Yes | The CODE CORRECT stamp (amber), "Hack Spaceship is unlocked" and "Using it is a separate action on your turn". Done |
-| Code · wrong | No | The CODE WRONG stamp, "Your one attempt is used" and "Scan stays available". Done |
+| Code · wrong | No | The CODE WRONG stamp, "Your one attempt is used" and "Scan stays available". Done. The component draws the stamp and "Your one attempt is used" only (Q-b) |
 
 ## Built on, not redrawn
 
 - **The phone shell** (#265): the sheet's frame (title, sub, no ✕, the large detent for the Code), its footer with each button's busy state and the local actions, the target bar with its Cancel (T2), the reconnecting banner. This component fills the sheet's body and gives the frame's words.
 - **The room scene** (#261): the rings on the people Scan reaches and on the one picked (`targets: { seats, picked }`), as Actions' targets.
-- **The kit** (`component-kit-0.7.0`): who (the target's 64 px portrait and words), the cells and the 3 × 3 (the Vote ballot's), the segmented control, the stamp, the row and list, the group note, the inline error, the control policy, and the notice (0.7.0, from my parts module), which draws the four results, with Scan's row as its `extra`. The shell draws the buttons.
+- **The kit** (`component-kit-0.7.1`): who (the target's 64 px portrait and words), the cells and the 3 × 3 (the Vote ballot's), the segmented control, the stamp, the row and list, the group note, the inline error, the control policy, and the notice (0.7.0, from my parts module), which draws the four results, with Scan's row as its `extra`. The shell draws the buttons.
 - **Actions** (`actions-0.1.0`): the Scan and Final Code tiles start them, and its `targetBar()` refuses both, naming this component's helpers. Sheet 45's "Outcome unknown" (`mountOutcomeUnknown`) says when no answer came: "Scan Gus was sent, but no answer came back." and "Final Code was sent, but no answer came back."
 
 **Not in this component:**
@@ -90,7 +90,7 @@ Each part is mounted in the shell's `sheetBody` for its step, as Actions' are, w
   - `'pick'`: Next (local), off until `count` is four.
   - `'confirm'`: Back (local) and Submit Code, with the Code icon. While it sends, Submit Code is busy and says "Submitting…" (Q3), and Back is off.
   - `'result'`: Done (local).
-- **`mountCodeResult(body, { correct })`:** CODE CORRECT or CODE WRONG, with the pack's two lines. Frontend gives `correct` from `abilities.shipHackUnlocked` once `abilities.codeAttempted` is true. It reads as it opens.
+- **`mountCodeResult(body, { correct })`:** CODE CORRECT with the pack's two lines, or CODE WRONG with "Your one attempt is used" (Q-b). Frontend gives `correct` from `abilities.shipHackUnlocked` once `abilities.codeAttempted` is true. It reads as it opens.
 
 ## The steps, and who draws what
 
@@ -127,7 +127,7 @@ Everything here is the Hacker's own phone's (the Lead's note 3):
 
 - A guess, a pick, a result, `inCode` and the blocked round exist on the Hacker's phone only.
 - **None of them reaches an attribute, the console, the shell's `onLayout`, or any callback but `onGuess` and `onPick`.** The three guesses are kept by their place, not their side. A cell's accessible name is the pack's own ("Player 2, Ben, Pick 1"), read through `aria-labelledby` from visually hidden words in the page, so the pick is in no attribute's value; its pressed state says whether it is picked.
-- **Concealed, or for a new viewer,** every part drops its inputs and empties itself. Nothing comes back until it is given again.
+- **Concealed, or for a new viewer,** every part drops its inputs and empties itself, the Code's visually hidden names with the rest. Nothing comes back until it is given again.
 - **Another phone's view and the shared display draw none of these parts:** they get the shell and the room only, and a part given no viewer draws nothing. The contract already keeps Scan's and the Code's knowledge off every other role's view.
 
 ## Accessibility
@@ -136,6 +136,12 @@ Everything here is the Hacker's own phone's (the Lead's note 3):
 - Each cell is a toggle button named as the pack names it ("Player 2, Ben, Pick 1"; "Player 3, Cleo, Not available now"), pressed when picked, "You" on this phone's own. A seat not offered is refused by the control policy.
 - Each result reads as it opens (`role="status"`).
 - A focused control keeps its element and its focus through updates. When it goes, the focus returns to the part's root, and `onFocusReturn` reports the control's place, never a guess or a pick.
+
+## Motion
+
+- **Each result's stamp snaps in** (Q-a): MATCHED, NO MATCH, CODE CORRECT and CODE WRONG, as REGISTERED does in the handoff's motion table. Over 120 ms, from transparent at 1.3 times its size, with the kit's ease. The result's notice carries the component's own class (`ms-hk-result`), under which the kit's stamp animates, as Actions' After Register does.
+- **With Reduce motion,** the game's (`reducedMotion`, which sets `data-motion="reduced"` on the part's root) or the device's, the stamp is there at once.
+- Nothing else of the component's moves. The sheet's slide is the shell's.
 
 ## The Lead's answers (16 November)
 
@@ -146,6 +152,9 @@ Everything here is the Hacker's own phone's (the Lead's note 3):
 - **Note 1. The sheets as the pack draws them:** Scan has no ✕; its footer is Cancel and Scan, then Done. The Final Code: Next, then Back and Submit Code, then Done. Both subs read "Only on this phone". The agreement holds the sheet frames to the pack's.
 - **Note 2. The Scan tile:** `targetBar({ type: 'SCAN' })` refuses in #273 and names `scanBar()`, with no second copy of the target bar (above).
 - **Note 3. Privacy:** as above, with a probe check that another phone's view and the shared display draw none of these parts.
+- **The hidden names:** the Code's visually hidden names leave the page with the rest when it is concealed or handed to another viewer. The probe's leak check counts them in the page while the Code is drawn, then after each.
+- **Q-a. The results' stamps snap in:** MATCHED, NO MATCH, CODE CORRECT and CODE WRONG snap in as REGISTERED does, 120 ms, and are there at once with Reduce motion (above). The Lead added them to the handoff's motion table (`b3e5823e`).
+- **Q-b. CODE WRONG** shows the stamp and "Your one attempt is used". It drops the pack's "Scan stays available", and the line does not follow `scanBlockedThroughRound` either. Whether Scan continues after the failed Code is not decided (the planet-navigation overlay, `rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json`, `open_integration_details[5]`, CODE-OPEN-02), so Scan's state shows on its Actions tile alone. NO MATCH keeps "Scan · Blocked in Round 4", which is a confirmed rule (CODE-03). The Lead recorded it in the handoff (`b3e5823e`). The agreement takes that one line out of the pack's frame before it is measured, records it, and fails if the pack no longer draws it.
 
 ## Found while building
 
@@ -155,8 +164,8 @@ For the Lead. Nothing here changes the agreed interface:
 - **The cells' names.** The pack names a cell "Player 2, Ben, Pick 1" in its `aria-label`, and note 3 keeps a pick out of every attribute. The same words are kept as visually hidden text that each cell points at (`aria-labelledby`). A screen reader hears the pack's name, and no attribute's value holds a pick. The agreement compares each cell's name with the pack's `aria-label`; the probe's leak check fails if a pick goes back into `aria-label` (tried).
 - **The Code at the larger text.** The pack's `code()` puts its 3 × 3 outside its `.grid-wrap`, so the pack has no list form for it. The kit's 3 × 3, as the Vote ballot's, becomes a list of whole names under 13 em, as sheet 53's larger-text lists do. At the Standard text they agree.
 - **The portrait in who.** `scan()` calls `pt(…, 56)`, but the pack's own `.confirm-who .pt` rule draws it at 64 px, as the private talk found. Who draws 64, and the agreement measures it.
-- **No motion of its own.** The handoff gives the 120 ms stamp snap to Registered only, so the results' stamps appear directly. *(Question for the Lead: should MATCHED, NO MATCH, CODE CORRECT and CODE WRONG snap in as REGISTERED does?)*
-- **"Scan stays available"** is the pack's line under CODE WRONG. It says the Code does not use Scan up; the component does not check whether a wrong guess has Scan blocked at that moment. *(For the Lead, if the line should follow `scanBlockedThroughRound`.)*
+- **The results' motion and CODE WRONG's second line** were questions here. The Lead's Q-a and Q-b (above) answer them.
+- **A result is measured at rest.** The probe's text check waits for the stamp's snap to finish before it measures a result, as the agreement and the captures do: mid-snap, the stamp is 1.3 times its size.
 
 ## Checks run on this version
 
@@ -164,13 +173,13 @@ For the Lead. Nothing here changes the agreed interface:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/hacker.test.mjs` | 8 of 8: the runtime-safe graph on the kit alone (no other component, no play-parts); every style scoped at two classes, with no colour or motion of its own; the pinned pack unchanged; the pack's words and the decisions' additions; the inputs' checks, normalization and privacy rules; every preview state a valid input and the eight compared frames; the target bar and the sheets' frames; and the check's record |
+  | `packages/design-tokens/test/hacker.test.mjs` | 8 of 8: the runtime-safe graph on the kit alone (no other component, no play-parts); every style scoped at two classes, with no colour of its own, the kit's parts placed only inside the component's own, and one motion, the results' stamp snap (120 ms, stopped by the game's and the device's Reduce motion; Q-a); the pinned pack unchanged; the pack's words and the decisions' additions, with "Scan stays available" the pack's and not the component's (Q-b); the inputs' checks, normalization and privacy rules; every preview state a valid input and the eight compared frames; the target bar and the sheets' frames; and the check's record, with Q-a's snap, Q-b's line and the one line taken out of the pack's frame, and the hidden names leaving the page |
   | `npm run test:design` | 406 of 406 |
   | `npm run test:tooling` | 337 of 337 |
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/hacker-check.mjs`:** recorded on `3480eb27`, with the source clean.
+- **`node design/tools/hacker-check.mjs`:** recorded on `c83caa3b`, with the source clean.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. Each part is mounted in the shell's sheet body, over the room scene, as Frontend would.
   - **Captures:** 46 of 46 pass, each drawing what its state asks: the part, the sheet, its sub and footer and which buttons are off, the target bar and the people Scan reaches, who, the guesses and which is chosen, the picks and their order, "You", the seats not offered, the empty seat, the cells to a row, the line, the error, the stamp, the lines and the row, the banner, and the room's crew behind.
     - 20 states at 390 × 844 and 430 × 932;
@@ -178,7 +187,9 @@ For the Lead. Nothing here changes the agreed interface:
     - Concealed, no private word is in the page.
   - **The lifecycle probe** (`preview/probe.mjs`): 15 of 15 checks pass.
     - **As the page comes (14):** guess, picks, refused, results, words, footer, audience, leaks, inputs, private, focus, text, dispose and motion.
-    - **With the device's Reduce motion (1):** motion.
+      - **leaks** also counts the Code's visually hidden names: in the page while the Code is drawn, gone once it is concealed or handed to another viewer (14 cases).
+      - **motion:** each result's stamp has one animation, `ms-hk-stamp-in`, of 120 ms, and none with the game's Reduce motion; the guess and the Code have none.
+    - **With the device's Reduce motion (1):** motion, with no animation anywhere.
   - **Agreement with the pinned pack's own frames** (`preview/agree.mjs`): 8 of 8, with no differing part, every part to within half a pixel. It compares:
     - the top bar, and the sheet's title, sub, close, place, body and footer (words, boxes, looks);
     - the target bar and its Cancel;
@@ -187,7 +198,23 @@ For the Lead. Nothing here changes the agreed interface:
     - the 3 × 3: each cell's state, pressed state, words, check, "You", accessible name, box and look, with its portrait, name and note;
     - the line under the grid;
     - each result's stamp, tone, lines and row, with the row's icon and tint.
-  - **The checks bite:** a 4 px change to the guesses' margin, a changed word in a result's line, and "Pick #1" each fail the agreement; a guess in a data attribute and a pick back in `aria-label` each fail the leak check (tried, then undone).
+
+    CODE WRONG is compared without the pack's "Scan stays available" (Q-b), and the record says so for that frame alone.
+  - **Against `3480eb27`'s record:**
+    - The only recorded field that changed is CODE WRONG's lines, now "Your one attempt is used" alone, at both sizes. So "Scan" is no longer among the private words that capture shows.
+    - The probe's 15 checks and the agreement's 8 pass as before.
+    - 28 captures are unchanged.
+    - CODE WRONG's two differ by the dropped line.
+    - The other eleven result captures differ by at most 465 pixels, inside the stamp only: its anti-aliasing at rest after the snap, in the same place and at the same size.
+    - The remaining five differ by at most 74 pixels, in the room's ambient motion and the sending spinner's angle.
+  - **The checks bite:**
+    - A 4 px change to the guesses' margin, a changed word in a result's line, and "Pick #1" each fail the agreement.
+    - A guess in a data attribute and a pick back in `aria-label` each fail the leak check.
+    - The Code's hidden names kept when concealed fail the leak check (and audience and private).
+    - A 200 ms snap, or a snap without the game's Reduce motion rule, fails the motion check.
+    - "Scan stays available" back in CODE WRONG, or the pack no longer drawing it, fails the agreement.
+
+    Each was tried, then undone.
 - **Not run:** physical phones, Safari, screen readers, frame rate, the real app's connection.
 
 ## Files
@@ -197,7 +224,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/hacker/`:
 | Path | What |
 | --- | --- |
 | `hacker.mjs` | `HACKER_VERSION`, `SIDES`, `HACKER_WORDS`; each part's defaults and check (`SCAN_GUESS_DEFAULTS` and `checkScanGuess()`, `SCAN_RESULT_DEFAULTS` and `checkScanResult()`, `FINAL_CODE_DEFAULTS` and `checkFinalCode()`, `CODE_RESULT_DEFAULTS` and `checkCodeResult()`); the shell's words (`scanBar()`, `scanSheet()`, `codeSheet()`); and the four parts |
-| `hacker.css` | The parts' own layout, scoped under `.ms-hacker`. It imports the kit's styles |
+| `hacker.css` | The parts' own layout and the results' stamp snap, scoped under `.ms-hacker`. It imports the kit's styles |
 | `preview/` | Development only: the preview on the pack's synthetic fixtures (`states.mjs`: 26 states), in the shell over the room scene; the lifecycle probe (`probe.mjs`); the agreement with the pack (`agree.mjs`) |
 | `review/` | The check's captures (JPEG at 2× pixels) and `check.json` |
 

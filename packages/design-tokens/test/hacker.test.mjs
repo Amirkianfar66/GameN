@@ -72,20 +72,26 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
   assert.equal(HACKER_VERSION, 'hacker-0.1.0');
 });
 
-test('its styles reach nothing outside the component: every rule is under its root and weighs two classes; it has no motion of its own', () => {
+test('its styles reach nothing outside the component: every rule is under its root, weighs two classes and places the kit\'s only inside its own; its one motion is the results\' stamp snap', () => {
   const css = read(`${COMPONENT}/hacker.css`).replace(/\/\*[\s\S]*?\*\//g, '');
   assert.match(css, /^\s*@import url\("\.\.\/kit\/kit\.css"\);\s*\.ms-hacker/, 'it starts from the kit alone');
-  assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)], [], 'no motion of its own');
-  assert.doesNotMatch(css, /animation|transition/, 'nothing animates');
-  // The imports first, or the first rule's prelude would take them in.
-  const selectors = [...css.replace(/@import[^;]*;/g, '').matchAll(/([^{}]+)\{/g)].map(m => m[1].trim()).filter(s => s && !s.startsWith('@'));
-  assert.ok(selectors.length >= 5, `found the rules (${selectors.length})`);
+  // Q-a (the Lead, 16 November; the handoff's motion table): MATCHED, NO MATCH, CODE CORRECT and CODE WRONG snap in
+  // as REGISTERED does, 120 ms, and are there at once with the game's or the device's Reduce motion.
+  assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), ['ms-hk-stamp-in'], 'its one motion, the results\' stamp snap');
+  assert.deepEqual([...css.matchAll(/animation:\s*([^;}]+)/g)].map(m => m[1].trim()), ['ms-hk-stamp-in 120ms var(--ms-k-ease) both', 'none', 'none'], 'the snap is REGISTERED\'s 120 ms, and stops with Reduce motion');
+  assert.doesNotMatch(css, /transition/, 'nothing else moves');
+  assert.match(css, /\.ms-hacker\.ms-kit\[data-motion="reduced"\] \.ms-hk-result \.ms-k-stamp \{ animation: none; \}/, 'the game\'s Reduce motion');
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.ms-hacker \.ms-hk-result \.ms-k-stamp \{ animation: none; \} \}/, 'the device\'s Reduce motion');
+  // The imports first, or the first rule's prelude would take them in; the keyframes' steps are not rules.
+  const selectors = [...css.replace(/@import[^;]*;/g, '').matchAll(/([^{}]+)\{/g)].map(m => m[1].trim()).filter(s => s && !s.startsWith('@') && !/^(?:from|to|\d+%)$/.test(s));
+  assert.ok(selectors.length >= 8, `found the rules (${selectors.length})`);
   for (const list of selectors) {
     for (const selector of split(list)) {
-      assert.match(selector, /^\.ms-hacker(?:\.ms-kit)?(?::focus)?(?:\s|$)/, `"${selector}" is under the component's root`);
+      assert.match(selector, /^\.ms-hacker(?:\.ms-kit)?(?:\[data-motion="reduced"\]|:focus)?(?:\s|$)/, `"${selector}" is under the component's root`);
       assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
       assert.ok((selector.match(/\.[\w-]+/g) ?? []).length >= 2, `"${selector}": two classes, so it outranks the kit in any order`);
-      for (const part of selector.split(/\s+|>|\+|~/).slice(1).filter(Boolean)) assert.match(part, /^(?:\.ms-hk-|\[hidden\]$)/, `"${selector}": "${part}" is its own`);
+      for (const part of selector.split(/\s+|>|\+|~/).slice(1).filter(Boolean)) assert.match(part, /^(?:\.ms-(?:hk|k)-|\[hidden\]$)/, `"${selector}": "${part}" is its own, or the kit's`);
+      if (/\.ms-k-/.test(selector)) assert.match(selector, /\.ms-hk-[\w-]+\s[^,]*\.ms-k-/, `"${selector}": a kit part placed only inside the component's own`);
     }
   }
   assert.deepEqual([...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))], [], 'no kit token or other component\'s property is declared');
@@ -113,7 +119,7 @@ test('its words are the pack\'s (screens-more.mjs scan() and code(), ui.mjs), an
   const pack = ['design/phone-ui/prototype/screens-more.mjs', 'design/phone-ui/prototype/screens-game.mjs', 'design/phone-ui/prototype/ui.mjs'].map(read).join('\n');
   const W = HACKER_WORDS;
   const words = [W.scan, W.chooseInRoom, W.onlyHere, W.scanWho('Gus'), W.guessLine, W.guess, W.matched, W.noMatch, W.guessed('Gus', 'Blue'), W.inCode, W.yes, W.blocked(4),
-    W.cancel, W.done, W.code, W.pickLine, W.confirmLine, W.next, W.back, W.submit, W.correct, W.wrong, W.unlocked, W.separate, W.used, W.scanStays, ...SIDES];
+    W.cancel, W.done, W.code, W.pickLine, W.confirmLine, W.next, W.back, W.submit, W.correct, W.wrong, W.unlocked, W.separate, W.used, ...SIDES];
   for (const w of words) assert.ok(pack.includes(w), `"${w}" is the pack's`);
   // "Pick 1"–"Pick 4", as code() writes them; a cell's name, as the pack's cell() words its aria-label.
   assert.ok(pack.includes('`Pick ${k + 1}`') && W.pick(3) === 'Pick 3', 'the pack\'s Pick n');
@@ -129,6 +135,13 @@ test('its words are the pack\'s (screens-more.mjs scan() and code(), ui.mjs), an
     assert.ok(doc.includes(`"${w}"`), `"${w}" is recorded in the interface`);
   }
   assert.ok(doc.includes('"In the Code · No"'), 'Q2\'s row is recorded');
+  // Q-b (the Lead, 16 November; the handoff): CODE WRONG says only "Your one attempt is used". The pack's "Scan stays
+  // available" states a rule the planet-navigation overlay leaves open, so the component does not say it.
+  assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("h('p', 'Scan stays available')"), 'the pack draws the line the Lead dropped');
+  assert.ok(!Object.values(W).includes('Scan stays available'), 'the component does not say it');
+  const overlay = JSON.parse(read('rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json'));
+  assert.match(overlay.open_integration_details[5]?.question ?? '', /continued Scan availability was not decided/, 'Scan after the failed Code is open (CODE-OPEN-02)');
+  assert.ok(doc.includes('**Q-b.') && doc.includes('CODE-OPEN-02'), 'Q-b is recorded with its reason');
   assert.match(read('AGENTS.md'), /\*\*Not available now\*\*/, 'T3\'s words are the owner\'s');
 });
 
@@ -230,4 +243,18 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
   assert.equal(agree.checks.length, 8, 'the pack\'s eight frames');
   for (const c of agree.checks) assert.ok(c.ok, `${c.id} agrees with the pack`);
+  // Q-b: one line is taken out of the pack's frame before it is measured, and only there.
+  assert.deepEqual(agree.checks.filter(c => c.detail.dropped).map(c => [c.id.split(' ')[1], c.detail.dropped]), [['code-wrong', ['Scan stays available']]]);
+  for (const size of ['390x844', '430x932']) assert.equal(record.captures[`${size}/code-wrong`].lines, 'Your one attempt is used', `${size}: CODE WRONG's one line`);
+  // Q-a: each result's stamp snaps in over 120 ms, and is there at once with Reduce motion; nothing else moves.
+  const motion = record.probe.full.checks.find(c => c.id === 'motion').detail.seen;
+  for (const key of ['scan-matched', 'scan-nomatch', 'code-correct', 'code-wrong']) {
+    assert.deepEqual(motion[key], [{ name: 'ms-hk-stamp-in', duration: 120, stamp: true }], `${key}: the stamp snaps in`);
+    assert.deepEqual(motion[`${key} reduced`], [], `${key}: with the game's Reduce motion, at once`);
+  }
+  for (const key of ['scan-guess', 'code-pick']) assert.deepEqual(motion[key], [], `${key}: nothing moves`);
+  assert.ok(Object.values(record.probe['device-reduced'].checks[0].detail.seen).every(list => list.length === 0), 'with the device\'s Reduce motion, nothing moves');
+  // The Code's visually hidden names leave the page with the rest, concealed or handed to another viewer.
+  const names = record.probe.full.checks.find(c => c.id === 'leaks').detail.names;
+  assert.ok(names.checked >= 14 && names.stayed.length === 0, 'the hidden names leave with the rest');
 });
