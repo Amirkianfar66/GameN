@@ -103,7 +103,7 @@ test('every copy is its pinned source in the frozen port, with only the recorded
   assert.equal(record.baseline.commit, '68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d');
   assert.equal(record.baseline.pins, PINS);
   assert.deepEqual(record.files.map(f => f.file), COPIES, 'one entry per copied file');
-  const kinds = {};
+  const kinds = {}, fixes = {};
   for (const entry of record.files) {
     const source = bytes(entry.source);
     assert.ok(entry.source.startsWith(`${PORT}/`), `${entry.file}: copied from the port`);
@@ -112,7 +112,13 @@ test('every copy is its pinned source in the frozen port, with only the recorded
     assert.equal(source.length, entry.sourceBytes);
     let text = source.toString('utf8');
     for (const difference of entry.differences) {
-      assert.ok(['import-path', 'connector-seam', 'host-rule'].includes(difference.kind), `${entry.file}: a difference is an import path, a connector seam or a host rule`);
+      assert.ok(['import-path', 'connector-seam', 'host-rule', 'correction'].includes(difference.kind), `${entry.file}: a difference is an import path, a connector seam, a host rule or a correction`);
+      assert.equal('fix' in difference, difference.kind === 'correction', `${entry.file}: a correction, and nothing else, names the fix it belongs to`);
+      if (difference.kind === 'correction') {
+        assert.ok([1, 2, 3, 4, 5, 6].includes(difference.fix), `${entry.file}: a correction is one of the six`);
+        assert.ok(difference.why.length > 60, `${entry.file}: a correction says what the port did and what it does now`);
+        fixes[difference.fix] = (fixes[difference.fix] ?? 0) + 1;
+      }
       assert.ok(typeof difference.why === 'string' && difference.why.length > 10, `${entry.file}: each difference says why`);
       assert.equal(text.split(difference.was).length, 2, `${entry.file}: "${difference.was.slice(0, 50)}…" occurs exactly once in the source`);
       text = text.replace(difference.was, () => difference.now);
@@ -124,10 +130,14 @@ test('every copy is its pinned source in the frozen port, with only the recorded
     assert.equal(copy.length, entry.bytes);
   }
   const changed = record.files.filter(f => f.differences.length).map(f => [f.file, f.differences.length]);
-  assert.deepEqual(changed, [['food-ink.mjs', 2], ['food-render.mjs', 9], ['food-notice.mjs', 4], ['food-surface.css', 2]], 'four files differ from their source; eleven are byte for byte');
-  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2 });
-  // The drawing bytes are unchanged: the seams are imports, the contact adapter, the app's own listeners, the handle,
-  // the connector, and the notice's reach into the app's page. None of them draws.
+  assert.deepEqual(changed, [['food.css', 1], ['food-ink.mjs', 2], ['food-render.mjs', 16], ['food-notice.mjs', 4], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
+  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, correction: 8 });
+  // The corrections are the only differences that change what is drawn or done: six, each by its number. They are
+  // in the renderer and its styles, and the check's record holds what each one shows.
+  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 3 }, 'the portraits, the dock, the role row, the outcome card, the request card, and the focus (the top bar, and a sheet or card: remembered, then given back)');
+  assert.deepEqual(record.files.filter(f => f.differences.some(d => d.kind === 'correction')).map(f => f.file), ['food.css', 'food-render.mjs']);
+  // The seams do not draw: they are imports, the contact adapter, the app's own listeners, the handle, the connector,
+  // and the notice's reach into the app's page.
   const seams = record.files.flatMap(f => f.differences.filter(d => d.kind === 'connector-seam').map(d => `${d.was}\n${d.now}`)).join('\n');
   assert.doesNotMatch(seams.replace(/\/\*\* Bind both Food surfaces[\s\S]*?\n}\n/, ''), /\bh\(|ui\.|replace\(|\.style\b|innerHTML|className|textContent/, 'no seam touches a line that draws');
   // The three window listeners that follow a release stay, one set per mount; the app's own four are gone.
@@ -350,7 +360,7 @@ test('the drawing reads of the view only the keys the surface takes', () => {
     ...[...render.slice(0, render.indexOf('function buildFoodFlow')).matchAll(/\bview\??\.(\w+)/g)].map(m => m[1]),
     ...[...flow.matchAll(/\bv\.(\w+)/g)].map(m => m[1]),
   ]);
-  for (const name of ['setAttribute', 'style']) reads.delete(name); // nodes.view, the scene's element, not the Food view
+  for (const name of ['setAttribute', 'style', 'getBoundingClientRect']) reads.delete(name); // nodes.view, the scene's element, not the Food view
   assert.deepEqual([...reads].sort(), ['invitation', 'offers', 'ownAvailability', 'participantTask', 'partnerChoices', 'requestClosures', 'round', 'seatId', 'step', 'stock', 'versions']);
   for (const name of reads) assert.ok(FOOD_VIEW_KEYS.includes(name), `${name} is a key the surface takes`);
   assert.deepEqual(FOOD_VIEW_KEYS.filter(key => !reads.has(key)), ['viewRevision'], 'one more key is taken, the revision, which only tells a new view from the last');
@@ -406,6 +416,9 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   assert.match(csp, /default-src 'none'/);
   assert.match(csp, /img-src 'self' data: blob:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
+  // Each picture is of a page at rest: it is taken again, 150 ms apart, until two in a row are the same.
+  assert.equal(record.rest.ms, 150);
+  assert.ok(record.rest.pictures >= 400 && record.rest.retaken <= record.rest.pictures / 10, 'every picture was taken at rest, and few had to be taken again');
   // The pins it was made against.
   assert.ok(record.packet.ok && record.packet.sha256 === PACKET.sha256, 'Frontend\'s packet');
   const sources = JSON.parse(read(`${COMPONENT}/sources.json`));
@@ -424,37 +437,74 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     assert.ok(c.ok, `${key} passed: ${c.notes.join('; ')}`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
-    assert.ok(Object.values(c.port.equal).every(Boolean) && c.port.htmlSha256 === c.htmlSha256 && c.port.pngSha256 === c.pngSha256, `${key}: the frozen port draws the same DOM and the same pixels`);
+    assert.ok(Object.values(c.port.equal).every(Boolean), `${key}: the frozen port draws the same, the corrections that apply aside`);
+    if (c.port.corrections.length === 0) assert.ok(c.port.htmlSha256 === c.htmlSha256 && c.port.pngSha256 === c.pngSha256 && c.port.touched.length === 0, `${key}: no correction applies: the frozen port's DOM and pixels, byte for byte`);
+    else assert.notEqual(c.port.htmlSha256, c.htmlSha256, `${key}: corrections ${c.port.corrections.join(', ')} apply: the DOM is the port's as corrected, not as it is`);
     assert.match(c.synthetic, /Frontend's|invented/, `${key}: its state says where it comes from`);
     if (c.file) assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
   assert.equal(captures.filter(([, c]) => c.file).length, 48, 'a picture of every state at 390 × 844 in full motion, and of the five parts at both sizes in both motions');
-  // Larger text: the port's own support, drawn the same by the component.
+  // Larger text: the port's own support, drawn the same by the component, with the corrections.
   const larger = Object.entries(record.largerText.drawn);
   assert.deepEqual(record.largerText.texts, [1.5, 2]);
   assert.equal(larger.length, 36, 'nine states at two sizes, at the Large and the Largest text');
   for (const [key, l] of larger) {
-    assert.ok(l.ok && Object.values(l.equal).every(Boolean), `${key}: the frozen port draws the same DOM and the same pixels`);
+    assert.ok(l.ok && Object.values(l.equal).every(Boolean), `${key}: the frozen port draws the same, the corrections that apply aside: ${l.notes.join('; ')}`);
     assert.equal(l.bars.top, { 24: 117, 32: 141 }[l.rootPx], `${key}: the text is larger: the surface's own bar has grown`);
     assert.deepEqual(l.problems, [], `${key}: no page problem`);
     if (l.file) assert.ok(existsSync(join(REPO, l.file)), `${key}: ${l.file}`);
   }
-  assert.equal(larger.filter(([, l]) => l.file).length, 6, 'six larger-text pictures kept for review');
-  // Laid out again after a text-size change: relayout() is what the port draws on the app's preferences event.
-  assert.deepEqual([record.relayout.text, record.relayout.portEvent, record.relayout.states], [1.5, 'mothership:preferences-change', { 'case-food-flow-09': 'banner', 'case-food-flow-04': 'card' }]);
-  assert.deepEqual(Object.keys(record.relayout.drawn), ['390x844/case-food-flow-09', '390x844/case-food-flow-04', '430x932/case-food-flow-09', '430x932/case-food-flow-04']);
+  assert.equal(larger.filter(([, l]) => l.file).length, 2, 'two larger-text pictures kept for review, beside the corrections\' own');
+  // At the larger text the corrections to the role row, the outcome card and the request card show.
+  assert.deepEqual([record.largerText.port.states, record.largerText.port.equal, record.largerText.port.identical], [36, 36, 0]);
+  assert.deepEqual(record.largerText.port.corrected, { 1: 28, 2: 8, 3: 8, 4: 4, 5: 4, 6: 4 });
+  for (const [key, l] of larger) {
+    const [size, state, text] = key.split('/'), task = !state.includes('flow');
+    assert.equal(l.corrections.includes(1), task, `${key}: a Task's bar holds the portraits`);
+    // The port breaks the Partner's label at the Large text on the narrower phone, and with "· Out" on both.
+    assert.equal(l.corrections.includes(3), task && text === '150%' && (size === '390x844' || state === 'case-food-panel-16'), `${key}: correction 3 applies where the port breaks the label`);
+    // A card's limit shows wherever the port's card is taller: then the place it touches is named.
+    if (state === 'case-food-panel-16') assert.ok(l.corrections.includes(4) && l.touched.length >= 2, `${key}: the outcome card is held by its limit`);
+    if (state === 'case-food-flow-04') assert.equal(l.touched.length, { '390x844/150%': 1, '390x844/200%': 1, '430x932/150%': 0, '430x932/200%': 1 }[`${size}/${text}`], `${key}: the request card is held by its limit where the port's ran over the tab bar`);
+  }
+  // Laid out again after a text-size change: relayout() draws what a new mount draws and, the focus aside, what the port draws on the app's preferences event.
+  assert.deepEqual([record.relayout.text, record.relayout.portEvent, record.relayout.states], [1.5, 'mothership:preferences-change', { 'case-food-flow-09': 'banner', 'case-food-flow-04': 'card', 'case-food-flow-01': 'sheet' }]);
+  assert.deepEqual(Object.keys(record.relayout.drawn), ['390x844', '430x932'].flatMap(size => ['case-food-flow-09', 'case-food-flow-04', 'case-food-flow-01'].map(state => `${size}/${state}`)));
   for (const [key, r] of Object.entries(record.relayout.drawn)) {
-    assert.ok(r.ok && Object.values(r.equal).every(Boolean), `laid out again, ${key}: the port, on its preferences event, draws the same DOM, focus and pixels`);
+    assert.ok(r.ok && Object.values(r.equal).every(Boolean), `laid out again, ${key}: the port, on its preferences event, draws the same, the corrections that apply aside: ${r.notes.join('; ')}`);
     assert.equal(r.bars.top, 117, `laid out again, ${key}: the bar has grown`);
     assert.deepEqual(r.problems, [], `laid out again, ${key}: no page problem`);
+    assert.ok(r.asNew.html && r.asNew.pixels, `${key}: it is what a new mount draws, DOM and pixels`);
     if (r.kind === 'banner') {
-      assert.ok(r.asNew.html && r.asNew.pixels, `${key}: it is what a new mount draws`);
+      assert.deepEqual(r.corrections, [], `${key}: no correction applies`);
       assert.deepEqual(r.banner, { told: '161px', port: '161px', untold: '143px' }, `${key}: told, the banner sits under the taller bar; not told, it stays where it was built`);
     } else {
-      // The known issue, unchanged from the port: a card that is built again is not focused again.
-      assert.ok(r.asNew.htmlButFocus, `${key}: its focus aside, it is what a new mount draws`);
-      assert.deepEqual(r.focus, { newMount: 'fs-card', notTold: 'fs-card', told: null, port: null }, `${key}: the card built again is not focused again, here as in the port`);
+      // Correction 6: the card or sheet that is built again takes the focus back. The port's leaves it to the page: the control.
+      const dialog = { card: 'fs-card', sheet: 'sheet' }[r.kind];
+      assert.ok(r.corrections.includes(6), `${key}: correction 6 applies`);
+      assert.deepEqual(r.focus, { newMount: dialog, notTold: dialog, told: dialog, port: null }, `${key}: the ${r.kind} built again has the focus, where the port's left it to the page`);
     }
+  }
+  // The corrections to the port, each pictured before and after, with its numbers.
+  assert.deepEqual(Object.keys(record.corrections.list), ['1', '2', '3', '4', '5', '6']);
+  assert.deepEqual([record.corrections.portrait, record.corrections.slotGap], [{ kit: 32, port: 36 }, 10]);
+  const pictured = record.corrections.beforeAfter;
+  assert.deepEqual(Object.keys(pictured), ['1/390x844/food-panel-04/100%', '1/430x932/food-panel-04/100%', '2/390x844/food-winch-12/100%', '3/390x844/food-panel-04/150%', '3/390x844/food-winch-03/150%',
+    '4/390x844/case-food-panel-16/150%', '4/430x932/case-food-panel-16/150%', '4/390x844/case-food-panel-16/200%', '4/430x932/case-food-panel-16/200%', '5/390x844/case-food-flow-04/150%', '5/390x844/case-food-flow-04/200%', '5/430x932/case-food-flow-04/200%']);
+  for (const [key, p] of Object.entries(pictured)) {
+    assert.ok(p.ok, `before and after, ${key}: the numbers show the correction`);
+    assert.ok(existsSync(join(REPO, p.file)), `before and after, ${key}: ${p.file}`);
+  }
+  assert.deepEqual([pictured['1/390x844/food-panel-04/100%'].before, pictured['1/390x844/food-panel-04/100%'].after], [{ portraits: ['36 × 36', '36 × 36'], titleStartsAt: 80 }, { portraits: ['32 × 32', '32 × 32'], titleStartsAt: 72 }], 'correction 1: the portraits, and the title 8 px further back');
+  assert.deepEqual([pictured['2/390x844/food-winch-12/100%'].before.dock, pictured['2/390x844/food-winch-12/100%'].after.dock, pictured['2/390x844/food-winch-12/100%'].after.controls], [[16, 708, 358, 86], [16, 718, 358, 76], [16, 718, 358, 76]], 'correction 2: the dock is its controls');
+  assert.deepEqual([pictured['3/390x844/food-panel-04/150%'].before.pieces, pictured['3/390x844/food-panel-04/150%'].after.pieces], [[{ text: '8 Hana', lines: 2 }, { text: '· Winch', lines: 3 }], [{ text: '8 Hana', lines: 1 }, { text: '· Winch', lines: 1 }]], 'correction 3: the label\'s two pieces, broken and whole');
+  for (const key of Object.keys(pictured).filter(key => key.startsWith('4/'))) {
+    const { before, after } = pictured[key];
+    assert.ok(before.cardEndsAt > before.nextRowStartsAt && after.cardEndsAt <= after.viewEndsAt - 12 + record.limits.box && after.scrolls && !before.scrolls, `correction 4, ${key}: the card ran over the row under the view, and now ends inside the view and scrolls`);
+  }
+  for (const key of Object.keys(pictured).filter(key => key.startsWith('5/'))) {
+    const { before, after } = pictured[key];
+    assert.ok(before.cardEndsAt > before.tabBarStartsAt && after.cardEndsAt <= after.passStartsAt - 8 + record.limits.box && after.answersEndAt < after.cardEndsAt && after.wordsNeed > after.wordsShown && after.wordsShown >= 300, `correction 5, ${key}: the card ran over the tab bar, and now ends above the Pass button with its answers whole and its words scrolling`);
   }
   assert.match(record.captures['390x844/food-panel-18/full'].synthetic, /a synthetic equivalent \(a retained RELEASE-capable view marked stale\), not a connected payload/);
   for (const part of PACKET.parts) {
@@ -465,7 +515,19 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     }
   }
   // 1. The frozen port.
-  assert.deepEqual([record.agreement.port.states, record.agreement.port.equal], [132, 132]);
+  assert.deepEqual([record.agreement.port.states, record.agreement.port.equal, record.agreement.port.identical], [132, 132, 36], 'every capture is the port\'s, corrections aside; in 36 none applies and nothing differs');
+  // Which correction applies where: the portraits on every Task screen and on the one turn bar; the dock where no instrument
+  // is shown; an outcome card's limit and a request card's wherever one is shown; the focus on the sheet the port built again.
+  assert.deepEqual(record.agreement.port.corrected, { 1: 88, 2: 28, 4: 16, 5: 4, 6: 4 });
+  for (const [key, c] of captures) {
+    const state = key.split('/')[1], task = c.screen === 'food-task';
+    assert.equal(c.port.corrections.includes(1), task || state === 'case-food-states-14', `${key}: correction 1 applies to a bar with portraits`);
+    assert.ok(!c.port.corrections.includes(3), `${key}: at the Standard text the port breaks no label`);
+    assert.equal(c.port.corrections.includes(5), state === 'case-food-flow-04', `${key}: correction 5 applies to the request card`);
+    assert.equal(c.port.corrections.includes(6), state === 'case-food-flow-02', `${key}: correction 6 applies to the sheet the port built again when a Partner was chosen`);
+    // At the Standard text no card is held by its limit: only the bar's portraits and title are touched.
+    assert.equal(c.port.touched.length, c.port.corrections.includes(1) ? 1 : 0, `${key}: only the bar's portraits and title differ in the picture`);
+  }
   assert.ok(record.agreement.port.control.ok && !record.agreement.port.control.html && !record.agreement.port.control.pixels, 'a clock one second off is told apart');
   // 2. The approved package's own pages, for the five parts.
   const WORDS = { 'food-panel-03': [['Sending…'], ['Starts the panel clicking']], 'food-panel-04': [[], []], 'food-winch-03': [['Checking your let-go…', 'The connection dropped on the way.'], []], 'food-winch-12': [[], []],
@@ -476,9 +538,11 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     assert.ok(a.ok, `${key}: ${a.notes.join('; ')}`);
     assert.deepEqual([a.words.onlyComponent, a.words.onlyPackage], WORDS[part], `${key}: the words differ only by the packet's own press state`);
     assert.ok(Object.keys(a.boxes).length >= 6, `${key}: the parts were measured`);
-    // The dock is a wrapper: with no instrument (the crate landed), the port's dock holds the instrument's empty slot and its 10 px gap, and draws nothing there.
-    for (const [selector, delta] of Object.entries(a.boxes)) assert.ok(delta <= record.limits.box || (selector === '.fs-dock' && a.instrument === false && part === 'food-winch-12' && delta === 10), `${key}: ${selector} lies where the package lays it`);
-    assert.deepEqual(a.portraits, { component: [36, 36], package: [32, 32] }, `${key}: the top bar's portraits are the port's size`);
+    // Corrections 1 and 2 are held here: the dock lies where the package lays it with no instrument too, and the bar's portraits and title are the package's.
+    for (const [selector, delta] of Object.entries(a.boxes)) assert.ok(delta <= record.limits.box, `${key}: ${selector} lies where the package lays it`);
+    assert.ok('.fs-dock' in a.boxes && (part !== 'food-winch-12' || a.instrument === false), `${key}: the dock was measured, with no instrument on food-winch-12`);
+    assert.deepEqual(a.portraits, { component: [32, 32], package: [32, 32] }, `${key}: the top bar's portraits are the package's size`);
+    assert.ok(a.pixels.who.max <= record.limits.packageBar && a.pixels.who.moved3px.max > 100, `${key}: the bar's portraits and title are the package's, to the bar's glass; 3 px off would show`);
     if (a.held.scene) assert.ok(a.pixels.scene.mean <= record.limits.packageSceneMean && a.pixels.scene.far <= record.limits.packageSceneFar, `${key}: the scene outside the notices is the package's`);
     if (['food-panel-04', 'food-winch-12'].includes(part)) assert.equal(a.pixels.scene.differing, 0, `${key}: with nothing in motion, the scene is the package's pixel for pixel`);
     else if (a.held.scene) assert.ok(a.pixels.scene.differing > 0 && a.pixels.scene.differing < 0.02 * a.pixels.scene.pixels, `${key}: a few pixels differ, around what moves`);
@@ -508,7 +572,7 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = new Set(record.probe.full.checks.map(c => c.id.split(':')[0]));
-  for (const group of ['contacts', 'listeners', 'presses', 'offers', 'requests', 'stale', 'focus', 'lifecycle', 'quiet', 'exits', 'ownership', 'privacy', 'notice', 'gauge', 'host', 'motion', 'layout', 'pictures', 'handlers', 'adapter']) assert.ok(groups.has(group), `probe group ${group}`);
+  for (const group of ['contacts', 'listeners', 'presses', 'offers', 'requests', 'stale', 'focus', 'lifecycle', 'quiet', 'exits', 'ownership', 'privacy', 'notice', 'gauge', 'host', 'motion', 'layout', 'corrections', 'pictures', 'handlers', 'adapter']) assert.ok(groups.has(group), `probe group ${group}`);
   // Frontend's four answers, each by its own check.
   const passed = id => record.probe.full.checks.some(c => c.ok && c.id.startsWith(id));
   for (const id of ['listeners: one set on the window per mount', 'contacts: Hold still reports the contact then', 'adapter: with a contact-off owed and no hold offered', 'stale: the tabs, Promises and Settings still report onNavigate',
@@ -521,5 +585,12 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   for (const id of ['privacy: concealed, then woken by status alone, the surface stays empty', 'privacy: given fresh authorized inputs it starts anew', 'privacy: the viewer\'s Promises count is not shown again by a status-only wake',
     'privacy: an offer is not brought back or inferred', 'privacy: the whole of a fresh authorized input restores it', 'privacy: stale is not concealed', 'privacy: a press that was on its way is not shown again unless it is given again',
     'privacy: mounted concealed with a view, then woken by status alone, it stays empty', 'privacy: and given fresh authorized inputs, it draws them']) assert.ok(passed(id), `probe: ${id}`);
-  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 100, 'a hundred checks in each mode');
+  // The six corrections to the port, each by its own checks, as the Lead Designer asked on 16 November.
+  for (const id of ['corrections: the top bar\'s portraits take the kit\'s 32 px', 'corrections: with no instrument the dock has no slot and no gap for one',
+    'corrections: at the Standard and the Large text, on both phones and with the longest names, the Partner\'s label is two whole pieces', 'corrections: at the Largest text the role row is dropped, as in the port',
+    'corrections: at every text size, on both phones, an outcome card ends 12 px above the view\'s lower edge or higher, over no row and no control', 'corrections: an outcome card with more words than room scrolls to its last line',
+    'corrections: at every text size, on both phones, the request card ends 8 px above the Pass button or higher, clear of the tab bar', 'corrections: where the request\'s words need more room they scroll above the answers to their last line',
+    'corrections: with a sheet open, the focus survives relayout()', 'corrections: with a request card open, the focus survives relayout()', 'corrections: at the Largest text, where a sheet or a card is built again by itself, the focus stays too',
+    'corrections: a card built again does not take the focus from outside the surface', 'corrections: the top bar is drawn again a second later, and Promises keeps the focus']) assert.ok(passed(id), `probe: ${id}`);
+  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 113, 'a hundred and thirteen checks in each mode');
 });
