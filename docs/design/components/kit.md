@@ -1,6 +1,6 @@
 # Component kit: the controls every Designer component shares
 
-**Version:** `component-kit-0.5.1` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (16 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
+**Version:** `component-kit-0.6.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (16 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
 
 **What it is:** one look and one behaviour for the controls in every Designer component: the shell, and the screens the Designer team builds next (the role card and Ready, the ballot and results, the sheets' contents, the lobby).
 - It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds each visual component once, and Frontend connects it without rebuilding, restyling or copying it.
@@ -98,6 +98,10 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
 | `stepper`, `setStepper` | `.stepper` | `value`, `label`, `intent`. Its two buttons report `down` and `up`; each side's availability is the component's (`policy.control`) |
 | `switchControl`, `setSwitch` | `.switch` | `checked`, `label`, `intent` |
 | `wait`, `setWait` | `screens.css` `.wait`, `.big-icon`, `.spinner` | The waiting block: `icon` (+ `filled`) in the 76 px tile, or `lead`, a node in its place (a portrait); `title`; `line`, with the 16 px spinner before it when `busy`; `size: 'small'` for the 1.25rem title the pack uses in sheets. Boarding's "Starting Round 1 · Waiting for the ship" (sheet 19), "Waiting for the host" (13), "No window here" and "Ben is choosing an Officer". The spinner stands still with Reduce motion |
+| `tile`, `setTile`, `tiles(...tiles)` | `screens-game.mjs` `tile()`, `screens.css` `.tile`, `.tiles` | `icon`, `name`, `note` (the line under the name; an unavailable tile's reason), `state` (`available`, `selected`, `sending`, `registered`, `unavailable`), `badge` (a whole number on the icon's corner), `label` (default: the name, the note and "registered"), `intent`, `value`. Always a button; `tiles()` lays them three to a row (0.6.0) |
+| `who`, `setWho` | `screens.css` `.confirm-who` | `people` (none, one or two `{ seat, character }`), or without people an `icon` on its 64 px paper tile; `title` ("Rescue Eli", "Offer to Ava"); `sub`; `versions` (0.6.0) |
+| `facts`, `setFacts` | `screens.css` `.facts` | `[line, …]`: each text, with the amber "i", or `{ icon, text }` (Promises' lock). Each line kept by its place (0.6.0) |
+| `comic(...children)` | `kit.css` `.comic` | The paper card: paper, an ink border and the ink shadow. The caller fills and pads it, as the pack's screens do (0.6.0) |
 
 **The cells' states:** `available`, `selected`, `confirmed`, `taken`, `ineligible`, `empty`, `winner`, `faded`.
 - Seat *n* is always cell *n*. An empty seat (a 7- or 8-player match) is an empty frame, hidden from screen readers.
@@ -114,6 +118,7 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
   - on glass the count keeps the halo under its light words. The pack's reset for the cell's dark vote count (`.sheet .count`) also catches the field's count, which shares its class.
 - A cell's tag is the component's choice, and its availability is the policy's, where the pack infers both from the state.
 - The seat number comes from `number`, or from the digits at the end of the seat's id (`seat-4` → 4).
+- A tile is always a button, so a focused tile keeps its element and its focus through every state; its availability is the policy's. The pack makes a tile that can't be chosen now (`sending`, `registered`, `unavailable`) a `div`, so the kit gives those the `div`'s look: no hand cursor, and on glass the sheet's halo under their words, which a button's own styles drop. `sending` is the pack's `submitting`.
 
 ## Styling a component that uses it
 
@@ -130,6 +135,9 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
   - **Segmented controls:** `seg({ …, stack: true })` for options that are words, which may not fit side by side ("Card · Knowledge · Resources"). Under 15 em across (the Largest text on any phone, or Large on the smallest) they stack, one per row, each still 44 px. Leave `stack` off for short options ("7 · 8 · 9"), which stay a row.
   - A component inside the shell (its sheets, its cover) is already in the shell's container and needs nothing more.
 - **A segmented control's chosen icon (0.5.1).** The chosen option's icon is filled and the others plain, as sheet 12 draws Join's device choice ("Player phone" filled, "Shared display" plain). Options without icons are unchanged.
+- **The tile, who, the facts and the paper card (0.6.0).** The Gameplay builder's play-parts drew the first three for Actions and the private talk. When Promises needed them too, they moved into the kit, with the same props, states and behaviour (the Lead's L2: a part another builder needs goes into the kit). The kit also takes the pack's tiles grid and its paper card (`.comic`).
+  - play-parts delegates its `tile`, `who` and `facts` to the kit and keeps its own API, so Actions and the private talk don't change. Its notice and time line stay in play-parts until another builder needs them.
+  - Size and place them through your own parts, as with every kit control.
 
 ## Writing your component's check
 
@@ -154,16 +162,19 @@ The component's own check draws its states, runs its probe and writes its record
   - **The check's record**, below.
 - **`node design/tools/kit-check.mjs`:**
   - **The setup:** the two halves are bundled by Vite and served with the hosted game's production headers (the same SHA-256 as the shell's check). They are drawn in two separate pages, so neither half's styles can stand in for the other's. The pack's half loads its `kit.css` and, for the result's paper card, its `screens.css`, whose rules are all contextual.
-  - **The cases:** 37 at 390 px wide: every builder and its states, including the busy spinners, an unavailable button and row, the seven row kinds, the four fields, both code boxes, the switch on and off, every pill, stamp, caption and portrait, the 3 × 3 in all eight states with a count, "You" and a mark, the 3 × 3 on the result's paper card, the waiting block with its spinner, in a sheet's small form and with a portrait, and the menu's offline note.
-    - Each is drawn on a plain surface. 33 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
-    - Everything is drawn at 100 % and at 200 % text: 140 comparisons in all.
+  - **The cases:** 43 at 390 px wide: every builder and its states, including the busy spinners, an unavailable button and row, the seven row kinds, the four fields, both code boxes, the switch on and off, every pill, stamp, caption and portrait, the 3 × 3 in all eight states with a count, "You" and a mark, the 3 × 3 on the result's paper card, the waiting block with its spinner, in a sheet's small form and with a portrait, the menu's offline note, the device choice (0.5.1), and the tiles, who with a person and with an icon, the facts and the paper card (0.6.0).
+    - Each is drawn on a plain surface. 38 are also drawn on glass: in the pack's sheet, and in the shell's docked sheet inside a component's own `.ms-kit` root, as a sheet's content will be.
+    - Everything is drawn at 100 % and at 200 % text: 162 comparisons in all.
   - **What is compared, part by part:** the box to within half a pixel, the computed type, colours, spacing and shape, the `::before` and `::after`, each icon's drawing and knock-out colour, and the words.
+  - **0.6.0 against 0.5.1:** five new cases, 18 comparisons and 162 parts. The other 144 comparisons agree as before.
+    - The cases: every tile state with a note, a badge and the registered mark, in the pack's three-to-a-row grid; who with a person and with an action's icon; the facts with the "i" and the lock; the paper card.
+    - **Found and fixed before the record:** the three tiles that can't be chosen (sending, registered, unavailable) had the hand cursor and, on glass, no halo under their words. The pack draws those as a `div`, which has neither difference. The kit now gives them the `div`'s look, and every comparison agrees.
   - **0.5.1 against 0.5.0:** the device choice is a new case (four comparisons, 5 parts each), drawn as sheet 12 draws it: the chosen icon filled.
     - At 100 % it agrees with the pack, plain and on glass.
     - At 200 %, plain, the pack squeezes its two long options' icons to 12.8 and 11.4 px. The kit's keep their 18 px.
     - At 200 % on glass, inside the shell's phone root, the kit stacks the two options, the 0.5.0 rule.
     - Both are accepted with their reason. The other 140 comparisons agree as before.
-  - **Result:** all 144 agree, 931 parts. The only remaining differences are the nine kinds the kit has on purpose (above, and the larger-text forms), 124 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
+  - **Result:** all 162 agree, 1093 parts. The only remaining differences are the nine kinds the kit has on purpose (above, and the larger-text forms), 124 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
   - **It catches drift:** three changes injected one at a time each fail it: one pixel of a button's padding, one pill tone's alpha, and a glass grey by 1/255.
   - **What it found, fixed before 0.1.0's record:**
     - a busy spinner 5 px small, and turning faster;
