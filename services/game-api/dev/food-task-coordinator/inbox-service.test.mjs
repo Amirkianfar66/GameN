@@ -5,6 +5,7 @@ import {createPlanetService,PLANET_FOOD_OWNER_INBOX_PROFILE,withPlanetRequestTim
 import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey} from '../../dist/planet-food-inbox.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {envelope,seedTwoHumanTask} from './fixture.mjs';
+import {ok,planetServiceHarness} from '../../test/planet-service-helper.mjs';
 
 async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   const real=createLoopbackFoodStore();
@@ -499,5 +500,55 @@ test('an invalid saved authority profile never falls back to detached legacy int
     const command=await h.invoke(winch,'foodHeartbeat',{matchId:h.matchId,taskId:route.scope.taskId});
     assert.equal(command.error.code,'UNAVAILABLE');
     assert.deepEqual(await read(controlKey),original);
+  }
+});
+
+test('two live Food owners continue while an unrelated ordinary deadline advances', {timeout:60_000},async t=>{
+  const games=[await inboxMatch(t,{live:true,humans:2}),await inboxMatch(t,{live:true,humans:2})];
+  const ordinary=await planetServiceHarness({store:games[0].store});
+  ok(await ordinary.operation(ordinary.host,'beginSetup',{matchId:ordinary.matchId}));
+  const ready=await Promise.all(games.map(async game=>{
+    const {h,store,read}=game;
+    const records=await Promise.all((await store.listKeys('foodInboxWake',100)).map(read));
+    return records.find(record=>record?.wake.scope.matchId===h.matchId).wake;
+  }));
+  const origin=performance.now();
+  const workerRuns=games.map((game,index)=>{
+    game.h.reload({clock:()=>game.task.options.startedAt+Math.floor(performance.now()-origin)});
+    return game.h.service.runFoodInbox(ready[index]);
+  });
+  for(const run of workerRuns)void run.catch(()=>{});
+  const milliseconds=[];
+  let normalResult;
+  try{
+    for(const game of games){
+      let present;
+      for(let retry=0;retry<75&&!present;retry++){
+        present=await game.read('foodInboxOwner/'+foodInboxScopeKey(game.route.scope));
+        if(!present)await sleep(15);
+      }
+      assert.equal(present?.epoch,1);
+    }
+    for(let round=0;round<4;round++){
+      const beats=games.flatMap(game=>[game.winch,game.panel].map(async uid=>{
+        const at=performance.now();
+        assert.deepEqual(ok(await game.h.invoke(uid,'foodHeartbeat',{
+          matchId:game.h.matchId,taskId:game.route.scope.taskId,
+        })),{renewed:true});
+        milliseconds.push(performance.now()-at);
+      }));
+      if(round===1)beats.push(ordinary.deadline().then(result=>{normalResult=result.status;}));
+      await Promise.all(beats);
+      if(round<3)await sleep(700);
+    }
+    assert.equal(normalResult,'advanced');
+    assert.equal((await ordinary.current()).status,'reading');
+    assert.equal(milliseconds.length,16);
+    t.diagnostic(JSON.stringify({simultaneousTasks:2,heartbeats:milliseconds.length,normalDeadline:normalResult,
+      heartbeatP95Ms:Math.round([...milliseconds].sort((a,b)=>a-b)[Math.ceil(milliseconds.length*.95)-1]),
+      heartbeatMaxMs:Math.round(Math.max(...milliseconds))}));
+  }finally{
+    await Promise.all(games.map(game=>game.h.invoke(game.h.host,'abort',{matchId:game.h.matchId,requestId:game.h.nextId()})));
+    await Promise.all(workerRuns);
   }
 });
