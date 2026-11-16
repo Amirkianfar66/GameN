@@ -20,7 +20,9 @@
 //   quiet      mounted, pressed, redrawn and disposed, the surface makes no request, sets no timer and stores nothing
 //   ownership  what Food covers and what its bars measure are reported apart, each when it changes, and cleared on
 //              exit and on dispose; another open panel hides Food
-//   privacy    concealed, nothing of the viewer is left in the page or remembered; a key the inputs do not know is
+//   privacy    concealed, nothing of the viewer is left in the page or remembered: a change of status alone shows
+//              nothing again, on a surface that was concealed and on one mounted concealed; fresh authorized inputs
+//              restore it and bring back only what they give; stale keeps its view; a key the inputs do not know is
 //              refused, on the phone and on the shared display's notice
 //   host       outside the game's crew picture surface a view is refused, at mount and by update, and nothing is
 //              drawn; with no view, or concealed, nothing is asked of the host
@@ -474,12 +476,101 @@ export async function runProbe(document) {
     pointer(win, 'pointerup');
     key(win, 'keyup', ' ');
     check('privacy: concealed, nothing is reported', m.calls.length === 0, { calls: m.calls });
+    // Woken by a change of status alone: no fresh view, offers or presses are given. Nothing it held may come back.
+    const drawnParts = t => t.host.querySelectorAll('.tb, .tabs, .sheet, .fs-card, .fs-ctl, .fs-banner, .fs-view').length;
+    const promises = t => t.find('[data-go="food:promises"]')?.getAttribute('aria-label') ?? null;
+    const controls = t => ({ enabled: [...t.host.querySelectorAll('.fs-ctl')].filter(node => node.getAttribute('aria-disabled') !== 'true').map(node => node.dataset.act), busy: [...t.host.querySelectorAll('.fs-ctl[aria-busy="true"]')].map(node => node.dataset.act) });
+    const empty = t => ({ text: t.host.textContent, hidden: t.frame()?.hidden ?? null, parts: drawnParts(t), calls: t.calls.length });
+    const isEmpty = e => e.text === '' && e.hidden === true && e.parts === 0 && e.calls === 0;
+    const fresh = t => ({ view: t.input.view, can: t.input.can, sending: t.input.sending, viewer: t.input.viewer, status: 'live' });
     m.food.update({ status: 'live' });
     await frames.frames(3);
-    check('privacy: shown again, it starts anew: the sheet is closed and the Partner it had chosen is forgotten', chosen === 'true' && m.frame().dataset.screen === 'food-room' && !m.find('.sheet') && same(m.added(), mine), { chosen, screen: m.frame()?.dataset.screen });
+    const woken = empty(m);
+    check('privacy: concealed, then woken by status alone, the surface stays empty: the view it held is not shown again, and nothing is reported', isEmpty(woken), { woken });
+    // Given fresh authorized inputs, it is a new surface: what the player had opened and chosen is not remembered.
+    m.food.update(fresh(m));
+    await frames.frames(3);
+    check('privacy: given fresh authorized inputs it starts anew: the sheet is closed and the Partner it had chosen is forgotten', chosen === 'true' && m.frame().dataset.screen === 'food-room' && !m.find('.sheet') && same(m.added(), mine), { chosen, screen: m.frame()?.dataset.screen });
     m.food.openTasks();
     click(m.find('[data-go="partners"]'));
     check('privacy: no Partner is chosen on the new sheet', m.find('#food-partner-seat-3')?.getAttribute('aria-pressed') === 'false' && m.find('#food-action-ask')?.getAttribute('aria-disabled') === 'true', { pressed: m.find('#food-partner-seat-3')?.getAttribute('aria-pressed') });
+
+    // The viewer's Promises count, on a room's top bar.
+    const room = open('case-food-flow-02', { viewer: { promiseOfferCount: 3 } });
+    await frames.frames(3);
+    const counted = promises(room);
+    room.food.update({ status: 'concealed' });
+    room.food.update({ status: 'live' });
+    await frames.frames(3);
+    const roomWoken = empty({ ...room, calls: [] });
+    room.food.update({ view: room.input.view, status: 'live' });
+    await frames.frames(3);
+    const viewOnly = promises(room);
+    // The port builds its top bar again once a second of the clock, and so the badge follows a new count at the next second.
+    const nextSecond = room.input.clock.now() + 1000;
+    room.food.update({ ...fresh(room), clock: { now: () => nextSecond } });
+    await frames.frames(3);
+    check('privacy: the viewer\'s Promises count is not shown again by a status-only wake, nor by a fresh view alone; it comes back only when it is given again', counted === 'Promises, 3 new' && roomWoken.text === '' && roomWoken.parts === 0 && viewOnly === 'Promises' && promises(room) === 'Promises, 3 new',
+      { counted, wokenText: roomWoken.text.length, viewOnly, given: promises(room) });
+    room.close();
+
+    // An offer, on a Task: the controller offered LOCK.
+    const t = open('food-panel-04');
+    await frames.frames(3);
+    const offered = controls(t);
+    t.food.update({ status: 'concealed' });
+    t.food.update({ status: 'live' });
+    await frames.frames(3);
+    const taskWoken = { ...controls(t), hidden: t.frame()?.hidden ?? null, words: t.host.textContent.length };
+    t.food.update({ view: t.input.view, status: 'live' });
+    await frames.frames(3);
+    const unoffered = { ...controls(t), words: t.host.textContent.length, lock: t.find('#food-panel-main')?.getAttribute('aria-disabled') ?? null };
+    check('privacy: an offer is not brought back or inferred: after a status-only wake nothing is drawn, and a fresh view alone is drawn with every control disabled', offered.enabled.includes('lock') && taskWoken.hidden === true && taskWoken.words === 0 && taskWoken.enabled.length === 0
+      && unoffered.words > 0 && unoffered.enabled.length === 0 && unoffered.lock === 'true', { offered, taskWoken, unoffered });
+    t.food.update(fresh(t));
+    await frames.frames(3);
+    const restored = { ...controls(t), html: t.seen().html };
+    const again = open('food-panel-04');
+    await frames.frames(3);
+    const newMount = again.seen().html;
+    again.close();
+    check('privacy: the whole of a fresh authorized input restores it, as a new mount draws it', restored.enabled.includes('lock') && restored.html === newMount, { enabled: restored.enabled, same: restored.html === newMount });
+    // Stale is not concealed: the viewer is still authorized, and the view stays through a change of status alone.
+    t.food.update({ status: 'stale' });
+    await frames.frames(2);
+    const staleWords = t.host.textContent.length;
+    t.food.update({ status: 'live' });
+    await frames.frames(3);
+    check('privacy: stale is not concealed: the view stays, and live again by status alone it is as it was', staleWords > 0 && t.seen().html === newMount, { staleWords });
+    t.close();
+
+    // This phone's press on its way: RELEASE, sending.
+    const p = open('food-panel-03');
+    await frames.frames(3);
+    const pressed = controls(p);
+    p.food.update({ status: 'concealed' });
+    p.food.update({ view: p.input.view, can: p.input.can, status: 'live' });
+    await frames.frames(3);
+    const unpressed = controls(p);
+    check('privacy: a press that was on its way is not shown again unless it is given again', pressed.busy.includes('release') && unpressed.busy.length === 0, { pressed, unpressed });
+    p.close();
+
+    // Mounted concealed with a view: none of it is kept, so a status-only wake has nothing to show, and opening Tasks shows nothing.
+    const c = open('case-food-flow-02', { status: 'concealed', viewer: { promiseOfferCount: 3 } });
+    await frames.frames(2);
+    const mountedEmpty = !c.host.querySelector('.planet-food') && c.host.textContent === '' && c.calls.length === 0;
+    c.food.update({ status: 'live' });
+    await frames.frames(3);
+    const cWoken = empty(c);
+    c.food.openTasks();
+    await frames.frames(2);
+    const cAsked = empty(c);
+    c.food.close();
+    check('privacy: mounted concealed with a view, then woken by status alone, it stays empty, and opening Tasks shows nothing', mountedEmpty && isEmpty(cWoken) && isEmpty(cAsked), { mountedEmpty, cWoken, cAsked });
+    c.food.update(fresh(c));
+    await frames.frames(3);
+    check('privacy: and given fresh authorized inputs, it draws them', promises(c) === 'Promises, 3 new' && c.frame()?.dataset.screen === 'food-room', { promises: promises(c), screen: c.frame()?.dataset.screen });
+    c.close();
 
     const html = m.seen().html, refused = [];
     const refuse = (name, run) => { try { run(); refused.push([name, null]); } catch (error) { refused.push([name, error instanceof TypeError ? error.message : `not a TypeError: ${error}`]); } };
@@ -545,7 +636,7 @@ export async function runProbe(document) {
     await frames.frames(2);
     const stillEmpty = device.host.innerHTML === emptyHtml && !device.host.querySelector('.tb');
     empty.dispose();
-    const hidden = mountFood(device.host, { ...input, status: 'concealed' }), shown = message(() => hidden.update({ status: 'live' }));
+    const hidden = mountFood(device.host, { ...input, status: 'concealed' }), shown = message(() => hidden.update({ status: 'live', view: input.view }));
     await frames.frames(2);
     const stillHidden = !device.host.querySelector('.planet-food');
     hidden.dispose();

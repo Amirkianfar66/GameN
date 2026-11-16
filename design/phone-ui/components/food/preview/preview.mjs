@@ -94,14 +94,24 @@ if (QUERY.probe) {
   const select = (label, name, options, value) => el('label', {}, label, el('select', { name, onchange: e => { const next = new URL(location.href); next.searchParams.set(name, e.target.value); location.href = next.href; } },
     ...options.map(([id, text]) => el('option', { value: id, selected: String(id) === String(value) }, text))));
   const button = (text, onclick) => el('button', { type: 'button', onclick }, text);
-  const setStatus = next => { forced = next; handle?.update({ status: next }); readout(); };
+  // A change of status, as an app's connection makes it. Concealed, the surface keeps nothing of the viewer, so back
+  // from concealed the app gives it its inputs afresh, as Frontend's adapter does. "Live, status only" gives none.
+  let cleared = false;   // concealed since the surface was last given its inputs
+  const setStatus = (next, statusOnly = false) => {
+    forced = next;
+    if (next === 'concealed') cleared = true;
+    const afresh = cleared && next !== 'concealed' && !statusOnly;
+    if (afresh) cleared = false;
+    handle?.update(afresh ? inputs() : { status: next });
+    readout();
+  };
   $('#bar').append(
     select('State', 'state', STATES.map(s => [s.id, `${s.kind} · ${s.id} · ${s.title}`]), sit.state.id),
     select('Phone', 'size', Object.keys(SIZES).map(key => [key, key.replace('x', ' × ')]), QUERY.size),
     select('Motion', 'motion', [['normal', 'Full motion'], ['reduced', 'Reduce motion']], QUERY.motion),
     select('Text', 'text', Object.entries(TEXTS), QUERY.text),
     ...(sit.surface === 'phone' ? [
-      button('Live', () => setStatus('live')), button('Stale', () => setStatus('stale')), button('Concealed', () => setStatus('concealed')),
+      button('Live', () => setStatus('live')), button('Stale', () => setStatus('stale')), button('Concealed', () => setStatus('concealed')), button('Live, status only', () => setStatus('live', true)),
       button('Suspend', () => { handle?.suspend(); suspended = true; readout(); }), button('Resume', () => { handle?.resume(); suspended = false; readout(); }),
       button('Start a Task', () => handle?.openTasks()), button('Close', () => handle?.close()),
       button('Back to the board', () => { navigation = { ...navigation, openPanel: 'board' }; handle?.update({ navigation }); readout(); }),

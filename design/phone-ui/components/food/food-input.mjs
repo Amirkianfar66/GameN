@@ -11,6 +11,11 @@
 export const FOOD_VERSION = 'food-0.1.0';
 
 export const FOOD_STATUSES = Object.freeze(['live', 'stale', 'concealed']);
+/**
+ * The inputs that are this viewer's, or that tell of this viewer's own presses on this phone. Concealed, the viewer
+ * is not authorized, and none of them is kept: see nextFoodInput.
+ */
+export const FOOD_PRIVATE_INPUTS = Object.freeze(['view', 'can', 'sending', 'viewer']);
 /** The controller's seven offers. Nothing else enables a control. */
 export const FOOD_CAN = Object.freeze(['ask', 'answer', 'withdraw', 'hold', 'panelRelease', 'panelLock', 'key']);
 /**
@@ -182,11 +187,20 @@ const CHECKS = Object.freeze({
   bars: bars => checkBars(bars, ['top', 'bottom'], 'bars'),
 });
 
-/** The next input: each key given replaces that key, and the rest stay. An unknown key is refused, at every level. */
+/**
+ * The next input: each key given replaces that key, and the rest stay. An unknown key is refused, at every level.
+ *
+ * Concealed, nothing of the viewer is kept: the view, the offers, this phone's presses and the viewer's own facts go
+ * back to their defaults, those held before and those given with this very change alike (they are still checked).
+ * So a later change of status alone finds nothing to show again. The surface stays empty and offers nothing until it
+ * is given fresh authorized inputs, and no offer is ever brought back or inferred. Stale is not concealed: the viewer
+ * is still authorized, and the view stays.
+ */
 export function nextFoodInput(current = FOOD_DEFAULTS, changes = {}) {
   keysOf(changes, Object.keys(CHECKS), 'the input');
   const next = { ...current };
   for (const [key, value] of Object.entries(changes)) next[key] = CHECKS[key](value);
+  if (next.status === 'concealed') for (const key of FOOD_PRIVATE_INPUTS) next[key] = FOOD_DEFAULTS[key];
   return Object.freeze(next);
 }
 

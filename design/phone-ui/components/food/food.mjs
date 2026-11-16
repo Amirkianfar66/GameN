@@ -24,7 +24,7 @@ import { foodGauge as gaugeNode } from './food-gauge.mjs';
 import { FOOD_DEFAULTS, FOOD_NOTICE_DEFAULTS, foodIdentities, foodModel, foodNoticeModel, foodNow, foodOrdinary, nextFoodInput, nextFoodNoticeInput } from './food-input.mjs';
 
 export {
-  FOOD_ANSWERS, FOOD_CAN, FOOD_CLOSURE_KEYS, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
+  FOOD_ANSWERS, FOOD_CAN, FOOD_CLOSURE_KEYS, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_PRIVATE_INPUTS, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
   nextFoodInput, nextFoodNoticeInput,
 } from './food-input.mjs';
 
@@ -149,17 +149,22 @@ export function mountFood(host, input = {}, handlers = {}) {
   if (current.status !== 'concealed') { mount(); draw(); }
 
   return Object.freeze({
-    /** Each key given replaces that key, and the rest stay. A change that is refused changes nothing. */
+    /**
+     * Each key given replaces that key, and the rest stay. A change that is refused changes nothing.
+     * Concealed, nothing of the viewer is kept (nextFoodInput): a later change of status alone shows nothing again.
+     */
     update(changes = {}) {
       if (disposed) return;
       const before = current, next = nextFoodInput(current, changes);
       crewSurfaceOf(host, next);
+      // Concealed: everything is let go first, while the app can still be told; then the surface is taken down; and
+      // only then is what was held of the viewer dropped.
+      if (next.status === 'concealed') unmount();
       current = next;
       identities = foodIdentities(current);
       ordinary = foodOrdinary(current);
       if (current.assets !== before.assets) watch();
-      // Concealed, the surface is taken down, and that lets everything go first.
-      if (current.status === 'concealed') { unmount(); return; }
+      if (current.status === 'concealed') return;
       // Losing the view while shown (Food is over for this viewer) lets everything go as well.
       if (scoped(before) && !scoped(current)) say('onReleaseAll');
       if (!renderer) mount();
@@ -188,11 +193,14 @@ export function mountFood(host, input = {}, handlers = {}) {
     openTasks() { if (!disposed) renderer?.openTasks(); },
     /** Closes whichever Food sheet is open. */
     close() { if (!disposed) renderer?.close(); },
-    /** Lets every contact go, clears what Food covers and removes the surface and its listeners. Safe to call twice. */
+    /** Lets every contact go, clears what Food covers, removes the surface and its listeners, and keeps nothing of the viewer. Safe to call twice. */
     dispose() {
       if (disposed) return;
       unmount();
       disposed = true;
+      current = nextFoodInput(current, { status: 'concealed' });
+      identities = [];
+      ordinary = null;
       unwatch?.();
       unwatch = null;
       arrivals.clear();
