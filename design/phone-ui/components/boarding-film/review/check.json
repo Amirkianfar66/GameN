@@ -2,7 +2,7 @@
   "tool": "design/tools/boarding-film-check.mjs",
   "component": "design/phone-ui/components/boarding-film",
   "version": "pregame-boarding-2.0.0",
-  "sourceCommit": "0842ff6c8e425390e02b2102737df4a1bb0f4434",
+  "sourceCommit": "67fe6aa0b71796040c7255285d8006a0b5108747",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless, drawing in software), each phone size at 2x pixels (memory also at 3x); the preview bundled by Vite and served with the production headers below. The CPU slowdown is Chromium's throttle of the page's main thread, a rough stand-in for a slower phone. Not a phone, not Safari: no phone's frame rate or memory was measured.",
   "headers": [
@@ -167,7 +167,7 @@
     },
     "390x844-dark": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-dark.jpg",
-      "sha256": "ffbaad48b0c4d509151490f2c0d39d109f25129c09f471eaf6a7beebc071c83b",
+      "sha256": "2c6af2140abc77fb237f2dd10135e56b8daa48786f649208f0a4a834ca7121bd",
       "state": "dark",
       "t": 7300,
       "crew": 8,
@@ -175,7 +175,7 @@
       "shot": "inside",
       "still": null,
       "pictures": 49,
-      "brightness": 19.4,
+      "brightness": 16.3,
       "ok": true,
       "faults": [],
       "violations": [],
@@ -583,7 +583,7 @@
     },
     "430x932-dark": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-dark.jpg",
-      "sha256": "eb6ce9e32fff1e3a47acfe2b60c774bd11b109abc551d6dcf73847f0aee16b5b",
+      "sha256": "ef0d2d4d2522fc3c1bf0b0aa3190d8028de23a69f26b76ee6042436f158825ef",
       "state": "dark",
       "t": 7300,
       "crew": 8,
@@ -591,7 +591,7 @@
       "shot": "inside",
       "still": null,
       "pictures": 49,
-      "brightness": 19.7,
+      "brightness": 16.3,
       "ok": true,
       "faults": [],
       "violations": [],
@@ -1044,8 +1044,8 @@
           "detail": {
             "ownFrames": [
               24,
-              37,
-              37
+              35,
+              35
             ],
             "asked": 0
           }
@@ -1322,8 +1322,8 @@
       "bytes": 55309260,
       "plannedBytes": 53996028,
       "sharp": 1,
-      "drawMs": 3382,
-      "longestMs": 64,
+      "drawMs": 3859,
+      "longestMs": 58,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1360,8 +1360,8 @@
       "bytes": 90868996,
       "plannedBytes": 87842010,
       "sharp": 1,
-      "drawMs": 3815,
-      "longestMs": 38,
+      "drawMs": 4539,
+      "longestMs": 48,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1398,8 +1398,8 @@
       "bytes": 64411508,
       "plannedBytes": 62814476,
       "sharp": 1,
-      "drawMs": 3870,
-      "longestMs": 50,
+      "drawMs": 4234,
+      "longestMs": 57,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1436,8 +1436,8 @@
       "bytes": 106995748,
       "plannedBytes": 103246294,
       "sharp": 1,
-      "drawMs": 4530,
-      "longestMs": 47,
+      "drawMs": 4937,
+      "longestMs": 51,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1473,19 +1473,19 @@
       "run": "today",
       "cpuSlowdown": 1,
       "film": "pregame-boarding-1.0.0",
-      "picturesASecond": 18.4,
+      "picturesASecond": 17.5,
       "byShot": {
-        "dusk": 16.5,
-        "ramp": 20,
-        "inside": 17.1
+        "dusk": 14,
+        "ramp": 19,
+        "inside": 17.4
       },
       "frameGapMs": {
-        "median": 33.4,
-        "p90": 58.2,
-        "p99": 87.7,
-        "max": 121.4
+        "median": 37.4,
+        "p90": 67.8,
+        "p99": 111.2,
+        "max": 167.5
       },
-      "framesOver34ms": 137,
+      "framesOver34ms": 140,
       "nodes": 4665,
       "pixels": "780x1688",
       "problems": []
@@ -1495,30 +1495,30 @@
       "cpuSlowdown": 1,
       "film": "pregame-boarding-2.0.0",
       "prepared": true,
-      "prepareMs": 3598,
-      "picturesASecond": 56.4,
+      "prepareMs": 3854,
+      "picturesASecond": 53.7,
       "byShot": {
-        "dusk": 52.5,
-        "foot": 59.4,
-        "faces": 54.4,
-        "door": 56.5,
+        "dusk": 49.5,
+        "foot": 54.4,
+        "faces": 50.6,
+        "door": 58.3,
         "wake": 62.9,
-        "inside": 57.4
+        "inside": 54.8
       },
       "frameGapMs": {
-        "median": 16.7,
-        "p90": 20.8,
-        "p99": 27.3,
-        "max": 44.6
+        "median": 17.7,
+        "p90": 21.7,
+        "p99": 29.3,
+        "max": 31.9
       },
-      "framesOver34ms": 2,
-      "quality": 0.8,
+      "framesOver34ms": 0,
+      "quality": 0.64,
       "sharp": 1,
-      "pixels": "624x1350",
+      "pixels": "499x1080",
       "peakBytes": 55309260,
       "plannedBytes": 53996028,
-      "bakeMs": 1716,
-      "longestBakeMs": 77,
+      "bakeMs": 1809,
+      "longestBakeMs": 99,
       "problems": []
     },
     {
@@ -1527,29 +1527,29 @@
       "film": "pregame-boarding-2.0.0",
       "prepared": false,
       "prepareMs": 0,
-      "picturesASecond": 36.1,
+      "picturesASecond": 33.3,
       "byShot": {
-        "dusk": 39.5,
-        "foot": 33.8,
+        "dusk": 37,
+        "foot": 31.9,
         "faces": 31.7,
-        "door": 34.8,
-        "wake": 37.1,
-        "inside": 37.7
+        "door": 27.8,
+        "wake": 25.7,
+        "inside": 35.2
       },
       "frameGapMs": {
-        "median": 25,
-        "p90": 39.2,
-        "p99": 59.8,
-        "max": 78.2
+        "median": 26.4,
+        "p90": 44.4,
+        "p99": 71.9,
+        "max": 93.7
       },
-      "framesOver34ms": 62,
+      "framesOver34ms": 77,
       "quality": 1,
       "sharp": 1,
       "pixels": "780x1688",
-      "peakBytes": 33204528,
+      "peakBytes": 32260168,
       "plannedBytes": 53996028,
-      "bakeMs": 6019,
-      "longestBakeMs": 99,
+      "bakeMs": 5933,
+      "longestBakeMs": 100,
       "problems": []
     },
     {
@@ -1558,15 +1558,15 @@
       "film": "pregame-boarding-1.0.0",
       "picturesASecond": 6.3,
       "byShot": {
-        "dusk": 2.5,
+        "dusk": 3,
         "ramp": 5.3,
-        "inside": 10.3
+        "inside": 10
       },
       "frameGapMs": {
-        "median": 85.5,
-        "p90": 333.2,
-        "p99": 656.2,
-        "max": 656.2
+        "median": 95.5,
+        "p90": 318.3,
+        "p99": 610.6,
+        "max": 610.6
       },
       "framesOver34ms": 63,
       "nodes": 4665,
@@ -1578,30 +1578,30 @@
       "cpuSlowdown": 4,
       "film": "pregame-boarding-2.0.0",
       "prepared": true,
-      "prepareMs": 16366,
-      "picturesASecond": 20.2,
+      "prepareMs": 17877,
+      "picturesASecond": 21,
       "byShot": {
-        "dusk": 15,
-        "foot": 22.5,
-        "faces": 19.4,
-        "door": 20,
-        "wake": 28.6,
-        "inside": 21.6
+        "dusk": 17.5,
+        "foot": 21.3,
+        "faces": 21.1,
+        "door": 20.9,
+        "wake": 25.7,
+        "inside": 22.3
       },
       "frameGapMs": {
-        "median": 44.9,
-        "p90": 69.7,
-        "p99": 142.8,
-        "max": 190.6
+        "median": 43.9,
+        "p90": 68.2,
+        "p99": 129.6,
+        "max": 140.9
       },
-      "framesOver34ms": 173,
+      "framesOver34ms": 181,
       "quality": 0.5,
       "sharp": 1,
       "pixels": "390x844",
       "peakBytes": 55309260,
       "plannedBytes": 53996028,
-      "bakeMs": 7732,
-      "longestBakeMs": 213,
+      "bakeMs": 8297,
+      "longestBakeMs": 207,
       "problems": []
     },
     {
@@ -1610,29 +1610,29 @@
       "film": "pregame-boarding-2.0.0",
       "prepared": false,
       "prepareMs": 0,
-      "picturesASecond": 8.3,
+      "picturesASecond": 7.2,
       "byShot": {
-        "dusk": 7,
-        "foot": 8.1,
-        "faces": 8.9,
+        "dusk": 6.5,
+        "foot": 6.9,
+        "faces": 8.3,
         "door": 7,
         "wake": 5.7,
-        "inside": 9.4
+        "inside": 6.8
       },
       "frameGapMs": {
-        "median": 115.2,
-        "p90": 168.4,
-        "p99": 275,
-        "max": 275
+        "median": 131.5,
+        "p90": 192.9,
+        "p99": 305.8,
+        "max": 305.8
       },
-      "framesOver34ms": 83,
+      "framesOver34ms": 71,
       "quality": 1,
       "sharp": 1,
       "pixels": "780x1688",
-      "peakBytes": 14270028,
+      "peakBytes": 13398900,
       "plannedBytes": 53996028,
-      "bakeMs": 5134,
-      "longestBakeMs": 271,
+      "bakeMs": 5068,
+      "longestBakeMs": 324,
       "problems": []
     }
   ],
