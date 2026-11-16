@@ -3,15 +3,17 @@ globalThis[Symbol.for('mothership:dev-only')]=true;
 // Recheck the six existing #223 part ids touched by Food, at both owner sizes.
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
+import {createHostedPreviewHeaders,applyHostedPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+const previewHeaders=createHostedPreviewHeaders('gamen-mothership-staging');
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
 import {PARTS} from '../../../../design/tools/lib/phone-ui-native-parts.mjs';
 import {designAddress} from '../../../../design/tools/phone-ui-native-compare.mjs';
 import {launchBrowser,connect,openPage,sleep} from '../capture/browser.mjs';
 const root=resolve(new URL('../../../../',import.meta.url).pathname),build='/private/tmp/gamen-food-ordinary-review',out='/private/tmp/gamen-food-ordinary-comparison';await mkdir(out,{recursive:true});
-const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http://local').pathname,base=path.startsWith('/reference/')?root:build,name=path.startsWith('/reference/')?path.slice(10):path,target=resolve(base,'.'+name);if(!target.startsWith(base+sep))throw Error('path');
+const server=createServer(async(req,res)=>{applyHostedPreviewHeaders(res,'gamen-mothership-staging');try{const path=new URL(req.url,'http://local').pathname,base=path.startsWith('/reference/')?root:build,name=path.startsWith('/reference/')?path.slice(10):path,target=resolve(base,'.'+name);if(!target.startsWith(base+sep))throw Error('path');
  res.setHeader('content-type',({'.js':'text/javascript','.mjs':'text/javascript','.html':'text/html','.css':'text/css','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp','.json':'application/json'})[extname(target)]??'application/octet-stream');res.end(await readFile(target));}catch{res.statusCode=404;res.end();}});
-await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint),report={scope:'Existing #223 parts on predecessor fixtures after Food wiring. Both required sizes. Historical baseline differences remain; this is a regression capture, not Designer acceptance or adoption of #227/#228/#230.',provenance:JSON.parse(await readFile(resolve(build,'review-provenance.json'),'utf8')),parts:[],errors:[]};
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint),report={headerProvenance:{kind:'production',projectId:'gamen-mothership-staging',headers:previewHeaders},scope:'Existing #223 parts on predecessor fixtures after Food wiring. Both required sizes. Historical baseline differences remain; this is a regression capture, not Designer acceptance or adoption of #227/#228/#230.',provenance:JSON.parse(await readFile(resolve(build,'review-provenance.json'),'utf8')),parts:[],errors:[]};
 const capture=async(page,name)=>{const r=await page.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(resolve(out,name),Buffer.from(r.data,'base64'));return name;};
 try{
  for(const [width,height,text,size]of [[390,844,1,'390x844'],[320,568,2,'320x568']])for(const id of ['actions','panels','board','round-order','reconnecting','largest-text']){

@@ -12,6 +12,12 @@
 //             included, and goes back on the clock when it runs
 //   focus     the control, the positions and the press squares are kept across updates, and the focus
 //             with them; it moves to the scene only when its offer ends, and onFocusReturn says which
+//   films     (0.4.0, for the game's films) a stand-in keeps its tag and press square without its
+//             figure; the recoil moves one figure, not its tag; the films container interleaves with
+//             the scene by z-index, hides while concealed and is gone after dispose()
+//   tags      (0.5.0, #222 item 34) the name tags whole and apart at the game's Large and Largest text,
+//             at both phone sizes, inside the scene and clear of the room's name and its control; at
+//             the standard text, where none meet, each where the pack puts it
 // With the device's Reduce motion (the check emulates it), it checks that setting instead.
 // design/tools/room-scene-check.mjs runs it under the production headers and records each result.
 // Desktop Chromium: not a phone, not Safari, not a screen reader.
@@ -263,6 +269,121 @@ export async function runRoomSceneProbe({ host, base, size, large }) {
     check('focus: a press square is kept through updates and a pick; only the focused one ending moves the focus', pressKept && quiet && pressMoved,
       { pressKept, quiet, pressMoved });
     scene.dispose();
+  });
+
+  // 5 · films (0.4.0): what the game's films need from the scene.
+  await guarded('films', async () => {
+    const scene = mount({ targets: null });
+    const root = scene.element;
+    const first = base.people[0].seat, seat = String(first);
+    const person = s => root.querySelector(`.ms-rs-person[data-seat="${s}"]`);
+    const figs = s => [...(person(s)?.querySelectorAll('.ms-rs-fig') ?? [])];
+    const seen = s => figs(s).length > 0 && figs(s).every(n => getComputedStyle(n).visibility === 'visible');
+    const others = base.people.slice(1).map(p => String(p.seat));
+
+    // A stand-in: its figure is not drawn; its tag, its place in layout() and its press square stay.
+    scene.update({ standIns: [first], targets: { seats: [first], picked: [] } });
+    const hidden = figs(seat).length > 0 && figs(seat).every(n => getComputedStyle(n).visibility === 'hidden');
+    const kept = !!person(seat)?.querySelector('.ms-rs-tag') && !!person(seat)?.querySelector('.ms-rs-press')
+      && scene.layout().people.some(p => String(p.seat) === seat);
+    const othersSeen = others.every(seen);
+    scene.update({ standIns: [] });
+    const restored = seen(seat);
+    check('films: a stand-in keeps its tag, its place and its press square without its figure, and only its own',
+      hidden && kept && othersSeen && restored, { hidden, kept, othersSeen, restored });
+
+    // The recoil: one figure moves by dx, dy; its tag stays; null puts it back. No other figure moves.
+    const at = n => { const r = n.getBoundingClientRect(); return [r.left, r.top]; };
+    const figure = figs(seat)[0], tagNode = person(seat).querySelector('.ms-rs-tag'), other = figs(others[0])[0];
+    const [fx, fy] = at(figure), tagBefore = at(tagNode), otherBefore = at(other);
+    scene.update({ brace: { seat: first, dx: 6, dy: -3 } });
+    const [bx, by] = at(figure);
+    const moved = near(bx - fx, 6, 0.5) && near(by - fy, -3, 0.5) && figs(seat)[0] === figure;
+    const still = JSON.stringify(at(tagNode)) === JSON.stringify(tagBefore) && JSON.stringify(at(other)) === JSON.stringify(otherBefore);
+    scene.update({ brace: null });
+    const back = JSON.stringify(at(figure)) === JSON.stringify([fx, fy]);
+    check('films: the recoil moves one figure by dx, dy, and not its tag or anyone else; null puts it back',
+      moved && still && back, { moved: [bx - fx, by - fy], still, back });
+
+    // The films container: in the scene's own stacking context, making none of its own, so a film at
+    // z-index 3000 lies under a press square (3100) and one at 3300 over it.
+    const films = scene.films;
+    const style = getComputedStyle(films);
+    const own = films.parentElement === root && style.position === 'absolute' && style.zIndex === 'auto'
+      && films.getAttribute('aria-hidden') === 'true' && films.childElementCount === 0;
+    const press = person(seat).querySelector('.ms-rs-press');
+    const box = press.getBoundingClientRect(), x = box.left + box.width / 2, y = box.top + box.height / 2;
+    const film = document.createElement('span');
+    Object.assign(film.style, { position: 'absolute', inset: '0', pointerEvents: 'auto', zIndex: '3000' });
+    films.append(film);
+    const under = document.elementFromPoint(x, y) === press;
+    film.style.zIndex = '3300';
+    const over = document.elementFromPoint(x, y) === film;
+    film.remove();
+    scene.update({ status: 'concealed' });
+    const concealed = films.hidden && getComputedStyle(films).display === 'none';
+    scene.update({ status: 'live' });
+    const shown = !films.hidden && getComputedStyle(films).display !== 'none';
+    scene.dispose();
+    const gone = scene.films === null && !films.isConnected;
+    check('films: the films container interleaves with the scene by z-index, hides while concealed and is gone after dispose()',
+      own && under && over && concealed && shown && gone, { own, under, over, concealed, shown, gone });
+  });
+
+  // 6 · tags (0.5.0, #222 item 34): whole and apart at every text size; the game's Large and Largest
+  // text is the root's font size, 150 % and 200 %, as its settings set it.
+  await guarded('tags', async () => {
+    const html = document.documentElement, was = html.style.fontSize;
+    const look = scene => {
+      const root = scene.element, o = root.getBoundingClientRect();
+      const rel = r => ({ left: r.left - o.left, top: r.top - o.top, right: r.right - o.left, bottom: r.bottom - o.top });
+      const tags = [...root.querySelectorAll('.ms-rs-tag')].map(n => {
+        const b = n.getBoundingClientRect();
+        const whole = [...n.children].every(k => { const r = k.getBoundingClientRect(); return r.top >= b.top - 0.5 && r.bottom <= b.bottom + 0.5 && r.left >= b.left - 0.5 && r.right <= b.right + 0.5; });
+        return { seat: n.closest('.ms-rs-person').dataset.seat, ...rel(b), whole };
+      });
+      const kept = [...root.querySelectorAll('.ms-rs-label, .ms-rs-control')].map(n => rel(n.getBoundingClientRect()));
+      return { tags, kept, width: o.width, height: o.height };
+    };
+    const meet = (a, b, g) => a.left < b.right + g && b.left < a.right + g && a.top < b.bottom + g && b.top < a.bottom + g;
+    const judge = ({ tags, kept, width, height }) => ({
+      count: tags.length,
+      whole: tags.every(t => t.whole),
+      apart: tags.every((a, i) => tags.every((b, j) => j <= i || !meet(a, b, 2 - 0.01))),
+      inside: tags.every(t => t.left >= 4 - 0.5 && t.top >= 4 - 0.5 && t.right <= width - 4 + 0.5 && t.bottom <= height - 4 + 0.5),
+      clear: tags.every(t => kept.every(k => !meet(t, k, 0))),
+    });
+    try {
+      // The standard text: none meet in Room B, so each is where the pack puts it: centred on its press
+      // square (kept 4 px inside), its top 2 px above the square's foot, and no lower than 34 px above
+      // the scene's foot (the 8 px inset and a 26 px tag).
+      html.style.fontSize = '';
+      const scene = mount({ targets: null });
+      const std = look(scene), people = new Map(scene.layout().people.map(p => [String(p.seat), p]));
+      const where = std.tags.every(t => {
+        const p = people.get(t.seat), w = t.right - t.left;
+        if (!p) return false;
+        const left = Math.max(4, Math.min(std.width - 4 - w, p.left + p.side / 2 - w / 2));
+        return near(t.left, left, 0.75) && near(t.top, Math.min(std.height - 34, p.top + p.side - 2), 0.75);
+      });
+      const plain = judge(std);
+      check('tags: at the standard text, whole and apart, each where the pack puts it (centred on its press square, 2 px above its foot)',
+        plain.count === base.people.length && plain.whole && plain.apart && plain.inside && plain.clear && where, { ...plain, where });
+      scene.dispose();
+      for (const [text, name] of [[1.5, 'Large'], [2, 'Largest']]) {
+        html.style.fontSize = `${text * 100}%`;
+        const results = [];
+        for (const [phone, at] of [['390 × 844', size], ['430 × 932', large]]) {
+          const one = mount({ size: at, targets: null });
+          results.push({ phone, ...judge(look(one)) });
+          one.dispose();
+        }
+        check(`tags: at the ${name} text (${text * 100} %), whole, apart, inside and clear of the room's name and control, at both sizes`,
+          results.every(r => r.count === base.people.length && r.whole && r.apart && r.inside && r.clear), { results });
+      }
+    } finally {
+      html.style.fontSize = was;
+    }
   });
   return { mode: 'full', ok: checks.every(c => c.ok), checks };
 }

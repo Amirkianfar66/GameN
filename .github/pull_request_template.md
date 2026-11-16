@@ -10,10 +10,16 @@ Explain the player/developer problem and the resulting behavior.
 - Ruleset / engine / protocol version:
 - Owned paths changed:
 - Shared-contract or cross-workstream changes:
+- Existing feature record / ID, implementation owner, intended release and current delivery state:
 
 ## Evidence
 
 List only checks actually run, with commands/results or linked artifacts. State what remains untested.
+
+- CI scope (docs / frontend / full), selected checks and any additional targeted evidence:
+- Reused evidence, exact unchanged inputs and why it remains valid:
+- Preserved release capabilities and historical combinations; actual playback/rendering evidence for affected features:
+- Deployment status and source/art identity: pending unless the reviewed artifact and affected critical paths were verified live. Update the existing feature issue after deployment.
 
 ## Rules and information visibility
 

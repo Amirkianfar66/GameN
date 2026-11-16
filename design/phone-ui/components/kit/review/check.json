@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.7.1",
-  "sourceCommit": "92a67b7af6d67119589fdc83b02c5f166412774f",
+  "version": "component-kit-0.8.0",
+  "sourceCommit": "5ac3354f6099b7d9f1701e743d0e0b9f8a40144e",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -214,6 +214,20 @@
       "why": "Sheet 25 draws its unavailable sides as disabled buttons, with a button's hand cursor and, on glass, no halo; the kit draws every tile that takes no tap as sheet 28 does (kit 0.6.0): no hand cursor, and on glass the halo under its words, so an unavailable tile looks the same on both sheets"
     },
     {
+      "cases": "/^toast/",
+      "parts": [
+        "toast words"
+      ],
+      "keys": [
+        "overflow-x",
+        "overflow-y",
+        "text-overflow"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "The kit cuts a toast's words with an ellipsis where they would run past the phone (its max-width, the phone less 16 px a side), as the shell's and the entry screens' toasts did; the pack's words run on past the edge. Words that fit are drawn the same"
+    },
+    {
       "cases": "/^segmented icons$/",
       "parts": [
         "/^option \\d icon$/"
@@ -252,87 +266,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "dd6b6100d736940137cb495304d4b11b5097f2da83ec203bfb7c7525733f5f6d",
+      "sha256": "b310e2476f88d9698a0b9d9142ae9a9a46c3b47d6aaf7d17bfc3a3a8733d69e0",
       "size": {
         "width": 390,
-        "height": 11597
+        "height": 11997
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "5bce18c5a8c63c8ea3ad07b005849d8dac88be055b871ba10f81b2e529ebf58f"
+      "measurementSha256": "272479f290ef2735cfca8a5c994df41192c6d732b8b1db0606451b3b07bf7aeb"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "80f8eb54960d451151e626b30c3edac4df3a7579e100ecb592744364667a60bf",
+      "sha256": "092e5c7f32b16d1231ef3ef05a8a4a0c0a3d96d769bad13980e2ff7700506d74",
       "size": {
         "width": 390,
-        "height": 11666
+        "height": 12066
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "f2f0cfafa52c36f319740459f6a7afbd755d4115f5e9bec40b8bc958537aed4d"
+      "measurementSha256": "65da703ed358869eaa646b0eaa3d511ea1409b764d01c3bcf257ee2682a1bbe2"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "8db495ce781bb24d2b574e6a890200eec78bfc9a471f6dea0740e5c990a6d207",
+      "sha256": "47be6a020d8f0fff6739b1a307b0d8e76fd84d6cda7b8f9e8e82b706eb71b113",
       "size": {
         "width": 390,
-        "height": 16824
+        "height": 17544
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "90efc006a0cc8e4c94adeb7201645eb294d4db804f8b2b0253e554acbf76c4a4"
+      "measurementSha256": "e3fd6cc6b4091b047b648aee2e1755ed97cce2c774f403c0de2c7f56cd5248db"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "aa68b8f06ce7be2274fc1ccbd8dbc8109799c720d57e9ae4ff60b82ab502dcd5",
+      "sha256": "891a20a65ba234f726350a60566c1feebb37ab49e92207691228a8f5da929e22",
       "size": {
         "width": 390,
-        "height": 16882
+        "height": 17602
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "b9739dfaa130eb609818beea84641cc6d4c34e3b278327ed77deb3e91e5899db"
+      "measurementSha256": "abb381df303c9c74280f90c8529f5297b750cb30f4250d443d898aa949afad11"
     }
   },
   "agreement": {
@@ -804,6 +818,62 @@
           "parts": 1,
           "differences": [],
           "accepted": []
+        },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
         },
         "cells": {
           "ok": true,
@@ -1367,6 +1437,62 @@
           "differences": [],
           "accepted": []
         },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
         "cells": {
           "ok": true,
           "parts": 52,
@@ -1659,14 +1785,14 @@
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 10
+              "rule": 11
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 10
+              "rule": 11
             }
           ]
         },
@@ -1886,6 +2012,62 @@
           "parts": 1,
           "differences": [],
           "accepted": []
+        },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
         },
         "cells": {
           "ok": true,
@@ -2944,91 +3126,91 @@
               "key": "h",
               "pack": 78.38,
               "kit": 97,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 1",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 1",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 1 icon",
               "key": "x",
               "pack": 9,
               "kit": 65.83,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 1 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 16,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2",
               "key": "x",
               "pack": 180.5,
               "kit": 3,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2",
               "key": "y",
               "pack": 3,
               "kit": 50,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2 icon",
               "key": "x",
               "pack": 186.5,
               "kit": 52.66,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 63,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 11
+              "rule": 12
             }
           ]
         },
@@ -3448,6 +3630,62 @@
           "differences": [],
           "accepted": []
         },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
         "cells": {
           "ok": true,
           "parts": 51,
@@ -3458,9 +3696,9 @@
     }
   },
   "summary": {
-    "cases": 194,
-    "agree": 194,
-    "parts": 1377,
-    "accepted": 274
+    "cases": 202,
+    "agree": 202,
+    "parts": 1401,
+    "accepted": 298
   }
 }

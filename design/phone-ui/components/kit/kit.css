@@ -37,6 +37,11 @@
   --ms-k-caption: #F7C52B;
   --ms-k-steel-mid: #55657E;
   --ms-k-steel-light: #8696AE;
+  /* The teams' colours (the pack's --faction-*, 0.8.0), for a view that may show a team: a player's own card, or
+     the roles once the match has ended. A component never uses them for a team its viewer may not see. */
+  --ms-k-faction-blue: #70AFFF;
+  --ms-k-faction-red: #FF8C8C;
+  --ms-k-faction-alien: #C4A4FF;
   --ms-k-hairline: rgba(185, 196, 211, 0.16);
   --ms-k-glass-fill: rgba(8, 11, 18, 0.24);
   --ms-k-glass-fill-2: rgba(255, 255, 255, 0.14);
@@ -69,7 +74,7 @@
 .ms-kit :where(:is(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, .ms-k-row, .ms-k-cell):focus-visible) { outline: 3px solid #FFD36D; outline-offset: 2px; }
 .ms-kit :where(.ms-k-ic) { flex: none; }
 /* An icon's holder takes no box of its own: the icon sits in its control as the pack's does. */
-.ms-kit :where(.ms-k-btn-icon, .ms-k-icon-btn-icon, .ms-k-pill-icon, .ms-k-seg-icon, .ms-k-input-icon) { display: contents; }
+.ms-kit :where(.ms-k-btn-icon, .ms-k-icon-btn-icon, .ms-k-pill-icon, .ms-k-seg-icon, .ms-k-input-icon, .ms-k-toast-icon) { display: contents; }
 .ms-kit :where(.ms-k-vh) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .ms-kit :where([class^="ms-k-"][hidden], [class*=" ms-k-"][hidden]) { display: none !important; }
 
@@ -242,6 +247,17 @@
 /* The paper card (kit.css .comic, 0.6.0): the caller fills it and pads it, as the pack's screens do. */
 .ms-kit :where(.ms-k-comic) { position: relative; display: block; background: var(--ms-k-paper); color: var(--ms-k-ink); border: 3px solid var(--ms-k-ink); border-radius: 12px; box-shadow: var(--ms-k-shadow-ink); }
 
+/* ── The toast (kit.css .toast; 0.8.0) ─────────────────────────────────── */
+/* Over what it lies on, centred, 10 px under --ms-k-toast-top (where its owner's bar ends: the pack's --top), and never
+   wider than the phone less 16 px a side: long words are cut. It has no action, so it takes no tap: a tap reaches what
+   is under it (Copy, Retry, a sheet's Close). It drops in from 8 px up over 220 ms on the sheet's ease and, leaving,
+   fades out over 180 ms (the shell's toast since 0.1.0); its owner removes it after. */
+.ms-kit :where(.ms-k-toast) { position: absolute; left: 50%; top: calc(var(--ms-k-toast-top, 0px) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 600 0.9375rem/1.2 var(--ms-k-font); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); white-space: nowrap; pointer-events: none; --ic-knock: var(--ms-k-paper); animation: ms-k-toast-in 220ms cubic-bezier(0.16, 0.84, 0.3, 1) both; transition: opacity 180ms linear; }
+.ms-kit :where(.ms-k-toast .ms-k-ic) { width: 20px; height: 20px; }
+.ms-kit :where(.ms-k-toast-text) { overflow: hidden; text-overflow: ellipsis; }
+.ms-kit :where(.ms-k-toast[data-leaving]) { opacity: 0; }
+@keyframes ms-k-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
+
 /* ── On glass, the base forms (the shell's docked sheet: data-ms-surface="glass") ── */
 /* As the pack renders it (kit.css .sheet …, in its cascade order): lists and cells are solid surface-3 on
    glass; inputs, steppers, code boxes and empty portraits are a thin dark layer with a light edge. They come
@@ -278,7 +294,7 @@
 .ms-kit :where(.ms-k-tile:is([data-state="unavailable"], [data-state="spent"]) .ms-k-tile-icon) { background: var(--ms-k-surface-4); color: var(--ms-k-steel-light); --ic-knock: var(--ms-k-surface-4); }
 .ms-kit :where(.ms-k-tile:is([data-state="unavailable"], [data-state="spent"]) .ms-k-tile-name) { color: var(--ms-k-text-2); }
 /* An unavailable card's art fades to grey (0.7.0; the pack's .declare-sides .tile[data-state="unavailable"] .hack-card). */
-.ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-art) { opacity: 0.35; filter: grayscale(1); }
+.ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-art:not([data-node])) { opacity: 0.35; filter: grayscale(1); }
 .ms-kit :where(.ms-k-tile[data-state="registered"]) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
 .ms-kit :where(.ms-k-tile[data-state="registered"] .ms-k-tile-icon) { background: var(--ms-k-ink); color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); --ic-knock: var(--ms-k-ink); }
 /* A tile that cannot be chosen now is the pack's div, not its button: no hand, and on glass the sheet's halo
@@ -353,3 +369,7 @@
 /* The tile's sending spinner stands still, as the kit's other spinners do (0.6.0). */
 .ms-kit:where([data-motion="reduced"]) :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon)::after { animation: none; }
 @media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon)::after { animation: none; } }
+/* The toast fades in over 80 ms without its drop (0.8.0, the shell's since 0.1.0); it still fades out. */
+.ms-kit:where([data-motion="reduced"]) :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; }
+@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; } }
+@keyframes ms-k-fade { from { opacity: 0; } }
