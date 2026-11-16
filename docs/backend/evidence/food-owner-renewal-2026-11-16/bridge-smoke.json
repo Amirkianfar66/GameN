@@ -1,0 +1,1 @@
+{"assetPin":"design-0.9.0","mode":"owner-fifo","actors":2,"cases":["headers","authorization","clock calibration","SSE","heartbeat","Hold DOWN","Panel RELEASE","exact receipt lookup"],"result":"passed"}
