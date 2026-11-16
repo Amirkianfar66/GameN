@@ -1,6 +1,6 @@
 # Food surface: Designer's runtime component
 
-**Version:** `food-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer posted on #4 for #213, with Frontend's four answers (relayed by Integration) and the Lead Designer's answers of 16 November on nine points of the built interface. It is the minimal extraction Integration asked for: the accepted native port's drawing, moved into Designer's folder with no change to the drawing. It is not in the game yet. Frontend adopts it by importing it in place of the port's drawing files, under Integration's source fence and version admission. It is not a release, and it does not replace the Designer's visual acceptance of the integrated result.
+**Version:** `food-0.1.0`. **Status (16 November 2026):** built for #274's adoption dependency, to the interface the Lead Designer posted on #4 ([6913141625](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6913141625)), with Frontend's four answers ([6916497706](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6916497706), relayed by Integration), the Lead Designer's answers of 16 November on nine points of the built interface, and the correction Integration asked for in its review of #303 (a concealed surface keeps nothing of the viewer). It is the minimal extraction Integration asked for: the accepted native port's drawing, moved into Designer's folder with no change to the drawing. It is not in the game yet. Frontend adopts it by importing it in place of the port's drawing files, under Integration's source fence and version admission. It is not a release, and it does not replace the Designer's visual acceptance of the integrated result.
 
 **What it is:** the Food surface as the game draws it today.
 
@@ -34,7 +34,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/food/`:
 | Path | What |
 | --- | --- |
 | `food.mjs` | The entry: `mountFood()`, `mountFoodNotice()`, `foodGauge()`, `FOOD_HANDLERS`, and the names below re-exported |
-| `food-input.mjs` | The inputs, checked: `nextFoodInput()`, `nextFoodNoticeInput()`, `FOOD_DEFAULTS`, `FOOD_NOTICE_DEFAULTS`, `FOOD_VERSION`, `FOOD_STATUSES`, `FOOD_CAN`, `FOOD_VIEW_KEYS`, `FOOD_CLOSURE_KEYS`, `FOOD_PRESSES`, `FOOD_ANSWERS`, `FOOD_NAVIGATION_TARGETS`. Pure: it imports nothing |
+| `food-input.mjs` | The inputs, checked: `nextFoodInput()`, `nextFoodNoticeInput()`, `FOOD_DEFAULTS`, `FOOD_NOTICE_DEFAULTS`, `FOOD_VERSION`, `FOOD_STATUSES`, `FOOD_CAN`, `FOOD_VIEW_KEYS`, `FOOD_CLOSURE_KEYS`, `FOOD_PRIVATE_INPUTS`, `FOOD_PRESSES`, `FOOD_ANSWERS`, `FOOD_NAVIGATION_TARGETS`. Pure: it imports nothing |
 | `food-render.mjs`, `food-notice.mjs` | The port's drawing of the phone surface and of the display's notice, with the connector seams listed under The copies |
 | `food-geometry.mjs`, `food-machine.mjs`, `food-scene.mjs`, `food-pose.mjs`, `food-display.mjs`, `food-ui.mjs`, `food-icons.mjs`, `food-gauge.mjs`, `food-tags.mjs`, `food-ink.mjs` | The port's files. Nine are byte for byte; `food-ink.mjs` differs by two import paths |
 | `food-kit.css`, `food.css` | The port's scoped sheets, byte for byte. Every rule is under `.planet-food` |
@@ -111,7 +111,7 @@ What Food covers in the app is Frontend's call: where the host is put, and what 
 | `assets` | Public | The Supply Room and the operators. They may arrive after the mount |
 | `view` | This viewer's | The Task, the request, the choices. Twelve keys and no other (see below) |
 | `can` | This viewer's | Which control is enabled. Nothing else enables one |
-| `viewer.promiseOfferCount` | This viewer's | The Promises badge |
+| `viewer.promiseOfferCount` | This viewer's | The Promises badge. It follows a new count at the clock's next second, as in the port, which builds its top bar once a second |
 | `sending` | This phone's | The press on its way, the unknown answer, the refusal, the recovered press, the hold still held or owed |
 | `status` | This phone's | See States |
 | `navigation` | This phone's | Another open panel hides Food; `boardMode` marks the board's tab |
@@ -174,9 +174,23 @@ The component reports contacts and matches none. Which contact holds, and whethe
 | --- | --- | --- |
 | `live` | The state as given | Everything |
 | `stale` | The view stays, with "Reconnecting…" during a Task. Every gameplay control is disabled | The tabs, Promises, Settings, Actions and Close go on working. No press, ask, answer or cancel |
-| `concealed` | Nothing: the surface is taken down, its page, its listeners and everything it remembered of this viewer | Nothing. Shown again, it starts anew |
+| `concealed` | Nothing: the surface is taken down, with its page and its listeners, and it keeps nothing of the viewer (see below) | Nothing |
 
 With `view: null` the surface is empty and covers nothing. With another panel open (`navigation.openPanel` not `board`) it is hidden; during a Task it still holds the screen.
+
+### Concealed keeps nothing of the viewer
+
+`concealed` means the viewer is not authorized, or the app has put the screen away. Then:
+
+1. **Everything is let go first**, while the app can still be told (`onReleaseAll`, then what Food covered is given up).
+2. **The surface is taken down:** its page, its listeners, and what the player had opened and chosen.
+3. **The viewer's inputs are dropped:** `view`, `can`, `sending` and `viewer` go back to their defaults (`FOOD_PRIVATE_INPUTS`). That holds for what the surface held before, and for what comes with the same change. A mount that starts concealed keeps none of them either, and nor does a disposed surface.
+
+So **a later change of status alone shows nothing again.** `update({ status: 'live' })` after `concealed` leaves the surface empty and offering nothing, until it is given fresh authorized inputs. It brings back only what it is given: a fresh `view` alone is drawn with every control disabled, no press and no Promises count. No offer is ever brought back or inferred.
+
+`stale` is not concealed. The viewer is still authorized: the view and this phone's presses stay, and `live` again by status alone draws them as they were.
+
+What is public or this phone's own stays through `concealed`: `people`, `board`, `clock`, `assets`, `navigation`, `reducedMotion` and `bars`.
 
 ## Focus and keys
 
@@ -274,9 +288,10 @@ The first two differ from the approved package's own pages. The next three show 
   - The scene outside the notices is the package's pixel for pixel on `food-panel-04` and `food-winch-12`. On `food-panel-03`, 512 of 106,860 pixels differ at 390 × 844 (558 of 129,860 at 430 × 932), around the moving crate and the two name tags. On `food-winch-03`, 624 of 55,380 differ by one level.
   - The instrument and the control are the package's pixel for pixel wherever the words agree.
 - **Frontend's ten native captures from #290** (read from `3247fc3d`, each held to its SHA-256, none copied): for the four causal parts at both sizes, the scene outside the notices is within 1.41 to 1.61 levels on average, with 0.5 % to 0.7 % of its pixels more than 24 levels apart. The limit is 3 levels and 2 %. The same capture moved 3 px measures about 10 levels and 12 %.
-- **The lifecycle probe:** 92 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, quiet (no request, timer or storage), exits, ownership, privacy, the notice, the gauge, the host, motion, layout, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
+- **The lifecycle probe:** 100 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, quiet (no request, timer or storage), exits, ownership, privacy, the notice, the gauge, the host, motion, layout, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
+  - **Concealed, nothing of the viewer comes back:** a surface that held a view, an offer, a press on its way and a Promises count is concealed and then woken by status alone, and shows none of them; the same for a mount that starts concealed; a fresh view alone brings no offer, press or count; the whole of a fresh input restores it as a new mount draws it; stale keeps its view. With the correction taken out, five of these checks fail.
 
-`packages/design-tokens/test/food-component.test.mjs` (9 tests) holds the module graph, the copies, the styles' reach, the inputs and audiences (the contract's ten view keys that are refused, by name), the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
+`packages/design-tokens/test/food-component.test.mjs` (10 tests) holds the module graph, the copies, the styles' reach, the inputs and audiences (the contract's ten view keys that are refused, by name), that concealed keeps nothing of the viewer, the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
 
 **What the comparisons do not show:**
 
@@ -310,6 +325,7 @@ food.relayout();                  // after the text size changes
 ```
 
 - Mark the app's root with `setCrewPictureSurface(root, versions)` before the surface is given a view, as the app does today. A view on a host outside that surface is refused.
+- Give the surface all its inputs on each change, as the sketch does. Concealed, it keeps nothing of the viewer, so when the viewer is authorized again the surface needs the view, the offers, the presses and the viewer's facts afresh. A change of status alone shows nothing.
 - `inputsFromModel` gives each press a key of its own and picks the closure's six fields (`FOOD_CLOSURE_KEYS`). The command's id, the receipt and the envelope stay in the controller.
 - Dispose the surface before the controller, so that the last `onReleaseAll` reaches it.
 - On blur and on a hidden page, do as today: let the hold go and tell the controller it is not visible. Its model then says so, and the adapter sends `status: 'concealed'`, as it does when the viewer loses authorization.

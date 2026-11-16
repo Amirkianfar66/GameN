@@ -12,7 +12,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  FOOD_ANSWERS, FOOD_CAN, FOOD_CLOSURE_KEYS, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
+  FOOD_ANSWERS, FOOD_CAN, FOOD_CLOSURE_KEYS, FOOD_DEFAULTS, FOOD_NAVIGATION_TARGETS, FOOD_NOTICE_DEFAULTS, FOOD_PRESSES, FOOD_PRIVATE_INPUTS, FOOD_STATUSES, FOOD_VERSION, FOOD_VIEW_KEYS,
   foodIdentities, foodModel, foodNoticeModel, foodNow, foodOrdinary, nextFoodInput, nextFoodNoticeInput,
 } from '../../../design/phone-ui/components/food/food-input.mjs';
 
@@ -228,13 +228,13 @@ test('inputs: each key given replaces that key, and anything the surface does no
   // update({ reducedMotion }) changes motion, and relayout() lays the surface out again.
   const entry = read(`${COMPONENT}/food.mjs`);
   const reexported = /export \{([^}]+)\} from '\.\/food-input\.mjs';/.exec(entry)[1].split(',').map(name => name.trim()).filter(Boolean);
-  assert.deepEqual(reexported, ['FOOD_ANSWERS', 'FOOD_CAN', 'FOOD_CLOSURE_KEYS', 'FOOD_DEFAULTS', 'FOOD_NAVIGATION_TARGETS', 'FOOD_NOTICE_DEFAULTS', 'FOOD_PRESSES', 'FOOD_STATUSES', 'FOOD_VERSION', 'FOOD_VIEW_KEYS', 'nextFoodInput', 'nextFoodNoticeInput']);
+  assert.deepEqual(reexported, ['FOOD_ANSWERS', 'FOOD_CAN', 'FOOD_CLOSURE_KEYS', 'FOOD_DEFAULTS', 'FOOD_NAVIGATION_TARGETS', 'FOOD_NOTICE_DEFAULTS', 'FOOD_PRESSES', 'FOOD_PRIVATE_INPUTS', 'FOOD_STATUSES', 'FOOD_VERSION', 'FOOD_VIEW_KEYS', 'nextFoodInput', 'nextFoodNoticeInput']);
   assert.deepEqual([...entry.matchAll(/^export (?:const|function) (\w+)/gm)].map(m => m[1]), ['FOOD_HANDLERS', 'mountFood', 'mountFoodNotice', 'foodGauge']);
   const phone = entry.slice(entry.indexOf('export function mountFood('), entry.indexOf('export function mountFoodNotice(')), handle = phone.slice(phone.indexOf('return Object.freeze({'));
   assert.deepEqual([...handle.matchAll(/^    (\w+)\(/gm)].map(m => m[1]), ['update', 'suspend', 'resume', 'relayout', 'openTasks', 'close', 'dispose'], 'the phone surface\'s handle');
   assert.doesNotMatch(handle.slice(handle.indexOf('    update('), handle.indexOf('    suspend(')), /layoutDue|relayout/, 'update lays nothing out');
   assert.match(phone, /crewSurfaceOf\(host, current\);/, 'the host is checked at mount');
-  assert.match(handle, /const before = current, next = nextFoodInput\(current, changes\);\n\s+crewSurfaceOf\(host, next\);\n\s+current = next;/, 'and by update, before anything changes');
+  assert.match(handle, /const before = current, next = nextFoodInput\(current, changes\);\n\s+crewSurfaceOf\(host, next\);\n/, 'and by update, before anything changes');
 });
 
 test('audiences: what the drawing reads is built from the inputs alone, and live, stale and concealed keep to their words', () => {
@@ -284,6 +284,61 @@ test('audiences: what the drawing reads is built from the inputs alone, and live
   assert.deepEqual(foodNoticeModel(nextFoodNoticeInput(FOOD_NOTICE_DEFAULTS, { stock: { doses: 2 }, status: 'stale' })).connection, 'stale');
   assert.deepEqual(foodNoticeModel(FOOD_NOTICE_DEFAULTS), { food: null, concealed: false, connection: 'live' });
   assert.equal(foodNoticeModel(nextFoodNoticeInput(FOOD_NOTICE_DEFAULTS, { status: 'concealed' })).concealed, true);
+});
+
+test('concealed, nothing of the viewer is kept: a change of status alone shows nothing again', () => {
+  // Integration's review of #303 at 5623c0a0: concealed, the inputs kept the viewer's view, offers, presses and
+  // Promises count, and update({ status: 'live' }) alone drew them again. They are dropped, and stay dropped.
+  const packet = JSON.parse(read(PACKET.file));
+  const frame = part => packet.frames.find(f => f.part === part);
+  const NOTHING = { view: null, can: FOOD_DEFAULTS.can, sending: FOOD_DEFAULTS.sending, viewer: FOOD_DEFAULTS.viewer };
+  const privateOf = input => Object.fromEntries(FOOD_PRIVATE_INPUTS.map(key => [key, input[key]]));
+  const offers = model => ['canAsk', 'canAnswer', 'canWithdraw', 'canHold', 'canPanelRelease', 'canPanelLock', 'canKey'].filter(key => model[key]);
+  assert.deepEqual(FOOD_PRIVATE_INPUTS, ['view', 'can', 'sending', 'viewer'], 'the inputs that are this viewer\'s, or tell of this viewer\'s own presses');
+  assert.deepEqual(Object.keys(FOOD_DEFAULTS).filter(key => !FOOD_PRIVATE_INPUTS.includes(key)), ['status', 'clock', 'people', 'board', 'navigation', 'assets', 'reducedMotion', 'bars'], 'the rest are public, or this phone\'s own');
+
+  // A Task that holds a view, an offer (LOCK), this phone's press on its way, a hold owed, and the viewer's Promises count.
+  const given = { ...packetInput(frame('food-panel-04')), viewer: { promiseOfferCount: 3 },
+    sending: { feedback: { key: 'press-1', name: 'LOCK', status: 'sending', recovered: false }, pendingCount: 1, physicalHolding: true, needsContactOff: true } };
+  const shown = nextFoodInput(FOOD_DEFAULTS, given);
+  assert.ok(shown.view !== null && shown.can.panelLock && shown.sending.feedback !== null && shown.viewer.promiseOfferCount === 3, 'the surface holds them while it is shown');
+
+  // 1. Concealed by a change of status alone: none of them is kept. What is public, and this phone's own, stays.
+  const concealed = nextFoodInput(shown, { status: 'concealed' });
+  assert.deepEqual(privateOf(concealed), NOTHING, 'concealed, the stored view, offers, presses and viewer facts are the defaults');
+  for (const key of ['clock', 'people', 'board', 'navigation', 'assets', 'reducedMotion', 'bars']) assert.equal(concealed[key], shown[key], `${key} stays`);
+  // 2. Woken by status alone: there is nothing to show again, nothing is offered, and no press or count comes back.
+  const woken = nextFoodInput(concealed, { status: 'live' });
+  assert.deepEqual(privateOf(woken), NOTHING, 'a change of status alone gives nothing back');
+  const wokenModel = foodModel(woken);
+  assert.ok(wokenModel.visible && wokenModel.fresh && wokenModel.view === null && wokenModel.feedback === null && wokenModel.pendingCount === 0 && !wokenModel.physicalHolding && !wokenModel.needsContactOff);
+  assert.deepEqual(offers(wokenModel), [], 'no offer is brought back or inferred');
+  assert.equal(foodOrdinary(woken).promiseOfferCount, 0, 'nor the viewer\'s Promises count');
+  for (const status of ['stale', 'live']) assert.equal(foodModel(nextFoodInput(concealed, { status })).view, null, `woken as ${status}, it stays empty`);
+  // 3. Mounted concealed with a view: the same. The values are still checked, then dropped.
+  const mountedConcealed = nextFoodInput(FOOD_DEFAULTS, { ...given, status: 'concealed' });
+  assert.deepEqual(privateOf(mountedConcealed), NOTHING, 'an input that starts concealed keeps nothing of the viewer');
+  assert.deepEqual(privateOf(nextFoodInput(mountedConcealed, { status: 'live' })), NOTHING, 'and a change of status alone then shows nothing');
+  assert.throws(() => nextFoodInput(FOOD_DEFAULTS, { ...given, status: 'concealed', view: { ...given.view, privateCursor: 1 } }), { name: 'TypeError', message: 'Food: view takes no "privateCursor"' }, 'a concealed input is still checked');
+  // 4. A concealed change that carries the viewer's inputs with it keeps none of them either.
+  assert.deepEqual(privateOf(nextFoodInput(shown, { ...given, status: 'concealed' })), NOTHING);
+  // 5. Fresh authorized inputs restore it, and only what they give: a fresh view alone brings no offer, press or count.
+  const viewOnly = nextFoodInput(concealed, { status: 'live', view: given.view });
+  assert.deepEqual(viewOnly.view, given.view);
+  assert.deepEqual([viewOnly.can, viewOnly.sending, viewOnly.viewer], [FOOD_DEFAULTS.can, FOOD_DEFAULTS.sending, FOOD_DEFAULTS.viewer], 'a fresh view alone brings nothing else back');
+  assert.deepEqual(offers(foodModel(viewOnly)), []);
+  const restored = nextFoodInput(concealed, { ...given, status: 'live' });
+  assert.deepEqual(privateOf(restored), privateOf(shown), 'the whole of a fresh authorized input restores it');
+  assert.deepEqual(foodModel(restored), foodModel(shown));
+  // 6. Stale is not concealed: the viewer is still authorized, and the view and this phone's presses stay.
+  const stale = nextFoodInput(shown, { status: 'stale' });
+  assert.deepEqual(privateOf(stale), privateOf(shown), 'stale keeps what it holds');
+  assert.deepEqual(privateOf(nextFoodInput(stale, { status: 'live' })), privateOf(shown), 'and live again by status alone, it is as it was');
+  assert.deepEqual(offers(foodModel(stale)), [], 'stale, nothing is offered');
+  // The entry takes the surface down before it drops what it held, and drops it on dispose too.
+  const entry = read(`${COMPONENT}/food.mjs`), phone = entry.slice(entry.indexOf('export function mountFood('), entry.indexOf('export function mountFoodNotice('));
+  assert.match(phone, /if \(next\.status === 'concealed'\) unmount\(\);\n\s+current = next;/, 'update: everything is let go and the surface taken down first, then the cleared input is kept');
+  assert.match(phone, /dispose\(\) \{\n\s+if \(disposed\) return;\n\s+unmount\(\);\n\s+disposed = true;\n\s+current = nextFoodInput\(current, \{ status: 'concealed' \}\);/, 'dispose keeps nothing of the viewer');
 });
 
 test('the drawing reads of the view only the keys the surface takes', () => {
@@ -462,5 +517,9 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   for (const id of ['contacts: a contact is plain data and nothing else', 'privacy: of the contract\'s view the surface takes twelve keys and refuses the other ten by name', 'pictures: the loader\'s signal is listened to once and let go on dispose',
     'layout: update({ reducedMotion }) changes motion and lays nothing out', 'layout: relayout() lays the surface out again', 'layout: suspended, relayout() waits, and resume draws the new layout',
     'host: outside the game\'s crew picture surface a view is refused at mount with a TypeError', 'host: with no view, or concealed, nothing is asked of the host', 'host: inside the surface the app marked']) assert.ok(passed(id), `probe: ${id}`);
-  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 92, 'ninety-two checks in each mode');
+  // Integration's review of #303: concealed, nothing of the viewer is kept or shown again.
+  for (const id of ['privacy: concealed, then woken by status alone, the surface stays empty', 'privacy: given fresh authorized inputs it starts anew', 'privacy: the viewer\'s Promises count is not shown again by a status-only wake',
+    'privacy: an offer is not brought back or inferred', 'privacy: the whole of a fresh authorized input restores it', 'privacy: stale is not concealed', 'privacy: a press that was on its way is not shown again unless it is given again',
+    'privacy: mounted concealed with a view, then woken by status alone, it stays empty', 'privacy: and given fresh authorized inputs, it draws them']) assert.ok(passed(id), `probe: ${id}`);
+  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 100, 'a hundred checks in each mode');
 });
