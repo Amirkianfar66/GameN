@@ -102,8 +102,9 @@ try {
           skip: !!q('.ms-rst-film[data-shown=""] .ms-rst-skip'), film: q('.ms-rst-picture')?.childElementCount ?? 0,
           readyOff: !!q('.ms-rst-ready[data-off]'), readyMode: q('.ms-rst-ready')?.dataset.mode ?? null,
           toast: t('.ms-ps-toast > span:last-child'), banner: t('.ms-ps-banner b'), pictures,
-          // A toast counts only where it is on top, not hidden under the film.
-          toastOnTop: (() => { const n = q('.ms-ps-toast'); if (!n) return false; const r = n.getBoundingClientRect(); return n.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); })(),
+          // A toast counts only where it is on top, not hidden under the film. The kit's toast takes no tap (kit 0.8.0),
+          // so a hit test passes through it: its paint order is read with its pointer events on for this one measurement.
+          toastOnTop: (() => { const n = q('.ms-ps-toast'); if (!n) return false; const r = n.getBoundingClientRect(); n.style.pointerEvents = 'auto'; const on = n.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); n.style.pointerEvents = ''; return on; })(),
           // Sheet 18 draws the toast under the film's clock chip, never across it.
           toastClearOfChip: (() => { const a = q('.ms-ps-toast')?.getBoundingClientRect(), b = q('.ms-rst-chip')?.getBoundingClientRect(); return !!a && !!b && (a.top >= b.bottom || a.right <= b.left); })(),
           picturesDrawn: pictures.every(p => p.startsWith('url(')), layout: window.__roleStage.mounted[0]?.layout?.() ?? null,
