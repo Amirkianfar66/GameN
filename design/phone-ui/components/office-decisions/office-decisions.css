@@ -1,0 +1,25 @@
+@import url("../kit/kit.css");
+
+/*
+ * Office decisions' styles: runtime source, Designer's (office-decisions.mjs). The phone pack's own values
+ * (screens.css .route and .registered, and screens-more.mjs captain, officer and nav; sheets 40 and 41), scoped under
+ * .ms-office-decisions so nothing here reaches the rest of the app and nothing of the app's reaches in. The 3 × 3, its
+ * cells, the waiting block, the rows, the note, the buttons and the stamp are the shared kit's (../kit/kit.css); the
+ * sheet's frame, footer and glass the phone shell's. Its own: the route map's box, the tie's two buttons side by side,
+ * and the block's notice (kit 0.7.0's, decision 2).
+ */
+
+.ms-office-decisions:focus { outline: none; }
+.ms-office-decisions :where([class^="ms-od-"], [class*=" ms-od-"]) { box-sizing: border-box; }
+.ms-office-decisions :is(.ms-od-route, .ms-od-notice)[hidden] { display: none; }
+
+/* The route map (.route): 210 px, its dark box, the pack's drawing filling it. */
+.ms-office-decisions .ms-od-route { position: relative; height: 210px; margin: 4px 0 6px; border-radius: 16px; background: #0B1220; box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); overflow: hidden; }
+.ms-office-decisions .ms-od-route > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* The tie: Blue and Red side by side, 10 px under the note (sheet 41's inline styles). */
+.ms-office-decisions .ms-od-tie { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+
+/* The block made (.registered): the stamp over its two lines, centred. */
+.ms-office-decisions .ms-od-notice { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 0 8px; text-align: center; }
+.ms-office-decisions .ms-od-notice p { margin: 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.35 var(--ms-k-font); }

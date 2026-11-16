@@ -1,0 +1,3640 @@
+{
+  "tool": "design/tools/office-decisions-check.mjs",
+  "component": "design/phone-ui/components/office-decisions",
+  "sourceCommit": "199a716ac5c3e509a7cfc1d4cf682397f526c8a2",
+  "sourceClean": false,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/appoint": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-appoint.jpg",
+      "sha256": "13f35c95f9c48b06371c061afd7c17cd0a3d67b66d1290de3929662976fa403f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Choose your Officer",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Choose your Officer",
+      "line": "",
+      "openTab": null,
+      "cells": 9,
+      "selected": "3",
+      "choosable": "1,3,7,8",
+      "notes": "In Hospital|Selected|You are Captain|Injured|In Jail|Out",
+      "you": "4",
+      "list": false,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Appoint Cleo",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/appoint": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-appoint.jpg",
+      "sha256": "7ecb6a4d055f1ca7af3a0305f72bc8004c16c4cb8eff19529b336339c09111a3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Choose your Officer",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Choose your Officer",
+      "line": "",
+      "openTab": null,
+      "cells": 9,
+      "selected": "3",
+      "choosable": "1,3,7,8",
+      "notes": "In Hospital|Selected|You are Captain|Injured|In Jail|Out",
+      "you": "4",
+      "list": false,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Appoint Cleo",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/appointing": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-appointing.jpg",
+      "sha256": "cb279de9d2d6eababd4b34ce3517c60d0ebe3ce38cb3f18b7c4b4e773f8325ba",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Officer appointment",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Officer appointment",
+      "line": "",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": "Ben is choosing an Officer|Chosen at random if time runs out",
+      "portrait": 44,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c4-B6MdbKNH.svg"
+      ],
+      "problems": []
+    },
+    "430x932/appointing": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-appointing.jpg",
+      "sha256": "5ff238a87881c39d3fb0853a9ac7db6e4446bf1aafd56b47a4fce5f34a2faacc",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Officer appointment",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Officer appointment",
+      "line": "",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": "Ben is choosing an Officer|Chosen at random if time runs out",
+      "portrait": 44,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c4-B6MdbKNH.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sending": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-sending.jpg",
+      "sha256": "21b0be48b9120021cc3089a0377f13119e3cab951de336683353f5ad86b35cda",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Choose your Officer",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Choose your Officer",
+      "line": "",
+      "openTab": null,
+      "cells": 9,
+      "selected": "3",
+      "choosable": "1,3,7,8",
+      "notes": "In Hospital|Selected|You are Captain|Injured|In Jail|Out",
+      "you": "4",
+      "list": false,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Appoint Cleo",
+      "footBusy": true,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sending": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-sending.jpg",
+      "sha256": "7d447ac850ed600aca9160de7d5beb5c0dd2afd586bf02647f30fda58ad57063",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Choose your Officer",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Choose your Officer",
+      "line": "",
+      "openTab": null,
+      "cells": 9,
+      "selected": "3",
+      "choosable": "1,3,7,8",
+      "notes": "In Hospital|Selected|You are Captain|Injured|In Jail|Out",
+      "you": "4",
+      "list": false,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Appoint Cleo",
+      "footBusy": true,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/block": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-block.jpg",
+      "sha256": "f08dcb57a45a5953b70cb7bce2ac1f15a6a84ae2e55e2cf53d9e484b19777853",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Block movement",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Block movement",
+      "line": "Optional · once a round",
+      "openTab": null,
+      "cells": 9,
+      "selected": "7",
+      "choosable": "1,2,3,4,5,6,7",
+      "notes": "Selected|Blocked last round|Out",
+      "you": "4",
+      "list": false,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Skip|Block Gus",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/block": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-block.jpg",
+      "sha256": "b147b257efed718cdf18a4cba598eb55715677aa8512a6ac94809878ce444f73",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Block movement",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Block movement",
+      "line": "Optional · once a round",
+      "openTab": null,
+      "cells": 9,
+      "selected": "7",
+      "choosable": "1,2,3,4,5,6,7",
+      "notes": "Selected|Blocked last round|Out",
+      "you": "4",
+      "list": false,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Skip|Block Gus",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/blocked": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-blocked.jpg",
+      "sha256": "f1e57cddde53f22c08b9433452ec6aa357c3a57ca7e040c4d668048f36b30891",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Block movement",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Block movement",
+      "line": "Optional · once a round",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": "BLOCKED|Gus can’t move this round|Everyone sees the block",
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/blocked": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-blocked.jpg",
+      "sha256": "2dbfc2899ee5da38ce97aa4febf5a7e49c3a56ab0fa24b82eb946ff3f91c4590",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Block movement",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Block movement",
+      "line": "Optional · once a round",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": "BLOCKED|Gus can’t move this round|Everyone sees the block",
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/route": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-route.jpg",
+      "sha256": "01b8cef8cddd816af288b5a87ef7ec3dc3f1fa06ec7c4975352af155215814a8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "Position::B1|Next move::Being set",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/route": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-route.jpg",
+      "sha256": "f21e7e0e40724e39cc05dae65de4a17a566e192f3d3b7e3c0d2f73cce0513999",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "Position::B1|Next move::Being set",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tie": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-tie.jpg",
+      "sha256": "439ff895b24a20e8310feec4b953a929c73f2cfb3d4702072b7541184a47e51a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 0,
+      "tieLine": true,
+      "rows": "",
+      "note": "A genuine tie. Choose the direction; no choice means a random draw.",
+      "directions": "Blue|Red",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tie": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-tie.jpg",
+      "sha256": "2a87f75599cf3d9ac98f011706451751e7f6078c79bc1b5486bb39383e2a9b00",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 0,
+      "tieLine": true,
+      "rows": "",
+      "note": "A genuine tie. Choose the direction; no choice means a random draw.",
+      "directions": "Blue|Red",
+      "directionsWait": null,
+      "foot": "",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/confirm": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-confirm.jpg",
+      "sha256": "2a76c0aa950b06666e06f1ef67444d742b9516a92596040c36bde906974b9f2d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 1,
+      "tieLine": false,
+      "rows": "Next move::Blue · to B2|Acknowledge:You can’t change or veto it:",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Acknowledge",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/confirm": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-confirm.jpg",
+      "sha256": "b99cacfb7467097c982e4f65a22047f194facbb21a7eebb085385214f40aef55",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 1,
+      "tieLine": false,
+      "rows": "Next move::Blue · to B2|Acknowledge:You can’t change or veto it:",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Acknowledge",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-stale.jpg",
+      "sha256": "81298228f95cba3ba20f349d73b04f1cb6d64b0c1031907214400a1293d4f52c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 0,
+      "tieLine": true,
+      "rows": "",
+      "note": "A genuine tie. Choose the direction; no choice means a random draw.",
+      "directions": "Blue|Red",
+      "directionsWait": "Controls return when the match is current",
+      "foot": "",
+      "footBusy": false,
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-stale.jpg",
+      "sha256": "6b8dfaa1509f28a8fcf29c9c95df8e0d9773ce6c2d2876837139a772959ad72b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Navigation",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Navigation",
+      "line": "Only the Captain and Officer see this",
+      "openTab": null,
+      "cells": 0,
+      "selected": "",
+      "choosable": "",
+      "notes": "",
+      "you": "",
+      "list": null,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": "img:Route: the ship is at B1 on the Blue arm",
+      "dashed": 0,
+      "tieLine": true,
+      "rows": "",
+      "note": "A genuine tie. Choose the direction; no choice means a random draw.",
+      "directions": "Blue|Red",
+      "directionsWait": "Controls return when the match is current",
+      "foot": "",
+      "footBusy": false,
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/office-decisions/review/390x844-largest.jpg",
+      "sha256": "db6a48f946d90eb6c1f62019b5a4e66da3c1da9bd3249c8c3b4afa27fde1e07f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Choose your Officer",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Choose your Officer",
+      "line": "",
+      "openTab": null,
+      "cells": 9,
+      "selected": "3",
+      "choosable": "1,3,7,8",
+      "notes": "In Hospital|Selected|You are Captain|Injured|In Jail|Out",
+      "you": "4",
+      "list": true,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Appoint Cleo",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/office-decisions/review/430x932-largest.jpg",
+      "sha256": "e858fc305dbfd943fa1358219a805171a4f58b3f961e89bb2c535272d397a6b1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Choose your Officer",
+      "detent": "large",
+      "back": false,
+      "close": false,
+      "title": "Choose your Officer",
+      "line": "",
+      "openTab": null,
+      "cells": 9,
+      "selected": "3",
+      "choosable": "1,3,7,8",
+      "notes": "In Hospital|Selected|You are Captain|Injured|In Jail|Out",
+      "you": "4",
+      "list": true,
+      "wait": null,
+      "portrait": null,
+      "notice": null,
+      "map": null,
+      "dashed": 0,
+      "tieLine": false,
+      "rows": "",
+      "note": null,
+      "directions": "",
+      "directionsWait": null,
+      "foot": "Appoint Cleo",
+      "footBusy": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "choose: exactly the given choices report their seat; the rest dimmed and refused with Frontend's note only when given; \"Selected\" and \"You\"",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              1,
+              3,
+              7,
+              8,
+              7
+            ],
+            "states": [
+              "1:available:on:",
+              "2:ineligible:off:In Hospital",
+              "3:available:on:",
+              "4:ineligible:off:You are Captain",
+              "5:ineligible:off:Injured",
+              "6:ineligible:off:In Jail",
+              "7:available:on:",
+              "8:available:on:",
+              "9:ineligible:off:Out"
+            ],
+            "chosen": {
+              "state": "selected",
+              "note": "Selected",
+              "pressed": "true"
+            },
+            "you": [
+              "4"
+            ],
+            "quiet": true,
+            "asGiven": "Taken to Hospital this round"
+          }
+        },
+        {
+          "id": "footer: Appoint, Block and Acknowledge the commands, naming the choice and waiting for it; Skip this phone's own; no ✕; each view's frame",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "plain": true,
+            "appoint": [
+              {
+                "id": "appoint",
+                "label": "Appoint Cleo",
+                "kind": "primary",
+                "icon": "officer",
+                "enabled": true,
+                "busy": false,
+                "reason": null
+              }
+            ],
+            "block": [
+              {
+                "id": "skip",
+                "label": "Skip",
+                "kind": "secondary",
+                "local": true
+              },
+              {
+                "id": "block",
+                "label": "Block Gus",
+                "kind": "primary",
+                "icon": "block",
+                "enabled": true,
+                "busy": false,
+                "reason": null
+              }
+            ],
+            "confirm": [
+              {
+                "id": "acknowledge",
+                "label": "Acknowledge",
+                "kind": "primary",
+                "icon": "acknowledge",
+                "enabled": true,
+                "busy": false,
+                "reason": null
+              }
+            ],
+            "first": {
+              "title": "Block movement",
+              "line": "Optional · once a round",
+              "back": false,
+              "close": false,
+              "detent": "large",
+              "foot": "Skip|Block Gus"
+            },
+            "waiting": {
+              "label": "Block",
+              "off": true
+            },
+            "got": "skip|block|acknowledge"
+          }
+        },
+        {
+          "id": "words: the Captain's waiting block (44 px, as drawn), the block's notice, the route's rows and the acknowledgement, names and moves as given",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "waiting": [
+              "Ben is choosing an Officer",
+              "Chosen at random if time runs out",
+              44
+            ],
+            "other": "Gus is choosing an Officer",
+            "notice": [
+              "BLOCKED",
+              "Gus can’t move this round",
+              "Everyone sees the block"
+            ],
+            "route": [
+              "Position::R2",
+              "Next move::Being set"
+            ],
+            "confirm": [
+              "Next move::Red · to R1",
+              "Acknowledge:You can’t change or veto it:"
+            ]
+          }
+        },
+        {
+          "id": "tie: Blue and Red report the direction; refused and busy with Frontend's state",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "note": "A genuine tie. Choose the direction; no choice means a random draw.",
+            "got": [
+              "Blue",
+              "Red"
+            ],
+            "sending": true,
+            "off": {
+              "refused": true,
+              "dimmed": true,
+              "why": "The Officer has chosen"
+            }
+          }
+        },
+        {
+          "id": "route: the ship's place in amber, the next step dashed only to acknowledge it, the tie's line only on a tie; its name from the given position",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "route": {
+              "dashed": [],
+              "amber": [
+                "140,126,11"
+              ],
+              "tie": false,
+              "name": "Route: the ship is at B1 on the Blue arm",
+              "role": "img"
+            },
+            "confirm": {
+              "dashed": [
+                "140,126,106,92"
+              ]
+            },
+            "red": {
+              "dashed": [
+                "220,126,254,92"
+              ],
+              "amber": [
+                "220,126,11"
+              ],
+              "name": "Route: the ship is at R1 on the Red arm"
+            },
+            "tie": {
+              "dashed": [],
+              "tie": true,
+              "name": "Route: the ship is at Junction"
+            }
+          }
+        },
+        {
+          "id": "privacy: the Navigation view refused unless the viewer is the Captain or the Officer; what is the office's leaves on a view or viewer change and while concealed; nothing comes back",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusals": {
+              "stranger": true,
+              "noViewer": true,
+              "noOffices": true,
+              "captain": true,
+              "officer": true
+            },
+            "before": true,
+            "viewerGone": {
+              "buttons": false,
+              "note": false,
+              "map": false
+            },
+            "back": true,
+            "concealed": {
+              "words": "",
+              "map": false,
+              "foot": 0
+            },
+            "after": {
+              "map": false,
+              "note": false
+            },
+            "viewGone": {
+              "chosen": 0,
+              "choosable": 0
+            }
+          }
+        },
+        {
+          "id": "reconnect: choosing a cell and Skip still work; Appoint, Block, Acknowledge, Blue and Red wait with the banner's words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              "onChoose:3",
+              "onSheetAction:skip"
+            ],
+            "blockWait": {
+              "refused": true,
+              "dimmed": false,
+              "why": "Controls return when the match is current"
+            },
+            "tieWait": [
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              }
+            ],
+            "ackWait": {
+              "refused": true,
+              "why": "Controls return when the match is current"
+            },
+            "live": true
+          }
+        },
+        {
+          "id": "focus: a cell keeps its element and the focus as the choice changes; a focused Blue that leaves returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "choose",
+                  "value": "7"
+                }
+              ],
+              [
+                "onFocusReturn",
+                {
+                  "intent": "direction",
+                  "value": "Blue"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the content 16 px in, the 3 × 3 three across, the route map at 210 px",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "grid": [
+              16,
+              16
+            ],
+            "across": 3,
+            "route": [
+              16,
+              16
+            ],
+            "list": [
+              16,
+              16
+            ],
+            "height": 209.99998474121094
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the content 16 px in, the 3 × 3 three across, the route map at 210 px",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "grid": [
+              16,
+              16
+            ],
+            "across": 3,
+            "route": [
+              16,
+              16
+            ],
+            "list": [
+              16,
+              16
+            ],
+            "height": 209.99998474121094
+          }
+        },
+        {
+          "id": "layout: Choose your Officer with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 15,
+            "cut": [],
+            "list": true,
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: Block movement with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 12,
+            "cut": [],
+            "list": true,
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: Navigation, acknowledge with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 4,
+            "cut": [],
+            "list": null,
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the tie with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 3,
+            "cut": [],
+            "list": null,
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false,
+              "map": false
+            },
+            "left": []
+          }
+        },
+        {
+          "id": "motion: none of its own, with or without the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "chosen": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: none of its own, with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "chosen": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DU_m9UzC.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Choose your Officer at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "cell \"You\"": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Choose your Officer at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "cell \"You\"": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Officer appointment at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Officer appointment at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Block movement at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell notes": {
+              "pack": 3,
+              "screen": 3
+            },
+            "cell \"You\"": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Block movement at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell notes": {
+              "pack": 3,
+              "screen": 3
+            },
+            "cell \"You\"": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Blocked at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 1,
+              "screen": 1
+            },
+            "notice lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stamps": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Blocked at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 1,
+              "screen": 1
+            },
+            "notice lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stamps": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Navigation: the route at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Navigation: the route at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Navigation: a genuine tie at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "tie buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "tie button icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Navigation: a genuine tie at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "tie buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "tie button icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Navigation: acknowledge at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row values": {
+              "pack": 1,
+              "screen": 1
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Navigation: acknowledge at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cells": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "cell \"You\"": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 1,
+              "screen": 1
+            },
+            "route drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row values": {
+              "pack": 1,
+              "screen": 1
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Choose your Officer with the Largest text (200 %) at 390 × 844, the pack's list form",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "3 × 3": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "cell notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "cell \"You\"": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notice lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route map": {
+              "pack": 0,
+              "screen": 0
+            },
+            "route drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tie button icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "listForm": "the pack's .grid9 placed in its own .grid-wrap"
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-DU_m9UzC.js",
+        "line": 1,
+        "column": 6049,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

@@ -1,6 +1,6 @@
 # Office decisions: Designer's runtime component
 
-**Version:** `office-decisions-0.1.0`. **Status (16 November 2026):** the interface, approved by the Lead Designer with the answers below (#300). The build has started, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `office-decisions-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the answers below (#300), without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). Its check's record is at the end.
 
 **What it is:** the Captain's and the Officer's own decisions, which open by themselves, as sheets 40 and 41 draw them. It covers #222 item 17 (P2):
 - "Choose your Officer" for its 30 s and "Block movement" for its 15 s, as portraits with reasons, with Skip and Block.
@@ -41,7 +41,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/office-decisions/`:
 
 | Path | What |
 | --- | --- |
-| `office-decisions.mjs` | `mountOfficeDecisions()`, `officeDecisionsSheet()`, `nextOfficeDecisionsInput()`, `OFFICE_DECISIONS_DEFAULTS`, `OFFICE_DECISIONS_VERSION`, `OFFICE_SHEET_ID`, `OFFICE_WORDS`, `routeSvg()` (the route map, from the position, the direction and the tie) |
+| `office-decisions.mjs` | `mountOfficeDecisions()`, `officeDecisionsSheet()`, `nextOfficeDecisionsInput()`, `OFFICE_DECISIONS_DEFAULTS`, `OFFICE_DECISIONS_VERSION`, `OFFICE_SHEET_ID`, `OFFICE_WORDS`, `ROUTE_POSITIONS` and `DIRECTIONS` (the contract's), `routeSvg(document, { position, next, tie })` (the route map, made element by element) |
 | `office-decisions.css` | Every style, under `.ms-office-decisions`; starts with the kit's stylesheet. Its own: the route map's box, and the tie's two buttons side by side |
 | `preview/` | Development only: the preview (in the phone shell's sheet over the Command Room or Room B, as sheets 40 and 41 draw it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `captain` appoint and waiting, `officer` pick and done, and `nav` route, tie and confirm) |
 | `review/` | The check's captures and `check.json` |
@@ -116,6 +116,13 @@ Each reports a tap, and only that.
 
 Anything that names one person or one move comes from Frontend: the Captain, the chosen seat, the blocked seat, the position, the direction and `next`. The component puts them in the pack's words and never works one out.
 
+**Not drawn by the pack, and how they're drawn** (each the nearest the pack allows):
+- **Appoint and Block before a choice:** "Appoint" and "Block", off, until a cell is chosen.
+- **A command in flight:** the shell's busy footer button; the tie's Blue and Red busy in place.
+- **Reconnecting:** Blue and Red are refused, not dimmed, and described by the banner's words, as the shell's footer refuses its commands.
+- **The route map's name:** `role="img"` with the name built from the position. The pack names the box but gives it no role, so its name isn't read.
+- **The Largest text:** the 3 × 3 takes the pack's own list form (`kit.css` `.grid-wrap`, as the pack's vote sheet draws it). The kit's `grid9()` always wraps its grid. The pack's appoint sheet leaves its grid unwrapped, so at that size it keeps three columns and cuts the names to a letter. The agreement compares that case with the pack's grid in its own `.grid-wrap`, and records it.
+
 ## Frontend's connection
 
 1. At each phase, open the shell's sheet with `officeDecisionsSheet(input)` on the phones it is for, and mount the component in `shell.sheetBody`:
@@ -144,21 +151,16 @@ Anything that names one person or one move comes from Frontend: the Captain, the
 
 **One measured detail:** the waiting block's Captain portrait is 44 px, not 76: the pack's `.pt` rule sizes every portrait at 44, and `kit.wait` records the same. The component follows what's drawn.
 
+## The check
+
+`node design/tools/office-decisions-check.mjs` bundles the preview as the game bundles the component, serves it with the hosted game's production headers, and writes `design/phone-ui/components/office-decisions/review/`:
+- **20 captures:** the offices' states of sheets 40 and 41 (choosing an Officer, everyone else waiting, choosing a block, the block made, and Navigation's route, tie and acknowledgement), Appoint in flight, reconnecting and the Largest text, at 390 × 844 and 430 × 932;
+- **the probe, 17 checks:** the choices and their notes, the footer's commands and Skip, the words, the tie, the route map, the offices' privacy, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
+- **the agreement, 15 cases:** the sheet beside the frozen pack's `captain`, `officer` and `nav` in each of their states at both sizes, and choosing an Officer at the Largest text: the same words, states, look and boxes to within half a pixel, and the route map shape by shape.
+
+**Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.
+
 ## Not in this version
 
-Everything: this is the interface. Next:
-- the module and its styles;
-- the preview's states:
-  - the Captain choosing, with a choice;
-  - the others waiting;
-  - the Officer choosing;
-  - blocked;
-  - the route, the tie and the acknowledgement;
-  - a command in flight;
-  - reconnecting;
-  - the Largest text;
-- the probe;
-- the check at 390 × 844 and 430 × 932 under the production headers;
-- the agreement with the pack;
-- the test;
-- the owner's test page.
+- **Frontend's connection** (#284 is not started by Designer).
+- **The owner's test page:** built from the preview, published once the owner gives the go-ahead.
