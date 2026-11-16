@@ -90,7 +90,7 @@ const record = {
   environment: `Desktop Chromium (headless), ${WIDTH} px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.`,
   ...recordedHeaders(),
   tolerance: TOLERANCE,
-  accepted: ACCEPTED.map(a => ({ cases: String(a.cases), parts: a.parts ?? [a.part], keys: a.keys, sections: a.sections ?? null, texts: a.texts ?? null, why: a.why })),
+  accepted: ACCEPTED.map(a => ({ cases: String(a.cases), parts: a.parts ?? (a.partMatch ? [String(a.partMatch)] : [a.part]), keys: a.keys, sections: a.sections ?? null, texts: a.texts ?? null, why: a.why })),
   pages,
   agreement,
   summary: { cases: all.length, agree: all.filter(c => c.ok).length, parts: all.reduce((n, c) => n + c.parts, 0), accepted: all.reduce((n, c) => n + c.accepted.length, 0) },
