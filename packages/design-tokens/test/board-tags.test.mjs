@@ -10,6 +10,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BOARD_TAGS_DEFAULTS, BOARD_TAGS_VERSION, TAG_RULES, TAG_WORDS, checkBoardTags, layoutTags, seatNumber } from '../../../design/phone-ui/components/board-tags/board-tags.mjs';
 import { BOARD_STATES, CAPTURES, PACK_FRAMES } from '../../../design/phone-ui/components/board-tags/preview/states.mjs';
+import * as tagLayout from '../../../design/phone-ui/components/tag-layout.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const COMPONENT = 'design/phone-ui/components/board-tags';
@@ -33,14 +34,19 @@ function graph(entry) {
 test('the component is a runtime source: a small graph, nothing development-only, marked previews', () => {
   const files = new Map([...graph(join(REPO, COMPONENT, 'board-tags.mjs')), ...graph(join(REPO, COMPONENT, 'board-tags.css'))]);
   const local = [...files.keys()].map(f => relative(REPO, f)).sort();
-  assert.deepEqual(local, ['design/phone-ui/components/board-tags/board-tags.css', 'design/phone-ui/components/board-tags/board-tags.mjs', 'design/phone-ui/components/icons.mjs', 'design/phone-ui/components/kit/kit.css']);
+  assert.deepEqual(local, ['design/phone-ui/components/board-tags/board-tags.css', 'design/phone-ui/components/board-tags/board-tags.mjs', 'design/phone-ui/components/icons.mjs', 'design/phone-ui/components/kit/kit.css', 'design/phone-ui/components/tag-layout.mjs']);
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], [], 'no package import');
   for (const path of local) assert.doesNotMatch(read(path), /mothership:dev-only/, `${path}: no development marker`);
   for (const path of ['preview/index.html', 'preview/preview.css', 'preview/preview.mjs', 'preview/probe.mjs', 'preview/agree.mjs', 'preview/states.mjs']) {
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/board-tags-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(BOARD_TAGS_VERSION, 'board-tags-0.1.0');
+  assert.equal(BOARD_TAGS_VERSION, 'board-tags-0.1.1');
+  // Since 0.1.1 the rules are the shared tag-layout.mjs's, which the room scene uses too: re-exported, not copied.
+  assert.equal(layoutTags, tagLayout.layoutTags, 'layoutTags() is tag-layout.mjs\'s');
+  assert.equal(TAG_RULES, tagLayout.TAG_RULES, 'TAG_RULES are tag-layout.mjs\'s');
+  assert.equal(tagLayout.TAG_LAYOUT_VERSION, 'tag-layout-0.1.0');
+  assert.doesNotMatch(read(`${COMPONENT}/board-tags.mjs`), /function layoutTags|TAG_RULES\s*=/, 'no copy of the rules is kept here');
 });
 
 test('its styles reach nothing outside the layer, the type is 11 px at every text size, and the layer takes no taps', () => {

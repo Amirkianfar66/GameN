@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/view-zoom-check.mjs",
   "component": "design/phone-ui/components/view-zoom",
-  "sourceCommit": "f9eab0f372e970d3f9b5d61cb0a2b4a59a88965b",
+  "sourceCommit": "624c52469ff7369de56c231d267bc95042fe4b27",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each stage at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,15 +38,15 @@
   "captures": {
     "390x844/to-board-0": {
       "file": "design/phone-ui/components/view-zoom/review/390x844-to-board-0.jpg",
-      "sha256": "a86d6832969beba3c9bad519234f5ec85b83624b4609d284fba720e9ce3632aa",
+      "sha256": "682090fe8c8c6022f96141ab4addfe8471ff5c987352aeda2201d8b7b46a19b4",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -66,9 +66,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -88,9 +88,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -110,9 +110,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -126,15 +126,15 @@
     },
     "390x844/crossfade-110": {
       "file": "design/phone-ui/components/view-zoom/review/390x844-crossfade-110.jpg",
-      "sha256": "e709d8747d8f221862d0f31d81d7245a0a7cd79ee179166b610b7bf772c78667",
+      "sha256": "dc2b72c6ab08828b8f5587e8211cddd7ea4d49a044cbf8389ce18ab961a8ae48",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -148,15 +148,15 @@
     },
     "430x932/to-board-0": {
       "file": "design/phone-ui/components/view-zoom/review/430x932-to-board-0.jpg",
-      "sha256": "0a6f38510f34c88ef70730b16bce8d47320355d8e93e5c5ff94318bd1af5bd63",
+      "sha256": "7eabbbe47f1f656c769a238f27c032b018e8d4aaf71e5eb70b5c68065ea7046c",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -176,9 +176,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -198,9 +198,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -220,9 +220,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -236,15 +236,15 @@
     },
     "430x932/crossfade-110": {
       "file": "design/phone-ui/components/view-zoom/review/430x932-crossfade-110.jpg",
-      "sha256": "a46f5f3c8dac2718eb4cd69328152d53c6eb6c690257167254d95b68f0226388",
+      "sha256": "ff9a3bb98aa160ea2d0fa93f9fce58ba1bf5b1dc57a7add35a7576cfb2035a28",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -664,9 +664,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -693,9 +693,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DFKyfN7e.js",
+          "source": "assets/index-DyUghghi.js",
           "line": 1,
-          "column": 5511,
+          "column": 5509,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],

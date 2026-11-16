@@ -80,12 +80,13 @@ The preview puts the room scene and the pack's own `paintBoard` in one stage, un
 - **Partway:** `cancel()` resolves `'cancelled'`, and a new switch starts from where the views are.
 - **Nothing left behind** after it settles, or after a cancel: transform, opacity, `pointer-events` and stacking are the elements' own again.
 
-**The record:** `node design/tools/view-zoom-check.mjs`, recorded on `f9eab0f3` with the source clean, under the production headers (SHA-256 `424e5dec…`):
+**The record:** `node design/tools/view-zoom-check.mjs`, recorded on `624c5246` with the source clean (the shell's branch at `3e9e4017` merged in: kit 0.7.2, room scene 0.5.0), under the production headers (SHA-256 `424e5dec…`):
 - **Captures:** 10 of 10 (`review/`), at 390 × 844 and 430 × 932, each held at one moment:
   - Room → Board at 0, 225 and 450 ms;
   - Board → Room at 225 ms;
   - the crossfade with no room at 110 ms.
 - **Probe:** 9 of 9: frames, timing, crossfade, direct, taps, partway, clean, inputs; and direct again with the device's Reduce motion emulated.
+- **Against `f9eab0f3`'s record:** the only recorded change is the bundle's file name, and a column, in the known zod report. 8 captures are unchanged pixel for pixel; the two Room → Board frames at 0 ms differ by at most 913 pixels, in the voyage through the window and the crew's idle motion. Every tag is where it was.
 - **Tests:** `view-zoom.test.mjs` 5 of 5: the graph, the timings against the handoff and the kit, the geometry, the inputs, the record.
 - **Not run:** physical phones, Safari, frame rate, and the game's views themselves: Frontend's adoption PR carries the native gate.
 

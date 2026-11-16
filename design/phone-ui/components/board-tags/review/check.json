@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/board-tags-check.mjs",
   "component": "design/phone-ui/components/board-tags",
-  "sourceCommit": "f9eab0f372e970d3f9b5d61cb0a2b4a59a88965b",
+  "sourceCommit": "624c52469ff7369de56c231d267bc95042fe4b27",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. The board in the game's own panels (Board V2's turnsLayout), each drawn by the pack. Not a phone, not Safari, not a performance measure.",
   "headers": [

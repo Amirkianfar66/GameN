@@ -1,6 +1,6 @@
 # The board's name tags: Designer's runtime component
 
-**Version:** `board-tags-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved for the board's option B, with four changes and the answers to Q1–Q4 (below), and posted for Frontend on #4 ([6909300146](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6909300146)). Built on the phone shell's branch at `f04ab116` (shell 0.2.7, kit 0.6.1). Frontend has not connected it: it is not in the game yet, and it is not a release.
+**Version:** `board-tags-0.1.1`, on the shared `tag-layout-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved for the board's option B, with four changes and the answers to Q1–Q4 (below), and posted for Frontend on #4 ([6909300146](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6909300146)). Built on the phone shell's branch at `f04ab116` (shell 0.2.7, kit 0.6.1); since 0.1.1 on `3e9e4017` (shell 0.2.7, kit 0.7.2, room scene 0.5.0 with `tag-layout.mjs`), merged in as `4776a5a7`. Frontend has not connected it: it is not in the game yet, and it is not a release.
 
 **What it is:** one layer of name tags for one panel of the board (sheet 26), whole and apart at every text size. It is #222 item 34 on the board:
 
@@ -46,6 +46,8 @@ const tags = mountBoardTags(panelElement, input);
 // → { element, update(partial), suspend(), resume(), dispose() }
 ```
 
+`layoutTags` and `TAG_RULES` are re-exported from the shared `design/phone-ui/components/tag-layout.mjs` (`tag-layout-0.1.0`, below), so the interface is the same as 0.1.0's.
+
 One per board panel: the five rooms and the Talk capsule. It appends one layer to the panel and draws nothing else. There are no callbacks: the layer takes no taps.
 
 | Input | Audience | Default | Meaning |
@@ -66,11 +68,13 @@ One per board panel: the five rooms and the Talk capsule. It appends one layer t
 ### `layoutTags()`, the rules alone
 
 ```js
-layoutTags({ panel: { width, height }, pad: 4, keepClear, tags: [{ seat, at: { x, bottom }, width, height, self }] })
-// → { places: [{ seat, left, top }], whole: true | false, apart: true | false }
+layoutTags({ panel: { width, height }, pad: 4, gap: 2, lift: 6, footClear: 30, keepClear, tags: [{ seat, at: { x, bottom }, width, height, self }] })
+// → { places: [{ seat, left, top }], inside: true | false, apart: true | false }
 ```
 
-It is pure: measured boxes in, places out, with no DOM. Each component measures its own tags and calls it. When the room scene takes it for sheet 21's Room B case, the Lead moves it into the kit, since it will then have two users, and adopts it in the room scene.
+It is pure: measured boxes in, places out, with no DOM. Each component measures its own tags and calls it.
+
+**Shared since 0.1.1.** When the room scene took it for #222 item 34 (room scene 0.5.0), the Lead moved it, unchanged, into `design/phone-ui/components/tag-layout.mjs` (`tag-layout-0.1.0`). It gained two inputs, `lift` and `footClear`, which default to the board's 6 and 30; the room scene passes 2 and 34. The board passes neither, so its tags are placed as before. `board-tags.mjs` imports it and `TAG_RULES` from there and re-exports both; it keeps no copy.
 
 ## The rules
 
@@ -131,7 +135,7 @@ Under the hosted game's production headers, through the shared `design/tools/lib
   - dispose.
 - **Agreement with sheet 26** at Standard: each tag's box, words and look, to within half a pixel of the pack's own, on the board, the move and the targets frames.
 
-**The record:** `node design/tools/board-tags-check.mjs`, recorded on `f9eab0f3` with the source clean, under the production headers (SHA-256 `424e5dec…`, as the other components'):
+**The record:** `node design/tools/board-tags-check.mjs`, recorded on `624c5246` (board-tags-0.1.1) with the source clean, under the production headers (SHA-256 `424e5dec…`, as the other components'):
 - **Captures:** 28 of 28 (`review/`):
   - the board, the two worst boards, and Move, the targets and the talk, at 390 × 844 and 430 × 932;
   - the board and the two worst boards at Large and Largest there, and at 320 × 568 Standard;
@@ -141,7 +145,8 @@ Under the hosted game's production headers, through the shared `design/tools/lib
 - **Agreement:** 6 of 6 frames: the board, Move and the targets at 390 × 844, the board at 320 × 568 and 430 × 932, and the talk.
   - The tags agree to within half a pixel in words, look, number, office and status.
   - The exceptions are where the pack's own tags meet (As built, 3): one tag at 390 × 844, and four at 320 × 568, each moved up and ending apart.
-- **Tests:** `board-tags.test.mjs` 7 of 7: the graph, the styles' scope and 11 px type, the words, the inputs, `layoutTags()`'s rules, the states, the record.
+- **Against `f9eab0f3`'s record** (board-tags-0.1.0, its own copy of the rules): every recorded field of the 28 captures is the same, and so are the probe's 10 checks and the agreement's 6. All 28 captures are unchanged pixel for pixel.
+- **Tests:** `board-tags.test.mjs` 7 of 7: the graph (with `tag-layout.mjs`, whose `layoutTags` and `TAG_RULES` are the very ones re-exported, and no copy kept), the styles' scope and 11 px type, the words, the inputs, `layoutTags()`'s rules, the states, the record.
 - **Not run:** physical phones, Safari, screen readers, frame rate, and Board V2 itself: Frontend's adoption PR carries the native gate.
 
 ## The Lead's decisions (16 November)
