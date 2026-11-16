@@ -2,7 +2,7 @@
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
   "version": "component-kit-0.5.1",
-  "sourceCommit": "e1ca5e3250e6d4338bc527cb5a315c1fb8cc2ccc",
+  "sourceCommit": "481105204dd086469dd494ca66eefdda4541cc74",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -152,6 +152,41 @@
         200
       ],
       "why": "The list grows by the line its rows' values took under their titles"
+    },
+    {
+      "cases": "/^segmented icons$/",
+      "parts": [
+        "/^option \\d icon$/"
+      ],
+      "keys": [
+        "w"
+      ],
+      "sections": [
+        "plain"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text the pack's two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit's icons keep their 18 px, as at 100 %"
+    },
+    {
+      "cases": "/^segmented icons$/",
+      "parts": [
+        "/^(control|option \\d( icon)?)$/"
+      ],
+      "keys": [
+        "h",
+        "w",
+        "x",
+        "y"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % in a phone root (the shell's, which the glass cases sit in), a stacking segmented control puts one option per row, the kit 0.5.0 rule (#228's .seg[data-stack]); the pinned pack keeps the two options side by side, squeezed"
     }
   ],
   "pages": {
@@ -1139,23 +1174,25 @@
           "accepted": []
         },
         "segmented icons": {
-          "ok": false,
+          "ok": true,
           "parts": 5,
-          "differences": [
+          "differences": [],
+          "accepted": [
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
-              "kit": 18
+              "kit": 18,
+              "rule": 7
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
-              "kit": 18
+              "kit": 18,
+              "rule": 7
             }
-          ],
-          "accepted": []
+          ]
         },
         "stepper": {
           "ok": true,
@@ -1838,89 +1875,102 @@
           "accepted": []
         },
         "segmented icons": {
-          "ok": false,
+          "ok": true,
           "parts": 5,
-          "differences": [
+          "differences": [],
+          "accepted": [
             {
               "part": "control",
               "key": "h",
               "pack": 78.38,
-              "kit": 97
+              "kit": 97,
+              "rule": 8
             },
             {
               "part": "option 1",
               "key": "w",
               "pack": 174.5,
-              "kit": 352
+              "kit": 352,
+              "rule": 8
             },
             {
               "part": "option 1",
               "key": "h",
               "pack": 72.38,
-              "kit": 44
+              "kit": 44,
+              "rule": 8
             },
             {
               "part": "option 1 icon",
               "key": "x",
               "pack": 9,
-              "kit": 65.83
+              "kit": 65.83,
+              "rule": 8
             },
             {
               "part": "option 1 icon",
               "key": "y",
               "pack": 30.19,
-              "kit": 16
+              "kit": 16,
+              "rule": 8
             },
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
-              "kit": 18
+              "kit": 18,
+              "rule": 8
             },
             {
               "part": "option 2",
               "key": "x",
               "pack": 180.5,
-              "kit": 3
+              "kit": 3,
+              "rule": 8
             },
             {
               "part": "option 2",
               "key": "y",
               "pack": 3,
-              "kit": 50
+              "kit": 50,
+              "rule": 8
             },
             {
               "part": "option 2",
               "key": "w",
               "pack": 174.5,
-              "kit": 352
+              "kit": 352,
+              "rule": 8
             },
             {
               "part": "option 2",
               "key": "h",
               "pack": 72.38,
-              "kit": 44
+              "kit": 44,
+              "rule": 8
             },
             {
               "part": "option 2 icon",
               "key": "x",
               "pack": 186.5,
-              "kit": 52.66
+              "kit": 52.66,
+              "rule": 8
             },
             {
               "part": "option 2 icon",
               "key": "y",
               "pack": 30.19,
-              "kit": 63
+              "kit": 63,
+              "rule": 8
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
-              "kit": 18
+              "kit": 18,
+              "rule": 8
             }
-          ],
-          "accepted": []
+          ]
         },
         "stepper": {
           "ok": true,
@@ -1993,8 +2043,8 @@
   },
   "summary": {
     "cases": 144,
-    "agree": 142,
+    "agree": 144,
     "parts": 931,
-    "accepted": 109
+    "accepted": 124
   }
 }
