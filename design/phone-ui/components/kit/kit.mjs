@@ -12,12 +12,16 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.5.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.8.0';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
 export const PILL_TONES = Object.freeze([null, 'amber', 'paper', 'accent']);
 export const ROW_TINTS = Object.freeze([null, 'amber', 'paper', 'steel', 'teal', 'slate']);
+/** A tile's states (0.6.0, from play-parts): offered, being chosen, with the server, accepted and waiting, or not offered. */
+export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable', 'spent']);
+/** The words a tile draws itself: only the registered mark. Everything else is the caller's. */
+export const TILE_WORDS = Object.freeze({ registered: 'REGISTERED', registeredSaid: 'registered' });
 
 const oneOf = (value, allowed, what) => {
   if (!allowed.includes(value ?? null)) throw new TypeError(`${what} is one of ${allowed.map(v => JSON.stringify(v)).join(', ')}, not ${JSON.stringify(value)}`);
@@ -36,6 +40,7 @@ export function createKit(doc) {
     return node;
   };
   const text = (node, value) => { const v = value ?? ''; if (node.textContent !== v) node.textContent = v; return node; };
+  const isNode = value => value !== null && typeof value === 'object' && typeof value.nodeType === 'number';
   const attr = (node, name, value) => {
     if (value === null || value === undefined || value === false) { if (node.hasAttribute(name)) node.removeAttribute(name); }
     else if (node.getAttribute(name) !== String(value)) node.setAttribute(name, String(value));
@@ -90,9 +95,10 @@ export function createKit(doc) {
 
   // ── Lists and rows (ui.mjs row, list, groupLabel, groupNote) ─────────
   /**
-   * { title, sub, value (the words at the right), icon, tint, chevron, lead (a node: a portrait), trail (a node:
-   * a switch, a stepper), tag: 'button' | 'div', intent, data (what a tap reports) }. A lead or trail node
-   * sits in the row as the pack places it; the row keeps it, and its focus, while the same node is given.
+   * { title, sub, value (the words at the right, or a node: a pill, 0.6.1), icon, tint, chevron, lead (a node:
+   * a portrait), trail (a node: a switch, a stepper), tag: 'button' | 'div', intent, data (what a tap reports) }.
+   * A lead, value or trail node sits in the row as the pack places it; the row keeps it, and its focus, while
+   * the same node is given. A value node takes the value's place, so the larger-text rule moves it too.
    */
   function setRow(node, props) {
     oneOf(props.tint, ROW_TINTS, 'A row\'s tint');
@@ -116,7 +122,8 @@ export function createKit(doc) {
     text(main.firstChild, props.title);
     text(main.lastChild, props.sub ?? '');
     main.lastChild.hidden = !props.sub;
-    text(value, props.value ?? '');
+    if (isNode(props.value)) { if (value.childNodes.length !== 1 || value.firstChild !== props.value) value.replaceChildren(props.value); }
+    else { if (value.firstElementChild) value.replaceChildren(); text(value, props.value ?? ''); }
     value.hidden = props.value === undefined || props.value === null;
     if (props.trail) { if (trail.firstChild !== props.trail) trail.replaceChildren(props.trail); trail.hidden = false; }
     else { trail.replaceChildren(); trail.hidden = true; }
@@ -133,6 +140,20 @@ export function createKit(doc) {
   };
   const groupLabel = words => text(h('p', 'ms-k-group-label'), words);
   const groupNote = words => text(h('p', 'ms-k-group-note'), words);
+  /**
+   * The section head (screens.css .section-head; 0.7.0): { title, aside }, a title in capitals and a line at the
+   * right, as sheet 34 heads each window ("Room A ↔ Hospital", "Your station · A2") and sheet 28 its turn.
+   */
+  function setSectionHead(node, { title, aside = null }) {
+    node.classList.add('ms-k-section-head');
+    if (!node.querySelector(':scope > .ms-k-section-title')) node.append(h('h3', 'ms-k-section-title'), h('span', 'ms-k-section-aside'));
+    const [head, line] = node.children;
+    text(head, title);
+    text(line, aside ?? '');
+    line.hidden = aside === null || aside === undefined || aside === '';
+    return node;
+  }
+  const sectionHead = props => setSectionHead(h('div'), props);
 
   // ── Accents (ui.mjs pill, stamp, caption) ───────────────────────────
   function setPill(node, props) {
@@ -299,6 +320,206 @@ export function createKit(doc) {
   }
   const wait = props => setWait(h('div'), props);
 
+  // ── The tile, who, the facts and the paper card (0.6.0) ──────────────
+  // The tile, who and the facts came from the Gameplay builder's play-parts (play-parts-0.1.0), which drew them
+  // first for Actions and the private talk, when Promises needed them too (the Lead's L2, 15 November 2026): the
+  // same props, states and behaviour, on the kit's classes. The paper card is the pack's kit.css .comic.
+  const isText = value => typeof value === 'string' && value.length > 0;
+  const optionalText = (value, what) => {
+    if (value !== null && value !== undefined && typeof value !== 'string') throw new TypeError(`${what} is text, or null`);
+    return value === '' ? null : value ?? null;
+  };
+  /**
+   * The tile (screens-game.mjs tile(); screens.css .tile): { icon, name, note, state, badge, label, intent, value }.
+   * Always a button, so a focused tile keeps its element and its focus through every state: the caller's control
+   * policy refuses the taps of one that is not available or being chosen. `note` is the line under the name (an
+   * unavailable tile's reason); `badge` the count on the icon's corner; `label` its accessible name, by default
+   * the name, the note and "registered", as the pack writes it. `sending` is the pack's `submitting`.
+   */
+  const tileArt = new WeakMap();
+  function setTile(node, props) {
+    if (!isText(props?.name)) throw new TypeError('A tile needs its name');
+    const art = isText(props.art) || isNode(props.art) ? props.art : null;
+    if (!isText(props.icon) && art === null) throw new TypeError('A tile needs its icon or its art');
+    const state = props.state ?? 'available';
+    if (!TILE_STATES.includes(state)) throw new TypeError(`A tile's state is ${TILE_STATES.join(', ')}, not ${JSON.stringify(state)}`);
+    const note = optionalText(props.note, 'A tile\'s note');
+    const badge = props.badge === null || props.badge === undefined ? null : String(props.badge);
+    if (badge !== null && !/^\d+$/.test(badge)) throw new TypeError('A tile\'s badge is a whole number, or null');
+    node.classList.add('ms-k-tile');
+    if (!node.querySelector(':scope > .ms-k-tile-name')) {
+      node.append(h('span', 'ms-k-tile-icon'), h('b', 'ms-k-tile-name'), h('small', 'ms-k-tile-note'),
+        h('span', 'ms-k-tile-badge'), h('span', 'ms-k-tile-stamp', { 'aria-hidden': 'true' }));
+    }
+    const [glyph, name, small, count, mark] = node.children;
+    node.dataset.state = state;
+    if (art !== null) {
+      // A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card): the game's own art
+      // markup (HACK_ART), never words or anything a player gave; or (0.7.1) a picture node the component draws, as
+      // the Captain console's plates (the film bundle's pictures). Kept while it is the same markup or node.
+      // The kit fades only the markup when the tile is unavailable, as sheet 25 fades its one picture; a node is drawn
+      // for its state by the component (the pack's unavailable Eject plate is a drawing of its own), so it is left
+      // as given (0.7.2).
+      if (glyph.className !== 'ms-k-tile-art') { glyph.className = 'ms-k-tile-art'; glyph.dataset.icon = ''; glyph.hidden = false; }
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.toggleAttribute('data-node', isNode(art));
+      if (tileArt.get(glyph) !== art) {
+        if (isNode(art)) glyph.replaceChildren(art);
+        else {
+          const t = doc.createElement('template');
+          t.innerHTML = art.trim();
+          glyph.replaceChildren(t.content);
+        }
+        tileArt.set(glyph, art);
+      }
+    } else {
+      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
+      // The pack fills the icon, but not on an unavailable or a spent tile.
+      setIcon(glyph, props.icon, state !== 'unavailable' && state !== 'spent');
+    }
+    text(name, props.name);
+    if (note !== null && isText(props.noteIcon)) {
+      // A note with its icon before it (0.7.0; the private talk's lock, the pack's .declare-sides .tile small).
+      small.replaceChildren(icon(props.noteIcon, true), doc.createTextNode(note));
+      small.dataset.hasIcon = '';
+    } else {
+      if ('hasIcon' in small.dataset) { small.replaceChildren(); delete small.dataset.hasIcon; }
+      text(small, note ?? '');
+    }
+    small.hidden = note === null;
+    text(count, badge ?? '');
+    count.hidden = badge === null;
+    // The badge repeats the note's count: a screen reader hears it once, in the note.
+    attr(count, 'aria-hidden', note !== null ? 'true' : null);
+    text(mark, state === 'registered' ? TILE_WORDS.registered : '');
+    mark.hidden = state !== 'registered';
+    // label: false leaves the tile named by its own words (0.7.0), as the private talk's side cards are.
+    attr(node, 'aria-label', props.label === false ? null : props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${TILE_WORDS.registeredSaid}` : ''}`);
+    if (props.intent) node.dataset.intent = props.intent;
+    if (props.value !== undefined && props.value !== null) node.dataset.value = String(props.value);
+    return node;
+  }
+  const tile = props => setTile(h('button', null, { type: 'button' }), props);
+  /** The tiles' grid (screens.css .tiles): three to a row, as Actions (sheet 28) and Promises' kinds (33) lay them. */
+  const tiles = (...children) => { const grid = h('div', 'ms-k-tiles'); grid.append(...children.flat().filter(Boolean)); return grid; };
+  /**
+   * Who (screens.css .confirm-who): { people: [{ seat, character }] (none, one or two), icon (with none), title,
+   * sub, versions }. One person's 64 px portrait, two people's side by side, or an action's icon on its 64 px paper
+   * tile; then the title ("Rescue Eli", "Offer to Ava") and the line ("Player 5 · Hospital", "Only you see this").
+   */
+  function setWho(node, props) {
+    if (!isText(props?.title)) throw new TypeError('Who needs its title');
+    const people = props.people ?? [];
+    if (!Array.isArray(people) || people.length > 2) throw new TypeError('Who draws none, one or two people');
+    if (!people.length && !isText(props.icon)) throw new TypeError('Who without a person needs an icon');
+    node.className = 'ms-k-who';
+    if (!node.querySelector(':scope > .ms-k-who-words')) {
+      const words = h('div', 'ms-k-who-words');
+      words.append(h('b', 'ms-k-who-title'), h('span', 'ms-k-who-sub'));
+      node.append(h('span', 'ms-k-who-lead'), words);
+    }
+    const [lead, words] = node.children;
+    const form = people.length === 2 ? 'pair' : people.length === 1 ? 'person' : 'icon';
+    if (lead.dataset.form !== form) { lead.replaceChildren(); lead.dataset.form = form; lead.dataset.icon = ''; lead.hidden = false; }
+    if (form === 'icon') setIcon(lead, props.icon, true);
+    else {
+      while (lead.children.length > people.length) lead.lastChild.remove();
+      while (lead.children.length < people.length) lead.append(h('span'));
+      people.forEach((person, i) => setPortrait(lead.children[i], person, props.versions ?? null));
+    }
+    text(words.firstChild, props.title);
+    text(words.lastChild, props.sub ?? '');
+    words.lastChild.hidden = !props.sub;
+    return node;
+  }
+  const who = props => setWho(h('div'), props);
+  /**
+   * The facts (screens.css .facts): [line, …], each text (with the pack's amber "i") or { icon, text } (as
+   * Promises' "Only you and Ava see it", with the lock). Each line is kept by its place.
+   */
+  function setFacts(node, lines) {
+    const facts = Array.isArray(lines) ? lines.map(line => (typeof line === 'string' ? { icon: 'info', text: line } : line)) : null;
+    if (!facts || !facts.every(f => isText(f?.text) && isText(f.icon ?? 'info'))) throw new TypeError('Facts are lines: text, or { icon, text }');
+    node.className = 'ms-k-facts';
+    while (node.children.length > facts.length) node.lastChild.remove();
+    while (node.children.length < facts.length) {
+      const li = h('li', 'ms-k-fact');
+      li.append(icon('info', true), h('span', 'ms-k-fact-text'));
+      li.dataset.icon = 'info';
+      node.append(li);
+    }
+    // The icon sits straight in the line, as the pack's; redrawn only when it changes.
+    facts.forEach((f, i) => {
+      const li = node.children[i], shape = f.icon ?? 'info';
+      if (li.dataset.icon !== shape) { li.firstChild.replaceWith(icon(shape, true)); li.dataset.icon = shape; }
+      text(li.lastChild, f.text);
+    });
+    node.hidden = facts.length === 0;
+    return node;
+  }
+  const facts = lines => setFacts(h('ul'), lines);
+
+  // ── The notice (screens.css .registered; 0.7.0) ────────────────────
+  /**
+   * { icon, filled, stamp: { text, tone }, lines: [text, …], extra, status }: an icon or a stamp centred over its
+   * lines, as sheet 45's "Outcome unknown", sheet 40's BLOCKED and sheet 42's MATCHED. Moved in from play-parts with
+   * the same props. The icon is drawn as the pack draws it there: the 76 px .big-icon tile applies only inside a
+   * waiting block. `extra` is a node after the lines, inside the notice, as the Scan result holds its row; the notice
+   * keeps it while the same node is given. `status` (default true) reads the notice as it opens.
+   */
+  const noticeExtras = new WeakMap();
+  function setNotice(node, props) {
+    const lines = props?.lines ?? [];
+    if (!Array.isArray(lines) || !lines.length || !lines.every(isText)) throw new TypeError('A notice needs its lines');
+    if (!isText(props.icon) && !isText(props.stamp?.text)) throw new TypeError('A notice has an icon or a stamp');
+    if (props.extra !== undefined && props.extra !== null && !isNode(props.extra)) throw new TypeError('A notice\'s extra is a node, or null');
+    node.classList.add('ms-k-notice');
+    attr(node, 'role', props.status === false ? null : 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-notice-icon'));
+    let mark = node.firstChild;
+    if (isText(props.stamp?.text)) {
+      if (!mark.classList.contains('ms-k-stamp')) { const s = h('span'); mark.replaceWith(s); mark = s; }
+      setStamp(mark, { text: props.stamp.text, tone: props.stamp.tone ?? null });
+    } else {
+      if (!mark.classList.contains('ms-k-notice-icon')) { const s = h('span', 'ms-k-notice-icon'); mark.replaceWith(s); mark = s; }
+      setIcon(mark, props.icon, props.filled !== false);
+    }
+    const paras = [...node.querySelectorAll(':scope > p')];
+    while (paras.length > lines.length) paras.pop().remove();
+    while (paras.length < lines.length) { const p = h('p'); (paras[paras.length - 1] ?? mark).after(p); paras.push(p); }
+    lines.forEach((line, i) => text(paras[i], line));
+    const before = noticeExtras.get(node) ?? null, extra = props.extra ?? null;
+    if (before !== extra) before?.remove();
+    if (extra && node.lastChild !== extra) node.append(extra);
+    noticeExtras.set(node, extra);
+    return node;
+  }
+  const notice = props => setNotice(h('div'), props);
+  /** The pack's paper card (kit.css .comic): paper, an ink border and the ink shadow. The caller fills it and pads it. */
+  const comic = (...children) => { const card = h('article', 'ms-k-comic'); card.append(...children.flat().filter(Boolean)); return card; };
+
+  // ── The toast (ui.mjs toast; kit.css .toast; 0.8.0) ─────────────────
+  /**
+   * { text, icon, filled, leaving, extra }: a local confirmation ("Copied", "Turn passed"), read as it is drawn.
+   * The icon is filled, as the pack's (default `check`); long words are cut with an ellipsis inside the phone.
+   * It takes no tap: a tap reaches what is under it. It drops in where it is added and fades out once `leaving`.
+   * How long it shows and when it goes are its owner's (the shell's TOAST_MS, once per id), and so is where it sits:
+   * 10 px under --ms-k-toast-top, which the owner sets to where its bar ends (the pack's --top). `extra` adds the
+   * owner's classes. Changed in place.
+   */
+  function setToast(node, props) {
+    if (!isText(props?.text)) throw new TypeError('A toast needs its text');
+    const cls = ['ms-k-toast', ...(props.extra ?? [])].join(' ');
+    if (node.className !== cls) node.className = cls;
+    attr(node, 'role', 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-toast-icon'), h('span', 'ms-k-toast-text'));
+    setIcon(node.firstChild, isText(props.icon) ? props.icon : 'check', props.filled !== false);
+    text(node.lastChild, props.text);
+    attr(node, 'data-leaving', props.leaving ? '' : null);
+    return node;
+  }
+  const toast = props => setToast(h('div'), props);
+
   // ── The segmented control, the stepper, the switch ───────────────────
   /**
    * options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen.
@@ -316,9 +537,11 @@ export function createKit(doc) {
       let b = [...node.children].find(c => c.dataset.value === String(o.id));
       if (!b) { b = h('button', 'ms-k-seg-btn', { type: 'button', role: 'radio' }); b.append(h('span', 'ms-k-seg-icon'), h('span', 'ms-k-seg-label')); b.dataset.value = String(o.id); b.dataset.intent = intent; }
       if (node.children[i] !== b) node.insertBefore(b, node.children[i] ?? null);
-      setIcon(b.firstChild, o.icon ?? null, false);
+      // The chosen option's icon is filled and the others plain, as the pack draws Join's device choice (sheet 12).
+      const chosen = String(o.id) === String(value);
+      setIcon(b.firstChild, o.icon ?? null, chosen);
       text(b.lastChild, o.label);
-      attr(b, 'aria-checked', String(String(o.id) === String(value)));
+      attr(b, 'aria-checked', String(chosen));
     });
     return node;
   }
@@ -349,9 +572,9 @@ export function createKit(doc) {
   }
   const switchControl = props => setSwitch(h('button', null, { type: 'button' }), props);
 
-  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote,
+  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead, notice, setNotice,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
-    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait });
+    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic, toast, setToast });
 }
 
 /**
