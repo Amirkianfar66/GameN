@@ -1,6 +1,6 @@
 # Main menu: Designer's runtime component
 
-**Version:** `main-menu-0.1.0`, with `entry-parts-0.1.0`. The host room (#287) extends the entry parts to 0.2.0: the entry choice is unchanged, and the entry screens' frame is added ([host-room.md](host-room.md), decision 1). **Status (16 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0 (`e6b4a385`), now merged to the kit 0.5.0 (`13167281`, #265), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (docs/design/owner-decisions.md, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `main-menu-0.1.0`, with `entry-parts-0.1.0`. The host room (#287) extends the entry parts to 0.2.0: the entry choice is unchanged, and the entry screens' frame is added ([host-room.md](host-room.md), decision 1). At 0.3.0 the frame's toast is the kit's (kit 0.8.0); the entry choice is unchanged. **Status (16 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0 (`e6b4a385`), now merged to the kit 0.5.0 (`13167281`, #265), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (docs/design/owner-decisions.md, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the phone's main menu after the intro, as sheet 10 draws it. It is #222 item 5 (P1). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -148,7 +148,7 @@ On `a1131c94`, clean (the kit 0.5.0 at `13167281`; the check on the shared `comp
     - The cover is the one difference, at the Largest text only, and each case records it, with whether it was lifted above the words. Neither Largest-text case lifts it; the lifted one, 390 × 844 offline, is in the captures and the probe.
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
-**On #287's branch, at `5b360c34`, clean, with `entry-parts-0.2.0`** (the host room's build, its code card and kit 0.5.0): 8 of 8 captures, 15 of 15 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `a1131c94` above. The entry parts' additions leave the menu's drawing unchanged.
+**On #287's branch, at `193743f7`, clean, with `entry-parts-0.3.0`** (kit 0.8.0 and shell 0.2.8 merged from #265 at `0e5a0b8a`; the entry toast is the kit's): 8 of 8 captures, 15 of 15 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `a1131c94` above. Before, at `5b360c34` with `entry-parts-0.2.0` and kit 0.5.0, the same. The entry parts' changes leave the menu's drawing unchanged.
 
 ## Not in this version
 
