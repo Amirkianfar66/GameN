@@ -268,7 +268,9 @@ Listed, not omitted:
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** seventeen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 35 of 35 pass, each drawing what its state asks.
+  - **Captures:** eighteen states at 390 × 844 and 430 × 932, the target bar at the Largest text on both, and the Largest text at 320 × 568: 39 of 39 pass, each drawing what its state asks.
+    - `target-stale` (0.2.9): the target bar 8 px under the reconnecting banner, with its Cancel the topmost thing at its centre.
+    - `target-large` (0.2.9): at 200 % text, Cancel under the bar's words, the bar inside the phone, and the chip's label whole.
     - `out` (0.2.8) draws an eliminated player's phone: "You're out" without Retry, 107 px from the top at a 47 px safe area, the phone live, Actions not offered, and the viewer's figure down in its place.
     - The 5 s result carries a stand-in for the vote's result window in the cover.
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
@@ -300,7 +302,11 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `5ac3354f`, with kit 0.8.0 and shell 0.2.8, and the source clean. Against `344fcf91`'s record (shell 0.2.7):
+    - Recorded on `97a7eebb`, with kit 0.8.0 and shell 0.2.9, and the source clean. Against `5ac3354f`'s record (shell 0.2.8):
+      - 15 captures are unchanged: 13 byte for byte, and 2 with no pixel more than 32 of 255 apart.
+      - 20 differ in at most 272 pixels, all inside the room's picture (its ambient motion). The target bar and the chip at the Standard text are unchanged.
+      - `target-stale` and `target-large` are new at both sizes.
+    - Before: `5ac3354f`, with kit 0.8.0 and shell 0.2.8, and the source clean. Against `344fcf91`'s record (shell 0.2.7):
       - 17 captures are unchanged: 12 byte for byte, and 5 with no pixel more than 32 of 255 apart.
       - 15 differ in at most 125 pixels, all inside the room's picture (its ambient motion).
       - `large` changed with room scene 0.5.0, which `bb6ef309` merged. At 200 % on 320 × 568 every name tag is now whole and apart, stacked over the people where they would meet. There the active player's tag lies over the turn mark, and its amber ring still marks the turn.
