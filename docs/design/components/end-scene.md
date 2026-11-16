@@ -1,6 +1,13 @@
 # End scene: Designer's runtime component
 
-**Version:** `end-scene-0.1.0`. **Status (15 November 2026):** built to the interface agreed on #271 with the Lead Designer, and ready for the Lead's review before it goes to Frontend. It is not in the game yet. Integration first admits its module graph to the hosted build, including `arrival-art.mjs`, a new runtime derivative of approved drawing (see Art). It is not a release.
+**Version:** `end-scene-0.1.1`. **Status (16 November 2026):** `0.1.0` was built to the interface agreed on #271 and accepted there by the Lead Designer. `0.1.1` adds what larger text needs, as the Lead decided on 16 November, and is for the Lead's review. It is not in the game yet. Integration first admits its module graph to the hosted build, including `arrival-art.mjs`, a new runtime derivative of approved drawing (see Art). It is not a release.
+
+## What changed in 0.1.1
+
+Two things, both for larger text. Neither changes the scene at the Standard text: the 52 captures and the 16 comparison and beats pictures are the same files as `0.1.0`'s, byte for byte.
+
+- **The title block stops growing at a 20 px root** (125 % of the Standard 16 px). Up to there it grows as the pack's does; from there on the stamp, the title and the line hold at 27.5, 40 and 18.75 px. See Larger text.
+- **`scene.layout()`** says where the title block ends, so the screen can start the Roles list under it.
 
 **What it is:** the top of sheet 44, the end of a match (#222 item 8). It shows the planet, the ship on its landing beam and the "RED WINS" stamp, then the title and the round. When no one wins, it shows "NO WINNER" on the dark field. Today the game shows a text list on glass, and "Match aborted · No winner" as text.
 
@@ -55,12 +62,18 @@ scene.update({ ...changes });  // each key given replaces that key; the rest sta
 scene.suspend();               // backgrounded: stands still, asks for no frames
 scene.resume();                // foregrounded: seeks to the clock; nothing is replayed
 scene.frame();                 // a plain snapshot (below); null after dispose()
+scene.layout();                // { titleBottom }: where the title block ends (below); null after dispose()
 scene.dispose();               // removes the element and stops its frames; safe to call twice
 ```
 
 - **The host is the shell's stage, edge to edge,** with `bar: null`, `tabs: null` and `edge: true`: the stage fills the whole phone. The scene's `size` is the whole phone.
-- **The component** appends one child, `.ms-end-scene.ms-kit`, of exactly `size`. Its hero is the top half; below it, the scene is the plain canvas, where the cover lays the list from 58 %.
-- **It takes no taps** and has no controls. It reports nothing, so it has no callbacks and needs no control policy. "Return to lobby" is the screen's.
+- **The component** appends one child, `.ms-end-scene.ms-kit`, of exactly `size`. Its hero is the top half; below it, the scene is the plain canvas, where the cover lays the list from 58 %, or under the title block where larger text makes the block end lower (see Larger text).
+- **It takes no taps** and has no controls. It reports nothing, so it has no callbacks and needs no control policy: `layout()` is read, never called back. "Return to lobby" is the screen's.
+- **`layout()`** returns `{ titleBottom }`: where the title block ends, in CSS px from the scene's top, which is the stage's.
+  - It is measured when it is asked for. Read it again after you change the size, the safe area or the game's text size.
+  - It is the block at rest. The stamp's punch and the words' rise are transforms, so the answer is the same before the stamp lands, while the words rise and in the still.
+  - `titleBottom` is `null` while no title block is drawn: concealed, or no result yet.
+  - Under a scaled ancestor (a phone drawn smaller on a page) the answer is still in the scene's own CSS px.
 - **To assistive technology** it is one image (`role="img"`) whose text alternative is its words, for example "Red wins. Red reached Red Planet. Round 6." The screen's own heading, if it has one, is the screen's.
 - **`frame()`** returns:
 
@@ -137,9 +150,45 @@ Reduce motion, the game's or the device's: the still, with one 80 ms fade.
 | Concealed | A plain cover: nothing drawn or named (the name is "Hidden"), and no frames run. Shown again, it seeks to the clock |
 | Suspended | Stands still and asks for no frames until `resume()` |
 
+## Larger text
+
+The game's text size is its root's size: Standard (100 %), Large (150 %) and 200 %. The pack writes the title block in rem, so on the pack's own end screen the block grows with it and runs down over the Roles list: at 200 % on 390 × 844 the pack's Red block ends at 718.7 px, and its list starts at 489.5 px (58 %). The larger-text sheet (56) draws no sheet 44 frame, so no sheet draws this state. The Lead Designer decided it on 16 November 2026, as a fix for larger text and not a departure from a sheet.
+
+- **The rule:** the block's words grow with the root as the pack's do, up to a 20 px root, and hold there.
+
+  | Part | The pack's size | Holds at |
+  | --- | --- | --- |
+  | The stamp | 1.375 rem | 27.5 px |
+  | The title | 2 rem | 40 px |
+  | The line | 0.9375 rem | 18.75 px |
+
+  - So at the Standard text the block is the pack's, and at Large and at 200 % it is the pack's block at a 20 px root. The capture at 200 % is the capture at 150 %, pixel for pixel.
+  - The cap is a size, not a share of the browser's own default: on a browser whose default is not 16 px, the block still stops at these sizes.
+  - A browser without `min()` keeps the pack's sizes, uncapped: each rule gives the pack's size first.
+- **Where the block ends** (`layout().titleBottom`, CSS px from the stage's top, with the pack's review frames' 47 px top safe area):
+
+  | Result | 390 × 844, Standard | 390 × 844, Large and 200 % | 430 × 932, Standard | 430 × 932, Large and 200 % |
+  | --- | --- | --- | --- | --- |
+  | Blue, Red | 475.64 | 502.83 | 505.56 | 532.75 |
+  | Blue or Red with the Alien | 475.64 | 530.33 | 505.56 | 532.75 |
+  | No survivors | 442.05 | 460.83 | 471.97 | 490.75 |
+  | Aborted | 442.05 | 502.83 | 471.97 | 490.75 |
+
+  The height moves in steps, as lines wrap. The tallest is the Alien result on 390 × 844, where the stamp takes two lines.
+- **The list's rule, which is the screen's:** the Roles list starts at `max(58 %, titleBottom + 13 px)`. At the Standard text that is the pack's 58 % on both phones (the pack's own gap is 13.88 px at its tightest). The preview's stand-in follows the same rule.
+- **Why 20 px, and not the Large size itself:** the list must keep room for its label and two rows at 200 %. With the Gameplay UI builder's measures (a row 51 px, a wrapped row 87 px, the label 38 px, the list ending at 728 px on 390 × 844):
+
+  | The block holds at | The Alien result ends at | The list starts at | Room for the list | Needed: the label and two rows; one row wrapped |
+  | --- | --- | --- | --- | --- |
+  | A 20 px root (125 %) | 530.33 | 543.33 | 184.7 px | 140 px; 176 px |
+  | A 22 px root (137.5 %) | 573.45 | 586.45 | 141.6 px | 140 px; 176 px |
+  | A 24 px root (150 %, Large) | 642.63 | 655.63 | 72.4 px | 140 px; 176 px |
+
+  Every other case at a 20 px root leaves 212 px or more. So "the pack's own sizes" holds up to 125 %, not up to Large: at Large the block is smaller than the pack would draw it, and the list has its room.
+
 ## Lifecycle guarantees
 
-- `dispose()` is safe to call twice. After it, `update()`, `suspend()` and `resume()` do nothing, and `frame()` returns `null`.
+- `dispose()` is safe to call twice. After it, `update()`, `suspend()` and `resume()` do nothing, and `frame()` and `layout()` return `null`.
 - At most one animation-frame loop runs per mount. It runs only while the scene is live, in motion, with a clock and a phase, not suspended, not concealed, and before the still.
 - Each mount is independent, with its own SVG ids. A new match is a new mount.
 
@@ -164,7 +213,7 @@ Each function is its source's text, character for character. **At every moment t
 
 - **`packages/design-tokens/test/end-scene.test.mjs`:** 10 of 10.
   - **The graph:** runtime-safe, with no development marker, no picture or video loaded, one package import, and from the ship travel only `ship-art.mjs`.
-  - **The styles' scope:** every rule under `.ms-end-scene`, one keyframes of its own, no `--ms-k-` property, and the pack's `.end-hero` and `.end-title` values, rule for rule.
+  - **The styles' scope:** every rule under `.ms-end-scene`, one keyframes of its own, no `--ms-k-` property, and the pack's `.end-hero` and `.end-title` values, rule for rule. Each of the title block's sizes is the pack's, followed by its cap at a 20 px root, and nothing else in the scene's styles is in rem.
   - **The port:**
     - each of the 5 functions has the SHA-256 of its source's text, and `PLANETS` its values;
     - `arrivalSvg()` at 4100 ms writes the source's poster frames byte for byte (Red `a1250b9f…`, Blue `dfb6446d…`);
@@ -173,13 +222,28 @@ Each function is its source's text, character for character. **At every moment t
   - **The beats:** the film's clock 1:1 to 3.7 s, then slowing to a stop on 4100 ms at 4.5 s; the stamp and the words on their beats; no winner's beats; pure.
   - **The framing:** the poster covers the hero, the top half, as the pack's `.end-hero` draws it.
   - **The words:** the pack's, for each result, and Red with the Alien composed from them.
-  - **The inputs:** every unknown or private key is refused, at every level, and every result the contract refuses.
-  - **The check's record**, last.
-- **`node design/tools/end-scene-check.mjs`**, under the production headers (Content Security Policy and six others). The record is `end-scene/review/check.json`, against `03919adf`.
+  - **The inputs:** every unknown or private key is refused, at every level, and every result the contract refuses. The handle has `layout`, and the scene takes no handlers.
+  - **The check's record**, last, with its larger-text part.
+- **`node design/tools/end-scene-check.mjs`**, under the production headers (Content Security Policy and six others). The record is `end-scene/review/check.json`, against `f8b6a960`.
   - **Captures:** 52 of 52, thirteen states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: Blue, Red, Blue with the Alien, Red with the Alien (composed), no survivors, aborted, the film (1.5 s), the stamp landed (4.0 s), the game's Reduce motion, stale (2.6 s), concealed, no clock and no result. Each in the shell's stage edge to edge: the scene covers the whole phone, the hero is its top half, and the title block sits at the top safe area + 34 % (333.96 px at 390 × 844).
-  - **Probe:** 38 of 38 checks.
-    - **Full (34):** each moment as `arrivalSvg()` draws it, a late phone, a phone at 2 s, two phones on one clock, frame-by-frame following onto the poster's 4.1 s, the still held with nothing inline, a new end phase, no winner's beats, the still with no clock or no phase, Blue's still, no result and a late result, each result's words, the round, the game's Reduce motion and its fade, suspend and resume, stale and live, concealed and shown, one loop, dispose twice, the layout, and the privacy of inputs, results and words.
+  - **Probe:** 46 of 46 checks.
+    - **Full (42):** each moment as `arrivalSvg()` draws it, a late phone, a phone at 2 s, two phones on one clock, frame-by-frame following onto the poster's 4.1 s, the still held with nothing inline, a new end phase, no winner's beats, the still with no clock or no phase, Blue's still, no result and a late result, each result's words, the round, the game's Reduce motion and its fade, suspend and resume, stale and live, concealed and shown, one loop, dispose twice, the layout, and the privacy of inputs, results and words.
+    - **Eight of them are new in 0.1.1:**
+      - `layout()` is where the block ends: the same before the stamp lands, while the words rise and in the still;
+      - it follows the size and the safe area;
+      - it is unchanged under a scaled ancestor;
+      - it is `null` with no title block, and `layout()` is `null` after `dispose()`;
+      - at 100 %, 150 % and 200 %, at both sizes and for all six results, `titleBottom` is where the block ends, read with no `update()` after the text size changes;
+      - no word is cut: every line lies inside the phone, and none is wider than its box;
+      - up to the cap every size is the pack's own, and past it each holds;
+      - at 200 % the block has the same sizes, boxes and foot as at 150 %.
     - **Device Reduce motion:** its four checks.
+  - **Larger text:** 12 of 12, the six stills at both sizes, each at 100 %, 150 % and 200 %.
+    - **In each capture's own pixels,** the title's last ink lies 3.6 to 6.3 px above `titleBottom` (the last line's own space under its letters), and nothing is painted from there down to the stand-in.
+    - **Held at the cap, the block is the pack's own at that root size:** beside the pack's end screen at `?text=1.25`, every box of the five cases it draws is the pack's (40 boxes, none more than 0.01 px apart).
+    - **At 200 % the capture is the capture at 150 %,** pixel for pixel, while the pack's own block has grown on: its Red block ends at 718.7 px on 390 × 844.
+    - **The stand-in** starts at the pack's 58 % at the Standard text, and 13 px under the block where that is lower.
+    - **Pictures:** `<size>-red-larger-text.jpg` and `<size>-alien-larger-text.jpg`, at both sizes.
   - **The still against the approved posters** (lossy WebP), at 1920 × 1080, in 0–255 levels per channel. The limit is 3, and each control must be beyond it and at least twice the still's difference.
 
     | Poster | The ship's box | The whole frame | Controls (ship 3 px off; 2 % larger) |
@@ -209,6 +273,6 @@ Each function is its source's text, character for character. **At every moment t
 ## For Frontend
 
 - Mount it in the shell's stage when the public view's phase is `FINISHED` or `ABORTED`, on every phone and on the shared display. The shell takes `bar: null`, `tabs: null` and `edge: true`. Pass the phase as `window` (`{ id, startedAt }`), the trusted clock, `view.result`, `view.round`, the stage's size and `{ top: layout().safe.top }` as `safe`.
-- Sheet 44's Roles list and "Return to lobby" are the Gameplay UI builder's, in `shell.slot('cover')`.
+- Sheet 44's Roles list and "Return to lobby" are the Gameplay UI builder's, in `shell.slot('cover')`. Give the list `scene.layout().titleBottom` as its `clear.top`, so it starts at `max(58 %, titleBottom + 13 px)`. Read `layout()` after mounting and again whenever you change the size, the safe area or the game's text size; while it is `null` (concealed, no result) there is no block to clear.
 - `suspend()` when the app goes to the background and `resume()` when it returns. Pass `status: 'stale'` while reconnecting and `'concealed'` when the app conceals the match. Use `dispose()` on leaving the screen.
 - Missing an input, or the scene doesn't fit: tell the Designer team on #4. The source is changed here, not in the app.
