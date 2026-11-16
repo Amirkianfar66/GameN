@@ -136,6 +136,7 @@ The pack draws "Hide card" as an icon button in the sheet's head, between the ti
 | — | Knowledge with nothing known | The segmented control and the one line |
 | — | Reconnecting | As live; the segmented control and Show still work (local) |
 | — | Concealed | Nothing |
+| 53-like | 150 % text at 320 × 568 | The card's place keeps the back's 240 px, with the sheet's body scrolling to the switcher (the Lead, 16 November 2026) |
 | 56-like | 200 % text at 320 × 568 | The segmented control's three words stacked one per row (`stack: true`, kit 0.5.0); a row's value under its title where they don't fit (kit 0.5.0); the card's place never below the back's 240 px, with the sheet's body scrolling to the switcher (the Lead, 16 November 2026) |
 
 **Motion:** none of its own. The role card and the kit keep theirs, and the shell's sheet slides in.
@@ -181,14 +182,17 @@ Listed, not omitted:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `bc6ea5d5` (the shell at `67989624`, 0.2.1, merged in as `dd39b497`, and the card's floor), with the source clean. The same result as on `6c142c0d`, `1679a0e`, `b1559cf` and `a35c414`. Against `ba2f84e0`'s captures, `320x568-large-card` changes: the card's floor (below). Earlier, on `6c142c0d`:
+- **`node design/tools/card-check.mjs`:** recorded on `f76cefe7` (the card's floor everywhere, on the shell at `67989624`, 0.2.1), with the source clean. The same result as on `bc6ea5d5`, `6c142c0d`, `1679a0e`, `b1559cf` and `a35c414`. Against `fa8c2de5`'s captures nothing changes but JPEG noise, and `320x568-large-card-150` is new: the card at Large on 320 × 568 keeps its 240 px place (below). Earlier, on `bc6ea5d5` and `6c142c0d`:
   - **The three 200 % captures at 320 × 568** show the kit's Largest-text forms: the switcher's three words one per row, and a row's value under its title. This is the fix for my Largest-text finding.
   - **Reconnecting:** the sheet stays 8 px below the shell's banner, so Retry is in sight.
-  - **The card's floor** (the Lead, 16 November 2026, `bc6ea5d5`): with the switcher stacked, the card at 200 % on 320 × 568 had shrunk to its corner, about 50 px. Under 10 em of the sheet's width, only the Largest text on a 320 px phone, the card's place now never goes below the back's 240 px, and the sheet's body scrolls to the switcher. Standard and Large keep their sizes at 390 × 844, 430 × 932 and 320 × 568, as measured. At Large on 320 × 568 the card is 126 px, left as it was.
+  - **The card's floor** (the Lead, 16 November 2026): with the switcher stacked, the card at 200 % on 320 × 568 had shrunk to its corner, about 50 px, and at 150 % there it was 126 px tall.
+    - First, at the Largest text on a 320 px phone (`bc6ea5d5`); then everywhere, with no threshold (`f76cefe7`), as the Lead asked: `flex: 1 0 240px` on the card's place.
+    - Where the switcher leaves more, the place still takes all of it, so nothing changes there. Where it leaves less, the place keeps 240 px and the sheet's body scrolls to the switcher.
+    - Measured, only Large (150 %) and the Largest (200 %) on 320 × 568 are under it: the card is 236 px tall there. Standard, Large and the Largest on 390 × 844 and 430 × 932, and Standard on 320 × 568 (259 px), keep their sizes, so no Standard capture changes.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. The page keeps the browser's 16 px root, as the game does.
-  - **Captures:** 21 of 21 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
+  - **Captures:** 22 of 22 pass, each drawing what its state asks: the view, the card or its back, the open part, the rows, the label and the note, and the room's crew behind.
     - Nine states at 390 × 844 and 430 × 932.
-    - Three at 320 × 568 with 200 % text.
+    - Four at 320 × 568: the Card at 150 % text, and three states at 200 %.
     - Concealed, no private word is in the page.
   - **The lifecycle probe** (`preview/probe.mjs`): 10 of 10 checks pass.
     - **As the page comes (9):** view, hide, refused, private, knowledge, resources, fit, dispose and motion.
