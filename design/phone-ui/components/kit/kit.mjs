@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.3.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.4.0';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -255,7 +255,15 @@ export function createKit(doc) {
     return node;
   }
   const codeBoxes = props => setCodeBoxes(h('div'), props);
-  const errorNote = words => { const note = h('p', 'ms-k-error', { role: 'alert' }); note.append(icon('warning', true), text(h('span', 'ms-k-error-text'), words)); return note; };
+  /**
+   * The inline error (ui.mjs errorNote): paper and ink with the filled warning shape, never red. `icon` and
+   * `filled` change only the shape, as the pack's menu draws its offline note with the plain offline icon.
+   */
+  const errorNote = (words, { icon: shape = 'warning', filled = true } = {}) => {
+    const note = h('p', 'ms-k-error', { role: 'alert' });
+    note.append(icon(shape, filled), text(h('span', 'ms-k-error-text'), words));
+    return note;
+  };
 
   // ── A waiting block (screens.css .wait) ──────────────────────────────
   /**

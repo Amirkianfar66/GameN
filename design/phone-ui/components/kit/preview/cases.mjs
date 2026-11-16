@@ -133,6 +133,11 @@ export const CASES = Object.freeze([
     parts: [['group', ':scope > .code-boxes', ':scope > .ms-k-code'], ['box 1', ':scope > .code-boxes > b:nth-child(1)', ':scope > .ms-k-code > b:nth-child(1)', { words: true }]] },
   { id: 'error', where: 'both', pack: ({ ui }) => ui.errorNote('That code is not a match in progress.'), kit: ({ kit }) => kit.errorNote('That code is not a match in progress.'),
     parts: [['note', ':scope > .error', ':scope > .ms-k-error'], ['drawing', ':scope > .error > svg', ':scope > .ms-k-error > svg', { svg: true }], ['words', ':scope > .error > span', ':scope > .ms-k-error > span', { words: true }]] },
+  // The menu's offline note (screens-entry.mjs, sheet 10): the same note with the plain offline icon.
+  { id: 'error offline', where: 'plain',
+    pack: ({ ui }) => ui.h('p.error', { role: 'alert' }, ui.ic('offline'), ui.h('span', 'No connection. Join, Host and Recover return when you are back online.')),
+    kit: ({ kit }) => kit.errorNote('No connection. Join, Host and Recover return when you are back online.', { icon: 'offline', filled: false }),
+    parts: [['note', ':scope > .error', ':scope > .ms-k-error'], ['drawing', ':scope > .error > svg', ':scope > .ms-k-error > svg', { svg: true }], ['words', ':scope > .error > span', ':scope > .ms-k-error > span', { words: true }]] },
 
   // ── The segmented control, the stepper, the switch ──
   { id: 'segmented', where: 'both',

@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.3.0",
-  "sourceCommit": "0c6fdb605622fbd7d2c8112f6d4ce327e7965d95",
+  "version": "component-kit-0.4.0",
+  "sourceCommit": "a3c99f01528fad7a211df1a9a18860174dd9361a",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -101,87 +101,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "6348be1827f262f9b0b291706ab22241b1375eec0cc815a9cb7afc82fabfdead",
+      "sha256": "d4196ddea8188951e1fb54dda24456e5dabf833424e911b56a0473da27ccc73f",
       "size": {
         "width": 390,
-        "height": 7667
+        "height": 7756
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CTcrLmUr.js",
+          "source": "assets/page-DP6PEiuM.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "3e0cec1962a1ced241f7a3fb634a54cf3b543e92bde671cc2db918a4426b29d2"
+      "measurementSha256": "4cb3378790a14d3f6a83daf2e3017709fce73aa2650c13d3746f9504b0fbfdf1"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "1f615f648b8224f5c1c21f3b09daf0c42bc966e743cd6151e9e88c3f891bff4c",
+      "sha256": "f13f1de2f0c6d48abda588b083a99a694dd7b71b5fb75d01efc24c766f5f587c",
       "size": {
         "width": 390,
-        "height": 7738
+        "height": 7827
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CTcrLmUr.js",
+          "source": "assets/page-DP6PEiuM.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "809846a7b1196bc62b237df553df6797378a585e2367f0761b680adc8a974f34"
+      "measurementSha256": "6d55636b3ec24e4c7f45deeb80021b3fdda21e8321163b576996e4cb56ab7efb"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "9f9b03415f65ca57e84463fa88dbc6cef29b28bc1ec84a710b640b40fc4e9578",
+      "sha256": "23ef2892b83a1358a1bf153d23029ec30ba724d65994a6fa8e0f5ed47d5b4d35",
       "size": {
         "width": 390,
-        "height": 10362
+        "height": 10572
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CTcrLmUr.js",
+          "source": "assets/page-DP6PEiuM.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "dec0371e74fdd666e0a4b633a79a3296fd29f359fb74af0f6d3b55a040b80409"
+      "measurementSha256": "e199e6a540236835252fab36be379629a554c7c90a03b3fdb4d8f190118ea403"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "b34ae05130a733ebfb0d3902fbdde62ab596a6d9ba5aecde85a483f555b0b284",
+      "sha256": "9915cf8e601da573ef989279b2b14b2b8623ed4f999dad5ededb1fd825eb764b",
       "size": {
         "width": 390,
-        "height": 10413
+        "height": 10623
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CTcrLmUr.js",
+          "source": "assets/page-DP6PEiuM.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "b54f3e167b73fb4fa2f40ccc2859764214eafaa1ab2e5c8034fd6c2442ec0c15"
+      "measurementSha256": "587e2d424feb44b8817760ae390f88cafcb4919757e15e3fd364a281a3d3caae"
     }
   },
   "agreement": {
@@ -402,6 +402,12 @@
           "accepted": []
         },
         "error": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "error offline": {
           "ok": true,
           "parts": 3,
           "differences": [],
@@ -1052,6 +1058,12 @@
           "differences": [],
           "accepted": []
         },
+        "error offline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
         "segmented": {
           "ok": true,
           "parts": 3,
@@ -1477,9 +1489,9 @@
     }
   },
   "summary": {
-    "cases": 138,
-    "agree": 138,
-    "parts": 905,
+    "cases": 140,
+    "agree": 140,
+    "parts": 911,
     "accepted": 62
   }
 }
