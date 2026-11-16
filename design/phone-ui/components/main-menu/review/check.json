@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/main-menu-check.mjs",
   "component": "design/phone-ui/components/main-menu",
-  "sourceCommit": "9aec5f4a7adab3bd6969950b28fdb67f5e65f731",
+  "sourceCommit": "a1131c94fdc18bfc0d962603c812dcbef25b9df9",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -75,6 +75,14 @@
       "stackTop": 572,
       "cover": false,
       "coverTop": null,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
       "layout": {
         "size": {
           "width": 390,
@@ -101,7 +109,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -131,6 +139,14 @@
       "stackTop": 660,
       "cover": false,
       "coverTop": null,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
       "layout": {
         "size": {
           "width": 430,
@@ -157,7 +173,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -187,6 +203,14 @@
       "stackTop": 499.5,
       "cover": false,
       "coverTop": null,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
       "layout": {
         "size": {
           "width": 390,
@@ -213,7 +237,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -243,6 +267,14 @@
       "stackTop": 587.5,
       "cover": false,
       "coverTop": null,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
       "layout": {
         "size": {
           "width": 430,
@@ -269,7 +301,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -299,6 +331,14 @@
       "stackTop": 435.25,
       "cover": true,
       "coverTop": 411.25,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
       "layout": {
         "size": {
           "width": 390,
@@ -325,7 +365,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -355,6 +395,14 @@
       "stackTop": 559.640625,
       "cover": false,
       "coverTop": null,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
       "layout": {
         "size": {
           "width": 430,
@@ -374,14 +422,14 @@
     },
     "390x844/large-offline": {
       "file": "design/phone-ui/components/main-menu/review/390x844-large-offline.jpg",
-      "sha256": "e19867056330aa063252cf8f86926fa68a9a1e6f5c5e1d39c7ced5bb7eadb154",
+      "sha256": "9aa90ad991bc56e65d4c91843ca9337725c632bd1908353e3e291a32b3327e36",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -410,7 +458,15 @@
       "clear": true,
       "stackTop": 241.25,
       "cover": true,
-      "coverTop": 217.25,
+      "coverTop": 167.71875,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
       "layout": {
         "size": {
           "width": 390,
@@ -437,7 +493,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -467,6 +523,14 @@
       "stackTop": 365.640625,
       "cover": true,
       "coverTop": 341.625,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
       "layout": {
         "size": {
           "width": 430,
@@ -497,7 +561,7 @@
           "detail": {
             "ok": true,
             "seen": {
-              "root": "ms-main-menu ms-kit ms-entry-parts",
+              "root": "ms-main-menu ms-kit ms-k-phone ms-entry-parts",
               "name": "Main menu",
               "join": "Join Enter a room code",
               "host": "Host Open a room for 7–9 players",
@@ -709,7 +773,36 @@
           }
         },
         {
-          "id": "text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them",
+          "id": "words: brandWordsBox holds the held frame’s drawn ink, “Game N” and “by Plan B”, to half a pixel at both sizes",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "390x844": {
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "ink": {
+                  "top": 191.72499328613281,
+                  "bottom": 302.21500610351563
+                }
+              },
+              "430x932": {
+                "words": {
+                  "top": 211.79948319420035,
+                  "bottom": 333.620221331283
+                },
+                "ink": {
+                  "top": 211.7949969482422,
+                  "bottom": 333.6199963378906
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them, or from 24 px above the brand words where it would cut them, so they go whole or not at all",
           "ok": true,
           "detail": {
             "ok": true,
@@ -719,6 +812,12 @@
                 "hero": 489.515625,
                 "cover": false,
                 "coverTop": null,
+                "want": null,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
                 "actionsBottom": 52,
                 "clearOfSettings": true,
                 "join": 76
@@ -728,6 +827,12 @@
                 "hero": 489.515625,
                 "cover": true,
                 "coverTop": 411.25,
+                "want": 411.25,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
                 "actionsBottom": 52,
                 "clearOfSettings": true,
                 "join": 144.375
@@ -737,6 +842,12 @@
                 "hero": 489.515625,
                 "cover": false,
                 "coverTop": null,
+                "want": null,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
                 "actionsBottom": 52,
                 "clearOfSettings": true,
                 "join": 76
@@ -746,6 +857,12 @@
                 "hero": 489.515625,
                 "cover": true,
                 "coverTop": 374.609375,
+                "want": 374.609375,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
                 "actionsBottom": 52,
                 "clearOfSettings": true,
                 "join": 87.484375
@@ -754,7 +871,13 @@
                 "stackTop": 241.25,
                 "hero": 489.515625,
                 "cover": true,
-                "coverTop": 217.25,
+                "coverTop": 167.71875,
+                "want": 167.72329580404218,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
                 "actionsBottom": 52,
                 "clearOfSettings": true,
                 "join": 144.375
@@ -804,7 +927,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -835,7 +958,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-g6_6XJRY.js",
+          "source": "assets/index-BVmL5oWi.js",
           "line": 1,
           "column": 3180,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2337,9 +2460,14 @@
             }
           },
           "improvement": {
-            "what": "the canvas covers the hero from 24 px above the choices",
+            "what": "the canvas covers the hero from 24 px above the choices, or above the brand words where it would cut them",
             "coverTop": 411.25,
-            "stackTop": 435.25
+            "stackTop": 435.25,
+            "words": {
+              "top": 191.72329580404218,
+              "bottom": 302.2118722539543
+            },
+            "lifted": false
           }
         }
       },
@@ -2651,9 +2779,14 @@
             }
           },
           "improvement": {
-            "what": "the canvas covers the hero from 24 px above the choices",
+            "what": "the canvas covers the hero from 24 px above the choices, or above the brand words where it would cut them",
             "coverTop": 341.625,
-            "stackTop": 365.640625
+            "stackTop": 365.640625,
+            "words": {
+              "top": 211.79948319420035,
+              "bottom": 333.620221331283
+            },
+            "lifted": false
           }
         }
       }
@@ -2662,7 +2795,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-g6_6XJRY.js",
+        "source": "assets/index-BVmL5oWi.js",
         "line": 1,
         "column": 3180,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

@@ -123,18 +123,29 @@ Each reports a tap, and only that.
 
 ## Checks run on this version
 
-On `9aec5f4a`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `component-check.mjs`):
+On `a1131c94`, clean (the kit 0.5.0 at `13167281`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
 - **Tests:** `packages/design-tokens/test/main-menu.test.mjs`:
-  - the runtime-safe graph, with the kit and the entry parts and no phone shell;
+  - the runtime-safe graph, with the kit, the entry parts and the hosted brand film's layout, and no phone shell or development film;
   - styles scoped, placing kit and entry parts only through the menu's own parts;
   - the entry parts under their root class, a hand cursor never without the tap highlight off, and no dimming of a refused choice;
+  - the brand words' box from the hosted film's layout, which lays the words out as the preview's still does;
   - the pack's words; the inputs' refusals; the check's record.
-  
+
   `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `test:design`, `test:tooling` and `check-assets.mjs` run before every push.
 - **`node design/tools/main-menu-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (`lib/component-check.mjs`).
-  - **Captures:** the menu, offline, and both with the Largest text (200 %), at 390 × 844 and 430 × 932: **8 of 8 pass**. Each asserts the pack's words, the canvas, the settings button 4 px under the top safe area and the choices 18 px over the bottom one; offline, the note, the three refusals, and Join and Host undimmed with Recover at 0.4; and the cover exactly where the choices reach into the hero, from 24 px above them (none at the Standard text; at the Largest text offline at both sizes, and online at 390 × 844).
-  - **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion): the parts and the hero's element, taps, offline and back, busy, not interactive, focus through updates, the safe areas (given and the browser's), layout and `onLayout`, the text at 100, 150 and 200 % (the cover none at 100 %, and from 24 px above the choices whenever they reach into the hero), malformed input, dispose and motion.
-  - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text, agree to within half a pixel in every part (the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, Recover and its key), in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero, and in their states (refused, the alert, the hero hidden from screen readers). A choice 2 px off fails every case. The cover is the one difference, at the Largest text only, and each case records it (none at the Standard text).
+  - **Captures:** the menu, offline, and both with the Largest text (200 %), at 390 × 844 and 430 × 932: **8 of 8 pass**. Each asserts:
+    - the pack's words, the canvas, the settings button 4 px under the top safe area and the choices 18 px over the bottom one;
+    - offline, the note, the three refusals, and Join and Host undimmed with Recover at 0.4;
+    - the words' box against the still's drawn ink, to half a pixel (192–302 px at 390 × 844, 212–334 px at 430 × 932);
+    - the cover exactly where the rule puts it, with the words whole or hidden whole. There is none at the Standard text. At 390 × 844 with the Largest text it starts at 411 px online, under the words, and at 168 px offline, 24 px above them, so they are hidden whole. At 430 × 932 offline with the Largest text it starts at 342 px, under the words.
+  - Only the 390 × 844 Largest-text offline capture differs from those on `9aec5f4a`. The other seven are byte-identical, with kit 0.5.0 merged. Above the lifted cover, the glow's tail leaves at most 1/255 of brightness over the plain fade.
+  - **The lifecycle probe:** 15 of 15 (14 as the page comes, 1 with the device's Reduce motion). It covers the parts and the hero's element, taps, offline and back, busy, not interactive, focus through updates, the safe areas (given and the browser's), layout and `onLayout`, the words' box against the drawn ink at both sizes, the text at 100, 150 and 200 % (the cover by the rule, the words whole or hidden whole), malformed input, dispose and motion.
+  - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text.
+    - They agree to within half a pixel in every part: the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, and Recover and its key.
+    - They agree in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero.
+    - They agree in their states: refused, the alert, and the hero hidden from screen readers.
+    - A choice 2 px off fails every case.
+    - The cover is the one difference, at the Largest text only, and each case records it, with whether it was lifted above the words. Neither Largest-text case lifts it; the lifted one, 390 × 844 offline, is in the captures and the probe.
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
 ## Not in this version
