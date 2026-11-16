@@ -57,6 +57,12 @@
   --ms-ps-over-top: calc(var(--ms-ps-safe-t) + var(--ms-ps-bar-h));
   --ms-ps-bottom: calc(var(--ms-ps-safe-b) + var(--ms-ps-tab-h));
   --ms-ps-stage-bottom: var(--ms-ps-bottom);
+  /* The cover's reach (0.2.3), public: the cover's distance from the phone's top and bottom edges, both 0 edge to
+     edge. A part mounted in the cover that the pack draws over the whole phone reaches past the cover by them, as
+     the round stamp does to centre on the phone: top: calc(0px - var(--ms-ps-cover-top, 0px)). The shell places its
+     cover by them, so they always say where it is. The shell's other custom properties are its own. */
+  --ms-ps-cover-top: var(--ms-ps-top);
+  --ms-ps-cover-bottom: var(--ms-ps-stage-bottom);
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
   /* Behind the bars and wherever nothing is drawn: the room view's space by default (the pack's .scene), or the
      phone's canvas for a screen with no room (backdrop: 'canvas', the pack's .ph). */
@@ -84,12 +90,13 @@
 .ms-phone-shell .ms-ps-stage { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 0; overflow: hidden; }
 /* The stage's cover (slot('cover')): exactly over the stage, above all it holds (the room's tags included, which
    stack inside the stage), under the bars, the overlays and the sheet. It takes no taps itself. */
-.ms-phone-shell .ms-ps-cover { position: absolute; left: 0; right: 0; top: var(--ms-ps-top); bottom: var(--ms-ps-stage-bottom); z-index: 1; overflow: hidden; pointer-events: none; }
+.ms-phone-shell .ms-ps-cover { position: absolute; left: 0; right: 0; top: var(--ms-ps-cover-top); bottom: var(--ms-ps-cover-bottom); z-index: 1; overflow: hidden; pointer-events: none; }
 /* No top bar (bar: null, a full-bleed film): the stage runs to the top edge; the overlays keep the bar's place. */
 .ms-phone-shell[data-bar="none"] { --ms-ps-top: 0px; }
 .ms-phone-shell[data-bar="none"] .ms-ps-tb { display: none; }
 /* Edge to edge (edge: true, a full-screen film or poster): the stage and its cover fill the whole shell, under the
    safe areas and any bar or tabs, whose glass lies over them, as the pack draws its films and posters (inset 0). */
+.ms-phone-shell[data-edge] { --ms-ps-cover-top: 0px; --ms-ps-cover-bottom: 0px; }
 .ms-phone-shell[data-edge] :is(.ms-ps-stage, .ms-ps-cover) { top: 0; bottom: 0; }
 .ms-phone-shell[data-backdrop="canvas"] { background: var(--ms-ps-canvas); }
 /* The safe areas' guide, which layout() measures: empty, unseen and untouchable. */

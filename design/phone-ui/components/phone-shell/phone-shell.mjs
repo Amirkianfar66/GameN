@@ -21,7 +21,7 @@ import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.2';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.3';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);

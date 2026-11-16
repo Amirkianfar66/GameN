@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.2`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.3`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -81,6 +81,11 @@ shell.dispose();             // removes the element and its listeners
 - **The cover** (`slot('cover')`): a layer exactly over the stage. It lies above everything the stage holds, including the room scene's tags, which stack inside the stage, and under the bars, the target bar, the chip, the banner, the toast and the sheet.
   - It takes no taps itself: content that should catch them sets `pointer-events: auto` on its root.
   - Mount the vote's result window there (#267). The shell leaves it as it is while concealed, as it does the stage: the component mounted there hides itself.
+  - **Its reach (0.2.3), public.** The shell sets two lengths on its root, which a part in the cover can read: `--ms-ps-cover-top` and `--ms-ps-cover-bottom`, the cover's distance from the phone's top and bottom edges.
+    - With the bars at 390 × 844 they are 99 and 92 px; with no bar the top one is 0; with the private talk's buttons the bottom one is 0; edge to edge both are 0.
+    - The shell places its cover by them, so they always say where it is.
+    - A part the pack draws over the whole phone reaches past the cover by them: `top: calc(0px - var(--ms-ps-cover-top, 0px)); bottom: calc(0px - var(--ms-ps-cover-bottom, 0px))`. The round stamp (#288) does this to centre on the phone, as the pack's frame does. Mounted outside the shell, both fall back to 0.
+    - These two are the shell's only public custom properties. Its others are its own and may change.
 - **Edge to edge** (`edge: true`): the stage and the cover fill the whole shell, from the top edge to the bottom edge, under the safe areas and under any bar or tabs. It is for a full-screen film or poster, which the pack draws at `inset: 0`.
   - The bar's glass lies over the stage, as over the pack's ship travel poster (sheet 41).
   - `layout().bars` is then `{ top: 0, bottom: 0 }`. `layout().safe` gives the safe areas, so the component keeps its own controls clear of them, as the pack's Skip film sits `safe.bottom + 14` px above the foot.
@@ -244,11 +249,12 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 20 of 20 checks pass.
-    - **As the page comes (19):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the backdrop, head actions, the toast, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 21 of 21 checks pass.
+    - **As the page comes (20):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the toast, the large-content view, dispose and motion.
       - **The backdrop:** the room view's space (`#07090F`) by default, the phone's canvas (`#10141C`) with `backdrop: 'canvas'`, and any other value refused.
       - **No bar:** the stage runs to the top edge, and the banner and the toast keep the bar's place (107 and 109 px at a 47 px safe area).
       - **Edge to edge:** the stage and the cover fill the shell, the bar's glass lies over the stage, `layout()` gives the safe areas (also when only they change), the overlays stay put, and `edge: 'yes'` is refused.
+      - **The cover's reach (0.2.3):** a part in the cover that reaches past it by `--ms-ps-cover-top` and `--ms-ps-cover-bottom` fills the whole phone, 0 px from each edge, in all four cases. The cover itself lies 99 and 92 px from the edges with the bars, 0 and 92 with no bar, 99 and 0 with the private talk's buttons, and 0 and 0 edge to edge.
       - **Head actions:** "Hide card" sits after the title and before Close, keeps its element and the focus through updates, reports `onSheetAction('hide', 'card')`, is taken while reconnecting (a footer action is not), is refused with its reason when unavailable, and returns the focus when it goes.
       - **The layers:** the cover is over the stage and above a z-index 3150 inside it; the target bar, the banner and the toast are each over the cover; over a large sheet the toast stays on top and the banner under.
         - While the banner shows, the large sheet docks 8.3 px below it: the banner, Retry and the sheet's Close each take a tap at their centre. Without the banner, the sheet docks back at its place.

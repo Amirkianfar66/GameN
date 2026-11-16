@@ -99,6 +99,9 @@ test('its styles reach nothing outside the shell: every rule is scoped under .ms
   // Custom properties are the shell's own, besides --ic-knock, which the shared icons read.
   const declared = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))];
   assert.deepEqual(declared.filter(p => !p.startsWith('--ms-ps-') && p !== '--ic-knock' && p !== '--p'), []);
+  // The cover's reach is public (0.2.3): the shell places its cover by the two lengths a part in the cover reads.
+  assert.match(css, /\.ms-phone-shell \.ms-ps-cover \{[^}]*top: var\(--ms-ps-cover-top\);[^}]*bottom: var\(--ms-ps-cover-bottom\);/);
+  assert.match(css, /\.ms-phone-shell\[data-edge\] \{ --ms-ps-cover-top: 0px; --ms-ps-cover-bottom: 0px; \}/);
 });
 
 test('the pack it is drawn from stays pinned: ui.mjs, kit.css, icons.mjs and art.mjs are unchanged for the frozen Food release', () => {
@@ -130,7 +133,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the reconnectin
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.2');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.3');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -250,7 +253,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'large', 'nobar', 'edge', 'backdrop', 'head', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'large', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length >= 7 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   assert.deepEqual(record.agree.problems, [], 'agreement: no page problem');
 });

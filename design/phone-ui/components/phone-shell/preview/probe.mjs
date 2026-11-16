@@ -21,6 +21,8 @@
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
 //             layout() gives the safe areas, also when only they change; the overlays stay where they are
+//   reach     the cover's reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone's
+//             edges, so a part in the cover reaches the whole phone by them (with bars, no bar, talk, edge)
 //   backdrop  the room view's space behind the bars by default, the phone's canvas with backdrop: 'canvas'
 //   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
 //             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
@@ -383,6 +385,35 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         && nobar.bars.top === 0 && nobar.bars.bottom === 0 && off.bars.top === 0 && off.bars.bottom === safeBottom
         && reported?.safe.top === 20 && reported?.safe.bottom === 0 && refused;
       return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
+    });
+
+    await check('reach: the cover\'s reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone\'s edges, so a part in it reaches the whole phone: with the bars, with no bar, with the private talk\'s buttons, and edge to edge', async () => {
+      const cases = {
+        bars: own(),
+        nobar: { ...own(), bar: null },
+        talk: { ...own(), bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: { remainingMs: 47000 }, promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } },
+        edge: { ...own(), edge: true },
+      };
+      const px = v => Math.round(v * 100) / 100;
+      const out = {};
+      for (const [name, input] of Object.entries(cases)) {
+        const s = mount(input);
+        try {
+          await frames();
+          const box = s.root.getBoundingClientRect(), slot = s.shell.slot('cover'), cover = slot.getBoundingClientRect();
+          // A part in the cover that reaches past it by the two lengths, as the round stamp does to centre on the phone.
+          const part = document.createElement('div');
+          Object.assign(part.style, { position: 'absolute', left: '0', right: '0', top: 'calc(0px - var(--ms-ps-cover-top, 0px))', bottom: 'calc(0px - var(--ms-ps-cover-bottom, 0px))' });
+          slot.append(part);
+          const r = part.getBoundingClientRect();
+          out[name] = { cover: [px(cover.top - box.top), px(box.bottom - cover.bottom)], part: [px(r.top - box.top), px(box.bottom - r.bottom)], height: px(r.height), phone: px(box.height) };
+          part.remove();
+        } finally { s.shell.dispose(); }
+      }
+      const fills = c => c.part[0] === 0 && c.part[1] === 0 && c.height === c.phone;
+      const ok = Object.values(out).every(fills) && out.bars.cover[0] === 99 && out.bars.cover[1] > 0 && out.nobar.cover[0] === 0 && out.nobar.cover[1] > 0
+        && out.talk.cover[0] === 99 && out.talk.cover[1] === 0 && out.edge.cover[0] === 0 && out.edge.cover[1] === 0;
+      return { ok, ...out };
     });
 
     await check('backdrop: the room view\'s space behind the bars by default, the phone\'s canvas with backdrop: \'canvas\', and nothing else', async () => {
