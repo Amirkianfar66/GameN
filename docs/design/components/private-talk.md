@@ -1,6 +1,6 @@
 # The private talk: Designer's runtime component
 
-**Version:** `private-talk-0.1.0`, with its parts module at `play-parts-0.2.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #293 at `7e068512` with the decisions D1–D8 below, and posted on #4 with Q1–Q3 for Backend and Integration. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. Accepted by the Lead at `0b4da23f`, with three follow-ups now applied: the words with no side declared, the shell 0.2.6 merge and the capsule's `covered` input. It is stacked on Actions (#273) at `6d67dd2f`, whose parts module it extends, on the phone shell at `98aca824` (`phone-shell-0.2.6`, `component-kit-0.5.1`). What changed from the approved interface while building is under [As built](#as-built-what-changed-from-the-interface).
+**Version:** `private-talk-0.1.0`, with its parts module at `play-parts-0.1.2`, a pass-through: kit 0.7.0 took the tile's art, note icon and `label: false` from play-parts 0.2.0 (D8). **Status (16 November 2026):** built to the interface the Lead Designer approved on #293 at `7e068512` with the decisions D1–D8 below, and posted on #4 with Q1–Q3 for Backend and Integration. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. Accepted by the Lead at `0b4da23f`, with three follow-ups now applied: the words with no side declared, the shell 0.2.6 merge and the capsule's `covered` input. It is stacked on Actions (#273) at `3c452e80`, merged in as `133b8b67`, on the phone shell at `7900a7a7` (`phone-shell-0.2.7`, `component-kit-0.7.0`). What changed from the approved interface while building is under [As built](#as-built-what-changed-from-the-interface).
 
 **What it is:** sheet 25, the private talk on the two talking phones. The game's name for it is the Standard Hack (`REQUEST_HACK`, `DECLARE_HACK_SIDE`); the pack's word is "Private talk", and the pack is the specification for words (11 November). It is #222 item 20. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -27,8 +27,8 @@ Every other phone and the shared display see only who is talking: the shell's pa
 
 **Built on, not redrawn:**
 - **The phone shell** (#265): the pair bar (`bar.kind: 'pair'`), with this component's words for its sub; the docked sheet and its footer; the tab bar's talk variant (Promises and My card).
-- **The kit** (`component-kit-0.5.1`): portraits, the group note, the waiting block, the control policy.
-- **My parts module** (`play-parts/`, L2), at 0.2.0: **the tile**, with a card's art in place of its icon (the pack's side cards are its `.tile`), a note led by an icon (the lock), and no accessible name of its own when asked (`label: false`), so a card is named by its words; and **who**, as it is (64 px).
+- **The kit** (`component-kit-0.7.0`): the tile, with its art, note icon and `label: false` (0.7.0), and who; portraits, the group note, the waiting block, the control policy.
+- **My parts module** (`play-parts/`, L2), at 0.1.2: it hands on the kit's tile and who with the same calls. Its 0.2.0 tile props (a card's art in place of its icon, as the pack's side cards are its `.tile`; a note led by an icon, the lock; and no accessible name of its own when asked, `label: false`, so a card is named by its words) moved into the kit in 0.7.0 with the same behaviour, ported from `fb41b717` and compared there with sheet 25's side cards. Who is as it is (64 px).
 - **The hosted capsule drawing,** used as it is: `apps/game/hosted/board-v2-drawing/capsule-scene.mjs` (the capsule's framing in a panel, the two seats and the name tags' places), `capsule-figures.mjs` (the seated pose, Injured and Jailed), and the crew drawing (`crew-runtime.mjs`), for the people.
 - **The capsule's pictures:** the board's `board-v2-art` bundle properties (`--board-v2-art-capsule-back`, `-door-0`, `-busy`), as the room-drawing release (`room-drawing-1.0.0`) redraws them. A phone draws the pictures its match's bundles carry; the component fetches nothing.
 - **The room scene's ambient** (`room-scene/ambient.mjs` and `.css`): the capsule's lamps, keys and dust, on the game's clock, as the room scene runs it.
@@ -49,7 +49,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | --- | --- |
 | `private-talk/private-talk.mjs` | `PRIVATE_TALK_VERSION`, `SIDES`, `TALK_WORDS`, `CAPSULE_LAYERS`; the inputs' defaults and checks (`checkDeclare`, `nextDeclareInput`, `checkClaim`, `checkWait`, `checkCapsule`); the frames `declareSheet()`, `claimSheet()`, `waitSheet()`; the bar's words `talkBar()`; the mounts `mountDeclare()`, `mountTalkWait()`, `mountClaim()`, `mountCapsule()` |
 | `private-talk/private-talk.css` | Its layout, scoped under `.ms-private-talk`. It imports the kit's, the parts' and the ambient's styles |
-| `play-parts/play-parts.mjs` and `.css` | 0.2.0: the tile's `art`, `noteIcon` and `label: false` |
+| `play-parts/play-parts.mjs` and `.css` | 0.1.2, Actions': a pass-through for the kit's tile and who. The tile's `art`, `noteIcon` and `label: false` are the kit's since 0.7.0 |
 | `private-talk/preview/` | Development only: the preview in the shell over the room scene and in the capsule (`states.mjs`, `preview.mjs`), the probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) |
 | `private-talk/review/` | The check's captures and `check.json` |
 
@@ -190,7 +190,7 @@ Also:
 ## As built: what changed from the interface
 
 Accepted by the Lead on 16 November (1 to 7 as built; 8 decided). Each follows the pack or makes a privacy point provable, and none changes a rule:
-1. **Who stays at 64 px** (D8 smaller). The pack's code asks `pt(…, 56)`, but its own `.confirm-who .pt` rule draws every portrait there at 64 px, and the agreement measures 64 in sheet 25's frames. So who has no `size`, and play-parts 0.2.0 adds only the tile's art, its note's icon and `label: false`.
+1. **Who stays at 64 px** (D8 smaller). The pack's code asks `pt(…, 56)`, but its own `.confirm-who .pt` rule draws every portrait there at 64 px, and the agreement measures 64 in sheet 25's frames. So who has no `size`, and play-parts 0.2.0 added only the tile's art, its note's icon and `label: false`. On 16 November those moved into the kit (0.7.0), and play-parts is a pass-through again (0.1.2).
 2. **Every private part takes both people.** Declare takes `declarer` as well as `partner`, and the wait `partner` and `declarer`, so each part checks its own viewer and the probe proves "only the two talking phones" in the component itself.
 3. **The capsule's "You" is the `viewer`** every part has: the interface also listed `self`, the same seat, so it is not a second input.
 4. **The capsule's people take `location`,** from the public board, for their outfit (the pack's `outfitFor(seat.location)`), with `health` and `jailed` for the pose.
@@ -210,7 +210,7 @@ Accepted by the Lead on 16 November (1 to 7 as built; 8 decided). Each follows t
 - **D5:** the capsule seated, with its ambient, now; the walking film later, as its own step.
 - **D6:** the sides come from the offer's `declaredSides`; the Lead drops "Frontend derives the sides from the role" from the handoff.
 - **D7:** the game's tabs, with Pass off, while declaring and during the claim; the talk's own foot only in the 60 s talk.
-- **D8:** `play-parts-0.2.0` (as built, item 1 above).
+- **D8:** `play-parts-0.2.0` (as built, item 1 above); its tile props are the kit's since 0.7.0 (16 November), and play-parts is a pass-through (0.1.2).
 
 ### For Backend and Integration (asked by the Lead on #4)
 
@@ -234,15 +234,16 @@ Accepted by the Lead on 16 November (1 to 7 as built; 8 decided). Each follows t
 
 ## Checks run on this version
 
-At `dbac4888` (the Lead's follow-ups, on shell 0.2.6), with the source clean (the components, the hosted drawings, the room, capsule and crew pictures, and the tool):
+At `9990539e` (on kit 0.7.0: the side cards and who are the kit's), with the source clean (the components, the hosted drawings, the room, capsule and crew pictures, and the tool):
 - **`node design/tools/private-talk-check.mjs`,** on the shared `design/tools/lib/component-check.mjs`, under the production headers (SHA-256 `424e5dec…`):
   - **Captures:** 42 of 42: eighteen states at 390 × 844 and 430 × 932, and six at 320 × 568 (the small phone, and the Largest text there). Concealed, no private word is in the page; on a third phone, the pair bar and the room only.
   - **Probe:** 15 of 15: declare, refused, claim, wait, capsule, covered, audience, private, leaks, inputs, focus, text, dispose and motion, plus motion again with the device's Reduce motion. The Lead's five privacy points are audience, private and leaks: no side or claim in any attribute of any state's whole phone, in the console, in `onLayout` or in a callback but `onSide`; "Not for your role" only on the declarer's phone. `covered`: at 200 % on 320 × 568 the band is 128 px and both tags end 4 px above it; at the Standard text on 390 × 844 (band 102) and 320 × 568 (band 68) the tags stay where the pack has them.
   - **Agreement with the pinned pack's own `talk()` frames:** 4 of 4 (declare with the role's own side and with any side, the claim, the talk), with no differing part and no word amended: the pair bar, the sheet and its footer, who, each card's place, state, choice, words, lock, art and look, the line under the cards, the claim's card, and the capsule's pictures, the two seated, their tags, the ambient and the talk's two buttons, each to within half a pixel.
   - **The tool exits 0.** `private-talk.test.mjs` checks the record: every capture and its hash, every probe check, the privacy details, the covered band, every frame.
-  - **Against `0b4da23f`'s captures:** `320x568-largest-talk` (the talk's buttons a row each, the tags above them); the four no-declaration claims (the line under "No side declared"); both reconnecting captures (the bar's glyph at 24 px, shell 0.2.2). A few others differ by under 330 pixels, where the crew's idle motion was caught at another moment.
-- **`private-talk.test.mjs`** 8 of 8 and **`play-parts.test.mjs`** 5 of 5.
-- **Actions on `play-parts-0.2.0`:** Actions' probe 14 of 14 and its agreement with all its frames, run on this branch: the parts' new options leave its drawing as it was.
-- **On `dbac4888`:** `test:design` 405 of 405 with the record; on `808f4dcb`, `npm run build` passed.
+  - **Against `dbac4888`'s record** (shell 0.2.6, kit 0.5.1, play-parts 0.2.0): every recorded field of the 42 captures is the same, and so are the probe's 15 checks and the agreement's 4. 17 captures did not change; the rest differ by at most 102 pixels, where the room's ambient motion or the sending spinner was caught at another moment.
+  - **Earlier, against `0b4da23f`'s captures:** `320x568-largest-talk` (the talk's buttons a row each, the tags above them); the four no-declaration claims (the line under "No side declared"); both reconnecting captures (the bar's glyph at 24 px, shell 0.2.2). A few others differ by under 330 pixels, where the crew's idle motion was caught at another moment.
+- **`private-talk.test.mjs`** 8 of 8 and **`play-parts.test.mjs`** 6 of 6 (Actions').
+- **Actions** is #273's at `3c452e80`, unchanged here, and its record there holds.
+- **On `9990539e`, with the record:** `test:design` 406 of 406, `test:tooling` 337 of 337, `check-assets.mjs` 15 passed; `npm run build`, `typecheck`, `check:toolchain`, `check:workspace` and `check:sources` pass.
 - **The owner's test page:** a private page, sent to the Lead, rebuilt from these files at the record's commit, to the same link.
 - **Not run:** physical phones, Safari, screen readers, frame rate, the real app's connection.
