@@ -187,6 +187,18 @@ At the Largest text the device choice stacks, one option per row (kit 0.5.0's `s
 - runs the probe as the page comes and with the device's Reduce motion: the form, typing, the code's ring, errors, Ask, the views, offline (the words with every control enabled refuse nothing), not interactive, insets, the Largest text, input, dispose, motion;
 - runs the agreement: eleven cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look, icon drawings and boxes to within half a pixel; the text boxes' values and placeholder by their words.
 
+### Checks run on this version
+
+On `602e89c7`, clean (kit 0.5.1 at `3fb12935`; `entry-parts-0.3.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+- **Captures:** **30 of 30 pass**: the fifteen states at 390 × 844 and 430 × 932. Each asserts:
+  - the pack's words, the code in the boxes and in the text box, the boxes hidden from screen readers, the chosen device, and the canvas;
+  - its state: the amber ring on the third box while "K7" is typed; each error in its place (the boxes or the field ringed in paper); Ask refused, busy ("Sending…") or open as Frontend gives it; waiting's words and nav bar in each view, the badge and the five rows with "Dev (you)"; the offline words, with Frontend's refusals;
+  - the device choice stacked at the Largest text, and only there; the Largest-text form scrolls where it doesn't fit (390 × 844) and fits where it does (430 × 932).
+- **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion).
+- **The agreement with the frozen pack:** **11 of 11 cases** agree to within half a pixel in every part compared, in their look, their icons' drawings (the chosen device's filled) and their states. The stacked device choice is recorded in the Largest-text form case only.
+- **The main menu and the host room,** which share the entry parts, pass again on the same commit: the menu's 8 captures are byte-identical to `5b360c34`'s, and 20 of the host room's 22 to `56519d09`'s. Its two Opening… captures differ only by the busy spinner's frame.
+- **Not run:** physical phones, Safari, screen readers and the real app's connection.
+
 `packages/design-tokens/test/join-room.test.mjs` checks the runtime-safe graph (the kit, the entry parts, no shell, menu or host room), that the styles are the two roots and their own parts, the seat badge, the pack's words, both inputs (an error changes no control), and the check's record.
 
 ## Not in this version
