@@ -179,7 +179,9 @@ export function mountCardSheet(host, input = {}, handlers = {}) {
   const fit = kit.h('div', 'ms-card-fit');
   const cardHost = kit.h('div', 'ms-card-host');
   fit.append(cardHost);
-  const seg = kit.seg({ options: VIEWS.map(id => ({ id, label: CARD_SHEET_WORDS.views[id] })), value: 'card', label: CARD_SHEET_WORDS.viewsLabel, intent: 'view' });
+  // `stack`: its three words may not fit side by side at the Largest text; there, in the shell's phone root, the
+  // kit stacks them one per row (kit 0.5.0; the Lead, 16 November 2026).
+  const seg = kit.seg({ options: VIEWS.map(id => ({ id, label: CARD_SHEET_WORDS.views[id] })), value: 'card', label: CARD_SHEET_WORDS.viewsLabel, intent: 'view', stack: true });
   seg.classList.add('ms-card-views');
   const panel = kit.h('div', 'ms-card-panel');
   // The DOM's order is the pack's in every view (the card's place, the segmented control, the rows) and never
@@ -224,7 +226,7 @@ export function mountCardSheet(host, input = {}, handlers = {}) {
   function paintSeg() {
     const s = state;
     seg.hidden = s.status === 'concealed' || s.hidden;
-    kit.setSeg(seg, { options: VIEWS.map(id => ({ id, label: CARD_SHEET_WORDS.views[id] })), value: s.view, label: CARD_SHEET_WORDS.viewsLabel, intent: 'view' });
+    kit.setSeg(seg, { options: VIEWS.map(id => ({ id, label: CARD_SHEET_WORDS.views[id] })), value: s.view, label: CARD_SHEET_WORDS.viewsLabel, intent: 'view', stack: true });
     seg.classList.add('ms-card-views');
     for (const b of seg.querySelectorAll('[data-intent="view"]')) policy.control(b, { intent: 'view' });
   }

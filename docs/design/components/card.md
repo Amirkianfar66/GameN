@@ -1,12 +1,12 @@
 # The Card sheet: Designer's runtime component
 
-**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and on the phone shell (#265): `c1b190ab` was merged in for the shell's sheet head (`sheet.head`, which draws "Hide card") and the shared kit (`component-kit-0.3.0`), and the role stage at `d1919d7` brings the shell to `05e2d1d0` (its `backdrop` input, default `'scene'`, which the Card does not set).
+**Version:** `card-sheet-0.1.0`. **Status (15 November 2026):** built to the interface the Lead Designer approved on #270 (posted for Frontend on #4), with the decisions below. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the role stage (#268), whose role card it mounts as it is, and on the phone shell (#265): `c1b190ab` was merged in for the shell's sheet head (`sheet.head`, which draws "Hide card") and the shared kit (`component-kit-0.3.0`), and the role stage at `d1919d7` brings the shell to `05e2d1d0` (its `backdrop` input, default `'scene'`, which the Card does not set). The shell at `3fb12935` (`phone-shell-0.2.0`, with `component-kit-0.5.1`) is merged in as `45758c57`, for the kit's rows and segmented controls at the Largest text (the Lead, 16 November 2026).
 
 **What it is:** the content of the Card tab's sheet during a match, as the phone pack draws it (sheet 31; #222 item 7). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
 **Covers** (sheet 31):
 - **The card,** fitted to the sheet: the Pre-game builder's role card (`role-stage/role-card.mjs`, `mountRoleCard`), face up, as the pack's `.card-fit` fits it.
-- **The segmented control** under the card, or at the top in the other two views: Card, Knowledge and Resources (the kit's `seg`).
+- **The segmented control** under the card, or at the top in the other two views: Card, Knowledge and Resources (the kit's `seg`, with `stack: true`: at the Largest text, in the shell's phone root, its three words stack one per row).
 - **Knowledge:** what this viewer knows about other players: the Undercover's seat ("Undercover · Player 6"), the Insider's trio ("Unmapped trio · Players 2, 6, 8"), and for the Hacker a "Scans" group ("Round 2 · Player 7", "Guess Blue · matched · in the Code"). With nothing known, one line saying so.
 - **Resources:** Weapons, Role Action, Move, Shared injections and Promises, each with Frontend's value ("0", "Available", "Used this round", "2 of 2", "Given 0/1 · Received 1/1").
 - **Hidden:** the card's back with "Hidden" and Show (the role card's `back: 'sheet'`), and nothing else: no segmented control, knowledge or resources.
@@ -136,7 +136,7 @@ The pack draws "Hide card" as an icon button in the sheet's head, between the ti
 | — | Knowledge with nothing known | The segmented control and the one line |
 | — | Reconnecting | As live; the segmented control and Show still work (local) |
 | — | Concealed | Nothing |
-| 56-like | 200 % text at 320 × 568 | The card fitted smaller; the segmented control's words whole; rows wrap |
+| 56-like | 200 % text at 320 × 568 | The card fitted smaller; the segmented control's three words stacked one per row (`stack: true`, kit 0.5.0); a row's value under its title where they don't fit side by side (kit 0.5.0) |
 
 **Motion:** none of its own. The role card and the kit keep theirs, and the shell's sheet slides in.
 
