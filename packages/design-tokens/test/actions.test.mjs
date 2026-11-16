@@ -140,7 +140,7 @@ test('inputs: checked and normalized, an error for anything unknown; this viewer
   assert.deepEqual(checkActions(once), once, 'checking a checked input changes nothing');
   assert.deepEqual(Object.keys(ACTIONS_DEFAULTS).sort(), ['interactive', 'note', 'reducedMotion', 'round', 'status', 'tiles', 'turn', 'versions', 'viewer']);
   for (const [what, bad, pattern] of [['an unknown key', { colour: 'red' }, /Unknown input "colour"/], ['a type twice', { tiles: [{ type: 'MOVE' }, { type: 'MOVE' }] }, /lists MOVE twice/],
-    ['an unknown type', { tiles: [{ type: 'FLY' }] }, /tiles\[0\]\.type is one of RESCUE/], ['an unknown state', { tiles: [{ type: 'MOVE', state: 'spent' }] }, /state is available, selected, sending, registered, unavailable/],
+    ['an unknown type', { tiles: [{ type: 'FLY' }] }, /tiles\[0\]\.type is one of RESCUE/], ['an unknown state', { tiles: [{ type: 'MOVE', state: 'done' }] }, /state is available, selected, sending, registered, unavailable, spent/],
     ['a badge that is not a whole number', { tiles: [{ type: 'MOVE', badge: 1.5 }] }, /badge is a whole number/], ['an unknown turn', { turn: 'mine' }, /turn is own or other/],
     ['an unknown status', { status: 'away' }, /Status is live, stale, concealed/], ['a viewer that is not a seat', { viewer: 'seat-10' }, /viewer is a seat/]]) {
     assert.throws(() => checkActions({ ...input, ...bad }), pattern, what);
@@ -221,6 +221,8 @@ test('the words of a check and of "Outcome unknown": the person, yourself, both 
   assert.deepEqual(actionWords({ type: 'ACTIVATE_SHIP_HACK', targets: [], viewer: 4 }), { title: 'Hack Spaceship', sub: 'Only you see this', what: 'Hack Spaceship' });
   assert.equal(tileLine({ state: 'unavailable', reason: null, note: 'Once a round' }), 'Not available now', 'not offered, no reason: T3\'s words, never the offered line');
   assert.equal(tileLine({ state: 'unavailable', reason: 'From Round 4', note: null }), 'From Round 4', 'the server\'s reason, as given');
+  assert.equal(tileLine({ state: 'spent', reason: 'Used', note: 'Once a match' }), 'Used', 'used up (kit 0.7.1): the server\'s reason');
+  assert.equal(tileLine({ state: 'spent', reason: null, note: null }), 'Not available now', 'used up, no reason: T3\'s words');
   assert.equal(tileLine({ state: 'registered', reason: null, note: 'Eli · end of round' }), 'Eli · end of round');
   assert.equal(tileLine({ state: 'available', reason: 'ignored', note: null }), null, 'an offered tile says only its note');
 });

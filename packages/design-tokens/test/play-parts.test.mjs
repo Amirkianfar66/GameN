@@ -60,7 +60,7 @@ test('the tile, who, the facts and the notice are the kit\'s, handed on with the
   // The same states and words as the kit's, not a copy of them.
   assert.equal(TILE_STATES, KIT_TILE_STATES);
   assert.equal(PLAY_PARTS_WORDS, TILE_WORDS);
-  assert.deepEqual(TILE_STATES, ['available', 'selected', 'sending', 'registered', 'unavailable']);
+  assert.deepEqual(TILE_STATES, ['available', 'selected', 'sending', 'registered', 'unavailable', 'spent'], 'the kit\'s states, with spent since 0.7.1');
   assert.ok(read('design/phone-ui/prototype/screens-game.mjs').includes(PLAY_PARTS_WORDS.registered), 'the registered mark is the pack\'s');
   // The builders are the kit's own; nothing here draws them again.
   const source = read(`${PARTS}/play-parts.mjs`).replace(/\/\/.*$|\/\*[\s\S]*?\*\//gm, '');
