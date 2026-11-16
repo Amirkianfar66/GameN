@@ -9,7 +9,9 @@
 // not draw the board at the larger text; the pack's own rem-sized CSS would set 22 px type inside a
 // 22 px tag there).
 //
-// The rules (docs/design/components/board-tags.md), at every text size:
+// The rules (docs/design/components/board-tags.md), at every text size, are the shared tag-layout.mjs's
+// (tag-layout-0.1.0) since board-tags-0.1.1: they moved there, unchanged, when the room scene became their second
+// user (#222 item 34). The board passes no lift or floor, so it keeps the defaults below:
 //   1. where sheet 26 puts it: centred on the press point, its top 6 px above the press area's foot
 //      and no lower than 30 px above the panel's foot (the pack's compact tag);
 //   2. whole: never "…"; the status, then a name wider than the line, wraps;
@@ -21,11 +23,15 @@
 // the target rings and every tap reaches the target beneath.
 
 import { iconSvg } from '../icons.mjs';
+import { TAG_RULES, layoutTags } from '../tag-layout.mjs';
 
-export const BOARD_TAGS_VERSION = 'board-tags-0.1.0';
+export const BOARD_TAGS_VERSION = 'board-tags-0.1.1';
 
-/** The rules' numbers, in CSS px: the panel's inset, the space between tags, the lift above the press area's foot, and the pack's floor. */
-export const TAG_RULES = Object.freeze({ pad: 4, gap: 2, lift: 6, footClear: 30 });
+/**
+ * The rules' numbers (pad 4, gap 2, lift 6, footClear 30, in CSS px) and the layout, pure: the shared
+ * tag-layout.mjs's, re-exported as they are, so the board's interface is unchanged.
+ */
+export { TAG_RULES, layoutTags };
 
 /** The tag's words. "· Injured" and "· Out" are the pack's (art.mjs paintRoom). */
 export const TAG_WORDS = Object.freeze({ you: 'You', injured: '· Injured', out: '· Out', captain: 'Captain', officer: 'Officer' });
@@ -87,55 +93,6 @@ export function checkBoardTags(input) {
   if (!Array.isArray(v.dim)) throw new TypeError('dim is a list of seats');
   const dim = [...new Set(v.dim.map((s, i) => seatNumber(s, `dim[${i}]`)))].sort((a, b) => a - b);
   return { status: v.status, versions: v.versions, size: { width: v.size.width, height: v.size.height }, keepClear, people, active, viewer, dim };
-}
-
-/**
- * The rules alone, pure: measured boxes in, places out, no DOM. `tags` are
- * [{ seat, at: { x, bottom }, width, height, self }]; `panel` is { width, height }.
- * Returns { places: [{ seat, left, top }] in seat order, inside, apart }: `inside` when every tag
- * fits 4 px inside the panel clear of keepClear, `apart` when no two are within 2 px.
- */
-export function layoutTags({ panel, pad = TAG_RULES.pad, gap = TAG_RULES.gap, keepClear = [], tags }) {
-  if (!plain(panel) || !finite(panel.width) || !finite(panel.height)) throw new TypeError('layoutTags needs the panel\'s { width, height }');
-  if (!Array.isArray(tags)) throw new TypeError('layoutTags needs the measured tags');
-  const clear = keepClear.map((b, i) => box(b, `keepClear[${i}]`));
-  for (const t of tags) {
-    if (!finite(t.width) || !finite(t.height) || !plain(t.at) || !finite(t.at.x) || !finite(t.at.bottom)) throw new TypeError('A measured tag is { seat, at: { x, bottom }, width, height, self }');
-  }
-  // Deterministic: the front first (the lowest foot), then left to right, then by seat; "You" last, so it gives way first.
-  const order = [...tags].sort((a, b) => (Number(!!a.self) - Number(!!b.self)) || (b.at.bottom - a.at.bottom) || (a.at.x - b.at.x)
-    || (String(a.seat) < String(b.seat) ? -1 : String(a.seat) > String(b.seat) ? 1 : 0));
-  const placed = [];
-  let inside = true, apart = true;
-  const meets = (a, b, g) => a.left < b.left + b.width + g && b.left < a.left + a.width + g && a.top < b.top + b.height + g && b.top < a.top + a.height + g;
-  for (const t of order) {
-    const { width: w, height: h } = t;
-    if (w > panel.width - 2 * pad || h > panel.height - 2 * pad) inside = false;
-    // Rules 1 and 3: centred on the press point, kept inside; 6 px above the press area's foot, above the pack's floor.
-    const left = Math.max(pad, Math.min(panel.width - pad - w, t.at.x - w / 2));
-    const lo = pad, hi = Math.max(pad, panel.height - pad - h);
-    const want = Math.max(lo, Math.min(hi, panel.height - TAG_RULES.footClear, t.at.bottom - TAG_RULES.lift));
-    // Rule 4: what is already placed, and keepClear, are in the way; only what overlaps across matters.
-    const across = [...clear.map(c => ({ ...c, clear: true })), ...placed].filter(o => left < o.left + o.width + gap && o.left < left + w + gap);
-    const free = top => across.every(o => !meets({ left, top, width: w, height: h }, o, o.clear ? 0 : gap));
-    let top = want;
-    if (!free(top)) {
-      const candidates = across.flatMap(o => { const g = o.clear ? 0 : gap; return [o.top - g - h, o.top + o.height + g]; })
-        .filter(c => c >= lo - 1e-9 && c <= hi + 1e-9 && free(c));
-      // Up, or else down, no further than it needs: the nearest place above; only when none fits, the nearest below.
-      const up = candidates.filter(c => c <= want).sort((a, b) => b - a), down = candidates.filter(c => c > want).sort((a, b) => a - b);
-      const chosen = up[0] ?? down[0];
-      if (chosen !== undefined) top = chosen;
-      else if (across.some(o => o.clear && meets({ left, top, width: w, height: h }, o, 0))) inside = false;
-      else apart = false;
-    }
-    placed.push({ seat: t.seat, left, top, width: w, height: h });
-  }
-  for (const p of placed) if (clear.some(c => meets(p, c, 0))) inside = false;
-  for (let i = 0; i < placed.length; i += 1) for (let j = i + 1; j < placed.length; j += 1) if (meets(placed[i], placed[j], gap - 1e-9)) apart = false;
-  const places = placed.map(({ seat, left, top }) => ({ seat, left, top }))
-    .sort((a, b) => (String(a.seat) < String(b.seat) ? -1 : String(a.seat) > String(b.seat) ? 1 : 0));
-  return { places, inside, apart };
 }
 
 /**
