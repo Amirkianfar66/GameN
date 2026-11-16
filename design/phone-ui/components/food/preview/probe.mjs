@@ -26,14 +26,15 @@
 //   pictures   the pictures may come after the mount; the loader's signal is listened to once and let go
 //   adapter    Frontend's own controller and contact adapter, wired as the adapter will wire them: a hold goes down
 //              and up through them, survives the redraws in between, and is let go by suspend; the surface shows the
-//              press on its way, never a hold the ship has not confirmed
+//              press on its way, never a hold the ship has not confirmed; with a contact-off owed and no hold offered,
+//              Hold stays pressable, a press sends no DOWN, and its let-go sends the contact-off
 // design/tools/food-component-check.mjs runs it under the production headers, once as the page comes and once with the
 // device's Reduce motion emulated, and records each result. Desktop Chromium: not a phone, not Safari, not a screen
 // reader, and no server.
 
 import { createFoodHoldInput } from '@mothership/game';
 import { FOOD_HANDLERS, FOOD_VERSION, foodGauge, mountFood, mountFoodNotice } from '../food.mjs';
-import { VERSIONS, describe, inputsFromModel, phone, pictures, situation } from './stage.mjs';
+import { VERSIONS, describe, fixtureSituation, inputsFromModel, phone, pictures, situation } from './stage.mjs';
 
 /** Every listener added to the window or the document while the probe runs, and not yet removed. */
 function watchListeners(win) {
@@ -610,6 +611,32 @@ export async function runProbe(document) {
     food2.dispose();
     again.live.controller.dispose();
     device2.el.remove();
+
+    // A contact-off is owed and no hold is offered, on Frontend's own controller: its fixture where the ship holds
+    // the crate for the Winch and this phone holds nothing.
+    const owed = fixtureSituation('food-winch-03'), device3 = phone(document, '390x844'), c3 = owed.live.controller, before = c3.getModel();
+    stage.append(device3.el);
+    const hold3 = createFoodHoldInput({ down: () => c3.holdDown(), up: () => c3.holdUp(), held: () => c3.getModel().physicalHolding || c3.getModel().needsContactOff });
+    let food3 = null;
+    c3.subscribe(() => food3?.update(inputsFromModel(c3.getModel(), owed.live.context)));
+    food3 = mountFood(device3.host, { ...owed.input, assets, bars: device3.bars() }, {
+      onHold(contact) { if ('pointerId' in contact) hold3.pointerDown(contact.pointerId); }, onLetGo(contact) { if ('pointerId' in contact) hold3.pointerUp(contact.pointerId); }, onReleaseAll() { hold3.releaseAll(); },
+    });
+    await frames.frames(2);
+    const node3 = device3.host.querySelector('#food-control-hold'), pressable = !!node3 && node3.getAttribute('aria-disabled') !== 'true';
+    pointer(node3, 'pointerdown');
+    await frames.frames(2);
+    const kinds = () => owed.live.sent.map(request => request.command?.input).map(input => (input?.kind === 'HOLD' ? `HOLD ${input.edge}` : input?.kind ?? 'other'));
+    const afterDown = kinds();
+    pointer(win, 'pointerup');
+    await frames.frames(3);
+    await new Promise(done => { const channel = new win.MessageChannel(); channel.port1.onmessage = () => done(); channel.port2.postMessage(0); });
+    const afterUp = kinds();
+    check('adapter: with a contact-off owed and no hold offered, on Frontend\'s own controller, Hold stays pressable, a press sends no DOWN, and its let-go sends the contact-off',
+      before.canHold === false && before.needsContactOff === true && pressable && afterDown.length === 0 && same(afterUp, ['HOLD_RECOVER_OFF']), { canHold: before.canHold, needsContactOff: before.needsContactOff, pressable, afterDown, afterUp });
+    food3.dispose();
+    c3.dispose();
+    device3.el.remove();
   });
 
   listeners.restore();

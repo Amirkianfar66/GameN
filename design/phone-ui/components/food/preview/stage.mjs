@@ -120,7 +120,12 @@ function caseSituation(id) {
       phase: { kind: phase.kind, remainingMs: Math.max(0, phase.endsAt - now) } },
     viewer: { promiseOfferCount: 0 }, navigation: { openPanel: 'board', boardMode: 'room' }, clock: { now: () => now },
   };
-  return { controller, context, sent, open: CASES[id].open ?? null, gauge: CASES[id].gauge ? view.stock.doses : null };
+  return { controller, context, sent, open: CASES[id]?.open ?? null, gauge: CASES[id]?.gauge ? view.stock.doses : null };
+}
+/** Any of Frontend's fixtures on Frontend's own controller, for the probe: the component's inputs, and the controller they come from. */
+export function fixtureSituation(id) {
+  const { controller, context, sent } = caseSituation(id);
+  return { input: { ...inputsFromModel(controller.getModel(), context), reducedMotion: false }, live: { controller, context, sent } };
 }
 
 /**
