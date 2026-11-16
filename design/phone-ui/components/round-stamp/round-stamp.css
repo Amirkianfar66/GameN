@@ -5,12 +5,10 @@
 /* The pack centres the stamp in the whole phone (its layer lies at inset 0 of the phone), not in the room's space
    between the bars: with the review frames' safe areas (47 and 34 px) those two centres are 3.5 px apart. The shell's
    cover lies over the stage only, so the stamp's box reaches past the cover to the phone's top and bottom edges, by the
-   shell's own measures of where its stage begins and ends (phone-shell.css: the cover's top and bottom). Only the
-   stamp is drawn, and it lies inside the cover. Mounted anywhere else, both measures are 0 and the box fills its
-   parent. */
-.ms-round-stamp { position: absolute; left: 0; right: 0; top: calc(0px - var(--ms-ps-top, 0px)); bottom: calc(0px - var(--ms-ps-stage-bottom, 0px)); display: grid; place-items: center; pointer-events: none; -webkit-user-select: none; user-select: none; }
-/* Edge to edge, the shell's cover already fills the phone. */
-.ms-phone-shell[data-edge] .ms-round-stamp { top: 0; bottom: 0; }
+   shell's public cover reach (shell 0.2.3): --ms-ps-cover-top and --ms-ps-cover-bottom, the cover's distance from
+   the phone's top and bottom edges, both 0 edge to edge. Only the stamp is drawn, and it lies inside the cover.
+   Mounted anywhere else, both are 0 and the box fills its parent. */
+.ms-round-stamp { position: absolute; left: 0; right: 0; top: calc(0px - var(--ms-ps-cover-top, 0px)); bottom: calc(0px - var(--ms-ps-cover-bottom, 0px)); display: grid; place-items: center; pointer-events: none; -webkit-user-select: none; user-select: none; }
 .ms-round-stamp[hidden] { display: none; }
 /* Outside its animation the stamp is not drawn: nothing is left to clear when it ends. */
 .ms-round-stamp .ms-rs-mark { display: inline-block; opacity: 0; }

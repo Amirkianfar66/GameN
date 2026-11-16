@@ -21,7 +21,8 @@
 // It then runs, in the same bundle under the same headers, the lifecycle probe (preview/probe.mjs), once as the
 // page comes and once with the device's Reduce motion emulated: seeking, a late phone, the run, a long first frame,
 // suspend, reconnecting, concealed, a new phase, one animation at most, taps, what assistive technology meets,
-// refused inputs, dispose and Reduce motion.
+// refused inputs, dispose, larger text (200 % on 390 × 844 and on a small phone, 320 × 568: one line, at least 12 px
+// inside each edge; the pack's 36 px at 100 %) and Reduce motion.
 // It writes design/phone-ui/components/round-stamp/review/: one JPEG per capture, the strips, the stamp beside the
 // pack a size, and check.json (the headers and their SHA-256, the source commit, what each capture showed and its
 // SHA-256, each comparison and each probe check with what it saw). It exits non-zero when any check fails, and says

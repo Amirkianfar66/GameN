@@ -114,11 +114,11 @@ test('what its source may do: no clock, frame loop or timer of its own, no netwo
   assert.match(source, /setAttribute\('aria-hidden', 'true'\)/, 'to assistive technology it is nothing');
 });
 
-test('its styles: every rule is under .ms-round-stamp, the pack\'s size, no taps, and the phone\'s centre by the shell\'s own measures', () => {
+test('its styles: every rule is under .ms-round-stamp, the pack\'s size, no taps, and the phone\'s centre by the shell\'s public cover reach', () => {
   const css = read(`${COMPONENT}/round-stamp.css`).replace(/\/\*[\s\S]*?\*\//g, '');
   assert.match(css, /^\s*@import url\("\.\.\/kit\/kit\.css"\);/, 'it starts from the kit');
   const selectors = [...css.replace(/@import[^;]*;/, '').matchAll(/(^|[{}])([^{}]*?)\{/g)].map(m => m[2].trim()).filter(s => s && !s.startsWith('@'));
-  assert.deepEqual(selectors, ['.ms-round-stamp', '.ms-phone-shell[data-edge] .ms-round-stamp', '.ms-round-stamp[hidden]', '.ms-round-stamp .ms-rs-mark', '.ms-round-stamp .ms-rs-mark .ms-k-stamp']);
+  assert.deepEqual(selectors, ['.ms-round-stamp', '.ms-round-stamp[hidden]', '.ms-round-stamp .ms-rs-mark', '.ms-round-stamp .ms-rs-mark .ms-k-stamp']);
   assert.doesNotMatch(css, /@keyframes|animation|transition|transform|will-change|env\(|url\((?!"\.\.\/kit\/kit\.css"\))/, 'the motion is the module\'s, started and let go: the stylesheet sets none');
   assert.match(css, /\.ms-round-stamp\s*\{[^}]*pointer-events: none;/, 'it takes no taps');
   assert.match(css, /\.ms-round-stamp\[hidden\]\s*\{\s*display: none;\s*\}/);
@@ -134,15 +134,18 @@ test('its styles: every rule is under .ms-round-stamp, the pack\'s size, no taps
   assert.match(read('design/phone-ui/components/kit/kit.css'), /\.ms-kit:where\(\.ms-k-phone\), \.ms-kit :where\(\.ms-k-phone\) \{ container: ms-k-phone \/ inline-size; \}/, 'the shell\'s root is the kit\'s phone container, so 100cqw is the phone\'s width');
   assert.match(read('design/phone-ui/prototype/screens-game.mjs'), /h\('span\.stamp', \{ 'data-tone': 'gold', style: \{ fontSize: '2\.25rem', padding: '10px 20px 8px'/, 'as the pack writes it');
   // The pack lays its stamp over the whole phone (inset 0 of the phone); the shell's cover lies over the stage only.
-  // The stamp's box reaches the phone's edges by the two measures the shell places its cover with, so they are
-  // checked here: a shell that placed its cover another way would move the stamp.
+  // The stamp's box reaches the phone's edges by the shell's public cover reach (shell 0.2.3), and reads nothing
+  // else of the shell: none of its own properties, its classes or its attributes (the Lead Designer, #288).
   assert.match(read('design/phone-ui/prototype/screens-game.mjs'), /p\.stamp \? h\('div', \{ style: \{ position: 'absolute', inset: '0', display: 'grid', placeItems: 'center'/);
-  assert.match(css, /\.ms-round-stamp\s*\{\s*position: absolute; left: 0; right: 0; top: calc\(0px - var\(--ms-ps-top, 0px\)\); bottom: calc\(0px - var\(--ms-ps-stage-bottom, 0px\)\); display: grid; place-items: center;/);
-  assert.match(css, /\.ms-phone-shell\[data-edge\] \.ms-round-stamp\s*\{\s*top: 0; bottom: 0;\s*\}/);
+  assert.match(css, /\.ms-round-stamp\s*\{\s*position: absolute; left: 0; right: 0; top: calc\(0px - var\(--ms-ps-cover-top, 0px\)\); bottom: calc\(0px - var\(--ms-ps-cover-bottom, 0px\)\); display: grid; place-items: center;/);
+  assert.deepEqual([...new Set(css.match(/--ms-ps-[\w-]+/g))].sort(), ['--ms-ps-cover-bottom', '--ms-ps-cover-top'], 'of the shell\'s properties, only its two public ones');
+  assert.doesNotMatch(css, /ms-phone-shell|ms-ps-(?!cover-)|data-edge|data-tabs|data-bar/, 'no rule names the shell, a part of it or one of its states');
+  // The shell's side of that contract: it sets the two on its root, places its cover by them, and sets both to 0 edge to edge.
   const shell = read('design/phone-ui/components/phone-shell/phone-shell.css');
-  assert.match(shell, /\.ms-phone-shell \.ms-ps-cover \{ position: absolute; left: 0; right: 0; top: var\(--ms-ps-top\); bottom: var\(--ms-ps-stage-bottom\);/, 'the shell places its cover by these two measures');
-  assert.match(shell, /\.ms-phone-shell\[data-edge\] :is\(\.ms-ps-stage, \.ms-ps-cover\) \{ top: 0; bottom: 0; \}/, 'and edge to edge the cover fills the phone');
-  assert.equal((shell.match(/\.ms-ps-cover\b[^{]*\{/g) ?? []).length, 2, 'no other rule places the cover');
+  assert.match(shell, /\n  --ms-ps-cover-top: [^;]+;\n  --ms-ps-cover-bottom: [^;]+;/, 'the shell sets its cover\'s reach');
+  assert.match(shell, /\.ms-phone-shell \.ms-ps-cover \{ position: absolute; left: 0; right: 0; top: var\(--ms-ps-cover-top\); bottom: var\(--ms-ps-cover-bottom\);/, 'the shell places its cover by its reach');
+  assert.match(shell, /\.ms-phone-shell\[data-edge\] \{ --ms-ps-cover-top: 0px; --ms-ps-cover-bottom: 0px; \}/, 'edge to edge, the reach is 0');
+  assert.match(read('docs/design/components/phone-shell.md'), /`--ms-ps-cover-top` and `--ms-ps-cover-bottom`[^\n]*\n[\s\S]*?These two are the shell's only public custom properties/, 'and its document calls them public');
 });
 
 test('the motion tokens give the stamp its landing, its fade and Reduce motion\'s; its length is the component\'s own', () => {
@@ -462,7 +465,7 @@ test('the check\'s record: every capture, strip, comparison with the pack and pr
   }
   // The probe, as the page comes and with the device's Reduce motion.
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
-  assert.deepEqual(record.probe.full.checks.map(c => c.id), ['seek', 'late', 'runs', 'behind', 'suspend', 'stale', 'concealed', 'phase', 'one', 'taps', 'quiet', 'refused', 'dispose', 'reduced']);
+  assert.deepEqual(record.probe.full.checks.map(c => c.id), ['seek', 'late', 'runs', 'behind', 'suspend', 'stale', 'concealed', 'phase', 'one', 'taps', 'quiet', 'refused', 'dispose', 'large', 'reduced']);
   assert.deepEqual(record.probe['device-reduced'].checks.map(c => c.id), ['reduced']);
   assert.deepEqual(record.probe['device-reduced'].emulated, { 'prefers-reduced-motion': 'reduce' });
   for (const [mode, run] of Object.entries(record.probe)) {
@@ -476,4 +479,23 @@ test('the check\'s record: every capture, strip, comparison with the pack and pr
   assert.ok(Math.abs(probe('behind').behindMs) <= 12, 'after a long frame the stamp is at the clock');
   assert.ok(Math.max(...probe('one').most) === 1, 'one animation at most');
   assert.ok(probe('taps').inRoom && !probe('taps').inStamp && probe('taps').control.intents.length === 1, 'a tap on the stamp reaches the room under it');
+  // Larger text, measured by the probe (the Lead Designer, #288): at 200 % on 390 × 844 and on 320 × 568 the stamp is
+  // on one line, at least 12 px inside each edge; at 100 % it is the pack's 36 px. Its box reaches the phone's edges
+  // by the shell's public cover reach in all four, and its centre is the phone's.
+  const large = probe('large');
+  assert.equal(large.edgeClear, 12);
+  assert.deepEqual(large.seen.map(e => [e.text, e.phone]), [[100, '390 × 844'], [100, '320 × 568'], [200, '390 × 844'], [200, '320 × 568']]);
+  for (const e of large.seen) {
+    const at = `${e.phone} at ${e.text} %`;
+    assert.deepEqual([e.words, e.lines, e.drawn], ['ROUND 1', 1, true], `${at}: one line`);
+    assert.ok(Math.abs(e.own.h - e.oneLineHeight) <= 1, `${at}: one line's height`);
+    assert.ok(e.clear.left >= 12 && e.clear.right >= 12, `${at}: at least 12 px inside each edge (${e.clear.left}, ${e.clear.right})`);
+    assert.ok(Math.abs(e.font - e.cap) <= 0.01, `${at}: the size its cap gives (${e.font})`);
+    assert.ok(Math.abs(e.offCentre.x) <= 0.5 && Math.abs(e.offCentre.y) <= 0.5, `${at}: centred on the phone`);
+    assert.ok([e.box.top, e.box.bottom, e.box.left, e.box.right].every(v => Math.abs(v) <= 0.01) && e.cover.top > 0, `${at}: its box reaches the phone's edges past the cover`);
+  }
+  assert.deepEqual(large.seen.filter(e => e.text === 100).map(e => e.font), [36, 36], 'at ordinary text, the pack\'s 36 px on both phones');
+  assert.deepEqual(large.seen.filter(e => e.text === 200).map(e => e.font), [58.15, 45.19], 'at 200 %, the cap on both phones');
+  // At 200 % the shell's bars are taller on each phone, so its cover lies lower; the stamp is still centred on the phone.
+  assert.ok(large.seen.filter(e => e.text === 200).every(e => e.pack === 72 && e.cover.top > large.seen.find(o => o.text === 100 && o.phone === e.phone).cover.top));
 });

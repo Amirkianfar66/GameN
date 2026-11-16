@@ -30,6 +30,8 @@ export const PREVIEW_SIZES = Object.freeze({
   '390x844': Object.freeze({ width: 390, height: 844, insets: Object.freeze({ top: 47, bottom: 34 }) }),
   '430x932': Object.freeze({ width: 430, height: 932, insets: Object.freeze({ top: 47, bottom: 34 }) }),
 });
+/** A small phone, for the probe's larger-text check: the pack's small frame, 320 × 568 with its safe areas. */
+export const SMALL_PHONE = Object.freeze({ width: 320, height: 568, insets: Object.freeze({ top: 20, bottom: 0 }) });
 /** The moments of the stamp's strip, in ms of stamp time; null is gone. */
 export const STRIP = Object.freeze([0, 30, 80, 120, 600, 1250, 1330, null]);
 /** The phase the fixtures stand in for begins at an invented server time. */
@@ -87,13 +89,13 @@ export function inputsFor(size, { status = null, motion = null } = {}) {
 const intents = [];
 let phases = 0;
 /**
- * A phone at a development size: the shell in it, the room scene in its stage and the stamp in its cover. `t`: the
- * stamp's moment, held (null: gone, 4 s in). `live`: on the page's own clock from the phase's start. `bare`: no
- * stamp (the probe mounts its own there, on a clock it sets).
+ * A phone at a development size (its key), or at a size given as { width, height, insets }: the shell in it, the
+ * room scene in its stage and the stamp in its cover. `t`: the stamp's moment, held (null: gone, 4 s in). `live`: on
+ * the page's own clock from the phase's start. `bare`: no stamp (the probe mounts its own there, on a clock it sets).
  */
 export function phone(sizeKey, { t = HOLD_AT, status = null, motion = null, live = false, bare = false } = {}) {
-  const size = PREVIEW_SIZES[sizeKey];
-  if (!size) throw new Error(`Unknown size: ${sizeKey}`);
+  const size = typeof sizeKey === 'string' ? PREVIEW_SIZES[sizeKey] : sizeKey;
+  if (!(size?.width > 0 && size?.height > 0 && size.insets)) throw new Error(`Unknown size: ${JSON.stringify(sizeKey)}`);
   const { shell: shellInput, scene: sceneInput } = inputsFor(size, { status, motion });
   const frame = document.createElement('div');
   frame.className = 'pv-phone';

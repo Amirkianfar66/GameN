@@ -23,19 +23,25 @@
 //   quiet      to assistive technology the stamp is nothing: hidden, with no role and nothing to focus
 //   refused    an input the stamp does not know is refused, in `window` too, and changes nothing
 //   dispose    dispose() removes the stamp, twice safely, and nothing runs after
+//   large      larger text: at 200 % (the page's root font size, as the shell's check sets it) on 390 × 844 and on a
+//              small phone, 320 × 568, the stamp is on one line, at least 12 px inside each edge of the phone, at the
+//              size its cap gives; at 100 % on both it is the pack's 36 px. In all four its box reaches the phone's
+//              edges by the shell's public cover reach, and its centre is the phone's
 // With the device's Reduce motion emulated only `reduced` runs, with the game's setting off (the page's mode says
 // which).
 // Counting: the probe counts the frames, timers and animations the stamp starts synchronously, around a mount or an
 // update. The page's other parts (the shell, the room scene, the check's own waits) ask for frames of their own.
 
 import { ROUND_STAMP_BEATS, ROUND_STAMP_FROM, ROUND_STAMP_REDUCED, mountRoundStamp, roundStampFrame } from '../round-stamp.mjs';
-import { STARTED } from './preview.mjs';
+import { SMALL_PHONE, STARTED } from './preview.mjs';
 
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
 const sleep = ms => new Promise(done => setTimeout(done, ms));
 const LENGTH = ROUND_STAMP_BEATS.gone;
 /** How far the browser's own solving of a curve may leave the stamp from the component's arithmetic: its size and its strength, as shares. */
 export const CURVE_SLACK = 0.003;
+/** At larger text the stamp keeps at least this far inside each edge of the phone, in px (the Lead Designer, #288). */
+export const EDGE_CLEAR = 12;
 
 export async function runRoundStampProbe({ sizes, phone, intents }) {
   const deviceReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -322,6 +328,43 @@ export async function runRoundStampProbe({ sizes, phone, intents }) {
       s.m.dispose();
       const ok = out.left === 0 && out.frame === null && out.state === 'idle' && out.again === 0 && quietly(out.asked) && out.asked.animations === 0 && out.frameAfter === null && !out.connected;
       return { ok, ...out };
+    });
+  }
+
+  if (mode === 'full') {
+    await check('large', async () => {
+      // Larger text as the shell's own check sets it: the page's root font size, which rem and em answer to.
+      const page = document.documentElement, was = page.style.fontSize;
+      const r2 = v => Math.round(v * 100) / 100;
+      const seen = [];
+      try {
+        for (const [text, size, name] of [[100, '390x844', '390 × 844'], [100, SMALL_PHONE, '320 × 568'], [200, '390x844', '390 × 844'], [200, SMALL_PHONE, '320 × 568']]) {
+          page.style.fontSize = text === 100 ? was : `${text}%`;
+          const s = stand({ size, at: 600, hold: true });
+          await frames(); await frames();
+          const phoneBox = s.m.frame.getBoundingClientRect(), coverBox = s.m.cover.getBoundingClientRect(), rootBox = s.root.getBoundingClientRect(), b = s.label.getBoundingClientRect();
+          const words = document.createRange();
+          words.selectNodeContents(s.label);
+          const rem = parseFloat(getComputedStyle(page).fontSize), font = parseFloat(getComputedStyle(s.label).fontSize);
+          seen.push({ text, phone: name, rem, font: r2(font), cap: r2(Math.min(2.25 * rem, (phoneBox.width - 76) / 5.4)), pack: r2(2.25 * rem),
+            lines: words.getClientRects().length, own: { w: s.label.offsetWidth, h: s.label.offsetHeight }, oneLineHeight: Math.round(font) + 24,
+            clear: { left: r2(b.left - phoneBox.left), right: r2(phoneBox.right - b.right) },
+            offCentre: { x: r2(b.left + b.width / 2 - phoneBox.left - phoneBox.width / 2), y: r2(b.top + b.height / 2 - phoneBox.top - phoneBox.height / 2) },
+            // The shell's cover, and the stamp's box reaching past it to the phone's edges.
+            cover: { top: r2(coverBox.top - phoneBox.top), bottom: r2(phoneBox.bottom - coverBox.bottom) },
+            box: { top: r2(rootBox.top - phoneBox.top), bottom: r2(phoneBox.bottom - rootBox.bottom), left: r2(rootBox.left - phoneBox.left), right: r2(phoneBox.right - rootBox.right) },
+            words: s.label.innerText, drawn: s.opacity() === 1 });
+          s.dispose();
+        }
+      } finally { page.style.fontSize = was; }
+      const ok = seen.length === 4 && seen.every(e => e.drawn && e.words === 'ROUND 1' && e.lines === 1 && Math.abs(e.own.h - e.oneLineHeight) <= 1
+          && e.clear.left >= EDGE_CLEAR && e.clear.right >= EDGE_CLEAR && near(e.font, e.cap, 0.01)
+          && Math.abs(e.offCentre.x) <= 0.5 && Math.abs(e.offCentre.y) <= 0.5
+          && [e.box.top, e.box.bottom, e.box.left, e.box.right].every(v => Math.abs(v) <= 0.01) && e.cover.top > 0)
+        // At ordinary text it is the pack's 36 px on both phones; at 200 % the pack's 72 px gives way to the cap on both.
+        && seen.filter(e => e.text === 100).every(e => e.rem === 16 && e.font === 36 && e.pack === 36)
+        && seen.filter(e => e.text === 200).every(e => e.rem === 32 && e.pack === 72 && e.font < 72);
+      return { ok, edgeClear: EDGE_CLEAR, seen };
     });
   }
 

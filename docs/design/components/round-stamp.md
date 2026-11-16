@@ -53,23 +53,23 @@ stamp.dispose();
 - **It takes no taps,** anywhere (`pointer-events: none`), so the room under it stays usable from the first moment.
 - **To assistive technology it is nothing:** `aria-hidden="true"`. The top bar already says the round, and Frontend's own announcement is unchanged.
 - **The look is the kit's stamp** (`createKit().stamp({ text, tone: 'gold' })`), sized through this component's own part to the pack's `2.25rem` and `10px 20px 8px`. The kit is used as it is; nothing in it changes.
-- **At large text it stays on one line, inside the phone.** See [below](#added-in-the-build-for-the-leads-review).
+- **At large text it stays on one line, inside the phone.** See [below](#added-in-the-build-agreed-by-the-lead-on-16-november-2026).
 - It can share the cover with another component (the results reveal's host): each is its own element.
 
 ### Where it sits: the phone's centre, as the pack's
 
 The pack lays its stamp over the whole phone (`position: absolute; inset: 0` in the phone), so the stamp's centre is the phone's. The shell's cover lies over the stage only, between the bars. Those two centres differ: by 3.5 px with the review frames' safe areas (47 and 34 px), and by more on a phone whose top safe area is taller.
 
-The component follows the pack. Its element reaches past the cover to the phone's top and bottom edges, by the two measures the shell places its cover with (`--ms-ps-top` and `--ms-ps-stage-bottom`; edge to edge, the cover already fills the phone). Only the stamp is drawn, and it lies inside the cover. Mounted anywhere else, both measures are 0 and the element fills its parent.
+The component follows the pack, as the Lead Designer decided on #288 (16 November 2026). Its element reaches past the cover to the phone's top and bottom edges by **the shell's public cover reach** (shell 0.2.3): `--ms-ps-cover-top` and `--ms-ps-cover-bottom`, the cover's distance from the phone's top and bottom edges, both 0 edge to edge. Only the stamp is drawn, and it lies inside the cover. Mounted anywhere else, both are 0 and the element fills its parent.
 
-**This reads two of the shell's custom properties**, without importing the shell. The stamp's test checks that the shell still places its cover by them, and the check measures the stamp against the pack's own frame at both sizes, so a change in the shell cannot move the stamp unseen. It is for the Lead to confirm, as the shell's owner: the alternative is the stage's centre (over the room picture), which is one line here and a recorded departure from the pack's frame.
+It reads nothing else of the shell: none of its own properties, classes or attributes, and it does not import it. A test holds the stylesheet to that, and the probe measures the stamp's box against the phone's edges with the bars at ordinary text and at 200 %, where they are taller.
 
-## Added in the build, for the Lead's review
+## Added in the build, agreed by the Lead on 16 November 2026
 
 Two things the interface proposal did not have. Neither changes the stamp at the pack's two sizes and ordinary text, where the check finds it pixel for pixel the pack's.
 
-1. **The phone's centre, not the stage's** (above): the proposal said "centred in the stage". The pack's frame centres it in the phone, 3.5 px higher at the review frames.
-2. **A cap on its size at large text.** The pack's `2.25rem` grows with the text. Measured in desktop Chromium at 200 % text, the pack's size is 387 px wide on a 390 px phone (it touches both edges), and on a 320 px phone the words break onto two lines. So the size is `min(2.25rem, (the phone's width − 76 px) ÷ 5.4)` and the words never break:
+1. **The phone's centre, not the stage's** (above): the proposal said "centred in the stage". The pack's frame centres it in the phone, 3.5 px higher at the review frames. The Lead kept the phone's centre, through the shell's public cover reach.
+2. **A cap on its size at large text.** The Lead accepted it as a fix for larger text, which the pack does not draw, not a departure from the sheet. The pack's `2.25rem` grows with the text. Measured in desktop Chromium at 200 % text, the pack's size is 387 px wide on a 390 px phone (it touches both edges), and on a 320 px phone the words break onto two lines. So the size is `min(2.25rem, (the phone's width − 76 px) ÷ 5.4)` and the words never break:
 
    | Phone | Ordinary text | 200 % text, the pack's size | 200 % text, as built |
    | --- | --- | --- | --- |
@@ -78,6 +78,8 @@ Two things the interface proposal did not have. Neither changes the stamp at the
    | 320 px | 36 px | 72 px: two lines, past the right edge | 45.2 px: one line, 28 px each side |
 
    The phone's width is the kit's phone container (`100cqw`), which the shell's root is. The 5.4 is the width of "ROUND 1" in em with room for a wider letter font than this machine's (here it is 4.72 em); a phone's own font was not measured. A browser with no container units keeps the pack's `2.25rem`, uncapped.
+
+   **The check measures it.** The probe sets 200 % text on 390 × 844 and on a small phone, 320 × 568, and holds the stamp to one line, at least 12 px inside each edge of the phone, at the size the cap gives (58.15 and 45.19 px), and to the pack's 36 px at 100 % on both.
 
 ## Inputs
 
@@ -153,14 +155,14 @@ In `design/phone-ui/components/round-stamp/review/`, from `node design/tools/rou
 - **20 captures:** both sizes; the landing held at 30 and 80 ms, standing, leaving at 1,250 ms, and gone; Reduce motion fading in and standing (the game's) and fading in (the device's); reconnecting at 60 ms; concealed. Each is checked for the size and strength its moment gives it, its centre at the phone's, its words, and the room's crew under it.
 - **4 strips:** the stamp at the eight moments above, at both sizes, in full motion and with Reduce motion.
 - **Beside the pack,** at both sizes (`agree-390x844.jpg`, `agree-430x932.jpg`): the pinned pack's own "Round 1 begins" frame and the phone with the stamp standing. The same words; the same look, property by property; the same box, to half a pixel; and the stamp's face compared pixel by pixel, with two controls (the stamp moved one pixel, and drawn 3 % larger) that do not pass.
-- **The probe,** as the page comes and with the device's Reduce motion: seeking, a late phone with nothing drawn and nothing started, the run to its end, a long first frame, suspend and resume, stale and live, concealed and shown, a new phase and a new round, one animation at most, taps reaching the room under it, what assistive technology meets, refused inputs, dispose twice, and Reduce motion. It counts what the component starts synchronously around each mount or update.
+- **The probe,** as the page comes and with the device's Reduce motion: seeking, a late phone with nothing drawn and nothing started, the run to its end, a long first frame, suspend and resume, stale and live, concealed and shown, a new phase and a new round, one animation at most, taps reaching the room under it, what assistive technology meets, refused inputs, dispose twice, larger text (200 % on 390 × 844 and on 320 × 568), and Reduce motion. It counts what the component starts synchronously around each mount or update.
 
 ## Limits
 
 - **No phone and no Safari.** Every capture is desktop Chromium at each phone's CSS size. The stamp's frame rate on a phone was not measured; it is one animation of `transform` and `opacity`, which browsers run off the page's main thread.
 - **Round 1 only is checked.** Another round's words are the same stamp with another number.
 - **Held and running.** The captures hold the stamp still. While it runs, the browser draws it from the animation's own layer. Compared once by hand in desktop Chromium, the standing stamp's face differs from the held one by 0.8 levels in 255 on average at two pixels a point (0.6 at three): a one-pixel fringe on the letters' edges, not a softer stamp.
-- **Large text** was measured once by hand at 200 % (the table above), at 320, 390 and 430 px wide. It is not in the check's captures: the owner has deferred wider viewport and text coverage.
+- **Large text** is measured by the probe at 200 % (390 × 844 and 320 × 568), with the page's root font size as the shell's check sets it. It is not captured as a picture: the owner has deferred wider viewport and text coverage. The 430 px row of the table above was measured once by hand.
 - **The room behind is not compared with the pack's.** The pack's frame draws its own room; the room scene has its own check.
 - **It is not connected to the game.** Frontend passes the round, the phase and the clock.
 
