@@ -6,6 +6,28 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: Designer builds every part without waiting for Frontend
+
+**Recorded by the Lead Designer from the owner's message in the Lead's session.**
+- **The limit:** when the Designer team began on 15 November, the Lead set a limit on waiting work, stated in the team's set-up on #4. Each builder keeps at most one finished component waiting for Frontend. It writes the next one's interface, but doesn't build it until Frontend reviews or connects one.
+- **What prompted the question:** on 16 November the owner asked for test pages of each part. The Lead explained that the main menu (#278) and Actions (#273) had only their interfaces, because their builders had reached that limit. The Lead then asked whether to lift it for those two.
+
+The owner answered:
+
+> But did not we aree on Designer Build the design ?
+
+**What it covers:**
+- **The limit is lifted, for every builder.** Designer builds each part as soon as the Lead approves its interface. It doesn't wait for Frontend to review or connect earlier parts.
+- **The interface still comes first.** The builder writes it, and the Lead reviews it and posts it on #4 so that Frontend sees it. Then the build starts.
+- **Each built part gets a test page** for the owner: a private claude.ai page, as the owner asked on 16 November.
+- It follows the [15 November](#15-november-2026-designer-connects-the-five-rooms-nothing-related-to-design-inside-the-frontend) decision: nothing related to design inside the frontend.
+
+**What stays the same:**
+- Frontend reviews the code. Integration owns admission, merge and publication.
+- Each builder works on one component at a time, in Designer's paths, on draft PRs.
+
+**What it leaves open:** the order of the game-side connections for the new parts. They change the same game files as the room connection (#284), so the Lead sequences them after it.
+
 ## 15 November 2026: Designer connects the five rooms; nothing related to design inside the frontend
 
 **Recorded by the Lead Designer from the owner's answer in the Lead's session.**
