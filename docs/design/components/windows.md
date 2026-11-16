@@ -140,7 +140,7 @@ windows.dispose();                                     // safe twice; afterwards
 - **the probe, 19 checks:** drawing by finger and by keyboard, the inks, Undo and Clear, the limits, the footer, the views, privacy, a stroke through updates, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
 - **the agreement, 9 cases:** the sheet beside the frozen pack's `windows` in its four states at both sizes, and drawing at the Largest text: the same words, states, look and boxes to within half a pixel, each stroke by its box, ink, width, ends and joins.
 
-**Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.
+**Recorded against** (the check's `sourceCommit`): `96729d1b`, clean: 18 of 18 captures, the probe 19 of 19, the agreement 9 of 9.
 
 ## Not in this version
 
