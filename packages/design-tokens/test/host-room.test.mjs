@@ -147,7 +147,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   for (const size of ['390x844', '430x932']) {
     const at = state => record.captures[`${size}/${state}`];
     assert.equal(at('lobby').startNote, '4 more seats to fill', `${size}: Start's reason under it`);
-    assert.ok(at('full').moreRefused && !at('full').startRefused, `${size}: at the most bots + is refused; Start is open`);
+    assert.ok(at('full').moreRefused && at('full').moreLook === '1' && !at('full').startRefused, `${size}: at the most bots + is refused and keeps its look, as sheet 11 draws Full; Start is open`);
     assert.equal(at('offline').note, LOBBY_WORDS.offline, `${size}: the offline note`);
     assert.equal(at('copied').toastTop, 109, `${size}: the toast 10 px under the nav bar`);
     assert.ok(at('lobby-large').root === 32 && at('lobby-large').scrolls, `${size}: the Largest text scrolls`);
@@ -163,9 +163,10 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   for (const group of ['setup', 'lobby', 'stepper', 'keyed', 'offline', 'toast', 'not interactive', 'insets', 'text', 'input', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.probe.full.checks.some(c => c.ok && /with every control enabled it refuses nothing/.test(c.id)), 'a notice with every control enabled refuses nothing, in the browser');
   assert.ok(record.agree.ok && record.agree.checks.length === 11 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'each screen agrees with the frozen pack\'s');
-  // The one difference from the pack, recorded where it is drawn: + refused at the most bots (Full).
+  // The one difference from the pack, recorded where it is drawn: + refused at the most bots (Full), keeping its
+  // look as the sheet draws it, so only the refusal (aria-disabled) is recorded, not its look.
   for (const c of record.agree.checks) {
-    assert.deepEqual(c.detail.recorded.map(r => r.part.replace(/ \d+$/, '')), c.id.includes('full') ? ['stepper +', 'stepper +'] : [], `${c.id}: recorded`);
+    assert.deepEqual(c.detail.recorded.map(r => `${r.part.replace(/ \d+$/, '')} ${r.what}`), c.id.includes('full') ? ['stepper + aria-disabled'] : [], `${c.id}: recorded`);
     // The one improvement, with the larger text only: the pack's Copy past the card, the screen's inside it.
     const larger = c.id.startsWith('agree: lobby') && /Large(st)? text/.test(c.id);
     if (larger) assert.ok(!c.detail.improvement.pack.inside && c.detail.improvement.screen.inside, `${c.id}: the improvement`);

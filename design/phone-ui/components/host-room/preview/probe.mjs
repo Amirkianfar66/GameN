@@ -110,18 +110,23 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
         && JSON.stringify(seen.taps) === '[["onLeave"],["onCopy"],["onAdmit","adm-table"],["onBots",1],["onStart"],["onBots",2]]', seen };
     });
 
-    await check('stepper: − refused at none, + at Frontend’s most; Frontend’s refusal refuses both, with its reason', async () => {
+    await check('stepper: − refused at none, dimmed; + refused at Frontend’s most, keeping its look as sheet 11 draws Full, with Frontend’s reason; Frontend’s refusal refuses both, dimmed, with its reason', async () => {
       const m = mountLobby(lobbyOf());
       const [less, more] = stepperButtons(m);
       const atNone = [refused(less), refused(more)];
-      m.s.update({ bots: { count: 4, max: 4, enabled: true } });
+      const noneLook = getComputedStyle(less).opacity;
+      m.s.update({ bots: { count: 4, max: 4, enabled: true, reason: 'Every seat is taken' } });
       const atMost = [refused(less), refused(more)];
+      const mostLook = getComputedStyle(more).opacity, mostWhy = describedBy(more);
+      tap(more);
       m.s.update({ bots: { count: 2, max: 4, enabled: false, reason: 'Not available now' } });
       const off = [refused(less), refused(more), describedBy(less), describedBy(more)];
       tap(less); tap(more);
-      const seen = { atNone, atMost, off, taps: taps(m.calls).length, value: m.q('.ms-k-stepper-value').textContent };
+      const offLook = [getComputedStyle(less).opacity, getComputedStyle(more).opacity];
+      const seen = { atNone, noneLook, atMost, mostLook, mostWhy, off, offLook, taps: taps(m.calls).length, value: m.q('.ms-k-stepper-value').textContent };
       m.s.dispose();
-      return { ok: JSON.stringify(atNone) === '[true,false]' && JSON.stringify(atMost) === '[false,true]' && off[0] && off[1] && off[2] === 'Not available now' && off[3] === 'Not available now' && seen.taps === 0 && seen.value === '2', seen };
+      return { ok: JSON.stringify(atNone) === '[true,false]' && noneLook === '0.35' && JSON.stringify(atMost) === '[false,true]' && mostLook === '1' && mostWhy === 'Every seat is taken'
+        && off[0] && off[1] && off[2] === 'Not available now' && off[3] === 'Not available now' && JSON.stringify(offLook) === '["0.35","0.35"]' && seen.taps === 0 && seen.value === '2', seen };
     });
 
     await check('keyed: a request’s Admit keeps its element and the focus while others come and go; when its own request leaves, the focus goes to the screen and onFocusReturn says which', async () => {
@@ -182,8 +187,8 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
       for (const b of all) tap(b);
       const seen = { refused: all.map(refused), off: all.filter(b => b.hasAttribute('data-off')).map(b => b.className), taps: taps(m.calls).length };
       m.s.dispose();
-      // Only + stays marked unavailable: the bots are at Frontend's most (6 people and 3 bots of 9).
-      return { ok: seen.refused.every(Boolean) && JSON.stringify(seen.off) === '["ms-k-stepper-btn"]' && seen.taps === 0, seen };
+      // Nothing is dimmed, not even + at Frontend's most (6 people and 3 bots of 9), which keeps its look as sheet 11 draws Full.
+      return { ok: seen.refused.every(Boolean) && JSON.stringify(seen.off) === '[]' && seen.taps === 0, seen };
     });
 
     await check('insets: Frontend’s safe areas place the screen 8 px under the top one and 16 px over the bottom one; null gives the browser’s', async () => {

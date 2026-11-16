@@ -6,8 +6,8 @@
 // case by case: the words, the states, the look and where each part sits, to within half a pixel. It is how
 // the screens show they draw sheet 11 and not a second design of it.
 //
-// One recorded difference, from the interface the Lead approved on #287: at the most bots, + is refused (and
-// dimmed, as the kit's stepper is); the pack's Full state leaves it as it is. The case records it.
+// One recorded difference, from the Lead's review of #287 (decision 5): at the most bots, + keeps its look, as
+// sheet 11 draws Full, and is refused (aria-disabled), which the pack's Full does not mark. The case records it.
 // One improvement, with the larger text only: the pack's code row pushes Copy past the card, and the code
 // card's row wraps instead (entry-parts.css). For those cases the pack is drawn with the same two rules, so
 // everything else is compared as usual, and the case records the improvement against the pack as it is.
