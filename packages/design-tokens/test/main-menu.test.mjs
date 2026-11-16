@@ -147,6 +147,11 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.equal(c.choicesBottom, 52, `${key}: the choices 18 px over the 34 px safe area`);
   }
   for (const size of ['390x844', '430x932']) {
+    // Nothing of the choices sits on the hero: no cover at the Standard text, as in the pack; at the Largest
+    // text offline, the choices rise into the hero and the canvas covers it from 24 px above them.
+    for (const state of ['menu', 'offline']) assert.ok(!record.captures[`${size}/${state}`].cover && record.captures[`${size}/${state}`].stackTop >= record.captures[`${size}/${state}`].hero, `${size}/${state}: no cover at the Standard text`);
+    const raised = record.captures[`${size}/large-offline`];
+    assert.ok(raised.cover && Math.abs(raised.coverTop - (raised.stackTop - 24)) < 0.05, `${size}/large-offline: the cover from 24 px above the note`);
     assert.equal(record.captures[`${size}/offline`].note, MENU_WORDS.offline, `${size}: sheet 10's offline note`);
     assert.deepEqual(record.captures[`${size}/offline`].opacity, ['1', '1', '0.4'], `${size}: Join and Host keep their look, Recover dimmed`);
     assert.equal(record.captures[`${size}/large-offline`].root, 32, `${size}: the Largest text`);
@@ -159,4 +164,6 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
   for (const group of ['mount', 'taps', 'offline', 'online again', 'busy', 'not interactive', 'focus', 'insets', 'layout', 'text', 'input', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length === 6 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the menu agrees with the frozen pack\'s main menu');
+  // The one difference from the pack, recorded where it is drawn: the cover, at the Largest text only.
+  for (const c of record.agree.checks) assert.equal(c.detail.improvement !== null, c.id.includes('Largest'), `${c.id}: the cover only with the Largest text`);
 });

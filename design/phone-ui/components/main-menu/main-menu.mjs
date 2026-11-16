@@ -18,6 +18,8 @@ import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
 export const MAIN_MENU_VERSION = 'main-menu-0.1.0';
 const NOTICES = Object.freeze([null, 'offline']);
+/** How far above the choices' top the cover over the hero begins, fading in to the canvas at their top. */
+export const COVER_LEAD_PX = 24;
 
 /** The pack's words (screens-entry.mjs, the menu; sheet 10). */
 export const MENU_WORDS = Object.freeze({
@@ -80,7 +82,10 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
   // The hero: Frontend's player draws the brand film's held frame in `hero`; the fade to the canvas is drawn over it.
   const heroFrame = el('div', 'ms-mm-heroframe', { 'aria-hidden': 'true' });
   const hero = el('div', 'ms-mm-hero');
-  heroFrame.append(hero, el('div', 'ms-mm-fade'));
+  // The pack's fade, and the cover that follows the choices when larger text raises them into the hero.
+  const cover = el('div', 'ms-mm-cover');
+  cover.hidden = true;
+  heroFrame.append(hero, el('div', 'ms-mm-fade'), cover);
   const settingsPlace = el('div', 'ms-mm-settings');
   const settings = kit.iconButton({ icon: 'settings', label: MENU_WORDS.settings, intent: 'settings' });
   settingsPlace.append(settings);
@@ -119,8 +124,26 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
       policy.control(node, { off: !choice.enabled, busy: choice.busy, reason: choice.reason });
     }
     policy.control(settings, { off: !state.settings.enabled });
+    placeCover();
   }
 
+  /**
+   * Nothing in the choices ever sits on the hero's words. At the Standard text they start below the hero, as
+   * sheet 10 draws them, and only the pack's fade is drawn. When larger text raises them into the hero, the
+   * canvas covers it from COVER_LEAD_PX above their top (the note's, or Join's), fading in over that distance.
+   */
+  function placeCover() {
+    if (disposed || !root.isConnected) return;
+    // From the hero's top, to the fraction of a pixel (the boxes, not offsetTop, which rounds).
+    const frame = heroFrame.getBoundingClientRect();
+    const top = (actions.firstElementChild ?? actions).getBoundingClientRect().top - frame.top;
+    const raised = top < frame.height;
+    cover.hidden = !raised;
+    const value = raised ? `${Math.round((top - COVER_LEAD_PX) * 100) / 100}px` : '';
+    if (root.style.getPropertyValue('--ms-mm-cover-top') !== value) {
+      if (value) root.style.setProperty('--ms-mm-cover-top', value); else root.style.removeProperty('--ms-mm-cover-top');
+    }
+  }
   // ── Layout ──────────────────────────────────────────────────────────
   function layout() {
     if (disposed) return null;
@@ -138,8 +161,10 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
     lastLayout = key;
     on.onLayout?.(next);
   }
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => reportLayout()) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeCover(); reportLayout(); }) : null;
   observer?.observe(root);
+  // The choices grow with the text: the cover follows them.
+  observer?.observe(actions);
 
   function update(next = {}) {
     if (disposed) return;

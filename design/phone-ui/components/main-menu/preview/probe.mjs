@@ -14,7 +14,8 @@
 //   focus     a focused choice keeps its element and the focus through updates
 //   insets    Frontend's safe areas, or the browser's, place the settings button and the choices
 //   layout    the size, the safe areas and the hero (the top 58 %), reported on mount and on a change of size
-//   text      with the Largest text the choices grow from the foot up, clear of the settings button
+//   text      with larger text the choices grow from the foot up, clear of the settings button, and the canvas
+//             covers the hero from 24 px above them, so nothing of theirs sits on its words; none at the Standard text
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    none of its own: nothing animates (with the device's Reduce motion too)
@@ -167,15 +168,25 @@ export async function runMainMenuProbe({ sizes, offline, drawHero }) {
         && second.size.height === 700 && Math.abs(second.hero.height - 700 * 0.58) < 0.01 && reported.includes(844) && reported.includes(700), seen };
     });
 
-    await check('text: with the Largest text (200 %) the choices grow from the foot up, keep their place over the safe area and stay clear of the settings button', async () => {
-      document.documentElement.style.fontSize = '200%';
-      const s = mount({ ...offline, insets: size.insets });
-      await frames();
-      const actions = rel(s, s.q('.ms-mm-actions')), settings = rel(s, s.settings);
-      const seen = { actionsTop: actions.top, actionsBottom: actions.bottom, settingsBottom: settings.top + settings.height, join: s.join.getBoundingClientRect().height };
-      s.menu.dispose();
+    await check('text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them', async () => {
+      const seen = {};
+      for (const [pct, input] of [[100, { insets: size.insets }], [100, { ...offline, insets: size.insets }], [150, { ...offline, insets: size.insets }], [200, { insets: size.insets }], [200, { ...offline, insets: size.insets }]]) {
+        document.documentElement.style.fontSize = `${pct}%`;
+        const s = mount(input);
+        await frames();
+        const actions = rel(s, s.q('.ms-mm-actions')), settings = rel(s, s.settings);
+        const first = s.q('.ms-mm-actions').firstElementChild, stackTop = rel(s, first).top;
+        const hero = s.q('.ms-mm-heroframe').getBoundingClientRect().height, cover = s.q('.ms-mm-cover');
+        const coverTop = cover.hidden ? null : rel(s, cover).top;
+        seen[`${pct}${input.notice ? ' offline' : ''}`] = { stackTop, hero, cover: !cover.hidden, coverTop, actionsBottom: actions.bottom, clearOfSettings: actions.top > settings.top + settings.height, join: s.join.getBoundingClientRect().height };
+        s.menu.dispose();
+      }
       document.documentElement.style.fontSize = '';
-      return { ok: seen.actionsBottom === 52 && seen.join > 76 && seen.actionsTop > seen.settingsBottom, seen };
+      const ok = Object.entries(seen).every(([key, v]) => v.actionsBottom === 52 && v.clearOfSettings
+        && (v.stackTop >= v.hero ? !v.cover : v.cover && Math.abs(v.coverTop - (v.stackTop - 24)) < 0.05)
+        && (!key.startsWith('100') || (!v.cover && v.stackTop >= v.hero)))
+        && seen['200 offline'].cover && seen['200 offline'].join > 76;
+      return { ok, seen };
     });
 
     await check('input: malformed input is refused', async () => {
