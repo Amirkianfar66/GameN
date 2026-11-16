@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.6.1",
-  "sourceCommit": "50888f35d73b0f78c94a1d2d1865b1fc0c97a351",
+  "version": "component-kit-0.7.2",
+  "sourceCommit": "d486603dee382118377b8ae874845c318ec72986",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -178,6 +178,42 @@
       "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), a row puts its value under its title, the kit 0.5.0 rule (#228), now also when the value is a pill, as the Promise rows give it: in the pinned pack the pill keeps its place and squeezes the title onto narrow lines, where a longer title is cut"
     },
     {
+      "cases": "/^notice extra$/",
+      "parts": [
+        "/^(notice|list|row( .+)?)$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "w",
+        "x",
+        "y",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), the row a notice holds puts its value under its title, the kit 0.5.0 row rule (#228), so the notice centres a narrower list and grows by the line; the pinned pack keeps the value beside the title"
+    },
+    {
+      "cases": "/^tiles art$/",
+      "parts": [
+        "/^card [23]( .+)?$/"
+      ],
+      "keys": [
+        "cursor",
+        "text-shadow"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "Sheet 25 draws its unavailable sides as disabled buttons, with a button's hand cursor and, on glass, no halo; the kit draws every tile that takes no tap as sheet 28 does (kit 0.6.0): no hand cursor, and on glass the halo under its words, so an unavailable tile looks the same on both sheets"
+    },
+    {
       "cases": "/^segmented icons$/",
       "parts": [
         "/^option \\d icon$/"
@@ -216,87 +252,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "35773b9eddc2496d11743a771dd01f5fd756cd4b3f72c19c0e5c720035d2426f",
+      "sha256": "dd6b6100d736940137cb495304d4b11b5097f2da83ec203bfb7c7525733f5f6d",
       "size": {
         "width": 390,
-        "height": 9453
+        "height": 11597
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-9tffnkGc.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "dd440dce288f17cc1f8df1b821bb8084c3f97073d0e332673c8f94827e523988"
+      "measurementSha256": "5bce18c5a8c63c8ea3ad07b005849d8dac88be055b871ba10f81b2e529ebf58f"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "2f681a55c5f46a749b28e06c4129319da2b150185a71371bc6d7633dbae7aa15",
+      "sha256": "80f8eb54960d451151e626b30c3edac4df3a7579e100ecb592744364667a60bf",
       "size": {
         "width": 390,
-        "height": 9522
+        "height": 11666
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-9tffnkGc.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "aead5b5616619aab56f36c84c12c825b8fbeb78948db4c3200a65eb850aae60c"
+      "measurementSha256": "f2f0cfafa52c36f319740459f6a7afbd755d4115f5e9bec40b8bc958537aed4d"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "891a7ab3416deb0c3db6e790368d2a881966ca0bc1332234df38dbeab8e8eb37",
+      "sha256": "8db495ce781bb24d2b574e6a890200eec78bfc9a471f6dea0740e5c990a6d207",
       "size": {
         "width": 390,
-        "height": 13952
+        "height": 16824
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-9tffnkGc.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "51410efd2d74e39a54e8f047d9dcdee877ef84f06d075021be41cdc32eba4667"
+      "measurementSha256": "90efc006a0cc8e4c94adeb7201645eb294d4db804f8b2b0253e554acbf76c4a4"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "ec51f5add25f7341ab57039e162d6d57b87d8750cc8d76bf60dc6adf69310f6f",
+      "sha256": "aa68b8f06ce7be2274fc1ccbd8dbc8109799c720d57e9ae4ff60b82ab502dcd5",
       "size": {
         "width": 390,
-        "height": 13970
+        "height": 16882
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-9tffnkGc.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "3fdb73ebe29fab4121253fceae9241eb67cc0f07c7076380cc03e61720ffefdd"
+      "measurementSha256": "b9739dfaa130eb609818beea84641cc6d4c34e3b278327ed77deb3e91e5899db"
     }
   },
   "agreement": {
@@ -389,6 +425,12 @@
         "row pill value": {
           "ok": true,
           "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
+        "section head": {
+          "ok": true,
+          "parts": 6,
           "differences": [],
           "accepted": []
         },
@@ -570,6 +612,24 @@
           "differences": [],
           "accepted": []
         },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": []
+        },
         "stamps": {
           "ok": true,
           "parts": 5,
@@ -633,6 +693,109 @@
         "facts": {
           "ok": true,
           "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
           "differences": [],
           "accepted": []
         },
@@ -737,6 +900,12 @@
         "row pill value": {
           "ok": true,
           "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
+        "section head": {
+          "ok": true,
+          "parts": 6,
           "differences": [],
           "accepted": []
         },
@@ -933,6 +1102,24 @@
           "differences": [],
           "accepted": []
         },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": []
+        },
         "stamps": {
           "ok": true,
           "parts": 5,
@@ -990,6 +1177,193 @@
         "facts": {
           "ok": true,
           "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
           "differences": [],
           "accepted": []
         },
@@ -1090,6 +1464,12 @@
         "row pill value": {
           "ok": true,
           "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
+        "section head": {
+          "ok": true,
+          "parts": 6,
           "differences": [],
           "accepted": []
         },
@@ -1279,14 +1659,14 @@
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 8
+              "rule": 10
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 8
+              "rule": 10
             }
           ]
         },
@@ -1311,6 +1691,24 @@
         "pills": {
           "ok": true,
           "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
           "differences": [],
           "accepted": []
         },
@@ -1377,6 +1775,109 @@
         "facts": {
           "ok": true,
           "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
           "differences": [],
           "accepted": []
         },
@@ -2221,6 +2722,12 @@
             }
           ]
         },
+        "section head": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
         "group": {
           "ok": true,
           "parts": 3,
@@ -2437,91 +2944,91 @@
               "key": "h",
               "pack": 78.38,
               "kit": 97,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 1",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 1",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 1 icon",
               "key": "x",
               "pack": 9,
               "kit": 65.83,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 1 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 16,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2",
               "key": "x",
               "pack": 180.5,
               "kit": 3,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2",
               "key": "y",
               "pack": 3,
               "kit": 50,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2 icon",
               "key": "x",
               "pack": 186.5,
               "kit": 52.66,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 63,
-              "rule": 9
+              "rule": 11
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 9
+              "rule": 11
             }
           ]
         },
@@ -2548,6 +3055,151 @@
           "parts": 10,
           "differences": [],
           "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "notice",
+              "key": "h",
+              "pack": 198,
+              "kit": 238.39,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "x",
+              "pack": 19.28,
+              "kit": 52.69,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "w",
+              "pack": 319.42,
+              "kit": 252.61,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "x",
+              "pack": 19.28,
+              "kit": 52.69,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "w",
+              "pack": 319.42,
+              "kit": 252.61,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "x",
+              "pack": 33.28,
+              "kit": 66.69,
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "y",
+              "pack": 146.75,
+              "kit": 166.94,
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 8
+            },
+            {
+              "part": "row icon drawing",
+              "key": "x",
+              "pack": 38.78,
+              "kit": 72.19,
+              "rule": 8
+            },
+            {
+              "part": "row icon drawing",
+              "key": "y",
+              "pack": 152.25,
+              "kit": 172.44,
+              "rule": 8
+            },
+            {
+              "part": "row title",
+              "key": "x",
+              "pack": 75.28,
+              "kit": 108.69,
+              "rule": 8
+            },
+            {
+              "part": "row value",
+              "key": "x",
+              "pack": 269.89,
+              "kit": 108.69,
+              "rule": 8
+            },
+            {
+              "part": "row value",
+              "key": "y",
+              "pack": 142.55,
+              "kit": 185,
+              "rule": 8
+            }
+          ]
         },
         "stamps": {
           "ok": true,
@@ -2609,6 +3261,193 @@
           "differences": [],
           "accepted": []
         },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
         "cells": {
           "ok": true,
           "parts": 51,
@@ -2619,9 +3458,9 @@
     }
   },
   "summary": {
-    "cases": 166,
-    "agree": 166,
-    "parts": 1185,
-    "accepted": 184
+    "cases": 194,
+    "agree": 194,
+    "parts": 1377,
+    "accepted": 274
   }
 }

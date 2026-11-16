@@ -55,8 +55,8 @@ If a sandbox cannot resolve the registry, request the normal tool permission for
 | `npm run typecheck` | All eight `src` trees without emitting build files |
 | `npm run build` | TypeScript project-reference build of all packages |
 | `npm run test:contracts` | Build contracts and run the targeted protocol/view/fixture tests |
-| `npm test` | Build all packages and run the bootstrap tests including ESM import smoke checks |
-| `npm run verify` | Toolchain, boundaries, source integrity, typecheck, build and bootstrap tests |
+| `npm test` | Bootstrap, engine, API, tooling, Frontend and Designer checks, including builds |
+| `npm run verify` | Toolchain, boundaries, source integrity, typecheck, all tests above, Balance, scenarios and capacity/history controls |
 | `npm run clean` | Remove only the eight generated `dist` directories, including build caches |
 
 To check a clean rebuild:
@@ -67,9 +67,26 @@ npm run clean
 npm run verify
 ```
 
-CI runs `npm ci` and `npm run verify` on Ubuntu 24.04 with pinned Node/npm and action commits. Its stable job is `Bootstrap checks / bootstrap`. It has read-only repository permissions and no cloud secrets. Required-check/branch-protection settings remain a repository administration decision; this PR does not configure them.
+CI runs on Ubuntu 24.04 with pinned Node/npm and action commits. The stable `bootstrap` job in **Workspace, frontend and backend checks** requires exactly the suites selected below. It has read-only repository permissions and no cloud secrets. Required-check/branch-protection settings remain a repository administration decision; this workflow does not configure them.
 
 Production workspace paths are an explicit allowlist. `reference/design-canvas` has its own historical pnpm manifest and is never installed, typechecked, built or tested as production code. CI reads its bytes solely for the integrity check; no recursive dependency/build/CI discovery includes it. Root npm installation must not be run inside the reference snapshot. No `firebase.json`, project binding, deployment or emulator command is supplied until Backend #2 implements that service boundary.
+
+## Proportional CI and release checks
+
+[`scripts/ci-check-plan.mjs`](../scripts/ci-check-plan.mjs) classifies the complete PR diff from exact base/head commits. Unknown paths, empty diffs and mixed changes outside the narrow allowlists use the full gate. Every plan is printed in CI. The stable gate fails if planning fails, a required suite is missing/skipped, or any planned result differs from its expected success/skip result.
+
+| Change | Required verification |
+| --- | --- |
+| Prose-only documentation, README, AGENTS or PR template | Locked install, toolchain, workspace and frozen source/reference integrity; check links/references changed by the PR in review |
+| Frontend source/tests only, optionally with prose | Above, typecheck, build/bootstrap, tooling, Frontend, Designer and browser-dependency checks; both current and historical Frontend emulator jobs |
+| Rules, engine/API, contracts, runtime design, build/configuration, dependencies, approvals, CI/tooling or any unclassified file | Full `npm run verify`, browser dependencies, standalone backend packaging, all Backend and Frontend emulator jobs |
+| Main push, manual workflow run, or PR labelled `release-candidate` | Full verification regardless of paths |
+
+Owner/rules decision documents and machine-readable approval records are not prose-only changes. Source admission and privacy, persistence, recovery and historical compatibility gates remain required when their inputs change. Local `npm run verify` is unchanged; narrower CI does not redefine that command or remove its suites.
+
+Run the focused checks that demonstrate the changed behavior locally. Before publication, use a full candidate run and the affected critical game journeys with production-equivalent headers/configuration. Record real visual playback/rendering rather than treating phase entry or asset presence as acceptance. Emulator-only connection exceptions must be identified separately from exact production-header evidence. Keep source/art/header identities with captures.
+
+Reuse existing evidence for unchanged components when its relevant source, artwork, configuration and test inputs still match; explain the reuse in the PR. A new failure, changed input or unresolved concern calls for the affected checks again, not an automatic replay of every unrelated local suite. The [delivery agreement](architecture/visual-component-ownership.md#track-delivery-through-the-playable-release) governs scope, Designer acceptance and verification of the published artifact.
 
 ## Maintenance and ownership
 

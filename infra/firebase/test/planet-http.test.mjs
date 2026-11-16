@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createPlanetHttpHandler} from '../dist/planet.js';
+import {createPlanetHttpHandler,writePlanetHttpTiming} from '../dist/planet.js';
 
 function setup(overrides={}) {
   const calls=[];
@@ -11,9 +11,9 @@ function setup(overrides={}) {
     verifyAppCheckToken:async()=>{throw new Error('unexpected appcheck');},...overrides,
   }};
 }
-async function invoke(dependencies,overrides={}) {
+async function invoke(dependencies,overrides={},onJson=()=>{}) {
   const capture={headers:{},status:undefined,body:undefined};
-  const response={set(k,v){capture.headers[k]=v;return response;},status(v){capture.status=v;return response;},json(v){capture.body=v;return response;}};
+  const response={set(k,v){capture.headers[k]=v;return response;},status(v){capture.status=v;return response;},json(v){onJson();capture.body=v;return response;}};
   await createPlanetHttpHandler(dependencies)({method:'POST',headers:{'content-type':'application/json',authorization:'Bearer verified-token'},body:{operation:'read',matchId:'match-a'},...overrides},response);
   return capture;
 }
@@ -67,4 +67,58 @@ test('Planet returns safe service failures with useful retry/conflict statuses',
   }
   const {dependencies}=setup({service:{handle:async()=>{throw new Error('role and credential material');}}});
   assert.deepEqual((await invoke(dependencies)).body,{ok:false,serverTimeMs:123,error:{code:'UNAVAILABLE'}});
+});
+
+test('Planet timing separates authentication and service without leaking authority or changing the response',async()=>{
+  const timings=[];let now=0;
+  const {dependencies}=setup({configuration:{emulator:false,allowedOrigins:[]},monotonicClock:()=>now,
+    verifyIdToken:async()=>{now+=12;return {uid:'private-user'};},
+    verifyAppCheckToken:async()=>{now+=7;},
+    service:{handle:async()=>{now+=90;return {ok:true,serverTimeMs:123,result:{private:'role-material'}};}},
+    onTiming:summary=>timings.push(summary)});
+  const result=await invoke(dependencies,{headers:{'content-type':'application/json',authorization:'Bearer verified-token','x-firebase-appcheck':'private-app-token'}},()=>{now+=11;});
+  assert.deepEqual(result.body,{ok:true,serverTimeMs:123,result:{private:'role-material'}});
+  assert.equal(result.status,200);assert.equal(timings.length,1);
+  const {service,...http}=timings[0];
+  assert.deepEqual(http,{operation:'read',authMs:12,appCheckMs:7,serviceMs:90,totalMs:120,serviceOk:true});
+  assert.ok(service);
+  assert.doesNotMatch(JSON.stringify(timings),/private-user|role-material|match-a|verified-token|private-app-token/);
+  assert.equal(Object.keys(result.headers).some(key=>/timing/i.test(key)),false);
+});
+
+test('Planet timing cannot alter success, refusal or unknown outcome and ignores unauthenticated input',async()=>{
+  for(const mode of ['success','refusal','throw']){
+    const timings=[];
+    const {dependencies}=setup({onTiming:summary=>{timings.push(summary);throw new Error('diagnostic sink unavailable');},
+      service:{handle:async()=>{
+        if(mode==='throw')throw new Error('private service failure');
+        return mode==='success'?{ok:true,serverTimeMs:123,result:{matchId:'match-a'}}:{ok:false,serverTimeMs:123,error:{code:'NOT_ALLOWED'}};
+      }}});
+    const result=await invoke(dependencies);
+    assert.equal(result.status,mode==='throw'?503:200);
+    assert.equal(timings.length,1);
+    assert.equal(timings[0].serviceOk,mode==='throw'?null:mode==='success');
+    assert.doesNotMatch(JSON.stringify(timings),/private service failure|match-a/);
+    assert.doesNotMatch(JSON.stringify(result.body),/diagnostic sink unavailable|private service failure/);
+  }
+  const timings=[];
+  const {dependencies}=setup({onTiming:summary=>timings.push(summary)});
+  await invoke(dependencies,{headers:{'content-type':'application/json'}});
+  await invoke(dependencies,{body:{operation:'read',matchId:'match-a',extra:'private'}});
+  assert.deepEqual(timings,[]);
+  const asyncFailure=setup({onTiming:async()=>{throw new Error('asynchronous sink failure');}});
+  assert.equal((await invoke(asyncFailure.dependencies)).status,200);
+});
+
+test('emitted JSON timing excludes incoming trace headers and caller-provided metadata',async()=>{
+  const lines=[];
+  const {dependencies}=setup({onTiming:summary=>writePlanetHttpTiming({...summary,uid:'private-user',
+    'logging.googleapis.com/trace':'caller-controlled-trace'},line=>lines.push(line))});
+  await invoke(dependencies,{headers:{'content-type':'application/json',authorization:'Bearer verified-token',
+    'x-cloud-trace-context':'0123456789abcdef0123456789abcdef/123;o=1'}});
+  assert.equal(lines.length,1);assert.ok(lines[0].endsWith('\n'));
+  const record=JSON.parse(lines[0]);
+  assert.equal(record.message,'planet_request_timing');assert.equal(record.severity,'INFO');
+  assert.deepEqual(Object.keys(record).sort(),['appCheckMs','authMs','message','operation','service','serviceMs','serviceOk','severity','totalMs']);
+  assert.doesNotMatch(lines[0],/private-user|caller-controlled|0123456789abcdef|verified-token|match-a|logging.googleapis/);
 });
