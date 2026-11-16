@@ -81,7 +81,7 @@ try {
         const root = document.querySelector('.ms-host-setup, .ms-host-lobby'), q = s => root.querySelector(s), qa = s => [...root.querySelectorAll(s)];
         const words = n => n && !n.hidden && n.getClientRects().length ? n.innerText.replace(/\\s+/g, ' ').trim() : null;
         const lobby = root.classList.contains('ms-host-lobby'), screen = q('.ms-ep-screen');
-        const lists = qa('.ms-k-list'), toast = q('.ms-ep-toast');
+        const lists = qa('.ms-k-list'), toast = q('.ms-k-toast');
         return { violations: window.__policy, screen: lobby ? 'lobby' : 'setup', root: parseFloat(getComputedStyle(document.documentElement).fontSize),
           canvas: getComputedStyle(root).backgroundColor, title: q('.ms-ep-nav-title')?.textContent ?? null, back: q('.ms-ep-back .ms-k-btn-label')?.textContent ?? null,
           heading: q('.ms-ep-large-title')?.textContent ?? null, checked: q('.ms-k-seg-btn[aria-checked="true"]')?.textContent ?? null,

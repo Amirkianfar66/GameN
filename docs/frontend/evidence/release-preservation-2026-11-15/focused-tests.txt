@@ -1,0 +1,712 @@
+TAP version 13
+# Subtest: crew dispatch requires every approved gameplay and art pin
+ok 1 - crew dispatch requires every approved gameplay and art pin
+  ---
+  duration_ms: 4.055875
+  type: 'test'
+  ...
+# Subtest: pregame release preserves every selected crew appearance and exact gameplay pin
+ok 2 - pregame release preserves every selected crew appearance and exact gameplay pin
+  ---
+  duration_ms: 88.017458
+  type: 'test'
+  ...
+# Subtest: historical figures remain byte-identical to the original drawing factory
+ok 3 - historical figures remain byte-identical to the original drawing factory
+  ---
+  duration_ms: 12.122166
+  type: 'test'
+  ...
+# Subtest: all nine picture bindings use square app icons only on the selected crew release
+ok 4 - all nine picture bindings use square app icons only on the selected crew release
+  ---
+  duration_ms: 0.193625
+  type: 'test'
+  ...
+# Subtest: exact phone1.2 pins retain every approved0.7/0.8 portrait and figure; near-miss tuples stay rejected
+ok 5 - exact phone1.2 pins retain every approved0.7/0.8 portrait and figure; near-miss tuples stay rejected
+  ---
+  duration_ms: 170.785
+  type: 'test'
+  ...
+# Subtest: private role/faction inputs cannot select a different public character drawing
+ok 6 - private role/faction inputs cannot select a different public character drawing
+  ---
+  duration_ms: 6.6555
+  type: 'test'
+  ...
+# Subtest: exact 1.3 pre-vote pins retain all released crew, gown and prison drawings without admitting mixed tuples
+ok 7 - exact 1.3 pre-vote pins retain all released crew, gown and prison drawings without admitting mixed tuples
+  ---
+  duration_ms: 153.737208
+  type: 'test'
+  ...
+# Subtest: Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+ok 8 - Food dispatch is exact for gameplay and artwork; predecessor pins retain their assets and ordering
+  ---
+  duration_ms: 8.869459
+  type: 'test'
+  ...
+# Subtest: a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+ok 9 - a predecessor time probe retains its own original request window rather than borrowing an older pending snapshot
+  ---
+  duration_ms: 4.994583
+  type: 'test'
+  ...
+# Subtest: one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+ok 10 - one Food read supplies both surfaces and the clock; clock-only polls retain canonical away identities
+  ---
+  duration_ms: 10.692833
+  type: 'test'
+  ...
+# Subtest: snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+ok 11 - snapshot/clock coalescing queues one post-receipt read and never blocks a causal UP
+  ---
+  duration_ms: 11.579083
+  type: 'test'
+  ...
+# Subtest: a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+ok 12 - a slow read permits a bounded presence fallback; a private terminal stops it but snapshots continue to common return
+  ---
+  duration_ms: 4.33025
+  type: 'test'
+  ...
+# Subtest: hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+ok 13 - hidden sessions stop reads/presence; visible without focus requires a fresh same-response snapshot
+  ---
+  duration_ms: 0.922584
+  type: 'test'
+  ...
+# Subtest: a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+ok 14 - a locally timed-out read remains the sole network read; pending read/presence cannot block UP
+  ---
+  duration_ms: 11.459875
+  type: 'test'
+  ...
+# Subtest: mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+ok 15 - mixed Food response clocks, missing own return placement and public private-data injection conceal the whole read
+  ---
+  duration_ms: 1.425541
+  type: 'test'
+  ...
+# Subtest: lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+ok 16 - lifecycle recovery cannot admit a Food command, heartbeat or receipt into its public request store
+  ---
+  duration_ms: 2.151084
+  type: 'test'
+  ...
+# Subtest: explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+ok 17 - explicit auth refusal on a Food read, input or original lookup conceals immediately, retaining correlation only
+  ---
+  duration_ms: 9.484625
+  type: 'test'
+  ...
+# Subtest: 1.3 explicitly inherits private feedback and offer permissions; mixed tuples never acquire art or permissions
+ok 18 - 1.3 explicitly inherits private feedback and offer permissions; mixed tuples never acquire art or permissions
+  ---
+  duration_ms: 8.675417
+  type: 'test'
+  ...
+# Subtest: physical publication labels distinguish partial checkpoints and never certify a current actor board as fully resolved
+ok 19 - physical publication labels distinguish partial checkpoints and never certify a current actor board as fully resolved
+  ---
+  duration_ms: 6.853459
+  type: 'test'
+  ...
+# Subtest: missing or misplaced 1.3 checkpoints and checkpoint metadata on predecessors fail closed for both audiences
+ok 20 - missing or misplaced 1.3 checkpoints and checkpoint metadata on predecessors fail closed for both audiences
+  ---
+  duration_ms: 3.705834
+  type: 'test'
+  ...
+# Subtest: 1.3 declaration choices and final validation follow the exact private offer subset
+ok 21 - 1.3 declaration choices and final validation follow the exact private offer subset
+  ---
+  duration_ms: 7.349
+  type: 'test'
+  ...
+# Subtest: 1.3 NO_INJECTION remains panel-only registration evidence and does not spend the unused attempt
+ok 22 - 1.3 NO_INJECTION remains panel-only registration evidence and does not spend the unused attempt
+  ---
+  duration_ms: 0.565417
+  type: 'test'
+  ...
+# Subtest: 7/8/9-player pre-vote darkness keeps offered original-number Code for healthy, jailed and injured living Hackers
+ok 23 - 7/8/9-player pre-vote darkness keeps offered original-number Code for healthy, jailed and injured living Hackers
+  ---
+  duration_ms: 10.99125
+  type: 'test'
+  ...
+# Subtest: a pre-vote fixed-slot receipt can settle after reconnect into the fresh full Jail vote without replay or inferred damage
+ok 24 - a pre-vote fixed-slot receipt can settle after reconnect into the fresh full Jail vote without replay or inferred damage
+  ---
+  duration_ms: 9.569208
+  type: 'test'
+  ...
+# Subtest: post-Blackout ballot recovery uses the original receipt and own ballot, then waits for authoritative result/finalization
+ok 25 - post-Blackout ballot recovery uses the original receipt and own ballot, then waits for authoritative result/finalization
+  ---
+  duration_ms: 2.10275
+  type: 'test'
+  ...
+# Subtest: entry waits for resolved idle context, lasts exactly 2000ms, and never replays on navigation
+ok 26 - entry waits for resolved idle context, lasts exactly 2000ms, and never replays on navigation
+  ---
+  duration_ms: 1.665833
+  type: 'test'
+  ...
+# Subtest: active, recovery and uncertain entry contexts bypass the intro
+ok 27 - active, recovery and uncertain entry contexts bypass the intro
+  ---
+  duration_ms: 8.694792
+  type: 'test'
+  ...
+# Subtest: all nine exact roles bind the authorized character and seat without fallback
+ok 28 - all nine exact roles bind the authorized character and seat without fallback
+  ---
+  duration_ms: 1.027166
+  type: 'test'
+  ...
+# Subtest: role ends at 10000ms, leaves Ready untouched, and stores only neutral seen identifiers
+ok 29 - role ends at 10000ms, leaves Ready untouched, and stores only neutral seen identifiers
+  ---
+  duration_ms: 0.111958
+  type: 'test'
+  ...
+# Subtest: Skip, refresh, recovery and reconnect cannot replay a role or confirm Ready
+ok 30 - Skip, refresh, recovery and reconnect cannot replay a role or confirm Ready
+  ---
+  duration_ms: 0.159208
+  type: 'test'
+  ...
+# Subtest: late reveal, unavailable storage and historical artwork keep the authorized role card
+ok 31 - late reveal, unavailable storage and historical artwork keep the authorized role card
+  ---
+  duration_ms: 0.514958
+  type: 'test'
+  ...
+# Subtest: private films conceal immediately on blur, background, stale state, identity/role/character change or Ready
+ok 32 - private films conceal immediately on blur, background, stale state, identity/role/character change or Ready
+  ---
+  duration_ms: 0.378459
+  type: 'test'
+  ...
+# Subtest: public 7/8/9 roster extraction is sorted, complete, unique and ignores private extra fields
+ok 33 - public 7/8/9 roster extraction is sorted, complete, unique and ignores private extra fields
+  ---
+  duration_ms: 0.360708
+  type: 'test'
+  ...
+# Subtest: boarding seeks the server interval on recovery for 7/8/9 and expiry never starts gameplay
+ok 34 - boarding seeks the server interval on recovery for 7/8/9 and expiry never starts gameplay
+  ---
+  duration_ms: 0.347417
+  type: 'test'
+  ...
+# Subtest: boarding requires explicit flow2, trusted clock, valid interval, supported art and admitted public roster
+ok 35 - boarding requires explicit flow2, trusted clock, valid interval, supported art and admitted public roster
+  ---
+  duration_ms: 0.370292
+  type: 'test'
+  ...
+# Subtest: boarding clock correction does not rewind or restart a stable stage
+ok 36 - boarding clock correction does not rewind or restart a stable stage
+  ---
+  duration_ms: 0.14575
+  type: 'test'
+  ...
+# Subtest: boarding Skip is local even when persistence fails, and terminal/running state drops old visuals
+ok 37 - boarding Skip is local even when persistence fails, and terminal/running state drops old visuals
+  ---
+  duration_ms: 0.145208
+  type: 'test'
+  ...
+# Subtest: disposal drops all presentation state and cannot be restarted
+ok 38 - disposal drops all presentation state and cannot be restarted
+  ---
+  duration_ms: 0.054542
+  type: 'test'
+  ...
+# Subtest: flow3 keeps card for20s and seeks its final10s without advancing any authority
+ok 39 - flow3 keeps card for20s and seeks its final10s without advancing any authority
+  ---
+  duration_ms: 0.089917
+  type: 'test'
+  ...
+# Subtest: timed late load, background/recovery and clock correction seek without restarting
+ok 40 - timed late load, background/recovery and clock correction seek without restarting
+  ---
+  duration_ms: 0.400459
+  type: 'test'
+  ...
+# Subtest: timed Skip persists only neutral identifiers; no new match inherits that Skip
+ok 41 - timed Skip persists only neutral identifiers; no new match inherits that Skip
+  ---
+  duration_ms: 0.531
+  type: 'test'
+  ...
+# Subtest: flow3 boarding is the independent full10s interval and timed expiry never creates it
+ok 42 - flow3 boarding is the independent full10s interval and timed expiry never creates it
+  ---
+  duration_ms: 0.224459
+  type: 'test'
+  ...
+# Subtest: saved 0.8 tuples keep both films and mixed or forged tuples keep neither
+ok 43 - saved 0.8 tuples keep both films and mixed or forged tuples keep neither
+  ---
+  duration_ms: 2.205792
+  type: 'test'
+  ...
+# Subtest: Food films follow the saved reading and boarding intervals across recovery and Skip
+ok 44 - Food films follow the saved reading and boarding intervals across recovery and Skip
+  ---
+  duration_ms: 0.20025
+  type: 'test'
+  ...
+# Subtest: Food flows before 3 keep reading and boarding without either film
+ok 45 - Food flows before 3 keep reading and boarding without either film
+  ---
+  duration_ms: 0.116292
+  type: 'test'
+  ...
+# Subtest: R17 projects admitted setup and display time only; expiry never starts the client game
+ok 46 - R17 projects admitted setup and display time only; expiry never starts the client game
+  ---
+  duration_ms: 12.433333
+  type: 'test'
+  ...
+# Subtest: unknown explicit setup flow fails closed while historical reading keeps its old behavior
+ok 47 - unknown explicit setup flow fails closed while historical reading keeps its old behavior
+  ---
+  duration_ms: 1.556375
+  type: 'test'
+  ...
+# Subtest: flow3 reveals its card on entry, uses the exact interval and still requires manual Ready
+ok 48 - flow3 reveals its card on entry, uses the exact interval and still requires manual Ready
+  ---
+  duration_ms: 4.742916
+  type: 'test'
+  ...
+# Subtest: a saved flow cannot change within a match and malformed timed boundaries fail closed
+ok 49 - a saved flow cannot change within a match and malformed timed boundaries fail closed
+  ---
+  duration_ms: 3.249417
+  type: 'test'
+  ...
+# Subtest: a timed reading interval cannot restart under the same setup identity
+ok 50 - a timed reading interval cannot restart under the same setup identity
+  ---
+  duration_ms: 1.4475
+  type: 'test'
+  ...
+# Subtest: explicit timed-role concealment survives failed reads, foreground and same-context reload until Reveal
+ok 51 - explicit timed-role concealment survives failed reads, foreground and same-context reload until Reveal
+  ---
+  duration_ms: 1.7665
+  type: 'test'
+  ...
+# Subtest: explicit conceal clears for a different reading identity; corrupt privacy state never auto-reveals
+ok 52 - explicit conceal clears for a different reading identity; corrupt privacy state never auto-reveals
+  ---
+  duration_ms: 1.40575
+  type: 'test'
+  ...
+# Subtest: 30-second minimum role reading and Ready require server-confirmed time; role starts concealed
+ok 53 - 30-second minimum role reading and Ready require server-confirmed time; role starts concealed
+  ---
+  duration_ms: 1.079666
+  type: 'test'
+  ...
+# Subtest: 30-second character choice expires without a client-side role deal or automatic Ready
+ok 54 - 30-second character choice expires without a client-side role deal or automatic Ready
+  ---
+  duration_ms: 0.905459
+  type: 'test'
+  ...
+# Subtest: hide immediately removes role, identity and recovery secret; foreground requires a fresh read
+ok 55 - hide immediately removes role, identity and recovery secret; foreground requires a fresh read
+  ---
+  duration_ms: 0.763
+  type: 'test'
+  ...
+# Subtest: unknown public setup request survives reload with identical request ID and body, without role knowledge
+ok 56 - unknown public setup request survives reload with identical request ID and body, without role knowledge
+  ---
+  duration_ms: 1.201916
+  type: 'test'
+  ...
+# Subtest: public game feed receives only the public view and neutral identities
+ok 57 - public game feed receives only the public view and neutral identities
+  ---
+  duration_ms: 1.124375
+  type: 'test'
+  ...
+# Subtest: session audience mismatch and changed binding fail closed
+ok 58 - session audience mismatch and changed binding fail closed
+  ---
+  duration_ms: 0.73925
+  type: 'test'
+  ...
+# Subtest: session and game views cannot activate artwork from different otherwise valid pins
+ok 59 - session and game views cannot activate artwork from different otherwise valid pins
+  ---
+  duration_ms: 0.418167
+  type: 'test'
+  ...
+# Subtest: server answer reader refuses malformed wrappers and does not surface raw diagnostics
+ok 60 - server answer reader refuses malformed wrappers and does not surface raw diagnostics
+  ---
+  duration_ms: 0.201375
+  type: 'test'
+  ...
+# Subtest: a registered join waits across forbidden reads and accepts only matching admitted display standing
+ok 61 - a registered join waits across forbidden reads and accepts only matching admitted display standing
+  ---
+  duration_ms: 0.816583
+  type: 'test'
+  ...
+# Subtest: an assigned player seat confirms membership while a pending join never supplies a seat
+ok 62 - an assigned player seat confirms membership while a pending join never supplies a seat
+  ---
+  duration_ms: 0.564917
+  type: 'test'
+  ...
+# Subtest: join context cannot be inherited by a different signed-in identity
+ok 63 - join context cannot be inherited by a different signed-in identity
+  ---
+  duration_ms: 0.379542
+  type: 'test'
+  ...
+# Subtest: join names use the shared Unicode code-point limit and give useful feedback before sending
+ok 64 - join names use the shared Unicode code-point limit and give useful feedback before sending
+  ---
+  duration_ms: 0.633125
+  type: 'test'
+  ...
+# Subtest: seat recovery reads the server-confirmed match and never persists the recovery secret
+ok 65 - seat recovery reads the server-confirmed match and never persists the recovery secret
+  ---
+  duration_ms: 0.76975
+  type: 'test'
+  ...
+# Subtest: the draft seat-only recovery reply cannot approve a match or replace the original request
+ok 66 - the draft seat-only recovery reply cannot approve a match or replace the original request
+  ---
+  duration_ms: 0.453958
+  type: 'test'
+  ...
+# Subtest: pending standing carries no admitted data and never authenticates a game feed
+ok 67 - pending standing carries no admitted data and never authenticates a game feed
+  ---
+  duration_ms: 0.832
+  type: 'test'
+  ...
+# Subtest: declined standing carries no admitted data and never authenticates a game feed
+ok 68 - declined standing carries no admitted data and never authenticates a game feed
+  ---
+  duration_ms: 0.363417
+  type: 'test'
+  ...
+# Subtest: closed standing carries no admitted data and never authenticates a game feed
+ok 69 - closed standing carries no admitted data and never authenticates a game feed
+  ---
+  duration_ms: 0.3505
+  type: 'test'
+  ...
+# Subtest: pending display rejects unbound standing {"requestId":"another-request"}
+ok 70 - pending display rejects unbound standing {"requestId":"another-request"}
+  ---
+  duration_ms: 0.441208
+  type: 'test'
+  ...
+# Subtest: pending display rejects unbound standing {"kind":"player"}
+ok 71 - pending display rejects unbound standing {"kind":"player"}
+  ---
+  duration_ms: 0.454542
+  type: 'test'
+  ...
+# Subtest: pending display rejects unbound standing null
+ok 72 - pending display rejects unbound standing null
+  ---
+  duration_ms: 2.944958
+  type: 'test'
+  ...
+# Subtest: an unavailable or revoked admitted display loses its feed without becoming a new pending requester
+ok 73 - an unavailable or revoked admitted display loses its feed without becoming a new pending requester
+  ---
+  duration_ms: 0.668625
+  type: 'test'
+  ...
+# Subtest: verified recovery clears the original display request and accepts only the returned member seat
+ok 74 - verified recovery clears the original display request and accepts only the returned member seat
+  ---
+  duration_ms: 3.18025
+  type: 'test'
+  ...
+# Subtest: a recovery result cannot bind a different subsequent snapshot seat
+ok 75 - a recovery result cannot bind a different subsequent snapshot seat
+  ---
+  duration_ms: 1.854
+  type: 'test'
+  ...
+# Subtest: create: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 76 - create: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.886167
+  type: 'test'
+  ...
+# Subtest: create: committed lost, rate-limited retry and cached success retain the exact request
+ok 77 - create: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 1.052041
+  type: 'test'
+  ...
+# Subtest: ready: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 78 - ready: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 1.573958
+  type: 'test'
+  ...
+# Subtest: ready: committed lost, rate-limited retry and cached success retain the exact request
+ok 79 - ready: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 1.255917
+  type: 'test'
+  ...
+# Subtest: issueRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 80 - issueRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 1.949375
+  type: 'test'
+  ...
+# Subtest: issueRecovery: committed lost, rate-limited retry and cached success retain the exact request
+ok 81 - issueRecovery: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 1.670709
+  type: 'test'
+  ...
+# Subtest: redeemRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+ok 82 - redeemRecovery: committed UNAVAILABLE, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.8925
+  type: 'test'
+  ...
+# Subtest: redeemRecovery: committed lost, rate-limited retry and cached success retain the exact request
+ok 83 - redeemRecovery: committed lost, rate-limited retry and cached success retain the exact request
+  ---
+  duration_ms: 0.549167
+  type: 'test'
+  ...
+# Subtest: create: an unresolved public request survives reload and a later rate limit
+ok 84 - create: an unresolved public request survives reload and a later rate limit
+  ---
+  duration_ms: 0.707042
+  type: 'test'
+  ...
+# Subtest: ready: an unresolved public request survives reload and a later rate limit
+ok 85 - ready: an unresolved public request survives reload and a later rate limit
+  ---
+  duration_ms: 0.493041
+  type: 'test'
+  ...
+# Subtest: issueRecovery: an unresolved public request survives reload and a later rate limit
+ok 86 - issueRecovery: an unresolved public request survives reload and a later rate limit
+  ---
+  duration_ms: 0.574958
+  type: 'test'
+  ...
+# Subtest: a later NOT_ALLOWED cannot settle an earlier unknown operation
+ok 87 - a later NOT_ALLOWED cannot settle an earlier unknown operation
+  ---
+  duration_ms: 0.236291
+  type: 'test'
+  ...
+# Subtest: a later FORBIDDEN cannot settle an earlier unknown operation
+ok 88 - a later FORBIDDEN cannot settle an earlier unknown operation
+  ---
+  duration_ms: 0.192083
+  type: 'test'
+  ...
+# Subtest: a definitive first NOT_ALLOWED rejection permits a later new operation
+ok 89 - a definitive first NOT_ALLOWED rejection permits a later new operation
+  ---
+  duration_ms: 0.99925
+  type: 'test'
+  ...
+# Subtest: a definitive first RATE_LIMITED rejection permits a later new operation
+ok 90 - a definitive first RATE_LIMITED rejection permits a later new operation
+  ---
+  duration_ms: 0.774125
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {}
+ok 91 - malformed issued recovery success remains retryable: {}
+  ---
+  duration_ms: 1.327292
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":""}
+ok 92 - malformed issued recovery success remains retryable: {"recoveryCode":""}
+  ---
+  duration_ms: 1.075083
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxx"}
+ok 93 - malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxx"}
+  ---
+  duration_ms: 0.728416
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+ok 94 - malformed issued recovery success remains retryable: {"recoveryCode":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+  ---
+  duration_ms: 0.56
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: {"recoveryCode":42}
+ok 95 - malformed issued recovery success remains retryable: {"recoveryCode":42}
+  ---
+  duration_ms: 0.545375
+  type: 'test'
+  ...
+# Subtest: malformed issued recovery success remains retryable: null
+ok 96 - malformed issued recovery success remains retryable: null
+  ---
+  duration_ms: 0.44325
+  type: 'test'
+  ...
+# Subtest: finished: returning to lobby clears only settled local session state and makes no service mutation
+ok 97 - finished: returning to lobby clears only settled local session state and makes no service mutation
+  ---
+  duration_ms: 0.99375
+  type: 'test'
+  ...
+# Subtest: aborted: returning to lobby clears only settled local session state and makes no service mutation
+ok 98 - aborted: returning to lobby clears only settled local session state and makes no service mutation
+  ---
+  duration_ms: 0.265916
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during running
+ok 99 - return to lobby is forbidden during running
+  ---
+  duration_ms: 0.321542
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during stale
+ok 100 - return to lobby is forbidden during stale
+  ---
+  duration_ms: 0.371291
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during hidden
+ok 101 - return to lobby is forbidden during hidden
+  ---
+  duration_ms: 0.274292
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during foreign-uid
+ok 102 - return to lobby is forbidden during foreign-uid
+  ---
+  duration_ms: 0.276458
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during unsettled-command
+ok 103 - return to lobby is forbidden during unsettled-command
+  ---
+  duration_ms: 0.426375
+  type: 'test'
+  ...
+# Subtest: return to lobby is forbidden during unsettled-lifecycle
+ok 104 - return to lobby is forbidden during unsettled-lifecycle
+  ---
+  duration_ms: 0.55725
+  type: 'test'
+  ...
+# Subtest: a sending lifecycle operation blocks terminal return until its definitive response
+ok 105 - a sending lifecycle operation blocks terminal return until its definitive response
+  ---
+  duration_ms: 0.455833
+  type: 'test'
+  ...
+# Subtest: round order names pre-vote Blackout damage only for exact 1.3, preserving historical and mixed tuples
+ok 106 - round order names pre-vote Blackout damage only for exact 1.3, preserving historical and mixed tuples
+  ---
+  duration_ms: 3.939291
+  type: 'test'
+  ...
+# Subtest: library activation requires the exact reviewed art and gameplay pairing
+ok 107 - library activation requires the exact reviewed art and gameplay pairing
+  ---
+  duration_ms: 3.5485
+  type: 'test'
+  ...
+# Subtest: crew art reuses library mechanics only under the exact registered gameplay tuple
+ok 108 - crew art reuses library mechanics only under the exact registered gameplay tuple
+  ---
+  duration_ms: 1.593459
+  type: 'test'
+  ...
+# Subtest: pregame art extends library consumption without changing saved release choices
+ok 109 - pregame art extends library consumption without changing saved release choices
+  ---
+  duration_ms: 0.682791
+  type: 'test'
+  ...
+# Subtest: number labels sort numerically while preserving offered canonical command identities
+ok 110 - number labels sort numerically while preserving offered canonical command identities
+  ---
+  duration_ms: 0.307042
+  type: 'test'
+  ...
+# Subtest: patient feedback uses its authorized request status, and queued never means treated
+ok 111 - patient feedback uses its authorized request status, and queued never means treated
+  ---
+  duration_ms: 0.428042
+  type: 'test'
+  ...
+# Subtest: colored arrivals require matching live authoritative terminal facts
+ok 112 - colored arrivals require matching live authoritative terminal facts
+  ---
+  duration_ms: 0.365625
+  type: 'test'
+  ...
+# Subtest: exact historical Planet combinations remain admitted; every cross-pair is rejected
+ok 113 - exact historical Planet combinations remain admitted; every cross-pair is rejected
+  ---
+  duration_ms: 15.024
+  type: 'test'
+  ...
+# Subtest: changed or incomplete pins cannot activate a presentation capability
+ok 114 - changed or incomplete pins cannot activate a presentation capability
+  ---
+  duration_ms: 1.076833
+  type: 'test'
+  ...
+# Subtest: Food inherits the existing library, crew and both films without granting other setup flows
+ok 115 - Food inherits the existing library, crew and both films without granting other setup flows
+  ---
+  duration_ms: 0.118459
+  type: 'test'
+  ...
+# Subtest: historical pregame flow semantics stay separate from capability admission
+ok 116 - historical pregame flow semantics stay separate from capability admission
+  ---
+  duration_ms: 1.386458
+  type: 'test'
+  ...
+# Subtest: registered successors retain predecessor capabilities and callers cannot mutate the registry
+ok 117 - registered successors retain predecessor capabilities and callers cannot mutate the registry
+  ---
+  duration_ms: 0.698208
+  type: 'test'
+  ...
+1..117
+# tests 117
+# suites 0
+# pass 117
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 595.933542

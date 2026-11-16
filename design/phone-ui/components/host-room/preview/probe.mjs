@@ -11,7 +11,8 @@
 //             leaves, the focus goes to the screen, and onFocusReturn says which
 //   offline   the note under the card; it refuses nothing by itself; Frontend's refusals refuse, with the
 //             reason; Leave and Copy stay usable
-//   toast     once per id, 10 px under the nav bar, gone after 2.4 s; a new id replaces it
+//   toast     once per id, 10 px under the nav bar, gone after 2.4 s; a new id replaces it; the kit's toast
+//             (entry-parts 0.3.0), so it takes no tap: a tap at its centre reaches what is under it
 //   refused   not interactive: every control refused, nothing dimmed
 //   insets    Frontend's safe areas, or the browser's
 //   text      with the Largest text the screens scroll, and the foot is reached
@@ -161,24 +162,34 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
         && given.refused.every(Boolean) && given.why === LOBBY_WORDS.offline && JSON.stringify(given.taps) === '["onLeave","onCopy"]' && gone, seen };
     });
 
-    await check('toast: once per id, 10 px under the nav bar, gone after 2.4 s; a new id replaces it', async () => {
+    await check('toast: once per id, 10 px under the nav bar, gone after 2.4 s; a new id replaces it; a tap at its centre reaches what is under it', async () => {
       const m = mountLobby(lobbyOf());
       m.s.update({ copied: true, toast: { id: 'copied-1', text: 'Copied', icon: 'check' } });
       await frames();
-      const t = m.q('.ms-ep-toast');
+      const t = m.q('.ms-k-toast');
       for (const a of t.getAnimations()) a.finish();
       const nav = m.q('.ms-ep-nav');
       const first = { words: words(t), role: t.getAttribute('role'), top: rel(m.root, t), navBottom: rel(m.root, nav) + nav.getBoundingClientRect().height, copy: words(m.q('.ms-ep-copy')) };
+      // It takes no tap (the kit's toast): at its centre, a tap reaches what it lies over, as if it weren't there.
+      const r = t.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+      t.style.pointerEvents = 'auto';
+      const over = t.contains(document.elementFromPoint(x, y));
+      t.style.pointerEvents = '';
+      const hit = document.elementFromPoint(x, y);
+      t.style.display = 'none';
+      const without = document.elementFromPoint(x, y);
+      t.style.display = '';
+      const through = { over, none: getComputedStyle(t).pointerEvents === 'none', same: !!hit && hit === without && !t.contains(hit), under: hit?.className ?? null };
       m.s.update({ toast: { id: 'copied-1', text: 'Copied', icon: 'check' }, seats: { filled: 6, total: 9 } });
-      const same = m.q('.ms-ep-toast') === t;
+      const same = m.q('.ms-k-toast') === t;
       m.s.update({ toast: { id: 'refused-1', text: 'Select the room code to copy.', icon: 'info' } });
-      const replaced = { words: words(m.q('.ms-ep-toast')), count: m.qa('.ms-ep-toast').length };
+      const replaced = { words: words(m.q('.ms-k-toast')), count: m.qa('.ms-k-toast').length };
       await wait(ENTRY_TOAST_MS + 450);
-      const gone = m.qa('.ms-ep-toast').length === 0;
+      const gone = m.qa('.ms-k-toast').length === 0;
       m.s.dispose();
-      const seen = { first, same, replaced, gone };
+      const seen = { first, through, same, replaced, gone };
       return { ok: first.words === 'Copied' && first.role === 'status' && Math.abs(first.top - (first.navBottom + 10)) < 0.5 && first.top === 109 && first.copy === 'Copied'
-        && same && replaced.words === 'Select the room code to copy.' && replaced.count === 1 && gone, seen };
+        && through.over && through.none && through.same && same && replaced.words === 'Select the room code to copy.' && replaced.count === 1 && gone, seen };
     });
 
     await check('not interactive: every control refused, nothing dimmed', async () => {
@@ -231,7 +242,7 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
       screen.scrollTop = screen.scrollHeight;
       await frames();
       const start = m.q('.ms-hl-start').getBoundingClientRect(), box = m.root.getBoundingClientRect();
-      const nav = m.q('.ms-ep-nav'), t = m.q('.ms-ep-toast');
+      const nav = m.q('.ms-ep-nav'), t = m.q('.ms-k-toast');
       for (const a of t.getAnimations()) a.finish();
       const seen = { scrolls, startInView: start.bottom <= box.bottom - 34 && start.top >= box.top, toastTop: rel(m.root, t), navBottom: nav.offsetTop + nav.offsetHeight, fits };
       m.s.dispose();
@@ -265,12 +276,13 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
     await frames();
     const atRest = m.root.getAnimations({ subtree: true }).length;
     m.s.update({ toast: { id: 'm1', text: 'Copied', icon: 'check' } });
-    const full = m.q('.ms-ep-toast').getAnimations().map(a => a.animationName);
+    const full = m.q('.ms-k-toast').getAnimations().map(a => a.animationName);
     m.s.update({ reducedMotion: true, toast: { id: 'm2', text: 'Copied', icon: 'check' } });
-    const reduced = m.q('.ms-ep-toast').getAnimations().map(a => a.animationName);
+    const reduced = m.q('.ms-k-toast').getAnimations().map(a => a.animationName);
     m.s.dispose();
     const seen = { atRest, full, reduced };
-    return { ok: atRest === 0 && JSON.stringify(full) === (deviceReduced ? '["ms-ep-fade"]' : '["ms-ep-toast-in"]') && JSON.stringify(reduced) === '["ms-ep-fade"]', seen };
+    // The kit's toast (entry-parts 0.3.0): its drop and its fade are kit.css's.
+    return { ok: atRest === 0 && JSON.stringify(full) === (deviceReduced ? '["ms-k-fade"]' : '["ms-k-toast-in"]') && JSON.stringify(reduced) === '["ms-k-fade"]', seen };
   });
 
   frame.remove();

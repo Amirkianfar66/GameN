@@ -18,7 +18,7 @@ import { createControlPolicy, createKit } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 import { checkInsets } from './host-setup.mjs';
 
-export const HOST_LOBBY_VERSION = 'host-lobby-0.1.0';
+export const HOST_LOBBY_VERSION = 'host-lobby-0.1.1';
 const KINDS = Object.freeze(['host', 'person', 'bot']);
 const DEVICES = Object.freeze(['phone', 'display']);
 
@@ -198,10 +198,13 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
     placeToast();
     toast.update(state.toast);
   }
-  /** The toast 10 px under the nav bar (the Lead's review of #287, question 3), where the pack's sits under a bar. */
+  /**
+   * The toast 10 px under the nav bar (the Lead's review of #287, question 3), where the pack's sits under a bar: the
+   * kit's toast (0.1.1, kit 0.8.0) sits 10 px under --ms-k-toast-top, so that is where the nav bar ends.
+   */
   function placeToast() {
-    const value = `${Math.round((nav.offsetTop + nav.offsetHeight + 10) * 100) / 100}px`;
-    if (root.style.getPropertyValue('--ms-ep-toast-top') !== value) root.style.setProperty('--ms-ep-toast-top', value);
+    const value = `${Math.round((nav.offsetTop + nav.offsetHeight) * 100) / 100}px`;
+    if (root.style.getPropertyValue('--ms-k-toast-top') !== value) root.style.setProperty('--ms-k-toast-top', value);
   }
 
   // ── Layout ──────────────────────────────────────────────────────────

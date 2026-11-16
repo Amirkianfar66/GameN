@@ -1,0 +1,224 @@
+{
+  "scope": "Desktop Chromium with synthetic seat-bound snapshots and controllable transport. Browser touch. Production response headers.",
+  "candidate": {
+    "commit": "972dd61e0fd10b1e8fd379f188501b2fb53dedcb",
+    "dirty": ""
+  },
+  "timingScope": "Browser monotonic samples around synthetic receipt/READ gates. The script does not measure hosted credentials, HTTP or server timings.",
+  "art": {
+    "source": "1b2a4d525bc844a854139688f12114f800aa9ea9",
+    "manifestSha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "bundleSha256": "be68c20a64e9fdb98fb7724781bdfa270c58f3062aacb305749152ef18fb88f6",
+    "inventorySha256": "cdaca7859577bfd162071bea2e5165de82141491e5019c3db4308266a1f0f276",
+    "files": 67
+  },
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "panel": {
+        "releaseGateToAcceptedObservationMs": 8.5,
+        "oldReadSettlementToNextReadMs": 0
+      },
+      "winch": {
+        "closureLedReceiptLookup": true,
+        "lookupStillBlockedWhenClosureRetired": true
+      }
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "panel": {
+        "releaseGateToAcceptedObservationMs": 11.5,
+        "oldReadSettlementToNextReadMs": 0
+      },
+      "winch": {
+        "closureLedReceiptLookup": true,
+        "lookupStillBlockedWhenClosureRetired": true
+      }
+    }
+  ],
+  "captures": [
+    {
+      "file": "390x844-panel-release-sending.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-panel-03",
+      "label": "panel-release-sending",
+      "sha256": "796d23fdffd176ce1cf51e5e49516f8c5e46744c07f3cdb75f0367cf0f3f3578"
+    },
+    {
+      "file": "390x844-panel-lock-from-new-read.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-panel-04",
+      "label": "panel-lock-from-new-read",
+      "sha256": "18494f1f2e2303ba09c1e4f6ced42d528924e79a5fad80a24718735fea37c3b6"
+    },
+    {
+      "file": "390x844-winch-recovered-release-sending.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-winch-03",
+      "label": "winch-recovered-release-sending",
+      "sha256": "518b7bd0ba2ba909a7b63e2662d69a43954b0b5ce5a92f5a8d8fb434dd576b45"
+    },
+    {
+      "file": "390x844-winch-key-after-closure.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-winch-12",
+      "label": "winch-key-after-closure",
+      "sha256": "6469c06ced4e5613c511e9b1c65f40882a39dc2f8d09bfd9d9562a2ad82968fa"
+    },
+    {
+      "file": "430x932-panel-release-sending.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-panel-03",
+      "label": "panel-release-sending",
+      "sha256": "da12e160b2513cdf6628df2d16e4d938f98f477f186a011dfef23833e9818753"
+    },
+    {
+      "file": "430x932-panel-lock-from-new-read.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-panel-04",
+      "label": "panel-lock-from-new-read",
+      "sha256": "69df928092edec4785dd371ef43780b1a26c4cc5f83c1080d76e328d4747d319"
+    },
+    {
+      "file": "430x932-winch-recovered-release-sending.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-winch-03",
+      "label": "winch-recovered-release-sending",
+      "sha256": "1c251f6242945c99507453a84803c93913b5130113a7e5e3fbcc3dd7d049945d"
+    },
+    {
+      "file": "430x932-winch-key-after-closure.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-winch-12",
+      "label": "winch-key-after-closure",
+      "sha256": "8a5227827b0e5767edc559d3f43f4c41e5ab1e8a5744027ddd6088d8f5b861fb"
+    }
+  ],
+  "policy": [
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-jiFxGjDk.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-jiFxGjDk.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-jiFxGjDk.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-jiFxGjDk.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-jiFxGjDk.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-jiFxGjDk.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    }
+  ],
+  "fixtureFiles": [
+    {
+      "path": "app.html",
+      "bytes": 447,
+      "sha256": "e3f1bac4b56464a6416f727d1f10e50fdcae8a5b95976708c676af789dfc56e2"
+    },
+    {
+      "path": "assets/app-DLMupB0z.css",
+      "bytes": 256469,
+      "sha256": "41f184dca038cbd69dbca51d09be55323ccacbcb2d973ec1cb128025787914fc"
+    },
+    {
+      "path": "assets/app-jiFxGjDk.js",
+      "bytes": 2561819,
+      "sha256": "235cd1aab916ff0b988ba59c82fa3e936d395ca11e0cfa81bc90403cf22d234e"
+    }
+  ],
+  "fixtureUrl": "http://127.0.0.1:55501/app.html",
+  "browser": "Google Chrome 157.0.8103.51",
+  "passed": true
+}

@@ -1,6 +1,6 @@
 // Frontend lifecycle and exact-snapshot dispatch around the reviewed drawing copies.
 // Drawing sources remain exact; all inputs here are public identity, pose and match pins.
-import { PLANET_GAME_PINS, PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS, PLANET_FOOD_TASK_PINS } from '@mothership/contracts';
+import { PLANET_ART_RELEASES, resolvePlanetReleaseCapabilities } from '@mothership/contracts';
 import { CREW as HISTORICAL_CREW } from './scene-drawing/crew.mjs';
 import { dressedFigureSvg as historicalFigure, outfitFor } from './scene-drawing/wardrobe.mjs';
 import { CREW } from './crew-drawing/crew.mjs';
@@ -9,28 +9,36 @@ import { applyCrewFrame, applyCrewPose, CANONICAL_PREFIX, crewArtDefs, crewFrame
 import { crewMotion, hairFollow, isStill } from './crew-drawing/motion.mjs';
 
 export const CREW_ART_VERSION = 'design-0.7.0';
-const crewDrawingReleases=new Set([CREW_ART_VERSION,'design-0.8.0']);
-const requestsCrewDrawing=versions=>versions?.assetManifestVersion==='design-0.9.0'||crewDrawingReleases.has(versions?.assetManifestVersion);
+const requestsCrewDrawing = versions => {
+  const art = versions?.assetManifestVersion;
+  return Object.hasOwn(PLANET_ART_RELEASES, art) && PLANET_ART_RELEASES[art].capabilities.crewDrawing;
+};
 const managers = new WeakMap(), definitions = new WeakMap(), motionPreferences = new WeakMap();
 let rendererSequence = 0, definitionSequence = 0, externalSequence = 0;
 export const crewInstancePrefix = () => `crew-inline-${++externalSequence}`;
 export function hasCrewDrawing(versions) {
-  const matches=pins=>Object.entries(pins).every(([key,value])=>versions?.[key]===value);
-  return versions?.assetManifestVersion==='design-0.9.0'?matches(PLANET_FOOD_TASK_PINS)
-    :crewDrawingReleases.has(versions?.assetManifestVersion)&&[PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(matches);
+  if (!versions) return false;
+  // Only the five public pins participate in drawing selection.
+  const { protocolVersion, engineVersion, rulesetVersion, rulesetHash, assetManifestVersion } = versions;
+  return resolvePlanetReleaseCapabilities({
+    protocolVersion, engineVersion, rulesetVersion, rulesetHash, assetManifestVersion,
+  })?.crewDrawing === true;
 }
 export const crewForVersions = versions => hasCrewDrawing(versions) ? CREW : HISTORICAL_CREW;
 export function crewPortraitVariable(characterId, versions) {
-  if (!/^c[1-9]$/.test(characterId ?? '') || requestsCrewDrawing(versions) && !hasCrewDrawing(versions)) return 'none';
-  return `var(${hasCrewDrawing(versions) ? '--ms-asset-crew-portrait-' : '--ms-asset-piece-crew-card-'}${characterId}, none)`;
+  if (!/^c[1-9]$/.test(characterId ?? '')) return 'none';
+  const drawn = hasCrewDrawing(versions);
+  if (!drawn && requestsCrewDrawing(versions)) return 'none';
+  return `var(${drawn ? '--ms-asset-crew-portrait-' : '--ms-asset-piece-crew-card-'}${characterId}, none)`;
 }
 export function setCrewPictureSurface(root, versions) {
   if (hasCrewDrawing(versions)) root.dataset.crewArt = 'crew-drawing-1.0.0';
   else delete root.dataset.crewArt;
 }
 export function crewFigureSvg(characterId, skeleton, { versions = null, ...options } = {}) {
-  const crew = crewForVersions(versions), draw = hasCrewDrawing(versions) ? dressedFigureSvg : historicalFigure;
-  if (requestsCrewDrawing(versions) && !hasCrewDrawing(versions)) return null;
+  const drawn = hasCrewDrawing(versions);
+  if (!drawn && requestsCrewDrawing(versions)) return null;
+  const crew = drawn ? CREW : HISTORICAL_CREW, draw = drawn ? dressedFigureSvg : historicalFigure;
   return crew[characterId] ? draw(crew[characterId], skeleton, options) : null;
 }
 export { outfitFor };
