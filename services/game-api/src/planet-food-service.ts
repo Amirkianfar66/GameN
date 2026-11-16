@@ -996,7 +996,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const s=await d.load(tx,matchId),route=await activeInboxRoute(tx,s);
       if(!route)return null;
       const actor=authorize(s,uid,q),revision=actor?member(s,uid)!.bindingRevision:null;
-      return {s,route,actor,revision,liveListener:await worker.hasLiveListener(tx,route.scope)};
+      return {s,route,actor,revision,liveListener:await worker.liveListener(tx,route.scope)};
     });
     if(!captured)return undefined;
     const {s,route,actor,revision,liveListener}=captured,at=clock();
@@ -1005,6 +1005,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(!current||current.closedAt!==null||current.bindingEpoch!==route.bindingEpoch
         ||foodInboxScopeKey(current.scope)!==foodInboxScopeKey(route.scope))
         throw new FoodInboxMoved();
+      return worker.needsIntakeWake(tx,route.scope,liveListener);
     };
     const binding={uid,seatId:actor,revision};
     if(q.operation==='read'){
@@ -1013,7 +1014,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(actor&&task?.taskId===route.scope.taskId&&task.stage!=='ENDED'&&task.people.some(person=>person.seatId===actor&&person.alive)){
         const beat={operation:'foodHeartbeat' as const,matchId,taskId:route.scope.taskId};
         const intent=createFoodInboxIntent(route.scope,binding,beat,'snapshot-'+Math.floor(at/FOOD_HEARTBEAT_INTERVAL_MS));
-        await inbox.intake(intent,at,verify,!liveListener);
+        await inbox.intake(intent,at,verify);
       }
       return response(result,at);
     }
@@ -1027,7 +1028,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(q.operation==='foodCommand'&&(q.request.phaseId!==route.scope.phaseId
       ||q.request.command.type==='TASK_PRESS'&&q.request.command.taskId!==route.scope.taskId))return d.reject('NOT_ALLOWED');
     const intent=createFoodInboxIntent(route.scope,binding,request,original);
-    try{await inbox.intake(intent,at,verify,!liveListener);}
+    try{await inbox.intake(intent,at,verify);}
     catch(error){
       if(error instanceof PlanetFoodInboxConflict)
         return d.reject(q.operation==='foodCommand'||q.operation==='command'?'COMMAND_ID_CONFLICT':'REQUEST_ID_CONFLICT');
@@ -1306,15 +1307,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     if(!view.foodStream||!task)return {fresh:true};
     const {worker}=inboxPorts(),route=await activeInboxRoute(tx,s);
     if(!route||route.scope.taskId!==task.taskId)return {fresh:false};
-    const owner=await worker.readOwner(tx,route.scope),control=await tx.get<Control>(controlKey(s.matchId));
+    const owner=await worker.readOwner(tx,route.scope);
     const due=s.state?d.engine.planetDeadlineAt(s.state):null;
     const leases=service(s).leases,own=leases[view.foodPlayerView!.seatId];
     const expirations=Object.values(leases).filter(lease=>lease&&!lease.offline).map(lease=>lease!.expiresAt);
     const deadlines=[owner?.expiresAt,due,...expirations];
     const future=deadlines.filter((time):time is number=>typeof time==='number'&&time>at);
     const fresh=!!owner&&owner.expiresAt>at
-      &&(!control||control.processedSequence===control.nextSequence-1)&&!deadlines.some((time,index)=>
-        index>0&&typeof time==='number'&&time<=at)
+      &&![due,...expirations].some(time=>typeof time==='number'&&time<=at)
       &&(task.stage==='ENDED'||!!own&&!own.offline&&own.taskId===task.taskId&&own.expiresAt>at);
     return {fresh,...(future.length?{recheckAt:Math.min(...future)}:{})};
   }

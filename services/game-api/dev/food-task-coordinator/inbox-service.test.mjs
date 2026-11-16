@@ -6,7 +6,7 @@ import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey} from '../
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {envelope,seedTwoHumanTask} from './fixture.mjs';
 
-async function inboxMatch(t,{overlap=false,live=false}={}){
+async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   const real=createLoopbackFoodStore();
   let failAfterOwnerClaim=false, ownerWasClaimed=false;
   const joined=Promise.withResolvers(), trailing=Promise.withResolvers();
@@ -47,7 +47,7 @@ async function inboxMatch(t,{overlap=false,live=false}={}){
     trailingReply=h.invoke(uid,'foodCommand',{request:trailingRequest});
     return original;
   }:undefined;
-  const seeded=await seedTwoHumanTask(store,7,{foodAuthorityProfile:PLANET_FOOD_OWNER_INBOX_PROFILE,submitJoin});
+  const seeded=await seedTwoHumanTask(store,7,{foodAuthorityProfile:PLANET_FOOD_OWNER_INBOX_PROFILE,submitJoin,humans});
   const {h}=seeded;
   const read=path=>store.readOnly(tx=>tx.get(path));
   const route=await read('foodInboxRoute/'+h.matchId);
@@ -276,4 +276,116 @@ test('production listener keeps a warm owner, wakes independently and publishes 
     await ownerRun;
     assert.equal(stopped.ok,true,JSON.stringify(stopped));
   }
+});
+
+test('one real-time bounded worker covers the full common return under concurrent traffic', {timeout:105_000},async t=>{
+  const {h,task,winch,panel,route,read,store}=await inboxMatch(t,{live:true,humans:2});
+  const available=await Promise.all((await store.listKeys('foodInboxWake',100)).map(read));
+  const bootstrap=available.find(record=>record?.wake.scope.matchId===h.matchId).wake;
+  const origin=performance.now(),start=task.options.startedAt;
+  const now=()=>start+Math.floor(performance.now()-origin);
+  h.reload({clock:now});
+  let ownerRun,stopping=false;
+  const timeOfDispatch=performance.now();
+  await h.service.dispatchFoodInboxWake(bootstrap.id,async wake=>{
+    ownerRun=h.service.runFoodInbox(wake);
+    void ownerRun.catch(()=>{});
+  });
+  const ownerPath='foodInboxOwner/'+foodInboxScopeKey(route.scope);
+  let owner;
+  for(let pass=0;pass<100&&!owner;pass++){
+    owner=await read(ownerPath);
+    if(!owner)await sleep(10);
+  }
+  assert.ok(owner);
+  const localBootstrapMs=performance.now()-timeOfDispatch;
+  const heartbeatMs=[],buttonMs=[];
+  let sampled=0,stale=0,botWakes=0,observerReads=0;
+  const traffic=[];
+  for(const uid of [winch,panel])traffic.push((async()=>{
+    while(!stopping){
+      const frame=await h.service.projectFoodInboxDelivery(uid,h.matchId);
+      if(frame.snapshot.foodPublicView?.step?.kind!=='AWAY'||frame.snapshot.foodPlayerView.participantTask.stage==='ENDED')return;
+      const sent=performance.now();
+      const response=await h.invoke(uid,'foodHeartbeat',{matchId:h.matchId,taskId:route.scope.taskId});
+      if(response.ok)heartbeatMs.push(performance.now()-sent);
+      else assert.equal(response.error.code,'NOT_ALLOWED',JSON.stringify(response));
+      await sleep(800);
+    }
+  })());
+  traffic.push((async()=>{
+    while(!stopping){
+      for(const uid of [winch,panel]){
+        const delivery=await h.service.projectFoodInboxDelivery(uid,h.matchId);
+        if(delivery.snapshot.foodStream){
+          sampled++;
+          if(!delivery.fresh)stale++;
+        }
+      }
+      await sleep(200);
+    }
+  })());
+  traffic.push((async()=>{
+    while(!stopping){
+      const display=await h.service.projectFoodInboxDelivery(h.display,h.matchId);
+      assert.equal(display.fresh,true);
+      assert.equal(display.recheckAt,undefined);
+      observerReads++;
+      const bots=await h.service.runBots(h.matchId);
+      if(display.snapshot.foodStream){assert.equal(bots.accepted,0);botWakes++;}
+      await sleep(680);
+    }
+  })());
+  for(const load of traffic)void load.catch(()=>{});
+  async function offered(uid,predicate){
+    for(let pass=0;pass<200;pass++){
+      const frame=await h.service.projectFoodInboxDelivery(uid,h.matchId);
+      const view=frame.snapshot.foodPlayerView, own=view?.participantTask;
+      if(frame.fresh&&own?.stage==='ACTIVE'&&predicate(own,view))return {own,view};
+      await sleep(40);
+    }
+    assert.fail('Expected current authoritative control offer');
+  }
+  async function send(uid,{own,view},input){
+    const sent=performance.now();
+    const request=envelope(view,{type:'TASK_PRESS',taskId:route.scope.taskId,controlSessionId:own.controlSessionId,
+      expectedControlRevision:own.controlRevision,input});
+    const result=await h.invoke(uid,'foodCommand',{request});
+    assert.equal(result.ok,true,JSON.stringify(result));
+    assert.equal(result.result.receipt.status,'accepted',JSON.stringify(result));
+    buttonMs.push(performance.now()-sent);
+  }
+  try{
+    const winchOffer=await offered(winch,(_own,view)=>view.offers.some(offer=>offer.type==='TASK_PRESS'&&offer.inputs.includes('HOLD')));
+    const gesture={kind:'HOLD',gestureSequence:1,crateId:winchOffer.own.crate.id};
+    await send(winch,winchOffer,{...gesture,edge:'DOWN'});
+    const panelOffer=await offered(panel,(own,view)=>own.crate.state==='HELD'&&view.offers.some(offer=>
+      offer.type==='TASK_PRESS'&&offer.inputs.includes('PANEL_RELEASE')));
+    await send(panel,panelOffer,{kind:'PANEL_RELEASE'});
+    const contact=await offered(winch,own=>own.ownGesture.currentHolder?.sequence===1);
+    await send(winch,contact,{...gesture,edge:'UP'});
+    await ownerRun;
+    const completed=await read('foodInboxResult/'+foodInboxScopeKey(route.scope));
+    const finalOwner=await read(ownerPath);
+    assert.equal(finalOwner.epoch,owner.epoch);
+    assert.equal(finalOwner.expiresAt,0);
+    assert.ok(completed.closedAt>=task.returnsAt&&completed.closedAt-task.returnsAt<1_000);
+    assert.ok(heartbeatMs.length>=48, 'Both clients kept their presence loop until the physical Task ended');
+    const retained=await Promise.all((await store.listKeys('foodInboxWake',100)).map(read));
+    const watchdogs=retained.filter(record=>record?.watchdogFor===owner.id);
+    assert.ok(watchdogs.length>=2, 'The same leased owner persisted multiple expiry wake revisions');
+    const percentile=(values,p)=>Math.round([...values].sort((a,b)=>a-b)[Math.ceil(values.length*p)-1]);
+    t.diagnostic(JSON.stringify({localBootstrapMs:Math.round(localBootstrapMs),heartbeats:heartbeatMs.length,
+      heartbeatP95Ms:percentile(heartbeatMs,.95),heartbeatMaxMs:percentile(heartbeatMs,1),
+      controlCount:buttonMs.length,controlP95Ms:percentile(buttonMs,.95),controlMaxMs:percentile(buttonMs,1),
+      ownerHandoffs:finalOwner.epoch-owner.epoch,watchdogs:watchdogs.length,staleParticipantSamples:stale,
+      participantSamples:sampled,botWakes,observerReads,returnDriftMs:completed.closedAt-task.returnsAt}));
+  }finally{
+    stopping=true;
+    if(!(await read('foodInboxResult/'+foodInboxScopeKey(route.scope)))){
+      await h.invoke(h.host,'abort',{matchId:h.matchId,requestId:h.nextId()});
+    }
+    await Promise.allSettled([ownerRun,...traffic]);
+  }
+  await Promise.all(traffic);
 });

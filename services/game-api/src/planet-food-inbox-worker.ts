@@ -19,9 +19,11 @@ export type PlanetFoodInboxStep='again'|{readonly closed:boolean;readonly nextAt
 export class LostFoodInboxAuthority extends Error {}
 export const foodInboxRouteKey=(matchId:string)=>'foodInboxRoute/'+matchId;
 const scopedRouteKey=(scope:PlanetFoodInboxScope)=>'foodInboxScopeRoute/'+foodInboxScopeKey(scope);
+const listenerGateKey=(scope:PlanetFoodInboxScope)=>'foodInboxListenerGate/'+foodInboxScopeKey(scope);
 const ownerKey=(scope:PlanetFoodInboxScope)=>'foodInboxOwner/'+foodInboxScopeKey(scope);
 const LEASE_MS=8_000;
-const MAX_WALL_MS=20_000,MAX_PASSES=192;
+// A normal 32.5 s Task fits one private invocation below the 60 s handler cap.
+const MAX_WALL_MS=45_000,MAX_PASSES=1_024;
 const wakeId=(parts:unknown)=>createHash('sha256').update(JSON.stringify(parts)).digest('hex');
 
 export function createPlanetFoodInboxWorker(d:{
@@ -39,10 +41,17 @@ export function createPlanetFoodInboxWorker(d:{
   function stage(tx:PlanetTransaction,scope:PlanetFoodInboxScope,identity:string,wakeAt:number,watchdogFor?:string):void{
     inbox.stageWake(tx,{kind:'food-inbox',id:wakeId([foodInboxScopeKey(scope),identity,wakeAt]),scope,wakeAt},watchdogFor);
   }
-  async function hasLiveListener(tx:PlanetReadTransaction,scope:PlanetFoodInboxScope):Promise<boolean>{
-    if(!store.watchFoodInbox)return false;
+  async function liveListener(tx:PlanetReadTransaction,scope:PlanetFoodInboxScope):Promise<PlanetFoodInboxOwner|null>{
+    if(!store.watchFoodInbox)return null;
     const previous=await owner(tx,scope);
-    return previous!==null&&previous.expiresAt>clock();
+    return previous&&previous.expiresAt>clock()?previous:null;
+  }
+  async function needsIntakeWake(tx:PlanetReadTransaction,scope:PlanetFoodInboxScope,observed:PlanetFoodInboxOwner|null):Promise<boolean>{
+    if(!observed||observed.expiresAt<=clock())return true;
+    // Intake reads the generation gate, never the renewed owner record in its
+    // write transaction. Claim/release advance the gate and its wake atomically.
+    const gate=await tx.get<{ownerId:string;epoch:number}>(listenerGateKey(scope));
+    return !gate||gate.ownerId!==observed.id||gate.epoch!==observed.epoch;
   }
   async function requireOwner(tx:PlanetReadTransaction,authority:PlanetFoodInboxAuthority):Promise<PlanetFoodInboxRoute>{
     const current=await tx.get<PlanetFoodInboxRoute>(scopedRouteKey(authority.scope));
@@ -71,7 +80,9 @@ export function createPlanetFoodInboxWorker(d:{
       // A live listener either handles the input or atomically schedules the
       // next owner. A crash leaves the most recent lease-expiry wake durable.
       if(previous&&previous.expiresAt>at)return null;
-      return saveAuthority(tx,wake.scope,{id,epoch:(previous?.epoch??0)+1,expiresAt:at+LEASE_MS});
+      const claimed=saveAuthority(tx,wake.scope,{id,epoch:(previous?.epoch??0)+1,expiresAt:at+LEASE_MS});
+      if(store.watchFoodInbox)tx.set(listenerGateKey(wake.scope),{ownerId:id,epoch:claimed.owner.epoch});
+      return claimed;
     });
   }
   async function renew(authority:PlanetFoodInboxAuthority):Promise<PlanetFoodInboxAuthority>{
@@ -84,6 +95,7 @@ export function createPlanetFoodInboxWorker(d:{
     await store.transaction(async tx=>{
       await requireOwner(tx,authority);
       tx.set(ownerKey(authority.scope),{...authority.owner,expiresAt:0} satisfies PlanetFoodInboxOwner);
+      if(store.watchFoodInbox)tx.delete(listenerGateKey(authority.scope));
       if(continues)stage(tx,authority.scope,'continued:'+authority.owner.id,clock());
     });
   }
@@ -131,5 +143,5 @@ export function createPlanetFoodInboxWorker(d:{
       stop?.();
     }
   }
-  return {route,setRoute,stage,requireOwner,hasLiveListener,readOwner:owner,ownerWatchKey:ownerKey,runFoodInbox};
+  return {route,setRoute,stage,requireOwner,liveListener,needsIntakeWake,readOwner:owner,ownerWatchKey:ownerKey,runFoodInbox};
 }

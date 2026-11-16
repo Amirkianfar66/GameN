@@ -62,10 +62,10 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
     tx.foodInboxIndex.create(scopeKey,intent.id);
   }
   async function intake(intent:PlanetFoodInboxIntent,wakeAt:number,
-    verify?:(tx:PlanetReadTransaction)=>Promise<void>,wakeRequired=true):Promise<PlanetFoodIntakeReceipt>{
+    verify?:(tx:PlanetReadTransaction)=>Promise<boolean>):Promise<PlanetFoodIntakeReceipt>{
     try{
       await store.transaction(async tx=>{
-        if(verify)await verify(tx);
+        const wakeRequired=verify?await verify(tx):true;
         stageIntake(tx,intent,wakeAt,wakeRequired);
       });
       return {kind:'queued',id:intent.id,duplicate:false};
