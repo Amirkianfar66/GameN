@@ -1,12 +1,12 @@
 // mothership:dev-only
 //
-// The shell beside the pack: the pinned prototype's topBar() and tabs() (design/phone-ui/prototype/ui.mjs
+// The shell beside the pack: the pinned prototype's topBar(), tabs() and sheet() (design/phone-ui/prototype/ui.mjs
 // with kit.css, which the frozen Food release pins, so they stay as they are) and the runtime shell
 // (../phone-shell.mjs), drawn in the same page from the same inputs, compared case by case: the words,
 // the states (open, unavailable, the hero's mode) and where each part sits, to within half a pixel. It
 // is how the shell shows it draws the pack's bars and not a second design of them.
 
-import { topBar, tabs } from '../../../prototype/ui.mjs';
+import { topBar, tabs, sheet, button } from '../../../prototype/ui.mjs';
 import { mountPhoneShell } from '../phone-shell.mjs';
 import { seatOf } from '../../../prototype/fixtures.mjs';
 
@@ -40,6 +40,22 @@ const CASES = [
   { id: 'large-phase', text: 200, width: 320, height: 568, insets: { top: 20, bottom: 0 },
     pack: { bar: { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, seconds: 3, ring: 0.6 }, tabs: { view: 'room', hero: 'vote-off' } },
     shell: { bar: { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'vote', enabled: false } } } },
+  // A docked sheet with Back (0.2.5): the pack's sheet() as sheet 15 draws it. The code's view: its title and the
+  // line under it, Back, Close, and Hide · Copy in the footer; the confirm: Keep playing · Abort match (warn).
+  { id: 'sheet-code', pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
+    sheet: { title: 'Recovery code', sub: 'Private to this phone', back: 's=host-controls', close: true, detent: 'large', foot: () => [button('Hide', { kind: 'secondary', icon: 'hide' }), button('Copy', { icon: 'copy' })] } },
+    shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } },
+      sheet: { id: 'code', title: 'Recovery code', sub: 'Private to this phone', back: true, close: true, detent: 'large', actions: [{ id: 'hide', label: 'Hide', icon: 'hide', local: true }, { id: 'copy', label: 'Copy', icon: 'copy', kind: 'primary', local: true }] } } },
+  { id: 'sheet-abort', pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
+    sheet: { title: 'Host controls', back: 's=host-controls', close: true, detent: 'large', foot: () => [button('Keep playing', { kind: 'secondary' }), button('Abort match', { kind: 'warn' })] } },
+    shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } },
+      sheet: { id: 'abort', title: 'Host controls', back: true, close: true, detent: 'large', actions: [{ id: 'keep', label: 'Keep playing', local: true }, { id: 'abort', label: 'Abort match', kind: 'warn' }] } } },
+  // The same at 200 % text on the review frame: the title and its line wrap as the pack's, and Hide · Copy, which
+  // fit side by side, keep the pack's equal halves.
+  { id: 'large-sheet-code', text: 200, pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
+    sheet: { title: 'Recovery code', sub: 'Private to this phone', back: 's=host-controls', close: true, detent: 'large', foot: () => [button('Hide', { kind: 'secondary', icon: 'hide' }), button('Copy', { icon: 'copy' })] } },
+    shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } },
+      sheet: { id: 'code', title: 'Recovery code', sub: 'Private to this phone', back: true, close: true, detent: 'large', actions: [{ id: 'hide', label: 'Hide', icon: 'hide', local: true }, { id: 'copy', label: 'Copy', icon: 'copy', kind: 'primary', local: true }] } } },
 ];
 
 /** The parts compared, as [name, the pack's selector, the shell's selector]. */
@@ -52,7 +68,25 @@ const PARTS = [
   ['tab-actions', '.tab[data-tab="actions"]', '.ms-ps-tab[data-value="actions"]'], ['hero', '.hero', '.ms-ps-hero'],
   ['tab-card', '.tab[data-tab="card"]', '.ms-ps-tab[data-value="card"]'], ['tab-panels', '.tab[data-tab="panels"]', '.ms-ps-tab[data-value="panels"]'],
   ['panels-badge', '.tab[data-tab="panels"] .badge-dot', '.ms-ps-tab[data-value="panels"] .ms-ps-badge:not([hidden])'],
+  // A docked sheet, where a case draws one (none elsewhere, in both).
+  ['sheet', '.sheet', '.ms-ps-sheet'], ['sheet-head', '.sheet-head', '.ms-ps-sheet-head'],
+  ['sheet-back', '.sheet-head > .icon-btn[aria-label="Back"]', '.ms-ps-sheet-head > [data-intent="sheet-back"]'],
+  ['sheet-title', '.sheet-title h2', '.ms-ps-sheet-title h2'], ['sheet-sub', '.sheet-title p', '.ms-ps-sheet-title p'],
+  ['sheet-close', '.sheet-head > .icon-btn[aria-label="Close"]', '.ms-ps-sheet-head > [data-intent="sheet-close"]'],
+  ['sheet-foot', '.sheet-foot', '.ms-ps-sheet-foot'],
+  ['foot-1', '.sheet-foot > .btn:nth-child(1)', '.ms-ps-sheet-foot > .ms-k-btn:nth-child(1)'],
+  ['foot-2', '.sheet-foot > .btn:nth-child(2)', '.ms-ps-sheet-foot > .ms-k-btn:nth-child(2)'],
 ];
+/** The parts whose words are compared besides the bar's and the tabs'. */
+const SHEET_WORDS = new Set(['sheet-title', 'sheet-sub', 'foot-1', 'foot-2']);
+/** A button's kind, from the pack's .btn-<kind> or the kit's .ms-k-btn-<kind>. */
+const KINDS = ['primary', 'secondary', 'warn', 'tinted', 'plain', 'outline'];
+const kindOf = (node, prefix) => (node ? ([...node.classList].map(c => (c.startsWith(prefix) ? c.slice(prefix.length) : null)).find(k => KINDS.includes(k)) ?? null) : null);
+/** Waits for a part's finite animations to end (a sheet slides in), so it is measured where it rests. */
+const settle = async node => {
+  if (!node) return;
+  await Promise.all(node.getAnimations().filter(a => Number.isFinite(a.effect?.getComputedTiming?.().endTime)).map(a => a.finished.catch(() => null)));
+};
 
 const visible = node => !!node && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden';
 function box(frame, node) {
@@ -76,14 +110,19 @@ export async function runPhoneShellAgreement({ size, versions }) {
     Object.assign(pack.style, { position: 'absolute', left: '0', top: '0', width: `${width}px`, height: `${height}px` });
     pack.style.setProperty('--safe-t', `${insets.top}px`);
     pack.style.setProperty('--safe-b', `${insets.bottom}px`);
-    pack.append(topBar(c.pack.bar), tabs(c.pack.tabs));
+    // A sheet docks between the bars, as the pack's game screens dock it (screens.mjs game()), before the tabs.
+    const sheetNodes = c.pack.sheet ? sheet({ ...c.pack.sheet, foot: c.pack.sheet.foot?.() ?? null }) : [];
+    for (const node of sheetNodes) node.dataset.docked = '';
+    pack.append(topBar(c.pack.bar), ...sheetNodes, tabs(c.pack.tabs));
     const host = document.createElement('div');
     Object.assign(host.style, { position: 'absolute', left: `${width + 20}px`, top: '0', width: `${width}px`, height: `${height}px` });
     document.body.append(pack, host);
-    const shell = mountPhoneShell(host, { versions, insets, bar: c.shell.bar, tabs: { variant: 'game', ...c.shell.tabs } });
+    const shell = mountPhoneShell(host, { versions, insets, bar: c.shell.bar, tabs: { variant: 'game', ...c.shell.tabs }, sheet: c.shell.sheet ?? null });
     await document.fonts.ready;
     await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
     const root = shell.element;
+    await settle(pack.querySelector('.sheet'));
+    await settle(root.querySelector('.ms-ps-sheet'));
     const differences = [];
     const parts = {};
     for (const [name, packSel, shellSel] of PARTS) {
@@ -94,6 +133,7 @@ export async function runPhoneShellAgreement({ size, versions }) {
       parts[name] = { pack: pa, shell: pb, words: wa };
       if (!near(pa, pb)) differences.push({ part: name, what: 'box', pack: pa, shell: pb });
       if (wa !== wb && (name.endsWith('badge') || ['name', 'sub', 'round', 'timer'].includes(name) || name.startsWith('tab-'))) differences.push({ part: name, what: 'words', pack: wa, shell: wb });
+      if (SHEET_WORDS.has(name) && words(a) !== words(b)) differences.push({ part: name, what: 'words', pack: words(a), shell: words(b) });
     }
     // The states: open tabs, the hero's mode and whether it can be pressed, and the accessible names the pack sets.
     const states = [
@@ -105,6 +145,9 @@ export async function runPhoneShellAgreement({ size, versions }) {
       ['promises name', pack.querySelector('.tb-promises')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-promises')?.getAttribute('aria-label') ?? null],
       ['menu name', pack.querySelector('.tb-menu')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-menu')?.getAttribute('aria-label') ?? null],
       ['bar kind', pack.querySelector('.tb')?.dataset.kind, root.querySelector('.ms-ps-tb')?.dataset.kind],
+      ['back name', pack.querySelector('.sheet-head > .icon-btn[aria-label="Back"]')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-sheet-head > [data-intent="sheet-back"]')?.getAttribute('aria-label') ?? null],
+      ['foot-1 kind', kindOf(pack.querySelector('.sheet-foot > .btn:nth-child(1)'), 'btn-'), kindOf(root.querySelector('.ms-ps-sheet-foot > .ms-k-btn:nth-child(1)'), 'ms-k-btn-')],
+      ['foot-2 kind', kindOf(pack.querySelector('.sheet-foot > .btn:nth-child(2)'), 'btn-'), kindOf(root.querySelector('.ms-ps-sheet-foot > .ms-k-btn:nth-child(2)'), 'ms-k-btn-')],
       ...['actions', 'card', 'panels'].map(k => [`${k} open`, pack.querySelector(`.tab[data-tab="${k}"]`)?.getAttribute('aria-expanded'), root.querySelector(`.ms-ps-tab[data-value="${k}"]`)?.getAttribute('aria-expanded')]),
     ];
     for (const [what, a, b] of states) if (a !== b) differences.push({ part: 'state', what, pack: a ?? null, shell: b ?? null });
