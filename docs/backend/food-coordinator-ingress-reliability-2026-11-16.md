@@ -2,6 +2,8 @@
 
 Follow-up to [#274](https://github.com/Amirkianfar66/GameN/issues/274) and [draft #286](https://github.com/Amirkianfar66/GameN/pull/286). Recorded base `76f06302e10d29b0b3598d87a41bf427e6e9135b`. Trace-only source `cdc3cafcd52373387a27938c41152149c7c5350f`. Corrected source `0d2969db3ad851cb489fd2e3ed5706e5d4ec9942`. The earlier no-go and its 10.645-second heartbeat remain part of #286's evidence.
 
+This document records successive experiments, not one interchangeable implementation. The current combined candidate is `68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d` in [draft #290](https://github.com/Amirkianfar66/GameN/pull/290). See [final review corrections](#final-review-corrections) for the selected recovery and client-clock changes. It is not deployed; earlier latency measurements do not establish the changed candidate's hosted performance.
+
 ## Local causal trace
 
 With the original owner FIFO and the same seven-player, two-operator script, trial 03 reproduced a 10.056-second heartbeat and stale-owner responses. The first competing writer was owner renewal. Renewal read the owner record, prepared writes for it, and entered commit. The first heartbeat in the FIFO had already read that record's metadata and began the fragment read while renewal was committing against the same key. Renewal's commit returned code 10 after 2,019.8 ms. The heartbeat's fragment read returned code 3 after 8,842.6 ms. Its retry ultimately returned `STALE_OWNER`. The complete heartbeat storage operation held the FIFO for 10,044.1 ms. The next heartbeat received the same stale-owner refusal after waiting behind it. Trial 01 exposed the same overlap with a 2,003.4 ms fragment read and a 2,043 ms worst heartbeat. Trial 02 completed without a multi-second span.
@@ -153,3 +155,33 @@ Integration supplied the exact source chain `491e2819ada55c303b4c25b74c4ac3a408d
 The API-only source is the candidate for the next browser comparison. It lowered heartbeat admission and apply p95 in both passes. The warm-prefix cut did not show a repeatable improvement over API-only. API-only still exceeds the proposed 150 ms receive-to-apply p95 target. Its heartbeat maxima also varied across runs. These loopback measurements timestamp the service and Firestore stages. They do not measure browser LOCK or touch-to-render. [Per-trial results and build hashes](evidence/food-owner-renewal-2026-11-16/inbox-read-cuts-comparison.json)
 
 Frontend's three original `491e2819` native attempts used 50 ±10 ms each way, for nominal 100 ms RTT. LOCK was admitted 1,201, 1,227 and 1,359 ms after RELEASE. Touch occurred while stop 6 was visibly cued. The first two admitted LOCK at stop 6 and delivered. The third admitted LOCK at stop 7 and lost the Task, with Winch still alive. The earlier unshaped `d4967a1a` trial is the separate Winch-elimination case. A new normal-network run on the selected runtime is needed for native acceptance. [Frontend evidence](/private/tmp/gamen-food-watch-silence-client-20261116/docs/frontend/evidence/food-stream-2026-11-16/README.md)
+
+## Final review corrections
+
+The API-only candidate at `16bf9703` subsequently completed three native Tasks with all 18 original inputs accepted and all three LOCKs at the intended stop. That evidence remains in [the API-only report](../frontend/evidence/food-stream-2026-11-16/api-only.md). Its maximum observed rendering opportunity was 356.9 ms; five of 18 observations exceeded the proposed 300 ms target. It is not the final clock/recovery candidate and does not establish a per-input percentile.
+
+Final review reproduced two additional production gaps and one inherited experiment-adapter failure:
+
+- A successfully enqueued wake was excluded from repair even if delivery never reached an owner. The corrected implementation retains a due recovery time for JOIN, owner-expiry and continuation wakes. Periodic repair atomically retires a stale generation and creates a new queue identity. It checks the current scope and owner before recovery. The existing due-field query includes recoverable dispatched wakes, so historical dispatched records do not hide due work behind the 100-row limit. This uses the existing private handler, queue and repair scheduler.
+- Closure may commit before the worker acknowledges it or refuses the remaining queued inputs. Matching recovery wakes may finish those durable `NOT_ALLOWED` refusals. They do not reopen the Task or add gameplay admissions. An empty closed Task rejects late wakes. The regressions cover both direct watchdog delivery and periodic repair, exact-once refusal, and unchanged parent state, result, journal and ingress counters on replay.
+- The paired Food clock response already carried server receive/send times. The client used only the send time against the entire request midpoint, making a 360 ms handler shift the display 180 ms fast in the regression. Food now uses all four timestamps and excludes server work from the transit interval. It adds one millisecond of uncertainty for server timestamp precision and rejects impossible intervals. Other clock callers retain their old behavior. This does not change authoritative input times, and it is not evidence that this error caused the earlier LOCK miss.
+
+The experiment-only coordinator also now durably refuses stale-binding intents and consumes exact duplicate intents. Its original queue-progress and deduplication assertions remain; the historical no-go measurements were not rewritten.
+
+Combined runtime `68000faa` contains Backend bytes identical to `c9bf322602fde5f7b2ce03df89d2fc625f59c5dd` and Frontend bytes identical to `427dc0d143430babdcf4ade00429a32c4fb25edc`. Integration verified both comparisons with `git diff --exit-code`. The backend chain is `7347bf0c` → `233ea57f` → `78bd6694` → `c9bf3226`; the final commit preserves necessary post-close cleanup while retaining the empty-Task fence.
+
+### Verification and limits
+
+| Evidence | Exact scope and result |
+| --- | --- |
+| Backend/Firebase regression | 704/704 passed on the final Backend source, with build and both typechecks. |
+| Firestore inbox regression | 19/19 passed, including first-wake loss, lost continuation, obsolete watchdog, closed-result lost acknowledgement, identity recovery, deduplication and simultaneous Tasks. |
+| Negative reproductions | The stale-binding case failed before the adapter correction. The lost first wake failed before recovery. Both post-close cleanup cases failed on `78bd6694` before `c9bf3226`. |
+| Client clock checks | Frontend reported 178 focused checks, both typechecks and production exclusion passed on `427dc0d1`. The regression reproduced the 180 ms bias and acceptance of an impossible processing interval on the old source. |
+| Real local Functions/Tasks | 1/1 passed on Backend `233ea57f`: owner boot 1,634 ms after JOIN; concurrent heartbeat pair 984 ms. The recorded temporary loopback port mapping was required by occupied canonical ports. This predates only the later closed-Task fence/cleanup changes, which the 19-case suite covers; it is not labelled a final-head cold-run result. |
+| Final standalone Planet artifact | Built and installed from locked dependencies at combined `68000faa`; export and forbidden-source checks passed. Artifact SHA-256 `c0628713c13d621d5658769abfc884a0365f906bd8fa9f0c5692745641693eec`; compiled source SHA-256 `0c01209e30a1db76000e32114e67acb25928f006194f994be30ac6ad57d268f7`. |
+| Historical V1 artifact | Locked standalone install passed before the final Planet-only recovery changes. Artifact SHA-256 `fa0c3509e0e41f233cf70dbdafcd088c1355a5afbf3545ca6729991d1c115b95`. |
+
+Local raw-log SHA-256 values: final Backend `c57853deaccf8a3252eff35b5fcda8857a2396faa6343de663f66a0f991a13a2`; final Firestore `627588db07e3b6a1bbb9f61a26f3e97d4c13469b4130e38a296fefeed1b17176`; `233ea57f` cold Functions `5211b6d2d8d4bd5815737d75983b7331fe7c7bdf4ab65dfa9af569cb445472d2`. These identify local evidence, not publicly downloadable test logs.
+
+Frontend is repeating the native normal-network attempts and production-header visual comparison on the combined pin. Designer's explicit PR acceptance, exact client-source admission and required final CI remain open. The current source check correctly rejects the changed consumer against the previous approval; it was not bypassed. Hosted queue headroom, browser response times on staging and physical-phone performance remain unverified. Creation-profile activation and deployment have not occurred.
