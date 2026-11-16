@@ -1,0 +1,34 @@
+/*
+ * The entry choice's styles: runtime source, Designer's (entry-parts.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/screens.css .entry; kit.css * and button), in the kit's tokens, scoped under
+ * the root class a component adds (.ms-entry-parts), at one class's weight as the kit's are, so that a
+ * component places a choice with one more class. The kit's tokens come from the component's .ms-kit root.
+ */
+
+.ms-entry-parts :where(.ms-ep-entry, .ms-ep-entry *) { box-sizing: border-box; }
+.ms-entry-parts :where(.ms-ep-entry) {
+  display: flex; align-items: center; gap: 14px; width: 100%; min-height: 76px; margin: 0; padding: 12px 16px;
+  border: 0; border-radius: 18px; text-align: left; font: inherit;
+  color: var(--ms-k-text); background: var(--ms-k-surface-2); box-shadow: inset 0 0 0 1px var(--ms-k-hairline);
+  /* A tappable part drawn here: the hand cursor, and no tap highlight of the browser's own (the kit's rule). */
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.ms-entry-parts :where(.ms-ep-entry:focus-visible) { outline: 3px solid #FFD36D; outline-offset: 2px; }
+.ms-entry-parts :where(.ms-ep-icon) {
+  flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+  background: var(--ms-k-surface-4); color: var(--ms-k-paper); --ic-knock: var(--ms-k-surface-4);
+}
+.ms-entry-parts :where(.ms-ep-icon .ms-ep-ic) { width: 28px; height: 28px; }
+.ms-entry-parts :where(.ms-ep-title) { display: block; font: 700 1.1875rem/1.2 var(--ms-k-font); letter-spacing: -0.01em; }
+.ms-entry-parts :where(.ms-ep-sub) { display: block; margin-top: 2px; font: 500 0.875rem/1.3 var(--ms-k-font); color: var(--ms-k-text-2); }
+/* The pack's .row-chev, as .entry sizes it: an 18 px place for the chevron. */
+.ms-entry-parts :where(.ms-ep-chev) { flex: none; margin-left: auto; width: 18px; height: 18px; color: var(--ms-k-steel-mid); }
+
+/* The primary choice: amber, the tile in ink with the icon in amber (sheet 10's Join). */
+.ms-entry-parts :where(.ms-ep-entry[data-tone="primary"]) {
+  background: var(--ms-k-accent); color: var(--ms-k-on-accent);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18), 0 10px 26px rgba(241, 184, 75, 0.18);
+}
+.ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-icon) { background: var(--ms-k-ink); color: var(--ms-k-accent); --ic-knock: var(--ms-k-ink); }
+.ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-sub) { color: rgba(21, 25, 35, 0.75); }
+.ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-chev) { color: var(--ms-k-ink); }
