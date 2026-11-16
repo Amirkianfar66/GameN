@@ -192,16 +192,22 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 
 ### Checks run on this version
 
-On `56519d09`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; decision 5; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`). Against `5b360c34`'s record, 19 of the 22 captures are byte-identical. The two Full captures change because + now keeps its look, and 390 × 844 Opening… changes by the busy spinner's frame:
+On `193743f7`, clean: #265 merged at `0e5a0b8a` (kit 0.8.0, shell 0.2.8), with `host-lobby-0.1.1` and `entry-parts-0.3.0`, whose toast is the kit's; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. Against `56519d09`'s record, 20 of the 22 captures are byte-identical, the two "Copied" ones with the toast among them. The two Opening… captures change by the busy spinner's frame.
+
+Before, on `56519d09`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; decision 5). Against `5b360c34`'s record, 19 of the 22 captures were byte-identical. The two Full captures changed because + now keeps its look, and 390 × 844 Opening… by the busy spinner's frame.
+
+On `193743f7`:
 - **Captures:** **22 of 22 pass.** Each asserts:
   - the pack's words, the chosen count and its mix, and the canvas;
   - its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits);
   - in every lobby, Copy inside the code card: beside the code at the Standard text, under it at the Largest.
 - **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion). The text check measures the code and Copy inside the card at 100, 150 and 200 % at both sizes. It fails on the pack's rules.
+  - The toast check (0.1.1) also taps at the toast's centre: with its pointer events on, the point finds the toast, so it lies there; as it is, it takes no tap, and the tap reaches what lies under it, the code card's "Room code" label, as if the toast weren't there.
+  - The motion check reads the kit's toast: `ms-k-toast-in`, or `ms-k-fade` with Reduce motion.
 - **The agreement with the frozen pack:** **11 of 11 cases** agree to within half a pixel in every part compared, in their look and their states, the toast's included.
   - The one difference, + refused at the most bots (keeping its look), is recorded in the Full case only, as the refusal alone.
   - The one improvement is recorded in the three lobby cases with the larger text only. In the pack, Copy ends at 411 px (Large, 390 × 844) and at 517 px (Largest, both sizes), past the card's content at 358 and 398 px. In the screens it ends at 142 and 161 px, under the code.
-- **The main menu**, whose entry parts these share, passes again on the same commit with its brand-words fix (#278), its captures byte-identical to #278's own record on `a1131c94` ([main-menu.md](main-menu.md)).
+- **The main menu**, whose entry parts these share, passes again on `193743f7` with its brand-words fix (#278), its captures byte-identical to #278's own record on `a1131c94` ([main-menu.md](main-menu.md)).
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
 ## Not in this version
