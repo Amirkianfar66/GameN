@@ -22,7 +22,7 @@ const who = n => { const p = seatOf(n), s = at(n); return { seat: `seat-${n}`, n
 const inRoomA = seats.filter(s => s.location === ROOM).map(s => s.seat);
 
 // ── The tiles each role's phone shows (screens-game.mjs roleTiles(), Round 3) ─────────
-const T = (type, state, line, extra = {}) => ({ type, state, ...(state === 'unavailable' ? { reason: line } : { note: line }), ...extra });
+const T = (type, state, line, extra = {}) => ({ type, state, ...(state === 'unavailable' || state === 'spent' ? { reason: line } : { note: line }), ...extra });
 const MOVE = T('MOVE', 'available', 'Once a round');
 const TALK = T('REQUEST_HACK', 'available', 'Once a match');
 const SHOOT = T('REGISTER_SHOT', 'unavailable', 'From Round 4');
@@ -32,7 +32,8 @@ const TILES = {
   hacker: [T('SCAN', 'available', 'Your room'), T('SUBMIT_CODE', 'available', 'One attempt'), T('ACTIVATE_SHIP_HACK', 'unavailable', 'Needs the Code'), MOVE, TALK, SHOOT],
   undercoverOther: [T('PROTECT', 'unavailable', WAIT), MOVE, T('REQUEST_HACK', 'unavailable', WAIT), SHOOT],
   doctorOther: [T('RESCUE', 'unavailable', WAIT, { badge: 2 }), MOVE, T('REQUEST_HACK', 'unavailable', WAIT), SHOOT],
-  spent: [T('RESCUE', 'registered', 'Eli · end of round', { badge: 2 }), MOVE, T('REQUEST_HACK', 'unavailable', 'Used'), SHOOT],
+  // Private talk once used is spent (kit 0.7.1), as the pack draws it.
+  spent: [T('RESCUE', 'registered', 'Eli · end of round', { badge: 2 }), MOVE, T('REQUEST_HACK', 'spent', 'Used'), SHOOT],
   // T3: the server gives no reason (B1), so each tile it does not offer says "Not available now".
   t3: [T('RESCUE', 'available', '2 injections', { badge: 2 }), MOVE, T('REQUEST_HACK', 'unavailable', null), T('REGISTER_SHOT', 'unavailable', null)],
   sending: [T('RESCUE', 'sending', '2 injections', { badge: 2 }), MOVE, TALK, SHOOT],

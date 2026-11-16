@@ -355,6 +355,27 @@ export const CASES = Object.freeze([
       return grid;
     },
     parts: [1, 2, 3].flatMap(CARD) },
+  // Kit 0.7.1: the spent tile (the pack's .tile[data-state="spent"]: Actions' used Talk, the Captain console's used plate).
+  { id: 'tile spent', where: 'both',
+    pack: ({ ui }) => ui.h('div.tiles', packTile(ui, 'talk', 'Talk', { state: 'spent', note: 'Used' })),
+    kit: ({ kit }) => kit.tiles(kit.tile({ icon: 'talk', name: 'Talk', state: 'spent', note: 'Used' })),
+    parts: TILE(1) },
+  // Kit 0.7.1: a tile's art given as a node the component draws, here a side card's art, as sheet 25 draws it.
+  { id: 'tile art node', where: 'both',
+    pack: ({ ui }) => {
+      const sides = ui.h('div.declare-sides', ui.h('button.tile', { type: 'button', 'data-state': 'selected' }, ui.h('span.hack-card', { html: HACK_ART['hack-side-blue']() }), ui.h('b', 'Blue')));
+      sides.querySelectorAll('.hack-card svg').forEach(svg => { svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.display = 'block'; });
+      return sides;
+    },
+    kit: ({ kit }) => {
+      const t = document.createElement('template');
+      t.innerHTML = HACK_ART['hack-side-blue']().trim();
+      const grid = kit.tiles(kit.tile({ art: t.content.firstElementChild, name: 'Blue', state: 'selected', label: false }));
+      grid.style.marginTop = '6px';
+      for (const card of grid.children) { card.style.minHeight = '150px'; card.style.background = '#0A1530'; }
+      return grid;
+    },
+    parts: CARD(1).filter(([name]) => !/note|lock/.test(name)) },
   { id: 'paper card', where: 'plain',
     pack: ({ ui }) => ui.h('article.comic', { style: { padding: '14px' } }, ui.h('div', { style: { height: '60px' } })),
     kit: ({ kit }) => { const card = kit.comic(kit.h('div', null, { style: 'height: 60px' })); card.style.padding = '14px'; return card; },

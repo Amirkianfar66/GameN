@@ -123,11 +123,12 @@ export async function runActionsProbe({ sizes, versions }) {
     await check('t3', async () => {
       const p = phone('tiles-t3');
       const lines = [...p.root.querySelectorAll('.ms-k-tile')].map(n => [n.dataset.value, n.dataset.state, n.querySelector('.ms-k-tile-note:not([hidden])')?.textContent ?? null]);
-      p.part.update({ tiles: [{ type: 'REQUEST_HACK', state: 'unavailable', reason: 'Used' }] });
-      const reason = tile(p.root, 'REQUEST_HACK').querySelector('.ms-k-tile-note').textContent;
+      // A used-up tile (spent, kit 0.7.1) says the server's reason too.
+      p.part.update({ tiles: [{ type: 'REQUEST_HACK', state: 'spent', reason: 'Used' }] });
+      const reason = tile(p.root, 'REQUEST_HACK').querySelector('.ms-k-tile-note').textContent, spent = tile(p.root, 'REQUEST_HACK').dataset.state;
       p.dispose();
       return { ok: JSON.stringify(lines) === JSON.stringify([['RESCUE', 'available', '2 injections'], ['MOVE', 'available', 'Once a round'], ['REQUEST_HACK', 'unavailable', 'Not available now'], ['REGISTER_SHOT', 'unavailable', 'Not available now']])
-        && reason === 'Used', lines, reason };
+        && reason === 'Used' && spent === 'spent', lines, reason, spent };
     });
 
     await check('list', async () => {

@@ -45,7 +45,7 @@ const EXPECT = {
   'tiles-hacker': tilesOf('SCAN:available,SUBMIT_CODE:available,ACTIVATE_SHIP_HACK:unavailable,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable'),
   'tiles-undercover-other': tilesOf('PROTECT:unavailable,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable',
     { head: 'Not your turn|Round 3', note: 'Move works on any turn, once a round. The rest wait for your turn.' }),
-  'tiles-spent': tilesOf('RESCUE:registered,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable', { lines: 'Eli · end of round|Once a round|Used|From Round 4', mark: 'REGISTERED' }),
+  'tiles-spent': tilesOf('RESCUE:registered,MOVE:available,REQUEST_HACK:spent,REGISTER_SHOT:unavailable', { lines: 'Eli · end of round|Once a round|Used|From Round 4', mark: 'REGISTERED' }),
   'tiles-doctor-other': tilesOf('RESCUE:unavailable,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable', { head: 'Not your turn|Round 3' }),
   'tiles-t3': tilesOf('RESCUE:available,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable', { lines: '2 injections|Once a round|Not available now|Not available now' }),
   'tiles-sending': tilesOf('RESCUE:sending,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable'),
@@ -79,7 +79,7 @@ const EXPECT = {
   concealed: { concealed: true },
   'small-tiles': tilesOf(DOCTOR, { perRow: 3 }),
   'large-tiles': tilesOf(DOCTOR, { perRow: 3 }),
-  'largest-tiles': tilesOf('RESCUE:registered,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable', { perRow: 1 }),
+  'largest-tiles': tilesOf('RESCUE:registered,MOVE:available,REQUEST_HACK:spent,REGISTER_SHOT:unavailable', { perRow: 1 }),
   'largest-check': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3 }),
   'largest-after': afterOf('Rescue', 'REGISTERED', 'Rescue of Eli registered.', { steps: 2 }),
 };

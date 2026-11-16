@@ -250,8 +250,11 @@ export function actionWords({ type, targets = [], viewer = null }) {
   }
   return { title: verb, sub: ACTION_WORDS.onlyYou, what: verb };
 }
-/** A tile's state line: the note, or for one not offered the server's reason or "Not available now" (T3). */
-export const tileLine = t => (t.state === 'unavailable' ? t.reason ?? ACTION_WORDS.notAvailable : t.note);
+/**
+ * A tile's state line: the note, or for one not offered, or used up (spent, kit 0.7.1), the server's reason or
+ * "Not available now" (T3).
+ */
+export const tileLine = t => (t.state === 'unavailable' || t.state === 'spent' ? t.reason ?? ACTION_WORDS.notAvailable : t.note);
 
 // ── The shell's frames and words ────────────────────────────────────────
 /** The tiles' sheet: "Actions", the role and the room, Close. */
