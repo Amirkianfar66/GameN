@@ -12,7 +12,10 @@
 //   time      the clock shows what it is given, amber in the last 10 s, and never counts by itself
 //   layout    the bars and the stage are measured, and a change of text size, insets or bars reported
 //   layers    the cover lies over the stage and above all it holds, under the overlays and the sheet; with a
-//             sheet open the toast stays above it and the banner under it, as the pack's
+//             sheet open the toast stays above it and the banner under it, as the pack's; with the banner
+//             showing, a docked sheet stays below it, so Retry and the sheet's Close are both in sight
+//   large     at the Largest text, in the shell's phone container: a row's value goes under its title and a
+//             stacking segmented control stacks; at the Standard text neither changes
 //   nobar     with bar: null the stage runs to the top edge, the overlays keep the bar's place (as the pack's
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
@@ -28,6 +31,7 @@
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
 import { mountPhoneShell, TOAST_MS, RECONNECTING } from '../phone-shell.mjs';
+import { createKit } from '../../kit/kit.mjs';
 
 const wait = ms => new Promise(done => setTimeout(done, ms));
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
@@ -247,19 +251,64 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const target = await alone({ target: { title: 'Rescue' } }, '.ms-ps-target');
       const banner = await alone({ banner: { kind: 'reconnecting' } }, '.ms-ps-banner');
       const toast = await alone({ toast: { id: 'layers-1', text: 'Registered' } }, '.ms-ps-toast');
-      // A large docked sheet lies over the cover and the banner, and the toast stays above it (the pack: toast 70, sheet 45, banner 42).
+      // A large docked sheet lies over the cover, and the toast stays above it (the pack: toast 70, sheet 45, banner 42).
+      // The banner stays under the sheet in its layers; while it shows, the sheet docks 8 px below it, so Retry and
+      // the sheet's Close are both in sight.
       s.shell.update({ toast: null, banner: { kind: 'reconnecting' }, sheet: { ...passSheet, id: 'layers', detent: 'large' } });
       await settle('.ms-ps-sheet');
+      await frames();
       const sheet = s.q('.ms-ps-sheet');
       const sheetOverCover = sheet.contains(middle());
-      const bannerUnderSheet = sheet.contains(at(s.q('.ms-ps-banner')));
+      const bannerNode = s.q('.ms-ps-banner'), retry = bannerNode.querySelector('[data-intent="retry"]'), close = sheet.querySelector('[data-intent="sheet-close"]');
+      const bannerLayered = Number(getComputedStyle(s.q('.ms-ps-over')).zIndex) < Number(getComputedStyle(sheet).zIndex);
+      const bannerBox = bannerNode.getBoundingClientRect();
+      const sheetGap = sheet.getBoundingClientRect().top - bannerBox.bottom;
+      const bothInSight = bannerNode.contains(at(bannerNode)) && retry.contains(at(retry)) && close.contains(at(close)) && sheetGap >= 7.5;
+      // Without the banner, the large sheet docks at its place again: 8 px under the bar, where the banner was.
+      s.shell.update({ banner: null });
+      await frames(); await frames();
+      const backUp = Math.abs(sheet.getBoundingClientRect().top - bannerBox.top) < 1;
+      const bannerUnderSheet = bannerLayered && bothInSight && backUp;
       s.shell.update({ banner: null, toast: { id: 'layers-2', text: 'Over the sheet' } });
       await settle('.ms-ps-toast');
       const toastOverSheet = s.q('.ms-ps-toast').contains(at(s.q('.ms-ps-toast')));
       const keptCover = s.shell.slot('cover') === card.parentElement;
       s.shell.dispose();
       return { ok: sameBox && overStage && target && banner && toast && sheetOverCover && bannerUnderSheet && toastOverSheet && keptCover,
-        sameBox, overStage, target, banner, toast, sheetOverCover, bannerUnderSheet, toastOverSheet, keptCover };
+        sameBox, overStage, target, banner, toast, sheetOverCover, bannerUnderSheet, bannerLayered, bothInSight, sheetGap: Math.round(sheetGap * 10) / 10, backUp,
+        toastOverSheet, keptCover };
+    });
+
+    await check('large: at the Largest text a row\'s value goes under its title and a stacking segmented control stacks; at the Standard text neither changes', async () => {
+      const kit = createKit(document);
+      const measure = async text => {
+        document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
+        const s = mount({ ...own(), sheet: { id: 'large', title: 'Your role', sub: 'Only on this phone', close: true, detent: 'large' } });
+        await frames();
+        const rows = [
+          kit.row({ tag: 'div', title: 'Move', value: 'Used this round', icon: 'move' }),
+          kit.row({ tag: 'div', title: 'Promises', value: 'Given 0/1 · Received 1/1', icon: 'promise' }),
+        ];
+        const seg = kit.seg({ options: [{ id: 'card', label: 'Card' }, { id: 'knowledge', label: 'Knowledge' }, { id: 'resources', label: 'Resources' }], value: 'card', stack: true, label: 'Part' });
+        const short = kit.seg({ options: [{ id: 7, label: '7' }, { id: 8, label: '8' }, { id: 9, label: '9' }], value: 8, label: 'Players' });
+        s.shell.sheetBody.append(kit.list(rows), seg, short);
+        await frames();
+        const box = n => n.getBoundingClientRect();
+        const under = rows.map(r => box(r.querySelector('.ms-k-row-value')).top >= box(r.querySelector('.ms-k-row-title')).bottom - 1);
+        const beside = rows.map(r => Math.abs(box(r.querySelector('.ms-k-row-value')).top - box(r.querySelector('.ms-k-row-main')).top) < box(r.querySelector('.ms-k-row-title')).height);
+        const apart = rows.map(r => { const t = box(r.querySelector('.ms-k-row-title')), v = box(r.querySelector('.ms-k-row-value')); return t.right <= v.left + 0.5 || t.bottom <= v.top + 0.5; });
+        const tops = n => [...n.children].map(b => Math.round(box(b).top));
+        const whole = n => [...n.children].every(b => box(b.lastChild).width <= box(b).width + 0.5);
+        const result = { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1,
+          phoneEm: Math.round(box(s.q('.ms-phone-shell')).width / parseFloat(getComputedStyle(s.q('.ms-phone-shell')).fontSize) * 10) / 10 };
+        s.shell.dispose();
+        return result;
+      };
+      const largest = await measure(200), standard = await measure(100);
+      document.documentElement.style.fontSize = '';
+      const ok = largest.under.every(Boolean) && largest.apart.every(Boolean) && largest.stacked && largest.segWhole && largest.shortRow
+        && standard.beside.every(Boolean) && standard.apart.every(Boolean) && !standard.stacked && standard.segWhole && standard.shortRow;
+      return { ok, largest, standard };
     });
 
     await check('nobar: with bar: null the stage runs to the top edge, the overlays keep the bar\'s place, and slot(\'clock\') keeps its element', async () => {
