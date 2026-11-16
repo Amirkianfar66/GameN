@@ -350,6 +350,13 @@ async function silence({pages, bridge}, trial) {
     assert.equal(trial.silence.releaseStillEnabled, false);
     assert.ok(trial.silence.watchRequestsDuringSilence >= 1, 'Reconnection started without socket close');
     assert.ok(trial.silence.disabledAfterLastDeliveryMs !== null, 'The stale DOM transition was observed');
+    for (const [width, height] of [[430, 932], [390, 844]]) {
+      await panel.send('Emulation.setDeviceMetricsOverride', {width, height, deviceScaleFactor: 1, mobile: true});
+      await wait(panel, `innerWidth===${width} && innerHeight===${height} && !(${enabled(controls.release)})`,
+        'disabled native Panel at the requested viewport');
+      await screenshot(panel, 'food-panel-18-watch-silence-' + width + 'x' + height, trial);
+    }
+    await panel.send('Emulation.setDeviceMetricsOverride', {width: 430, height: 932, deviceScaleFactor: 1, mobile: true});
   }
   suspended.release();
   await wait(panel, `${reported}.wireFrames.some(frame=>frame.kind==="snapshot"&&frame.fresh&&frame.epoch!==${JSON.stringify(beforeEpoch)}) && ${reported}.connection==="live"`,
