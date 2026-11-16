@@ -8,7 +8,7 @@
 //   agrees with the frozen native port (apps/game/hosted/planet, whose files must be the pinned ones): the same
 //   state drawn by the port's own renderer in the same phone must give the same DOM, the same boxes and the same
 //   pixels, for every state, size and motion, with a control (the port's clock moved one second) that must not agree.
-//   Six corrections to the port are recorded in sources.json (CORRECTIONS below). Where one applies, the port's DOM
+//   Seven corrections to the port are recorded in sources.json (CORRECTIONS below). Where one applies, the port's DOM
 //   is read as corrected, the boxes it moves are named, and the pixels are the port's everywhere outside the place it
 //   touches; there, the component is held to what the correction is for, and the two are pictured before and after.
 //   The component's root carries its mark (data-food-component), which the port's has not: that is read as corrected too;
@@ -18,9 +18,9 @@
 //   pixels, exactly, in the scene outside the surface's notices and wherever the words agree;
 //   agrees with Frontend's ten native captures from #290 (read from that commit, each held to its SHA-256, never
 //   copied): the scene's pixels within a stated limit, another machine's fonts and browser apart, with controls;
-//   draws twelve of the states at the game's larger text (its root's size: Large at 150 %, Largest at 200 %) at both
+//   draws thirteen of the states at the game's larger text (its root's size: Large at 150 %, Largest at 200 %) at both
 //   sizes, and holds them to the frozen port in the same way: the larger-text support is the port's own, with the
-//   corrections to the role row, the outcome card and the request card;
+//   corrections to the role row, the outcome card and the request cards;
 //   draws the frozen port and the component in one page (preview/both.html) with the port's stylesheets and the
 //   component's both loaded, in each order, and holds each surface there to what it draws alone: the port's to the
 //   pixels of its own page, the component's to its corrected ones, with a control (the component's root without its
@@ -74,16 +74,18 @@ const { FOOD_VERSION } = await import(pathToFileURL(join(REPO, COMPONENT, 'food-
  * package's frame paints its canvas (1 level); so are the top bar's portraits and title, under the bar's own glass
  * (3 levels: with the port's 36 px portraits they measured over 200). Against #290's captures, drawn by another browser on another machine
  * with other fonts, the scene outside the notices is held to a mean of 3 levels and 2 % of its pixels more than 24
- * levels apart; each control must measure at least twice what the comparison measures.
+ * levels apart; each control must measure at least twice what the comparison measures. Against the frozen port, a
+ * request card's tilted stamp outside what the port cut of it: no pixel more than 24 levels apart (the browser draws a
+ * tilted thing a little differently along its slanted edges when the scroller it stands in is another box: 17 at most).
  */
-export const LIMITS = Object.freeze({ box: 0.5, packageSame: 0, packageSceneMean: 0.05, packageSceneFar: 0.001, packageGlass: 1, packageBar: 3, nativeSceneMean: 3, nativeSceneFar: 0.02, controlFactor: 2 });
+export const LIMITS = Object.freeze({ box: 0.5, packageSame: 0, packageSceneMean: 0.05, packageSceneFar: 0.001, packageGlass: 1, packageBar: 3, nativeSceneMean: 3, nativeSceneFar: 0.02, controlFactor: 2, stampEdge: 24 });
 /**
  * The game's larger text sizes (apps/game/hosted/planet/preferences.mjs: Large and Largest), and the states drawn at
- * them: the five parts, a briefing, a sheet, a request and the four outcomes. `pictures` are those kept for review, at
+ * them: the five parts, a briefing, a sheet, a request, the four outcomes and Too late to join. `pictures` are those kept for review, at
  * the Largest text: two Task screens, the briefing at both sizes (it is left as the port has it) and the outcomes not
  * pictured before and after with the corrections (BEFORE_AFTER).
  */
-const LARGER = Object.freeze({ texts: [1.5, 2], states: [...PARTS, 'case-food-winch-01', 'case-food-flow-02', 'case-food-flow-04', 'case-food-panel-16', 'case-food-winch-14', 'case-food-winch-17', 'case-food-panel-17'],
+const LARGER = Object.freeze({ texts: [1.5, 2], states: [...PARTS, 'case-food-winch-01', 'case-food-flow-02', 'case-food-flow-04', 'case-food-panel-16', 'case-food-winch-14', 'case-food-winch-17', 'case-food-panel-17', 'case-food-states-08'],
   pictures: Object.freeze({ 'food-panel-04/2': ['390x844'], 'food-winch-03/2': ['390x844'], 'case-food-winch-01/2': ['390x844', '430x932'],
     'case-food-winch-14/2': ['390x844'], 'case-food-winch-17/2': ['390x844'], 'case-food-panel-17/2': ['390x844'] }) });
 /**
@@ -110,7 +112,7 @@ const OPAQUE = Object.freeze({ texts: [1, 1.5, 2], backdrop: 'rgb(255, 0, 255)',
  * the words where they scroll, the arrow keys scroll them, and End brings them to their last line. Where the words
  * fit, Tab does not stop on them.
  */
-const KEYS = Object.freeze({ states: ['case-food-panel-16', 'case-food-flow-04'], texts: [1, 1.5, 2], codes: Object.freeze({ Tab: 9, ArrowDown: 40, End: 35 }) });
+const KEYS = Object.freeze({ states: ['case-food-panel-16', 'case-food-flow-04', 'case-food-states-08'], texts: [1, 1.5, 2], codes: Object.freeze({ Tab: 9, ArrowDown: 40, End: 35 }) });
 /**
  * A text-size change on a mounted surface. The port lays itself out again on the app's preferences event; the
  * component on relayout(). Three states where it shows:
@@ -132,6 +134,7 @@ export const CORRECTIONS = Object.freeze({
   4: { what: "An outcome card ends 12 px above the view's lower edge. Its words are in a scroller inside it and fade there, with the port's fade for a card's words: the card stays opaque to its edge, and no card is faded as a whole. Words that scroll take a place in the Tab order", where: "every capture with an outcome card: its limit and its scroller are always there, and they show where the port's card is taller than the limit" },
   5: { what: 'A request card ends 8 px above the Pass button, clear of the tab bar, and its words scroll above its answers. Words that scroll take a place in the Tab order', where: "every capture with a request card: its limit is always given, and it shows where the port's card is taller than the limit" },
   6: { what: 'A sheet or card that is built again gives the focus back', where: "every capture where the port's page shows a sheet or card with the focus outside the surface: the port built it again and left the focus to the page" },
+  7: { what: "A request card's stamp, and Too late to join's, is whole, as the approved Food flow draws it: the scroller its words are in takes the card's inside at its top and its sides, where the port's began at the stamp's own line and cut the tilted stamp. Its lower edge stays, so the answers do not move", where: "every capture with a request card or Too late to join: the scroller is always so, and it shows wherever the card shows its stamp (a tight card, at the Largest text, shows none)" },
 });
 /** The top bar's portraits, in CSS px: the kit's size, on the package's pages and here. The port's are 36 px. */
 export const PORTRAIT = Object.freeze({ kit: 32, port: 36 });
@@ -148,6 +151,8 @@ const BEFORE_AFTER = Object.freeze([
   [3, 'food-panel-04', 1.5, ['390x844']], [3, 'food-winch-03', 1.5, ['390x844']],
   [4, 'case-food-panel-16', 1.5, ['390x844', '430x932']], [4, 'case-food-panel-16', 2, ['390x844', '430x932']],
   [5, 'case-food-flow-04', 1.5, ['390x844']], [5, 'case-food-flow-04', 2, ['390x844', '430x932']],
+  [7, 'case-food-flow-04', 1, ['390x844', '430x932']], [7, 'case-food-flow-04', 1.5, ['390x844', '430x932']], [7, 'case-food-flow-04', 2, ['390x844', '430x932']],
+  [7, 'case-food-states-08', 1, ['390x844', '430x932']],
 ]);
 /** The surface's own top bar, in CSS px, at each text size: the review frames' 47 px safe area and the kit's bar. */
 const BAR_TOP = Object.freeze({ 1: 99, 1.5: 117, 2: 141 });
@@ -186,6 +191,7 @@ export const EXPECT = Object.freeze({
   'case-food-flow-04': { ...FLOW, screen: 'food-room', says: ['Hana asks you to join the Food Supply Task', 'Decline', 'Join', 'Answer within 15 s. No answer counts as a decline.'], focus: 'fs-card' },
   'case-food-flow-09': { ...FLOW, screen: 'food-room', says: ['Two players are away on the Food Supply Task'] },
   'case-food-states-14': { ...FLOW, screen: 'food-howto', says: ['How the Food Supply Task works', 'Both turn a key: +5 packages for the ship.'], focus: 'sheet' },
+  'case-food-states-08': { ...FLOW, screen: 'food-room', says: ['Too late to join', 'Hana had withdrawn the request before your answer arrived.', 'You stay in Room B.', 'OK'], focus: 'fs-card' },
   'case-food-flow-13': { ...NONE, screen: 'food-room', says: [], gauge: 'Food low: 1 package left' },
   'case-food-flow-15': { ...NONE, screen: 'food-room', says: [], gauge: 'Food low: ½ package left' },
   'case-food-flow-16': { ...NONE, screen: 'food-room', says: [], gauge: 'No food left' },
@@ -451,6 +457,10 @@ const around = (a, b) => { const x = Math.min(a[0], b[0]), y = Math.min(a[1], b[
 
 /** The scroller an outcome card's words are in, as the DOM writes it: it takes the card's whole inside, the 16 px of padding with it. */
 const OUTCOME_WORDS = '<div class="fs-card-body" style="margin: -16px; padding: 16px; outline-offset: -5px;">';
+/** The scroller a request card's words are in (and Too late to join's): it takes the card's inside at its top and its sides, and ends where the port's does, above the answers. */
+const REQUEST_WORDS = '<div class="fs-card-body" style="margin: -16px -16px 0px; padding: 16px 16px 0px; outline-offset: -5px;">';
+/** A stamp's hard shadow reaches 4 px past it to the right and below. */
+const STAMP_SHADOW = 4;
 /** How the root of either surface begins, as the DOM writes it. */
 const ROOT = '<div class="planet-food ph"';
 /**
@@ -459,7 +469,7 @@ const ROOT = '<div class="planet-food ph"';
  * must show on the component's page (`notes` holds what it does not). Whatever is not named here must be the port's.
  */
 function corrected(s, t) {
-  const applied = [], touched = [], notes = [], must = (condition, note) => { if (!condition) notes.push(note); };
+  const applied = [], touched = [], faint = [], notes = [], must = (condition, note) => { if (!condition) notes.push(note); };
   const mine = s.layout ?? {}, port = t.layout ?? {}, boxes = structuredClone(t.boxes ?? {}), near = (a, b) => Math.abs(a - b) <= LIMITS.box;
   const scrolls = part => part.holds[0] > part.holds[1] + 1;
   let html = t.html ?? '';
@@ -518,7 +528,7 @@ function corrected(s, t) {
         must(bottom(card.box) <= bottom(view) - 12 + LIMITS.box, 'correction 4: the outcome card ends 12 px above the view\'s lower edge, over nothing that lies under the view');
         must(!!card.words && !scrolls(card) && !was.words && same(card.words.box, card.box), 'correction 4: the outcome card\'s words are in a scroller that takes its whole inside, and the card itself does not scroll');
         // The tilted stamp is drawn past its own line box, and its shadow 4 px further: the scroller must not cut it.
-        must(!!card.stamp && same(card.stamp, was.stamp) && card.stamp[0] >= card.words.box[0] && card.stamp[1] >= card.words.box[1] && card.stamp[0] + card.stamp[2] + 4 <= card.words.box[0] + card.words.box[2] && bottom(card.stamp) + 4 <= bottom(card.words.box),
+        must(!!card.stamp && same(card.stamp, was.stamp) && card.stamp[0] >= card.words.box[0] && card.stamp[1] >= card.words.box[1] && card.stamp[0] + card.stamp[2] + STAMP_SHADOW <= card.words.box[0] + card.words.box[2] && bottom(card.stamp) + STAMP_SHADOW <= bottom(card.words.box),
           'correction 4: the card\'s stamp is whole, where the port draws it: its scroller does not cut it');
       } else {
         html = html.replace(/max-height: calc\(100% - var\(--top\) - (20|72)px\);/, (_, n) => `max-height: max(calc(100% - var(--top) - var(--bottom) - ${Number(n) + 16}px), min(calc(100% - var(--top) - ${n}px), 13rem));`);
@@ -541,6 +551,32 @@ function corrected(s, t) {
       }
     }
   } else must(!mine.card === !port.card && mine.card?.kind === port.card?.kind, 'a card is shown where the port shows one, of its kind');
+  // 7. A request card's stamp, and Too late to join's. The port's scroller for the words begins at the stamp's own line,
+  // and the tilted stamp is drawn above that line and a little to its left: the scroller cuts it. Here the scroller
+  // takes the card's inside at its top and its sides, and ends where the port's does.
+  const requestWords = port.card?.kind === 'request' && !!port.card.words;
+  if (requestWords) {
+    applied.push(7);
+    const card = mine.card, was = port.card;
+    if (!card?.words) must(false, 'correction 7: the card\'s words are in a scroller, as the port\'s are');
+    else {
+      const [cx, cy, cw] = card.box, w = card.words.box, pw = was.words.box;
+      must(near(w[0], cx) && near(w[1], cy) && near(w[2], cw), 'correction 7: the words\' scroller takes the card\'s inside at its top and its sides');
+      // Where the card is the port's size, the scroller ends where the port's does and nothing under it moves.
+      if (same(card.box, was.box)) must(near(bottom(w), bottom(pw)) && same(card.answers, was.answers) && same(card.timer, was.timer), 'correction 7: the scroller ends where the port\'s does, and the answers and the time to answer are where the port has them');
+      if (was.stamp) {
+        must(was.stamp[1] < pw[1] - LIMITS.box, 'correction 7: the port\'s scroller cuts the stamp, which is drawn above it');
+        must(!!card.stamp && same(card.stamp, was.stamp) && card.stamp[0] >= w[0] && card.stamp[1] >= w[1] && card.stamp[0] + card.stamp[2] + STAMP_SHADOW <= w[0] + w[2] && bottom(card.stamp) + STAMP_SHADOW <= bottom(w),
+          'correction 7: the stamp is whole, where the port draws it: its scroller does not cut it');
+        // What differs in the picture is what the port's scroller cut: the stamp above the scroller's upper edge, and
+        // the sliver of it left of the scroller's left edge. The rest of the stamp is the port's to a few levels: the
+        // browser draws a tilted thing a little differently along its slanted edges when its scroller is another box.
+        const [sx, sy, sw, sh] = was.stamp, cut = [[sx - 5, sy - 5, sw + 10, pw[1] + 1 - (sy - 5)], [sx - 5, sy - 5, pw[0] + 1 - (sx - 5), sh + 10]];
+        touched.push(...cut);
+        faint.push({ box: [sx - 5, sy - 5, sw + 10 + STAMP_SHADOW, sh + 10 + STAMP_SHADOW], skip: cut });
+      } else must(!card.stamp, 'correction 7: a tight card shows no stamp, as in the port');
+    }
+  }
   // 6. A sheet or card that was built again. The port's is left without the focus, which goes to the page: a sheet or
   // card on the port's page with the focus outside the surface is one. Here it takes the focus back, as a new one does.
   const dialog = /<section class="(fs-card[^"]*|sheet)"/.exec(t.html ?? '')?.[1] ?? null;
@@ -554,7 +590,7 @@ function corrected(s, t) {
   // Whether a card's words scroll is each page's own matter, held above: its mark, and the place in the Tab order
   // that comes with it, are left out of the DOM's comparison.
   const unmarked = text => (text ?? '').replaceAll(' data-scrolls=""', '').replace(/(<div class="fs-card-body"[^>]*?) tabindex="0"/g, '$1');
-  return { applied, touched, notes, html: unmarked(html), mine: unmarked(s.html), boxes, focus };
+  return { applied: applied.sort((a, b) => a - b), touched, near: faint, notes, html: requestWords ? unmarked(html).replace('<div class="fs-card-body">', REQUEST_WORDS) : unmarked(html), mine: unmarked(s.html), boxes, focus };
 }
 /** How many pixels of two pictures differ outside the boxes in `skip`. */
 async function outside(name, a, b, size, skip) {
@@ -565,11 +601,27 @@ async function outside(name, a, b, size, skip) {
   for (const file of files) await rm(join(out, 'captures', file));
   return boxes.rest.differing;
 }
+/** How far two pictures are apart in some places, each a box with the boxes inside it to leave out: the pixels there, how many differ, and by how many levels at most. */
+async function within(name, a, b, places) {
+  const files = [`${name}-a.png`, `${name}-b.png`];
+  await writeFile(join(out, 'captures', files[0]), a);
+  await writeFile(join(out, 'captures', files[1]), b);
+  const { boxes } = await compare({ a: `/captures/${files[0]}`, b: `/captures/${files[1]}`, boxes: Object.fromEntries(places.map((place, index) => [`place${index}`, place])) });
+  for (const file of files) await rm(join(out, 'captures', file));
+  const measured = Object.values(boxes);
+  return { pixels: measured.reduce((sum, m) => sum + m.pixels, 0), differing: measured.reduce((sum, m) => sum + (m.differing ?? 0), 0), max: Math.max(0, ...measured.map(m => m.max ?? 0)) };
+}
 /** A capture held to the frozen port's: everything the same, read with the corrections that apply. */
 async function held(name, mine, theirs, sizeKey) {
   const s = mine.seen, t = theirs.seen, c = corrected(s, t), samePicture = mine.png.equals(theirs.png);
-  const differing = samePicture ? 0 : c.touched.length ? await outside(name, mine.png, theirs.png, SIZES[sizeKey], c.touched) : null;
-  return { equal: { html: c.mine === c.html, text: s.text === t.text, boxes: same(s.boxes, c.boxes), controls: same(s.controls, t.controls), covers: same(s.owned, t.owned) && same(s.measured, t.measured), gauge: s.gauge === t.gauge, focus: (s.focus ?? null) === c.focus, pixels: differing === 0 },
+  // Outside the places a correction touches, and the places it leaves within a few levels, no pixel may differ.
+  const skip = [...c.touched, ...c.near.map(place => place.box)];
+  const differing = samePicture ? 0 : skip.length ? await outside(name, mine.png, theirs.png, SIZES[sizeKey], skip) : null;
+  const near = samePicture || !c.near.length ? null : await within(`${name}-near`, mine.png, theirs.png, c.near);
+  // How many pixels differ at all: where the picture is held, every one of them lies in a place a correction touches.
+  const changed = samePicture ? 0 : await outside(`${name}-all`, mine.png, theirs.png, SIZES[sizeKey], []);
+  return { changed, near, equal: { html: c.mine === c.html, text: s.text === t.text, boxes: same(s.boxes, c.boxes), controls: same(s.controls, t.controls), covers: same(s.owned, t.owned) && same(s.measured, t.measured), gauge: s.gauge === t.gauge, focus: (s.focus ?? null) === c.focus,
+      pixels: differing === 0 && (!near || near.max <= LIMITS.stampEdge) },
     // Identical: no correction applies, the picture is the port's, and so is the DOM, the root's mark aside.
     corrections: c.applied, touched: c.touched.map(box => box.map(round2)), notes: c.notes, identical: samePicture && c.applied.length === 0 && c.mine === c.html };
 }
@@ -587,6 +639,7 @@ function facts(fix, seen) {
   if (fix === 2) return { dock: first('.fs-dock'), controls: first('.fs-controls'), slot: l.slot.hidden ? 'none' : 'empty, with its gap' };
   if (fix === 3) return { rowHeight: l.role.row[3], pieces: l.role.pieces.map(piece => ({ text: piece.text, lines: piece.lines })) };
   const scrolls = part => part.holds[0] > part.holds[1] + 1;
+  if (fix === 7) { const stamp = l.card.stamp, scroller = l.card.words.box; return { stamp, scrollerStartsAt: scroller[1], stampCut: stamp ? stamp[1] < scroller[1] - 0.5 || stamp[0] < scroller[0] - 0.5 : null, card: l.card.box, answers: l.card.answers, timer: l.card.timer }; }
   if (fix === 4) return { cardEndsAt: round2(bottom(l.card.box)), viewEndsAt: round2(bottom(first('.fs-view'))), nextRowStartsAt: (l.role?.shown ? l.role.row : first('.fs-hint'))[1], wordsScroll: scrolls(l.card.words ?? l.card), fades: l.card.fades };
   return { cardEndsAt: round2(bottom(l.card.box)), passStartsAt: l.pass[1], tabBarStartsAt: first('.tabs')[1], answersEndAt: round2(Math.max(...[...l.card.answers, l.card.timer].map(bottom))), wordsShown: l.card.words.holds[1], wordsNeed: l.card.words.holds[0] };
 }
@@ -640,7 +693,7 @@ try {
         captures[key] = { ok, notes, kind: state.kind, title: state.title, synthetic: state.synthetic, screen: s.screen ?? null, hidden: s.hidden, motion: s.motion ?? null, covers: s.owned, bars: s.measured,
           controls: (s.controls ?? []).map(c => ({ act: c.act, enabled: c.enabled, busy: c.busy, label: c.label, sub: c.sub })), pictures: s.pictures ?? [], focus: s.focus ?? null,
           words: lines(s.text ?? '').length, boxes: s.boxes ?? {}, htmlSha256: sha256(s.html ?? ''), pngSha256: sha256(mine.png),
-          port: { equal, corrections: port.corrections, touched: port.touched, htmlSha256: sha256(t.html ?? ''), pngSha256: sha256(theirs.png) },
+          port: { equal, corrections: port.corrections, touched: port.touched, changed: port.changed, ...(port.near ? { near: port.near } : {}), htmlSha256: sha256(t.html ?? ''), pngSha256: sha256(theirs.png) },
           ...(mine.expected ? { packetExpects: mine.expected } : {}), violations: mine.violations, problems: mine.problems };
         if (PARTS.includes(state.id) && motion === 'full') {
           await writeFile(join(out, 'captures', `${state.id}-${sizeKey}-component.png`), mine.png);
@@ -683,7 +736,7 @@ try {
         must([...mine.problems, ...theirs.problems].length === 0 && [...mine.violations, ...theirs.violations].every(v => v.kind !== 'unexpected'), 'no page problem and no policy report but the known one');
         const ok = notes.length === 0, key = `${sizeKey}/${stateId}/${text * 100}%`;
         if (!ok) failed += 1;
-        larger[key] = { ok, notes, rootPx: 16 * text, bars: s.measured, equal, corrections: port.corrections, touched: port.touched, htmlSha256: sha256(s.html ?? ''), pngSha256: sha256(mine.png), violations: mine.violations, problems: mine.problems };
+        larger[key] = { ok, notes, rootPx: 16 * text, bars: s.measured, equal, corrections: port.corrections, touched: port.touched, changed: port.changed, ...(port.near ? { near: port.near } : {}), htmlSha256: sha256(s.html ?? ''), pngSha256: sha256(mine.png), violations: mine.violations, problems: mine.problems };
         if (LARGER.pictures[`${stateId}/${text}`]?.includes(sizeKey)) Object.assign(larger[key], await picture(stateId, sizeKey, 'full', `${sizeKey}-${stateId}-text${text * 100}.jpg`, `&text=${text}`));
         console.log(`${ok ? 'ok  ' : 'FAIL'} larger text ${sizeKey} ${stateId} at ${text * 100} %${ok ? '' : ` · ${notes.join('; ')}`}`);
       }
@@ -860,7 +913,7 @@ try {
         const scrolls = (steps.start?.most ?? 0) > 1;
         must(/^fs-card( |$)/.test(steps.start?.focus ?? '') && steps.start.scrolled === 0, 'the card holds the focus, with its words at their start');
         if (scrolls) {
-          must(steps.tab.onWords && /^solid /.test(steps.tab.ring ?? ''), 'Tab goes from the card to its words, which show the focus ring');
+          must(steps.tab.onWords && /^solid 3px -5px$/.test(steps.tab.ring ?? ''), 'Tab goes from the card to its words, which show the focus ring, drawn inside them');
           must(steps.arrow.onWords && steps.arrow.scrolled > 0, 'the down arrow scrolls the words');
           must(steps.end.onWords && Math.abs(steps.end.scrolled - steps.end.most) <= 1, 'End brings the words to their last line');
         } else must(steps.tab && !steps.tab.onWords && steps.arrow.scrolled === 0, 'the words fit: Tab does not stop on them, and nothing scrolls');
@@ -884,7 +937,10 @@ try {
         2: () => same(a.dock, a.controls) && b.dock[3] - a.dock[3] === SLOT_GAP && same(a.controls, b.controls),
         3: () => a.pieces.every(piece => piece.lines === 1) && b.pieces.some(piece => piece.lines > 1),
         4: () => a.cardEndsAt <= a.viewEndsAt - 12 + LIMITS.box && b.cardEndsAt > b.nextRowStartsAt && a.wordsScroll && a.fades === 'words',
-        5: () => a.cardEndsAt <= a.passStartsAt - 8 + LIMITS.box && b.cardEndsAt > b.tabBarStartsAt && a.answersEndAt < a.cardEndsAt && a.wordsNeed > a.wordsShown }[fix]();
+        5: () => a.cardEndsAt <= a.passStartsAt - 8 + LIMITS.box && b.cardEndsAt > b.tabBarStartsAt && a.answersEndAt < a.cardEndsAt && a.wordsNeed > a.wordsShown,
+        // The stamp is cut before and whole after, in the same place; a tight card shows none in either. Where the card keeps the port's size, nothing under its words moves.
+        7: () => (b.stamp ? b.stampCut === true && a.stampCut === false && same(a.stamp, b.stamp) : a.stamp === null) && a.scrollerStartsAt === a.card[1] && b.scrollerStartsAt === b.card[1] + 16
+          && (!same(a.card, b.card) || (same(a.answers, b.answers) && same(a.timer, b.timer))) }[fix]();
       if (!entry.ok) failed += 1;
       beforeAfter[`${fix}/${sizeKey}/${stateId}/${text * 100}%`] = entry;
       console.log(`${entry.ok ? 'ok  ' : 'FAIL'} correction ${fix}, before and after: ${sizeKey} ${stateId} at ${text * 100} % · ${JSON.stringify(b)} → ${JSON.stringify(a)}`);
@@ -1043,7 +1099,7 @@ const record = {
     ...TOGETHER, drawn: together, control: togetherControl, pictures: togetherPictures },
   opaque: { what: 'Every state with a card, at the three text sizes: the component\'s page pictured as it is, and again with a backdrop of one loud colour put directly under the card. Inside the card (in from its edge by `inset` px, its round corners left out) no pixel may change, and its foot (the lowest `foot` px inside its edge, where words that scroll fade) is counted by itself; around the card the backdrop must show; and where the words fit, the card\'s rim (its lowest `rim` px inside the edge, between the corners) must be the card\'s own colour and no other.',
     ...OPAQUE, states: cardStates, drawn: opaque, control: opaqueControl },
-  keys: { what: 'A card\'s words and the keys, with real key presses on the component\'s page: from the card, which holds the focus, Tab goes to the words where they scroll (they show the focus ring), the down arrow scrolls them and End brings them to their last line. Where the words fit, Tab does not stop on them.',
+  keys: { what: 'A card\'s words and the keys, with real key presses on the component\'s page: from the card, which holds the focus, Tab goes to the words where they scroll (they show the focus ring, drawn inside them: 3 px, 5 px in), the down arrow scrolls them and End brings them to their last line. Where the words fit, Tab does not stop on them.',
     ...KEYS, drawn: keys },
   relayout: { what: 'A mount at the Standard text whose text size then changes: the component told by relayout(), the port by the app\'s preferences event, the component not told, and a new mount at that text size', ...RELAYOUT, drawn: relayouts },
   probe: probes,

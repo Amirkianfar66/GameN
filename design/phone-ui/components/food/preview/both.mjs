@@ -58,6 +58,7 @@ const MOUNT = {
     });
     if (sit.gauge !== null) device.gaugeSlot.replaceChildren(files.foodGauge(files.createFoodUi(document), sit.gauge) ?? '');
     openSheet(device.host, sit.open, () => renderer.openTasks());
+    sit.advance?.();
   },
   component(files) {
     const sit = sits.component, device = devices.component;
@@ -69,7 +70,10 @@ const MOUNT = {
       onNavigate(target) { navigation = target === 'switch' ? { ...navigation, boardMode: navigation.boardMode === 'room' ? 'board' : 'room' } : { ...navigation, openPanel: target }; handle?.update({ navigation }); },
     });
     if (sit.gauge !== null) device.gaugeSlot.replaceChildren(files.foodGauge(document, sit.gauge) ?? '');
+    // What Frontend's adapter does on a case: the controller's model comes back as inputs.
+    sit.live?.controller.subscribe(() => handle?.update({ ...sit.inputNow(), navigation }));
     openSheet(device.host, sit.open, () => handle.openTasks());
+    sit.advance?.();
   },
 };
 

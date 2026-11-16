@@ -30,12 +30,13 @@
 //   motion     the game's Reduce motion and the device's
 //   layout     update({ reducedMotion }) changes motion and lays nothing out; relayout() lays the surface out again
 //              after a text-size change, as a new mount would; suspended, it waits for resume
-//   corrections  the six corrections to the port (sources.json): the top bar's portraits are the kit's 32 px; with no
+//   corrections  the seven corrections to the port (sources.json): the top bar's portraits are the kit's 32 px; with no
 //              instrument the dock has no slot; at the Large text the Partner's label is whole pieces and at the
 //              Largest the role row is dropped; an outcome card stays inside the view and a request card clear of the
 //              Pass button and the tab bar, each with its words scrolling inside it to their last line; no card is
-//              faded as a whole, and words that scroll take a place in the Tab order; and a sheet, a card or the top
-//              bar that is built again gives the focus back, never taking it from outside the surface
+//              faded as a whole, and words that scroll take a place in the Tab order; a request card's stamp and Too
+//              late to join's are whole in their scroller; and a sheet, a card or the top bar that is built again
+//              gives the focus back, never taking it from outside the surface
 //   pictures   the pictures may come after the mount; the loader's signal is listened to once and let go
 //   adapter    Frontend's own controller and contact adapter, wired as the adapter will wire them: a hold goes down
 //              and up through them, survives the redraws in between, and is let go by suspend; the surface shows the
@@ -719,7 +720,7 @@ export async function runProbe(document) {
   });
 
   // ── The corrections to the port (sources.json, kind "correction") ─────────────────────────────────────────
-  // Six places where the component is meant to differ from the frozen port. Each is checked here on the mounted
+  // Seven places where the component is meant to differ from the frozen port. Each is checked here on the mounted
   // surface: at the Standard, the Large and the Largest text and in both phone sizes where the text size matters.
   await step('corrections', async () => {
     const root = document.documentElement, was = root.style.fontSize, PHONES = ['390x844', '430x932'];
@@ -810,24 +811,40 @@ export async function runProbe(document) {
           && [1.5, 2].every(text => PHONES.every(sizeKey => cards.some(c => c.text === text && c.sizeKey === sizeKey && c.scrolls))), { cards });
     }
 
-    // 5. A request card.
+    // 5 and 7. A request card, and the other card with an answer under its words: Too late to join.
     {
       const cards = [];
-      for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) {
-        const m = await at('case-food-flow-04', text, sizeKey), card = m.find('.fs-card'), box = rect(card), words = m.find('.fs-card-body'), tabs = rect(m.find('.planet-food .tabs')), pass = rect(m.find('.planet-food .hero'));
+      for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) for (const stateId of ['case-food-flow-04', 'case-food-states-08']) {
+        const m = await at(stateId, text, sizeKey);
+        // Too late to join is the fixture's second packet, given after the first as the app would be given it.
+        if (m.sit.advance) { m.sit.advance(); m.food.update({ ...m.sit.inputNow(), assets, bars: m.device.bars() }); await frames.frames(4); }
+        const card = m.find('.fs-card'), box = rect(card), words = m.find('.fs-card-body'), scroller = rect(words), tabs = rect(m.find('.planet-food .tabs')), pass = rect(m.find('.planet-food .hero'));
         const answers = [...card.querySelectorAll('.fs-card-foot .btn, .fs-card-foot .fs-timer')].map(rect), inner = { left: box.left + 16, top: box.top + 16, right: box.right - 16, bottom: box.bottom - 16 };
-        const scrolls = words.scrollHeight > words.clientHeight + 1;
-        stood.push({ sizeKey, text, stateId: 'case-food-flow-04', kind: 'request', ...standing(m, card) });
+        const scrolls = words.scrollHeight > words.clientHeight + 1, stampNode = card.querySelector('.fs-stamp'), stamp = stampNode.getClientRects().length ? rect(stampNode) : null;
+        stood.push({ sizeKey, text, stateId, kind: 'request', ...standing(m, card) });
+        // Correction 7: the scroller takes the card's inside at its top and its sides, and ends above the answers; the
+        // tilted stamp, drawn past its line box and with a shadow 4 px further, is whole in it. A tight card shows none.
+        const room = { label: card.getAttribute('aria-label'), tight: card.hasAttribute('data-tight'), atTop: Math.abs(scroller.top - box.top) <= 0.5, atSides: Math.abs(scroller.left - box.left) <= 0.5 && Math.abs(scroller.right - box.right) <= 0.5,
+          aboveAnswers: Math.round((Math.min(...answers.map(a => a.top)) - scroller.bottom) * 100) / 100, ring: getComputedStyle(words).outlineOffset,
+          stamp: stamp && { above: Math.round((stamp.top - scroller.top) * 100) / 100, whole: stamp.left >= scroller.left && stamp.top >= scroller.top && stamp.right + 4 <= scroller.right && stamp.bottom + 4 <= scroller.bottom } };
         words.scrollTop = words.scrollHeight;
         await frames.frames(1);
-        cards.push({ sizeKey, text, abovePass: Math.round((pass.top - box.bottom) * 100) / 100, aboveTabs: Math.round((tabs.top - box.bottom) * 100) / 100, answers: answers.length, whole: answers.every(part => within(part, inner)),
-          scrolls, marked: words.hasAttribute('data-scrolls'), lastLine: rect(words.lastElementChild).bottom <= rect(words).bottom + 0.5, wordsShown: words.clientHeight });
+        cards.push({ sizeKey, text, stateId, abovePass: Math.round((pass.top - box.bottom) * 100) / 100, aboveTabs: Math.round((tabs.top - box.bottom) * 100) / 100, answers: answers.length, whole: answers.every(part => within(part, inner)),
+          scrolls, marked: words.hasAttribute('data-scrolls'), lastLine: rect(words.lastElementChild).bottom <= rect(words).bottom + 0.5, wordsShown: words.clientHeight, room });
         m.close();
       }
+      const asked = cards.filter(c => c.stateId === 'case-food-flow-04'), late = cards.filter(c => c.stateId === 'case-food-states-08');
       check('corrections: at every text size, on both phones, the request card ends 8 px above the Pass button or higher, clear of the tab bar, with Decline, Join and the time to answer whole inside it',
-        cards.length === 6 && cards.every(c => c.abovePass >= 7.5 && c.aboveTabs >= 27.5 && c.answers === 3 && c.whole), { cards });
+        asked.length === 6 && asked.every(c => c.room.label === 'Asked to join a Task' && c.abovePass >= 7.5 && c.aboveTabs >= 27.5 && c.answers === 3 && c.whole), { cards: asked });
       check('corrections: where the request\'s words need more room they scroll above the answers to their last line, with the port\'s fade, and keep room to be read',
-        cards.every(c => c.scrolls === c.marked && c.lastLine && c.wordsShown >= 200) && cards.filter(c => c.scrolls).length >= 3 && cards.filter(c => c.text === 1).every(c => !c.scrolls), { cards });
+        asked.every(c => c.scrolls === c.marked && c.lastLine && c.wordsShown >= 200) && asked.filter(c => c.scrolls).length >= 3 && asked.filter(c => c.text === 1).every(c => !c.scrolls), { cards: asked });
+      check('corrections: Too late to join, the other card with an answer under its words, ends above the Pass button and the tab bar at every text size on both phones, with OK whole inside it and its words in sight',
+        late.length === 6 && late.every(c => c.room.label === 'Too late to join' && c.abovePass >= 7.5 && c.aboveTabs >= 27.5 && c.answers === 1 && c.whole && c.scrolls === c.marked && c.lastLine), { cards: late });
+      check('corrections: on a request card and on Too late to join the words\' scroller takes the card\'s inside at its top and its sides, ends 10 px above the answers, and draws its focus ring inside itself',
+        cards.length === 12 && cards.every(c => c.room.atTop && c.room.atSides && Math.abs(c.room.aboveAnswers - 10) <= 0.5 && c.room.ring === '-5px'), { rooms: cards.map(c => ({ sizeKey: c.sizeKey, text: c.text, stateId: c.stateId, ...c.room })) });
+      check('corrections: the stamp of a request card and of Too late to join is whole at the Standard and the Large text on both phones, drawn below its scroller\'s upper edge; at the Largest text the tight card shows none, as in the port',
+        cards.filter(c => c.text !== 2).every(c => !c.room.tight && c.room.stamp?.whole && c.room.stamp.above > 0) && cards.filter(c => c.text === 2).every(c => c.room.tight && c.room.stamp === null),
+        { stamps: cards.map(c => ({ sizeKey: c.sizeKey, text: c.text, stateId: c.stateId, tight: c.room.tight, stamp: c.room.stamp })) });
     }
 
     // 4 and 5, every card: opaque to its edge, and its words within reach of the keys. The briefing too, which no correction touches.
@@ -837,8 +854,8 @@ export async function runProbe(document) {
         stood.push({ sizeKey, text, stateId, kind: 'briefing', ...standing(m, m.find('.fs-card')) });
         m.close();
       }
-      check('corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card',
-        stood.length === 42 && stood.every(c => c.whole && c.opaque && c.atFoot && c.fades === (c.wordsScroll ? 'words' : null)) && new Set(stood.map(c => c.colour)).size === 1, { stood });
+      check('corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card, Too late to join and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card',
+        stood.length === 48 && stood.every(c => c.whole && c.opaque && c.atFoot && c.fades === (c.wordsScroll ? 'words' : null)) && new Set(stood.map(c => c.colour)).size === 1, { stood });
       // The one card that can still scroll as a whole: the briefing at the Largest text in a phone 320 px by 568 px, by
       // 4 px of its own padding. The preview's phones are the two development sizes, so this one is set by hand. The
       // port fades such a card as a whole; here it stays opaque.

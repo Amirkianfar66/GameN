@@ -148,8 +148,8 @@
       "source": "apps/game/hosted/planet/food-render.mjs",
       "sourceSha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
       "sourceBytes": 35737,
-      "sha256": "beeb90c35d07ed9f3d4a6eac760dae04488a36d733aaf9345d093191d3e57188",
-      "bytes": 36527,
+      "sha256": "91eb3ddb53458b49264a37a862c73bc304975d50d495ac9a51fc87a05dd3d561",
+      "bytes": 36679,
       "differences": [
         {
           "kind": "connector-seam",
@@ -252,6 +252,20 @@
           "was": "maxHeight:`calc(100% - var(--top) - ${tight?20:72}px)`}",
           "now": "maxHeight:`max(calc(100% - var(--top) - var(--bottom) - ${tight?36:88}px), min(calc(100% - var(--top) - ${tight?20:72}px), 13rem))`}",
           "why": "At the larger text a request card ran over the tab bar. It now ends 28 px above the tab bar, which is 8 px clear of the Pass button that stands 20 px above the bar, and its words scroll above Decline, Join and the time to answer, which stay whole. It keeps the port's reach over the tab bar only where ending above it would leave the card under 13rem tall (the largest text on a phone under about 700 px tall), so that its words stay in sight there."
+        },
+        {
+          "kind": "correction",
+          "fix": 7,
+          "was": "h('div.fs-card-body',h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner request'),",
+          "now": "h('div.fs-card-body',{style:{margin:'-16px -16px 0',padding:'16px 16px 0',outlineOffset:'-5px'}},h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner request'),",
+          "why": "A request card's stamp was cut at its upper right corner, at every text size: the scroller its words are in began at the stamp's own line, and the tilted stamp is drawn above that line. The approved Food flow (design/food-supply/review/flow.png, frame 4) draws the stamp whole. The scroller now takes the card's inside at its top and its sides, the 16 px of padding with it (a margin of -16 px and a padding of 16 px there, set on the scroller itself), so the stamp is whole. Its lower edge is where it was: the answers and the time to answer do not move, and the words still scroll and fade above them. Its focus ring is drawn inside it, where the card does not cut it."
+        },
+        {
+          "kind": "correction",
+          "fix": 7,
+          "was": "h('div.fs-card-body',h('span.stamp.fs-stamp','Too late'),",
+          "now": "h('div.fs-card-body',{style:{margin:'-16px -16px 0',padding:'16px 16px 0',outlineOffset:'-5px'}},h('span.stamp.fs-stamp','Too late'),",
+          "why": "The same for the other card with an answer under its words, Too late to join: its stamp was cut at its upper right corner in the same way, and its scroller takes the card's inside at its top and its sides in the same way. Its OK button does not move."
         },
         {
           "kind": "correction",

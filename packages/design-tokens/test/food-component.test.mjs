@@ -115,7 +115,7 @@ test('every copy is its pinned source in the frozen port, with only the recorded
       assert.ok(['import-path', 'connector-seam', 'host-rule', 'component-mark', 'correction'].includes(difference.kind), `${entry.file}: a difference is an import path, a connector seam, a host rule, the component's mark or a correction`);
       assert.equal('fix' in difference, difference.kind === 'correction', `${entry.file}: a correction, and nothing else, names the fix it belongs to`);
       if (difference.kind === 'correction') {
-        assert.ok([1, 2, 3, 4, 5, 6].includes(difference.fix), `${entry.file}: a correction is one of the six`);
+        assert.ok([1, 2, 3, 4, 5, 6, 7].includes(difference.fix), `${entry.file}: a correction is one of the seven`);
         assert.ok(difference.why.length > 60, `${entry.file}: a correction says what the port did and what it does now`);
         fixes[difference.fix] = (fixes[difference.fix] ?? 0) + 1;
       }
@@ -130,11 +130,14 @@ test('every copy is its pinned source in the frozen port, with only the recorded
     assert.equal(copy.length, entry.bytes);
   }
   const changed = record.files.filter(f => f.differences.length).map(f => [f.file, f.differences.length]);
-  assert.deepEqual(changed, [['food.css', 2], ['food-ink.mjs', 2], ['food-render.mjs', 19], ['food-notice.mjs', 5], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
-  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, 'component-mark': 2, correction: 11 });
-  // The corrections are the only differences that change what is drawn or done: six, each by its number. They are
+  assert.deepEqual(changed, [['food.css', 2], ['food-ink.mjs', 2], ['food-render.mjs', 21], ['food-notice.mjs', 5], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
+  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, 'component-mark': 2, correction: 13 });
+  // The corrections are the only differences that change what is drawn or done: seven, each by its number. They are
   // in the renderer and its styles, and the check's record holds what each one shows.
-  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 4, 5: 1, 6: 3 }, 'the portraits, the dock, the role row, the outcome card (its limit, its words\' scroller, the words\' place in the Tab order, and no card faded as a whole), the request card, and the focus (the top bar, and a sheet or card: remembered, then given back)');
+  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 4, 5: 1, 6: 3, 7: 2 }, 'the portraits, the dock, the role row, the outcome card (its limit, its words\' scroller, the words\' place in the Tab order, and no card faded as a whole), the request card, the focus (the top bar, and a sheet or card: remembered, then given back), and the stamp of a request card and of Too late to join');
+  // Correction 7 is the same room on the two cards that have answers under their words, set on the scroller itself: it is no style rule.
+  const stamps = record.files.flatMap(f => f.differences.filter(d => d.fix === 7).map(d => [f.file, d.now.includes("{style:{margin:'-16px -16px 0',padding:'16px 16px 0',outlineOffset:'-5px'}},"), /'Partner request'|'Too late'/.exec(d.now)?.[0]]));
+  assert.deepEqual(stamps, [['food-render.mjs', true, "'Partner request'"], ['food-render.mjs', true, "'Too late'"]]);
   assert.deepEqual(record.files.filter(f => f.differences.some(d => d.kind === 'correction')).map(f => f.file), ['food.css', 'food-render.mjs']);
   // The component's mark: each of the two roots the component draws says it is the component's, and nothing else does.
   const marks = record.files.flatMap(f => f.differences.filter(d => d.kind === 'component-mark').map(d => [f.file, d.was, d.now]));

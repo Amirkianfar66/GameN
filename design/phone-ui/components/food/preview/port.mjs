@@ -37,6 +37,8 @@ function mount() {
   });
   if (sit.gauge !== null) device.gaugeSlot.replaceChildren(foodGauge(createFoodUi(document), sit.gauge) ?? '');
   openSheet(device.host, sit.open, () => renderer.openTasks());
+  // A state with a second packet is given it now: the port's renderer hears its controller.
+  sit.advance?.();
 }
 
 const ready = (async () => {

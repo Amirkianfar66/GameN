@@ -60,12 +60,15 @@ const VARIANTS = Object.freeze({
     changes: f => ({ sending: { ...f.input.sending, feedback: { key: 'preview-release-unknown', name: 'RELEASE', status: 'unknown', recovered: false } } }) },
 });
 
-/** Frontend's native fixtures used here, each a plain authorized view with no staged press. `open` is the sheet to open. */
+/** Frontend's native fixtures used here, each a plain authorized view with no staged press. `open` is the sheet to open; `then` names a second packet of the fixture to give after the first. */
 const CASES = Object.freeze({
   'food-winch-01': {}, 'food-winch-02': {}, 'food-winch-06': {}, 'food-winch-08': {}, 'food-winch-13': {}, 'food-winch-14': {}, 'food-winch-17': {},
   'food-panel-01': {}, 'food-panel-06': {}, 'food-panel-09': {}, 'food-panel-13': {}, 'food-panel-16': {}, 'food-panel-17': {},
   'food-flow-01': { open: 'tasks' }, 'food-flow-02': { open: 'partners' }, 'food-flow-03': {}, 'food-flow-04': {}, 'food-flow-09': {},
   'food-states-14': { open: 'howto' },
+  // The Partner's answer comes too late. The fixture's first packet shows the request; its second, a quarter of a second
+  // on, shows it withdrawn. The surface is given the two in turn, as the app would be: the card is "Too late to join".
+  'food-states-08': { then: 'next' },
   // No Food step: the surface draws nothing, and the ordinary header (a stand-in here) holds the gauge.
   'food-flow-13': { gauge: true }, 'food-flow-15': { gauge: true }, 'food-flow-16': { gauge: true },
 });
@@ -108,23 +111,32 @@ export function inputsFromModel(model, { people, board, viewer, navigation, cloc
 
 /** One of Frontend's fixtures on Frontend's own controller: no server, a fixed clock, nothing stored. A press is sent to nobody and never answered. */
 function caseSituation(id) {
-  const record = structuredClone(fixtures.cases.find(c => c.id === id).native.initial), value = record.value, view = value.foodPlayerView, now = record.now;
-  let stored = null, sequence = 0;
+  const native = fixtures.cases.find(c => c.id === id).native, record = structuredClone(native.initial), value = record.value, view = value.foodPlayerView;
+  let now = record.now, stored = null, sequence = 0;
   const sent = [];
   const controller = createFoodTaskController(
     { currentUid: () => 'food-preview', refresh() {}, command(request) { sent.push(structuredClone(request)); return new Promise(() => {}); }, receipt: async () => ({ receipt: null, serverTimeMs: now }) },
     { clock: { now: () => now }, scheduler: { setTimeout: (fn, ms) => setTimeout(fn, ms), clearTimeout: handle => clearTimeout(handle) }, ids: { next: () => `preview-${++sequence}` },
       recovery: { load: () => stored, save: v => { stored = v; }, clear: () => { stored = null; } } },
     { binding: { uid: 'food-preview', matchId: value.matchId, seatId: view.seatId }, readClock: () => ({ status: 'synced', serverNowMs: now, uncertaintyMs: 0 }) });
-  controller.observe(view, { matchId: value.matchId, versions: view.versions, phaseId: view.phaseId, round: view.round, serverNowMs: view.serverNowMs });
-  const ordinary = value.playerView, phase = ordinary.phase;
-  const context = {
-    people: value.members.map(m => ({ seatId: m.seatId, name: m.displayName, character: m.characterId })),
-    board: { seats: ordinary.board.seats.map(s => ({ seatId: s.seatId, location: s.location })), activeSeatId: ordinary.activeSeatId,
-      phase: { kind: phase.kind, remainingMs: Math.max(0, phase.endsAt - now) } },
-    viewer: { promiseOfferCount: 0 }, navigation: { openPanel: 'board', boardMode: 'room' }, clock: { now: () => now },
+  const observe = packet => { const seen = packet.foodPlayerView; controller.observe(seen, { matchId: packet.matchId, versions: seen.versions, phaseId: seen.phaseId, round: seen.round, serverNowMs: seen.serverNowMs }); };
+  const contextOf = packet => {
+    const ordinary = packet.playerView, phase = ordinary.phase;
+    return {
+      people: packet.members.map(m => ({ seatId: m.seatId, name: m.displayName, character: m.characterId })),
+      board: { seats: ordinary.board.seats.map(s => ({ seatId: s.seatId, location: s.location })), activeSeatId: ordinary.activeSeatId,
+        phase: { kind: phase.kind, remainingMs: Math.max(0, phase.endsAt - now) } },
+      viewer: { promiseOfferCount: 0 }, navigation: { openPanel: 'board', boardMode: 'room' }, clock: { now: () => now },
+    };
   };
-  return { controller, context, sent, open: CASES[id]?.open ?? null, gauge: CASES[id]?.gauge ? view.stock.doses : null };
+  observe(value);
+  const context = contextOf(value), hooks = { changed() {} };
+  /**
+   * The fixture's second packet, given after the first as the app would be given it. The clock moves to its moment and
+   * the public facts become its own before the controller is told, so that whoever the controller tells reads them.
+   */
+  const then = CASES[id]?.then === 'next' ? () => { const next = structuredClone(native.next); now = next.now; Object.assign(context, contextOf(next.value)); hooks.changed(); observe(next.value); } : null;
+  return { controller, context, sent, open: CASES[id]?.open ?? null, gauge: CASES[id]?.gauge ? view.stock.doses : null, then, hooks };
 }
 /** Any of Frontend's fixtures on Frontend's own controller, for the probe: the component's inputs, and the controller they come from. */
 export function fixtureSituation(id) {
@@ -134,10 +146,12 @@ export function fixtureSituation(id) {
 
 /**
  * The state the page was asked for.
- *   surface 'phone':   { input, controller, identities, ordinary, open, gauge, live } — `input` for the component;
- *                      `controller`, `identities` and `ordinary` are what the frozen port's renderer takes for the same
- *                      state. `open` names a sheet to open, `gauge` the doses for the ordinary header's gauge. `live` is
- *                      set for a case: Frontend's controller, and the context for the adapter, so the page can run it.
+ *   surface 'phone':   { input, controller, identities, ordinary, open, gauge, live, advance, inputNow } — `input` for
+ *                      the component; `controller`, `identities` and `ordinary` are what the frozen port's renderer takes
+ *                      for the same state. `open` names a sheet to open, `gauge` the doses for the ordinary header's
+ *                      gauge. `live` is set for a case: Frontend's controller, and the context for the adapter, so the
+ *                      page can run it. `advance`, where the state has a second packet, gives it once the surface is
+ *                      mounted; `inputNow()` is then the component's inputs as they stand.
  *   surface 'display': { steps } — the notice's inputs, in order.
  */
 export function situation(id = QUERY.state) {
@@ -146,10 +160,14 @@ export function situation(id = QUERY.state) {
   if (state.kind === 'notice') return { state, surface: 'display', steps: NOTICES[id].steps };
   const reduced = QUERY.motion === 'reduced';
   if (state.kind === 'case') {
-    const { controller, context, sent, open, gauge } = caseSituation(state.fixture), input = { ...inputsFromModel(controller.getModel(), context), reducedMotion: reduced };
-    const checked = nextFoodInput(undefined, input);
-    return { state, surface: 'phone', input, controller, identities: () => foodIdentities(checked), ordinary: () => foodOrdinary(checked), open, gauge, expected: null,
-      live: { controller, context, sent } };
+    const { controller, context, sent, open, gauge, then, hooks } = caseSituation(state.fixture);
+    const inputNow = () => ({ ...inputsFromModel(controller.getModel(), context), reducedMotion: reduced }), input = inputNow();
+    // What the frozen port's renderer reads of the ordinary app follows the packet the surface was last given.
+    let checked = nextFoodInput(undefined, input), stale = false;
+    hooks.changed = () => { stale = true; };
+    const current = () => { if (stale) { checked = nextFoodInput(undefined, inputNow()); stale = false; } return checked; };
+    return { state, surface: 'phone', input, controller, identities: () => foodIdentities(current()), ordinary: () => foodOrdinary(current()), open, gauge, expected: null,
+      live: { controller, context, sent }, advance: then, inputNow };
   }
   const frame = frameOf(state.kind === 'variant' ? VARIANTS[id].from : id);
   const input = { ...packetInput(frame, state.kind === 'variant' ? VARIANTS[id].changes(frame) : {}), reducedMotion: reduced };
@@ -158,7 +176,7 @@ export function situation(id = QUERY.state) {
   const controller = { getModel: () => foodModel(checked, foodNow(checked)), subscribe(l) { listeners.add(l); return () => listeners.delete(l); },
     holdDown: () => false, holdUp() {}, press: async () => {}, ask: async () => {}, answer: async () => {}, withdraw: async () => {}, setVisible() {} };
   return { state, surface: 'phone', input, controller, identities: () => foodIdentities(checked), ordinary: () => foodOrdinary(checked), open: null, gauge: null,
-    expected: state.kind === 'packet' ? frame.expected : null, live: null };
+    expected: state.kind === 'packet' ? frame.expected : null, live: null, advance: null, inputNow: () => input };
 }
 
 /** The phone the surface is drawn in: its size, the review frames' safe areas, and labelled stand-ins for the ordinary app's bars and board. */

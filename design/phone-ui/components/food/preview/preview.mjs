@@ -88,6 +88,8 @@ if (QUERY.probe) {
     handle = mountFood(device.host, { ...inputs(), assets, bars: device.bars() }, handlers);
     if (sit.gauge !== null) device.gaugeSlot.replaceChildren(foodGauge(document, sit.gauge) ?? '');
     openSheet(device.host, sit.open, () => handle.openTasks());
+    // A state with a second packet is given it now: the controller tells the adapter, which gives the surface its inputs again.
+    sit.advance?.();
   }
 
   // The page's own controls: what an app does to the surface between a player's presses.
