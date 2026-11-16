@@ -2,7 +2,7 @@
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
   "version": "component-kit-0.7.0",
-  "sourceCommit": "39778572597b422894c8de6443f09ed58d2212af",
+  "sourceCommit": "15fe53cb6b8c66321c15a25b2c991dc2e4a61416",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -178,6 +178,29 @@
       "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), a row puts its value under its title, the kit 0.5.0 rule (#228), now also when the value is a pill, as the Promise rows give it: in the pinned pack the pill keeps its place and squeezes the title onto narrow lines, where a longer title is cut"
     },
     {
+      "cases": "/^notice extra$/",
+      "parts": [
+        "/^(notice|list|row( .+)?)$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "w",
+        "x",
+        "y",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), the row a notice holds puts its value under its title, the kit 0.5.0 row rule (#228), so the notice centres a narrower list and grows by the line; the pinned pack keeps the value beside the title"
+    },
+    {
       "cases": "/^segmented icons$/",
       "parts": [
         "/^option \\d icon$/"
@@ -216,87 +239,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "9d2ca56f710b1aadf9ecc3fdf4887db777c6387879e02e580465125739d7cbbd",
+      "sha256": "39c281703c1b4d45cea3cd592962eecd044a721209fe684d1ff57502b652f674",
       "size": {
         "width": 390,
-        "height": 9603
+        "height": 10456
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B2AzAurm.js",
+          "source": "assets/page-DFpNBKMb.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "2fd11960a552514159297b569a7dd6f2ab8652b1f21a8e4ac8df3d341ffaefd3"
+      "measurementSha256": "052476a77d8b351bd833f9c012179ab969d6672dee11de324ccbc640a036cef2"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "1b677dcf8c922719bff0d1c8985bae9d19aea2a2bd38ed94dbd40fed40917e97",
+      "sha256": "1bdf5540c163e718b1a923fcd667705044199f383ceff62b094a0bed1bbaca22",
       "size": {
         "width": 390,
-        "height": 9672
+        "height": 10525
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B2AzAurm.js",
+          "source": "assets/page-DFpNBKMb.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "128fd34b2924657a22207bdcc8c0c919f860007e622c83d98e0d0b764d2f3130"
+      "measurementSha256": "d57c70d88a15259a87aa9a0573a09bdf9191f62d18507c4b9f622de9c82c1242"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "6359cd13dc9e416f7f65e0c02a4e7d765666a10a771eb3b13b50097e771e9e7f",
+      "sha256": "9f85dde7b674467769c583c0ef3c40bf7aa5dfa2ce2b9b63d10e80d46da99fc7",
       "size": {
         "width": 390,
-        "height": 14227
+        "height": 15435
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B2AzAurm.js",
+          "source": "assets/page-DFpNBKMb.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "b4b0dd914d96a3b740a2ae30c706fe7619ce822b1560e11e58b67cfa6da367c3"
+      "measurementSha256": "21d480f9d04e203923372a683024d10f01514e031df70f97ade18613bd267a20"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "523cb284236464a2da3e29a3b2172854d1d2d8990432c6600da8dfd021c77419",
+      "sha256": "c113b14c25d6f2026e3396bb00b5c6d87645b6d8507a2cfd8b1a7b88c8288207",
       "size": {
         "width": 390,
-        "height": 14248
+        "height": 15493
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B2AzAurm.js",
+          "source": "assets/page-DFpNBKMb.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "822b4b2da517cef83f3f3499ba82cfea61b02ed7fa98891a0b19554e478957a3"
+      "measurementSha256": "79b5c6d738860df8e5e235c221981552600ac5845f5533c6d6d95d3859ca332f"
     }
   },
   "agreement": {
@@ -573,6 +596,24 @@
         "pills": {
           "ok": true,
           "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
           "differences": [],
           "accepted": []
         },
@@ -945,6 +986,24 @@
           "differences": [],
           "accepted": []
         },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": []
+        },
         "stamps": {
           "ok": true,
           "parts": 5,
@@ -1297,14 +1356,14 @@
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 8
+              "rule": 9
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 8
+              "rule": 9
             }
           ]
         },
@@ -1329,6 +1388,24 @@
         "pills": {
           "ok": true,
           "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
           "differences": [],
           "accepted": []
         },
@@ -2461,91 +2538,91 @@
               "key": "h",
               "pack": 78.38,
               "kit": 97,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 1",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 1",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 1 icon",
               "key": "x",
               "pack": 9,
               "kit": 65.83,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 1 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 16,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2",
               "key": "x",
               "pack": 180.5,
               "kit": 3,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2",
               "key": "y",
               "pack": 3,
               "kit": 50,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2 icon",
               "key": "x",
               "pack": 186.5,
               "kit": 52.66,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 63,
-              "rule": 9
+              "rule": 10
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 9
+              "rule": 10
             }
           ]
         },
@@ -2572,6 +2649,151 @@
           "parts": 10,
           "differences": [],
           "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "notice",
+              "key": "h",
+              "pack": 198,
+              "kit": 238.39,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "x",
+              "pack": 19.28,
+              "kit": 52.69,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "w",
+              "pack": 319.42,
+              "kit": 252.61,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "x",
+              "pack": 19.28,
+              "kit": 52.69,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "w",
+              "pack": 319.42,
+              "kit": 252.61,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "x",
+              "pack": 33.28,
+              "kit": 66.69,
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "y",
+              "pack": 146.75,
+              "kit": 166.94,
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 8
+            },
+            {
+              "part": "row icon drawing",
+              "key": "x",
+              "pack": 38.78,
+              "kit": 72.19,
+              "rule": 8
+            },
+            {
+              "part": "row icon drawing",
+              "key": "y",
+              "pack": 152.25,
+              "kit": 172.44,
+              "rule": 8
+            },
+            {
+              "part": "row title",
+              "key": "x",
+              "pack": 75.28,
+              "kit": 108.69,
+              "rule": 8
+            },
+            {
+              "part": "row value",
+              "key": "x",
+              "pack": 269.89,
+              "kit": 108.69,
+              "rule": 8
+            },
+            {
+              "part": "row value",
+              "key": "y",
+              "pack": 142.55,
+              "kit": 185,
+              "rule": 8
+            }
+          ]
         },
         "stamps": {
           "ok": true,
@@ -2643,9 +2865,9 @@
     }
   },
   "summary": {
-    "cases": 170,
-    "agree": 170,
-    "parts": 1209,
-    "accepted": 184
+    "cases": 182,
+    "agree": 182,
+    "parts": 1277,
+    "accepted": 202
   }
 }
