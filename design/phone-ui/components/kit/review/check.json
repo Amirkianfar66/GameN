@@ -2,7 +2,7 @@
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
   "version": "component-kit-0.5.0",
-  "sourceCommit": "0b35497fcd5537a7c94205a5059d538d380b3e97",
+  "sourceCommit": "4429def493a07e01326457807694dd1be5a4bdec",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -96,6 +96,62 @@
       ],
       "texts": null,
       "why": "On glass, the pack's reset for the cell's vote count (.sheet .count, a dark badge) also takes the halo from the field's light count, which its class shares; the kit keeps the halo on light words on glass, as the pack's glass rule intends"
+    },
+    {
+      "cases": "/^list$/",
+      "parts": [
+        "/^row (2|6)( (title|value|icon))?$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "::before bottom",
+        "w",
+        "x",
+        "y",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), a row with a value puts the value under its title, the pack's own large-text rule for rows (#228): in the pinned pack the title and the value run into each other there. The row is a grid, and its icon keeps its 12 px as a margin"
+    },
+    {
+      "cases": "/^(list|group)$/",
+      "parts": [
+        "/^(note|row [3-7]( .+)?)$/"
+      ],
+      "keys": [
+        "y"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "What follows a row whose value went under its title moves down by that line"
+    },
+    {
+      "cases": "/^(list|group)$/",
+      "parts": [
+        "list"
+      ],
+      "keys": [
+        "h"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "The list grows by the line its rows' values took under their titles"
     }
   ],
   "pages": {
@@ -1217,281 +1273,326 @@
           "accepted": []
         },
         "list": {
-          "ok": false,
+          "ok": true,
           "parts": 39,
-          "differences": [
+          "differences": [],
+          "accepted": [
             {
               "part": "list",
               "key": "h",
               "pack": 610.98,
-              "kit": 691.77
+              "kit": 691.77,
+              "rule": 6
             },
             {
               "part": "row 2",
               "key": "h",
               "pack": 56.5,
-              "kit": 96.89
+              "kit": 96.89,
+              "rule": 4
             },
             {
               "part": "row 2",
               "key": "display",
               "pack": "flex",
-              "kit": "grid"
+              "kit": "grid",
+              "rule": 4
             },
             {
               "part": "row 2",
               "key": "column-gap",
               "pack": "12px",
-              "kit": "0px"
+              "kit": "0px",
+              "rule": 4
             },
             {
               "part": "row 2",
               "key": "row-gap",
               "pack": "12px",
-              "kit": "2px"
+              "kit": "2px",
+              "rule": 4
             },
             {
               "part": "row 2",
               "key": "::before bottom",
               "pack": "55.5px",
-              "kit": "95.8906px"
+              "kit": "95.8906px",
+              "rule": 4
             },
             {
               "part": "row 2 title",
               "key": "w",
               "pack": 299.89,
-              "kit": 330
+              "kit": 330,
+              "rule": 4
             },
             {
               "part": "row 2 value",
               "key": "x",
               "pack": 325.89,
-              "kit": 14
+              "kit": 14,
+              "rule": 4
             },
             {
               "part": "row 2 value",
               "key": "y",
               "pack": 100.34,
-              "kit": 142.8
+              "kit": 142.8,
+              "rule": 4
             },
             {
               "part": "row 3",
               "key": "y",
               "pack": 147.8,
-              "kit": 188.19
+              "kit": 188.19,
+              "rule": 5
             },
             {
               "part": "row 3 portrait",
               "key": "y",
               "pack": 175.44,
-              "kit": 215.83
+              "kit": 215.83,
+              "rule": 5
             },
             {
               "part": "row 3 title",
               "key": "y",
               "pack": 154.8,
-              "kit": 195.19
+              "kit": 195.19,
+              "rule": 5
             },
             {
               "part": "row 3 sub",
               "key": "y",
               "pack": 198.3,
-              "kit": 238.69
+              "kit": 238.69,
+              "rule": 5
             },
             {
               "part": "row 3 chevron",
               "key": "y",
               "pack": 185.44,
-              "kit": 225.83
+              "kit": 225.83,
+              "rule": 5
             },
             {
               "part": "row 3 chevron drawing",
               "key": "y",
               "pack": 194.44,
-              "kit": 234.83
+              "kit": 234.83,
+              "rule": 5
             },
             {
               "part": "row 4",
               "key": "y",
               "pack": 239.09,
-              "kit": 279.48
+              "kit": 279.48,
+              "rule": 5
             },
             {
               "part": "row 4 icon",
               "key": "y",
               "pack": 307.89,
-              "kit": 348.28
+              "kit": 348.28,
+              "rule": 5
             },
             {
               "part": "row 4 icon drawing",
               "key": "y",
               "pack": 313.39,
-              "kit": 353.78
+              "kit": 353.78,
+              "rule": 5
             },
             {
               "part": "row 4 title",
               "key": "y",
               "pack": 246.09,
-              "kit": 286.48
+              "kit": 286.48,
+              "rule": 5
             },
             {
               "part": "row 4 sub",
               "key": "y",
               "pack": 332.09,
-              "kit": 372.48
+              "kit": 372.48,
+              "rule": 5
             },
             {
               "part": "row 4 switch",
               "key": "y",
               "pack": 307.39,
-              "kit": 347.78
+              "kit": 347.78,
+              "rule": 5
             },
             {
               "part": "row 5",
               "key": "y",
               "pack": 406.69,
-              "kit": 447.08
+              "kit": 447.08,
+              "rule": 5
             },
             {
               "part": "row 5 icon",
               "key": "y",
               "pack": 419.94,
-              "kit": 460.33
+              "kit": 460.33,
+              "rule": 5
             },
             {
               "part": "row 5 icon drawing",
               "key": "y",
               "pack": 425.44,
-              "kit": 465.83
+              "kit": 465.83,
+              "rule": 5
             },
             {
               "part": "row 5 title",
               "key": "y",
               "pack": 413.69,
-              "kit": 454.08
+              "kit": 454.08,
+              "rule": 5
             },
             {
               "part": "row 5 chevron",
               "key": "y",
               "pack": 426.94,
-              "kit": 467.33
+              "kit": 467.33,
+              "rule": 5
             },
             {
               "part": "row 5 chevron drawing",
               "key": "y",
               "pack": 435.94,
-              "kit": 476.33
+              "kit": 476.33,
+              "rule": 5
             },
             {
               "part": "row 6",
               "key": "y",
               "pack": 463.19,
-              "kit": 503.58
+              "kit": 503.58,
+              "rule": 4
             },
             {
               "part": "row 6",
               "key": "h",
               "pack": 56.5,
-              "kit": 96.89
+              "kit": 96.89,
+              "rule": 4
             },
             {
               "part": "row 6",
               "key": "display",
               "pack": "flex",
-              "kit": "grid"
+              "kit": "grid",
+              "rule": 4
             },
             {
               "part": "row 6",
               "key": "column-gap",
               "pack": "12px",
-              "kit": "0px"
+              "kit": "0px",
+              "rule": 4
             },
             {
               "part": "row 6",
               "key": "row-gap",
               "pack": "12px",
-              "kit": "2px"
+              "kit": "2px",
+              "rule": 4
             },
             {
               "part": "row 6",
               "key": "::before bottom",
               "pack": "55.5px",
-              "kit": "95.8906px"
+              "kit": "95.8906px",
+              "rule": 4
             },
             {
               "part": "row 6 icon",
               "key": "y",
               "pack": 476.44,
-              "kit": 537.02
+              "kit": 537.02,
+              "rule": 4
             },
             {
               "part": "row 6 icon",
               "key": "margin-right",
               "pack": "0px",
-              "kit": "12px"
+              "kit": "12px",
+              "rule": 4
             },
             {
               "part": "row 6 icon drawing",
               "key": "y",
               "pack": 481.94,
-              "kit": 542.52
+              "kit": 542.52,
+              "rule": 5
             },
             {
               "part": "row 6 title",
               "key": "y",
               "pack": 470.19,
-              "kit": 510.58
+              "kit": 510.58,
+              "rule": 4
             },
             {
               "part": "row 6 title",
               "key": "w",
               "pack": 256.23,
-              "kit": 288
+              "kit": 288,
+              "rule": 4
             },
             {
               "part": "row 6 value",
               "key": "x",
               "pack": 324.23,
-              "kit": 56
+              "kit": 56,
+              "rule": 4
             },
             {
               "part": "row 6 value",
               "key": "y",
               "pack": 472.23,
-              "kit": 555.08
+              "kit": 555.08,
+              "rule": 4
             },
             {
               "part": "row 7",
               "key": "y",
               "pack": 519.69,
-              "kit": 600.47
+              "kit": 600.47,
+              "rule": 5
             },
             {
               "part": "row 7 icon",
               "key": "y",
               "pack": 550.33,
-              "kit": 631.11
+              "kit": 631.11,
+              "rule": 5
             },
             {
               "part": "row 7 icon drawing",
               "key": "y",
               "pack": 555.83,
-              "kit": 636.61
+              "kit": 636.61,
+              "rule": 5
             },
             {
               "part": "row 7 title",
               "key": "y",
               "pack": 526.69,
-              "kit": 607.47
+              "kit": 607.47,
+              "rule": 5
             },
             {
               "part": "row 7 sub",
               "key": "y",
               "pack": 570.19,
-              "kit": 650.97
+              "kit": 650.97,
+              "rule": 5
             }
-          ],
-          "accepted": []
+          ]
         },
         "row unavailable": {
           "ok": true,
@@ -1500,23 +1601,25 @@
           "accepted": []
         },
         "group": {
-          "ok": false,
+          "ok": true,
           "parts": 3,
-          "differences": [
+          "differences": [],
+          "accepted": [
             {
               "part": "list",
               "key": "h",
               "pack": 56.5,
-              "kit": 96.89
+              "kit": 96.89,
+              "rule": 6
             },
             {
               "part": "note",
               "key": "y",
               "pack": 119.69,
-              "kit": 160.08
+              "kit": 160.08,
+              "rule": 5
             }
-          ],
-          "accepted": []
+          ]
         },
         "field": {
           "ok": true,
@@ -1774,8 +1877,8 @@
   },
   "summary": {
     "cases": 140,
-    "agree": 138,
+    "agree": 140,
     "parts": 911,
-    "accepted": 62
+    "accepted": 109
   }
 }
