@@ -1,0 +1,2688 @@
+{
+  "tool": "design/tools/hospital-panel-check.mjs",
+  "component": "design/phone-ui/components/hospital-panel",
+  "sourceCommit": "4211f770936cf66bec3331c44bf2238660891a67",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/enter": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-enter.jpg",
+      "sha256": "92495523e78289051dd98fa62a70f9caf84f10a36d12b904652867f5933f96de",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": "_",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": null,
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/enter": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-enter.jpg",
+      "sha256": "5636e17bd523c9483862e3b36ec1667f95707aa23a4f6438b382141ae3165be7",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": "_",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": null,
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/entered": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-entered.jpg",
+      "sha256": "6cf2135f51cfb968927d73d80ded3efdd6a9d08c826c98de9b60dc41d3e98ef8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/entered": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-entered.jpg",
+      "sha256": "87d77d6b31f6465b972dbb0b5e9a58c3d02d6cbe9f9cd2842c5d1fa6f6d2e9af",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/queued": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-queued.jpg",
+      "sha256": "5603a50fccc2e4824924baa813a7613cb7eec5c5ec31d14c230c8cd1459b2f0f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "REGISTERED",
+      "tone": "amber",
+      "icon": null,
+      "lines": "Your request is queued for Rescue|Nothing happens until then",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "REGISTERED",
+        "queued for Rescue"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/queued": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-queued.jpg",
+      "sha256": "db81dccc8d8d8a1fcfbec6d44dccbf3815b81f4ba70c4195f74176535c982342",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "REGISTERED",
+      "tone": "amber",
+      "icon": null,
+      "lines": "Your request is queued for Rescue|Nothing happens until then",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "REGISTERED",
+        "queued for Rescue"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/wrong": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-wrong.jpg",
+      "sha256": "6192746d7b145c31c1e0a4fe3047aee1ed2082990e9b75a773ebbeca9eb94242",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "WRONG NUMBER",
+      "tone": null,
+      "icon": null,
+      "lines": "Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/wrong": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-wrong.jpg",
+      "sha256": "8b523caadea2a279677cfca128a8a124ff7157cfd339866a757f52c44aaa9d05",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "WRONG NUMBER",
+      "tone": null,
+      "icon": null,
+      "lines": "Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/unavailable": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-unavailable.jpg",
+      "sha256": "32c04996c543d6fff2bdfa7ac5855aa91c131f65099aefebde002089365d383b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": "panel",
+      "lines": "The panel is unavailable right now",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/unavailable": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-unavailable.jpg",
+      "sha256": "8b480078b0f29a3978d7df454348a59508df96936d43bd0b946b28b53e8824da",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": "panel",
+      "lines": "The panel is unavailable right now",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/spent": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-spent.jpg",
+      "sha256": "57e11e7f34347812a67e4bcf048b69bb08c70332419031b9502d1b93881ba9d1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": "lock",
+      "lines": "Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/spent": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-spent.jpg",
+      "sha256": "04542220a22b1ed90e4ce9ac8f7e9aba676428b6ae97cb1b6dff0895fd24698a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": "lock",
+      "lines": "Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sending": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-sending.jpg",
+      "sha256": "c0f6ecce3301676582d767672333ea2130c453e8a15e96e894584c046bb32c40",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submitting…",
+      "busy": "Submitting…",
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": true,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sending": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-sending.jpg",
+      "sha256": "4be76dc12a54180531706cdb53080e03763c21070acd04663ac5b3e8b41a9a8a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submitting…",
+      "busy": "Submitting…",
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": true,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/rejected": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-rejected.jpg",
+      "sha256": "fe137933d2ce0ae7a26b9889e8d6d21c638ad762cb89f6cd81ca0cf09670ba0d",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": "The server did not accept it. Check it, then submit again.",
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/rejected": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-rejected.jpg",
+      "sha256": "3bcc6f3b5f4859e4c402f34e5d2587be7c2d1840710684d45dd8c378b2d3f202",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": "The server did not accept it. Check it, then submit again.",
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/treated": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-treated.jpg",
+      "sha256": "1fac384410403d1fa76dd04417cc7c87210f573d85be4f412055f55187a07ac3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "TREATED",
+      "tone": "amber",
+      "icon": null,
+      "lines": "You were treated|Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/treated": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-treated.jpg",
+      "sha256": "536f31d74eaa379954efbfcc17554792db30a1e3f916fe666d822ad6c58719c8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "TREATED",
+      "tone": "amber",
+      "icon": null,
+      "lines": "You were treated|Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/no-effect": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-no-effect.jpg",
+      "sha256": "3104b59a12492e7ca12d162ae348c013f0a4a2dae9f22849697a12d5ab498554",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO EFFECT",
+      "tone": null,
+      "icon": null,
+      "lines": "Your request had no effect|Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/no-effect": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-no-effect.jpg",
+      "sha256": "f4e8fed102d30d1c24886d458eb3b6aee369d51308f5b91990ee5361e8578727",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "NO EFFECT",
+      "tone": null,
+      "icon": null,
+      "lines": "Your request had no effect|Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/discarded": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-discarded.jpg",
+      "sha256": "3621ff5b51f7380949028cb6b73db7d7ec9e40a8831b4ca1b04f027902111643",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "DISCARDED",
+      "tone": null,
+      "icon": null,
+      "lines": "Your request was discarded|Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/discarded": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-discarded.jpg",
+      "sha256": "018e7b515bfa8da24037abbdc6169dcb80b823e7f530bc2667df814391a8c2fc",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "DISCARDED",
+      "tone": null,
+      "icon": null,
+      "lines": "Your request was discarded|Your attempt is used",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "attempt is used"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/eight": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-eight.jpg",
+      "sha256": "b6fe5d34382fdd1028a02afc453d869ebe2a21862e9c7898cddb685c9576a916",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": "_",
+      "keys": "1,2,3,4,5,6,7,8",
+      "pressed": null,
+      "gaps": "9",
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/eight": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-eight.jpg",
+      "sha256": "47784cc88c18e8696896cd83fb9ae6c482cb69ad77b28374d7e20fe58d5bbbfb",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": "_",
+      "keys": "1,2,3,4,5,6,7,8",
+      "pressed": null,
+      "gaps": "9",
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/seven": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-seven.jpg",
+      "sha256": "0d66bb7d649d14231639f3526253d118fdf055af32a733c9f51550e93e5dbb76",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 7",
+      "busy": null,
+      "display": "7",
+      "keys": "1,2,3,4,5,6,7",
+      "pressed": "7",
+      "gaps": "8,9",
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/seven": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-seven.jpg",
+      "sha256": "2832ecbbe295d78e14204af9253a9f8b6f91b07da15026df073fd88a5b231f49",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 7",
+      "busy": null,
+      "display": "7",
+      "keys": "1,2,3,4,5,6,7",
+      "pressed": "7",
+      "gaps": "8,9",
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-stale.jpg",
+      "sha256": "0e15682ad240c031a7d8360b2c6ffb29044d31a4e226c93d9165d70d6f847ae6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "stale",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": true,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": "Connection lost",
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-stale.jpg",
+      "sha256": "46d605cbdcf74d578ecc44dae8192c41afdc64d187059b5255a9ab7664fd66e1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "stale",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": true,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": "Connection lost",
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-concealed.jpg",
+      "sha256": "039658d724e9e54723261c9d3a560ca18a733d75c92c154c95c5873cf83144f4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "close": false,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/hospital-panel/review/430x932-concealed.jpg",
+      "sha256": "655961c4e3dcb7e0b9408a04a177e76a1936980f86a29381cd2746bfe989efe2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "close": false,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "320x568/small-enter": {
+      "file": "design/phone-ui/components/hospital-panel/review/320x568-small-enter.jpg",
+      "sha256": "fd2f83eda81459f8ddd5c428a74653e06faf97d58dab478e89f5324b1e943171",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": "_",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": null,
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/large-entered": {
+      "file": "design/phone-ui/components/hospital-panel/review/390x844-large-entered.jpg",
+      "sha256": "bd3544c6d5a46dd11d3e4e8c67295c923e0e8a04aef9e81113472ca0c8849626",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-entered": {
+      "file": "design/phone-ui/components/hospital-panel/review/320x568-largest-entered.jpg",
+      "sha256": "6308d66a6b5af7385a942e6d7b0b04349baab9a38578b2c5abafab19cc827fe7",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "keypad",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": "Submit 3",
+      "busy": null,
+      "display": "3",
+      "keys": "1,2,3,4,5,6,7,8,9",
+      "pressed": "3",
+      "gaps": null,
+      "refused": false,
+      "perRow": 3,
+      "line": "One attempt: the Doctor’s player number.",
+      "error": null,
+      "stamp": null,
+      "tone": null,
+      "icon": null,
+      "lines": null,
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "One attempt",
+        "Submit"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-status": {
+      "file": "design/phone-ui/components/hospital-panel/review/320x568-largest-status.jpg",
+      "sha256": "945f934ab9f2aa299f9dcc7ae935db5cc962cc582ec19a12961483d92d1bf06b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "status",
+      "status": "live",
+      "sheet": "Hospital panel",
+      "sub": "Only on this phone",
+      "close": true,
+      "footer": null,
+      "busy": null,
+      "display": null,
+      "keys": null,
+      "pressed": null,
+      "gaps": null,
+      "refused": null,
+      "perRow": null,
+      "line": null,
+      "error": null,
+      "stamp": "REGISTERED",
+      "tone": "amber",
+      "icon": null,
+      "lines": "Your request is queued for Rescue|Nothing happens until then",
+      "banner": null,
+      "figures": 6,
+      "leaked": [
+        "Hospital panel",
+        "Only on this phone",
+        "REGISTERED",
+        "queued for Rescue"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/hospital.back-DOw83u1p.svg",
+        "assets/hospital.berth-four-h3-BRFOh23B.svg",
+        "assets/hospital.berth-four-h4-BNIsMKZV.svg",
+        "assets/hospital.berth-four-h1-head-Dh34kP9B.svg",
+        "assets/hospital.berth-four-h2-head-7Qrt7Q59.svg",
+        "assets/hospital.berth-four-h1-DiE9adOg.svg",
+        "assets/hospital.berth-four-h2-CsmbiHGc.svg",
+        "assets/hospital.extend-T_4rUMAk.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "keys",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "display": "_",
+              "pressed": []
+            },
+            "told": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "unchanged": [],
+            "three": {
+              "display": "3",
+              "pressed": [
+                "3"
+              ]
+            },
+            "again": "seat-3",
+            "six": {
+              "display": "6",
+              "pressed": [
+                "6"
+              ]
+            },
+            "kept": true,
+            "named": true,
+            "names": [
+              [
+                "1",
+                null,
+                "button"
+              ],
+              [
+                "2",
+                null,
+                "button"
+              ],
+              [
+                "3",
+                null,
+                "button"
+              ],
+              [
+                "4",
+                null,
+                "button"
+              ],
+              [
+                "5",
+                null,
+                "button"
+              ],
+              [
+                "6",
+                null,
+                "button"
+              ],
+              [
+                "7",
+                null,
+                "button"
+              ],
+              [
+                "8",
+                null,
+                "button"
+              ],
+              [
+                "9",
+                null,
+                "button"
+              ]
+            ],
+            "live": "polite",
+            "eight": {
+              "keys": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8"
+              ],
+              "gaps": 1,
+              "gapPlaces": [
+                9
+              ],
+              "at": [
+                [
+                  "1",
+                  16,
+                  292
+                ],
+                [
+                  "2",
+                  139,
+                  292
+                ],
+                [
+                  "3",
+                  261,
+                  292
+                ],
+                [
+                  "4",
+                  16,
+                  360
+                ],
+                [
+                  "5",
+                  139,
+                  360
+                ],
+                [
+                  "6",
+                  261,
+                  360
+                ],
+                [
+                  "7",
+                  16,
+                  428
+                ],
+                [
+                  "8",
+                  139,
+                  428
+                ]
+              ],
+              "gapsHidden": true
+            },
+            "seven": {
+              "keys": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7"
+              ],
+              "gaps": 2,
+              "gapPlaces": [
+                8,
+                9
+              ],
+              "at": [
+                [
+                  "1",
+                  16,
+                  292
+                ],
+                [
+                  "2",
+                  139,
+                  292
+                ],
+                [
+                  "3",
+                  261,
+                  292
+                ],
+                [
+                  "4",
+                  16,
+                  360
+                ],
+                [
+                  "5",
+                  139,
+                  360
+                ],
+                [
+                  "6",
+                  261,
+                  360
+                ],
+                [
+                  "7",
+                  16,
+                  428
+                ]
+              ],
+              "gapsHidden": true
+            }
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "sendingOff": true,
+            "whileSending": 0,
+            "keepsNumber": true,
+            "back": true,
+            "notInteractive": true,
+            "stale": true,
+            "why": "Controls return when the match is current",
+            "after": 0
+          }
+        },
+        {
+          "id": "status",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "queued": [
+                "REGISTERED",
+                "amber",
+                null,
+                "Your request is queued for Rescue|Nothing happens until then",
+                "status"
+              ],
+              "wrong": [
+                "WRONG NUMBER",
+                null,
+                null,
+                "Your attempt is used",
+                "status"
+              ],
+              "treated": [
+                "TREATED",
+                "amber",
+                null,
+                "You were treated|Your attempt is used",
+                "status"
+              ],
+              "no-effect": [
+                "NO EFFECT",
+                null,
+                null,
+                "Your request had no effect|Your attempt is used",
+                "status"
+              ],
+              "discarded": [
+                "DISCARDED",
+                null,
+                null,
+                "Your request was discarded|Your attempt is used",
+                "status"
+              ],
+              "spent": [
+                null,
+                null,
+                "lock",
+                "Your attempt is used",
+                "status"
+              ],
+              "unavailable": [
+                null,
+                null,
+                "panel",
+                "The panel is unavailable right now",
+                "status"
+              ]
+            },
+            "replaced": true,
+            "none": true
+          }
+        },
+        {
+          "id": "words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "keypad": {
+              "id": "hospital-panel",
+              "title": "Hospital panel",
+              "sub": "Only on this phone",
+              "detent": "large",
+              "close": true,
+              "actions": []
+            },
+            "picked": {
+              "id": "hospital-panel",
+              "title": "Hospital panel",
+              "sub": "Only on this phone",
+              "detent": "large",
+              "close": true,
+              "actions": [
+                {
+                  "id": "submit",
+                  "label": "Submit 3",
+                  "kind": "primary",
+                  "icon": "panel",
+                  "busy": false
+                }
+              ]
+            },
+            "sending": {
+              "id": "hospital-panel",
+              "title": "Hospital panel",
+              "sub": "Only on this phone",
+              "detent": "large",
+              "close": true,
+              "actions": [
+                {
+                  "id": "submit",
+                  "label": "Submitting…",
+                  "kind": "primary",
+                  "icon": "panel",
+                  "busy": true
+                }
+              ]
+            },
+            "status": {
+              "id": "hospital-panel",
+              "title": "Hospital panel",
+              "sub": "Only on this phone",
+              "detent": "large",
+              "close": true,
+              "actions": []
+            },
+            "errors": [
+              "step is keypad or status",
+              "picked is the number on the picked key, 1 to 9, or null",
+              "picked is the number on the picked key, 1 to 9, or null",
+              "Submit sends the picked number: sending needs picked",
+              "phase is ready or sending"
+            ]
+          }
+        },
+        {
+          "id": "footer",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "live": {
+              "words": "Submit 3",
+              "icon": true
+            },
+            "liveIntents": [
+              "onSheetAction:submit",
+              "onSheetClose:hospital-panel"
+            ],
+            "staleIntents": [
+              "onSheetClose:hospital-panel"
+            ],
+            "reason": "Controls return when the match is current",
+            "busy": true,
+            "sendingIntents": [
+              "onSheetClose:hospital-panel"
+            ]
+          }
+        },
+        {
+          "id": "audience",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "a": true,
+            "b": true,
+            "c": true,
+            "d": true
+          }
+        },
+        {
+          "id": "leaks",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "changed": [
+              "BUTTON#5 aria-pressed=true",
+              "BUTTON#7 aria-pressed=false"
+            ],
+            "secret": [],
+            "statusSecret": [],
+            "callbacks": [],
+            "layouts": [],
+            "logs": [],
+            "pickError": "picked is a seat from keys, or null"
+          }
+        },
+        {
+          "id": "inputs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "bad": [
+              "Unknown input \"colour\"",
+              "keys[1] repeats a number or a seat",
+              "keys[1] repeats a number or a seat",
+              "keys[0] is { seat, number }, the number 1 to 9",
+              "keys[0] is { seat, number }, the number 1 to 9",
+              "keys is a list of up to nine { seat, number }",
+              "picked is a seat from keys, or null",
+              "picked is a seat from keys, or null",
+              "Submit sends the picked number: sending needs picked",
+              "phase is ready or sending",
+              "error is { text, detail }, or null",
+              "Status is live, stale, concealed, not \"gone\""
+            ],
+            "badStatus": [
+              "result is QUEUED, WRONG, TREATED, NO_EFFECT, DISCARDED, spent, unavailable, or null",
+              "result is QUEUED, WRONG, TREATED, NO_EFFECT, DISCARDED, spent, unavailable, or null",
+              "Unknown input \"note\""
+            ],
+            "good": {
+              "viewer": 4,
+              "status": "live",
+              "interactive": true,
+              "reducedMotion": false,
+              "versions": {
+                "assetManifestVersion": "design-0.9.0",
+                "protocolVersion": 3,
+                "engineVersion": "planet-game-1.4.0",
+                "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+                "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333"
+              },
+              "keys": [
+                {
+                  "seat": "seat-1",
+                  "number": 1
+                },
+                {
+                  "seat": "seat-2",
+                  "number": 2
+                },
+                {
+                  "seat": "seat-3",
+                  "number": 3
+                },
+                {
+                  "seat": "seat-4",
+                  "number": 4
+                },
+                {
+                  "seat": "seat-5",
+                  "number": 5
+                },
+                {
+                  "seat": "seat-6",
+                  "number": 6
+                },
+                {
+                  "seat": "seat-7",
+                  "number": 7
+                },
+                {
+                  "seat": "seat-8",
+                  "number": 8
+                },
+                {
+                  "seat": "seat-9",
+                  "number": 9
+                }
+              ],
+              "picked": "seat-3",
+              "phase": "sending",
+              "error": null
+            },
+            "again": {
+              "viewer": 4,
+              "status": "live",
+              "interactive": true,
+              "reducedMotion": false,
+              "versions": {
+                "assetManifestVersion": "design-0.9.0",
+                "protocolVersion": 3,
+                "engineVersion": "planet-game-1.4.0",
+                "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+                "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333"
+              },
+              "keys": [
+                {
+                  "seat": "seat-1",
+                  "number": 1
+                },
+                {
+                  "seat": "seat-2",
+                  "number": 2
+                },
+                {
+                  "seat": "seat-3",
+                  "number": 3
+                },
+                {
+                  "seat": "seat-4",
+                  "number": 4
+                },
+                {
+                  "seat": "seat-5",
+                  "number": 5
+                },
+                {
+                  "seat": "seat-6",
+                  "number": 6
+                },
+                {
+                  "seat": "seat-7",
+                  "number": 7
+                },
+                {
+                  "seat": "seat-8",
+                  "number": 8
+                },
+                {
+                  "seat": "seat-9",
+                  "number": 9
+                }
+              ],
+              "picked": "seat-3",
+              "phase": "sending",
+              "error": null
+            },
+            "goodStatus": {
+              "viewer": 4,
+              "status": "live",
+              "interactive": true,
+              "reducedMotion": false,
+              "versions": null,
+              "result": "DISCARDED"
+            }
+          }
+        },
+        {
+          "id": "private",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "display": "3",
+              "error": "The server did not accept it. Check it, then submit again."
+            },
+            "concealed": {
+              "text": "",
+              "keys": 0,
+              "hidden": "true"
+            },
+            "shownAgain": {
+              "text": "",
+              "keys": 0
+            },
+            "given": {
+              "display": "_",
+              "pressed": [],
+              "error": null
+            },
+            "statusConcealed": true,
+            "statusBack": true,
+            "newViewer": {
+              "display": "_",
+              "pressed": []
+            }
+          }
+        },
+        {
+          "id": "focus",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onRoot": true,
+            "told": [
+              {
+                "intent": "key",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        {
+          "id": "text",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "largest": {
+              "perRow": 3,
+              "smallest": 58,
+              "displayHeight": 96,
+              "grew": true,
+              "whole": true
+            },
+            "large": {
+              "perRow": 3,
+              "smallest": 58,
+              "displayHeight": 74,
+              "grew": true,
+              "whole": true
+            },
+            "standard": {
+              "perRow": 3,
+              "smallest": 58,
+              "displayHeight": 74,
+              "grew": true,
+              "whole": true
+            },
+            "lines": true
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "gone": true,
+            "quiet": true,
+            "sGone": true
+          }
+        },
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "mode": "full",
+            "stamps": {
+              "queued": [
+                [
+                  "ms-hp-stamp-in",
+                  120,
+                  true
+                ]
+              ],
+              "wrong": [
+                [
+                  "ms-hp-stamp-in",
+                  120,
+                  true
+                ]
+              ],
+              "treated": [
+                [
+                  "ms-hp-stamp-in",
+                  120,
+                  true
+                ]
+              ],
+              "no-effect": [
+                [
+                  "ms-hp-stamp-in",
+                  120,
+                  true
+                ]
+              ],
+              "discarded": [
+                [
+                  "ms-hp-stamp-in",
+                  120,
+                  true
+                ]
+              ]
+            },
+            "reduced": {
+              "queued": [],
+              "wrong": [],
+              "treated": [],
+              "no-effect": [],
+              "discarded": []
+            },
+            "others": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "mode": "device-reduced",
+            "stamps": {
+              "queued": [],
+              "wrong": [],
+              "treated": [],
+              "no-effect": [],
+              "discarded": []
+            },
+            "others": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DYtZ8pnr.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: enter (panel&state=enter)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: entered (panel&state=entered)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: queued (panel&state=queued)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: wrong (panel&state=wrong)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: unavailable (panel&state=unavailable)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: spent (panel&state=spent)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-DYtZ8pnr.js",
+        "line": 1,
+        "column": 6048,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
