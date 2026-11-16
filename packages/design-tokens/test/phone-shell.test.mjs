@@ -133,7 +133,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the reconnectin
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.5');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.6');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -253,7 +253,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'large', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'private', 'time', 'layout', 'layers', 'large', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.agree.ok && record.agree.checks.length >= 10 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   // Its docked sheet too (0.2.5): the head with Back, the title and its line, Close, and the footer's buttons and kinds.
   for (const id of ['sheet-code', 'sheet-abort', 'large-sheet-code']) assert.ok(record.agree.checks.some(c => c.id.startsWith(`agree: ${id}`) && c.ok), `agreement case ${id}`);

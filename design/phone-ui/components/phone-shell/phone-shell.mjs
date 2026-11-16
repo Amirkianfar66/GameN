@@ -21,7 +21,7 @@ import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.5';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.6';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -712,8 +712,17 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (b && b.isConnected) root.style.setProperty('--ms-ps-banner-h', `${Math.ceil(b.getBoundingClientRect().height)}px`);
     else root.style.removeProperty('--ms-ps-banner-h');
   }
+  /**
+   * The private talk's two buttons: their height, so what docks above them (a sheet, the chip) stays 10 px clear at
+   * any text size (0.2.6). Measured when their size changes, not on each update; to the hundredth of a pixel.
+   */
+  function placeTalk() {
+    const t = parts.tabsKey === 'talk' ? parts.tabs : null;
+    if (t && t.isConnected) root.style.setProperty('--ms-ps-talk-h', `${Math.round(t.getBoundingClientRect().height * 100) / 100}px`);
+    else root.style.removeProperty('--ms-ps-talk-h');
+  }
   let observedBanner = null;
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); reportLayout(); }) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); reportLayout(); }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
@@ -730,6 +739,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     paintBar();
     paintTabs();
     if (parts.tabs) observer?.observe(parts.tabs);
+    if (!observer) placeTalk();
     paintOver();
     paintSheet();
     paintToast();
