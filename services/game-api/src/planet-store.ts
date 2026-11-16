@@ -153,7 +153,8 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
             ?value.nextAttemptAt:null;
           const inboxWakeMetadata=key.startsWith('foodInboxWake/')&&value!==null&&typeof value==='object'
             ?{foodInboxWakeDueAt:'status' in value&&value.status==='pending'&&'nextAttemptAt' in value&&typeof value.nextAttemptAt==='number'
-              ?value.nextAttemptAt:null}:{};
+              ?value.nextAttemptAt:'status' in value&&value.status==='dispatched'&&'recoverAt' in value&&typeof value.recoverAt==='number'
+                ?value.recoverAt:null}:{};
           return {key,bytes,chunks,deadlineDueAt,inboxWakeMetadata,create};
         });
         if(totalWrites+inboxWrites.size>450||totalBytes>6*1024*1024)throw new Error('Transaction budget exceeded');

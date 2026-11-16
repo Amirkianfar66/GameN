@@ -92,7 +92,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   reject:(code:FailureCode)=>never;
 }){
   const {store,clock}=d;
-  const inbox=store.nextFoodInboxIntent?createPlanetFoodInbox(store):null;
+  const inbox=store.nextFoodInboxIntent?createPlanetFoodInbox(store,clock):null;
   const worker=inbox?createPlanetFoodInboxWorker({store,inbox,clock,newId:d.newId,step:stepInbox}):null;
   function inboxPorts(){
     if(!inbox||!worker)throw new Error('Missing private Food inbox storage');
@@ -936,7 +936,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const scope={version:PLANET_FOOD_INBOX_VERSION,matchId:s.matchId,phaseId:state.phase.id,taskId:task.taskId};
       worker.setRoute(tx,{scope,cutoverThrough:control.nextSequence-1,bindingEpoch:0,closedAt:null});
       service(s).scheduler=null;
-      worker.stage(tx,scope,'join',at);
+      worker.stage(tx,scope,'join',at,{bootstrap:true});
     }
   }
 
@@ -1353,6 +1353,6 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   return {tryHandle,tryRunDeadline,runBots,schedule,deliveryFence,watchOwner,
     runFoodInbox:(wake:PlanetFoodInboxWake)=>inboxPorts().worker.runFoodInbox(wake),
     dispatchFoodInboxWake:(id:string,enqueue:EnqueuePlanetFoodInboxWake)=>inboxPorts().inbox.dispatch(id,enqueue),
-    repairFoodInboxWakes:(enqueue:EnqueuePlanetFoodInboxWake)=>inboxPorts().inbox.repair(enqueue,clock),
+    repairFoodInboxWakes:(enqueue:EnqueuePlanetFoodInboxWake)=>inboxPorts().worker.repairWakes(enqueue),
   };
 }

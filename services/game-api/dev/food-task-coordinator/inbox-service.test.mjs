@@ -3,9 +3,10 @@ import {test} from 'node:test';
 import {setTimeout as sleep} from 'node:timers/promises';
 import {createPlanetService,PLANET_FOOD_OWNER_INBOX_PROFILE,withPlanetRequestTiming} from '../../dist/index.js';
 import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey} from '../../dist/planet-food-inbox.js';
+import {createPlanetFoodInboxWorker} from '../../dist/planet-food-inbox-worker.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {envelope,seedTwoHumanTask} from './fixture.mjs';
-import {ok,planetServiceHarness} from '../../test/planet-service-helper.mjs';
+import {digest,ok,planetServiceHarness} from '../../test/planet-service-helper.mjs';
 
 async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   const real=createLoopbackFoodStore();
@@ -103,6 +104,148 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,setCommitObserver:observe=>{recordCommit=observe;},afterCapture:next=>{afterInboxCapture=next;},failNextOwner:()=>{failAfterOwnerClaim=true;}};
 
 }
+
+test('periodic repair replaces a dispatched JOIN wake that never reached an owner', {timeout:60_000},async t=>{
+  const {h,task,route,store,read}=await inboxMatch(t,{live:true});
+  const scopeKey=foodInboxScopeKey(route.scope);
+  const ownerKey='foodInboxOwner/'+scopeKey;
+  const resultKey='foodInboxResult/'+scopeKey;
+  const ownWake=wake=>foodInboxScopeKey(wake.scope)===scopeKey;
+  const pendingWakes=async()=>{
+    const paths=await store.listKeys('foodInboxWake',100);
+    return (await Promise.all(paths.map(read))).filter(row=>row&&ownWake(row.wake));
+  };
+  const [bootstrap,...additional]=await pendingWakes();
+  assert.ok(bootstrap);
+  assert.equal(additional.length,0,'the live listener path starts with only its JOIN wake');
+  assert.equal(bootstrap.watchdogFor,undefined);
+  const before=await h.current();
+  const firstDeliveries=[];
+  assert.equal(await h.service.dispatchFoodInboxWake(bootstrap.wake.id,async wake=>{firstDeliveries.push(wake);}),true);
+  assert.deepEqual(firstDeliveries,[bootstrap.wake]);
+  assert.equal((await read('foodInboxWake/'+bootstrap.wake.id)).status,'dispatched');
+  assert.equal(await read(ownerKey),null);
+  await store.transaction(tx=>{
+    for(let index=0;index<101;index++){
+      const id=digest(['historical-dispatch',h.matchId,index]);
+      const wake={...bootstrap.wake,id,scope:{...route.scope,matchId:'history-'+h.nextId()}};
+      tx.create('foodInboxWake/'+id,{wake,status:'dispatched',nextAttemptAt:0});
+    }
+  });
+
+  // The queue acknowledged creation, but no delivery arrived and no client
+  // request can stage another wake. The periodic worker is the recovery path.
+  h.setTime(Math.max(bootstrap.wake.wakeAt,h.now())+60_000);
+  const replacements=[];
+  await h.service.repairFoodInboxWakes(async wake=>{if(ownWake(wake))replacements.push(wake);});
+  assert.equal(replacements.length,1,'periodic repair must enqueue a fresh generation for this Task');
+  const [replacement]=replacements;
+  assert.notEqual(replacement.id,bootstrap.wake.id,'Cloud Tasks may retain the original name');
+  assert.deepEqual(replacement.scope,route.scope);
+  assert.ok(replacement.wakeAt<=h.now());
+
+  await h.service.runFoodInbox(bootstrap.wake);
+  assert.equal(await read(ownerKey),null,'the obsolete delivery cannot beat the replacement to ownership');
+  await h.service.runFoodInbox(replacement);
+  const owner=await read(ownerKey),completed=await read(resultKey);
+  assert.equal(owner.epoch,1);
+  const watchdogs=(await pendingWakes()).filter(row=>row.watchdogFor===owner.id);
+  assert.equal(watchdogs.length,1,'the replacement claim has a durable owner watchdog');
+  assert.deepEqual(completed.scope,route.scope);
+  const closed=await read('foodInboxRoute/'+h.matchId),parent=await h.current();
+  assert.equal(closed.closedAt,h.now());
+  assert.equal(completed.closedAt,closed.closedAt);
+  assert.equal(completed.parentPhaseId,parent.state.phase.id);
+  assert.equal(completed.journalSequence,parent.journalSequence);
+  assert.notEqual(parent.state.phase.kind,'FOOD_SUPPLY');
+  const journal=[];
+  for(let sequence=before.journalSequence+1;sequence<=parent.journalSequence;sequence++){
+    journal.push(await read('journal/'+h.matchId+'/'+String(sequence).padStart(12,'0')));
+  }
+  const returns=journal.filter(row=>row.kind==='DEADLINE'&&row.context.phaseId===route.scope.phaseId&&row.context.now===task.returnsAt);
+  assert.equal(returns.length,1,'normal Task return keeps its original authoritative boundary');
+
+  const [closedWatchdog]=watchdogs;
+  await h.service.dispatchFoodInboxWake(closedWatchdog.wake.id,async()=>{});
+  h.setTime(Math.max(closedWatchdog.wake.wakeAt,h.now())+60_000);
+  const afterClosed=[];
+  await h.service.repairFoodInboxWakes(async wake=>{if(ownWake(wake))afterClosed.push(wake);});
+  assert.deepEqual(afterClosed,[],'periodic repair does not rearm a watchdog for a closed Task');
+  await h.service.runFoodInbox(closedWatchdog.wake);
+  await h.service.runFoodInbox(bootstrap.wake);
+  await h.service.runFoodInbox(replacement);
+  assert.deepEqual(await read(ownerKey),owner);
+  assert.deepEqual(await read(resultKey),completed);
+  assert.deepEqual(await read('foodInboxRoute/'+h.matchId),closed);
+  assert.equal((await h.current()).journalSequence,parent.journalSequence);
+});
+
+test('periodic repair replaces a lost continuation after the owner exhausts its work budget', {timeout:60_000},async t=>{
+  const {h,task,route,store,read}=await inboxMatch(t,{live:true});
+  const scopeKey=foodInboxScopeKey(route.scope);
+  const ownerKey='foodInboxOwner/'+scopeKey,resultKey='foodInboxResult/'+scopeKey;
+  const ownWake=wake=>foodInboxScopeKey(wake.scope)===scopeKey;
+  const ownWakes=async()=>{
+    const paths=await store.listKeys('foodInboxWake',100);
+    return (await Promise.all(paths.map(read))).filter(row=>row&&ownWake(row.wake));
+  };
+  const [bootstrap]=await ownWakes();
+  assert.ok(bootstrap);
+  const before=await h.current();
+  await h.service.dispatchFoodInboxWake(bootstrap.wake.id,async()=>{});
+
+  let steps=0;
+  const boundedWorker=createPlanetFoodInboxWorker({store,inbox:createPlanetFoodInbox(store),clock:h.now,newId:h.nextId,
+    step:async()=>{steps++;return 'again';}});
+  await boundedWorker.runFoodInbox(bootstrap.wake);
+  assert.equal(steps,1024);
+  const released=await read(ownerKey);
+  assert.equal(released.epoch,1);
+  assert.equal(released.expiresAt,0);
+  assert.equal(await read(resultKey),null);
+  const followups=(await ownWakes()).filter(row=>row.wake.id!==bootstrap.wake.id);
+  const watchdog=followups.find(row=>row.watchdogFor===released.id);
+  const continuation=followups.find(row=>row.watchdogFor===undefined);
+  assert.ok(watchdog&&continuation);
+  const dropped=[];
+  for(const row of [watchdog,continuation]){
+    assert.equal(await h.service.dispatchFoodInboxWake(row.wake.id,async wake=>{dropped.push(wake);}),true);
+  }
+  assert.deepEqual(dropped,[watchdog.wake,continuation.wake]);
+
+  h.setTime(Math.max(h.now(),watchdog.wake.wakeAt,continuation.wake.wakeAt)+60_000);
+  const recovered=[];
+  await h.service.repairFoodInboxWakes(async wake=>{if(ownWake(wake))recovered.push(wake);});
+  assert.equal(recovered.length,1,'repair must replace the continuation alone');
+  const [replacement]=recovered;
+  assert.notEqual(replacement.id,continuation.wake.id);
+  assert.equal(replacement.wakeAt,continuation.wake.wakeAt);
+  assert.deepEqual(replacement.scope,route.scope);
+
+  await h.service.runFoodInbox(watchdog.wake);
+  await h.service.runFoodInbox(continuation.wake);
+  assert.deepEqual(await read(ownerKey),released,'neither obsolete generation can claim');
+  assert.equal(await read(resultKey),null);
+  await h.service.runFoodInbox(replacement);
+  const owner=await read(ownerKey),completed=await read(resultKey),parent=await h.current();
+  assert.equal(owner.epoch,2);
+  assert.equal(owner.expiresAt,0);
+  assert.deepEqual(completed.scope,route.scope);
+  assert.equal(completed.parentPhaseId,parent.state.phase.id);
+  assert.equal(completed.journalSequence,parent.journalSequence);
+  assert.notEqual(parent.state.phase.kind,'FOOD_SUPPLY');
+  const journal=[];
+  for(let sequence=before.journalSequence+1;sequence<=parent.journalSequence;sequence++){
+    journal.push(await read('journal/'+h.matchId+'/'+String(sequence).padStart(12,'0')));
+  }
+  assert.equal(journal.filter(row=>row.kind==='DEADLINE'&&row.context.phaseId===route.scope.phaseId&&row.context.now===task.returnsAt).length,1);
+
+  await h.service.runFoodInbox(continuation.wake);
+  await h.service.runFoodInbox(replacement);
+  assert.deepEqual(await read(ownerKey),owner);
+  assert.deepEqual(await read(resultKey),completed);
+  assert.equal((await h.current()).journalSequence,parent.journalSequence);
+});
 
 test('production inbox survives profile switch-off and commits one normal Task return', {timeout:60_000},async t=>{
   const {h,task,winch,panel,route,read,pump,call,deliveries}=await inboxMatch(t);
@@ -216,6 +359,47 @@ test('persisted expiry wake recovers queued work after claimant exits', {timeout
   assert.equal(consumed.admittedAt,previous.expiresAt);
   assert.equal(await inbox.next(route.scope),null);
   assert.ok((await read('foodInboxOwner/'+foodInboxScopeKey(route.scope))).epoch>previous.epoch);
+});
+
+test('periodic repair leaves a dispatched watchdog obsolete after ownership changes', {timeout:60_000},async t=>{
+  const {h,winch,route,store,read,failNextOwner}=await inboxMatch(t);
+  const scopeKey=foodInboxScopeKey(route.scope);
+  const ownerKey='foodInboxOwner/'+scopeKey;
+  const ownWakes=async()=>{
+    const paths=await store.listKeys('foodInboxWake',100);
+    return (await Promise.all(paths.map(read))).filter(row=>row&&foodInboxScopeKey(row.wake.scope)===scopeKey);
+  };
+  const bootstrap=(await ownWakes()).find(row=>!row.watchdogFor&&row.wake.wakeAt===h.now());
+  assert.ok(bootstrap);
+  failNextOwner();
+  await assert.rejects(h.service.runFoodInbox(bootstrap.wake),/simulated worker exit/);
+  const previous=await read(ownerKey);
+  const stale=(await ownWakes()).find(row=>row.watchdogFor===previous.id);
+  assert.ok(stale);
+  assert.equal(await h.service.dispatchFoodInboxWake(stale.wake.id,async()=>{}),true);
+
+  const member=(await h.current()).members.find(row=>row.uid===winch);
+  const inbox=createPlanetFoodInbox(store);
+  const intent=createFoodInboxIntent(route.scope,{uid:winch,seatId:member.seatId,revision:member.bindingRevision},
+    {operation:'foodHeartbeat',matchId:h.matchId,taskId:route.scope.taskId},'distinct-recovery-wake');
+  h.setTime(previous.expiresAt);
+  await inbox.intake(intent,h.now());
+  await h.service.runFoodInbox((await read('foodInboxWake/'+intent.id)).wake);
+  const successor=await read(ownerKey);
+  assert.equal(successor.epoch,previous.epoch+1);
+  assert.equal((await read('foodInboxRoute/'+h.matchId)).closedAt,null);
+  const parent=await h.current();
+
+  h.setTime(stale.wake.wakeAt+60_000);
+  const replacements=[];
+  await h.service.repairFoodInboxWakes(async wake=>{
+    const saved=await read('foodInboxWake/'+wake.id);
+    if(saved?.watchdogFor===previous.id)replacements.push(wake);
+  });
+  assert.deepEqual(replacements,[]);
+  await h.service.runFoodInbox(stale.wake);
+  assert.deepEqual(await read(ownerKey),successor);
+  assert.equal((await h.current()).journalSequence,parent.journalSequence);
 });
 
 test('JOIN fence preserves each already-admitted command and its original clock', {timeout:60_000},async t=>{

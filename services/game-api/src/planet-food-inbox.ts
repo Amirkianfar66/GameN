@@ -10,8 +10,14 @@ export const foodInboxScopeKey=({version,matchId,phaseId,taskId}:PlanetFoodInbox
   hash([version,matchId,phaseId,taskId]);
 const intentKey=(scopeKey:string,id:string)=>`foodInboxIntent/${scopeKey}/${id}`;
 const progressKey=(scopeKey:string,id:string)=>`foodInboxProgress/${scopeKey}/${id}`;
-type StoredWake={wake:PlanetFoodInboxWake;status:'pending'|'dispatched';nextAttemptAt:number;watchdogFor?:string};
+export type FoodInboxWakeRole={bootstrap?:true;watchdogFor?:string;continuationFor?:string};
+type StoredWake=FoodInboxWakeRole&{
+  wake:PlanetFoodInboxWake;status:'pending'|'dispatched'|'handled';nextAttemptAt:number;recoverAt?:number;
+};
 const wakeKey=(id:string)=>`foodInboxWake/${id}`;
+const WAKE_DELIVERY_GRACE_MS=60_000;
+export const hasFoodWakeRecovery=({bootstrap,watchdogFor,continuationFor}:FoodInboxWakeRole)=>
+  bootstrap===true||watchdogFor!==undefined||continuationFor!==undefined;
 
 // Contract-parsed orders may differ after transport retries. Arrays retain order.
 function canonical(value:unknown):unknown{
@@ -39,19 +45,22 @@ export function createFoodInboxIntent(scope:PlanetFoodInboxScope,binding:PlanetF
   return deepFreeze(structuredClone({id,scope,binding,request,fingerprint:hash(canonical(request))}));
 }
 
-export function createPlanetFoodInbox(store:PlanetPersistence){
+export function createPlanetFoodInbox(store:PlanetPersistence,clock:()=>number=Date.now){
   const first=store.nextFoodInboxIntent?.bind(store);
   if(!first)throw new Error('Food inbox pending index is required');
   const read=store.readOnly?.bind(store)??store.transaction.bind(store);
   async function loadWake(tx:PlanetReadTransaction,wake:PlanetFoodInboxWake):Promise<StoredWake|null>{
     const stored=await tx.get<StoredWake>(wakeKey(wake.id));
-    if(!stored||stored.wake.id!==wake.id||stored.wake.wakeAt!==wake.wakeAt
+    if(!stored||stored.status==='handled'||stored.wake.id!==wake.id||stored.wake.wakeAt!==wake.wakeAt
       ||foodInboxScopeKey(stored.wake.scope)!==foodInboxScopeKey(wake.scope))return null;
     return stored;
   }
-  function stageWake(tx:PlanetTransaction,wake:PlanetFoodInboxWake,watchdogFor?:string):void{
+  function stageWake(tx:PlanetTransaction,wake:PlanetFoodInboxWake,role:FoodInboxWakeRole={}):void{
     if(!tx.create)throw new Error('Atomic Food inbox wake is required');
-    tx.create(wakeKey(wake.id),{wake,status:'pending',nextAttemptAt:0,...(watchdogFor?{watchdogFor}:{})} satisfies StoredWake);
+    tx.create(wakeKey(wake.id),{...role,wake,status:'pending',nextAttemptAt:0} satisfies StoredWake);
+  }
+  function handleWake(tx:PlanetTransaction,stored:StoredWake):void{
+    tx.set(wakeKey(stored.wake.id),{...stored,status:'handled'} satisfies StoredWake);
   }
   function stageIntake(tx:PlanetTransaction,intent:PlanetFoodInboxIntent,wakeAt:number,wakeRequired=true):void{
     if(!tx.create||!tx.foodInboxIndex)throw new Error('Atomic Food inbox intake is required');
@@ -108,26 +117,49 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
     await enqueue(stored.wake);
     await store.transaction(async tx=>{
       const current=await tx.get<StoredWake>(path);
-      if(current?.status==='pending')tx.set(path,{...current,status:'dispatched'} satisfies StoredWake);
+      if(current?.status!=='pending')return;
+      const recoverAt=hasFoodWakeRecovery(current)?Math.max(clock(),current.wake.wakeAt)+WAKE_DELIVERY_GRACE_MS:null;
+      tx.set(path,{...current,status:'dispatched',...(recoverAt===null?{}:{recoverAt})} satisfies StoredWake);
     });
     return true;
   }
-  async function repair(enqueue:EnqueuePlanetFoodInboxWake,clock:()=>number):Promise<{dispatched:number;failed:number}>{
+  async function repair(enqueue:EnqueuePlanetFoodInboxWake,
+    canRecover:(tx:PlanetReadTransaction,stored:StoredWake)=>Promise<boolean>):Promise<{dispatched:number;failed:number}>{
     const counts={dispatched:0,failed:0};
     for(const path of await store.listKeys('foodInboxWake',100)){
       const due=await read(tx=>tx.get<StoredWake>(path));
-      if(!due||due.status!=='pending'||due.nextAttemptAt>clock())continue;
+      if(!due)continue;
+      let id:string|null=null;
+      if(due.status==='pending'&&due.nextAttemptAt<=clock())id=due.wake.id;
+      if(due.status==='dispatched'&&due.recoverAt!==undefined&&due.recoverAt<=clock()){
+        id=await store.transaction(async tx=>{
+          const current=await loadWake(tx,due.wake);
+          if(current?.status!=='dispatched'||current.recoverAt===undefined||current.recoverAt>clock())return null;
+          const recover=await canRecover(tx,current);
+          handleWake(tx,current);
+          if(!recover)return null;
+          // Retire the old generation and publish its successor atomically.
+          // Keeping wakeAt preserves the original lease fence and schedule.
+          const {bootstrap,watchdogFor,continuationFor,wake}=current;
+          const nextId=hash(['food-inbox-wake-repair',wake.id]);
+          stageWake(tx,{...wake,id:nextId},{...(bootstrap?{bootstrap}:{}),...(watchdogFor?{watchdogFor}:{}),
+            ...(continuationFor?{continuationFor}:{})});
+          return nextId;
+        });
+      }
+      if(id===null)continue;
+      const dispatchPath=wakeKey(id);
       try{
-        if(await dispatch(due.wake.id,enqueue))counts.dispatched++;
+        if(await dispatch(id,enqueue))counts.dispatched++;
       }catch{
         counts.failed++;
         await store.transaction(async tx=>{
-          const current=await tx.get<StoredWake>(path);
-          if(current?.status==='pending')tx.set(path,{...current,nextAttemptAt:clock()+5_000} satisfies StoredWake);
+          const current=await tx.get<StoredWake>(dispatchPath);
+          if(current?.status==='pending')tx.set(dispatchPath,{...current,nextAttemptAt:clock()+5_000} satisfies StoredWake);
         });
       }
     }
     return counts;
   }
-  return {intake,stageIntake,stageWake,loadWake,next,progress,consume,dispatch,repair};
+  return {intake,stageIntake,stageWake,loadWake,handleWake,next,progress,consume,dispatch,repair};
 }
