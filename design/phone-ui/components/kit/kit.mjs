@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.6.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.6.1';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -40,6 +40,7 @@ export function createKit(doc) {
     return node;
   };
   const text = (node, value) => { const v = value ?? ''; if (node.textContent !== v) node.textContent = v; return node; };
+  const isNode = value => value !== null && typeof value === 'object' && typeof value.nodeType === 'number';
   const attr = (node, name, value) => {
     if (value === null || value === undefined || value === false) { if (node.hasAttribute(name)) node.removeAttribute(name); }
     else if (node.getAttribute(name) !== String(value)) node.setAttribute(name, String(value));
@@ -94,9 +95,10 @@ export function createKit(doc) {
 
   // ── Lists and rows (ui.mjs row, list, groupLabel, groupNote) ─────────
   /**
-   * { title, sub, value (the words at the right), icon, tint, chevron, lead (a node: a portrait), trail (a node:
-   * a switch, a stepper), tag: 'button' | 'div', intent, data (what a tap reports) }. A lead or trail node
-   * sits in the row as the pack places it; the row keeps it, and its focus, while the same node is given.
+   * { title, sub, value (the words at the right, or a node: a pill, 0.6.1), icon, tint, chevron, lead (a node:
+   * a portrait), trail (a node: a switch, a stepper), tag: 'button' | 'div', intent, data (what a tap reports) }.
+   * A lead, value or trail node sits in the row as the pack places it; the row keeps it, and its focus, while
+   * the same node is given. A value node takes the value's place, so the larger-text rule moves it too.
    */
   function setRow(node, props) {
     oneOf(props.tint, ROW_TINTS, 'A row\'s tint');
@@ -120,7 +122,8 @@ export function createKit(doc) {
     text(main.firstChild, props.title);
     text(main.lastChild, props.sub ?? '');
     main.lastChild.hidden = !props.sub;
-    text(value, props.value ?? '');
+    if (isNode(props.value)) { if (value.childNodes.length !== 1 || value.firstChild !== props.value) value.replaceChildren(props.value); }
+    else { if (value.firstElementChild) value.replaceChildren(); text(value, props.value ?? ''); }
     value.hidden = props.value === undefined || props.value === null;
     if (props.trail) { if (trail.firstChild !== props.trail) trail.replaceChildren(props.trail); trail.hidden = false; }
     else { trail.replaceChildren(); trail.hidden = true; }

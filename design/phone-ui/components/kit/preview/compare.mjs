@@ -27,6 +27,9 @@ export const ACCEPTED = Object.freeze([
     why: 'What follows a row whose value went under its title moves down by that line' },
   { texts: [200], sections: ['glass'], cases: /^(list|group)$/, part: 'list', keys: ['h'],
     why: 'The list grows by the line its rows\' values took under their titles' },
+  // Kit 0.6.1: a row's value may be a node. The Promise rows (sheets 33 and 33.1) give a pill there.
+  { texts: [200], sections: ['glass'], cases: /^row pill value$/, partMatch: /^(list|row [1-3]( .+)?)$/, keys: ['display', 'column-gap', 'row-gap', 'h', 'w', 'x', 'y', '::before bottom', 'margin-right'],
+    why: 'At 200 % text in a phone root (the shell\'s, which the glass cases sit in), a row puts its value under its title, the kit 0.5.0 rule (#228), now also when the value is a pill, as the Promise rows give it: in the pinned pack the pill keeps its place and squeezes the title onto narrow lines, where a longer title is cut' },
   // Kit 0.5.1: the device choice (sheet 12), with its chosen option's icon filled.
   { texts: [200], sections: ['plain'], cases: /^segmented icons$/, partMatch: /^option \d icon$/, keys: ['w'],
     why: 'At 200 % text the pack\'s two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit\'s icons keep their 18 px, as at 100 %' },

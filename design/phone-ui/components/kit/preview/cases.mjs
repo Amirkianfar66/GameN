@@ -36,6 +36,16 @@ const ROW = n => {
   ];
 };
 
+/** The pill a row holds as its value (0.6.1), as the pack's Promise rows put it (screens-more.mjs promiseRow). */
+const ROW_PILL = n => {
+  const p = `:scope > .list > li:nth-child(${n}) > .row > .row-value > .pill`, k = `:scope > .ms-k-list > li:nth-child(${n}) > .ms-k-row > .ms-k-row-value > .ms-k-pill`;
+  return [
+    [`row ${n} pill`, p, k],
+    [`row ${n} pill drawing`, `${p} > svg`, `${k} > .ms-k-pill-icon > svg`, { svg: true }],
+    [`row ${n} pill words`, `${p} > span`, `${k} > .ms-k-pill-label`, { words: true }],
+  ];
+};
+
 /** A waiting block's parts (screens.css .wait): the tile and its drawing, or a portrait; the title; the line and its spinner. */
 const WAIT = ({ lead = false, spinner = false } = {}) => [
   ['wait', ':scope > .wait', ':scope > .ms-k-wait'],
@@ -139,6 +149,17 @@ export const CASES = Object.freeze([
     pack: ({ ui }) => ui.list(ui.row({ icon: 'jail', tint: 'paper', title: 'Jail', sub: 'Not this round', disabled: true })),
     kit: ({ kit, control }) => kit.list(control(kit.row({ icon: 'jail', tint: 'paper', title: 'Jail', sub: 'Not this round' }), { off: true })),
     parts: [...ROW(1), ['row 1 main', ':scope > .list > li > .row > .row-main', ':scope > .ms-k-list > li > .ms-k-row > .ms-k-row-main']] },
+  // Kit 0.6.1: a row's value may be a node. Sheets 33 and 33.1 put a Promise's status there as a pill.
+  { id: 'row pill value', where: 'both',
+    pack: ({ ui }) => ui.list(
+      ui.row({ tag: 'div', lead: ui.pt(seat(1).character, 36), title: 'Meet in Room A', sub: 'Offered to Ava · not counted yet', value: ui.pill('Offered') }),
+      ui.row({ tag: 'div', lead: ui.pt(seat(2).character, 36), title: 'Vote with me', sub: 'From Ben · Round 2', value: ui.pill('Fulfilled', { icon: 'check', tone: 'amber' }) }),
+      ui.row({ tag: 'div', lead: ui.pt(seat(3).character, 36), title: 'Captain Support', sub: 'To Cleo · Round 2', value: ui.pill('Not fulfilled') })),
+    kit: ({ kit, versions }) => kit.list(
+      kit.row({ tag: 'div', lead: kit.portrait(seat(1), versions), title: 'Meet in Room A', sub: 'Offered to Ava · not counted yet', value: kit.pill({ text: 'Offered' }) }),
+      kit.row({ tag: 'div', lead: kit.portrait(seat(2), versions), title: 'Vote with me', sub: 'From Ben · Round 2', value: kit.pill({ text: 'Fulfilled', icon: 'check', tone: 'amber' }) }),
+      kit.row({ tag: 'div', lead: kit.portrait(seat(3), versions), title: 'Captain Support', sub: 'To Cleo · Round 2', value: kit.pill({ text: 'Not fulfilled' }) })),
+    parts: [['list', ':scope > .list', ':scope > .ms-k-list'], ...[1, 2, 3].flatMap(n => [...ROW(n), ...ROW_PILL(n)])] },
   { id: 'group', where: 'both',
     pack: ({ ui }) => [ui.groupLabel('In the match'), ui.list(ui.row({ title: 'Seats', value: '9' })), ui.groupNote('The host can change this before the match starts.')],
     kit: ({ kit }) => [kit.groupLabel('In the match'), kit.list(kit.row({ title: 'Seats', value: '9' })), kit.groupNote('The host can change this before the match starts.')],
