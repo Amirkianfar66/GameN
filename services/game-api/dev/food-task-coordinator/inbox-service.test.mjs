@@ -285,19 +285,20 @@ test('one real-time bounded worker covers the full common return under concurren
   const origin=performance.now(),start=task.options.startedAt;
   const now=()=>start+Math.floor(performance.now()-origin);
   h.reload({clock:now});
-  let ownerRun,stopping=false;
+  let ownerRun,workerFailure,stopping=false;
   const timeOfDispatch=performance.now();
   await h.service.dispatchFoodInboxWake(bootstrap.id,async wake=>{
     ownerRun=h.service.runFoodInbox(wake);
-    void ownerRun.catch(()=>{});
+    void ownerRun.catch(error=>{workerFailure=error;});
   });
   const ownerPath='foodInboxOwner/'+foodInboxScopeKey(route.scope);
   let owner;
   for(let pass=0;pass<100&&!owner;pass++){
+    if(workerFailure)throw workerFailure;
     owner=await read(ownerPath);
     if(!owner)await sleep(10);
   }
-  assert.ok(owner);
+  assert.ok(owner, 'Expected the outbox acknowledgement and scoped ownership claim to settle concurrently');
   const localBootstrapMs=performance.now()-timeOfDispatch;
   const heartbeatMs=[],buttonMs=[];
   let sampled=0,stale=0,botWakes=0,observerReads=0;

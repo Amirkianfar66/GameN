@@ -68,9 +68,12 @@ export function createPlanetFoodInboxWorker(d:{
     return {scope,owner:claim};
   }
   async function claim(wake:PlanetFoodInboxWake,id:string):Promise<PlanetFoodInboxAuthority|null>{
+    const read=store.readOnly?.bind(store)??store.transaction.bind(store);
+    // Payload identity is immutable. The dispatcher can record its enqueue
+    // acknowledgement concurrently without sharing the ownership write lock.
+    const payload=await read(tx=>inbox.loadWake(tx,wake));
+    if(!payload)return null;
     return store.transaction(async tx=>{
-      const payload=await inbox.loadWake(tx,wake);
-      if(!payload)return null;
       const current=await tx.get<PlanetFoodInboxRoute>(scopedRouteKey(wake.scope));
       if(!current||!scopeMatches(current.scope,wake.scope))return null;
       const previous=await owner(tx,wake.scope);
