@@ -16,7 +16,9 @@ import {createHostedPreviewHeaders} from '../../../../../scripts/hosted-preview-
 const paths = new Map();
 const tests = [];
 let productionRef = null;
+let shapeNetwork = false;
 for (const argument of process.argv.slice(2)) {
+  if (argument === '--rtt100') { shapeNetwork = true; continue; }
   if (argument.startsWith('--production=')) {
     assert.equal(productionRef, null, 'Pass a single production source pin');
     productionRef = argument.slice('--production='.length);
@@ -31,6 +33,7 @@ for (const argument of process.argv.slice(2)) {
   }
 }
 assert.ok(paths.size === 6 && tests.length > 0 && new Set(tests).size === tests.length
+  && (!shapeNetwork || productionRef)
   && tests.every(name => ['invitations', 'timed', 'lifecycle'].includes(name) || productionRef && name === 'silence'),
 'Pass --backend, --bundle, --artwork, --output, --java and --firestore-jar as =PATH options, followed by one or more case names');
 const root = fileURLToPath(new URL('../../../../../', import.meta.url));
@@ -42,6 +45,7 @@ const backendGit = (...args) => execFileSync('git', args, {cwd: backend, encodin
 const expectedHeaders = createHostedPreviewHeaders('gamen-mothership-staging');
 const report = {scope: 'Two locally automated desktop Chromium phones with trusted touch and a dedicated Firestore emulator. Native renderer, with focus emulation recorded. Representative functional runs.',
   source: git('rev-parse', 'HEAD'), sourceDirty: !!git('status', '--porcelain'), backend: productionRef ?? reviewedFoodBackend,
+  network: shapeNetwork ? {nominalRttMs: 100, oneWayJitterMs: 10, method: 'Deterministic loopback POST and reply delay with ordered SSE writes'} : {method: 'Loopback without added delay'},
   node: process.version, emulatorJarSha256: sha(await readFile(paths.get('firestore-jar'))),
   artworkInventorySha256: sha(await readFile(join(artwork, 'preview-release.json'))),
   headers: expectedHeaders, bundle: {}, trials: []};
@@ -178,7 +182,7 @@ async function prepare(kind, trial) {
   const pages = {};
   let bridge;
   try {
-    bridge = await startFoodTrialBridge({...lab, applySignal: signal, bundle, artwork});
+    bridge = await startFoodTrialBridge({...lab, applySignal: signal, bundle, artwork, shapeNetwork});
     if (productionRef) trial.productionRequests = bridge.productionRequests;
     trial.variant = lab.variant;
     trial.backendSource = lab.backendSource;
@@ -312,11 +316,12 @@ async function silence({pages, bridge}, trial) {
   const after = await panel.evaluate(reported);
   trial.silence = {durationMs: Math.round(performance.now() - started), withheldWrites: suspended.withheld(),
     panelHeartbeatAcks: (bridge.productionAcks.panel.foodHeartbeat ?? 0) - heartbeatAcks,
-    remainedLive: after.connection === 'live', releaseStillEnabled: await panel.evaluate(enabled(controls.release))};
+    remainedLive: after.connection === 'live', releaseStillEnabled: await panel.evaluate(enabled(controls.release)),
+    watchRequestsDuringSilence: after.wireRequests.filter(r=>r.operation==='foodWatch').length - before.wireRequests.filter(r=>r.operation==='foodWatch').length};
   assert.ok(trial.silence.withheldWrites > 0, 'The open response withheld a real server update');
   assert.ok(trial.silence.panelHeartbeatAcks >= 2, 'Independent authenticated heartbeats completed during silence');
   assert.equal(after.wireFrames.length, before.wireFrames.length, 'The affected browser saw no watch traffic');
-  suspended.close();
+  suspended.release();
   await wait(panel, `${reported}.wireFrames.some(frame=>frame.kind==="snapshot"&&frame.fresh&&frame.epoch!==${JSON.stringify(beforeEpoch)}) && ${reported}.connection==="live"`,
     'same actor reconnects after silent watch is closed');
   trial.acceptance = 'Measured the native Panel during open-socket silence and verified a fresh same-seat reconnect';
@@ -361,8 +366,16 @@ try {
     let rig;
     try {
       rig = await prepare(name, trial);
-      await ({invitations, timed, lifecycle, silence}[name])(rig, trial);
+      let journeyError;
+      try { await ({invitations, timed, lifecycle, silence}[name])(rig, trial); }
+      catch (error) {
+        journeyError = error;
+        if (productionRef && name === 'timed') {
+          for (const [label, page] of Object.entries(rig.pages)) await screenshot(page, 'timed-' + label + '-before-return', trial);
+        }
+      }
       if (productionRef) await confirmProduction(rig, trial);
+      if (journeyError) throw journeyError;
       trial.status = 'passed';
     } catch (error) {
       trial.status = 'failed';

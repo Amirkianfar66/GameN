@@ -70,6 +70,7 @@ export function observeFoodTrial(root, {seatId, arm: trialArm}) {
   function arm(event, kind, node) {
     activeEvent = {event, kind, number: trace.input({
       kind, eventType: event.type, trusted: event.isTrusted, disabled: node ? disabled(node) : null,
+      next: node?.hasAttribute('data-next') ?? null, hazard: node?.hasAttribute('data-hazard') ?? null,
     })};
   }
 

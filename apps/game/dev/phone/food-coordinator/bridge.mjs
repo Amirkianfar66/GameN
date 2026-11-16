@@ -5,6 +5,7 @@ import {createServer} from 'node:http';
 import {once} from 'node:events';
 import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
+import {setTimeout as sleep} from 'node:timers/promises';
 import {FoodTaskCommandRequestSchema, PlanetServiceRequestSchema} from '@mothership/contracts';
 import {applyHostedPreviewHeaders} from '../../../../../scripts/hosted-preview-policy.mjs';
 
@@ -15,6 +16,7 @@ const contentTypes = {html: 'text/html', js: 'text/javascript', css: 'text/css',
 const allowedBaseline = new Set(['read', 'foodCommand', 'foodReceipt', 'foodHeartbeat', 'command', 'receipt']);
 const allowedProduction = new Set([...allowedBaseline, 'foodWatch', 'foodClock']);
 export const localAppCheck = 'loopback-diagnostic-key';
+const jitterMs = [-10, 4, 10, -6, 7, -3, 9, -8, 0];
 const digest = value => createHash('sha256').update(value).digest('hex');
 const safeFile = path => /^[a-z0-9._/-]+$/i.test(path) && path.split('/').every(part => part && part !== '..' && part !== '.');
 
@@ -88,6 +90,7 @@ export function createFoodApplySignal() {
 // presents a per-seat random capability and never supplies a trusted UID.
 export async function startFoodTrialBridge({
   coordinator, taskId, actors, baseline, production, applySignal, serverNow, bundle, artwork, startTrial, variant, backendSource,
+  shapeNetwork = false,
 }) {
   const art = await approvedArt(artwork);
   const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set(), streams = new Set();
@@ -133,7 +136,8 @@ export async function startFoodTrialBridge({
   const host = '127.0.0.1:' + server.address().port, origin = 'http://' + host;
   const productionRequests = Object.fromEntries(actors.map(actor => [actor.label, {}]));
   const productionAcks = Object.fromEntries(actors.map(actor => [actor.label, {}]));
-  const productionWatches = new Map();
+  const productionWatches = new Map(), suspendedWatches = new Map();
+  let upload = 0, download = 0;
   const planetApi = production?.({
     origin,
     verifyIdToken: async token => {
@@ -148,9 +152,13 @@ export async function startFoodTrialBridge({
     productionRequests, productionAcks,
     suspendFoodWatch(label) {
       const stream = productionWatches.get(label);
-      if (!stream || stream.response.destroyed) throw Error('Expected an open Food watch');
-      stream.silent = true;
-      return {withheld: () => stream.withheld, close: () => stream.response.destroy()};
+      if (!stream || stream.destroyed || suspendedWatches.has(label)) throw Error('Expected an open Food watch');
+      const state = {withheld: 0};
+      suspendedWatches.set(label, state);
+      return {withheld: () => state.withheld, release() {
+        suspendedWatches.delete(label);
+        productionWatches.get(label)?.destroy();
+      }};
     },
     urls: Object.fromEntries([...tickets].map(([ticket, {actor}]) => [actor.label, origin + '/#' + ticket])),
     start() {
@@ -193,29 +201,54 @@ export async function startFoodTrialBridge({
     if (path === '/trial/planetApi' && req.method === 'POST' && arm === 'production') {
       const q = await body(req);
       if (!allowedProduction.has(q?.operation) || (q.request?.matchId ?? q.matchId) !== matchId) badRequest();
+      if (shapeNetwork) await sleep(50 + jitterMs[upload++ % jitterMs.length]);
+      if (res.destroyed) return;
       const counts = productionRequests[actor.label];
       counts[q.operation] = (counts[q.operation] ?? 0) + 1;
+      const timers = new Set();
+      let lastDeliveryAt = -Infinity;
+      const transmit = deliver => {
+        if (!shapeNetwork) return deliver();
+        // The shaped path preserves TCP ordering even when later bytes have less delay.
+        const now = performance.now();
+        lastDeliveryAt = Math.max(now + 50 + jitterMs[download++ % jitterMs.length], lastDeliveryAt + 1);
+        const timer = setTimeout(() => {
+          timers.delete(timer);
+          if (!res.destroyed) deliver();
+        }, Math.ceil(lastDeliveryAt - now));
+        timers.add(timer);
+      };
+      res.once('close', () => { for (const timer of timers) clearTimeout(timer); });
       if (q.operation === 'foodWatch') {
-        const stream = {response: res, silent: false, withheld: 0}, write = res.write.bind(res);
-        productionWatches.set(actor.label, stream);
-        res.once('close', () => { if (productionWatches.get(actor.label) === stream) productionWatches.delete(actor.label); });
-        res.write = (...args) => {
-          if (!stream.silent) return write(...args);
-          stream.withheld++;
-          return true;
-        };
+        productionWatches.set(actor.label, res);
+        res.once('close', () => { if (productionWatches.get(actor.label) === res) productionWatches.delete(actor.label); });
       }
-      return planetApi({method: req.method, headers: req.headers, body: q}, Object.assign(res, {
+      const response = {
+        get destroyed() { return res.destroyed; },
+        get writableEnded() { return res.writableEnded; },
         set(name, value) { res.setHeader(name, value); },
-        status(status) { res.statusCode = status; return res; },
-        json(value) {
+        status(status) { res.statusCode = status; return response; },
+        json: value => transmit(() => {
           if (value?.ok === true) {
             const acks = productionAcks[actor.label];
             acks[q.operation] = (acks[q.operation] ?? 0) + 1;
           }
           return json(res, res.statusCode, value);
+        }),
+        on: res.on.bind(res), off: res.off.bind(res), flushHeaders: res.flushHeaders.bind(res),
+        write(chunk) {
+          const suspended = suspendedWatches.get(actor.label);
+          if (suspended) {
+            if (chunk.startsWith('data: ')) suspended.withheld++;
+            return true;
+          }
+          if (!shapeNetwork) return res.write(chunk);
+          transmit(() => res.write(chunk));
+          return true;
         },
-      }));
+        end: () => transmit(() => res.end()),
+      };
+      return planetApi({method: req.method, headers: req.headers, body: q}, response);
     }
     if (path === '/trial/baseline' && req.method === 'POST' && arm === 'read') {
       const q = await body(req), parsed = PlanetServiceRequestSchema.safeParse(q);
