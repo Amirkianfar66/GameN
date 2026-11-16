@@ -125,7 +125,8 @@ test('its styles: every rule is under .ms-round-stamp, the pack\'s size, no taps
   assert.match(css, /\.ms-round-stamp \.ms-rs-mark\s*\{\s*display: inline-block; opacity: 0;\s*\}/, 'outside its animation the stamp is not drawn');
   // The pack's own size for this stamp (its room screen's stamp=round1 state), which stops where the phone's width
   // would no longer hold the words on one line (large text, or a small phone); the words never break.
-  assert.match(css, /\.ms-round-stamp \.ms-rs-mark \.ms-k-stamp\s*\{\s*font-size: min\(2\.25rem, calc\(\(100cqw - 76px\) \/ 5\.4\)\); padding: 10px 20px 8px; white-space: nowrap;\s*\}/);
+  // The plain size comes first, for a browser with no container units: there the cap's line is dropped and the pack's size stands.
+  assert.match(css, /\.ms-round-stamp \.ms-rs-mark \.ms-k-stamp\s*\{\s*font-size: 2\.25rem; font-size: min\(2\.25rem, calc\(\(100cqw - 76px\) \/ 5\.4\)\); padding: 10px 20px 8px; white-space: nowrap;\s*\}/);
   // At ordinary text (16 px to the rem) the pack's 36 px stands on every phone from 271 px wide; at 200 % it gives way.
   const sizeAt = (phone, rem) => Math.min(2.25 * rem, (phone - 76) / 5.4);
   assert.deepEqual([271, 320, 390, 430].map(width => sizeAt(width, 16)), [36, 36, 36, 36]);

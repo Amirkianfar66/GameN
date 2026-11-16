@@ -18,5 +18,6 @@
    phone, and on a 320 px phone the words break onto two lines, so the size stops at what the phone's width holds on
    one line with 12 px to spare each side (100cqw is the phone's width: the shell's root is the kit's phone container;
    with no container it is the window's). The words "ROUND 1" are taken as 5.4 em wide, which leaves room for a wider
-   letter font than this stack's first. At ordinary text on any phone wider than 271 px it is the pack's 2.25rem. */
-.ms-round-stamp .ms-rs-mark .ms-k-stamp { font-size: min(2.25rem, calc((100cqw - 76px) / 5.4)); padding: 10px 20px 8px; white-space: nowrap; }
+   letter font than this stack's first. At ordinary text on any phone wider than 271 px it is the pack's 2.25rem.
+   The first size is for a browser with no container units: it keeps the pack's size there, uncapped. */
+.ms-round-stamp .ms-rs-mark .ms-k-stamp { font-size: 2.25rem; font-size: min(2.25rem, calc((100cqw - 76px) / 5.4)); padding: 10px 20px 8px; white-space: nowrap; }

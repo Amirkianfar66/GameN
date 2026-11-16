@@ -77,7 +77,7 @@ Two things the interface proposal did not have. Neither changes the stamp at the
    | 390 px | 36 px | 72 px: 1 px past each edge | 58.1 px: 32 px each side |
    | 320 px | 36 px | 72 px: two lines, past the right edge | 45.2 px: one line, 28 px each side |
 
-   The phone's width is the kit's phone container (`100cqw`), which the shell's root is. The 5.4 is the width of "ROUND 1" in em with room for a wider letter font than this machine's (here it is 4.72 em); a phone's own font was not measured.
+   The phone's width is the kit's phone container (`100cqw`), which the shell's root is. The 5.4 is the width of "ROUND 1" in em with room for a wider letter font than this machine's (here it is 4.72 em); a phone's own font was not measured. A browser with no container units keeps the pack's `2.25rem`, uncapped.
 
 ## Inputs
 
