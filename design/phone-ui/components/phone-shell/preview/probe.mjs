@@ -14,8 +14,9 @@
 //   layers    the cover lies over the stage and above all it holds, under the overlays and the sheet; with a
 //             sheet open the toast stays above it and the banner under it, as the pack's; with the banner
 //             showing, a docked sheet stays below it, so Retry and the sheet's Close are both in sight
-//   large     at the Largest text, in the shell's phone container: a row's value goes under its title and a
-//             stacking segmented control stacks; at the Standard text neither changes
+//   large     at the Largest text, in the shell's phone container: a row's value goes under its title, a
+//             stacking segmented control stacks, and the sheet's footer buttons stay inside it; at the Standard
+//             text none of these changes
 //   nobar     with bar: null the stage runs to the top edge, the overlays keep the bar's place (as the pack's
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
@@ -283,7 +284,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const kit = createKit(document);
       const measure = async text => {
         document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
-        const s = mount({ ...own(), sheet: { id: 'large', title: 'Your role', sub: 'Only on this phone', close: true, detent: 'large' } });
+        const s = mount({ ...own(), sheet: { id: 'large', title: 'Your role', sub: 'Only on this phone', close: true, detent: 'large',
+          actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'register', label: 'Register Rescue', kind: 'primary', icon: 'rescue' }] } });
         try {
         await frames();
         const rows = [
@@ -300,14 +302,20 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         const apart = rows.map(r => { const t = box(r.querySelector('.ms-k-row-title')), v = box(r.querySelector('.ms-k-row-value')); return t.right <= v.left + 0.5 || t.bottom <= v.top + 0.5; });
         const tops = n => [...n.children].map(b => Math.round(box(b).top));
         const whole = n => [...n.children].every(b => box(b.lastChild).width <= box(b).width + 0.5);
+        const sheetBox = box(s.q('.ms-ps-sheet')), feet = [...s.q('.ms-ps-sheet-foot').querySelectorAll('.ms-k-btn')];
+        const footInside = feet.every(b => box(b).left >= sheetBox.left - 0.5 && box(b).right <= sheetBox.right + 0.5);
+        const footWhole = feet.every(b => b.scrollWidth <= b.clientWidth + 1);
+        const footRows = new Set(feet.map(b => Math.round(box(b).top))).size;
         const phone = frame.querySelector('.ms-phone-shell');
-        return { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1,
+        return { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1, footInside, footWhole, footRows,
           phoneEm: Math.round(box(phone).width / parseFloat(getComputedStyle(phone).fontSize) * 10) / 10 };
         } finally { s.shell.dispose(); document.documentElement.style.fontSize = ''; }
       };
       const largest = await measure(200), standard = await measure(100);
       const ok = largest.under.every(Boolean) && largest.apart.every(Boolean) && largest.stacked && largest.segWhole && largest.shortRow
-        && standard.beside.every(Boolean) && standard.apart.every(Boolean) && !standard.stacked && standard.segWhole && standard.shortRow;
+        && largest.footInside && largest.footWhole
+        && standard.beside.every(Boolean) && standard.apart.every(Boolean) && !standard.stacked && standard.segWhole && standard.shortRow
+        && standard.footInside && standard.footWhole && standard.footRows === 1;
       return { ok, largest, standard };
     });
 

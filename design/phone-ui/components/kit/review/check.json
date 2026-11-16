@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.5.0",
-  "sourceCommit": "4429def493a07e01326457807694dd1be5a4bdec",
+  "version": "component-kit-0.5.1",
+  "sourceCommit": "481105204dd086469dd494ca66eefdda4541cc74",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -152,92 +152,127 @@
         200
       ],
       "why": "The list grows by the line its rows' values took under their titles"
+    },
+    {
+      "cases": "/^segmented icons$/",
+      "parts": [
+        "/^option \\d icon$/"
+      ],
+      "keys": [
+        "w"
+      ],
+      "sections": [
+        "plain"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text the pack's two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit's icons keep their 18 px, as at 100 %"
+    },
+    {
+      "cases": "/^segmented icons$/",
+      "parts": [
+        "/^(control|option \\d( icon)?)$/"
+      ],
+      "keys": [
+        "h",
+        "w",
+        "x",
+        "y"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % in a phone root (the shell's, which the glass cases sit in), a stacking segmented control puts one option per row, the kit 0.5.0 rule (#228's .seg[data-stack]); the pinned pack keeps the two options side by side, squeezed"
     }
   ],
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "d4196ddea8188951e1fb54dda24456e5dabf833424e911b56a0473da27ccc73f",
+      "sha256": "907b573602480695bd23ba74a18106a42ceb5a951b1c11ee8c60596cbb83eb0d",
       "size": {
         "width": 390,
-        "height": 7756
+        "height": 7896
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CGEyaakc.js",
+          "source": "assets/page-D7RCJQLy.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "4cb3378790a14d3f6a83daf2e3017709fce73aa2650c13d3746f9504b0fbfdf1"
+      "measurementSha256": "8353c79a7e9aa639225ce1fe89b1ee6b14dbdecb289a3b760c34b89872b01145"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "30ee56728333e726dd7e23b417b6c7ff45ba8e41048d0d25a910e3ca5384ef91",
+      "sha256": "b20b7947930b4854e6efa786302940b3cbf0dacdb47a1b2c517e553336f89e5d",
       "size": {
         "width": 390,
-        "height": 7825
+        "height": 7965
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CGEyaakc.js",
+          "source": "assets/page-D7RCJQLy.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "212002b4fd817f234218404cfb69983ffceb94b512b2fffddee4727d5bdbd821"
+      "measurementSha256": "8c3be0fb37781d0ec54f3d7074f9326d3a6f5e9526cd0230dfbb67598600be6e"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "23ef2892b83a1358a1bf153d23029ec30ba724d65994a6fa8e0f5ed47d5b4d35",
+      "sha256": "bb3cd51a9ee6a831596e62a29355b2b16c30b2f549bf75c1148f14f2cc6e227e",
       "size": {
         "width": 390,
-        "height": 10572
+        "height": 10769
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CGEyaakc.js",
+          "source": "assets/page-D7RCJQLy.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "e199e6a540236835252fab36be379629a554c7c90a03b3fdb4d8f190118ea403"
+      "measurementSha256": "3e160fc478edd9c11f6ac031da6289e04b79b4759324bdb208a58f16c873cd55"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "edae0faf9a6ea7ba6693c04385da88ff16c911bde6a0ac9e5e6e2862c1f43e87",
+      "sha256": "a872fba3f3f195df84291c3181bef14d843fb9f5614eda0fe96401aec624c489",
       "size": {
         "width": 390,
-        "height": 10744
+        "height": 10960
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-CGEyaakc.js",
+          "source": "assets/page-D7RCJQLy.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "51ab69d5f631d32c689c517965ea751abe561d78fccb704ef0a995068609cf7e"
+      "measurementSha256": "9e472afc40d64eff856be8555e349d807f277442a1a86cb2d41d436ecfae88d0"
     }
   },
   "agreement": {
@@ -472,6 +507,12 @@
         "segmented": {
           "ok": true,
           "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
           "differences": [],
           "accepted": []
         },
@@ -793,6 +834,12 @@
         "segmented": {
           "ok": true,
           "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
           "differences": [],
           "accepted": []
         },
@@ -1125,6 +1172,27 @@
           "parts": 3,
           "differences": [],
           "accepted": []
+        },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "option 1 icon",
+              "key": "w",
+              "pack": 12.78,
+              "kit": 18,
+              "rule": 7
+            },
+            {
+              "part": "option 2 icon",
+              "key": "w",
+              "pack": 11.42,
+              "kit": 18,
+              "rule": 7
+            }
+          ]
         },
         "stepper": {
           "ok": true,
@@ -1806,6 +1874,104 @@
           "differences": [],
           "accepted": []
         },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "control",
+              "key": "h",
+              "pack": 78.38,
+              "kit": 97,
+              "rule": 8
+            },
+            {
+              "part": "option 1",
+              "key": "w",
+              "pack": 174.5,
+              "kit": 352,
+              "rule": 8
+            },
+            {
+              "part": "option 1",
+              "key": "h",
+              "pack": 72.38,
+              "kit": 44,
+              "rule": 8
+            },
+            {
+              "part": "option 1 icon",
+              "key": "x",
+              "pack": 9,
+              "kit": 65.83,
+              "rule": 8
+            },
+            {
+              "part": "option 1 icon",
+              "key": "y",
+              "pack": 30.19,
+              "kit": 16,
+              "rule": 8
+            },
+            {
+              "part": "option 1 icon",
+              "key": "w",
+              "pack": 12.78,
+              "kit": 18,
+              "rule": 8
+            },
+            {
+              "part": "option 2",
+              "key": "x",
+              "pack": 180.5,
+              "kit": 3,
+              "rule": 8
+            },
+            {
+              "part": "option 2",
+              "key": "y",
+              "pack": 3,
+              "kit": 50,
+              "rule": 8
+            },
+            {
+              "part": "option 2",
+              "key": "w",
+              "pack": 174.5,
+              "kit": 352,
+              "rule": 8
+            },
+            {
+              "part": "option 2",
+              "key": "h",
+              "pack": 72.38,
+              "kit": 44,
+              "rule": 8
+            },
+            {
+              "part": "option 2 icon",
+              "key": "x",
+              "pack": 186.5,
+              "kit": 52.66,
+              "rule": 8
+            },
+            {
+              "part": "option 2 icon",
+              "key": "y",
+              "pack": 30.19,
+              "kit": 63,
+              "rule": 8
+            },
+            {
+              "part": "option 2 icon",
+              "key": "w",
+              "pack": 11.42,
+              "kit": 18,
+              "rule": 8
+            }
+          ]
+        },
         "stepper": {
           "ok": true,
           "parts": 6,
@@ -1876,9 +2042,9 @@
     }
   },
   "summary": {
-    "cases": 140,
-    "agree": 140,
-    "parts": 911,
-    "accepted": 109
+    "cases": 144,
+    "agree": 144,
+    "parts": 931,
+    "accepted": 124
   }
 }
