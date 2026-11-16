@@ -100,7 +100,7 @@ export const bytesOf = s => (s?.canvas ? s.canvas.width * s.canvas.height * 4 : 
 export function createBakery(doc) {
   const win = doc.defaultView;
   const store = new Map(), pending = [];
-  const stats = { pictures: 0, bytes: 0, peakBytes: 0, bakeMs: 0, failed: 0, longestMs: 0 };
+  const stats = { pictures: 0, bytes: 0, peakBytes: 0, bakeMs: 0, failed: 0, longestMs: 0, done: 0 };
   let running = false, stopped = false, idle = [];
   // Between two pictures the page gets a turn (input, a frame), without a timer's minimum wait.
   const channel = win.MessageChannel ? new win.MessageChannel() : null;
@@ -132,7 +132,7 @@ export function createBakery(doc) {
         store.set(job.key, null);
       }
       const took = win.performance.now() - start;
-      stats.bakeMs += took; stats.longestMs = Math.max(stats.longestMs, took);
+      stats.bakeMs += took; stats.longestMs = Math.max(stats.longestMs, took); stats.done += 1;
       await breathe();
     }
     running = false;

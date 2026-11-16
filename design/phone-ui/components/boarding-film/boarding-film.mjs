@@ -423,8 +423,11 @@ function drawInside(ctx, view, t, { assets, caster, roster, reduced, L }) {
 function jobsFor(doc, view, roster, sharp = 1) {
   const cast = castOf(roster), jobs = [];
   const area = ([, , w, h], px) => Math.ceil(w * px) * Math.ceil(h * px) * 4;
-  const add = (key, at, until, bytes, make) => jobs.push({ key, at, until, bytes, make });
+  let spare = null; // set while adding drawings a shot can do without: the film time by which each must have begun
+  const add = (key, at, until, bytes, make) => jobs.push({ key, at, until, bytes, make, spare });
   const first = start => start - 2200, rest = start => start - 260; // a shot's first need, and the rest of its drawings
+  /** Drawings a late film goes without: the rest of a cycle (a figure then holds its first pose), a blink, a second light. */
+  const sparing = (start, draw) => { spare = start - 150; draw(); spare = null; };
   const body = (key, at, until, character, sk, k, look) => add(key, at, until, area(bodyBox(sk), k), () => bodySprite(doc, character, sk, k, look));
   const head = (key, at, until, character, look, k, lit, blink = 0) => add(key, at, until, area(headBox(character, look), k * CREW_HEAD_SCALE), () => headSprite(doc, character, look, blink, k, lit));
   const part = (key, at, until, character, sk, name, k, look) => add(key, at, until, area(partBox(sk, name), k), () => partSprite(doc, character, sk, name, k, look));
@@ -440,7 +443,8 @@ function jobsFor(doc, view, roster, sharp = 1) {
   picture('ship', -8000, SHOTS.wake[1], within(wide.rect, SHIP_BOX) ?? SHIP_BOX, close * 0.85, ship);
   const kWalk = crew(FIG * close), [d0, d1] = SHOTS.dusk;
   cast.first.forEach((member, i) => {
-    for (let j = 0; j < PHASES; j += 1) body(`walk:${i}:${j}`, (j ? rest(d0) : first(d0)) + j, d1, member.character, stridePose(j / PHASES), kWalk, LOOKS.dusk);
+    body(`walk:${i}:0`, first(d0), d1, member.character, stridePose(0), kWalk, LOOKS.dusk);
+    sparing(d0 + 600, () => { for (let j = 1; j < PHASES; j += 1) body(`walk:${i}:${j}`, rest(d0) + j, d1, member.character, stridePose(j / PHASES), kWalk, LOOKS.dusk); });
     head(`walkhead:${i}`, first(d0), d1, member.character, 'front', kWalk, LOOKS.dusk);
   });
   // The entrance from the ramp: the wall once for each of its two shots, as sharp as each needs.
@@ -462,7 +466,8 @@ function jobsFor(doc, view, roster, sharp = 1) {
   cast.first.forEach((member, i) => {
     // The far pair is smaller in the frame, so its drawings are.
     const k = crew(Math.min(i < 2 ? 2 : 2.7, dv.f / (i < 2 ? 668 : 432)));
-    for (let j = 0; j < PHASES; j += 1) body(`climb:${i}:${j}`, (j ? rest(f0) : first(f0)) + j, f1, member.character, climbPose(j / PHASES), k, LOOKS.backlit);
+    body(`climb:${i}:0`, first(f0), f1, member.character, climbPose(0), k, LOOKS.backlit);
+    sparing(f0, () => { for (let j = 1; j < PHASES; j += 1) body(`climb:${i}:${j}`, rest(f0) + j, f1, member.character, climbPose(j / PHASES), k, LOOKS.backlit); });
     head(`climbhead:${i}`, first(f0), f1, member.character, 'back', k, LOOKS.backlit);
   });
   // The faces: each of the two in parts, far from the entrance's light and in it.
@@ -470,19 +475,22 @@ function jobsFor(doc, view, roster, sharp = 1) {
   cast.pair.forEach((member, n) => {
     // Drawn at no more than two and a half pixels a point: the largest pictures of the film.
     const k = crew(faceK(view) * Math.min(1, 2.5 / view.px) * (n ? 0.9 : 1)), sk = bustPose();
-    for (const [name, look] of [['far', LOOKS.climbFar], ['near', LOOKS.climbNear]]) {
-      for (const p of ['trunk', 'armF', 'armN']) part(`bust:${n}:${p}:${name}`, name === 'far' ? first(h0) : rest(h0), h1, member.character, sk, p, k, look);
-      head(`busthead:${n}:open:${name}`, name === 'far' ? first(h0) : rest(h0), h1, member.character, 'front', k, look);
-      head(`busthead:${n}:shut:${name}`, rest(h0) + 200, h1, member.character, 'front', k, look, 1);
-    }
+    for (const p of ['trunk', 'armF', 'armN']) part(`bust:${n}:${p}:far`, first(h0), h1, member.character, sk, p, k, LOOKS.climbFar);
+    head(`busthead:${n}:open:far`, first(h0), h1, member.character, 'front', k, LOOKS.climbFar);
+    sparing(h0, () => {
+      for (const p of ['trunk', 'armF', 'armN']) part(`bust:${n}:${p}:near`, rest(h0), h1, member.character, sk, p, k, LOOKS.climbNear);
+      head(`busthead:${n}:open:near`, rest(h0), h1, member.character, 'front', k, LOOKS.climbNear);
+      for (const [name, look] of [['far', LOOKS.climbFar], ['near', LOOKS.climbNear]]) head(`busthead:${n}:shut:${name}`, rest(h0) + 200, h1, member.character, 'front', k, look, 1);
+    });
   });
   // The door: the last aboard's few drawings, and those going in ahead.
   const kLast = crew(dv.f / (764 - doorCamera(g1, true).z) * (view.px > 2.5 ? 0.85 : 1));
-  for (let j = 0; j < PHASES / 2; j += 1) body(`last:${j}`, (j ? rest(g0) : first(g0)) + j, g1, cast.last.character, climbPose(j / PHASES), kLast, LOOKS.backlit);
+  body('last:0', first(g0), g1, cast.last.character, climbPose(0), kLast, LOOKS.backlit);
+  sparing(g0, () => { for (let j = 1; j < PHASES / 2; j += 1) body(`last:${j}`, rest(g0) + j, g1, cast.last.character, climbPose(j / PHASES), kLast, LOOKS.backlit); });
   body('last:back', first(g0), g1, cast.last.character, backPose(0.7), kLast, LOOKS.backlit);
   head('lasthead:back', first(g0), g1, cast.last.character, 'back', kLast, LOOKS.backlit);
   head('lasthead:front', rest(g0), g1, cast.last.character, 'front', kLast, LOOKS.lookback);
-  head('lasthead:shut', rest(g0), g1, cast.last.character, 'front', kLast, LOOKS.lookback, 1);
+  sparing(DOOR_BEATS.look[0], () => head('lasthead:shut', rest(g0), g1, cast.last.character, 'front', kLast, LOOKS.lookback, 1));
   cast.ahead.forEach((member, n) => {
     body(`ahead:${n}`, rest(g0), g0 + 500, member.character, backPose(n ? -0.5 : 0.5), kLast * 0.7, LOOKS.backlit);
     head(`aheadhead:${n}`, rest(g0), g0 + 500, member.character, 'back', kLast * 0.7, LOOKS.backlit);
@@ -491,13 +499,14 @@ function jobsFor(doc, view, roster, sharp = 1) {
   // rim) and under the lights.
   const hv = hallView(view), [i0] = SHOTS.inside, lightsOn = INSIDE.lights[1] + 700;
   for (const place of standing(view, roster)) {
-    const k = crew(hv.f / Math.max(260, place.z - hallCamera(BOARDING_MS).z)), dim = k * 0.62, c = place.member.character;
+    // Three pixels a point is more than these need: the last and largest pictures of the film.
+    const k = crew(hv.f / Math.max(260, place.z - hallCamera(BOARDING_MS).z) * (view.px > 2.5 ? 0.88 : 1)), dim = k * 0.62, c = place.member.character;
     body(`in:${place.i}:dark`, first(i0), lightsOn, c, HELD[place.pose], dim, LOOKS.dark);
     head(`inhead:${place.i}:down:dark`, first(i0), lightsOn, c, 'down', dim, LOOKS.dark);
     body(`in:${place.i}:lit`, rest(i0), BOARDING_MS, c, HELD[place.pose], k, LOOKS.lit);
     head(`inhead:${place.i}:down:lit`, rest(i0), lightsOn, c, 'down', k, LOOKS.lit);
     head(`inhead:${place.i}:open:lit`, rest(i0) + 100, BOARDING_MS, c, 'front', k, LOOKS.lit);
-    head(`inhead:${place.i}:shut:lit`, rest(i0) + 600, BOARDING_MS, c, 'front', k, LOOKS.lit, 1);
+    sparing(INSIDE.lights[0] + 600, () => head(`inhead:${place.i}:shut:lit`, rest(i0) + 600, BOARDING_MS, c, 'front', k, LOOKS.lit, 1));
   }
   add('mark', rest(TITLE.stamp[0]) - 400, BOARDING_MS, view.W * view.H * 0.45, () => markSprites(doc, view));
   return jobs;
@@ -564,7 +573,7 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
   let assets = null, jobs = [], view = null, baked = null, box = null, step = remembered, variant = 'full', disposed = false, suspended = false, raf = null;
   const media = win.matchMedia ? win.matchMedia('(prefers-reduced-motion: reduce)') : null;
   let anchor = null; // { t, at }: the last server time given, and when (the page's clock)
-  let finish = { opacity: -1, grain: '', light: -1 }, lastTick = 0, slow = 0, shown = { variant: null, box: [0, 0] };
+  let finish = { opacity: -1, grain: '', light: -1 }, lastTick = 0, slow = 0, bakedSoFar = 0, shown = { variant: null, box: [0, 0] };
 
   function adopt(prepared) {
     const same = prepared && !prepared.adopted && prepared.view.W === baked.W && prepared.view.H === baked.H && prepared.roster.length === roster.length && prepared.roster.every((m, i) => m.seat === roster[i].seat && m.character === roster[i].character);
@@ -597,11 +606,16 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
     need(t, true);
   }
 
-  /** Asks for what the film still needs from `t` on, and gives back what it is past. */
+  /**
+   * Asks for what the film still needs from `t` on, and gives back what it is past. A film that is late (its pictures
+   * are being drawn as it plays, on a slow phone) goes without what it can spare: a drawing not begun by the time its
+   * shot needs it is let go, so the shots still to come get theirs.
+   */
   function need(t, all = false) {
-    const wanted = jobs.filter(job => job.until >= t && !assets.has(job.key) && !assets.waiting(job.key));
+    const late = job => job.spare !== null && t >= job.spare && !assets.has(job.key);
+    const wanted = jobs.filter(job => job.until >= t && !late(job) && !assets.has(job.key) && !assets.waiting(job.key));
     if (wanted.length) assets.add(wanted);
-    if (!all) for (const job of jobs) if (job.until < t - 400 && (assets.has(job.key) || assets.waiting(job.key))) assets.release(job.key);
+    if (!all) for (const job of jobs) if ((job.until < t - 400 && (assets.has(job.key) || assets.waiting(job.key))) || (late(job) && assets.waiting(job.key))) assets.release(job.key);
   }
 
   /** The finish over the canvas: how strong (it goes with the picture into the ink and the night), where the grain sits. */
@@ -696,9 +710,11 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
     if (disposed || suspended || !anchor || !view) return;
     const now = win.performance.now(), since = now - anchor.at;
     if (since > COAST_MS || anchor.t + since > BOARDING_MS) return; // no paint for a while, or the film is over: the picture stops
-    // A phone that cannot hold the frame draws it a step less sharp. Only while no picture is being drawn: that is
-    // what slows a frame then, and a smaller frame would not help it.
-    if (lastTick && !assets.busy()) {
+    // A phone that cannot hold the frame draws it a step less sharp. A frame a picture was drawn in does not count:
+    // the picture is what slowed it, and a smaller frame would not have helped.
+    const drew = assets.stats.done !== bakedSoFar;
+    bakedSoFar = assets.stats.done;
+    if (lastTick && !drew) {
       const gap = now - lastTick;
       slow = gap > SLOW_FRAME_MS ? slow + (gap > SLOW_FRAME_MS * 2 ? 2 : 1) : Math.max(0, slow - 1);
       if (slow >= SLOW_FRAMES && step < QUALITY.length - 1) { step += 1; remembered = step; slow = 0; frame(); }
