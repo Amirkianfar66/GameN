@@ -33,7 +33,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/phone-shell');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
 /** Each state at the two development sizes; the Largest text at 320 × 568 (preview.mjs PREVIEW_STATES). */
-const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, talk: 2, stale: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'] };
+const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'] };
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
 const AT = 130;
 
@@ -65,6 +65,8 @@ const EXPECT = {
   card: s => s.sheet === 'Your role' && s.open === 'card' && s.head === 'Hide card',
   talk: s => s.kind === 'pair' && s.talk === 2 && s.tabs === 0,
   stale: s => s.banner === 'Connection lost' && s.status === 'stale',
+  // An eliminated player's phone (0.2.8): the banner's words without Retry, the phone live, Actions not offered.
+  out: s => s.banner === 'You’re out' && s.bannerKind === 'out' && s.bannerButtons === 0 && s.status === 'live' && s.tabs === 4 && s.heroOff,
   concealed: s => s.buttons === 0 && s.name === null && s.figures === 0,
   // Edge to edge, and the banner at the bar's place: the top safe area, the bar's 52 px at the 16 px root (kit.css
   // .ph --bar-h), and 8 px, as the pack's banner on its bar-less film.
@@ -91,7 +93,8 @@ try {
           urgent: !!q('.ms-ps-timer[data-urgent]'), ring: !!q('.ms-ps-ring'), promises: q('.ms-ps-promises')?.getAttribute('aria-label') ?? null, menu: !!q('.ms-ps-menu'),
           tabs: root.querySelectorAll('.ms-ps-tab[data-intent]').length, open: q('.ms-ps-tab[aria-expanded="true"]')?.dataset.value ?? null,
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
-          target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), sheet: t('.ms-ps-sheet h2'),
+          target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), bannerKind: q('.ms-ps-banner')?.dataset.kind ?? null,
+          bannerButtons: q('.ms-ps-banner') ? q('.ms-ps-banner').querySelectorAll('button').length : null, sheet: t('.ms-ps-sheet h2'),
           sheetActions: root.querySelectorAll('.ms-ps-sheet-foot button').length, head: q('.ms-ps-sheet-head [data-intent="sheet-head"]')?.getAttribute('aria-label') ?? null, buttons: root.querySelectorAll('.ms-ps-tb button, .ms-ps-tabs button, .ms-ps-talk button, .ms-ps-over button, .ms-ps-sheet button').length,
           figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, cover: q('.ms-ps-cover')?.children.length ?? 0,
           bannerTop: q('.ms-ps-banner') ? Math.round(q('.ms-ps-banner').getBoundingClientRect().top - root.getBoundingClientRect().top) : null, layout: window.__phoneShell.mounted[0].shell.layout() };

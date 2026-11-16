@@ -5,6 +5,8 @@ globalThis[Symbol.for('mothership:dev-only')]=true;
 // imported into the browser or production, and never chooses an outcome/time.
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
+import {createEmulatorPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+const previewHeaders=createEmulatorPreviewHeaders('gamen-mothership-staging',['http://127.0.0.1:5101','http://127.0.0.1:9199']);
 import {randomUUID,createHash} from 'node:crypto';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
@@ -19,9 +21,9 @@ const {chooseFoodBotInput}=await import(pathToFileURL(resolve(backend,'services/
 const hosts=assertLocalEmulators();assert.equal(hosts.authHost,'127.0.0.1:9199');assert.equal(hosts.functionsHost,'127.0.0.1:5101');
 const build='/private/tmp/gamen-food-connected-preview',out=process.env.GAMEN_FOOD_CONNECTED_OUT??'/private/tmp/gamen-food-connected-journey';await mkdir(out,{recursive:true});
 const counts=process.env.GAMEN_FOOD_CONNECTED_COUNTS?process.env.GAMEN_FOOD_CONNECTED_COUNTS.split(',').map(Number):[7,8,9];assert.ok(counts.every(n=>[7,8,9].includes(n)));
-const report={scope:'Real local authenticated native app on normal setup, actual rendered PANEL guidance, own-view-only Winch policy and authoritative partner workers. No seeded history, injected clock, manual advance/runBots, direct worker call or private-state read. Desktop Chromium only; no staging/device/Designer acceptance.',
+const report={headerProvenance:{kind:'emulator-connect-exception',projectId:'gamen-mothership-staging',headers:previewHeaders},scope:'Real local authenticated native app on normal setup, actual rendered PANEL guidance, own-view-only Winch policy and authoritative partner workers. No seeded history, injected clock, manual advance/runBots, direct worker call or private-state read. Desktop Chromium only; no staging/device/Designer acceptance.',
  candidateProvenance:JSON.parse(await readFile(resolve(build,'food-review-provenance.json'),'utf8')),cases:[],errors:[]};
-const server=createServer(async(req,res)=>{try{const name=new URL(req.url,'http://local').pathname,path=resolve(build,'.'+(name==='/'?'/index.html':name));if(!path.startsWith(build+sep))throw Error('path');
+const server=createServer(async(req,res)=>{for(const {key,value} of previewHeaders)res.setHeader(key,value);try{const name=new URL(req.url,'http://local').pathname,path=resolve(build,'.'+(name==='/'?'/index.html':name));if(!path.startsWith(build+sep))throw Error('path');
  res.setHeader('content-type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp','.json':'application/json'})[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.statusCode=404;res.end();}});
 await new Promise((done,reject)=>{server.once('error',reject);server.listen(5173,'127.0.0.1',done);});
 const origin='http://localhost:5173',chrome=await launchBrowser(),browser=await connect(chrome.endpoint),displayChrome=await launchBrowser(),displayBrowser=await connect(displayChrome.endpoint),matches=[];
