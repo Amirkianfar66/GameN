@@ -342,6 +342,17 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     if (c.file) assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
   assert.equal(captures.filter(([, c]) => c.file).length, 48, 'a picture of every state at 390 × 844 in full motion, and of the five parts at both sizes in both motions');
+  // Larger text: the port's own support, drawn the same by the component.
+  const larger = Object.entries(record.largerText.drawn);
+  assert.deepEqual(record.largerText.texts, [1.5, 2]);
+  assert.equal(larger.length, 32, 'eight states at two sizes, at the Large and the Largest text');
+  for (const [key, l] of larger) {
+    assert.ok(l.ok && Object.values(l.equal).every(Boolean), `${key}: the frozen port draws the same DOM and the same pixels`);
+    assert.equal(l.bars.top, { 24: 117, 32: 141 }[l.rootPx], `${key}: the text is larger: the surface's own bar has grown`);
+    assert.deepEqual(l.problems, [], `${key}: no page problem`);
+    if (l.file) assert.ok(existsSync(join(REPO, l.file)), `${key}: ${l.file}`);
+  }
+  assert.equal(larger.filter(([, l]) => l.file).length, 4, 'four larger-text pictures kept for review');
   assert.match(record.captures['390x844/food-panel-18/full'].synthetic, /a synthetic equivalent \(a retained RELEASE-capable view marked stale\), not a connected payload/);
   for (const part of PACKET.parts) {
     for (const size of ['390x844', '430x932']) {
@@ -361,9 +372,13 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     const part = key.split('/')[1];
     assert.ok(a.ok, `${key}: ${a.notes.join('; ')}`);
     assert.deepEqual([a.words.onlyComponent, a.words.onlyPackage], WORDS[part], `${key}: the words differ only by the packet's own press state`);
-    assert.ok(Object.keys(a.boxes).length >= 6 && Object.values(a.boxes).every(delta => delta <= record.limits.box), `${key}: every part where the package lays it`);
+    assert.ok(Object.keys(a.boxes).length >= 6, `${key}: the parts were measured`);
+    // The dock is a wrapper: with no instrument (the crate landed), the port's dock holds the instrument's empty slot and its 10 px gap, and draws nothing there.
+    for (const [selector, delta] of Object.entries(a.boxes)) assert.ok(delta <= record.limits.box || (selector === '.fs-dock' && a.instrument === false && part === 'food-winch-12' && delta === 10), `${key}: ${selector} lies where the package lays it`);
     assert.deepEqual(a.portraits, { component: [36, 36], package: [32, 32] }, `${key}: the top bar's portraits are the port's size`);
-    if (a.held.scene) assert.equal(a.pixels.scene.max, 0, `${key}: the scene outside the notices is the package's, pixel for pixel`);
+    if (a.held.scene) assert.ok(a.pixels.scene.mean <= record.limits.packageSceneMean && a.pixels.scene.far <= record.limits.packageSceneFar, `${key}: the scene outside the notices is the package's`);
+    if (['food-panel-04', 'food-winch-12'].includes(part)) assert.equal(a.pixels.scene.differing, 0, `${key}: with nothing in motion, the scene is the package's pixel for pixel`);
+    else if (a.held.scene) assert.ok(a.pixels.scene.differing > 0 && a.pixels.scene.differing < 0.02 * a.pixels.scene.pixels, `${key}: a few pixels differ, around what moves`);
     if (a.held.dock) assert.equal(a.pixels.dock.max, 0, `${key}: the instrument and control are the package's, pixel for pixel`);
     if (a.held.hint) assert.ok(a.pixels.hint.max <= record.limits.packageGlass, `${key}: the hint is the package's`);
     assert.ok(a.pixels.role.max <= record.limits.packageGlass, `${key}: the role row is the package's, to the glass`);
@@ -390,5 +405,9 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = new Set(record.probe.full.checks.map(c => c.id.split(':')[0]));
-  for (const group of ['contacts', 'listeners', 'presses', 'requests', 'stale', 'focus', 'lifecycle', 'exits', 'ownership', 'privacy', 'notice', 'gauge', 'motion', 'pictures', 'handlers', 'adapter']) assert.ok(groups.has(group), `probe group ${group}`);
+  for (const group of ['contacts', 'listeners', 'presses', 'offers', 'requests', 'stale', 'focus', 'lifecycle', 'quiet', 'exits', 'ownership', 'privacy', 'notice', 'gauge', 'motion', 'pictures', 'handlers', 'adapter']) assert.ok(groups.has(group), `probe group ${group}`);
+  // Frontend's four answers, each by its own check.
+  const passed = id => record.probe.full.checks.some(c => c.ok && c.id.startsWith(id));
+  for (const id of ['listeners: one set on the window per mount', 'contacts: Hold still reports the contact then', 'adapter: with a contact-off owed and no hold offered', 'stale: the tabs, Promises and Settings still report onNavigate',
+    'focus: the same control stays focused across redraws', 'lifecycle: resume drew the current state at the current time', 'privacy: concealed, nothing of the surface is left in the page', 'ownership: a Task covers the whole screen, said once']) assert.ok(passed(id), `probe: ${id}`);
 });

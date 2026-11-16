@@ -75,7 +75,7 @@ food.resume();          // draws the current state at the current time, and star
 food.dispose();         // lets everything go, gives up what Food covered, removes the surface. Safe twice
 ```
 
-`host` is an element the app lays over its own screen, as it lays the port's today. The component adds the class `planet-food-host` to it and removes it on dispose. The host must be inside the game's crew picture surface (`setCrewPictureSurface`), as the port's is: the top bar's portraits are the game's own.
+`host` is an element inside the app's own screen, as the port's is today. The component adds the class `planet-food-host` to it, which lays it over its parent (absolute, edge to edge, taking no pointer of its own), and removes the class on dispose. The host must be inside the game's crew picture surface (`setCrewPictureSurface`), as the port's is: the top bar's portraits are the game's own.
 
 An input the surface does not know is refused with a `TypeError`, at every level, and changes nothing.
 
@@ -122,7 +122,7 @@ The component reports contacts and matches none. Which contact holds, and whethe
 
 - **One set of window listeners per mount:** `pointerup`, `pointercancel` and `keyup`. They stay through redraws and through the control being disabled.
 - **Everything is let go** on suspend, on Task or scope exit, when concealed and on dispose, while Frontend's controller is still there. `onReleaseAll` may arrive when nothing is held; it is safe to run twice.
-- **A disabled Hold reports nothing**, unless a contact is still held or owed (`physicalHolding` or `needsContactOff`). Then it still reports, so that the hold can be let go. Whether that becomes a new DOWN is the controller's to refuse, and it does.
+- **A disabled Hold reports nothing**, unless a contact is still held or owed (`physicalHolding` or `needsContactOff`). Then it still reports, so that the hold can be let go. Whether that becomes a new DOWN is the controller's to refuse, and it does: on Frontend's own fixture for that state, with Frontend's controller and adapter, a press sends no DOWN and its let-go sends the contact-off.
 - **The surface never shows a hold the ship has not confirmed.** A press shows as on its way; "Holding" comes from the view.
 
 ## States
@@ -179,17 +179,18 @@ A test re-derives each copy from its pinned source and its recorded differences,
 
 ## Found while checking
 
-Two differences between the accepted port and the approved package's own pages. The component keeps the port's, since the port is the baseline. Each would be a recorded difference in a later version, if wanted.
+Three things in the accepted port that a later version may want to change. The component keeps all three, since the port is the baseline; each would then be a recorded difference. The first two are differences from the approved package's own pages.
 
 - **The Task top bar's two portraits are 36 px in the port, 32 px on the package's page.** The pack's rule holds its `<img width="36">` at 32 px; the port's portrait sets its size inline, which that rule does not reach. The title starts 8 px further right. It is in the captures accepted on #276 and #290.
 - **With no instrument (the crate landed), the port's dock is 10 px taller than the package's.** The port keeps an empty slot for the instrument, and the dock's gap applies to it. Nothing is drawn there, and the control sits where the package puts it.
+- **At the Large text (150 %) on 390 × 844, the Partner's label in the role row wraps inside a word** ("8 Hana · Winc/h"). At 430 × 932 it fits on one line, and at the Largest text (200 %) the port drops the row. See `review/390x844-food-panel-04-text150.jpg`.
 
 ## Not in this version yet
 
 | Not here | Why |
 | --- | --- |
 | The shared kit and the shell's bars | The surface carries the port's own frozen copy of the pack's kit and icons. Moving it onto the shared kit would change pixels, so it is a later step with its own review |
-| The small phone (320 × 568) and the larger texts, as captures | The owner deferred that coverage. The styles and the larger-text support are the port's, unchanged |
+| The small phone (320 × 568), as captures | The owner deferred that coverage. The styles are the port's, unchanged |
 | A change to any word, layout or art | Out of scope for the extraction |
 
 ## Checks run on this version
@@ -198,13 +199,14 @@ Two differences between the accepted port and the approved package's own pages. 
 
 - **Captures:** 33 synthetic states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: 132, each showing what its state must. The states are Frontend's five inputs, three variants of them (a refused, a recovered and an unknown press), nineteen of Frontend's native fixtures run on Frontend's own controller, three gauge states, and three notices.
 - **The frozen port:** the same state drawn by the port's own renderer in the same phone gives the same DOM, the same boxes and the same pixels in all 132. A clock one second off is told apart.
+- **Larger text:** eight states (the five parts, a briefing, a sheet and a request) at both sizes, at the game's Large (150 %) and Largest (200 %) text: the port draws the same DOM and the same pixels in all 32. The larger-text support is the port's own, unchanged.
 - **The approved package's own pages** (`design/food-supply/phone.html`, served unchanged) for #290's five parts, at both sizes:
   - Every part lies where the package lays it, to half a pixel. The one exception is the dock's empty slot above.
   - The words differ only by the packet's own press state: "Sending…" on the RELEASE part, the "Checking your let-go…" notice on the Winch part. `food-panel-18` is another moment than the package's page (see below).
   - The scene outside the notices is the package's pixel for pixel on `food-panel-04` and `food-winch-12`. On `food-panel-03`, 512 of 106,860 pixels differ at 390 × 844 (558 of 129,860 at 430 × 932), around the moving crate and the two name tags. On `food-winch-03`, 624 of 55,380 differ by one level.
   - The instrument and the control are the package's pixel for pixel wherever the words agree.
 - **Frontend's ten native captures from #290** (read from `3247fc3d`, each held to its SHA-256, none copied): for the four causal parts at both sizes, the scene outside the notices is within 1.41 to 1.61 levels on average, with 0.5 % to 0.7 % of its pixels more than 24 levels apart. The limit is 3 levels and 2 %. The same capture moved 3 px measures about 10 levels and 12 %.
-- **The lifecycle probe:** 79 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, exits, ownership, privacy, the notice, the gauge, motion, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
+- **The lifecycle probe:** 80 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, exits, ownership, privacy, the notice, the gauge, motion, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
 
 `packages/design-tokens/test/food-component.test.mjs` (9 tests) holds the module graph, the copies, the styles' reach, the inputs and audiences, the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
 
@@ -212,7 +214,8 @@ Two differences between the accepted port and the approved package's own pages. 
 
 - `food-panel-18` is a synthetic equivalent (a retained RELEASE-capable view marked stale), not a connected payload. #290's two captures of it are from a connected match, with other names, characters and stock and no synthetic safe areas, so they are recorded and not held. The component is held to what Frontend's packet expects of that frame instead.
 - #290's captures were drawn by Chrome 157 on another machine with other fonts. Text differs by 4 to 10 levels on average and is reported, not held. On the RELEASE part the pressed control is tinted blue in #290's capture. The styles hold no such colour; it reads as the browser's own tap highlight from the touch that made the press.
-- The preview's phone gives the review frames' safe areas (47 px and 34 px) through a preview style rule, stands in for the ordinary app's bars and board, and holds the two spinners at one moment for each capture.
+- The preview's phone gives the review frames' safe areas (47 px and 34 px) through a preview style rule, and stands in for the ordinary app's bars and board.
+- Each capture is of a page at rest: every fade is ended and the two spinners are held at one moment. With Reduce motion the kit fades every change over 80 ms, and text that takes its colour from its box starts its own fade when the box's ends, so the preview goes on holding until nothing new starts. A picture taken while anything still runs fails the check.
 
 **Not looked at:** a phone, Safari, a screen reader, a server, and performance. Desktop Chromium at each phone's CSS size.
 
@@ -235,6 +238,6 @@ controller.subscribe(() => food.update(inputsFromModel(controller.getModel(), pu
 ```
 
 - Dispose the surface before the controller, so that the last `onReleaseAll` reaches it.
-- On blur, on a hidden page and on leaving Food, call `food.suspend()`; on return, `food.resume()`.
-- When the viewer loses authorization, send `status: 'concealed'`.
+- On blur and on a hidden page, do as today: let the hold go and tell the controller it is not visible. Its model then says so, and the adapter sends `status: 'concealed'`, as it does when the viewer loses authorization.
+- `suspend()` and `resume()` are for when the app stops showing the surface while the viewer stays authorized.
 - Tell Designer what does not fit. The canonical source is changed here, not in a copy.
