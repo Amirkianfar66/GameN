@@ -147,7 +147,7 @@ The agreement draws the frozen pack's `panels`, `players` and `rules` screens be
 
 `node design/tools/panels-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 8 states at 390 × 844 and 430 × 932: the list as a passenger, the list as the Captain, no window, Players, players in Jail, Round order, reconnecting, and Players at the Largest text, each with the Panels tab open. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded:** to follow, on the clean build commit.
+**Recorded against `a03b3fe8` (clean, with the shell 0.2.6):** 16 of 16 captures, the probe 19 of 19 checks (18 as the page comes, the motion check with the device's Reduce motion), and the agreement 7 of 7, with Round order's note recorded as absent, no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
 
 ## Not in this version
 
