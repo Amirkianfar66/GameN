@@ -6,7 +6,7 @@
 //   focus     a focused control keeps its element and the focus through ordinary updates; the focused
 //             control ending moves the focus to the shell and reports it once (onFocusReturn)
 //   refused   an unavailable, busy or non-interactive control takes no tap, and says why
-//   stale     reconnecting, only Retry, ⋮ and a sheet's back and close work
+//   stale     reconnecting, only Retry, ⋮, the target bar's Cancel and a sheet's back and close work
 //   private   concealed, nothing to read and no control; this viewer's inputs are dropped, also when
 //             the viewer changes
 //   time      the clock shows what it is given, amber in the last 10 s, and never counts by itself
@@ -140,9 +140,9 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok: buttons.length >= 8 && fired.length === 0 && refused, buttons: buttons.length, fired };
     });
 
-    await check('stale: only Retry, ⋮ and a sheet\'s back and close work; the rest say why', async () => {
+    await check('stale: only Retry, ⋮, the target bar\'s Cancel and a sheet\'s back and close work; the rest say why', async () => {
       const s = mount({ ...own(), status: 'stale', banner: { kind: 'reconnecting' }, sheet: passSheet, target: { title: 'Rescue' }, chip: { id: 'other', label: 'Other rooms · 1' } });
-      const local = ['retry', 'menu', 'sheet-back', 'sheet-close'];
+      const local = ['retry', 'menu', 'cancel-target', 'sheet-back', 'sheet-close'];
       const buttons = s.qa('button[data-intent]');
       for (const b of buttons) b.click();
       const fired = s.calls.filter(c => !['onLayout', 'onFocusReturn'].includes(c[0])).map(c => c[0]);
@@ -154,8 +154,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       hero.click();
       const live = { hero: named(s.calls, 'onHero').length, reason: describedBy(hero) };
       s.shell.dispose();
-      const want = ['onRetry', 'onMenu', 'onSheetBack', 'onSheetClose'];
-      return { ok: fired.length === 4 && want.every(n => fired.includes(n)) && described && localOpen && game.length >= 6 && live.hero === 1 && live.reason === null,
+      const want = ['onRetry', 'onMenu', 'onCancelTarget', 'onSheetBack', 'onSheetClose'];
+      return { ok: fired.length === 5 && want.every(n => fired.includes(n)) && described && localOpen && game.length >= 5 && live.hero === 1 && live.reason === null,
         fired, game: game.length, described, localOpen, live };
     });
 

@@ -84,8 +84,8 @@ The roles' factions are the engine's (`planetFaction`, `packages/engine/src/plan
 | Alien | Blue, Red or Alien |
 
 - **Private.** The disabled cards and the note under them ("Your role declares its own side: Blue. Only you see this.") are on the target's own phone only. The initiator, the host and the shared display see neither the choices nor which were open (HACK-DECLARE-04).
-- **Frontend** derives the sides from the player's own role, as above: one rule, own faction unless Undercover or Alien.
-- **Backend already enforces it:** the engine rejects any other side with `NOT_ALLOWED` (`packages/engine/src/full-game/lifecycle.ts`, the `DECLARE_HACK_SIDE` case; `packages/engine/src/planet-game/commands.ts`, likewise). Its offer (`packages/engine/src/planet-game/offers.ts`) says only that the seat may declare, not which sides: [DSN-REQ-22](integration-requests.md#dsn-req-22) asks for the sides in the offer, so the phone needs no role table.
+- **Frontend** takes the sides from the target's own `DECLARE_HACK_SIDE` offer: its `declaredSides`, in that player's private view only ([DSN-REQ-22](integration-requests.md#dsn-req-22), delivered on main in `090429d7` under the phone-offer versions). Nothing on the phone works the sides out from the role. The private talk (#293) draws the three cards from it.
+- **Backend enforces it:** the engine rejects any other side with `NOT_ALLOWED` (`packages/engine/src/full-game/lifecycle.ts`, the `DECLARE_HACK_SIDE` case; `packages/engine/src/planet-game/commands.ts`, likewise). Its offer (`packages/engine/src/planet-game/offers.ts`) lists the permitted sides as `declaredSides`, so the phone needs no role table.
 - A declaration is a claim, never a check: the initiator's card says "Unverified".
 
 ## The 30-second role stage

@@ -21,7 +21,7 @@ import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.6';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.7';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -267,7 +267,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
 
   // ── Taps ────────────────────────────────────────────────────────────
   // Taken while reconnecting: Retry, and what stays on this phone (⋮, a sheet's back and close).
-  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close', 'sheet-head', 'sheet-local']);
+  // This phone's own controls, which work while reconnecting: Retry, ⋮, a sheet's Back, Close, head and local footer
+  // actions, and the target bar's Cancel (0.2.7), which only ends the choosing on this phone.
+  const LOCAL = new Set(['retry', 'menu', 'sheet-back', 'sheet-close', 'sheet-head', 'sheet-local', 'cancel-target']);
   const accepts = intent => !disposed && state.interactive && state.status !== 'concealed' && (state.status === 'live' || LOCAL.has(intent));
   const onClick = event => {
     const target = event.target.closest?.('button[data-intent]');
