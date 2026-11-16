@@ -6,6 +6,61 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: Designer connects its parts in the game, in four test releases; the films don't hold them
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.**
+
+**What was asked.** The owner asked when a playable test deploy will carry the new work ([below](#16-november-2026-three-new-branches-for-the-hospital-panel-and-the-next-films)). The Lead explained the three steps after Designer finishes a part:
+1. Integration reviews and merges it.
+2. It is connected into the game.
+3. Integration deploys it.
+
+The Lead added that the connection is the slowest of the three. The owner asked:
+
+> What is your recommendation
+
+The Lead recommended:
+
+> Let the Designer builders connect their own parts in the game, and release them as four test versions instead of thirty separate ones.
+
+The order the Lead gave:
+1. the five rooms (#261 and #284);
+2. the top bar and tabs (#265, connected by the Lead) and Food (connected by Frontend);
+3. the match screens;
+4. before the match, with the new brand intro and role films.
+
+The owner answered:
+
+> Yes as you recommend, just I prefer I have a test playable without role movies, role movies can be created in parallel but they should not hold the test because these are pre game animations,
+
+**What it covers:**
+- **Designer writes the game-side connections for the parts it built,** as the Lead did for the rooms (#284).
+  - This answers the [15 November](#15-november-2026-designer-connects-the-five-rooms-nothing-related-to-design-inside-the-frontend) decision's open item: who writes each connection.
+  - Frontend reviews each connection, and keeps the game's data, commands, navigation and lifecycle.
+  - Nothing Designer writes decides what happens in a match.
+- **Four test releases, in the order above.** Integration reviews, merges and deploys each one as a single step. The writers:
+  - release 2's shell connection: the Lead;
+  - release 3: the Gameplay UI builder;
+  - release 4: the Pre-game & Global UI builder.
+
+  One writer per release keeps two sessions from changing the same game files at once.
+- **The films never hold a test release.**
+  - The role films are built in parallel, and each new version joins the game once it is accepted. Until then the game keeps today's films.
+  - The owner named the role films. The reason given, that they are pre-game animations, also covers the brand intro and the boarding film's new version (#285), so the Lead applies it to them too.
+- **Branches:** each connection is a draft PR on a new branch. This answer covers three:
+  - `claude/designer-connect-shell`: release 2, the Lead;
+  - `claude/designer-connect-match`: release 3;
+  - `claude/designer-connect-pregame`: release 4.
+
+**What stays the same:**
+- Integration owns admission, merge and deployment, and sets the dates.
+- The approved sheets govern the look, and a departure still needs the owner's approval.
+- Each film keeps its length, timing and privacy.
+
+**What it leaves open:**
+- The dates. Integration sets them; the Lead asked on #222.
+- Frontend's and Integration's agreement to Designer writing the connections. The plan is posted on #222.
+
 ## 16 November 2026: three new branches, for the Hospital panel and the next films
 
 **Recorded by the Lead Designer from the owner's answers in the Lead's session.**
