@@ -6,6 +6,7 @@ import type {FoodTaskCommandRequest,FoodTaskReceipt,FoodTaskPublicView,FoodTaskP
 import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,PlanetReadTransaction,PlanetStateEnvelope,PlanetTransaction} from './planet-game.js';
 import {chooseFoodBotInput,canAdmitFoodBotPanelLock,foodBotPanelLockWindowEnd} from './food-bot-policy.js';
 import {PlanetAtomicCreateConflict} from './planet-persistence-errors.js';
+import {beginPlanetTiming,timePlanetStage} from './planet-request-timing.js';
 
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
 export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
@@ -38,6 +39,7 @@ export interface FoodServiceSession<S extends PlanetStateEnvelope> {
   setup:unknown;foodService?:FoodServiceState;
 }
 interface Control {nextSequence:number;processedSequence:number;lastAdmittedAt:number;advancedThroughAt:number}
+interface TransportRate {since:number;count:number;lastSnapshotAt?:number}
 interface Stored {fingerprint:string;response:PlanetServiceResponse}
 interface Entry {
   sequence:number;matchId:string;uid:string|null;actorSeatId:SeatId|null;bindingRevision:number|null;
@@ -193,16 +195,23 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   }
   async function withSessionWriter<R>(matchId:string,operation:(owner:string)=>Promise<R>,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>):Promise<R>{
     const started=performance.now();
-    while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
-      const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
-      if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
-      const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);if(claim.owner===null)continue;
-      let committed=false;
-      try{const result=await operation(claim.owner);committed=true;return result;}
-      catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
-      finally{await releasePrefixWorker(matchId,claim.owner,committed);}
+    let finishWait=beginPlanetTiming('sessionWriterWait');
+    try{
+      while(performance.now()-started<PREFIX_WAIT_BUDGET_MS){
+        const current=await readOnly(tx=>tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId)));
+        if(current&&current.expiresAt>clock()){await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;}
+        const claim=await acquirePrefixWorker(matchId,0,beforeClaim,current===null);if(claim.owner===null)continue;
+        finishWait?.();finishWait=undefined;
+        let committed=false;
+        try{const result=await operation(claim.owner);committed=true;return result;}
+        catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;}
+        finally{await releasePrefixWorker(matchId,claim.owner,committed);}
+        finishWait=beginPlanetTiming('sessionWriterWait');
+      }
+      throw new Error('Food Session writer requires a later durable continuation');
+    }finally{
+      finishWait?.();
     }
-    throw new Error('Food Session writer requires a later durable continuation');
   }
   async function acquirePrefixWorker(matchId:string,throughSequence:number,beforeClaim?:(tx:PlanetReadTransaction,at:number)=>Promise<void>,expectMissing=false):Promise<{owner:string|null;expiresAt:number}>{
     const owner=d.newId();
@@ -243,7 +252,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     });
   }
   async function releasePrefixWorker(matchId:string,owner:string,committed=false):Promise<void>{
-    await store.transaction(async tx=>{
+    await timePlanetStage('cleanup',()=>store.transaction(async tx=>{
       const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
       if(!lease||lease.owner!==owner)return;
       const complete=lease.throughSequence===0?committed:(await tx.get<Entry>(entryKey(matchId,lease.throughSequence)))?.response;
@@ -252,21 +261,26 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       // A failed/bounded attempt must retain its independent recovery wake even
       // after yielding ownership; only a durable target response retires it.
       if(complete&&wake&&wake.status!=='complete')tx.set('deadline/'+lease.wakeTaskId,{...wake,status:'complete'});
-    });
+    }));
   }
-  async function foodRate(tx:PlanetReadTransaction,uid:string,q:Request|null,at:number){
+  async function foodRate(tx:PlanetReadTransaction,uid:string,q:Request|null,at:number,previous?:TransportRate|null){
     const c=q?.operation==='foodCommand'?q.request.command:null;
     const closure=c?.type==='TASK_PRESS'&&(c.input.kind==='HOLD_RECOVER_OFF'||c.input.kind==='HOLD'&&c.input.edge==='UP');
     const budget=q?.operation==='read'?'snapshot':q?.operation==='foodHeartbeat'?'presence':closure?'closure'
       :q?.operation==='foodCommand'||q?.operation==='command'?'input':'control';
-    const path=key('foodTransportRate',[uid,budget]),old=await tx.get<{since:number;count:number}>(path);
+    const path=key('foodTransportRate',[uid,budget]),old=await tx.get<TransportRate>(path);
+    if(previous!==undefined&&hash(previous)!==hash(old))throw new Error('Unconfirmed passive Food snapshot');
+    if(q?.operation==='read'&&old?.lastSnapshotAt!==undefined&&at<old.lastSnapshotAt)
+      throw new Error('Backward Food snapshot clock');
     const current=!old||at-old.since>=60_000?{since:at,count:0}:old;
     if(current.count>=FOOD_TASK_TRANSPORT.requestsPerMinute[budget])d.reject('RATE_LIMITED');
-    return {path,current};
+    const next:TransportRate={...current,count:current.count+1};
+    if(q?.operation==='read')next.lastSnapshotAt=at;
+    return {path,old,next};
   }
   async function limitFood(tx:PlanetTransaction,uid:string,q:Request|null,at:number):Promise<void>{
-    const {path,current}=await foodRate(tx,uid,q,at);
-    tx.set(path,{...current,count:current.count+1});
+    const {path,next}=await foodRate(tx,uid,q,at);
+    tx.set(path,next);
   }
   async function preflightAdmission(matchId:string,uid:string,q:Request,expected?:{seatId:SeatId;bindingRevision:number}){
     return readOnly(async tx=>{
@@ -485,19 +499,20 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     try{
       const actor=own(initial,uid);
       binding={session:initial,seatId:actor.seatId,bindingRevision:actor.bindingRevision};
-      const admitted=await admit(matchId,uid,q,{human:{...binding,operation:'foodCommand'}});
+      const human={...binding,operation:'foodCommand' as const};
+      const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q,{human}));
       if(admitted.response===null)await drainThrough(matchId,admitted.sequence);
     }catch(error){failed=true;failure=error;}
     // Recheck even duplicate/conflict/error paths. A recovered seat can now have
     // another owner and another private receipt at the same seat-scoped key.
-    const final=await readOnly(async tx=>{
+    const final=await timePlanetStage('finalReceipt',()=>readOnly(async tx=>{
       const current=await d.load(tx,matchId),actor=own(current,uid);
       if(binding&&(actor.seatId!==binding.seatId||actor.bindingRevision!==binding.bindingRevision))d.reject('FORBIDDEN');
       const stored=await tx.get<Stored>(key('food-command',[matchId,actor.seatId,q.request.commandId]));
       if(!binding)return null;
       if(stored&&stored.fingerprint!==hash(q))d.reject('COMMAND_ID_CONFLICT');
       return stored?.response??null;
-    });
+    }));
     // The freshly authorized, exact original remains authoritative after an earlier technical failure.
     if(final!==null)return final;
     if(failed)throw failure;
@@ -513,7 +528,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const actor=own(session,uid),observedControl=await tx.get<Control>(controlKey(matchId));
         return {session,seatId:actor.seatId,bindingRevision:actor.bindingRevision,observedControl};
       });
-      const admitted=await admit(matchId,uid,q,{human:{...captured,operation:'foodHeartbeat'}});
+      const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q,{human:{...captured,operation:'foodHeartbeat'}}));
       // Only a proven pre-write fence mismatch permits another capture. Storage
       // or acknowledgement errors propagate; an ambiguous admission is not retried.
       if(admitted.refresh)continue;
@@ -686,30 +701,43 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   async function drainThrough(matchId:string,sequence:number):Promise<PlanetServiceResponse>{
     let owner:string|null=null,commits=0;
     const started=performance.now();
+    const finishDrain=beginPlanetTiming('drain');
+    let finishLeaseWait=beginPlanetTiming('drainLeaseWait');
     try{
       while(commits<MAX_PREFIX_COMMITS&&performance.now()-started<PREFIX_WAIT_BUDGET_MS){
-        const observed=await readOnly(async tx=>{
+        const observed=await timePlanetStage('drainProbe',()=>readOnly(async tx=>{
           const entry=await tx.get<Entry>(entryKey(matchId,sequence));
           return {entry,lease:entry?.response||owner!==null?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId))};
-        });
+        }));
         if(observed.entry?.response)return observed.entry.response;
         if(owner===null&&(!observed.lease||observed.lease.expiresAt<=clock())){
           const claim=await acquirePrefixWorker(matchId,sequence,undefined,observed.lease===null);owner=claim.owner;
-          if(owner!==null)continue; // The target may have committed between the RO probe and this claim.
+          if(owner!==null){
+            finishLeaseWait?.();finishLeaseWait=undefined;
+            continue; // The target may have committed between the RO probe and this claim.
+          }
         }
         if(owner===null){
           // Receipt waiting is technical only. No Session transaction or gameplay
           // timestamp is left running after the caller observes its committed entry.
           await new Promise<void>(resolve=>setTimeout(resolve,PREFIX_POLL_MS));continue;
         }
-        if(!await refreshPrefixWorker(matchId,owner)){owner=null;continue;}
-        try{await processOne(matchId,owner,sequence);commits++;}
-        catch(error){if(!(error instanceof LostPrefixWorkerLease))throw error;owner=null;}
+        if(!await refreshPrefixWorker(matchId,owner)){owner=null;finishLeaseWait=beginPlanetTiming('drainLeaseWait');continue;}
+        const heldOwner=owner;
+        try{await timePlanetStage('authority',()=>processOne(matchId,heldOwner,sequence));commits++;}
+        catch(error){
+          if(!(error instanceof LostPrefixWorkerLease))throw error;
+          owner=null;finishLeaseWait=beginPlanetTiming('drainLeaseWait');
+        }
       }
       throw new Error('Food prefix requires a later durable continuation');
-    }finally{if(owner!==null)await releasePrefixWorker(matchId,owner);}
+    }finally{
+      finishLeaseWait?.();
+      try{if(owner!==null)await releasePrefixWorker(matchId,owner);}
+      finally{finishDrain?.();}
+    }
   }
-  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
+  async function tryFastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|'refresh'|null>{
     const observed=await readOnly(async tx=>{
       const s=await d.load(tx,matchId);
       if(!isFood(s)||s.status!=='running'||!s.state)return null;
@@ -720,41 +748,75 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       return {s,actor,control};
     });
     if(observed===null)return null;
+    let enteredWritePath=false;
+    let passiveRateBefore:TransportRate|null|undefined;
+    const fallback=()=>{
+      if(passiveRateBefore!==undefined)throw new Error('Unconfirmed passive Food snapshot');
+      return null;
+    };
     return store.transaction(async tx=>{
       // Only small private documents are locked. Every gameplay/membership effect
       // changes this control in the same commit as Session; worker scheduler-only
       // publications do not affect the captured audience projection.
       const control=await tx.get<Control>(controlKey(matchId));
-      if(!control||hash(control)!==hash(observed.control))return null;
+      if(!control)return fallback();
+      const observedHash=hash(observed.control);
+      if(hash(control)!==observedHash){
+        // Another fast snapshot can advance both watermarks without admitting
+        // work. This attempt made no writes. Authorization and the exact fence
+        // must still be checked again against a fresh capture.
+        const {lastAdmittedAt,advancedThroughAt}=observed.control;
+        // An SDK retry after an earlier callback's possible write is not proof
+        // that a different reader advanced Control.
+        const newer=!enteredWritePath&&Number.isSafeInteger(control.lastAdmittedAt)&&control.lastAdmittedAt===control.advancedThroughAt
+          &&control.lastAdmittedAt>=lastAdmittedAt&&control.advancedThroughAt>=advancedThroughAt
+          &&hash({...control,lastAdmittedAt,advancedThroughAt})===observedHash;
+        return newer?'refresh':fallback();
+      }
       const renewals=await contacts(tx,matchId),{s,actor}=observed;
       const at=clock(),due=engine().planetDeadlineAt(s.state!),f=s.foodService;
       if(!Number.isSafeInteger(at)||!Number.isSafeInteger(at+FOOD_PRESENCE_LEASE_MS)||at<control.lastAdmittedAt||at<control.advancedThroughAt
-        ||due!==null&&due<=at||!f)return null;
-      f.leases=effectiveLeases(s,renewals,at);
-      if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at))return null;
-      const lease=actor===null?undefined:f.leases[actor];
+        ||due!==null&&due<=at||!f)return fallback();
+      const leases=effectiveLeases(s,renewals,at);
+      if(Object.values(leases).some(l=>l&&!l.offline&&l.expiresAt<=at))return fallback();
+      const lease=actor===null?undefined:leases[actor];
       const task=actor===null?null:engine().projectPlanetFoodPlayer(s.state!,actor,at).participantTask;
       const person=task?.people.find(p=>p.seatId===actor);
       const livingActive=task!==null&&task.stage!=='ENDED'&&person?.alive===true;
       if(lease&&(lease.offline||lease.expiresAt<=at||!livingActive||!person?.online||lease.taskId!==task!.taskId)
-        ||!lease&&livingActive)return null;
+        ||!lease&&livingActive)return fallback();
       // No engine boundary or online transition is skipped: only transport watermarks and
       // an already-online own lease change. Fallbacks above spend no rate budget or writes.
-      await limitFood(tx,uid,{operation:'read',matchId},at);
-      tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
+      // Passive READs no longer change their own Control fence. If a retry
+      // observes a different rate record, the prior charge may have committed.
+      const rate=await foodRate(tx,uid,{operation:'read',matchId},at,passiveRateBefore);
+      enteredWritePath=true;
+      tx.set(rate.path,rate.next);
       if(lease&&actor!==null){
+        tx.set(controlKey(matchId),{...control,lastAdmittedAt:at,advancedThroughAt:at});
         const binding=s.members.find(m=>m.seatId===actor)!.bindingRevision;
         tx.set(contactKey(matchId),{...renewals,[actor]:{taskId:lease.taskId,bindingRevision:binding,
           admittedAt:at,expiresAt:at+FOOD_PRESENCE_LEASE_MS}} satisfies Contacts);
         // Renewal only extends a live expiry. Its already-durable earlier wake
         // remains responsible for hydrating and rearming the later deadline.
+      }else{
+        // An observer's clock sample has no effect on the match's admissions.
+        // The exact Control read still fences the authorized snapshot.
+        passiveRateBefore=rate.old;
       }
       return response(d.snapshot(s,uid,at),at);
     });
   }
+  async function fastRead(matchId:string,uid:string):Promise<PlanetServiceResponse|null>{
+    const first=await tryFastRead(matchId,uid);
+    if(first!=='refresh')return first;
+    const next=await timePlanetStage('readFenceRefresh',()=>tryFastRead(matchId,uid));
+    // A second fence change keeps the existing ordered admission path.
+    return next==='refresh'?null:next;
+  }
   async function tryHandle(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
     const matchId=matchOf(q);if(matchId===null)return undefined;
-    const initial=await inspect(matchId);
+    const initial=await timePlanetStage('classification',()=>inspect(matchId));
     if(!initial||!isFood(initial)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
@@ -776,15 +838,15 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
     if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
     if(q.operation==='foodHeartbeat')return humanFoodHeartbeat(matchId,uid,q);
-    if(q.operation==='foodReceipt'||q.operation==='receipt')return readOnly(async tx=>{
+    if(q.operation==='foodReceipt'||q.operation==='receipt')return timePlanetStage('finalReceipt',()=>readOnly(async tx=>{
       const s=await d.load(tx,matchId),actor=own(s,uid);
       const stored=await tx.get<Stored>(key(q.operation==='foodReceipt'?'food-command':'command',[matchId,actor.seatId,q.commandId]));
       return response({receipt:stored?.response.ok?(stored.response.result as {receipt:unknown}).receipt:null},clock());
-    });
+    }));
     if(q.operation==='read'&&!participant(initial,uid))return undefined;
     if(q.operation==='read'){const fast=await fastRead(matchId,uid);if(fast!==null)return fast;}
     if(!['read','command','foodCommand','foodHeartbeat','advance','runBots','abort','issueRecovery','redeemRecovery'].includes(q.operation))d.reject('NOT_ALLOWED');
-    const admitted=await admit(matchId,uid,q);
+    const admitted=await timePlanetStage('admission',()=>admit(matchId,uid,q));
     const result=admitted.response??await drainThrough(matchId,admitted.sequence);
     if(q.operation==='runBots'&&result.ok)return response(await runBots(matchId),clock());
     return result;

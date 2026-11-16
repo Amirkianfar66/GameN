@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.2.0",
-  "sourceCommit": "b51b715c2c79a3a56ac43fb80e74afeae6320d62",
+  "version": "component-kit-0.8.0",
+  "sourceCommit": "5ac3354f6099b7d9f1701e743d0e0b9f8a40144e",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -96,92 +96,257 @@
       ],
       "texts": null,
       "why": "On glass, the pack's reset for the cell's vote count (.sheet .count, a dark badge) also takes the halo from the field's light count, which its class shares; the kit keeps the halo on light words on glass, as the pack's glass rule intends"
+    },
+    {
+      "cases": "/^list$/",
+      "parts": [
+        "/^row (2|6)( (title|value|icon))?$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "::before bottom",
+        "w",
+        "x",
+        "y",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), a row with a value puts the value under its title, the pack's own large-text rule for rows (#228): in the pinned pack the title and the value run into each other there. The row is a grid, and its icon keeps its 12 px as a margin"
+    },
+    {
+      "cases": "/^(list|group)$/",
+      "parts": [
+        "/^(note|row [3-7]( .+)?)$/"
+      ],
+      "keys": [
+        "y"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "What follows a row whose value went under its title moves down by that line"
+    },
+    {
+      "cases": "/^(list|group)$/",
+      "parts": [
+        "list"
+      ],
+      "keys": [
+        "h"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "The list grows by the line its rows' values took under their titles"
+    },
+    {
+      "cases": "/^row pill value$/",
+      "parts": [
+        "/^(list|row [1-3]( .+)?)$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "w",
+        "x",
+        "y",
+        "::before bottom",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), a row puts its value under its title, the kit 0.5.0 rule (#228), now also when the value is a pill, as the Promise rows give it: in the pinned pack the pill keeps its place and squeezes the title onto narrow lines, where a longer title is cut"
+    },
+    {
+      "cases": "/^notice extra$/",
+      "parts": [
+        "/^(notice|list|row( .+)?)$/"
+      ],
+      "keys": [
+        "display",
+        "column-gap",
+        "row-gap",
+        "h",
+        "w",
+        "x",
+        "y",
+        "margin-right"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text in a phone root (the shell's, which the glass cases sit in), the row a notice holds puts its value under its title, the kit 0.5.0 row rule (#228), so the notice centres a narrower list and grows by the line; the pinned pack keeps the value beside the title"
+    },
+    {
+      "cases": "/^tiles art$/",
+      "parts": [
+        "/^card [23]( .+)?$/"
+      ],
+      "keys": [
+        "cursor",
+        "text-shadow"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "Sheet 25 draws its unavailable sides as disabled buttons, with a button's hand cursor and, on glass, no halo; the kit draws every tile that takes no tap as sheet 28 does (kit 0.6.0): no hand cursor, and on glass the halo under its words, so an unavailable tile looks the same on both sheets"
+    },
+    {
+      "cases": "/^toast/",
+      "parts": [
+        "toast words"
+      ],
+      "keys": [
+        "overflow-x",
+        "overflow-y",
+        "text-overflow"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "The kit cuts a toast's words with an ellipsis where they would run past the phone (its max-width, the phone less 16 px a side), as the shell's and the entry screens' toasts did; the pack's words run on past the edge. Words that fit are drawn the same"
+    },
+    {
+      "cases": "/^segmented icons$/",
+      "parts": [
+        "/^option \\d icon$/"
+      ],
+      "keys": [
+        "w"
+      ],
+      "sections": [
+        "plain"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % text the pack's two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit's icons keep their 18 px, as at 100 %"
+    },
+    {
+      "cases": "/^segmented icons$/",
+      "parts": [
+        "/^(control|option \\d( icon)?)$/"
+      ],
+      "keys": [
+        "h",
+        "w",
+        "x",
+        "y"
+      ],
+      "sections": [
+        "glass"
+      ],
+      "texts": [
+        200
+      ],
+      "why": "At 200 % in a phone root (the shell's, which the glass cases sit in), a stacking segmented control puts one option per row, the kit 0.5.0 rule (#228's .seg[data-stack]); the pinned pack keeps the two options side by side, squeezed"
     }
   ],
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "11ba55b13c983d8aeba7597abbb8ad5f0df6b1258d937b26736fe46d8ce68e2e",
+      "sha256": "b310e2476f88d9698a0b9d9142ae9a9a46c3b47d6aaf7d17bfc3a3a8733d69e0",
       "size": {
         "width": 390,
-        "height": 6684
+        "height": 11997
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "b15e764228961046b3065b33463521b56b316b635fe7aebed0a72bf62f50a4ba"
+      "measurementSha256": "272479f290ef2735cfca8a5c994df41192c6d732b8b1db0606451b3b07bf7aeb"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "489620b30cad9aa7737b086108f3d740b65535117cb831de234865bcc591a4ef",
+      "sha256": "092e5c7f32b16d1231ef3ef05a8a4a0c0a3d96d769bad13980e2ff7700506d74",
       "size": {
         "width": 390,
-        "height": 6755
+        "height": 12066
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "57d017d1f2951dc0b05b094930a315138737155e5949ab432e4508b70c6d66b7"
+      "measurementSha256": "65da703ed358869eaa646b0eaa3d511ea1409b764d01c3bcf257ee2682a1bbe2"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "ec472187623628fa24b77b71a861e8ee045fe31771431c1e8d483f04ac7c142e",
+      "sha256": "47be6a020d8f0fff6739b1a307b0d8e76fd84d6cda7b8f9e8e82b706eb71b113",
       "size": {
         "width": 390,
-        "height": 8810
+        "height": 17544
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "05f87f86a05a4bb4b933e2ffeafd2af465642a98214e4da33fbcfd8de3c41813"
+      "measurementSha256": "e3fd6cc6b4091b047b648aee2e1755ed97cce2c774f403c0de2c7f56cd5248db"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "f176e59312da9e55fca5a83f004ebe724e07c88819b9a3774c68b73dc8748ae1",
+      "sha256": "891a20a65ba234f726350a60566c1feebb37ab49e92207691228a8f5da929e22",
       "size": {
         "width": 390,
-        "height": 8860
+        "height": 17602
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-B1TGIGlL.js",
+          "source": "assets/page-BJ-NyWzJ.js",
           "line": 1,
-          "column": 3870,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "75448567b5bf045986ad949779ab4f24ac4f9e80a716bde6b3a00184c4fcd751"
+      "measurementSha256": "abb381df303c9c74280f90c8529f5297b750cb30f4250d443d898aa949afad11"
     }
   },
   "agreement": {
@@ -266,6 +431,18 @@
           "accepted": []
         },
         "row unavailable": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
+        "section head": {
           "ok": true,
           "parts": 6,
           "differences": [],
@@ -407,9 +584,21 @@
           "differences": [],
           "accepted": []
         },
+        "error offline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
         "segmented": {
           "ok": true,
           "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
           "differences": [],
           "accepted": []
         },
@@ -437,6 +626,24 @@
           "differences": [],
           "accepted": []
         },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": []
+        },
         "stamps": {
           "ok": true,
           "parts": 5,
@@ -460,6 +667,213 @@
           "parts": 3,
           "differences": [],
           "accepted": []
+        },
+        "wait": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "paper card": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
         },
         "cells": {
           "ok": true,
@@ -553,6 +967,18 @@
           "differences": [],
           "accepted": []
         },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
+        "section head": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
         "group": {
           "ok": true,
           "parts": 3,
@@ -716,6 +1142,12 @@
           "differences": [],
           "accepted": []
         },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
         "stepper": {
           "ok": true,
           "parts": 6,
@@ -737,6 +1169,24 @@
         "pills": {
           "ok": true,
           "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
           "differences": [],
           "accepted": []
         },
@@ -763,6 +1213,285 @@
           "parts": 3,
           "differences": [],
           "accepted": []
+        },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
         },
         "cells": {
           "ok": true,
@@ -858,6 +1587,18 @@
           "differences": [],
           "accepted": []
         },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
+          "differences": [],
+          "accepted": []
+        },
+        "section head": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
         "group": {
           "ok": true,
           "parts": 3,
@@ -1022,11 +1763,38 @@
           "differences": [],
           "accepted": []
         },
+        "error offline": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": []
+        },
         "segmented": {
           "ok": true,
           "parts": 3,
           "differences": [],
           "accepted": []
+        },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "option 1 icon",
+              "key": "w",
+              "pack": 12.78,
+              "kit": 18,
+              "rule": 11
+            },
+            {
+              "part": "option 2 icon",
+              "key": "w",
+              "pack": 11.42,
+              "kit": 18,
+              "rule": 11
+            }
+          ]
         },
         "stepper": {
           "ok": true,
@@ -1049,6 +1817,24 @@
         "pills": {
           "ok": true,
           "parts": 10,
+          "differences": [],
+          "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
           "differences": [],
           "accepted": []
         },
@@ -1075,6 +1861,213 @@
           "parts": 3,
           "differences": [],
           "accepted": []
+        },
+        "wait": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "paper card": {
+          "ok": true,
+          "parts": 1,
+          "differences": [],
+          "accepted": []
+        },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
         },
         "cells": {
           "ok": true,
@@ -1160,9 +2153,758 @@
           "ok": true,
           "parts": 39,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 610.98,
+              "kit": 691.77,
+              "rule": 6
+            },
+            {
+              "part": "row 2",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 4
+            },
+            {
+              "part": "row 2",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 4
+            },
+            {
+              "part": "row 2",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 4
+            },
+            {
+              "part": "row 2",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 4
+            },
+            {
+              "part": "row 2",
+              "key": "::before bottom",
+              "pack": "55.5px",
+              "kit": "95.8906px",
+              "rule": 4
+            },
+            {
+              "part": "row 2 title",
+              "key": "w",
+              "pack": 299.89,
+              "kit": 330,
+              "rule": 4
+            },
+            {
+              "part": "row 2 value",
+              "key": "x",
+              "pack": 325.89,
+              "kit": 14,
+              "rule": 4
+            },
+            {
+              "part": "row 2 value",
+              "key": "y",
+              "pack": 100.34,
+              "kit": 142.8,
+              "rule": 4
+            },
+            {
+              "part": "row 3",
+              "key": "y",
+              "pack": 147.8,
+              "kit": 188.19,
+              "rule": 5
+            },
+            {
+              "part": "row 3 portrait",
+              "key": "y",
+              "pack": 175.44,
+              "kit": 215.83,
+              "rule": 5
+            },
+            {
+              "part": "row 3 title",
+              "key": "y",
+              "pack": 154.8,
+              "kit": 195.19,
+              "rule": 5
+            },
+            {
+              "part": "row 3 sub",
+              "key": "y",
+              "pack": 198.3,
+              "kit": 238.69,
+              "rule": 5
+            },
+            {
+              "part": "row 3 chevron",
+              "key": "y",
+              "pack": 185.44,
+              "kit": 225.83,
+              "rule": 5
+            },
+            {
+              "part": "row 3 chevron drawing",
+              "key": "y",
+              "pack": 194.44,
+              "kit": 234.83,
+              "rule": 5
+            },
+            {
+              "part": "row 4",
+              "key": "y",
+              "pack": 239.09,
+              "kit": 279.48,
+              "rule": 5
+            },
+            {
+              "part": "row 4 icon",
+              "key": "y",
+              "pack": 307.89,
+              "kit": 348.28,
+              "rule": 5
+            },
+            {
+              "part": "row 4 icon drawing",
+              "key": "y",
+              "pack": 313.39,
+              "kit": 353.78,
+              "rule": 5
+            },
+            {
+              "part": "row 4 title",
+              "key": "y",
+              "pack": 246.09,
+              "kit": 286.48,
+              "rule": 5
+            },
+            {
+              "part": "row 4 sub",
+              "key": "y",
+              "pack": 332.09,
+              "kit": 372.48,
+              "rule": 5
+            },
+            {
+              "part": "row 4 switch",
+              "key": "y",
+              "pack": 307.39,
+              "kit": 347.78,
+              "rule": 5
+            },
+            {
+              "part": "row 5",
+              "key": "y",
+              "pack": 406.69,
+              "kit": 447.08,
+              "rule": 5
+            },
+            {
+              "part": "row 5 icon",
+              "key": "y",
+              "pack": 419.94,
+              "kit": 460.33,
+              "rule": 5
+            },
+            {
+              "part": "row 5 icon drawing",
+              "key": "y",
+              "pack": 425.44,
+              "kit": 465.83,
+              "rule": 5
+            },
+            {
+              "part": "row 5 title",
+              "key": "y",
+              "pack": 413.69,
+              "kit": 454.08,
+              "rule": 5
+            },
+            {
+              "part": "row 5 chevron",
+              "key": "y",
+              "pack": 426.94,
+              "kit": 467.33,
+              "rule": 5
+            },
+            {
+              "part": "row 5 chevron drawing",
+              "key": "y",
+              "pack": 435.94,
+              "kit": 476.33,
+              "rule": 5
+            },
+            {
+              "part": "row 6",
+              "key": "y",
+              "pack": 463.19,
+              "kit": 503.58,
+              "rule": 4
+            },
+            {
+              "part": "row 6",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 4
+            },
+            {
+              "part": "row 6",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 4
+            },
+            {
+              "part": "row 6",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 4
+            },
+            {
+              "part": "row 6",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 4
+            },
+            {
+              "part": "row 6",
+              "key": "::before bottom",
+              "pack": "55.5px",
+              "kit": "95.8906px",
+              "rule": 4
+            },
+            {
+              "part": "row 6 icon",
+              "key": "y",
+              "pack": 476.44,
+              "kit": 537.02,
+              "rule": 4
+            },
+            {
+              "part": "row 6 icon",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 4
+            },
+            {
+              "part": "row 6 icon drawing",
+              "key": "y",
+              "pack": 481.94,
+              "kit": 542.52,
+              "rule": 5
+            },
+            {
+              "part": "row 6 title",
+              "key": "y",
+              "pack": 470.19,
+              "kit": 510.58,
+              "rule": 4
+            },
+            {
+              "part": "row 6 title",
+              "key": "w",
+              "pack": 256.23,
+              "kit": 288,
+              "rule": 4
+            },
+            {
+              "part": "row 6 value",
+              "key": "x",
+              "pack": 324.23,
+              "kit": 56,
+              "rule": 4
+            },
+            {
+              "part": "row 6 value",
+              "key": "y",
+              "pack": 472.23,
+              "kit": 555.08,
+              "rule": 4
+            },
+            {
+              "part": "row 7",
+              "key": "y",
+              "pack": 519.69,
+              "kit": 600.47,
+              "rule": 5
+            },
+            {
+              "part": "row 7 icon",
+              "key": "y",
+              "pack": 550.33,
+              "kit": 631.11,
+              "rule": 5
+            },
+            {
+              "part": "row 7 icon drawing",
+              "key": "y",
+              "pack": 555.83,
+              "kit": 636.61,
+              "rule": 5
+            },
+            {
+              "part": "row 7 title",
+              "key": "y",
+              "pack": 526.69,
+              "kit": 607.47,
+              "rule": 5
+            },
+            {
+              "part": "row 7 sub",
+              "key": "y",
+              "pack": 570.19,
+              "kit": 650.97,
+              "rule": 5
+            }
+          ]
         },
         "row unavailable": {
+          "ok": true,
+          "parts": 6,
+          "differences": [],
+          "accepted": []
+        },
+        "row pill value": {
+          "ok": true,
+          "parts": 23,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 570.38,
+              "kit": 397.69,
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "h",
+              "pack": 201.39,
+              "kit": 155.09,
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 7
+            },
+            {
+              "part": "row 1",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 7
+            },
+            {
+              "part": "row 1 portrait",
+              "key": "y",
+              "pack": 82.69,
+              "kit": 59.55,
+              "rule": 7
+            },
+            {
+              "part": "row 1 portrait",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 7
+            },
+            {
+              "part": "row 1 title",
+              "key": "w",
+              "pack": 152.77,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 1 title",
+              "key": "h",
+              "pack": 85,
+              "kit": 42.5,
+              "rule": 7
+            },
+            {
+              "part": "row 1 sub",
+              "key": "y",
+              "pack": 93,
+              "kit": 50.5,
+              "rule": 7
+            },
+            {
+              "part": "row 1 sub",
+              "key": "w",
+              "pack": 152.77,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 1 sub",
+              "key": "h",
+              "pack": 101.39,
+              "kit": 67.59,
+              "rule": 7
+            },
+            {
+              "part": "row 1 value",
+              "key": "x",
+              "pack": 226.77,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 1 value",
+              "key": "y",
+              "pack": 86.69,
+              "kit": 120.09,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill",
+              "key": "x",
+              "pack": 226.77,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill",
+              "key": "y",
+              "pack": 86.69,
+              "kit": 120.09,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill words",
+              "key": "x",
+              "pack": 237.77,
+              "kit": 73,
+              "rule": 7
+            },
+            {
+              "part": "row 1 pill words",
+              "key": "y",
+              "pack": 87.69,
+              "kit": 121.09,
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "y",
+              "pack": 201.39,
+              "kit": 155.09,
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "h",
+              "pack": 167.59,
+              "kit": 121.3,
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 7
+            },
+            {
+              "part": "row 2",
+              "key": "::before bottom",
+              "pack": "166.594px",
+              "kit": "120.297px",
+              "rule": 7
+            },
+            {
+              "part": "row 2 portrait",
+              "key": "y",
+              "pack": 267.19,
+              "kit": 197.73,
+              "rule": 7
+            },
+            {
+              "part": "row 2 portrait",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 7
+            },
+            {
+              "part": "row 2 title",
+              "key": "y",
+              "pack": 208.39,
+              "kit": 162.09,
+              "rule": 7
+            },
+            {
+              "part": "row 2 title",
+              "key": "w",
+              "pack": 127.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 2 title",
+              "key": "h",
+              "pack": 85,
+              "kit": 42.5,
+              "rule": 7
+            },
+            {
+              "part": "row 2 sub",
+              "key": "y",
+              "pack": 294.39,
+              "kit": 205.59,
+              "rule": 7
+            },
+            {
+              "part": "row 2 sub",
+              "key": "w",
+              "pack": 127.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 2 sub",
+              "key": "h",
+              "pack": 67.59,
+              "kit": 33.8,
+              "rule": 7
+            },
+            {
+              "part": "row 2 value",
+              "key": "x",
+              "pack": 201.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 2 value",
+              "key": "y",
+              "pack": 271.19,
+              "kit": 241.39,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill",
+              "key": "x",
+              "pack": 201.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill",
+              "key": "y",
+              "pack": 271.19,
+              "kit": 241.39,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill drawing",
+              "key": "x",
+              "pack": 212.59,
+              "kit": 73,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill drawing",
+              "key": "y",
+              "pack": 277.69,
+              "kit": 247.89,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill words",
+              "key": "x",
+              "pack": 233.59,
+              "kit": 94,
+              "rule": 7
+            },
+            {
+              "part": "row 2 pill words",
+              "key": "y",
+              "pack": 272.19,
+              "kit": 242.39,
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "y",
+              "pack": 368.98,
+              "kit": 276.39,
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "h",
+              "pack": 201.39,
+              "kit": 121.3,
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 7
+            },
+            {
+              "part": "row 3",
+              "key": "::before bottom",
+              "pack": "200.391px",
+              "kit": "120.297px",
+              "rule": 7
+            },
+            {
+              "part": "row 3 portrait",
+              "key": "y",
+              "pack": 451.67,
+              "kit": 319.03,
+              "rule": 7
+            },
+            {
+              "part": "row 3 portrait",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 7
+            },
+            {
+              "part": "row 3 title",
+              "key": "y",
+              "pack": 375.98,
+              "kit": 283.39,
+              "rule": 7
+            },
+            {
+              "part": "row 3 title",
+              "key": "w",
+              "pack": 101.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 3 title",
+              "key": "h",
+              "pack": 85,
+              "kit": 42.5,
+              "rule": 7
+            },
+            {
+              "part": "row 3 sub",
+              "key": "y",
+              "pack": 461.98,
+              "kit": 326.89,
+              "rule": 7
+            },
+            {
+              "part": "row 3 sub",
+              "key": "w",
+              "pack": 101.59,
+              "kit": 282,
+              "rule": 7
+            },
+            {
+              "part": "row 3 sub",
+              "key": "h",
+              "pack": 101.39,
+              "kit": 33.8,
+              "rule": 7
+            },
+            {
+              "part": "row 3 value",
+              "key": "x",
+              "pack": 175.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 3 value",
+              "key": "y",
+              "pack": 455.67,
+              "kit": 362.69,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill",
+              "key": "x",
+              "pack": 175.59,
+              "kit": 62,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill",
+              "key": "y",
+              "pack": 455.67,
+              "kit": 362.69,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill words",
+              "key": "x",
+              "pack": 186.59,
+              "kit": 73,
+              "rule": 7
+            },
+            {
+              "part": "row 3 pill words",
+              "key": "y",
+              "pack": 456.67,
+              "kit": 363.69,
+              "rule": 7
+            }
+          ]
+        },
+        "section head": {
           "ok": true,
           "parts": 6,
           "differences": [],
@@ -1172,7 +2914,22 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 6
+            },
+            {
+              "part": "note",
+              "key": "y",
+              "pack": 119.69,
+              "kit": 160.08,
+              "rule": 5
+            }
+          ]
         },
         "field": {
           "ok": true,
@@ -1359,6 +3116,104 @@
           "differences": [],
           "accepted": []
         },
+        "segmented icons": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "control",
+              "key": "h",
+              "pack": 78.38,
+              "kit": 97,
+              "rule": 12
+            },
+            {
+              "part": "option 1",
+              "key": "w",
+              "pack": 174.5,
+              "kit": 352,
+              "rule": 12
+            },
+            {
+              "part": "option 1",
+              "key": "h",
+              "pack": 72.38,
+              "kit": 44,
+              "rule": 12
+            },
+            {
+              "part": "option 1 icon",
+              "key": "x",
+              "pack": 9,
+              "kit": 65.83,
+              "rule": 12
+            },
+            {
+              "part": "option 1 icon",
+              "key": "y",
+              "pack": 30.19,
+              "kit": 16,
+              "rule": 12
+            },
+            {
+              "part": "option 1 icon",
+              "key": "w",
+              "pack": 12.78,
+              "kit": 18,
+              "rule": 12
+            },
+            {
+              "part": "option 2",
+              "key": "x",
+              "pack": 180.5,
+              "kit": 3,
+              "rule": 12
+            },
+            {
+              "part": "option 2",
+              "key": "y",
+              "pack": 3,
+              "kit": 50,
+              "rule": 12
+            },
+            {
+              "part": "option 2",
+              "key": "w",
+              "pack": 174.5,
+              "kit": 352,
+              "rule": 12
+            },
+            {
+              "part": "option 2",
+              "key": "h",
+              "pack": 72.38,
+              "kit": 44,
+              "rule": 12
+            },
+            {
+              "part": "option 2 icon",
+              "key": "x",
+              "pack": 186.5,
+              "kit": 52.66,
+              "rule": 12
+            },
+            {
+              "part": "option 2 icon",
+              "key": "y",
+              "pack": 30.19,
+              "kit": 63,
+              "rule": 12
+            },
+            {
+              "part": "option 2 icon",
+              "key": "w",
+              "pack": 11.42,
+              "kit": 18,
+              "rule": 12
+            }
+          ]
+        },
         "stepper": {
           "ok": true,
           "parts": 6,
@@ -1382,6 +3237,151 @@
           "parts": 10,
           "differences": [],
           "accepted": []
+        },
+        "notice stamp": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice icon": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "notice extra": {
+          "ok": true,
+          "parts": 9,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "notice",
+              "key": "h",
+              "pack": 198,
+              "kit": 238.39,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "x",
+              "pack": 19.28,
+              "kit": 52.69,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "w",
+              "pack": 319.42,
+              "kit": 252.61,
+              "rule": 8
+            },
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "x",
+              "pack": 19.28,
+              "kit": 52.69,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "w",
+              "pack": 319.42,
+              "kit": 252.61,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89,
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid",
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px",
+              "rule": 8
+            },
+            {
+              "part": "row",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px",
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "x",
+              "pack": 33.28,
+              "kit": 66.69,
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "y",
+              "pack": 146.75,
+              "kit": 166.94,
+              "rule": 8
+            },
+            {
+              "part": "row icon",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px",
+              "rule": 8
+            },
+            {
+              "part": "row icon drawing",
+              "key": "x",
+              "pack": 38.78,
+              "kit": 72.19,
+              "rule": 8
+            },
+            {
+              "part": "row icon drawing",
+              "key": "y",
+              "pack": 152.25,
+              "kit": 172.44,
+              "rule": 8
+            },
+            {
+              "part": "row title",
+              "key": "x",
+              "pack": 75.28,
+              "kit": 108.69,
+              "rule": 8
+            },
+            {
+              "part": "row value",
+              "key": "x",
+              "pack": 269.89,
+              "kit": 108.69,
+              "rule": 8
+            },
+            {
+              "part": "row value",
+              "key": "y",
+              "pack": 142.55,
+              "kit": 185,
+              "rule": 8
+            }
+          ]
         },
         "stamps": {
           "ok": true,
@@ -1407,6 +3407,285 @@
           "differences": [],
           "accepted": []
         },
+        "wait small": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "wait portrait": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles art": {
+          "ok": true,
+          "parts": 16,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "card 2",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 2 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 art drawing",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 name",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 note",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "text-shadow",
+              "pack": "none",
+              "kit": "rgba(8, 11, 18, 0.85) 0px 0px 1px, rgba(8, 11, 18, 0.7) 0px 0px 3px, rgba(8, 11, 18, 0.45) 0px 0px 8px",
+              "rule": 9
+            },
+            {
+              "part": "card 3 lock",
+              "key": "cursor",
+              "pack": "pointer",
+              "kit": "auto",
+              "rule": 9
+            }
+          ]
+        },
+        "tile spent": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "tile art node": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "toast": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
+        "toast info": {
+          "ok": true,
+          "parts": 3,
+          "differences": [],
+          "accepted": [
+            {
+              "part": "toast words",
+              "key": "text-overflow",
+              "pack": "clip",
+              "kit": "ellipsis",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-x",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            },
+            {
+              "part": "toast words",
+              "key": "overflow-y",
+              "pack": "visible",
+              "kit": "hidden",
+              "rule": 10
+            }
+          ]
+        },
         "cells": {
           "ok": true,
           "parts": 51,
@@ -1417,9 +3696,9 @@
     }
   },
   "summary": {
-    "cases": 128,
-    "agree": 128,
-    "parts": 857,
-    "accepted": 62
+    "cases": 202,
+    "agree": 202,
+    "parts": 1401,
+    "accepted": 298
   }
 }
