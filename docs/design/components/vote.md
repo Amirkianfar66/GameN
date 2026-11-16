@@ -1,6 +1,6 @@
 # The ballot and its result window: Designer's runtime component
 
-**Version:** `vote-0.1.0`. **Status (15 November 2026):** built on the shared kit (`component-kit-0.2.0`, at `b86511a`) to the interface proposed in #267, reviewed by the Lead Designer with the decisions below applied, for Frontend's review on #4. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265), whose cover layer holds the result window, and the room scene (#261). The shell at `3fb12935` (`phone-shell-0.2.0`, with `component-kit-0.5.1`) is merged in as `e2cc6ad0` (the Lead, 16 November 2026): while the reconnecting banner shows, a docked ballot stays below it, so Retry is in sight, and the kit's rows at the Largest text put a value under its title where they don't fit side by side.
+**Version:** `vote-0.1.0`. **Status (15 November 2026):** built on the shared kit (`component-kit-0.2.0`, at `b86511a`) to the interface proposed in #267, reviewed by the Lead Designer with the decisions below applied, for Frontend's review on #4. It is not in the game yet. Integration first admits its files to the hosted build. It is not a release. It is stacked on the phone shell (#265), whose cover layer holds the result window, and the room scene (#261). The shell at `67989624` (`phone-shell-0.2.1`, with `component-kit-0.5.1`) is merged in as `08d61de9`, after `3fb12935` (0.2.0) as `e2cc6ad0` (the Lead, 16 November 2026): while the reconnecting banner shows, a docked ballot stays below it, so Retry is in sight, and the kit's rows at the Largest text put a value under its title where they don't fit side by side.
 
 **What it is:** the phone's ballot during a Jail vote or a Captain election, and the five-second result window after it, as the phone pack draws them (sheets 35–38 and 56; #222 item 4). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -217,12 +217,12 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/vote.test.mjs` | 10 of 10 (also on `e2cc6ad0`, after the shell's merge): the runtime-safe graph, every style scoped (and kit controls only placed and sized), the pinned pack unchanged, the pack's words, no claim beyond the tally, each cell's rules (T3), the sheet's footer, the inputs' refusals, the privacy rules and the check's record |
+  | `packages/design-tokens/test/vote.test.mjs` | 10 of 10 (also on `08d61de9`, after the shell's merges): the runtime-safe graph, every style scoped (and kit controls only placed and sized), the pinned pack unchanged, the pack's words, no claim beyond the tally, each cell's rules (T3), the sheet's footer, the inputs' refusals, the privacy rules and the check's record |
   | `npm run test:design` | All pass (counts in #267) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/vote-check.mjs`:** recorded on `e2cc6ad0` (the shell at `3fb12935` merged in), with the source clean; every check passes, the same result as on `dfdbb70`. Against `dfdbb70`'s captures:
+- **`node design/tools/vote-check.mjs`:** recorded on `08d61de9` (the shell at `67989624`, 0.2.1, merged in), with the source clean; every check passes, the same result as on `e2cc6ad0` and `dfdbb70`. With 0.2.1, the three 200 % captures at 320 × 568 take a row per footer button (Abstain, then "Vote for Ava"), each label whole; the others differ only by JPEG noise. On `e2cc6ad0` (shell 0.2.0), against `dfdbb70`'s captures:
   - **Reconnecting:** the ballot stays 8 px below the shell's banner, so Retry is in sight with the ballot open (shell 0.2.0). This fixes my earlier finding.
   - **Submitted and abstained:** the top bar's title and the footer's "Ballot registered" sit 1 px lower, from the shell and the kit; the agreement still finds no difference.
   - **The 200 % captures don't change:** the Vote draws no row whose value would go under its title.
