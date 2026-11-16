@@ -74,7 +74,7 @@ const indexes = {
 };
 if (planetOnly) {
   const engine = "export { createPlanetGame, applyPlanetCommand, advancePlanetDeadline, planetDeadlineAt, abortPlanetGame, applyPlanetFoodCommand, setPlanetFoodPresence } from './planet-game/lifecycle.js';\nexport { projectPlanetPublic, projectPlanetPlayer } from './planet-game/projection.js';\nexport { projectPlanetFoodPublic, projectPlanetFoodPlayer, hasOnlyDuePlanetFoodWarnings } from './planet-game/food.js';\nexport { assertPlanetGameState, encodePlanetGameState, decodePlanetGameState } from './planet-game/validation.js';\n";
-  const service = "export * from './planet-game.js';\nexport * from './planet-store.js';\nexport * from './planet-engine.js';\n";
+  const service = "export * from './planet-game.js';\nexport * from './planet-store.js';\nexport * from './planet-engine.js';\nexport * from './planet-food-inbox-types.js';\n";
   indexes['packages/engine'] = { js: engine, dts: engine + "export type { PlanetGameState, PlanetGameSetup, PlanetGameContext } from './planet-game/model.js';\n" };
   indexes['services/game-api'] = { js: service, dts: service };
 }
@@ -87,7 +87,7 @@ try {
       : location === 'packages/engine' ? file => planetOnly
         ? file.startsWith('planet-game/') || /^full-game\/votes\.(?:js|d\.ts)$/.test(file)
         : file.startsWith('full-game/')
-      : file => planetOnly ? /^(?:planet-game|planet-store|planet-engine|planet-food-service|planet-persistence-errors|planet-request-timing|food-bot-policy)\.(?:js|d\.ts)$/.test(file)
+      : file => planetOnly ? /^(?:planet-game|planet-store|planet-engine|planet-food-service|planet-food-inbox|planet-food-inbox-types|planet-food-inbox-worker|planet-persistence-errors|planet-request-timing|food-bot-policy)\.(?:js|d\.ts)$/.test(file)
         : /^(?:full-game|practice-bot-policy|joint-starting-rooms|prepared-art)\.(?:js|d\.ts)$/.test(file);
     copyDist(join(root, location, 'dist'), join(stage, 'dist'), include);
     if (indexes[location] !== undefined) {
@@ -106,7 +106,7 @@ try {
   }
   const infrastructure = JSON.parse(readFileSync(join(root, 'infra/firebase/package.json'), 'utf8'));
   const manifest = { name: planetOnly ? '@mothership/firebase-planet-runtime' : '@mothership/firebase-runtime', version: infrastructure.version, private: true, type: 'module', main: 'dist/' + artifactMain, engines: { node: '22' }, dependencies: { ...infrastructure.dependencies, ...vendor } };
-  copyDist(join(root, 'infra/firebase/dist'), join(output, 'dist'), file => (planetOnly ? /^(?:planet-production|planet-runtime|planet|runtime)\.(?:js|d\.ts)$/ : /^(?:production|runtime|v1)\.(?:js|d\.ts)$/).test(file), artifactMain);
+  copyDist(join(root, 'infra/firebase/dist'), join(output, 'dist'), file => (planetOnly ? /^(?:planet-production|planet-runtime|planet|planet-food-stream|planet-food-worker|runtime)\.(?:js|d\.ts)$/ : /^(?:production|runtime|v1)\.(?:js|d\.ts)$/).test(file), artifactMain);
   writeFileSync(join(output, 'package.json'), JSON.stringify(manifest, null, 2) + '\n');
   cpSync(join(root, 'infra/firebase/firestore.rules'), join(output, 'firestore.rules'));
   if (existsSync(join(root, 'infra/firebase/firestore.indexes.json'))) cpSync(join(root, 'infra/firebase/firestore.indexes.json'), join(output, 'firestore.indexes.json'));
@@ -139,8 +139,13 @@ try {
       for(const name of ['applyPlanetFoodCommand','setPlanetFoodPresence','projectPlanetFoodPublic','projectPlanetFoodPlayer','hasOnlyDuePlanetFoodWarnings'])
         assert.equal(typeof engine[name],'function',name);
       const food=api.createProductionPlanetService({store:{transaction:async()=>{throw Error('Packaging must not access state');},listKeys:async()=>[]},
-        enabled:false,assetManifestVersion:'design-0.9.0',engineProfile:contracts.PLANET_FOOD_TASK_ENGINE_PROFILE,setupFlowVersion:3});
+        enabled:false,assetManifestVersion:'design-0.9.0',engineProfile:contracts.PLANET_FOOD_TASK_ENGINE_PROFILE,setupFlowVersion:3,
+        foodAuthorityProfile:api.PLANET_FOOD_OWNER_INBOX_PROFILE});
       assert.equal(typeof food.handle,'function');
+      assert.equal(api.PLANET_FOOD_OWNER_INBOX_PROFILE,'food-owner-inbox-1');
+      assert.equal(api.PLANET_FOOD_INBOX_VERSION,1);
+      for(const name of ['runFoodInbox','dispatchFoodInboxWake','repairFoodInboxWakes','projectFoodInboxDelivery','subscribeFoodInboxMatch'])
+        assert.equal(typeof food[name],'function',name);
       assert.equal(typeof engine.createPlanetGame,'function');assert.equal(typeof engine.assertPlanetGameState,'function');
       assert.equal(typeof api.createProductionPlanetService,'function');assert.equal(typeof api.createFirestorePlanetStore,'function');
       assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.createV1Service,undefined);
