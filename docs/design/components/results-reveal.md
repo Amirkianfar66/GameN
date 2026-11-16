@@ -1,6 +1,6 @@
 # Results reveal: Designer's runtime component
 
-**Version:** `results-reveal-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer agreed on #277, for the Lead's review. It is not in the game and it is not a release. The build began on 16 November, after the owner's decision that Designer builds each part without waiting for Frontend (recorded in `docs/design/owner-decisions.md` on #280).
+**Version:** `results-reveal-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer agreed on #277; the Lead agreed its three additions on 16 November (below). It is not in the game and it is not a release. The build began on 16 November, after the owner's decision that Designer builds each part without waiting for Frontend (recorded in `docs/design/owner-decisions.md` on #280).
 
 **What it is:** the arrival of the vote's result window, the motion the ballot component leaves to Motion & Cinematics (#267: "the window's arrival belongs to Motion & Cinematics"). The pack's handoff gives it in one line ([Motion](../phone-ui-handoff.md#motion)):
 
@@ -147,9 +147,9 @@ From `node design/tools/results-reveal-check.mjs` ([`review/check.json`](../../.
 3. **No exit motion:** the window goes with the phase.
 4. **The preview:** this branch stacks on #267, so the captures show the real window.
 
-## Added in the build, for the Lead's review
+## Added in the build, agreed by the Lead on 16 November 2026
 
-Three things the agreed interface did not spell out. Each keeps the agreed rule; none adds an input.
+Three things the agreed interface did not spell out. Each keeps the agreed rule; none adds an input. The Lead Designer accepted all three on 16 November 2026: the second seek is still driven by the clock, with no frame loop.
 
 1. **A second seek as the browser starts the rise,** so a long first frame does not leave it behind the clock (above, "How it runs").
 2. **When Reduce motion's fade is not given:** to a phone standing still when the window first shows, and to a window that has already shown for its phase.
