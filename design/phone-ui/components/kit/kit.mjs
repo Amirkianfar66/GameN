@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.6.1';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.7.0';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -140,6 +140,20 @@ export function createKit(doc) {
   };
   const groupLabel = words => text(h('p', 'ms-k-group-label'), words);
   const groupNote = words => text(h('p', 'ms-k-group-note'), words);
+  /**
+   * The section head (screens.css .section-head; 0.7.0): { title, aside }, a title in capitals and a line at the
+   * right, as sheet 34 heads each window ("Room A ↔ Hospital", "Your station · A2") and sheet 28 its turn.
+   */
+  function setSectionHead(node, { title, aside = null }) {
+    node.classList.add('ms-k-section-head');
+    if (!node.querySelector(':scope > .ms-k-section-title')) node.append(h('h3', 'ms-k-section-title'), h('span', 'ms-k-section-aside'));
+    const [head, line] = node.children;
+    text(head, title);
+    text(line, aside ?? '');
+    line.hidden = aside === null || aside === undefined || aside === '';
+    return node;
+  }
+  const sectionHead = props => setSectionHead(h('div'), props);
 
   // ── Accents (ui.mjs pill, stamp, caption) ───────────────────────────
   function setPill(node, props) {
@@ -467,7 +481,7 @@ export function createKit(doc) {
   }
   const switchControl = props => setSwitch(h('button', null, { type: 'button' }), props);
 
-  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote,
+  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
     seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic });
 }

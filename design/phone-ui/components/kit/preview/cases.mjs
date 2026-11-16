@@ -160,6 +160,14 @@ export const CASES = Object.freeze([
       kit.row({ tag: 'div', lead: kit.portrait(seat(2), versions), title: 'Vote with me', sub: 'From Ben · Round 2', value: kit.pill({ text: 'Fulfilled', icon: 'check', tone: 'amber' }) }),
       kit.row({ tag: 'div', lead: kit.portrait(seat(3), versions), title: 'Captain Support', sub: 'To Cleo · Round 2', value: kit.pill({ text: 'Not fulfilled' }) })),
     parts: [['list', ':scope > .list', ':scope > .ms-k-list'], ...[1, 2, 3].flatMap(n => [...ROW(n), ...ROW_PILL(n)])] },
+  // Kit 0.7.0: the section head (screens.css .section-head), as sheet 34 heads a window and sheet 28 the turn.
+  { id: 'section head', where: 'both',
+    pack: ({ ui }) => [ui.h('div.section-head', ui.h('h3', 'Room A ↔ Hospital'), ui.h('span', 'Your station · A2')), ui.h('div.section-head', ui.h('h3', 'Your turn'), ui.h('span', 'Round 3'))],
+    kit: ({ kit }) => [kit.sectionHead({ title: 'Room A ↔ Hospital', aside: 'Your station · A2' }), kit.sectionHead({ title: 'Your turn', aside: 'Round 3' })],
+    parts: [1, 2].flatMap(n => [
+      [`head ${n}`, `:scope > .section-head:nth-child(${n})`, `:scope > .ms-k-section-head:nth-child(${n})`],
+      [`head ${n} title`, `:scope > .section-head:nth-child(${n}) > h3`, `:scope > .ms-k-section-head:nth-child(${n}) > .ms-k-section-title`, { words: true }],
+      [`head ${n} aside`, `:scope > .section-head:nth-child(${n}) > span`, `:scope > .ms-k-section-head:nth-child(${n}) > .ms-k-section-aside`, { words: true }]]) },
   { id: 'group', where: 'both',
     pack: ({ ui }) => [ui.groupLabel('In the match'), ui.list(ui.row({ title: 'Seats', value: '9' })), ui.groupNote('The host can change this before the match starts.')],
     kit: ({ kit }) => [kit.groupLabel('In the match'), kit.list(kit.row({ title: 'Seats', value: '9' })), kit.groupNote('The host can change this before the match starts.')],
