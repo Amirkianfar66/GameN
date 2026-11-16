@@ -155,4 +155,4 @@ Not compared: the room, the top bar and the tabs (their own components'), and wh
 
 `node design/tools/promises-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 13 states at 390 × 844 and 430 × 932, each with Promises open in the top bar: the list in a talk, Dev's offer waiting, the six kinds, Jail Vote's player, the terms, the offer in flight, the incoming offer, the four results, reconnecting, and the incoming offer at the Largest text. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded:** to follow, on the clean build commit.
+**Recorded against `faa78ea9` (clean, with kit 0.6.1 and shell 0.2.7):** 26 of 26 captures, the probe 20 of 20 checks (19 as the page comes, the motion check with the device's Reduce motion), and the agreement 14 of 14, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
