@@ -1,6 +1,6 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 
-import {FOOD_TASK_TRANSPORT, TimestampSchema} from '@mothership/contracts';
+import {FOOD_TASK_TRANSPORT, IdentifierSchema, TimestampSchema} from '@mothership/contracts';
 import {createServerClock, readPlanetFood, readPlanetView} from '@mothership/game';
 
 export function createFoodFrameGate(binding) {
@@ -173,7 +173,12 @@ export function createFoodPushSession({binding, ports, request, identities = []}
     stream = state;
     state.calibration = calibrate(state);
     void request('frames', null, state.abort.signal).then(response => readFrames(response, frame => {
-      const marker = {epoch: frame.frameEpoch, sequence: frame.frameSequence, receivedAtMs: ports.clock.now(), commandIds: []};
+      const receivedAtMs = ports.clock.now();
+      const witness = frame?.ownCommandWitness;
+      const matched = IdentifierSchema.safeParse(witness?.commandId).success && Number.isFinite(witness?.publishedAtMs)
+        && witness.publishedAtMs >= 0;
+      const marker = {epoch: frame?.frameEpoch, sequence: frame?.frameSequence, receivedAtMs,
+        publishedAtServerMs: matched ? witness.publishedAtMs : null, commandIds: matched ? [witness.commandId] : []};
       deliver(state, gate.accept(state.id, frame), marker);
     })).then(() => fail(state, 'network'), error => fail(state, error.authorization ? 'authorization' : 'network'));
     scheduleHeartbeat(state);

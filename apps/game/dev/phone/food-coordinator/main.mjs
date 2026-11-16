@@ -103,7 +103,8 @@ async function start() {
   root.dataset.trial = 'ready';
   window.foodCoordinatorTrial = {
     artReady,
-    report: () => ({arm: binding.arm, ...observation.report(), delivery: session.report?.() ?? null}),
+    report: () => ({arm: binding.arm, variant: binding.variant ?? null, backendSource: binding.backendSource ?? null,
+      ...observation.report(), delivery: session.report?.() ?? null}),
     dispose() {
       setVisible(false);
       document.removeEventListener('visibilitychange', syncVisibility);

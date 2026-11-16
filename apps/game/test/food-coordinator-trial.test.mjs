@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 import {createFoodApplySignal} from '../dev/phone/food-coordinator/bridge.mjs';
+import {foodRenderEffect} from '../dev/phone/food-coordinator/observe.mjs';
 import {createFoodFrameGate, createFoodPushSession} from '../dev/phone/food-coordinator/push.mjs';
 import {createFoodTrialTrace} from '../dev/phone/food-coordinator/trace.mjs';
 
@@ -137,19 +138,65 @@ test('input, verified original receipt and authority paint have separate clocks 
   now = 110;
   await trace.lookup(context, async () => ({serverTimeMs: responseTime, receipt: {...receipt, commandId: 'wrong'}}));
   assert.equal(trace.report().commands[0].attempts.at(-1).disposition, 'unverified');
-  now = 155;
-  await trace.lookup(context, async () => ({serverTimeMs: responseTime, receipt}));
-  assert.equal(trace.report().commands[0].eventToVerifiedReceiptMs, 55);
   now = 175;
-  const marker = {epoch: 'test', sequence: 3, receivedAtMs: 170};
+  const marker = {epoch: 'test', sequence: 3, receivedAtMs: 170, publishedAtServerMs: 120};
   assert.deepEqual(trace.projected({...marker, commandIds: []}, () => true), []);
   assert.equal(trace.report().commands[0].eventToAuthoritativeRenderMs, null);
-  const [paint] = trace.projected({...marker, commandIds: [context.commandId]}, () => true);
+  const [paint] = trace.projected({...marker, commandIds: [context.commandId]}, () => 'Panel moving');
   now = 190;
   paint();
+  assert.equal(trace.report().commands[0].authority, null, 'Paint before the verified receipt is provisional');
+  now = 200;
+  await trace.lookup(context, async () => ({serverTimeMs: responseTime, receipt}));
   const report = trace.report();
+  assert.equal(report.commands[0].eventToVerifiedReceiptMs, 100);
+  assert.equal(report.commands[0].eventToAuthoritativeFrameMs, 70);
+  assert.equal(report.commands[0].eventToAuthoritativeDomMs, 75);
   assert.equal(report.commands[0].eventToAuthoritativeRenderMs, 90);
+  assert.equal(report.commands[0].authority.publishedAtServerMs, 120);
   assert.equal(JSON.stringify(report).includes('release-original'), false);
+});
+
+test('publication witness requires the exact fresh frame and immutable originating seat', () => {
+  const signal = createFoodApplySignal();
+  const pushed = frame('first', 4);
+  const publication = {stage: 'published', audience: 'player', frameEpoch: 'first', frameSequence: 4,
+    commandId: 'own-press', localMs: 55};
+  const originals = new Set(['own-press']);
+  const witness = (value = pushed, actor = binding, issued = originals, event = publication) => {
+    signal.observe(event);
+    return signal.ownPublication(value, actor, issued, binding.taskId);
+  };
+  assert.equal(witness(frame('different', 4)), null);
+  assert.equal(witness(frame('first', 5)), null);
+  assert.equal(witness({...pushed, fresh: false}), null);
+  assert.equal(witness(pushed, {...binding, seatId: 'seat-8'}), null);
+  assert.equal(witness(pushed, {...binding, matchId: 'other-match'}), null);
+  assert.equal(witness(pushed, binding, new Set(['another-press'])), null);
+  assert.equal(witness(pushed, binding, originals, {...publication, audience: 'public'}), null);
+  assert.deepEqual(witness(), {commandId: 'own-press', publishedAtMs: 55});
+  assert.equal(signal.ownPublication(pushed, binding, originals, binding.taskId), null, 'The event cannot be reused');
+});
+
+test('a frame effect must change a rendered control for the original Task or exact Hold gesture', () => {
+  const scope = {taskId: 'current-task', controlSessionId: 'current-control'};
+  const before = {...scope, panel: 'release', key: 'available', hold: {state: 'off'}};
+  const request = input => ({command: {type: 'TASK_PRESS', ...scope, input}});
+  const release = request({kind: 'PANEL_RELEASE'});
+  assert.equal(foodRenderEffect(release, before, before), null);
+  assert.equal(foodRenderEffect(release, before, {...before, panel: 'lock', controlSessionId: 'other-control'}), null);
+  assert.equal(foodRenderEffect(release, before, {...before, panel: 'lock'}), 'Panel moving');
+  assert.equal(foodRenderEffect(request({kind: 'PANEL_LOCK'}), {...before, panel: 'lock'}, before), 'Panel locked');
+  assert.equal(foodRenderEffect(request({kind: 'KEY'}), before, {...before, key: 'delivered'}), 'Delivered');
+  const down = request({kind: 'HOLD', edge: 'DOWN', gestureSequence: 3, crateId: 'own-crate'});
+  const held = {...before, hold: {state: 'held', sequence: 3, crateId: 'own-crate'}};
+  assert.equal(foodRenderEffect(down, before, held), 'Crate held');
+  assert.equal(foodRenderEffect(down, before, {...held, hold: {...held.hold, state: 'pending'}}), 'Hold pending');
+  assert.equal(foodRenderEffect(down, before, {...held, hold: {...held.hold, crateId: 'other-crate'}}), null);
+  const up = request({kind: 'HOLD', edge: 'UP', gestureSequence: 3, crateId: null});
+  assert.equal(foodRenderEffect(up, held, before), 'Hold cleared');
+  assert.equal(foodRenderEffect(up, before, before), null);
+  assert.equal(foodRenderEffect(up, {...held, hold: {...held.hold, sequence: 4}}, before), null);
 });
 
 test('apply notification is an interruptible lookup wake only', async () => {

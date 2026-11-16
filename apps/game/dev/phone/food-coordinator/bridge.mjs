@@ -34,11 +34,25 @@ async function approvedArt(directory) {
 // original receipt from the durable adapter even when an apply event arrives.
 export function createFoodApplySignal() {
   const waiting = new Map();
+  let publication = null;
   return {
     observe(event) {
+      // The coordinator emits this immediately before calling the subscriber.
+      // An unpublished or coalesced checkpoint never enters this slot.
+      if (event.stage === 'published') publication = event;
       if (event.stage === 'applied' && event.kind === 'command') {
         for (const wake of waiting.get(event.commandId) ?? []) wake();
       }
+    },
+    ownPublication(frame, actor, originals, taskId) {
+      const event = publication;
+      publication = null;
+      const view = frame.playerView;
+      if (!event || event.frameEpoch !== frame.frameEpoch || event.frameSequence !== frame.frameSequence
+        || event.audience !== 'player' || !frame.fresh || !originals.has(event.commandId)
+        || view?.seatId !== actor.seatId || view.matchId !== actor.matchId
+        || view.participantTask?.taskId !== taskId) return null;
+      return {commandId: event.commandId, publishedAtMs: event.localMs};
     },
     watch(commandId) {
       let closed = false, changed = false, current = null;
@@ -71,25 +85,29 @@ export function createFoodApplySignal() {
 // Actor IDs come solely from the enclosing local experiment. The browser
 // presents a per-seat random capability and never supplies a trusted UID.
 export async function startFoodTrialBridge({
-  coordinator, taskId, actors, baseline, applySignal, serverNow, bundle, artwork, startTrial,
+  coordinator, taskId, actors, baseline, applySignal, serverNow, bundle, artwork, startTrial, variant, backendSource,
 }) {
   const art = await approvedArt(artwork);
-  const tickets = new Map(), labels = new Set(), sockets = new Set();
+  const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set();
   let launch = null, started = !startTrial, release;
   const startGate = new Promise(resolve => { release = resolve; });
   for (const actor of actors) {
-    if (!['push', 'read'].includes(actor.arm) || !actor.label || labels.has(actor.label)
+    const binding = JSON.stringify([actor.matchId, actor.seatId]);
+    if (!['push', 'read'].includes(actor.arm) || !actor.label || labels.has(actor.label) || bindings.has(binding)
       || !actor.uid || !actor.matchId || !/^seat-[1-9]$/.test(actor.seatId)) throw Error('Invalid local trial actor');
     if (actor.arm === 'push' && (!coordinator || !taskId || !applySignal || typeof serverNow !== 'function')
       || actor.arm === 'read' && typeof baseline !== 'function') throw Error('Trial arm lacks its durable driver');
     labels.add(actor.label);
+    bindings.add(binding);
     const identities = (actor.identities ?? []).map(({seatId, characterId, displayName}) => {
       if (!/^seat-[1-9]$/.test(seatId) || !/^c[1-9]$/.test(characterId) || typeof displayName !== 'string') {
         throw Error('Invalid public trial roster');
       }
       return {seatId, characterId, displayName};
     });
-    tickets.set(randomBytes(24).toString('base64url'), Object.freeze({...actor, identities}));
+    tickets.set(randomBytes(24).toString('base64url'), {
+      actor: Object.freeze({...actor, identities}), originals: new Set(),
+    });
   }
   if (!tickets.size) throw Error('Explicit synthetic seat bindings are required');
 
@@ -112,7 +130,7 @@ export async function startFoodTrialBridge({
   const host = '127.0.0.1:' + server.address().port, origin = 'http://' + host;
   return {
     origin,
-    urls: Object.fromEntries([...tickets].map(([ticket, actor]) => [actor.label, origin + '/#' + ticket])),
+    urls: Object.fromEntries([...tickets].map(([ticket, {actor}]) => [actor.label, origin + '/#' + ticket])),
     start() {
       if (started) return Promise.resolve();
       launch ??= Promise.resolve().then(startTrial).then(() => { started = true; release(); });
@@ -135,11 +153,13 @@ export async function startFoodTrialBridge({
     const path = req.url;
     if (!path.startsWith('/trial/')) return staticFile(req, res, path);
     const ticket = /^Bearer ([A-Za-z0-9_-]{32})$/.exec(req.headers.authorization ?? '')?.[1];
-    const actor = tickets.get(ticket);
-    if (!actor) return json(res, 403, {error: 'authorization'});
+    const binding = tickets.get(ticket);
+    if (!binding) return json(res, 403, {error: 'authorization'});
+    const {actor, originals} = binding;
     const {uid, matchId, seatId, arm} = actor;
     if (req.method === 'GET' && path === '/trial/binding') {
-      return json(res, 200, {uid, matchId, seatId, arm, taskId: arm === 'push' ? taskId : null, identities: actor.identities});
+      return json(res, 200, {uid, matchId, seatId, arm, variant, backendSource,
+        taskId: arm === 'push' ? taskId : null, identities: actor.identities});
     }
     if (req.method === 'GET' && path === '/trial/start') {
       if (!started) await Promise.race([startGate, once(res, 'close')]);
@@ -153,7 +173,7 @@ export async function startFoodTrialBridge({
       return json(res, 200, await baseline(uid, parsed.data));
     }
     if (arm !== 'push') return json(res, 404, {error: 'missing'});
-    if (req.method === 'GET' && path === '/trial/frames') return frames(res, uid);
+    if (req.method === 'GET' && path === '/trial/frames') return frames(res, actor, originals);
     if (req.method === 'GET' && path === '/trial/snapshot') return json(res, 200, await coordinator.snapshot(taskId, uid));
     if (req.method !== 'POST') return json(res, 404, {error: 'missing'});
     const value = await body(req);
@@ -167,6 +187,9 @@ export async function startFoodTrialBridge({
       const request = check(FoodTaskCommandRequestSchema, value, matchId);
       const {command, ...context} = request;
       if (command.type !== 'TASK_PRESS') badRequest();
+      // Only exact originating requests in this immutable test binding may be
+      // correlated. The durable adapter still decides whether to accept them.
+      if (command.taskId === taskId && originals.size < 512) originals.add(context.commandId);
       const wake = applySignal.watch(context.commandId);
       const abort = new AbortController();
       res.once('close', () => abort.abort());
@@ -189,7 +212,7 @@ export async function startFoodTrialBridge({
     return {outcome, serverTimeMs: serverNow()};
   }
 
-  function frames(res, uid) {
+  function frames(res, actor, originals) {
     res.writeHead(200, {'Content-Type': 'text/event-stream; charset=utf-8'});
     res.flushHeaders();
     let pending = null, paused = false, stopped = false;
@@ -200,9 +223,11 @@ export async function startFoodTrialBridge({
       pending = null;
       paused = !res.write('data: ' + JSON.stringify(frame) + '\n\n');
     };
-    const stop = coordinator.subscribe(taskId, uid, frame => {
+    const stop = coordinator.subscribe(taskId, actor.uid, frame => {
+      const witness = applySignal.ownPublication(frame, actor, originals, taskId);
       if (stopped || res.destroyed) return;
-      pending = frame;
+      const {ownCommandWitness: _untrusted, ...packet} = frame;
+      pending = witness ? {...packet, ownCommandWitness: witness} : packet;
       if (!paused) write();
     }, error => {
       if (stopped || res.destroyed) return;
