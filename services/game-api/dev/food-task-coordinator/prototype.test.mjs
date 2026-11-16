@@ -221,3 +221,49 @@ test('the same authoritative input times deliver the same Food result once in bo
   await c.runDue(taskId, owner);
   assert.deepEqual(await read(store, key(taskId, 'returned-result')), result);
 });
+
+test('operator push restores freshness for the same projection without ticking the display', {timeout: 30000}, async t => {
+  const store = createLoopbackFoodStore();
+  const subscriptions = [];
+  t.after(async () => { for (const unsubscribe of subscriptions) unsubscribe(); await store.close(); });
+  const {h, session, task, winch, panel} = await seedTwoHumanTask(store);
+  const start = task.options.startedAt;
+  let time = start;
+  const c = createFoodTaskCoordinator({store, admissionMode: 'owner-fifo', clock: () => time});
+  const taskId = await c.openTask({session});
+  const ownerId = randomUUID();
+  const owner = await c.acquire(taskId, ownerId);
+
+  // Admit renewals before the original expiry, then hold apply until expiry.
+  // Processing the saved contacts keeps both operators online without changing
+  // their briefing views, and only the private delivery becomes fresh again.
+  time = start + 1999;
+  await Promise.all([c.heartbeat(taskId, winch), c.heartbeat(taskId, panel)]);
+  time = start + 2000;
+  const operator = [], display = [], errors = [];
+  const failed = error => errors.push(error);
+  subscriptions.push(c.subscribe(taskId, winch, frame => operator.push(frame), failed));
+  subscriptions.push(c.subscribe(taskId, h.display, frame => display.push(frame), failed));
+  await until(() => operator.length && display.length);
+  assert.equal(operator[0].fresh, false);
+  assert.equal(display[0].fresh, true);
+
+  await c.runDue(taskId, owner);
+  await until(() => operator.some(frame => frame.fresh));
+  const [stale, fresh] = operator;
+  const body = ({serverNowMs: _serverNowMs, ...view}) => view;
+  assert.equal(fresh.frameEpoch, stale.frameEpoch);
+  assert.equal(fresh.frameSequence, stale.frameSequence + 1);
+  assert.equal(fresh.serverTimeMs, time);
+  assert.deepEqual(body(fresh.playerView), body(stale.playerView));
+  assert.deepEqual(body(fresh.publicView), body(stale.publicView));
+  assert.deepEqual(fresh.ordinaryPlayerView, stale.ordinaryPlayerView);
+
+  // The next public change is the fixed return. Wait for it to prove that
+  // neither the private freshness recovery nor the later absences ticked it.
+  time = task.returnsAt;
+  await c.runDue(taskId, await c.acquire(taskId, ownerId));
+  await until(() => display.some(frame => frame.publicView.step === null));
+  assert.deepEqual(display.map(frame => [frame.frameSequence, frame.publicView.step?.kind ?? null]), [[1, 'AWAY'], [2, null]]);
+  assert.deepEqual(errors, []);
+});
