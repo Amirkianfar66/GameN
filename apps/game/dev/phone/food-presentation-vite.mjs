@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../../../../', import.meta.url));
 const legacy = 'apps/game/hosted/planet/food-presentation.mjs';
 const canonical = 'apps/game/hosted/planet/food-canonical-app.mjs';
+const canonicalView = 'apps/game/hosted/planet/food-component-view.mjs';
 const components = 'design/phone-ui/components/food/';
 const frozen = /^apps\/game\/hosted\/planet\/food(?:-app|-render|-display|-gauge|-geometry|-icons|-ink|-kit|-machine|-pose|-scene|-tags|-ui|-host)?\.(mjs|css)$/;
 
@@ -25,7 +26,7 @@ export function foodPresentationBuild() {
       async handler({ dir }, bundle) {
         const modules = [...this.getModuleIds()]
           .filter(id => id.startsWith(root)).map(id => id.slice(root.length)).sort();
-        const canonicalModules = modules.filter(path => path.startsWith(components) || path === canonical);
+        const canonicalModules = modules.filter(path => path.startsWith(components) || path === canonical || path === canonicalView);
         const frozenModules = modules.filter(path => path === legacy || frozen.test(path));
         const selected = designer ? canonicalModules : frozenModules;
         const excluded = designer ? frozenModules : canonicalModules;

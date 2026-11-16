@@ -2,25 +2,9 @@ import { resolvePlanetReleaseCapabilities } from '@mothership/contracts';
 import { createFoodHoldInput, createFoodTaskController, readPlanetFood, readPlanetView } from '@mothership/game';
 import { planetHasFood } from '@mothership/presentation';
 import { FOOD_CLOSURE_KEYS, FOOD_VIEW_KEYS, foodGauge, mountFood, mountFoodNotice } from '../../../../design/phone-ui/components/food/food.mjs';
+import { pickFields, renderFoodView } from './food-component-view.mjs';
 
-const pick = (source, keys) => Object.fromEntries(keys.filter(key => Object.hasOwn(source, key)).map(key => [key, source[key]]));
 const noSurface = Object.freeze({ active: false, exclusive: false, top: null, bottom: null });
-
-function renderView(view) {
-  const task = view.participantTask;
-  return {
-    ...pick(view, FOOD_VIEW_KEYS),
-    stock: { doses: view.stock.doses },
-    offers: view.offers.map(offer => pick(offer, ['type', 'inputs', 'partnerSeatIds'])),
-    participantTask: task && {
-      ...pick(task, ['taskId', 'winchSeatId', 'panelSeatId', 'selfControl', 'startedAt', 'runningAt', 'deadlineAt', 'returnsAt',
-        'stage', 'people', 'panel', 'crate', 'broken', 'outcome']),
-      ownGesture: task.ownGesture && { pendingIntent: task.ownGesture.pendingIntent !== null },
-      ownReturnPlacement: pick(task.ownReturnPlacement, ['location']),
-      events: { events: task.events.events.map(event => pick(event, ['kind', 'at', 'mechanism', 'crateId'])) },
-    },
-  };
-}
 
 function mountPlayer(root, { session, game, transport, binding, ports, recovery, assets, preferences, renderer }) {
   const document = root.ownerDocument;
@@ -108,9 +92,9 @@ function mountPlayer(root, { session, game, transport, binding, ports, recovery,
       status: feedback.status,
       recovered: feedback.recovered,
       request: receipt?.status === 'accepted' && receipt.result.kind === 'REQUEST'
-        ? pick(receipt.result, ['requestId', 'state']) : null,
+        ? pickFields(receipt.result, ['requestId', 'state']) : null,
       closure: receipt?.status === 'rejected' && receipt.requestClosure
-        ? pick(receipt.requestClosure, FOOD_CLOSURE_KEYS) : null,
+        ? pickFields(receipt.requestClosure, FOOD_CLOSURE_KEYS) : null,
     };
   }
 
@@ -164,9 +148,9 @@ function mountPlayer(root, { session, game, transport, binding, ports, recovery,
         physicalHolding: model.physicalHolding, needsContactOff: model.needsContactOff },
       people: ordinary.dark ? [] : scope.people,
       board: {
-        seats: same ? ordinary.board?.seats.map(seat => pick(seat, ['seatId', 'location'])) ?? [] : [],
+        seats: same ? ordinary.board?.seats.map(seat => pickFields(seat, ['seatId', 'location'])) ?? [] : [],
         activeSeatId: same ? ordinary.activeSeatId : null,
-        phase: same ? pick(ordinary.phase, ['kind', 'remainingMs']) : null,
+        phase: same ? pickFields(ordinary.phase, ['kind', 'remainingMs']) : null,
       },
       viewer: { promiseOfferCount: same ? ordinary.promiseOfferCount : 0 },
       navigation: { openPanel: ordinary.panel, boardMode: renderer.view },
@@ -175,7 +159,7 @@ function mountPlayer(root, { session, game, transport, binding, ports, recovery,
     };
     const key = JSON.stringify(changes);
     if (key === inputKey && view.viewRevision === revision) return;
-    if (view.viewRevision !== revision) changes.view = renderView(view);
+    if (view.viewRevision !== revision) changes.view = renderFoodView(view, FOOD_VIEW_KEYS);
     inputKey = key;
     revision = view.viewRevision;
     surface.update({ ...changes, clock });
