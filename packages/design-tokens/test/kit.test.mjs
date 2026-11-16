@@ -90,7 +90,9 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   const same = { canvas: 'canvas', 'surface-1': 'surface-1', 'surface-2': 'panel', 'surface-3': 'surface-3', 'surface-4': 'surface-4', paper: 'paper', 'paper-deep': 'paper-deep', 'paper-shade': 'paper-shade',
     ink: 'ink', text: 'text-primary', 'text-2': 'text-secondary', 'text-3': 'steel-light', accent: 'accent', caption: 'caption', 'steel-mid': 'steel-mid', 'steel-light': 'steel-light',
     hairline: 'hairline', 'glass-fill': 'glass-fill', 'glass-fill-2': 'glass-fill-2', 'glass-line': 'glass-line', 'shadow-ink': 'shadow-ink', 'radius-control': 'radius-control',
-    'radius-group': 'radius-group', target: 'target', font: 'font-ui', letter: 'font-letter', 't-card': 't-card' };
+    'radius-group': 'radius-group', target: 'target', font: 'font-ui', letter: 'font-letter', 't-card': 't-card',
+    // The teams' colours (0.8.0), for a view that may show a team.
+    'faction-blue': 'faction-blue', 'faction-red': 'faction-red', 'faction-alien': 'faction-alien' };
   for (const [k, p] of Object.entries(same)) assert.equal(kit[`--ms-k-${k}`], pack[`--${p}`], `--ms-k-${k} is the pack's --${p}`);
   assert.equal(kit['--ms-k-on-accent'], '#151923', 'on-accent is the pack\'s ink');
   for (const kind of BUTTON_KINDS) assert.match(PACK_CSS, new RegExp(`\\.btn-${kind} \\{`), `the pack has .btn-${kind}`);

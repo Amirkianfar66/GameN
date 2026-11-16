@@ -37,6 +37,11 @@
   --ms-k-caption: #F7C52B;
   --ms-k-steel-mid: #55657E;
   --ms-k-steel-light: #8696AE;
+  /* The teams' colours (the pack's --faction-*, 0.8.0), for a view that may show a team: a player's own card, or
+     the roles once the match has ended. A component never uses them for a team its viewer may not see. */
+  --ms-k-faction-blue: #70AFFF;
+  --ms-k-faction-red: #FF8C8C;
+  --ms-k-faction-alien: #C4A4FF;
   --ms-k-hairline: rgba(185, 196, 211, 0.16);
   --ms-k-glass-fill: rgba(8, 11, 18, 0.24);
   --ms-k-glass-fill-2: rgba(255, 255, 255, 0.14);

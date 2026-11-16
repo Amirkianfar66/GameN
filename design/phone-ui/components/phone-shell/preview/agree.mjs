@@ -1,12 +1,12 @@
 // mothership:dev-only
 //
-// The shell beside the pack: the pinned prototype's topBar(), tabs() and sheet() (design/phone-ui/prototype/ui.mjs
+// The shell beside the pack: the pinned prototype's topBar(), tabs(), sheet() and banner() (design/phone-ui/prototype/ui.mjs
 // with kit.css, which the frozen Food release pins, so they stay as they are) and the runtime shell
 // (../phone-shell.mjs), drawn in the same page from the same inputs, compared case by case: the words,
 // the states (open, unavailable, the hero's mode) and where each part sits, to within half a pixel. It
 // is how the shell shows it draws the pack's bars and not a second design of them.
 
-import { topBar, tabs, sheet, button } from '../../../prototype/ui.mjs';
+import { topBar, tabs, sheet, button, banner } from '../../../prototype/ui.mjs';
 import { mountPhoneShell } from '../phone-shell.mjs';
 import { seatOf } from '../../../prototype/fixtures.mjs';
 
@@ -56,6 +56,19 @@ const CASES = [
     sheet: { title: 'Recovery code', sub: 'Private to this phone', back: 's=host-controls', close: true, detent: 'large', foot: () => [button('Hide', { kind: 'secondary', icon: 'hide' }), button('Copy', { icon: 'copy' })] } },
     shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } },
       sheet: { id: 'code', title: 'Recovery code', sub: 'Private to this phone', back: true, close: true, detent: 'large', actions: [{ id: 'hide', label: 'Hide', icon: 'hide', local: true }, { id: 'copy', label: 'Copy', icon: 'copy', kind: 'primary', local: true }] } } },
+  // The banner (0.2.8), as the pack's one builder draws both kinds (ui.mjs banner()): reconnecting with Retry, as sheet
+  // 45 draws it (screens-game.mjs), and an eliminated player's, words only, as sheet 44's Eliminated frame draws it
+  // (screens-more.mjs); that one also at the Largest text on the small phone, where its words wrap.
+  { id: 'banner-stale', pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
+    banner: { icon: 'offline', title: 'Connection lost', sub: 'Controls return when the match is current', action: () => button('Retry', { kind: 'secondary', small: true }) } },
+    shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } }, banner: { kind: 'reconnecting' } } },
+  { id: 'banner-out', pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
+    banner: { icon: 'eliminated', title: 'You’re out', sub: 'You can watch. Your role stays private.' } },
+    shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } }, banner: { kind: 'out' } } },
+  { id: 'large-banner-out', text: 200, width: 320, height: 568, insets: { top: 20, bottom: 0 },
+    pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
+      banner: { icon: 'eliminated', title: 'You’re out', sub: 'You can watch. Your role stays private.' } },
+    shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } }, banner: { kind: 'out' } } },
 ];
 
 /** The parts compared, as [name, the pack's selector, the shell's selector]. */
@@ -76,9 +89,13 @@ const PARTS = [
   ['sheet-foot', '.sheet-foot', '.ms-ps-sheet-foot'],
   ['foot-1', '.sheet-foot > .btn:nth-child(1)', '.ms-ps-sheet-foot > .ms-k-btn:nth-child(1)'],
   ['foot-2', '.sheet-foot > .btn:nth-child(2)', '.ms-ps-sheet-foot > .ms-k-btn:nth-child(2)'],
+  // A banner, where a case draws one (0.2.8): its box, its icon, its two lines and Retry where it has one.
+  ['banner', '.banner', '.ms-ps-banner'], ['banner-icon', '.banner > svg', '.ms-ps-banner-icon svg'],
+  ['banner-title', '.banner-text b', '.ms-ps-banner .ms-ps-text b'], ['banner-sub', '.banner-text span', '.ms-ps-banner .ms-ps-text span'],
+  ['banner-action', '.banner > .btn', '.ms-ps-banner > .ms-k-btn'],
 ];
 /** The parts whose words are compared besides the bar's and the tabs'. */
-const SHEET_WORDS = new Set(['sheet-title', 'sheet-sub', 'foot-1', 'foot-2']);
+const SHEET_WORDS = new Set(['sheet-title', 'sheet-sub', 'foot-1', 'foot-2', 'banner-title', 'banner-sub', 'banner-action']);
 /** A button's kind, from the pack's .btn-<kind> or the kit's .ms-k-btn-<kind>. */
 const KINDS = ['primary', 'secondary', 'warn', 'tinted', 'plain', 'outline'];
 const kindOf = (node, prefix) => (node ? ([...node.classList].map(c => (c.startsWith(prefix) ? c.slice(prefix.length) : null)).find(k => KINDS.includes(k)) ?? null) : null);
@@ -113,11 +130,13 @@ export async function runPhoneShellAgreement({ size, versions }) {
     // A sheet docks between the bars, as the pack's game screens dock it (screens.mjs game()), before the tabs.
     const sheetNodes = c.pack.sheet ? sheet({ ...c.pack.sheet, foot: c.pack.sheet.foot?.() ?? null }) : [];
     for (const node of sheetNodes) node.dataset.docked = '';
-    pack.append(topBar(c.pack.bar), ...sheetNodes, tabs(c.pack.tabs));
+    // A banner lies over the stage under the bar, as the pack's game screens lay their overlays (screens.mjs game()).
+    const bannerNode = c.pack.banner ? banner({ ...c.pack.banner, action: c.pack.banner.action?.() ?? null }) : null;
+    pack.append(topBar(c.pack.bar), ...(bannerNode ? [bannerNode] : []), ...sheetNodes, tabs(c.pack.tabs));
     const host = document.createElement('div');
     Object.assign(host.style, { position: 'absolute', left: `${width + 20}px`, top: '0', width: `${width}px`, height: `${height}px` });
     document.body.append(pack, host);
-    const shell = mountPhoneShell(host, { versions, insets, bar: c.shell.bar, tabs: { variant: 'game', ...c.shell.tabs }, sheet: c.shell.sheet ?? null });
+    const shell = mountPhoneShell(host, { versions, insets, bar: c.shell.bar, tabs: { variant: 'game', ...c.shell.tabs }, sheet: c.shell.sheet ?? null, banner: c.shell.banner ?? null });
     await document.fonts.ready;
     await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
     const root = shell.element;
@@ -148,6 +167,10 @@ export async function runPhoneShellAgreement({ size, versions }) {
       ['back name', pack.querySelector('.sheet-head > .icon-btn[aria-label="Back"]')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-sheet-head > [data-intent="sheet-back"]')?.getAttribute('aria-label') ?? null],
       ['foot-1 kind', kindOf(pack.querySelector('.sheet-foot > .btn:nth-child(1)'), 'btn-'), kindOf(root.querySelector('.ms-ps-sheet-foot > .ms-k-btn:nth-child(1)'), 'ms-k-btn-')],
       ['foot-2 kind', kindOf(pack.querySelector('.sheet-foot > .btn:nth-child(2)'), 'btn-'), kindOf(root.querySelector('.ms-ps-sheet-foot > .ms-k-btn:nth-child(2)'), 'ms-k-btn-')],
+      // The banner's icon as drawn (the same icon, filled, from the pack's icons and the component's copy of them), and Retry's kind.
+      ['banner icon', pack.querySelector('.banner > svg')?.innerHTML ?? null, root.querySelector('.ms-ps-banner-icon svg')?.innerHTML ?? null],
+      ['banner action kind', kindOf(pack.querySelector('.banner > .btn'), 'btn-'), kindOf(root.querySelector('.ms-ps-banner > .ms-k-btn'), 'ms-k-btn-')],
+      ['banner role', pack.querySelector('.banner')?.getAttribute('role') ?? null, root.querySelector('.ms-ps-banner')?.getAttribute('role') ?? null],
       ...['actions', 'card', 'panels'].map(k => [`${k} open`, pack.querySelector(`.tab[data-tab="${k}"]`)?.getAttribute('aria-expanded'), root.querySelector(`.ms-ps-tab[data-value="${k}"]`)?.getAttribute('aria-expanded')]),
     ];
     for (const [what, a, b] of states) if (a !== b) differences.push({ part: 'state', what, pack: a ?? null, shell: b ?? null });

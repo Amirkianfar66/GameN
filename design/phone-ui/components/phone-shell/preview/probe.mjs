@@ -7,6 +7,8 @@
 //             control ending moves the focus to the shell and reports it once (onFocusReturn)
 //   refused   an unavailable, busy or non-interactive control takes no tap, and says why
 //   stale     reconnecting, only Retry, ⋮, the target bar's Cancel and a sheet's back and close work
+//   out       an eliminated player's banner (0.2.8): the pack's words and icon, no Retry, the controls as given;
+//             a docked sheet stays below it; it is this viewer's, and reconnecting takes its place while given
 //   private   concealed, nothing to read and no control; this viewer's inputs are dropped, also when
 //             the viewer changes
 //   time      the clock shows what it is given, amber in the last 10 s, and never counts by itself
@@ -39,7 +41,7 @@
 //   dispose   after dispose(), nothing is left and nothing fires
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { mountPhoneShell, TOAST_MS, RECONNECTING } from '../phone-shell.mjs';
+import { mountPhoneShell, TOAST_MS, RECONNECTING, OUT } from '../phone-shell.mjs';
 import { createKit } from '../../kit/kit.mjs';
 
 const wait = ms => new Promise(done => setTimeout(done, ms));
@@ -159,6 +161,52 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const want = ['onRetry', 'onMenu', 'onCancelTarget', 'onSheetBack', 'onSheetClose'];
       return { ok: fired.length === 5 && want.every(n => fired.includes(n)) && described && localOpen && game.length >= 5 && live.hero === 1 && live.reason === null,
         fired, game: game.length, described, localOpen, live };
+    });
+
+    await check('out: an eliminated player\'s banner has the pack\'s words and icon and no Retry, and leaves the controls as given; a docked sheet stays below it; it is this viewer\'s, so a new viewer or concealment drops it, and reconnecting takes its place while given', async () => {
+      const tabs = { variant: 'game', view: 'room', hero: { mode: 'pass', enabled: false }, enabled: { actions: false }, reasons: { actions: 'You’re out' } };
+      const s = mount({ ...own(), tabs, banner: { kind: 'out' } });
+      await frames();
+      const node = s.q('.ms-ps-banner');
+      const look = { kind: node?.dataset.kind ?? null, title: node?.querySelector('.ms-ps-text b')?.textContent ?? null, sub: node?.querySelector('.ms-ps-text span')?.textContent ?? null,
+        icon: !!node?.querySelector('.ms-ps-banner-icon svg'), buttons: node?.querySelectorAll('button').length ?? null, role: node?.getAttribute('role') ?? null };
+      const words = look.kind === 'out' && look.title === OUT.title && look.sub === OUT.sub && look.icon && look.buttons === 0 && look.role === 'status';
+      // The controls are as Frontend gives them: the phone is live, a tab it offers takes a tap, and the one it doesn't
+      // is described by its reason.
+      s.q('.ms-ps-tab[data-value="card"]').click();
+      const actions = s.q('.ms-ps-tab[data-value="actions"]');
+      actions.click();
+      const controls = { taps: named(s.calls, 'onTab').length, actionsOff: actions.getAttribute('aria-disabled') === 'true', reason: describedBy(actions) };
+      const asGiven = controls.taps === 1 && controls.actionsOff && controls.reason === 'You’re out';
+      // A large docked sheet stays below it, as below the reconnecting banner.
+      s.shell.update({ sheet: { ...passSheet, id: 'out-sheet', detent: 'large' } });
+      await frames();
+      await Promise.all(s.q('.ms-ps-sheet').getAnimations().map(a => a.finished.catch(() => null)));
+      await frames();
+      const gap = s.q('.ms-ps-sheet').getBoundingClientRect().top - s.q('.ms-ps-banner').getBoundingClientRect().bottom;
+      s.shell.update({ sheet: null });
+      // Reconnecting takes its place while it is given, with Retry; the eliminated player's comes back when given again.
+      s.shell.update({ status: 'stale', banner: { kind: 'reconnecting' } });
+      const swapped = s.q('.ms-ps-banner')?.dataset.kind === 'reconnecting' && !!s.q('.ms-ps-banner [data-intent="retry"]');
+      s.shell.update({ status: 'live', banner: { kind: 'out' } });
+      const back = s.q('.ms-ps-banner')?.dataset.kind === 'out' && !s.q('.ms-ps-banner button');
+      // It is this viewer's: a new viewer drops it unless the update gives the new viewer's own; concealment drops it,
+      // and it does not come back by itself.
+      s.shell.update({ viewer: 5 });
+      const newViewer = !s.q('.ms-ps-banner');
+      s.shell.update({ viewer: SELF, banner: { kind: 'out' } });
+      const given = s.q('.ms-ps-banner')?.dataset.kind === 'out';
+      s.shell.update({ status: 'concealed' });
+      const concealed = !s.q('.ms-ps-banner') && !s.root.textContent.includes(OUT.title) && !s.root.textContent.includes(OUT.sub);
+      s.shell.update({ status: 'live' });
+      const notBack = !s.q('.ms-ps-banner');
+      // The reconnecting banner is the phone's, not the viewer's: a new viewer keeps it.
+      s.shell.update({ status: 'stale', banner: { kind: 'reconnecting' } });
+      s.shell.update({ viewer: 6 });
+      const phoneKept = s.q('.ms-ps-banner')?.dataset.kind === 'reconnecting';
+      s.shell.dispose();
+      return { ok: words && asGiven && gap >= 7.5 && swapped && back && newViewer && given && concealed && notBack && phoneKept,
+        look, controls, gap: Math.round(gap * 10) / 10, swapped, back, newViewer, given, concealed, notBack, phoneKept };
     });
 
     await check('private: concealed, nothing to read and no control; the clock\'s place and the stage keep their size', async () => {

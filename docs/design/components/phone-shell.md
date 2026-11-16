@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.7`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.8`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -21,7 +21,8 @@
   - the target bar with its Cancel (sheet 29; the owner's T2);
   - the floating chip ("Other rooms · n", "List");
   - the reconnecting banner, "Connection lost · Controls return when the match is current · Retry" (sheet 45, #222 item 33);
-  - a toast.
+  - an eliminated player's banner, "You're out · You can watch. Your role stays private.", words only (sheet 44's Eliminated frame, 0.2.8);
+  - a toast, the kit's (0.2.8), which takes no tap.
 - **The docked sheet's frame:** clear glass over the room (the owner's 56 %), solid under Reduce transparency, with its title, back, close, scrolling body and footer actions. "Pass your turn?" (27.3) is one.
 
 ## Files
@@ -91,8 +92,14 @@ shell.dispose();             // removes the element and its listeners
   - `layout().bars` is then `{ top: 0, bottom: 0 }`. `layout().safe` gives the safe areas, so the component keeps its own controls clear of them, as the pack's Skip film sits `safe.bottom + 14` px above the foot.
   - The room scene and the board stay between the bars: they are framed to the stage's box.
 - **The overlays keep the bar's place.** The target bar, the banner, the toast and a large sheet start under where the top bar ends, with or without a bar. On its bar-less films the pack's `--top` keeps the bar's height, so "Rejoined" sits under the film's clock chip (sheet 18).
-- **The layers, as the pack's:** a docked sheet lies over the cover, the target bar, the chip and the reconnecting banner. The toast stays above the sheet.
+- **The layers, as the pack's:** a docked sheet lies over the cover, the target bar, the chip and either banner. The toast stays above the sheet.
 - **The sheet stays below the banner (0.2.0).** While the reconnecting banner shows, a docked sheet stays 8 px below it. So Retry and the sheet's Close are both in sight, and when the banner goes, the sheet docks at its place again. Before, a large sheet, such as the ballot, covered Retry; the Gameplay builder found it on the Vote test page. The banner keeps its layer, under the sheet.
+- **An eliminated player's banner (0.2.8).** `banner: { kind: 'out' }` draws sheet 44's Eliminated frame: "You're out" over "You can watch. Your role stays private.", with the pack's eliminated icon and no action.
+  - The pack draws both banners with one builder (`ui.mjs` `banner()`), so they share one look, place and layer, and a docked sheet stays below this one too. The agreement compares both with the pack's, and this one at the Largest text on 320 × 568, where its line wraps.
+  - It changes no control. What an eliminated player can still open (the Card, Panels, the Board) and what they can't (Actions, Pass) is what Frontend gives in `tabs`, as the pack's frame draws it.
+  - It is this viewer's: dropped while concealed and for a new viewer, unless the same update gives the new viewer's own. The reconnecting banner is the phone's, and a new viewer keeps it.
+  - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
+- **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
 - **The target bar's Cancel while reconnecting (0.2.7).** It only ends the choosing on this phone, so it works while reconnecting, as Back and Close do. Before, it was refused with the banner's words, so a player who had started choosing a target couldn't leave the choosing until the match was current again. The Gameplay builder asked for it after making Actions' Cancel and Done local. The tabs, the chip and the hero stay refused while reconnecting, as sheet 45 draws them.
 - **The private talk's two buttons at larger text (0.2.6).** Under 19 em across, Promises and My card take the sheet footer's rule: side by side in equal halves while their words fit, a row each when they don't. What docks above them, a sheet or the chip, stays 10 px clear by their measured height (`--ms-ps-talk-h`), and `layout().covered.bottom` says how much of the stage's foot they cover, so the capsule can keep its tags above them.
   - Before, at the Largest text on a 320 px phone, the two stayed on one row, "My card" ran past the phone's edge, and a docked sheet covered them by 21.6 px. The Gameplay builder found it on the private talk.
@@ -132,12 +139,12 @@ shell.dispose();             // removes the element and its listeners
 | `tabs.hero` | This viewer's | `{ mode: 'pass' \| 'vote' \| 'voted', enabled, busy, reason }`. Left out, Pass is unavailable, as the pack's `pass-off` |
 | `target` | This viewer's | `null`, or `{ icon, title, sub }`: the target bar, with Cancel |
 | `chip` | This viewer's | `null`, or `{ id, label, icon, tone: 'paper' \| 'steel', enabled }` |
-| `banner` | Phone | `null`, or `{ kind: 'reconnecting', busy }` |
+| `banner` | Phone, or this viewer's | `null`; `{ kind: 'reconnecting', busy }`, the phone's; or `{ kind: 'out' }`, an eliminated player's, which is this viewer's (0.2.8) |
 | `toast` | This viewer's | `null`, or `{ id, text, icon }`: shown once per `id`, for `TOAST_MS` (2.4 s), then it fades |
 | `sheet` | This viewer's | `null`, or `{ id, title, sub, back, close, detent: 'auto' \| 'large', head: [{ id, icon, label, enabled, reason }], actions: [{ id, label, kind: 'primary' \| 'secondary' \| 'warn', icon, local, enabled, busy, reason }] }`. Every id in `head` and `actions` is the sheet's own |
 | `sheet.head` | This viewer's | Icon buttons in the sheet's head, after the title and before Close, as the pack's `sheet({ actions })` draws the Card's "Hide card" (sheet 31). They are this phone's own, as Back and Close are: they work while reconnecting and stand for no command, which belongs in `actions`, the footer |
 
-- **Privacy:** concealed, the shell drops this viewer's inputs (the tabs, the target bar, the chip, the sheet, the toast and the Promises count). Shown again, they come back only when given again. Offers given while concealed are dropped too.
+- **Privacy:** concealed, the shell drops this viewer's inputs (the tabs, the target bar, the chip, the sheet, the toast, an eliminated player's banner and the Promises count). Shown again, they come back only when given again. Offers given while concealed are dropped too.
 - **The tab bar's shape** (game, talk or none) is kept while concealed, so the stage keeps its size.
 - **The shell decides nothing:**
   - `enabled: false` and `reason` come from Frontend: from the projection's offers and reasons, or its own words.
@@ -187,6 +194,7 @@ Each reports a tap, and only that.
 | A full-screen film | `bar: null`, `tabs: null`, `edge: true` (the role stage, #268): the stage edge to edge; the toast and the banner at the bar's place |
 | A full-screen poster | A bar, `tabs: null`, `edge: true` (ship travel, #269): the stage edge to edge, the bar's glass over it |
 | Reconnecting | The phase bar "Reconnecting…", the banner with Retry, the controls refused. The room scene dims itself (`status: 'stale'`) |
+| Eliminated | `banner: { kind: 'out' }`: "You're out · You can watch. Your role stays private.", words only, over the room the player watches, where they lie down in their place. The controls are as Frontend gives them: Actions and Pass unavailable (sheet 44) |
 | Concealed | The bars' empty material only: no name, number, time or control, and nothing for a screen reader |
 | Largest text | The pack's container queries: the handshake alone, no clock icon, the round out of the bar, a phase's short title, the two-line title |
 
@@ -210,12 +218,12 @@ Each reports a tap, and only that.
    | `tabs` | `null` on a shared display; `{ variant: 'talk' }` on the two talking phones; else the game's, with `view` the scene mode and `open` the panel |
    | `tabs.hero` | In `JAIL_VOTE` or `CAPTAIN_ELECTION`: `'voted'` when `ownBallot.phaseId` is the phase's, else `'vote'` with `enabled: canVote`. Otherwise `'pass'` with `enabled: canPass`, and `busy` while its request is sending |
    | `target` | While `action.step` is `targets` or `slots`: `action.label` and `action.prompt` |
-   | `banner` | `{ kind: 'reconnecting', busy: recovery?.status === 'checking' }` while stale |
+   | `banner` | `{ kind: 'reconnecting', busy: recovery?.status === 'checking' }` while stale; otherwise `{ kind: 'out' }` while this viewer's own seat is Eliminated (public on the board); else `null` |
    | `sheet` | The open panel's frame; "Pass your turn? · The turn goes to Name · Player n", with Cancel and Pass |
 
 3. **Leave none of the old renderer's header, nav or Pass button active** beside the shell.
 4. **Food's gauge:** mount it in `shell.slot('clock')`, wrapped as today (`span.planet-food`). The frozen Food release keeps drawing it.
-5. **Captures:** take them from the deployed candidate or under the production headers, at 390 × 844 and 430 × 932: a turn, your turn, the ballot, the result, the Blackout, a target, a sheet, reconnecting and concealed. Designer then gives visual acceptance in the PR.
+5. **Captures:** take them from the deployed candidate or under the production headers, at 390 × 844 and 430 × 932: a turn, your turn, the ballot, the result, the Blackout, a target, a sheet, reconnecting, an eliminated player's phone and concealed. Designer then gives visual acceptance in the PR.
 
 ## Integration's part
 
