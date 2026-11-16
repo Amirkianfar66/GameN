@@ -168,8 +168,8 @@ export function nextWindowsInput(previous, input = {}) {
   const concealed = next.status === 'concealed';
   if (concealed || viewerChanged) {
     for (const key of VIEWERS_OWN) if (concealed || !(key in input)) next[key] = WINDOWS_DEFAULTS[key];
-    // The shown view goes with its drawing, unless the same update asks for a view (and is checked as given).
-    if (next.view === 'shown' && next.shown === null && (concealed || !('view' in input))) next.view = 'windows';
+    // The shown view goes with its drawing; any other view is kept, and checked as given.
+    if (next.view === 'shown' && next.shown === null) next.view = 'windows';
   }
   if (!VIEWS.includes(next.view)) throw new TypeError(`The view is ${VIEWS.join(', ')}, not ${JSON.stringify(next.view)}`);
   next.windows = checkWindows(next.windows ?? [], next.viewer);

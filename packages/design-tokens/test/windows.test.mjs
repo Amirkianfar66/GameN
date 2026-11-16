@@ -191,6 +191,9 @@ test('the draft\'s privacy (decision 4): the windows, the draft and the shown dr
   const s = nextWindowsInput(WINDOWS_DEFAULTS, { viewer: 4, view: 'shown', windows: windowsAt('A2', [drawingBy('d3', DEV, 1)]), shown: 'd3', draft: draft() });
   const moved = nextWindowsInput(s, { viewer: 5 });
   assert.deepEqual([moved.windows, moved.draft, moved.shown, moved.view], [[], null, null, 'windows'], 'a new viewer: everything of the last viewer\'s is dropped, and the shown view with it');
+  assert.equal(nextWindowsInput(s, { viewer: 5, view: 'shown' }).view, 'windows', 'the shown view leaves with its drawing, even when the update names it');
+  assert.equal(windowsSheet({ viewer: 5, view: 'shown', windows: [], draft: null, shown: null }).actions.length, 0, 'and the sheet for a whole input is drawn, not refused');
+  assert.throws(() => nextWindowsInput(s, { viewer: 5, view: 'draw' }), /view is windows, shown/, 'an unknown view is still refused');
   const given = nextWindowsInput(s, { viewer: 5, windows: windowsAt() });
   assert.equal(given.windows.length, 2, 'what the same update gives the new viewer is kept');
   assert.equal(given.draft, null);
