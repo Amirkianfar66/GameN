@@ -1,0 +1,4907 @@
+{
+  "tool": "design/tools/end-roles-check.mjs",
+  "component": "design/phone-ui/components/end-roles",
+  "version": "end-roles-0.1.0",
+  "sourceCommit": "be3ef7cee21e9922cf17d1c63574e874378d4cb4",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a screen reader, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/blue/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-blue.jpg",
+      "sha256": "6e2efd0ffb3642453221d42d92030b445f672c2b382670e1de4b29d65ace21c1",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/blue/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-blue.jpg",
+      "sha256": "4534b2a628db76997c45c087994b9e406580eb8bfab4c03ee6e9f54df2218247",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/red/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-red.jpg",
+      "sha256": "3a73181bdee9dca9ae94f089f06c337956010412c5fe2fbda4fba30154f5864f",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/red/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-red.jpg",
+      "sha256": "9983fbb96321e4af8b37c4173279daae52c9c6b8a397094c5936ce76afd1b904",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/alien/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-alien.jpg",
+      "sha256": "d40d408af7d979e0b455e9f9c99d16eb58059afc35143b228cd249f021149c68",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/alien/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-alien.jpg",
+      "sha256": "a9997ffab61f7912739fc46882ddb8f6214203245ae673038b39682613fdbcdd",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/none/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-none.jpg",
+      "sha256": "ec452ae60ee242d8915aabe11dfc775dc527d644c3ccfd2a4ab6505932083c3f",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 442.05,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/none/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-none.jpg",
+      "sha256": "3013b8184a16acd8e18a5e972b1f80336685c6ec48ae07d66c8863283b5bd883",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 471.97,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/aborted/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-aborted.jpg",
+      "sha256": "4fcd2667d2b13645d211233696ac1de2ccbc0abbb9b2028e88a1425c99595b44",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 442.05,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "430x932/aborted/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-aborted.jpg",
+      "sha256": "7bb2124bee38cb5cf479039b69bef8d254271f12c5d7676e92b82bee913a8d03",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 471.97,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "390x844/before/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-before.jpg",
+      "sha256": "a27a5cb8d25a938e6879db909ad7d4be4771d717768dfc362592a714706469e8",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "430x932/before/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-before.jpg",
+      "sha256": "eda98d00f5b928858d06e2300582ddb87641360fd79dddba8efa957f4e7507f0",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "390x844/reduced/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-reduced.jpg",
+      "sha256": "9367d10f0cb21fd1ca897774cdc396dbf3a94254671e3bcfdb084240504c1ef9",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": "reduced",
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/reduced/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-reduced.jpg",
+      "sha256": "912e9f958757ca6f399c708057905afef01fe253ef9a529b61556c56a2e07df4",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": "reduced",
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/stale/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-stale.jpg",
+      "sha256": "f791d41a91305f061c1dbf933f0c2ca353881f8608f59ea2b7b6ab5cd25d2778",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/stale/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-stale.jpg",
+      "sha256": "152b77e159ddd4cf6d37fd33a4c0bb6a596e0c7a61d078b95257bfd30da0a655",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/staleEarly/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-staleEarly.jpg",
+      "sha256": "de1874bd2455983ba589b8a5d84a044efb99b690c6de6c4b852a6132f475d08c",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "430x932/staleEarly/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-staleEarly.jpg",
+      "sha256": "cd03dca589f81e5e8f63260b1eaa9f911958ce28c81fdd1a91c372706d1f9fcb",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "390x844/concealed/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-concealed.jpg",
+      "sha256": "5ccb6808f63dbe5f8c367117d9914daa8ba7a6b9cf0d0f8cf20da74619d012c0",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": null,
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": null
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "430x932/concealed/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-concealed.jpg",
+      "sha256": "a25d477f89ec9a45a36f7c9549ad592fb170d70ace1433718ededbeac7d96259",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": null,
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": null
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "390x844/noclock/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-noclock.jpg",
+      "sha256": "3a73181bdee9dca9ae94f089f06c337956010412c5fe2fbda4fba30154f5864f",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/noclock/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-noclock.jpg",
+      "sha256": "9983fbb96321e4af8b37c4173279daae52c9c6b8a397094c5936ce76afd1b904",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/display/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-display.jpg",
+      "sha256": "1d3bf57b00db887b4897e4c5a4f34a1396bd737e25438657cbc4356fdd663f29",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": null,
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": null,
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/display/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-display.jpg",
+      "sha256": "04639200c022b3b1086fcbdd92a8a8667b4d0ce8f1457a0a3f4a617991aafdc6",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": null,
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": null,
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/noteams/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-noteams.jpg",
+      "sha256": "2b83452f264c8d2ef8c33dbf2ad071538f12b05ae28c05b57c96e757b4e64a4b",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor|2 · Ben=Insider|3 · Cleo=Blue Disabler|4 · Dev (you)=Supplier|5 · Eli=Engineer|6 · Fay=Undercover|7 · Gus=Hacker|8 · Hana=Red Disabler|9 · Ike=Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/noteams/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-noteams.jpg",
+      "sha256": "9829d436bb27bc3f012e7c5bf31b37ae002cdf6995bc3de78085b14e5e21c9de",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor|2 · Ben=Insider|3 · Cleo=Blue Disabler|4 · Dev (you)=Supplier|5 · Eli=Engineer|6 · Fay=Undercover|7 · Gus=Hacker|8 · Hana=Red Disabler|9 · Ike=Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/blue/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-blue-reduced.jpg",
+      "sha256": "f15a044be1e44137feb8139898b962f03a76db64d56c91e5c0845d0a69adc953",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/blue/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-blue-reduced.jpg",
+      "sha256": "a0515f0d4f75b94fd17fd42050f43deac366bd1593aaf7d1feaf3f6da48eae2c",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/red/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-red-reduced.jpg",
+      "sha256": "9367d10f0cb21fd1ca897774cdc396dbf3a94254671e3bcfdb084240504c1ef9",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/red/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-red-reduced.jpg",
+      "sha256": "912e9f958757ca6f399c708057905afef01fe253ef9a529b61556c56a2e07df4",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/alien/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-alien-reduced.jpg",
+      "sha256": "0715bb032f2657ac238375d30ef05512b2ce6ecc633071046cad8aef9a6c6a04",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/alien/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-alien-reduced.jpg",
+      "sha256": "8818164061cb60756cacf946ae59d112f4ec86bae33a545ddff4587df773de13",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/none/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-none-reduced.jpg",
+      "sha256": "0c005d3607dd7451c44d510a7482719a0721e66b60eb91238da13546cb186cca",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 442.05,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/none/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-none-reduced.jpg",
+      "sha256": "3013b8184a16acd8e18a5e972b1f80336685c6ec48ae07d66c8863283b5bd883",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 471.97,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/aborted/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-aborted-reduced.jpg",
+      "sha256": "1388e8aa1326e904302eff29fed2448b4cc616ea348c0842bfc144258c64d4f7",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 442.05,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "430x932/aborted/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-aborted-reduced.jpg",
+      "sha256": "7bb2124bee38cb5cf479039b69bef8d254271f12c5d7676e92b82bee913a8d03",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 471.97,
+          "h": 108.09
+        }
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "390x844/before/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-before-reduced.jpg",
+      "sha256": "9367d10f0cb21fd1ca897774cdc396dbf3a94254671e3bcfdb084240504c1ef9",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/before/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-before-reduced.jpg",
+      "sha256": "67e818e3eb55e68a161bd2e197a6eaae2c49c04cd3a717a65bc8b9af64456e19",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/reduced/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-reduced-reduced.jpg",
+      "sha256": "9367d10f0cb21fd1ca897774cdc396dbf3a94254671e3bcfdb084240504c1ef9",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": "reduced",
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/reduced/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-reduced-reduced.jpg",
+      "sha256": "67e818e3eb55e68a161bd2e197a6eaae2c49c04cd3a717a65bc8b9af64456e19",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": "reduced",
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/stale/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-stale-reduced.jpg",
+      "sha256": "9b338070ebadbb4e620d6ff0d5ac706937f439fb0be8f1ee921b812287ea037e",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/stale/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-stale-reduced.jpg",
+      "sha256": "ab93c161c56b3becc1580b8997fd62b964a8b5b7a5de9aab1988f98a8d70717d",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/staleEarly/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-staleEarly-reduced.jpg",
+      "sha256": "9b338070ebadbb4e620d6ff0d5ac706937f439fb0be8f1ee921b812287ea037e",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/staleEarly/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-staleEarly-reduced.jpg",
+      "sha256": "ab93c161c56b3becc1580b8997fd62b964a8b5b7a5de9aab1988f98a8d70717d",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": "Connection lost",
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/concealed/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-concealed-reduced.jpg",
+      "sha256": "5ccb6808f63dbe5f8c367117d9914daa8ba7a6b9cf0d0f8cf20da74619d012c0",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": null,
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": null
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "430x932/concealed/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-concealed-reduced.jpg",
+      "sha256": "a25d477f89ec9a45a36f7c9549ad592fb170d70ace1433718ededbeac7d96259",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "motion": null,
+      "label": null,
+      "rows": null,
+      "note": null,
+      "button": null,
+      "squares": 0,
+      "stamp": null,
+      "banner": null,
+      "boxes": {
+        "list": null,
+        "actions": null,
+        "title": null
+      },
+      "visibleRows": 0,
+      "problems": []
+    },
+    "390x844/noclock/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-noclock-reduced.jpg",
+      "sha256": "d5ca194bacda9ad92e24c3d50a376f9964e33e8ab9f97626079248e2d4977975",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/noclock/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-noclock-reduced.jpg",
+      "sha256": "67e818e3eb55e68a161bd2e197a6eaae2c49c04cd3a717a65bc8b9af64456e19",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/display/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-display-reduced.jpg",
+      "sha256": "eb58f22925784709fe212c0400444cb6814917d04c81fa6de5d534d87f0bf228",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": null,
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": null,
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/display/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-display-reduced.jpg",
+      "sha256": "31d6d5b708721270d345e43748d3b24aa588f2623509e79c772f5a93f7f25a0d",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": null,
+      "squares": 9,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": null,
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/noteams/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-noteams-reduced.jpg",
+      "sha256": "f7aefb297ca85f0d60ee9a6d763df4099e378fd93b2077f52ebba0b7ef447512",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor|2 · Ben=Insider|3 · Cleo=Blue Disabler|4 · Dev (you)=Supplier|5 · Eli=Engineer|6 · Fay=Undercover|7 · Gus=Hacker|8 · Hana=Red Disabler|9 · Ike=Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 475.64,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/noteams/reduced": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-noteams-reduced.jpg",
+      "sha256": "40c8b8fe475f8508e1388e72818e69cbd37e0bf5d02e61e607b1474ef0179e5b",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor|2 · Ben=Insider|3 · Cleo=Blue Disabler|4 · Dev (you)=Supplier|5 · Eli=Engineer|6 · Fay=Undercover|7 · Gus=Hacker|8 · Hana=Red Disabler|9 · Ike=Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 0,
+      "stamp": "RED WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 505.56,
+          "h": 141.69
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/blue/text150/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-blue-text150.jpg",
+      "sha256": "5a46ac94dab2613d6ab920a8297cd46d2f99d9bad5c4977539f5fb2eaed721e6",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 515.83,
+          "bottom": 728,
+          "h": 212.17
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 502.83,
+          "h": 168.88
+        }
+      },
+      "visibleRows": 3,
+      "problems": []
+    },
+    "430x932/blue/text150/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-blue-text150.jpg",
+      "sha256": "2ebb2de55807ae9cee0a31351690a8c39641dd8394c56635ea1e6cdb3ee6c972",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 545.75,
+          "bottom": 816,
+          "h": 270.25
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 532.75,
+          "h": 168.88
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "390x844/alien/text150/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-alien-text150.jpg",
+      "sha256": "772e457ae36b90f0e696e18a2b5e312ce9a19c5755b42e531e80fd704e7961c7",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 543.33,
+          "bottom": 728,
+          "h": 184.67
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 530.33,
+          "h": 196.38
+        }
+      },
+      "visibleRows": 3,
+      "problems": []
+    },
+    "430x932/alien/text150/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-alien-text150.jpg",
+      "sha256": "86f7f2f8f7a280fd03530dbfe069d766f27f105013b9be38b0305fe57166f386",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 545.75,
+          "bottom": 816,
+          "h": 270.25
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 532.75,
+          "h": 168.88
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "390x844/none/text150/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-none-text150.jpg",
+      "sha256": "3fd088994ce6d11d10942589f4b2c7b7910b5e567f40a07b5cf4139a86281673",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 460.83,
+          "h": 126.88
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "430x932/none/text150/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-none-text150.jpg",
+      "sha256": "dfcf34aabc4faef62260c32545526533f4db3825b7615a39135252a034844aa9",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 490.75,
+          "h": 126.88
+        }
+      },
+      "visibleRows": 5,
+      "problems": []
+    },
+    "390x844/blue/text200/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-blue-text200.jpg",
+      "sha256": "d45ca8266f815d8b968c5b8cd965aef83641ce77e48974b3b56a9fa63671146d",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 515.83,
+          "bottom": 728,
+          "h": 212.17
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 502.83,
+          "h": 168.88
+        }
+      },
+      "visibleRows": 2,
+      "problems": []
+    },
+    "430x932/blue/text200/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-blue-text200.jpg",
+      "sha256": "b9e15c981f01ad4f62edd6726f1a6ef53f4e0164126062688ade2600d74cb00a",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 545.75,
+          "bottom": 816,
+          "h": 270.25
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 532.75,
+          "h": 168.88
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "390x844/alien/text200/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-alien-text200.jpg",
+      "sha256": "88d0250ca97d75b3e47cef8184e406603ae89fb381d76d3e4f3a6dbb1c209811",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 543.33,
+          "bottom": 728,
+          "h": 184.67
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 530.33,
+          "h": 196.38
+        }
+      },
+      "visibleRows": 2,
+      "problems": []
+    },
+    "430x932/alien/text200/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-alien-text200.jpg",
+      "sha256": "a3082c6defeeeca52fc16ce8553c32ab3100a8b750073de6d2cd0cbc3c2619c8",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "BLUE WINS · ALIEN TOO",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 545.75,
+          "bottom": 816,
+          "h": 270.25
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 532.75,
+          "h": 168.88
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    },
+    "390x844/none/text200/full": {
+      "file": "design/phone-ui/components/end-roles/review/390x844-none-text200.jpg",
+      "sha256": "893628d9295f3fa958aee03a7981e3f2a7c71938ec4cb2a65d0fc2daa345dae7",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 489.52,
+          "bottom": 728,
+          "h": 238.48
+        },
+        "actions": {
+          "y": 742,
+          "bottom": 792,
+          "h": 50
+        },
+        "title": {
+          "y": 333.95,
+          "bottom": 460.83,
+          "h": 126.88
+        }
+      },
+      "visibleRows": 3,
+      "problems": []
+    },
+    "430x932/none/text200/full": {
+      "file": "design/phone-ui/components/end-roles/review/430x932-none-text200.jpg",
+      "sha256": "ec134a8d0daf31172b6e7a7eff881b024818a94c71f83638d0c26f275fc577ad",
+      "ok": true,
+      "drawn": true,
+      "placed": true,
+      "mismatched": [],
+      "leaked": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "motion": null,
+      "label": "Roles",
+      "rows": "1 · Ava=Doctor:Blue|2 · Ben=Insider:Blue|3 · Cleo=Blue Disabler:Blue|4 · Dev (you)=Supplier:Blue|5 · Eli=Engineer:Blue|6 · Fay=Undercover:Red|7 · Gus=Hacker:Red|8 · Hana=Red Disabler:Red|9 · Ike=Alien:Alien",
+      "note": "Original Code: Players 2, 5, 6, 9",
+      "button": "Return to lobby",
+      "squares": 9,
+      "stamp": "NO WINNER",
+      "banner": null,
+      "boxes": {
+        "list": {
+          "y": 540.55,
+          "bottom": 816,
+          "h": 275.45
+        },
+        "actions": {
+          "y": 830,
+          "bottom": 880,
+          "h": 50
+        },
+        "title": {
+          "y": 363.88,
+          "bottom": 490.75,
+          "h": 126.88
+        }
+      },
+      "visibleRows": 4,
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "words: \"Roles\", then a row per seat in seat order, \"4 · Dev (you)\" on the viewer's, each role as projected and its team said",
+          "ok": true,
+          "detail": {
+            "rows": [
+              {
+                "name": "1 · Ava",
+                "role": "Doctor",
+                "team": "Blue",
+                "said": ", Blue team",
+                "square": "rgb(112, 175, 255)"
+              },
+              {
+                "name": "2 · Ben",
+                "role": "Insider",
+                "team": "Blue",
+                "said": ", Blue team",
+                "square": "rgb(112, 175, 255)"
+              },
+              {
+                "name": "3 · Cleo",
+                "role": "Blue Disabler",
+                "team": "Blue",
+                "said": ", Blue team",
+                "square": "rgb(112, 175, 255)"
+              },
+              {
+                "name": "4 · Dev (you)",
+                "role": "Supplier",
+                "team": "Blue",
+                "said": ", Blue team",
+                "square": "rgb(112, 175, 255)"
+              },
+              {
+                "name": "5 · Eli",
+                "role": "Engineer",
+                "team": "Blue",
+                "said": ", Blue team",
+                "square": "rgb(112, 175, 255)"
+              },
+              {
+                "name": "6 · Fay",
+                "role": "Undercover",
+                "team": "Red",
+                "said": ", Red team",
+                "square": "rgb(255, 140, 140)"
+              },
+              {
+                "name": "7 · Gus",
+                "role": "Hacker",
+                "team": "Red",
+                "said": ", Red team",
+                "square": "rgb(255, 140, 140)"
+              },
+              {
+                "name": "8 · Hana",
+                "role": "Red Disabler",
+                "team": "Red",
+                "said": ", Red team",
+                "square": "rgb(255, 140, 140)"
+              },
+              {
+                "name": "9 · Ike",
+                "role": "Alien",
+                "team": "Alien",
+                "said": ", Alien team",
+                "square": "rgb(196, 164, 255)"
+              }
+            ],
+            "want": [
+              {
+                "name": "1 · Ava",
+                "role": "Doctor",
+                "team": "Blue",
+                "said": ", Blue team"
+              },
+              {
+                "name": "2 · Ben",
+                "role": "Insider",
+                "team": "Blue",
+                "said": ", Blue team"
+              },
+              {
+                "name": "3 · Cleo",
+                "role": "Blue Disabler",
+                "team": "Blue",
+                "said": ", Blue team"
+              },
+              {
+                "name": "4 · Dev (you)",
+                "role": "Supplier",
+                "team": "Blue",
+                "said": ", Blue team"
+              },
+              {
+                "name": "5 · Eli",
+                "role": "Engineer",
+                "team": "Blue",
+                "said": ", Blue team"
+              },
+              {
+                "name": "6 · Fay",
+                "role": "Undercover",
+                "team": "Red",
+                "said": ", Red team"
+              },
+              {
+                "name": "7 · Gus",
+                "role": "Hacker",
+                "team": "Red",
+                "said": ", Red team"
+              },
+              {
+                "name": "8 · Hana",
+                "role": "Red Disabler",
+                "team": "Red",
+                "said": ", Red team"
+              },
+              {
+                "name": "9 · Ike",
+                "role": "Alien",
+                "team": "Alien",
+                "said": ", Alien team"
+              }
+            ]
+          }
+        },
+        {
+          "id": "words: \"Original Code: Players 2, 5, 6, 9\", in ascending order",
+          "ok": true,
+          "detail": {
+            "note": "Original Code: Players 2, 5, 6, 9"
+          }
+        },
+        {
+          "id": "words: \"Return to lobby\", the kit's block secondary button with the leave icon",
+          "ok": true,
+          "detail": {
+            "button": "Return to lobby",
+            "state": {
+              "disabled": null,
+              "off": false,
+              "kind": "ms-k-btn ms-k-btn-secondary ms-k-btn-block",
+              "icon": "leave:"
+            }
+          }
+        },
+        {
+          "id": "words: the rows are a list named \"Roles\"",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "words: seven players are seven rows, and the Code is theirs",
+          "ok": true,
+          "detail": {
+            "rows": 7,
+            "note": "Original Code: Players 1, 3, 5, 7"
+          }
+        },
+        {
+          "id": "words: \"(you)\" follows the viewer",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "teams: each square is its seat's team, in the tokens' colours",
+          "ok": true,
+          "detail": {
+            "squares": [
+              [
+                "Blue",
+                "rgb(112, 175, 255)"
+              ],
+              [
+                "Blue",
+                "rgb(112, 175, 255)"
+              ],
+              [
+                "Blue",
+                "rgb(112, 175, 255)"
+              ],
+              [
+                "Blue",
+                "rgb(112, 175, 255)"
+              ],
+              [
+                "Blue",
+                "rgb(112, 175, 255)"
+              ],
+              [
+                "Red",
+                "rgb(255, 140, 140)"
+              ],
+              [
+                "Red",
+                "rgb(255, 140, 140)"
+              ],
+              [
+                "Red",
+                "rgb(255, 140, 140)"
+              ],
+              [
+                "Alien",
+                "rgb(196, 164, 255)"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "teams: the colour is `teams`', never worked out from the role",
+          "ok": true,
+          "detail": {
+            "six": {
+              "name": "6 · Fay",
+              "role": "Undercover",
+              "team": "Blue",
+              "said": ", Blue team",
+              "square": "rgb(112, 175, 255)"
+            },
+            "nine": {
+              "name": "9 · Ike",
+              "role": "Alien",
+              "team": "Red",
+              "said": ", Red team",
+              "square": "rgb(255, 140, 140)"
+            }
+          }
+        },
+        {
+          "id": "teams: with no team data, no square and no team said",
+          "ok": true,
+          "detail": {
+            "rows": [
+              {
+                "name": "1 · Ava",
+                "role": "Doctor",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "2 · Ben",
+                "role": "Insider",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "3 · Cleo",
+                "role": "Blue Disabler",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "4 · Dev (you)",
+                "role": "Supplier",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "5 · Eli",
+                "role": "Engineer",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "6 · Fay",
+                "role": "Undercover",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "7 · Gus",
+                "role": "Hacker",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "8 · Hana",
+                "role": "Red Disabler",
+                "team": null,
+                "said": "",
+                "square": null
+              },
+              {
+                "name": "9 · Ike",
+                "role": "Alien",
+                "team": null,
+                "said": "",
+                "square": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "teams: a team for some seats colours only those",
+          "ok": true,
+          "detail": {
+            "rows": [
+              "rgb(112, 175, 255)",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        },
+        {
+          "id": "time: an arrival's list and button wait for 3.9 s on the trusted clock",
+          "ok": true,
+          "detail": {
+            "early": {
+              "list": false,
+              "actions": false,
+              "appear": {
+                "list": null,
+                "actions": null
+              },
+              "label": null,
+              "rows": [],
+              "note": null,
+              "button": null,
+              "buttonState": {
+                "disabled": null,
+                "off": false,
+                "kind": "ms-k-btn ms-k-btn-secondary ms-k-btn-block",
+                "icon": "leave:"
+              },
+              "animations": [],
+              "text": "Roles1 · AvaDoctor, Blue team2 · BenInsider, Blue team3 · CleoBlue Disabler, Blue team4 · Dev (you)Supplier, Blue team5 · EliEngineer, Blue team6 · FayUndercover, Red team7 · GusHacker, Red team8 · HanaRed Disabler, Red team9 · IkeAlien, Alien teamOriginal Code: Players 2, 5, 6, 9Return to lobby",
+              "hidden": null
+            }
+          }
+        },
+        {
+          "id": "time: then they rise, as the scene's words do: 400 ms, the words' curve",
+          "ok": true,
+          "detail": {
+            "risen": {
+              "appear": {
+                "list": "rise",
+                "actions": "rise"
+              },
+              "animations": [
+                {
+                  "name": "ms-er-rise",
+                  "duration": 400,
+                  "easing": "cubic-bezier(0.33, 1, 0.68, 1)"
+                },
+                {
+                  "name": "ms-er-rise",
+                  "duration": 400,
+                  "easing": "cubic-bezier(0.33, 1, 0.68, 1)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "time: the rise starts 8 px low and transparent",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "offset": 0,
+              "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+              "composite": "auto",
+              "opacity": "0",
+              "translate": "0px 8px",
+              "computedOffset": 0
+            }
+          }
+        },
+        {
+          "id": "time: no winner's come at 0.6 s",
+          "ok": true,
+          "detail": {
+            "early": false
+          }
+        },
+        {
+          "id": "time: on a clock that runs slow, the timer that wakes early waits for the moment, and they still rise",
+          "ok": true,
+          "detail": {
+            "early": false,
+            "late": true,
+            "appear": {
+              "list": "rise",
+              "actions": "rise"
+            }
+          }
+        },
+        {
+          "id": "time: a phone that opens late shows them at once, with nothing moving",
+          "ok": true,
+          "detail": {
+            "late": {
+              "list": null,
+              "actions": null
+            },
+            "animations": []
+          }
+        },
+        {
+          "id": "time: with no trusted clock, or no end phase, at once",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "time: a new end phase starts the list at its top",
+          "ok": true,
+          "detail": {
+            "before": 150,
+            "after": 0
+          }
+        },
+        {
+          "id": "time: a new end phase is a new appearance, on its own clock; a later showAt for the same phase hides nothing",
+          "ok": true,
+          "detail": {
+            "kept": true,
+            "hidden": true
+          }
+        },
+        {
+          "id": "reduced: the game's Reduce motion shows them at once, marked data-motion=\"reduced\"",
+          "ok": true,
+          "detail": {
+            "appear": {
+              "list": "fade",
+              "actions": "fade"
+            }
+          }
+        },
+        {
+          "id": "reduced: with one 80 ms fade, and nothing else moves",
+          "ok": true,
+          "detail": {
+            "animations": [
+              {
+                "name": "ms-er-fade",
+                "duration": 80,
+                "easing": "linear"
+              },
+              {
+                "name": "ms-er-fade",
+                "duration": 80,
+                "easing": "linear"
+              }
+            ]
+          }
+        },
+        {
+          "id": "reduced: turned on while they wait, they come at once with the fade",
+          "ok": true,
+          "detail": {
+            "appear": {
+              "list": "fade",
+              "actions": "fade"
+            }
+          }
+        },
+        {
+          "id": "lifecycle: reconnecting before the words, they wait; live again after the moment, at once",
+          "ok": true,
+          "detail": {
+            "waited": true,
+            "appear": {
+              "list": null,
+              "actions": null
+            }
+          }
+        },
+        {
+          "id": "lifecycle: suspended before the words, they wait; resumed after the moment, at once",
+          "ok": true,
+          "detail": {
+            "held": true
+          }
+        },
+        {
+          "id": "lifecycle: concealed, nothing is drawn or named (no name, role, team or Code in the page), and it is aria-hidden",
+          "ok": true,
+          "detail": {
+            "left": [],
+            "hidden": "true"
+          }
+        },
+        {
+          "id": "lifecycle: shown again, everything at once",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "lifecycle: concealed and shown before the words, they still come at the moment, rising",
+          "ok": true,
+          "detail": {
+            "before": true,
+            "list": true,
+            "appear": {
+              "list": "rise",
+              "actions": "rise"
+            },
+            "t": 4202.199951171875
+          }
+        },
+        {
+          "id": "lifecycle: dispose() twice is safe; after it the root is gone and its timer with it",
+          "ok": true,
+          "detail": {
+            "threw": null
+          }
+        },
+        {
+          "id": "button: \"Return to lobby\" reports onReturnToLobby() once per tap, with nothing else",
+          "ok": true,
+          "detail": {
+            "said": [
+              [
+                "onReturnToLobby",
+                0
+              ],
+              [
+                "onReturnToLobby",
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "button: reconnecting, it is still taken (it is local)",
+          "ok": true,
+          "detail": {
+            "said": [
+              [
+                "onReturnToLobby",
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "button: not interactive, refused without dimming, and nothing is reported",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "button: suspended, refused; resumed, taken",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "button: the shared display (no viewer) has none, and no \"(you)\"",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "button: the focused button going returns the focus to the root, and onFocusReturn says which",
+          "ok": true,
+          "detail": {
+            "said": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "return-lobby",
+                  "value": null
+                }
+              ]
+            ],
+            "active": "ms-end-roles ms-kit"
+          }
+        },
+        {
+          "id": "button: an aborted match (no reveal) has the button only",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "id": "layout: the list from 58 % of the phone to 82 px above the bottom safe area, 12 px from each side",
+          "ok": true,
+          "detail": {
+            "list": {
+              "x": 12,
+              "y": 489.515625,
+              "w": 366,
+              "h": 238.484375
+            }
+          }
+        },
+        {
+          "id": "layout: \"Return to lobby\" 16 px from each side and 18 px above the bottom safe area, 50 px tall",
+          "ok": true,
+          "detail": {
+            "actions": {
+              "x": 16,
+              "y": 742,
+              "w": 358,
+              "h": 50
+            },
+            "button": {
+              "x": 16,
+              "y": 742,
+              "w": 358,
+              "h": 50
+            }
+          }
+        },
+        {
+          "id": "layout: each row is 49 px (a 34 px portrait, 7 px above and below, the hairline)",
+          "ok": true,
+          "detail": {
+            "rows": [
+              49,
+              49,
+              49,
+              49,
+              49,
+              49,
+              49,
+              49,
+              49
+            ]
+          }
+        },
+        {
+          "id": "layout: 13 px under the title block when that ends lower than 58 %, else at 58 %",
+          "ok": true,
+          "detail": {
+            "pushed": {
+              "x": 12,
+              "y": 542.515625,
+              "w": 366,
+              "h": 185.484375
+            },
+            "kept": {
+              "x": 12,
+              "y": 489.515625,
+              "w": 366,
+              "h": 238.484375
+            }
+          }
+        },
+        {
+          "id": "layout: the bottom safe area moves the list and the button with it",
+          "ok": true,
+          "detail": {
+            "list": {
+              "x": 12,
+              "y": 489.515625,
+              "w": 366,
+              "h": 272.484375
+            },
+            "actions": {
+              "x": 16,
+              "y": 776,
+              "w": 358,
+              "h": 50
+            }
+          }
+        },
+        {
+          "id": "layout: the list scrolls, and the button stays where it is",
+          "ok": true,
+          "detail": {
+            "scroll": [
+              488,
+              238,
+              120
+            ]
+          }
+        },
+        {
+          "id": "layout: the root takes no taps; the list and the button do",
+          "ok": true,
+          "detail": {
+            "above": "",
+            "on": "ms-k-btn-label"
+          }
+        },
+        {
+          "id": "larger: at 150 % and 200 %, both sizes, the list never overlaps the title block (13 px under it)",
+          "ok": true,
+          "detail": {
+            "results": [
+              {
+                "text": 150,
+                "size": "390x844",
+                "state": "blue",
+                "titleBottom": 502.83,
+                "said": 502.83,
+                "drawn": 502.83,
+                "listTop": 515.83,
+                "listBottom": 728,
+                "listHeight": 212.17,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 3,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "390x844",
+                "state": "red",
+                "titleBottom": 502.83,
+                "said": 502.83,
+                "drawn": 502.83,
+                "listTop": 515.83,
+                "listBottom": 728,
+                "listHeight": 212.17,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 3,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "390x844",
+                "state": "alien",
+                "titleBottom": 530.33,
+                "said": 530.33,
+                "drawn": 530.33,
+                "listTop": 543.33,
+                "listBottom": 728,
+                "listHeight": 184.67,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 3,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "390x844",
+                "state": "none",
+                "titleBottom": 460.83,
+                "said": 460.83,
+                "drawn": 460.83,
+                "listTop": 489.52,
+                "listBottom": 728,
+                "listHeight": 238.48,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "430x932",
+                "state": "blue",
+                "titleBottom": 532.75,
+                "said": 532.75,
+                "drawn": 532.75,
+                "listTop": 545.75,
+                "listBottom": 816,
+                "listHeight": 270.25,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "430x932",
+                "state": "red",
+                "titleBottom": 532.75,
+                "said": 532.75,
+                "drawn": 532.75,
+                "listTop": 545.75,
+                "listBottom": 816,
+                "listHeight": 270.25,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "430x932",
+                "state": "alien",
+                "titleBottom": 532.75,
+                "said": 532.75,
+                "drawn": 532.75,
+                "listTop": 545.75,
+                "listBottom": 816,
+                "listHeight": 270.25,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 150,
+                "size": "430x932",
+                "state": "none",
+                "titleBottom": 490.75,
+                "said": 490.75,
+                "drawn": 490.75,
+                "listTop": 540.55,
+                "listBottom": 816,
+                "listHeight": 275.45,
+                "needs": 128.39,
+                "rowHeights": [
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49,
+                  49
+                ],
+                "visibleAtTop": 5,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "390x844",
+                "state": "blue",
+                "titleBottom": 502.83,
+                "said": 502.83,
+                "drawn": 502.83,
+                "listTop": 515.83,
+                "listBottom": 728,
+                "listHeight": 212.17,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  87,
+                  87,
+                  51,
+                  51,
+                  51,
+                  87,
+                  51
+                ],
+                "visibleAtTop": 2,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "390x844",
+                "state": "red",
+                "titleBottom": 502.83,
+                "said": 502.83,
+                "drawn": 502.83,
+                "listTop": 515.83,
+                "listBottom": 728,
+                "listHeight": 212.17,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  87,
+                  87,
+                  51,
+                  51,
+                  51,
+                  87,
+                  51
+                ],
+                "visibleAtTop": 2,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "390x844",
+                "state": "alien",
+                "titleBottom": 530.33,
+                "said": 530.33,
+                "drawn": 530.33,
+                "listTop": 543.33,
+                "listBottom": 728,
+                "listHeight": 184.67,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  87,
+                  87,
+                  51,
+                  51,
+                  51,
+                  87,
+                  51
+                ],
+                "visibleAtTop": 2,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "390x844",
+                "state": "none",
+                "titleBottom": 460.83,
+                "said": 460.83,
+                "drawn": 460.83,
+                "listTop": 489.52,
+                "listBottom": 728,
+                "listHeight": 238.48,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  87,
+                  87,
+                  51,
+                  51,
+                  51,
+                  87,
+                  51
+                ],
+                "visibleAtTop": 3,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "430x932",
+                "state": "blue",
+                "titleBottom": 532.75,
+                "said": 532.75,
+                "drawn": 532.75,
+                "listTop": 545.75,
+                "listBottom": 816,
+                "listHeight": 270.25,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "430x932",
+                "state": "red",
+                "titleBottom": 532.75,
+                "said": 532.75,
+                "drawn": 532.75,
+                "listTop": 545.75,
+                "listBottom": 816,
+                "listHeight": 270.25,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "430x932",
+                "state": "alien",
+                "titleBottom": 532.75,
+                "said": 532.75,
+                "drawn": 532.75,
+                "listTop": 545.75,
+                "listBottom": 816,
+                "listHeight": 270.25,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              },
+              {
+                "text": 200,
+                "size": "430x932",
+                "state": "none",
+                "titleBottom": 490.75,
+                "said": 490.75,
+                "drawn": 490.75,
+                "listTop": 540.55,
+                "listBottom": 816,
+                "listHeight": 275.45,
+                "needs": 140.19,
+                "rowHeights": [
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51,
+                  51
+                ],
+                "visibleAtTop": 4,
+                "overlap": 0
+              }
+            ]
+          }
+        },
+        {
+          "id": "larger: at 150 % and 200 %, both sizes, every result's list holds \"Roles\" and two one-line rows",
+          "ok": true,
+          "detail": {
+            "results": [
+              [
+                150,
+                "390x844",
+                "blue",
+                212.17,
+                128.39,
+                3
+              ],
+              [
+                150,
+                "390x844",
+                "red",
+                212.17,
+                128.39,
+                3
+              ],
+              [
+                150,
+                "390x844",
+                "alien",
+                184.67,
+                128.39,
+                3
+              ],
+              [
+                150,
+                "390x844",
+                "none",
+                238.48,
+                128.39,
+                4
+              ],
+              [
+                150,
+                "430x932",
+                "blue",
+                270.25,
+                128.39,
+                4
+              ],
+              [
+                150,
+                "430x932",
+                "red",
+                270.25,
+                128.39,
+                4
+              ],
+              [
+                150,
+                "430x932",
+                "alien",
+                270.25,
+                128.39,
+                4
+              ],
+              [
+                150,
+                "430x932",
+                "none",
+                275.45,
+                128.39,
+                5
+              ],
+              [
+                200,
+                "390x844",
+                "blue",
+                212.17,
+                140.19,
+                2
+              ],
+              [
+                200,
+                "390x844",
+                "red",
+                212.17,
+                140.19,
+                2
+              ],
+              [
+                200,
+                "390x844",
+                "alien",
+                184.67,
+                140.19,
+                2
+              ],
+              [
+                200,
+                "390x844",
+                "none",
+                238.48,
+                140.19,
+                3
+              ],
+              [
+                200,
+                "430x932",
+                "blue",
+                270.25,
+                140.19,
+                4
+              ],
+              [
+                200,
+                "430x932",
+                "red",
+                270.25,
+                140.19,
+                4
+              ],
+              [
+                200,
+                "430x932",
+                "alien",
+                270.25,
+                140.19,
+                4
+              ],
+              [
+                200,
+                "430x932",
+                "none",
+                275.45,
+                140.19,
+                4
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refusal: every input it does not know is refused, at every level, and a reveal that does not hold together",
+          "ok": true,
+          "detail": {
+            "refused": [
+              {
+                "label": "an input it does not know",
+                "refused": true
+              },
+              {
+                "label": "a key on the reveal it does not know",
+                "refused": true
+              },
+              {
+                "label": "a key on a role it does not know",
+                "refused": true
+              },
+              {
+                "label": "a key on the roster it does not know",
+                "refused": true
+              },
+              {
+                "label": "a seat outside 1–9",
+                "refused": true
+              },
+              {
+                "label": "a seat twice",
+                "refused": true
+              },
+              {
+                "label": "fewer than seven seats",
+                "refused": true
+              },
+              {
+                "label": "a revealed seat not in the roster",
+                "refused": true
+              },
+              {
+                "label": "a Code of three seats",
+                "refused": true
+              },
+              {
+                "label": "a Code with a seat twice",
+                "refused": true
+              },
+              {
+                "label": "a Code seat that is not revealed",
+                "refused": true
+              },
+              {
+                "label": "a team that is not Blue, Red or Alien",
+                "refused": true
+              },
+              {
+                "label": "a team for a seat that is not revealed",
+                "refused": true
+              },
+              {
+                "label": "a role that is not words",
+                "refused": true
+              },
+              {
+                "label": "a status it does not know",
+                "refused": true
+              },
+              {
+                "label": "interactive that is not true or false",
+                "refused": true
+              },
+              {
+                "label": "a window without its start",
+                "refused": true
+              },
+              {
+                "label": "a clock without now()",
+                "refused": true
+              },
+              {
+                "label": "a negative showAt",
+                "refused": true
+              },
+              {
+                "label": "a safe area it does not know",
+                "refused": true
+              },
+              {
+                "label": "a clear top that is not a number",
+                "refused": true
+              },
+              {
+                "label": "a viewer that is not a seat",
+                "refused": true
+              }
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "device Reduce motion: before the words' moment, the list and the button are there at once, with the game's setting off",
+          "ok": true,
+          "detail": {
+            "seen": {
+              "list": true,
+              "actions": true,
+              "appear": {
+                "list": "fade",
+                "actions": "fade"
+              },
+              "label": "Roles",
+              "rows": [
+                {
+                  "name": "1 · Ava",
+                  "role": "Doctor",
+                  "team": "Blue",
+                  "said": ", Blue team",
+                  "square": "rgb(112, 175, 255)"
+                },
+                {
+                  "name": "2 · Ben",
+                  "role": "Insider",
+                  "team": "Blue",
+                  "said": ", Blue team",
+                  "square": "rgb(112, 175, 255)"
+                },
+                {
+                  "name": "3 · Cleo",
+                  "role": "Blue Disabler",
+                  "team": "Blue",
+                  "said": ", Blue team",
+                  "square": "rgb(112, 175, 255)"
+                },
+                {
+                  "name": "4 · Dev (you)",
+                  "role": "Supplier",
+                  "team": "Blue",
+                  "said": ", Blue team",
+                  "square": "rgb(112, 175, 255)"
+                },
+                {
+                  "name": "5 · Eli",
+                  "role": "Engineer",
+                  "team": "Blue",
+                  "said": ", Blue team",
+                  "square": "rgb(112, 175, 255)"
+                },
+                {
+                  "name": "6 · Fay",
+                  "role": "Undercover",
+                  "team": "Red",
+                  "said": ", Red team",
+                  "square": "rgb(255, 140, 140)"
+                },
+                {
+                  "name": "7 · Gus",
+                  "role": "Hacker",
+                  "team": "Red",
+                  "said": ", Red team",
+                  "square": "rgb(255, 140, 140)"
+                },
+                {
+                  "name": "8 · Hana",
+                  "role": "Red Disabler",
+                  "team": "Red",
+                  "said": ", Red team",
+                  "square": "rgb(255, 140, 140)"
+                },
+                {
+                  "name": "9 · Ike",
+                  "role": "Alien",
+                  "team": "Alien",
+                  "said": ", Alien team",
+                  "square": "rgb(196, 164, 255)"
+                }
+              ],
+              "note": "Original Code: Players 2, 5, 6, 9",
+              "button": "Return to lobby",
+              "buttonState": {
+                "disabled": null,
+                "off": false,
+                "kind": "ms-k-btn ms-k-btn-secondary ms-k-btn-block",
+                "icon": "leave:"
+              },
+              "animations": [
+                {
+                  "name": "ms-er-fade",
+                  "duration": 80,
+                  "easing": "linear"
+                },
+                {
+                  "name": "ms-er-fade",
+                  "duration": 80,
+                  "easing": "linear"
+                }
+              ],
+              "text": "Roles1 · AvaDoctor, Blue team2 · BenInsider, Blue team3 · CleoBlue Disabler, Blue team4 · Dev (you)Supplier, Blue team5 · EliEngineer, Blue team6 · FayUndercover, Red team7 · GusHacker, Red team8 · HanaRed Disabler, Red team9 · IkeAlien, Alien teamOriginal Code: Players 2, 5, 6, 9Return to lobby",
+              "hidden": null
+            }
+          }
+        },
+        {
+          "id": "device Reduce motion: they come with one 80 ms fade and nothing else moves",
+          "ok": true,
+          "detail": {
+            "animations": [
+              {
+                "name": "ms-er-fade",
+                "duration": 80,
+                "easing": "linear"
+              },
+              {
+                "name": "ms-er-fade",
+                "duration": 80,
+                "easing": "linear"
+              }
+            ]
+          }
+        },
+        {
+          "id": "device Reduce motion: a rise becomes the 80 ms fade",
+          "ok": true,
+          "detail": {
+            "name": "ms-er-fade",
+            "duration": "0.08s"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Dxr_HGfx.js",
+          "line": 1,
+          "column": 3717,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: blue (the pack's end screen, winner=Blue) at 390x844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: blue (the pack's end screen, winner=Blue) at 430x932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: red (the pack's end screen, winner=Red) at 390x844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: red (the pack's end screen, winner=Red) at 430x932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: alien (the pack's end screen, winner=alien) at 390x844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: alien (the pack's end screen, winner=alien) at 430x932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: none (the pack's end screen, winner=none) at 390x844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: none (the pack's end screen, winner=none) at 430x932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: aborted (the pack's end screen, winner=aborted) at 390x844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: aborted (the pack's end screen, winner=aborted) at 430x932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: blue (the pack's end screen, winner=Blue) at 390x844 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 489.515625,
+                "w": 366,
+                "h": 238.484375
+              },
+              "component": {
+                "x": 12,
+                "y": 515.828125,
+                "w": 366,
+                "h": 212.171875
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: blue (the pack's end screen, winner=Blue) at 430x932 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 540.546875,
+                "w": 406,
+                "h": 275.453125
+              },
+              "component": {
+                "x": 12,
+                "y": 545.75,
+                "w": 406,
+                "h": 270.25
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: red (the pack's end screen, winner=Red) at 390x844 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 489.515625,
+                "w": 366,
+                "h": 238.484375
+              },
+              "component": {
+                "x": 12,
+                "y": 515.828125,
+                "w": 366,
+                "h": 212.171875
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: red (the pack's end screen, winner=Red) at 430x932 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 540.546875,
+                "w": 406,
+                "h": 275.453125
+              },
+              "component": {
+                "x": 12,
+                "y": 545.75,
+                "w": 406,
+                "h": 270.25
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: alien (the pack's end screen, winner=alien) at 390x844 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 489.515625,
+                "w": 366,
+                "h": 238.484375
+              },
+              "component": {
+                "x": 12,
+                "y": 543.328125,
+                "w": 366,
+                "h": 184.671875
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: alien (the pack's end screen, winner=alien) at 430x932 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 540.546875,
+                "w": 406,
+                "h": 275.453125
+              },
+              "component": {
+                "x": 12,
+                "y": 545.75,
+                "w": 406,
+                "h": 270.25
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: none (the pack's end screen, winner=none) at 390x844 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: none (the pack's end screen, winner=none) at 430x932 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: aborted (the pack's end screen, winner=aborted) at 390x844 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: aborted (the pack's end screen, winner=aborted) at 430x932 at 150% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: blue (the pack's end screen, winner=Blue) at 390x844 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 489.515625,
+                "w": 366,
+                "h": 238.484375
+              },
+              "component": {
+                "x": 12,
+                "y": 515.828125,
+                "w": 366,
+                "h": 212.171875
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: blue (the pack's end screen, winner=Blue) at 430x932 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 540.546875,
+                "w": 406,
+                "h": 275.453125
+              },
+              "component": {
+                "x": 12,
+                "y": 545.75,
+                "w": 406,
+                "h": 270.25
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: red (the pack's end screen, winner=Red) at 390x844 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 489.515625,
+                "w": 366,
+                "h": 238.484375
+              },
+              "component": {
+                "x": 12,
+                "y": 515.828125,
+                "w": 366,
+                "h": 212.171875
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: red (the pack's end screen, winner=Red) at 430x932 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 540.546875,
+                "w": 406,
+                "h": 275.453125
+              },
+              "component": {
+                "x": 12,
+                "y": 545.75,
+                "w": 406,
+                "h": 270.25
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: alien (the pack's end screen, winner=alien) at 390x844 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 489.515625,
+                "w": 366,
+                "h": 238.484375
+              },
+              "component": {
+                "x": 12,
+                "y": 543.328125,
+                "w": 366,
+                "h": 184.671875
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: alien (the pack's end screen, winner=alien) at 430x932 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": [
+            {
+              "part": "list",
+              "what": "box",
+              "pack": {
+                "x": 12,
+                "y": 540.546875,
+                "w": 406,
+                "h": 275.453125
+              },
+              "component": {
+                "x": 12,
+                "y": 545.75,
+                "w": 406,
+                "h": 270.25
+              },
+              "why": "Q3: at the larger text the list starts 13 px under the end scene's title block"
+            }
+          ]
+        }
+      },
+      {
+        "id": "agree: none (the pack's end screen, winner=none) at 390x844 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: none (the pack's end screen, winner=none) at 430x932 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: aborted (the pack's end screen, winner=aborted) at 390x844 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      },
+      {
+        "id": "agree: aborted (the pack's end screen, winner=aborted) at 430x932 at 200% text",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "accepted": []
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-Dxr_HGfx.js",
+        "line": 1,
+        "column": 3717,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
