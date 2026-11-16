@@ -2,7 +2,7 @@
   "tool": "design/tools/food-component-check.mjs",
   "component": "design/phone-ui/components/food",
   "version": "food-0.1.0",
-  "sourceCommit": "4c657f16defe09c8a9513c12cdc9874bcb8d5f7a",
+  "sourceCommit": "d4c51b4495a35e4442023b8c4eb7679f0b6f1997",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless, Google Chrome for Testing 153.0.8010.12); the comparisons at one device pixel per CSS pixel, the review pictures at two; the preview bundled by Vite and served with the production headers below, the hosted game's own art beside it; the package's pages served unchanged by design/tools/phone-ui-render.mjs's reference server. Not a phone, not Safari, no server, and not a performance measure.",
   "headers": [
@@ -39,8 +39,8 @@
   "harness": "The preview's phone: the review frames' safe areas (47 px above, 34 px below) given through a preview style rule where a phone gives its own through env(); stand-ins for the ordinary app's header, bar and board; the app's own background (#060C1C) beneath; a fixed clock; each page brought to rest for its picture: every animation and transition held at 300 ms, those that start afterwards too; a picture taken while anything still runs fails; and a picture is kept only when two takes 150 ms apart are the same.",
   "rest": {
     "ms": 150,
-    "pictures": 845,
-    "retaken": 5
+    "pictures": 914,
+    "retaken": 4
   },
   "limits": {
     "box": 0.5,
@@ -51,7 +51,8 @@
     "packageBar": 3,
     "nativeSceneMean": 3,
     "nativeSceneFar": 0.02,
-    "controlFactor": 2
+    "controlFactor": 2,
+    "stampEdge": 24
   },
   "packet": {
     "file": "design/phone-ui/components/food/preview/food-component-preview-inputs.json",
@@ -415,6 +416,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "83623b8fc70ef014f861989fc1b27c9413db653fb42bb3f20137b004cd69cae0",
         "pngSha256": "6ebacaf78f8bf942cd1b79aef67207cd967d1fbeb79a259c248998c19cfb2762"
       },
@@ -562,6 +564,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "3e68ecdbc5f9de2e4fe497b39bb0ff619ec0daed3543af532f2d9515330acbbc",
         "pngSha256": "0f50e25581175a170528c54b4562c22690fe5da24a9dce6d9c5e06b4396e5f84"
       },
@@ -709,6 +712,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "35a6999773528727caaba795dae9500f1c5d1c0f9d8e55bb764667c26c707214",
         "pngSha256": "6f39eb2211cc19acc33f1d48e82d39aaa46b0d5e424ccd9b58731e13f504acba"
       },
@@ -856,6 +860,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "e6b7f0cc55539a0ae6963ee0e326c52d2bca7968d46667794fd8d11ec29a792d",
         "pngSha256": "6f39eb2211cc19acc33f1d48e82d39aaa46b0d5e424ccd9b58731e13f504acba"
       },
@@ -1011,6 +1016,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "c7d7b783d9bdf3d3fd6a56cc617abf02ea2fb8a5d2b369fd422de55f23d6d129",
         "pngSha256": "68b1f4c5ad29589313f77f52e462fb20c8b15bb8287445297e1c1be8fce9a8ec"
       },
@@ -1165,6 +1171,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "e557fa0bf2395638fbb04d225744829700adc3842e4a5be1f0315354e175559a",
         "pngSha256": "a701bbd37b65f97b08496dd220388a9d519f434431e7d3b023951cac453e17de"
       },
@@ -1304,6 +1311,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "d2ef1ae3a482ea38533bc7f248a16905524c4bc794b6f877dbd544ff0ac21004",
         "pngSha256": "adb5311498a611f62db47573927aecbea1ada88e2a7cf5f066501775174e353f"
       },
@@ -1444,6 +1452,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "fabe99a7ea03aaa9cbe8f406c7e0143e0ab0bcbf229ae02f5e8b53c4e663f9b8",
         "pngSha256": "f10d410a5441e4a2454354baff5844c642301b528ac4212dd83dc89559d04cb6"
       },
@@ -1599,6 +1608,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "d6b228e9cb3d15748e12b09c7f0be0257fbab889f72c87a9113c5991026177e1",
         "pngSha256": "869087ad6bd00307f0bbbb99d2efbcfc407e7a303d2c4e9154c94a19ee8d5863"
       },
@@ -1754,6 +1764,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "f75fa8ea99c8097ea0e13bbf206f12e8d49193b204a900e54027e8929aaa8a4a",
         "pngSha256": "36f9ad72991d402d18432241f803e55e9a1306b50492722f28ed0d0ce9cf0391"
       },
@@ -1909,6 +1920,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "b42825252c10a5ba631d1433408cbf8102554e126e661f37c53bc51525d11464",
         "pngSha256": "f3023392df0aff85a803ba62ea39c6e12c0902f50e8ebde0f6148e0e74c2997a"
       },
@@ -2057,6 +2069,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "636384f0444354dd84f35723210b5026c9b3bc4b753f98ed9545674c2926defd",
         "pngSha256": "f3023392df0aff85a803ba62ea39c6e12c0902f50e8ebde0f6148e0e74c2997a"
       },
@@ -2203,6 +2216,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "1c0e0dae466eb4c38a4e490d3579fe51b5017f2c63cbfbde90af9c18dae578a7",
         "pngSha256": "bef7eb70c841a8e994eee76269577ad608025b82a83d3d5f66a372251472a9a9"
       },
@@ -2351,6 +2365,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "eeb0dfeb0d5d851dff86a3e31891280323833d2364817c208be09725d4842308",
         "pngSha256": "bef7eb70c841a8e994eee76269577ad608025b82a83d3d5f66a372251472a9a9"
       },
@@ -2497,6 +2512,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "dc566648d9e91dc915ab2795ef01fc1ce9cf456180de57e6611e22b01a761ffc",
         "pngSha256": "ff7bd7a05f6edd24f7013591a252f15506a1f766445c565169699f9f6d1ba838"
       },
@@ -2645,6 +2661,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "f9194b65d7a718f558b971dc94086d82506d5ad930db12b85b8468effcf481de",
         "pngSha256": "0c0a58b555205b0ce4f0598103d2a59d0b2f075e888ba649217f9f7b49c40e32"
       },
@@ -2791,6 +2808,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "994b4209ac13aadeba21247bb6390e019cdd41aa3cbb342ef170a232c9ef7555",
         "pngSha256": "e6af2419e9f5a65cf43ea2a968fc68cb810e3ea2adce6ed09c94d67b91d7d1f7"
       },
@@ -2939,6 +2957,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "b278add3a7c21bc1fc7de241977355db899ea0b8c67618e5e11850ebc1fc5ab1",
         "pngSha256": "e6af2419e9f5a65cf43ea2a968fc68cb810e3ea2adce6ed09c94d67b91d7d1f7"
       },
@@ -3077,6 +3096,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "90944780ec846773c31c899c26ad5dbf56f132d73b45e8dbdd8dc364965c3a7b",
         "pngSha256": "1d3033e84b642c4e2d405d15ddf5e6d0fb76be344eb1e563ca6e6decda663dfb"
       },
@@ -3217,6 +3237,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "20f9275e90319aae9982282e1af3a3faa155c2fce9004ee77d7cf77b4bc47fb1",
         "pngSha256": "1d3033e84b642c4e2d405d15ddf5e6d0fb76be344eb1e563ca6e6decda663dfb"
       },
@@ -3355,6 +3376,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "56c0de78e793bda5ef0ac65a9626e8d97c4b1f4eeef251817e38b52dbb5010a5",
         "pngSha256": "681188cfdd93bdde9123dee4912ee8d53951f475e07bbabd17ae198060a526cc"
       },
@@ -3495,6 +3517,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "cf727b80a6d3b0bb6b62434f3241158c46c3c7f37960f04f2ffd9a7ed9b14e63",
         "pngSha256": "d21c994c83c4bbebc2dbb6298ff530d2124a3571ed9bd737e715e21b4d14d451"
       },
@@ -3633,6 +3656,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "1d598f02b9e984c9c94128641e389966533a7791ec4170def57ee0b62f34fa27",
         "pngSha256": "1a95a2cd48080ab77848f7b114144bf19ecda62f5a44df37a05501fddb40845f"
       },
@@ -3773,6 +3797,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "d2df34506137d99152c97ce9b0ac448f019fbd208403f529c38aa4c227945873",
         "pngSha256": "906a9e64981c6f88dea34b5f51ed09763e92af7583d8df17e340d0e46bbe1e2a"
       },
@@ -3904,6 +3929,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "262c1f3604810860e2f65dc3094c63d39f41d655c4db9f6874e6184bfff4bf0c",
         "pngSha256": "aeb4a2234125c8f11832011cf3195b1112abd668c0188f470b22a4d70f4bfcd3"
       },
@@ -4037,6 +4063,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "022cb079d63f52dbdf0da55682c7d2f22d742b8be8585bc71ee6640a25c5fb4b",
         "pngSha256": "aeb4a2234125c8f11832011cf3195b1112abd668c0188f470b22a4d70f4bfcd3"
       },
@@ -4177,6 +4204,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "0355632d78fa1c9dd34997c3f09690de513bae97dd58a06c28c9c8e335bc11ef",
         "pngSha256": "be7210a4473ccc199ee8e8b6f2b0a4aea73285a7763a396d8e21be5dce6d4a57"
       },
@@ -4319,6 +4347,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "6f353b9b317480b2e7ee5ed4fc20bf22cb51fc4524dedfb192b464948dbe057d",
         "pngSha256": "6b59398fd44d436bcda825efcd93c5f938f5d8f04ad03b87afbc903cbc5903df"
       },
@@ -4459,6 +4488,7 @@
             38
           ]
         ],
+        "changed": 3468,
         "htmlSha256": "b2b6043a3537640f1b7c76f18539d91157645da4695b91d2eeaf06f3c51915d8",
         "pngSha256": "2ad73a6933cb74decfdfd1e29dd301c63539dce37720968193d84a959006d18b"
       },
@@ -4601,6 +4631,7 @@
             38
           ]
         ],
+        "changed": 3468,
         "htmlSha256": "cc4a05d7dd0604b8babe5555a176329cd66e457d68778e2d8ef57cbb19a18386",
         "pngSha256": "2ad73a6933cb74decfdfd1e29dd301c63539dce37720968193d84a959006d18b"
       },
@@ -4747,6 +4778,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "07b0ea1cdc19ae5d245ec2015a7becbdcfafebfc94b24131572d5d2b0b1349d9",
         "pngSha256": "04690f06e102ecdf6d8e267bb61433a964be68e010ff8ea0ee2e271f62f0e91a"
       },
@@ -4895,6 +4927,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "81762898814bb88eeca533266e6b91bb07d24707b1d692425e0bd32327a41c79",
         "pngSha256": "04690f06e102ecdf6d8e267bb61433a964be68e010ff8ea0ee2e271f62f0e91a"
       },
@@ -5033,6 +5066,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "4ecc287a9fa77f11b2118a25e2d1d0707374c7877a89f0a6637261cefa14d1eb",
         "pngSha256": "f1e47e102ad4a58b72a53a1bcc298f038d1a71960c6ff1b744a5f98c5449f27e"
       },
@@ -5173,6 +5207,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "e835adad7b86daf2497bdc694e45d18778af13f5dbb7b1e5109f35c7f8a44322",
         "pngSha256": "fc2fbeb0233176179c81c5feeb3dc32000d78526a09bbffe408d7d6aeea8a1ad"
       },
@@ -5311,6 +5346,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "c1977e1e19e21beddce6c165b6bda0187184135e8f177be04d64548231850d4e",
         "pngSha256": "a11eee6fc9ccab0f91077370bf3747592f7d4c6da2aa7e6e417ba205a0a77772"
       },
@@ -5451,6 +5487,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "53c8cdc956d4b5183de4905a24d5754643959909d6c16c6e2f9b1a9f33e790a0",
         "pngSha256": "e04009752277561f872d82cbfd5ce7ed75b3ac0a64a7b8142631da0abdb4579b"
       },
@@ -5589,6 +5626,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "630c371d737c096007db2ab379c6391f866659ea00533fa20836764cdcf8a875",
         "pngSha256": "a0fa88ff18fcba9f54786073f35dc72bf545ad5c68aa5b25f3d681de0ed03518"
       },
@@ -5729,6 +5767,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "1fb6274dc1cf3bc937da9066e9168f14e8d79922627b8f6c0f6a098aa6a83e08",
         "pngSha256": "e39f498d2b85a56cc4f9e5dcfc4ca42b9c65cae7e2363ce89ed931d753746764"
       },
@@ -5869,6 +5908,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "bd04829b671bc74619b5fbf5b29df6b5c9b1ab014da8c1579e45ac6375ed610b",
         "pngSha256": "8a36f3e0dad96c049b3aff4c037dc3b7b9a08ed7b0683af6a6201fa4b9a6db73"
       },
@@ -6011,6 +6051,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "e87ae2985c515020200d125fdff1cda844ca5f1bf1261541b9ca35481d18ad03",
         "pngSha256": "8a36f3e0dad96c049b3aff4c037dc3b7b9a08ed7b0683af6a6201fa4b9a6db73"
       },
@@ -6151,6 +6192,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "e0004314c38d0584797cdc2c4217d76da7c1e56c4f96e096a4d1617081a607f1",
         "pngSha256": "1c4c62a09a0bfb45e75c326a36bdbe4efdd9dae8168de5621cd9503dbcb17e28"
       },
@@ -6293,6 +6335,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "e203c834c007aa8c3fe233d4f6d089a62eeb101c7e30b93759d1633c0d79a068",
         "pngSha256": "9be1da26c5cbac224be5336d164ba680962d81774a2228c94737928f931d5832"
       },
@@ -6370,6 +6413,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "0f21cbc2961cc22262914147f8a60588beb9bc9e80f6c42408bec8a4d5d87826",
         "pngSha256": "ec6f8f9d3710e70cb9991afeab3e118b716174b03d344d7786c1c781c930b914"
       },
@@ -6449,6 +6493,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "390f6b97abcd96849edc99de6d20aa940781cb22a1455a72e631416b5a71a865",
         "pngSha256": "ec6f8f9d3710e70cb9991afeab3e118b716174b03d344d7786c1c781c930b914"
       },
@@ -6528,6 +6573,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "2055e77a7b4f67151069f0c16d2c5c4b048368952c795cbde65bbdc11208806a",
         "pngSha256": "9daa18f243a910dd31fc85cacbae060af656112d7b60ba3d9793dac305cd8e01"
       },
@@ -6609,6 +6655,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "9dedce77c4f4be95758d77ec4d9a4bb527b6c92516bbd9d9c62bafbb8474f9fd",
         "pngSha256": "9daa18f243a910dd31fc85cacbae060af656112d7b60ba3d9793dac305cd8e01"
       },
@@ -6686,6 +6733,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "86ca95ecdcf7b068a024ce8c05621afabfffa9e691e582d5b7b2b150c3e998ff",
         "pngSha256": "895b893e70bc38e6bc7a5348229175eb0da8dbf306b5c0ee32bf862090fb48f7"
       },
@@ -6765,6 +6813,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "8af3c8e8f1adac5e061a2038453711b14433430a372abda36eddeb8a95202c51",
         "pngSha256": "895b893e70bc38e6bc7a5348229175eb0da8dbf306b5c0ee32bf862090fb48f7"
       },
@@ -6827,8 +6876,8 @@
           ]
         ]
       },
-      "htmlSha256": "9fa597db741c4d3e60d79b7cfb3a4e13e243f885408abfc0b7e84b4fef3f10c8",
-      "pngSha256": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd",
+      "htmlSha256": "b3463c795723cd221acb76a3da591293b7d8e98d36fad4830b6b46582d41a87f",
+      "pngSha256": "aa04a683e6357c8667a427efe1a43b0a4365792af688936ce9fcd4fba3d80561",
       "port": {
         "equal": {
           "html": true,
@@ -6841,9 +6890,29 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
-        "touched": [],
+        "touched": [
+          [
+            22.12,
+            162.37,
+            231.8,
+            13.63
+          ],
+          [
+            22.12,
+            162.37,
+            6.88,
+            58.27
+          ]
+        ],
+        "changed": 750,
+        "near": {
+          "pixels": 11305,
+          "differing": 227,
+          "max": 17
+        },
         "htmlSha256": "14c6f3d21b60bd11b03997a306c367337fa7fd84e915b4ed03f845b10f128d86",
         "pngSha256": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd"
       },
@@ -6859,7 +6928,7 @@
       ],
       "problems": [],
       "file": "design/phone-ui/components/food/review/390x844-case-food-flow-04.jpg",
-      "sha256": "19b359a28c72391882fe2517a16e20639aa42206b5a5e28e2309f2379b5b88c1"
+      "sha256": "075d2ef7025b8b155c4a8d87642f015262ea2d2e8e7e72297fd6e06fd9a1c6bc"
     },
     "390x844/case-food-flow-04/reduced": {
       "ok": true,
@@ -6908,8 +6977,8 @@
           ]
         ]
       },
-      "htmlSha256": "4ec55bb30baca570e5eb5a98ee4a1a52d1f9864baff247bf4fc1c58eac00f8f9",
-      "pngSha256": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd",
+      "htmlSha256": "da5ee2e1fcea4940de216375eb5fe998b6e5a1400fae0a2de78f78df0a030900",
+      "pngSha256": "aa04a683e6357c8667a427efe1a43b0a4365792af688936ce9fcd4fba3d80561",
       "port": {
         "equal": {
           "html": true,
@@ -6922,9 +6991,29 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
-        "touched": [],
+        "touched": [
+          [
+            22.12,
+            162.37,
+            231.8,
+            13.63
+          ],
+          [
+            22.12,
+            162.37,
+            6.88,
+            58.27
+          ]
+        ],
+        "changed": 750,
+        "near": {
+          "pixels": 11305,
+          "differing": 227,
+          "max": 17
+        },
         "htmlSha256": "836a2341066c2a541f234ce5ec11b147523912c40cc9d1e565317d7f0cc497f3",
         "pngSha256": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd"
       },
@@ -7002,6 +7091,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "658c373fe4bca79a14f7e2a741c4806c14405744997a39e15e3e00de2ef7efbb",
         "pngSha256": "60fb88a805619330a24174084df52662c70d569a78c6120a841aec99e0c4be6d"
       },
@@ -7081,6 +7171,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "c7ac43976a177b44a58c478e9db8421caecef45ce485544bf12f8b4bfef8c8a4",
         "pngSha256": "60fb88a805619330a24174084df52662c70d569a78c6120a841aec99e0c4be6d"
       },
@@ -7167,6 +7258,7 @@
             132
           ]
         ],
+        "changed": 3321,
         "htmlSha256": "8970acdc250136d1732b3216cc1b07727a9da1f52a08e0b66731c8c6546011ec",
         "pngSha256": "d852634bfe6243cde4a3037ee7200e6665d7471b00a3355e92283ef5654e512f"
       },
@@ -7255,8 +7347,209 @@
             132
           ]
         ],
+        "changed": 3321,
         "htmlSha256": "1852a52c8eb35bd46c80f46b3196e38f1604d5da8df4c361ae0990db4c7e018c",
         "pngSha256": "d852634bfe6243cde4a3037ee7200e6665d7471b00a3355e92283ef5654e512f"
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/dist-BjUzZdf9.js",
+          "line": 1,
+          "column": 2515,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "390x844/case-food-states-08/full": {
+      "ok": true,
+      "notes": [],
+      "kind": "case",
+      "title": "Partner: too late after withdrawal",
+      "synthetic": "Frontend's native fixture food-states-08, on Frontend's own controller",
+      "screen": "food-room",
+      "hidden": false,
+      "motion": "normal",
+      "covers": {
+        "active": true,
+        "exclusive": false
+      },
+      "bars": {
+        "top": 99,
+        "bottom": 92
+      },
+      "controls": [],
+      "pictures": [],
+      "focus": "fs-card",
+      "words": 15,
+      "boxes": {
+        ".tb": [
+          [
+            0,
+            0,
+            390,
+            99
+          ]
+        ],
+        ".tabs": [
+          [
+            0,
+            752,
+            390,
+            92
+          ]
+        ],
+        ".fs-card": [
+          [
+            12,
+            159,
+            366,
+            243.3
+          ]
+        ]
+      },
+      "htmlSha256": "3ebff86500342d7026ba84480d98f1301f1c682d6319d2a5f75eb2cba54489de",
+      "pngSha256": "1331adc512cce38b422ff0c491df4891758f5bf9caf1891560e7505752688cf9",
+      "port": {
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [
+          [
+            22,
+            165.59,
+            139.55,
+            10.41
+          ],
+          [
+            22,
+            165.59,
+            7,
+            51.82
+          ]
+        ],
+        "changed": 354,
+        "near": {
+          "pixels": 6374,
+          "differing": 138,
+          "max": 11
+        },
+        "htmlSha256": "56bdbafe6572ce44edb501f08b6e55b276650dc9efeb535ce094bb6884997f97",
+        "pngSha256": "ab53f3b8c90da22d3cea856ae1a4dd076bdb795386ef2992022e0f063dcf0ebb"
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/dist-BjUzZdf9.js",
+          "line": 1,
+          "column": 2515,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": [],
+      "file": "design/phone-ui/components/food/review/390x844-case-food-states-08.jpg",
+      "sha256": "c1a22f797deec682c23cea9638972375f4fd4813be6cf4364074740601d8e9fc"
+    },
+    "390x844/case-food-states-08/reduced": {
+      "ok": true,
+      "notes": [],
+      "kind": "case",
+      "title": "Partner: too late after withdrawal",
+      "synthetic": "Frontend's native fixture food-states-08, on Frontend's own controller",
+      "screen": "food-room",
+      "hidden": false,
+      "motion": "reduced",
+      "covers": {
+        "active": true,
+        "exclusive": false
+      },
+      "bars": {
+        "top": 99,
+        "bottom": 92
+      },
+      "controls": [],
+      "pictures": [],
+      "focus": "fs-card",
+      "words": 15,
+      "boxes": {
+        ".tb": [
+          [
+            0,
+            0,
+            390,
+            99
+          ]
+        ],
+        ".tabs": [
+          [
+            0,
+            752,
+            390,
+            92
+          ]
+        ],
+        ".fs-card": [
+          [
+            12,
+            159,
+            366,
+            243.3
+          ]
+        ]
+      },
+      "htmlSha256": "bd60b59899e3a406c6ce5eaf4edb5f374147e1379e79c5b01a77d98a231b4403",
+      "pngSha256": "1331adc512cce38b422ff0c491df4891758f5bf9caf1891560e7505752688cf9",
+      "port": {
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [
+          [
+            22,
+            165.59,
+            139.55,
+            10.41
+          ],
+          [
+            22,
+            165.59,
+            7,
+            51.82
+          ]
+        ],
+        "changed": 354,
+        "near": {
+          "pixels": 6374,
+          "differing": 138,
+          "max": 11
+        },
+        "htmlSha256": "2a75ca3146d3ad5ff320a535a9a28a6d559f2a09f6a2c44738888b8812c6fad7",
+        "pngSha256": "ab53f3b8c90da22d3cea856ae1a4dd076bdb795386ef2992022e0f063dcf0ebb"
       },
       "violations": [
         {
@@ -7307,6 +7600,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "e1224bad3e20504f82e870e1860f7ecbea4ef5e205d41a5ac842323ef3ca4323",
         "pngSha256": "79478b21db17287645d267f8165fdcc03451d1463091c1ca82bb1a964779f64a"
       },
@@ -7361,6 +7655,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "626d7491d596ade3dc0fb0764b600c642c0f78f089e634515921001142da124c",
         "pngSha256": "79478b21db17287645d267f8165fdcc03451d1463091c1ca82bb1a964779f64a"
       },
@@ -7413,6 +7708,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "e1224bad3e20504f82e870e1860f7ecbea4ef5e205d41a5ac842323ef3ca4323",
         "pngSha256": "ae8c8133c800bae8807233b5114dd6846284f79c83a7b5165f6679b6fb96f4b9"
       },
@@ -7467,6 +7763,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "626d7491d596ade3dc0fb0764b600c642c0f78f089e634515921001142da124c",
         "pngSha256": "ae8c8133c800bae8807233b5114dd6846284f79c83a7b5165f6679b6fb96f4b9"
       },
@@ -7519,6 +7816,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "e1224bad3e20504f82e870e1860f7ecbea4ef5e205d41a5ac842323ef3ca4323",
         "pngSha256": "53849055d2264136ecb4e7901069831003f0dec52430e5fbca21e4d6abd03a57"
       },
@@ -7573,6 +7871,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "626d7491d596ade3dc0fb0764b600c642c0f78f089e634515921001142da124c",
         "pngSha256": "53849055d2264136ecb4e7901069831003f0dec52430e5fbca21e4d6abd03a57"
       },
@@ -7634,6 +7933,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "67910a08b2c2983334c9ca42c5e834abcfca553f0fc6ca84bc0e8f9c0524277d",
         "pngSha256": "9eb1656f9db88ab6188a9a427c722487a243b6bda9b9883b1b66783dcd9b8f1c"
       },
@@ -7697,6 +7997,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "67910a08b2c2983334c9ca42c5e834abcfca553f0fc6ca84bc0e8f9c0524277d",
         "pngSha256": "9eb1656f9db88ab6188a9a427c722487a243b6bda9b9883b1b66783dcd9b8f1c"
       },
@@ -7758,6 +8059,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "af18ba42118c146ae10dbdd2fef44239e2baf1583861b5b5e8913b100d6c1ecb",
         "pngSha256": "64a099f1a33cbaf1b3ecc9ef5069bbaeed3d7f3e5a2a139df8c3ac830eabecb1"
       },
@@ -7821,6 +8123,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "af18ba42118c146ae10dbdd2fef44239e2baf1583861b5b5e8913b100d6c1ecb",
         "pngSha256": "64a099f1a33cbaf1b3ecc9ef5069bbaeed3d7f3e5a2a139df8c3ac830eabecb1"
       },
@@ -7873,6 +8176,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "852ee5c60042f9ccb7493e91c3b16aa3846de5db650973916e6c16f130fae556",
         "pngSha256": "d706065544f51518a0c91455f18833dc0d58cf9980b385e537a9cb8428a3f078"
       },
@@ -7927,6 +8231,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "852ee5c60042f9ccb7493e91c3b16aa3846de5db650973916e6c16f130fae556",
         "pngSha256": "d706065544f51518a0c91455f18833dc0d58cf9980b385e537a9cb8428a3f078"
       },
@@ -8065,6 +8370,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "3a6c795736a0d11a8842afddcd81a8ac33e1f16c907e2d20214aa4d3471f695c",
         "pngSha256": "087a561eb31cd40f120d54c81a9f4f7a62084394a7f14c57945925f8108208cc"
       },
@@ -8212,6 +8518,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "63bf87998e53b8a84ed23bcf10ae36f4d1031327630f2af45aa7f34ec3fa2fb8",
         "pngSha256": "5ca91927a0f69a7d730b87a1d2815a46de27a4cdb2d29ae83eb4ca398d07a956"
       },
@@ -8359,6 +8666,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "94d976f8bdcd4133fa127868275c31793e1163f77d69dd20764e4246966c394e",
         "pngSha256": "1f5d6c2d50e1ae99697562c38ba5d50886aa9317958ea85ba2938d419a9ad1a1"
       },
@@ -8506,6 +8814,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "04beafc761d54152056d0f4bc7c7adc18ecff3cb1c547154424b816047125aca",
         "pngSha256": "1f5d6c2d50e1ae99697562c38ba5d50886aa9317958ea85ba2938d419a9ad1a1"
       },
@@ -8661,6 +8970,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "ffc5d1f9b52e2fce95b729a7df8fccb0596fbccaec2ea570af66e8036edf0d1e",
         "pngSha256": "4fbce325326740b7f8c0f348fb87c1c1144a149dfb150edd5ee4286728ca5c96"
       },
@@ -8815,6 +9125,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "e7b30a2953ffa4340ecf722410f8ce50002b7fcb907730241f809818371011bf",
         "pngSha256": "4483003923d11b62940a666bb19edb1880d619a54a43fa961b8d926a104bd2e7"
       },
@@ -8954,6 +9265,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "7929033c2448ac046c652896c906029dec45c56aed28bb6db28b3bbfbb88af5d",
         "pngSha256": "d97adf4b4f0140a0abb79b123adf7cd2f9bd6aba2c7114f3ff023408654b3dd2"
       },
@@ -9094,6 +9406,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "ba3b124156d9f14be52b2b5589c3298265b18d2b0180f9f70d177e5f418bcd22",
         "pngSha256": "5c6a146f83f32eeec612e76793a533f95eed6849ddd4902742c82242395283d2"
       },
@@ -9249,6 +9562,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "0008c737e4f71655c3379fdf922dec4bae61a4681f71ec2e152d1c8b4453c81d",
         "pngSha256": "e4c71da6ccc9e0022725f37be74c67f79592a143123b174dd9411cbc04e11eab"
       },
@@ -9404,6 +9718,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "9a17aea8bae4908f9e16c9a1b26f34bc889d6d36550d36df337462c7e730a59c",
         "pngSha256": "0a3a41de1b5ffffb98074a6c8106e395e129108742bd9b3af125c6dcb9548b03"
       },
@@ -9559,6 +9874,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "ee05724dadf07040a452f4071c71d7a2ba5d4294ec51686b6e65560dc558aaf1",
         "pngSha256": "91940a3f4118649cb95dbbd7d39e5a066fcabba20a79d06111b2c12281aacb43"
       },
@@ -9705,6 +10021,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "709452c0d3dc018b022768565c2f1053ae1cb5d3aaad279782f91d12e7dd0485",
         "pngSha256": "91940a3f4118649cb95dbbd7d39e5a066fcabba20a79d06111b2c12281aacb43"
       },
@@ -9851,6 +10168,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "f41c3c3509bd6705fe3a89d995f6c2f153df83a0d14a15846ae79f18045b9dc7",
         "pngSha256": "d49635865f9255e826a721afe6788727d1aab7affcfa4e97095a6c7ed7e7113c"
       },
@@ -9997,6 +10315,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "e96ae5dd6b019feddeee56beeadcc02c39130832fd56b183eadc50ddc5b205d7",
         "pngSha256": "d49635865f9255e826a721afe6788727d1aab7affcfa4e97095a6c7ed7e7113c"
       },
@@ -10143,6 +10462,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "ee9a0e407ef35d40f4753fc7cc24281b549f8aaaffbce2697a04771473e9be59",
         "pngSha256": "f22934ea10cd338a152a67ce842693fb4d6315e2980b0e991ac446120503afae"
       },
@@ -10289,6 +10609,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "e6ff6bb6161d3c895b7163aaa6c67a5e408e64e18f498dff1450d56614ecd052",
         "pngSha256": "2ad5ea1d375326b86cbf19ce34ed726235b1c21f9e83c0f9efba2aa7e368855f"
       },
@@ -10435,6 +10756,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "6e8bf0c0c3e637bc8ae5a455b5e688d5c0ec54b8208530c0cf008ff624dabcea",
         "pngSha256": "edb3117436576f04eeac89116041db5254ff5e3cda9cb7d138889a0b15f6d796"
       },
@@ -10581,6 +10903,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "c5272f66d04e35af37064f98ac2ce6f32d3260ab5ac803046c7bb029754b12a3",
         "pngSha256": "edb3117436576f04eeac89116041db5254ff5e3cda9cb7d138889a0b15f6d796"
       },
@@ -10719,6 +11042,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "29c641213da0698f918072c0ad5db9223c20445c6873190a0c57aa5e2d370926",
         "pngSha256": "789f5f6bf7c3150f8a663c1d5ff8f503139e60c1879edf701387d563e167df46"
       },
@@ -10857,6 +11181,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "3f2e239c9b3d9ac5b565e9a6614920c091b68dff65382d20bb6ec0670b9eb970",
         "pngSha256": "789f5f6bf7c3150f8a663c1d5ff8f503139e60c1879edf701387d563e167df46"
       },
@@ -10995,6 +11320,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "460dd0b752b2014ee97b4fca53c6c1b3f6e3310c92607067ef2ecf816e9b6d2b",
         "pngSha256": "b67ae44957983d60b585dbf8ed87903b4cec993d90ea47ab7899975cd167124a"
       },
@@ -11133,6 +11459,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "b1177d8b2bebbe7852ed1d6084fa0c60f83205bd45b646dbe8784f96d7782635",
         "pngSha256": "81d4bd3a704f4ee5a13c8e23639ed385fef59d3456917e31edc90bbcfc69524f"
       },
@@ -11271,6 +11598,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "e13a6001e67ef55cad4542957fe0066edb236713326c807d45dbbff0303c3327",
         "pngSha256": "d349b73948ce5a954a8c89b348178719cbc83d27b8c3d1b7f1bcabb4d4b4e900"
       },
@@ -11409,6 +11737,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "16b40937052cbec7643b1b8a9fd74827c975e930563f4417d70cb118522c4b70",
         "pngSha256": "2b2558409177d8546b403fcbf960c53a7ce2b5329d0ebc86dda383eada76290d"
       },
@@ -11540,6 +11869,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "375d57c98359093bd66a093693da74bd3c262b07bc20b49656409def40f5eac9",
         "pngSha256": "7da9cfdac3346a0592c84f6745052171d41af126d4d0bc0519bb4e7fbefb172d"
       },
@@ -11671,6 +12001,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "6656073486f28749493773b2ff0b282debe5394439f0880d7b2dc308b3e70441",
         "pngSha256": "7da9cfdac3346a0592c84f6745052171d41af126d4d0bc0519bb4e7fbefb172d"
       },
@@ -11811,6 +12142,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "ebd7b65114cecf62a7a6d275187aef635c64de2357e0bcfeb7e1bf382bebb0f2",
         "pngSha256": "d9e855d6f5e8acd67a2a92d0fe4969dfdc274fb59a737ffe8d85e9367ba57ffa"
       },
@@ -11951,6 +12283,7 @@
             38
           ]
         ],
+        "changed": 4099,
         "htmlSha256": "b99d387e7f07cbbf1bd294a42893a389e31ca44d6bcfff3dd440f2acbef08b3f",
         "pngSha256": "ffed57d598970db193aa3d32994898406f6c55dc258db10487118d6c01f8a7a5"
       },
@@ -12091,6 +12424,7 @@
             38
           ]
         ],
+        "changed": 3468,
         "htmlSha256": "f3c6895d992c4916e797b8b0a4de9af52fbab481747050640d1135e5aa48d552",
         "pngSha256": "c8676a60bab7da51fc9009382f269dd2356e9435fc9390ad37feedeabdcfaf43"
       },
@@ -12231,6 +12565,7 @@
             38
           ]
         ],
+        "changed": 3468,
         "htmlSha256": "058c5dcb986ad6a62842788344a20ab8bf3907c551ef595d0ffb09d537076123",
         "pngSha256": "c8676a60bab7da51fc9009382f269dd2356e9435fc9390ad37feedeabdcfaf43"
       },
@@ -12377,6 +12712,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "39ff7ced667540e5fbc28f6526ede91004f59560ed70d68ff51f624e78d025dc",
         "pngSha256": "494cb5f3915b1d502a9dbaf323d5b6e39787b670d942d87ac4f0adf7f5cdaed5"
       },
@@ -12523,6 +12859,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "0c353ed68ced7e1a3d76c65637dedc4bff5684da7fa17f2fb0911a3430c47a3c",
         "pngSha256": "494cb5f3915b1d502a9dbaf323d5b6e39787b670d942d87ac4f0adf7f5cdaed5"
       },
@@ -12661,6 +12998,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "cca133f1f9a2b98bea9706e41af66ba63f14f0fba9dd543ef26d421c23b87f04",
         "pngSha256": "55d2a2d4ad9f6d730c1f726f5d9647c42f6d4d22c79f50358649e17793ef6286"
       },
@@ -12799,6 +13137,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "ac02a1a2e66b90bf3045420cd2e135d5896f9180ba711bebebe25edb850133c7",
         "pngSha256": "1b23ce9069cfde9c0284737445930650b1dd1cd6e61a0c1444b1f05b216f4b62"
       },
@@ -12937,6 +13276,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "3c9b45c5ad985be510de77b9ff171939dacb3ba7da3e9264f5f2c41034c5ad00",
         "pngSha256": "280a39206e39c3874396de5e4e7913e42a7ac97cf408705473d2188615a4119f"
       },
@@ -13075,6 +13415,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "fe2990593620cbca8e5c7bd9beefbcad84e09d02ad1b0aad0d365e5dec15ac8e",
         "pngSha256": "9c12773cef81fd585d58358d7c2cad399408efdc661c276226a77972239c4a80"
       },
@@ -13213,6 +13554,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "4b513488df0ee453f0c2cb90bef5e7057db50ed92773ea641be451169efbd165",
         "pngSha256": "4df0064e45a17fa5253937f4d0543464a859d85cc04674f63aa9878f609845b1"
       },
@@ -13351,6 +13693,7 @@
             38
           ]
         ],
+        "changed": 4027,
         "htmlSha256": "058b70f39b5827d76d890bcb766072beef93fcf48369cfb99caa5ec74df6d45c",
         "pngSha256": "2ce71f951449ffd471497f4a5ae1121aaf2f48d276b0e3e1cd21fcb4877db531"
       },
@@ -13491,6 +13834,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "9421628b6ea00a86d74e675de35cd80705999fa2b9dad08d28c722ad2db5f80c",
         "pngSha256": "46bcccc1e0a5e7e5b8035edd8c4e12759c5f9bd08a653351b7a7c4d0c333650d"
       },
@@ -13631,6 +13975,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "6d3f8af1590ecb9b7f7a75a996e2d99fb1ec7b41bac238aa9f35b09b35d4d813",
         "pngSha256": "46bcccc1e0a5e7e5b8035edd8c4e12759c5f9bd08a653351b7a7c4d0c333650d"
       },
@@ -13771,6 +14116,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "f024fbb3f2cd73f7cdc620ce69208d50ccb3365f98b0deb28fa3726f3aabe0da",
         "pngSha256": "1f783bd8bb3b70bcf2323552e0f570d530c4fbf17eaf6656d5c57c651bd782d9"
       },
@@ -13911,6 +14257,7 @@
             38
           ]
         ],
+        "changed": 3288,
         "htmlSha256": "f0488c331180295e1b50cb897802ae906d231dfcac74ec06765dadcdeae1b790",
         "pngSha256": "503127123dfeb9be4f4b0da4165d2dad1acad12f2bf4a5e3cd806e29841ba36f"
       },
@@ -13988,6 +14335,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "0f21cbc2961cc22262914147f8a60588beb9bc9e80f6c42408bec8a4d5d87826",
         "pngSha256": "280ec1d4685cc19eb333bf7cd9e83b7a316e6063525a15d38858941488b951f5"
       },
@@ -14065,6 +14413,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "390f6b97abcd96849edc99de6d20aa940781cb22a1455a72e631416b5a71a865",
         "pngSha256": "280ec1d4685cc19eb333bf7cd9e83b7a316e6063525a15d38858941488b951f5"
       },
@@ -14144,6 +14493,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "2055e77a7b4f67151069f0c16d2c5c4b048368952c795cbde65bbdc11208806a",
         "pngSha256": "83bb4fb89be01ffb904c0aed87393c39985ceecc8cec103b74d966e8a39bbc56"
       },
@@ -14223,6 +14573,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "9dedce77c4f4be95758d77ec4d9a4bb527b6c92516bbd9d9c62bafbb8474f9fd",
         "pngSha256": "83bb4fb89be01ffb904c0aed87393c39985ceecc8cec103b74d966e8a39bbc56"
       },
@@ -14300,6 +14651,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "86ca95ecdcf7b068a024ce8c05621afabfffa9e691e582d5b7b2b150c3e998ff",
         "pngSha256": "10597f60c88901941119b464d9b3905fa336b9fae41bf9d9aaa57b252d066209"
       },
@@ -14377,6 +14729,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "8af3c8e8f1adac5e061a2038453711b14433430a372abda36eddeb8a95202c51",
         "pngSha256": "10597f60c88901941119b464d9b3905fa336b9fae41bf9d9aaa57b252d066209"
       },
@@ -14439,8 +14792,8 @@
           ]
         ]
       },
-      "htmlSha256": "9fa597db741c4d3e60d79b7cfb3a4e13e243f885408abfc0b7e84b4fef3f10c8",
-      "pngSha256": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b",
+      "htmlSha256": "b3463c795723cd221acb76a3da591293b7d8e98d36fad4830b6b46582d41a87f",
+      "pngSha256": "777b920c94135ffc4009ef047e8509afd13d8faa5c9a7027c6a67bda6fc06716",
       "port": {
         "equal": {
           "html": true,
@@ -14453,9 +14806,29 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
-        "touched": [],
+        "touched": [
+          [
+            22.12,
+            162.37,
+            231.8,
+            13.63
+          ],
+          [
+            22.12,
+            162.37,
+            6.88,
+            58.27
+          ]
+        ],
+        "changed": 750,
+        "near": {
+          "pixels": 11305,
+          "differing": 227,
+          "max": 17
+        },
         "htmlSha256": "14c6f3d21b60bd11b03997a306c367337fa7fd84e915b4ed03f845b10f128d86",
         "pngSha256": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b"
       },
@@ -14518,8 +14891,8 @@
           ]
         ]
       },
-      "htmlSha256": "4ec55bb30baca570e5eb5a98ee4a1a52d1f9864baff247bf4fc1c58eac00f8f9",
-      "pngSha256": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b",
+      "htmlSha256": "da5ee2e1fcea4940de216375eb5fe998b6e5a1400fae0a2de78f78df0a030900",
+      "pngSha256": "777b920c94135ffc4009ef047e8509afd13d8faa5c9a7027c6a67bda6fc06716",
       "port": {
         "equal": {
           "html": true,
@@ -14532,9 +14905,29 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
-        "touched": [],
+        "touched": [
+          [
+            22.12,
+            162.37,
+            231.8,
+            13.63
+          ],
+          [
+            22.12,
+            162.37,
+            6.88,
+            58.27
+          ]
+        ],
+        "changed": 750,
+        "near": {
+          "pixels": 11305,
+          "differing": 227,
+          "max": 17
+        },
         "htmlSha256": "836a2341066c2a541f234ce5ec11b147523912c40cc9d1e565317d7f0cc497f3",
         "pngSha256": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b"
       },
@@ -14612,6 +15005,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "658c373fe4bca79a14f7e2a741c4806c14405744997a39e15e3e00de2ef7efbb",
         "pngSha256": "39227772cce41dc81d786600d134504d7eb58786184f97b1c7a683cb4d5d9087"
       },
@@ -14689,6 +15083,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "c7ac43976a177b44a58c478e9db8421caecef45ce485544bf12f8b4bfef8c8a4",
         "pngSha256": "39227772cce41dc81d786600d134504d7eb58786184f97b1c7a683cb4d5d9087"
       },
@@ -14775,6 +15170,7 @@
             132
           ]
         ],
+        "changed": 3350,
         "htmlSha256": "8970acdc250136d1732b3216cc1b07727a9da1f52a08e0b66731c8c6546011ec",
         "pngSha256": "a6308381711b6e3004197cf057c61357769881ea2ba0c277dd0c88ba9b7a96e5"
       },
@@ -14861,8 +15257,207 @@
             132
           ]
         ],
+        "changed": 3350,
         "htmlSha256": "1852a52c8eb35bd46c80f46b3196e38f1604d5da8df4c361ae0990db4c7e018c",
         "pngSha256": "a6308381711b6e3004197cf057c61357769881ea2ba0c277dd0c88ba9b7a96e5"
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/dist-BjUzZdf9.js",
+          "line": 1,
+          "column": 2515,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/case-food-states-08/full": {
+      "ok": true,
+      "notes": [],
+      "kind": "case",
+      "title": "Partner: too late after withdrawal",
+      "synthetic": "Frontend's native fixture food-states-08, on Frontend's own controller",
+      "screen": "food-room",
+      "hidden": false,
+      "motion": "normal",
+      "covers": {
+        "active": true,
+        "exclusive": false
+      },
+      "bars": {
+        "top": 99,
+        "bottom": 92
+      },
+      "controls": [],
+      "pictures": [],
+      "focus": "fs-card",
+      "words": 15,
+      "boxes": {
+        ".tb": [
+          [
+            0,
+            0,
+            430,
+            99
+          ]
+        ],
+        ".tabs": [
+          [
+            0,
+            840,
+            430,
+            92
+          ]
+        ],
+        ".fs-card": [
+          [
+            12,
+            159,
+            406,
+            243.3
+          ]
+        ]
+      },
+      "htmlSha256": "3ebff86500342d7026ba84480d98f1301f1c682d6319d2a5f75eb2cba54489de",
+      "pngSha256": "101c706f4582de3e78df4adb418751fa78a96b8eb41f5efa060855af79ebc811",
+      "port": {
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [
+          [
+            22,
+            165.59,
+            139.55,
+            10.41
+          ],
+          [
+            22,
+            165.59,
+            7,
+            51.82
+          ]
+        ],
+        "changed": 354,
+        "near": {
+          "pixels": 6374,
+          "differing": 138,
+          "max": 11
+        },
+        "htmlSha256": "56bdbafe6572ce44edb501f08b6e55b276650dc9efeb535ce094bb6884997f97",
+        "pngSha256": "f4e8e879c1d8e0ac92a3d6ab7fa5404ed725c9090b174571523a8b1c152143a0"
+      },
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/dist-BjUzZdf9.js",
+          "line": 1,
+          "column": 2515,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932/case-food-states-08/reduced": {
+      "ok": true,
+      "notes": [],
+      "kind": "case",
+      "title": "Partner: too late after withdrawal",
+      "synthetic": "Frontend's native fixture food-states-08, on Frontend's own controller",
+      "screen": "food-room",
+      "hidden": false,
+      "motion": "reduced",
+      "covers": {
+        "active": true,
+        "exclusive": false
+      },
+      "bars": {
+        "top": 99,
+        "bottom": 92
+      },
+      "controls": [],
+      "pictures": [],
+      "focus": "fs-card",
+      "words": 15,
+      "boxes": {
+        ".tb": [
+          [
+            0,
+            0,
+            430,
+            99
+          ]
+        ],
+        ".tabs": [
+          [
+            0,
+            840,
+            430,
+            92
+          ]
+        ],
+        ".fs-card": [
+          [
+            12,
+            159,
+            406,
+            243.3
+          ]
+        ]
+      },
+      "htmlSha256": "bd60b59899e3a406c6ce5eaf4edb5f374147e1379e79c5b01a77d98a231b4403",
+      "pngSha256": "101c706f4582de3e78df4adb418751fa78a96b8eb41f5efa060855af79ebc811",
+      "port": {
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [
+          [
+            22,
+            165.59,
+            139.55,
+            10.41
+          ],
+          [
+            22,
+            165.59,
+            7,
+            51.82
+          ]
+        ],
+        "changed": 354,
+        "near": {
+          "pixels": 6374,
+          "differing": 138,
+          "max": 11
+        },
+        "htmlSha256": "2a75ca3146d3ad5ff320a535a9a28a6d559f2a09f6a2c44738888b8812c6fad7",
+        "pngSha256": "f4e8e879c1d8e0ac92a3d6ab7fa5404ed725c9090b174571523a8b1c152143a0"
       },
       "violations": [
         {
@@ -14913,6 +15508,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "e1224bad3e20504f82e870e1860f7ecbea4ef5e205d41a5ac842323ef3ca4323",
         "pngSha256": "a97c61631b0cbfa5c67877c6a2d51978d6757b40005c587b71b5b0907ebfa3b2"
       },
@@ -14965,6 +15561,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "626d7491d596ade3dc0fb0764b600c642c0f78f089e634515921001142da124c",
         "pngSha256": "a97c61631b0cbfa5c67877c6a2d51978d6757b40005c587b71b5b0907ebfa3b2"
       },
@@ -15017,6 +15614,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "e1224bad3e20504f82e870e1860f7ecbea4ef5e205d41a5ac842323ef3ca4323",
         "pngSha256": "8459d2cd240887c36e5a560b286658bdca10d8e9f3666dd5f491a52cfda9e417"
       },
@@ -15069,6 +15667,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "626d7491d596ade3dc0fb0764b600c642c0f78f089e634515921001142da124c",
         "pngSha256": "8459d2cd240887c36e5a560b286658bdca10d8e9f3666dd5f491a52cfda9e417"
       },
@@ -15121,6 +15720,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "e1224bad3e20504f82e870e1860f7ecbea4ef5e205d41a5ac842323ef3ca4323",
         "pngSha256": "8b14979daa0dac7d741f86e6e063984c0f1f3d45c921e7a3dcc57b7862c9c8d9"
       },
@@ -15173,6 +15773,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "626d7491d596ade3dc0fb0764b600c642c0f78f089e634515921001142da124c",
         "pngSha256": "8b14979daa0dac7d741f86e6e063984c0f1f3d45c921e7a3dcc57b7862c9c8d9"
       },
@@ -15234,6 +15835,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "67910a08b2c2983334c9ca42c5e834abcfca553f0fc6ca84bc0e8f9c0524277d",
         "pngSha256": "e82a3028049ec919818f7d5f44a018ae33c32ca7c337ce163c3e77bbf31535c2"
       },
@@ -15295,6 +15897,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "67910a08b2c2983334c9ca42c5e834abcfca553f0fc6ca84bc0e8f9c0524277d",
         "pngSha256": "e82a3028049ec919818f7d5f44a018ae33c32ca7c337ce163c3e77bbf31535c2"
       },
@@ -15356,6 +15959,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "af18ba42118c146ae10dbdd2fef44239e2baf1583861b5b5e8913b100d6c1ecb",
         "pngSha256": "997351d632406d2a69166a298c55370274d383ed3e3f2f0608a8a0458533a2d4"
       },
@@ -15417,6 +16021,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "af18ba42118c146ae10dbdd2fef44239e2baf1583861b5b5e8913b100d6c1ecb",
         "pngSha256": "997351d632406d2a69166a298c55370274d383ed3e3f2f0608a8a0458533a2d4"
       },
@@ -15469,6 +16074,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "852ee5c60042f9ccb7493e91c3b16aa3846de5db650973916e6c16f130fae556",
         "pngSha256": "58b7b3ce8d7e870fb7499a48d30b6ab95d5e5c8a98ed27299f800986c93dd438"
       },
@@ -15521,6 +16127,7 @@
         },
         "corrections": [],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "852ee5c60042f9ccb7493e91c3b16aa3846de5db650973916e6c16f130fae556",
         "pngSha256": "58b7b3ce8d7e870fb7499a48d30b6ab95d5e5c8a98ed27299f800986c93dd438"
       },
@@ -15539,15 +16146,16 @@
   },
   "agreement": {
     "port": {
-      "states": 132,
-      "equal": 132,
+      "states": 136,
+      "equal": 136,
       "identical": 36,
       "corrected": {
         "1": 88,
         "2": 28,
         "4": 16,
-        "5": 4,
-        "6": 4
+        "5": 8,
+        "6": 4,
+        "7": 8
       },
       "control": {
         "what": "the port's clock moved 1000 ms on food-panel-04 at 390 × 844",
@@ -18790,6 +19398,10 @@
       "6": {
         "what": "A sheet or card that is built again gives the focus back",
         "where": "every capture where the port's page shows a sheet or card with the focus outside the surface: the port built it again and left the focus to the page"
+      },
+      "7": {
+        "what": "A request card's stamp, and Too late to join's, is whole, as the approved Food flow draws it: the scroller its words are in takes the card's inside at its top and its sides, where the port's began at the stamp's own line and cut the tilted stamp. Its lower edge stays, so the answers do not move",
+        "where": "every capture with a request card or Too late to join: the scroller is always so, and it shows wherever the card shows its stamp (a tight card, at the Largest text, shows none)"
       }
     },
     "portrait": {
@@ -19051,7 +19663,7 @@
         "size": "390x844",
         "rootPx": 24,
         "file": "design/phone-ui/components/food/review/fix-5-390x844-case-food-flow-04-text150.jpg",
-        "sha256": "1b497a2a641fc7379df23f93413acdaa658e7d56383a0e2856d35fefa03b71d6",
+        "sha256": "1256d51c95e3270b34d2ef69f9174ce1c95382fc533c74dc4fffee5bf5120b6b",
         "before": {
           "cardEndsAt": 766.68,
           "passStartsAt": 730.81,
@@ -19065,8 +19677,8 @@
           "passStartsAt": 730.81,
           "tabBarStartsAt": 749.81,
           "answersEndAt": 705.78,
-          "wordsShown": 330,
-          "wordsNeed": 375
+          "wordsShown": 346,
+          "wordsNeed": 391
         },
         "ok": true
       },
@@ -19090,8 +19702,8 @@
           "passStartsAt": 730.81,
           "tabBarStartsAt": 749.81,
           "answersEndAt": 705.78,
-          "wordsShown": 304,
-          "wordsNeed": 550
+          "wordsShown": 320,
+          "wordsNeed": 566
         },
         "ok": true
       },
@@ -19101,7 +19713,7 @@
         "size": "430x932",
         "rootPx": 32,
         "file": "design/phone-ui/components/food/review/fix-5-430x932-case-food-flow-04-text200.jpg",
-        "sha256": "0f2b2d272a0aaa9ec8916c3d16ced232dc6b48d8f89bcd0043b6934fe2fd4265",
+        "sha256": "0e1e3f1bf7bc468668562e39d2b8ce3ef97e2af7fef3a7b8c4a417ceeb7ddbfc",
         "before": {
           "cardEndsAt": 919.99,
           "passStartsAt": 818.81,
@@ -19115,8 +19727,592 @@
           "passStartsAt": 818.81,
           "tabBarStartsAt": 837.81,
           "answersEndAt": 793.78,
-          "wordsShown": 428,
-          "wordsNeed": 550
+          "wordsShown": 444,
+          "wordsNeed": 566
+        },
+        "ok": true
+      },
+      "7/390x844/case-food-flow-04/100%": {
+        "correction": 7,
+        "state": "case-food-flow-04",
+        "size": "390x844",
+        "rootPx": 16,
+        "file": "design/phone-ui/components/food/review/fix-7-390x844-case-food-flow-04.jpg",
+        "sha256": "dc4fe4617855f1493f5d5e852d000104f6691d92e109fb56438dc9c3f230a4ed",
+        "before": {
+          "stamp": [
+            27.12,
+            167.37,
+            221.8,
+            48.27
+          ],
+          "scrollerStartsAt": 175,
+          "stampCut": true,
+          "card": [
+            12,
+            159,
+            366,
+            338.78
+          ],
+          "answers": [
+            [
+              28,
+              403.59,
+              163,
+              50
+            ],
+            [
+              199,
+              403.59,
+              163,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            463.59,
+            334,
+            18.19
+          ]
+        },
+        "after": {
+          "stamp": [
+            27.12,
+            167.37,
+            221.8,
+            48.27
+          ],
+          "scrollerStartsAt": 159,
+          "stampCut": false,
+          "card": [
+            12,
+            159,
+            366,
+            338.78
+          ],
+          "answers": [
+            [
+              28,
+              403.59,
+              163,
+              50
+            ],
+            [
+              199,
+              403.59,
+              163,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            463.59,
+            334,
+            18.19
+          ]
+        },
+        "ok": true
+      },
+      "7/430x932/case-food-flow-04/100%": {
+        "correction": 7,
+        "state": "case-food-flow-04",
+        "size": "430x932",
+        "rootPx": 16,
+        "file": "design/phone-ui/components/food/review/fix-7-430x932-case-food-flow-04.jpg",
+        "sha256": "06b4d233d285e78ddf3592253903a1153487b51cefb9dc57c47bc7bbb67b2934",
+        "before": {
+          "stamp": [
+            27.12,
+            167.37,
+            221.8,
+            48.27
+          ],
+          "scrollerStartsAt": 175,
+          "stampCut": true,
+          "card": [
+            12,
+            159,
+            406,
+            338.78
+          ],
+          "answers": [
+            [
+              28,
+              403.59,
+              183,
+              50
+            ],
+            [
+              219,
+              403.59,
+              183,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            463.59,
+            374,
+            18.19
+          ]
+        },
+        "after": {
+          "stamp": [
+            27.12,
+            167.37,
+            221.8,
+            48.27
+          ],
+          "scrollerStartsAt": 159,
+          "stampCut": false,
+          "card": [
+            12,
+            159,
+            406,
+            338.78
+          ],
+          "answers": [
+            [
+              28,
+              403.59,
+              183,
+              50
+            ],
+            [
+              219,
+              403.59,
+              183,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            463.59,
+            374,
+            18.19
+          ]
+        },
+        "ok": true
+      },
+      "7/390x844/case-food-flow-04/150%": {
+        "correction": 7,
+        "state": "case-food-flow-04",
+        "size": "390x844",
+        "rootPx": 24,
+        "file": "design/phone-ui/components/food/review/fix-7-390x844-case-food-flow-04-text150.jpg",
+        "sha256": "78abeba27c391eed9a9156fd91d89904a47fc8267fc9465110683e911b038c43",
+        "before": {
+          "stamp": [
+            26.92,
+            182.33,
+            317.21,
+            63.87
+          ],
+          "scrollerStartsAt": 193.27,
+          "stampCut": true,
+          "card": [
+            12,
+            177.27,
+            366,
+            589.41
+          ],
+          "answers": [
+            [
+              28,
+              578.08,
+              334,
+              50
+            ],
+            [
+              28,
+              636.08,
+              334,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            696.08,
+            334,
+            54.59
+          ]
+        },
+        "after": {
+          "stamp": [
+            26.92,
+            182.33,
+            317.21,
+            63.87
+          ],
+          "scrollerStartsAt": 177.27,
+          "stampCut": false,
+          "card": [
+            12,
+            177.27,
+            366,
+            544.52
+          ],
+          "answers": [
+            [
+              28,
+              533.19,
+              334,
+              50
+            ],
+            [
+              28,
+              591.19,
+              334,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            651.19,
+            334,
+            54.59
+          ]
+        },
+        "ok": true
+      },
+      "7/430x932/case-food-flow-04/150%": {
+        "correction": 7,
+        "state": "case-food-flow-04",
+        "size": "430x932",
+        "rootPx": 24,
+        "file": "design/phone-ui/components/food/review/fix-7-430x932-case-food-flow-04-text150.jpg",
+        "sha256": "65fccac98f2142c4aaeb0c3565c3f17b55a2bb24068a584530ff46f749615138",
+        "before": {
+          "stamp": [
+            26.92,
+            182.33,
+            317.21,
+            63.87
+          ],
+          "scrollerStartsAt": 193.27,
+          "stampCut": true,
+          "card": [
+            12,
+            177.27,
+            406,
+            493.47
+          ],
+          "answers": [
+            [
+              28,
+              540.14,
+              183,
+              50
+            ],
+            [
+              219,
+              540.14,
+              183,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            600.14,
+            374,
+            54.59
+          ]
+        },
+        "after": {
+          "stamp": [
+            26.92,
+            182.33,
+            317.21,
+            63.87
+          ],
+          "scrollerStartsAt": 177.27,
+          "stampCut": false,
+          "card": [
+            12,
+            177.27,
+            406,
+            493.47
+          ],
+          "answers": [
+            [
+              28,
+              540.14,
+              183,
+              50
+            ],
+            [
+              219,
+              540.14,
+              183,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            600.14,
+            374,
+            54.59
+          ]
+        },
+        "ok": true
+      },
+      "7/390x844/case-food-flow-04/200%": {
+        "correction": 7,
+        "state": "case-food-flow-04",
+        "size": "390x844",
+        "rootPx": 32,
+        "file": "design/phone-ui/components/food/review/fix-7-390x844-case-food-flow-04-text200.jpg",
+        "sha256": "8aaf9b75f9446095c041df462f2116affe3767eba553ed5a87c79faefd71f2a1",
+        "before": {
+          "stamp": null,
+          "scrollerStartsAt": 164.69,
+          "stampCut": null,
+          "card": [
+            12,
+            148.69,
+            366,
+            683.3
+          ],
+          "answers": [
+            [
+              28,
+              588.81,
+              334,
+              50
+            ],
+            [
+              28,
+              646.81,
+              334,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            706.81,
+            334,
+            109.17
+          ]
+        },
+        "after": {
+          "stamp": null,
+          "scrollerStartsAt": 148.69,
+          "stampCut": null,
+          "card": [
+            12,
+            148.69,
+            366,
+            573.09
+          ],
+          "answers": [
+            [
+              28,
+              478.61,
+              334,
+              50
+            ],
+            [
+              28,
+              536.61,
+              334,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            596.61,
+            334,
+            109.17
+          ]
+        },
+        "ok": true
+      },
+      "7/430x932/case-food-flow-04/200%": {
+        "correction": 7,
+        "state": "case-food-flow-04",
+        "size": "430x932",
+        "rootPx": 32,
+        "file": "design/phone-ui/components/food/review/fix-7-430x932-case-food-flow-04-text200.jpg",
+        "sha256": "e64e621f4e872171dfdab762aeb80cee8f33ad5f7a6208d9b3defc83074630fe",
+        "before": {
+          "stamp": null,
+          "scrollerStartsAt": 164.69,
+          "stampCut": null,
+          "card": [
+            12,
+            148.69,
+            406,
+            771.3
+          ],
+          "answers": [
+            [
+              28,
+              713.2,
+              374,
+              50
+            ],
+            [
+              28,
+              771.2,
+              374,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            831.2,
+            374,
+            72.78
+          ]
+        },
+        "after": {
+          "stamp": null,
+          "scrollerStartsAt": 148.69,
+          "stampCut": null,
+          "card": [
+            12,
+            148.69,
+            406,
+            661.09
+          ],
+          "answers": [
+            [
+              28,
+              603,
+              374,
+              50
+            ],
+            [
+              28,
+              661,
+              374,
+              50
+            ]
+          ],
+          "timer": [
+            28,
+            721,
+            374,
+            72.78
+          ]
+        },
+        "ok": true
+      },
+      "7/390x844/case-food-states-08/100%": {
+        "correction": 7,
+        "state": "case-food-states-08",
+        "size": "390x844",
+        "rootPx": 16,
+        "file": "design/phone-ui/components/food/review/fix-7-390x844-case-food-states-08.jpg",
+        "sha256": "53d0fae2a5ff8f1c793addb2a9b13700c285866abdc2eae086313c717ee85c1a",
+        "before": {
+          "stamp": [
+            27,
+            170.59,
+            129.55,
+            41.82
+          ],
+          "scrollerStartsAt": 175,
+          "stampCut": true,
+          "card": [
+            12,
+            159,
+            366,
+            243.3
+          ],
+          "answers": [
+            [
+              28,
+              336.3,
+              334,
+              50
+            ]
+          ],
+          "timer": null
+        },
+        "after": {
+          "stamp": [
+            27,
+            170.59,
+            129.55,
+            41.82
+          ],
+          "scrollerStartsAt": 159,
+          "stampCut": false,
+          "card": [
+            12,
+            159,
+            366,
+            243.3
+          ],
+          "answers": [
+            [
+              28,
+              336.3,
+              334,
+              50
+            ]
+          ],
+          "timer": null
+        },
+        "ok": true
+      },
+      "7/430x932/case-food-states-08/100%": {
+        "correction": 7,
+        "state": "case-food-states-08",
+        "size": "430x932",
+        "rootPx": 16,
+        "file": "design/phone-ui/components/food/review/fix-7-430x932-case-food-states-08.jpg",
+        "sha256": "fc8bc6e744f66546b2fbd1a7fa683fda7bc68370729103e27295ba508d586861",
+        "before": {
+          "stamp": [
+            27,
+            170.59,
+            129.55,
+            41.82
+          ],
+          "scrollerStartsAt": 175,
+          "stampCut": true,
+          "card": [
+            12,
+            159,
+            406,
+            243.3
+          ],
+          "answers": [
+            [
+              28,
+              336.3,
+              374,
+              50
+            ]
+          ],
+          "timer": null
+        },
+        "after": {
+          "stamp": [
+            27,
+            170.59,
+            129.55,
+            41.82
+          ],
+          "scrollerStartsAt": 159,
+          "stampCut": false,
+          "card": [
+            12,
+            159,
+            406,
+            243.3
+          ],
+          "answers": [
+            [
+              28,
+              336.3,
+              374,
+              50
+            ]
+          ],
+          "timer": null
         },
         "ok": true
       }
@@ -19139,7 +20335,8 @@
       "case-food-panel-16",
       "case-food-winch-14",
       "case-food-winch-17",
-      "case-food-panel-17"
+      "case-food-panel-17",
+      "case-food-states-08"
     ],
     "barTop": {
       "1": 99,
@@ -19147,16 +20344,17 @@
       "1.5": 117
     },
     "port": {
-      "states": 48,
-      "equal": 48,
+      "states": 52,
+      "equal": 52,
       "identical": 0,
       "corrected": {
         "1": 40,
         "2": 20,
         "3": 13,
         "4": 16,
-        "5": 4,
-        "6": 4
+        "5": 8,
+        "6": 4,
+        "7": 8
       }
     },
     "drawn": {
@@ -19196,6 +20394,7 @@
             133.42
           ]
         ],
+        "changed": 34449,
         "htmlSha256": "fbcb676c8a5d139c80845329e53a5dd9466b846c021a135985be86fc39c1bdbe",
         "pngSha256": "23fa6d7d7fa7b4b20eb3824946ec04c79b375fbae3ab15e4172dd41b877a0cd8",
         "violations": [
@@ -19239,6 +20438,7 @@
             39.39
           ]
         ],
+        "changed": 4446,
         "htmlSha256": "26eae9c863f25608e3fae279ccf3b7b94782955a1064629c66c64467539b537e",
         "pngSha256": "a61535828a3a778cae86a6bdd549ebbf1ea6156fff10fda608331662612a4b4c",
         "violations": [
@@ -19289,6 +20489,7 @@
             162.67
           ]
         ],
+        "changed": 37228,
         "htmlSha256": "4e0ca19a42e2364ece44c51a9c8f7811746647ff09cda284567e93af07a929b7",
         "pngSha256": "85e81001dcae380c3818d435972ead06a527d95af6de30d75b2dfddeb59d7900",
         "violations": [
@@ -19332,6 +20533,7 @@
             39.39
           ]
         ],
+        "changed": 4446,
         "htmlSha256": "7e1745b69efa0b10e151e8753a30d5876ac0470f64be6bf72ca47fc4af68fd80",
         "pngSha256": "bee649962dbfeaa6ec14f4e5123ed7a3f5913a8d60eb5e8b0d8a5fc3a8b083be",
         "violations": [
@@ -19384,6 +20586,7 @@
             139.28
           ]
         ],
+        "changed": 6640,
         "htmlSha256": "4bd7612b3beb72371a808bec1b2ad8889d155c05d7c9da1b81265abda42133e8",
         "pngSha256": "a2e13897337f284f829f03172df99aeaaabb08cc032afe82ece8420c342316e7",
         "violations": [
@@ -19427,6 +20630,7 @@
             39.39
           ]
         ],
+        "changed": 4376,
         "htmlSha256": "551dd4a2cda310e74249e08d8381cc2469dc8f1c9153f840436ef1e1517bb69d",
         "pngSha256": "0377d8d0b026d97c5c8162b0ec57c7c28c8f57c0284d78643796c3845ea238f5",
         "violations": [
@@ -19480,6 +20684,7 @@
             110.03
           ]
         ],
+        "changed": 6640,
         "htmlSha256": "1cafc9e8631404109c121f28034ebb2eb984da78b54ecb22ba14ca81eba37e26",
         "pngSha256": "1e4c00f7256da1a3f0e2e53b843271afc8216e20dd3052691f64f02be064a3be",
         "violations": [
@@ -19524,6 +20729,7 @@
             39.39
           ]
         ],
+        "changed": 4376,
         "htmlSha256": "859a88f22686daf8dd67a80296975abbef9b8690a5266f937083898c8a103a2d",
         "pngSha256": "43536756c8d52a1118d414cfcf90b6ce0464ff4abe4fade3c68643b16fef2433",
         "violations": [
@@ -19574,6 +20780,7 @@
             133.42
           ]
         ],
+        "changed": 34449,
         "htmlSha256": "f64cf7f56d6562918f2e9160cc2e6b69f694ae33e00c2c26183dc92e00eaacf4",
         "pngSha256": "22b896f7f709ccf5284e3bb42f0e043b2522e4b712a86e846c5a42a50a43b7a6",
         "violations": [
@@ -19617,6 +20824,7 @@
             39.39
           ]
         ],
+        "changed": 4446,
         "htmlSha256": "e6bc61a91b7ec3b0e563c724718cddb25d89f41ace237d28f23f6045f51ae03e",
         "pngSha256": "d2f02e1a28d1c362dad7cf6848e887e38f2e4dbde211cbca6b399a549935a4d9",
         "violations": [
@@ -19667,6 +20875,7 @@
             110.03
           ]
         ],
+        "changed": 6640,
         "htmlSha256": "c2141a87b721aa19151f8f880dbbf9bc6abd130b5782b0d74f77532e4520a383",
         "pngSha256": "8b6f1965741fa8686866e3606ccedbeb5dc5600392fad338484af74b74b6562a",
         "violations": [
@@ -19710,6 +20919,7 @@
             39.39
           ]
         ],
+        "changed": 4376,
         "htmlSha256": "d75b1a879dac8326f5da1d5ca085b3882582ace21e7e8c9b3aa760f369020c3e",
         "pngSha256": "60b8f97da9cde5f22115bcb5f6b00c5e87d742f862fd08d834b8983387abbc24",
         "violations": [
@@ -19748,6 +20958,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "4c180f83b9a5cb8d52bed8e813acaec2f34bd79aabbd51478cab4e2e3665f70a",
         "pngSha256": "2e47dfbb88e54767af95123d943ae98635971bf4485b59ed9fef219f356f78b9",
         "violations": [
@@ -19784,6 +20995,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "4c180f83b9a5cb8d52bed8e813acaec2f34bd79aabbd51478cab4e2e3665f70a",
         "pngSha256": "ecb4e487eba26627ffa498971b42a457d0b90b141fce8342eebaaea511a62650",
         "violations": [
@@ -19817,18 +21029,37 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
         "touched": [
           [
             -68,
-            191.27,
+            175.27,
             526,
-            655.41
+            671.41
+          ],
+          [
+            21.92,
+            177.33,
+            327.21,
+            16.94
+          ],
+          [
+            21.92,
+            177.33,
+            7.08,
+            73.87
           ]
         ],
-        "htmlSha256": "94569a56d80ab96b735790fdd3adc8cb740c1dd11f86fac3c14a2b6d1a83070f",
-        "pngSha256": "f74b4ab7731bcb44dfce6c8f90ab01d58cd0b63b9e7b2f70707c7d16f9f3355a",
+        "changed": 99203,
+        "near": {
+          "pixels": 19929,
+          "differing": 341,
+          "max": 11
+        },
+        "htmlSha256": "2163da325058eab73b78efda903cedbeb4eda9fe9725478d1b1b80e97a59e5ed",
+        "pngSha256": "7648cd926c4c073e4cb54e5988b0a09db83557d4bef04a384fc60b1a8c318130",
         "violations": [
           {
             "directive": "script-src",
@@ -19860,17 +21091,19 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
         "touched": [
           [
             -68,
-            162.69,
+            146.69,
             526,
-            749.3
+            765.3
           ]
         ],
-        "htmlSha256": "5d8d5c89f9df3bcc66b35346413c4f3a94263032fa7bc4862db09c93c29a4857",
+        "changed": 117402,
+        "htmlSha256": "9002c24d2f053df27b39a73556f41daac7122fde9482e3975f18bcd0225f67d3",
         "pngSha256": "5bb3952490025beca94b5d75a3e8784bace84c4cfa46fd50408e2fd1c1180b74",
         "violations": [
           {
@@ -19928,6 +21161,7 @@
             381.44
           ]
         ],
+        "changed": 57787,
         "htmlSha256": "413b0fe7e7d217e006122fd68a857bb537e674210bd8b4853916ccd675b85cba",
         "pngSha256": "ce817e00fa7be159b739b6cd0b0a9f439d59c396984bff031774ce39312f00d4",
         "violations": [
@@ -19979,6 +21213,7 @@
             539.59
           ]
         ],
+        "changed": 118397,
         "htmlSha256": "eb3a66f0ccccc08cd2790f3831e8042f95176e388eeca7d0d685e4eddcc9e17e",
         "pngSha256": "4cd3dc31a42b9488bc708974741562a0a3a8ff3249f0b9dfabea0dec72e54076",
         "violations": [
@@ -20037,6 +21272,7 @@
             381.44
           ]
         ],
+        "changed": 57354,
         "htmlSha256": "5205e264504261733e20c8446ce87225777bd8d5fc2e46f0ea0b193d58f7596c",
         "pngSha256": "891e16028733469472297f08aca472c9ef5abfca62ba8cdf57fe531a5749cbab",
         "violations": [
@@ -20088,6 +21324,7 @@
             539.59
           ]
         ],
+        "changed": 118071,
         "htmlSha256": "b0f17330aaef6ef1a7af1d5651686bca7414b3be8d5ac967251e29999d517569",
         "pngSha256": "da25f10c48c62b8172860cf2f950c284ae5b0ec24d6199a0cbbd5762664d7585",
         "violations": [
@@ -20148,6 +21385,7 @@
             349.94
           ]
         ],
+        "changed": 48802,
         "htmlSha256": "3b51a614da866726b61753ec5d7833af4cff20af98a4dcc40de73c7a363168f7",
         "pngSha256": "e4562bafe9189eb3dc5fadc85c5a87a1d1b645f31269be37043f36f2a2fb934a",
         "violations": [
@@ -20199,6 +21437,7 @@
             497.59
           ]
         ],
+        "changed": 101668,
         "htmlSha256": "4a66b277f2d114d12637fbaeec854720cdd0608cc80dbb3e909bd13370d67c84",
         "pngSha256": "8e1bd01db8214fb103270a7b2a4856b695e2f184f70faedd8aabf75ea7c0262a",
         "violations": [
@@ -20259,6 +21498,7 @@
             349.94
           ]
         ],
+        "changed": 48450,
         "htmlSha256": "65afacba4254d22a2f80507b740f8e8f9f36a31bce9103f79764eaba47617f34",
         "pngSha256": "e56bf2e4a9b06c8c495f676e22f87abcfe533308775ccf6b07af2b9561fd8f3b",
         "violations": [
@@ -20310,6 +21550,7 @@
             455.59
           ]
         ],
+        "changed": 83760,
         "htmlSha256": "67c7e93bfe342e23f77e371777e8ee7299d37edacd1de6ac3da585d0f1e1a087",
         "pngSha256": "9635c9fe71fb7722c0c505793b0e4aaf7f93c78ec92a0f20527124c37d8768e9",
         "violations": [
@@ -20325,6 +21566,100 @@
         "problems": [],
         "file": "design/phone-ui/components/food/review/390x844-case-food-panel-17-text200.jpg",
         "sha256": "7945eb1b39e79291cad5dd3f5652e680a19eead049c4cda016c185f65c9233e9"
+      },
+      "390x844/case-food-states-08/150%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 24,
+        "bars": {
+          "top": 117,
+          "bottom": 94
+        },
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [
+          [
+            21.75,
+            182.17,
+            188.84,
+            12.1
+          ],
+          [
+            21.75,
+            182.17,
+            7.25,
+            64.2
+          ]
+        ],
+        "changed": 536,
+        "near": {
+          "pixels": 10500,
+          "differing": 159,
+          "max": 22
+        },
+        "htmlSha256": "3ebff86500342d7026ba84480d98f1301f1c682d6319d2a5f75eb2cba54489de",
+        "pngSha256": "b682e09db4be7a7b97eb808bf0baa6c0bbbff30d54614f2b0ef5487871fcbb68",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/200%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 32,
+        "bars": {
+          "top": 141,
+          "bottom": 94
+        },
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [],
+        "changed": 0,
+        "htmlSha256": "4e11a124aa66172a1550bc64b60e631df2ac0d2d2bf6d74d55a9fd5968997f99",
+        "pngSha256": "26486fdbf5e7960d5e9e7d3aa85c4997c123d1f8fcf4b66775c192eaa7230631",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
       },
       "430x932/food-panel-03/150%": {
         "ok": true,
@@ -20355,6 +21690,7 @@
             55.19
           ]
         ],
+        "changed": 5483,
         "htmlSha256": "45ec9cbf0938fafdbf84472c3c3afd9e7bb04a63c6f0ab7c173c35c029614e26",
         "pngSha256": "461fafe0c4dc811c7ba5f64ad5e7ec259a6df2b7e3f8ceb2da7bf103a3d16b23",
         "violations": [
@@ -20398,6 +21734,7 @@
             72.59
           ]
         ],
+        "changed": 6835,
         "htmlSha256": "ff48e0ecfb2701ba71c6babe8f20c0f2e4cb712ddab0707d029fa739b1d574b8",
         "pngSha256": "54ffc143ef122b9fb64b0065282a589fbf0f33f00c03af5e68464ad5d203fcd7",
         "violations": [
@@ -20441,6 +21778,7 @@
             55.19
           ]
         ],
+        "changed": 5483,
         "htmlSha256": "4465a68ba20709b74e3dcdbdea281ea77c2a6fbacebe8f08f0e6680a8e1c3a61",
         "pngSha256": "6e9754aa90f29481fd6ec7d94953b65fb8d1037f62b993150c1eb40a29685261",
         "violations": [
@@ -20484,6 +21822,7 @@
             72.59
           ]
         ],
+        "changed": 6835,
         "htmlSha256": "3eb8ee54875266cdb8fea1d9351f3e2b40fc8c74b0cca488177bbb8ba4a67f6d",
         "pngSha256": "f94e7b9f9b26c9a2e8e1db09f96b84bdcff8bc29fadf080b4805123a26da1147",
         "violations": [
@@ -20527,6 +21866,7 @@
             55.19
           ]
         ],
+        "changed": 5495,
         "htmlSha256": "aca74d9c52b09ae4ed3e93287dabf95448d9e6c4123bd8ab4b9197893a1d6934",
         "pngSha256": "04123850f73892d09cb0451a85be026025201cce07440dae5140bc7d3fa7479b",
         "violations": [
@@ -20570,6 +21910,7 @@
             72.59
           ]
         ],
+        "changed": 6765,
         "htmlSha256": "ae203ed3d8a9b6f2908855457edede9fa5f276b4bde5d41d21dbfd7ef5f03258",
         "pngSha256": "6b461bd7c3d8d3308c0c4c426182f4bc4a2e115cdbbed0bc00c73570b4aa8aff",
         "violations": [
@@ -20614,6 +21955,7 @@
             55.19
           ]
         ],
+        "changed": 5495,
         "htmlSha256": "e19c2763c16f0407c212024ef0fe50e3a92bde016292242bb7d724d07d2fec21",
         "pngSha256": "baa05bc4df13e513273ca662982b68d8be15668574286d9321bcc28d9271e5ab",
         "violations": [
@@ -20658,6 +22000,7 @@
             72.59
           ]
         ],
+        "changed": 6765,
         "htmlSha256": "8a489c7033f181d6916d73e8b969b3f0aaaff0dc19c2e7f3d40b6d25b1a9e907",
         "pngSha256": "f18657d1f09582ed8ed46fb10f767615bc79a0d31feae86fe7c0b8939d68a89a",
         "violations": [
@@ -20701,6 +22044,7 @@
             55.19
           ]
         ],
+        "changed": 5483,
         "htmlSha256": "3607774e31fada846a5490d88320bd98df030b7bf72e4021b4a1a89869d79179",
         "pngSha256": "695ce47f0eb85c33f0a9181de50819bf76b8c815584b6d936a662f7066150542",
         "violations": [
@@ -20744,6 +22088,7 @@
             72.59
           ]
         ],
+        "changed": 6835,
         "htmlSha256": "ca3ed1f59fba41575f263e175dda6f0a943c3bcff884e158b969557e149ec687",
         "pngSha256": "1a7a643eaaa7a50f0a8e1430d1ed25a3db7a7079422976ca8933e8aaa7c130dc",
         "violations": [
@@ -20787,6 +22132,7 @@
             55.19
           ]
         ],
+        "changed": 5495,
         "htmlSha256": "85bbd45bef0f7c96467a2ea5cbafccef414d15046e848e500691e791c2baf5bf",
         "pngSha256": "ec17cf732cd56f3e77d8f4681487bcbe6627c9d3d61a4d59e98435221e144b01",
         "violations": [
@@ -20830,6 +22176,7 @@
             72.59
           ]
         ],
+        "changed": 6765,
         "htmlSha256": "06b6442f698b3faf88842885d3bbf4d0c01d47b7873d12e6641517f0ec33cb61",
         "pngSha256": "4f66e808f75ed90ef9eb9b7ecb1bb5329f3b742a4ffc820265ec7bf6bee21371",
         "violations": [
@@ -20868,6 +22215,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "4c180f83b9a5cb8d52bed8e813acaec2f34bd79aabbd51478cab4e2e3665f70a",
         "pngSha256": "d38f6aef6393406189d9d84a8081c8268da1aeb71a8063d9597887e6e1a8fcde",
         "violations": [
@@ -20904,6 +22252,7 @@
           6
         ],
         "touched": [],
+        "changed": 0,
         "htmlSha256": "4c180f83b9a5cb8d52bed8e813acaec2f34bd79aabbd51478cab4e2e3665f70a",
         "pngSha256": "6765c3aefa44d501deacf2139c731b6904ba899bd81102d1139b5aaa4d4ade19",
         "violations": [
@@ -20937,11 +22286,31 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
-        "touched": [],
-        "htmlSha256": "9fa597db741c4d3e60d79b7cfb3a4e13e243f885408abfc0b7e84b4fef3f10c8",
-        "pngSha256": "58c8d6b2c572b2b0aeb6fd405b02d19da9ac13ab78c9aafb54a7a69aebb2b376",
+        "touched": [
+          [
+            21.92,
+            177.33,
+            327.21,
+            16.94
+          ],
+          [
+            21.92,
+            177.33,
+            7.08,
+            73.87
+          ]
+        ],
+        "changed": 1255,
+        "near": {
+          "pixels": 19929,
+          "differing": 247,
+          "max": 11
+        },
+        "htmlSha256": "b3463c795723cd221acb76a3da591293b7d8e98d36fad4830b6b46582d41a87f",
+        "pngSha256": "ca787e9f68f5efc6ccc4eb74c1439e9aaae58ebee14aba321aab64d73d54a4b3",
         "violations": [
           {
             "directive": "script-src",
@@ -20973,18 +22342,20 @@
           "pixels": true
         },
         "corrections": [
-          5
+          5,
+          7
         ],
         "touched": [
           [
             -68,
-            162.69,
+            146.69,
             566,
-            837.3
+            853.3
           ]
         ],
-        "htmlSha256": "5d8d5c89f9df3bcc66b35346413c4f3a94263032fa7bc4862db09c93c29a4857",
-        "pngSha256": "a793876d74ef6b8bfa8dbaa5a70dfbd6c8c54d67a6fea39e5825b5d6e7cc15ac",
+        "changed": 125111,
+        "htmlSha256": "9002c24d2f053df27b39a73556f41daac7122fde9482e3975f18bcd0225f67d3",
+        "pngSha256": "94ff546dfacabe35854cc4f676bfe5c9db778c8c191d3ef446e540b18e56fa27",
         "violations": [
           {
             "directive": "script-src",
@@ -21041,6 +22412,7 @@
             381.44
           ]
         ],
+        "changed": 50117,
         "htmlSha256": "cce4d4cfe28bccb340190b633b8524eb554e6272eaaa3a9baac81f86d7cb6536",
         "pngSha256": "4cbdf88d09e839d42f7495f14cd265ee81e37d5534fc648bdd772f8b80a43d19",
         "violations": [
@@ -21092,6 +22464,7 @@
             497.59
           ]
         ],
+        "changed": 103180,
         "htmlSha256": "a5d34e452da60ceae712bdae324b73a77f5adfd2d2d56194ecc2d6ab27d1775d",
         "pngSha256": "79575375d4a997a8a42d1833b0005a1ca3cae22f941358d3d1b65437c847fa47",
         "violations": [
@@ -21143,6 +22516,7 @@
             349.94
           ]
         ],
+        "changed": 25238,
         "htmlSha256": "c87df27f55a0c139a236ada8c7cab225c2adce30482fe1ad279cbe3102741a32",
         "pngSha256": "061358924d095d4e5fe49b2e1795a013310673dd0d1025ec68fbbcfc924be389",
         "violations": [
@@ -21194,6 +22568,7 @@
             497.59
           ]
         ],
+        "changed": 104197,
         "htmlSha256": "2c7c421469408dffa3f01a5d059ea00988e0b2164d143c0afe929e8ed9383212",
         "pngSha256": "8ab5cfe2a7918ab6c17fd825d192691329cf7f5017e8ce024a0e8d07e7d9a125",
         "violations": [
@@ -21252,6 +22627,7 @@
             349.94
           ]
         ],
+        "changed": 33668,
         "htmlSha256": "49da7c324ab8a73cf1867f0e77d343aa9886ab2172215e575889a966d40f2b65",
         "pngSha256": "5774d7a29fde75422b816be5f0b7d2aeb75801edbb0e9f67fc68f780422f514a",
         "violations": [
@@ -21303,6 +22679,7 @@
             497.59
           ]
         ],
+        "changed": 101928,
         "htmlSha256": "da7e337a5c31b0038b6018ec8f4db51b665e56bf9009dbc99807b77c894573e1",
         "pngSha256": "caf070a8e0236082384030b90798ff54c37cbc30ff2f25a9e97d9ae12d8c993f",
         "violations": [
@@ -21361,6 +22738,7 @@
             349.94
           ]
         ],
+        "changed": 25315,
         "htmlSha256": "d3d38546c5ed1166d75572aeca23b890eb5edd7731d03473d4f2d957d47a95c0",
         "pngSha256": "e6bc7c3ee9a5dc4976f3eb4f656f6c4950970505b701bb01016b3050adf6911d",
         "violations": [
@@ -21412,8 +22790,103 @@
             455.59
           ]
         ],
+        "changed": 84504,
         "htmlSha256": "db2171e69fbb9ac27963394d5253c42afe80977bd3b8c2236d712f7646ffd1d7",
         "pngSha256": "1812db7699c471c31765d8cc977488a46a6d32dee4a66051ce954145b8977cc9",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/150%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 24,
+        "bars": {
+          "top": 117,
+          "bottom": 94
+        },
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [
+          [
+            21.75,
+            182.17,
+            188.84,
+            12.1
+          ],
+          [
+            21.75,
+            182.17,
+            7.25,
+            64.2
+          ]
+        ],
+        "changed": 536,
+        "near": {
+          "pixels": 10500,
+          "differing": 159,
+          "max": 22
+        },
+        "htmlSha256": "3ebff86500342d7026ba84480d98f1301f1c682d6319d2a5f75eb2cba54489de",
+        "pngSha256": "ed5aa230c2a1097780140f51a1cf5070a096ab77044b90d22f9f1db0fac2da6b",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/200%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 32,
+        "bars": {
+          "top": 141,
+          "bottom": 94
+        },
+        "equal": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "focus": true,
+          "pixels": true
+        },
+        "corrections": [
+          5,
+          7
+        ],
+        "touched": [],
+        "changed": 0,
+        "htmlSha256": "4e11a124aa66172a1550bc64b60e631df2ac0d2d2bf6d74d55a9fd5968997f99",
+        "pngSha256": "59e8d1e0b959bd4f0912df608b5d8871e3a684b66eb6212f2a85fe5872a0be46",
         "violations": [
           {
             "directive": "script-src",
@@ -21451,7 +22924,8 @@
       "case-food-panel-16",
       "case-food-winch-14",
       "case-food-winch-17",
-      "case-food-panel-17"
+      "case-food-panel-17",
+      "case-food-states-08"
     ],
     "control": {
       "what": "the component's root without its mark, in one page with the port: food-panel-04 at 150 % on 390 × 844",
@@ -23365,7 +24839,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd",
-          "component": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd"
+          "component": "aa04a683e6357c8667a427efe1a43b0a4365792af688936ce9fcd4fba3d80561"
         },
         "violations": [
           {
@@ -23409,7 +24883,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd",
-          "component": "99f768e6a9a640d2c3b519ec18b60a2d7b35c3f81ffd17eccaefddeb63a29dcd"
+          "component": "aa04a683e6357c8667a427efe1a43b0a4365792af688936ce9fcd4fba3d80561"
         },
         "violations": [
           {
@@ -23453,7 +24927,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "43db5fb0452c4debee1846318f06c907eed9f6f64052b4117570aa37492e4c27",
-          "component": "f74b4ab7731bcb44dfce6c8f90ab01d58cd0b63b9e7b2f70707c7d16f9f3355a"
+          "component": "7648cd926c4c073e4cb54e5988b0a09db83557d4bef04a384fc60b1a8c318130"
         },
         "violations": [
           {
@@ -23497,7 +24971,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "43db5fb0452c4debee1846318f06c907eed9f6f64052b4117570aa37492e4c27",
-          "component": "f74b4ab7731bcb44dfce6c8f90ab01d58cd0b63b9e7b2f70707c7d16f9f3355a"
+          "component": "7648cd926c4c073e4cb54e5988b0a09db83557d4bef04a384fc60b1a8c318130"
         },
         "violations": [
           {
@@ -24642,6 +26116,270 @@
         "pngSha256": {
           "port": "67a3c8fb0f6e15d166cb27ec76b3ef76ad106d904d240a981ea5bc8a3e8d4244",
           "component": "9635c9fe71fb7722c0c505793b0e4aaf7f93c78ec92a0f20527124c37d8768e9"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/100%/port-first": {
+        "ok": true,
+        "notes": [],
+        "first": "port",
+        "sheets": [
+          "port",
+          "component"
+        ],
+        "rootPx": 16,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "ab53f3b8c90da22d3cea856ae1a4dd076bdb795386ef2992022e0f063dcf0ebb",
+          "component": "1331adc512cce38b422ff0c491df4891758f5bf9caf1891560e7505752688cf9"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/100%/component-first": {
+        "ok": true,
+        "notes": [],
+        "first": "component",
+        "sheets": [
+          "component",
+          "port"
+        ],
+        "rootPx": 16,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "ab53f3b8c90da22d3cea856ae1a4dd076bdb795386ef2992022e0f063dcf0ebb",
+          "component": "1331adc512cce38b422ff0c491df4891758f5bf9caf1891560e7505752688cf9"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/150%/port-first": {
+        "ok": true,
+        "notes": [],
+        "first": "port",
+        "sheets": [
+          "port",
+          "component"
+        ],
+        "rootPx": 24,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "ae0bca1f7f562d8cf031431b1160f4cdd42092c54d893506168e273caeec8f76",
+          "component": "b682e09db4be7a7b97eb808bf0baa6c0bbbff30d54614f2b0ef5487871fcbb68"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/150%/component-first": {
+        "ok": true,
+        "notes": [],
+        "first": "component",
+        "sheets": [
+          "component",
+          "port"
+        ],
+        "rootPx": 24,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "ae0bca1f7f562d8cf031431b1160f4cdd42092c54d893506168e273caeec8f76",
+          "component": "b682e09db4be7a7b97eb808bf0baa6c0bbbff30d54614f2b0ef5487871fcbb68"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/200%/port-first": {
+        "ok": true,
+        "notes": [],
+        "first": "port",
+        "sheets": [
+          "port",
+          "component"
+        ],
+        "rootPx": 32,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "26486fdbf5e7960d5e9e7d3aa85c4997c123d1f8fcf4b66775c192eaa7230631",
+          "component": "26486fdbf5e7960d5e9e7d3aa85c4997c123d1f8fcf4b66775c192eaa7230631"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "390x844/case-food-states-08/200%/component-first": {
+        "ok": true,
+        "notes": [],
+        "first": "component",
+        "sheets": [
+          "component",
+          "port"
+        ],
+        "rootPx": 32,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "26486fdbf5e7960d5e9e7d3aa85c4997c123d1f8fcf4b66775c192eaa7230631",
+          "component": "26486fdbf5e7960d5e9e7d3aa85c4997c123d1f8fcf4b66775c192eaa7230631"
         },
         "violations": [
           {
@@ -26533,7 +28271,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b",
-          "component": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b"
+          "component": "777b920c94135ffc4009ef047e8509afd13d8faa5c9a7027c6a67bda6fc06716"
         },
         "violations": [
           {
@@ -26577,7 +28315,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b",
-          "component": "ef58268684b63661859460b673ffd352df80f7bc63d7add47e080ecf56d2ea0b"
+          "component": "777b920c94135ffc4009ef047e8509afd13d8faa5c9a7027c6a67bda6fc06716"
         },
         "violations": [
           {
@@ -26621,7 +28359,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "58c8d6b2c572b2b0aeb6fd405b02d19da9ac13ab78c9aafb54a7a69aebb2b376",
-          "component": "58c8d6b2c572b2b0aeb6fd405b02d19da9ac13ab78c9aafb54a7a69aebb2b376"
+          "component": "ca787e9f68f5efc6ccc4eb74c1439e9aaae58ebee14aba321aab64d73d54a4b3"
         },
         "violations": [
           {
@@ -26665,7 +28403,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "58c8d6b2c572b2b0aeb6fd405b02d19da9ac13ab78c9aafb54a7a69aebb2b376",
-          "component": "58c8d6b2c572b2b0aeb6fd405b02d19da9ac13ab78c9aafb54a7a69aebb2b376"
+          "component": "ca787e9f68f5efc6ccc4eb74c1439e9aaae58ebee14aba321aab64d73d54a4b3"
         },
         "violations": [
           {
@@ -26709,7 +28447,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "733a4a19bbfd904d781f6e90ae82a7d59e401fd8576b80aecba06f62710dbc39",
-          "component": "a793876d74ef6b8bfa8dbaa5a70dfbd6c8c54d67a6fea39e5825b5d6e7cc15ac"
+          "component": "94ff546dfacabe35854cc4f676bfe5c9db778c8c191d3ef446e540b18e56fa27"
         },
         "violations": [
           {
@@ -26753,7 +28491,7 @@
         "roleRow": "not shown",
         "pngSha256": {
           "port": "733a4a19bbfd904d781f6e90ae82a7d59e401fd8576b80aecba06f62710dbc39",
-          "component": "a793876d74ef6b8bfa8dbaa5a70dfbd6c8c54d67a6fea39e5825b5d6e7cc15ac"
+          "component": "94ff546dfacabe35854cc4f676bfe5c9db778c8c191d3ef446e540b18e56fa27"
         },
         "violations": [
           {
@@ -27822,6 +29560,270 @@
           }
         ],
         "problems": []
+      },
+      "430x932/case-food-states-08/100%/port-first": {
+        "ok": true,
+        "notes": [],
+        "first": "port",
+        "sheets": [
+          "port",
+          "component"
+        ],
+        "rootPx": 16,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "f4e8e879c1d8e0ac92a3d6ab7fa5404ed725c9090b174571523a8b1c152143a0",
+          "component": "101c706f4582de3e78df4adb418751fa78a96b8eb41f5efa060855af79ebc811"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/100%/component-first": {
+        "ok": true,
+        "notes": [],
+        "first": "component",
+        "sheets": [
+          "component",
+          "port"
+        ],
+        "rootPx": 16,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "f4e8e879c1d8e0ac92a3d6ab7fa5404ed725c9090b174571523a8b1c152143a0",
+          "component": "101c706f4582de3e78df4adb418751fa78a96b8eb41f5efa060855af79ebc811"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/150%/port-first": {
+        "ok": true,
+        "notes": [],
+        "first": "port",
+        "sheets": [
+          "port",
+          "component"
+        ],
+        "rootPx": 24,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "42cb148dce19c68fca9cff05ce5c8cd152d9269d8a74a766565570ed68c3bb8e",
+          "component": "ed5aa230c2a1097780140f51a1cf5070a096ab77044b90d22f9f1db0fac2da6b"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/150%/component-first": {
+        "ok": true,
+        "notes": [],
+        "first": "component",
+        "sheets": [
+          "component",
+          "port"
+        ],
+        "rootPx": 24,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "42cb148dce19c68fca9cff05ce5c8cd152d9269d8a74a766565570ed68c3bb8e",
+          "component": "ed5aa230c2a1097780140f51a1cf5070a096ab77044b90d22f9f1db0fac2da6b"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/200%/port-first": {
+        "ok": true,
+        "notes": [],
+        "first": "port",
+        "sheets": [
+          "port",
+          "component"
+        ],
+        "rootPx": 32,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "59e8d1e0b959bd4f0912df608b5d8871e3a684b66eb6212f2a85fe5872a0be46",
+          "component": "59e8d1e0b959bd4f0912df608b5d8871e3a684b66eb6212f2a85fe5872a0be46"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932/case-food-states-08/200%/component-first": {
+        "ok": true,
+        "notes": [],
+        "first": "component",
+        "sheets": [
+          "component",
+          "port"
+        ],
+        "rootPx": 32,
+        "port": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "component": {
+          "html": true,
+          "text": true,
+          "boxes": true,
+          "controls": true,
+          "covers": true,
+          "gauge": true,
+          "pixels": true
+        },
+        "roleRow": "not shown",
+        "pngSha256": {
+          "port": "59e8d1e0b959bd4f0912df608b5d8871e3a684b66eb6212f2a85fe5872a0be46",
+          "component": "59e8d1e0b959bd4f0912df608b5d8871e3a684b66eb6212f2a85fe5872a0be46"
+        },
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/dist-BjUzZdf9.js",
+            "line": 1,
+            "column": 2515,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
       }
     }
   },
@@ -27867,7 +29869,8 @@
       "case-food-panel-01",
       "case-food-panel-16",
       "case-food-panel-17",
-      "case-food-flow-04"
+      "case-food-flow-04",
+      "case-food-states-08"
     ],
     "drawn": {
       "390x844/case-food-winch-01/100%": {
@@ -28535,6 +30538,102 @@
         "around": {
           "pixels": 7648,
           "changed": 7648
+        },
+        "rim": {
+          "pixels": 3630,
+          "colours": 1,
+          "colour": "rgb(32, 40, 55)"
+        }
+      },
+      "390x844/case-food-states-08/100%": {
+        "ok": true,
+        "notes": [],
+        "kind": "request",
+        "rootPx": 16,
+        "card": [
+          12,
+          159,
+          366,
+          243.3
+        ],
+        "colour": "rgb(32, 40, 55)",
+        "fades": null,
+        "wordsScroll": false,
+        "inside": {
+          "pixels": 86898,
+          "changed": 0
+        },
+        "foot": {
+          "pixels": 9944,
+          "changed": 0
+        },
+        "around": {
+          "pixels": 5008,
+          "changed": 5008
+        },
+        "rim": {
+          "pixels": 3630,
+          "colours": 1,
+          "colour": "rgb(32, 40, 55)"
+        }
+      },
+      "390x844/case-food-states-08/150%": {
+        "ok": true,
+        "notes": [],
+        "kind": "request",
+        "rootPx": 24,
+        "card": [
+          12,
+          177.27,
+          366,
+          327.94
+        ],
+        "colour": "rgb(32, 40, 55)",
+        "fades": null,
+        "wordsScroll": false,
+        "inside": {
+          "pixels": 117804,
+          "changed": 0
+        },
+        "foot": {
+          "pixels": 9944,
+          "changed": 0
+        },
+        "around": {
+          "pixels": 5688,
+          "changed": 5688
+        },
+        "rim": {
+          "pixels": 3630,
+          "colours": 1,
+          "colour": "rgb(32, 40, 55)"
+        }
+      },
+      "390x844/case-food-states-08/200%": {
+        "ok": true,
+        "notes": [],
+        "kind": "request",
+        "rootPx": 32,
+        "card": [
+          12,
+          148.69,
+          366,
+          330.59
+        ],
+        "colour": "rgb(32, 40, 55)",
+        "fades": null,
+        "wordsScroll": false,
+        "inside": {
+          "pixels": 118896,
+          "changed": 0
+        },
+        "foot": {
+          "pixels": 9944,
+          "changed": 0
+        },
+        "around": {
+          "pixels": 5712,
+          "changed": 5712
         },
         "rim": {
           "pixels": 3630,
@@ -29213,14 +31312,111 @@
           "colours": 1,
           "colour": "rgb(32, 40, 55)"
         }
+      },
+      "430x932/case-food-states-08/100%": {
+        "ok": true,
+        "notes": [],
+        "kind": "request",
+        "rootPx": 16,
+        "card": [
+          12,
+          159,
+          406,
+          243.3
+        ],
+        "colour": "rgb(32, 40, 55)",
+        "fades": null,
+        "wordsScroll": false,
+        "inside": {
+          "pixels": 96578,
+          "changed": 0
+        },
+        "foot": {
+          "pixels": 11104,
+          "changed": 0
+        },
+        "around": {
+          "pixels": 5328,
+          "changed": 5328
+        },
+        "rim": {
+          "pixels": 4070,
+          "colours": 1,
+          "colour": "rgb(32, 40, 55)"
+        }
+      },
+      "430x932/case-food-states-08/150%": {
+        "ok": true,
+        "notes": [],
+        "kind": "request",
+        "rootPx": 24,
+        "card": [
+          12,
+          177.27,
+          406,
+          296.44
+        ],
+        "colour": "rgb(32, 40, 55)",
+        "fades": null,
+        "wordsScroll": false,
+        "inside": {
+          "pixels": 117956,
+          "changed": 0
+        },
+        "foot": {
+          "pixels": 11104,
+          "changed": 0
+        },
+        "around": {
+          "pixels": 5752,
+          "changed": 5752
+        },
+        "rim": {
+          "pixels": 4070,
+          "colours": 1,
+          "colour": "rgb(32, 40, 55)"
+        }
+      },
+      "430x932/case-food-states-08/200%": {
+        "ok": true,
+        "notes": [],
+        "kind": "request",
+        "rootPx": 32,
+        "card": [
+          12,
+          148.69,
+          406,
+          330.59
+        ],
+        "colour": "rgb(32, 40, 55)",
+        "fades": null,
+        "wordsScroll": false,
+        "inside": {
+          "pixels": 132096,
+          "changed": 0
+        },
+        "foot": {
+          "pixels": 11104,
+          "changed": 0
+        },
+        "around": {
+          "pixels": 6032,
+          "changed": 6032
+        },
+        "rim": {
+          "pixels": 4070,
+          "colours": 1,
+          "colour": "rgb(32, 40, 55)"
+        }
       }
     }
   },
   "keys": {
-    "what": "A card's words and the keys, with real key presses on the component's page: from the card, which holds the focus, Tab goes to the words where they scroll (they show the focus ring), the down arrow scrolls them and End brings them to their last line. Where the words fit, Tab does not stop on them.",
+    "what": "A card's words and the keys, with real key presses on the component's page: from the card, which holds the focus, Tab goes to the words where they scroll (they show the focus ring, drawn inside them: 3 px, 5 px in), the down arrow scrolls them and End brings them to their last line. Where the words fit, Tab does not stop on them.",
     "states": [
       "case-food-panel-16",
-      "case-food-flow-04"
+      "case-food-flow-04",
+      "case-food-states-08"
     ],
     "texts": [
       1,
@@ -29386,21 +31582,21 @@
           "onWords": true,
           "scrolled": 0,
           "most": 45,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         },
         "arrow": {
           "focus": "fs-card-body",
           "onWords": true,
           "scrolled": 40,
           "most": 45,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         },
         "end": {
           "focus": "fs-card-body",
           "onWords": true,
           "scrolled": 45,
           "most": 45,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         }
       },
       "390x844/case-food-flow-04/200%": {
@@ -29420,20 +31616,122 @@
           "onWords": true,
           "scrolled": 0,
           "most": 246,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         },
         "arrow": {
           "focus": "fs-card-body",
           "onWords": true,
           "scrolled": 40,
           "most": 246,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         },
         "end": {
           "focus": "fs-card-body",
           "onWords": true,
           "scrolled": 245,
           "most": 246,
+          "ring": "solid 3px -5px"
+        }
+      },
+      "390x844/case-food-states-08/100%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 16,
+        "wordsScroll": false,
+        "start": {
+          "focus": "fs-card",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "none 3px 2px"
+        },
+        "tab": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "arrow": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "end": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        }
+      },
+      "390x844/case-food-states-08/150%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 24,
+        "wordsScroll": false,
+        "start": {
+          "focus": "fs-card",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "none 3px 2px"
+        },
+        "tab": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "arrow": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "end": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        }
+      },
+      "390x844/case-food-states-08/200%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 32,
+        "wordsScroll": false,
+        "start": {
+          "focus": "fs-card",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "none 3px 2px"
+        },
+        "tab": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "arrow": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "end": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
           "ring": "solid 3px 2px"
         }
       },
@@ -29624,20 +31922,122 @@
           "onWords": true,
           "scrolled": 0,
           "most": 122,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         },
         "arrow": {
           "focus": "fs-card-body",
           "onWords": true,
           "scrolled": 40,
           "most": 122,
-          "ring": "solid 3px 2px"
+          "ring": "solid 3px -5px"
         },
         "end": {
           "focus": "fs-card-body",
           "onWords": true,
           "scrolled": 121,
           "most": 122,
+          "ring": "solid 3px -5px"
+        }
+      },
+      "430x932/case-food-states-08/100%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 16,
+        "wordsScroll": false,
+        "start": {
+          "focus": "fs-card",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "none 3px 2px"
+        },
+        "tab": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "arrow": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "end": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        }
+      },
+      "430x932/case-food-states-08/150%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 24,
+        "wordsScroll": false,
+        "start": {
+          "focus": "fs-card",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "none 3px 2px"
+        },
+        "tab": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "arrow": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "end": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        }
+      },
+      "430x932/case-food-states-08/200%": {
+        "ok": true,
+        "notes": [],
+        "rootPx": 32,
+        "wordsScroll": false,
+        "start": {
+          "focus": "fs-card",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "none 3px 2px"
+        },
+        "tab": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "arrow": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
+          "ring": "solid 3px 2px"
+        },
+        "end": {
+          "focus": "food-action-ok",
+          "onWords": false,
+          "scrolled": 0,
+          "most": 0,
           "ring": "solid 3px 2px"
         }
       }
@@ -29711,21 +32111,34 @@
         },
         "corrections": [
           5,
-          6
+          6,
+          7
         ],
         "touched": [
           [
             -68,
-            191.27,
+            175.27,
             526,
-            655.41
+            671.41
+          ],
+          [
+            21.92,
+            177.33,
+            327.21,
+            16.94
+          ],
+          [
+            21.92,
+            177.33,
+            7.08,
+            73.87
           ]
         ],
         "bars": {
           "top": 117,
           "bottom": 94
         },
-        "pngSha256": "f74b4ab7731bcb44dfce6c8f90ab01d58cd0b63b9e7b2f70707c7d16f9f3355a",
+        "pngSha256": "7648cd926c4c073e4cb54e5988b0a09db83557d4bef04a384fc60b1a8c318130",
         "violations": [
           {
             "directive": "script-src",
@@ -29851,14 +32264,28 @@
         },
         "corrections": [
           5,
-          6
+          6,
+          7
         ],
-        "touched": [],
+        "touched": [
+          [
+            21.92,
+            177.33,
+            327.21,
+            16.94
+          ],
+          [
+            21.92,
+            177.33,
+            7.08,
+            73.87
+          ]
+        ],
         "bars": {
           "top": 117,
           "bottom": 94
         },
-        "pngSha256": "58c8d6b2c572b2b0aeb6fd405b02d19da9ac13ab78c9aafb54a7a69aebb2b376",
+        "pngSha256": "ca787e9f68f5efc6ccc4eb74c1439e9aaae58ebee14aba321aab64d73d54a4b3",
         "violations": [
           {
             "directive": "script-src",
@@ -32980,6 +35407,7 @@
               {
                 "sizeKey": "390x844",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 235.22,
                 "aboveTabs": 254.22,
                 "answers": 3,
@@ -32987,11 +35415,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -32999,11 +35440,24 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 330
+                "wordsShown": 346,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -33011,11 +35465,21 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 304
+                "wordsShown": 320,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 323.22,
                 "aboveTabs": 342.22,
                 "answers": 3,
@@ -33023,11 +35487,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 148.08,
                 "aboveTabs": 167.08,
                 "answers": 3,
@@ -33035,11 +35512,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 337
+                "wordsShown": 353,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -33047,7 +35537,16 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 428
+                "wordsShown": 444,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               }
             ]
           }
@@ -33060,6 +35559,7 @@
               {
                 "sizeKey": "390x844",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 235.22,
                 "aboveTabs": 254.22,
                 "answers": 3,
@@ -33067,11 +35567,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -33079,11 +35592,24 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 330
+                "wordsShown": 346,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -33091,11 +35617,21 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 304
+                "wordsShown": 320,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 323.22,
                 "aboveTabs": 342.22,
                 "answers": 3,
@@ -33103,11 +35639,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 148.08,
                 "aboveTabs": 167.08,
                 "answers": 3,
@@ -33115,11 +35664,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 337
+                "wordsShown": 353,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -33127,13 +35689,466 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 428
+                "wordsShown": 444,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               }
             ]
           }
         },
         {
-          "id": "corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card",
+          "id": "corrections: Too late to join, the other card with an answer under its words, ends above the Pass button and the tab bar at every text size on both phones, with OK whole inside it and its words in sight",
+          "ok": true,
+          "detail": {
+            "cards": [
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "abovePass": 330.7,
+                "aboveTabs": 349.7,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 167,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 11.59,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "abovePass": 225.61,
+                "aboveTabs": 244.61,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 252,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 9.9,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "abovePass": 251.53,
+                "aboveTabs": 270.53,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 255,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "abovePass": 418.7,
+                "aboveTabs": 437.7,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 167,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 11.59,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "abovePass": 345.11,
+                "aboveTabs": 364.11,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 220,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 9.9,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "abovePass": 339.53,
+                "aboveTabs": 358.53,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 255,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "corrections: on a request card and on Too late to join the words' scroller takes the card's inside at its top and its sides, ends 10 px above the answers, and draws its focus ring inside itself",
+          "ok": true,
+          "detail": {
+            "rooms": [
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "corrections: the stamp of a request card and of Too late to join is whole at the Standard and the Large text on both phones, drawn below its scroller's upper edge; at the Largest text the tight card shows none, as in the port",
+          "ok": true,
+          "detail": {
+            "stamps": [
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "tight": true,
+                "stamp": null
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "tight": true,
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "tight": true,
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "tight": true,
+                "stamp": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card, Too late to join and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card",
           "ok": true,
           "detail": {
             "stood": [
@@ -33464,6 +36479,19 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
                 "kind": "request",
@@ -33477,6 +36505,19 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 2,
                 "stateId": "case-food-flow-04",
                 "kind": "request",
@@ -33487,6 +36528,19 @@
                 "atFoot": true,
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "430x932",
@@ -33503,8 +36557,34 @@
               },
               {
                 "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
                 "kind": "request",
                 "whole": true,
                 "colour": "rgb(32, 40, 55)",
@@ -33526,6 +36606,19 @@
                 "atFoot": true,
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "390x844",
@@ -33885,6 +36978,13 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
                 "wordsScroll": true,
@@ -33892,10 +36992,24 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 2,
                 "stateId": "case-food-flow-04",
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "430x932",
@@ -33906,8 +37020,22 @@
               },
               {
                 "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
                 "wordsScroll": false,
                 "tab": null
               },
@@ -33917,6 +37045,13 @@
                 "stateId": "case-food-flow-04",
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "390x844",
@@ -37298,6 +40433,7 @@
               {
                 "sizeKey": "390x844",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 235.22,
                 "aboveTabs": 254.22,
                 "answers": 3,
@@ -37305,11 +40441,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -37317,11 +40466,24 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 330
+                "wordsShown": 346,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -37329,11 +40491,21 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 304
+                "wordsShown": 320,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 323.22,
                 "aboveTabs": 342.22,
                 "answers": 3,
@@ -37341,11 +40513,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 148.08,
                 "aboveTabs": 167.08,
                 "answers": 3,
@@ -37353,11 +40538,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 337
+                "wordsShown": 353,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -37365,7 +40563,16 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 428
+                "wordsShown": 444,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               }
             ]
           }
@@ -37378,6 +40585,7 @@
               {
                 "sizeKey": "390x844",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 235.22,
                 "aboveTabs": 254.22,
                 "answers": 3,
@@ -37385,11 +40593,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -37397,11 +40618,24 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 330
+                "wordsShown": 346,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "390x844",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -37409,11 +40643,21 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 304
+                "wordsShown": 320,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1,
+                "stateId": "case-food-flow-04",
                 "abovePass": 323.22,
                 "aboveTabs": 342.22,
                 "answers": 3,
@@ -37421,11 +40665,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 219
+                "wordsShown": 235,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 8.37,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 1.5,
+                "stateId": "case-food-flow-04",
                 "abovePass": 148.08,
                 "aboveTabs": 167.08,
                 "answers": 3,
@@ -37433,11 +40690,24 @@
                 "scrolls": false,
                 "marked": false,
                 "lastLine": true,
-                "wordsShown": 337
+                "wordsShown": 353,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 5.06,
+                    "whole": true
+                  }
+                }
               },
               {
                 "sizeKey": "430x932",
                 "text": 2,
+                "stateId": "case-food-flow-04",
                 "abovePass": 9.03,
                 "aboveTabs": 28.03,
                 "answers": 3,
@@ -37445,13 +40715,466 @@
                 "scrolls": true,
                 "marked": true,
                 "lastLine": true,
-                "wordsShown": 428
+                "wordsShown": 444,
+                "room": {
+                  "label": "Asked to join a Task",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
               }
             ]
           }
         },
         {
-          "id": "corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card",
+          "id": "corrections: Too late to join, the other card with an answer under its words, ends above the Pass button and the tab bar at every text size on both phones, with OK whole inside it and its words in sight",
+          "ok": true,
+          "detail": {
+            "cards": [
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "abovePass": 330.7,
+                "aboveTabs": 349.7,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 167,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 11.59,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "abovePass": 225.61,
+                "aboveTabs": 244.61,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 252,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 9.9,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "abovePass": 251.53,
+                "aboveTabs": 270.53,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 255,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "abovePass": 418.7,
+                "aboveTabs": 437.7,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 167,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 11.59,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "abovePass": 345.11,
+                "aboveTabs": 364.11,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 220,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": false,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": {
+                    "above": 9.9,
+                    "whole": true
+                  }
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "abovePass": 339.53,
+                "aboveTabs": 358.53,
+                "answers": 1,
+                "whole": true,
+                "scrolls": false,
+                "marked": false,
+                "lastLine": true,
+                "wordsShown": 255,
+                "room": {
+                  "label": "Too late to join",
+                  "tight": true,
+                  "atTop": true,
+                  "atSides": true,
+                  "aboveAnswers": 10,
+                  "ring": "-5px",
+                  "stamp": null
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "corrections: on a request card and on Too late to join the words' scroller takes the card's inside at its top and its sides, ends 10 px above the answers, and draws its focus ring inside itself",
+          "ok": true,
+          "detail": {
+            "rooms": [
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": false,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "label": "Asked to join a Task",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "label": "Too late to join",
+                "tight": true,
+                "atTop": true,
+                "atSides": true,
+                "aboveAnswers": 10,
+                "ring": "-5px",
+                "stamp": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "corrections: the stamp of a request card and of Too late to join is whole at the Standard and the Large text on both phones, drawn below its scroller's upper edge; at the Largest text the tight card shows none, as in the port",
+          "ok": true,
+          "detail": {
+            "stamps": [
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "tight": true,
+                "stamp": null
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "tight": true,
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 8.37,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 11.59,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-flow-04",
+                "tight": false,
+                "stamp": {
+                  "above": 5.06,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "tight": false,
+                "stamp": {
+                  "above": 9.9,
+                  "whole": true
+                }
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-flow-04",
+                "tight": true,
+                "stamp": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "tight": true,
+                "stamp": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card, Too late to join and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card",
           "ok": true,
           "detail": {
             "stood": [
@@ -37782,6 +41505,19 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
                 "kind": "request",
@@ -37795,6 +41531,19 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 2,
                 "stateId": "case-food-flow-04",
                 "kind": "request",
@@ -37805,6 +41554,19 @@
                 "atFoot": true,
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "430x932",
@@ -37821,8 +41583,34 @@
               },
               {
                 "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
                 "kind": "request",
                 "whole": true,
                 "colour": "rgb(32, 40, 55)",
@@ -37844,6 +41632,19 @@
                 "atFoot": true,
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "kind": "request",
+                "whole": true,
+                "colour": "rgb(32, 40, 55)",
+                "opaque": true,
+                "fades": null,
+                "atFoot": true,
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "390x844",
@@ -38203,6 +42004,13 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
                 "wordsScroll": true,
@@ -38210,10 +42018,24 @@
               },
               {
                 "sizeKey": "390x844",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "390x844",
                 "text": 2,
                 "stateId": "case-food-flow-04",
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "390x844",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "430x932",
@@ -38224,8 +42046,22 @@
               },
               {
                 "sizeKey": "430x932",
+                "text": 1,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
                 "text": 1.5,
                 "stateId": "case-food-flow-04",
+                "wordsScroll": false,
+                "tab": null
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 1.5,
+                "stateId": "case-food-states-08",
                 "wordsScroll": false,
                 "tab": null
               },
@@ -38235,6 +42071,13 @@
                 "stateId": "case-food-flow-04",
                 "wordsScroll": true,
                 "tab": "0"
+              },
+              {
+                "sizeKey": "430x932",
+                "text": 2,
+                "stateId": "case-food-states-08",
+                "wordsScroll": false,
+                "tab": null
               },
               {
                 "sizeKey": "390x844",

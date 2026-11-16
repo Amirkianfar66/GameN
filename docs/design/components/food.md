@@ -1,8 +1,8 @@
 # Food surface: Designer's runtime component
 
-**Version:** `food-0.1.0`. **Status (16 November 2026):** built for #274's adoption dependency, to the interface the Lead Designer posted on #4 ([6913141625](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6913141625)), with Frontend's four answers ([6916497706](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6916497706), relayed by Integration), the Lead Designer's answers of 16 November on nine points of the built interface, the correction Integration asked for in its review of #303 (a concealed surface keeps nothing of the viewer), and the six [corrections to the port](#corrections-to-the-port) that the Lead Designer decided on 16 November are made here, before adoption, as the Lead Designer reviewed them the same day. It is the minimal extraction Integration asked for: the accepted native port's drawing, moved into Designer's folder, with those six corrections and no other change to the drawing. It is not in the game yet. Frontend adopts it by importing it in place of the port's drawing files, under Integration's source fence and version admission. It is not a release, and it does not replace the Designer's visual acceptance of the integrated result.
+**Version:** `food-0.1.0`. **Status (16 November 2026):** built for #274's adoption dependency, to the interface the Lead Designer posted on #4 ([6913141625](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6913141625)), with Frontend's four answers ([6916497706](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6916497706), relayed by Integration), the Lead Designer's answers of 16 November on nine points of the built interface, the correction Integration asked for in its review of #303 (a concealed surface keeps nothing of the viewer), and the seven [corrections to the port](#corrections-to-the-port) that the Lead Designer decided on 16 November are made here, before adoption, as the Lead Designer reviewed them the same day. It is the minimal extraction Integration asked for: the accepted native port's drawing, moved into Designer's folder, with those seven corrections and no other change to the drawing. It is not in the game yet. Frontend adopts it by importing it in place of the port's drawing files, under Integration's source fence and version admission. It is not a release, and it does not replace the Designer's visual acceptance of the integrated result.
 
-**What it is:** the Food surface as the game draws it today, with six recorded corrections.
+**What it is:** the Food surface as the game draws it today, with seven recorded corrections.
 
 - Its own top bar and tabs.
 - The Task screen, for the Winch and for the Panel.
@@ -201,7 +201,9 @@ What is public or this phone's own stays through `concealed`: `people`, `board`,
   - The sheet or card takes it itself when it held it, or when that control is gone.
   - The top bar is drawn again once a second: Promises and Settings keep the focus through that.
   - Focus that is outside the surface is left where it is.
-- A card's words that scroll take a place in the Tab order (corrections 4 and 5). The card holds the focus; from it, Tab goes to the words, which show the focus ring, and the arrow keys scroll them. Words that fit take no place.
+- A card's words that scroll take a place in the Tab order (corrections 4 and 5). The card holds the focus; from it, Tab goes to the words, and the arrow keys scroll them. Words that fit take no place.
+  - The words show the focus ring inside their scroller, 5 px in, where the card does not cut it.
+  - The ring's lower side fades with the words, since the fade is the scroller's own. Its top and its sides are whole.
 - Escape closes the surface's own sheet and goes no further. During a Task or a pending request it is held and closes nothing. Otherwise it is left to the app.
 - Space and Enter are taken on the surface's controls only.
 
@@ -238,17 +240,17 @@ The component loads no picture. It draws with what `assets` gives: the Supply Ro
 
 ## The copies
 
-`sources.json` lists fifteen copies. Ten are their source byte for byte. Five differ, by 30 recorded differences of five kinds:
+`sources.json` lists fifteen copies. Ten are their source byte for byte. Five differ, by 32 recorded differences of five kinds:
 
 - **4 import paths, 11 connector seams and 2 host rules.** None of them touches a line that draws.
 - **2 marks:** [the component's mark](#the-components-mark) on each of the two roots it draws.
-- **11 corrections,** each with the number of the correction it belongs to. They are the only differences that change what is drawn or done, and they are listed under [Corrections to the port](#corrections-to-the-port).
+- **13 corrections,** each with the number of the correction it belongs to. They are the only differences that change what is drawn or done, and they are listed under [Corrections to the port](#corrections-to-the-port).
 
 | File | From | Differences |
 | --- | --- | --- |
 | `food.css` | `food.css` | 2 corrections, both under the component's mark: no card is faded as a whole (4), and the role row's two rules (3) |
 | `food-ink.mjs` | `food-ink.mjs` | 2 import paths, to the hosted game's crew ink |
-| `food-render.mjs` | `food-render.mjs` | 2 import paths. 7 connector seams: no import of `@mothership/game`; the contact reporter is given, not built; the app's four listeners (blur, focus, visibility, preferences) are gone, with their removal; the handle gains `relayout`, `suspend` and `resume`. The mark on the root it draws. 9 corrections: the portraits (1), the dock (2), the outcome card (4: its limit, its words' scroller, and the place in the Tab order of words that scroll), the request card (5), and the focus (6: once in the top bar, twice where a sheet or card is built) |
+| `food-render.mjs` | `food-render.mjs` | 2 import paths. 7 connector seams: no import of `@mothership/game`; the contact reporter is given, not built; the app's four listeners (blur, focus, visibility, preferences) are gone, with their removal; the handle gains `relayout`, `suspend` and `resume`. The mark on the root it draws. 11 corrections: the portraits (1), the dock (2), the outcome card (4: its limit, its words' scroller, and the place in the Tab order of words that scroll), the request card (5), the focus (6: once in the top bar, twice where a sheet or card is built), and the stamp's room on a request card and on Too late to join (7: once each) |
 | `food-notice.mjs` | `food-app.mjs` | 4 connector seams: no import of the client package or of the renderer; `mountFoodApp` stays Frontend's; the header's height is given (`game.top()`) where the port read the app's page. The mark on the root it draws |
 | `food-surface.css` | `food-host.css` | 2 host rules stay Frontend's: the gauge's place in the ordinary header, and hiding the ordinary bars |
 
@@ -272,11 +274,12 @@ The two roots the component draws carry `data-food-component`: the phone surface
 
 ## Corrections to the port
 
-Six things in the accepted port are corrected in the component, before adoption. The Lead Designer decided so on 16 November 2026, on #303. None is a redesign or a departure from a sheet:
+Seven things in the accepted port are corrected in the component, before adoption. The Lead Designer decided so on 16 November 2026: the first six on #303, and the seventh the same evening, when it was found. None is a redesign or a departure from a sheet:
 
 - **1 and 2** bring the port back to the approved package's own pages.
 - **3, 4 and 5** are defects at the larger text sizes, in states no sheet draws.
 - **6** is a defect in focus.
+- **7** brings the port back to the approved Food flow sheet.
 
 How they are kept honest:
 
@@ -348,9 +351,23 @@ How they are kept honest:
 - **Now:** what held the focus gets it back. See [Focus and keys](#focus-and-keys).
 - **Held by:** the probe, with a sheet open and with a request card open, across `relayout()` and at the Largest text; and the check, against the port, which leaves the focus to the page.
 
+### 7. The stamp on a request card, and on Too late to join
+
+- **The port:** the stamp was cut at its upper right corner, at every text size it shows at. The scroller the card's words are in began at the stamp's own line, and the tilted stamp is drawn above that line: 8 px above it on a request card at the Standard text. Too late to join, the other card with an answer under its words, was cut the same way. The approved Food flow (`design/food-supply/review/flow.png`, frame 4) draws the stamp whole.
+- **Now:** on both cards the scroller takes the card's inside at its top and its sides, the 16 px of padding with it. The stamp is whole.
+  - The scroller's lower edge is where it was. Decline, Join, "Answer within 15 s" and OK do not move.
+  - At the larger text the words still scroll above the answers, and only they fade.
+  - The scroller's focus ring is drawn inside it, where the card does not cut it.
+  - At the Largest text both cards are the port's tight cards, which show no stamp, as before.
+- **Held by:**
+  - The check, against the port. At the Standard text the two cards are the port's everywhere but the stamp: what the port cut of it differs, and no pixel outside the stamp does. On the request card 750 pixels differ in all, and on Too late to join 354, every one of them inside the stamp: what the port cut of it, and 227 and 138 pixels along the rest of its slanted edges, by 17 levels at most. The browser draws a tilted thing a little differently there when its scroller is another box. At the Large text that figure is 22; the limit is 24.
+  - The probe, on both cards at the three text sizes on both phones: the scroller's place, the stamp whole inside it, the answers whole, and the ring drawn inside.
+  - Real key presses on both cards.
+- **Pictures:** `fix-7-390x844-case-food-flow-04.jpg`, `-text150.jpg` and `-text200.jpg`, and the same three at 430 × 932; `fix-7-390x844-case-food-states-08.jpg` and `fix-7-430x932-case-food-states-08.jpg`.
+
 ### What the corrections leave as the port has it
 
-Four things. The Lead Designer decided the first three on 16 November. The small phones are measured by hand on the preview and are not in the record: the owner deferred that coverage.
+Three things, as the Lead Designer decided on 16 November. The small phones are measured by hand on the preview and are not in the record: the owner deferred that coverage.
 
 - **The briefing card at the Largest text lies over the hint,** on both phones. It is left so.
   - By the package's rule the briefing never scrolls, so it has no limit.
@@ -359,14 +376,10 @@ Four things. The Lead Designer decided the first three on 16 November. The small
   - At the Large text the card stays inside the view.
   - Pictures: `390x844-case-food-winch-01-text200.jpg` and `430x932-case-food-winch-01-text200.jpg`.
 - **A request card keeps at least 13rem of height,** so that its words stay in sight. At the Largest text on a phone under about 700 px tall, ending above the Pass button would leave it less. There it keeps the port's reach:
-  - 320 × 568: it is the port's card exactly.
+  - 320 × 568: it has the port's card's place and size exactly.
   - 360 × 640: it runs 19 px over the tab bar, where the port's ran 82 px.
   - 375 × 667: it ends 8 px above the tab bar, and 11 px over the Pass button.
 - **An outcome card keeps at least 6rem.** At the Largest text on 320 × 568 it lies over the hint's first 38 px, where the port's covered the hint and the control. At 360 × 640 and above it ends inside the view.
-- **A request card's stamp is cut at its upper right corner.** It is the port's own, at every text size, and not one of the six.
-  - The port's scroller for a request card's words starts at the stamp's line, and the tilted stamp is drawn 8 px above it.
-  - It shows in `390x844-case-food-flow-04.jpg`: the top edge of "PARTNER REQUEST" ends flat on the right.
-  - The outcome card's scroller takes the card's whole inside, so its stamp is whole. The same change would mend the request card's. It waits for the Lead Designer's word.
 
 At 390 × 844 and 430 × 932 neither floor is reached.
 
@@ -382,35 +395,38 @@ At 390 × 844 and 430 × 932 neither floor is reached.
 
 `node design/tools/food-component-check.mjs` bundles the preview as the game bundles a component, adds the hosted game's own art as its build emits it (49 files: twelve art bundles and the 37 Food drawings), and serves both with the production response headers. Every page passed with no policy report but the known one (zod's eval probe, which the live game's bundle has too), no failed request and no page error.
 
-- **Captures:** 33 synthetic states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: 132, each showing what its state must. The states are Frontend's five inputs, three variants of them (a refused, a recovered and an unknown press), nineteen of Frontend's native fixtures run on Frontend's own controller, three gauge states, and three notices.
-- **The frozen port:** the same state drawn by the port's own renderer in the same phone, read with the corrections that apply. All 132 agree. A clock one second off is told apart.
+- **Captures:** 34 synthetic states at 390 × 844 and 430 × 932, in full motion and with the device's Reduce motion: 136, each showing what its state must. The states are Frontend's five inputs, three variants of them (a refused, a recovered and an unknown press), twenty of Frontend's native fixtures run on Frontend's own controller (one of them, Too late to join, is given its fixture's two packets in turn), three gauge states, and three notices.
+- **The frozen port:** the same state drawn by the port's own renderer in the same phone, read with the corrections that apply. All 136 agree. A clock one second off is told apart.
   - The component's root carries its mark, so the port's DOM is read with the mark on its root, in every capture.
   - In 36 no correction applies: the DOM is the port's but for that mark, and the boxes and the pixels are the port's, byte for byte.
-  - In the other 96 the DOM is the port's as corrected and nothing else, the boxes are the port's but for the dock's, and the pixels are the port's everywhere outside the top bar's portraits and title (and, where the How it works sheet's glass lies over the bar, the 48 px around them that the glass blurs). In 8 of them (the request card and the Partner sheet) nothing differs in the picture at all.
-  - Which applies where: correction 1 in 88 (every Task screen, and the one turn bar), 2 in 28, 4 in 16, 5 in 4 and 6 in 4. At the Standard text a card's limit and its words' scroller are there and change nothing that shows: an outcome card is the port's, pixel for pixel.
-- **Larger text:** twelve states (the five parts, a briefing, a sheet, a request and the four outcome cards) at both sizes, at the game's Large (150 %) and Largest (200 %) text: 48. Each is the port's everywhere outside the places its corrections touch:
+  - In the other 100 the DOM is the port's as corrected and nothing else, the boxes are the port's but for the dock's, and the pixels are the port's everywhere outside the top bar's portraits and title (and, where the How it works sheet's glass lies over the bar, the 48 px around them that the glass blurs).
+  - In 4 of them (the Partner sheet) nothing differs in the picture at all. In 8 (the request card and Too late to join) only the stamp does: see correction 7.
+  - The record counts the pixels that differ in each capture. They are none where no correction touches the picture, and otherwise every one of them lies in a place a correction touches.
+  - Which applies where: correction 1 in 88 (every Task screen, and the one turn bar), 2 in 28, 4 in 16, 5 in 8, 6 in 4 and 7 in 8. At the Standard text a card's limit and its words' scroller are there and change nothing that shows: an outcome card is the port's, pixel for pixel.
+- **Larger text:** thirteen states (the five parts, a briefing, a sheet, a request, the four outcome cards and Too late to join) at both sizes, at the game's Large (150 %) and Largest (200 %) text: 52. Each is the port's everywhere outside the places its corrections touch:
   - the bar's portraits and title, in 40;
   - the role row and the hint under it, in the 13 where the port breaks the label: every Task state at the Large text on 390 × 844, and the three with "· Out" or "· Offline" on 430 × 932;
   - an outcome card held by its limit, in all 16. Down to its foot the card is compared from its upper edge: its shadow above and its place are the port's, and inside it the browser draws words under a fade a little differently;
-  - a request card held by its limit, in 3 of 4 (at the Large text on 430 × 932 the port's card fits);
+  - a request card held by its limit, in 3 of 4 (at the Large text on 430 × 932 the port's card fits). Too late to join always fits;
+  - the stamp of a request card and of Too late to join, in the 4 at the Large text. At the Largest text the tight card shows none;
   - the Partner sheet's focus, in 4 (correction 6: nothing in the picture).
-- **In one page:** the frozen port and the component, each in its own phone on the same state, with the port's stylesheets and the component's both loaded (`preview/both.html`). The same twelve states, at the three text sizes and both phone sizes, with the port's sheets first and then the component's first: 144.
-  - In all 144 each surface is what it draws alone: the same DOM, text, boxes, controls and pixels. The port's is the picture of its own page, and the component's is its corrected one.
+- **In one page:** the frozen port and the component, each in its own phone on the same state, with the port's stylesheets and the component's both loaded (`preview/both.html`). The same thirteen states, at the three text sizes and both phone sizes, with the port's sheets first and then the component's first: 156.
+  - In all 156 each surface is what it draws alone: the same DOM, text, boxes, controls and pixels. The port's is the picture of its own page, and the component's is its corrected one.
   - In 26 of them the role row's correction shows: the port's label is still broken, and the component's still whole, whichever sheets came last.
   - The control: with the mark taken off its root, the component's label breaks as the port's does, and its DOM, boxes and pixels are no longer its own.
   - For the two pictures each phone stands where a phone alone stands, one brought forward at a time: a drawing is rasterized a little differently at another place in a page.
-- **Every card over what lies behind it:** the seven states with a card (two briefings, the four outcomes and the request), at the three text sizes and both phone sizes: 42. The page is pictured as it is, and again with a backdrop of one loud colour put directly under the card.
-  - Inside the card no pixel changes, in any of the 42: 4,363,088 pixels in all, and each card's foot (its lowest 28 px, where words fade) is counted by itself.
+- **Every card over what lies behind it:** the eight states with a card (two briefings, the four outcomes, the request and Too late to join), at the three text sizes and both phone sizes: 48. The page is pictured as it is, and again with a backdrop of one loud colour put directly under the card.
+  - Inside the card no pixel changes, in any of the 48: 5,033,316 pixels in all, and each card's foot (its lowest 28 px, where words fade) is counted by itself.
   - Around the card every pixel changes, so the backdrop was there.
   - Where the words fit, the card's rim under them is the card's own colour and no other.
   - The control: the same outcome card faded as a whole, as the port fades a card that scrolls. 12,492 of its 85,044 pixels change, and every one of the 9,944 in its foot.
-- **The keys:** real key presses on an outcome card and on the request card, at the three text sizes and both phone sizes: 12. Where the words scroll (7 of them), Tab goes from the card to its words, which show the focus ring; the down arrow scrolls them; End brings their last line. Where they fit, Tab passes them by.
+- **The keys:** real key presses on an outcome card, on the request card and on Too late to join, at the three text sizes and both phone sizes: 18. Where the words scroll (7 of them), Tab goes from the card to its words, which show the focus ring, drawn inside them; the down arrow scrolls them; End brings their last line. Where they fit (Too late to join always does), Tab passes them by.
 - **Laid out again:** the text size changed under a mounted surface, at both sizes, on three states: 6.
   - Told by `relayout()`, the component draws what a new mount draws at that text size, DOM and pixels, in all six.
   - It is also what the port draws on the app's preferences event, read with the corrections that apply.
   - On the "away" banner (`case-food-flow-09`), not told, the banner stays where it was built, 18 px too high under the taller bar: the control.
   - On an open request card (`case-food-flow-04`) and an open sheet (`case-food-flow-01`), the component's has the focus again, and the port's has left it to the page: correction 6, and its control.
-- **Before and after:** twelve pictures of the corrections, each with its numbers read from the two pages (`check.json`, `corrections.beforeAfter`). A picture counts only if its numbers show the correction. For correction 4 they include what fades: nothing in the port's card, and only the words in the component's.
+- **Before and after:** twenty pictures of the corrections, each with its numbers read from the two pages (`check.json`, `corrections.beforeAfter`). A picture counts only if its numbers show the correction. For correction 4 they include what fades: nothing in the port's card, and only the words in the component's.
 - **The approved package's own pages** (`design/food-supply/phone.html`, served unchanged) for #290's five parts, at both sizes:
   - Every part lies where the package lays it, to half a pixel, the dock with no instrument too (correction 2).
   - The top bar's portraits are 32 px and in the package's places. The bar's portraits and title are the package's to 3 levels, which is the bar's glass over the app's own background (correction 1).
@@ -418,11 +434,11 @@ At 390 × 844 and 430 × 932 neither floor is reached.
   - The scene outside the notices is the package's pixel for pixel on `food-panel-04` and `food-winch-12`. On `food-panel-03`, 512 of 106,860 pixels differ at 390 × 844 (558 of 129,860 at 430 × 932), around the moving crate and the two name tags. On `food-winch-03`, 624 of 55,380 differ by one level.
   - The instrument and the control are the package's pixel for pixel wherever the words agree.
 - **Frontend's ten native captures from #290** (read from `3247fc3d`, each held to its SHA-256, none copied): for the four causal parts at both sizes, the scene outside the notices is within 1.41 to 1.61 levels on average, with 0.5 % to 0.7 % of its pixels more than 24 levels apart. The limit is 3 levels and 2 %. The same capture moved 3 px measures about 10 levels and 12 %.
-- **The lifecycle probe:** 116 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, quiet (no request, timer or storage), exits, ownership, privacy, the notice, the gauge, the host, motion, layout, the corrections, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
-  - **The six corrections,** in 16 checks, at the Standard, the Large and the Largest text and on both phones where the text size matters: the portraits' size; the dock with and without an instrument; no word of the Partner's label broken, with twelve-letter names too; the role row dropped at the Largest text; no outcome card over a row or a control; its words in a scroller that is the card's whole inside, with the stamp whole and the last line 16 px clear of the edge; no card faded as a whole (42 cards: each on one opaque colour, and the topmost thing just inside its own lower edge); the briefing not faded even where it scrolls as a whole, in a phone 320 px by 568 px; words that scroll in the Tab order, and words that fit out of it; no request card over the Pass button or the tab bar, with its answers whole; and the focus kept across `relayout()` with a sheet open and with a request card open, at the Largest text, and through the top bar's redraw, and never taken from outside the surface.
+- **The lifecycle probe:** 119 checks, once as the page comes and once with the device's Reduce motion: contacts, listeners, presses, offers, requests, stale, focus, lifecycle, quiet (no request, timer or storage), exits, ownership, privacy, the notice, the gauge, the host, motion, layout, the corrections, pictures, a handler's failure, and Frontend's own controller and contact adapter wired as the adapter will wire them.
+  - **The seven corrections,** in 19 checks, at the Standard, the Large and the Largest text and on both phones where the text size matters: the portraits' size; the dock with and without an instrument; no word of the Partner's label broken, with twelve-letter names too; the role row dropped at the Largest text; no outcome card over a row or a control; its words in a scroller that is the card's whole inside, with the stamp whole and the last line 16 px clear of the edge; no card faded as a whole (48 cards: each on one opaque colour, and the topmost thing just inside its own lower edge); the briefing not faded even where it scrolls as a whole, in a phone 320 px by 568 px; words that scroll in the Tab order, and words that fit out of it; no request card over the Pass button or the tab bar, with its answers whole, and the same for Too late to join; on both, the words' scroller at the card's top and sides and 10 px above the answers, its ring drawn inside, and the stamp whole wherever it shows; and the focus kept across `relayout()` with a sheet open and with a request card open, at the Largest text, and through the top bar's redraw, and never taken from outside the surface.
   - **Concealed, nothing of the viewer comes back:** a surface that held a view, an offer, a press on its way and a Promises count is concealed and then woken by status alone, and shows none of them; the same for a mount that starts concealed; a fresh view alone brings no offer, press or count; the whole of a fresh input restores it as a new mount draws it; stale keeps its view. With the correction taken out, five of these checks fail.
 
-`packages/design-tokens/test/food-component.test.mjs` (11 tests) holds the module graph, the copies and the eleven corrections among their differences, that every corrected style rule is under the component's mark, the styles' reach, the inputs and audiences (the contract's ten view keys that are refused, by name), that concealed keeps nothing of the viewer, the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
+`packages/design-tokens/test/food-component.test.mjs` (11 tests) holds the module graph, the copies and the thirteen corrections among their differences, that every corrected style rule is under the component's mark, the styles' reach, the inputs and audiences (the contract's ten view keys that are refused, by name), that concealed keeps nothing of the viewer, the view keys the drawing reads, the design's hint sentences, the packet's hash and the record. It reads only what is committed.
 
 **What the comparisons do not show:**
 
@@ -433,7 +449,7 @@ At 390 × 844 and 430 × 932 neither floor is reached.
 - One document has one focus. In the page that holds both surfaces, the one mounted first loses it to the other, so the focus is not compared there. Each surface's focus is held on its own page.
 - A card's opacity is measured on the two development phones. On smaller phones it is held by the probe alone, on the one card that can still scroll as a whole.
 - The keys were pressed in desktop Chromium. Safari, and a phone with a keyboard, were not tried.
-- A picture is kept only when two takes 150 ms apart are the same. For a moment after a page is first drawn, the browser may draw an edge that lies on a fraction of a pixel a little differently, with no animation to say so. I saw it on one capture (430 × 932, the Largest text, the ring around LOCK): twelve pixels of one row, by 8 levels at most, in about one load in ten, on the port's page as on the component's, and never 150 ms later. The record counts the pictures and how many were taken again: 845 pictures in this run, 5 of them taken again.
+- A picture is kept only when two takes 150 ms apart are the same. For a moment after a page is first drawn, the browser may draw an edge that lies on a fraction of a pixel a little differently, with no animation to say so. I saw it on one capture (430 × 932, the Largest text, the ring around LOCK): twelve pixels of one row, by 8 levels at most, in about one load in ten, on the port's page as on the component's, and never 150 ms later. The record counts the pictures and how many were taken again: 914 pictures in this run, 4 of them taken again.
 
 **Not looked at:** a phone, Safari, a screen reader, a server, and performance. Desktop Chromium at each phone's CSS size.
 
