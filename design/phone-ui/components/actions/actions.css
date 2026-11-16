@@ -3,9 +3,9 @@
 /*
  * Actions (actions.mjs): the layout of its sheets' content. Runtime source, Designer's. The pack's own values
  * (design/phone-ui/prototype/screens.css .section-head, .tiles, .offroom-list, .after), on the kit's tokens.
- * The tile, who, facts, the notice and the time line are the parts' (../play-parts); the rows, lists, group
- * labels and notes, the stamp, the portraits and the inline error are the kit's; the sheet's frame and its
- * buttons are the shell's.
+ * The notice and the time line are the parts' (../play-parts); the tile, who and the facts are the kit's, which
+ * the parts hand on (component-kit-0.6.0), as are the rows, lists, group labels and notes, the stamp, the
+ * portraits and the inline error; the sheet's frame and its buttons are the shell's.
  *
  * Scope: every rule is under the component's root (.ms-actions, which is also .ms-kit) and names a class of its
  * own, so it weighs two classes and outranks the kit and the parts (one class each), whatever order the
@@ -36,14 +36,14 @@
   .ms-actions .ms-ac-tiles { grid-template-columns: 1fr; gap: 6px; }
   /* A list row: the icon on the left; the name with the count, the line and the REGISTERED mark beside it, centred
      as a group by the spacer rows above and below, whichever of them the tile has. */
-  .ms-actions .ms-ac-tiles .ms-pp-tile { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto auto 1fr;
+  .ms-actions .ms-ac-tiles .ms-k-tile { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto auto 1fr;
     grid-template-areas: "icon . ." "icon name badge" "icon note note" "icon mark mark" "icon . ."; column-gap: 12px; row-gap: 0; align-items: center;
     min-height: 62px; padding: 8px 12px 8px 8px; text-align: left; }
-  .ms-actions .ms-ac-tiles .ms-pp-tile-icon { grid-area: icon; align-self: center; }
-  .ms-actions .ms-ac-tiles .ms-pp-tile-name { grid-area: name; min-width: 0; overflow-wrap: anywhere; }
-  .ms-actions .ms-ac-tiles .ms-pp-tile-note { grid-area: note; min-width: 0; margin-top: 2px; overflow-wrap: anywhere; }
-  .ms-actions .ms-ac-tiles .ms-pp-tile-badge { grid-area: badge; position: static; justify-self: end; }
-  .ms-actions .ms-ac-tiles .ms-pp-tile-stamp { grid-area: mark; position: static; justify-self: start; margin-top: 6px; transform: rotate(-6deg); }
+  .ms-actions .ms-ac-tiles .ms-k-tile-icon { grid-area: icon; align-self: center; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-name { grid-area: name; min-width: 0; overflow-wrap: anywhere; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-note { grid-area: note; min-width: 0; margin-top: 2px; overflow-wrap: anywhere; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-badge { grid-area: badge; position: static; justify-self: end; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-stamp { grid-area: mark; position: static; justify-self: start; margin-top: 6px; transform: rotate(-6deg); }
 }
 
 /* ── The list (sheet 29: screens.css .offroom-list) ──────────────────── */

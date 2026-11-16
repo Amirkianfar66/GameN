@@ -67,7 +67,7 @@ export async function runActionsProbe({ sizes, versions }) {
     return { frame, shell, part, intents, root: part.element, dispose: () => { part.dispose(); shell.dispose(); frame.remove(); } };
   }
   const tap = node => node.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-  const tile = (root, type) => root.querySelector(`.ms-pp-tile[data-value="${type}"]`);
+  const tile = (root, type) => root.querySelector(`.ms-k-tile[data-value="${type}"]`);
   const text = root => root.textContent.replace(/\s+/g, ' ').trim();
   const reported = (p, name) => p.intents.filter(i => i[0] === name).map(i => i[1]);
 
@@ -87,10 +87,10 @@ export async function runActionsProbe({ sizes, versions }) {
       // Rescue moves to the end; it keeps the focus.
       p.part.update({ tiles: [{ type: 'MOVE', state: 'available', note: 'Once a round' }, { type: 'RESCUE', state: 'sending', note: '2 injections', badge: 2 }] });
       await frames();
-      const moved = p.root.querySelectorAll('.ms-pp-tile')[1] === rescue && document.activeElement === rescue;
+      const moved = p.root.querySelectorAll('.ms-k-tile')[1] === rescue && document.activeElement === rescue;
       p.part.update({ tiles: [{ type: 'RESCUE', state: 'registered', note: 'Eli · end of round', badge: 2 }, { type: 'MOVE', state: 'available', note: 'Once a round' }] });
       const detail = { taps, unchanged, selected, selectedTap: reported(p, 'onTile').length === 3, moved, kept: tile(p.root, 'RESCUE') === rescue && document.activeElement === rescue,
-        registered: rescue.dataset.state, mark: rescue.querySelector('.ms-pp-tile-stamp')?.textContent, label: rescue.getAttribute('aria-label') };
+        registered: rescue.dataset.state, mark: rescue.querySelector('.ms-k-tile-stamp')?.textContent, label: rescue.getAttribute('aria-label') };
       p.dispose();
       return { ok: JSON.stringify(taps) === '["RESCUE","MOVE"]' && unchanged && selected === 'selected' && detail.selectedTap && moved && detail.kept
         && detail.registered === 'registered' && detail.mark === 'REGISTERED' && detail.label === 'Rescue, Eli · end of round, registered', ...detail };
@@ -122,9 +122,9 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('t3', async () => {
       const p = phone('tiles-t3');
-      const lines = [...p.root.querySelectorAll('.ms-pp-tile')].map(n => [n.dataset.value, n.dataset.state, n.querySelector('.ms-pp-tile-note:not([hidden])')?.textContent ?? null]);
+      const lines = [...p.root.querySelectorAll('.ms-k-tile')].map(n => [n.dataset.value, n.dataset.state, n.querySelector('.ms-k-tile-note:not([hidden])')?.textContent ?? null]);
       p.part.update({ tiles: [{ type: 'REQUEST_HACK', state: 'unavailable', reason: 'Used' }] });
-      const reason = tile(p.root, 'REQUEST_HACK').querySelector('.ms-pp-tile-note').textContent;
+      const reason = tile(p.root, 'REQUEST_HACK').querySelector('.ms-k-tile-note').textContent;
       p.dispose();
       return { ok: JSON.stringify(lines) === JSON.stringify([['RESCUE', 'available', '2 injections'], ['MOVE', 'available', 'Once a round'], ['REQUEST_HACK', 'unavailable', 'Not available now'], ['REGISTER_SHOT', 'unavailable', 'Not available now']])
         && reason === 'Used', lines, reason };
@@ -152,8 +152,8 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('check', async () => {
       const p = phone('check');
-      const read = () => ({ title: p.root.querySelector('.ms-pp-who-title').textContent, sub: p.root.querySelector('.ms-pp-who-sub').textContent, form: p.root.querySelector('.ms-pp-who-lead').dataset.form,
-        portraits: p.root.querySelectorAll('.ms-pp-who-lead .ms-k-pt').length, facts: [...p.root.querySelectorAll('.ms-pp-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null,
+      const read = () => ({ title: p.root.querySelector('.ms-k-who-title').textContent, sub: p.root.querySelector('.ms-k-who-sub').textContent, form: p.root.querySelector('.ms-k-who-lead').dataset.form,
+        portraits: p.root.querySelectorAll('.ms-k-who-lead .ms-k-pt').length, facts: [...p.root.querySelectorAll('.ms-k-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null,
         alert: p.root.querySelector('.ms-k-error')?.getAttribute('role') ?? null });
       const one = read();
       p.part.update({ targets: [{ seat: 'seat-4', name: 'Dev', character: 'c1', room: 'Room A' }] });
@@ -185,7 +185,7 @@ export async function runActionsProbe({ sizes, versions }) {
       p.part.update({ type: 'RESCUE', kind: 'registered', title: 'The server accepted your action.', people: null, steps: [] });
       const reload = read();
       // Nothing is drawn on the target: the component draws only in the sheet.
-      const outside = [...document.querySelectorAll('.ms-ac-after, .ms-pp-tile-stamp')].filter(n => !n.closest('.ms-ps-sheet')).length;
+      const outside = [...document.querySelectorAll('.ms-ac-after, .ms-k-tile-stamp')].filter(n => !n.closest('.ms-ps-sheet')).length;
       p.dispose();
       return { ok: captured.kind === 'now' && captured.stamp === 'CAPTURED' && captured.tone === 'steel' && captured.status === 'status' && captured.people === 3 && captured.steps.join() === 'done,next'
         && JSON.stringify(kinds) === JSON.stringify({ registered: ['REGISTERED', 'pending', 'waits'], accepted: ['ACCEPTED', 'pending', 'waits'], active: ['ACTIVE', 'amber', 'now'], captured: ['CAPTURED', 'steel', 'now'] })
@@ -302,11 +302,11 @@ export async function runActionsProbe({ sizes, versions }) {
         document.documentElement.style.fontSize = `${percent}%`;
         const p = phone(key, {}, sizeKey);
         if (width) p.root.style.width = `${width}px`;
-        const tiles = [...p.root.querySelectorAll('.ms-pp-tile')];
+        const tiles = [...p.root.querySelectorAll('.ms-k-tile')];
         const top = n => Math.round(n.getBoundingClientRect().top);
         const perRow = tiles.filter(n => top(n) === top(tiles[0])).length;
         // Every word whole: nothing in a tile runs past it.
-        const whole = tiles.every(n => n.scrollWidth <= n.clientWidth + 1 && [...n.querySelectorAll('.ms-pp-tile-name, .ms-pp-tile-note:not([hidden])')].every(w => w.getBoundingClientRect().right <= n.getBoundingClientRect().right + 0.5));
+        const whole = tiles.every(n => n.scrollWidth <= n.clientWidth + 1 && [...n.querySelectorAll('.ms-k-tile-name, .ms-k-tile-note:not([hidden])')].every(w => w.getBoundingClientRect().right <= n.getBoundingClientRect().right + 0.5));
         const listForm = getComputedStyle(tiles[0]).display === 'grid';
         const tall = tiles.every(n => n.getBoundingClientRect().height >= 44);
         p.dispose();
@@ -340,9 +340,9 @@ export async function runActionsProbe({ sizes, versions }) {
     await frames();
     const reduced = q.root.querySelector('.ms-ac-after-head .ms-k-stamp').getAnimations().length;
     const r = phone('tiles-sending', { reducedMotion: true });
-    const spinner = getComputedStyle(tile(r.root, 'RESCUE').querySelector('.ms-pp-tile-icon'), '::after').animationName;
+    const spinner = getComputedStyle(tile(r.root, 'RESCUE').querySelector('.ms-k-tile-icon'), '::after').animationName;
     const s = phone('tiles-sending');
-    const spinning = getComputedStyle(tile(s.root, 'RESCUE').querySelector('.ms-pp-tile-icon'), '::after').animationName;
+    const spinning = getComputedStyle(tile(s.root, 'RESCUE').querySelector('.ms-k-tile-icon'), '::after').animationName;
     for (const x of [p, q, r, s]) x.dispose();
     const detail = { anim, reduced, spinner, spinning };
     // With the device's Reduce motion, nothing animates even without the game's setting.

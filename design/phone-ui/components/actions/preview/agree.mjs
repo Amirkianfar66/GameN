@@ -101,25 +101,25 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     const head = [bodyA?.querySelector('.section-head'), root?.querySelector('.ms-ac-head')];
     compare('section head', 'words', [words(head[0]?.querySelector('h3')), words(head[0]?.querySelector('span'))], [words(head[1]?.querySelector('h3')), words(head[1]?.querySelector('span'))]);
     compareBox('section head', box(bodyA, head[0]), box(bodyB, head[1]));
-    const tilesA = [...(bodyA?.querySelectorAll('.tiles .tile') ?? [])], tilesB = [...(root?.querySelectorAll('.ms-ac-tiles .ms-pp-tile') ?? [])];
+    const tilesA = [...(bodyA?.querySelectorAll('.tiles .tile') ?? [])], tilesB = [...(root?.querySelectorAll('.ms-ac-tiles .ms-k-tile') ?? [])];
     compare('tiles', 'count', tilesA.length, tilesB.length);
     tilesA.forEach((a, i) => {
       const b = tilesB[i] ?? null, n = `tile ${i + 1}`;
       // The pack's spent tile is an unavailable tile with the server's reason (L1); its submitting is sending.
       compare(n, 'state', a.dataset.state === 'submitting' ? 'sending' : a.dataset.state === 'spent' ? 'unavailable' : a.dataset.state, b?.dataset.state ?? null);
       compare(n, 'words', [words(a.querySelector('b')), words(a.querySelector('small')), words(a.querySelector('.tile-badge')), words(a.querySelector('.mini-stamp'))],
-        [words(b?.querySelector('.ms-pp-tile-name')), words(b?.querySelector('.ms-pp-tile-note')), words(b?.querySelector('.ms-pp-tile-badge')), words(b?.querySelector('.ms-pp-tile-stamp'))]);
+        [words(b?.querySelector('.ms-k-tile-name')), words(b?.querySelector('.ms-k-tile-note')), words(b?.querySelector('.ms-k-tile-badge')), words(b?.querySelector('.ms-k-tile-stamp'))]);
       compare(n, 'accessible name', a.getAttribute('aria-label'), b?.getAttribute('aria-label') ?? null);
       compareBox(n, box(bodyA, a), box(bodyB, b));
       compareLook(n, a, b);
-      compareBox(`${n} icon`, box(a, a.querySelector('.tile-icon')), box(b, b?.querySelector('.ms-pp-tile-icon')));
-      compareLook(`${n} icon`, a.querySelector('.tile-icon'), b?.querySelector('.ms-pp-tile-icon'));
-      compareBox(`${n} name`, box(a, a.querySelector('b')), box(b, b?.querySelector('.ms-pp-tile-name')));
-      compareLook(`${n} name`, a.querySelector('b'), b?.querySelector('.ms-pp-tile-name'));
-      compareBox(`${n} note`, box(a, a.querySelector('small')), box(b, b?.querySelector('.ms-pp-tile-note')));
-      compareLook(`${n} note`, a.querySelector('small'), b?.querySelector('.ms-pp-tile-note'));
-      compareBox(`${n} badge`, box(a, a.querySelector('.tile-badge')), box(b, b?.querySelector('.ms-pp-tile-badge')));
-      compareBox(`${n} mark`, box(a, a.querySelector('.mini-stamp')), box(b, b?.querySelector('.ms-pp-tile-stamp')));
+      compareBox(`${n} icon`, box(a, a.querySelector('.tile-icon')), box(b, b?.querySelector('.ms-k-tile-icon')));
+      compareLook(`${n} icon`, a.querySelector('.tile-icon'), b?.querySelector('.ms-k-tile-icon'));
+      compareBox(`${n} name`, box(a, a.querySelector('b')), box(b, b?.querySelector('.ms-k-tile-name')));
+      compareLook(`${n} name`, a.querySelector('b'), b?.querySelector('.ms-k-tile-name'));
+      compareBox(`${n} note`, box(a, a.querySelector('small')), box(b, b?.querySelector('.ms-k-tile-note')));
+      compareLook(`${n} note`, a.querySelector('small'), b?.querySelector('.ms-k-tile-note'));
+      compareBox(`${n} badge`, box(a, a.querySelector('.tile-badge')), box(b, b?.querySelector('.ms-k-tile-badge')));
+      compareBox(`${n} mark`, box(a, a.querySelector('.mini-stamp')), box(b, b?.querySelector('.ms-k-tile-stamp')));
     });
     // The note under the tiles, or Pass's line (both the kit's group note in the body).
     const noteA = bodyA?.querySelector(':scope > .group-note') ?? null, noteB = root?.querySelector('.ms-k-group-note') ?? null;
@@ -145,15 +145,15 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
       compareBox(`row ${i + 1} portrait`, box(r, r.querySelector('.pt')), box(b, b?.querySelector('.ms-k-pt')));
     });
     // The check: the person or the action's icon, its words, its facts.
-    const whoA = bodyA?.querySelector('.confirm-who'), whoB = root?.querySelector('.ms-pp-who');
-    compare('who', 'words', [words(whoA?.querySelector(':scope > div > b')), words(whoA?.querySelector(':scope > div > span'))], [words(whoB?.querySelector('.ms-pp-who-title')), words(whoB?.querySelector('.ms-pp-who-sub'))]);
+    const whoA = bodyA?.querySelector('.confirm-who'), whoB = root?.querySelector('.ms-k-who');
+    compare('who', 'words', [words(whoA?.querySelector(':scope > div > b')), words(whoA?.querySelector(':scope > div > span'))], [words(whoB?.querySelector('.ms-k-who-title')), words(whoB?.querySelector('.ms-k-who-sub'))]);
     compareBox('who', box(bodyA, whoA), box(bodyB, whoB));
-    compareBox('who portrait', box(whoA, whoA?.querySelector(':scope > .pt')), box(whoB, whoB?.querySelector('.ms-pp-who-lead[data-form="person"] .ms-k-pt')));
-    compareBox('who icon', box(whoA, whoA?.querySelector(':scope > .tile-icon')), box(whoB, whoB?.querySelector('.ms-pp-who-lead[data-form="icon"]')));
-    compareLook('who icon', whoA?.querySelector(':scope > .tile-icon'), whoB?.querySelector('.ms-pp-who-lead[data-form="icon"]'));
-    compareBox('who title', box(whoA, whoA?.querySelector(':scope > div > b')), box(whoB, whoB?.querySelector('.ms-pp-who-title')));
-    compareBox('who sub', box(whoA, whoA?.querySelector(':scope > div > span')), box(whoB, whoB?.querySelector('.ms-pp-who-sub')));
-    const factsA = [...(bodyA?.querySelectorAll('.facts li') ?? [])], factsB = [...(root?.querySelectorAll('.ms-pp-facts li') ?? [])];
+    compareBox('who portrait', box(whoA, whoA?.querySelector(':scope > .pt')), box(whoB, whoB?.querySelector('.ms-k-who-lead[data-form="person"] .ms-k-pt')));
+    compareBox('who icon', box(whoA, whoA?.querySelector(':scope > .tile-icon')), box(whoB, whoB?.querySelector('.ms-k-who-lead[data-form="icon"]')));
+    compareLook('who icon', whoA?.querySelector(':scope > .tile-icon'), whoB?.querySelector('.ms-k-who-lead[data-form="icon"]'));
+    compareBox('who title', box(whoA, whoA?.querySelector(':scope > div > b')), box(whoB, whoB?.querySelector('.ms-k-who-title')));
+    compareBox('who sub', box(whoA, whoA?.querySelector(':scope > div > span')), box(whoB, whoB?.querySelector('.ms-k-who-sub')));
+    const factsA = [...(bodyA?.querySelectorAll('.facts li') ?? [])], factsB = [...(root?.querySelectorAll('.ms-k-facts li') ?? [])];
     compare('facts', 'words', factsA.map(words), factsB.map(words));
     factsA.forEach((f, i) => {
       compareBox(`fact ${i + 1}`, box(bodyA, f), box(bodyB, factsB[i] ?? null));
