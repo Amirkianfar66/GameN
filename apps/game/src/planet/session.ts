@@ -1,9 +1,10 @@
-import {CrewDisplayNameSchema,IdentifierSchema,PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetRecoveryResultSchema,TimestampSchema,FOOD_TASK_TRANSPORT} from '@mothership/contracts';
-import type {PlanetServiceRequest,PlanetSessionSnapshot} from '@mothership/contracts';
+import {CrewDisplayNameSchema,IdentifierSchema,PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetRecoveryResultSchema,TimestampSchema,FOOD_TASK_TRANSPORT,PlanetFoodStreamFrameSchema,PlanetFoodClockResponseSchema,foodTaskRevisionBody} from '@mothership/contracts';
+import type {PlanetServiceRequest,PlanetSessionSnapshot,PlanetFoodStreamScope,PlanetFoodStreamFrame,PlanetFoodTransportRequest} from '@mothership/contracts';
 import type {PlayerPorts,UnresolvedCommandStore} from '../ports.js';
 import {createServerClock} from '../clock/server-clock.js';
 import type {ClockReading} from '../clock/server-clock.js';
 import {planetSupportsAssets,planetHasFood} from '@mothership/presentation';
+import {readPlanetFood,readPlanetView} from './transport.js';
 import type {PlanetTransport,PlanetSnapshot} from './transport.js';
 import type {FoodTaskTransport} from './food.js';
 
@@ -12,7 +13,12 @@ export interface PlanetServiceConnection {
  currentUid():string|null;
  signIn():Promise<string>;
  /** Integration supplies the authenticated planetApi request; no UID is accepted in its body. */
- request(request:PlanetServiceRequest):Promise<unknown>;
+ request(request:PlanetServiceRequest,signal?:AbortSignal):Promise<unknown>;
+ /** Optional read-only delivery. The verified snapshot delegates when it can be used. */
+ foodDelivery?:{
+  watch(request:Extract<PlanetFoodTransportRequest,{operation:'foodWatch'}>,signal:AbortSignal,receive:(frame:unknown)=>void):Promise<unknown>;
+  clock(request:Extract<PlanetFoodTransportRequest,{operation:'foodClock'}>,signal:AbortSignal):Promise<unknown>;
+ };
  dispose?():Promise<void>;
 }
 type SessionAction=Exclude<PlanetServiceRequest,{operation:'read'|'command'|'receipt'|'foodCommand'|'foodReceipt'|'foodHeartbeat'}>;
@@ -56,9 +62,27 @@ export function readPlanetServiceAnswer(value:unknown):Answer|null {
  return typeof code==='string'&&codes.includes(code)?{ok:false,serverTimeMs:r.serverTimeMs as number,result:null,code}:null;
 }
 
+const FRESHNESS_WAIT_MS=8_000;
+const FOOD_WATCH_LIFETIME_MS=45_000+FRESHNESS_WAIT_MS;
+const isAuthorizationFailure=(answer:Answer|null)=>answer?.code==='FORBIDDEN'||answer?.code==='UNAUTHENTICATED';
+type FoodSnapshotFrame=Extract<PlanetFoodStreamFrame,{kind:'snapshot'}>;
+type FoodWatch={
+ controller:AbortController;timer:unknown;epoch:string|null;sequence:number;
+ calibrated:boolean;pending:FoodSnapshotFrame|null;
+};
+const sameFoodScope=(a:PlanetFoodStreamScope,b:PlanetFoodStreamScope)=>
+ a.version===b.version&&a.matchId===b.matchId&&a.phaseId===b.phaseId&&a.foodStepId===b.foodStepId;
+function compatibleRevision<T extends {viewRevision:number;round:number}>(previous:T|null|undefined,current:T|null|undefined,
+ body:(value:T)=>unknown=value=>value):boolean{
+ if(!previous)return true;
+ if(!current||current.round<previous.round||current.viewRevision<previous.viewRevision)return false;
+ return current.viewRevision!==previous.viewRevision||JSON.stringify(body(previous))===JSON.stringify(body(current));
+}
+
 /** HTTP snapshots are server-confirmed reads. They are not Firestore cache documents. */
 export function createPlanetSession(connection:PlanetServiceConnection,ports:PlayerPorts,stores:{resume:UnresolvedCommandStore;requests:UnresolvedCommandStore;rolePrivacy?:UnresolvedCommandStore}):PlanetSessionController {
  const clock=createServerClock(ports.clock),listeners=new Set<(value:PlanetSessionModel)=>void>();
+ const presenceClock=createServerClock(ports.clock);
  const feeds=new Set<{surface:'player'|'display';seatId:PlanetSessionSnapshot['selfSeatId'];snapshot(value:PlanetSnapshot):void;error(kind?:'network'|'authorization'):void}>();
  let knownRole:{role:string;faction:string}|null=null;
  let recoveredSeat:PlanetSessionSnapshot['selfSeatId']=null;
@@ -68,6 +92,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  let poll:unknown=null,ticker:unknown=null,refreshing:Promise<void>|null=null,generation=0,started=false;
  type ReadScope={uid:string|null;matchId:string;generation:number};
  let refreshQueued:ReadScope|null=null,snapshotServerTimeMs:number|null=null,lastFoodReadAt=-Infinity,heartbeat:unknown=null,heartbeating=false;
+ let foodWatch:FoodWatch|null=null,foodReconnect:unknown=null,foodStreamUsed=false,foodStreamDenied=false;
+ let foodPresenceAbort:AbortController|null=null;
+ const foodReceiptFlights=new Map<string,{controller:AbortController;promise:Promise<unknown>;timer:unknown}>();
  // A local timeout ends waiting, not the underlying network request. Retain its
  // actual lifetime and original clock window until the adapter settles it.
  let readFlight:(ReadScope&{promise:Promise<unknown>;startedAt:number;receivedAt:number})|null=null;
@@ -80,7 +107,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  const timeouts=new Set<unknown>();
  const bounded=<T>(run:()=>Promise<T>):Promise<T|null>=>new Promise(resolve=>{
   let done=false;const finish=(value:T|null)=>{if(done)return;done=true;ports.scheduler.clearTimeout(handle);timeouts.delete(handle);resolve(value);};
-  const handle=ports.scheduler.setTimeout(()=>finish(null),8000);timeouts.add(handle);Promise.resolve().then(run).then(finish,()=>finish(null));
+  const handle=ports.scheduler.setTimeout(()=>finish(null),FRESHNESS_WAIT_MS);timeouts.add(handle);Promise.resolve().then(run).then(finish,()=>finish(null));
  });
  const auth=()=>uid!==null&&connection.currentUid()===uid;
  const matchesReadScope=(scope:ReadScope)=>scope.uid===uid&&scope.matchId===matchId&&scope.generation===generation;
@@ -105,8 +132,33 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  }
  function emit(){if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);}
  function conceal(text:string,error=false){fresh=false;revealed=false;code=null;message=text;connectionState=error?'error':'stale';for(const feed of feeds)feed.error(error?'authorization':'network');emit();}
+ function foodDeliveryScope():PlanetFoodStreamScope|null{
+  return snapshot?.foodStream&&snapshot.matchId===matchId?{matchId:snapshot.matchId,...snapshot.foodStream}:null;
+ }
+ function foodReceiptRequest(input:Extract<PlanetServiceRequest,{operation:'foodReceipt'}>):Promise<unknown>{
+  const key=JSON.stringify([uid,input.matchId,input.commandId]);
+  const existing=foodReceiptFlights.get(key);
+  if(existing)return existing.promise;
+  const controller=new AbortController();
+  const timer=ports.scheduler.setTimeout(()=>controller.abort(),FRESHNESS_WAIT_MS);
+  const promise=Promise.resolve().then(()=>connection.request(input,controller.signal)).finally(()=>{
+   ports.scheduler.clearTimeout(timer);if(foodReceiptFlights.get(key)?.promise===promise)foodReceiptFlights.delete(key);
+  });
+  foodReceiptFlights.set(key,{controller,promise,timer});
+  return promise;
+ }
+ async function foodPresenceRequest(input:Extract<PlanetServiceRequest,{operation:'foodHeartbeat'}>):Promise<unknown>{
+  const controller=new AbortController();
+  foodPresenceAbort=controller;
+  const timer=ports.scheduler.setTimeout(()=>controller.abort(),FRESHNESS_WAIT_MS);
+  try{return await connection.request(input,controller.signal);}
+  catch{return null;}
+  finally{ports.scheduler.clearTimeout(timer);foodPresenceAbort=null;}
+ }
  async function request(input:PlanetServiceRequest,legacyClockRead=false):Promise<Answer|null>{
   const requestedAt=ports.clock.now();
+  const scoped=foodStreamUsed;
+  const dispatchedIn={generation,matchId,taskId:snapshot?.foodPlayerView?.participantTask?.taskId};
   let flight:NonNullable<typeof readFlight>|null=null;
   if(input.operation==='read'&&!legacyClockRead){
    if(!readFlight){
@@ -121,10 +173,23 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    }
    flight=readFlight;
   }
-  const raw=await bounded(()=>flight?flight.promise:connection.request(input));if(disposed||!auth())return null;
+  const raw=scoped&&input.operation==='foodHeartbeat'?await foodPresenceRequest(input):
+   await bounded(()=>flight?flight.promise:scoped&&input.operation==='foodReceipt'?foodReceiptRequest(input):connection.request(input));
+  if(disposed||!auth())return null;
   if(flight&&!matchesReadScope(flight))return null;
-  const result=readPlanetServiceAnswer(raw);if(result&&input.operation==='read')clock.addSample({requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs});
-  if(planetHasFood(snapshot?.versions)&&(result?.code==='FORBIDDEN'||result?.code==='UNAUTHENTICATED'))conceal('This identity can no longer read this session.',true);
+  const result=readPlanetServiceAnswer(raw);
+  if(result&&input.operation==='read'){
+   const sample={requestedAt:flight?.startedAt??requestedAt,receivedAt:flight?.receivedAt??ports.clock.now(),serverTimeMs:result.serverTimeMs};
+   clock.addSample(sample);presenceClock.addSample(sample);
+  }
+  if(planetHasFood(snapshot?.versions)&&isAuthorizationFailure(result)){
+   if(!scoped&&!foodStreamUsed)conceal('This identity can no longer read this session.',true);
+   else if(dispatchedIn.generation===generation&&dispatchedIn.matchId===matchId
+    &&dispatchedIn.taskId===snapshot?.foodPlayerView?.participantTask?.taskId){
+    if(foodDeliveryScope())denyFoodDelivery();
+    else conceal('This identity can no longer read this session.',true);
+   }
+  }
   return result;
  }
  function saveResume(){if(matchId)try{stores.resume.save(JSON.stringify({protocolVersion:3,matchId,ownerUid:uid,join}));}catch{message='Session resume could not be saved in this tab.';}}
@@ -142,25 +207,36 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const token=generation,response=await request({operation:'read',matchId});if(token!==generation||disposed)return;
   if(!response?.ok){
    if(join&&auth()&&!knownAdmitted()){conceal('Your request is registered. Waiting for the server to confirm admission.');return;}
-   const denied=response?.code==='FORBIDDEN'||response?.code==='UNAUTHENTICATED';
+   const denied=isAuthorizationFailure(response);
    conceal(denied?'This identity can no longer read this session.':'Reconnecting to the authorized session.',denied);return;
   }
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
-  if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
-  const next=parsed.data;
-  if(planetHasFood(next.versions)&&[next.foodPublicView,next.foodPlayerView].some(v=>v&&v.serverNowMs!==response.serverTimeMs)){
-   conceal('The Food snapshot clock could not be verified.',true);return;
+  if(!parsed.success){conceal('The session response could not be verified.',true);return;}
+  const next=parsed.data,problem=snapshotProblem(next,response.serverTimeMs);
+  if(problem){conceal(problem,true);return;}
+  lastFoodReadAt=ports.clock.now();
+  if(next.foodStream){
+   // A read can offer delivery. Only the stream can confirm current owner freshness.
+   beginFoodDelivery(next,response.serverTimeMs);
+   return;
   }
-  if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2&&next.setupFlowVersion!==3){conceal('This setup flow requires an updated app.',true);return;}
-  if(recoveredSeat!==null&&next.selfSeatId!==recoveredSeat){conceal('The recovered seat could not be verified.',true);return;}
-  if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions)))){conceal('The session view versions could not be verified.',true);return;}
-  if(!standingMatches(next)){conceal('The admission request could not be verified.',true);return;}
-  if(next.admission===null&&!next.isHost&&next.selfSeatId===null||next.admission?.status==='admitted'&&next.admission.kind==='player'&&next.selfSeatId===null){conceal('The admission audience could not be verified.',true);return;}
+  publishSnapshot(next,response.serverTimeMs);
+ }
+ function snapshotProblem(next:PlanetSessionSnapshot,serverTimeMs:number):string|null{
+  if(next.matchId!==matchId||!planetSupportsAssets(next.versions))return 'The session response could not be verified.';
+  if(planetHasFood(next.versions)&&[next.foodPublicView,next.foodPlayerView].some(v=>v&&v.serverNowMs!==serverTimeMs)){
+   return 'The Food snapshot clock could not be verified.';
+  }
+  if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2&&next.setupFlowVersion!==3)return 'This setup flow requires an updated app.';
+  if(recoveredSeat!==null&&next.selfSeatId!==recoveredSeat)return 'The recovered seat could not be verified.';
+  if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions))))return 'The session view versions could not be verified.';
+  if(!standingMatches(next))return 'The admission request could not be verified.';
+  if(next.admission===null&&!next.isHost&&next.selfSeatId===null||next.admission?.status==='admitted'&&next.admission.kind==='player'&&next.selfSeatId===null)return 'The admission audience could not be verified.';
   const denied=next.admission!==null&&next.admission.status!=='admitted';
   const nextRole=next.privateRole??next.playerView?.self;
-  if(nextRole&&knownRole&&(knownRole.role!==nextRole.role||knownRole.faction!==nextRole.faction)){conceal('Your role identity changed unexpectedly.',true);return;}
+  if(nextRole&&knownRole&&(knownRole.role!==nextRole.role||knownRole.faction!==nextRole.faction))return 'Your role identity changed unexpectedly.';
   const characters=next.members.flatMap(m=>m.characterId?[m.characterId]:[]);
-  if(new Set(characters).size!==characters.length||next.members.some(m=>Number(m.seatId.slice(5))>next.playerCount)){conceal('The crew identities could not be verified.',true);return;}
+  if(new Set(characters).size!==characters.length||next.members.some(m=>Number(m.seatId.slice(5))>next.playerCount))return 'The crew identities could not be verified.';
   if(new Set(next.members.map(m=>m.seatId)).size!==next.members.length||next.members.length>next.playerCount||
     (!next.isHost&&next.pendingAdmissions.length>0)||
     (next.selfSeatId===null&&(next.privateRole!==null||next.playerView!==null))||
@@ -168,20 +244,141 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
     (next.playerView&&next.playerView.self.seatId!==next.selfSeatId)||
     (next.privateRole&&next.status!=='reading')||
     (snapshot?.selfSeatId&&next.selfSeatId!==snapshot.selfSeatId&&!denied)){
-   conceal('The session audience could not be verified.',true);return;
+   return 'The session audience could not be verified.';
   }
-  if(snapshot&&JSON.stringify(snapshot.versions)!==JSON.stringify(next.versions)){conceal('The session version changed unexpectedly.',true);return;}
-  if(snapshot&&snapshot.setupFlowVersion!==next.setupFlowVersion){conceal('The saved setup flow changed unexpectedly.',true);return;}
-  if(next.setupFlowVersion===3&&next.status==='reading'&&snapshot?.status==='reading'&&snapshot.setup?.id===next.setup?.id&&JSON.stringify(snapshot.setup)!==JSON.stringify(next.setup)){conceal('The timed role interval changed unexpectedly.',true);return;}
+  if(snapshot&&JSON.stringify(snapshot.versions)!==JSON.stringify(next.versions))return 'The session version changed unexpectedly.';
+  if(snapshot&&snapshot.setupFlowVersion!==next.setupFlowVersion)return 'The saved setup flow changed unexpectedly.';
+  if(next.setupFlowVersion===3&&next.status==='reading'&&snapshot?.status==='reading'&&snapshot.setup?.id===next.setup?.id&&JSON.stringify(snapshot.setup)!==JSON.stringify(next.setup))return 'The timed role interval changed unexpectedly.';
+  return null;
+ }
+ function rememberSnapshot(next:PlanetSessionSnapshot,serverTimeMs:number){
+  // Keep the original caller/request binding across approval and reload. A recovered
+  // member clears it only after the verified recovery response, before reading its seat.
+  if(!join&&next.admission)join={matchId:next.matchId,roomCode:next.roomCode,requestId:next.admission.requestId,kind:next.admission.kind};
+  const nextRole=next.privateRole??next.playerView?.self;
+  if(nextRole)knownRole={role:nextRole.role,faction:nextRole.faction};
+  snapshot=next;snapshotServerTimeMs=serverTimeMs;recoveredSeat=null;
+ }
+ function publishSnapshot(next:PlanetSessionSnapshot,serverTimeMs:number){
   const entering=snapshot?.setup?.id!==next.setup?.id||snapshot?.status!==next.status||!fresh;
   const nextReading=readingContext(next);
   if(nextReading&&nextReading!==roleReadingContext){roleReadingContext=nextReading;explicitRoleConceal=next.setupFlowVersion===3&&readRolePrivacy(nextReading);}
   if(entering)revealed=next.status==='reading'&&next.setupFlowVersion===3&&!explicitRoleConceal;
-  // Keep the original caller/request binding across approval and reload. A recovered
-  // member clears it only after the verified recovery response, before reading its seat.
-  if(!join&&next.admission)join={matchId:next.matchId,roomCode:next.roomCode,requestId:next.admission.requestId,kind:next.admission.kind};
-  if(nextRole)knownRole={role:nextRole.role,faction:nextRole.faction};
-  snapshot=next;snapshotServerTimeMs=response.serverTimeMs;lastFoodReadAt=ports.clock.now();recoveredSeat=null;fresh=true;connectionState='live';if(!uncertain)message=null;saveResume();projectFeeds();emit();
+  rememberSnapshot(next,serverTimeMs);
+  fresh=true;connectionState='live';if(!uncertain)message=null;saveResume();projectFeeds();emit();
+ }
+ function stopFoodDelivery(){
+  if(foodReconnect!==null)ports.scheduler.clearTimeout(foodReconnect);
+  foodReconnect=null;
+  const watch=foodWatch;foodWatch=null;
+  if(watch){
+   ports.scheduler.clearTimeout(watch.timer);
+   watch.controller.abort();
+  }
+ }
+ function clearFoodDelivery(){
+  stopFoodDelivery();foodStreamUsed=false;foodStreamDenied=false;presenceClock.invalidate();
+  foodPresenceAbort?.abort();
+  for(const {controller,timer} of foodReceiptFlights.values()){ports.scheduler.clearTimeout(timer);controller.abort();}
+  foodReceiptFlights.clear();
+ }
+ function beginFoodDelivery(next:PlanetSessionSnapshot,serverTimeMs:number){
+  foodStreamUsed=true;generation++;refreshQueued=null;clock.invalidate();
+  rememberSnapshot(next,serverTimeMs);saveResume();
+  conceal('Reconnecting to the authorized session.');
+  openFoodDelivery();
+ }
+ function denyFoodDelivery(){
+  foodStreamDenied=true;generation++;stopFoodDelivery();clock.invalidate();presenceClock.invalidate();
+  foodPresenceAbort?.abort();
+  conceal('This identity can no longer read this session.',true);
+ }
+ function retryFoodDelivery(){
+  generation++;stopFoodDelivery();clock.invalidate();
+  conceal('Reconnecting to the authorized session.');
+  if(!disposed&&visible&&auth()&&foodDeliveryScope()&&!foodStreamDenied)
+   foodReconnect=ports.scheduler.setTimeout(()=>{foodReconnect=null;openFoodDelivery();},FOOD_TASK_TRANSPORT.snapshotMs);
+ }
+ function verifyFoodDelivery(next:PlanetSessionSnapshot,serverTimeMs:number,old:PlanetSessionSnapshot|null):boolean{
+  if(!old||snapshotProblem(next,serverTimeMs)||next.selfSeatId!==old.selfSeatId||next.isHost!==old.isHost||
+   next.roomCode!==old.roomCode||next.playerCount!==old.playerCount||JSON.stringify(next.admission)!==JSON.stringify(old.admission))return false;
+  if(next.status==='aborted')return !next.publicView&&!next.playerView;
+  if(next.status!=='running'&&next.status!=='finished')return false;
+  const ordinary=readPlanetView(next.publicView,next.matchId,null);
+  if(!ordinary||!next.foodPublicView)return false;
+  const packet={value:next.publicView,fresh:true,food:{publicView:next.foodPublicView,serverTimeMs}};
+  if(!readPlanetFood(packet,ordinary,null))return false;
+  if(next.selfSeatId!==null){
+   const own=readPlanetView(next.playerView,next.matchId,next.selfSeatId);
+   if(!own||!next.foodPlayerView||!readPlanetFood({...packet,food:{...packet.food,playerView:next.foodPlayerView}},own,next.selfSeatId))return false;
+  }
+  return compatibleRevision(old.publicView,next.publicView)&&compatibleRevision(old.playerView,next.playerView)&&
+   compatibleRevision(old.foodPublicView,next.foodPublicView,foodTaskRevisionBody)&&compatibleRevision(old.foodPlayerView,next.foodPlayerView,foodTaskRevisionBody);
+ }
+ function openFoodDelivery(){
+  const scope=foodDeliveryScope(),delivery=connection.foodDelivery;
+  if(!scope||foodWatch||foodReconnect!==null||foodStreamDenied||!visible||disposed||!auth())return;
+  if(!delivery){conceal('The Food connection is unavailable.');return;}
+  const watch:FoodWatch={controller:new AbortController(),epoch:null,sequence:0,calibrated:false,pending:null,timer:null};
+  foodWatch=watch;
+  const {signal}=watch.controller;
+  const current=()=>foodWatch===watch&&visible&&!disposed&&auth();
+  watch.timer=ports.scheduler.setTimeout(()=>{if(current())retryFoodDelivery();},FRESHNESS_WAIT_MS);
+  const ready=()=>{
+   if(watch.sequence===0||!watch.calibrated)return;
+   ports.scheduler.clearTimeout(watch.timer);
+   watch.timer=ports.scheduler.setTimeout(()=>{if(current())retryFoodDelivery();},FOOD_WATCH_LIFETIME_MS);
+  };
+  const receive=(raw:unknown)=>{
+   if(!current())return;
+   const checked=PlanetFoodStreamFrameSchema.safeParse(raw);
+   if(!checked.success||!sameFoodScope(checked.data,scope)||watch.epoch!==null&&checked.data.frameEpoch!==watch.epoch){
+    retryFoodDelivery();return;
+   }
+   const frame=checked.data,first=watch.sequence===0;
+   if(frame.frameSequence<=watch.sequence)return;
+   watch.sequence=frame.frameSequence;watch.epoch=frame.frameEpoch;
+   const latest=watch.pending?.snapshot??snapshot;
+   if(frame.kind==='closed'){
+    if(frame.reason==='authorization'){denyFoodDelivery();return;}
+    if(frame.reason==='unavailable'||!frame.snapshot){retryFoodDelivery();return;}
+    const at=frame.serverTimeMs;
+    if(!verifyFoodDelivery(frame.snapshot,at,latest)){retryFoodDelivery();return;}
+    generation++;stopFoodDelivery();
+    if(frame.snapshot.foodStream)beginFoodDelivery(frame.snapshot,at);
+    else {publishSnapshot(frame.snapshot,at);void refresh(true);}
+    return;
+   }
+   if(!verifyFoodDelivery(frame.snapshot,frame.serverTimeMs,latest)){retryFoodDelivery();return;}
+   if(!frame.fresh){
+    watch.pending=null;rememberSnapshot(frame.snapshot,frame.serverTimeMs);
+    conceal('Reconnecting to the authorized session.');
+   }else if(watch.calibrated)publishSnapshot(frame.snapshot,frame.serverTimeMs);
+   else watch.pending=frame;
+   if(first&&current())ready();
+  };
+  const requestedAt=ports.clock.now();
+  void Promise.resolve().then(()=>delivery.clock({operation:'foodClock',...scope},signal)).then(raw=>{
+   if(!current())return;
+   const receivedAt=ports.clock.now(),checked=PlanetFoodClockResponseSchema.safeParse(raw);
+   if(!checked.success||!sameFoodScope(checked.data.scope,scope)){
+    if(isAuthorizationFailure(readPlanetServiceAnswer(raw)))denyFoodDelivery();
+    // The paired request can reach the server after the phase ends. The watch
+    // can still deliver its explicit, authorized return within the wait window.
+    return;
+   }
+   const sample={requestedAt,receivedAt,serverTimeMs:checked.data.serverTimeMs};
+   if(!clock.addSample(sample))return;
+   presenceClock.addSample(sample);
+   watch.calibrated=true;ready();
+   const pending=watch.pending;watch.pending=null;
+   if(pending)publishSnapshot(pending.snapshot,pending.serverTimeMs);
+  },()=>{/* Initial clock timeout remains owned by the watch. */});
+  void Promise.resolve().then(()=>delivery.watch({operation:'foodWatch',...scope},signal,receive)).then(raw=>{
+   if(!current())return;
+   if(isAuthorizationFailure(readPlanetServiceAnswer(raw)))denyFoodDelivery();
+   else retryFoodDelivery();
+  },()=>{if(current())retryFoodDelivery();});
  }
  function resumeQueuedRead():boolean{
   if(refreshing||readFlight||!needsFreshRead())return false;
@@ -189,6 +386,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  }
  async function refresh(afterCurrent=false){
   if(!started){await start(matchId??undefined);return;}
+  if(foodDeliveryScope()){openFoodDelivery();return;}
   if(afterCurrent&&matchId!==null&&visible&&!disposed&&auth())refreshQueued={uid,matchId,generation};
   if(refreshing)return refreshing;
   refreshing=(async()=>{
@@ -199,12 +397,12 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  const foodAway=()=>{const f=snapshot?.foodPublicView,t=clock.read();return planetHasFood(snapshot?.versions)&&f?.step?.kind==='AWAY'&&(t.status!=='synced'||t.serverNowMs<f.step.returnsAt);};
  function schedule(){
   if(poll!==null)ports.scheduler.clearTimeout(poll);poll=null;
-  if(disposed||!visible)return;
+  if(disposed||!visible||foodDeliveryScope())return;
   poll=ports.scheduler.setTimeout(()=>{poll=null;void refresh();},foodAway()?FOOD_TASK_TRANSPORT.snapshotMs:2000);
  }
  async function presence(){
   heartbeat=null;if(disposed||!visible)return;
-  const task=snapshot?.foodPlayerView?.participantTask,r=clock.read();
+  const task=snapshot?.foodPlayerView?.participantTask,r=(foodDeliveryScope()?presenceClock:clock).read();
   // Reads renew the same lease. A slow/lost read does not block this bounded
   // fallback, or the separate causal UP lane. No partner presence is inferred.
   if(!heartbeating&&connectionState!=='error'&&auth()&&knownAdmitted()&&planetHasFood(snapshot?.versions)&&task&&task.stage!=='ENDED'
@@ -215,7 +413,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   heartbeat=ports.scheduler.setTimeout(()=>void presence(),FOOD_TASK_TRANSPORT.heartbeatMs);
  }
  function tick(){
-  if(disposed||!visible)return;if(!auth()){conceal('Your signed-in identity changed. Reconnect the original session.',true);return;}emit();ticker=ports.scheduler.setTimeout(tick,250);
+  if(disposed||!visible)return;if(!auth()){stopFoodDelivery();foodPresenceAbort?.abort();conceal('Your signed-in identity changed. Reconnect the original session.',true);return;}emit();ticker=ports.scheduler.setTimeout(tick,250);
  }
  async function start(initialMatchId?:string){
   if(started||disposed)return;started=true;
@@ -250,7 +448,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const result=response.result as Record<string,unknown>|null;
   if(item.operation==='create'||item.operation==='requestAdmission'){
    const parsed=IdentifierSchema.safeParse(result?.matchId);if(!parsed.success){uncertain=true;message='The session result could not be verified. Retry the original request.';emit();return;}
-   if(matchId!==parsed.data){snapshot=null;knownRole=null;for(const feed of feeds)feed.error();}
+   if(matchId!==parsed.data){clearFoodDelivery();snapshot=null;knownRole=null;for(const feed of feeds)feed.error();}
    matchId=parsed.data;join=item.operation==='requestAdmission'?{matchId,kind:item.kind,roomCode:item.roomCode,requestId:item.requestId}:null;saveResume();
   }
   if(item.operation==='issueRecovery'){
@@ -261,7 +459,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   if(item.operation==='redeemRecovery'){
    const recovery=PlanetRecoveryResultSchema.safeParse(result);
    if(!recovery.success||recovery.data.matchId!==item.matchId){uncertain=true;message='The recovery result could not be verified. Retry the original request.';emit();return;}
-   for(const feed of feeds)feed.error();snapshot=null;knownRole=null;matchId=item.matchId;recoveredSeat=recovery.data.seatId;join=null;saveResume();
+   clearFoodDelivery();for(const feed of feeds)feed.error();snapshot=null;knownRole=null;matchId=item.matchId;recoveredSeat=recovery.data.seatId;join=null;saveResume();
   }
   pending=null;uncertain=false;try{stores.requests.clear();}catch{/* The settled request can be safely retried after reload. */}message='Request registered.';await refresh();emit();
  }
@@ -283,7 +481,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   returnToLobby(){
    if(!canReturnToLobby())return false;
    try{stores.requests.clear();ports.unresolved.clear();stores.resume.clear();}catch{message='The saved session could not be cleared. Try again.';emit();return false;}
-   generation++;snapshot=null;snapshotServerTimeMs=null;lastFoodReadAt=-Infinity;matchId=null;join=null;knownRole=null;recoveredSeat=null;revealed=false;code=null;fresh=false;clock.invalidate();message=null;connectionState='live';
+   generation++;clearFoodDelivery();snapshot=null;snapshotServerTimeMs=null;lastFoodReadAt=-Infinity;matchId=null;join=null;knownRole=null;recoveredSeat=null;revealed=false;code=null;fresh=false;clock.invalidate();message=null;connectionState='live';
    for(const feed of feeds)feed.error();emit();return true;
   },
   subscribe(listener){listeners.add(listener);listener(getModel());return()=>listeners.delete(listener);},
@@ -297,14 +495,23 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    emit();
   },
   setVisible(next){
-   if(next===visible||disposed)return;visible=next;generation++;revealed=false;code=null;fresh=false;clock.invalidate();
+   if(next===visible||disposed)return;visible=next;generation++;revealed=false;code=null;fresh=false;clock.invalidate();presenceClock.invalidate();stopFoodDelivery();
+   if(!next)foodPresenceAbort?.abort();
    if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);if(heartbeat!==null)ports.scheduler.clearTimeout(heartbeat);heartbeat=null;emit();for(const feed of feeds)feed.error('authorization');
    if(next){void refresh(true).finally(()=>{schedule();tick();void presence();});}
   },
   gameTransport(surface){
    return {mode:connection.mode,currentUid:()=>connection.currentUid(),
     async authenticate(){if(!started)await start();if(!matchId||!snapshot||!admitted())throw new Error('session unavailable');const seatId=surface==='player'?snapshot.selfSeatId:null;if(surface==='player'&&seatId===null)throw new Error('not a player');return {uid:uid!,matchId,seatId};},
-    async serverTime(){if(!matchId)throw new Error('session unavailable');if(planetHasFood(snapshot?.versions)){await refresh();if(!admitted()||snapshotServerTimeMs===null)throw new Error('server time unavailable');return snapshotServerTimeMs;}const answer=await request({operation:'read',matchId},true);if(!answer?.ok)throw new Error('server time unavailable');return answer.serverTimeMs;},
+    async serverTime(){
+     if(!matchId)throw new Error('session unavailable');
+     if(planetHasFood(snapshot?.versions)){
+      await refresh();if(!admitted()||snapshotServerTimeMs===null)throw new Error('server time unavailable');
+      if(foodStreamUsed){const paired=clock.read();if(paired.status!=='synced')throw new Error('server time unavailable');return paired.serverNowMs;}
+      return snapshotServerTimeMs;
+     }
+     const answer=await request({operation:'read',matchId},true);if(!answer?.ok)throw new Error('server time unavailable');return answer.serverTimeMs;
+    },
     ...(planetHasFood(snapshot?.versions)?{readClock:()=>visible&&auth()?clock.read():{status:'unsynced' as const}}:{}),
     listen(audience,listener){const feed={surface,seatId:audience.seatId,...listener};if(audience.matchId!==matchId){listener.error();return()=>{};}feeds.add(feed);projectFeeds();return()=>feeds.delete(feed);},
     async command(command){const answer=await request({operation:'command',request:command});if(!answer?.ok)return null;void refresh(planetHasFood(snapshot?.versions));return {receipt:(answer.result as {receipt:unknown})?.receipt,serverTimeMs:answer.serverTimeMs};},
@@ -313,9 +520,10 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    };
   },
   foodTransport(){return {currentUid:()=>connection.currentUid(),
+   shouldCheckUnknownReceipt:()=>foodStreamUsed&&visible&&auth()&&knownAdmitted()&&connectionState!=='error',
    async command(input){if(!planetHasFood(snapshot?.versions)||input.matchId!==matchId||!auth())return null;const answer=await request({operation:'foodCommand',request:input});if(!answer?.ok)return null;return {receipt:(answer.result as {receipt:unknown})?.receipt,serverTimeMs:answer.serverTimeMs};},
    async receipt(context){if(!planetHasFood(snapshot?.versions)||context.matchId!==matchId||!auth())return null;const answer=await request({operation:'foodReceipt',matchId:context.matchId,commandId:context.commandId});if(!answer?.ok)return null;return {receipt:(answer.result as {receipt:unknown})?.receipt??null,serverTimeMs:answer.serverTimeMs};},
    refresh(){void refresh(true);}};},
-  dispose(){disposed=true;generation++;if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);if(heartbeat!==null)ports.scheduler.clearTimeout(heartbeat);for(const timer of timeouts)ports.scheduler.clearTimeout(timer);timeouts.clear();listeners.clear();feeds.clear();snapshot=null;pending=null;code=null;},
+  dispose(){disposed=true;generation++;clearFoodDelivery();if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);if(heartbeat!==null)ports.scheduler.clearTimeout(heartbeat);for(const timer of timeouts)ports.scheduler.clearTimeout(timer);timeouts.clear();listeners.clear();feeds.clear();snapshot=null;pending=null;code=null;},
  };
 }

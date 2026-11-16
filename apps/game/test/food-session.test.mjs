@@ -157,3 +157,100 @@ test('explicit auth refusal on a Food read, input or original lookup conceals im
   stop();food.dispose();r.session.dispose();
  }
 });
+
+function streamingRig(){
+ const r=rig(),s=r.value,watch=[],clock=[];
+ const offer={version:1,phaseId:s.foodPlayerView.phaseId,foodStepId:s.foodPlayerView.step.stepId};
+ s.foodStream=offer;
+ r.connection.foodDelivery={
+  watch(request,signal,receive){const gate=deferred();watch.push({request,signal,receive,...gate});return gate.promise;},
+  clock(request,signal){const gate=deferred();clock.push({request,signal,...gate});return gate.promise;},
+ };
+ const scope={matchId:s.matchId,...offer};
+ return {...r,scope,watch,clock,
+  reads:()=>r.requests.filter(q=>q.operation==='read'),
+  pair(index,time=r.ports.clock.now()){clock[index].resolve({ok:true,scope,receivedAt:time,serverTimeMs:time});},
+  frame(index,frameSequence,result={},source=s,stamp=r.ports.clock.now()){
+   const next=copy(source);for(const f of [next.foodPublicView,next.foodPlayerView])if(f)f.serverNowMs=stamp;
+   watch[index].receive({...scope,frameEpoch:'watch-'+index,frameSequence,serverTimeMs:stamp,kind:'snapshot',snapshot:next,fresh:true,...result});
+  },
+  close(index,frameSequence,reason,result={}){
+   watch[index].receive({...scope,frameEpoch:'watch-'+index,frameSequence,serverTimeMs:r.ports.clock.now(),kind:'closed',reason,...result});
+   watch[index].resolve();
+  },
+ };
+}
+test('Food stream selects only on the verified offer and needs one fresh frame plus paired time',async()=>{
+ const r=streamingRig(),session=r.session;await session.start(r.scope.matchId);
+ const t=session.gameTransport('player'),display=session.gameTransport('display'),playerPackets=[],publicPackets=[];
+ const stop=t.listen({matchId:r.scope.matchId,seatId:'seat-1'},{snapshot:s=>playerPackets.push(s),error(){}});
+ const stopDisplay=display.listen({matchId:r.scope.matchId,seatId:null},{snapshot:s=>publicPackets.push(s),error(){}});
+ try{
+  assert.deepEqual(r.watch[0].request,{operation:'foodWatch',...r.scope});assert.deepEqual(r.clock[0].request,{operation:'foodClock',...r.scope});
+  r.frame(0,1,{fresh:false},r.value,9000);r.pair(0);await flush();
+  assert.equal(t.readClock().serverNowMs,6000);assert.equal(session.getModel().connection,'stale');assert.equal(playerPackets.length,0);
+  r.frame(0,1);assert.equal(playerPackets.length,0,'duplicate freshness cannot reopen a seat');
+  r.frame(0,2,{},r.value,9100);assert.equal(session.getModel().connection,'live');
+  assert.equal(playerPackets[0].food.serverTimeMs,9100);assert.equal(await t.serverTime(),6000);
+  assert.ok(playerPackets[0].food.playerView.participantTask);assert.equal(Object.hasOwn(publicPackets[0].food,'playerView'),false);
+  r.frame(0,3,{fresh:false});assert.equal(session.getModel().connection,'stale');
+  await r.advance(2000);assert.equal(r.reads().length,1);assert.equal(r.requests.filter(q=>q.operation==='foodHeartbeat').length,2);
+  await session.refresh();assert.equal(r.watch.length,1);assert.equal(r.clock.length,1);
+ }finally{stop();stopDisplay();session.dispose();}
+});
+test('EOF and hide fence old frames and clock samples, then a verified planned closure resumes ordinary reads',async()=>{
+ const r=streamingRig(),s=r.session;await s.start(r.scope.matchId);const t=s.gameTransport('player');
+ r.frame(0,1);assert.equal(s.getModel().connection,'stale');r.watch[0].resolve();await flush();await r.advance(500);
+ assert.equal(r.reads().length,1);assert.equal(r.watch[0].signal.aborted,true);assert.equal(r.watch.length,2);
+ r.pair(0,12000);r.frame(0,2);r.pair(1);await flush();
+ assert.equal(t.readClock().serverNowMs,6500);assert.equal(s.getModel().connection,'stale');
+ r.frame(1,1);assert.equal(s.getModel().connection,'live');
+ s.setVisible(false);await r.advance(2000);assert.equal(r.watch[1].signal.aborted,true);assert.equal(r.watch.length,2);
+ assert.equal(t.readClock().status,'unsynced');
+ s.setVisible(true);await flush();assert.equal(r.watch.length,3);r.frame(1,2);assert.equal(s.getModel().status,null);
+ const aborted={...r.value,status:'aborted',publicView:null,playerView:null,foodPublicView:null,foodPlayerView:null};delete aborted.foodStream;
+ // The clock request is allowed to lose the phase race. The planned snapshot
+ // itself carries the verified outcome and the next READ supplies paired time.
+ r.clock[2].resolve({ok:false,error:{code:'NOT_ALLOWED'},serverTimeMs:8500});await flush();
+ const ordinary=r.connection.request;
+ r.connection.request=q=>q.operation==='read'?(r.requests.push(q),Promise.resolve({ok:true,result:aborted,serverTimeMs:8500})):ordinary(q);
+ r.close(2,1,'phase-ended',{snapshot:aborted});await flush();assert.equal(s.getModel().status,'aborted');
+ assert.equal(r.reads().length,2);assert.equal(r.watch.length,3);assert.equal(t.readClock().serverNowMs,8500);
+ s.dispose();
+});
+test('an old heartbeat refusal cannot conceal a reconnected Food seat; current revocation stops delivery',async()=>{
+ const r=streamingRig(),s=r.session,heartbeat=deferred(),ordinary=r.connection.request;
+ r.connection.request=q=>q.operation==='foodHeartbeat'?heartbeat.promise:ordinary(q);
+ await s.start(r.scope.matchId);r.pair(0);r.frame(0,1);await r.advance(1000);
+ r.close(0,2,'unavailable');await r.advance(500);r.frame(1,1);r.pair(1);await flush();
+ heartbeat.resolve({ok:false,error:{code:'FORBIDDEN'},serverTimeMs:7500});await flush();assert.equal(s.getModel().connection,'live');
+ r.close(1,2,'authorization');await r.advance(5000);
+ assert.equal(s.getModel().connection,'error');assert.equal(r.reads().length,1);assert.equal(r.watch.length,2);s.dispose();
+});
+test('a lost command response checks just the original ID without another semantic frame or gameplay POST',async()=>{
+ const r=streamingRig(),s=r.session,ordinary=r.connection.request;
+ let original,lookups=0;
+ r.connection.request=async(q,signal)=>{
+  if(q.operation==='foodCommand'){
+   original=await ordinary(q);return {ok:false,error:{code:'UNAVAILABLE'},serverTimeMs:r.ports.clock.now()};
+  }
+  if(q.operation==='foodReceipt'){
+   r.requests.push(q);assert.ok(signal instanceof AbortSignal);
+   return ++lookups===1?{ok:true,result:{receipt:null},serverTimeMs:r.ports.clock.now()}:original;
+  }
+  return ordinary(q);
+ };
+ await s.start(r.scope.matchId);r.pair(0);r.frame(0,1);await flush();
+ const t=s.gameTransport('player'),food=createFoodTaskController(s.foodTransport(),{...r.ports,recovery:memory()},
+  {binding:{uid:'food-session',matchId:r.scope.matchId,seatId:'seat-1'},readClock:t.readClock});
+ const stop=t.listen({matchId:r.scope.matchId,seatId:'seat-1'},{snapshot:snapshot=>{
+  const own=snapshot.food.playerView;food.observe(own,{matchId:own.matchId,versions:own.versions,phaseId:own.phaseId,round:own.round,serverNowMs:snapshot.food.serverTimeMs});
+ },error:kind=>food.disconnect(kind)});
+ try{
+  assert.equal(food.holdDown(),true);await flush();const id=food.getModel().feedback.commandId;
+  assert.equal(food.getModel().feedback.status,'unknown');await r.advance(500);assert.equal(food.getModel().feedback.status,'unknown');
+  await r.advance(500);assert.equal(food.getModel().feedback.status,'accepted');assert.equal(food.getModel().feedback.recovered,true);
+  assert.deepEqual(r.requests.filter(q=>q.operation==='foodReceipt'),[1,2].map(()=>({operation:'foodReceipt',matchId:r.scope.matchId,commandId:id})));
+  assert.equal(r.requests.filter(q=>q.operation==='foodCommand').length,1);assert.equal(r.reads().length,1);assert.equal(r.watch.length,1);
+ }finally{stop();food.dispose();s.dispose();}
+});

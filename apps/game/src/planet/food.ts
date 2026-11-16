@@ -1,4 +1,4 @@
-import {FoodTaskCommandRequestSchema, foodTaskHoldRelease, foodTaskRevisionBody, parseFoodTaskView, parseFoodTaskReceipt,TimestampSchema} from '@mothership/contracts';
+import {FOOD_TASK_TRANSPORT,FoodTaskCommandRequestSchema, foodTaskHoldRelease, foodTaskRevisionBody, parseFoodTaskView, parseFoodTaskReceipt,TimestampSchema} from '@mothership/contracts';
 import type {FoodTaskCommand, FoodTaskCommandRequest, FoodTaskParticipant, FoodTaskPlayerView, FoodTaskReceipt, FoodTaskVersions, SeatId} from '@mothership/contracts';
 import type {ClientPorts, IdSource, UnresolvedCommandStore} from '../ports.js';
 import type {ClockReading} from '../clock/server-clock.js';
@@ -11,6 +11,8 @@ export interface FoodTaskTransport {
  command(request:FoodTaskCommandRequest):Promise<{readonly receipt:unknown;readonly serverTimeMs:number}|null>;
  receipt(context:FoodReceiptContext):Promise<{readonly receipt:unknown|null;readonly serverTimeMs:number}|null>;
  refresh():void;
+ /** Streamed views may remain semantically unchanged while an exact receipt becomes readable. */
+ shouldCheckUnknownReceipt?():boolean;
 }
 export interface FoodTaskPorts extends ClientPorts {readonly ids:IdSource;readonly recovery:UnresolvedCommandStore}
 export interface FoodSnapshotContext {readonly matchId:string;readonly versions:FoodTaskVersions;readonly phaseId:string;readonly round:number;readonly serverNowMs:number}
@@ -53,6 +55,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  let message:string|null=null,contact:FoodContactMemory|null=null,down:FoodTaskCommandRequest|null=null;
  let feedback:FoodFeedback|null=null,recoveryFeedback:Omit<FoodFeedback,'name'>|null=null;
  let feedbackOrder=-1,recoveryFeedbackOrder=-1,order=0,checking:Promise<void>|null=null,recovering=false;
+ let receiptTimer:unknown=null;
  let accepted:{phaseId:string;revision:number}|null=null;
  const finishes=new Set<()=>void>();
  const auth=()=>!disposed&&transport.currentUid()===binding.uid;
@@ -72,7 +75,24 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  const offered=(kind:'HOLD'|'PANEL_RELEASE'|'PANEL_LOCK'|'KEY')=>{const r=time();return base()&&taskOpen()&&!!pressOffer()?.inputs.includes(kind)
   &&(kind==='HOLD'||r.status==='synced'&&r.serverNowMs-r.uncertaintyMs>=task()!.runningAt);};
  const orphan=()=>!!task()?.ownGesture&&(task()!.ownGesture!.currentHolder!==null||task()!.ownGesture!.pendingIntent!==null)&&down===null;
- const emit=()=>{if(!disposed)for(const listener of listeners)listener(getModel());};
+ function stopReceiptTimer(){
+  if(receiptTimer!==null)ports.scheduler.clearTimeout(receiptTimer);
+  receiptTimer=null;
+ }
+ const canCheckUnknown=()=>auth()&&visible&&transport.shouldCheckUnknownReceipt?.()===true&&entries.some(e=>e.status==='unknown');
+ function scheduleReceiptCheck(){
+  if(checking||!canCheckUnknown()){stopReceiptTimer();return;}
+  if(receiptTimer!==null)return;
+  receiptTimer=ports.scheduler.setTimeout(()=>{
+   receiptTimer=null;
+   if(canCheckUnknown())void checkReceipts();
+  },FOOD_TASK_TRANSPORT.snapshotMs);
+ }
+ const emit=()=>{
+  if(disposed)return;
+  scheduleReceiptCheck();
+  for(const listener of listeners)listener(getModel());
+ };
  function save():boolean {
   try{
    if(entries.length===0&&contact===null)ports.recovery.clear();
@@ -177,6 +197,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
  }
  async function checkReceipts(){
   if(checking)return checking;if(!auth()||!visible)return;
+  stopReceiptTimer();
   checking=(async()=>{
    for(const e of [...entries]){
     if(!auth()||!visible)break;if(!entries.includes(e)||e.status!=='unknown')continue;e.status='checking';emit();
@@ -187,7 +208,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
     if(answer&&Number.isFinite(answer.serverTimeMs))settle(e,answer.receipt,answer.serverTimeMs,true);
     else {e.status='unknown';announce(e,'unknown');emit();}
    }
-  })().finally(()=>{checking=null;});return checking;
+  })().finally(()=>{checking=null;scheduleReceiptCheck();});return checking;
  }
  function observedOffContact(){
   const t=task(),gesture=t?.ownGesture,proof=contact;
@@ -292,7 +313,7 @@ export function createFoodTaskController(transport:FoodTaskTransport,ports:FoodT
   },
   setVisible(next){if(disposed||next===visible)return;if(!next)holdUp();visible=next;fresh=false;displayable=false;emit();},
   disconnect(kind='network'){fresh=false;if(kind==='authorization')displayable=false;emit();},
-  dispose(){if(disposed)return;holdUp();disposed=true;for(const finish of [...finishes])finish();listeners.clear();view=null;down=null;},
+  dispose(){if(disposed)return;holdUp();disposed=true;stopReceiptTimer();for(const finish of [...finishes])finish();listeners.clear();view=null;down=null;},
  };
  return controller;
 }
