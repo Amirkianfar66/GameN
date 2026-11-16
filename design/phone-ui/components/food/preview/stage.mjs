@@ -217,12 +217,35 @@ export function applyText(document) {
   document.documentElement.style.fontSize = `${QUERY.text * 100}%`;
 }
 
-/** Holds every running animation (the two spinners) at one moment, so that two captures of a state can be compared. */
-export function freeze(document, ms = 300) {
-  for (const animation of document.getAnimations()) { animation.pause(); animation.currentTime = ms; }
-}
 /** Two animation frames, so that what was asked for is drawn. */
 export const drawn = win => new Promise(done => win.requestAnimationFrame(() => win.requestAnimationFrame(() => done())));
+/**
+ * Brings the page to rest at one moment, so that two captures of a state are the same picture: every animation and
+ * transition is paused at `ms`, the spinners among them.
+ *
+ * Ending one fade can start another. With Reduce motion the kit gives every element an 80 ms transition on every
+ * property, so a hint whose tone has just been set fades its colour, and the text that inherits that colour starts
+ * a fade of its own when the hint's ends. One pass would leave that second fade running under the capture. So what
+ * starts afterwards is held too, until two frames pass with nothing new.
+ */
+export async function freeze(document, ms = 300) {
+  const held = new Set();
+  const hold = () => {
+    let added = 0;
+    for (let fresh; (fresh = document.getAnimations().filter(animation => !held.has(animation))).length;) {
+      for (const animation of fresh) { animation.pause(); animation.currentTime = ms; held.add(animation); }
+      added += fresh.length;
+      if (held.size > 400) throw new Error('freeze: the page keeps starting animations');
+    }
+    return added;
+  };
+  hold();
+  for (let turn = 0; turn < 20; turn += 1) {
+    await drawn(document.defaultView);
+    if (!hold()) return held.size;
+  }
+  throw new Error('freeze: the page keeps starting animations');
+}
 
 /** The loader's pictures are object URLs, new on every page: named here, so that two pages' drawings can be compared. */
 function pictureNames(assets) {

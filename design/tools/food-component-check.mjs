@@ -202,6 +202,8 @@ const report = async (page, violations) => {
   return page.problems().filter(p => !/\/favicon\.ico$/.test(p));
 };
 
+/** What is not held on a page: each animation or transition that is running, by its name or property. */
+const MOVING = 'document.getAnimations().filter(a => a.playState === "running").map(a => a.transitionProperty ?? a.animationName ?? "animation")';
 /** One preview page on one state: what it shows, its policy reports and problems, and its picture as PNG bytes. */
 async function draw(pageName, state, sizeKey, motion, extra = '') {
   const [width, height] = SIZES[sizeKey];
@@ -215,8 +217,11 @@ async function draw(pageName, state, sizeKey, motion, extra = '') {
     const seen = await page.evaluate('window.__food.describe()');
     const expected = await page.evaluate('window.__food.expected');
     const { data } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
+    // A picture taken while something still moves is not one picture: it is named here, not left to the comparison.
+    const moving = await page.evaluate(MOVING);
     const violations = await page.evaluate('window.__policy');
     const problems = await report(page, violations);
+    if (moving.length) problems.push(`still moving when the picture was taken: ${moving.join(', ')}`);
     return { seen, expected, png: Buffer.from(data, 'base64'), violations, problems };
   } finally { await page.close(); }
 }
