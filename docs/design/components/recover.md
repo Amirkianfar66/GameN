@@ -1,6 +1,6 @@
 # Recover: Designer's runtime component
 
-**Version:** `recover-0.1.0`. **Status (16 November 2026):** the interface, proposed for the Lead Designer's review. Nothing is built. The build starts when the Lead approves it, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `recover-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the screen a player uses to take their seat back with the host's code, as sheet 14 draws it. It is #222 item 25, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -24,7 +24,7 @@
 
 **Comparison part:** `recover` (sheet 14), in `design/tools/lib/phone-ui-native-parts.mjs`. It applies when Frontend's PR mounts this screen; until then, the component's own captures are its evidence.
 
-## Files (proposed)
+## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/recover/`:
 
@@ -52,22 +52,28 @@ const recover = mountRecover(host, input, handlers);
 recover.layout();               // { size, safe: { top, bottom } }
 recover.update({ ...changes }); // each key given replaces that key; the rest stay
 recover.focus('matchId');       // or 'code': the focus in that box, where Frontend wants it
-recover.dispose();              // safe twice; afterwards nothing fires and layout() is null
+recover.clearCode();            // empties the code's box, when Frontend wants it
+recover.dispose();              // safe twice, and empties the code's box; afterwards nothing fires and layout() is null
 ```
 
 ## Inputs
 
-**Audience: this phone only.** The recovery code is private to the seat it returns. The screen never shows it (the box draws dots), never reports it except as below (question 1), and leaves no copy in the page once disposed.
+**Audience: this phone only.** The recovery code is private to the seat it returns, and stays in its box (decision 1):
+- the box is the kit's secret field: a password box (dots), with no autocomplete, autocapitalize or spellcheck;
+- each keystroke reports only the code's length, `onCode({ length })`; `onRecover({ matchId, recoveryCode })` hands it over once, at the tap;
+- Frontend never gives it back: an input named `recoveryCode` or `code` is refused;
+- it is never put in an attribute, a report, a log or the layout;
+- the box is emptied once the seat is recovered, at `clearCode()` and on dispose.
 
 | Input | What |
 | --- | --- |
 | `interactive`, `reducedMotion`, `insets` | As the other components' |
 | `view` | `'form'` or `'recovered'` |
 | `matchId` | The match ID as Frontend keeps it |
-| `codeLength` | How long an issued code is, for the code box's hint ("32 characters"), from Frontend (question 3) |
+| `codeLength` | The length the host's code is generated at, for the code box's hint ("32 characters"), from Frontend; without it, the hint drops the count (decision 3) |
 | `codeError` | `null`, or words under the code's box, which is then ringed in paper: `RECOVER_WORDS.refused` |
 | `recover` | `{ enabled, busy, reason }`: Recover seat. Busy reads "Checking…" and shows the spinner |
-| `error` | `null`, or Frontend's words over the foot (question 2) |
+| `error` | `null`, or Frontend's words over the foot: `RECOVER_WORDS.offline` ("No connection. Recover returns when you are back online.", decision 2) |
 | `seat` | Recovered: the seat now yours again, "Seat 4 is yours again" |
 
 **The screen decides nothing:** it never works out whether a code was accepted, how long one lasts, or why it was refused.
@@ -78,8 +84,8 @@ recover.dispose();              // safe twice; afterwards nothing fires and layo
 | --- | --- |
 | `onBack()` | "Menu". Frontend goes back to the menu |
 | `onMatchId(text)` | Each keystroke in the Match ID box, with what it holds. Frontend gives it back as `matchId` |
-| `onCode(…)` | Each keystroke in the code's box (question 1) |
-| `onRecover(…)` | Recover seat, or Return in a box, when it is available. Frontend sends today's `redeemRecovery` |
+| `onCode({ length })` | Each keystroke in the code's box, with its length only |
+| `onRecover({ matchId, recoveryCode })` | Recover seat, or Return in a box, when it is available: the one place the code leaves its box. Frontend sends today's `redeemRecovery` |
 | `onContinue()` | Continue, once recovered. Frontend returns to the match where it is now |
 | `onLayout(layout)`, `onFocusReturn({ intent, value })` | As the other components' |
 
@@ -101,17 +107,31 @@ recover.dispose();              // safe twice; afterwards nothing fires and layo
 ## Frontend's connection
 
 1. Mount the screen when the menu's "Recover my seat" is tapped; dispose it on leaving.
-2. Keep the Match ID as today's draft, give it back as `matchId`, with `codeLength` from the issued codes. Route `onRecover` to today's `redeemRecovery` with the Match ID and the code (question 1).
+2. Keep the Match ID as today's draft, give it back as `matchId`, with `codeLength` from the issued codes. Decide Recover seat's availability from the Match ID and `onCode`'s length. Route `onRecover` to today's `redeemRecovery` with the Match ID and the code it hands over, and keep no copy of the code.
 3. Give `codeError` from the server's one refusal, in the pack's words (`RECOVER_WORDS.refused`); `recover` from the draft and `model.busy`.
 4. Once accepted, give `view: 'recovered'` and the seat; route `onContinue` to the match, where the shell's reconnecting banner shows until the current state returns.
 
-## Questions for the Lead
+## Decisions (the Lead's review of #291, 16 November)
 
-1. **How the code travels.** Join's model gives every keystroke to Frontend and takes it back. For a secret, I propose the code stays in the box instead: each keystroke reports only `onCode({ length })`, so Frontend can decide Recover seat's availability, and `onRecover({ matchId, recoveryCode })` hands the code over once, at the tap. Frontend never echoes it back; `clearCode()` empties the box when Frontend wants (after a refusal, the pack keeps the dots, so not then). Or should it follow join's model exactly?
-2. **Connection lost:** as join's decision 4. Frontend's words over the foot ("No connection. Recover returns when you are back online."), and Recover seat refused with that reason; the words alone refuse nothing.
-3. **The code's hint:** the pack writes "32 characters", but the contract accepts 16 to 128. I propose Frontend gives `codeLength` from the issued codes, and the hint says that number.
-4. **Reconnecting** (sheet 14's fourth phone) is the shell's banner over the room, not this screen. Agreed?
+1. **The code stays in the box:** each keystroke reports only `onCode({ length })`; `onRecover({ matchId, recoveryCode })` hands it over once, at the tap; Frontend never echoes it back. The box is emptied once the seat is recovered and on dispose; it keeps the kit's secret field's attributes; the code is never in a data attribute, the log or `onLayout`. The test and the probe check that no callback but `onRecover` carries it.
+2. **A lost connection,** as Join's decision 4: Frontend's words over the foot, and Recover seat refused with that reason. The words alone refuse nothing.
+3. **The hint:** Frontend gives `codeLength`, the length the host's code is generated at, and the hint says that number. Without it, the hint drops the count rather than guessing "32".
+4. **Reconnecting** is the shell's banner over the room, not this screen.
+
+**Added in the build:** `focus('matchId' | 'code')`, as join's form, where Frontend wants the focus (the sheet draws the Match ID's box ringed while typing); and `clearCode()`, as the interface proposed.
+
+## Checks
+
+`node design/tools/recover-check.mjs` bundles the preview with Vite, serves it with the production headers (SHA-256 `424e5dec…`, `lib/component-check.mjs`), and in desktop Chromium at 2× pixels:
+
+- captures the nine states at 390 × 844 and 430 × 932: 18 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks, and the typed sample code in no attribute of the page;
+- runs the probe as the page comes and with the device's Reduce motion: the form, the secret code, typing, the refusal, Recover seat, recovered, offline, not interactive, insets, the Largest text, input, dispose, motion;
+- runs the agreement: seven cases, the screen beside the frozen pack's, the same words, states, look, icon drawings and boxes to within half a pixel; the Match ID and the placeholders by their words, and the code by whether the box holds one.
+
+`packages/design-tokens/test/recover.test.mjs` checks the runtime-safe graph, that the styles are the root only, the three places the code box's value is read (handed over at the tap, counted at a keystroke, emptied), the secret field's attributes, the pack's words, the inputs (the code is refused as an input), and the check's record.
 
 ## Not in this version
 
-Everything: this is the interface. Next, once the Lead approves it: the module and its styles, the preview's states, the probe, the check at 390 × 844 and 430 × 932 under the production headers, the agreement with the pack, the test, and the owner's test page.
+- The connection to the game (Frontend's): the four steps above.
+- The host's side (sheet 15) and Reconnecting (the shell's): their own components.
+- A phone, Safari, a password manager or a performance measure: the check is desktop Chromium at each phone's CSS size.
