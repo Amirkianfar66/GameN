@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.6`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.7`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -93,6 +93,7 @@ shell.dispose();             // removes the element and its listeners
 - **The overlays keep the bar's place.** The target bar, the banner, the toast and a large sheet start under where the top bar ends, with or without a bar. On its bar-less films the pack's `--top` keeps the bar's height, so "Rejoined" sits under the film's clock chip (sheet 18).
 - **The layers, as the pack's:** a docked sheet lies over the cover, the target bar, the chip and the reconnecting banner. The toast stays above the sheet.
 - **The sheet stays below the banner (0.2.0).** While the reconnecting banner shows, a docked sheet stays 8 px below it. So Retry and the sheet's Close are both in sight, and when the banner goes, the sheet docks at its place again. Before, a large sheet, such as the ballot, covered Retry; the Gameplay builder found it on the Vote test page. The banner keeps its layer, under the sheet.
+- **The target bar's Cancel while reconnecting (0.2.7).** It only ends the choosing on this phone, so it works while reconnecting, as Back and Close do. Before, it was refused with the banner's words, so a player who had started choosing a target couldn't leave the choosing until the match was current again. The Gameplay builder asked for it after making Actions' Cancel and Done local. The tabs, the chip and the hero stay refused while reconnecting, as sheet 45 draws them.
 - **The private talk's two buttons at larger text (0.2.6).** Under 19 em across, Promises and My card take the sheet footer's rule: side by side in equal halves while their words fit, a row each when they don't. What docks above them, a sheet or the chip, stays 10 px clear by their measured height (`--ms-ps-talk-h`), and `layout().covered.bottom` says how much of the stage's foot they cover, so the capsule can keep its tags above them.
   - Before, at the Largest text on a 320 px phone, the two stayed on one row, "My card" ran past the phone's edge, and a docked sheet covered them by 21.6 px. The Gameplay builder found it on the private talk.
   - At the Standard text nothing changes: the pack's two equal columns, 50 px high.
@@ -165,7 +166,7 @@ Each reports a tap, and only that.
 - **Its reason** is its accessible description (`aria-describedby`).
 - **Dimmed:** only an unavailable control, as the pack draws it.
 - **Reconnecting** (`status: 'stale'`):
-  - only Retry, ⋮ and a sheet's back, close and head actions, and its footer's local actions, take taps;
+  - only Retry, ⋮, the target bar's Cancel (0.2.7) and a sheet's back, close and head actions, and its footer's local actions, take taps;
   - the rest are refused, described by "Controls return when the match is current";
   - they keep their look, as on sheet 45.
 - **If Integration records the appearance/function split** ([6886927938](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6886927938)), these controls move into Frontend's shared functional module, with the same markup and classes, and the shell and its preview import that module.
