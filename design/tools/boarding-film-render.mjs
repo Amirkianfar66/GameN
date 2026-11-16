@@ -5,6 +5,7 @@
 // Chromium, captured, and encoded with ffmpeg to exactly its ten seconds (60 frames a second; H.264, no audio stream):
 //   pilot-390x844.mp4, pilot-430x932.mp4                    full motion, a crew of 8
 //   pilot-390x844-reduced.mp4, pilot-430x932-reduced.mp4    Reduce motion: the five held pictures
+//   pilot-display-1280x720.mp4                              the shared display's wide framing, a crew of 9
 //   compare-as-drawn.mp4     today's film (pregame-boarding-1.0.0, drawn by the live game's own scene) beside the
 //                            pilot, both at every sixtieth of a second: what each film is
 //   compare-as-played.mp4    the same two, each showing only the pictures it reached when it was played in real time
@@ -78,6 +79,14 @@ try {
     await page.goto(`${origin}/index.html?size=${size}&t=0&bar=0${reduced ? '&motion=reduced' : ''}`, 'window.__boardingFilm');
     await page.evaluate('window.__boardingFilm.ready');
     renders[name] = { ...(await encode(page, name, [width, height], i => page.evaluate(`window.__boardingFilm.seek(${(i * 1000) / FPS})`))), motion: reduced ? 'reduced' : 'full', crew: 8 };
+    await page.close();
+  }
+  // The shared display: the wide framing at the table display's size, one pixel a point, the largest crew.
+  if (wanted('pilot-display-1280x720')) {
+    const page = await openPage(browser, { width: 1280, height: 720, scale: 1 });
+    await page.goto(`${origin}/index.html?size=1280x720&t=0&n=9&bar=0`, 'window.__boardingFilm');
+    await page.evaluate('window.__boardingFilm.ready');
+    renders['pilot-display-1280x720'] = { ...(await encode(page, 'pilot-display-1280x720', [1280, 720], i => page.evaluate(`window.__boardingFilm.seek(${(i * 1000) / FPS})`))), motion: 'full', crew: 9 };
     await page.close();
   }
   if (wanted('pilot-sheet')) {

@@ -368,7 +368,8 @@ function hallCamera(t) {
 /** Where each of the crew stands inside: rows back to front, each between the places in front. */
 function standing(view, roster) {
   const wide = view.W > view.H, rows = ROWS[wide ? 'wide' : 'narrow'][roster.length];
-  const depths = rows.length === 3 ? [836, 700, 564] : [770, 600], gap = wide ? 132 : rows.some(n => n > 3) ? 66 : 76;
+  // A row of five on the display stands closer together: everyone inside the corridor's walls.
+  const depths = rows.length === 3 ? [836, 700, 564] : [770, 600], gap = wide ? (rows.some(n => n > 4) ? 96 : 132) : rows.some(n => n > 3) ? 66 : 76;
   const out = [];
   let i = 0;
   rows.forEach((count, r) => {
@@ -390,23 +391,31 @@ function drawInside(ctx, view, t, { assets, caster, roster, reduced, L }) {
   const lit = LAMPS.map((_, i) => lampAt(i, t, INSIDE.lights, reduced));
   const seal = 1 - 0.5 * progress(t, ...INSIDE.seal);
   paintHall(ctx, view, at, cam, { lit, systems: progress(t, ...INSIDE.systems), seal, t: reduced ? 0 : t }, L);
-  // Far to near: each lamp and its cone, each of the crew.
-  const things = [...LAMPS.map((z, i) => ({ z, lamp: i })), ...standing(view, roster)].sort((a, b) => b.z - a.z);
   const acting = twos(t);
+  // Each of the crew is lit by the lamp over them. The head: bowed in the dark, lifting to the light once it finds
+  // them, past where it will rest and back; then a blink.
+  const crew = standing(view, roster).map(place => {
+    const light = lit[lampOver(place.z)];
+    const found = foundAt(place), up = reduced ? (t >= found ? 1 : 0) : progress(acting, found, found + 340), lifted = ease.outBack(up, 2.2);
+    const blink = !reduced && acting >= found + 620 && acting < found + 620 + 100;
+    const sk = HELD[place.pose], [X, Y, s] = at(place.x, 0, place.z);
+    const breath = reduced ? 0 : Math.sin(acting * 0.0021 + place.i) * 0.5;
+    const figure = { body: assets.get(`in:${place.i}:dark`), bodyTo: assets.get(`in:${place.i}:lit`), sk };
+    if (up < 0.4) { figure.head = assets.get(`inhead:${place.i}:down:dark`); figure.headTo = assets.get(`inhead:${place.i}:down:lit`); }
+    else figure.head = (blink && assets.get(`inhead:${place.i}:shut:lit`)) || assets.get(`inhead:${place.i}:open:lit`);
+    return { z: place.z, figure, where: { at: [X, Y], k: s, flip: place.x > 8, mix: light, head: { tilt: lerp(9, 0, lifted), dy: lerp(3.2, 0, lifted) + breath, dx: lerp(-1.5, 0, lifted) } } };
+  }).filter(stand => stand.figure.body || stand.figure.bodyTo);
+  // The walls' lamps and consoles are behind the crew. Their light lies on the layer over the picture, so it is cut
+  // away where anyone stands: a lamp behind a head does not glow through it.
+  L.save();
+  L.globalCompositeOperation = 'destination-out';
+  for (const stand of crew) caster.figure(L, stand.figure, { ...stand.where, mix: 0, frame: [L.canvas.width / view.W, L.canvas.height / view.H] });
+  L.restore();
+  // Far to near: each lamp and its cone, each of the crew.
+  const things = [...LAMPS.map((z, i) => ({ z, lamp: i })), ...crew].sort((a, b) => b.z - a.z);
   for (const thing of things) {
     if (thing.lamp !== undefined) { paintLamp(ctx, at, thing.z, lit[thing.lamp], L); paintCone(L, at, thing.z, lit[thing.lamp]); continue; }
-    // Each is lit by the lamp over them. The head: bowed in the dark, lifting to the light once it finds them, past
-    // where it will rest and back; then a blink.
-    const light = lit[lampOver(thing.z)];
-    const found = foundAt(thing), up = reduced ? (t >= found ? 1 : 0) : progress(acting, found, found + 340), lifted = ease.outBack(up, 2.2);
-    const blink = !reduced && acting >= found + 620 && acting < found + 620 + 100;
-    const sk = HELD[thing.pose], [X, Y, s] = at(thing.x, 0, thing.z);
-    const breath = reduced ? 0 : Math.sin(acting * 0.0021 + thing.i) * 0.5;
-    const figure = { body: assets.get(`in:${thing.i}:dark`), bodyTo: assets.get(`in:${thing.i}:lit`), sk };
-    if (up < 0.4) { figure.head = assets.get(`inhead:${thing.i}:down:dark`); figure.headTo = assets.get(`inhead:${thing.i}:down:lit`); }
-    else figure.head = (blink && assets.get(`inhead:${thing.i}:shut:lit`)) || assets.get(`inhead:${thing.i}:open:lit`);
-    if (!figure.body && !figure.bodyTo) continue;
-    caster.figure(ctx, figure, { at: [X, Y], k: s, flip: thing.x > 8, mix: light, head: { tilt: lerp(9, 0, lifted), dy: lerp(3.2, 0, lifted) + breath, dx: lerp(-1.5, 0, lifted) } });
+    caster.figure(ctx, thing.figure, thing.where);
   }
   const sum = lit.reduce((a, b) => a + b, 0) / lit.length;
   if (sum > 0.02) motes(ctx, { seed: 71, n: 80, t, box: [0, 0, view.W, view.H], size: [0.7 * view.px, 1.9 * view.px], color: '#EAF3FF', alpha: 0.7 * sum, light: x => clamp01(1.1 - Math.abs(x - view.W / 2) / (view.W * 0.42)) });

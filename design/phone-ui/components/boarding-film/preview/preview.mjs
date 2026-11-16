@@ -79,7 +79,7 @@ function seen() {
   const root = phone.querySelector('.ms-boarding-film'), layers = root ? [...root.children] : [];
   const box = root?.getBoundingClientRect();
   return {
-    frame: boardingFrame(t, { variant: scene.held().variant ?? variant() }), stats: { ...scene.stats }, held: scene.held(),
+    frame: boardingFrame(t, { variant: scene.held().variant ?? variant() }), stats: { ...scene.stats }, held: scene.held(), roster: scene.roster.length,
     root: root ? { hidden: root.getAttribute('aria-hidden'), width: box.width, height: box.height, pointer: getComputedStyle(root).pointerEvents } : null,
     layers: layers.map(node => `${node.localName}${node.className ? `.${node.className}` : ''}`),
     canvas: { width: scene.canvas.width, height: scene.canvas.height },

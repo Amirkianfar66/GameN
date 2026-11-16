@@ -7,8 +7,11 @@
 //   captures every named moment of the film (preview/preview.mjs STATES: each shot and beat, the five held pictures,
 //   crews of 7 and 9) at the two development phone sizes, 390 × 844 and 430 × 932, in full motion; and six of them
 //   with the device's Reduce motion emulated, where each must be a held picture;
+//   captures the shared display's wide framing (DISPLAY: the table display's 1280 × 720 and a 1920 × 1080 screen, at one
+//   pixel a point): each shot, the corridor dark and lit, the mark, and the corridor with crews of 7 and 9;
 //   runs the probe (preview/probe.mjs: time, seeking, a late join, Reduce motion, suspend, resume, dispose, the
-//   pictures' boxes, the memory budget, the roster), once as the page comes and once with the device's Reduce motion;
+//   pictures' boxes, the memory budget, the frame's steps of sharpness, the roster), once as the page comes and once
+//   with the device's Reduce motion;
 //   plays both films in real time, driven as the live player drives a film (a paint at most thirty times a second),
 //   and counts the pictures each reaches a second: today's film (pregame-boarding-1.0.0, drawn by the live game's
 //   own scene, apps/game/hosted/planet/pregame-scene.mjs) and this one, at the browser's own speed and with its CPU
@@ -16,7 +19,7 @@
 //   measures what the film's pictures hold in memory at each phone size at 2 and 3 pixels a point, all drawn at once.
 // A page passes with no policy report but the known one, no failed request and no page error, showing what its state
 // asks. Every check must pass. It writes design/phone-ui/components/boarding-film/review/: a JPEG per state, size and
-// motion, and check.json (the headers and their SHA-256, the source commit, what each capture showed and its SHA-256,
+// motion (the display's are named display-…), and check.json (the headers and their SHA-256, the source commit, what each capture showed and its SHA-256,
 // each probe check, the measurements).
 //   node design/tools/boarding-film-check.mjs [--quick]     (--quick: no real-time measurement)
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size, drawing in software: not a
@@ -42,20 +45,28 @@ const STATES = {
   seven: { t: 8600, n: 7 }, nine: { t: 6040, n: 9 },
   ...Object.fromEntries(STILLS.map((still, i) => [`still${i + 1}`, { t: still.at + 200, motion: 'reduced' }])),
 };
+/**
+ * The shared display: a wide frame at one pixel a point, the film's wider framing (rows of four and five inside).
+ * The table display's size takes every moment; the larger screen the five that show the framing.
+ */
+const DISPLAY = {
+  '1280x720': { size: [1280, 720], states: { dusk: { t: 1200 }, foot: { t: 2800 }, faces: { t: 4600 }, look: { t: 6040 }, wake: { t: 6760 }, dark: { t: 7300 }, lit: { t: 8600 }, mark: { t: 9450 }, seven: { t: 8600, n: 7 }, nine: { t: 8600, n: 9 } } },
+  '1920x1080': { size: [1920, 1080], states: { dusk: { t: 1200 }, faces: { t: 4600 }, dark: { t: 7300 }, lit: { t: 8600 }, nine: { t: 8600, n: 9 } } },
+};
 /** The moments drawn again with the device's Reduce motion: each must be a held picture. */
 const DEVICE_REDUCED = ['dusk', 'foot', 'look', 'lit', 'mark', 'night'];
 const LAYERS = ['canvas', 'canvas.ms-bf-light', 'div.ms-bf-shade', 'div.ms-bf-grain'];
 
 /** What a capture must show, from the scene's own account (preview.mjs seen()). */
-function expected(state, seen, [width, height], deviceReduced) {
-  const spec = STATES[state], reduced = deviceReduced || spec.motion === 'reduced', frame = boardingFrame(spec.t, { variant: reduced ? 'reduced' : 'full' });
+function expected(spec, seen, [width, height], deviceReduced, scale = 2) {
+  const reduced = deviceReduced || spec.motion === 'reduced', frame = boardingFrame(spec.t, { variant: reduced ? 'reduced' : 'full' });
   const s = seen;
   const faults = [];
   if (s.frame.t !== frame.t || s.frame.shot !== frame.shot || s.frame.reduced !== reduced || s.frame.still !== frame.still) faults.push(`frame ${JSON.stringify(s.frame)}`);
   if (s.held.variant !== (reduced ? 'reduced' : 'full')) faults.push(`variant ${s.held.variant}`);
   if (!s.root || s.root.hidden !== 'true' || s.root.pointer !== 'none' || s.root.width !== width || s.root.height !== height) faults.push(`root ${JSON.stringify(s.root)}`);
   if (JSON.stringify(s.layers) !== JSON.stringify(LAYERS)) faults.push(`layers ${s.layers}`);
-  if (s.canvas.width !== width * 2 || s.canvas.height !== height * 2) faults.push(`canvas ${s.canvas.width}x${s.canvas.height}`);
+  if (s.canvas.width !== width * scale || s.canvas.height !== height * scale) faults.push(`canvas ${s.canvas.width}x${s.canvas.height}`);
   if (s.tappable !== 0) faults.push(`tappable ${s.tappable}`);
   if (s.stats.version !== BOARDING_FILM_VERSION) faults.push(`version ${s.stats.version}`);
   const night = frame.night || frame.fade === 0;
@@ -69,7 +80,7 @@ const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), 
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
 const browser = await connect(chrome.endpoint);
-const captures = {}, probes = {}, measured = [], memory = [];
+const captures = {}, display = {}, probes = {}, measured = [], memory = [];
 let failed = 0;
 const report = async (page, violations) => {
   for (const v of violations) v.kind = await classify(out, v);
@@ -86,7 +97,7 @@ const open = async ({ width, height, scale = 2, reduced = false, path }) => {
 
 // Its own files only: the review videos in the same folder are the renderer's (boarding-film-render.mjs).
 await mkdir(REVIEW, { recursive: true });
-for (const name of await readdir(REVIEW)) if (/^\d+x\d+-[\w-]+\.jpg$/.test(name) || name === 'check.json') await rm(join(REVIEW, name), { force: true });
+for (const name of await readdir(REVIEW)) if (/^(display-)?\d+x\d+-[\w-]+\.jpg$/.test(name) || name === 'check.json') await rm(join(REVIEW, name), { force: true });
 try {
   // ── Captures ──
   for (const [size, [width, height]] of Object.entries(SIZES)) {
@@ -101,13 +112,35 @@ try {
         const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 82, clip: { x: 0, y: 0, width, height, scale: 1 } });
         const bytes = Buffer.from(data, 'base64'), file = join(REVIEW, `${name}.jpg`);
         await writeFile(file, bytes);
-        const faults = expected(state, seen, [width, height], deviceReduced);
+        const faults = expected(spec, seen, [width, height], deviceReduced);
         const ok = faults.length === 0 && problems.length === 0 && violations.every(v => v.kind !== 'unexpected');
         if (!ok) failed += 1;
         captures[name] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), state, t: spec.t, crew: spec.n ?? 8, motion: deviceReduced ? 'device reduced' : spec.motion ?? 'full', shot: seen.frame.shot, still: seen.frame.still, pictures: seen.held.keys.length, brightness: seen.brightness, ok, faults, violations, problems };
         console.log(`${ok ? 'ok  ' : 'FAIL'} ${name}: ${seen.frame.shot}${seen.frame.still === null ? '' : ` (held picture ${seen.frame.still + 1})`}${faults.length ? ` — ${faults.join('; ')}` : ''}${problems.length ? ` — ${problems.join('; ')}` : ''}`);
         await page.close();
       }
+    }
+  }
+
+  // ── The display's wide framing ──
+  for (const [size, { size: [width, height], states }] of Object.entries(DISPLAY)) {
+    for (const [state, spec] of Object.entries(states)) {
+      const name = `display-${size}-${state}`;
+      const page = await open({ width, height, scale: 1, path: `index.html?size=${size}&t=${spec.t}&n=${spec.n ?? 8}&bar=0` });
+      await page.evaluate('window.__boardingFilm.ready');
+      const seen = await page.evaluate('window.__boardingFilm.seen()');
+      const violations = await page.evaluate('window.__policy');
+      const problems = await report(page, violations);
+      const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 82, clip: { x: 0, y: 0, width, height, scale: 1 } });
+      const bytes = Buffer.from(data, 'base64'), file = join(REVIEW, `${name}.jpg`);
+      await writeFile(file, bytes);
+      const faults = expected(spec, seen, [width, height], false, 1);
+      if (seen.roster !== (spec.n ?? 8)) faults.push(`crew ${seen.roster}`);
+      const ok = faults.length === 0 && problems.length === 0 && violations.every(v => v.kind !== 'unexpected');
+      if (!ok) failed += 1;
+      display[name] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), size, state, t: spec.t, crew: spec.n ?? 8, shot: seen.frame.shot, pictures: seen.held.keys.length, brightness: seen.brightness, ok, faults, violations, problems };
+      console.log(`${ok ? 'ok  ' : 'FAIL'} ${name}: ${seen.frame.shot}, a crew of ${spec.n ?? 8}${faults.length ? ` — ${faults.join('; ')}` : ''}${problems.length ? ` — ${problems.join('; ')}` : ''}`);
+      await page.close();
     }
   }
 
@@ -176,6 +209,7 @@ const record = {
   environment: 'Desktop Chromium (headless, drawing in software), each phone size at 2x pixels (memory also at 3x); the preview bundled by Vite and served with the production headers below. The CPU slowdown is Chromium\'s throttle of the page\'s main thread, a rough stand-in for a slower phone. Not a phone, not Safari: no phone\'s frame rate or memory was measured.',
   ...recordedHeaders(),
   captures,
+  display,
   probe: probes,
   memory,
   measured: QUICK ? 'not run (--quick)' : measured,
@@ -183,6 +217,6 @@ const record = {
   mark: { hit: TITLE.hit, night: TITLE.night },
 };
 await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\n`);
-const passed = Object.values(captures).filter(c => c.ok).length, checks = Object.values(probes).flatMap(p => p.checks ?? []);
-console.log(`${passed} of ${Object.keys(captures).length} captures passed; probe ${checks.filter(c => c.ok).length} of ${checks.length} checks; memory ${memory.filter(m => m.ok).length} of ${memory.length}; ${QUICK ? 'no measurement (--quick)' : `the pilot is ${faster ? 'faster' : 'NOT FASTER'} than today's film at both speeds`}; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
+const passed = Object.values(captures).filter(c => c.ok).length, wide = Object.values(display).filter(c => c.ok).length, checks = Object.values(probes).flatMap(p => p.checks ?? []);
+console.log(`${passed} of ${Object.keys(captures).length} captures passed; the display's ${wide} of ${Object.keys(display).length}; probe ${checks.filter(c => c.ok).length} of ${checks.length} checks; memory ${memory.filter(m => m.ok).length} of ${memory.length}; ${QUICK ? 'no measurement (--quick)' : `the pilot is ${faster ? 'faster' : 'NOT FASTER'} than today's film at both speeds`}; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
 if (failed) process.exitCode = 1;

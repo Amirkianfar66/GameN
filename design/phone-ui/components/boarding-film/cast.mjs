@@ -348,9 +348,10 @@ export function createCaster(doc) {
   /**
    * `figure`: { body, head, sk } (and `bodyTo`, `headTo` for a second light), or { layers }. `at`: where the figure's
    * floor anchor stands on the screen, px. `k`: px a unit of the figure's frame. `flip`: turned to face right. `head`:
-   * { dx, dy, tilt } more on a plain figure's head, in the figure's units and degrees. `mix`, `alpha`.
+   * { dx, dy, tilt } more on a plain figure's head, in the figure's units and degrees. `mix`, `alpha`. `frame`: [sx, sy],
+   * the context's own px for one of the frame's (the light's canvas is smaller than the frame it lies over).
    */
-  function figure(ctx, given, { at, k, flip = false, head: act = null, mix = 0, alpha = 1 }) {
+  function figure(ctx, given, { at, k, flip = false, head: act = null, mix = 0, alpha = 1, frame: [fx, fy] = [1, 1] }) {
     const layers = given.layers ?? (given.body || given.bodyTo ? layersOf(given, act) : []);
     if (!layers.length || alpha <= 0) return;
     const dir = flip ? -1 : 1, tx = at[0] - dir * ANCHOR[0] * k, ty = at[1] - ANCHOR[1] * k;
@@ -359,12 +360,12 @@ export function createCaster(doc) {
       if (!from) continue;
       const [ox, oy] = layer.origin ?? [0, 0], [px, py] = layer.pivot ?? [ox, oy], r = (layer.rotate ?? 0) * Math.PI / 180, sc = layer.scale ?? 1;
       const cos = Math.cos(r) * sc, sin = Math.sin(r) * sc, mx = px + (layer.dx ?? 0), my = py + (layer.dy ?? 0), lx = ox - px, ly = oy - py;
-      ctx.setTransform(dir * k * cos, k * sin, -dir * k * sin, k * cos, tx + dir * k * (mx + cos * lx - sin * ly), ty + k * (my + sin * lx + cos * ly));
+      ctx.setTransform(fx * dir * k * cos, fy * k * sin, -fx * dir * k * sin, fy * k * cos, fx * (tx + dir * k * (mx + cos * lx - sin * ly)), fy * (ty + k * (my + sin * lx + cos * ly)));
       const both = layer.s && layer.to && mix > 0.002;
       if (!both || mix < 0.998) { ctx.globalAlpha = alpha; ctx.drawImage(from.canvas, from.x, from.y, from.w, from.h); }
       if (both) { ctx.globalAlpha = alpha * (mix >= 0.998 ? 1 : mix); ctx.drawImage(layer.to.canvas, layer.to.x, layer.to.y, layer.to.w, layer.to.h); }
     }
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(fx, 0, 0, fy, 0, 0);
     ctx.globalAlpha = 1;
   }
 

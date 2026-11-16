@@ -329,6 +329,24 @@ test('the frame: sharp at the screen\'s own pixels, a step less when a phone can
   assert.deepEqual([width, height], [200, 100]);
 });
 
+test('the display\'s wide framing: a row of five stands inside the corridor\'s walls, and no wall light shows through the crew', () => {
+  const film = code(`${COMPONENT}/boarding-film.mjs`);
+  // Rows on the display: 4 + 3, 4 + 4, 5 + 4. The outermost of a row stands (count − 1) / 2 gaps from the middle.
+  const rows = film.match(/wide: \{ 7: \[(\d), (\d)\], 8: \[(\d), (\d)\], 9: \[(\d), (\d)\] \}/).slice(1).map(Number);
+  assert.deepEqual(rows, [4, 3, 4, 4, 5, 4]);
+  const [, five, four] = film.match(/gap = wide \? \(rows\.some\(n => n > 4\) \? (\d+) : (\d+)\)/).map(Number);
+  assert.deepEqual([five, four], [96, 132]);
+  const shoulder = 36; // half a standing figure's width, in the corridor's units
+  assert.ok(2 * five + shoulder < HALL.half && 1.5 * four + shoulder < HALL.half, 'everyone inside the walls');
+  // The walls' lamps and consoles put their light on the layer over the picture: it is cut away where anyone stands,
+  // before the ceiling lamps over the crew are added.
+  const inside = film.slice(film.indexOf('function drawInside('), film.indexOf('// ── What each moment needs drawn beforehand'));
+  const cut = inside.indexOf("L.globalCompositeOperation = 'destination-out';"), hall = inside.indexOf('paintHall('), lamps = inside.indexOf('paintCone(');
+  assert.ok(hall >= 0 && cut > hall && lamps > cut, 'the hall, then the cut, then the lamps');
+  assert.match(inside, /for \(const stand of crew\) caster\.figure\(L, stand\.figure, \{ \.\.\.stand\.where, mix: 0, frame: \[L\.canvas\.width \/ view\.W, L\.canvas\.height \/ view\.H\] \}\);/);
+  assert.match(code(`${COMPONENT}/cast.mjs`), /ctx\.setTransform\(fx, 0, 0, fy, 0, 0\);/, 'a figure drawn on the light\'s smaller canvas leaves it as it found it');
+});
+
 test('the check\'s record: every capture and probe check passed under the production headers; memory in budget; faster than today\'s film', () => {
   const record = JSON.parse(read(`${COMPONENT}/review/check.json`));
   assert.equal(record.tool, 'design/tools/boarding-film-check.mjs');
@@ -357,6 +375,22 @@ test('the check\'s record: every capture and probe check passed under the produc
     assert.equal(record.captures[`${size}-seven`].crew, 7);
     assert.equal(record.captures[`${size}-nine`].crew, 9);
   }
+  // The shared display's wide framing, at one pixel a point: every moment at the table display's size, five at 1920 × 1080.
+  const wide = Object.entries(record.display);
+  assert.deepEqual(wide.map(([key]) => key), [
+    ...['dusk', 'foot', 'faces', 'look', 'wake', 'dark', 'lit', 'mark', 'seven', 'nine'].map(state => `display-1280x720-${state}`),
+    ...['dusk', 'faces', 'dark', 'lit', 'nine'].map(state => `display-1920x1080-${state}`),
+  ]);
+  for (const [key, c] of wide) {
+    assert.ok(c.ok && c.faults.length === 0, `${key} showed what its moment asks`);
+    assert.deepEqual([c.problems, c.violations], [[], []], `${key}: no page error, failed request or policy report`);
+    assert.equal(sha256(readFileSync(join(REPO, c.file))), c.sha256, `${key}: the picture recorded`);
+  }
+  for (const size of ['1280x720', '1920x1080']) {
+    assert.deepEqual(['dusk', 'faces', 'dark', 'lit'].map(state => record.display[`display-${size}-${state}`].shot), ['dusk', 'faces', 'inside', 'inside'], `${size}: its shots`);
+    assert.equal(record.display[`display-${size}-nine`].crew, 9, `${size}: a row of five`);
+  }
+  assert.equal(record.display['display-1280x720-seven'].crew, 7);
   assert.deepEqual(Object.keys(record.probe).sort(), ['asThePageComes', 'deviceReduced']);
   for (const [mode, run] of Object.entries(record.probe)) {
     assert.ok(run.ok && run.checks.length >= 28 && run.checks.every(c => c.ok), `probe ${mode}: every check passed`);
@@ -364,6 +398,10 @@ test('the check\'s record: every capture and probe check passed under the produc
     const groups = new Set(run.checks.map(c => c.name.split(':')[0]));
     for (const group of ['pictures', 'memory', 'time', 'reduced', 'motion', 'lifecycle', 'roster']) assert.ok(groups.has(group), `probe ${mode}: ${group}`);
   }
+  // The frame's steps of sharpness are driven on the probe's own clock, in full motion only.
+  assert.equal(record.probe.asThePageComes.checks.filter(c => c.name.startsWith('sharpness:')).length, 4);
+  assert.equal(record.probe.asThePageComes.checks.length, 34);
+  assert.equal(record.probe.deviceReduced.checks.length, 28);
   assert.equal(record.probe.deviceReduced.deviceReduced, true);
   // Memory: both phone sizes at 2 and 3 pixels a point, all pictures drawn at once, within the budget.
   assert.deepEqual(record.memory.map(m => `${m.size}@${m.devicePixelRatio}`), ['390x844@2', '390x844@3', '430x932@2', '430x932@3']);
@@ -387,7 +425,7 @@ test('the renders\' record: the pilot at both sizes, full and reduced, and besid
   assert.equal(record.tool, 'design/tools/boarding-film-render.mjs');
   assert.equal(record.version, BOARDING_FILM_VERSION);
   assert.ok(record.sourceClean, 'rendered from a clean source');
-  const videos = ['pilot-390x844', 'pilot-390x844-reduced', 'pilot-430x932', 'pilot-430x932-reduced', 'compare-as-drawn', 'compare-as-played'];
+  const videos = ['pilot-390x844', 'pilot-390x844-reduced', 'pilot-430x932', 'pilot-430x932-reduced', 'pilot-display-1280x720', 'compare-as-drawn', 'compare-as-played'];
   assert.deepEqual(Object.keys(record.renders).sort(), [...videos, 'pilot-sheet'].sort());
   for (const name of videos) {
     const r = record.renders[name];
@@ -396,6 +434,7 @@ test('the renders\' record: the pilot at both sizes, full and reduced, and besid
     assert.ok(existsSync(join(REPO, r.file)) && sha256(readFileSync(join(REPO, r.file))) === r.sha256, `${name}: ${r.file}`);
   }
   assert.deepEqual([record.renders['pilot-390x844'].width, record.renders['pilot-390x844'].height, record.renders['pilot-430x932'].width, record.renders['pilot-430x932'].height], [390, 844, 430, 932]);
+  assert.deepEqual([record.renders['pilot-display-1280x720'].width, record.renders['pilot-display-1280x720'].height, record.renders['pilot-display-1280x720'].crew], [1280, 720, 9], 'the display\'s wide framing, the largest crew');
   assert.equal(sha256(readFileSync(join(REPO, record.renders['pilot-sheet'].file))), record.renders['pilot-sheet'].sha256);
   // As played: each side's timing is what was measured, and said to be a reconstruction.
   assert.equal(record.cadence.cpuSlowdown, 4);
