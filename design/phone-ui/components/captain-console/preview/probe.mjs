@@ -128,7 +128,7 @@ export async function runCaptainConsoleProbe({ sizes, mountState, disposeState, 
     });
     await check('confirm: the who block with Frontend\'s names in the pack\'s words, and the facts', async () => {
       const s = mount(consoleOf({ view: 'release' }), {}, 'release');
-      const who = () => [s.q('.ms-k-who-title').textContent, shown(s.q('.ms-k-who-sub')) ? s.q('.ms-k-who-sub').textContent : null, s.q('.ms-k-who-lead').dataset.icon];
+      const who = () => [s.q('.ms-k-who-title').textContent, shown(s.q('.ms-k-who-sub')) ? s.q('.ms-k-who-sub').textContent : null, s.q('.ms-k-who-lead').dataset.icon.split(':')[0]];
       const facts = () => [...s.root.querySelectorAll('.ms-k-fact')].map(f => f.textContent);
       const release = { who: who(), facts: facts() };
       s.update({ jailed: ['Fay'] });

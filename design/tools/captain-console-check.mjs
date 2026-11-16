@@ -21,7 +21,7 @@
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size: not a phone,
 // not Safari, not a performance measure.
 
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
@@ -36,8 +36,18 @@ const STATES = ['console', 'used', 'release', 'eject', 'sending', 'stale', 'larg
 const RECONNECTING = 'Controls return when the match is current';
 const FACTS = (line) => `Once a match, on your turn in the Command Room|${line}|Hospital detention is not affected`;
 
-/** The preview bundled as the game bundles the component (component-check.mjs). */
-const bundle = () => bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'captain-console-check' });
+/** The pack's plates: its screen finds them from its own place at run time (apps/game/hosted/), which no bundle carries. */
+const PLATES = 'apps/game/hosted/board-v2-film-art/captain';
+/**
+ * The preview bundled as the game bundles the component (component-check.mjs), with the pack's plate pictures copied to
+ * where the frozen pack looks for them, as its own pages serve them. The component's own plates are bundled as the
+ * preview's images.
+ */
+async function bundle() {
+  const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'captain-console-check' });
+  await cp(join(REPO, PLATES), join(out, PLATES), { recursive: true });
+  return out;
+}
 
 // The source the captures show, read before anything is written: the components' files, the room pictures and the plates' art, without the review folders.
 const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/room-drawing/assets', 'apps/game/hosted/board-v2-film-art/captain']);
@@ -90,7 +100,7 @@ try {
           lines: tiles.map(t => { const n = t.querySelector('.ms-k-tile-note'); return shown(n) ? n.textContent : ''; }).join('|'),
           covered: tiles.filter(t => { const a = t.querySelector('.ms-cc-plate-art').getBoundingClientRect(); return [...t.querySelectorAll('.ms-k-tile-name, .ms-k-tile-note')].filter(shown).some(n => n.getBoundingClientRect().top < a.bottom - 0.5); }).length,
           note: q('.ms-k-group-note')?.textContent ?? null,
-          who: who ? [q('.ms-k-who-title').textContent, shown(q('.ms-k-who-sub')) ? q('.ms-k-who-sub').textContent : '', q('.ms-k-who-lead').dataset.icon].join('|') : null,
+          who: who ? [q('.ms-k-who-title').textContent, shown(q('.ms-k-who-sub')) ? q('.ms-k-who-sub').textContent : '', q('.ms-k-who-lead').dataset.icon.split(':')[0]].join('|') : null,
           facts: qa('.ms-k-fact').map(f => f.textContent).join('|'),
           foot: foot.map(b => b.textContent.trim()).join('|'), footBusy: foot.some(b => b.getAttribute('aria-busy') === 'true'), commandKind: foot[1]?.className.match(/ms-k-btn-(\\w+)/)?.[1] ?? null,
           commandWaits: foot[1]?.getAttribute('aria-disabled') === 'true' ? describedBy(foot[1]) : null, cancelRefused: foot[0]?.getAttribute('aria-disabled') === 'true',

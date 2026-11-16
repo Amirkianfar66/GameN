@@ -43,6 +43,8 @@ const BODY = [
   ['plates', '.sheet-body > div:has(> .tile)', '.ms-cc-plates', false, null],
   ['plate tiles', '.sheet-body .tile', '.ms-cc-plates .ms-k-tile', true, ['backgroundColor', 'boxShadow', 'borderRadius', 'minHeight'], { refusedDiv: true }],
   ['plate art', '.sheet-body .tile img', '.ms-cc-plate-art', false, null],
+  // The art's fade: the pack's <img> is drawn as it is; the component's picture sits in the kit's art box.
+  ['plate art fade', '.sheet-body .tile img', '.ms-cc-plates .ms-k-tile-art', false, ['opacity', 'filter'], { attrs: false, box: false }],
   ['plate names', '.sheet-body .tile b', '.ms-k-tile-name', true, ['fontSize', 'fontWeight', 'color']],
   ['plate lines', '.sheet-body .tile small', '.ms-k-tile-note', true, ['fontSize', 'fontWeight', 'color']],
   ['notes', '.group-note', '.ms-k-group-note', true, ['fontSize', 'color']],
@@ -117,10 +119,11 @@ export async function runCaptainConsoleAgreement({ sizes, mountState, disposeSta
       if (a.length !== b.length) { differences.push({ part: name, what: 'count', pack: a.length, screen: b.length }); continue; }
       a.forEach((na, i) => {
         const nb = b[i], pa = box(pack, na), pb = box(host, nb);
-        if (!near(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
+        if (options.box !== false && !near(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
         if (compareWords && textOf(na) !== textOf(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'words', pack: textOf(na), screen: textOf(nb) });
         if (props) { const la = looks(na, props), lb = looks(nb, props); if (JSON.stringify(la) !== JSON.stringify(lb)) differences.push({ part: `${name} ${i + 1}`, what: 'look', pack: la, screen: lb }); }
         if (na.tagName === 'svg' && drawing(na) !== drawing(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'drawing', pack: drawing(na).slice(0, 160), screen: drawing(nb).slice(0, 160) });
+        if (options.attrs === false) return;
         for (const attr of STATE_ATTRS) {
           // A name is compared as a name: the shell names its sheet by its title (aria-labelledby), the pack by aria-label.
           const va = attr === 'aria-label' ? nameOf(na) : na.getAttribute(attr), vb = attr === 'aria-label' ? nameOf(nb) : nb.getAttribute(attr);
