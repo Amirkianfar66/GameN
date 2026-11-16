@@ -1,0 +1,252 @@
+{
+  "schema": "mothership.designer-component-sources/1",
+  "component": "design/phone-ui/components/food",
+  "baseline": {
+    "commit": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+    "pins": "docs/integration/food-consumer-source-2026-11-13.json",
+    "note": "Each file is its pinned source's bytes with the listed differences applied in order, each replacing a text that occurs exactly once. No other byte differs."
+  },
+  "files": [
+    {
+      "file": "food-geometry.mjs",
+      "source": "apps/game/hosted/planet/food-geometry.mjs",
+      "sourceSha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "sourceBytes": 1443,
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443,
+      "differences": []
+    },
+    {
+      "file": "food-machine.mjs",
+      "source": "apps/game/hosted/planet/food-machine.mjs",
+      "sourceSha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "sourceBytes": 24394,
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394,
+      "differences": []
+    },
+    {
+      "file": "food-scene.mjs",
+      "source": "apps/game/hosted/planet/food-scene.mjs",
+      "sourceSha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "sourceBytes": 3694,
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694,
+      "differences": []
+    },
+    {
+      "file": "food-pose.mjs",
+      "source": "apps/game/hosted/planet/food-pose.mjs",
+      "sourceSha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "sourceBytes": 6888,
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "bytes": 6888,
+      "differences": []
+    },
+    {
+      "file": "food-display.mjs",
+      "source": "apps/game/hosted/planet/food-display.mjs",
+      "sourceSha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "sourceBytes": 9836,
+      "sha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "bytes": 9836,
+      "differences": []
+    },
+    {
+      "file": "food-ui.mjs",
+      "source": "apps/game/hosted/planet/food-ui.mjs",
+      "sourceSha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "sourceBytes": 14436,
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436,
+      "differences": []
+    },
+    {
+      "file": "food-icons.mjs",
+      "source": "apps/game/hosted/planet/food-icons.mjs",
+      "sourceSha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "sourceBytes": 18628,
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628,
+      "differences": []
+    },
+    {
+      "file": "food-gauge.mjs",
+      "source": "apps/game/hosted/planet/food-gauge.mjs",
+      "sourceSha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "sourceBytes": 1107,
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107,
+      "differences": []
+    },
+    {
+      "file": "food-tags.mjs",
+      "source": "apps/game/hosted/planet/food-tags.mjs",
+      "sourceSha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "sourceBytes": 1024,
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024,
+      "differences": []
+    },
+    {
+      "file": "food-kit.css",
+      "source": "apps/game/hosted/planet/food-kit.css",
+      "sourceSha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+      "sourceBytes": 57285,
+      "sha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+      "bytes": 57285,
+      "differences": []
+    },
+    {
+      "file": "food.css",
+      "source": "apps/game/hosted/planet/food.css",
+      "sourceSha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
+      "sourceBytes": 30798,
+      "sha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
+      "bytes": 30798,
+      "differences": []
+    },
+    {
+      "file": "food-ink.mjs",
+      "source": "apps/game/hosted/planet/food-ink.mjs",
+      "sourceSha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "sourceBytes": 2408,
+      "sha256": "9feddc2b8cdbc83d9ffc7f0b5d9722e72fa8e82c76d34f4d94d591fa6bd42e48",
+      "bytes": 2460,
+      "differences": [
+        {
+          "kind": "import-path",
+          "was": "import {INK, pathOfPoly, spline, waver} from '../crew-drawing/ink.mjs';",
+          "now": "import {INK, pathOfPoly, spline, waver} from '../../../../apps/game/hosted/crew-drawing/ink.mjs';",
+          "why": "The hosted game's admitted crew ink, from the component's folder."
+        },
+        {
+          "kind": "import-path",
+          "was": "export {INK, inkCanvas, shade, tint} from '../crew-drawing/ink.mjs';",
+          "now": "export {INK, inkCanvas, shade, tint} from '../../../../apps/game/hosted/crew-drawing/ink.mjs';",
+          "why": "The same file, re-exported."
+        }
+      ]
+    },
+    {
+      "file": "food-render.mjs",
+      "source": "apps/game/hosted/planet/food-render.mjs",
+      "sourceSha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
+      "sourceBytes": 35737,
+      "sha256": "79bab90c6cf22e322e33a1b2d4e4ba223d2549e4388a67ec8452820b511cb203",
+      "bytes": 35022,
+      "differences": [
+        {
+          "kind": "connector-seam",
+          "was": "import {createFoodHoldInput} from '@mothership/game';\n",
+          "now": "",
+          "why": "The contact adapter stays Frontend's: the component reports contacts and imports nothing of the game's client."
+        },
+        {
+          "kind": "import-path",
+          "was": "import {crewPortraitVariable} from '../crew-runtime.mjs';",
+          "now": "import {crewPortraitVariable} from '../../../../apps/game/hosted/crew-runtime.mjs';",
+          "why": "The hosted game's public crew portraits, from the component's folder."
+        },
+        {
+          "kind": "import-path",
+          "was": "import './food-host.css';",
+          "now": "import './food-surface.css';",
+          "why": "The surface's own ten rules of food-host.css; its three rules for the ordinary app stay Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "boardMode=()=> 'room',bars=()=>({top:0,bottom:0})}={}){",
+          "now": "boardMode=()=> 'room',bars=()=>({top:0,bottom:0}),contacts}={}){",
+          "why": "The contact reporter is given, not built here."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "const hold=createFoodHoldInput({down:()=>controller.holdDown(),up:()=>controller.holdUp(),held:()=>controller.getModel().physicalHolding||controller.getModel().needsContactOff});",
+          "now": "const hold=contacts;",
+          "why": "Every use of hold below is unchanged: the same calls now report each contact instead of matching it. createFoodHoldInput stays Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": " const blur=event=>{if(event?.target!==win)return;release();controller.setVisible(false);};\n const visibility=()=>{if(document.visibilityState==='hidden'){release();controller.setVisible(false);}else resume();};\n const resume=()=>controller.setVisible(document.visibilityState!=='hidden');\n",
+          "now": "",
+          "why": "Blur, focus and visibility are Frontend's: it calls suspend() and resume()."
+        },
+        {
+          "kind": "connector-seam",
+          "was": " win.addEventListener('blur',blur,true);win.addEventListener('focus',resume);document.addEventListener('visibilitychange',visibility,true);document.addEventListener('mothership:preferences-change',preferencesChanged);\n",
+          "now": "",
+          "why": "The same, and the app's preferences event: a changed setting arrives through update()."
+        },
+        {
+          "kind": "connector-seam",
+          "was": " return {openTasks(){screen='tasks';lastStructure=null;render();},close,refresh:render,release,\n",
+          "now": " return {openTasks(){screen='tasks';lastStructure=null;render();},close,refresh:render,release,relayout:preferencesChanged,\n  suspend(){release();if(raf!==null){win.cancelAnimationFrame(raf);raf=null;}},resume(){if(disposed||raf!==null)return;raf=win.requestAnimationFrame(tick);render();},\n",
+          "why": "The lifecycle the component offers: suspend() releases and stops the frames, resume() starts them and draws the current moment, relayout() is what the preferences event did."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "   win.removeEventListener('blur',blur,true);win.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',visibility,true);document.removeEventListener('mothership:preferences-change',preferencesChanged);frame.remove();",
+          "now": "   frame.remove();",
+          "why": "The listeners removed above are not there to remove."
+        }
+      ]
+    },
+    {
+      "file": "food-notice.mjs",
+      "source": "apps/game/hosted/planet/food-app.mjs",
+      "sourceSha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "sourceBytes": 3270,
+      "sha256": "4551ad087e6400299e8786d61a02ff6687cc038ec719557d92d2f57391fe62bd",
+      "bytes": 1221,
+      "differences": [
+        {
+          "kind": "connector-seam",
+          "was": "import {createFoodTaskController,readPlanetView,readPlanetFood} from '@mothership/game';\n",
+          "now": "",
+          "why": "The connector stays Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "import {mountFoodRenderer} from './food-render.mjs';\n",
+          "now": "",
+          "why": "Only the shared display's notice is taken from this file."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "/** Bind both Food surfaces to the existing session feed, never a second poller. */\nexport function mountFoodApp(root,{session,game,transport,binding,ports,recovery,assets,preferences,renderer}){\n const controller=createFoodTaskController(session.foodTransport(),{...ports,recovery},{binding,readClock:()=>transport.readClock?.()??{status:'unsynced'}});\n let identities=transport.identities?.()??[],view=null,disposed=false;\n const foodRoot=root.ownerDocument.createElement('div');root.append(foodRoot);\n view=mountFoodRenderer(foodRoot,controller,{identities:()=>identities,ordinary:()=>game.getModel(),assets,preferences,\n  navigate:next=>renderer.navigate(next),settings:()=>renderer.navigate('settings'),surface:next=>renderer.foodSurface(next),boardMode:()=>renderer.view,bars:()=>renderer.bars()});\n const stop=transport.listen({matchId:binding.matchId,seatId:binding.seatId},{snapshot:s=>{\n  const ordinary=readPlanetView(s.value,binding.matchId,binding.seatId),food=ordinary&&readPlanetFood(s,ordinary,binding.seatId);\n  if(!ordinary||!food?.playerView){controller.disconnect('authorization');return;}\n  identities=transport.identities?.()??identities;\n  if(controller.observe(food.playerView,{matchId:ordinary.matchId,versions:food.playerView.versions,phaseId:ordinary.phase.id,round:ordinary.round,serverNowMs:food.serverTimeMs},s.fresh)){\n   if(controller.getModel().canCheck)void controller.checkReceipts();\n  }\n },error:kind=>controller.disconnect(kind??'network')});\n return {controller,recovery,setVisible(value){if(!value)view?.release();controller.setVisible(value);},\n  openTasks(){view?.openTasks();},refresh(){view?.refresh();},\n  detach(){view?.dispose();view=null;foodRoot.remove();},\n  dispose(){if(disposed)return;disposed=true;view?.dispose();view=null;stop();controller.dispose();foodRoot.remove();}};\n}\n\n",
+          "now": "",
+          "why": "mountFoodApp, the connector, stays Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "const top=root.parentElement?.querySelector('.planet-header')?.getBoundingClientRect().height??0;",
+          "now": "const top=game.top();",
+          "why": "A component can't reach into the app's page: the ordinary header's height is given."
+        }
+      ]
+    },
+    {
+      "file": "food-surface.css",
+      "source": "apps/game/hosted/planet/food-host.css",
+      "sourceSha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "sourceBytes": 1584,
+      "sha256": "0aa89d8121b50ca8c53fc522c753c1467cd8060a33c7ebe3bf4fb47a7a27bd26",
+      "bytes": 1089,
+      "differences": [
+        {
+          "kind": "host-rule",
+          "was": "/* The approved gauge inside the ordinary native clock column uses the same\n   scoped kit tokens without turning the ordinary header into a Food screen. */\n.planet-app .planet-header > .food-native-clock { grid-column: 4; grid-row: 1; height: auto; background: transparent; }\n@container (max-width: 22.5rem) {\n .planet-app .planet-header > .food-native-clock { grid-column: 3; grid-row: 2; }\n}\n",
+          "now": "",
+          "why": "The ordinary header's own layout stays Frontend's."
+        },
+        {
+          "kind": "host-rule",
+          "was": ".planet-app[data-food-chrome=\"true\"] > :is(.planet-header,.planet-nav) { display: none !important; }\n",
+          "now": "",
+          "why": "Hiding the ordinary app's bars stays Frontend's."
+        }
+      ]
+    }
+  ]
+}

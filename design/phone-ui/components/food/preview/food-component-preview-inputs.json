@@ -1,0 +1,1538 @@
+{
+  "marker": "mothership:dev-only",
+  "scope": "Designer preview and frozen-port comparison. Five reconstructed synthetic visual input examples. No live match capture or transport payload.",
+  "source": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+  "evidence": "2bedd111651e3ebc95f2e895c89f407ee3903a56",
+  "fixturePath": "apps/game/dev/phone/food/native-fixtures.json",
+  "evidencePath": "docs/frontend/evidence/food-stream-final-2026-11-16/compare.md",
+  "reviewDefaults": {
+    "viewports": [
+      [
+        390,
+        844
+      ],
+      [
+        430,
+        932
+      ]
+    ],
+    "textScale": 1,
+    "reducedMotion": false,
+    "syntheticSafeAreaInsetsPx": {
+      "top": 47,
+      "bottom": 34
+    },
+    "artVersion": "design-0.9.0",
+    "assets": "/art/food-supply/",
+    "clock": "Pass clock.now() returning the fixture clock.nowMs. This anchors the pose to the staged authorized view; the reports do not store the screenshot frame timestamp.",
+    "bars": "Measure the ordinary bars in the comparison host. Safe-area insets are not bar heights."
+  },
+  "frames": [
+    {
+      "part": "food-panel-03",
+      "fixtureId": "food-panel-03",
+      "provenance": "Causal capture: original RELEASE parked before its receipt.",
+      "expected": {
+        "control": "release",
+        "enabled": false,
+        "busy": true,
+        "reconnecting": false,
+        "sub": "Sending…"
+      },
+      "input": {
+        "view": {
+          "seatId": "seat-3",
+          "round": 3,
+          "versions": {
+            "protocolVersion": 3,
+            "engineVersion": "planet-game-1.4.0",
+            "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+            "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+            "assetManifestVersion": "design-0.9.0"
+          },
+          "viewRevision": 5,
+          "step": {
+            "kind": "AWAY",
+            "stepId": "review-phase-1",
+            "startedAt": 100000,
+            "returnsAt": 132500,
+            "awaySeatIds": [
+              "seat-3",
+              "seat-8"
+            ]
+          },
+          "ownAvailability": {
+            "canAsk": false,
+            "reason": "TASK_ALREADY_STARTED"
+          },
+          "partnerChoices": [
+            {
+              "seatId": "seat-1",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-2",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-4",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-5",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-6",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-7",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-8",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-9",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            }
+          ],
+          "invitation": null,
+          "requestClosures": [
+            {
+              "foodStepId": "review-phase-1",
+              "round": 3,
+              "requestId": "review-request-3",
+              "requestRevision": 1,
+              "volunteerSeatId": "seat-8",
+              "partnerSeatId": "seat-3",
+              "askedAt": 99900,
+              "answerEndsAt": 114900,
+              "closedAt": 100000,
+              "state": "JOINED"
+            }
+          ],
+          "stock": {
+            "doses": 2
+          },
+          "offers": [
+            {
+              "type": "TASK_PRESS",
+              "inputs": [
+                "PANEL_RELEASE"
+              ]
+            }
+          ],
+          "participantTask": {
+            "taskId": "review-task-5",
+            "winchSeatId": "seat-8",
+            "panelSeatId": "seat-3",
+            "selfControl": "PANEL",
+            "startedAt": 100000,
+            "runningAt": 104000,
+            "deadlineAt": 130000,
+            "returnsAt": 132500,
+            "stage": "ACTIVE",
+            "panel": {
+              "locked": true,
+              "stop": 0,
+              "direction": 1,
+              "anchorAt": 100000,
+              "blade": {
+                "state": "LOWERED",
+                "stop": 0,
+                "changedAt": 100000
+              },
+              "warning": null,
+              "swing": {
+                "startedAt": 105050,
+                "amplitude": 0.25,
+                "direction": 1
+              }
+            },
+            "crate": {
+              "id": "food-crate-0",
+              "generation": 0,
+              "state": "HELD",
+              "holder": "WINCH",
+              "x": 0,
+              "height": 1,
+              "anchorAt": 105050,
+              "motion": null
+            },
+            "broken": [],
+            "outcome": null,
+            "people": [
+              {
+                "seatId": "seat-8",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              },
+              {
+                "seatId": "seat-3",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              }
+            ],
+            "events": {
+              "events": [
+                {
+                  "kind": "LIFTED",
+                  "at": 104600,
+                  "crateId": "food-crate-0"
+                }
+              ]
+            },
+            "ownGesture": null,
+            "ownReturnPlacement": {
+              "location": "Room B"
+            }
+          }
+        },
+        "can": {
+          "ask": false,
+          "answer": false,
+          "withdraw": false,
+          "hold": false,
+          "panelRelease": false,
+          "panelLock": false,
+          "key": false
+        },
+        "sending": {
+          "feedback": {
+            "key": "fixture-feedback-food-panel-03",
+            "name": "RELEASE",
+            "status": "sending",
+            "recovered": false
+          },
+          "pendingCount": 1,
+          "physicalHolding": false,
+          "needsContactOff": false
+        },
+        "status": "live",
+        "clock": {
+          "nowMs": 105300
+        },
+        "people": [
+          {
+            "seatId": "seat-1",
+            "name": "Ava",
+            "character": "c8"
+          },
+          {
+            "seatId": "seat-2",
+            "name": "Ben",
+            "character": "c4"
+          },
+          {
+            "seatId": "seat-3",
+            "name": "Cleo",
+            "character": "c6"
+          },
+          {
+            "seatId": "seat-4",
+            "name": "Dev",
+            "character": "c1"
+          },
+          {
+            "seatId": "seat-5",
+            "name": "Eli",
+            "character": "c3"
+          },
+          {
+            "seatId": "seat-6",
+            "name": "Fay",
+            "character": "c9"
+          },
+          {
+            "seatId": "seat-7",
+            "name": "Gus",
+            "character": "c5"
+          },
+          {
+            "seatId": "seat-8",
+            "name": "Hana",
+            "character": "c2"
+          },
+          {
+            "seatId": "seat-9",
+            "name": "Ike",
+            "character": "c7"
+          }
+        ],
+        "board": {
+          "seats": [
+            {
+              "seatId": "seat-1",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-2",
+              "location": "Command Room"
+            },
+            {
+              "seatId": "seat-3",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-4",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-5",
+              "location": "Hospital"
+            },
+            {
+              "seatId": "seat-6",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-7",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-8",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-9",
+              "location": "Room A"
+            }
+          ],
+          "activeSeatId": null,
+          "phase": {
+            "kind": "FOOD_SUPPLY",
+            "remainingMs": 27200
+          }
+        },
+        "viewer": {
+          "promiseOfferCount": 0
+        },
+        "navigation": {
+          "openPanel": "board",
+          "boardMode": "room"
+        }
+      }
+    },
+    {
+      "part": "food-panel-04",
+      "fixtureId": "food-panel-04",
+      "provenance": "Causal capture: original RELEASE accepted and a newer authorized LOCK view received.",
+      "expected": {
+        "control": "lock",
+        "enabled": true,
+        "busy": false,
+        "reconnecting": false,
+        "sub": "At 6: the platform"
+      },
+      "input": {
+        "view": {
+          "seatId": "seat-3",
+          "round": 3,
+          "versions": {
+            "protocolVersion": 3,
+            "engineVersion": "planet-game-1.4.0",
+            "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+            "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+            "assetManifestVersion": "design-0.9.0"
+          },
+          "viewRevision": 8,
+          "step": {
+            "kind": "AWAY",
+            "stepId": "review-phase-1",
+            "startedAt": 100000,
+            "returnsAt": 132500,
+            "awaySeatIds": [
+              "seat-3",
+              "seat-8"
+            ]
+          },
+          "ownAvailability": {
+            "canAsk": false,
+            "reason": "TASK_ALREADY_STARTED"
+          },
+          "partnerChoices": [
+            {
+              "seatId": "seat-1",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-2",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-4",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-5",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-6",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-7",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-8",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-9",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            }
+          ],
+          "invitation": null,
+          "requestClosures": [
+            {
+              "foodStepId": "review-phase-1",
+              "round": 3,
+              "requestId": "review-request-3",
+              "requestRevision": 1,
+              "volunteerSeatId": "seat-8",
+              "partnerSeatId": "seat-3",
+              "askedAt": 99900,
+              "answerEndsAt": 114900,
+              "closedAt": 100000,
+              "state": "JOINED"
+            }
+          ],
+          "stock": {
+            "doses": 2
+          },
+          "offers": [
+            {
+              "type": "TASK_PRESS",
+              "inputs": [
+                "PANEL_LOCK"
+              ]
+            }
+          ],
+          "participantTask": {
+            "taskId": "review-task-5",
+            "winchSeatId": "seat-8",
+            "panelSeatId": "seat-3",
+            "selfControl": "PANEL",
+            "startedAt": 100000,
+            "runningAt": 104000,
+            "deadlineAt": 130000,
+            "returnsAt": 132500,
+            "stage": "ACTIVE",
+            "panel": {
+              "locked": false,
+              "stop": 0,
+              "direction": 1,
+              "anchorAt": 105600,
+              "blade": {
+                "state": "RAISED",
+                "stop": 0,
+                "changedAt": 105600
+              },
+              "warning": null,
+              "swing": null
+            },
+            "crate": {
+              "id": "food-crate-0",
+              "generation": 0,
+              "state": "HELD",
+              "holder": "WINCH",
+              "x": 0,
+              "height": 1,
+              "anchorAt": 105050,
+              "motion": null
+            },
+            "broken": [],
+            "outcome": null,
+            "people": [
+              {
+                "seatId": "seat-8",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              },
+              {
+                "seatId": "seat-3",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              }
+            ],
+            "events": {
+              "events": [
+                {
+                  "kind": "LIFTED",
+                  "at": 104600,
+                  "crateId": "food-crate-0"
+                },
+                {
+                  "kind": "RELEASED",
+                  "at": 105600,
+                  "crateId": "food-crate-0"
+                }
+              ]
+            },
+            "ownGesture": null,
+            "ownReturnPlacement": {
+              "location": "Room B"
+            }
+          }
+        },
+        "can": {
+          "ask": false,
+          "answer": false,
+          "withdraw": false,
+          "hold": false,
+          "panelRelease": false,
+          "panelLock": true,
+          "key": false
+        },
+        "sending": {
+          "feedback": {
+            "key": "fixture-feedback-food-panel-04",
+            "name": "RELEASE",
+            "status": "accepted",
+            "recovered": false
+          },
+          "pendingCount": 0,
+          "physicalHolding": false,
+          "needsContactOff": false
+        },
+        "status": "live",
+        "clock": {
+          "nowMs": 106650
+        },
+        "people": [
+          {
+            "seatId": "seat-1",
+            "name": "Ava",
+            "character": "c8"
+          },
+          {
+            "seatId": "seat-2",
+            "name": "Ben",
+            "character": "c4"
+          },
+          {
+            "seatId": "seat-3",
+            "name": "Cleo",
+            "character": "c6"
+          },
+          {
+            "seatId": "seat-4",
+            "name": "Dev",
+            "character": "c1"
+          },
+          {
+            "seatId": "seat-5",
+            "name": "Eli",
+            "character": "c3"
+          },
+          {
+            "seatId": "seat-6",
+            "name": "Fay",
+            "character": "c9"
+          },
+          {
+            "seatId": "seat-7",
+            "name": "Gus",
+            "character": "c5"
+          },
+          {
+            "seatId": "seat-8",
+            "name": "Hana",
+            "character": "c2"
+          },
+          {
+            "seatId": "seat-9",
+            "name": "Ike",
+            "character": "c7"
+          }
+        ],
+        "board": {
+          "seats": [
+            {
+              "seatId": "seat-1",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-2",
+              "location": "Command Room"
+            },
+            {
+              "seatId": "seat-3",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-4",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-5",
+              "location": "Hospital"
+            },
+            {
+              "seatId": "seat-6",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-7",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-8",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-9",
+              "location": "Room A"
+            }
+          ],
+          "activeSeatId": null,
+          "phase": {
+            "kind": "FOOD_SUPPLY",
+            "remainingMs": 25850
+          }
+        },
+        "viewer": {
+          "promiseOfferCount": 0
+        },
+        "navigation": {
+          "openPanel": "board",
+          "boardMode": "room"
+        }
+      }
+    },
+    {
+      "part": "food-winch-03",
+      "fixtureId": "food-winch-03",
+      "provenance": "Causal capture: original UP unknown while the separate contact closure and original receipt lookup are parked.",
+      "expected": {
+        "control": "hold",
+        "enabled": true,
+        "busy": false,
+        "reconnecting": false
+      },
+      "input": {
+        "view": {
+          "seatId": "seat-8",
+          "round": 3,
+          "versions": {
+            "protocolVersion": 3,
+            "engineVersion": "planet-game-1.4.0",
+            "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+            "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+            "assetManifestVersion": "design-0.9.0"
+          },
+          "viewRevision": 6,
+          "step": {
+            "kind": "AWAY",
+            "stepId": "review-phase-1",
+            "startedAt": 100000,
+            "returnsAt": 132500,
+            "awaySeatIds": [
+              "seat-3",
+              "seat-8"
+            ]
+          },
+          "ownAvailability": {
+            "canAsk": false,
+            "reason": "TASK_ALREADY_STARTED"
+          },
+          "partnerChoices": [
+            {
+              "seatId": "seat-1",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-2",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-3",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-4",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-5",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-6",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-7",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-9",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            }
+          ],
+          "invitation": null,
+          "requestClosures": [
+            {
+              "foodStepId": "review-phase-1",
+              "round": 3,
+              "requestId": "review-request-3",
+              "requestRevision": 1,
+              "volunteerSeatId": "seat-8",
+              "partnerSeatId": "seat-3",
+              "askedAt": 99900,
+              "answerEndsAt": 114900,
+              "closedAt": 100000,
+              "state": "JOINED"
+            }
+          ],
+          "stock": {
+            "doses": 2
+          },
+          "offers": [
+            {
+              "type": "TASK_PRESS",
+              "inputs": [
+                "HOLD"
+              ]
+            }
+          ],
+          "participantTask": {
+            "taskId": "review-task-5",
+            "winchSeatId": "seat-8",
+            "panelSeatId": "seat-3",
+            "selfControl": "WINCH",
+            "startedAt": 100000,
+            "runningAt": 104000,
+            "deadlineAt": 130000,
+            "returnsAt": 132500,
+            "stage": "ACTIVE",
+            "panel": {
+              "locked": false,
+              "stop": 0,
+              "direction": 1,
+              "anchorAt": 105600,
+              "blade": {
+                "state": "RAISED",
+                "stop": 0,
+                "changedAt": 105600
+              },
+              "warning": null,
+              "swing": null
+            },
+            "crate": {
+              "id": "food-crate-0",
+              "generation": 0,
+              "state": "HELD",
+              "holder": "WINCH",
+              "x": 0,
+              "height": 1,
+              "anchorAt": 105050,
+              "motion": null
+            },
+            "broken": [],
+            "outcome": null,
+            "people": [
+              {
+                "seatId": "seat-8",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              },
+              {
+                "seatId": "seat-3",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              }
+            ],
+            "events": {
+              "events": [
+                {
+                  "kind": "LIFTED",
+                  "at": 104600,
+                  "crateId": "food-crate-0"
+                },
+                {
+                  "kind": "RELEASED",
+                  "at": 105600,
+                  "crateId": "food-crate-0"
+                }
+              ]
+            },
+            "ownGesture": {
+              "pendingIntent": false
+            },
+            "ownReturnPlacement": {
+              "location": "Room B"
+            }
+          }
+        },
+        "can": {
+          "ask": false,
+          "answer": false,
+          "withdraw": false,
+          "hold": false,
+          "panelRelease": false,
+          "panelLock": false,
+          "key": false
+        },
+        "sending": {
+          "feedback": {
+            "key": "fixture-feedback-food-winch-03",
+            "name": "let-go",
+            "status": "unknown",
+            "recovered": false
+          },
+          "pendingCount": 3,
+          "physicalHolding": false,
+          "needsContactOff": true
+        },
+        "status": "live",
+        "clock": {
+          "nowMs": 106000
+        },
+        "people": [
+          {
+            "seatId": "seat-1",
+            "name": "Ava",
+            "character": "c8"
+          },
+          {
+            "seatId": "seat-2",
+            "name": "Ben",
+            "character": "c4"
+          },
+          {
+            "seatId": "seat-3",
+            "name": "Cleo",
+            "character": "c6"
+          },
+          {
+            "seatId": "seat-4",
+            "name": "Dev",
+            "character": "c1"
+          },
+          {
+            "seatId": "seat-5",
+            "name": "Eli",
+            "character": "c3"
+          },
+          {
+            "seatId": "seat-6",
+            "name": "Fay",
+            "character": "c9"
+          },
+          {
+            "seatId": "seat-7",
+            "name": "Gus",
+            "character": "c5"
+          },
+          {
+            "seatId": "seat-8",
+            "name": "Hana",
+            "character": "c2"
+          },
+          {
+            "seatId": "seat-9",
+            "name": "Ike",
+            "character": "c7"
+          }
+        ],
+        "board": {
+          "seats": [
+            {
+              "seatId": "seat-1",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-2",
+              "location": "Command Room"
+            },
+            {
+              "seatId": "seat-3",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-4",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-5",
+              "location": "Hospital"
+            },
+            {
+              "seatId": "seat-6",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-7",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-8",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-9",
+              "location": "Room A"
+            }
+          ],
+          "activeSeatId": null,
+          "phase": {
+            "kind": "FOOD_SUPPLY",
+            "remainingMs": 26500
+          }
+        },
+        "viewer": {
+          "promiseOfferCount": 0
+        },
+        "navigation": {
+          "openPanel": "board",
+          "boardMode": "room"
+        }
+      }
+    },
+    {
+      "part": "food-winch-12",
+      "fixtureId": "food-winch-12",
+      "provenance": "Causal capture: verified contact closure followed by the authorized landed view offering KEY.",
+      "expected": {
+        "control": "key",
+        "enabled": true,
+        "busy": false,
+        "reconnecting": false,
+        "sub": "Sends the crate down"
+      },
+      "input": {
+        "view": {
+          "seatId": "seat-8",
+          "round": 3,
+          "versions": {
+            "protocolVersion": 3,
+            "engineVersion": "planet-game-1.4.0",
+            "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+            "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+            "assetManifestVersion": "design-0.9.0"
+          },
+          "viewRevision": 14,
+          "step": {
+            "kind": "AWAY",
+            "stepId": "review-phase-1",
+            "startedAt": 100000,
+            "returnsAt": 132500,
+            "awaySeatIds": [
+              "seat-3",
+              "seat-8"
+            ]
+          },
+          "ownAvailability": {
+            "canAsk": false,
+            "reason": "TASK_ALREADY_STARTED"
+          },
+          "partnerChoices": [
+            {
+              "seatId": "seat-1",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-2",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-3",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-4",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-5",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-6",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-7",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-9",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            }
+          ],
+          "invitation": null,
+          "requestClosures": [
+            {
+              "foodStepId": "review-phase-1",
+              "round": 3,
+              "requestId": "review-request-3",
+              "requestRevision": 1,
+              "volunteerSeatId": "seat-8",
+              "partnerSeatId": "seat-3",
+              "askedAt": 99900,
+              "answerEndsAt": 114900,
+              "closedAt": 100000,
+              "state": "JOINED"
+            }
+          ],
+          "stock": {
+            "doses": 2
+          },
+          "offers": [
+            {
+              "type": "TASK_PRESS",
+              "inputs": [
+                "KEY"
+              ]
+            }
+          ],
+          "participantTask": {
+            "taskId": "review-task-5",
+            "winchSeatId": "seat-8",
+            "panelSeatId": "seat-3",
+            "selfControl": "WINCH",
+            "startedAt": 100000,
+            "runningAt": 104000,
+            "deadlineAt": 130000,
+            "returnsAt": 132500,
+            "stage": "ACTIVE",
+            "panel": {
+              "locked": true,
+              "stop": 5,
+              "direction": 1,
+              "anchorAt": 106750,
+              "blade": {
+                "state": "LOWERED",
+                "stop": 5,
+                "changedAt": 106750
+              },
+              "warning": null,
+              "swing": null
+            },
+            "crate": {
+              "id": "food-crate-0",
+              "generation": 0,
+              "state": "LANDED",
+              "holder": null,
+              "x": 5,
+              "height": 0.36,
+              "anchorAt": 109535,
+              "motion": null
+            },
+            "broken": [],
+            "outcome": null,
+            "people": [
+              {
+                "seatId": "seat-8",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              },
+              {
+                "seatId": "seat-3",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              }
+            ],
+            "events": {
+              "events": [
+                {
+                  "kind": "LIFTED",
+                  "at": 104600,
+                  "crateId": "food-crate-0"
+                },
+                {
+                  "kind": "RELEASED",
+                  "at": 105600,
+                  "crateId": "food-crate-0"
+                },
+                {
+                  "kind": "RELEASED",
+                  "at": 109235,
+                  "crateId": "food-crate-0"
+                },
+                {
+                  "kind": "LANDED",
+                  "at": 109535,
+                  "crateId": "food-crate-0"
+                }
+              ]
+            },
+            "ownGesture": {
+              "pendingIntent": false
+            },
+            "ownReturnPlacement": {
+              "location": "Room B"
+            }
+          }
+        },
+        "can": {
+          "ask": false,
+          "answer": false,
+          "withdraw": false,
+          "hold": false,
+          "panelRelease": false,
+          "panelLock": false,
+          "key": true
+        },
+        "sending": {
+          "feedback": null,
+          "pendingCount": 0,
+          "physicalHolding": false,
+          "needsContactOff": false
+        },
+        "status": "live",
+        "clock": {
+          "nowMs": 109735
+        },
+        "people": [
+          {
+            "seatId": "seat-1",
+            "name": "Ava",
+            "character": "c8"
+          },
+          {
+            "seatId": "seat-2",
+            "name": "Ben",
+            "character": "c4"
+          },
+          {
+            "seatId": "seat-3",
+            "name": "Cleo",
+            "character": "c6"
+          },
+          {
+            "seatId": "seat-4",
+            "name": "Dev",
+            "character": "c1"
+          },
+          {
+            "seatId": "seat-5",
+            "name": "Eli",
+            "character": "c3"
+          },
+          {
+            "seatId": "seat-6",
+            "name": "Fay",
+            "character": "c9"
+          },
+          {
+            "seatId": "seat-7",
+            "name": "Gus",
+            "character": "c5"
+          },
+          {
+            "seatId": "seat-8",
+            "name": "Hana",
+            "character": "c2"
+          },
+          {
+            "seatId": "seat-9",
+            "name": "Ike",
+            "character": "c7"
+          }
+        ],
+        "board": {
+          "seats": [
+            {
+              "seatId": "seat-1",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-2",
+              "location": "Command Room"
+            },
+            {
+              "seatId": "seat-3",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-4",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-5",
+              "location": "Hospital"
+            },
+            {
+              "seatId": "seat-6",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-7",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-8",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-9",
+              "location": "Room A"
+            }
+          ],
+          "activeSeatId": null,
+          "phase": {
+            "kind": "FOOD_SUPPLY",
+            "remainingMs": 22765
+          }
+        },
+        "viewer": {
+          "promiseOfferCount": 0
+        },
+        "navigation": {
+          "openPanel": "board",
+          "boardMode": "room"
+        }
+      }
+    },
+    {
+      "part": "food-panel-18",
+      "fixtureId": "food-panel-03",
+      "provenance": "Synthetic equivalent for the connected silent-watch shot: retain the previously authorized RELEASE view and mark its delivery stale. The causal fixture report has four parts; the connected runner records images and redacted observations only.",
+      "expected": {
+        "control": "release",
+        "enabled": false,
+        "busy": false,
+        "reconnecting": true,
+        "sub": "Reconnecting…"
+      },
+      "input": {
+        "view": {
+          "seatId": "seat-3",
+          "round": 3,
+          "versions": {
+            "protocolVersion": 3,
+            "engineVersion": "planet-game-1.4.0",
+            "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+            "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+            "assetManifestVersion": "design-0.9.0"
+          },
+          "viewRevision": 5,
+          "step": {
+            "kind": "AWAY",
+            "stepId": "review-phase-1",
+            "startedAt": 100000,
+            "returnsAt": 132500,
+            "awaySeatIds": [
+              "seat-3",
+              "seat-8"
+            ]
+          },
+          "ownAvailability": {
+            "canAsk": false,
+            "reason": "TASK_ALREADY_STARTED"
+          },
+          "partnerChoices": [
+            {
+              "seatId": "seat-1",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-2",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-4",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-5",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-6",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-7",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-8",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            },
+            {
+              "seatId": "seat-9",
+              "available": false,
+              "reason": "NOT_AVAILABLE_NOW"
+            }
+          ],
+          "invitation": null,
+          "requestClosures": [
+            {
+              "foodStepId": "review-phase-1",
+              "round": 3,
+              "requestId": "review-request-3",
+              "requestRevision": 1,
+              "volunteerSeatId": "seat-8",
+              "partnerSeatId": "seat-3",
+              "askedAt": 99900,
+              "answerEndsAt": 114900,
+              "closedAt": 100000,
+              "state": "JOINED"
+            }
+          ],
+          "stock": {
+            "doses": 2
+          },
+          "offers": [
+            {
+              "type": "TASK_PRESS",
+              "inputs": [
+                "PANEL_RELEASE"
+              ]
+            }
+          ],
+          "participantTask": {
+            "taskId": "review-task-5",
+            "winchSeatId": "seat-8",
+            "panelSeatId": "seat-3",
+            "selfControl": "PANEL",
+            "startedAt": 100000,
+            "runningAt": 104000,
+            "deadlineAt": 130000,
+            "returnsAt": 132500,
+            "stage": "ACTIVE",
+            "panel": {
+              "locked": true,
+              "stop": 0,
+              "direction": 1,
+              "anchorAt": 100000,
+              "blade": {
+                "state": "LOWERED",
+                "stop": 0,
+                "changedAt": 100000
+              },
+              "warning": null,
+              "swing": {
+                "startedAt": 105050,
+                "amplitude": 0.25,
+                "direction": 1
+              }
+            },
+            "crate": {
+              "id": "food-crate-0",
+              "generation": 0,
+              "state": "HELD",
+              "holder": "WINCH",
+              "x": 0,
+              "height": 1,
+              "anchorAt": 105050,
+              "motion": null
+            },
+            "broken": [],
+            "outcome": null,
+            "people": [
+              {
+                "seatId": "seat-8",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              },
+              {
+                "seatId": "seat-3",
+                "alive": true,
+                "online": true,
+                "keyTurned": false,
+                "death": null
+              }
+            ],
+            "events": {
+              "events": [
+                {
+                  "kind": "LIFTED",
+                  "at": 104600,
+                  "crateId": "food-crate-0"
+                }
+              ]
+            },
+            "ownGesture": null,
+            "ownReturnPlacement": {
+              "location": "Room B"
+            }
+          }
+        },
+        "can": {
+          "ask": false,
+          "answer": false,
+          "withdraw": false,
+          "hold": false,
+          "panelRelease": false,
+          "panelLock": false,
+          "key": false
+        },
+        "sending": {
+          "feedback": null,
+          "pendingCount": 0,
+          "physicalHolding": false,
+          "needsContactOff": false
+        },
+        "status": "stale",
+        "clock": {
+          "nowMs": 105300
+        },
+        "people": [
+          {
+            "seatId": "seat-1",
+            "name": "Ava",
+            "character": "c8"
+          },
+          {
+            "seatId": "seat-2",
+            "name": "Ben",
+            "character": "c4"
+          },
+          {
+            "seatId": "seat-3",
+            "name": "Cleo",
+            "character": "c6"
+          },
+          {
+            "seatId": "seat-4",
+            "name": "Dev",
+            "character": "c1"
+          },
+          {
+            "seatId": "seat-5",
+            "name": "Eli",
+            "character": "c3"
+          },
+          {
+            "seatId": "seat-6",
+            "name": "Fay",
+            "character": "c9"
+          },
+          {
+            "seatId": "seat-7",
+            "name": "Gus",
+            "character": "c5"
+          },
+          {
+            "seatId": "seat-8",
+            "name": "Hana",
+            "character": "c2"
+          },
+          {
+            "seatId": "seat-9",
+            "name": "Ike",
+            "character": "c7"
+          }
+        ],
+        "board": {
+          "seats": [
+            {
+              "seatId": "seat-1",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-2",
+              "location": "Command Room"
+            },
+            {
+              "seatId": "seat-3",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-4",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-5",
+              "location": "Hospital"
+            },
+            {
+              "seatId": "seat-6",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-7",
+              "location": "Room A"
+            },
+            {
+              "seatId": "seat-8",
+              "location": "Room B"
+            },
+            {
+              "seatId": "seat-9",
+              "location": "Room A"
+            }
+          ],
+          "activeSeatId": null,
+          "phase": {
+            "kind": "FOOD_SUPPLY",
+            "remainingMs": 27200
+          }
+        },
+        "viewer": {
+          "promiseOfferCount": 0
+        },
+        "navigation": {
+          "openPanel": "board",
+          "boardMode": "room"
+        }
+      }
+    }
+  ]
+}
