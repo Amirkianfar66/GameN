@@ -6,6 +6,72 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: the films follow the boarding pilot, with no sound on phones
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.**
+
+**What was asked.** On 16 November the Lead sent the owner the Motion & Cinematics builder's new boarding film: #285, the pilot for the owner's AAA bar of [8 November](#8-november-2026-the-pre-game-films-again-as-aaa-animation), renewed on 15 November. The Lead asked:
+
+> Is this the direction you want for all the films? The brand intro and the nine role films would come next.
+
+> Sound: I recommend none on players' phones, because 7–9 phones playing in one room would never be in sync. Sound could come later on the shared display only. Is that OK?
+
+Later the same day, the Lead listed the owner's open questions, among them "the direction and sound for the films". The owner answered:
+
+> All as your recommendation
+
+**What it covers:**
+- **Direction.** Every pre-game film follows the boarding pilot's direction: its camera, its light, its impacts and its faster drawing method. The 2 s brand intro and the nine role films come next, each as a new version.
+- **Sound.** None on players' phones. Sound on the shared display, for public moments only (boarding and ship travel), may come later. It is not started.
+
+**What stays the same:**
+- Each film's length and timing, and the approved style.
+- The role films' privacy: nothing another player could read over a shoulder or hear.
+- Reduce motion.
+- Nothing live changes until a new version is accepted.
+
+**What it leaves open:**
+- The shared display's sound.
+- The order of the films. The Motion & Cinematics builder proposes it, and the Lead approves.
+
+The same reply answered three other questions:
+- the rule question recorded [below](#16-november-2026-the-hacker-keeps-scan-after-a-wrong-final-code);
+- a new branch for the end screen's Roles list;
+- publishing the Pre-game builder's test pages.
+
+The last two are not recorded here.
+
+## 16 November 2026: the Hacker keeps Scan after a wrong final Code
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.** This is a rule answer. Integration records rules in the rule overlays, and Backend implements them. It is recorded here because it was given to Designer, with the screen it changes.
+
+**What was asked.** On 16 November, with the Hacker's screens (#301, sheet 42), the Lead asked the owner:
+
+> One rule question for you: **after a wrong final Code, can the Hacker still use Scan?** The design's prototype said "Scan stays available", but the rules record lists this as undecided.
+
+The rules record is CODE-OPEN-02 in `rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json`: "Define Scan/button behavior after the one final Code submission fails. The failed submission cannot be retried and never unlocks Hack Spaceship; continued Scan availability was not decided."
+
+The owner answered, with the questions above:
+
+> All as your recommendation
+
+The Lead had not yet given a recommendation on this question. It gave one in its reply to that message: keep Scan.
+
+**What it covers:**
+- After a wrong final Code, the Hacker keeps Scan, under its usual cooldown and limits.
+- Unchanged: the wrong Code can't be retried, and it never unlocks Hack Spaceship.
+- No new exception, limit or reset.
+- On the phone, the Hacker's CODE WRONG card (#301) again says "Scan stays available", as the pack's prototype draws it. The Scan button's state still comes only from the projection's offers.
+
+**Why the Lead recommended it:**
+- No confirmed rule takes Scan away. The overlay closes only the Code and Hack Spaceship, so keeping Scan adds nothing, and taking it away would be a new restriction.
+- The match has no round limit. Without Scan, a Hacker whose Code failed would have nothing of their own to do for the rest of it.
+- It is what the approved pack's prototype draws.
+
+**What it leaves open:**
+- Integration's record of it in the rule overlay, and Backend's implementation and tests.
+- Game Design and Balance (#5) may weigh its effect on what the Hacker can learn, and propose otherwise to the owner.
+
 ## 16 November 2026: Designer builds every part without waiting for Frontend
 
 **Recorded by the Lead Designer from the owner's message in the Lead's session.**
