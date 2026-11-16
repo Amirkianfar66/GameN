@@ -81,7 +81,7 @@ Frontend's model already has the steps (`PlanetActionModel.step` in `packages/pr
 | No position anywhere (Q3) | no bar: `moveBar()` returns `null`. The Move tile is `unavailable`, with the server's reason or "Not available now" | none | the tile | |
 | A position picked (Q1, Q4) | `target: null` (the bar gives way); `sheet: checkSheet({ type: 'MOVE' })`: Cancel and "Register move" | the picked position marked, filled: `targets: { slots: [slot], picked: slot, icon: 'move' }` (in this room) | `mountActionCheck()` with `type: 'MOVE'`, `position: { slot, room }` and Frontend's facts | `confirm` |
 | Registering | `checkSheet({ type: 'MOVE', phase: 'sending' })` | unchanged | the check | `sending` |
-| The server accepted (Q2) | `sheet: null`; `toast: movedToast({ slot, id })`: "Moved to A3". No After Register: the move happens at once | `targets: null`; the person at their new position (the public `MOVEMENT_COMPLETED`) | | done |
+| The server accepted (Q2) | `sheet: null`; `toast: movedToast({ slot, id })`: "Moved to A3". No After Register: the move happens at once | `targets: null`; the person at their new position, from the board: the MOVE takes effect at once and emits no event (`MOVEMENT_COMPLETED` is the ship's move) | | done |
 | Not accepted | the check stays, Register again while offered | unchanged | the check's `error` | `rejected` |
 | No answer came | `sheet: unknownSheet({ type: 'MOVE' })` | unchanged | `mountOutcomeUnknown()` with the `position`: "Move to A3 was sent, but no answer came back." | `unknown` |
 
