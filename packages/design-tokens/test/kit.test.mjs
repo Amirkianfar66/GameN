@@ -45,7 +45,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.2.0', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.4.0', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {

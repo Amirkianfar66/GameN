@@ -58,6 +58,8 @@
   --ms-ps-bottom: calc(var(--ms-ps-safe-b) + var(--ms-ps-tab-h));
   --ms-ps-stage-bottom: var(--ms-ps-bottom);
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+  /* Behind the bars and wherever nothing is drawn: the room view's space by default (the pack's .scene), or the
+     phone's canvas for a screen with no room (backdrop: 'canvas', the pack's .ph). */
   background: #07090F; color: var(--ms-ps-text);
   font: 400 1rem/1.4 var(--ms-ps-font);
   -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%;
@@ -89,6 +91,7 @@
 /* Edge to edge (edge: true, a full-screen film or poster): the stage and its cover fill the whole shell, under the
    safe areas and any bar or tabs, whose glass lies over them, as the pack draws its films and posters (inset 0). */
 .ms-phone-shell[data-edge] :is(.ms-ps-stage, .ms-ps-cover) { top: 0; bottom: 0; }
+.ms-phone-shell[data-backdrop="canvas"] { background: var(--ms-ps-canvas); }
 /* The safe areas' guide, which layout() measures: empty, unseen and untouchable. */
 .ms-phone-shell .ms-ps-guide { position: absolute; left: 0; top: var(--ms-ps-safe-t); bottom: var(--ms-ps-safe-b); width: 0; visibility: hidden; pointer-events: none; }
 
