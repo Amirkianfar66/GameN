@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.7.1",
-  "sourceCommit": "92a67b7af6d67119589fdc83b02c5f166412774f",
+  "version": "component-kit-0.7.2",
+  "sourceCommit": "d486603dee382118377b8ae874845c318ec72986",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -262,9 +262,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -283,9 +283,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -304,9 +304,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -325,9 +325,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BKI3WgbR.js",
+          "source": "assets/page-DRB4eJgl.js",
           "line": 1,
-          "column": 3873,
+          "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
