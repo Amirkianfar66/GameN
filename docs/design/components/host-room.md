@@ -12,7 +12,7 @@
 | Lobby | "Leave" back and "Lobby"; the room code card: "Room code", the code, **Copy**, "5 of 9 seats" with its bar; the seats, one row each (the host's "Host", a bot's "Bot" with the bot tile); Bots with − and + ("Up to 4"); **Start character selection** at the foot, with "4 more seats to fill" under it while it is unavailable |
 | Lobby · requests | The same, with "Asking to join · 2" above the seats: a row each, the phone or display tile, the name, "Player phone" or "Shared display", and **Admit** |
 | Copied | Copy turns to "✓ Copied", and the "✓ Copied" toast shows 10 px under the nav bar |
-| Full | Every seat filled (people and bots), Start available; + refused at the most bots |
+| Full | Every seat filled (people and bots), Start available; + refused at the most bots, keeping its look as the sheet draws it (decision 5) |
 | Around the sheet | Setup with 7; Opening…; a failed opening (decision 2); the lobby offline (decision 4); setup and the lobby with the Largest text |
 
 **What changes from today:**
@@ -95,7 +95,7 @@ Nothing here is private to a seat: both screens are on the host's own phone, bef
 | `seats` | `{ filled, total }`: "5 of 9 seats" and its bar |
 | `members` | `[{ seat, name, kind: 'host' \| 'person' \| 'bot' }]`, in seat order: one row each |
 | `requests` | `[{ id, name, device: 'phone' \| 'display', admit: { enabled, busy, reason } }]`: "Asking to join · n", shown only when there are some |
-| `bots` | `{ count, max, enabled, busy, reason }`: the stepper, "Up to {max}" |
+| `bots` | `{ count, max, enabled, busy, reason }`: the stepper, "Up to {max}". `reason` describes whichever side is refused: both, when Frontend refuses the bots; −, at none; +, at the most. Without one, a side refused at its bound has no description |
 | `start` | `{ enabled, busy, reason }`: Start character selection. When it is unavailable, the reason is the line under it ("4 more seats to fill", Frontend's) |
 | `notice` | `null`, or `'offline'`: the note under the code card, and only that (decision 4) |
 
@@ -129,7 +129,7 @@ Each reports a tap, and only that.
 | Code card | "Room code", the code in the mono face, Copy (small, tinted, the copy icon; "✓ Copied" after), "n of N seats" and the amber bar |
 | Requests | "Asking to join · n": each row the phone tile (paper) or display tile (slate), the name, the device, and Admit (small primary) |
 | Seats | "Seats": each row the seat number, the name, "Host" or "Bot" under it, and a bot's steel bot tile at the right |
-| Bots | "Bots": the steel bot tile, "Bots", "Up to n", and the stepper; − refused at 0, + at Frontend's most (dimmed, as the kit's stepper is; see the difference below) |
+| Bots | "Bots": the steel bot tile, "Bots", "Up to n", and the stepper; − refused at 0 and dimmed, as the pack's; + refused at Frontend's most and keeping its look, as sheet 11 draws Full (decision 5); both dimmed when Frontend refuses them |
 | Start | Block primary with the Pass icon; unavailable, dimmed with the reason centred under it |
 | Toast | The pack's `.toast`: paper and ink, the icon and the words, 10 px under the nav bar (decision 3), over the code card |
 | Offline | The kit's inline error under the code card, with the offline icon: "No connection. Admit, Bots and Start return when you are back online." |
@@ -151,14 +151,15 @@ Each reports a tap, and only that.
 2. **A failed opening** is the kit's inline error over the foot, with Frontend's words.
 3. **The toast** sits 10 px under the nav bar. A refused clipboard leaves the code selectable, and the toast shows Frontend's words, "Select the room code to copy.".
 4. **Offline:** `notice: 'offline'` only draws the note under the code card. Frontend refuses the controls; the component never infers a refusal from the notice, as in the menu. Leave and Copy have no availability input, so they stay usable.
+5. **The bots' + at the most, as sheet 11 draws Full** (agreed by the Lead, 16 November, as the menu's decision 4): + keeps its look and is still refused through the kit's policy. It goes through the policy's `accepts` path, which refuses without dimming: `aria-disabled`, with Frontend's reason as its description, so a tap does nothing and a screen reader hears why. − at none is dimmed, as the pack draws it.
 
-**Changed in the build, from the interface:** a `toast` input (`{ id, text, icon }`) carries the toast, so it shows once per id and can carry the refused clipboard's words; `copied` now only turns Copy to "✓ Copied". The interface's "with Reduce motion, the toast appears and leaves at once" is now the shell's: a plain fade, without the travel (decision 1).
+**Changed in the build, from the interface (both accepted by the Lead, 16 November):** a `toast` input (`{ id, text, icon }`) carries the toast, so it shows once per id and can carry the refused clipboard's words; `copied` now only turns Copy to "✓ Copied". With Reduce motion the toast follows the shell: a plain 80 ms fade, without the travel (decision 1). The interface had said it would appear and leave at once.
 
 ## The difference from the pack
 
-At the most bots, + is refused (`aria-disabled`, and dimmed as the kit's stepper is). Sheet 11's Full state leaves it as it is. The approved interface refuses it, as − is refused at 0 in both. The agreement records it in the Full case and compares everything else.
+At the most bots, + is refused (`aria-disabled`), which the pack's Full state does not mark; it keeps the sheet's look (decision 5). The agreement records the refusal in the Full case and compares everything else, + included.
 
-## With the larger text: Copy stays in the card (for the Lead's review)
+## With the larger text: Copy stays in the card (a larger-text fix, accepted by the Lead)
 
 The pack's code row keeps the code and Copy side by side at any text size. The code is 2.5 rem of a mono face, so with the larger text it pushes Copy past the card, and off the screen:
 
@@ -169,7 +170,7 @@ The pack's code row keeps the code and Copy side by side at any text size. The c
 
 In the entry parts' code card, the row wraps, so Copy goes under the code, and the code is never wider than about 91 % of the row (`min(2.5rem, 21cqi)`: six characters at 0.72 em). At the Standard text both rules give the pack's boxes, which the agreement's Standard cases confirm against the pack as it is. The join screen's lobby (sheet 13) shares the card, so it gets the same.
 
-It is a change from what the pack draws at the larger text, not from a sheet (the sheets are at the Standard text). I made it because a control off the screen fails the approved "rows and controls grow with the text". It is in its own commit, for the Lead's agreement; if the owner's approval is needed as for a sheet, it waits for that.
+It is a larger-text fix, not a sheet change: the sheets are at the Standard text, and a control running off the screen is a defect. It is the same rule as the pack's own large-text work in #228 for the `.code-card`: the row wraps, and the code is at most about `min(2.5rem, 22cqi)`. The Lead accepted it on 16 November.
 
 ## Checks
 
@@ -183,14 +184,14 @@ It is a change from what the pack draws at the larger text, not from a sheet (th
 
 ### Checks run on this version
 
-On `5b360c34`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`). 21 of the 22 captures are byte-identical to those on `90e82d4d`; the other, 430 × 932 Opening…, differs only by the busy spinner's frame (63 pixels on Open room's icon):
+On `56519d09`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; decision 5; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`). Against `5b360c34`'s record, 19 of the 22 captures are byte-identical. The two Full captures change because + now keeps its look, and 390 × 844 Opening… changes by the busy spinner's frame:
 - **Captures:** **22 of 22 pass.** Each asserts:
   - the pack's words, the chosen count and its mix, and the canvas;
   - its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits);
   - in every lobby, Copy inside the code card: beside the code at the Standard text, under it at the Largest.
 - **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion). The text check measures the code and Copy inside the card at 100, 150 and 200 % at both sizes. It fails on the pack's rules.
 - **The agreement with the frozen pack:** **11 of 11 cases** agree to within half a pixel in every part compared, in their look and their states, the toast's included.
-  - The one difference, + refused at the most bots, is recorded in the Full case only.
+  - The one difference, + refused at the most bots (keeping its look), is recorded in the Full case only, as the refusal alone.
   - The one improvement is recorded in the three lobby cases with the larger text only. In the pack, Copy ends at 411 px (Large, 390 × 844) and at 517 px (Largest, both sizes), past the card's content at 358 and 398 px. In the screens it ends at 142 and 161 px, under the code.
 - **The main menu**, whose entry parts these share, passes again on the same commit with its brand-words fix (#278), its captures byte-identical to #278's own record on `a1131c94` ([main-menu.md](main-menu.md)).
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.

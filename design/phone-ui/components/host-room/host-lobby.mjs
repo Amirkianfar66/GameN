@@ -115,7 +115,9 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
   host.append(root);
   const toast = parts.createToast(root);
 
-  const accepts = () => !disposed && state.interactive;
+  // + at Frontend's most keeps its look, as sheet 11 draws Full (decision 5): it is refused through the policy's
+  // accepts path, which refuses without dimming, under its own intent key. − at none is dimmed, as the pack's.
+  const accepts = intent => !disposed && state.interactive && !(intent === 'bots-more' && state.bots.count >= state.bots.max);
   const policy = createControlPolicy({ root, accepts, onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); } });
 
   // ── Taps: one delegated listener; each reports a tap, and only that ──
@@ -180,12 +182,13 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
     keyed(askList, state.requests, r => r.id, requestRow, paintRequest);
     keyed(seatList, state.members, m => m.seat, seatRow, paintSeat);
     seatsLabel.hidden = seatList.hidden = state.members.length === 0;
-    // Bots: − refused at none, + at Frontend's most; both with Frontend's availability and reason.
+    // Bots: − refused at none (dimmed, as the pack's), + at Frontend's most (keeping its look, as sheet 11 draws
+    // Full); both refused, dimmed, when Frontend refuses them. A refused side has Frontend's reason (bots.reason).
     const b = state.bots;
     kit.setStepper(stepper, { value: b.count, label: LOBBY_WORDS.bots, intent: 'bots' });
     kit.setRow(botsRow, { tag: 'div', icon: 'bot', tint: 'steel', title: LOBBY_WORDS.bots, sub: LOBBY_WORDS.upTo(b.max), trail: stepper });
-    policy.control(fewer, { off: !b.enabled || b.count <= 0, busy: b.busy, reason: b.enabled ? null : b.reason });
-    policy.control(more, { off: !b.enabled || b.count >= b.max, busy: b.busy, reason: b.enabled ? null : b.reason });
+    policy.control(fewer, { off: !b.enabled || b.count <= 0, busy: b.busy, reason: b.enabled && b.count > 0 ? null : b.reason });
+    policy.control(more, { intent: 'bots-more', off: !b.enabled, busy: b.busy, reason: b.enabled && b.count < b.max ? null : b.reason });
     // Start: unavailable, its reason is the line under it.
     policy.control(start, { off: !state.start.enabled, busy: state.start.busy, reason: state.start.reason });
     const why = !state.start.enabled && state.start.reason ? state.start.reason : '';

@@ -60,7 +60,8 @@ const EXPECT = {
   lobby: s => lobbyDrawn(s) && s.seats === '5 of 9 seats' && s.members === 5 && s.requests === 0 && s.startRefused && s.startNote === '4 more seats to fill' && s.toast === null && s.copy === 'Copy',
   requests: s => lobbyDrawn(s) && s.requests === 2 && s.admits === 2 && s.asking === 'Asking to join · 2',
   copied: s => lobbyDrawn(s) && s.copy === 'Copied' && s.toast === 'Copied' && s.toastTop === 109,
-  full: s => lobbyDrawn(s) && s.seats === '9 of 9 seats' && s.members === 9 && !s.startRefused && s.startNote === null && s.moreRefused,
+  // At the most bots, + is refused and keeps its look, as sheet 11 draws Full (decision 5).
+  full: s => lobbyDrawn(s) && s.seats === '9 of 9 seats' && s.members === 9 && !s.startRefused && s.startNote === null && s.moreRefused && s.moreLook === '1',
   offline: s => lobbyDrawn(s) && s.note === OFFLINE && s.startRefused && s.admitsRefused === 2,
   'setup-large': s => setupDrawn(s, 9, '5 Blue · 3 Red · 1 Alien') && s.root === 32,
   'lobby-large': s => lobbyDrawn(s) && s.root === 32 && s.scrolls && s.copyUnder,
@@ -91,7 +92,7 @@ try {
           seats: q('.ms-ep-code-seats')?.textContent ?? null, asking: lists.length === 3 && !lists[0].hidden ? q('.ms-k-group-label')?.textContent : null,
           requests: lobby ? lists[0].children.length : 0, admits: qa('[data-intent="admit"]').length, admitsRefused: qa('[data-intent="admit"][aria-disabled="true"]').length,
           members: lobby ? lists[1].children.length : 0, startRefused: q('.ms-hl-start')?.getAttribute('aria-disabled') === 'true', startNote: words(q('.ms-ep-foot .ms-k-group-note')),
-          moreRefused: q('.ms-k-stepper-btn:last-of-type')?.getAttribute('aria-disabled') === 'true', note: q('.ms-hl-note .ms-k-error-text')?.textContent ?? null,
+          moreRefused: q('.ms-k-stepper-btn:last-of-type')?.getAttribute('aria-disabled') === 'true', moreLook: q('.ms-k-stepper-btn:last-of-type') ? getComputedStyle(q('.ms-k-stepper-btn:last-of-type')).opacity : null, note: q('.ms-hl-note .ms-k-error-text')?.textContent ?? null,
           toast: toast?.textContent ?? null, toastTop: toast ? toast.getBoundingClientRect().top - root.getBoundingClientRect().top : null,
           scrolls: screen.scrollHeight > screen.clientHeight, copyInside: (() => { const card = q('.ms-ep-code-card'), copy = q('.ms-ep-copy'); if (!card) return null;
             const c = card.getBoundingClientRect(), b = copy.getBoundingClientRect(), pad = parseFloat(getComputedStyle(card).paddingRight); return b.left >= c.left && b.right <= c.right - pad + 0.05; })(),
