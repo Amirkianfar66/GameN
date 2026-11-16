@@ -130,11 +130,11 @@ test('every copy is its pinned source in the frozen port, with only the recorded
     assert.equal(copy.length, entry.bytes);
   }
   const changed = record.files.filter(f => f.differences.length).map(f => [f.file, f.differences.length]);
-  assert.deepEqual(changed, [['food.css', 1], ['food-ink.mjs', 2], ['food-render.mjs', 19], ['food-notice.mjs', 5], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
-  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, 'component-mark': 2, correction: 10 });
+  assert.deepEqual(changed, [['food.css', 2], ['food-ink.mjs', 2], ['food-render.mjs', 19], ['food-notice.mjs', 5], ['food-surface.css', 2]], 'five files differ from their source; ten are byte for byte');
+  assert.deepEqual(kinds, { 'import-path': 4, 'connector-seam': 11, 'host-rule': 2, 'component-mark': 2, correction: 11 });
   // The corrections are the only differences that change what is drawn or done: six, each by its number. They are
   // in the renderer and its styles, and the check's record holds what each one shows.
-  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 3, 5: 1, 6: 3 }, 'the portraits, the dock, the role row, the outcome card (its limit, its words\' scroller, and the words\' place in the Tab order), the request card, and the focus (the top bar, and a sheet or card: remembered, then given back)');
+  assert.deepEqual(fixes, { 1: 1, 2: 1, 3: 1, 4: 4, 5: 1, 6: 3 }, 'the portraits, the dock, the role row, the outcome card (its limit, its words\' scroller, the words\' place in the Tab order, and no card faded as a whole), the request card, and the focus (the top bar, and a sheet or card: remembered, then given back)');
   assert.deepEqual(record.files.filter(f => f.differences.some(d => d.kind === 'correction')).map(f => f.file), ['food.css', 'food-render.mjs']);
   // The component's mark: each of the two roots the component draws says it is the component's, and nothing else does.
   const marks = record.files.flatMap(f => f.differences.filter(d => d.kind === 'component-mark').map(d => [f.file, d.was, d.now]));
@@ -159,18 +159,21 @@ test('every corrected style rule is under the component\'s mark: the frozen port
   const pairs = [['food-kit.css', 'food-kit.css'], ['food.css', 'food.css'], ['food-surface.css', 'food-host.css']];
   const theirs = new Set(pairs.flatMap(([, source]) => rules(read(`${PORT}/${source}`))));
   const added = pairs.flatMap(([file]) => rules(read(`${COMPONENT}/${file}`))).filter(rule => !theirs.has(rule));
-  assert.deepEqual(added.map(rule => rule.slice(0, rule.indexOf(' {'))), ['.planet-food[data-food-component] :is(.fs-role)', '.planet-food[data-food-component] :is(.fs-who)'], 'the role row\'s two rules, and no other');
-  for (const rule of added) assert.match(rule, /^\.planet-food\[data-food-component\] :is\(\.[\w-]+\) \{/, `${rule.slice(0, 60)}… is under the mark`);
-  // The port's own rules for the same two elements weigh less: (0,2,0) against the mark's (0,3,0).
+  assert.deepEqual(added.map(rule => rule.slice(0, rule.indexOf(' {'))), ['.planet-food[data-food-component] :is(.fs-card[data-scrolls])', '.planet-food[data-food-component] :is(.fs-role)', '.planet-food[data-food-component] :is(.fs-who)'],
+    'no card faded as a whole, and the role row\'s two rules: no other');
+  for (const rule of added) assert.match(rule, /^\.planet-food\[data-food-component\] :is\(\.[\w-]+(?:\[data-scrolls\])?\) \{/, `${rule.slice(0, 60)}… is under the mark`);
+  // The port's own rules for the same elements weigh less by the mark: (0,2,0) against (0,3,0) for the row, (0,3,0) against (0,4,0) for a card that scrolls.
   const port = read(`${PORT}/food.css`);
   assert.match(port, /\.planet-food:is\(\.fs-role\), \.planet-food :is\(\.fs-role\) \{/);
   assert.match(port, /\.planet-food :is\(\.fs-who\)/);
+  assert.match(port, /\.planet-food:is\(\.fs-card\[data-scrolls\]\), \.planet-food :is\(\.fs-card\[data-scrolls\]\) \{ -webkit-mask-image: linear-gradient/);
+  assert.match(added[0], /\{ -webkit-mask-image: none; mask-image: none; \}$/, 'the component takes the port\'s whole-card fade away, and adds none of its own');
   // The mark is on the two roots the component draws, and nowhere in the frozen port.
   for (const file of ['food-render.mjs', 'food-notice.mjs']) assert.equal(read(`${COMPONENT}/${file}`).split("'data-food-component':''").length, 2, `${file}: the root it draws carries the mark`);
   for (const file of readdirSync(join(REPO, PORT))) assert.ok(!read(`${PORT}/${file}`).includes('data-food-component'), `${PORT}/${file}: the frozen port knows nothing of the mark`);
   // Every other correction is in the renderer or set on the element itself, and cannot reach another surface either way.
   const sources = JSON.parse(read(`${COMPONENT}/sources.json`));
-  assert.deepEqual(sources.files.filter(f => f.file.endsWith('.css')).flatMap(f => f.differences.filter(d => d.kind === 'correction').map(d => [f.file, d.fix])), [['food.css', 3]], 'of the corrections only the role row\'s is a style rule');
+  assert.deepEqual(sources.files.filter(f => f.file.endsWith('.css')).flatMap(f => f.differences.filter(d => d.kind === 'correction').map(d => [f.file, d.fix])), [['food.css', 4], ['food.css', 3]], 'of the corrections two are style rules: no card faded as a whole, and the role row');
 });
 
 test('its styles reach nothing outside the surface: the port\'s scoped sheets, and none of the ordinary app\'s rules', () => {

@@ -839,6 +839,19 @@ export async function runProbe(document) {
       }
       check('corrections: no card is faded as a whole, at any text size on either phone: an outcome card, a request card and the briefing are each drawn on one opaque colour, and each is the topmost thing just inside its own lower edge; only words that scroll fade, inside their card',
         stood.length === 42 && stood.every(c => c.whole && c.opaque && c.atFoot && c.fades === (c.wordsScroll ? 'words' : null)) && new Set(stood.map(c => c.colour)).size === 1, { stood });
+      // The one card that can still scroll as a whole: the briefing at the Largest text in a phone 320 px by 568 px, by
+      // 4 px of its own padding. The preview's phones are the two development sizes, so this one is set by hand. The
+      // port fades such a card as a whole; here it stays opaque.
+      {
+        const m = await at('case-food-winch-01', 2), card = () => m.find('.fs-card');
+        Object.assign(m.device.el.style, { width: '320px', height: '568px' });
+        m.food.relayout();
+        await frames.frames(8);
+        const small = { scrollsWhole: card().scrollHeight > card().clientHeight + 1, marked: card().hasAttribute('data-scrolls'), ...standing(m, card()) };
+        check('corrections: where a card does scroll as a whole (the briefing at the Largest text, in a phone 320 px by 568 px) it is still not faded: its background stays to its edge',
+          small.scrollsWhole && small.marked && small.whole && small.opaque && small.atFoot && small.fades === null, { small });
+        m.close();
+      }
       check('corrections: a card\'s words that scroll take a place in the Tab order, so that the keys can scroll them, and words that fit take none',
         stood.filter(c => c.kind !== 'briefing').every(c => c.tab === (c.wordsScroll ? '0' : null)) && stood.filter(c => c.kind === 'briefing').every(c => c.tab === null && !c.wordsScroll) && stood.filter(c => c.wordsScroll).length >= 12, { tabs: stood.map(c => ({ sizeKey: c.sizeKey, text: c.text, stateId: c.stateId, wordsScroll: c.wordsScroll, tab: c.tab })) });
     }

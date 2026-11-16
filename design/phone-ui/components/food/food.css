@@ -111,6 +111,11 @@
 .planet-food:is(.fs-art .tag[data-anchor="end"]), .planet-food :is(.fs-art .tag[data-anchor="end"]) { transform: translate(-100%, 0); }
 /* A card longer than the screen scrolls; its last lines fade to say there is more. */
 .planet-food:is(.fs-card[data-scrolls]), .planet-food :is(.fs-card[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 36px), transparent); mask-image: linear-gradient(#000 calc(100% - 36px), transparent); }
+/* No card is faded as a whole, corrected (sources.json, fix 4): the fade above fades a card's background and its edge
+   with its words, so that what lies behind the card shows through its foot. In the component only a card's words
+   fade, in their scroller (.fs-card-body[data-scrolls], below). Written under the component's own mark, as the role
+   row's rules are: the frozen port's surface cannot take it, and it outweighs the rule above whichever sheet comes last. */
+.planet-food[data-food-component] :is(.fs-card[data-scrolls]) { -webkit-mask-image: none; mask-image: none; }
 
 /* The strip: while the panel runs, the stop a LOCK would take now is outlined. */
 .planet-food:is(.fs-strip:not([data-locked]) span[data-now]), .planet-food :is(.fs-strip:not([data-locked]) span[data-now]) { box-shadow: inset 0 0 0 3px #F4EBDD; }

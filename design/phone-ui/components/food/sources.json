@@ -102,9 +102,16 @@
       "source": "apps/game/hosted/planet/food.css",
       "sourceSha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
       "sourceBytes": 30798,
-      "sha256": "74053c03e247fad5d39374001961dd05565f007c037cf1632b2efbee34545ed5",
-      "bytes": 31732,
+      "sha256": "09cc06b932da17c7b23f4a20b4863aed1ab35d313351dd4b851a68bebddb4710",
+      "bytes": 32317,
       "differences": [
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": ".planet-food:is(.fs-card[data-scrolls]), .planet-food :is(.fs-card[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 36px), transparent); mask-image: linear-gradient(#000 calc(100% - 36px), transparent); }\n",
+          "now": ".planet-food:is(.fs-card[data-scrolls]), .planet-food :is(.fs-card[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 36px), transparent); mask-image: linear-gradient(#000 calc(100% - 36px), transparent); }\n/* No card is faded as a whole, corrected (sources.json, fix 4): the fade above fades a card's background and its edge\n   with its words, so that what lies behind the card shows through its foot. In the component only a card's words\n   fade, in their scroller (.fs-card-body[data-scrolls], below). Written under the component's own mark, as the role\n   row's rules are: the frozen port's surface cannot take it, and it outweighs the rule above whichever sheet comes last. */\n.planet-food[data-food-component] :is(.fs-card[data-scrolls]) { -webkit-mask-image: none; mask-image: none; }\n",
+          "why": "The port fades a card that scrolls as a whole, its background and its edge with its words: what lies behind the card shows through its foot. No card of the component is faded so. An outcome card and a request card scroll their words inside them, and only those fade. The one card that can still scroll as a whole is the briefing, at the largest text in a phone 320 px wide and 568 px tall, by 4 px of its own padding: it stays opaque there too. The rule is under the component's mark, so it reaches no other surface."
+        },
         {
           "kind": "correction",
           "fix": 3,
