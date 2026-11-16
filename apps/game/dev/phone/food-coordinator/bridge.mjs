@@ -93,7 +93,7 @@ export async function startFoodTrialBridge({
   shapeNetwork = false,
 }) {
   const art = await approvedArt(artwork);
-  const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set(), streams = new Set();
+  const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set(), streams = new Set(), requests = new Set();
   let launch = null, started = !startTrial, release;
   const startGate = new Promise(resolve => { release = resolve; });
   for (const actor of actors) {
@@ -118,14 +118,15 @@ export async function startFoodTrialBridge({
   if (!tickets.size) throw Error('Explicit synthetic seat bindings are required');
 
   const server = createServer({requestTimeout: 12_000, headersTimeout: 5_000}, (req, res) => {
-    void handle(req, res).catch(error => {
+    const active = handle(req, res).catch(error => {
       if (res.destroyed) return;
       if (res.headersSent) { res.end(); return; }
       const code = error?.code;
       if (code === 'FORBIDDEN' || code === 'UNAUTHENTICATED') json(res, 403, {error: 'authorization'});
       else if (code === 'BAD_TRIAL_REQUEST') json(res, 400, {error: 'bad-request'});
       else json(res, 503, {error: 'unavailable'});
-    });
+    }).finally(() => requests.delete(active));
+    requests.add(active);
   });
   server.on('connection', socket => {
     sockets.add(socket);
@@ -173,6 +174,7 @@ export async function startFoodTrialBridge({
       server.close();
       for (const socket of sockets) socket.destroy();
       await closed;
+      await Promise.allSettled([...requests]);
     },
   };
 

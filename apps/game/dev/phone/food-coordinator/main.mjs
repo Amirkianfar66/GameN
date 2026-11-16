@@ -142,9 +142,12 @@ async function startBaseline(binding, ports, storage, ticket, visible, observati
     mode: 'authenticated', currentUid: () => binding.uid, signIn: async () => binding.uid,
     request: (value, signal) => postHostedPlanetRequest(config, proof, value, ports, signal),
     ...(production ? {foodDelivery: {
-      watch: (value, signal, receive) => postHostedPlanetFoodDelivery(config, proof, value, signal, frame => {
+      watch: (value, signal, receive, keepalive) => postHostedPlanetFoodDelivery(config, proof, value, signal, frame => {
         observation.deliveryFrame(frame);
         receive(frame);
+      }, () => {
+        observation.deliveryPulse();
+        keepalive();
       }),
       clock: (value, signal) => postHostedPlanetFoodDelivery(config, proof, value, signal),
     }} : {}),

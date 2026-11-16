@@ -19,9 +19,9 @@ export function createFoodTrialTrace({now, timeOriginMs, seatId}) {
   const offset = (from, to) => from !== null && to !== null ? to - from : null;
   const rowsAt = ids => ids.flatMap(id => rows.has(id) ? [rows.get(id)] : []);
   return {
-    input({kind, eventType, trusted, disabled, next = null, hazard = null}) {
+    input({kind, eventType, trusted, disabled, next = null, hazard = null, stop = null}) {
       if (inputs.length === limit) { dropped.inputs++; return null; }
-      const entry = {number: inputs.length + 1, kind, eventType, trusted, disabled, next, hazard, atMs: now(), submitted: false};
+      const entry = {number: inputs.length + 1, kind, eventType, trusted, disabled, next, hazard, stop, atMs: now(), submitted: false};
       inputs.push(entry);
       return entry.number;
     },

@@ -40,7 +40,7 @@ export function observeFoodTrial(root, {seatId, arm: trialArm}) {
   const trace = createFoodTrialTrace({now: () => win.performance.now(), timeOriginMs: win.performance.timeOrigin, seatId});
   const heldPointers = new Set(), heldKeys = new Set(), scheduled = new Set();
   const frames = [], lifecycle = [];
-  const wireFrames = [], wireRequests = [], availability = [], metadata = new Map();
+  const wireFrames = [], wireRequests = [], wirePulses = [], availability = [], metadata = new Map();
   let droppedFrames = 0;
   let activeEvent = null, controller = null, stop = null, generation = 0;
   let lastAvailability = null;
@@ -68,9 +68,11 @@ export function observeFoodTrial(root, {seatId, arm: trialArm}) {
     attributeFilter: ['data-screen', 'aria-disabled', 'disabled', 'hidden', 'inert', 'data-holding']});
 
   function arm(event, kind, node) {
+    const stop = kind === 'PANEL_LOCK' ? Number(/(?:locked at|now at) stop ([1-7])\./.exec(surface()?.querySelector('.fs-view')?.getAttribute('aria-label') ?? '')?.[1]) : null;
     activeEvent = {event, kind, number: trace.input({
       kind, eventType: event.type, trusted: event.isTrusted, disabled: node ? disabled(node) : null,
       next: node?.hasAttribute('data-next') ?? null, hazard: node?.hasAttribute('data-hazard') ?? null,
+      stop: Number.isSafeInteger(stop) ? stop : null,
     })};
   }
 
@@ -195,6 +197,9 @@ export function observeFoodTrial(root, {seatId, arm: trialArm}) {
     deliveryRequest(operation) {
       if (wireRequests.length < 512) wireRequests.push({operation, atMs: win.performance.now()});
     },
+    deliveryPulse() {
+      if (wirePulses.length < 512) wirePulses.push(win.performance.now());
+    },
     deliveryMetadata(packet) {
       return metadata.get(deliveryKey(packet.food?.playerView, packet.food?.serverTimeMs));
     },
@@ -230,8 +235,11 @@ export function observeFoodTrial(root, {seatId, arm: trialArm}) {
       };
       if (!displayed || displayed.serverNowMs !== view.serverNowMs || !accepted()) return;
       if (frames.length < 512) {
+        const task = view.participantTask;
         frames.push({receivedAtMs, domObservedAtMs: win.performance.now(), epoch: marker?.epoch ?? null, sequence: marker?.sequence ?? null,
-          stage: view.participantTask?.stage ?? null, surfaceVisible: !!surface()});
+          stage: task?.stage ?? null, surfaceVisible: !!surface(),
+          ...(trialArm === 'production' ? {lockedStop: task?.panel.locked ? task.panel.stop + 1 : null,
+            outcome: task?.outcome?.kind ?? null, ownOut: !!task?.people.find(person => person.seatId === seatId)?.death} : {})});
       } else droppedFrames++;
       if (!before) return;
       for (const confirm of trace.projected(marker, request => accepted() && foodRenderEffect(request, before, taskRender()))) {
@@ -243,7 +251,8 @@ export function observeFoodTrial(root, {seatId, arm: trialArm}) {
       return {...trace.report(), viewport: {width: win.innerWidth, height: win.innerHeight},
         motion: surface()?.dataset.motion ?? null, visible: visible(), focused: document.hasFocus(),
         frames: structuredClone(frames), droppedFrames, lifecycle: structuredClone(lifecycle),
-        ...(mutations ? {wireFrames: structuredClone(wireFrames), wireRequests: structuredClone(wireRequests), availability: structuredClone(availability)} : {}),
+        ...(mutations ? {wireFrames: structuredClone(wireFrames), wireRequests: structuredClone(wireRequests),
+          wirePulses: structuredClone(wirePulses), availability: structuredClone(availability)} : {}),
         paintBoundary: 'Observed DOM state and a subsequent visible rendering opportunity'};
     },
     dispose() {

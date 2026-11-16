@@ -17,8 +17,10 @@ const paths = new Map();
 const tests = [];
 let productionRef = null;
 let shapeNetwork = false;
+let expectSilenceCutoff = false;
 for (const argument of process.argv.slice(2)) {
   if (argument === '--rtt100') { shapeNetwork = true; continue; }
+  if (argument === '--expect-silence-cutoff') { expectSilenceCutoff = true; continue; }
   if (argument.startsWith('--production=')) {
     assert.equal(productionRef, null, 'Pass a single production source pin');
     productionRef = argument.slice('--production='.length);
@@ -34,6 +36,7 @@ for (const argument of process.argv.slice(2)) {
 }
 assert.ok(paths.size === 6 && tests.length > 0 && new Set(tests).size === tests.length
   && (!shapeNetwork || productionRef)
+  && (!expectSilenceCutoff || productionRef && tests.includes('silence'))
   && tests.every(name => ['invitations', 'timed', 'lifecycle'].includes(name) || productionRef && name === 'silence'),
 'Pass --backend, --bundle, --artwork, --output, --java and --firestore-jar as =PATH options, followed by one or more case names');
 const root = fileURLToPath(new URL('../../../../../', import.meta.url));
@@ -127,7 +130,12 @@ async function point(page, selector, limit = 5500) {
       const n=document.querySelector(${query});
       if(n && !n.closest('[hidden], [inert], [aria-disabled="true"], :disabled')){
         const r=n.getBoundingClientRect(), x=Math.round(r.x+r.width/2), y=Math.round(r.y+r.height/2);
-        if(n.contains(document.elementFromPoint(x,y))) return resolve({x,y});
+        if(n.contains(document.elementFromPoint(x,y))){
+          const surface=n.closest('.planet-food'),label=surface?.querySelector('.fs-view')?.getAttribute('aria-label')??'';
+          const stop=Number(/(?:locked at|now at) stop ([1-7])\\./.exec(label)?.[1]);
+          return resolve({x,y,cueAtMs:performance.now(),cueStop:Number.isSafeInteger(stop)?stop:null,
+            next:n.hasAttribute('data-next'),hazard:n.hasAttribute('data-hazard')});
+        }
       }
       if(performance.now()>=end) return resolve(null);
       requestAnimationFrame(check);
@@ -139,11 +147,13 @@ async function point(page, selector, limit = 5500) {
 }
 
 async function touchDown(page, selector, limit) {
-  const hit = await point(page, selector, limit);
-  await page.send('Input.dispatchTouchEvent', {type: 'touchStart', touchPoints: [hit]});
+  const pointAt = await point(page, selector, limit);
+  const {x,y} = pointAt;
+  await page.send('Input.dispatchTouchEvent', {type: 'touchStart', touchPoints: [{x,y}]});
+  return pointAt;
 }
 const touchUp = page => page.send('Input.dispatchTouchEvent', {type: 'touchEnd', touchPoints: []});
-async function tap(page, selector, limit) { await touchDown(page, selector, limit); await touchUp(page); }
+async function tap(page, selector, limit) { const cue = await touchDown(page, selector, limit); await touchUp(page); return cue; }
 
 function verifyHeaders(page) {
   const received = browser.events.find(event => event.sessionId === page.sessionId && event.method === 'Network.responseReceived'
@@ -247,11 +257,22 @@ async function timed({pages}, trial) {
   await touchDown(winch, controls.hold, 10_000);
   await receipt(winch, 'HOLD_DOWN');
   await tap(panel, controls.release);
-  await receipt(panel, 'PANEL_RELEASE');
+  const release = await receipt(panel, 'PANEL_RELEASE');
   // Follow only the native rendered next-action cue. This does not read hidden
   // state, issue network commands, change a clock or enable a control.
-  await tap(panel, controls.lock, 8000);
-  await receipt(panel, 'PANEL_LOCK');
+  const cue = await tap(panel, controls.lock, 8000);
+  const lock = await receipt(panel, 'PANEL_LOCK');
+  if (productionRef) {
+    await wait(panel, `${reported}.frames.some(frame=>frame.lockedStop!==null && frame.receivedAtMs>=${lock.attempts[0].sentAtMs})`,
+      'applied native LOCK projection');
+    const panelReport = await panel.evaluate(reported);
+    const pointer = panelReport.inputs.find(input => input.number === lock.inputNumber);
+    const applied = panelReport.frames.find(frame => frame.lockedStop !== null && frame.receivedAtMs >= lock.attempts[0].sentAtMs);
+    trial.lock = {cueAtMs: cue.cueAtMs, cueStop: cue.cueStop, cueNext: cue.next, cueHazard: cue.hazard,
+      pointerAtMs: pointer?.atMs ?? null, pointerStop: pointer?.stop ?? null, pointerNext: pointer?.next ?? null,
+      admissionAfterReleaseMs: lock.receipt.authorityStampMs - release.receipt.authorityStampMs,
+      appliedStop: applied.lockedStop, appliedOutcome: applied.outcome};
+  }
   await wait(winch, enabled(controls.hold + '[data-next]'), 'native let-go cue', 8500);
   await touchUp(winch);
   await receipt(winch, 'HOLD_UP');
@@ -314,13 +335,22 @@ async function silence({pages, bridge}, trial) {
   await receipt(winch, 'HOLD_UP');
   await sleep(Math.max(0, 4500 - (performance.now() - started)));
   const after = await panel.evaluate(reported);
+  const lastDelivery = Math.max(after.wirePulses.at(-1) ?? 0, after.wireFrames.at(-1).receivedAtMs);
+  const disabledAt = after.availability.find(state => state.atMs >= lastDelivery && !state.fresh && !state.enabled.length)?.atMs;
   trial.silence = {durationMs: Math.round(performance.now() - started), withheldWrites: suspended.withheld(),
     panelHeartbeatAcks: (bridge.productionAcks.panel.foodHeartbeat ?? 0) - heartbeatAcks,
     remainedLive: after.connection === 'live', releaseStillEnabled: await panel.evaluate(enabled(controls.release)),
-    watchRequestsDuringSilence: after.wireRequests.filter(r=>r.operation==='foodWatch').length - before.wireRequests.filter(r=>r.operation==='foodWatch').length};
+    watchRequestsDuringSilence: after.wireRequests.filter(r=>r.operation==='foodWatch').length - before.wireRequests.filter(r=>r.operation==='foodWatch').length,
+    disabledAfterLastDeliveryMs: disabledAt === undefined ? null : Math.round(disabledAt - lastDelivery)};
   assert.ok(trial.silence.withheldWrites > 0, 'The open response withheld a real server update');
   assert.ok(trial.silence.panelHeartbeatAcks >= 2, 'Independent authenticated heartbeats completed during silence');
   assert.equal(after.wireFrames.length, before.wireFrames.length, 'The affected browser saw no watch traffic');
+  if (expectSilenceCutoff) {
+    assert.equal(trial.silence.remainedLive, false);
+    assert.equal(trial.silence.releaseStillEnabled, false);
+    assert.ok(trial.silence.watchRequestsDuringSilence >= 1, 'Reconnection started without socket close');
+    assert.ok(trial.silence.disabledAfterLastDeliveryMs !== null, 'The stale DOM transition was observed');
+  }
   suspended.release();
   await wait(panel, `${reported}.wireFrames.some(frame=>frame.kind==="snapshot"&&frame.fresh&&frame.epoch!==${JSON.stringify(beforeEpoch)}) && ${reported}.connection==="live"`,
     'same actor reconnects after silent watch is closed');
@@ -391,6 +421,7 @@ try {
         for (const [label, page] of Object.entries(rig.pages)) {
           trial.commands[label] = (await page.evaluate(reported).catch(() => null)) ?? null;
         }
+        await saveReport();
         await rig.close();
       }
       console.log(name + ': ' + trial.status + (trial.error ? ' (' + trial.error + ')' : ''));
@@ -411,5 +442,9 @@ try {
   }
   await writeFile(join(output, 'emulator.log'), emulatorLog, {mode: 0o600});
   report.sourceStillIsolated = backendGit('rev-parse', 'HEAD') === report.backend && backendGit('status', '--porcelain') === '';
-  await writeFile(join(output, 'report-' + tests.join('-') + '.json'), JSON.stringify(report, null, 2) + '\n', {mode: 0o600});
+  await saveReport();
+}
+
+function saveReport() {
+  return writeFile(join(output, 'report-' + tests.join('-') + '.json'), JSON.stringify(report, null, 2) + '\n', {mode: 0o600});
 }
