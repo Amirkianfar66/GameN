@@ -12,8 +12,9 @@ const git=(root,...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8
 function toolingPaths(root){
  const paths=new Set(),pending=[...ROOTS];
  while(pending.length){const path=pending.pop();if(paths.has(path))continue;paths.add(path);
+  if(path.endsWith('.json'))continue;
   const source=ts.createSourceFile(path,readFileSync(resolve(root,path),'utf8'),ts.ScriptTarget.Latest,true);
-  const add=value=>{if(!value.startsWith('.'))return;const target=relative(root,resolve(root,dirname(path),value));if(target.startsWith('../')||!/[.](?:mjs|js|cjs)$/.test(target))throw Error('Unsupported asset-tooling import: '+path+' → '+value);pending.push(target);};
+  const add=value=>{if(!value.startsWith('.'))return;const target=relative(root,resolve(root,dirname(path),value));if(target.startsWith('../')||!/[.](?:mjs|js|cjs|json)$/.test(target))throw Error('Unsupported asset-tooling import: '+path+' → '+value);pending.push(target);};
   const visit=node=>{if((ts.isImportDeclaration(node)||ts.isExportDeclaration(node))&&node.moduleSpecifier&&ts.isStringLiteral(node.moduleSpecifier))add(node.moduleSpecifier.text);if(ts.isCallExpression(node)&&node.expression.kind===ts.SyntaxKind.ImportKeyword&&ts.isStringLiteral(node.arguments[0]))add(node.arguments[0].text);ts.forEachChild(node,visit);};visit(source);
  }
  return [...paths].sort();
