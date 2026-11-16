@@ -167,6 +167,15 @@ At the most bots, + is refused (`aria-disabled`, and dimmed as the kit's stepper
 
 `packages/design-tokens/test/host-room.test.mjs` checks the runtime-safe graph (the kit, the entry parts, no shell, no menu), that the styles are the two screen roots only, the pack's words, both inputs (a notice changes no control), and the check's record. The entry parts' styles are checked in `main-menu.test.mjs`: scoped in `:where()`, the hand cursor with the tap highlight off, no dimming of a refused choice, and only the toast's motion.
 
+### Checks run on this version
+
+On `7da9945f`, clean (the kit 0.4.0; `entry-parts-0.2.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+- **Captures:** **22 of 22 pass.** Each asserts the pack's words, the chosen count and its mix, the canvas, and its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits).
+- **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion).
+- **The agreement with the frozen pack:** **9 of 9 cases** agree to within half a pixel in every part compared, in their look and their states, the toast's included. The one difference, + refused at the most bots, is recorded in the Full case only.
+- **The main menu**, whose entry parts these share, passes again on the same commit with byte-identical captures ([main-menu.md](main-menu.md)).
+- **Not run:** physical phones, Safari, screen readers and the real app's connection.
+
 ## Not in this version
 
 - The connection to the game (Frontend's): the four steps above.
