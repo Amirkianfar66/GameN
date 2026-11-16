@@ -9,12 +9,12 @@ import {createFirestorePlanetStore,PLANET_FOOD_OWNER_INBOX_PROFILE} from '../../
 import {foodInboxScopeKey} from '../../dist/planet-food-inbox.js';
 import {assertLocalEmulators,createEmulatorIdentity,projectId} from '../../../../infra/firebase/test/helpers.mjs';
 
-async function until(check,description,timeout=45_000){
+async function until(check,description,timeout=45_000,interval=1_000){
   const deadline=performance.now()+timeout;
   while(performance.now()<deadline){
     const value=await check();
     if(value)return value;
-    await sleep(150);
+    await sleep(interval);
   }
   assert.fail('Timed out waiting for '+description);
 }
@@ -70,7 +70,7 @@ test('normal Food JOIN starts the private inbox owner through the real trigger a
     // Do not send READ or heartbeat traffic until the boot owner is observed.
     // This proves JOIN's committed wake reached the real trigger and task path.
     const scoped=foodInboxScopeKey(route.scope);
-    const first=await until(()=>saved('foodInboxOwner/'+scoped),'private boot owner',8_000);
+    const first=await until(()=>saved('foodInboxOwner/'+scoped),'private boot owner',8_000,75);
     assert.equal(first.epoch,1);
     const bootMs=first.expiresAt-8_000-receipt.receivedAt;
     assert.ok(bootMs>=0&&bootMs<8_000);
