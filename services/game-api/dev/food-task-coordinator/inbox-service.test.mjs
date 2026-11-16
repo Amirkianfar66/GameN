@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {setTimeout as sleep} from 'node:timers/promises';
-import {PLANET_FOOD_OWNER_INBOX_PROFILE} from '../../dist/index.js';
+import {createPlanetService,PLANET_FOOD_OWNER_INBOX_PROFILE} from '../../dist/index.js';
 import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey} from '../../dist/planet-food-inbox.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {envelope,seedTwoHumanTask} from './fixture.mjs';
@@ -10,16 +10,27 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   const real=createLoopbackFoodStore();
   let failAfterOwnerClaim=false, ownerWasClaimed=false;
   const joined=Promise.withResolvers(), trailing=Promise.withResolvers();
-  let joinId, trailingId, trailingReply, trailingRequest;
+  let joinId, trailingId, trailingReply, trailingRequest,recordCommit;
   const store={...real,...(live?{}:{watchFoodInbox:undefined}),
     async transaction(action){
-      let claim=false, observed;
-      const value=await real.transaction(tx=>action({...tx,set(path,item){
-        if(path.startsWith('foodInboxOwner/')&&item.expiresAt>0)claim=true;
-        if(path.startsWith('foodIngress/')&&!item.response&&item.request?.operation==='foodCommand')
-          observed=item;
-        tx.set(path,item);
-      }}));
+      let claim=false, observed, recorded=[];
+      const value=await real.transaction(tx=>{
+        recorded=[];
+        return action({...tx,
+          create(path,item){
+            if(recordCommit&&path.startsWith('foodInboxIntent/'))recorded.push({stage:'intake',item});
+            tx.create(path,item);
+          },
+          set(path,item){
+            if(path.startsWith('foodInboxOwner/')&&item.expiresAt>0)claim=true;
+            if(path.startsWith('foodIngress/')){
+              if(!item.response&&item.request?.operation==='foodCommand')observed=item;
+              if(recordCommit)recorded.push({stage:item.response?'apply':'append',item});
+            }
+            tx.set(path,item);
+          }});
+      });
+      if(recorded.length)recordCommit(recorded);
       if(claim&&failAfterOwnerClaim)ownerWasClaimed=true;
       if(observed&&observed.request.request.commandId===joinId){
         joined.resolve(observed);
@@ -76,7 +87,7 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
     }
     return result;
   }
-  return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,failNextOwner:()=>{failAfterOwnerClaim=true;}};
+  return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,setCommitObserver:observe=>{recordCommit=observe;},failNextOwner:()=>{failAfterOwnerClaim=true;}};
 
 }
 
@@ -279,7 +290,7 @@ test('production listener keeps a warm owner, wakes independently and publishes 
 });
 
 test('one real-time bounded worker covers the full common return under concurrent traffic', {timeout:105_000},async t=>{
-  const {h,task,winch,panel,route,read,store}=await inboxMatch(t,{live:true,humans:2});
+  const {h,task,winch,panel,route,read,store,setCommitObserver}=await inboxMatch(t,{live:true,humans:2});
   const available=await Promise.all((await store.listKeys('foodInboxWake',100)).map(read));
   const bootstrap=available.find(record=>record?.wake.scope.matchId===h.matchId).wake;
   const origin=performance.now(),start=task.options.startedAt;
@@ -300,16 +311,53 @@ test('one real-time bounded worker covers the full common return under concurren
   }
   assert.ok(owner, 'Expected the outbox acknowledgement and scoped ownership claim to settle concurrently');
   const localBootstrapMs=performance.now()-timeOfDispatch;
-  const heartbeatMs=[],buttonMs=[];
+  const heartbeatMs=[],buttonMs=[],contacts=[];
+  const actions=new Map();
+  const actionKey=(uid,request)=>request.operation==='foodCommand'?request.request.commandId:
+    request.operation==='foodHeartbeat'?uid:null;
+  setCommitObserver(rows=>{
+    const ack=performance.now();
+    for(const {stage,item} of rows){
+      const request=item.request,uid=stage==='intake'?item.binding.uid:item.uid;
+      if(!request||!uid)continue;
+      const action=actions.get(actionKey(uid,request));
+      if(!action)continue;
+      if(stage==='intake')action.intakeAck??=ack;
+      if(stage==='append'){
+        action.admittedAt??=origin+item.context.now-start;
+        action.appendAck??=ack;
+      }
+      if(stage==='apply')action.applyAck??=ack;
+    }
+  });
+  function startAction(uid,request){
+    const action={kind:request.operation==='foodHeartbeat'?'heartbeat':request.request.command.input.kind,
+      received:performance.now()};
+    actions.set(actionKey(uid,request),action);
+    return action;
+  }
+  const staleReasons={},spans=new Map(),staleSpanMs=[];
   let sampled=0,stale=0,botWakes=0,observerReads=0;
+  let sampledDocs;
+  const projectionService=createPlanetService({...h.options,clock:now,store:{...store,
+    readOnly(action){
+      return store.readOnly(tx=>action({...tx,async get(path){
+        const value=await tx.get(path);
+        if(path===ownerPath||path==='session/'+h.matchId)sampledDocs.set(path,value);
+        return value;
+      }}));
+    },
+  }});
   const traffic=[];
   for(const uid of [winch,panel])traffic.push((async()=>{
     while(!stopping){
       const frame=await h.service.projectFoodInboxDelivery(uid,h.matchId);
       if(frame.snapshot.foodPublicView?.step?.kind!=='AWAY'||frame.snapshot.foodPlayerView.participantTask.stage==='ENDED')return;
-      const sent=performance.now();
-      const response=await h.invoke(uid,'foodHeartbeat',{matchId:h.matchId,taskId:route.scope.taskId});
-      if(response.ok)heartbeatMs.push(performance.now()-sent);
+      const request={operation:'foodHeartbeat',matchId:h.matchId,taskId:route.scope.taskId};
+      const action=startAction(uid,request);
+      const response=await h.invoke(uid,'foodHeartbeat',request);
+      action.response=performance.now();
+      if(response.ok){heartbeatMs.push(action.response-action.received);contacts.push(action);}
       else assert.equal(response.error.code,'NOT_ALLOWED',JSON.stringify(response));
       await sleep(800);
     }
@@ -317,10 +365,31 @@ test('one real-time bounded worker covers the full common return under concurren
   traffic.push((async()=>{
     while(!stopping){
       for(const uid of [winch,panel]){
-        const delivery=await h.service.projectFoodInboxDelivery(uid,h.matchId);
+        sampledDocs=new Map();
+        const delivery=await projectionService.projectFoodInboxDelivery(uid,h.matchId);
+        const at=delivery.snapshot.foodPublicView?.serverNowMs;
         if(delivery.snapshot.foodStream){
           sampled++;
-          if(!delivery.fresh)stale++;
+          if(delivery.fresh){
+            if(spans.has(uid))staleSpanMs.push(at-spans.get(uid));
+            spans.delete(uid);
+            continue;
+          }
+          stale++;
+          if(!spans.has(uid))spans.set(uid,at);
+          const session=sampledDocs.get('session/'+h.matchId),currentOwner=sampledDocs.get(ownerPath);
+          const ownId=delivery.snapshot.foodPlayerView.seatId,task=delivery.snapshot.foodPlayerView.participantTask;
+          const leases=session.foodService.leases,own=leases[ownId],due=h.options.engine.planetDeadlineAt(session.state);
+          const reasons=new Map();
+          if(!currentOwner||currentOwner.expiresAt<=at)reasons.set('owner',currentOwner?at-currentOwner.expiresAt:null);
+          if(task.stage!=='ENDED'&&(!own||own.offline||own.expiresAt<=at))reasons.set('ownPresence',own?at-own.expiresAt:null);
+          for(const [seat,lease] of Object.entries(leases))
+            if(seat!==ownId&&!lease.offline&&lease.expiresAt<=at)reasons.set('otherPresence',at-lease.expiresAt);
+          if(due!==null&&due<=at)reasons.set('engineBoundary',at-due);
+          if(!reasons.size)reasons.set('otherFence',null);
+          for(const [reason,lag] of reasons)(staleReasons[reason]??=[]).push(lag);
+        }else if(spans.has(uid)&&at!==undefined){
+          staleSpanMs.push(at-spans.get(uid));spans.delete(uid);
         }
       }
       await sleep(200);
@@ -348,13 +417,14 @@ test('one real-time bounded worker covers the full common return under concurren
     assert.fail('Expected current authoritative control offer');
   }
   async function send(uid,{own,view},input){
-    const sent=performance.now();
     const request=envelope(view,{type:'TASK_PRESS',taskId:route.scope.taskId,controlSessionId:own.controlSessionId,
       expectedControlRevision:own.controlRevision,input});
+    const action=startAction(uid,{operation:'foodCommand',request});
     const result=await h.invoke(uid,'foodCommand',{request});
+    action.response=performance.now();
     assert.equal(result.ok,true,JSON.stringify(result));
     assert.equal(result.result.receipt.status,'accepted',JSON.stringify(result));
-    buttonMs.push(performance.now()-sent);
+    buttonMs.push(action.response-action.received);contacts.push(action);
   }
   try{
     const winchOffer=await offered(winch,(_own,view)=>view.offers.some(offer=>offer.type==='TASK_PRESS'&&offer.inputs.includes('HOLD')));
@@ -375,12 +445,25 @@ test('one real-time bounded worker covers the full common return under concurren
     const retained=await Promise.all((await store.listKeys('foodInboxWake',100)).map(read));
     const watchdogs=retained.filter(record=>record?.watchdogFor===owner.id);
     assert.ok(watchdogs.length>=2, 'The same leased owner persisted multiple expiry wake revisions');
-    const percentile=(values,p)=>Math.round([...values].sort((a,b)=>a-b)[Math.ceil(values.length*p)-1]);
+    const percentile=(values,p)=>values.length?Math.round([...values].sort((a,b)=>a-b)[Math.ceil(values.length*p)-1]):null;
+    const stats=values=>({n:values.length,p95:percentile(values,.95),max:percentile(values,1)});
+    const timings=(rows)=>({
+      receivedToIntakeAck:stats(rows.flatMap(row=>row.intakeAck===undefined?[]:[row.intakeAck-row.received])),
+      receivedToAdmittedClock:stats(rows.flatMap(row=>row.admittedAt===undefined?[]:[row.admittedAt-row.received])),
+      appendAckToApplyAck:stats(rows.flatMap(row=>row.appendAck===undefined||row.applyAck===undefined?[]:[row.applyAck-row.appendAck])),
+      applyAckToExactResponse:stats(rows.flatMap(row=>row.applyAck===undefined?[]:[row.response-row.applyAck])),
+    });
     t.diagnostic(JSON.stringify({localBootstrapMs:Math.round(localBootstrapMs),heartbeats:heartbeatMs.length,
       heartbeatP95Ms:percentile(heartbeatMs,.95),heartbeatMaxMs:percentile(heartbeatMs,1),
       controlCount:buttonMs.length,controlP95Ms:percentile(buttonMs,.95),controlMaxMs:percentile(buttonMs,1),
       ownerHandoffs:finalOwner.epoch-owner.epoch,watchdogs:watchdogs.length,staleParticipantSamples:stale,
-      participantSamples:sampled,botWakes,observerReads,returnDriftMs:completed.closedAt-task.returnsAt}));
+      participantSamples:sampled,botWakes,observerReads,returnDriftMs:completed.closedAt-task.returnsAt,
+      staleReasons:Object.fromEntries(Object.entries(staleReasons).map(([reason,ages])=>[reason,{
+        count:ages.length,ageMs:stats(ages.filter(age=>age!==null)),
+      }])),sampledStaleSpanMs:stats(staleSpanMs),staleSpansCensored:spans.size,
+      stagedHeartbeatMs:timings(contacts.filter(row=>row.kind==='heartbeat')),
+      stagedControlMs:timings(contacts.filter(row=>row.kind!=='heartbeat')),
+    }));
   }finally{
     stopping=true;
     if(!(await read('foodInboxResult/'+foodInboxScopeKey(route.scope)))){
