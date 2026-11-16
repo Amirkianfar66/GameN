@@ -32,6 +32,13 @@
 .ms-kit :where(.ms-pp-tile-badge) { position: absolute; top: 8px; right: 8px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--ms-k-ink); color: var(--ms-k-paper); font: 700 0.75rem/22px var(--ms-k-font); box-shadow: 0 0 0 1.5px rgba(244, 235, 221, 0.4); }
 .ms-kit :where(.ms-pp-tile-stamp) { position: absolute; left: 50%; top: 40px; transform: translateX(-50%) rotate(-6deg); padding: 3px 7px 2px; border: 2px solid var(--ms-k-ink); border-radius: 5px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.6875rem/1 var(--ms-k-letter); letter-spacing: 0.06em; box-shadow: 2px 2px 0 #05070B; white-space: nowrap; }
 .ms-kit :where(.ms-pp-tile [hidden]) { display: none; }
+/* A card's art in place of the icon (0.2.0; the pack's .hack-card svg): the tile's width, at the card's own shape. */
+.ms-kit :where(.ms-pp-tile-art) { display: block; width: 100%; }
+.ms-kit :where(.ms-pp-tile-art svg) { display: block; width: 100%; height: auto; }
+/* A note with its icon before it (the private talk's lock; the pack's .declare-sides .tile small, whose icon may
+   shrink a little beside a wrapped note, as the pack's does). */
+.ms-kit :where(.ms-pp-tile-note[data-has-icon]) { display: inline-flex; align-items: center; gap: 4px; }
+.ms-kit :where(.ms-pp-tile-note[data-has-icon] .ms-k-ic) { width: 14px; height: 14px; flex: 0 1 auto; }
 
 /* ── Who: the check's person, people or icon (screens.css .confirm-who) ─ */
 .ms-kit :where(.ms-pp-who) { display: flex; align-items: center; gap: 14px; padding: 4px 0 6px; }
@@ -80,6 +87,8 @@
 .ms-kit :where(.ms-pp-tile[data-state="selected"] .ms-pp-tile-icon) { background: var(--ms-k-accent); --ic-knock: var(--ms-k-accent); }
 .ms-kit :where(.ms-pp-tile[data-state="unavailable"] .ms-pp-tile-icon) { background: var(--ms-k-surface-4); color: var(--ms-k-steel-light); --ic-knock: var(--ms-k-surface-4); }
 .ms-kit :where(.ms-pp-tile[data-state="unavailable"] .ms-pp-tile-name) { color: var(--ms-k-text-2); }
+/* An unavailable card's art fades to grey (the pack's .declare-sides .tile[data-state="unavailable"] .hack-card). */
+.ms-kit :where(.ms-pp-tile[data-state="unavailable"] .ms-pp-tile-art) { opacity: 0.35; filter: grayscale(1); }
 .ms-kit :where(.ms-pp-tile[data-state="registered"]) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
 .ms-kit :where(.ms-pp-tile[data-state="registered"] .ms-pp-tile-icon) { background: var(--ms-k-ink); color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); --ic-knock: var(--ms-k-ink); }
 /* Sending: a spinner in place of the icon (screens.css .tile[data-state="submitting"]). */

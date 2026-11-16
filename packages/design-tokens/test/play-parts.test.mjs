@@ -47,7 +47,7 @@ test('the parts are a runtime source: they draw on the kit alone, and nothing de
   assert.deepEqual(imports(read(`${PARTS}/play-parts.mjs`)), ['../kit/kit.mjs']);
   assert.deepEqual(imports(read(`${PARTS}/play-parts.css`)), ['../kit/kit.css']);
   for (const path of [`${PARTS}/play-parts.mjs`, `${PARTS}/play-parts.css`]) assert.doesNotMatch(read(path), /mothership:dev-only/, `${path}: no development marker`);
-  assert.equal(PLAY_PARTS_VERSION, 'play-parts-0.1.0');
+  assert.equal(PLAY_PARTS_VERSION, 'play-parts-0.2.0');
   assert.deepEqual(TILE_STATES, ['available', 'selected', 'sending', 'registered', 'unavailable']);
   assert.deepEqual(STEP_STATES, ['done', 'next', 'later']);
   assert.ok(read('design/phone-ui/prototype/screens-game.mjs').includes(PLAY_PARTS_WORDS.registered), 'the registered mark is the pack\'s');

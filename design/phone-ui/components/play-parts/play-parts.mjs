@@ -17,7 +17,7 @@
 
 import { createKit } from '../kit/kit.mjs';
 
-export const PLAY_PARTS_VERSION = 'play-parts-0.1.0';
+export const PLAY_PARTS_VERSION = 'play-parts-0.2.0';
 /** A tile's states: offered, being chosen or checked, with the server, accepted and waiting, or not offered. */
 export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable']);
 /** A time line's steps: done (a filled amber check), next and later (a dashed hourglass). */
@@ -39,31 +39,48 @@ export function createPlayParts(doc) {
 
   // ── The tile (screens-game.mjs tile(); screens.css .tile) ────────────
   /**
-   * { icon, name, note, state, badge, label, intent, value }. A tile is always a button, so a focused tile keeps
-   * its element and its focus through every state: the caller's control policy refuses the taps of one that is
-   * not available or being chosen. `note` is the state line under the name (the reason of an unavailable tile);
-   * `badge` the count on the icon's corner; `label` its accessible name, by default the name, the note and
-   * "registered", as the pack writes it.
+   * { icon | art, name, note, noteIcon, state, badge, label, intent, value }. A tile is always a button, so a
+   * focused tile keeps its element and its focus through every state: the caller's control policy refuses the
+   * taps of one that is not available or being chosen. `note` is the state line under the name (the reason of an
+   * unavailable tile), with `noteIcon` before it (the private talk's lock); `badge` the count on the icon's corner;
+   * `label` its accessible name, by default the name, the note and "registered", as the pack writes it, or
+   * `false` for none, so the name comes from the tile's own words. `art` (0.2.0): a card's SVG markup, from the
+   * game's own art, drawn in place of the icon at the tile's width (the private talk's side cards, 25).
    */
+  const artOf = new WeakMap();
   function setTile(node, props) {
     if (!isText(props?.name)) throw new TypeError('A tile needs its name');
-    if (!isText(props.icon)) throw new TypeError('A tile needs its icon');
+    if (!isText(props.icon) && !isText(props.art)) throw new TypeError('A tile needs its icon or its art');
     const state = props.state ?? 'available';
     if (!TILE_STATES.includes(state)) throw new TypeError(`A tile's state is ${TILE_STATES.join(', ')}, not ${JSON.stringify(state)}`);
     const note = optionalText(props.note, 'A tile\'s note');
     const badge = props.badge === null || props.badge === undefined ? null : String(props.badge);
     if (badge !== null && !/^\d+$/.test(badge)) throw new TypeError('A tile\'s badge is a whole number, or null');
     node.classList.add('ms-pp-tile');
-    if (!node.querySelector(':scope > .ms-pp-tile-icon')) {
+    if (!node.querySelector(':scope > .ms-pp-tile-name')) {
       node.append(h('span', 'ms-pp-tile-icon'), h('b', 'ms-pp-tile-name'), h('small', 'ms-pp-tile-note'),
         h('span', 'ms-pp-tile-badge'), h('span', 'ms-pp-tile-stamp', { 'aria-hidden': 'true' }));
     }
-    const [icon, name, small, count, stamp] = node.children;
+    const [lead, name, small, count, stamp] = node.children;
     node.dataset.state = state;
-    // The pack fills the icon, but not on an unavailable tile.
-    setIcon(icon, props.icon, state !== 'unavailable');
+    if (isText(props.art)) {
+      // The card's art at the tile's width, kept while it is the same markup.
+      lead.className = 'ms-pp-tile-art';
+      lead.setAttribute('aria-hidden', 'true');
+      if (artOf.get(lead) !== props.art) { lead.innerHTML = props.art; artOf.set(lead, props.art); }
+    } else {
+      // The pack fills the icon, but not on an unavailable tile.
+      if (lead.className !== 'ms-pp-tile-icon') { lead.className = 'ms-pp-tile-icon'; lead.removeAttribute('aria-hidden'); artOf.delete(lead); lead.replaceChildren(); }
+      setIcon(lead, props.icon, state !== 'unavailable');
+    }
     text(name, props.name);
-    text(small, note ?? '');
+    if (note !== null && isText(props.noteIcon)) {
+      small.replaceChildren(kit.icon(props.noteIcon, true), doc.createTextNode(note));
+      small.dataset.hasIcon = '';
+    } else {
+      text(small, note ?? '');
+      delete small.dataset.hasIcon;
+    }
     small.hidden = note === null;
     text(count, badge ?? '');
     count.hidden = badge === null;
@@ -71,7 +88,7 @@ export function createPlayParts(doc) {
     attr(count, 'aria-hidden', note !== null ? 'true' : null);
     text(stamp, state === 'registered' ? PLAY_PARTS_WORDS.registered : '');
     stamp.hidden = state !== 'registered';
-    attr(node, 'aria-label', props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${PLAY_PARTS_WORDS.registeredSaid}` : ''}`);
+    attr(node, 'aria-label', props.label === false ? null : props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${PLAY_PARTS_WORDS.registeredSaid}` : ''}`);
     if (props.intent) node.dataset.intent = props.intent;
     if (props.value !== undefined && props.value !== null) node.dataset.value = String(props.value);
     return node;
