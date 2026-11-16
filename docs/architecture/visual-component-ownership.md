@@ -73,6 +73,7 @@ Use **Approved → Design ready → Integrated → Verified → Deployed** for e
 Before publishing, Integration checks this compact list:
 
 - The issue accounts for all approved release features and explicitly approved exclusions.
+- Following the owner's [16 November reaffirmation](../design/owner-decisions.md#16-november-2026-use-designer-code-from-the-next-deployment), identify the canonical Designer visual source and its production consumer for the deployment. Frontend supplies adapters and lifecycle, not a rebuilt visual implementation. Identify legacy ports and missing reusable components explicitly; a source-art hash or an unchanged native port is not evidence of direct shared-component consumption.
 - Exact gameplay/art combinations and inherited capabilities are admitted by the shared release registry. Unknown combinations fail closed; historical matches retain their pinned behavior. A new art version does not itself grant compatibility.
 - Evidence proves visible behavior: Role and Boarding films actually render when eligible; Food room/crew images load under production policy. A phase name, asset file or successful build alone is insufficient. Skip, recovery, privacy and reduced-motion expectations remain intentional.
 - The required behavioral checks and Designer's native acceptance identify the candidate and inputs. Reuse evidence only for unchanged relevant inputs; state what changed and what was not rerun.

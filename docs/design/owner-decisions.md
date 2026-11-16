@@ -6,6 +6,16 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: use Designer code from the next deployment
+
+**Recorded by Integration from the owner's Integration chat.** While authorizing completion of the Food Backend CI correction, the owner reiterated:
+
+> Ok finish the Backend CI issue, consider from next deployment we use Designer design codes and we are not going to rebuild them on Frontend
+
+This reinforces the [existing visual ownership agreement](../architecture/visual-component-ownership.md), rather than creating a second workflow. Designer supplies the canonical runtime-safe visual implementation; Frontend connects authorized data, intent, navigation and lifecycle without rebuilding, restyling or copying its visual source. If a reusable component is missing or unsuitable, the correction belongs in Designer's source, coordinated through GitHub.
+
+The next deployment review must identify the actual Designer source and production consumer. Previously approved native ports must be identified honestly; unchanged artwork or a passing comparison alone does not prove that preview and app consume the same component. Integration records any missing component/adoption dependency in the existing feature issue. Historical matches and their immutable release artifacts remain preserved. This instruction does not approve an unreviewed prototype, change gameplay, or waive the existing visual acceptance and release checks.
+
 ## 15 November 2026: Designer delivers the usable visual component
 
 **Recorded by Integration from the owner's Integration chat.** The owner clarified the purpose of the direct-component workflow:
