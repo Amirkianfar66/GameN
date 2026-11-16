@@ -1,0 +1,17 @@
+/* mothership:dev-only · The ballot's and the result window's preview page: frames and captions. */
+/* The page's root keeps the browser's 16 px, as the game's does (its html sets no size): the components' rem
+   sizes are the game's. Only the preview's own words are 14 px. */
+html, body { margin: 0; background: #0B0E14; color: #F4EBDD; }
+body { font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+.pv-head { padding: 20px 24px 4px; }
+.pv-head h1 { margin: 0 0 4px; font-size: 20px; }
+.pv-head p { margin: 0; color: #B9C4D3; max-width: 900px; }
+.pv-section { margin: 18px 24px 0; font-size: 15px; color: #F1B84B; }
+.pv-grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 14px 24px 28px; align-items: flex-start; }
+.pv-cell { margin: 0; }
+.pv-cell figcaption { margin: 0 0 8px; font-weight: 600; font-size: 14px; max-width: 390px; }
+.pv-cell figcaption small { display: block; font-weight: 400; color: #8696AE; }
+/* A phone at a development size; the shell fills it. */
+.pv-phone { position: relative; overflow: hidden; border-radius: 28px; background: #07090F; box-shadow: 0 0 0 2px #2A3346; }
+body.pv-single { background: #07090F; }
+body.pv-single .pv-phone { border-radius: 0; box-shadow: none; }
