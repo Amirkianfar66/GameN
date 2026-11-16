@@ -8,23 +8,30 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { onTaskDispatched } from 'firebase-functions/v2/tasks';
 import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import { IdentifierSchema, PlanetServiceRequestSchema } from '@mothership/contracts';
+import { IdentifierSchema, PlanetServiceRequestSchema, PlanetFoodTransportRequestSchema } from '@mothership/contracts';
 import type { PlanetServiceRequest, PlanetServiceResponse } from '@mothership/contracts';
 import { withPlanetRequestTiming } from '@mothership/game-api';
 import type { PlanetDeadlineJob, PlanetRequestTimingSummary } from '@mothership/game-api';
 import type { PlanetRuntimeConfiguration } from './planet-runtime.js';
+import {handlePlanetFoodTransport} from './planet-food-stream.js';
+import type {PlanetFoodStreamService,PlanetFoodHttpResponse} from './planet-food-stream.js';
+import {createPlanetFoodInboxEnqueuer,createPlanetFoodInboxHandler,isPlanetFoodInboxWake} from './planet-food-worker.js';
+import type {EnqueuePlanetFoodInboxWake,PlanetFoodInboxWake} from '@mothership/game-api';
 
 export interface PlanetDeadlinePayload { matchId: string; phaseId: string; deadlineToken: string; kind: 'setup' | 'game' }
 export type PlanetEnqueue = (job: PlanetDeadlineJob) => Promise<void>;
-export interface PlanetHttpService { handle(uid: string, request: unknown): Promise<PlanetServiceResponse> }
+export interface PlanetHttpService extends Partial<PlanetFoodStreamService> { handle(uid: string, request: unknown): Promise<PlanetServiceResponse> }
 export interface PlanetService extends PlanetHttpService {
   runDeadline(job: PlanetDeadlinePayload): Promise<{status: 'advanced' | 'unchanged' | 'too-early'; retryAfterMs?: number}>;
   dispatchDeadline(taskId: string, enqueue: PlanetEnqueue): Promise<void>;
   repairDeadlines(enqueue: PlanetEnqueue): Promise<{dispatched: number; advanced: number; failed: number}>;
   runBots(matchId: string): Promise<unknown>;
+  runFoodInbox(wake:PlanetFoodInboxWake):Promise<void>;
+  dispatchFoodInboxWake(id:string,enqueue:EnqueuePlanetFoodInboxWake):Promise<boolean>;
+  repairFoodInboxWakes(enqueue:EnqueuePlanetFoodInboxWake):Promise<{dispatched:number;failed:number}>;
 }
 interface HttpRequest { method: string; body: unknown; headers: Record<string, string | string[] | undefined>; rawBody?: Uint8Array }
-interface HttpResponse { set(field: string, value: string): unknown; status(code: number): HttpResponse; json(body: unknown): unknown }
+type HttpResponse=PlanetFoodHttpResponse;
 export interface PlanetHttpDependencies {
   service: PlanetHttpService; configuration: Pick<PlanetRuntimeConfiguration, 'allowedOrigins' | 'emulator'>;
   verifyIdToken(token: string): Promise<{uid: string}>; verifyAppCheckToken(token: string): Promise<unknown>; clock?: () => number;
@@ -57,7 +64,7 @@ export function createPlanetHttpHandler(dependencies: PlanetHttpDependencies) {
   const monotonic = dependencies.monotonicClock ?? (() => performance.now());
   const elapsed = (start: number) => Math.max(0, Math.round(monotonic() - start));
   return async (request: HttpRequest, response: HttpResponse): Promise<void> => {
-    const started = monotonic();
+    const started = monotonic(),receivedAt=clock();
     response.set('Cache-Control', 'no-store, private'); response.set('Pragma', 'no-cache');
     response.set('X-Content-Type-Options', 'nosniff'); response.set('Vary', 'Origin');
     const fail = (status: number, code: string) => response.status(status).json({ok: false, serverTimeMs: clock(), error: {code}});
@@ -92,6 +99,17 @@ export function createPlanetHttpHandler(dependencies: PlanetHttpDependencies) {
       try { await dependencies.verifyAppCheckToken(appToken); } catch { fail(403, 'FORBIDDEN'); return; }
     }
     const appCheckMs = dependencies.configuration.emulator ? 0 : elapsed(appCheckStarted);
+    if(request.body!==null&&typeof request.body==='object'&&'operation' in request.body
+      &&(request.body.operation==='foodWatch'||request.body.operation==='foodClock')){
+      const transport=PlanetFoodTransportRequestSchema.safeParse(request.body);
+      if(!transport.success){fail(400,'INVALID_REQUEST');return;}
+      const {projectFoodInboxDelivery,subscribeFoodInboxMatch}=dependencies.service;
+      if(!projectFoodInboxDelivery||!subscribeFoodInboxMatch){fail(503,'UNAVAILABLE');return;}
+      await handlePlanetFoodTransport({service:{
+        projectFoodInboxDelivery:projectFoodInboxDelivery.bind(dependencies.service),
+        subscribeFoodInboxMatch:subscribeFoodInboxMatch.bind(dependencies.service),
+      },uid,request:transport.data,response,receivedAt,clock});return;
+    }
     const parsed = PlanetServiceRequestSchema.safeParse(request.body);
     if (!parsed.success) { fail(400, 'INVALID_REQUEST'); return; }
     const serviceStarted = monotonic();
@@ -172,12 +190,27 @@ export function createPlanetEntrypoints(resolveContext: () => PlanetRuntimeConte
     if (configuration.emulator && configuration.tasksEmulatorHost === undefined) throw new Error('The local Cloud Tasks emulator is required for Planet enqueue');
     await createPlanetEnqueuer(getFunctions(app).taskQueue<PlanetDeadlinePayload>('locations/us-central1/functions/planetDeadlineTask'))(job);
   };
+  const enqueueFood:EnqueuePlanetFoodInboxWake=async wake=>{
+    const {app,configuration}=resolveContext();
+    if(configuration.emulator&&configuration.tasksEmulatorHost===undefined)throw new Error('The local Cloud Tasks emulator is required for Food enqueue');
+    await createPlanetFoodInboxEnqueuer(getFunctions(app).taskQueue<PlanetFoodInboxWake>('locations/us-central1/functions/planetDeadlineTask'))(wake);
+  };
   const deadlineTask = onTaskDispatched({region: 'us-central1', invoker: 'private', timeoutSeconds: 60, maxInstances: 12, minInstances: 0,
     retryConfig: {maxAttempts: 10, minBackoffSeconds: 1, maxBackoffSeconds: 60}, rateLimits: {maxConcurrentDispatches: 10}},
-    request => createPlanetDeadlineHandler(resolveContext().service)(request.data));
+    request => isPlanetFoodInboxWake(request.data)
+      ?createPlanetFoodInboxHandler(resolveContext().service)(request.data)
+      :createPlanetDeadlineHandler(resolveContext().service)(request.data));
   const dispatchDeadline = onDocumentCreated({document: 'planetDocuments/{documentId}', region: 'us-central1', retry: true, timeoutSeconds: 60, maxInstances: 12, minInstances: 0}, async event => {
     const value = event.data;
-    if (value === undefined || value.get('namespace') !== 'deadline') return;
+    if (value === undefined) return;
+    if(value.get('namespace')==='foodInboxWake'){
+      const path:unknown=value.get('key');
+      if(typeof path!=='string'||!/^foodInboxWake\/[a-f0-9]{64}$/.test(path))throw new Error('Invalid private Food wake reference');
+      try{await resolveContext().service.dispatchFoodInboxWake(path.slice(14),enqueueFood);}
+      catch{throw new Error('Planet Food wake dispatch unavailable');}
+      return;
+    }
+    if(value.get('namespace')!=='deadline')return;
     const path: unknown = value.get('key');
     if (typeof path !== 'string' || !/^deadline\/[a-f0-9]{64}$/.test(path)) throw new Error('Invalid private Planet deadline reference');
     try { await resolveContext().service.dispatchDeadline(path.slice(9), enqueue); } catch { throw new Error('Planet deadline dispatch unavailable'); }
@@ -190,6 +223,11 @@ export function createPlanetEntrypoints(resolveContext: () => PlanetRuntimeConte
     try { await resolveContext().service.runBots(path.slice(8)); } catch { throw new Error('Planet bot evaluation unavailable'); }
   });
   const repairDeadlines = onSchedule({schedule: 'every 1 minutes', region: 'us-central1', timeoutSeconds: 60, maxInstances: 1, minInstances: 0},
-    () => createPlanetRepairHandler(resolveContext().service, enqueue)());
+    async()=>{
+      const service=resolveContext().service;
+      const results=await Promise.allSettled([createPlanetRepairHandler(service,enqueue)(),service.repairFoodInboxWakes(enqueueFood)]);
+      if(results.some(result=>result.status==='rejected')||results[1]?.status==='fulfilled'&&results[1].value.failed!==0)
+        throw new Error('Planet private wake repair unavailable');
+    });
   return {api, deadlineTask, dispatchDeadline, repairDeadlines, runBots};
 }
