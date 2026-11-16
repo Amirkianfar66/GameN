@@ -306,6 +306,9 @@ export function passSheet({ next = null, busy = false } = {}) {
  */
 export function targetBar({ type, where = 'room', picked = [] }) {
   const l = lookOf(type);
+  // The Hacker's are the Hacker component's (the Lead's note 2, 16 November): its words exist once, there.
+  if (type === 'SCAN') throw new TypeError('Scan\'s target bar is the Hacker component\'s scanBar() (design/phone-ui/components/hacker)');
+  if (type === 'SUBMIT_CODE') throw new TypeError('The final Code has no target bar: it is the Hacker component\'s codeSheet() and mountFinalCode()');
   if (!['room', 'board'].includes(where)) throw new TypeError('where is room or board');
   const sub = l.people === 2 ? (picked.length ? ACTION_WORDS.chooseSecond : ACTION_WORDS.chooseTwo) : ACTION_WORDS.choosePlayer;
   return { icon: l.icon, title: l.title, sub: where === 'board' ? ACTION_WORDS.everyRoom(sub) : sub };
@@ -383,8 +386,8 @@ function mountPart(host, name, model, input, handlers, paint) {
  */
 export function mountActions(host, input = {}, handlers = {}) {
   return mountPart(host, 'tiles', TILES, input, handlers, ({ doc, kit, parts, root, policy }) => {
-    const head = kit.h('div', 'ms-ac-head');
-    head.append(kit.h('h3'), kit.h('span'));
+    // The turn head is the kit's section head (0.7.0), as sheet 28 draws it.
+    const head = kit.sectionHead({ title: ACTION_WORDS.yourTurn });
     const wrap = kit.h('div', 'ms-ac-tiles-wrap');
     const grid = kit.h('div', 'ms-ac-tiles', { role: 'group', 'aria-label': ACTION_WORDS.tilesLabel });
     wrap.append(grid);
@@ -403,9 +406,7 @@ export function mountActions(host, input = {}, handlers = {}) {
           return;
         }
         if (!head.isConnected) root.prepend(head, wrap);
-        kit.text(head.firstChild, s.turn === 'own' ? ACTION_WORDS.yourTurn : ACTION_WORDS.notYourTurn);
-        kit.text(head.lastChild, s.round === null ? '' : ACTION_WORDS.round(s.round));
-        head.lastChild.hidden = s.round === null;
+        kit.setSectionHead(head, { title: s.turn === 'own' ? ACTION_WORDS.yourTurn : ACTION_WORDS.notYourTurn, aside: s.round === null ? null : ACTION_WORDS.round(s.round) });
         const wanted = new Set(s.tiles.map(t => t.type));
         for (const [type, node] of nodes) if (!wanted.has(type)) { policy.remove(node); nodes.delete(type); }
         // A tile moved to its new place keeps its element; the focus, which a move drops, is put back on it.
@@ -561,14 +562,14 @@ export function mountAfterRegister(host, input = {}, handlers = {}) {
 
 /** Sheet 45's "Outcome unknown", exactly: the warning icon and its two lines. The shell draws its two buttons (unknownSheet()). */
 export function mountOutcomeUnknown(host, input = {}, handlers = {}) {
-  return mountPart(host, 'unknown', UNKNOWN, input, handlers, ({ parts, root }) => {
+  return mountPart(host, 'unknown', UNKNOWN, input, handlers, ({ kit, root }) => {
     let notice = null;
     return {
       paint: s => {
         if (s.status === 'concealed' || s.type === null) { notice?.remove(); notice = null; return; }
         const { what } = actionWords({ type: s.type, targets: s.targets, viewer: s.viewer });
         const props = { icon: 'warning', filled: true, lines: [ACTION_WORDS.noAnswer(what), ACTION_WORDS.checkFirst] };
-        if (!notice) { notice = parts.notice(props); root.append(notice); } else parts.setNotice(notice, props);
+        if (!notice) { notice = kit.notice(props); root.append(notice); } else kit.setNotice(notice, props);
       },
     };
   });

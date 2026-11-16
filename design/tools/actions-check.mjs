@@ -133,7 +133,7 @@ try {
         return { violations: window.__policy, part: root?.dataset.part ?? null, status: root?.dataset.status ?? null,
           sheet: t(q('.ms-ps-sheet-title h2')), sub: t(q('.ms-ps-sheet-title p')),
           footer: all('.ms-ps-sheet-foot .ms-k-btn').map(b => b.textContent.replace(/\\s+/g, ' ').trim()).join('|') || null,
-          head: root?.querySelector('.ms-ac-head') ? [t(root.querySelector('.ms-ac-head h3')), t(root.querySelector('.ms-ac-head span'))].join('|') : null,
+          head: root?.querySelector('.ms-k-section-head') ? [t(root.querySelector('.ms-k-section-title')), t(root.querySelector('.ms-k-section-aside'))].join('|') : null,
           tiles: tiles.map(n => n.dataset.value + ':' + n.dataset.state).join(',') || null,
           lines: tiles.map(n => t(n.querySelector('.ms-k-tile-note'))).join('|') || null,
           mark: t(q('.ms-actions .ms-k-tile-stamp:not([hidden])')),
@@ -150,7 +150,7 @@ try {
           error: t(q('.ms-actions .ms-k-error')),
           stamp: t(q('.ms-ac-after-head .ms-k-stamp')), headline: t(q('.ms-ac-after-head h3')),
           steps: all('.ms-pp-steps li').filter(shown).length, people: all('.ms-ac-after-people .ms-k-row').length,
-          notice: t(q('.ms-pp-notice p')), banner: t(q('.ms-ps-banner b')),
+          notice: t(q('.ms-k-notice p')), banner: t(q('.ms-ps-banner b')),
           page: document.body.innerText, figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0 };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));

@@ -9,17 +9,17 @@
 //   - the notice: a large icon or a stamp, centred over its lines (45's "Outcome unknown"; Scan and the Code's
 //     results, 42; the Hospital panel, 32; the office's block, 40);
 //   - the time line: what has happened and what is still to come (After Register, 29.1 and 29.2).
-// The first three are the kit's since component-kit-0.6.0 (play-parts-0.1.1 hands them on); the notice and the
-// time line are drawn here until another builder needs them. Each is the pack's own drawing
+// The first four are the kit's (component-kit-0.6.0 and 0.7.0; play-parts-0.1.1 and 0.1.2 hand them on); only
+// the time line is drawn here, until another builder needs it. Each is the pack's own drawing
 // (design/phone-ui/prototype/screens-game.mjs, screens-more.mjs and screens.css), on the kit's values (../kit).
 // Builders with setters, as the kit's: a setter updates its node in place and keeps it, so a focused tile keeps
 // its element and its focus. The parts hold no state of their own and decide nothing: what a tile says, what a
 // fact says and which step is done are the caller's.
-// If another builder ever needs the notice or the time line, the Lead moves it into the kit.
+// If another builder ever needs the time line, the Lead moves it into the kit.
 
 import { TILE_STATES as KIT_TILE_STATES, TILE_WORDS, createKit } from '../kit/kit.mjs';
 
-export const PLAY_PARTS_VERSION = 'play-parts-0.1.1';
+export const PLAY_PARTS_VERSION = 'play-parts-0.1.2';
 /** A tile's states, the kit's: offered, being chosen or checked, with the server, accepted and waiting, or not offered. */
 export const TILE_STATES = KIT_TILE_STATES;
 /** A time line's steps: done (a filled amber check), next and later (a dashed hourglass). */
@@ -33,42 +33,14 @@ const isText = value => typeof value === 'string' && value.length > 0;
 export function createPlayParts(doc) {
   if (!doc?.createElement) throw new TypeError('The play parts need a document');
   const kit = createKit(doc);
-  const { h, text, attr, setIcon } = kit;
+  const { h, text, setIcon } = kit;
 
-  // ── The tile, who and the facts: the kit's (component-kit-0.6.0) ─────
-  // The kit took them from here when Promises needed them too (the Lead's L2: a part another builder needs
-  // goes into the kit), with the same props, states and behaviour. They are handed on as they are, so a
-  // caller's calls stay the same; their elements carry the kit's classes (ms-k-tile, ms-k-who, ms-k-facts).
-  const { tile, setTile, who, setWho, facts, setFacts } = kit;
-
-  // ── The notice: an icon or a stamp over its lines (screens.css .registered) ─
-  /**
-   * { icon, filled, stamp: { text, tone }, lines: [text, …], status }: centred, as sheet 45's "Outcome unknown".
-   * The pack's icon there is its own size: the 76 px .big-icon tile applies only inside a waiting block (.wait),
-   * and the notice has none, so the icon is drawn as the pack draws it. `status` reads it as it opens.
-   */
-  function setNotice(node, props) {
-    const lines = props?.lines ?? [];
-    if (!Array.isArray(lines) || !lines.length || !lines.every(isText)) throw new TypeError('A notice needs its lines');
-    if (!isText(props.icon) && !isText(props.stamp?.text)) throw new TypeError('A notice has an icon or a stamp');
-    node.className = 'ms-pp-notice';
-    attr(node, 'role', props.status === false ? null : 'status');
-    if (!node.firstChild) node.append(h('span', 'ms-pp-notice-icon'));
-    let mark = node.firstChild;
-    if (isText(props.stamp?.text)) {
-      if (!mark.classList.contains('ms-k-stamp')) { const s = h('span'); mark.replaceWith(s); mark = s; }
-      kit.setStamp(mark, { text: props.stamp.text, tone: props.stamp.tone ?? null });
-    } else {
-      if (!mark.classList.contains('ms-pp-notice-icon')) { const s = h('span', 'ms-pp-notice-icon'); mark.replaceWith(s); mark = s; }
-      setIcon(mark, props.icon, props.filled !== false);
-    }
-    const paras = [...node.querySelectorAll(':scope > p')];
-    while (paras.length > lines.length) paras.pop().remove();
-    while (paras.length < lines.length) { const p = h('p'); node.append(p); paras.push(p); }
-    lines.forEach((line, i) => text(paras[i], line));
-    return node;
-  }
-  const notice = props => setNotice(h('div'), props);
+  // ── The tile, who, the facts and the notice: the kit's (component-kit-0.6.0 and 0.7.0) ──
+  // The kit took them from here when another builder needed them too (the Lead's L2: a part another builder
+  // needs goes into the kit), with the same props, states and behaviour, and the tile's art, note icon and
+  // label: false, and the notice's extra (0.7.0). They are handed on as they are, so a caller's calls stay the
+  // same; their elements carry the kit's classes (ms-k-tile, ms-k-who, ms-k-facts, ms-k-notice).
+  const { tile, setTile, who, setWho, facts, setFacts, notice, setNotice } = kit;
 
   // ── The time line (screens-game.mjs steps(); screens.css .steps) ─────
   /** [{ state: 'done' | 'next' | 'later', title, sub }, …]: each kept by its place. */
