@@ -1,6 +1,6 @@
 # Captain console: Designer's runtime component
 
-**Version:** `captain-console-0.1.0`. **Status (16 November 2026):** the interface, approved by the Lead Designer with the answers below (#302). The build has started, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `captain-console-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the answers below (#302), without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). Its check's record is at the end.
 
 **What it is:** the Captain's console in the Command Room, as sheets 22 and 24 draw it (the pack's `captain()` in its `console`, `used`, `release` and `eject` states):
 - two plates, Release and Eject, each "Once a match";
@@ -40,9 +40,9 @@ Designer's, runtime-safe, in `design/phone-ui/components/captain-console/`:
 
 | Path | What |
 | --- | --- |
-| `captain-console.mjs` | `mountCaptainConsole()`, `captainConsoleSheet()`, `nextCaptainConsoleInput()`, `CAPTAIN_CONSOLE_DEFAULTS`, `CAPTAIN_CONSOLE_VERSION`, `CAPTAIN_CONSOLE_SHEET_ID`, `CAPTAIN_CONSOLE_WORDS`, `PLATE_STATES` |
+| `captain-console.mjs` | `mountCaptainConsole()`, `captainConsoleSheet()`, `nextCaptainConsoleInput()`, `CAPTAIN_CONSOLE_DEFAULTS`, `CAPTAIN_CONSOLE_VERSION`, `CAPTAIN_CONSOLE_SHEET_ID`, `CAPTAIN_CONSOLE_WORDS`, `PLATE_KINDS`, `PLATE_STATES`, `plateProperty(kind, state)` (the film bundle's CSS property for a plate's art) |
 | `captain-console.css` | Every style, under `.ms-captain-console`; starts with the kit's stylesheet. Its own: the plates' two columns at the pack's 150 px, and the plate art's box (100 % wide, at most 140 px, 78 px tall, kept whole), as the pack sizes its `<img>` |
-| `preview/` | Development only: the preview (in the phone shell's sheet over the Command Room, as sheets 22 and 24 draw it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `captain` in its `console`, `used`, `release` and `eject` states) |
+| `preview/` | Development only: the preview (in the phone shell's sheet over the Command Room on the Captain's turn, as sheets 22 and 24 draw it; it sets the plates' properties to the bundle's files, as the game's bundle does), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `captain` in its `console`, `used`, `release` and `eject` states) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/captain-console-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/captain-console.test.mjs`.
@@ -108,6 +108,12 @@ The commands carry nothing else: the contract's `CAPTAIN_RELEASE` and `CAPTAIN_E
 
 **Motion:** none of its own.
 
+**Not drawn by the pack, and how they're drawn:**
+- **A command in flight:** the shell's busy footer button.
+- **An unavailable plate with no reason given:** no line under its name; the component writes none of its own.
+- **No one named in Jail on a confirm:** the who block's line is left out.
+- **A used or unavailable plate** is the kit's tile, a button refused with `aria-disabled` and kept focusable (the control policy). The pack draws it as a plain `<div>`. The agreement records it, and compares its look, words and box as they are.
+
 ## Frontend's connection
 
 1. Open the shell's sheet with `captainConsoleSheet(input)` from the Command Room's chip on the Captain's turn, and mount `mountCaptainConsole` in `shell.sheetBody`.
@@ -130,19 +136,16 @@ The commands carry nothing else: the contract's `CAPTAIN_RELEASE` and `CAPTAIN_E
 5. **Privacy:** every view is refused unless the viewer is the Captain.
 6. **Reconnecting:** opening a confirm and Cancel keep working. Release and Eject wait with the banner's words.
 
+## The check
+
+`node design/tools/captain-console-check.mjs` bundles the preview as the game bundles the component, serves it with the hosted game's production headers, and writes `design/phone-ui/components/captain-console/review/`:
+- **14 captures:** sheets 22 and 24's console states (the console, the commands used, each confirm), Release in flight, reconnecting and the Largest text, at 390 × 844 and 430 × 932;
+- **the probe:** the plates and their lines, the art, the footer, the confirm's words, the Captain's privacy, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
+- **the agreement, 9 cases:** the sheet beside the frozen pack's `captain` in its four console states at both sizes, and the console at the Largest text: the same words, states, look and boxes to within half a pixel, and each plate's picture by its file.
+
+**Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.
+
 ## Not in this version
 
-Everything: this is the interface. Next:
-- the module and its styles;
-- the preview's states:
-  - the console;
-  - the commands used;
-  - each confirm;
-  - a command in flight;
-  - reconnecting;
-  - the Largest text;
-- the probe;
-- the check at 390 × 844 and 430 × 932 under the production headers;
-- the agreement with the pack;
-- the test;
-- the owner's test page.
+- **Frontend's connection** (#284 is not started by Designer).
+- **The owner's test page:** built from the preview, published once the owner gives the go-ahead.
