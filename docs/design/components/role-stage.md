@@ -118,7 +118,7 @@ Controls follow the shell's rules: one delegated listener; refused when unavaila
 | Missing film | The card stays through 0:30, "Film unavailable · your card stays up until Ready" |
 | Skipped | The card, "Film skipped on this phone · the stage keeps time" |
 | Stale | The shell's banner and Retry; Ready refused, described by "Controls return when the match is current" |
-| Larger text | The card scales with container units; facts drop to one line, then none, as the pack's container queries. The card area ends where the foot begins: the pack's 120 px over the bottom at the Standard text, higher as larger text grows the note and Ready, so the note never runs into the card (measured from the foot; the fix of 16 November) |
+| Larger text | The card scales with container units; facts drop to one line, then none, as the pack's container queries. The card area ends where the foot begins: the pack's 120 px over the bottom at the Standard text, higher as larger text grows the note and Ready, so the note never runs into the card (measured from the foot; the fix of 16 November). At 390 × 844 with the Largest text the bar is under 12 rem, and the shell follows the pack's rule there (`prototype/kit.css`, the bar under 12 rem): the title takes two lines in place of "Only on this phone", which screen readers still read. At 430 × 932 the bar is wider and keeps the line. It is the shell's rule, not this stage's; whether the role's privacy cue should outrank the title's second line there is the shell's question |
 
 ## Frontend's connection
 
