@@ -1,6 +1,6 @@
 # Panels: Designer's runtime component
 
-**Version:** `panels-0.1.0`. **Status (16 November 2026):** the interface, proposed for the Lead Designer's review. Nothing is built. The build starts when the Lead approves it, without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280).
+**Version:** `panels-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #296, with the Lead's seven answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the Panels tab's sheets, as sheet 32 draws them: the Panels list, Players and Round order. It covers #222 items 29, 30 and 31 (P3):
 - **Panels:** "each row says what it shows and who can use it".
@@ -15,9 +15,9 @@ The game imports it as it is, and the preview mounts the same files ([ownership]
 
 | View | Sheet (the shell's frame) | Body (this component) |
 | --- | --- | --- |
-| **Panels** (`list`) | "Panels", ✕ | The destinations, each with what it shows or who can use it: "Windows" ("Room A ↔ Room B · Room A ↔ Hospital"), "Navigation" ("Captain and Officer only"), "Hospital panel" ("Patients only"). Then "Players" ("Seats, rooms and public status") and "Round order" ("Phases and timings"). A destination this player can't use is dimmed. |
-| **Players** (`players`) | "Players", Back, ✕, large | A row per seat: the portrait, "1 · Ava" ("4 · Dev (you)" for this phone), the room and any injury ("Hospital · Injured"), and the Captain or Officer badge. Then "Public facts only: seats, rooms, health and offices." |
-| **Round order** (`round-order`) | "Round order", Back, ✕, large | A row per phase, in the ruleset's order: its icon on steel, its name ("Jail vote") and its timing ("60 s, then 5 s result") |
+| **Panels** (`list`) | "Panels", ✕, the shell's own height | The destinations, each with what it shows or who can use it: "Windows" ("Room A ↔ Room B · Room A ↔ Hospital"), "Navigation" ("Captain and Officer only"), "Hospital panel" ("Patients only"). Then "Players" ("Seats, rooms and public status") and "Round order" ("Phases and timings"). A destination this player can't use is dimmed. |
+| **Players** (`players`) | "Players", Back, ✕, large | A row per seat: the portrait, "1 · Ava" ("4 · Dev (you)" for this phone), the line ("Hospital · Injured", "In Jail"), and the Captain or Officer badge. Then "Public facts only: seats, rooms, health and offices." |
+| **Round order** (`round-order`) | "Round order", Back, ✕, large | A row per phase, in the ruleset's order: its icon on steel, its name ("Jail vote") and its timing ("60 s, then 5 s result"), in Frontend's words |
 
 **What changes from today:**
 - **Today:**
@@ -32,26 +32,52 @@ The game imports it as it is, and the preview mounts the same files ([ownership]
 **Comparison parts:** `panels`, `players` and `round-order`, all sheet 32, in `design/tools/lib/phone-ui-native-parts.mjs`. They apply when Frontend's PR mounts this component; until then, the component's own captures are its evidence.
 
 **Not in it:**
-- **The destinations themselves:** Windows (sheet 34), Navigation (sheet 41) and the Hospital panel (sheet 43). Here only the rows that open them; Frontend opens each.
-- **Promises and Settings:** they open from the top bar now (Promises is the next part; Settings is #294).
-- **The sheet's frame:** its title, Back, ✕ and glass are the phone shell's (#265). As with Host controls (#295), the module gives Frontend each view's frame (`panelsSheet`), so the words stay in Designer's source.
-- **The facts:** who can use a destination, where each player is, and the phases and their timings are Frontend's, from the projection and the ruleset. The component never works one out, and never hardcodes the round's order.
+- **The destinations themselves:** Windows (sheet 34), Navigation (sheet 41) and the Hospital panel (sheet 43) are other components. Here only the rows that open them; Frontend opens each.
+- **Promises and Settings:** they open from the top bar (Promises is #297; Settings is #294).
+- **The sheet's frame:** its title, Back, ✕ and glass are the phone shell's (#265). The module gives Frontend each view's frame (`panelsSheet`), so the words stay in Designer's source.
+- **The facts:** who can use a destination now, where each player is, and the phases with their names and timings are Frontend's, from the projection and the ruleset. The component never works one out, and never holds the round's order or its words.
+- **The frozen Food release's Tasks row and "Away on the Food Supply Task":** they stay in the frozen release (answers 4 and 7).
 
-## Files (proposed)
+## The Lead's answers (#296)
+
+1. **The split:** one module, three views, one sheet, as Host controls. "Panels" has ✕ at the shell's default height; Players and Round order have Back and ✕, and are large. Each destination row only reports `onOpen(destination)`; Windows, Navigation and the Hospital panel are other components.
+2. **A destination this player can't use:**
+   - It is dimmed and refused, with its line unchanged and Frontend's reason as its description.
+   - "Captain and Officer only" and "Patients only" are the owner-approved words of item 29, so they are the component's own.
+   - Whether the row is enabled is only ever Frontend's `enabled`; the component never decides it from the line.
+3. **Windows:**
+   - The line lists the pairs as given ("Room A ↔ Room B · Room A ↔ Hospital").
+   - With no window, the line is "No window here". The row stays enabled and opens Windows, whose sheet 34 has its own "No window here" state.
+   - It is dimmed only when Frontend says `enabled: false`.
+4. **Players' line:**
+   - When `jailed`, "In Jail" takes the room's place: "In Jail" alone, or "In Jail · Injured". Jailed stays distinct from simply being in that room, so the line never depends on that rule.
+   - Otherwise it is the room, then "Injured" or "Eliminated".
+   - With no room, the health word alone.
+   - The closed key set refuses a role or a revealed faction.
+   - The viewer's own row reads as the pack's ("4 · Dev (you)"), from `viewer`.
+   - The badges are the kit's paper pills.
+5. **Round order:**
+   - The step words and timings are Frontend's, from the ruleset, and the component holds no step words.
+   - The icon comes from the component's map by kind; an unknown kind gets the Round order icon.
+   - There is no note: the pending Blackout-before-voting order is the rules' business. Its absence is the one difference recorded against the pack.
+6. **Reconnecting:** the rows only open a sheet on this phone, so they keep taking taps, as Settings does. A destination that isn't enabled stays refused, and `interactive: false` refuses everything.
+7. **The frozen Food release's Tasks row** stays out.
+
+## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/panels/`:
 
 | Path | What |
 | --- | --- |
-| `panels.mjs` | `mountPanels()`, `panelsSheet()`, `nextPanelsInput()`, `PANELS_DEFAULTS`, `PANELS_VERSION`, `PANELS_SHEET_ID`, `PANELS_WORDS`, `ROUND_STEP_ICONS` |
-| `panels.css` | Every style, under `.ms-panels`; starts with the kit's stylesheet. Little of its own: the badges' row and the gap between the two lists |
-| `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A, as sheet 32 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `panels`, `players` and `rules`) |
+| `panels.mjs` | `mountPanels()`, `panelsSheet()`, `nextPanelsInput()`, `playerLine()`, `PANELS_DEFAULTS`, `PANELS_VERSION`, `PANELS_SHEET_ID`, `PANELS_WORDS`, `PANEL_DESTINATIONS`, `ROUND_STEP_ICONS` |
+| `panels.css` | Every style, under `.ms-panels`; starts with the kit's stylesheet. Its own: the 14 px between the Panels list's two lists, and the badges' row at a player's end |
+| `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A, with the Panels tab open, as sheet 32 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `panels`, `players` and `rules`) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/panels-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/panels.test.mjs`.
 
 **Uses unchanged:**
-- **The kit (0.5.1):** `list` and `row` (the icon tile, the portrait as the lead, the chevron, a non-interactive `div` row), `pill` (the badges, `paper` with the captain and officer icons), `groupNote`, and the control policy.
+- **The kit (0.5.1):** `list` and `row` (the icon tile, the portrait as the lead, the chevron, a non-interactive `div` row), `pill` (the badges, `paper` with the captain and officer icons), `portrait`, `groupNote`, and the control policy.
 - **The phone shell (0.2.6):** its sheet, opened by Frontend; the component does not import the shell.
 
 ## Mount, update and dispose
@@ -68,18 +94,18 @@ panels.dispose();                                     // safe twice; afterwards 
 ```
 
 - **One sheet id (`panels`) for the three views,** so the shell keeps its body (and this content) as the view changes. Back is the shell's (`onSheetBack`): Players and Round order go back to the list, and Frontend sets `view: 'list'`.
-- **On update,** each row keeps its element and the focus. A seat that leaves the list while it has the focus returns the focus once (`onFocusReturn`).
+- **On update,** each row keeps its element and the focus. A destination or seat that leaves while it has the focus returns the focus once (`onFocusReturn`), as does a view that ends.
 
 ## Inputs
 
 | Input | Audience | What |
 | --- | --- | --- |
 | `view` | This phone | `list`, `players` or `round-order`: Frontend's, from the taps and Back |
-| `status`, `interactive`, `viewer`, `versions` | This phone | `live`, `stale` or `concealed`, as the shell's; `versions` for the portraits |
-| `windows` | This phone | `null` (no row), or `{ enabled, reason, rooms }`. `rooms` are the windows of this player's room as pairs of room names (`[['Room A', 'Room B'], ['Room A', 'Hospital']]`), from the projection's windows (question 3) |
+| `status`, `interactive`, `viewer`, `versions` | This phone | `live`, `stale` or `concealed`, as the shell's; `viewer` is this phone's seat, for "(you)"; `versions` for the portraits |
+| `windows` | This phone | `null` (no row), or `{ enabled, reason, rooms }`. `rooms` are the windows of this player's room as pairs of room names (`[['Room A', 'Room B'], ['Room A', 'Hospital']]`), from the projection's windows |
 | `navigation`, `hospital` | This phone | `null` (no row), or `{ enabled, reason }`: whether this player can open it now, from the projection |
-| `players` | Public | `[{ seat, name, character, location, health, jailed, captain, officer }]`, in seat order. Any other key is refused, so a private fact can't reach this sheet (question 4) |
-| `steps` | Public | `[{ kind, title, timing }]`, in the ruleset's order: each phase's name and timing in Frontend's words (question 5) |
+| `players` | Public | `[{ seat, name, character, location, health, jailed, captain, officer }]`, in seat order, from `board.seats[]`, the identities and the offices. Every field is public: the seat, the name, the character's portrait, the room, the health (`Healthy`, `Injured`, `Eliminated`), whether jailed, and the two offices. Any other key is refused |
+| `steps` | Public | `[{ kind, title, timing }]`, in the ruleset's order: each phase's kind (for its icon), its name and its timing, in Frontend's words |
 
 ## Callbacks
 
@@ -94,11 +120,12 @@ The shell's `onSheetBack` and `onSheetClose` are Frontend's, as for every sheet.
 
 | Part | Drawn |
 | --- | --- |
-| Panels | Two lists, 14 px apart. First list: **Windows** (the window icon on paper, the room pairs), **Navigation** (the course icon on slate, "Captain and Officer only"), **Hospital panel** (the panel icon on teal, "Patients only"). Second list: **Players** (the players icon on steel, "Seats, rooms and public status") and **Round order** (the rules icon on steel, "Phases and timings"). Each has a chevron |
-| A destination this player can't use | Dimmed, its line unchanged; still focusable; a tap reports nothing, and Frontend's reason is its accessible description (question 2) |
-| Players | One list, a row per seat, not buttons: the 36 px portrait, "Seat · Name" ("(you)" after this phone's name), the line, and at the end the Captain badge (the captain icon) or the Officer badge (the officer icon). Then the note |
-| The Players line | The room, then "Injured" or "Eliminated" when so ("Hospital · Injured") (question 4) |
-| Round order | One list, a row per step, not buttons: the step's icon on a steel tile, its name, and its timing as the line |
+| Panels | Two lists, 14 px apart. First list: **Windows** (the window icon on paper, the room pairs), **Navigation** (the course icon on slate, "Captain and Officer only"), **Hospital panel** (the panel icon on teal, "Patients only"). Second list: **Players** (the players icon on steel, "Seats, rooms and public status") and **Round order** (the rules icon on steel, "Phases and timings"). Each has a chevron. With no destination given, the first list and the gap go |
+| A destination this player can't use | Dimmed, its line unchanged; still focusable; a tap reports nothing; Frontend's reason is its accessible description |
+| Players | One list, a row per seat, not buttons: the 36 px portrait, "Seat · Name" ("(you)" after this phone's name), the line, and at the end the Captain badge (the captain icon) or the Officer badge (the officer icon), the kit's paper pills. Then the note |
+| The Players line | "In Jail" in the room's place when jailed; otherwise the room. Then "Injured" or "Eliminated" when so. With no room, the health word alone |
+| Round order | One list, a row per step, not buttons: the step's icon on a steel tile, its name, and its timing as the line. No note |
+| Step icons (`ROUND_STEP_ICONS`) | `food-supply` supply, `officer-appointment` officer, `pre-turn` hourglass, `turns` actions, `private-talk` talk, `hack` code, `sync` blackhole, `blackout` dark, `hospital` hospital, `jail-vote` vote, `captain-election` captain, `result` vote, `resolution` rescue, `navigation` course; any other kind, the Round order icon (rules) |
 | Larger text | The rows' words wrap; the badges stay whole at the row's end; at the Largest text the sheet scrolls |
 
 **Motion:** none of its own. The sheet's arrival and the view changes are the shell's.
@@ -106,50 +133,23 @@ The shell's `onSheetBack` and `onSheetClose` are Frontend's, as for every sheet.
 ## Frontend's connection
 
 1. On the Panels tab, open the shell's sheet with `panelsSheet({ view: 'list', … })`, and mount `mountPanels` in `shell.sheetBody`; dispose it when the sheet closes.
-2. Give `windows`, `navigation` and `hospital` from the projection, as today's Panels decides whether each opens; give `players` from `board.seats[]`, the identities and the offices; give `steps` from the ruleset (today's `planetRoundOrderText` and `PLANET_PHASE_DURATIONS`).
+2. Give `windows`, `navigation` and `hospital` from the projection, as today's Panels decides whether each opens. Give `players` from `board.seats[]`, the identities and the offices. Give `steps` from the ruleset (today's `planetRoundOrderText` order and `PLANET_PHASE_DURATIONS`), each with its `kind`.
 3. On `onOpen`, open Windows, Navigation or the Hospital panel as today, or set `view` for Players and Round order; route the shell's Back and ✕.
 4. Today's Panels buttons and the Players and Round order text leave the screen.
 
-## Questions for the Lead
+## Against the pack
 
-1. **One module, three views, one sheet:** as Host controls (#295), the body is the component's, the frame is the shell's through `panelsSheet(input)`, and the view is Frontend's. Panels has ✕ only, at the shell's default height. Players and Round order have Back and ✕, and are large, as drawn. Is that the split you want?
-2. **A destination that can't be used:**
-   - Who can use each destination is in its line, in Designer's words: "Captain and Officer only", "Patients only".
-   - Whether this player can use it now is Frontend's `enabled`.
-   - A row this player can't use is dimmed, with its line unchanged and Frontend's reason as its accessible description. The words on screen don't change.
+The agreement draws the frozen pack's `panels`, `players` and `rules` screens beside the sheet (at both sizes, and Players at the Largest text) and compares, to within half a pixel: the sheet, its title and body; the lists, the rows, their mains, icon tiles and drawings, portraits (by file), titles, lines and chevrons; the badges and their icons; and the note. It compares their boxes, words, looks (including the dimmed rows' opacity), states (`aria-disabled`, names, roles) and drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; what the pack does not draw (the Captain's Navigation, no window, players in Jail, reconnecting) is the probe's and the captures'.
 
-   This differs from Host controls, where the reason replaced the line. It does so because the line here already says who can use it. Agreed?
-3. **The Windows line:**
-   - It lists the windows of this player's room, as Frontend gives them: "Room A ↔ Room B · Room A ↔ Hospital".
-   - With none (the Command Room), I propose sheet 34's "No window here" as the line. The row still opens Windows, which draws its own "No window here".
-   - Or should the row be dimmed there?
-4. **Players' line and privacy:**
-   - The line is the room, then "Injured" or "Eliminated" when so.
-   - A jailed player's room is "Jail", so I propose no second word. The pack's "In Jail" would read "Jail · In Jail".
-   - With no room (`location: null`), the line is the health word alone, or nothing.
-   - `players` takes only the eight keys above and refuses any other, such as a role or a revealed faction, so nothing private can reach this sheet.
-   - The Food release's "Away on the Food Supply Task" stays in the frozen Food release.
-5. **Round order's words:**
-   - Each step's name and timing are Frontend's, from the ruleset: for example "Jail vote" and "60 s, then 5 s result". A Food match adds Food Supply, and older rulesets have another order.
-   - The component draws them in the order given, with the icon from its own map by `kind`: `pre-turn` hourglass, `turns` actions, `sync` blackhole, `jail-vote` vote, `blackout` dark, `navigation` course, and so on. An unknown kind gets the Round order icon, so a new phase still draws.
-   - The preview uses the pack's six steps.
-   - **The note:** as you said, the pack's note on the pending Blackout order is the rules' business, so the component draws no note. The agreement records that one difference against the pack.
-   - Or should the step words be the component's, keyed by `kind`?
-6. **Reconnecting:** the rows only open a sheet on this phone, so they keep taking taps while the match is reconnecting, as Settings does (#294). The commands inside Windows, Navigation and the Hospital panel are those sheets'. A destination that isn't enabled stays refused. Only `interactive: false` refuses everything, and concealed draws no sheet.
-7. **The Food release's Tasks row:** today's Panels shows "Tasks" in a Food match. Food is the frozen release, and the pack doesn't draw that row, so this component doesn't either. The frozen release keeps its own Panels. Agreed?
+- **Recorded, in Round order only (answer 5):** the pack's note under the steps ("Current order. The owner's Blackout-before-voting order is an Integration proposal, pending the rules update.") is the rules' business, so the component draws no note. Those two cases record the note's absence; everything else is compared as usual.
+
+## Check
+
+`node design/tools/panels-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 8 states at 390 × 844 and 430 × 932: the list as a passenger, the list as the Captain, no window, Players, players in Jail, Round order, reconnecting, and Players at the Largest text, each with the Panels tab open. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
+
+**Recorded:** to follow, on the clean build commit.
 
 ## Not in this version
 
-Everything: this is the interface. Next, once the Lead approves it:
-- the module and its styles;
-- the preview's states:
-  - the list as a passenger, and as the Captain;
-  - Players with the badges, an injury and a jailed player;
-  - Round order;
-  - the Largest text;
-  - reconnecting;
-- the probe;
-- the check at 390 × 844 and 430 × 932 under the production headers;
-- the agreement with the pack;
-- the test;
-- the owner's test page.
+- The destinations' own sheets (Windows, Navigation, the Hospital panel): other components.
+- A highlight of the current phase in Round order: the pack does not draw one.
