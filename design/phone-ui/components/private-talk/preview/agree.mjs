@@ -101,35 +101,35 @@ export async function runTalkAgreement({ sizes, inputsFor }) {
     compare('footer', 'words', footA.map(words), footB.map(words));
     footA.forEach((b, i) => compareBox(`footer ${i + 1}`, box(sheetA, b), box(sheetB, footB[i] ?? null)));
     // Who asked (declare), or whose claim (the claim).
-    const whoA = bodyA?.querySelector('.confirm-who'), whoB = root?.querySelector('.ms-pp-who');
-    compare('who', 'words', [words(whoA?.querySelector(':scope > div > b')), words(whoA?.querySelector(':scope > div > span'))], [words(whoB?.querySelector('.ms-pp-who-title')), words(whoB?.querySelector('.ms-pp-who-sub'))]);
+    const whoA = bodyA?.querySelector('.confirm-who'), whoB = root?.querySelector('.ms-k-who');
+    compare('who', 'words', [words(whoA?.querySelector(':scope > div > b')), words(whoA?.querySelector(':scope > div > span'))], [words(whoB?.querySelector('.ms-k-who-title')), words(whoB?.querySelector('.ms-k-who-sub'))]);
     compareBox('who', box(bodyA, whoA), box(bodyB, whoB));
-    compareBox('who portrait', box(whoA, whoA?.querySelector(':scope > .pt')), box(whoB, whoB?.querySelector('.ms-pp-who-lead .ms-k-pt')));
-    compareBox('who title', box(whoA, whoA?.querySelector(':scope > div > b')), box(whoB, whoB?.querySelector('.ms-pp-who-title')));
-    compareBox('who sub', box(whoA, whoA?.querySelector(':scope > div > span')), box(whoB, whoB?.querySelector('.ms-pp-who-sub')));
+    compareBox('who portrait', box(whoA, whoA?.querySelector(':scope > .pt')), box(whoB, whoB?.querySelector('.ms-k-who-lead .ms-k-pt')));
+    compareBox('who title', box(whoA, whoA?.querySelector(':scope > div > b')), box(whoB, whoB?.querySelector('.ms-k-who-title')));
+    compareBox('who sub', box(whoA, whoA?.querySelector(':scope > div > span')), box(whoB, whoB?.querySelector('.ms-k-who-sub')));
     // The side cards: one radio group, each card's place, state, choice, words, lock, art and look.
     const groupA = bodyA?.querySelector('.declare-sides'), groupB = root?.querySelector('.ms-pt-sides');
     compare('cards', 'group', [groupA?.getAttribute('role') ?? null, groupA?.getAttribute('aria-label') ?? null], [groupB?.getAttribute('role') ?? null, groupB?.getAttribute('aria-label') ?? null]);
     compareBox('cards', box(bodyA, groupA), box(bodyB, groupB));
-    const cardsA = [...(groupA?.querySelectorAll('.tile') ?? [])], cardsB = [...(groupB?.querySelectorAll('.ms-pp-tile') ?? [])];
+    const cardsA = [...(groupA?.querySelectorAll('.tile') ?? [])], cardsB = [...(groupB?.querySelectorAll('.ms-k-tile') ?? [])];
     compare('cards', 'count', cardsA.length, cardsB.length);
     cardsA.forEach((a, i) => {
       const b = cardsB[i] ?? null, n = `card ${i + 1}`;
       compare(n, 'state', [a.dataset.state, a.getAttribute('role'), a.getAttribute('aria-checked'), a.getAttribute('aria-disabled')],
         [b?.dataset.state ?? null, b?.getAttribute('role') ?? null, b?.getAttribute('aria-checked') ?? null, b?.getAttribute('aria-disabled') ?? null]);
-      compare(n, 'words', [words(a.querySelector('b')), words(a.querySelector('small'))], [words(b?.querySelector('.ms-pp-tile-name')), words(b?.querySelector('.ms-pp-tile-note'))]);
-      compare(n, 'lock', !!a.querySelector('small .ic'), !!b?.querySelector('.ms-pp-tile-note .ms-k-ic'));
+      compare(n, 'words', [words(a.querySelector('b')), words(a.querySelector('small'))], [words(b?.querySelector('.ms-k-tile-name')), words(b?.querySelector('.ms-k-tile-note'))]);
+      compare(n, 'lock', !!a.querySelector('small .ic'), !!b?.querySelector('.ms-k-tile-note .ms-k-ic'));
       compareBox(n, box(bodyA, a), box(bodyB, b));
       compareLook(n, a, b);
-      compareBox(`${n} art`, box(a, a.querySelector('.hack-card')), box(b, b?.querySelector('.ms-pp-tile-art')));
-      compareBox(`${n} art drawing`, box(a, a.querySelector('.hack-card svg')), box(b, b?.querySelector('.ms-pp-tile-art svg')));
-      compareLook(`${n} art`, a.querySelector('.hack-card'), b?.querySelector('.ms-pp-tile-art'));
-      compare(`${n} art`, 'drawing', a.querySelector('.hack-card svg')?.outerHTML.replace(/ style="[^"]*"/, '') ?? null, b?.querySelector('.ms-pp-tile-art svg')?.outerHTML ?? null);
-      compareBox(`${n} name`, box(a, a.querySelector('b')), box(b, b?.querySelector('.ms-pp-tile-name')));
-      compareLook(`${n} name`, a.querySelector('b'), b?.querySelector('.ms-pp-tile-name'));
-      compareBox(`${n} note`, box(a, a.querySelector('small')), box(b, b?.querySelector('.ms-pp-tile-note')));
-      compareLook(`${n} note`, a.querySelector('small'), b?.querySelector('.ms-pp-tile-note'));
-      compareBox(`${n} lock`, box(a, a.querySelector('small .ic')), box(b, b?.querySelector('.ms-pp-tile-note .ms-k-ic')));
+      compareBox(`${n} art`, box(a, a.querySelector('.hack-card')), box(b, b?.querySelector('.ms-k-tile-art')));
+      compareBox(`${n} art drawing`, box(a, a.querySelector('.hack-card svg')), box(b, b?.querySelector('.ms-k-tile-art svg')));
+      compareLook(`${n} art`, a.querySelector('.hack-card'), b?.querySelector('.ms-k-tile-art'));
+      compare(`${n} art`, 'drawing', a.querySelector('.hack-card svg')?.outerHTML.replace(/ style="[^"]*"/, '') ?? null, b?.querySelector('.ms-k-tile-art svg')?.outerHTML ?? null);
+      compareBox(`${n} name`, box(a, a.querySelector('b')), box(b, b?.querySelector('.ms-k-tile-name')));
+      compareLook(`${n} name`, a.querySelector('b'), b?.querySelector('.ms-k-tile-name'));
+      compareBox(`${n} note`, box(a, a.querySelector('small')), box(b, b?.querySelector('.ms-k-tile-note')));
+      compareLook(`${n} note`, a.querySelector('small'), b?.querySelector('.ms-k-tile-note'));
+      compareBox(`${n} lock`, box(a, a.querySelector('small .ic')), box(b, b?.querySelector('.ms-k-tile-note .ms-k-ic')));
     });
     // The line under the cards (the kit's group note in the body).
     const noteA = bodyA?.querySelector(':scope > .group-note') ?? null, noteB = root?.querySelector('.ms-pt-note') ?? null;

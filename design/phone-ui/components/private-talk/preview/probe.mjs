@@ -74,7 +74,7 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
     return { frame, shell, part, intents, root: part.element, dispose: () => { part.dispose(); shell.dispose(); frame.remove(); } };
   }
   const tap = node => node.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-  const cards = root => [...root.querySelectorAll('.ms-pt-sides .ms-pp-tile')];
+  const cards = root => [...root.querySelectorAll('.ms-pt-sides .ms-k-tile')];
   const words = node => (node?.textContent ?? '').replace(/\s+/g, ' ').trim();
   /** The words as laid out, as a person (and the accessible name) reads them: a space between the parts. */
   const said = node => (node?.innerText ?? '').replace(/\s+/g, ' ').trim();
@@ -90,7 +90,7 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
       const p = phone('declare-any');
       const [blue, red, alien] = cards(p.root);
       const group = p.root.querySelector('.ms-pt-sides');
-      const first = { names: cards(p.root).map(c => words(c.querySelector('.ms-pp-tile-name'))), states: cards(p.root).map(c => c.dataset.state),
+      const first = { names: cards(p.root).map(c => words(c.querySelector('.ms-k-tile-name'))), states: cards(p.root).map(c => c.dataset.state),
         checked: cards(p.root).map(c => c.getAttribute('aria-checked')), roles: cards(p.root).map(c => c.getAttribute('role')), group: [group.getAttribute('role'), group.getAttribute('aria-label')] };
       red.focus();
       tap(red);
@@ -105,8 +105,8 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
       const own = line();
       p.part.update({ sides: ['Blue', 'Red'], selected: null });
       const two = p.root.querySelector('.ms-pt-note');
-      const whoBox = p.root.querySelector('.ms-pp-who');
-      const asked = [words(whoBox.querySelector('.ms-pp-who-title')), words(whoBox.querySelector('.ms-pp-who-sub')), px(whoBox.querySelector('.ms-k-pt'))];
+      const whoBox = p.root.querySelector('.ms-k-who');
+      const asked = [words(whoBox.querySelector('.ms-k-who-title')), words(whoBox.querySelector('.ms-k-who-sub')), px(whoBox.querySelector('.ms-k-pt'))];
       p.dispose();
       const sheets = [declareSheet({ selected: null }), declareSheet({ selected: 'Red' }), declareSheet({ selected: 'Blue', phase: 'sending' })]
         .map(s => [s.id, s.title, s.close, ...s.actions.map(a => `${a.id}:${a.label}:${a.icon}:${a.busy ? 'busy' : ''}:${a.enabled ? 'on' : 'off'}`)].join('|'));
@@ -127,7 +127,7 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
       tap(red);
       tap(alien);
       const locked = { taps: reported(p, 'onSide').length, focus: document.activeElement === red, disabled: [blue, red, alien].map(c => c.getAttribute('aria-disabled')),
-        states: [blue, red, alien].map(c => c.dataset.state), names: [blue, red, alien].map(said), lock: !!red.querySelector('.ms-pp-tile-note .ms-k-ic'), tag: red.tagName };
+        states: [blue, red, alien].map(c => c.dataset.state), names: [blue, red, alien].map(said), lock: !!red.querySelector('.ms-k-tile-note .ms-k-ic'), tag: red.tagName };
       tap(blue);
       const offered = reported(p, 'onSide');
       p.dispose();
@@ -151,7 +151,7 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
       for (const [key, viewer] of [['claim-declarer', 4], ['claim-initiator', 1]]) {
         const p = phone(key);
         const box = p.root.querySelector('.ms-pt-claim'), card = p.root.querySelector('.ms-pt-card');
-        const read = () => [words(box.querySelector('.ms-pp-who-title')), words(box.querySelector('.ms-pp-who-sub'))];
+        const read = () => [words(box.querySelector('.ms-k-who-title')), words(box.querySelector('.ms-k-who-sub'))];
         const blue = { said: read(), art: holds(card, 'hack-side-blue'), hidden: card.getAttribute('aria-hidden'), status: box.getAttribute('role'), portrait: px(box.querySelector('.ms-k-pt')) };
         const sides = [];
         for (const claim of ['Red', 'Alien', null]) {
@@ -329,7 +329,7 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
           await frames();
           scan(frame, key);
           // Every card tapped, every side chosen, every claim shown: still no side in an attribute.
-          for (const card of frame.querySelectorAll('.ms-pt-sides .ms-pp-tile')) { card.focus(); tap(card); }
+          for (const card of frame.querySelectorAll('.ms-pt-sides .ms-k-tile')) { card.focus(); tap(card); }
           const kind = TALK_STATES[key].part?.kind;
           if (kind === 'declare' && TALK_STATES[key].part.input.sides.length === 3) for (const s of SIDES) { part.update({ selected: s }); shell.update({ sheet: declareSheet({ selected: s }) }); scan(frame, `${key} ${s}`); }
           if (kind === 'claim') for (const s of [...SIDES, null]) { part.update({ claim: s }); scan(frame, `${key} ${s}`); }
@@ -368,11 +368,11 @@ export async function runTalkProbe({ sizes, versions, inputsFor }) {
       const p = phone('largest-declare', { sizeKey: '320x568' });
       const list = cards(p.root);
       const top = n => Math.round(n.getBoundingClientRect().top);
-      const declare = { perRow: list.filter(n => top(n) === top(list[0])).length, whole: list.every(n => whole(n, n) && [...n.querySelectorAll('.ms-pp-tile-name, .ms-pp-tile-note:not([hidden])')].every(w => whole(w, n))),
+      const declare = { perRow: list.filter(n => top(n) === top(list[0])).length, whole: list.every(n => whole(n, n) && [...n.querySelectorAll('.ms-k-tile-name, .ms-k-tile-note:not([hidden])')].every(w => whole(w, n))),
         tall: list.every(n => n.getBoundingClientRect().height >= 44), note: whole(p.root.querySelector('.ms-pt-note'), p.root) };
       p.dispose();
       const q = phone('largest-claim', { sizeKey: '320x568' });
-      const claim = { who: [...q.root.querySelectorAll('.ms-pp-who-title, .ms-pp-who-sub')].every(w => whole(w, q.root)), card: px(q.root.querySelector('.ms-pt-card')) };
+      const claim = { who: [...q.root.querySelectorAll('.ms-k-who-title, .ms-k-who-sub')].every(w => whole(w, q.root)), card: px(q.root.querySelector('.ms-pt-card')) };
       q.dispose();
       const r = phone('largest-wait', { sizeKey: '320x568' });
       const wait = { title: whole(r.root.querySelector('.ms-k-wait-title'), r.root) };

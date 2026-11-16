@@ -116,15 +116,15 @@ try {
         const t = n => (shown(n) ? n.innerText.replace(/\\s+/g, ' ').trim() : null);
         const sheetPart = q('.ms-ps-sheet-body .ms-private-talk'), capsule = q('.ms-pt-capsule'), room = q('.ms-room-scene');
         const drawnPart = [sheetPart, capsule].find(n => n && [...n.children].some(c => !c.classList.contains('ms-k-vh'))) ?? null;
-        const cards = all('.ms-pt-sides .ms-pp-tile');
+        const cards = all('.ms-pt-sides .ms-k-tile');
         const top = n => Math.round(n.getBoundingClientRect().top);
         return { violations: window.__policy, part: drawnPart?.dataset.part ?? null, status: (sheetPart ?? capsule)?.dataset.status ?? null,
           bar: [t(q('.ms-ps-tb .ms-ps-name')), t(q('.ms-ps-tb .ms-ps-sub'))].filter(Boolean).join('|') || null,
           sheet: t(q('.ms-ps-sheet-title h2')),
           footer: all('.ms-ps-sheet-foot .ms-k-btn').map(b => b.innerText.replace(/\\s+/g, ' ').trim()).join('|') || null,
-          who: q('.ms-private-talk .ms-pp-who') ? [t(q('.ms-pp-who-title')), t(q('.ms-pp-who-sub'))].join('|') : null,
-          cards: cards.map(n => t(n.querySelector('.ms-pp-tile-name')) + ':' + n.dataset.state).join(',') || null,
-          locks: cards.filter(n => n.querySelector('.ms-pp-tile-note:not([hidden]) .ms-k-ic')).length,
+          who: q('.ms-private-talk .ms-k-who') ? [t(q('.ms-k-who-title')), t(q('.ms-k-who-sub'))].join('|') : null,
+          cards: cards.map(n => t(n.querySelector('.ms-k-tile-name')) + ':' + n.dataset.state).join(',') || null,
+          locks: cards.filter(n => n.querySelector('.ms-k-tile-note:not([hidden]) .ms-k-ic')).length,
           note: t(q('.ms-pt-note')),
           perRow: cards.length ? cards.filter(n => top(n) === top(cards[0])).length : null,
           refused: cards.length ? cards.every(n => n.getAttribute('aria-disabled') === 'true') : null,

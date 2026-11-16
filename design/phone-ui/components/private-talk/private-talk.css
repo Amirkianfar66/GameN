@@ -4,9 +4,10 @@
 /*
  * The private talk (private-talk.mjs): the layout of its sheets' content and its capsule. Runtime source,
  * Designer's. The pack's own values (design/phone-ui/prototype/screens.css .declare-sides, and the claim's
- * card; kit.css .scene, .scene-art, .fig, .tag), on the kit's tokens. The side cards are the parts' tile, who
- * is the parts' who, the line under the cards is the kit's group note and the waiting block is the kit's; the
- * sheet's frame, its footer, the pair bar and the talk's buttons are the shell's.
+ * card; kit.css .scene, .scene-art, .fig, .tag), on the kit's tokens. The side cards are the kit's tile (with
+ * its art, note icon and label: false since component-kit-0.7.0) and who is the kit's who, both handed on by the
+ * parts; the line under the cards is the kit's group note and the waiting block is the kit's; the sheet's frame,
+ * its footer, the pair bar and the talk's buttons are the shell's.
  *
  * Scope: every rule is under the component's root (.ms-private-talk, which is also .ms-kit) and names a class
  * of its own, so it weighs two classes and outranks the kit and the parts (one class each), whatever order the
@@ -20,7 +21,7 @@
 
 /* ── Declare (sheet 25, frames 1 and 2: screens.css .declare-sides) ───── */
 .ms-private-talk .ms-pt-sides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px; }
-.ms-private-talk .ms-pt-sides .ms-pp-tile { min-height: 150px; background: #0A1530; }
+.ms-private-talk .ms-pt-sides .ms-k-tile { min-height: 150px; background: #0A1530; }
 
 /* ── The claim (frame 3): the card, at most 160 px, centred under who ── */
 .ms-private-talk .ms-pt-card { display: block; max-width: 160px; margin: 6px auto 0; }
