@@ -1,6 +1,6 @@
 # Boarding stage: Designer's runtime component
 
-**Version:** `boarding-stage-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the shell and kit 0.3.0 (`05e2d1d0`, with the shell's `backdrop`), with its preview, probe, agreement with the pack, check and test. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
+**Version:** `boarding-stage-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer, with the decisions below, and posted on #4 for Frontend. It is built on the shell and kit 0.3.0 (`05e2d1d0`, with the shell's `backdrop`), now merged to kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`), with its preview, probe, agreement with the pack, check and test. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
 
 **What it is:** the shared ten-second boarding before Round 1 on a phone, as sheet 19 draws it: the boarding film with Skip, and the two holding screens around it. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -119,6 +119,8 @@ Skip follows the kit's control policy: refused when unavailable, stale, conceale
 Everything else stands as proposed: `bar: null`, `tabs: null`, `edge: true`; the pack's "Skip" with its icon; Frontend's boarding player in `stage.film`; `view` decided by Frontend.
 
 ## Checks run on this version
+
+**On `73358795`, clean:** #265 merged at `0e5a0b8a` (kit 0.8.0, shell 0.2.8). 20 of 20 captures, the probe 9 of 9 and the agreement 6 of 6 pass. Against `c24cce8d`'s record, 18 captures are byte-identical; the Largest text at 390 × 844 and waiting at 430 × 932 differ only by the waiting spinner's frame (a 17 × 16 px patch).
 
 On the clean commit named in `review/check.json`:
 - **Tests:** `packages/design-tokens/test/boarding-stage.test.mjs`: the runtime-safe graph with the shell and the kit, styles scoped and placing kit parts only through their own parts, the pack's words, the inputs' refusals, the holding block from the view and the clock, and the check's record. `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `test:design`, `test:tooling` and `check-assets.mjs` run before every push.
