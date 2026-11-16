@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.4.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.5.0';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -300,11 +300,16 @@ export function createKit(doc) {
   const wait = props => setWait(h('div'), props);
 
   // ── The segmented control, the stepper, the switch ───────────────────
-  /** options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen. */
-  function setSeg(node, { options, value, label = null, intent = 'seg' }) {
+  /**
+   * options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen.
+   * `stack`: the options are words that may not fit side by side at the Largest text; there, in a .ms-k-phone
+   * root, they stack one per row (the pack's .seg[data-stack]). Short options (7 · 8 · 9) leave it off.
+   */
+  function setSeg(node, { options, value, label = null, intent = 'seg', stack = false }) {
     node.className = 'ms-k-seg';
     node.setAttribute('role', 'radiogroup');
     attr(node, 'aria-label', label);
+    attr(node, 'data-stack', stack ? '' : null);
     const ids = options.map(o => String(o.id));
     for (const b of [...node.children]) if (!ids.includes(b.dataset.value)) b.remove();
     options.forEach((o, i) => {
