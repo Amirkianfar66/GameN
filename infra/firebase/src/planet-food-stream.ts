@@ -83,7 +83,7 @@ export async function handlePlanetFoodTransport(d:{
     }catch{end();return false;}
   };
   const close=(reason:'phase-ended'|'unavailable'|'authorization',snapshot?:PlanetSessionSnapshot)=>{
-    write({kind:'closed',reason,serverTimeMs:clock(),...(snapshot?{snapshot}:{})});end();
+    write({kind:'closed',reason,serverTimeMs:snapshot?.foodPublicView?.serverNowMs??clock(),...(snapshot?{snapshot}:{})});end();
   };
   function drained():void{
     if(done||!blocked)return;

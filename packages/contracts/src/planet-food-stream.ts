@@ -32,6 +32,8 @@ export const PlanetFoodStreamFrameSchema=z.discriminatedUnion('kind',[
   }else{
     if((frame.reason==='phase-ended')!==(snapshot!==undefined))
       ctx.addIssue({code:'custom',message:'Only planned closure includes a final authorized snapshot'});
+    if(snapshot?.foodPublicView&&snapshot.foodPublicView.serverNowMs!==frame.serverTimeMs)
+      ctx.addIssue({code:'custom',message:'Final Food snapshot retains its single response clock'});
     if(frame.reason==='phase-ended'&&snapshot?.foodStream?.phaseId===frame.phaseId
       &&snapshot.foodStream.foodStepId===frame.foodStepId)
       ctx.addIssue({code:'custom',message:'Planned closure cannot silently resume polling the same active scope'});

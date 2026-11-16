@@ -47,7 +47,7 @@ test('stream emits authorized changes only, then returns the final same-player S
   const {h,snapshot,scope}=await fixture(),out=response();let current={snapshot,fresh:true},changed,stops=0,reads=0;
   const service={projectFoodInboxDelivery:async()=>{reads++;return structuredClone(current);},
     subscribeFoodInboxMatch:async(_u,_m,onChange)=>{changed=onChange;return ()=>{stops++;};}};
-  const pending=handlePlanetFoodTransport({service,uid:h.players[0],request:{operation:'foodWatch',...scope},response:out.res,receivedAt:0,clock:h.now,maxStreamMs:2000});
+  const pending=handlePlanetFoodTransport({service,uid:h.players[0],request:{operation:'foodWatch',...scope},response:out.res,receivedAt:0,clock:()=>h.now()+13,maxStreamMs:2000});
   await until(()=>changed&&reads>=2);
   assert.equal(out.frames.length,1);assert.match(out.capture.headers['Content-Type'],/^text\/event-stream/);
   current.snapshot.foodPublicView.serverNowMs++;
@@ -55,10 +55,13 @@ test('stream emits authorized changes only, then returns the final same-player S
   changed();await until(()=>reads>=3);await tick();assert.equal(out.frames.length,1,'sampled clocks do not expose storage notification cadence');
   current.fresh=false;changed();await until(()=>out.frames.length===2);assert.equal(out.frames[1].fresh,false);
   current.fresh=true;current.snapshot.foodPlayerView.viewRevision++;changed();await until(()=>out.frames.length===3);
-  await h.operation(h.host,'abort',{matchId:h.matchId});
+  h.setTime(snapshot.foodPublicView.step.returnsAt);
+  const advanced=await h.invoke(h.host,'advance',{matchId:h.matchId});assert.equal(advanced.ok,true);
   current={snapshot:await h.read(h.players[0]),fresh:true};changed();await pending;
   assert.equal(out.frames.at(-1).kind,'closed');assert.equal(out.frames.at(-1).reason,'phase-ended');
-  assert.equal(out.frames.at(-1).snapshot.status,'aborted');
+  assert.equal(out.frames.at(-1).snapshot.status,'running');
+  assert.equal(out.frames.at(-1).snapshot.foodPublicView.step,null);
+  assert.equal(out.frames.at(-1).serverTimeMs,out.frames.at(-1).snapshot.foodPublicView.serverNowMs);
   assert.deepEqual(out.frames.map(f=>f.frameSequence),[1,2,3,4]);
   assert.equal(new Set(out.frames.map(f=>f.frameEpoch)).size,1);assert.equal(stops,1);
   assert.equal(out.events.listenerCount('close'),0);assert.equal(out.events.listenerCount('drain'),0);
