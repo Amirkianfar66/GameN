@@ -105,8 +105,8 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     compare('tiles', 'count', tilesA.length, tilesB.length);
     tilesA.forEach((a, i) => {
       const b = tilesB[i] ?? null, n = `tile ${i + 1}`;
-      // The pack's spent tile is an unavailable tile with the server's reason (L1); its submitting is sending.
-      compare(n, 'state', a.dataset.state === 'submitting' ? 'sending' : a.dataset.state === 'spent' ? 'unavailable' : a.dataset.state, b?.dataset.state ?? null);
+      // The pack's submitting is sending; its spent tile is the kit's spent (0.7.1), with the server's reason (L1).
+      compare(n, 'state', a.dataset.state === 'submitting' ? 'sending' : a.dataset.state, b?.dataset.state ?? null);
       compare(n, 'words', [words(a.querySelector('b')), words(a.querySelector('small')), words(a.querySelector('.tile-badge')), words(a.querySelector('.mini-stamp'))],
         [words(b?.querySelector('.ms-k-tile-name')), words(b?.querySelector('.ms-k-tile-note')), words(b?.querySelector('.ms-k-tile-badge')), words(b?.querySelector('.ms-k-tile-stamp'))]);
       compare(n, 'accessible name', a.getAttribute('aria-label'), b?.getAttribute('aria-label') ?? null);
