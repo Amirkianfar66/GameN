@@ -73,7 +73,9 @@
 }
 /* A shared display has no tab bar; the private talk's two buttons sit over the stage's foot (sheet 25). */
 .ms-phone-shell[data-tabs="none"] { --ms-ps-tab-h: 0px; }
-.ms-phone-shell[data-tabs="talk"] { --ms-ps-bottom: calc(var(--ms-ps-safe-b) + 18px + 50px + 10px); --ms-ps-stage-bottom: 0px; }
+/* What docks above the talk's two buttons (a sheet, the chip) stays 10 px clear of them, by their measured height
+   (--ms-ps-talk-h, phone-shell.mjs placeTalk), which grows with the text (0.2.6); before, it was taken as 50 px. */
+.ms-phone-shell[data-tabs="talk"] { --ms-ps-bottom: calc(var(--ms-ps-safe-b) + 18px + var(--ms-ps-talk-h, 50px) + 10px); --ms-ps-stage-bottom: 0px; }
 /* The shell's own parts only (their classes start ms-ps-): nothing here reaches into the stage, which is
    the room scene's, or into a sheet's body, which is its content's. Each of those styles itself. */
 .ms-phone-shell :is([class^="ms-ps-"], [class*=" ms-ps-"]),
@@ -286,6 +288,11 @@
 @container ms-k-phone (max-width: 19em) {
   .ms-phone-shell .ms-ps-sheet-foot { flex-wrap: wrap; }
   .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
+  /* The private talk's two buttons (0.2.6) take the same rule: side by side in equal halves while their words fit,
+     a row each when they don't. Before, at the Largest text on a 320 px phone "My card" ran past the phone's edge
+     (the Gameplay builder found it on the private talk). */
+  .ms-phone-shell .ms-ps-talk { display: flex; flex-wrap: wrap; }
+  .ms-phone-shell .ms-ps-talk .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
 }
 /* Where glass can't be drawn, or the phone asks for less transparency, the sheet is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); } }

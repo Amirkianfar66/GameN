@@ -29,6 +29,8 @@
 //             when it goes
 //   footer    a footer action is primary, secondary or warn (the pack's Abort match); a local one (a code's
 //             Reveal, Hide and Copy, a confirm's Keep playing) works while reconnecting, a command does not
+//   talk      the private talk's two buttons stay inside the phone at the Largest text, a row each when they
+//             don't fit; a docked sheet stays 10 px above them; layout().covered.bottom is what they cover
 //   toast     shown once per id, gone after its time, cleared by suspend()
 //   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
@@ -513,6 +515,46 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
           && whileStale === 'keep,hide,copy' && refused && live === 'keep,hide,copy,abort';
         return { ok, looks, warnLook, intents, other, staleWhy, whileStale, refused, live };
       } finally { s.shell.dispose(); }
+    });
+
+    await check('talk: the private talk\'s two buttons stay inside the phone and whole at the Largest text on 320 × 568, a row each where they do not fit side by side; a docked sheet stays 10 px above them and layout().covered.bottom is how much they cover; at the Standard text, the pack\'s two equal columns', async () => {
+      const talk = { ...own(), bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: { remainingMs: 47000 }, promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' },
+        sheet: { id: 'promises', title: 'Promises', close: true } };
+      const px = v => Math.round(v * 100) / 100;
+      const was = { width: frame.style.width, height: frame.style.height };
+      const out = {};
+      try {
+        for (const [name, text, width, height, insets] of [['standard', 100, size.width, size.height, size.insets], ['largest', 200, 320, 568, { top: 20, bottom: 0 }]]) {
+          document.documentElement.style.fontSize = `${text}%`;
+          Object.assign(frame.style, { width: `${width}px`, height: `${height}px` });
+          const s = mount({ ...talk, insets });
+          try {
+            await frames();
+            await frames();
+            const sheetNode = s.q('.ms-ps-sheet');
+            await Promise.all(sheetNode.getAnimations().filter(a => Number.isFinite(a.effect?.getComputedTiming?.().endTime)).map(a => a.finished.catch(() => null)));
+            const box = s.root.getBoundingClientRect(), foot = s.q('.ms-ps-talk').getBoundingClientRect(), sheet = sheetNode.getBoundingClientRect();
+            const buttons = s.qa('.ms-ps-talk .ms-k-btn');
+            const rects = buttons.map(b => b.getBoundingClientRect());
+            out[name] = {
+              inside: rects.every(r => r.left >= box.left - 0.5 && r.right <= box.right + 0.5),
+              whole: buttons.every(b => b.scrollWidth <= b.clientWidth + 1),
+              rows: new Set(rects.map(r => Math.round(r.top))).size,
+              widths: rects.map(r => px(r.width)),
+              gap: px(foot.top - sheet.bottom),
+              covered: s.shell.layout().covered.bottom,
+              footFromBottom: px(box.bottom - foot.top),
+            };
+          } finally { s.shell.dispose(); }
+        }
+      } finally {
+        document.documentElement.style.fontSize = '';
+        Object.assign(frame.style, was);
+      }
+      const { standard: st, largest: lg } = out;
+      const ok = st.inside && st.whole && st.rows === 1 && Math.abs(st.widths[0] - st.widths[1]) < 0.5 && Math.abs(st.gap - 10) < 0.5 && Math.abs(st.covered - st.footFromBottom) < 0.5
+        && lg.inside && lg.whole && (lg.rows === 1 ? Math.abs(lg.widths[0] - lg.widths[1]) < 0.5 : true) && Math.abs(lg.gap - 10) < 0.5 && Math.abs(lg.covered - lg.footFromBottom) < 0.5;
+      return { ok, ...out };
     });
 
     await check('toast: shown once per id, gone after its time, and cleared by suspend()', async () => {
