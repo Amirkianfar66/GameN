@@ -28,7 +28,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-19](#dsn-req-19) | The owner's 30-second private role stage: the card for 20 s, then the role's film for 10 s, on one server interval, with Ready kept as a human action | The phone pack's role stage (sheets 17–18). Today the film starts when the player taps Reveal | None |
 | [DSN-REQ-20](#dsn-req-20) | The owner's Blackout before the Jail vote: an Integration proposal that changes the rules and the contract | The round order of sheet 02 and the matrix on sheet 03. The screens themselves work in either order | None |
 | [DSN-REQ-21](#dsn-req-21) | Small data items for the phone pack: distinct join and recovery refusals, a decline for admission, the Hospital panel's number pad (the Code's phase window is settled by P18) | Better wording on sheets 12–15 and a working keypad on sheet 43 | None |
-| [DSN-REQ-22](#dsn-req-22) | List the sides a hack target may declare in its own `DECLARE_HACK_SIDE` offer (HACK-DECLARE-02) | The declaration on sheet 25 without a role table on the phone. Frontend can derive the sides from the player's role meanwhile | None |
+| [DSN-REQ-22](#dsn-req-22) | List the sides a hack target may declare in its own `DECLARE_HACK_SIDE` offer (HACK-DECLARE-02) | The declaration on sheet 25 without a role table on the phone. Delivered on main in `090429d7`: the offer's `declaredSides`, private, under the phone-offer versions | None |
 | [DSN-REQ-23](#dsn-req-23) | Build the rooms' ambient motion into the native phone interface: the windows' one voyage on the server clock, and the screens, keys and small lights, as the phone pack draws it (sheet 55, `ambient.mjs`, the handoff) | The moving rooms the owner asked for and approved. Until then the rooms stay still, which is correct | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
@@ -422,6 +422,8 @@ The screens are the same in either order; only the round order changes.
 6. **The shared display's offices** come from the last finalized board until Sync. The pack's top bar uses only `offices` as the phone receives it.
 
 ## DSN-REQ-22
+
+**Status (16 November 2026):** delivered on main in `090429d7`. Under the phone-offer versions, the engine lists the permitted sides in the target's own `DECLARE_HACK_SIDE` offer as `declaredSides` (`packages/engine/src/planet-game/offers.ts`), in that player's view only; the contract refuses them anywhere else (`packages/contracts/src/planet-game.ts`). The private talk (#293) draws the three cards from them. The wording below about Frontend deriving the sides from `self.role` is superseded.
 
 **The sides a target may declare, in the offer (10 November 2026).** HACK-DECLARE-02 lets only the Undercover and the Alien bluff; every other role must declare its own faction, with identical three-side controls for all. The phone pack shows the three cards to every target and disables, on the target's own phone, the sides its role may not claim (sheet 25; [handoff](phone-ui-handoff.md#hack-declaration-eligibility)).
 
