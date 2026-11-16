@@ -14,12 +14,15 @@
 //   layers    the cover lies over the stage and above all it holds, under the overlays and the sheet; with a
 //             sheet open the toast stays above it and the banner under it, as the pack's; with the banner
 //             showing, a docked sheet stays below it, so Retry and the sheet's Close are both in sight
-//   large     at the Largest text, in the shell's phone container: a row's value goes under its title and a
-//             stacking segmented control stacks; at the Standard text neither changes
+//   large     at the Largest text, in the shell's phone container: a row's value goes under its title, a
+//             stacking segmented control stacks, and the sheet's footer buttons stay inside it; at the Standard
+//             text none of these changes
 //   nobar     with bar: null the stage runs to the top edge, the overlays keep the bar's place (as the pack's
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
 //             layout() gives the safe areas, also when only they change; the overlays stay where they are
+//   reach     the cover's reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone's
+//             edges, so a part in the cover reaches the whole phone by them (with bars, no bar, talk, edge)
 //   backdrop  the room view's space behind the bars by default, the phone's canvas with backdrop: 'canvas'
 //   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
 //             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
@@ -283,7 +286,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const kit = createKit(document);
       const measure = async text => {
         document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
-        const s = mount({ ...own(), sheet: { id: 'large', title: 'Your role', sub: 'Only on this phone', close: true, detent: 'large' } });
+        const s = mount({ ...own(), sheet: { id: 'large', title: 'Your role', sub: 'Only on this phone', close: true, detent: 'large',
+          actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'register', label: 'Register Rescue', kind: 'primary', icon: 'rescue' }] } });
         try {
         await frames();
         const rows = [
@@ -300,14 +304,20 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         const apart = rows.map(r => { const t = box(r.querySelector('.ms-k-row-title')), v = box(r.querySelector('.ms-k-row-value')); return t.right <= v.left + 0.5 || t.bottom <= v.top + 0.5; });
         const tops = n => [...n.children].map(b => Math.round(box(b).top));
         const whole = n => [...n.children].every(b => box(b.lastChild).width <= box(b).width + 0.5);
+        const sheetBox = box(s.q('.ms-ps-sheet')), feet = [...s.q('.ms-ps-sheet-foot').querySelectorAll('.ms-k-btn')];
+        const footInside = feet.every(b => box(b).left >= sheetBox.left - 0.5 && box(b).right <= sheetBox.right + 0.5);
+        const footWhole = feet.every(b => b.scrollWidth <= b.clientWidth + 1);
+        const footRows = new Set(feet.map(b => Math.round(box(b).top))).size;
         const phone = frame.querySelector('.ms-phone-shell');
-        return { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1,
+        return { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1, footInside, footWhole, footRows,
           phoneEm: Math.round(box(phone).width / parseFloat(getComputedStyle(phone).fontSize) * 10) / 10 };
         } finally { s.shell.dispose(); document.documentElement.style.fontSize = ''; }
       };
       const largest = await measure(200), standard = await measure(100);
       const ok = largest.under.every(Boolean) && largest.apart.every(Boolean) && largest.stacked && largest.segWhole && largest.shortRow
-        && standard.beside.every(Boolean) && standard.apart.every(Boolean) && !standard.stacked && standard.segWhole && standard.shortRow;
+        && largest.footInside && largest.footWhole
+        && standard.beside.every(Boolean) && standard.apart.every(Boolean) && !standard.stacked && standard.segWhole && standard.shortRow
+        && standard.footInside && standard.footWhole && standard.footRows === 1;
       return { ok, largest, standard };
     });
 
@@ -375,6 +385,35 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         && nobar.bars.top === 0 && nobar.bars.bottom === 0 && off.bars.top === 0 && off.bars.bottom === safeBottom
         && reported?.safe.top === 20 && reported?.safe.bottom === 0 && refused;
       return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
+    });
+
+    await check('reach: the cover\'s reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone\'s edges, so a part in it reaches the whole phone: with the bars, with no bar, with the private talk\'s buttons, and edge to edge', async () => {
+      const cases = {
+        bars: own(),
+        nobar: { ...own(), bar: null },
+        talk: { ...own(), bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: { remainingMs: 47000 }, promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } },
+        edge: { ...own(), edge: true },
+      };
+      const px = v => Math.round(v * 100) / 100;
+      const out = {};
+      for (const [name, input] of Object.entries(cases)) {
+        const s = mount(input);
+        try {
+          await frames();
+          const box = s.root.getBoundingClientRect(), slot = s.shell.slot('cover'), cover = slot.getBoundingClientRect();
+          // A part in the cover that reaches past it by the two lengths, as the round stamp does to centre on the phone.
+          const part = document.createElement('div');
+          Object.assign(part.style, { position: 'absolute', left: '0', right: '0', top: 'calc(0px - var(--ms-ps-cover-top, 0px))', bottom: 'calc(0px - var(--ms-ps-cover-bottom, 0px))' });
+          slot.append(part);
+          const r = part.getBoundingClientRect();
+          out[name] = { cover: [px(cover.top - box.top), px(box.bottom - cover.bottom)], part: [px(r.top - box.top), px(box.bottom - r.bottom)], height: px(r.height), phone: px(box.height) };
+          part.remove();
+        } finally { s.shell.dispose(); }
+      }
+      const fills = c => c.part[0] === 0 && c.part[1] === 0 && c.height === c.phone;
+      const ok = Object.values(out).every(fills) && out.bars.cover[0] === 99 && out.bars.cover[1] > 0 && out.nobar.cover[0] === 0 && out.nobar.cover[1] > 0
+        && out.talk.cover[0] === 99 && out.talk.cover[1] === 0 && out.edge.cover[0] === 0 && out.edge.cover[1] === 0;
+      return { ok, ...out };
     });
 
     await check('backdrop: the room view\'s space behind the bars by default, the phone\'s canvas with backdrop: \'canvas\', and nothing else', async () => {
