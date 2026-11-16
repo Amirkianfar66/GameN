@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/character-select-check.mjs",
   "component": "design/phone-ui/components/character-select",
-  "sourceCommit": "fb47970d3ac91b3f71763afb1db48c6bf96e33e3",
+  "sourceCommit": "16cfc34ec92a29d81eb814abde381c7b9996fbdc",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,7 +38,7 @@
   "captures": {
     "390x844/open": {
       "file": "design/phone-ui/components/character-select/review/390x844-open.jpg",
-      "sha256": "8fb0b79e265cf524f144649af947aff0126d9d71f3f2f51b000b9dcbdae316c2",
+      "sha256": "9ccee24809e2a60a1030284b3f61e5cd77258a37418e23f54d61e05887a71ceb",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -46,7 +46,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -113,7 +113,7 @@
     },
     "430x932/open": {
       "file": "design/phone-ui/components/character-select/review/430x932-open.jpg",
-      "sha256": "9f4757d6309693d05547dab2879ecf9a719b95060bfded8fd8c44bbed6b498ad",
+      "sha256": "15df81b7e61aec3852742a4d605bd7d44cebc5374d5035f1c34b1506c7a83a8a",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -121,7 +121,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -188,7 +188,7 @@
     },
     "390x844/selected": {
       "file": "design/phone-ui/components/character-select/review/390x844-selected.jpg",
-      "sha256": "c9ee3329dbd7a423719a1ba6722de98a8c8fb4145ba1d77cc7c6c5a8c2b73845",
+      "sha256": "e468c46829fe9b2fdc1162cdf21eaadd90f74988cf7ee8737a9e193ccd14c372",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -196,7 +196,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -266,7 +266,7 @@
     },
     "430x932/selected": {
       "file": "design/phone-ui/components/character-select/review/430x932-selected.jpg",
-      "sha256": "3f28035886fd74498064a02e75944a7b276d5f3fad9865cf1a6e0fbd039c0051",
+      "sha256": "93074e585f740262a6b396103b16be2c4ea75caab460ed78e5b5bdf86f5929d1",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -274,7 +274,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -344,7 +344,7 @@
     },
     "390x844/confirmed": {
       "file": "design/phone-ui/components/character-select/review/390x844-confirmed.jpg",
-      "sha256": "b0381e5d4d7d034e0f1ba3c872e03589f95bd991308a72c0adbda0777d164570",
+      "sha256": "7ff3d7248a77204f96f42c151060f8b27a7fe45dac27d4bde9813440a8c13445",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -352,7 +352,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -422,7 +422,7 @@
     },
     "430x932/confirmed": {
       "file": "design/phone-ui/components/character-select/review/430x932-confirmed.jpg",
-      "sha256": "759fa4172825a33931605126eef0b25ba1fc113722e7964f06360d936a518ca0",
+      "sha256": "5684a8b3e0d6f0188bc20ddd1687bb6083fa30efeb2434bf51ec479e85301f71",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -430,7 +430,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -500,7 +500,7 @@
     },
     "390x844/closing": {
       "file": "design/phone-ui/components/character-select/review/390x844-closing.jpg",
-      "sha256": "1d76032594eb9ee92437a177c924e659d2321f9f7b4949cce4cd89d64cd9491f",
+      "sha256": "1d2474f494e3f165a24e832846a8ef7984a1d3ba0c3282e62f0270b94d0d763e",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -508,7 +508,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -578,7 +578,7 @@
     },
     "430x932/closing": {
       "file": "design/phone-ui/components/character-select/review/430x932-closing.jpg",
-      "sha256": "8e17eccb38adbce26d7719d1aa892212ac8f3071838fd402d66633d8dbfd386e",
+      "sha256": "bfd605767dac9156d3c966e92cdbda4de16f6c9835afff25e4fba196ac531ed8",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -586,7 +586,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -656,7 +656,7 @@
     },
     "390x844/auto": {
       "file": "design/phone-ui/components/character-select/review/390x844-auto.jpg",
-      "sha256": "07daa92d50ed6ddf7a7ed8ef8007c0e4e26339bebce1a881639b6dd561a8b338",
+      "sha256": "d37198ef6818701ec3a4726247a428be4da9f03603c9f06eaae07f37d5b069c9",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -664,7 +664,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -737,7 +737,7 @@
     },
     "430x932/auto": {
       "file": "design/phone-ui/components/character-select/review/430x932-auto.jpg",
-      "sha256": "5dedc4917127d6595fb977e53bacbeccae18833cdcd2f32c16b0aff5e78efdf7",
+      "sha256": "da85fea975b3c0c21851137ec0e3a72b605629a67376014dd4705e8ef34a182c",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -745,7 +745,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -818,7 +818,7 @@
     },
     "390x844/closed": {
       "file": "design/phone-ui/components/character-select/review/390x844-closed.jpg",
-      "sha256": "b9caeaa68fb99e1f3c4cbc79a1b4dff61dd2d937c5b488004a7a30cf1535b66d",
+      "sha256": "c9693c3a671d2a9d3d453b13d0160a6c4321aa8bc2725efd436fb6108a59572f",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -826,7 +826,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -861,7 +861,7 @@
       "list": false,
       "foot": {
         "name": "Nova",
-        "line": "Tap another to change",
+        "line": "Time is up",
         "spinner": false,
         "pill": "Yours",
         "empty": false
@@ -899,7 +899,7 @@
     },
     "430x932/closed": {
       "file": "design/phone-ui/components/character-select/review/430x932-closed.jpg",
-      "sha256": "5759b297d66e93e71473849ce9a2065c23c6f76f3ee5aba77b8acbbff09c80c4",
+      "sha256": "81306920d95159639717d76138cbf95791fdb70ffc900971611c858d59d8158c",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -907,7 +907,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -942,7 +942,7 @@
       "list": false,
       "foot": {
         "name": "Nova",
-        "line": "Tap another to change",
+        "line": "Time is up",
         "spinner": false,
         "pill": "Yours",
         "empty": false
@@ -980,7 +980,7 @@
     },
     "390x844/not-offered": {
       "file": "design/phone-ui/components/character-select/review/390x844-not-offered.jpg",
-      "sha256": "8fb0b79e265cf524f144649af947aff0126d9d71f3f2f51b000b9dcbdae316c2",
+      "sha256": "9ccee24809e2a60a1030284b3f61e5cd77258a37418e23f54d61e05887a71ceb",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -988,7 +988,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1062,7 +1062,7 @@
     },
     "430x932/not-offered": {
       "file": "design/phone-ui/components/character-select/review/430x932-not-offered.jpg",
-      "sha256": "9f4757d6309693d05547dab2879ecf9a719b95060bfded8fd8c44bbed6b498ad",
+      "sha256": "15df81b7e61aec3852742a4d605bd7d44cebc5374d5035f1c34b1506c7a83a8a",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -1070,7 +1070,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1144,7 +1144,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/character-select/review/390x844-stale.jpg",
-      "sha256": "1722cb3158221ed99677011720cce327917549597f6d4ec897177d1fae3f6d48",
+      "sha256": "19717415fee919714f8c368c1629abec2138b4bff5d08601a3524dd6703f14af",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -1152,7 +1152,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1226,7 +1226,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/character-select/review/430x932-stale.jpg",
-      "sha256": "45134bc14304bd4db384d8b11efbd6b934a05f67e3387f6b1a0024eb14cd4173",
+      "sha256": "567378d9704c7129365a61aa01c2675451f16567b7bd475c83a669c59635e062",
       "ok": true,
       "drawn": true,
       "portraits": true,
@@ -1234,7 +1234,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1316,7 +1316,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1394,7 +1394,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1472,7 +1472,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1550,7 +1550,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2060,6 +2060,55 @@
           }
         },
         {
+          "id": "words: once time is up, the foot invites no tap it refuses; assigned and saving keep their words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "name": "Nova",
+              "line": "Tap another to change",
+              "spinner": false,
+              "pill": "Yours",
+              "empty": false
+            },
+            "chosen": {
+              "name": "Nova",
+              "line": "Time is up",
+              "spinner": false,
+              "pill": "Yours",
+              "empty": false
+            },
+            "none": {
+              "name": "No character yet",
+              "line": "Time is up",
+              "spinner": false,
+              "pill": null,
+              "empty": true
+            },
+            "assigned": {
+              "name": "Juno",
+              "line": "Assigned automatically",
+              "spinner": false,
+              "pill": null,
+              "empty": false
+            },
+            "saving": {
+              "name": "Nova",
+              "line": "Saving your choice",
+              "spinner": true,
+              "pill": null,
+              "empty": false
+            },
+            "open": {
+              "name": "No character yet",
+              "line": "Tap one to choose",
+              "spinner": false,
+              "pill": null,
+              "empty": true
+            }
+          }
+        },
+        {
           "id": "words: the cells' names, the grid's group, this phone's own pressed, and the foot's line said as it changes",
           "ok": true,
           "detail": {
@@ -2227,7 +2276,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2256,7 +2305,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUhoOOT.js",
+          "source": "assets/index-jR4xvPlS.js",
           "line": 1,
           "column": 3721,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2377,25 +2426,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -2505,25 +2536,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -2633,25 +2646,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -2761,25 +2756,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -2889,25 +2866,7 @@
               "screen": 1
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -3017,25 +2976,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -3145,25 +3086,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -3273,25 +3196,7 @@
               "screen": 1
             }
           },
-          "accepted": null,
-          "shell": [
-            {
-              "part": "glyph icon 1",
-              "what": "the phone shell draws the phase bar's glyph at 22 px, the pack at its icons' 24 px default (phone-shell.css .ms-ps-glyph .ms-ps-ic): the same drawing, centred alike; the shell's, raised with the Lead",
-              "pack": {
-                "x": 16,
-                "y": 60.5,
-                "w": 24,
-                "h": 24
-              },
-              "screen": {
-                "x": 17,
-                "y": 61.5,
-                "w": 22,
-                "h": 22
-              }
-            }
-          ]
+          "accepted": null
         }
       },
       {
@@ -3401,8 +3306,7 @@
               "screen": 0
             }
           },
-          "accepted": null,
-          "shell": []
+          "accepted": null
         }
       },
       {
@@ -3528,8 +3432,7 @@
             },
             "packList": false,
             "screenList": true
-          },
-          "shell": []
+          }
         }
       }
     ],
@@ -3537,7 +3440,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BCUhoOOT.js",
+        "source": "assets/index-jR4xvPlS.js",
         "line": 1,
         "column": 3721,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
