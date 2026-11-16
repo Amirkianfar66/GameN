@@ -1,5 +1,4 @@
 import {randomUUID} from 'node:crypto';
-import {performance} from 'node:perf_hooks';
 import {PlanetFoodClockResponseSchema,PlanetFoodStreamFrameSchema,PlanetSessionSnapshotSchema} from '@mothership/contracts';
 import type {PlanetFoodTransportRequest,PlanetFoodStreamScope,PlanetSessionSnapshot} from '@mothership/contracts';
 
