@@ -1,0 +1,4997 @@
+{
+  "tool": "design/tools/actions-check.mjs",
+  "component": "design/phone-ui/components/actions",
+  "parts": "design/phone-ui/components/play-parts",
+  "sourceCommit": "422e3f27ea4ac2f60cb441427e70f7bb5e3d3fe3",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/tiles-doctor": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-doctor.jpg",
+      "sha256": "b8d583cc3903a6650665e070d76656fe4c4ff7152f1bd9e1028d6f0786347395",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-doctor": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-doctor.jpg",
+      "sha256": "8b68b6b03215a5783b76023ad6ac825d0f5efb9ea25601acc6faf40191e17f72",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-hacker": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-hacker.jpg",
+      "sha256": "dbf68027dbb25d5b02c70f896125c7702c9bae76df30035ae1c1a475ff8482f3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Hacker · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "SCAN:available,SUBMIT_CODE:available,ACTIVATE_SHIP_HACK:unavailable,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "Your room|One attempt|Needs the Code|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-hacker": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-hacker.jpg",
+      "sha256": "63c7bcc0c4341b1d106a9c191cb4b0904d0777c11d8432e2df207aa506df0875",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Hacker · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "SCAN:available,SUBMIT_CODE:available,ACTIVATE_SHIP_HACK:unavailable,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "Your room|One attempt|Needs the Code|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-undercover-other": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-undercover-other.jpg",
+      "sha256": "a7af65941f362dbfa98d5850ad3c050edd411256aa0ae533b93dc3a9cad1e63a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Undercover · Room A",
+      "footer": null,
+      "head": "Not your turn|Round 3",
+      "tiles": "PROTECT:unavailable,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "On your turn|Once a round|On your turn|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": "Move works on any turn, once a round. The rest wait for your turn.",
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-undercover-other": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-undercover-other.jpg",
+      "sha256": "f06e6e933583b712aef9f939a99a2fe163e781c939ee8507b189b7a26521e34f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Undercover · Room A",
+      "footer": null,
+      "head": "Not your turn|Round 3",
+      "tiles": "PROTECT:unavailable,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "On your turn|Once a round|On your turn|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": "Move works on any turn, once a round. The rest wait for your turn.",
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-spent": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-spent.jpg",
+      "sha256": "6d0933081eabcbf78212ecd310c3049cef12b54c461cd35497ad2a0afde29386",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:registered,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "Eli · end of round|Once a round|Used|From Round 4",
+      "mark": "REGISTERED",
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-spent": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-spent.jpg",
+      "sha256": "e1d1c541fd655fc73e709032ebf72fe000a7b8b3f2ecb946b8bf71410ea66d8d",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:registered,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "Eli · end of round|Once a round|Used|From Round 4",
+      "mark": "REGISTERED",
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-doctor-other": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-doctor-other.jpg",
+      "sha256": "4c2a4932efd493573ad115817368b45430d6378342235558783167384be053d4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Not your turn|Round 3",
+      "tiles": "RESCUE:unavailable,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "On your turn|Once a round|On your turn|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": "Move works on any turn, once a round. The rest wait for your turn.",
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-doctor-other": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-doctor-other.jpg",
+      "sha256": "0b73b05aa7bdc99870175833c7f1f18a857e529fd3a1f3c92742652bb3294ed9",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Not your turn|Round 3",
+      "tiles": "RESCUE:unavailable,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "On your turn|Once a round|On your turn|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": "Move works on any turn, once a round. The rest wait for your turn.",
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-t3": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-t3.jpg",
+      "sha256": "0588324d5807488f24c1c3c1ab38f5619e35616ca96a9781dae41458524e55f2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Not available now|Not available now",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-t3": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-t3.jpg",
+      "sha256": "4fec6891fcc5f891bf657d1adcfdb0996afea834fb7332fc90b852776933e3b2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Not available now|Not available now",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/tiles-sending": {
+      "file": "design/phone-ui/components/actions/review/390x844-tiles-sending.jpg",
+      "sha256": "76cf250bb0823f50c0ab03b567092e1e956190eebdf41ce8cfa03f9742c901c6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:sending,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/tiles-sending": {
+      "file": "design/phone-ui/components/actions/review/430x932-tiles-sending.jpg",
+      "sha256": "d58ef6fc65e68868e35ca0ca4a2999f84bf730a75db3c83b44e52dbf8d5d8e42",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:sending,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/targeting": {
+      "file": "design/phone-ui/components/actions/review/390x844-targeting.jpg",
+      "sha256": "dac385883e493da5920f3b5ade7363d72bce21e5fe745e0988f205a1cfdb27f6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Rescue|Choose a player",
+      "chip": "Other rooms · 1",
+      "offered": 4,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/targeting": {
+      "file": "design/phone-ui/components/actions/review/430x932-targeting.jpg",
+      "sha256": "a5b80a0d84c11193253468fecfff89c22f953cee544da6ed837ca893511593a1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Rescue|Choose a player",
+      "chip": "Other rooms · 1",
+      "offered": 4,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/targeting-supply": {
+      "file": "design/phone-ui/components/actions/review/390x844-targeting-supply.jpg",
+      "sha256": "76180ecaa60ea05667d893101e538cc74ea8d072a56f45493a79036fbea1205c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Supply|Choose the second player",
+      "chip": "Other rooms · 1",
+      "offered": 4,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/targeting-supply": {
+      "file": "design/phone-ui/components/actions/review/430x932-targeting-supply.jpg",
+      "sha256": "ce7511f593787da17edb3181eb2075ce37e9633386efd6d01c941223036d3efb",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": "Supply|Choose the second player",
+      "chip": "Other rooms · 1",
+      "offered": 4,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/list": {
+      "file": "design/phone-ui/components/actions/review/390x844-list.jpg",
+      "sha256": "ed5150175647669f2796c73fd324135ab08ea398e7bab9efb9483f651a987b88",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "list",
+      "status": "live",
+      "sheet": "Choose from a list",
+      "sub": "Rescue · everyone you can reach",
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 4,
+      "rows": "Ava|Dev (you)|Gus|Ike|Eli",
+      "groups": "Room A|Hospital",
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/list": {
+      "file": "design/phone-ui/components/actions/review/430x932-list.jpg",
+      "sha256": "cdccd064ac31be73df82d603e4ef9e70085b69e883f130a173274f616aea5b71",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "list",
+      "status": "live",
+      "sheet": "Choose from a list",
+      "sub": "Rescue · everyone you can reach",
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 4,
+      "rows": "Ava|Dev (you)|Gus|Ike|Eli",
+      "groups": "Room A|Hospital",
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/list-supply": {
+      "file": "design/phone-ui/components/actions/review/390x844-list-supply.jpg",
+      "sha256": "d57b204688179ba421370d5a304f06cd7c927cd25027e632a7c629f0e4444b30",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "list",
+      "status": "live",
+      "sheet": "Choose from a list",
+      "sub": "Supply · everyone you can reach",
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 4,
+      "rows": "Ava|Dev (you)|Gus|Ike|Eli",
+      "groups": "Room A|Hospital",
+      "picked": "Ava",
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/list-supply": {
+      "file": "design/phone-ui/components/actions/review/430x932-list-supply.jpg",
+      "sha256": "7a83e8dfc589ff5236683b8de47fb2ef985997d5b9541cf6327788a4d6172523",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "list",
+      "status": "live",
+      "sheet": "Choose from a list",
+      "sub": "Supply · everyone you can reach",
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 4,
+      "rows": "Ava|Dev (you)|Gus|Ike|Eli",
+      "groups": "Room A|Hospital",
+      "picked": "Ava",
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check": {
+      "file": "design/phone-ui/components/actions/review/390x844-check.jpg",
+      "sha256": "f29d84df522a2b57c435d4933e21109e172045a44a88477d8e9f3e47ed7d5b04",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check": {
+      "file": "design/phone-ui/components/actions/review/430x932-check.jpg",
+      "sha256": "6f9c6e9b6fbf68de8bc342717c42a3a9c1324cbdc104c612501fd85e2eb00bd3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-ava": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-ava.jpg",
+      "sha256": "6c91c35af48839ec3dc211735b2891894de3236e6ef8c467d8d779ff44bebb22",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 1,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Ava|Player 1 · Room A",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-ava": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-ava.jpg",
+      "sha256": "e4cdb4b4b912b21d4ebea939f104f266c43b48869704088607d8ee6c51a4b779",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 1,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Ava|Player 1 · Room A",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sending": {
+      "file": "design/phone-ui/components/actions/review/390x844-sending.jpg",
+      "sha256": "4c0842e0e02055010b7ed21441be591be5ba1a44ea0d0f296b92505e7a7c6ce3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Registering…",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sending": {
+      "file": "design/phone-ui/components/actions/review/430x932-sending.jpg",
+      "sha256": "0fb39b66863dc2c72c892ab9b87135d59ad5886b9055a490b489cc0299d77b5f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Registering…",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-blackout": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-blackout.jpg",
+      "sha256": "1f5e2fbbf532dcb7996163c43de07caf706ef78169bd5b01bc50ca64aa17a123",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Request Blackout",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Request Blackout|Only you see this",
+      "portraits": 0,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-blackout": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-blackout.jpg",
+      "sha256": "1d7573f2873e12cd6e64541c1886fdb9089290c6f376bcdc28e1facb6e71ab8b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Request Blackout",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Request Blackout|Only you see this",
+      "portraits": 0,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-clone": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-clone.jpg",
+      "sha256": "2b517e504d7c6a465ed84cc0c68b448f109738443270a39e9ff6f40780a3f12b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Activate Clone",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Activate Clone|Only you see this",
+      "portraits": 0,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-clone": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-clone.jpg",
+      "sha256": "4262c6ff7f671c219510860258aa6db3f6fedc616ba876fa340ccad12c39d221",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Activate Clone",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Activate Clone|Only you see this",
+      "portraits": 0,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-suppress": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-suppress.jpg",
+      "sha256": "48d227e663ab62c434f085befaf4dc53740372469719a43c55cbc0d69fb0e390",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Suppress navigation",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Suppress navigation|Only you see this",
+      "portraits": 0,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-suppress": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-suppress.jpg",
+      "sha256": "c57e8f85dc3b66b3a763e3cc1c5ee5c758e1c416a539d3b97a8edd1ef3dc1899",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Suppress navigation",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Suppress navigation|Only you see this",
+      "portraits": 0,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-supply": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-supply.jpg",
+      "sha256": "9b941a8cffa9194c039d7a127c3c0453f9b428e792db5f62c5a6f025cf1c4906",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Supply",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 2,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Supply Ava and Gus|Players 1 and 7",
+      "portraits": 2,
+      "facts": 2,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-supply": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-supply.jpg",
+      "sha256": "d3df3f045eb7a80d3f01ed3f216f551fb5d1ec8ccec8231b616a46dbe59fe99a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Supply",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 2,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Supply Ava and Gus|Players 1 and 7",
+      "portraits": 2,
+      "facts": 2,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c5-8TWQDiAs.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-shiphack": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-shiphack.jpg",
+      "sha256": "e12373674774eb5190a052a69e110c18c0464a1f0c85a478861cf4feacb516a2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Hack Spaceship",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Hack Spaceship|Only you see this",
+      "portraits": 0,
+      "facts": 2,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-shiphack": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-shiphack.jpg",
+      "sha256": "4218b596beaf11cd01af0b93de5e0db3327cc96da119f96f46af24436a3076e4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Hack Spaceship",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Hack Spaceship|Only you see this",
+      "portraits": 0,
+      "facts": 2,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-error": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-error.jpg",
+      "sha256": "cdb3d369f96559e837ebcb510001221d42f94ffe4965424b7a702a176a4e6c63",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": "The server did not accept Rescue. Check the target, then register again.",
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-error": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-error.jpg",
+      "sha256": "e22df199bddb84c027f5e06ba5fe154873b0b240a31d67f72e94d5f5ee076e6a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": "The server did not accept Rescue. Check the target, then register again.",
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-rescue": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-rescue.jpg",
+      "sha256": "f5f48f69f007c3fc5889f37f387070413bd8bbdd16914bece682ce163d8905fe",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Rescue of Eli registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-rescue": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-rescue.jpg",
+      "sha256": "2a54f84088973ebdb107ac617b5f15193faef0a5ec58ad40e3321a374729ff4f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Rescue of Eli registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-rescue-ava": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-rescue-ava.jpg",
+      "sha256": "0fe37aa2de108440c34806480504a3424b3bbf3fc0b2962745f578d4460c7720",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Rescue of Ava registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-rescue-ava": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-rescue-ava.jpg",
+      "sha256": "9a4175857c3e90f57a1df9330b9edf93e4fa966f754d379d908d18ec5b986d53",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Rescue of Ava registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-protect": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-protect.jpg",
+      "sha256": "b9f8549a47f41b7d255837b99697c820e49973bed5c6791d600ea53462069e39",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Grant Protection",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Protection for Gus registered.",
+      "steps": 3,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-protect": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-protect.jpg",
+      "sha256": "f4cb74cd4164fced01822484b3367d50ece45cd27d0ca87a434a54ae6a700255",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Grant Protection",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Protection for Gus registered.",
+      "steps": 3,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-supply": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-supply.jpg",
+      "sha256": "11c43de767e77f6c7d0a0fbd51b888677522bfbfb7de625ea6561ea2e4e2671a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Supply",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Supply for Ava and Gus registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-supply": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-supply.jpg",
+      "sha256": "fd6259368e9d69a875e785d55e1a622e62ad6ab0825bf222210043a46794adcd",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Supply",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Supply for Ava and Gus registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-shot": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-shot.jpg",
+      "sha256": "b39a39c2501e4fa478d03fe54ffb523b64d2d2dd54bc6a93c34bf71d897c30c9",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Shoot",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Shot at Gus registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-shot": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-shot.jpg",
+      "sha256": "ea9e60553fe6d723351d6b2ef744fc07a2fe4d4dfa7951616d2ab37e04874708",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Shoot",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Shot at Gus registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-blackout": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-blackout.jpg",
+      "sha256": "de5472aa386e16d694cd1a25cf000a88efb2de61a5a6dea5bc4c29bc61797c5f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Blackout",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Blackout registered.",
+      "steps": 3,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-blackout": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-blackout.jpg",
+      "sha256": "6c9f74686124cf0e9539dc5ff9031d8c97950f137b658c341915f1c58798eb3f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Blackout",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Blackout registered.",
+      "steps": 3,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-talk": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-talk.jpg",
+      "sha256": "14b7f9f19b843665c105163abcc64e0344ed182437f045ee24340d2eb57f8f3f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Private talk",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "ACCEPTED",
+      "headline": "Private talk with Ava accepted.",
+      "steps": 3,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-talk": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-talk.jpg",
+      "sha256": "871ce4875c20d28d9b34491ee728e01b71e227c403392b2b7369f0fa86a22488",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Private talk",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "ACCEPTED",
+      "headline": "Private talk with Ava accepted.",
+      "steps": 3,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-clone": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-clone.jpg",
+      "sha256": "c8d5813cbe480b7707cff3caa34e3d7cf53e3d2205d7e007b224859b2405763c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Clone",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "ACTIVE",
+      "headline": "Clone active.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-clone": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-clone.jpg",
+      "sha256": "61a46d1427fd4c7849a02bdfabf8e030741bd18fc8957ab2a4c23e65090ed9ff",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Clone",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "ACTIVE",
+      "headline": "Clone active.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-suppress": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-suppress.jpg",
+      "sha256": "51a50c3fe0dc7a3ca3b2bb25ea5f560eb3e242c75b0897301c1948b47f8929c1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Suppress navigation",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "CAPTURED",
+      "headline": "Navigation suppressed.",
+      "steps": 2,
+      "people": 3,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-suppress": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-suppress.jpg",
+      "sha256": "a0c509b6b25539526f4f8339cfe4561757db81beed133f1ffe0d177d078772f1",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Suppress navigation",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "CAPTURED",
+      "headline": "Navigation suppressed.",
+      "steps": 2,
+      "people": 3,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg"
+      ],
+      "problems": []
+    },
+    "390x844/after-reload": {
+      "file": "design/phone-ui/components/actions/review/390x844-after-reload.jpg",
+      "sha256": "1944fcd58eb30d585b579437cac4a0977d0a0327af2a08166e2ee553d28e27e7",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "The server accepted your action.",
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/after-reload": {
+      "file": "design/phone-ui/components/actions/review/430x932-after-reload.jpg",
+      "sha256": "5e4fdadb411e0e4a5ff4a2ddef6b1b947eeef7cf8663dc7840dbf562ff85d124",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "The server accepted your action.",
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/unknown": {
+      "file": "design/phone-ui/components/actions/review/390x844-unknown.jpg",
+      "sha256": "871286a81e2c4ec437be16ab090c76190885c19461c60a6f6906f40418456d8e",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "unknown",
+      "status": "live",
+      "sheet": "Outcome unknown",
+      "sub": null,
+      "footer": "Retry the same|Check receipt",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": "Rescue Eli was sent, but no answer came back.",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/unknown": {
+      "file": "design/phone-ui/components/actions/review/430x932-unknown.jpg",
+      "sha256": "0553f969320ff1368430cda12f14e41127a69ae2897cb4bd063f1f64d3a3cd9e",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "unknown",
+      "status": "live",
+      "sheet": "Outcome unknown",
+      "sub": null,
+      "footer": "Retry the same|Check receipt",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": "Rescue Eli was sent, but no answer came back.",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/unknown-blackout": {
+      "file": "design/phone-ui/components/actions/review/390x844-unknown-blackout.jpg",
+      "sha256": "167dbd45756af30ee288f81b1460ced4127a56276e3d91c4071b67f47b392765",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "unknown",
+      "status": "live",
+      "sheet": "Outcome unknown",
+      "sub": null,
+      "footer": "Retry the same|Check receipt",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": "Request Blackout was sent, but no answer came back.",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/unknown-blackout": {
+      "file": "design/phone-ui/components/actions/review/430x932-unknown-blackout.jpg",
+      "sha256": "1d7001d03fb86bcf6641fd1a0021f8bb5667e9d6856838ee680503faeada8dff",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "unknown",
+      "status": "live",
+      "sheet": "Outcome unknown",
+      "sub": null,
+      "footer": "Retry the same|Check receipt",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": "Request Blackout was sent, but no answer came back.",
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/pass": {
+      "file": "design/phone-ui/components/actions/review/390x844-pass.jpg",
+      "sha256": "f5c30ba9e14f19c1abb83273d18de74074b68ad3c77afe78f7350108668aa9be",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "pass",
+      "status": "live",
+      "sheet": "Pass your turn?",
+      "sub": "The turn goes to Eli · Player 5",
+      "footer": "Cancel|Pass",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": "Your move stays open on the other turns this round.",
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/pass": {
+      "file": "design/phone-ui/components/actions/review/430x932-pass.jpg",
+      "sha256": "99c70fbd1e23ce39a46a57572ce036a735d91b71a1164a3530bbad647a84b93b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "pass",
+      "status": "live",
+      "sheet": "Pass your turn?",
+      "sub": "The turn goes to Eli · Player 5",
+      "footer": "Cancel|Pass",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": "Your move stays open on the other turns this round.",
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/actions/review/390x844-stale.jpg",
+      "sha256": "ecadb9daa198a138f142bfedcd1c1925f1298f9a2fa8d521d647a2d11a7e7072",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "stale",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": true,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": "Connection lost",
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/actions/review/430x932-stale.jpg",
+      "sha256": "e6d8a30b3ec69bbacce204b219b5c9c0ce044ab1c168c9d44f7ffb6d3ad2a0b6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "stale",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": true,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": "Connection lost",
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/actions/review/390x844-concealed.jpg",
+      "sha256": "039658d724e9e54723261c9d3a560ca18a733d75c92c154c95c5873cf83144f4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/actions/review/430x932-concealed.jpg",
+      "sha256": "655961c4e3dcb7e0b9408a04a177e76a1936980f86a29381cd2746bfe989efe2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "sheet": null,
+      "sub": null,
+      "footer": null,
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "320x568/small-tiles": {
+      "file": "design/phone-ui/components/actions/review/320x568-small-tiles.jpg",
+      "sha256": "226ec1f2279b106ee6ce918e1f64cfdb43a9e77c128b0a9a1b274fcbf3700454",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/large-tiles": {
+      "file": "design/phone-ui/components/actions/review/390x844-large-tiles.jpg",
+      "sha256": "c47cebef0f78c5e45d6671f5f32747048c4b5b4269e72fced1a075d16df3a0fa",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:available,MOVE:available,REQUEST_HACK:available,REGISTER_SHOT:unavailable",
+      "lines": "2 injections|Once a round|Once a match|From Round 4",
+      "mark": null,
+      "perRow": 3,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "injections",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-tiles": {
+      "file": "design/phone-ui/components/actions/review/320x568-largest-tiles.jpg",
+      "sha256": "f191a02eebfe6cff8f33a37701841cb2cb1ca276ec9a8f833003f1924a748193",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "tiles",
+      "status": "live",
+      "sheet": "Actions",
+      "sub": "Doctor · Room A",
+      "footer": null,
+      "head": "Your turn|Round 3",
+      "tiles": "RESCUE:registered,MOVE:available,REQUEST_HACK:unavailable,REGISTER_SHOT:unavailable",
+      "lines": "Eli · end of round|Once a round|Used|From Round 4",
+      "mark": "REGISTERED",
+      "perRow": 1,
+      "refused": false,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Doctor",
+        "Private talk",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-check": {
+      "file": "design/phone-ui/components/actions/review/320x568-largest-check.jpg",
+      "sha256": "502d0df0f030b54bbf0774e828888f436ed893abfe0c33c4cb4aeb99e2f54911",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": null,
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-after": {
+      "file": "design/phone-ui/components/actions/review/320x568-largest-after.jpg",
+      "sha256": "13b455f6d9fd24f5854001257554d0846512882f4cc9e666173fee569ba9e696",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "after",
+      "status": "live",
+      "sheet": "Rescue",
+      "sub": null,
+      "footer": "Done",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": null,
+      "portraits": 0,
+      "facts": 0,
+      "error": null,
+      "stamp": "REGISTERED",
+      "headline": "Rescue of Eli registered.",
+      "steps": 2,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "tiles",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "taps": [
+              "RESCUE",
+              "MOVE"
+            ],
+            "unchanged": true,
+            "selected": "selected",
+            "selectedTap": true,
+            "moved": true,
+            "kept": true,
+            "registered": "registered",
+            "mark": "REGISTERED",
+            "label": "Rescue, Eli · end of round, registered"
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "blocked": true,
+            "attrs": [
+              [
+                "REGISTER_SHOT",
+                "true",
+                "BUTTON"
+              ],
+              [
+                "RESCUE",
+                "true",
+                "BUTTON"
+              ],
+              [
+                "REQUEST_HACK",
+                "true",
+                "BUTTON"
+              ]
+            ],
+            "busy": "true",
+            "sendingTaps": 0,
+            "offTaps": 0,
+            "staleTaps": 0,
+            "why": "Controls return when the match is current",
+            "offDisabled": "true",
+            "shootLabel": "Shoot, From Round 4"
+          }
+        },
+        {
+          "id": "t3",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "lines": [
+              [
+                "RESCUE",
+                "available",
+                "2 injections"
+              ],
+              [
+                "MOVE",
+                "available",
+                "Once a round"
+              ],
+              [
+                "REQUEST_HACK",
+                "unavailable",
+                "Not available now"
+              ],
+              [
+                "REGISTER_SHOT",
+                "unavailable",
+                "Not available now"
+              ]
+            ],
+            "reason": "Used"
+          }
+        },
+        {
+          "id": "list",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "picks": [
+              "seat-1",
+              "seat-4"
+            ],
+            "titles": [
+              "Ava",
+              "Dev (you)",
+              "Gus",
+              "Ike",
+              "Eli"
+            ],
+            "marked": [
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            "picked": "Picked",
+            "kept": true,
+            "labels": [
+              "Hospital",
+              "Room A"
+            ],
+            "count": 4
+          }
+        },
+        {
+          "id": "check",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "one": {
+              "title": "Rescue Eli",
+              "sub": "Player 5 · Hospital",
+              "form": "person",
+              "portraits": 1,
+              "facts": [
+                "Uses 1 of 2 shared injections",
+                "Resolved at the end of the round, after the attacks",
+                "Does not revive an eliminated player"
+              ],
+              "error": null,
+              "alert": null
+            },
+            "self": {
+              "title": "Rescue yourself",
+              "sub": "Player 4 · Room A",
+              "form": "person",
+              "portraits": 1,
+              "facts": [
+                "Uses 1 of 2 shared injections",
+                "Resolved at the end of the round, after the attacks",
+                "Does not revive an eliminated player"
+              ],
+              "error": null,
+              "alert": null
+            },
+            "two": {
+              "title": "Supply Ava and Gus",
+              "sub": "Players 1 and 7",
+              "form": "pair",
+              "portraits": 2,
+              "facts": [
+                "Choose two players"
+              ],
+              "error": null,
+              "alert": null
+            },
+            "none": {
+              "title": "Request Blackout",
+              "sub": "Only you see this",
+              "form": "icon",
+              "portraits": 0,
+              "facts": [],
+              "error": null,
+              "alert": null
+            },
+            "error": {
+              "title": "Rescue Eli",
+              "sub": "Player 5 · Hospital",
+              "form": "person",
+              "portraits": 1,
+              "facts": [],
+              "error": "The server did not accept Rescue. Register again.",
+              "alert": "alert"
+            },
+            "cleared": {
+              "title": "Rescue Eli",
+              "sub": "Player 5 · Hospital",
+              "form": "person",
+              "portraits": 1,
+              "facts": [],
+              "error": null,
+              "alert": null
+            }
+          }
+        },
+        {
+          "id": "after",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "captured": {
+              "kind": "now",
+              "stamp": "CAPTURED",
+              "tone": "steel",
+              "status": "status",
+              "people": 3,
+              "steps": [
+                "done",
+                "next"
+              ],
+              "stepsShown": true
+            },
+            "kinds": {
+              "registered": [
+                "REGISTERED",
+                "pending",
+                "waits"
+              ],
+              "accepted": [
+                "ACCEPTED",
+                "pending",
+                "waits"
+              ],
+              "active": [
+                "ACTIVE",
+                "amber",
+                "now"
+              ],
+              "captured": [
+                "CAPTURED",
+                "steel",
+                "now"
+              ]
+            },
+            "reload": {
+              "kind": "waits",
+              "stamp": "REGISTERED",
+              "tone": "pending",
+              "status": "status",
+              "people": 0,
+              "steps": [],
+              "stepsShown": false
+            },
+            "outside": 0
+          }
+        },
+        {
+          "id": "words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "said": [
+              [
+                "actions",
+                "Actions",
+                "Doctor · Room A",
+                null
+              ],
+              [
+                "action-list",
+                "Choose from a list",
+                "Rescue · everyone you can reach",
+                null
+              ],
+              [
+                "action-check",
+                "Check and register",
+                null,
+                "cancel:Cancel|register:Register Rescue"
+              ],
+              [
+                "action-check",
+                "Check and register",
+                null,
+                "cancel:Cancel|register:Requesting…:busy"
+              ],
+              [
+                "action-after",
+                "Grant Protection",
+                null,
+                "done:Done"
+              ],
+              [
+                "action-unknown",
+                "Outcome unknown",
+                null,
+                "retry:Retry the same|check:Check receipt"
+              ],
+              [
+                "pass",
+                "Pass your turn?",
+                "The turn goes to Eli · Player 5",
+                "cancel:Cancel|pass:Pass"
+              ],
+              [
+                "pass",
+                "Pass your turn?",
+                null,
+                "cancel:Cancel|pass:Pass"
+              ]
+            ],
+            "bars": [
+              "rescue|Rescue|Choose a player",
+              "supply|Supply|Choose two players",
+              "supply|Supply|Choose the second player",
+              "rescue|Rescue|Choose a player · every room"
+            ],
+            "chips": [
+              "other-rooms|Other rooms · 1|board",
+              "list|List|players"
+            ],
+            "toasts": [
+              "Rescue registered",
+              "Private talk accepted",
+              "Clone active",
+              "Navigation suppressed"
+            ]
+          }
+        },
+        {
+          "id": "unknown",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "one": [
+              "Rescue Eli was sent, but no answer came back.",
+              "Check before doing anything else."
+            ],
+            "none": [
+              "Request Blackout was sent, but no answer came back.",
+              "Check before doing anything else."
+            ],
+            "status": "status"
+          }
+        },
+        {
+          "id": "inputs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "errors": [
+              [
+                "an unknown key",
+                true
+              ],
+              [
+                "a type twice",
+                true
+              ],
+              [
+                "an unknown type",
+                true
+              ],
+              [
+                "an unknown state",
+                true
+              ],
+              [
+                "a check for Move, which is not this component's",
+                true
+              ],
+              [
+                "two people for Rescue",
+                true
+              ],
+              [
+                "an unknown key in an update",
+                true
+              ]
+            ],
+            "idempotent": true
+          }
+        },
+        {
+          "id": "private",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": {
+              "tiles-doctor": {
+                "concealed": "",
+                "back": "Your turnRound 3",
+                "other": "Your turnRound 3",
+                "leaked": []
+              },
+              "list": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "check": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "after-suppress": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              },
+              "unknown": {
+                "concealed": "",
+                "back": "",
+                "other": "",
+                "leaked": []
+              }
+            }
+          }
+        },
+        {
+          "id": "focus",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onRoot": true,
+            "returned": [
+              {
+                "intent": "tile",
+                "value": "MOVE"
+              }
+            ]
+          }
+        },
+        {
+          "id": "text",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "large": {
+              "perRow": 3,
+              "whole": true,
+              "listForm": false,
+              "tall": true
+            },
+            "largest": {
+              "perRow": 1,
+              "whole": true,
+              "listForm": true,
+              "tall": true
+            },
+            "middle": {
+              "perRow": 2,
+              "whole": true,
+              "listForm": false,
+              "tall": true
+            },
+            "base": {
+              "perRow": 3,
+              "whole": true,
+              "listForm": false,
+              "tall": true
+            }
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": false,
+            "taps": 0,
+            "body": 0
+          }
+        },
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "anim": [
+              {
+                "name": "ms-ac-stamp-in",
+                "duration": 120
+              }
+            ],
+            "reduced": 0,
+            "spinner": "none",
+            "spinning": "ms-k-spin"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "anim": [],
+            "reduced": 0,
+            "spinner": "none",
+            "spinning": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DA2vdTNs.js",
+          "line": 1,
+          "column": 6051,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: tiles-doctor (actions&role=Doctor&active=4)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: tiles-hacker (actions&role=Hacker&active=4)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: tiles-undercover-other (actions&role=Undercover&active=7)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: tiles-spent (actions&role=Doctor&active=4&state=spent)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: tiles-doctor-other (actions&role=Doctor&active=7)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: targeting (actions&role=Doctor&active=4&state=targeting&act=rescue)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: list (actions&role=Doctor&active=4&state=offroom&act=rescue)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: check (actions&role=Doctor&active=4&state=confirm&act=rescue&target=5)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: check-ava (actions&role=Doctor&active=4&state=confirm&act=rescue&target=1)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: sending (actions&role=Doctor&active=4&state=submitting&act=rescue&target=5)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-rescue (actions&role=Doctor&active=4&state=registered&act=rescue&target=5)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-rescue-ava (actions&role=Doctor&active=4&state=registered&act=rescue&target=1)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-protect (actions&role=Undercover&active=4&state=registered&act=protect&target=7)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-supply (actions&role=Supplier&active=4&state=registered&act=supply)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-shot (actions&role=Undercover&active=4&state=registered&act=shoot&target=7)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-blackout (actions&role=Blue Disabler&active=4&state=registered&act=blackout)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-talk (actions&role=Doctor&active=4&state=registered&act=talk&target=1)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-clone (actions&role=Alien&active=4&state=registered&act=clone)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: after-suppress (actions&role=Engineer&active=4&state=registered&act=suppress)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: check-blackout (actions&role=Blue Disabler&active=4&state=confirm&act=blackout)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: check-clone (actions&role=Alien&active=4&state=confirm&act=clone)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: check-suppress (actions&role=Engineer&active=4&state=confirm&act=suppress)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: unknown (system&state=unknown)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: pass (room&room=room-a&state=pass)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: small-tiles (actions&role=Doctor&active=4 at 320x568)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: large-tiles (actions&role=Doctor&active=4 at 150% text)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-DA2vdTNs.js",
+        "line": 1,
+        "column": 6051,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
