@@ -472,8 +472,9 @@ test('the check\'s record: every capture, comparison and probe check passed unde
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(Object.values(c.port.equal).every(Boolean), `${key}: the frozen port draws the same, the corrections that apply aside`);
-    if (c.port.corrections.length === 0) assert.ok(c.port.htmlSha256 === c.htmlSha256 && c.port.pngSha256 === c.pngSha256 && c.port.touched.length === 0, `${key}: no correction applies: the frozen port's DOM and pixels, byte for byte`);
-    else assert.notEqual(c.port.htmlSha256, c.htmlSha256, `${key}: corrections ${c.port.corrections.join(', ')} apply: the DOM is the port's as corrected, not as it is`);
+    // The component's root carries its mark, so its DOM is never the port's byte for byte: the check reads the port's with the mark.
+    assert.notEqual(c.port.htmlSha256, c.htmlSha256, `${key}: the DOM is the port's with the root's mark${c.port.corrections.length ? ` and corrections ${c.port.corrections.join(', ')}` : ''}, not as it is`);
+    if (c.port.corrections.length === 0) assert.ok(c.port.pngSha256 === c.pngSha256 && c.port.touched.length === 0, `${key}: no correction applies: the frozen port's pixels, byte for byte`);
     assert.match(c.synthetic, /Frontend's|invented/, `${key}: its state says where it comes from`);
     if (c.file) assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
@@ -481,24 +482,28 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   // Larger text: the port's own support, drawn the same by the component, with the corrections.
   const larger = Object.entries(record.largerText.drawn);
   assert.deepEqual(record.largerText.texts, [1.5, 2]);
-  assert.equal(larger.length, 36, 'nine states at two sizes, at the Large and the Largest text');
+  assert.equal(larger.length, 48, 'twelve states at two sizes, at the Large and the Largest text');
+  assert.deepEqual(record.largerText.states.slice(5), ['case-food-winch-01', 'case-food-flow-02', 'case-food-flow-04', 'case-food-panel-16', 'case-food-winch-14', 'case-food-winch-17', 'case-food-panel-17'], 'the five parts, then a briefing, a sheet, a request and the four outcomes');
   for (const [key, l] of larger) {
     assert.ok(l.ok && Object.values(l.equal).every(Boolean), `${key}: the frozen port draws the same, the corrections that apply aside: ${l.notes.join('; ')}`);
     assert.equal(l.bars.top, { 24: 117, 32: 141 }[l.rootPx], `${key}: the text is larger: the surface's own bar has grown`);
     assert.deepEqual(l.problems, [], `${key}: no page problem`);
     if (l.file) assert.ok(existsSync(join(REPO, l.file)), `${key}: ${l.file}`);
   }
-  assert.equal(larger.filter(([, l]) => l.file).length, 2, 'two larger-text pictures kept for review, beside the corrections\' own');
+  // Kept for review at the Largest text: two Task screens, the briefing at both sizes (it is left over the hint), and the three outcomes that are not pictured before and after.
+  assert.deepEqual(larger.filter(([, l]) => l.file).map(([key]) => key).sort(), ['390x844/case-food-panel-17/200%', '390x844/case-food-winch-01/200%', '390x844/case-food-winch-14/200%', '390x844/case-food-winch-17/200%', '390x844/food-panel-04/200%', '390x844/food-winch-03/200%', '430x932/case-food-winch-01/200%']);
   // At the larger text the corrections to the role row, the outcome card and the request card show.
-  assert.deepEqual([record.largerText.port.states, record.largerText.port.equal, record.largerText.port.identical], [36, 36, 0]);
-  assert.deepEqual(record.largerText.port.corrected, { 1: 28, 2: 8, 3: 8, 4: 4, 5: 4, 6: 4 });
+  assert.deepEqual([record.largerText.port.states, record.largerText.port.equal, record.largerText.port.identical], [48, 48, 0]);
+  assert.deepEqual(record.largerText.port.corrected, { 1: 40, 2: 20, 3: 13, 4: 16, 5: 4, 6: 4 });
   for (const [key, l] of larger) {
     const [size, state, text] = key.split('/'), task = !state.includes('flow');
     assert.equal(l.corrections.includes(1), task, `${key}: a Task's bar holds the portraits`);
-    // The port breaks the Partner's label at the Large text on the narrower phone, and with "· Out" on both.
-    assert.equal(l.corrections.includes(3), task && text === '150%' && (size === '390x844' || state === 'case-food-panel-16'), `${key}: correction 3 applies where the port breaks the label`);
-    // A card's limit shows wherever the port's card is taller: then the place it touches is named.
-    if (state === 'case-food-panel-16') assert.ok(l.corrections.includes(4) && l.touched.length >= 2, `${key}: the outcome card is held by its limit`);
+    // The port breaks the Partner's label at the Large text on the narrower phone, and with "· Out" or "· Offline" on both.
+    assert.equal(l.corrections.includes(3), task && text === '150%' && (size === '390x844' || ['case-food-panel-16', 'case-food-winch-17', 'case-food-panel-17'].includes(state)), `${key}: correction 3 applies where the port breaks the label`);
+    // A card's limit shows wherever the port's card is taller: then the place it touches is named. Every outcome is held so at the larger text.
+    const outcome = ['case-food-panel-16', 'case-food-winch-14', 'case-food-winch-17', 'case-food-panel-17'].includes(state);
+    assert.equal(l.corrections.includes(4), outcome, `${key}: correction 4 applies to an outcome card`);
+    if (outcome) assert.equal(l.touched.length, l.corrections.includes(3) ? 3 : 2, `${key}: the outcome card is held by its limit: the bar's portraits, the card${l.corrections.includes(3) ? ' and the role row' : ''} are the places touched`);
     if (state === 'case-food-flow-04') assert.equal(l.touched.length, { '390x844/150%': 1, '390x844/200%': 1, '430x932/150%': 0, '430x932/200%': 1 }[`${size}/${text}`], `${key}: the request card is held by its limit where the port's ran over the tab bar`);
   }
   // Laid out again after a text-size change: relayout() draws what a new mount draws and, the focus aside, what the port draws on the app's preferences event.
@@ -534,7 +539,8 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   assert.deepEqual([pictured['3/390x844/food-panel-04/150%'].before.pieces, pictured['3/390x844/food-panel-04/150%'].after.pieces], [[{ text: '8 Hana', lines: 2 }, { text: '· Winch', lines: 3 }], [{ text: '8 Hana', lines: 1 }, { text: '· Winch', lines: 1 }]], 'correction 3: the label\'s two pieces, broken and whole');
   for (const key of Object.keys(pictured).filter(key => key.startsWith('4/'))) {
     const { before, after } = pictured[key];
-    assert.ok(before.cardEndsAt > before.nextRowStartsAt && after.cardEndsAt <= after.viewEndsAt - 12 + record.limits.box && after.scrolls && !before.scrolls, `correction 4, ${key}: the card ran over the row under the view, and now ends inside the view and scrolls`);
+    assert.ok(before.cardEndsAt > before.nextRowStartsAt && after.cardEndsAt <= after.viewEndsAt - 12 + record.limits.box && after.wordsScroll && !before.wordsScroll, `correction 4, ${key}: the card ran over the row under the view, and now ends inside the view with its words scrolling`);
+    assert.deepEqual([before.fades, after.fades], [null, 'words'], `correction 4, ${key}: only the card's words fade, never the card`);
   }
   for (const key of Object.keys(pictured).filter(key => key.startsWith('5/'))) {
     const { before, after } = pictured[key];
@@ -599,6 +605,60 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   }
   assert.deepEqual(Object.entries(record.agreement.native).filter(([, a]) => !a.comparable).map(([key]) => key).sort(), ['390x844/food-panel-18', '430x932/food-panel-18']);
   assert.ok(record.agreement.controls.package.ok && record.agreement.controls.native.ok, 'another part\'s picture does not pass for this one');
+  // The frozen port and the component in one page, with both their stylesheets, loaded in each order.
+  const SIZES = ['390x844', '430x932'], pairs = Object.entries(record.together.drawn);
+  assert.deepEqual([record.together.orders, record.together.texts, record.together.states], [['port', 'component'], [1, 1.5, 2], record.largerText.states]);
+  assert.deepEqual(pairs.map(([key]) => key), SIZES.flatMap(size => record.together.states.flatMap(state => ['100%', '150%', '200%'].flatMap(text => ['port', 'component'].map(first => `${size}/${state}/${text}/${first}-first`)))), 'twelve states, at three text sizes and two phone sizes, in both orders: 144');
+  for (const [key, t] of pairs) {
+    assert.ok(t.ok, `in one page, ${key}: ${t.notes.join('; ')}`);
+    assert.deepEqual(t.sheets, t.first === 'port' ? ['port', 'component'] : ['component', 'port'], `${key}: the page holds both stylesheets, the ${t.first}'s first`);
+    for (const who of ['port', 'component']) assert.deepEqual(t[who], { html: true, text: true, boxes: true, controls: true, covers: true, gauge: true, pixels: true }, `${key}: the ${who}'s surface is what it is alone, DOM, boxes and pixels`);
+    assert.deepEqual(t.problems, [], `${key}: no page problem`);
+    // What each surface draws there is the picture it draws alone, in either order of the sheets.
+    const [size, state, text] = key.split('/'), own = text === '100%' ? record.captures[`${size}/${state}/full`] : record.largerText.drawn[`${size}/${state}/${text}`];
+    assert.equal(t.pngSha256.component, own.pngSha256, `${key}: the component's picture is the one it draws alone`);
+    if (text === '100%') assert.equal(t.pngSha256.port, own.port.pngSha256, `${key}: the port's picture is the one it draws alone`);
+  }
+  // Where the role row's correction shows, the port's label is still broken beside the component's whole one, whichever sheets come last.
+  const rows = pairs.filter(([, t]) => t.roleRow === 'the port breaks its label; the component does not').map(([key]) => key);
+  assert.deepEqual(rows, Object.entries(record.largerText.drawn).filter(([, l]) => l.corrections.includes(3)).flatMap(([key]) => ['port', 'component'].map(first => `${key}/${first}-first`)), 'the same captures where correction 3 applies, in both orders');
+  assert.ok(rows.length >= 16, 'the role row\'s correction shows in at least sixteen of them');
+  const unmarked = record.together.control;
+  assert.ok(unmarked.ok && unmarked.labelBreaks && !unmarked.sameAsAlone.html && !unmarked.sameAsAlone.boxes && !unmarked.sameAsAlone.pixels && Object.values(unmarked.portSameAsAlone).every(Boolean), 'the control: without its mark the component\'s label breaks as the port\'s does, and the check can tell');
+  assert.deepEqual(Object.keys(record.together.pictures), ['390x844/food-panel-04/150%/port-first', '390x844/food-panel-04/150%/component-first']);
+  for (const picture of Object.values(record.together.pictures)) assert.ok(existsSync(join(REPO, picture.file)), picture.file);
+  // Every card over what lies behind it: opaque to its edge.
+  const cards = Object.entries(record.opaque.drawn);
+  assert.deepEqual(record.opaque.states, ['case-food-winch-01', 'case-food-winch-14', 'case-food-winch-17', 'case-food-panel-01', 'case-food-panel-16', 'case-food-panel-17', 'case-food-flow-04'], 'the two briefings, the four outcomes and the request');
+  assert.equal(cards.length, 42, 'seven states with a card, at three text sizes and two phone sizes');
+  assert.deepEqual([...new Set(cards.map(([, c]) => c.kind))].sort(), ['briefing', 'outcome', 'request']);
+  for (const [key, c] of cards) {
+    assert.ok(c.ok, `a card over what lies behind it, ${key}: ${c.notes.join('; ')}`);
+    assert.ok(c.inside.pixels > 20000 && c.inside.changed === 0, `${key}: with a loud backdrop under the card, no pixel inside it changed`);
+    assert.ok(c.foot.pixels > 5000 && c.foot.changed === 0, `${key}: nor in its foot, the 28 px inside its lower edge`);
+    assert.ok(c.around.changed >= c.around.pixels / 2, `${key}: around the card the backdrop shows: it was there`);
+    assert.notEqual(c.fades, 'card', `${key}: the card is not faded as a whole`);
+    assert.equal(c.fades, c.wordsScroll ? 'words' : null, `${key}: only words that scroll fade`);
+    if (!c.wordsScroll) assert.deepEqual([c.rim.colours, c.rim.colour], [1, c.colour], `${key}: under its words the card's rim is its own colour and no other`);
+  }
+  // An outcome card's words scroll at the larger text on both phones; the briefing's never do.
+  for (const [key, c] of cards) {
+    const [, state, text] = key.split('/');
+    if (c.kind === 'outcome') assert.equal(c.wordsScroll, text !== '100%', `${key}: an outcome card's words scroll at the larger text, and fit at the Standard`);
+    if (c.kind === 'briefing') assert.equal(c.wordsScroll, false, `${key}: the briefing does not scroll (${state})`);
+  }
+  const whole = record.opaque.control;
+  assert.ok(whole.ok && whole.fades === 'card' && whole.inside.changed > 0 && whole.foot.changed > 0 && !whole.passes, 'the control: a card faded as a whole lets the backdrop through its foot, and does not pass');
+  // A card's words within reach of the keys, with real key presses.
+  const pressed = Object.entries(record.keys.drawn);
+  assert.deepEqual(pressed.map(([key]) => key), SIZES.flatMap(size => ['case-food-panel-16', 'case-food-flow-04'].flatMap(state => ['100%', '150%', '200%'].map(text => `${size}/${state}/${text}`))));
+  for (const [key, k] of pressed) {
+    assert.ok(k.ok, `the keys, ${key}: ${k.notes.join('; ')}`);
+    assert.match(k.start.focus, /^fs-card/, `${key}: the card holds the focus`);
+    if (k.wordsScroll) assert.ok(k.tab.onWords && /^solid /.test(k.tab.ring) && k.arrow.scrolled > 0 && Math.abs(k.end.scrolled - k.end.most) <= 1, `${key}: Tab goes to the words, which show the ring; the arrow scrolls them; End brings their last line`);
+    else assert.ok(!k.tab.onWords && k.arrow.scrolled === 0, `${key}: the words fit, and Tab does not stop on them`);
+  }
+  assert.ok(pressed.filter(([, k]) => k.wordsScroll).length >= 7, 'the words scroll in at least seven of the twelve');
   // The lifecycle probe.
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
   for (const [mode, run] of Object.entries(record.probe)) {
@@ -622,9 +682,10 @@ test('the check\'s record: every capture, comparison and probe check passed unde
   // The six corrections to the port, each by its own checks, as the Lead Designer asked on 16 November.
   for (const id of ['corrections: the top bar\'s portraits take the kit\'s 32 px', 'corrections: with no instrument the dock has no slot and no gap for one',
     'corrections: at the Standard and the Large text, on both phones and with the longest names, the Partner\'s label is two whole pieces', 'corrections: at the Largest text the role row is dropped, as in the port',
-    'corrections: at every text size, on both phones, an outcome card ends 12 px above the view\'s lower edge or higher, over no row and no control', 'corrections: an outcome card with more words than room scrolls to its last line',
+    'corrections: at every text size, on both phones, an outcome card ends 12 px above the view\'s lower edge or higher, over no row and no control', 'corrections: an outcome card\'s words are in a scroller that is the card\'s whole inside, with its stamp whole',
+    'corrections: no card is faded as a whole, at any text size on either phone', 'corrections: where a card does scroll as a whole (the briefing at the Largest text, in a phone 320 px by 568 px) it is still not faded', 'corrections: a card\'s words that scroll take a place in the Tab order',
     'corrections: at every text size, on both phones, the request card ends 8 px above the Pass button or higher, clear of the tab bar', 'corrections: where the request\'s words need more room they scroll above the answers to their last line',
     'corrections: with a sheet open, the focus survives relayout()', 'corrections: with a request card open, the focus survives relayout()', 'corrections: at the Largest text, where a sheet or a card is built again by itself, the focus stays too',
     'corrections: a card built again does not take the focus from outside the surface', 'corrections: the top bar is drawn again a second later, and Promises keeps the focus']) assert.ok(passed(id), `probe: ${id}`);
-  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 113, 'a hundred and thirteen checks in each mode');
+  for (const run of Object.values(record.probe)) assert.equal(run.checks.length, 116, 'a hundred and sixteen checks in each mode');
 });
