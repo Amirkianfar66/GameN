@@ -94,7 +94,7 @@ Each reports a tap, and only that.
 | Display settings | The kit's 44 px icon button with the settings icon, at the top right, under the top safe area; its name "Display settings" |
 | The choices | At the foot, 16 px from the sides and 18 px above the bottom safe area, 12 px apart: Join (the entry choice, primary: the person-plus icon on ink, amber), Host (the entry choice: the host icon), Recover my seat (the kit's plain button with the filled key, centred) |
 | Offline | The kit's error note with the offline icon, unfilled, above Join, 8 px under the choices' top (the pack's `.error` margin); the three choices refused. Join and Host keep their look and Recover is dimmed, as sheet 10 draws them |
-| Larger text | The choices grow with the text and take the space they need from the foot up; the hero stays behind them |
+| Larger text | The choices grow with the text and take the space they need from the foot up. When they reach into the hero, the canvas covers it from 24 px above their top, so none of their words sits on the hero's (decision 5) |
 
 **Motion:** none of its own. The intro is the brand film's.
 
@@ -110,11 +110,16 @@ Each reports a tap, and only that.
 1. **The entry choice is mine, not the kit's:** a small module, `components/entry-parts/`, with its own version. The pack uses `.entry` only in `screens-entry.mjs` (sheets 10 and 12), both in my area; the kit holds what both screen builders draw. If another builder needs it, the Lead moves it into the kit.
 2. **The offline note is the kit's:** kit 0.4.0 adds `errorNote(words, { icon, filled })`, defaulting to the filled warning, with the pack's offline note as a comparison case. The menu uses `kit.errorNote('No connection. Join, Host and Recover return when you are back online.', { icon: 'offline', filled: false })`.
 3. **The hero:** Frontend's existing player draws the brand film's frame at 1.65 s, held still; the menu draws the fade to the canvas over it, as for the role and boarding films.
-4. **Offline, as sheet 10 draws it** (the build, 16 November, for the Lead's agreement): Join and Host keep their look, and only "Recover my seat" is dimmed. The interface said all three were dimmed; the sheet is the specification, so the build follows it. All three are refused alike.
+4. **Offline, as sheet 10 draws it** (the build; agreed by the Lead, 16 November): Join and Host keep their look, and only "Recover my seat" is dimmed. The interface said all three were dimmed; the sheet is the specification, so the build follows it. All three are refused alike, through the kit's policy, so assistive technology still hears the state.
+5. **Nothing of the choices sits on the hero's words** (the Lead's review of the build, 16 November). At the Largest text offline, the frozen pack's menu puts the note over "by Plan B", which shows through the unfilled note, and the note's top touches "Game N". No approved sheet draws the menu at that size, and the pack's own rule is that nothing is cut or crowded at large text. So:
+   - **When larger text raises the choices into the hero,** the canvas covers the hero from 24 px above the choices' top (the note's, or Join's), fading in over those 24 px, solid from their top down. It is the menu's own layer over the pack's fade (`.ms-mm-cover`), placed by `main-menu.mjs` from the choices' boxes and kept current as they grow.
+   - **At the Standard text** the choices start below the hero at both sizes, so there is no cover and the menu is the pack's, to half a pixel.
+   - **The note stays unfilled,** as sheet 10 has it: the cover leaves only canvas behind it.
+   - **The trade-off,** for the Lead's eye: at 390 × 844 offline with the Largest text the note starts at 241 px, so the cover begins at 217 px and the lower part of "Game N" fades into it. At 430 × 932 the cover begins under "by Plan B".
 
 ## Checks run on this version
 
-On `9da41b8b`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `component-check.mjs`):
+On `9aec5f4a`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `component-check.mjs`):
 - **Tests:** `packages/design-tokens/test/main-menu.test.mjs`:
   - the runtime-safe graph, with the kit and the entry parts and no phone shell;
   - styles scoped, placing kit and entry parts only through the menu's own parts;
@@ -123,9 +128,9 @@ On `9da41b8b`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `comp
   
   `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `test:design`, `test:tooling` and `check-assets.mjs` run before every push.
 - **`node design/tools/main-menu-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (`lib/component-check.mjs`).
-  - **Captures:** the menu, offline, and both with the Largest text (200 %), at 390 × 844 and 430 × 932: **8 of 8 pass**. Each asserts the pack's words, the canvas, the settings button 4 px under the top safe area and the choices 18 px over the bottom one; offline, the note, the three refusals, and Join and Host undimmed with Recover at 0.4.
-  - **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion): the parts and the hero's element, taps, offline and back, busy, not interactive, focus through updates, the safe areas (given and the browser's), layout and `onLayout`, the Largest text, malformed input, dispose and motion.
-  - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text, agree to within half a pixel in every part (the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, Recover and its key), in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero, and in their states (refused, the alert, the hero hidden from screen readers). A choice 2 px off fails every case.
+  - **Captures:** the menu, offline, and both with the Largest text (200 %), at 390 × 844 and 430 × 932: **8 of 8 pass**. Each asserts the pack's words, the canvas, the settings button 4 px under the top safe area and the choices 18 px over the bottom one; offline, the note, the three refusals, and Join and Host undimmed with Recover at 0.4; and the cover exactly where the choices reach into the hero, from 24 px above them (none at the Standard text; at the Largest text offline at both sizes, and online at 390 × 844).
+  - **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion): the parts and the hero's element, taps, offline and back, busy, not interactive, focus through updates, the safe areas (given and the browser's), layout and `onLayout`, the text at 100, 150 and 200 % (the cover none at 100 %, and from 24 px above the choices whenever they reach into the hero), malformed input, dispose and motion.
+  - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text, agree to within half a pixel in every part (the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, Recover and its key), in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero, and in their states (refused, the alert, the hero hidden from screen readers). A choice 2 px off fails every case. The cover is the one difference, at the Largest text only, and each case records it (none at the Standard text).
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
 ## Not in this version

@@ -23,6 +23,10 @@
 .ms-main-menu .ms-mm-heroframe { position: absolute; inset: 0 0 auto; height: 58%; overflow: hidden; }
 .ms-main-menu .ms-mm-hero { position: absolute; inset: 0; overflow: hidden; }
 .ms-main-menu .ms-mm-fade { position: absolute; inset: auto 0 0; height: 40%; pointer-events: none; background: linear-gradient(to bottom, rgba(16, 20, 28, 0), var(--ms-k-canvas)); }
+/* Larger text only: when the choices rise into the hero, the canvas covers it from 24 px above their top
+   (main-menu.mjs places it), so no word of the choices sits on the hero's words. Never drawn at the Standard text. */
+.ms-main-menu .ms-mm-cover { position: absolute; left: 0; right: 0; bottom: 0; top: var(--ms-mm-cover-top, 100%); pointer-events: none; background: linear-gradient(to bottom, rgba(16, 20, 28, 0) 0, var(--ms-k-canvas) 24px); }
+.ms-main-menu .ms-mm-cover[hidden] { display: none; }
 
 /* Display settings: the kit's 44 px icon button, 4 px under the top safe area, 8 px from the right. */
 .ms-main-menu .ms-mm-settings { position: absolute; top: calc(var(--ms-mm-safe-t) + 4px); right: 8px; z-index: 5; }

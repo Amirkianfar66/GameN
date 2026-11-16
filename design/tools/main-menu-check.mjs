@@ -50,7 +50,12 @@ const probes = {};
 let agreement = null;
 let failed = 0;
 /** What every state shows, and what each one adds, from the menu's own DOM. */
-const drawn = s => s.join === 'Join Enter a room code' && s.host === 'Host Open a room for 7–9 players' && s.recover === 'Recover my seat'
+/**
+ * The cover over the hero: drawn exactly when the choices reach into the hero, from 24 px above their top. At the
+ * Standard text they never do, so there is none, as in the pack.
+ */
+const covered = s => (s.stackTop >= s.hero ? !s.cover : s.cover && Math.abs(s.coverTop - (s.stackTop - 24)) < 0.05) && (s.root !== 16 || !s.cover);
+const drawn = s => covered(s) && s.join === 'Join Enter a room code' && s.host === 'Host Open a room for 7–9 players' && s.recover === 'Recover my seat'
   && s.settings === 'Display settings' && s.hero > 0 && s.canvas === 'rgb(16, 20, 28)' && s.settingsTop === 51 && s.choicesBottom === 52 && s.clear;
 const online = s => s.note === null && s.refused.every(v => v === null) && s.opacity.every(v => v === '1');
 const offline = s => s.note === OFFLINE && s.refused.every(v => v === 'true') && JSON.stringify(s.opacity) === '["1","1","0.4"]';
@@ -58,7 +63,8 @@ const EXPECT = {
   menu: s => drawn(s) && online(s) && s.root === 16,
   offline: s => drawn(s) && offline(s) && s.root === 16,
   large: s => drawn(s) && online(s) && s.root === 32,
-  'large-offline': s => drawn(s) && offline(s) && s.root === 32,
+  // The Largest text offline raises the choices into the hero at both sizes: the cover is drawn.
+  'large-offline': s => drawn(s) && offline(s) && s.root === 32 && s.cover,
 };
 try {
   await mkdir(REVIEW, { recursive: true });
@@ -82,6 +88,8 @@ try {
           note: words(q('.ms-k-error')), refused: choices.map(n => n.getAttribute('aria-disabled')), opacity: choices.map(n => getComputedStyle(n).opacity),
           hero: q('.ms-mm-hero').childElementCount, canvas: getComputedStyle(root).backgroundColor,
           settingsTop: rel(settings).top - f.top, choicesBottom: f.bottom - rel(actions).bottom, clear: rel(actions).top > rel(settings).bottom,
+          stackTop: rel(actions.firstElementChild).top - f.top, hero: rel(q('.ms-mm-heroframe')).height,
+          cover: !q('.ms-mm-cover').hidden, coverTop: q('.ms-mm-cover').hidden ? null : rel(q('.ms-mm-cover')).top - f.top,
           layout: window.__mainMenu.mounted[0]?.layout?.() ?? null };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));

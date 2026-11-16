@@ -140,8 +140,13 @@ export async function runMainMenuAgreement({ sizes, offline }) {
       ['note is an alert', pack.querySelector('.error')?.getAttribute('role') ?? null, root.querySelector('.ms-k-error')?.getAttribute('role') ?? null],
       ['hero hidden from screen readers', pack.querySelector('.menu-hero')?.getAttribute('aria-hidden'), root.querySelector('.ms-mm-heroframe')?.getAttribute('aria-hidden')],
     ];
+    // The one difference from the pack, at larger text only: the menu's cover over the hero (the Lead's review of
+    // #278, 16 November). At the Standard text there is none, as in the pack; with larger text it is recorded.
+    const cover = root.querySelector('.ms-mm-cover');
+    const improvement = cover.hidden ? null : { what: 'the canvas covers the hero from 24 px above the choices', coverTop: box(host, cover).y, stackTop: box(host, root.querySelector('.ms-mm-actions').firstElementChild).y };
+    if (!c.text && improvement) differences.push({ part: 'cover', what: 'drawn at the Standard text', pack: null, menu: improvement });
     for (const [what, a, b] of states) if (a !== b) differences.push({ part: 'state', what, pack: a, menu: b });
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0, detail: { differences, parts } });
+    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0, detail: { differences, parts, improvement } });
     menu.dispose();
     pack.remove();
     host.remove();
