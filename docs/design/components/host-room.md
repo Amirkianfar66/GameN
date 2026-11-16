@@ -176,17 +176,22 @@ It is a change from what the pack draws at the larger text, not from a sheet (th
 
 - captures the eleven states at 390 × 844 and 430 × 932: 22 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks;
 - runs the probe as the page comes and with the device's Reduce motion: setup, the lobby, the stepper, keyed rows and focus, offline (a notice with every control enabled refuses nothing), the toast, not interactive, insets, the Largest text, input, dispose, motion;
-- runs the agreement: twelve cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look and boxes to within half a pixel, the toast's included. For the three lobby cases with the larger text, the pack is drawn with the code card's two rules, so everything else is compared, and each case records the improvement against the pack as it is.
+- runs the agreement: eleven cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look and boxes to within half a pixel, the toast's included. For the three lobby cases with the larger text, the pack is drawn with the code card's two rules, so everything else is compared, and each case records the improvement against the pack as it is.
 
 `packages/design-tokens/test/host-room.test.mjs` checks the runtime-safe graph (the kit, the entry parts, no shell, no menu), that the styles are the two screen roots only, the pack's words, both inputs (a notice changes no control), and the check's record. The entry parts' styles are checked in `main-menu.test.mjs`: scoped in `:where()`, the hand cursor with the tap highlight off, no dimming of a refused choice, and only the toast's motion.
 
 ### Checks run on this version
 
-On `7da9945f`, clean (the kit 0.4.0; `entry-parts-0.2.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
-- **Captures:** **22 of 22 pass.** Each asserts the pack's words, the chosen count and its mix, the canvas, and its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits).
-- **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion).
-- **The agreement with the frozen pack:** **9 of 9 cases** agree to within half a pixel in every part compared, in their look and their states, the toast's included. The one difference, + refused at the most bots, is recorded in the Full case only.
-- **The main menu**, whose entry parts these share, passes again on the same commit with byte-identical captures ([main-menu.md](main-menu.md)).
+On `90e82d4d`, clean (the kit 0.4.0; `entry-parts-0.2.0` with the code card's larger-text rules; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+- **Captures:** **22 of 22 pass.** Each asserts:
+  - the pack's words, the chosen count and its mix, and the canvas;
+  - its state: Open room refused or busy ("Opening…"), the failed opening over the foot, "4 more seats to fill" under Start, the two requests and their Admits, "✓ Copied" with the toast at 109 px (10 px under the nav bar, at both sizes), Full with + refused and Start open, offline with the note and Frontend's refusals, and the Largest text (the lobby scrolls; setup fits);
+  - in every lobby, Copy inside the code card: beside the code at the Standard text, under it at the Largest.
+- **The lifecycle probe:** 14 of 14 (13 as the page comes, 1 with the device's Reduce motion). The text check measures the code and Copy inside the card at 100, 150 and 200 % at both sizes. It fails on the pack's rules.
+- **The agreement with the frozen pack:** **11 of 11 cases** agree to within half a pixel in every part compared, in their look and their states, the toast's included.
+  - The one difference, + refused at the most bots, is recorded in the Full case only.
+  - The one improvement is recorded in the three lobby cases with the larger text only. In the pack, Copy ends at 411 px (Large, 390 × 844) and at 517 px (Largest, both sizes), past the card's content at 358 and 398 px. In the screens it ends at 142 and 161 px, under the code.
+- **The main menu**, whose entry parts these share, passes again on the same commit with captures byte-identical to those on `9aec5f4a` ([main-menu.md](main-menu.md)).
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
 ## Not in this version

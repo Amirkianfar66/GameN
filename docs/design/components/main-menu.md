@@ -133,7 +133,7 @@ On `9aec5f4a`, clean (the kit 0.4.0 at `e6b4a385`; the check on the shared `comp
   - **The agreement with the frozen pack** (`ENTRY_SCREENS.menu` beside the menu): **6 of 6 cases**, the menu and offline at both sizes and with the Largest text, agree to within half a pixel in every part (the hero's place, the settings button and its icon, the choices, the note and its icon, each choice's tile, icon, title, line and chevron, Recover and its key), in their look (background, colour, opacity, radius, shadow, cursor, type) and the fade over the hero, and in their states (refused, the alert, the hero hidden from screen readers). A choice 2 px off fails every case. The cover is the one difference, at the Largest text only, and each case records it (none at the Standard text).
 - **Not run:** physical phones, Safari, screen readers and the real app's connection.
 
-**Again on `7da9945f`, clean, with `entry-parts-0.2.0`** (the host room's build, #287): 8 of 8 captures, 14 of 14 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `9aec5f4a`. The entry parts' additions leave the menu's drawing unchanged.
+**Again on `90e82d4d`, clean, with `entry-parts-0.2.0`** (the host room's build and its code card, #287): 8 of 8 captures, 14 of 14 probe checks and 6 of 6 agreement cases pass, and the 8 captures are byte-identical to those on `9aec5f4a`. The entry parts' additions leave the menu's drawing unchanged.
 
 ## Not in this version
 

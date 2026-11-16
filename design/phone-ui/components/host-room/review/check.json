@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/host-room-check.mjs",
   "component": "design/phone-ui/components/host-room",
-  "sourceCommit": "7da9945f4b3832acd5c6b3628a49192734c4c799",
+  "sourceCommit": "90e82d4de4bcfa409b3e2005cd202fd79da5fd2c",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -83,6 +83,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 390,
@@ -104,7 +106,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -142,6 +144,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 430,
@@ -163,7 +167,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -201,6 +205,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 390,
@@ -222,7 +228,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -260,6 +266,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 430,
@@ -281,7 +289,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -319,6 +327,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 390,
@@ -340,7 +350,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -378,6 +388,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 430,
@@ -399,7 +411,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -437,6 +449,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 390,
@@ -458,7 +472,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -496,6 +510,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 430,
@@ -517,7 +533,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -552,6 +568,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 390,
@@ -573,7 +591,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -608,6 +626,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 430,
@@ -629,7 +649,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -664,6 +684,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 390,
@@ -685,7 +707,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -720,6 +742,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 430,
@@ -741,7 +765,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -776,6 +800,8 @@
       "toast": "Copied",
       "toastTop": 109,
       "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 390,
@@ -797,7 +823,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -832,6 +858,8 @@
       "toast": "Copied",
       "toastTop": 109,
       "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 430,
@@ -853,7 +881,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -888,6 +916,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 390,
@@ -909,7 +939,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -944,6 +974,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 430,
@@ -965,7 +997,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1000,6 +1032,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 390,
@@ -1021,7 +1055,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1056,6 +1090,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
       "layout": {
         "size": {
           "width": 430,
@@ -1077,7 +1113,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1115,6 +1151,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 390,
@@ -1136,7 +1174,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1174,6 +1212,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
       "layout": {
         "size": {
           "width": 430,
@@ -1188,14 +1228,14 @@
     },
     "390x844/lobby-large": {
       "file": "design/phone-ui/components/host-room/review/390x844-lobby-large.jpg",
-      "sha256": "5fe5d9e8150a80cda3c6b805718623320777b80d58844192399641414e96fc62",
+      "sha256": "c718c8d73b522b45e0e28ce9aaee7419521cdd0d157c47491ee1d16599c8e248",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1230,6 +1270,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": true,
       "layout": {
         "size": {
           "width": 390,
@@ -1244,14 +1286,14 @@
     },
     "430x932/lobby-large": {
       "file": "design/phone-ui/components/host-room/review/430x932-lobby-large.jpg",
-      "sha256": "c8e4b9dfb451e41c5d8286ce91ad23ddb35ff9001bb4aa163427e124557df076",
+      "sha256": "04d49ed047420e3270ff9573dd289bb55afeae440e065088ef9eea8aa0517a24",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1286,6 +1328,8 @@
       "toast": null,
       "toastTop": null,
       "scrolls": true,
+      "copyInside": true,
+      "copyUnder": true,
       "layout": {
         "size": {
           "width": 430,
@@ -1553,7 +1597,7 @@
           }
         },
         {
-          "id": "text: with the Largest text (200 %) the lobby scrolls and its foot is reached; the toast follows the nav bar",
+          "id": "text: with the Largest text (200 %) the lobby scrolls and its foot is reached; the toast follows the nav bar; at 100, 150 and 200 % the code and Copy stay inside the card at both sizes",
           "ok": true,
           "detail": {
             "ok": true,
@@ -1561,7 +1605,51 @@
               "scrolls": true,
               "startInView": true,
               "toastTop": 109,
-              "navBottom": 99
+              "navBottom": 99,
+              "fits": [
+                {
+                  "size": "390x844",
+                  "text": 100,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": false
+                },
+                {
+                  "size": "390x844",
+                  "text": 150,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                },
+                {
+                  "size": "390x844",
+                  "text": 200,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                },
+                {
+                  "size": "430x932",
+                  "text": 100,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": false
+                },
+                {
+                  "size": "430x932",
+                  "text": 150,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                },
+                {
+                  "size": "430x932",
+                  "text": 200,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                }
+              ]
             }
           }
         },
@@ -1620,7 +1708,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1656,7 +1744,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DJi3Znx9.js",
+          "source": "assets/index-B2wDM3ud.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1749,7 +1837,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -1831,7 +1920,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -1913,7 +2003,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -2047,7 +2138,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -2181,7 +2273,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -2315,7 +2408,8 @@
               "pack": 1,
               "screen": 1
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -2466,7 +2560,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "improvement": null
         }
       },
       {
@@ -2547,6 +2642,301 @@
             "seg buttons": {
               "pack": 3,
               "screen": 3
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: lobby · requests with the Large text (150 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon pictures": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row subs": {
+              "pack": 4,
+              "screen": 4
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": {
+            "what": "the code card's row wraps: Copy under the code, inside the card",
+            "pack": {
+              "copyRight": 411.45,
+              "contentRight": 358,
+              "inside": false
+            },
+            "screen": {
+              "copyRight": 142.25,
+              "contentRight": 358,
+              "inside": true
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: lobby · requests with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon pictures": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row subs": {
+              "pack": 4,
+              "screen": 4
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": {
+            "what": "the code card's row wraps: Copy under the code, inside the card",
+            "pack": {
+              "copyRight": 516.61,
+              "contentRight": 358,
+              "inside": false
+            },
+            "screen": {
+              "copyRight": 161,
+              "contentRight": 358,
+              "inside": true
             }
           }
         }
@@ -2682,6 +3072,19 @@
               "pack": 0,
               "screen": 0
             }
+          },
+          "improvement": {
+            "what": "the code card's row wraps: Copy under the code, inside the card",
+            "pack": {
+              "copyRight": 516.61,
+              "contentRight": 398,
+              "inside": false
+            },
+            "screen": {
+              "copyRight": 161,
+              "contentRight": 398,
+              "inside": true
+            }
           }
         }
       }
@@ -2690,7 +3093,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-DJi3Znx9.js",
+        "source": "assets/index-B2wDM3ud.js",
         "line": 1,
         "column": 3328,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

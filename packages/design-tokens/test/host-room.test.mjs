@@ -162,7 +162,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
   for (const group of ['setup', 'lobby', 'stepper', 'keyed', 'offline', 'toast', 'not interactive', 'insets', 'text', 'input', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.probe.full.checks.some(c => c.ok && /with every control enabled it refuses nothing/.test(c.id)), 'a notice with every control enabled refuses nothing, in the browser');
-  assert.ok(record.agree.ok && record.agree.checks.length === 12 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'each screen agrees with the frozen pack\'s');
+  assert.ok(record.agree.ok && record.agree.checks.length === 11 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'each screen agrees with the frozen pack\'s');
   // The one difference from the pack, recorded where it is drawn: + refused at the most bots (Full).
   for (const c of record.agree.checks) {
     assert.deepEqual(c.detail.recorded.map(r => r.part.replace(/ \d+$/, '')), c.id.includes('full') ? ['stepper +', 'stepper +'] : [], `${c.id}: recorded`);

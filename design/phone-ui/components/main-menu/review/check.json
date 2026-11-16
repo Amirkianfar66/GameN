@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/main-menu-check.mjs",
   "component": "design/phone-ui/components/main-menu",
-  "sourceCommit": "7da9945f4b3832acd5c6b3628a49192734c4c799",
+  "sourceCommit": "90e82d4de4bcfa409b3e2005cd202fd79da5fd2c",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -101,7 +101,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -157,7 +157,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -213,7 +213,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -269,7 +269,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -325,7 +325,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -381,7 +381,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -437,7 +437,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -804,7 +804,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -835,7 +835,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-olntBxf-.js",
+          "source": "assets/index-CldKrkW-.js",
           "line": 1,
           "column": 3181,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2662,7 +2662,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-olntBxf-.js",
+        "source": "assets/index-CldKrkW-.js",
         "line": 1,
         "column": 3181,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
