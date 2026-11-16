@@ -172,14 +172,17 @@ export async function runCardProbe({ sizes, versions }) {
         const seg = root.querySelector('.ms-card-views');
         const segRect = seg.getBoundingClientRect();
         const labels = [...seg.querySelectorAll('.ms-k-seg-label')].map(l => ({ text: l.textContent, whole: l.scrollWidth <= l.clientWidth + 1 }));
+        const scroller = p.shell.sheetBody;
         out[key] = { w: Math.round(card.width), h: Math.round(card.height), ratio: Math.round(card.width / card.height * 1000) / 1000, centred: Math.abs((card.left + card.right) / 2 - (body.left + body.right) / 2) <= 1,
-          inBody: card.top >= body.top - 1 && card.bottom <= body.bottom + 1, aboveSeg: shown(seg) ? card.bottom <= segRect.top : null, segShown: shown(seg), labels };
+          inBody: card.top >= body.top - 1 && card.bottom <= body.bottom + 1, aboveSeg: shown(seg) ? card.bottom <= segRect.top : null, segShown: shown(seg), labels,
+          scrolls: scroller.scrollHeight > scroller.clientHeight + 1 };
         p.dispose();
       }
       document.documentElement.style.fontSize = '';
       const { card, hidden, large } = out;
-      return { ok: card.h <= 440 && card.ratio === 0.714 && card.centred && card.aboveSeg && hidden.w === 240 && hidden.h === 336 && hidden.centred && !hidden.segShown
-        && large.aboveSeg && large.inBody && large.labels.every(l => l.whole), ...out };
+      // At the Largest text on 320 x 568 the card keeps its place's 240 px floor and the sheet's body scrolls to the switcher (the Lead, 16 November 2026).
+      return { ok: card.h <= 440 && card.ratio === 0.714 && card.centred && card.aboveSeg && !card.scrolls && hidden.w === 240 && hidden.h === 336 && hidden.centred && !hidden.segShown
+        && large.aboveSeg && large.inBody && large.labels.every(l => l.whole) && large.h >= 235 && large.ratio === 0.714 && large.scrolls, ...out };
     });
 
     await check('dispose', async () => {

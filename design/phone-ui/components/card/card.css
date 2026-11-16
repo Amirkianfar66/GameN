@@ -24,6 +24,18 @@
 .ms-card-sheet .ms-card-fit { flex: 1; min-height: 0; display: flex; justify-content: center; padding: 2px 0 2px; }
 .ms-card-sheet .ms-card-host { width: 100%; height: 100%; max-height: 440px; }
 
+/*
+ * The Largest text on a small phone (the Lead, 16 November 2026): the stacked switcher would leave the card only
+ * its corner, so the card's place never goes below the back's 240 px, and the sheet's body scrolls to the
+ * switcher. A sheet under 10 em wide is the Largest text on a 320 px phone (9 em there); Standard and Large, and
+ * the Largest on the development phones (over 11 em), keep their sizes. The place still grows into any room
+ * left, and its height stays definite for the role card.
+ */
+.ms-card-sheet { container: ms-card-sheet / inline-size; }
+@container ms-card-sheet (max-width: 10em) {
+  .ms-card-sheet[data-view="card"] .ms-card-fit { flex: 1 0 240px; box-sizing: border-box; }
+}
+
 /* Hidden: the card's back alone, 240 px wide at most at 5 : 7 (the pack's card() sets it on its card back). */
 .ms-card-sheet[data-view="hidden"] .ms-card-fit { flex: none; display: block; padding: 0; }
 .ms-card-sheet[data-view="hidden"] .ms-card-host { max-width: 240px; height: auto; max-height: none; aspect-ratio: 5 / 7; margin: 0 auto; }
