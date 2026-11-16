@@ -2,9 +2,11 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {test} from 'node:test';
 import {setTimeout as sleep} from 'node:timers/promises';
+import {PLANET_FOOD_TASK_PINS, resolvePlanetReleaseCapabilities} from '@mothership/contracts';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {createFoodTaskCoordinator} from './coordinator.mjs';
 import {envelope, seedTwoHumanTask} from './fixture.mjs';
+import {memoryPlanetStore} from '../../test/planet-service-helper.mjs';
 import {runNativeFoodWorkersThrough} from '../../test/planet-food-native-service-control.mjs';
 import {chooseFoodBotInput} from '../../dist/food-bot-policy.js';
 
@@ -22,6 +24,16 @@ async function until(check) {
 function deadlineOf(store, taskId) {
   return read(store, key(taskId, 'state'));
 }
+
+test('two-human fixture art pin defaults to service evidence and can opt into native Food', async () => {
+  const measured = await seedTwoHumanTask(memoryPlanetStore());
+  const browser = await seedTwoHumanTask(memoryPlanetStore(), 7, {assetManifestVersion: 'design-0.9.0'});
+  assert.deepEqual(measured.session.state.versions, {...PLANET_FOOD_TASK_PINS, assetManifestVersion: 'design-0.6.0'});
+  const snapshot = await browser.h.read(browser.winch);
+  assert.deepEqual(snapshot.versions, {...PLANET_FOOD_TASK_PINS, assetManifestVersion: 'design-0.9.0'});
+  assert.equal(resolvePlanetReleaseCapabilities(snapshot.versions)?.food, true);
+  assert.equal(snapshot.foodPlayerView.participantTask.selfControl, 'WINCH');
+});
 
 for (const admissionMode of ['shared-cursor', 'owner-fifo']) test(`seven-player, two-human Food Task with ${admissionMode} ingress, takeover and audience push`, {timeout: 60000}, async t => {
   const store = createLoopbackFoodStore();

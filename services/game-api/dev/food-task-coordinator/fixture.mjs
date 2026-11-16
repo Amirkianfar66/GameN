@@ -8,8 +8,9 @@ export function envelope(view, command, commandId = randomUUID()) {
     foodStepId: view.step.stepId, round: view.round, commandId, command};
 }
 
-export async function seedTwoHumanTask(store, count = 7) {
-  const h = await planetServiceHarness({count, humans: count, store, setupFlowVersion: 3, engineProfile: 'food-task-1.4', sample: .2});
+export async function seedTwoHumanTask(store, count = 7, {assetManifestVersion} = {}) {
+  const h = await planetServiceHarness({count, humans: count, store, assetManifestVersion,
+    setupFlowVersion: 3, engineProfile: 'food-task-1.4', sample: .2});
   const display = await h.admission(h.display, 'display', 'Table');
   ok(await h.approve(display));
   const {session: boarding} = await enterTimedPlanetBoarding(h);
