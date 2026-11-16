@@ -165,7 +165,9 @@ const hex = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16) / 255);
 /**
  * A look: the light a figure's picture is drawn in. `ambient` { color, strength 0..1 }: the dark it stands in.
  * `key` { at: [x, y] in the figure's frame, z, color, gain, relief }: a light landing on it. `rims`: each { dx, dy
- * (toward the light), color, width, gain }: an edge of light. `flood`: one colour, the figure's shape alone.
+ * (toward the light), color, width, gain }: an edge of light. `back` { color, width, gain, side, under, reach, fade:
+ * [y0, y1] }: a light behind the figure (backFilter), whole to y0 and gone by y1. `flood`: one colour, the figure's
+ * shape alone.
  */
 export const LOOKS = Object.freeze({
   // Walking in at dusk: the doorway ahead on the left, the sunset behind on the right (version 1's light).
@@ -177,8 +179,9 @@ export const LOOKS = Object.freeze({
   // Climbing beside the lens: far from the entrance, then in its light.
   climbFar: { ambient: { color: '#3E2F4E', strength: 0.6 }, key: { at: [-520, -40], z: 200, color: '#FFD49A', gain: 0.8 }, rims: [{ dx: 0.9, dy: -0.35, color: '#FF9E5E', width: 2.6, gain: 0.9 }] },
   climbNear: { ambient: { color: '#5A3E4E', strength: 0.4 }, key: { at: [-300, 10], z: 170, color: '#FFDDB4', gain: 1.0 }, rims: [{ dx: 0.9, dy: -0.35, color: '#FF9E5E', width: 2.6, gain: 0.9 }] },
-  // Inside: the dark, rimmed by the entrance's amber behind; then under the ceiling lights.
-  dark: { ambient: { color: '#141B33', strength: 0.9 }, rims: [{ dx: 0.9, dy: -0.3, color: '#FFB257', width: 2.6, gain: 0.95 }, { dx: -0.9, dy: -0.3, color: '#FFB257', width: 2.6, gain: 0.95 }] },
+  // Inside, in the dark: the entrance behind the crew is the only light. It catches the tops of the heads, the
+  // shoulders and the outer edges of the arms, thinly, and is gone by the knees. Then under the ceiling lights.
+  dark: { ambient: { color: '#141B33', strength: 0.9 }, back: { color: '#FFB257', width: 1.15, gain: 1, side: 0.8, under: 2.5, reach: [3, 6, 10, 14, 19, 24, 30], fade: [70, 166] } },
   lit: { ambient: { color: '#1E2740', strength: 0.4 }, key: { at: [62, -240], z: 210, color: '#E6F0FF', gain: 1.25 }, rims: [{ dx: 0, dy: -1, color: '#FFB257', width: 2.2, gain: 0.5 }] },
 });
 
@@ -218,7 +221,49 @@ function lookFilter(id, look, box, { scale = 1, origin = [0, 0] } = {}) {
   });
   return `<filter id="${id}" filterUnits="userSpaceOnUse" x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" color-interpolation-filters="sRGB">${fx}</filter>`;
 }
-const lit = (inner, look, box, frame) => (look ? `${lookFilter('bf-look', look, box, frame)}<g filter="url(#bf-look)">${inner}</g>` : inner);
+
+/**
+ * A light behind a figure, as an SVG filter that gives the light alone: a thin edge on the figure's outline where it
+ * faces up, left or right with nothing of the figure beyond it.
+ * - `reach` is how far "beyond" is looked for, in the figure's units: an edge that faces another part of the figure
+ *   (the inside of a leg, a side behind an arm) is not an outline and takes no light.
+ * - An edge to the side takes `side` of the light an edge on top takes, and none where the figure ends within `under`
+ *   below it: the light comes from above, so the underside of a sleeve, a chin or a boot stays dark.
+ * - The light never widens the figure.
+ */
+function backFilter(id, back, box, { scale = 1 } = {}) {
+  const [x, y, w, h] = box, width = back.width / scale;
+  const beyond = [back.width, ...back.reach].map(d => d / scale);
+  let fx = '';
+  // Each side: the figure moved away from the light by each distance; where none of those covers it, it is an outer edge.
+  for (const [name, ux, uy] of [['l', 1, 0], ['r', -1, 0], ['t', 0, 1]]) {
+    beyond.forEach((d, i) => { fx += `<feOffset in="SourceAlpha" dx="${f(ux * d)}" dy="${f(uy * d)}" result="${name}${i}"/>`; });
+    fx += `<feMerge result="${name}s">${beyond.map((_, i) => `<feMergeNode in="${name}${i}"/>`).join('')}</feMerge>`
+      + `<feComposite in="SourceAlpha" in2="${name}s" operator="out" result="${name}"/>`;
+  }
+  fx += `<feOffset in="SourceAlpha" dy="${f(-(back.under ?? 2.5) / scale)}" result="on"/>`
+    + '<feMerge result="lr"><feMergeNode in="l"/><feMergeNode in="r"/></feMerge><feComposite in="lr" in2="on" operator="in" result="sides"/>'
+    + `<feComposite in="sides" in2="sides" operator="arithmetic" k1="0" k2="${f3(back.side ?? 1)}" k3="0" k4="0" result="dim"/>`
+    + '<feMerge result="edges"><feMergeNode in="dim"/><feMergeNode in="t"/></feMerge>'
+    + `<feGaussianBlur in="edges" stdDeviation="${f(Math.max(0.25, width * 0.22))}" result="soft"/>`
+    + `<feFlood flood-color="${back.color}" flood-opacity="${f3(back.gain ?? 1)}"/><feComposite in2="soft" operator="in" result="light"/>`
+    + '<feComposite in="light" in2="SourceAlpha" operator="in"/>';
+  return `<filter id="${id}" filterUnits="userSpaceOnUse" x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" color-interpolation-filters="sRGB">${fx}</filter>`;
+}
+
+/** A drawing in a look. A light behind it is its own layer over the lit figure, falling away down the body. */
+function lit(inner, look, box, frame = {}) {
+  if (!look) return inner;
+  const base = lookFilter('bf-look', look, box, frame);
+  if (!look.back) return `${base}<g filter="url(#bf-look)">${inner}</g>`;
+  const [x, y, w, h] = box, rect = `x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}"`;
+  const [y0, y1] = look.back.fade.map(v => (v - (frame.origin?.[1] ?? 0)) / (frame.scale ?? 1));
+  return base + backFilter('bf-back', look.back, box, frame)
+    + `<linearGradient id="bf-fall" gradientUnits="userSpaceOnUse" x1="0" y1="${f(y0)}" x2="0" y2="${f(y1)}"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>`
+    + `<mask id="bf-fade" maskUnits="userSpaceOnUse" ${rect}><rect ${rect} fill="url(#bf-fall)"/></mask>`
+    + `<g filter="url(#bf-look)"><g id="bf-figure">${inner}</g></g>`
+    + '<g mask="url(#bf-fade)"><g filter="url(#bf-back)"><use href="#bf-figure"/></g></g>';
+}
 
 /**
  * A crew member's body in a pose, without its head: SVG markup in the figure's frame, in `box`. `only` draws some

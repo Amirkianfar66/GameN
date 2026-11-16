@@ -9,7 +9,8 @@
 //   door     5.4-6.55 s the last aboard stops at the sill and looks back; steps in; the ramp draws up, the door comes
 //                       down and seals amber
 //   wake     6.55-6.9 s the whole ship under the giant: its ports light front to back, its engines wake
-//   inside   6.9-10 s   the dark corridor, the crew a rim of amber; the lights wake far to near and each head lifts;
+//   inside   6.9-10 s   the dark corridor, the doorway's light thin on the crew's heads and shoulders; the lights wake
+//                       far to near and each head lifts;
 //                       the consoles start; the Game N mark lands; ink to the night by 9,960 ms
 //
 // The clock is the server's. `paint(t)` draws the film at `t` ms after the boarding interval's `startsAt`; nothing here
@@ -495,8 +496,8 @@ function jobsFor(doc, view, roster, sharp = 1) {
     body(`ahead:${n}`, rest(g0), g0 + 500, member.character, backPose(n ? -0.5 : 0.5), kLast * 0.7, LOOKS.backlit);
     head(`aheadhead:${n}`, rest(g0), g0 + 500, member.character, 'back', kLast * 0.7, LOOKS.backlit);
   });
-  // Inside: each of the crew in the dark (let go once every light is on, and drawn less sharp: a shape and its
-  // rim) and under the lights.
+  // Inside: each of the crew in the dark (let go once every light is on, and drawn less sharp: a shape and the
+  // doorway's light on its edge) and under the lights.
   const hv = hallView(view), [i0] = SHOTS.inside, lightsOn = INSIDE.lights[1] + 700;
   for (const place of standing(view, roster)) {
     // Three pixels a point is more than these need: the last and largest pictures of the film.

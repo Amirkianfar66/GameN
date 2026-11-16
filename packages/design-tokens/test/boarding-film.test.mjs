@@ -17,7 +17,7 @@ import {
   BOARDING_FILM_VERSION, BOARDING_MS, BOARDING_TEXT, COAST_MS, DOOR_BEATS, HULL_WAKE, INSIDE, MEMORY_BUDGET, QUALITY, SHOTS, STILLS, STILL_FADE_MS, STILL_OUT, TITLE, VARIANTS,
   boardingFrame, shotOf,
 } from '../../../design/phone-ui/components/boarding-film/boarding-film.mjs';
-import { ANCHOR, HELD, LOOKS, backPose, bodyArt, bodyBox, climbPose, headArt, headBox, partBox, stridePose } from '../../../design/phone-ui/components/boarding-film/cast.mjs';
+import { ANCHOR, CREW_HEAD_SCALE, HELD, LOOKS, backPose, bodyArt, bodyBox, climbPose, headArt, headBox, partBox, stridePose } from '../../../design/phone-ui/components/boarding-film/cast.mjs';
 import { HALL, LAMPS, lampAt, lampOver } from '../../../design/phone-ui/components/boarding-film/corridor.mjs';
 import { SET, WALL_BOX, rampY, wallArt } from '../../../design/phone-ui/components/boarding-film/doorway.mjs';
 import { grainAt, lens, plane, seen, svgOf, within } from '../../../design/phone-ui/components/boarding-film/engine.mjs';
@@ -258,13 +258,41 @@ test('the crew is the approved drawing, acted: every pose is a whole skeleton wi
     const lit = bodyArt('c1', HELD.stand, { look });
     assert.match(lit, /<filter id="bf-look" filterUnits="userSpaceOnUse"/, name);
     assert.match(lit, /<g filter="url\(#bf-look\)">/, name);
-    assert.equal((lit.match(/operator="out"/g) ?? []).length, look.rims?.length ?? 0, `${name}: an edge of light for each rim`);
+    const base = lit.slice(lit.indexOf('<filter id="bf-look"'), lit.indexOf('</filter>'));
+    assert.equal((base.match(/operator="out"/g) ?? []).length, look.rims?.length ?? 0, `${name}: an edge of light for each rim`);
+    assert.equal(lit.includes('<filter id="bf-back"'), !!look.back, `${name}: a light behind the figure only where the look has one`);
     for (const rim of look.rims ?? []) assert.ok(Math.hypot(rim.dx, rim.dy) > 0.5 && /^#[0-9A-F]{6}$/.test(rim.color));
     assert.ok(look.ambient.strength > 0 && look.ambient.strength < 1);
   }
   assert.deepEqual(Object.keys(LOOKS), ['dusk', 'backlit', 'lookback', 'climbFar', 'climbNear', 'dark', 'lit']);
   assert.ok(LOOKS.backlit.ambient.strength > 0.85 && LOOKS.backlit.rims.length === 2, 'against the doorway: a dark shape, light on both edges');
   assert.ok(LOOKS.dark.ambient.strength > LOOKS.lit.ambient.strength + 0.3 && LOOKS.climbNear.key.gain > LOOKS.climbFar.key.gain, 'the dark and the light; far from the entrance and near it');
+  // In the dark corridor the doorway behind the crew is the only light (the Lead's review of #285): a thin edge on the
+  // outline where it faces up or to a side with nothing of the figure beyond; none facing down; gone by the knees.
+  const back = LOOKS.dark.back, dark = bodyArt('c1', HELD.stand, { look: LOOKS.dark });
+  assert.deepEqual(Object.keys(LOOKS).filter(name => LOOKS[name].back), ['dark'], 'only the dark corridor has a light behind the crew');
+  assert.equal(LOOKS.dark.rims, undefined, 'and no even rim');
+  assert.ok(back.width >= 0.8 && back.width <= 1.3 && back.side > 0.5 && back.side <= 1 && back.gain <= 1, 'thin: about 1 to 1.5 px on a phone at 1x');
+  const from = dark.indexOf('<filter id="bf-back"'), backFilter = dark.slice(from, dark.indexOf('</filter>', from));
+  const beyond = [...backFilter.matchAll(/<feOffset in="SourceAlpha" dx="(-?[\d.]+)" dy="(-?[\d.]+)" result="([a-z]+)\d+"\/>/g)].map(m => ({ side: m[3], dx: Number(m[1]), dy: Number(m[2]) }));
+  assert.deepEqual([...new Set(beyond.map(o => o.side))], ['l', 'r', 't'], 'the left, the right and the top: nothing faces down');
+  for (const side of ['l', 'r', 't']) {
+    const own = beyond.filter(o => o.side === side), far = own.map(o => Math.hypot(o.dx, o.dy));
+    assert.equal(own.length, back.reach.length + 1);
+    assert.ok(own.every(o => (side === 'l' ? o.dx > 0 && o.dy === 0 : side === 'r' ? o.dx < 0 && o.dy === 0 : o.dx === 0 && o.dy > 0)), `${side}: the figure moved away from the light`);
+    assert.equal(far[0], back.width, `${side}: the edge is the light's width`);
+    assert.ok(far.every((d, i) => i === 0 || (d > far[i - 1] && d - far[i - 1] <= 7)) && far.at(-1) >= 24, `${side}: looked for beyond the edge closely enough to meet an arm, far enough to meet the other leg`);
+  }
+  assert.equal((backFilter.match(/operator="out"/g) ?? []).length, 3, 'an outer edge for each side');
+  assert.match(backFilter, new RegExp(`<feOffset in="SourceAlpha" dy="-${back.under}" result="on"/>`), 'a side takes no light where the figure ends just below it');
+  assert.match(backFilter, /<feComposite in="light" in2="SourceAlpha" operator="in"\/>$/, 'cut to the figure\'s own shape');
+  assert.match(dark, new RegExp(`<linearGradient id="bf-fall" gradientUnits="userSpaceOnUse" x1="0" y1="${back.fade[0]}" x2="0" y2="${back.fade[1]}">`));
+  assert.ok(back.fade[0] > HELD.stand.neck[1] && back.fade[0] < HELD.stand.eF[1] && back.fade[1] > HELD.stand.wF[1] && back.fade[1] < HELD.stand.kF[1], 'whole on the shoulders, falling down the arms, gone above the knees');
+  assert.match(dark, /<g filter="url\(#bf-look\)"><g id="bf-figure">[\s\S]+<\/g><\/g><g mask="url\(#bf-fade\)"><g filter="url\(#bf-back\)"><use href="#bf-figure"\/><\/g><\/g>$/, 'its own layer over the figure, the figure drawn once');
+  // A head is drawn in its own frame: the same light, in the head's units.
+  const head = headArt('c1', 'down', 0, { look: LOOKS.dark });
+  assert.match(head, new RegExp(`<feOffset in="SourceAlpha" dx="${Number((back.width / CREW_HEAD_SCALE).toFixed(2))}" dy="0" result="l0"/>`));
+  assert.match(head, /<linearGradient id="bf-fall" gradientUnits="userSpaceOnUse" x1="0" y1="28.33" x2="0" y2="108.33">/, 'a head lies above where the light begins to fall away');
 });
 
 test('privacy: the film is drawn from seats and characters alone, and says nothing of a role, a team, a name or a status', () => {
