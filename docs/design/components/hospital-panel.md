@@ -142,6 +142,10 @@ For the Lead. Nothing here changes the agreed interface:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/hospital-panel.test.mjs` | 8 of 8: the runtime-safe graph on the kit alone (no other component); every style under the root at two classes, the kit's parts only inside the component's own, its one rule on glass and its one box-sizing rule, its only colours the pack's display's three, and one motion, the records' stamp snap (120 ms, stopped by the game's and the device's Reduce motion); the pinned pack unchanged; the pack's words and the Lead's additions, with no word but the pack's line naming the pool, the Doctor, a digit or a reason; the inputs' checks and normalization, with no error naming a pick; every preview state a valid input and the six compared frames; the sheet's frame and footers; and the check's record, with Q1's sending, Q5's empty places, Q6's three to a row, the privacy note and Q4's snap |
+  | `npm run test:design` | 394 of 394 |
+  | `npm run test:tooling` | 356 of 356 |
+  | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `node design/tools/check-assets.mjs` | 15 passed |
 - **`node design/tools/hospital-panel-check.mjs`:** recorded on `4211f770`, with the source clean.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. Each part is mounted in the shell's sheet body, over the Hospital's room scene, as Frontend would.
   - **Captures:** 34 of 34 pass, each drawing what its state asks: the part, the sheet, its sub and ✕, the footer and its busy button, the display, the keys and the pressed one, the empty places, the keys to a row, the line, the error, the stamp and its tone, the icon, the lines, the banner, and the room's patients behind.
