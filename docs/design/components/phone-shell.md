@@ -242,7 +242,6 @@ Listed, not omitted:
 | The private-talk capsule in the stage | Its component, next |
 | The board in the stage, and its "List" | Its component, next |
 | A shared display's own top bar | Its sheet; a display uses the bar without Promises or ⋮ today |
-| The room scene's name tags at the largest text: they meet at 320 × 568 with 200 % text (the `large` capture) | The room scene, #228 |
 
 ## Checks run on this version
 
@@ -250,9 +249,9 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts), the pinned pack unchanged, the pack's words, the clock, the inputs' refusals, the privacy rules and the check's record |
-  | `packages/design-tokens/test/kit.test.mjs` | 6 of 6, with the kit's own check: every builder agrees with the pinned pack's ([the kit's page](kit.md)) |
-  | `npm run test:design` | 383 of 383 |
+  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record |
+  | `packages/design-tokens/test/kit.test.mjs` | 7 of 7, with the kit's own check: every builder agrees with the pinned pack's, the toast included ([the kit's page](kit.md)) |
+  | `npm run test:design` | 386 of 386, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on `5ac3354f`'s record) |
   | `npm run test:tooling` | 337 of 337 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
@@ -260,13 +259,16 @@ Listed, not omitted:
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** sixteen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 33 of 33 pass, each drawing what its state asks.
+  - **Captures:** seventeen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 35 of 35 pass, each drawing what its state asks.
+    - `out` (0.2.8) draws an eliminated player's phone: "You're out" without Retry, 107 px from the top at a 47 px safe area, the phone live, Actions not offered, and the viewer's figure down in its place.
     - The 5 s result carries a stand-in for the vote's result window in the cover.
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 23 of 23 checks pass.
-    - **As the page comes (22):** focus, refused taps, reconnecting, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 25 of 25 checks pass.
+    - **As the page comes (24):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (twice), the large-content view, dispose and motion.
+      - **An eliminated player's banner (0.2.8):** the pack's words and icon, `role="status"`, and no button. The phone is live: a tab Frontend offers takes a tap, and Actions, not offered, is described by its reason. A large docked sheet docks 8.6 px below it. Reconnecting takes its place, with Retry, and the eliminated player's comes back when given again. A new viewer drops it unless given again; concealment drops it, and it doesn't come back by itself. A new viewer keeps the reconnecting banner.
+      - **The toast takes no tap (kit 0.8.0):** its computed `pointer-events` is `none`. With its pointer events on for that one measurement, it lies over a button in the cover; with them off, a tap at its centre reaches the button, once. The layers check reads the toast's paint order the same way. With `pointer-events: none` taken out, the Pre-game builder saw this check fail and the layers check still pass.
       - **The backdrop:** the room view's space (`#07090F`) by default, the phone's canvas (`#10141C`) with `backdrop: 'canvas'`, and any other value refused.
       - **No bar:** the stage runs to the top edge, and the banner and the toast keep the bar's place (107 and 109 px at a 47 px safe area).
       - **Edge to edge:** the stage and the cover fill the shell, the bar's glass lies over the stage, `layout()` gives the safe areas (also when only they change), the overlays stay put, and `edge: 'yes'` is refused.
@@ -281,14 +283,20 @@ Listed, not omitted:
         - At 200 %, the footer's "Cancel" and "Register Rescue" take a row each, inside the sheet, each label whole (0.2.1).
         - At 100 %, the values sit beside their titles, nothing overlaps, both controls are rows, and the two footer buttons share one row.
     - **With the device's Reduce motion emulated (1):** motion.
-  - **The agreement with the pinned pack** (`preview/agree.mjs`): 10 of 10 cases.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 13 of 13 cases.
+    - **Both banners (0.2.8),** the pack's `banner()` as sheets 45 and 44 draw them: reconnecting with Retry, and an eliminated player's, also at 200 % text on 320 × 568, where its line wraps. They compare the banner, its icon and its drawing, its two lines and Retry: boxes, words, Retry's kind and the role. All three agree, every part within half a pixel.
     - The cases: a turn, your turn, the 5 s result, a private talk, the Blackout, and your turn and the result at 200 % text on 320 × 568.
     - **A docked sheet (0.2.5),** the pack's `sheet()` as sheet 15 draws it: a recovery code's view ("Recovery code", "Private to this phone", Back, Close, Hide · Copy), the abort's confirm (Keep playing · Abort match, `warn`), and the code's view at 200 % text on 390 × 844. They compare the sheet, its head, Back, the title and its line, Close, the footer and each footer button: boxes, words, Back's name and each button's kind.
       - Run against 0.2.4's stylesheet, all three fail: Back at 8 px where the pack's is at 18, the title and its line at 62 where the pack's are at 72, and at 200 % the line's wrap and the second footer button at 194.6 where the pack's is at 200.
-    - In each case 10 to 18 parts sit in the same place, with the same words and states.
+    - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `344fcf91`, with kit 0.6.0 and shell 0.2.7, and the source clean. The target bar's Cancel taken while reconnecting moves nothing on screen; the probe's stale check measures it. Against `b5872a14`'s record, 17 captures differ by at most 161 pixels, inside the room's picture (its ambient motion), and four not at all.
+    - Recorded on `5ac3354f`, with kit 0.8.0 and shell 0.2.8, and the source clean. Against `344fcf91`'s record (shell 0.2.7):
+      - 17 captures are unchanged: 12 byte for byte, and 5 with no pixel more than 32 of 255 apart.
+      - 15 differ in at most 125 pixels, all inside the room's picture (its ambient motion).
+      - `large` changed with room scene 0.5.0, which `bb6ef309` merged. At 200 % on 320 × 568 every name tag is now whole and apart, stacked over the people where they would meet. There the active player's tag lies over the turn mark, and its amber ring still marks the turn.
+      - `out` is new at both sizes. No other capture shows a toast; the probe measures it.
+    - Before: `344fcf91`, with kit 0.6.0 and shell 0.2.7, and the source clean. The target bar's Cancel taken while reconnecting moves nothing on screen; the probe's stale check measures it. Against `b5872a14`'s record, 17 captures differ by at most 161 pixels, inside the room's picture (its ambient motion), and four not at all.
     - Before: `b5872a14`, with kit 0.5.1 and shell 0.2.6. Against `239413d1`'s record (shell 0.2.5), 18 captures differ by at most 360 pixels, all inside the room's picture (its ambient motion), and three not at all, the private talk's two among them: at the Standard text its buttons are unchanged, and the probe's `talk` check measures the Largest.
     - Before: `239413d1`, with kit 0.5.1 and shell 0.2.5. Against `fa9ca980`'s record (shell 0.2.4), 19 captures differ by at most 174 pixels, all inside the room's picture (its ambient motion), and two not at all: no capture draws a sheet with Back or two footer buttons that fit at 200 %, which the agreement's sheet cases compare with the pack.
     - Before: `fa9ca980`, with kit 0.5.1 and shell 0.2.4. Against `48e9c815`'s record (shell 0.2.3), 16 captures differed by at most 199 pixels, all inside the room's picture, and five not at all. No capture shows a warn or local footer action; the probe's `footer` check measures them.
