@@ -1,0 +1,84 @@
+{
+  "baselineCommit": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+  "sharedCursorSource": "431443998dbde658c4bdd99005b2275b81d38b42",
+  "ownerFifoSource": "0c9025b5faf48c18aaf354e2d17c90d8276f25b9",
+  "backendEvidenceCommit": "3bc30876fc162aa2689ebbb11dfbaedc9fd6a501",
+  "node": "22.21.1",
+  "firestoreEmulator": "1.20.2",
+  "environment": "local loopback; synthetic seven-player session and one display",
+  "recording": "14 seconds plus bounded 25-second completion tail",
+  "sourceGuarantee": "Production engine and Firestore adapter reused; prototype not in runtime package graph",
+  "runOrder": "Baseline/shared-cursor alternated in one session; FIFO in a subsequent session, not newly paired",
+  "limitations": [
+    "Not cloud or browser paint evidence",
+    "No human balance conclusion",
+    "Initial exploratory pair excluded due to omitted viewer and completion-tail loss"
+  ],
+  "files": [
+    {
+      "path": "01-baseline.json",
+      "bytes": 1942,
+      "sha256": "f62eeac0d1e7153ec044192668f5745edb54623722acff10325b2e8d9723cd33"
+    },
+    {
+      "path": "01-coordinator.json",
+      "bytes": 1787,
+      "sha256": "46d19216cdf0bcf5176c3c7cd65cae147748b039e1012e1ae63c99244b27c138"
+    },
+    {
+      "path": "01-owner-fifo.json",
+      "bytes": 1813,
+      "sha256": "f52bdf8ffaa04d9ab69fec69d59e938574eeccd7dcf67f3df7eacca26c7499aa"
+    },
+    {
+      "path": "02-baseline.json",
+      "bytes": 1990,
+      "sha256": "87715dd686fe591cb442e3bd75767ee579dd3336691feef0a83397884f409fd4"
+    },
+    {
+      "path": "02-coordinator.json",
+      "bytes": 1760,
+      "sha256": "49e7dfff46c6913bd89011896765f63cd0cb49bf2311c2c34913b351a25c3bc9"
+    },
+    {
+      "path": "02-owner-fifo.json",
+      "bytes": 2042,
+      "sha256": "d93dd50ff200ab066a1ca0407a9a5191d3299ca33ef9ef6be7aa67fc5f5cf7de"
+    },
+    {
+      "path": "03-baseline.json",
+      "bytes": 2006,
+      "sha256": "d426e944e267929fcc8670db376967db2adf82a8f97d3282f3e32b423ce86556"
+    },
+    {
+      "path": "03-coordinator.json",
+      "bytes": 1759,
+      "sha256": "e93eb28a4b2ace90741ac5b45f14b2970056561bd28530e1c9d680e2b9d1035d"
+    },
+    {
+      "path": "03-owner-fifo.json",
+      "bytes": 1834,
+      "sha256": "74f91f12817638aceb289120888a91cff89f218647ac78ce19b45174cd1fab57"
+    },
+    {
+      "path": "correctness.txt",
+      "bytes": 876,
+      "sha256": "896ffb430df3c323722d0cf0c1ebec7048589f54a87faea3662b10f7fb388285"
+    },
+    {
+      "path": "freshness-correctness.txt",
+      "bytes": 1117,
+      "sha256": "98af816005e16a036f6623388c7d738e81856e1afe0d0893ac08913d5f1d7e30"
+    },
+    {
+      "path": "frontend-checks.txt",
+      "bytes": 18146,
+      "sha256": "22855ca9f2b65149de5595ad6cf2d7b183bc45e344212daa9ded451ef0a6926e"
+    }
+  ],
+  "freshnessTestCommit": "8cac4d9f87ee58f9148472a526fe1fec18ea4032",
+  "nativeSeedCommit": "d25617ef337f22f696d2fe5f71ad1797ccccb107",
+  "frontendSourceCommit": "5372cd92a9482eb5d9c62773b412fd97f6e383cb",
+  "serviceFixtureArtPin": "design-0.6.0",
+  "browserFixtureArtPin": "design-0.9.0 (not browser-exercised)"
+}
