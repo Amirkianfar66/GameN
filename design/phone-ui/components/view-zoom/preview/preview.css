@@ -1,0 +1,14 @@
+/* mothership:dev-only · The Room ↔ Board zoom preview page. The page's root keeps the browser's 16 px, as the game's does. */
+html, body { margin: 0; background: #0B0E14; color: #F4EBDD; }
+body { font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+.pv-head { padding: 20px 24px 4px; }
+.pv-head h1 { margin: 0 0 4px; font-size: 20px; }
+.pv-head p { margin: 0; color: #B9C4D3; max-width: 900px; }
+/* The stage: the space between the shell's bars; both views fill it. */
+.pv-stage { position: relative; overflow: hidden; margin: 14px 24px; background: #07090F; box-shadow: 0 0 0 2px #2A3346; }
+.pv-view { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.pv-view[hidden] { display: none; }
+.pv-bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 24px 24px; }
+.pv-bar button { min-height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: #2A3346; color: #F4EBDD; font: inherit; }
+body.pv-single { background: #07090F; }
+body.pv-single .pv-stage { margin: 0; box-shadow: none; }

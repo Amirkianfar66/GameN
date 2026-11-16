@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- mothership:dev-only · The board tags preview: the runtime component (../board-tags.mjs) in each panel of the phone pack's own board (design/phone-ui/prototype), standing in for Frontend's Board V2, on the pack's synthetic fixtures. Not the game, not a release. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Board tags · preview</title>
+<!-- Unbundled, the preview resolves the game's two package imports here; the bundled check (design/tools/board-tags-check.mjs) needs none. -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="../board-tags.css">
+<link rel="stylesheet" href="./preview.css">
+<script type="module" src="./preview.mjs"></script>
+</head>
+<body></body>
+</html>
