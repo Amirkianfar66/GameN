@@ -1,6 +1,6 @@
 # End scene: Designer's runtime component
 
-**Version:** `end-scene-0.1.1`. **Status (16 November 2026):** `0.1.0` was built to the interface agreed on #271 and accepted there by the Lead Designer. `0.1.1` adds what larger text needs, as the Lead decided on 16 November, and is for the Lead's review. It is not in the game yet. Integration first admits its module graph to the hosted build, including `arrival-art.mjs`, a new runtime derivative of approved drawing (see Art). It is not a release.
+**Version:** `end-scene-0.1.1`. **Status (16 November 2026):** `0.1.0` was built to the interface agreed on #271 and accepted there by the Lead Designer. `0.1.1` adds what larger text needs, as the Lead decided on 16 November, and the Lead accepted it on #271 at `2f833cd8`. It is not in the game yet. Integration first admits its module graph to the hosted build, including `arrival-art.mjs`, a new runtime derivative of approved drawing (see Art). It is not a release.
 
 ## What changed in 0.1.1
 
@@ -152,7 +152,7 @@ Reduce motion, the game's or the device's: the still, with one 80 ms fade.
 
 ## Larger text
 
-The game's text size is its root's size: Standard (100 %), Large (150 %) and 200 %. The pack writes the title block in rem, so on the pack's own end screen the block grows with it and runs down over the Roles list: at 200 % on 390 × 844 the pack's Red block ends at 718.7 px, and its list starts at 489.5 px (58 %). The larger-text sheet (56) draws no sheet 44 frame, so no sheet draws this state. The Lead Designer decided it on 16 November 2026, as a fix for larger text and not a departure from a sheet.
+The game's text size is its root's size: Standard (100 %), Large (150 %) and Largest (200 %). The pack writes the title block in rem, so on the pack's own end screen the block grows with it and runs down over the Roles list: at 200 % on 390 × 844 the pack's Red block ends at 718.7 px, and its list starts at 489.5 px (58 %). The larger-text sheet (56) draws no sheet 44 frame, so no sheet draws this state. The Lead Designer decided it on 16 November 2026, as a fix for larger text and not a departure from a sheet.
 
 - **The rule:** the block's words grow with the root as the pack's do, up to a 20 px root, and hold there.
 
@@ -208,6 +208,30 @@ Each function is its source's text, character for character. **At every moment t
 **For Integration:** the planets' hues appear only here, at an arrival, when the destination is public (`navigation.arrivedAt`, `result.winner`). `arrival-art.mjs` is a second new runtime drawing derivative of development sources, after the ship travel's `ship-art.mjs`. The drawing-port fence scans only `apps/` and `packages/presentation`, so Integration reviews it when it admits the component's graph. The approved videos are not used.
 
 **Not used:** the library's `end.css` banners and emblems. They belong with the Roles list, if adopted.
+
+## Not in this version yet
+
+Listed, not omitted:
+
+| What | Waiting on |
+| --- | --- |
+| The small phone (320 × 568) at the Large and Largest text: the arrival results' block reaches the Roles list's region | The screen's rule there, which is decided with end-roles (the Gameplay UI builder's Roles list) once it draws over the real scene. The scene is not changed for it until then |
+
+**The small phone, measured.** 320 × 568 with a 20 px top safe area. The block starts at 213.11 px. On this phone 58 % is 329.4 px, and the list's region ends at 486 px (the Lead Designer's figures). The lines are the stamp's, the title's and the line's.
+
+| Result | `titleBottom` at Standard (lines) | At Large and Largest (lines) | The list would start at: Standard; Large and Largest | Room to 486 px: Standard; Large and Largest |
+| --- | --- | --- | --- | --- |
+| Blue | 354.8 (1 + 2 + 1) | 465.98 (1 + 4 + 1) | 367.8; 478.98 | 118.2; 7.02 |
+| Red | 354.8 (1 + 2 + 1) | 423.98 (1 + 3 + 1) | 367.8; 436.98 | 118.2; 49.02 |
+| Blue with the Alien | 376.8 (2 + 2 + 1) | 517.86 (2 + 4 + 2) | 389.8; 530.86 | 96.2; none (44.86 px past) |
+| Red with the Alien | 376.8 (2 + 2 + 1) | 475.86 (2 + 3 + 2) | 389.8; 488.86 | 96.2; none (2.86 px past) |
+| No survivors | 321.2 (1 + 1 + 1) | 381.98 (1 + 2 + 1) | 334.2; 394.98 | 151.8; 91.02 |
+| Aborted | 354.8 (1 + 2 + 1) | 381.98 (1 + 2 + 1) | 367.8; 394.98 | 118.2; 91.02 |
+
+- **At the Large and Largest text an arrival leaves the list 7 px (Blue), 49 px (Red) or none (with the Alien).** "BLUE REACHED BLUE PLANET" takes four lines at 40 px on this phone's 288 px.
+- **Even at the Standard text the block ends below this phone's 58 %** for every result but no survivors, so the list starts under the block there too.
+- **No word is cut:** every line lies inside the phone, at each text size.
+- **How it was measured:** with the scene's own preview at this size, at each text size. It is not one of the check's captures: the check runs at the two development sizes.
 
 ## Checks run on this version
 
