@@ -27,13 +27,15 @@ test('normal Food JOIN starts the private inbox owner through the real trigger a
   assert.equal(process.env.MOTHERSHIP_PLANET_FOOD_AUTHORITY_PROFILE,PLANET_FOOD_OWNER_INBOX_PROFILE);
   const app=initializeApp({projectId},'food-inbox-cold-'+randomUUID()),db=getFirestore(app);
   const store=createFirestorePlanetStore(db),host=await createEmulatorIdentity(),player=await createEmulatorIdentity();
-  async function invoke(identity,payload){
+  async function invoke(identity,payload,observeResponse){
+    const started=performance.now();
     const result=await fetch('http://'+functionsHost+'/'+projectId+'/us-central1/planetApi',{
       method:'POST',signal:AbortSignal.any([t.signal,AbortSignal.timeout(15_000)]),
       headers:{'content-type':'application/json',origin:'http://localhost:5173',authorization:'Bearer '+identity.idToken},
       body:JSON.stringify(payload),
     });
     const body=await result.json();
+    observeResponse?.({status:result.status,code:body.error?.code??null,elapsedMs:Math.round(performance.now()-started)});
     assert.equal(result.status,200,JSON.stringify(body));
     assert.equal(body.ok,true,JSON.stringify(body));
     return body.result;
@@ -76,12 +78,20 @@ test('normal Food JOIN starts the private inbox owner through the real trigger a
     assert.ok(bootMs>=0&&bootMs<8_000);
     const offers=await view();
     assert.deepEqual(offers.foodStream,{version:1,phaseId:food.phaseId,foodStepId:food.step.stepId});
-    const received=performance.now();
-    const [a,b]=await Promise.all([player,player].map(identity=>
-      invoke(identity,{operation:'foodHeartbeat',matchId,taskId:route.scope.taskId})));
-    assert.deepEqual([a,b],[{renewed:true},{renewed:true}]);
+    const received=performance.now(),sinceJoinMs=Date.now()-receipt.receivedAt;
+    const http=[];
+    // Let both original invocations finish before Abort can affect either one.
+    const pair=await Promise.allSettled([player,player].map((identity,index)=>
+      invoke(identity,{operation:'foodHeartbeat',matchId,taskId:route.scope.taskId},timing=>{http[index]=timing;})));
+    t.diagnostic(JSON.stringify({bootMs,sinceJoinMs,stage:offers.foodPlayerView?.participantTask?.stage??null,
+      concurrentHeartbeatPairMs:Math.round(performance.now()-received),
+      heartbeats:pair.map((result,index)=>({outcome:result.status,...http[index]}))}));
+    const renewed=pair.map(result=>{
+      if(result.status==='rejected')throw result.reason;
+      return result.value;
+    });
+    assert.deepEqual(renewed,[{renewed:true},{renewed:true}]);
     assert.equal((await saved('foodInboxOwner/'+scoped)).epoch,1);
-    t.diagnostic(JSON.stringify({bootMs,concurrentHeartbeatPairMs:Math.round(performance.now()-received)}));
   }finally{
     if(matchId){try{await invoke(host,operation('abort',{matchId}));}catch{/* Preserve the original failure. */}}
     await db.terminate();
