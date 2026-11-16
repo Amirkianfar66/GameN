@@ -13,6 +13,7 @@ const METADATA_BATCH_SIZE=64;
 interface Metadata {key:string;namespace:string;chunks:number;digest:string;schemaVersion:1}
 type SdkRead=<T>(read:()=>Promise<T>)=>Promise<T>;
 const timedSdkRead:SdkRead=read=>timePlanetStage('sdkRead',read);
+class PlanetSnapshotMismatch extends Error {}
 
 /** Server-only JSON chunks support nested stroke/round arrays without Firestore's nested-array restriction.
  * Writes are buffered until every authority read finishes. All chunks, metadata, journals and outbox
@@ -43,10 +44,10 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
       const fragmentRefs=Array.from({length:info.chunks},(_,i)=>chunk(key,i));
       const fragments=await readSdk(()=>transaction.getAll(...fragmentRefs));
       const bytes=Buffer.concat(fragments.map(part=>{
-        const value=part.get('data');if(typeof value!=='string')throw new Error('Missing private state fragment');
+        const value=part.get('data');if(typeof value!=='string')throw new PlanetSnapshotMismatch('Missing private state fragment');
         return Buffer.from(value,'base64');
       }));
-      if(createHash('sha256').update(bytes).digest('hex')!==info.digest)throw new Error('Private state digest mismatch');
+      if(createHash('sha256').update(bytes).digest('hex')!==info.digest)throw new PlanetSnapshotMismatch('Private state digest mismatch');
       const value:unknown=JSON.parse(bytes.toString('utf8'));metadata.set(key,info);cached.set(key,value);
       return structuredClone(value) as T;
     };
@@ -60,8 +61,15 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
       return result.docs[0]?.id??null;
     },
     async readOnly<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>{
-      return timePlanetStage('sdkReadOnly',()=>db.runTransaction(transaction=>
+      const attempt=()=>timePlanetStage('sdkReadOnly',()=>db.runTransaction(transaction=>
         timePlanetStage('sdkAttempt',()=>operation(Object.freeze({get:reader(transaction)}))),{readOnly:true}));
+      try{return await attempt();}
+      catch(error){
+        if(!(error instanceof PlanetSnapshotMismatch))throw error;
+        // Retry the whole pure authorization/projection against a new SDK
+        // snapshot. Never combine fragments or relax the envelope check.
+        return attempt();
+      }
     },
     async transaction<T>(operation:(tx:PlanetTransaction)=>Promise<T>):Promise<T>{
       // Keep this boundary across SDK attempts, including empty commits. Once

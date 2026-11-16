@@ -6,7 +6,7 @@ import {createFirestorePlanetStore} from '../dist/planet-store.js';
 const hash=v=>createHash('sha256').update(v).digest('hex');
 function fixture(){
   const documents=new Map(),calls=[];
-  let afterHead=null;
+  let afterHead=null,mixReadOnlyFragments=false;
   const head=key=>'planetDocuments/'+hash(key),part=(key,n)=>'planetChunks/'+hash(key)+'-'+n;
   function seed(key,value){
     const bytes=Buffer.from(JSON.stringify(value)),chunks=Math.ceil(bytes.length/(48*1024));
@@ -21,7 +21,11 @@ function fixture(){
       const tx={
         get:async ref=>{reads.push(ref.path);const result=snapshot(image.get(ref.path));
           if(afterHead&&ref.path.startsWith('planetDocuments/')){const f=afterHead;afterHead=null;f();}return result;},
-        getAll:async(...refs)=>refs.map(ref=>{reads.push(ref.path);return snapshot(image.get(ref.path));}),
+        getAll:async(...refs)=>{
+          const source=mixReadOnlyFragments&&options?.readOnly?documents:image;
+          mixReadOnlyFragments=false;
+          return refs.map(ref=>{reads.push(ref.path);return snapshot(source.get(ref.path));});
+        },
         set:(ref,value)=>{writes.push(ref.path);image.set(ref.path,structuredClone(value));},
         delete:ref=>{writes.push(ref.path);image.delete(ref.path);},
       };
@@ -30,7 +34,8 @@ function fixture(){
       else for(const path of writes){if(image.has(path))documents.set(path,image.get(path));else documents.delete(path);}
       return result;
     }};
-  return {store:createFirestorePlanetStore(db),documents,calls,head,part,seed,afterHead:f=>{afterHead=f;}};
+  return {store:createFirestorePlanetStore(db),documents,calls,head,part,seed,
+    afterHead:f=>{afterHead=f;},mixReadOnlyFragments:()=>{mixReadOnlyFragments=true;}};
 }
 test('read-only JSON metadata and all chunks use one SDK snapshot with no stale-time selector or write surface',async()=>{
   const h=fixture(),key='session/read-only',value={nested:[[1,2],[3]],large:'x'.repeat(70_000)};h.seed(key,value);
@@ -46,6 +51,26 @@ test('read-only JSON metadata and all chunks use one SDK snapshot with no stale-
   assert.ok(h.calls[0].reads.includes(h.part(key,0))&&h.calls[0].reads.includes(h.part(key,1)));
   assert.equal(h.calls[0].writes.length,0);
 });
+test('a mixed read-only envelope retries the whole authorization snapshot once',async()=>{
+  const h=fixture(),session='session/retry';
+  h.seed(session,{bindingRevision:1});
+  h.seed('binding',{revision:1});
+  h.mixReadOnlyFragments();
+  h.afterHead(()=>{
+    h.seed(session,{bindingRevision:2});
+    h.seed('binding',{revision:2});
+  });
+  let projections=0;
+  const result=await h.store.readOnly(async tx=>{
+    projections++;
+    const row=await tx.get(session);
+    return {session:row,binding:await tx.get('binding')};
+  });
+  assert.deepEqual(result,{session:{bindingRevision:2},binding:{revision:2}});
+  assert.equal(projections,2);
+  assert.ok(h.calls.every(call=>call.options.readOnly&&call.writes.length===0));
+});
+
 test('read-write transaction keeps its original SDK defaults, buffered writes and JSON encoding',async()=>{
   const h=fixture(),key='session/read-write';h.seed(key,{before:true});
   await h.store.transaction(async tx=>{
