@@ -8,10 +8,15 @@
 //
 // One recorded difference, from the interface the Lead approved on #287: at the most bots, + is refused (and
 // dimmed, as the kit's stepper is); the pack's Full state leaves it as it is. The case records it.
+// One improvement, with the larger text only: the pack's code row pushes Copy past the card, and the code
+// card's row wraps instead (entry-parts.css). For those cases the pack is drawn with the same two rules, so
+// everything else is compared as usual, and the case records the improvement against the pack as it is.
 
 import { ENTRY_SCREENS } from '../../../prototype/screens-entry.mjs';
 
 const TOLERANCE = 0.5;
+/** The code card's larger-text rules (entry-parts.css), applied to the pack for the cases that show them. */
+const IMPROVED = '.ph .code-card .code-row { flex-wrap: wrap; container-type: inline-size; } .ph .code-card .code { flex: 1 0 auto; font-size: min(2.5rem, 21cqi); }';
 
 function loadPack() {
   return Promise.all(['kit.css', 'screens.css'].map(file => {
@@ -76,7 +81,9 @@ const CASES = [
   { id: 'lobby · copied, with the toast, at 390 × 844', pack: ['host-lobby', { state: 'copied' }], state: 'copied', size: '390x844' },
   { id: 'lobby · full at 430 × 932', pack: ['host-lobby', { state: 'full' }], state: 'full', size: '430x932', recorded: ['stepper +'] },
   { id: 'setup · 9 with the Largest text (200 %) at 390 × 844', pack: ['host-setup', { count: 9 }], state: 'setup-large', size: '390x844', text: 200 },
-  { id: 'lobby · requests with the Largest text (200 %) at 430 × 932', pack: ['host-lobby', { state: 'requests' }], state: 'lobby-large', size: '430x932', text: 200 },
+  { id: 'lobby · requests with the Large text (150 %) at 390 × 844', pack: ['host-lobby', { state: 'requests' }], state: 'requests', size: '390x844', text: 150, improved: true },
+  { id: 'lobby · requests with the Largest text (200 %) at 390 × 844', pack: ['host-lobby', { state: 'requests' }], state: 'lobby-large', size: '390x844', text: 200, improved: true },
+  { id: 'lobby · requests with the Largest text (200 %) at 430 × 932', pack: ['host-lobby', { state: 'requests' }], state: 'lobby-large', size: '430x932', text: 200, improved: true },
 ];
 
 const visible = node => !!node && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden' && !node.closest('[hidden]');
@@ -113,6 +120,23 @@ export async function runHostRoomAgreement({ sizes, states }) {
     for (const a of host.getAnimations({ subtree: true })) if (Number.isFinite(a.effect?.getComputedTiming().endTime)) a.finish();
     await frames();
     const root = screen.element;
+    // Copy against the card's content edge: the pack as it is, then (for the improved cases) with the rules.
+    const copyFit = (frame, card, copy) => {
+      const c = card.getBoundingClientRect(), b = copy.getBoundingClientRect(), pad = parseFloat(getComputedStyle(card).paddingRight);
+      return { copyRight: Math.round((b.right - frame.getBoundingClientRect().left) * 100) / 100, contentRight: Math.round((c.right - pad - frame.getBoundingClientRect().left) * 100) / 100, inside: b.right <= c.right - pad + TOLERANCE };
+    };
+    let improvement = null, patch = null;
+    if (c.pack[0] === 'host-lobby') {
+      const before = copyFit(pack, pack.querySelector('.code-card'), pack.querySelector('.code-row .btn'));
+      const mine = copyFit(host, root.querySelector('.ms-ep-code-card'), root.querySelector('.ms-ep-copy'));
+      if (c.improved) {
+        patch = document.createElement('style');
+        patch.textContent = IMPROVED;
+        document.head.append(patch);
+        await frames();
+        improvement = { what: 'the code card\'s row wraps: Copy under the code, inside the card', pack: before, screen: mine };
+      } else if (!before.inside || !mine.inside) improvement = { what: 'Copy outside the card at the Standard text', pack: before, screen: mine };
+    }
     const differences = [], recorded = [], parts = {};
     for (const [name, packSel, mineSel, compareWords, props] of [...COMMON, ...(c.pack[0] === 'host-setup' ? SETUP : LOBBY)]) {
       const a = [...pack.querySelectorAll(packSel)].filter(visible), b = [...root.querySelectorAll(mineSel)].filter(visible);
@@ -132,7 +156,10 @@ export async function runHostRoomAgreement({ sizes, states }) {
         }
       });
     }
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0, detail: { differences, recorded, parts } });
+    // An improved case shows the pack's Copy outside the card and the screen's inside; a Standard case has none.
+    const improved = c.improved ? !improvement.pack.inside && improvement.screen.inside : improvement === null;
+    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && improved, detail: { differences, recorded, parts, improvement } });
+    patch?.remove();
     screen.dispose();
     pack.remove();
     host.remove();

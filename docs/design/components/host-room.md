@@ -133,7 +133,7 @@ Each reports a tap, and only that.
 | Toast | The pack's `.toast`: paper and ink, the icon and the words, 10 px under the nav bar (decision 3), over the code card |
 | Offline | The kit's inline error under the code card, with the offline icon: "No connection. Admit, Bots and Start return when you are back online." |
 | A failed opening | The kit's inline error over the foot, with Frontend's words (decision 2) |
-| Larger text | Rows and controls grow with the text; the screen scrolls and its foot is reached; the toast follows the nav bar |
+| Larger text | Rows and controls grow with the text; the screen scrolls and its foot is reached; the toast follows the nav bar. From the Large text, Copy goes under the code, inside the card (below) |
 
 **Motion:** only the toast moves, with the shell's timing: in from 8 px above over 220 ms, then after 2.4 s a 180 ms fade. With Reduce motion (`reducedMotion`, or the device's), an 80 ms fade in, without the travel. Nothing else moves.
 
@@ -157,13 +157,26 @@ Each reports a tap, and only that.
 
 At the most bots, + is refused (`aria-disabled`, and dimmed as the kit's stepper is). Sheet 11's Full state leaves it as it is. The approved interface refuses it, as − is refused at 0 in both. The agreement records it in the Full case and compares everything else.
 
+## With the larger text: Copy stays in the card (for the Lead's review)
+
+The pack's code row keeps the code and Copy side by side at any text size. The code is 2.5 rem of a mono face, so with the larger text it pushes Copy past the card, and off the screen:
+
+| Size | Large (150 %) | Largest (200 %) |
+| --- | --- | --- |
+| 390 × 844 | Copy ends at 411 px; the card's content at 358 | Copy at 388–517 px: off the screen, and the code itself past the card |
+| 430 × 932 | Copy ends at 411 px; the card's content at 398 (into its padding) | Copy at 388–517 px: mostly off the screen |
+
+In the entry parts' code card, the row wraps, so Copy goes under the code, and the code is never wider than about 91 % of the row (`min(2.5rem, 21cqi)`: six characters at 0.72 em). At the Standard text both rules give the pack's boxes, which the agreement's Standard cases confirm against the pack as it is. The join screen's lobby (sheet 13) shares the card, so it gets the same.
+
+It is a change from what the pack draws at the larger text, not from a sheet (the sheets are at the Standard text). I made it because a control off the screen fails the approved "rows and controls grow with the text". It is in its own commit, for the Lead's agreement; if the owner's approval is needed as for a sheet, it waits for that.
+
 ## Checks
 
 `node design/tools/host-room-check.mjs` bundles the preview with Vite, serves it with the production headers (SHA-256 `424e5dec…`, `lib/component-check.mjs`), and in desktop Chromium at 2× pixels:
 
 - captures the eleven states at 390 × 844 and 430 × 932: 22 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks;
 - runs the probe as the page comes and with the device's Reduce motion: setup, the lobby, the stepper, keyed rows and focus, offline (a notice with every control enabled refuses nothing), the toast, not interactive, insets, the Largest text, input, dispose, motion;
-- runs the agreement: nine cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look and boxes to within half a pixel, the toast's included.
+- runs the agreement: twelve cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look and boxes to within half a pixel, the toast's included. For the three lobby cases with the larger text, the pack is drawn with the code card's two rules, so everything else is compared, and each case records the improvement against the pack as it is.
 
 `packages/design-tokens/test/host-room.test.mjs` checks the runtime-safe graph (the kit, the entry parts, no shell, no menu), that the styles are the two screen roots only, the pack's words, both inputs (a notice changes no control), and the check's record. The entry parts' styles are checked in `main-menu.test.mjs`: scoped in `:where()`, the hand cursor with the tap highlight off, no dimming of a refused choice, and only the toast's motion.
 

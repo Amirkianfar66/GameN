@@ -196,7 +196,28 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
       return { ok: given.top === 47 && given.bottom === 34 && browser.top === 0 && browser.bottom === 0, seen };
     });
 
-    await check('text: with the Largest text (200 %) the lobby scrolls and its foot is reached; the toast follows the nav bar', async () => {
+    await check('text: with the Largest text (200 %) the lobby scrolls and its foot is reached; the toast follows the nav bar; at 100, 150 and 200 % the code and Copy stay inside the card at both sizes', async () => {
+      // The code card at each text size and phone width: Copy beside the code at the Standard text, under it from
+      // the Large text where the pack's row would push it past the card, and the code's own characters inside.
+      const fits = [];
+      for (const [key, size] of Object.entries(sizes)) {
+        for (const text of [100, 150, 200]) {
+          document.documentElement.style.fontSize = `${text}%`;
+          const host = document.createElement('div');
+          Object.assign(host.style, { position: 'absolute', left: '0', top: '0', width: `${size.width}px`, height: `${size.height}px` });
+          document.body.append(host);
+          const s = mountHostLobby(host, { ...lobbyOf(), insets: size.insets }, {});
+          await frames();
+          const card = s.element.querySelector('.ms-ep-code-card'), code = s.element.querySelector('.ms-ep-code'), copy = s.element.querySelector('.ms-ep-copy');
+          const c = card.getBoundingClientRect(), pad = parseFloat(getComputedStyle(card).paddingRight), b = copy.getBoundingClientRect(), k = code.getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(code);
+          const glyphs = range.getBoundingClientRect();
+          fits.push({ size: key, text, copyInside: b.right <= c.right - pad + 0.05 && b.left >= c.left, codeInside: glyphs.right <= c.right - pad + 0.05, under: b.top >= k.bottom - 0.05 });
+          s.dispose();
+          host.remove();
+        }
+      }
       document.documentElement.style.fontSize = '200%';
       const m = mountLobby({ ...lobbyOf({ requests: REQUESTS }), toast: { id: 't', text: 'Copied', icon: 'check' } });
       await frames();
@@ -207,10 +228,11 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
       const start = m.q('.ms-hl-start').getBoundingClientRect(), box = m.root.getBoundingClientRect();
       const nav = m.q('.ms-ep-nav'), t = m.q('.ms-ep-toast');
       for (const a of t.getAnimations()) a.finish();
-      const seen = { scrolls, startInView: start.bottom <= box.bottom - 34 && start.top >= box.top, toastTop: rel(m.root, t), navBottom: nav.offsetTop + nav.offsetHeight };
+      const seen = { scrolls, startInView: start.bottom <= box.bottom - 34 && start.top >= box.top, toastTop: rel(m.root, t), navBottom: nav.offsetTop + nav.offsetHeight, fits };
       m.s.dispose();
       document.documentElement.style.fontSize = '';
-      return { ok: seen.scrolls && seen.startInView && Math.abs(seen.toastTop - (seen.navBottom + 10)) < 0.5, seen };
+      const beside = fits.filter(f => f.text === 100).every(f => !f.under), under = fits.filter(f => f.text > 100).every(f => f.under);
+      return { ok: seen.scrolls && seen.startInView && Math.abs(seen.toastTop - (seen.navBottom + 10)) < 0.5 && fits.every(f => f.copyInside && f.codeInside) && beside && under, seen };
     });
 
     await check('input: malformed input is refused', async () => {

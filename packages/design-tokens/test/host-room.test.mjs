@@ -50,6 +50,13 @@ test('host setup and the lobby are runtime sources: the whole graph is runtime-s
   assert.match(read('design/tools/host-room-check.mjs'), /^\/\/ mothership:dev-only/);
 });
 
+test('the code card keeps Copy inside it with larger text: its row wraps and the code fits the row', () => {
+  const css = read('design/phone-ui/components/entry-parts/entry-parts.css');
+  assert.match(css, /:where\(\.ms-ep-code-row\) \{ display: flex; flex-wrap: wrap; [^}]*container-type: inline-size; \}/);
+  assert.match(css, /:where\(\.ms-ep-code\) \{ flex: 1 0 auto; font: 800 min\(2\.5rem, 21cqi\)\/1 /, 'the pack\'s 2.5rem, never wider than the row');
+  assert.match(read(`${COMPONENT}/preview/agree.mjs`), /const IMPROVED = '\.ph \.code-card \.code-row \{ flex-wrap: wrap; container-type: inline-size; \} \.ph \.code-card \.code \{ flex: 1 0 auto; font-size: min\(2\.5rem, 21cqi\); \}'/, 'the agreement applies the same rules to the pack');
+});
+
 test('their styles reach nothing outside them: the two screen roots only, from the kit and the entry parts', () => {
   const path = `${COMPONENT}/host-room.css`;
   const raw = read(path);
@@ -144,6 +151,8 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.equal(at('offline').note, LOBBY_WORDS.offline, `${size}: the offline note`);
     assert.equal(at('copied').toastTop, 109, `${size}: the toast 10 px under the nav bar`);
     assert.ok(at('lobby-large').root === 32 && at('lobby-large').scrolls, `${size}: the Largest text scrolls`);
+    for (const state of ['lobby', 'requests', 'copied', 'full', 'offline']) assert.ok(at(state).copyInside && !at(state).copyUnder, `${size}/${state}: Copy beside the code, inside the card`);
+    assert.ok(at('lobby-large').copyInside && at('lobby-large').copyUnder, `${size}: with the Largest text, Copy under the code, inside the card`);
   }
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
   for (const [mode, run] of Object.entries(record.probe)) {
@@ -153,9 +162,14 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
   for (const group of ['setup', 'lobby', 'stepper', 'keyed', 'offline', 'toast', 'not interactive', 'insets', 'text', 'input', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   assert.ok(record.probe.full.checks.some(c => c.ok && /with every control enabled it refuses nothing/.test(c.id)), 'a notice with every control enabled refuses nothing, in the browser');
-  assert.ok(record.agree.ok && record.agree.checks.length === 9 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'each screen agrees with the frozen pack\'s');
+  assert.ok(record.agree.ok && record.agree.checks.length === 12 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'each screen agrees with the frozen pack\'s');
   // The one difference from the pack, recorded where it is drawn: + refused at the most bots (Full).
   for (const c of record.agree.checks) {
     assert.deepEqual(c.detail.recorded.map(r => r.part.replace(/ \d+$/, '')), c.id.includes('full') ? ['stepper +', 'stepper +'] : [], `${c.id}: recorded`);
+    // The one improvement, with the larger text only: the pack's Copy past the card, the screen's inside it.
+    const larger = c.id.startsWith('agree: lobby') && /Large(st)? text/.test(c.id);
+    if (larger) assert.ok(!c.detail.improvement.pack.inside && c.detail.improvement.screen.inside, `${c.id}: the improvement`);
+    else assert.equal(c.detail.improvement ?? null, null, `${c.id}: none at the Standard text`);
   }
+  assert.equal(record.agree.checks.filter(c => c.detail.improvement).length, 3, 'Large and Largest at 390 × 844, Largest at 430 × 932');
 });

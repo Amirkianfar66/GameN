@@ -12,7 +12,8 @@
 //   motion emulated: setup, the lobby, the stepper, keyed rows and focus, offline, the toast, refusals, the
 //   safe areas, the Largest text, input, dispose, motion;
 //   the agreement (preview/agree.mjs): each screen beside the frozen pack's, the same words, states, look
-//   and boxes to within half a pixel, the toast's included.
+//   and boxes to within half a pixel, the toast's included; with the larger text, the code card's row
+//   wraps where the pack's pushes Copy past the card, recorded as the one improvement.
 // Every check must pass. It writes design/phone-ui/components/host-room/review/: one JPEG per state and
 // size, and check.json (the headers and their SHA-256, the source commit, what each capture drew and its
 // SHA-256, and each probe and agreement check with what it saw).
@@ -62,7 +63,7 @@ const EXPECT = {
   full: s => lobbyDrawn(s) && s.seats === '9 of 9 seats' && s.members === 9 && !s.startRefused && s.startNote === null && s.moreRefused,
   offline: s => lobbyDrawn(s) && s.note === OFFLINE && s.startRefused && s.admitsRefused === 2,
   'setup-large': s => setupDrawn(s, 9, '5 Blue · 3 Red · 1 Alien') && s.root === 32,
-  'lobby-large': s => lobbyDrawn(s) && s.root === 32 && s.scrolls,
+  'lobby-large': s => lobbyDrawn(s) && s.root === 32 && s.scrolls && s.copyUnder,
 };
 try {
   await mkdir(REVIEW, { recursive: true });
@@ -92,7 +93,9 @@ try {
           members: lobby ? lists[1].children.length : 0, startRefused: q('.ms-hl-start')?.getAttribute('aria-disabled') === 'true', startNote: words(q('.ms-ep-foot .ms-k-group-note')),
           moreRefused: q('.ms-k-stepper-btn:last-of-type')?.getAttribute('aria-disabled') === 'true', note: q('.ms-hl-note .ms-k-error-text')?.textContent ?? null,
           toast: toast?.textContent ?? null, toastTop: toast ? toast.getBoundingClientRect().top - root.getBoundingClientRect().top : null,
-          scrolls: screen.scrollHeight > screen.clientHeight, layout: window.__hostRoom.mounted[0]?.layout?.() ?? null };
+          scrolls: screen.scrollHeight > screen.clientHeight, copyInside: (() => { const card = q('.ms-ep-code-card'), copy = q('.ms-ep-copy'); if (!card) return null;
+            const c = card.getBoundingClientRect(), b = copy.getBoundingClientRect(), pad = parseFloat(getComputedStyle(card).paddingRight); return b.left >= c.left && b.right <= c.right - pad + 0.05; })(),
+          copyUnder: (() => { const code = q('.ms-ep-code'), copy = q('.ms-ep-copy'); return code && copy ? copy.getBoundingClientRect().top >= code.getBoundingClientRect().bottom - 0.05 : null; })(), layout: window.__hostRoom.mounted[0]?.layout?.() ?? null };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
@@ -103,7 +106,9 @@ try {
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
       const asked = EXPECT[state](seen);
-      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && asked && seen.canvas === 'rgb(16, 20, 28)';
+      // Every lobby keeps Copy inside the code card: beside the code at the Standard text, under it at the Largest.
+      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && asked && seen.canvas === 'rgb(16, 20, 28)'
+        && (seen.screen === 'setup' || (seen.copyInside && seen.copyUnder === (seen.root > 16)));
       if (!ok) failed += 1;
       results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn: asked, ...seen, requests, problems };
       await page.close();

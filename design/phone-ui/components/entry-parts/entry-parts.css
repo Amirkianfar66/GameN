@@ -56,8 +56,11 @@
 /* ── The room code card (.code-card): the code selectable, Copy beside it, the seats and their bar ── */
 .ms-entry-parts :where(.ms-ep-code-card) { padding: 16px 16px 14px; border-radius: 18px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
 .ms-entry-parts :where(.ms-ep-code-label) { font: 600 0.8125rem/1.2 var(--ms-k-font); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-k-text-2); }
-.ms-entry-parts :where(.ms-ep-code-row) { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
-.ms-entry-parts :where(.ms-ep-code) { flex: 1; font: 800 2.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; letter-spacing: 0.12em; color: var(--ms-k-paper); -webkit-user-select: text; user-select: text; }
+/* Larger text: the pack's row would push Copy past the card (at 390 × 844 from Large, at 430 × 932 at
+   Largest). Here the row wraps, so Copy goes under the code, and the code is never wider than about 91 % of
+   the row (21cqi for six characters at 0.72 em). At the Standard text both give the pack's boxes. */
+.ms-entry-parts :where(.ms-ep-code-row) { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; container-type: inline-size; }
+.ms-entry-parts :where(.ms-ep-code) { flex: 1 0 auto; font: 800 min(2.5rem, 21cqi)/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; letter-spacing: 0.12em; color: var(--ms-k-paper); -webkit-user-select: text; user-select: text; }
 .ms-entry-parts :where(.ms-ep-code-meta) { margin-top: 10px; display: flex; align-items: center; gap: 8px; color: var(--ms-k-text-2); font: 500 0.875rem/1.2 var(--ms-k-font); }
 .ms-entry-parts :where(.ms-ep-code-meta[hidden]) { display: none; }
 .ms-entry-parts :where(.ms-ep-progress) { flex: 1; height: 6px; border-radius: 3px; background: var(--ms-k-surface-3); overflow: hidden; }
