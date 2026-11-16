@@ -284,6 +284,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const measure = async text => {
         document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
         const s = mount({ ...own(), sheet: { id: 'large', title: 'Your role', sub: 'Only on this phone', close: true, detent: 'large' } });
+        try {
         await frames();
         const rows = [
           kit.row({ tag: 'div', title: 'Move', value: 'Used this round', icon: 'move' }),
@@ -299,13 +300,12 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         const apart = rows.map(r => { const t = box(r.querySelector('.ms-k-row-title')), v = box(r.querySelector('.ms-k-row-value')); return t.right <= v.left + 0.5 || t.bottom <= v.top + 0.5; });
         const tops = n => [...n.children].map(b => Math.round(box(b).top));
         const whole = n => [...n.children].every(b => box(b.lastChild).width <= box(b).width + 0.5);
-        const result = { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1,
-          phoneEm: Math.round(box(s.q('.ms-phone-shell')).width / parseFloat(getComputedStyle(s.q('.ms-phone-shell')).fontSize) * 10) / 10 };
-        s.shell.dispose();
-        return result;
+        const phone = frame.querySelector('.ms-phone-shell');
+        return { under, beside, apart, stacked: new Set(tops(seg)).size === 3, segWhole: whole(seg), shortRow: new Set(tops(short)).size === 1,
+          phoneEm: Math.round(box(phone).width / parseFloat(getComputedStyle(phone).fontSize) * 10) / 10 };
+        } finally { s.shell.dispose(); document.documentElement.style.fontSize = ''; }
       };
       const largest = await measure(200), standard = await measure(100);
-      document.documentElement.style.fontSize = '';
       const ok = largest.under.every(Boolean) && largest.apart.every(Boolean) && largest.stacked && largest.segWhole && largest.shortRow
         && standard.beside.every(Boolean) && standard.apart.every(Boolean) && !standard.stacked && standard.segWhole && standard.shortRow;
       return { ok, largest, standard };
