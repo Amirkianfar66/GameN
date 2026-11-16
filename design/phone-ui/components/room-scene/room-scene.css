@@ -44,8 +44,11 @@
 .ms-room-scene .ms-rs-fig[data-stand-in] { visibility: hidden; }
 .ms-room-scene .ms-rs-fig[data-dim][data-elim] { filter: grayscale(1) brightness(0.7); }
 
-/* Name tags: the seat number in a disc, an office badge, the name, Injured or Out. */
-.ms-room-scene .ms-rs-tag { position: absolute; z-index: 3150; pointer-events: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px 0 3px; border-radius: 13px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 0.8125rem/1 var(--ms-rs-font); white-space: nowrap; transform: translateX(-50%); color: var(--ms-rs-text); }
+/* Name tags: the seat number in a disc, an office badge, the name, Injured or Out. Whole at every text
+   size (#222 item 34): the pill's height, padding, gap and badge are the pack's at the standard text
+   (26, 9 and 3, 5, 18 px) in the tag's own em, so the pill grows with its words where the pack's 26 px
+   pill let the number's disc spill out at the Large and Largest text. */
+.ms-room-scene .ms-rs-tag { position: absolute; z-index: 3150; pointer-events: none; display: inline-flex; align-items: center; gap: calc(5em / 13); min-height: calc(26em / 13); padding: 0 calc(9em / 13) 0 calc(3em / 13); border-radius: 999px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 0.8125rem/1 var(--ms-rs-font); white-space: nowrap; transform: translateX(-50%); color: var(--ms-rs-text); }
 .ms-room-scene .ms-rs-tag__num { display: inline-grid; place-items: center; min-width: calc(20em / 12); height: calc(20em / 12); padding: 0 calc(5em / 13); border-radius: 999px; background: var(--ms-rs-paper); color: var(--ms-rs-ink); font: 800 0.75rem/1 var(--ms-rs-font); font-variant-numeric: tabular-nums; }
 .ms-room-scene .ms-rs-tag[data-self] { background: var(--ms-rs-paper); color: var(--ms-rs-ink); box-shadow: inset 0 0 0 1.5px var(--ms-rs-ink); }
 .ms-room-scene .ms-rs-tag[data-self] .ms-rs-tag__num { background: var(--ms-rs-ink); color: var(--ms-rs-paper); }
@@ -54,8 +57,8 @@
 .ms-room-scene .ms-rs-tag[data-dim] .ms-rs-tag__num { background: #9AA5B5; color: var(--ms-rs-ink); }
 .ms-room-scene .ms-rs-tag[data-self][data-dim] { background: #CFC7B9; color: #2A2C31; box-shadow: none; }
 .ms-room-scene .ms-rs-tag[data-active] { box-shadow: inset 0 0 0 2px var(--ms-rs-accent), 0 0 0 3px rgba(241, 184, 75, 0.25); }
-.ms-room-scene .ms-rs-tag__office { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--ms-rs-caption); color: var(--ms-rs-ink); --ic-knock: var(--ms-rs-caption); }
-.ms-room-scene .ms-rs-tag__office .ms-rs-ic { width: 13px; height: 13px; }
+.ms-room-scene .ms-rs-tag__office { display: inline-grid; place-items: center; width: calc(18em / 13); height: calc(18em / 13); border-radius: 50%; background: var(--ms-rs-caption); color: var(--ms-rs-ink); --ic-knock: var(--ms-rs-caption); }
+.ms-room-scene .ms-rs-tag__office .ms-rs-ic { width: 1em; height: 1em; }
 .ms-room-scene .ms-rs-tag__status { color: var(--ms-rs-text-2); font-weight: 500; }
 
 /* The turn mark over whoever's turn it is. */

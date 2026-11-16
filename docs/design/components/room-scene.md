@@ -1,6 +1,6 @@
 # Room scene: Designer's runtime component
 
-**Version:** `room-scene-0.4.0`. **Status (15 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, with the owner's "a fifth wider" framing added, and ready for Frontend to connect. It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
+**Version:** `room-scene-0.5.0`. **Status (16 November 2026):** revised for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, with the owner's "a fifth wider" framing added, and ready for Frontend to connect. 0.5.0 keeps the name tags whole and apart at the game's Large and Largest text (#222 item 34). It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
 
 **What it is:** the room surface of the phone's room view, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -12,6 +12,20 @@
 - the framing, the room's own control and the name tags of #222 items 1 and 34;
 - the approved room pictures, `room-drawing-1.0.0` (DSN-REQ-18), through the art bundles;
 - the owner's "a fifth wider" framing, with the rooms' extension above and below the pictures (11 November).
+
+## What changed in 0.5.0
+
+#222 item 34 asks for the name tags "whole, and apart from each other" at large text (sheets 21, 26 and 53). At the game's Large (150 %) and Largest (200 %) text, 0.4.0 drew them neither way in Room B, at both phone sizes:
+- the number's disc grew past the pack's 26 px pill;
+- Hana's tag lay over Cleo's name.
+
+| Changed | What it does |
+| --- | --- |
+| The tag's pill | Its height, padding, gap and office badge are the pack's at the standard text (26, 9 and 3, 5, and 18 px), in the tag's own em. The pill grows with its words, so nothing spills out of it |
+| Where the tags go | `layoutTags()` in `../tag-layout.mjs`: the board's tags' rules, moved there from `board-tags-0.1.0` (#298) when the room scene became their second user. Each tag goes where the pack puts it: centred on its press square and 2 px above the square's foot, 4 px inside the scene, and no lower than 34 px above the scene's foot (the 8 px inset and a 26 px tag). Where two would meet, one moves up, or else down, no further than it needs; "You" gives way first. Every tag stays clear of the room's name and its control |
+| When they are placed | Once the room's name and control are drawn, by layout offsets, not boxes on screen, so a transform around the scene (the board's zoom) never moves a tag |
+
+At the standard text, where no two tags meet, each is exactly where 0.4.0 put it. The probe adds three `tags` checks: the standard text, then the Large and Largest text at both phone sizes. With 0.4.0's tag code in place, the same probe passes the first and fails the other two, its tags neither whole nor apart.
 
 ## What changed in 0.4.0
 
@@ -78,6 +92,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `room-scene/room-extension.mjs` | `WIDER`, `zoomFor()`, `REACH`, `ROOM_EXTENSION` and `extensionLayer()`: which art is framed a fifth wider, and each room's extension pictures by the CSS property its bundle will define |
 | `room-scene/assets/` | The ten extension pictures, `<room>.extend.svg` and `<room>.extend-dark.svg`, written by `design/tools/room-scene-extend.mjs` |
 | `icons.mjs` | The phone interface's icon family |
+| `tag-layout.mjs` | `layoutTags()` and `TAG_RULES` (0.5.0): where the name tags go, whole and apart, shared with the board's tags (#298). Pure: measured boxes in, places out |
 | `room-scene/preview/` | Development only: the preview on the pack's synthetic fixtures, and the lifecycle probe (`probe.mjs`) |
 | `room-scene/review/` | The check's captures and `check.json` |
 
@@ -264,6 +279,7 @@ The first three report intent only, and only while `interactive` and `status: 'l
   - Only an offer or control that ends moves it: to the scene (`tabindex="-1"`), then `onFocusReturn`.
   - `dispose()` removes the scene; if the focus was inside, Frontend's next screen places it.
 - **Decorative:** figures and the room's pictures are hidden from assistive technology.
+- **Larger text:** the tags follow the game's text size, whole and apart from each other (0.5.0, #222 item 34).
 - **The text alternative** (#222 R3) is Frontend's, built from `layout()`.
 
 ## Frontend's first connection: Room B
@@ -301,13 +317,12 @@ These are listed, not omitted:
 
 | What | Waiting on |
 | --- | --- |
-| The name tags' larger-text behaviour | #228; outside the two sizes now in scope |
-| The private-talk capsule (sheet 25) | Its component, next |
-| The board's panels (sheet 26) | Its component, next |
+| The private-talk capsule (sheet 25) | Its component, built in #293 |
+| The board's panels (sheet 26) | Its name tags and the zoom, built in #298 |
 | The Officer's "Blocked" pill (sheet 21) | Its component, next |
 | The room films: rescue, attack, eject, Blackhole | The next components |
 | Ship life (#230) | The gameplay contract |
-| The top bar, the tabs and Pass | The shell component, next |
+| The top bar, the tabs and Pass | The shell, #265, stacked on this PR |
 | Captures of the other rooms | Not taken yet; the component draws all five rooms |
 
 ## Checks run on this version
@@ -316,8 +331,8 @@ These are listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/room-scene.test.mjs` | 11 of 11 |
-  | `npm run test:design` | 370 of 370 |
+  | `packages/design-tokens/test/room-scene.test.mjs` | 12 of 12 |
+  | `npm run test:design` | 371 of 371 |
   | `npm run test:tooling` | 337 of 337 (on 0.3.0) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
@@ -327,7 +342,7 @@ These are listed, not omitted:
 - **`node design/tools/room-scene-check.mjs`:**
   - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
   - **Captures:** eleven states at 390 × 844 and 430 × 932: 22 of 22 pass. Ten show the approved pictures a fifth wider; `today` shows older art in the pack's framing.
-  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 26 of 26 checks pass.
+  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 29 of 29 checks pass.
     - Held: one window through 390 × 653 → 430 × 741, lit and dark, and new insets, then its end.
     - Private: `layout()` lit, dark and concealed; the offers and the control after concealment and after a change of viewer; after `dispose()`.
     - Time: Reduce motion with the clock moving from 1 s to 9 s, as in Frontend's review; eight 250 ms model updates; reconnecting; running again; suspended and resumed; the clock withdrawn; no clock; and, from Frontend's re-review, the clock withdrawn, reconnecting or Reduce motion in the same update as a resize, and concealment while running.
@@ -336,12 +351,16 @@ These are listed, not omitted:
       - a stand-in keeps its tag, place and press square without its figure, and only its own;
       - the recoil moves one figure, and not its tag or anyone else;
       - the films container interleaves by z-index (under a press square at 3000, over it at 3300), hides while concealed and is gone after `dispose()`.
+    - Tags (0.5.0):
+      - at the standard text, every tag whole and apart, each where the pack puts it;
+      - at the Large (150 %) and Largest (200 %) text, in Room B at both phone sizes, every tag whole, apart, 4 px inside the scene and clear of the room's name and its control.
     - The device's Reduce motion, emulated.
   - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `e56b9c5d` (0.4.0), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `ad39ee11` (0.5.0), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
   - **At the game's text size:** the preview's root is the browser's 16 px, as the game's (its html sets no size). Until `191700a1` the preview forced 14 px, so the name tags and the room's control drew an eighth small (11.375 px tags against the game's 13 px). At 16 px every tag stays whole and apart in all 22 captures; the probe's checks are unchanged.
+  - 0.5.0's captures differ from 0.4.0's only in the crew's idle motion (a blink, a breath; at most 454 of a capture's 1.3 million pixels). At the standard text no two of Room B's tags meet, so each is where 0.4.0 put it.
   - 0.4.0 draws nothing new until the game uses its new inputs. Its captures differ from 0.3.0's only where the crew's idle motion and the voyage stood at another moment.
   - 0.3.0's captures show the approved pictures a fifth wider, so they differ from 0.2.1's by design. The new `today` state shows older art in the pack's framing, as 0.2.1's captures showed every state.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
