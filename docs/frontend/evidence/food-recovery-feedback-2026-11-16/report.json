@@ -1,0 +1,188 @@
+{
+  "scope": "Desktop Chromium with synthetic seat-bound snapshots and controllable transport. Browser touch. Production response headers.",
+  "candidate": {
+    "commit": "7584846cee7ca24b471eb5be79ebbb70a4a7e3a3",
+    "dirty": ""
+  },
+  "browser": "Google Chrome 157.0.8103.51",
+  "art": {
+    "source": "055eb2f4dc39129bac63cfde5ff5d65f791c2c4d",
+    "manifestSha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "bundleSha256": "1d38a0807cd8bc5e3fbc3531dad502612d77bd1f726002ab66c1865abb5eedda",
+    "inventorySha256": "02c66347a1643cfd7210dac4a602c44b49bbcdc1907d63c467ae9925eb8ab412",
+    "files": 67
+  },
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "foodControllerSha256": "863985267009c4b69eba645c2cd1bb8aa2f0be89a2c248b3a0b8f377a648c23c",
+  "tests": {
+    "focusedPassed": 89,
+    "priorCaseFailed": true,
+    "typecheckPassed": true,
+    "productionExclusionPassed": true,
+    "sourceAdmission": "Pending for the changed Food controller digest"
+  },
+  "acceptedOriginal": {
+    "localReportSha256": "1c050136a2b52a62789561511476a5d22a41259a3abbb2b74b58bb801cdc8e21",
+    "viewports": [
+      {
+        "width": 390,
+        "height": 844,
+        "releaseFeedback": {
+          "originalUpAccepted": true,
+          "recoveryReceipt": "STALE_RECOVERY",
+          "canKey": true,
+          "falseRejection": false,
+          "motion": "normal"
+        }
+      },
+      {
+        "width": 430,
+        "height": 932,
+        "releaseFeedback": {
+          "originalUpAccepted": true,
+          "recoveryReceipt": "STALE_RECOVERY",
+          "canKey": true,
+          "falseRejection": false,
+          "motion": "reduced"
+        }
+      }
+    ],
+    "fixtureFiles": [
+      {
+        "path": "app.html",
+        "bytes": 447,
+        "sha256": "336e5910f6b3eda3fc60b41497dc99395ed35d1360171dcefe00dec6235da6fc"
+      },
+      {
+        "path": "assets/app-DLMupB0z.css",
+        "bytes": 256469,
+        "sha256": "41f184dca038cbd69dbca51d09be55323ccacbcb2d973ec1cb128025787914fc"
+      },
+      {
+        "path": "assets/app-m7LFcr7u.js",
+        "bytes": 2562755,
+        "sha256": "940241be3cd683ec3705c37c6aa271c91fece567e9887206be4d6e69da66fe78"
+      }
+    ],
+    "captures": [
+      {
+        "file": "390x844-winch-key-with-accepted-original-up.png",
+        "viewport": [
+          390,
+          844
+        ],
+        "part": "food-winch-12",
+        "label": "winch-key-with-accepted-original-up",
+        "sha256": "6469c06ced4e5613c511e9b1c65f40882a39dc2f8d09bfd9d9562a2ad82968fa"
+      },
+      {
+        "file": "430x932-winch-key-with-accepted-original-up.png",
+        "viewport": [
+          430,
+          932
+        ],
+        "part": "food-winch-12",
+        "label": "winch-key-with-accepted-original-up",
+        "sha256": "9c0bca9fde700f354cf1ca64ab25a5d02db9b155a22483bff2065c1a62455a1c"
+      }
+    ]
+  },
+  "unresolvedOriginal": {
+    "localReportSha256": "0dcabf9a8dba2d2f3ff34120b352b30416ae3996178b28bf068cde881f0463c9",
+    "viewports": [
+      {
+        "width": 390,
+        "height": 844,
+        "panel": {
+          "releaseGateToAcceptedObservationMs": 5.1000001430511475,
+          "oldReadSettlementToNextReadMs": 0.10000014305114746
+        },
+        "winch": {
+          "closureLedReceiptLookup": true,
+          "lookupStillBlockedWhenClosureRetired": true
+        }
+      },
+      {
+        "width": 430,
+        "height": 932,
+        "panel": {
+          "releaseGateToAcceptedObservationMs": 5,
+          "oldReadSettlementToNextReadMs": 0
+        },
+        "winch": {
+          "closureLedReceiptLookup": true,
+          "lookupStillBlockedWhenClosureRetired": true
+        }
+      }
+    ],
+    "fixtureFiles": [
+      {
+        "path": "app.html",
+        "bytes": 447,
+        "sha256": "336e5910f6b3eda3fc60b41497dc99395ed35d1360171dcefe00dec6235da6fc"
+      },
+      {
+        "path": "assets/app-DLMupB0z.css",
+        "bytes": 256469,
+        "sha256": "41f184dca038cbd69dbca51d09be55323ccacbcb2d973ec1cb128025787914fc"
+      },
+      {
+        "path": "assets/app-m7LFcr7u.js",
+        "bytes": 2562755,
+        "sha256": "940241be3cd683ec3705c37c6aa271c91fece567e9887206be4d6e69da66fe78"
+      }
+    ],
+    "captures": [
+      {
+        "file": "390x844-winch-original-up-uncertain.png",
+        "viewport": [
+          390,
+          844
+        ],
+        "part": "food-winch-03",
+        "label": "winch-recovered-release-sending",
+        "sha256": "08f03d19a82e90f1a32f0f1af2329ecce653190e39fa53dc763744d418ba0823"
+      },
+      {
+        "file": "430x932-winch-original-up-uncertain.png",
+        "viewport": [
+          430,
+          932
+        ],
+        "part": "food-winch-03",
+        "label": "winch-recovered-release-sending",
+        "sha256": "ad6f7b08be098a703fe8ab6c3f3f2cde4bbd8618ab3effa78e209bed3485cc05"
+      }
+    ]
+  }
+}
