@@ -13,6 +13,8 @@ const receiptContext = FoodTaskCommandRequestSchema.omit({command: true});
 const contentTypes = {html: 'text/html', js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml',
   webp: 'image/webp', png: 'image/png', mp4: 'video/mp4', woff2: 'font/woff2'};
 const allowedBaseline = new Set(['read', 'foodCommand', 'foodReceipt', 'foodHeartbeat', 'command', 'receipt']);
+const allowedProduction = new Set([...allowedBaseline, 'foodWatch', 'foodClock']);
+export const localAppCheck = 'loopback-diagnostic-key';
 const digest = value => createHash('sha256').update(value).digest('hex');
 const safeFile = path => /^[a-z0-9._/-]+$/i.test(path) && path.split('/').every(part => part && part !== '..' && part !== '.');
 
@@ -85,7 +87,7 @@ export function createFoodApplySignal() {
 // Actor IDs come solely from the enclosing local experiment. The browser
 // presents a per-seat random capability and never supplies a trusted UID.
 export async function startFoodTrialBridge({
-  coordinator, taskId, actors, baseline, applySignal, serverNow, bundle, artwork, startTrial, variant, backendSource,
+  coordinator, taskId, actors, baseline, production, applySignal, serverNow, bundle, artwork, startTrial, variant, backendSource,
 }) {
   const art = await approvedArt(artwork);
   const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set(), streams = new Set();
@@ -93,10 +95,11 @@ export async function startFoodTrialBridge({
   const startGate = new Promise(resolve => { release = resolve; });
   for (const actor of actors) {
     const binding = JSON.stringify([actor.matchId, actor.seatId]);
-    if (!['push', 'read'].includes(actor.arm) || !actor.label || labels.has(actor.label) || bindings.has(binding)
+    if (!['push', 'read', 'production'].includes(actor.arm) || !actor.label || labels.has(actor.label) || bindings.has(binding)
       || !actor.uid || !actor.matchId || !/^seat-[1-9]$/.test(actor.seatId)) throw Error('Invalid local trial actor');
     if (actor.arm === 'push' && (!coordinator || !taskId || !applySignal || typeof serverNow !== 'function')
-      || actor.arm === 'read' && typeof baseline !== 'function') throw Error('Trial arm lacks its durable driver');
+      || actor.arm === 'read' && typeof baseline !== 'function'
+      || actor.arm === 'production' && typeof production !== 'function') throw Error('Trial arm lacks its durable driver');
     labels.add(actor.label);
     bindings.add(binding);
     const identities = (actor.identities ?? []).map(({seatId, characterId, displayName}) => {
@@ -128,8 +131,19 @@ export async function startFoodTrialBridge({
   server.listen(0, '127.0.0.1');
   await once(server, 'listening');
   const host = '127.0.0.1:' + server.address().port, origin = 'http://' + host;
+  const productionRequests = Object.fromEntries(actors.map(actor => [actor.label, {}]));
+  const planetApi = production?.({
+    origin,
+    verifyIdToken: async token => {
+      const binding = tickets.get(token);
+      if (binding?.actor.arm !== 'production') throw Error('Unknown local actor');
+      return {uid: binding.actor.uid};
+    },
+    verifyAppCheckToken: async token => { if (token !== localAppCheck) throw Error('Invalid local app proof'); },
+  });
   return {
     origin,
+    productionRequests,
     urls: Object.fromEntries([...tickets].map(([ticket, {actor}]) => [actor.label, origin + '/#' + ticket])),
     start() {
       if (started) return Promise.resolve();
@@ -168,6 +182,17 @@ export async function startFoodTrialBridge({
       return json(res, 200, {started});
     }
     if (!started) return json(res, 409, {error: 'waiting'});
+    if (path === '/trial/planetApi' && req.method === 'POST' && arm === 'production') {
+      const q = await body(req);
+      if (!allowedProduction.has(q?.operation) || (q.request?.matchId ?? q.matchId) !== matchId) badRequest();
+      const counts = productionRequests[actor.label];
+      counts[q.operation] = (counts[q.operation] ?? 0) + 1;
+      return planetApi({method: req.method, headers: req.headers, body: q}, Object.assign(res, {
+        set(name, value) { res.setHeader(name, value); },
+        status(status) { res.statusCode = status; return res; },
+        json(value) { return json(res, res.statusCode, value); },
+      }));
+    }
     if (path === '/trial/baseline' && req.method === 'POST' && arm === 'read') {
       const q = await body(req), parsed = PlanetServiceRequestSchema.safeParse(q);
       if (!parsed.success || !allowedBaseline.has(q.operation)

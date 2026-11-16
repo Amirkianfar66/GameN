@@ -15,7 +15,14 @@ import {createHostedPreviewHeaders} from '../../../../../scripts/hosted-preview-
 
 const paths = new Map();
 const tests = [];
+let productionRef = null;
 for (const argument of process.argv.slice(2)) {
+  if (argument.startsWith('--production=')) {
+    assert.equal(productionRef, null, 'Pass a single production source pin');
+    productionRef = argument.slice('--production='.length);
+    assert.match(productionRef, /^[a-f0-9]{40}$/);
+    continue;
+  }
   const match = /^--(backend|bundle|artwork|output|java|firestore-jar)=(.+)$/.exec(argument);
   if (!match) tests.push(argument);
   else {
@@ -34,7 +41,7 @@ const git = (...args) => execFileSync('git', args, {cwd: root, encoding: 'utf8'}
 const backendGit = (...args) => execFileSync('git', args, {cwd: backend, encoding: 'utf8'}).trim();
 const expectedHeaders = createHostedPreviewHeaders('gamen-mothership-staging');
 const report = {scope: 'Two locally automated desktop Chromium phones with trusted touch and a dedicated Firestore emulator. Native renderer, with focus emulation recorded. Representative functional runs.',
-  source: git('rev-parse', 'HEAD'), sourceDirty: !!git('status', '--porcelain'), backend: reviewedFoodBackend,
+  source: git('rev-parse', 'HEAD'), sourceDirty: !!git('status', '--porcelain'), backend: productionRef ?? reviewedFoodBackend,
   node: process.version, emulatorJarSha256: sha(await readFile(paths.get('firestore-jar'))),
   artworkInventorySha256: sha(await readFile(join(artwork, 'preview-release.json'))),
   headers: expectedHeaders, bundle: {}, trials: []};
@@ -42,10 +49,12 @@ assert.equal(report.sourceDirty, false);
 assert.equal(backendGit('rev-parse', 'HEAD'), report.backend);
 assert.equal(backendGit('status', '--porcelain'), '');
 report.backendInputs = {};
-for (const name of ['package-lock.json', 'services/game-api/dev/food-task-coordinator/coordinator.mjs',
+const serverInputs = productionRef ? ['services/game-api/dist/planet-engine.js', 'services/game-api/dist/planet-food-service.js',
+  'services/game-api/dist/planet-food-inbox-worker.js', 'infra/firebase/dist/planet.js', 'infra/firebase/dist/planet-food-stream.js',
+  'infra/firebase/dist/planet-food-worker.js'] : ['services/game-api/dev/food-task-coordinator/coordinator.mjs', 'services/game-api/dev/food-task-coordinator/drive.mjs'];
+for (const name of ['package-lock.json', ...serverInputs,
   'services/game-api/dev/food-task-coordinator/firestore.mjs', 'services/game-api/dev/food-task-coordinator/fixture.mjs',
-  'services/game-api/dev/food-task-coordinator/drive.mjs', 'services/game-api/dist/planet-game.js',
-  'packages/contracts/dist/index.js', 'packages/engine/dist/index.js']) {
+  'services/game-api/dist/planet-game.js', 'packages/contracts/dist/index.js', 'packages/engine/dist/index.js']) {
   report.backendInputs[name] = sha(await readFile(join(backend, name)));
 }
 for (const name of await readdir(join(bundle, 'assets'))) report.bundle[name] = sha(await readFile(join(bundle, 'assets', name)));
@@ -150,20 +159,27 @@ async function screenshot(page, name, trial) {
 }
 
 async function prepare(kind, trial) {
-  const driverName = kind === 'invitations' ? 'invitation-pilot.mjs' : 'pilot.mjs';
-  const {prepareFoodTrial} = await import(join(folder, driverName));
   const signal = createFoodApplySignal();
   const activity = {applied: 0, admitted: 0};
-  trial.activity = activity;
-  const lab = await prepareFoodTrial({onEvent(event) {
-    signal.observe(event);
-    if (event.stage === 'applied' && event.kind === 'command') activity.applied++;
-    if (event.stage === 'durably-admitted' && event.kind === 'command') activity.admitted++;
-  }});
+  let lab;
+  if (productionRef) {
+    const {prepareProductionFoodTrial} = await import(join(folder, 'production-pilot.mjs'));
+    lab = await prepareProductionFoodTrial({backend, backendSource: productionRef, kind});
+  } else {
+    const driverName = kind === 'invitations' ? 'invitation-pilot.mjs' : 'pilot.mjs';
+    const {prepareFoodTrial} = await import(join(folder, driverName));
+    lab = await prepareFoodTrial({onEvent(event) {
+      signal.observe(event);
+      if (event.stage === 'applied' && event.kind === 'command') activity.applied++;
+      if (event.stage === 'durably-admitted' && event.kind === 'command') activity.admitted++;
+    }});
+  }
+  trial.activity = lab.activity ?? activity;
   const pages = {};
   let bridge;
   try {
     bridge = await startFoodTrialBridge({...lab, applySignal: signal, bundle, artwork});
+    if (productionRef) trial.productionRequests = bridge.productionRequests;
     trial.variant = lab.variant;
     trial.backendSource = lab.backendSource;
     let i = 0;
@@ -281,6 +297,31 @@ async function lifecycle({pages}, trial) {
   trial.acceptance = 'Causal UP before DOWN acknowledgement and an observed hide/reconnect';
 }
 
+async function confirmProduction({pages}, trial) {
+  if (trial.name === 'timed') {
+    await Promise.all(Object.values(pages).map(page => wait(page,
+      `${reported}.wireFrames.some(frame=>frame.reason==="phase-ended") && ${reported}.connection==="live" && ${reported}.phase && ${reported}.phase!=="FOOD_SUPPLY" && ${reported}.foodStep===null`,
+      'authorized closure and restored ordinary board', 36_000)));
+  }
+  for (const [label, page] of Object.entries(pages)) {
+    const {wireRequests, wireFrames, availability} = await page.evaluate(reported);
+    const watch = wireRequests.find(request => request.operation === 'foodWatch');
+    const closed = wireFrames.find(frame => frame.reason === 'phase-ended');
+    assert.ok(watch, label + ' opened authenticated Food delivery');
+    assert.ok(wireRequests.some(request => request.operation === 'foodClock'), label + ' paired clock request');
+    assert.ok(wireFrames.some(frame => frame.kind === 'snapshot' && frame.fresh), label + ' fresh authorized packet');
+    assert.ok(wireRequests.every(request => request.operation !== 'read' || request.atMs <= watch.atMs
+      || closed && request.atMs >= closed.receivedAtMs), label + ' never renewed by a regular READ while streamed');
+    assert.ok(availability.every(state => state.fresh || state.enabled.length === 0), label + ' stale controls stayed disabled');
+    if (trial.name === 'timed') {
+      assert.ok(wireRequests.some(request => request.operation === 'foodHeartbeat'), label + ' independent operator heartbeat');
+      assert.ok(wireRequests.some(request => request.operation === 'read' && request.atMs >= closed.receivedAtMs),
+        label + ' resumed ordinary READ after the verified closure');
+    }
+  }
+  assert.equal(trial.activity.workerFailures + trial.activity.dispatchFailures, 0);
+}
+
 try {
   await startEmulator();
   chrome = await launchBrowser();
@@ -294,6 +335,7 @@ try {
     try {
       rig = await prepare(name, trial);
       await ({invitations, timed, lifecycle}[name])(rig, trial);
+      if (productionRef) await confirmProduction(rig, trial);
       trial.status = 'passed';
     } catch (error) {
       trial.status = 'failed';

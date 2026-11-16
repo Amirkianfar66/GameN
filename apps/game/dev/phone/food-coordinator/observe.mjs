@@ -35,17 +35,37 @@ export function foodRenderEffect(request, before, after) {
   return after.hold.state === 'held' ? 'Crate held' : after.hold.state === 'pending' ? 'Hold pending' : null;
 }
 
-export function observeFoodTrial(root, {seatId}) {
+export function observeFoodTrial(root, {seatId, arm}) {
   const document = root.ownerDocument, win = document.defaultView;
   const trace = createFoodTrialTrace({now: () => win.performance.now(), timeOriginMs: win.performance.timeOrigin, seatId});
   const heldPointers = new Set(), heldKeys = new Set(), scheduled = new Set();
   const frames = [], lifecycle = [];
+  const wireFrames = [], wireRequests = [], availability = [], metadata = new Map();
   let droppedFrames = 0;
   let activeEvent = null, controller = null, stop = null, generation = 0;
+  let lastAvailability = null;
 
   const surface = () => root.querySelector('.planet-food.ph:not([hidden])');
   const control = kind => controls[kind] ? surface()?.querySelector(controls[kind]) : null;
   const visible = () => document.visibilityState === 'visible';
+  const deliveryKey = (view, serverNowMs) => JSON.stringify([view?.phaseId, view?.viewRevision, serverNowMs]);
+  function recordAvailability() {
+    const model = controller?.getModel(), board = surface();
+    const state = {fresh: model?.fresh ?? false, stage: model?.view?.participantTask?.stage ?? null,
+      screen: board?.dataset.screen ?? null, physicalHold: model?.physicalHolding ?? false,
+      enabled: ['HOLD_DOWN', 'PANEL_RELEASE', 'PANEL_LOCK', 'KEY'].filter(kind => {
+        const node = control(kind);
+        return node && !disabled(node) && !node.closest('[hidden]');
+      })};
+    const key = JSON.stringify(state);
+    if (key !== lastAvailability && availability.length < 512) {
+      lastAvailability = key;
+      availability.push({atMs: win.performance.now(), ...state});
+    }
+  }
+  const mutations = arm === 'production' ? new win.MutationObserver(recordAvailability) : null;
+  mutations?.observe(root, {subtree: true, childList: true, attributes: true,
+    attributeFilter: ['data-screen', 'aria-disabled', 'disabled', 'hidden', 'inert', 'data-holding']});
 
   function arm(event, kind, node) {
     activeEvent = {event, kind, number: trace.input({
@@ -157,7 +177,25 @@ export function observeFoodTrial(root, {seatId}) {
       stop = controller.subscribe(model => {
         trace.feedback(model.feedback);
         trace.feedback(model.recoveryFeedback);
+        if (mutations) recordAvailability();
       });
+    },
+    deliveryFrame(raw) {
+      if (wireFrames.length === 512 || !['snapshot', 'closed'].includes(raw?.kind)) return;
+      const {kind, frameEpoch: epoch, frameSequence: sequence} = raw;
+      const fresh = kind === 'snapshot' ? raw.fresh : null;
+      const reason = kind === 'closed' ? raw.reason : null;
+      const view = raw.snapshot?.foodPlayerView, receivedAtMs = win.performance.now();
+      wireFrames.push({kind, epoch, sequence, fresh, reason, receivedAtMs, stage: view?.participantTask?.stage ?? null});
+      if (kind === 'snapshot' && fresh && view) {
+        metadata.set(deliveryKey(view, raw.serverTimeMs), {epoch, sequence, receivedAtMs, production: true});
+      }
+    },
+    deliveryRequest(operation) {
+      if (wireRequests.length < 512) wireRequests.push({operation, atMs: win.performance.now()});
+    },
+    deliveryMetadata(packet) {
+      return metadata.get(deliveryKey(packet.food?.playerView, packet.food?.serverTimeMs));
     },
     wrapFoodTransport(transport) {
       return {...transport,
@@ -181,7 +219,7 @@ export function observeFoodTrial(root, {seatId}) {
     project(packet, marker, forward) {
       const receivedAtMs = marker?.receivedAtMs ?? win.performance.now();
       const view = packet.food?.playerView;
-      const before = marker?.commandIds.length ? taskRender() : null;
+      const before = marker?.production || marker?.commandIds.length ? taskRender() : null;
       forward(packet);
       if (!view) return;
       const model = controller?.getModel(), displayed = model?.view;
@@ -204,10 +242,12 @@ export function observeFoodTrial(root, {seatId}) {
       return {...trace.report(), viewport: {width: win.innerWidth, height: win.innerHeight},
         motion: surface()?.dataset.motion ?? null, visible: visible(), focused: document.hasFocus(),
         frames: structuredClone(frames), droppedFrames, lifecycle: structuredClone(lifecycle),
+        ...(mutations ? {wireFrames: structuredClone(wireFrames), wireRequests: structuredClone(wireRequests), availability: structuredClone(availability)} : {}),
         paintBoundary: 'Observed DOM state and a subsequent visible rendering opportunity'};
     },
     dispose() {
       invalidate();
+      mutations?.disconnect();
       stop?.();
       controller = null;
       for (const handle of scheduled) win.cancelAnimationFrame(handle);

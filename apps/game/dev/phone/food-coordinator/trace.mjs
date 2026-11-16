@@ -69,18 +69,24 @@ export function createFoodTrialTrace({now, timeOriginMs, seatId}) {
     // The adapter supplies exact command-to-frame correlation. A revision
     // advance alone is never a witness. A paint sample is recorded only if the
     // same state remains present after a visible rendering opportunity.
-    projected({epoch, sequence, receivedAtMs, publishedAtServerMs = null, commandIds}, witness) {
+    projected({epoch, sequence, receivedAtMs, publishedAtServerMs = null, commandIds, production = false}, witness) {
       const atMs = now();
       if (!Number.isFinite(receivedAtMs) || receivedAtMs > atMs) return [];
-      return rowsAt(commandIds).flatMap(({request, observation: row}) => {
-        if (row.authority?.renderAtMs != null || receivedAtMs < row.attempts[0].sentAtMs) return [];
+      const slot = production ? 'observedEffect' : 'authority';
+      const matches = (production ? [...rows.values()] : rowsAt(commandIds)).flatMap(({request, observation: row}) => {
+        if (row[slot]?.renderAtMs != null || receivedAtMs < row.attempts[0].sentAtMs) return [];
         const outcome = witness(request);
-        if (!outcome) return [];
-        const authority = {epoch, sequence, receivedAtMs, publishedAtServerMs, domAtMs: atMs, renderAtMs: null, outcome};
-        row.authority = authority;
-        return [() => {
-          if (row.authority === authority && witness(request) === outcome) authority.renderAtMs = now();
-        }];
+        return outcome ? [{request, row, outcome}] : [];
+      });
+      // The production stream carries no command witness. Report only a unique
+      // visible change matching a submitted input, separately from its receipt.
+      if (production && matches.length !== 1) return [];
+      return matches.map(({request, row, outcome}) => {
+        const effect = {epoch, sequence, receivedAtMs, publishedAtServerMs, domAtMs: atMs, renderAtMs: null, outcome};
+        row[slot] = effect;
+        return () => {
+          if (row[slot] === effect && witness(request) === outcome) effect.renderAtMs = now();
+        };
       });
     },
 
@@ -92,15 +98,18 @@ export function createFoodTrialTrace({now, timeOriginMs, seatId}) {
           const input = inputs[row.inputNumber - 1];
           const inputAt = input?.trusted ? input.atMs : null;
           const settled = row.receipt?.status === 'accepted' && ['APPLIED', 'GESTURE_CLOSED', 'RECOVERED_CLOSED'].includes(row.receipt.effect);
-          const authority = settled ? row.authority : null;
+          const authority = settled ? row.authority : null, observed = settled ? row.observedEffect ?? null : null;
           return {
-            ...row, authority,
+            ...row, authority, observedEffect: observed,
             eventToPendingDomMs: offset(inputAt, row.pendingDomAtMs),
             eventToPendingRenderMs: offset(inputAt, row.pendingRenderAtMs),
             eventToVerifiedReceiptMs: offset(inputAt, row.receipt?.atMs ?? null),
             eventToAuthoritativeFrameMs: offset(inputAt, authority?.receivedAtMs ?? null),
             eventToAuthoritativeDomMs: offset(inputAt, authority?.domAtMs ?? null),
             eventToAuthoritativeRenderMs: offset(inputAt, authority?.renderAtMs ?? null),
+            eventToObservedEffectFrameMs: offset(inputAt, observed?.receivedAtMs ?? null),
+            eventToObservedEffectDomMs: offset(inputAt, observed?.domAtMs ?? null),
+            eventToObservedEffectRenderMs: offset(inputAt, observed?.renderAtMs ?? null),
           };
         }),
       });
