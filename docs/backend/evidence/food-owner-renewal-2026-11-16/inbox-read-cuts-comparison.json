@@ -1,0 +1,609 @@
+{
+  "toolchain": {
+    "node": "22.21.1",
+    "firestoreEmulator": "1.20.2"
+  },
+  "originalBackendStart": "641c42bea29b24eac216d94fa43e01a1cfde789b",
+  "implementationCommits": [
+    "e3d3848bb2d3a9d5d77423c9dd3f9974d1bf3c32",
+    "4df8022367f987a51f2440599a52b0e361d81b48"
+  ],
+  "workload": "Identical pinned driver, fresh loopback emulator per arm, two synthetic humans, five bots and display. Closed-loop heartbeat, three controls, one fixed 32.5-second return. No browser or network shaping.",
+  "proposedReceiveToApplyP95Ms": 150,
+  "trials": [
+    {
+      "trial": "base-01",
+      "source": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+      "exitCode": 0,
+      "sha256": {
+        "measure-inbox.test.mjs": "014f161524661452f125968e6cacc9c710b1b152975b1eff4931ea7798b95909",
+        "planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+        "planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4"
+      },
+      "results": {
+        "localBootstrapMs": 32,
+        "heartbeats": 62,
+        "heartbeatP95Ms": 227,
+        "heartbeatMaxMs": 278,
+        "controlCount": 3,
+        "controlP95Ms": 181,
+        "controlMaxMs": 181,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 284,
+        "freshWithEngineDue": 30,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 98,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 62,
+            "p95": 42,
+            "max": 45
+          },
+          "receivedToAdmittedClock": {
+            "n": 62,
+            "p95": 165,
+            "max": 182
+          },
+          "appendAckToApplyAck": {
+            "n": 62,
+            "p95": 42,
+            "max": 47
+          },
+          "receivedToApplyAck": {
+            "n": 62,
+            "p95": 200,
+            "max": 217
+          },
+          "receivedToExactResponse": {
+            "n": 62,
+            "p95": 227,
+            "max": 278
+          },
+          "applyAckToExactResponse": {
+            "n": 62,
+            "p95": 55,
+            "max": 60
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 32,
+            "max": 32
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 77,
+            "max": 77
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 48,
+            "max": 48
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 124,
+            "max": 124
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 181,
+            "max": 181
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 58,
+            "max": 58
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    },
+    {
+      "trial": "api-01",
+      "source": "34df13fc80c3fecbf859626eab41537269f8712d",
+      "exitCode": 0,
+      "sha256": {
+        "measure-inbox.test.mjs": "014f161524661452f125968e6cacc9c710b1b152975b1eff4931ea7798b95909",
+        "planet-food-service.js": "a5029c361bb873b21d0766e135c7b82c5e6397ba00fc92b1d81042d363a5de38",
+        "planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4"
+      },
+      "results": {
+        "localBootstrapMs": 28,
+        "heartbeats": 64,
+        "heartbeatP95Ms": 187,
+        "heartbeatMaxMs": 246,
+        "controlCount": 3,
+        "controlP95Ms": 229,
+        "controlMaxMs": 229,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 282,
+        "freshWithEngineDue": 28,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 84,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 64,
+            "p95": 34,
+            "max": 35
+          },
+          "receivedToAdmittedClock": {
+            "n": 64,
+            "p95": 115,
+            "max": 153
+          },
+          "appendAckToApplyAck": {
+            "n": 64,
+            "p95": 40,
+            "max": 45
+          },
+          "receivedToApplyAck": {
+            "n": 64,
+            "p95": 155,
+            "max": 191
+          },
+          "receivedToExactResponse": {
+            "n": 64,
+            "p95": 187,
+            "max": 246
+          },
+          "applyAckToExactResponse": {
+            "n": 64,
+            "p95": 57,
+            "max": 62
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 23,
+            "max": 23
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 120,
+            "max": 120
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 45,
+            "max": 45
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 172,
+            "max": 172
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 229,
+            "max": 229
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 61,
+            "max": 61
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    },
+    {
+      "trial": "combined-01",
+      "source": "a4c9544841684ece6a994cc91b0b0bd5cf681c58",
+      "exitCode": 0,
+      "sha256": {
+        "measure-inbox.test.mjs": "014f161524661452f125968e6cacc9c710b1b152975b1eff4931ea7798b95909",
+        "planet-food-service.js": "bab028cf68e9eafcafc5ac693ee7ee5e3dd7f46628d07db76578adc398c6a694",
+        "planet-food-inbox-worker.js": "ca09058d54aaf086012afe84e6be5a906f383f8da49f0b49eabeb0f48d94b3f9"
+      },
+      "results": {
+        "localBootstrapMs": 32,
+        "heartbeats": 62,
+        "heartbeatP95Ms": 237,
+        "heartbeatMaxMs": 284,
+        "controlCount": 3,
+        "controlP95Ms": 227,
+        "controlMaxMs": 227,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 283,
+        "freshWithEngineDue": 13,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 90,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 62,
+            "p95": 35,
+            "max": 37
+          },
+          "receivedToAdmittedClock": {
+            "n": 62,
+            "p95": 157,
+            "max": 209
+          },
+          "appendAckToApplyAck": {
+            "n": 62,
+            "p95": 39,
+            "max": 44
+          },
+          "receivedToApplyAck": {
+            "n": 62,
+            "p95": 195,
+            "max": 248
+          },
+          "receivedToExactResponse": {
+            "n": 62,
+            "p95": 237,
+            "max": 284
+          },
+          "applyAckToExactResponse": {
+            "n": 62,
+            "p95": 58,
+            "max": 61
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 24,
+            "max": 24
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 120,
+            "max": 120
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 48,
+            "max": 48
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 169,
+            "max": 169
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 227,
+            "max": 227
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 57,
+            "max": 57
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    },
+    {
+      "trial": "combined-02",
+      "source": "a4c9544841684ece6a994cc91b0b0bd5cf681c58",
+      "exitCode": 0,
+      "sha256": {
+        "measure-inbox.test.mjs": "014f161524661452f125968e6cacc9c710b1b152975b1eff4931ea7798b95909",
+        "planet-food-service.js": "bab028cf68e9eafcafc5ac693ee7ee5e3dd7f46628d07db76578adc398c6a694",
+        "planet-food-inbox-worker.js": "ca09058d54aaf086012afe84e6be5a906f383f8da49f0b49eabeb0f48d94b3f9"
+      },
+      "results": {
+        "localBootstrapMs": 33,
+        "heartbeats": 63,
+        "heartbeatP95Ms": 187,
+        "heartbeatMaxMs": 244,
+        "controlCount": 3,
+        "controlP95Ms": 189,
+        "controlMaxMs": 189,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 284,
+        "freshWithEngineDue": 14,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 97,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 63,
+            "p95": 34,
+            "max": 39
+          },
+          "receivedToAdmittedClock": {
+            "n": 63,
+            "p95": 111,
+            "max": 163
+          },
+          "appendAckToApplyAck": {
+            "n": 63,
+            "p95": 38,
+            "max": 43
+          },
+          "receivedToApplyAck": {
+            "n": 63,
+            "p95": 147,
+            "max": 204
+          },
+          "receivedToExactResponse": {
+            "n": 63,
+            "p95": 187,
+            "max": 244
+          },
+          "applyAckToExactResponse": {
+            "n": 63,
+            "p95": 56,
+            "max": 62
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 23,
+            "max": 23
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 87,
+            "max": 87
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 45,
+            "max": 45
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 132,
+            "max": 132
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 189,
+            "max": 189
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 60,
+            "max": 60
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    },
+    {
+      "trial": "api-02",
+      "source": "34df13fc80c3fecbf859626eab41537269f8712d",
+      "exitCode": 0,
+      "sha256": {
+        "measure-inbox.test.mjs": "014f161524661452f125968e6cacc9c710b1b152975b1eff4931ea7798b95909",
+        "planet-food-service.js": "a5029c361bb873b21d0766e135c7b82c5e6397ba00fc92b1d81042d363a5de38",
+        "planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4"
+      },
+      "results": {
+        "localBootstrapMs": 29,
+        "heartbeats": 63,
+        "heartbeatP95Ms": 186,
+        "heartbeatMaxMs": 279,
+        "controlCount": 3,
+        "controlP95Ms": 180,
+        "controlMaxMs": 180,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 283,
+        "freshWithEngineDue": 23,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 77,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 63,
+            "p95": 34,
+            "max": 43
+          },
+          "receivedToAdmittedClock": {
+            "n": 63,
+            "p95": 120,
+            "max": 181
+          },
+          "appendAckToApplyAck": {
+            "n": 63,
+            "p95": 40,
+            "max": 42
+          },
+          "receivedToApplyAck": {
+            "n": 63,
+            "p95": 156,
+            "max": 220
+          },
+          "receivedToExactResponse": {
+            "n": 63,
+            "p95": 186,
+            "max": 279
+          },
+          "applyAckToExactResponse": {
+            "n": 63,
+            "p95": 53,
+            "max": 62
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 22,
+            "max": 22
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 104,
+            "max": 104
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 46,
+            "max": 46
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 146,
+            "max": 146
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 180,
+            "max": 180
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 57,
+            "max": 57
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    },
+    {
+      "trial": "base-02",
+      "source": "491e2819ada55c303b4c25b74c4ac3a408dda16a",
+      "exitCode": 0,
+      "sha256": {
+        "measure-inbox.test.mjs": "014f161524661452f125968e6cacc9c710b1b152975b1eff4931ea7798b95909",
+        "planet-food-service.js": "3a8f6f5a6cbe51e4a1c2ca5def8ffd4d5142502c3ad91b905ac27f25c41ac702",
+        "planet-food-inbox-worker.js": "af20cf1c6daa083c108260d38cb0b88eabb60814cd97d3b9121bcb15c8d34ff4"
+      },
+      "results": {
+        "localBootstrapMs": 31,
+        "heartbeats": 62,
+        "heartbeatP95Ms": 222,
+        "heartbeatMaxMs": 246,
+        "controlCount": 3,
+        "controlP95Ms": 232,
+        "controlMaxMs": 232,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 282,
+        "freshWithEngineDue": 11,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 87,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 62,
+            "p95": 42,
+            "max": 43
+          },
+          "receivedToAdmittedClock": {
+            "n": 62,
+            "p95": 132,
+            "max": 161
+          },
+          "appendAckToApplyAck": {
+            "n": 62,
+            "p95": 41,
+            "max": 43
+          },
+          "receivedToApplyAck": {
+            "n": 62,
+            "p95": 168,
+            "max": 202
+          },
+          "receivedToExactResponse": {
+            "n": 62,
+            "p95": 222,
+            "max": 246
+          },
+          "applyAckToExactResponse": {
+            "n": 62,
+            "p95": 55,
+            "max": 64
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 29,
+            "max": 29
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 149,
+            "max": 149
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 47,
+            "max": 47
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 191,
+            "max": 191
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 232,
+            "max": 232
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 46,
+            "max": 46
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    }
+  ]
+}
