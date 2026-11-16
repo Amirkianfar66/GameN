@@ -13,7 +13,7 @@ import {createPlanetMotion,planetOutcomeWords,planetOutcomeTakesPrecedence} from
 import {createPlanetLibrary} from './library.mjs';
 import {createPlanetCinematic} from './cinematic.mjs';
 import {phoneLayouts,phoneRoom,createBlackoutGeometry} from './phone-layout.mjs';
-import {labelPhoneControl,phoneIcon,phoneActionIcon,phonePanelIcon} from './phone-controls.mjs';
+import {labelPhoneControl,phoneActionIcon,phonePanelIcon} from './phone-controls.mjs';
 import {createFoodUi} from './food-ui.mjs';
 import {foodGauge} from './food-gauge.mjs';
 import {FRAME} from '../scene-drawing/body.mjs';
@@ -21,6 +21,8 @@ import {INJURED} from '../scene-drawing/gestures.mjs';
 import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
+import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
+import {connectShellLifecycle,shellFocusOrder,shellHandlers,shellInput,shellRuns} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -29,42 +31,70 @@ const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot))
 const [rigX,rigY,rigSide]=FRAME.box,[rigAnchorX,rigAnchorY]=FRAME.anchor;
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,food=null}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,food=null,reconnect=null}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
- const readInsets=()=>{const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);const style=win.getComputedStyle(probe),value={top:parseFloat(style.paddingTop)||0,right:parseFloat(style.paddingRight)||0,bottom:parseFloat(style.paddingBottom)||0,left:parseFloat(style.paddingLeft)||0};probe.remove();return value;};
- let safeInsets=readInsets();
  const el=(tag,text=null,cls=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;if(cls)n.className=cls;return n;};
  const button=(text,act,value=null)=>{const n=el('button',text);n.type='button';n.dataset.planetAction=act;if(value!==null)n.dataset.value=value;return n;};
  root.classList.add('ms-shell','planet-app');root.dataset.boardLayout='board-v2';root.dataset.screen='match';
- const header=el('header',null,'planet-header'),phase=el('strong'),timer=el('span',null,'planet-timer'),offices=el('small'),checkpoint=el('small',null,'planet-shared-checkpoint'),instruction=el('p');
- const portrait=el('span',null,'planet-active-portrait'),identity=el('div',null,'planet-active-identity'),detail=el('span',null,'planet-active-detail');portrait.setAttribute('aria-hidden','true');identity.append(phase,detail);
- const promises=labelPhoneControl(button('Promises','panel','promises'),'Promises','promises'),menu=labelPhoneControl(button('Settings','panel','settings'),'Settings','settings');promises.id='planet-top-promises';menu.id='planet-top-settings';
- instruction.id='ms-action-step';header.append(portrait,identity,promises,timer,menu,offices,checkpoint,instruction);
+ // The match's frame is Designer's phone shell (design/phone-ui/components/phone-shell; the owner's plan of
+ // 16 November 2026, release 2): its top bar, tabs, target bar, chip, banners, toast and the docked sheet's
+ // frame. This renderer gives it this phone's input (shell-input.mjs), mounts the stage in it, the game's own
+ // sheet content in its sheet body and Food's gauge beside its clock, and owns its lifecycle.
+ // What the old header also said for screen readers stays, unseen: the offices, the shared checkpoint and the
+ // current step (#ms-action-step, which the board's position targets name as their description).
+ const facts=el('div',null,'ms-visually-hidden planet-match-facts'),offices=el('small'),checkpoint=el('small',null,'planet-shared-checkpoint'),instruction=el('p');
+ instruction.id='ms-action-step';facts.append(offices,checkpoint,instruction);
  const foodUi=createFoodUi(document),foodClock=foodUi.h('span.planet-food.fs-clock.food-native-clock');let gaugeDoses=null;
  const stage=el('main',null,'planet-stage');stage.setAttribute('aria-label','Ship view');
  const holder=el('div',null,'bv2-mount planet-board'),targets=el('div',null,'planet-targets');
  // The room scene's host: the room area between the bars, under the holder (which lays today's films over it).
  const sceneHost=el('div',null,'planet-room-scene');sceneHost.hidden=true;Object.assign(sceneHost.style,{position:'absolute',left:'0px',top:'0px'});
- const nav=el('nav',null,'planet-nav');nav.setAttribute('aria-label','Player controls');
- for(const [label,value]of [['Board','board'],['Actions','actions'],['Card','card'],['Panels','panels']]){const n=labelPhoneControl(button(label,'panel',value),label,value);n.id=`planet-nav-${value}`;nav.append(n);}
- const pass=button('PASS','begin','PASS_TURN');pass.className='planet-pass';pass.id='planet-pass';
- labelPhoneControl(pass,'Pass','pass');nav.insertBefore(pass,nav.children[2]);
- const sheet=el('section',null,'planet-sheet ms-private');sheet.dataset.open='true';sheet.setAttribute('aria-label','Private controls');
- const sheetBody=el('div',null,'planet-sheet-body ms-private__panel'),sheetFoot=el('div',null,'planet-sheet-foot');sheet.append(sheetBody,sheetFoot);
+ // The game's own sheet content (release 3 replaces it with Designer's components), mounted in the shell's sheet body.
+ const sheetBody=el('div',null,'planet-sheet-body ms-private__panel');
  const status=el('p',null,'planet-status');status.setAttribute('role','status');
  const words=el('p',null,'ms-visually-hidden');words.setAttribute('aria-live','polite');
  const rosterText=el('ul',null,'ms-visually-hidden');rosterText.setAttribute('aria-label','Authorized board facts');
  const resultPanel=el('section',null,'planet-result');resultPanel.setAttribute('aria-label','Authoritative result');
- const targetBar=el('div',null,'planet-target-bar');targetBar.hidden=true;
  const scrollSpace=el('div',null,'planet-scroll-space');scrollSpace.setAttribute('aria-hidden','true');
- stage.append(sceneHost,holder,targets,scrollSpace);root.replaceChildren(stage,header,nav,sheet,status,words,resultPanel,rosterText,targetBar);
+ const shellHost=el('div',null,'planet-shell-host');
+ // The frozen Food port's shared display places its banner under `.planet-header` (food-app.mjs mountFoodPublic):
+ // an empty, unseen box the height of the shell's top bar keeps that place.
+ const barMeasure=el('div',null,'planet-header planet-bar-measure');barMeasure.setAttribute('aria-hidden','true');
+ stage.append(sceneHost,holder,targets,scrollSpace);root.replaceChildren(shellHost,barMeasure,words,rosterText,facts);
  const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:cinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,cinematics);
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board',sceneMode='room',currentRoom='room-a',allLayouts=null;
  let foodSurface={active:false,exclusive:false,top:null,bottom:null};
  const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null;
  let scene=null,sceneOn=false,sceneKey=null,sceneInput=null,sceneMarks=null,sceneRunning=true,blurred=false;
+ // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
+ // live (the reconnecting bar names it), a pass's toast (kept, so it shows its whole time once), and its layout.
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null;
+ // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
+ // the focus returns to are found there by their intents.
+ const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"][data-value="confirm"]')?.focus({preventScroll:true});
+ const focusBack=()=>{const pick=shellFocusOrder(opener,{choosing}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
+ const shell=mountPhoneShell(shellHost,{},shellHandlers({
+  live:()=>!disposed&&!!model,
+  openPanel:panel=>{more=false;controller.openPanel(panel);},
+  begin:type=>{more=false;controller.begin(type);},
+  confirm:()=>void controller.confirm(),
+  dismiss:()=>{more=false;listOpen=false;controller.dismiss();},
+  toggleView:()=>switchView(),
+  showBoard:()=>{sceneMode='board';uiKey=null;render(controller.getModel());},
+  openList:()=>{listOpen=true;render(controller.getModel());},
+  closeList:()=>{listOpen=false;render(controller.getModel());},
+  reconnect:()=>reconnect?.(),
+  layout:next=>{shellLayout=next;render(controller.getModel());},
+  opened:detail=>{opener=detail;},
+  focusReturn:()=>focusBack(),
+ }));
+ shell.stage.append(stage);
+ // The game's own result window and status line lie over the room in the shell's cover: under its bars, target
+ // bar, banner, toast and sheet, as the pack layers them (the handoff: "a result window over the room"). Until
+ // the result window's component (#267) they are today's, between the bars as before.
+ shell.slot('cover').append(resultPanel,status);
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
  const drawings=new Map();
  const reduced=()=>model?.motion==='reduced'||document.documentElement.dataset.motion==='reduced'||media.matches;
@@ -116,7 +146,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const file=library.roleFile(model,p);if(file)sheetBody.append(file);
  }
  function renderPromises(p){
-  addText('Promises','h2');if(!p?.promiseQuota)return;
+  if(!p?.promiseQuota)return;
   addText(`Accepted given: ${p.promiseQuota.given?'1 / 1':'0 / 1'} · Accepted received: ${p.promiseQuota.received?'1 / 1':'0 / 1'}`);
   for(const promise of p.promises??[]){
    const card=el('article',null,'planet-promise');card.append(el('h3',PLANET_PROMISE_LABELS[promise.kind]),el('p',planetPromiseTerms(promise)),el('strong',promise.accepted?promise.status:promise.offerStatus??'Offered'));
@@ -130,7 +160,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   for(const stroke of drawing.strokes){c.strokeStyle=stroke.color;c.fillStyle=stroke.color;c.lineWidth=stroke.width;const [[x,y]]=stroke.points;c.beginPath();c.moveTo(x*canvas.width,y*canvas.height);for(const [px,py]of stroke.points.slice(1))c.lineTo(px*canvas.width,py*canvas.height);if(stroke.points.length===1){c.arc(x*canvas.width,y*canvas.height,stroke.width/2,0,Math.PI*2);c.fill();}else c.stroke();}
  }
  function renderWindows(p){
-  addText('Windows','h2');addText(`Unverified claims · Expires after Round ${model.round}`);
   if(!p?.windows?.length){addText('No window is visible from your current location.');return;}
   for(const window of p.windows){
    const heading=el('h3',windowNames[window.windowId]);heading.prepend(library.art(`wn-lintel-${window.windowId.toLowerCase().replaceAll('_','-')}`));sheetBody.append(heading);
@@ -160,63 +189,70 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    sheetBody.append(tools,canvas,undo,reset,show);
   }
  }
+ // An action's body. Its name is the sheet's title and its Pass, Vote or Register is the sheet's footer action
+ // (shell-input.mjs shellSheet); choosing on the scene or the board shows the target bar instead.
  function renderAction(){
-  const action=model.action;if(!action)return false;
-  const heading=el('h2',null,'planet-action-heading');heading.append(phoneIcon(document,phoneActionIcon(action.type)),el('span',action.label));sheetBody.append(heading);if(!action.confirmation)addText(action.prompt);
+  const action=model.action;
+  if(!action.confirmation)addText(action.prompt);
   if(action.confirmation)addText(action.confirmation);
-  const boardChoice=!['PANEL_CODE','SUBMIT_CODE','VOTE'].includes(action.type)&&action.choices.some(c=>/^seat-[1-9]$/.test(c.value))||action.type==='MOVE'&&['targets','slots'].includes(action.step)||action.type==='SELECT_BLACKOUT_SLOT'&&action.step==='slots';
-  if(boardChoice){sheet.hidden=true;return true;}
   if(action.type==='PANEL_CODE')sheetBody.append(library.panelConsole(model,model.privateArea));
   if(action.type==='VOTE'&&action.step==='targets'){
    sheetBody.append(rosterGrid({choices:action.choices,selected:action.selected}));
-   const abstain=action.choices.find(c=>c.value==='abstain');if(abstain)sheetBody.append(button('Abstain','choose','abstain'));return true;
+   const abstain=action.choices.find(c=>c.value==='abstain');if(abstain)sheetBody.append(button('Abstain','choose','abstain'));return;
   }
   const choices=el('div',null,['PANEL_CODE','SUBMIT_CODE'].includes(action.type)?'planet-number-grid':'planet-choice-grid');
   const visibleChoices=action.type==='DECLARE_HACK_SIDE'&&action.step==='faction'?['Blue','Red','Alien'].map(value=>({value,label:value})):action.choices;
   for(const choice of visibleChoices){const b=button(choice.label,'choose',choice.value);b.id=`planet-choice-${choice.value}`;b.disabled=!action.choices.some(c=>c.value===choice.value);library.decorateChoice(b,action,choice);choices.append(b);}sheetBody.append(choices);
-  if(action.canConfirm){const confirm=button(action.type==='PASS_TURN'?'Pass':action.type==='VOTE'?'Vote':'Register','confirm');confirm.id='planet-confirm';sheetFoot.append(confirm);}
-  return true;
  }
- function renderUI(){
+ /** The game's own content for the shell's open sheet (`sheetFrame`, from shellSheet); its title, Back, Close and footer are the shell's. */
+ function renderUI(sheetFrame){
   const focus=document.activeElement?.id;
-  sheetBody.replaceChildren();sheetFoot.replaceChildren();
-  sheet.hidden=model.surface==='display'&&model.panel!=='settings'||model.concealed||(!model.action&&model.panel==='board'&&!more&&!model.recovery);
+  sheetBody.replaceChildren();
   if(model.concealed){more=false;drawings.clear();return;}
-  const close=button('Close','close');close.id='planet-close';sheetFoot.append(close);
-  if(model.recovery){addText('Outcome unknown','h2');addText('Check the original receipt. No replacement command is permitted.');const check=button('Check receipt','check');check.id='planet-check';check.disabled=!model.recovery.canCheck;sheetBody.append(check);if(model.recovery.canRetry)sheetBody.append(button('Retry original command','retry'));}
-  else if(!renderAction()){
-   const p=model.privateArea;
-   if(model.panel==='settings'){addText('Settings','h2');settings?.(sheetBody);}
-   else if(model.dark){addText('Blackout','h2');addText('People and windows are hidden.');if(model.panel==='actions')for(const o of p?.offers??[])sheetBody.append(beginButton(o.type));}
-   else if(model.phase?.expired){addText('Waiting for the server','h2');}
-   else if(more||model.panel==='panels'){addText('Panels','h2');if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
-   else if(model.panel==='players'){addText('Players','h2');for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${model.food?.step?.kind==='AWAY'&&model.food.step.awaySeatIds.includes(seat.seatId)?'Away on the Food Supply Task':`${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`}`);}}
-   else if(model.panel==='round-order'){addText('Round order','h2');addText('Follow the current phase and the server clock.');addText(planetRoundOrderText(model.versions));}
-   else if(model.panel==='card')renderCard(p);
-   else if(model.panel==='promises')renderPromises(p);
-   else if(model.panel==='windows')renderWindows(p);
-   else if(model.panel==='navigation'){
-    addText('Navigation','h2');const setting=planetHasPrivateFeedback(model.versions)&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
-    else addText('Current route and direction are private to the offices.');
-   }else if(model.panel==='hospital'){
-    addText('Hospital panel','h2');addText('One patient attempt with the Doctor’s original player number. A registered request resolves later.');
-    if(model.board?.seats.some(s=>s.seatId===model.ownSeatId&&s.location==='Hospital'&&s.health!=='Eliminated'))sheetBody.append(library.panelConsole(model,p));
-    const requestText=planetPanelRequestText(p?.panelRequest);if(requestText)addText(requestText);
-    if(p?.panelAttemptSpent){if(!requestText)addText('Your panel attempt is spent.');}else if(p?.offers?.some(o=>o.type==='PANEL_CODE'))sheetBody.append(beginButton('PANEL_CODE'));else addText('The panel is not currently available.');
-   }else if(model.panel==='actions'){
-    addText('Actions','h2');if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));
-    if(p?.blackoutTargeting?.selectedSlotId)addText(`Your fixed selection: ${p.blackoutTargeting.selectedSlotId}.`);
-    if(p?.ownBallot?.phaseId===model.phase.id)addText(`Your registered ballot: ${p.ownBallot.targetSeatId?number(p.ownBallot.targetSeatId):'Abstain'}.`);
-    if(p?.captainCommands)for(const [type,used]of [['CAPTAIN_RELEASE',p.captainCommands.releaseUsed],['CAPTAIN_EJECT',p.captainCommands.ejectUsed]]){const b=beginButton(type),available=p.offers?.some(o=>o.type===type);b.disabled=used||!available;labelPhoneControl(b,`${PLANET_ACTION_LABELS[type]} · ${used?'USED':available?'AVAILABLE':'UNAVAILABLE'}`,phoneActionIcon(type));b.dataset.captainPlate=used?'used':available?'available':'unavailable';b.style.backgroundImage=`var(--board-v2-film-captain-plate-${type==='CAPTAIN_RELEASE'?'release':'eject'}-${b.dataset.captainPlate})`;sheetBody.append(b);}
-    if(p?.hackFeedback)addText(p.hackFeedback.status==='DECLARED'?`Claim: ${p.hackFeedback.declaredSide}. Unverified.`:p.hackFeedback.status==='NO_DECLARATION'?'No side was declared.':'Waiting for the private claim.');
-    const offers=p?.offers?.filter(o=>!['PASS_TURN','MOVE','SHOW_WINDOW','ACCEPT_PROMISE','DECLINE_PROMISE','OFFER_PROMISE','CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION','PANEL_CODE','CAPTAIN_RELEASE','CAPTAIN_EJECT'].includes(o.type))??[];
-    for(const offer of offers)sheetBody.append(beginButton(offer.type));
-    if(!offers.length)addText('No action is currently offered.');
-   }
+  if(!sheetFrame)return;
+  const p=model.privateArea;
+  if(sheetFrame.kind==='recovery'){addText('Check the original receipt. No replacement command is permitted.');const check=button('Check receipt','check');check.id='planet-check';check.disabled=!model.recovery.canCheck;sheetBody.append(check);if(model.recovery.canRetry)sheetBody.append(button('Retry original command','retry'));}
+  // The board's List (sheet 29): the same choice as text, which the old target bar carried as "Target list".
+  else if(sheetFrame.kind==='target-list'){for(const choice of model.action.choices)if(/^seat-[1-9]$/.test(choice.value)){const who=model.identities.find(i=>i.seatId===choice.value),b=button(`${who?.displayName??choice.label} · ${number(choice.value)}`,'choose',choice.value);b.id=`planet-list-${choice.value}`;sheetBody.append(b);}}
+  else if(sheetFrame.kind==='pass'){/* Sheet 27.3: the title asks; Cancel and Pass are the sheet's own. */}
+  else if(sheetFrame.kind==='action')renderAction();
+  else if(sheetFrame.kind==='settings')settings?.(sheetBody);
+  else if(sheetFrame.kind==='dark'){addText('People and windows are hidden.');if(model.panel==='actions')for(const o of p?.offers??[])sheetBody.append(beginButton(o.type));}
+  else if(sheetFrame.kind==='expired'){/* The title says it: waiting for the server. */}
+  else if(sheetFrame.kind==='panels'){if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
+  else if(sheetFrame.kind==='players'){for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${model.food?.step?.kind==='AWAY'&&model.food.step.awaySeatIds.includes(seat.seatId)?'Away on the Food Supply Task':`${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`}`);}}
+  else if(sheetFrame.kind==='round-order'){addText('Follow the current phase and the server clock.');addText(planetRoundOrderText(model.versions));}
+  else if(sheetFrame.kind==='card')renderCard(p);
+  else if(sheetFrame.kind==='promises')renderPromises(p);
+  else if(sheetFrame.kind==='windows')renderWindows(p);
+  else if(sheetFrame.kind==='navigation'){
+   const setting=planetHasPrivateFeedback(model.versions)&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
+   else addText('Current route and direction are private to the offices.');
+  }else if(sheetFrame.kind==='hospital'){
+   addText('One patient attempt with the Doctor’s original player number. A registered request resolves later.');
+   if(model.board?.seats.some(s=>s.seatId===model.ownSeatId&&s.location==='Hospital'&&s.health!=='Eliminated'))sheetBody.append(library.panelConsole(model,p));
+   const requestText=planetPanelRequestText(p?.panelRequest);if(requestText)addText(requestText);
+   if(p?.panelAttemptSpent){if(!requestText)addText('Your panel attempt is spent.');}else if(p?.offers?.some(o=>o.type==='PANEL_CODE'))sheetBody.append(beginButton('PANEL_CODE'));else addText('The panel is not currently available.');
+  }else if(sheetFrame.kind==='actions'){
+   if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));
+   if(p?.blackoutTargeting?.selectedSlotId)addText(`Your fixed selection: ${p.blackoutTargeting.selectedSlotId}.`);
+   if(p?.ownBallot?.phaseId===model.phase.id)addText(`Your registered ballot: ${p.ownBallot.targetSeatId?number(p.ownBallot.targetSeatId):'Abstain'}.`);
+   if(p?.captainCommands)for(const [type,used]of [['CAPTAIN_RELEASE',p.captainCommands.releaseUsed],['CAPTAIN_EJECT',p.captainCommands.ejectUsed]]){const b=beginButton(type),available=p.offers?.some(o=>o.type===type);b.disabled=used||!available;labelPhoneControl(b,`${PLANET_ACTION_LABELS[type]} · ${used?'USED':available?'AVAILABLE':'UNAVAILABLE'}`,phoneActionIcon(type));b.dataset.captainPlate=used?'used':available?'available':'unavailable';b.style.backgroundImage=`var(--board-v2-film-captain-plate-${type==='CAPTAIN_RELEASE'?'release':'eject'}-${b.dataset.captainPlate})`;sheetBody.append(b);}
+   if(p?.hackFeedback)addText(p.hackFeedback.status==='DECLARED'?`Claim: ${p.hackFeedback.declaredSide}. Unverified.`:p.hackFeedback.status==='NO_DECLARATION'?'No side was declared.':'Waiting for the private claim.');
+   const offers=p?.offers?.filter(o=>!['PASS_TURN','MOVE','SHOW_WINDOW','ACCEPT_PROMISE','DECLINE_PROMISE','OFFER_PROMISE','CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION','PANEL_CODE','CAPTAIN_RELEASE','CAPTAIN_EJECT'].includes(o.type))??[];
+   for(const offer of offers)sheetBody.append(beginButton(offer.type));
+   if(!offers.length)addText('No action is currently offered.');
   }
+  mountSheetBody();
   if(focus&&root.querySelector(`[id="${CSS.escape(focus)}"]`))root.querySelector(`[id="${CSS.escape(focus)}"]`).focus({preventScroll:true});
-  else if(model.action?.step==='confirm')sheetFoot.querySelector('#planet-confirm')?.focus({preventScroll:true});
+  else if(model.action?.step==='confirm')focusConfirm();
  }
+ /** The game's content goes in the shell's sheet body; a new sheet (a new id) starts with an empty one. */
+ function mountSheetBody(){const body=shell.sheetBody;if(body&&sheetBody.parentNode!==body)body.append(sheetBody);}
+ /** The first tab: Board and Room switch the view on this phone only (today's Board button); it never sends a move. */
+ function switchView(){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&!model.action&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;if(model.action)render(controller.getModel());else controller.dismiss();}
+ /** The shell's own motion (a toast, a long press) runs only while the page shows and the window has the focus. */
+ function syncShellActivity(){const run=shellRuns({visible:document.visibilityState==='visible',blurred});if(run!==shellRunning){shellRunning=run;if(run)shell.resume();else shell.suspend();}}
  // The room view on a player's phone is the room scene's (design/phone-ui/components/room-scene; the
  // owner, 15 November 2026, for all five rooms). This renderer gives it the room's inputs, sends its taps
  // to the controller and owns its lifecycle; the board view, the capsule and the display stay on paintBoardV2.
@@ -224,11 +260,14 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  function closeScene(){if(!scene)return;scene.dispose();scene=null;sceneKey=null;sceneInput=null;sceneMarks=null;sceneRunning=true;}
  function syncSceneActivity(){if(!scene)return;const run=document.visibilityState==='visible'&&!blurred&&!model?.concealed&&!foodSurface.exclusive;if(run!==sceneRunning){sceneRunning=run;if(run)scene.resume();else scene.suspend();}}
  function paintScene(){
-  const size={width:allLayouts.width,height:allLayouts.stageHeight};
+  // The room area is the shell's stage (layout().stage, kept current by onLayout).
+  const shown=shellLayout?.stage??shell.layout()?.stage,size={width:shown?.width??allLayouts.width,height:shown?.height??allLayouts.stageHeight};
   const input=roomSceneInput(model,{room:currentRoom,size,dark:blackout.sample()?.dark===true,reducedMotion:reduced(),interactive:!foodSurface.active,artReady:roomSceneArtReady(document.documentElement.dataset),monotonic:()=>win.performance.now()});
+  // The pack hides the room's own control under a docked sheet (the shell's handoff, "A sheet").
+  if(shellFrame)input.control=null;
   putBox(sceneHost,{left:0,top:0,...size});
   if(!scene){
-   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose:value=>controller.choose(value),openPanel:panel=>{more=false;controller.openPanel(panel);},focusNext:()=>sheetFoot.querySelector('#planet-confirm')?.focus({preventScroll:true})}));
+   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose:value=>controller.choose(value),openPanel:panel=>{more=false;controller.openPanel(panel);},focusNext:focusConfirm}));
    sceneKey=roomSceneKey(model);sceneInput=roomSceneInputKey(input);sceneRunning=true;syncSceneActivity();
   }else{const key=roomSceneInputKey(input);if(key!==sceneInput){sceneInput=key;scene.update(input);}}
   return sceneOverlay(input);
@@ -355,7 +394,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   }
  }
  function renderTargets(){
-  targets.replaceChildren();targetBar.replaceChildren();targetBar.hidden=true;const action=model.action;if(!layout?.fits||!action)return;
+  targets.replaceChildren();const action=model.action;if(!layout?.fits||!action)return;
   for(const choice of action.choices){
    if(action.type==='MOVE'&&action.step==='targets')continue;
    const room=roomFor(choice.value);if(!room||!['MOVE','SELECT_BLACKOUT_SLOT'].includes(action.type))continue;
@@ -366,32 +405,20 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   }
   const absent=action.choices.filter(c=>/^seat-[1-9]$/.test(c.value)&&!model.board?.seats.find(s=>s.seatId===c.value)?.location);
   if(absent.length){const memorial=el('div',null,'planet-offboard');memorial.append(el('span','Off board'));for(const choice of absent)memorial.append(button(choice.label,'choose',choice.value));targets.append(memorial);}
-  if(sheet.hidden&&!model.dark){targetBar.hidden=false;targetBar.append(el('p',action.prompt));
-   const alternatives=el('details',null,'planet-target-alternative');alternatives.append(el('summary','Target list'));
-   for(const choice of action.choices)if(/^seat-[1-9]$/.test(choice.value)){const who=model.identities.find(i=>i.seatId===choice.value);alternatives.append(button(`${who?.displayName??choice.label} · ${number(choice.value)}`,'choose',choice.value));}
-   if(alternatives.children.length>1&&!model.dark)targetBar.append(alternatives);
-  }
  }
  function render(next){
   if(disposed)return;model=next;setCrewPictureSurface(root,model.versions);
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';root.dataset.phase=model.phase?.kind??'';
-  const active=!model.dark&&model.phase?.kind==='ORDINARY_TURN'&&model.activeSeatId?model.identities.find(i=>i.seatId===model.activeSeatId):null;
-  header.dataset.kind=active?'turn':'phase';
-  const phaseNames={FOOD_SUPPLY:'Food Supply',ORDINARY_TURN:'Turn',CAPTAIN_ELECTION:'Captain vote',JAIL_VOTE:'Jail vote',VOTE_RESULT:'Vote result',BLACKHOLE_PRESENTATION:'Ship synchronized',OFFICER_APPOINTMENT:'New Officer',NAV_SETTING:'Setting course',BLACKOUT:'Blackout',PRE_TURN:'Round begins',HACK:'Private talk',HACK_DECLARE:'Declare side',HACK_RESULT:'Private claim'};
-  phase.textContent=active?.displayName??phaseNames[model.phase?.kind]??model.phase?.kind?.replaceAll('_',' ')??'Connecting';
-  detail.textContent=model.phase?.kind==='BLACKOUT'?(model.round===null?'':`Round ${model.round}`):active?`${number(model.activeSeatId)} · ${model.activeSeatId===model.ownSeatId?'Your turn':'Turn'}`:model.surface==='display'?(model.round===null?'':`Round ${model.round}`):model.boardLabel??(model.round===null?'':`Round ${model.round}`);
-  portrait.hidden=!active?.characterId;if(active?.characterId)portrait.style.backgroundImage=crewPortraitVariable(active.characterId,model.versions);else portrait.style.removeProperty('background-image');
   root.dataset.ownTurn=String(!model.dark&&model.activeSeatId===model.ownSeatId);
-  promises.hidden=model.surface==='display'||['VOTE_RESULT','BLACKHOLE_PRESENTATION'].includes(model.phase?.kind);promises.dataset.count=String(model.promiseOfferCount);promises.setAttribute('aria-label',`Promises${model.promiseOfferCount?`, ${model.promiseOfferCount} waiting`:''}`);promises.setAttribute('aria-pressed',String(model.panel==='promises'));
-  timer.textContent=model.phase?.remainingMs==null?'—':`${Math.ceil(model.phase.remainingMs/1000)}s`;timer.setAttribute('aria-label','Phase time remaining');
-  timer.dataset.urgent=String(model.phase?.remainingMs!==null&&model.phase?.remainingMs<=10000);
+  if(model.connection==='live'&&Number.isSafeInteger(model.round))lastRound=model.round;
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
-  // phones and the display get the same gauge; no private Task is consulted.
+  // phones and the display get the same gauge, beside the shell's clock; no private Task is consulted.
+  const clockSlot=shell.slot('clock');
   if(model.food&&!model.concealed&&model.connection==='live'){
-   if(timer.parentElement!==foodClock){header.insertBefore(foodClock,timer);foodClock.prepend(timer);}
+   if(foodClock.parentElement!==clockSlot)clockSlot.append(foodClock);
    const doses=model.food.stock.doses;
    if(doses!==gaugeDoses){foodClock.querySelector('.fs-food')?.remove();foodClock.append(foodGauge(foodUi,doses));gaugeDoses=doses;}
-  }else if(foodClock.isConnected){header.insertBefore(timer,foodClock);foodClock.remove();foodClock.querySelector('.fs-food')?.remove();gaugeDoses=null;}
+  }else if(foodClock.isConnected){foodClock.remove();foodClock.querySelector('.fs-food')?.remove();gaugeDoses=null;}
   offices.textContent=model.dark?'':`Captain ${number(model.offices?.captainSeatId)} · Officer ${number(model.offices?.officerSeatId)}${model.offices?.blockedSeatId?` · Move blocked: ${number(model.offices.blockedSeatId)}`:''}`;
   checkpoint.textContent=model.dark?'Blackout':model.boardLabel??'';
   if(model.phase?.kind==='NAV_SETTING')checkpoint.textContent=(model.boardLabel?`${model.boardLabel} · `:'')+'The course is being set.';
@@ -404,12 +431,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(model.result){resultPanel.hidden=false;const side=planetTerminalArrival(model),banner=el('h2',model.result.winner?`${model.result.winner} reached its planet`:'No winner','planet-end-banner');banner.prepend(library.art(`en-banner-${side?side.toLowerCase():'none'}`,'planet-library-fill'));resultPanel.append(banner,el('p',model.result.reason.replaceAll('_',' ')));if(model.result.alienCoWinner)resultPanel.append(el('p','Alien co-victory'));for(const reveal of model.endReveal?.roles??[])resultPanel.append(el('p',`${number(reveal.seatId)} · ${reveal.role}`));if(model.endReveal){const code=el('p',`Original Code: ${model.endReveal.code.map(number).join(', ')}`,'planet-end-code');code.prepend(library.art('en-code'));resultPanel.append(code);}}
   if(model.result&&terminalAction)resultPanel.append(terminalAction);
   if(model.concealed||model.dark)resultPanel.hidden=true;
-  status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message;
-  const voting=['JAIL_VOTE','CAPTAIN_ELECTION'].includes(model.phase?.kind),voted=voting&&model.ownBallot?.phaseId===model.phase.id;
-  const picking=model.action&&['targets','slots'].includes(model.action.step)&&!['VOTE','SUBMIT_CODE','PANEL_CODE'].includes(model.action.type);
-  labelPhoneControl(pass,picking?`Cancel ${model.action.label}`:voting?voted?'Voted':'Vote':'Pass',picking?'close':voting?'vote':'pass');pass.dataset.planetAction=picking?'close':'begin';pass.dataset.value=voting?'VOTE':'PASS_TURN';pass.dataset.picking=String(!!picking);
-  pass.disabled=picking?false:voting?!model.canVote:!model.canPass;pass.setAttribute('aria-disabled',String(pass.disabled));pass.hidden=model.surface==='display'||model.concealed;
-  nav.hidden=model.surface==='display'||model.concealed;
   if(lastPanel!==model.panel){drawings.clear();more=false;lastPanel=model.panel;}
   if(model.privateArea===null||model.concealed||model.dark||model.phase?.expired)drawings.clear();
   const ownRoom=phoneRoom(model.board?.seats.find(s=>s.seatId===model.ownSeatId)?.location);
@@ -424,15 +445,30 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    else if(model.action.type==='SELECT_BLACKOUT_SLOT'){currentRoom=phoneRoom(model.privateArea?.blackoutTargeting?.boundRoom)??currentRoom;sceneMode='room';}
    else {const rooms=[...new Set(model.action.choices.map(c=>phoneRoom(model.board?.seats.find(s=>s.seatId===c.value)?.location)).filter(Boolean))];if(rooms.length===1){currentRoom=rooms[0];sceneMode='room';}else sceneMode='board';}
   }targetKey=nextTargetKey;
-  labelPhoneControl(nav.querySelector('#planet-nav-board'),sceneMode==='room'?'Board':'Room',sceneMode==='room'?'board':'room');
-  for(const n of nav.querySelectorAll('[data-planet-action="panel"]'))n.setAttribute('aria-pressed',String(n.dataset.value===model.panel&&model.panel!=='board'));
-  root.dataset.foodChrome=String(foodSurface.active);header.inert=foodSurface.active;nav.inert=foodSurface.active;
-  const top=foodSurface.active?foodSurface.top??0:header.getBoundingClientRect().height,bottom=foodSurface.active?foodSurface.bottom??0:model.surface==='display'?safeInsets.bottom:nav.getBoundingClientRect().height;
-  root.style.setProperty('--phone-top',`${top}px`);root.style.setProperty('--phone-nav',`${bottom}px`);
+  // The board's List belongs to one choosing step: it ends with it.
+  const nextListKey=model.action&&model.phase?`${model.phase.id}:${model.action.type}:${model.action.step}`:null;if(nextListKey!==listKey){listOpen=false;listKey=nextListKey;}
+  root.dataset.foodChrome=String(foodSurface.active);
+  // The shell: this phone's input (shell-input.mjs). While the Food surface owns the chrome (active, or its
+  // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
+  // with no name, time or control, as today's header and nav were hidden and inert.
+  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen});
+  const nextToast=input.toast;if(nextToast)toast=nextToast;
+  if(input.status==='concealed')toast=null;else input.toast=toast;
+  shellFrame=input.sheet;choosing=!!input.target;
+  // The shared display's status line and a message stay the game's; while the reconnecting banner shows, it says it.
+  // Concealed, it hides itself, as everything of this viewer's in the shell does.
+  status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed';
+  const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;shell.update(input);}
+  syncShellActivity();mountSheetBody();
+  // The bars' heights and the stage come from the shell: its layout() is measured after the update above. The
+  // private talk's two buttons cover the stage's foot, which the board's layout keeps clear.
+  const shellBars=shell.layout()??{size:{width:win.innerWidth,height:win.innerHeight},bars:{top:0,bottom:0},covered:{bottom:0}};
+  const top=shellBars.bars.top,bottom=Math.max(shellBars.bars.bottom,shellBars.covered.bottom);
+  root.style.setProperty('--phone-top',`${top}px`);
   // Keep this coordinate-only cache through conceal/reconnect. Fresh phase data or
   // disposal retires it; no people, names, identities or private selections enter it.
-  allLayouts=model.playerCount?blackoutGeometry.read(model.phase?.kind==='BLACKOUT'?model.presentation?.blackout?.windowId:null,()=>phoneLayouts({width:win.innerWidth,height:win.innerHeight,top,nav:bottom},model.playerCount)):null;
-  if(allLayouts){root.style.setProperty('--phone-top',`${allLayouts.top}px`);root.style.setProperty('--phone-nav',`${allLayouts.nav}px`);}
+  allLayouts=model.playerCount?blackoutGeometry.read(model.phase?.kind==='BLACKOUT'?model.presentation?.blackout?.windowId:null,()=>phoneLayouts({width:shellBars.size.width,height:shellBars.size.height,top,nav:bottom},model.playerCount)):null;
+  if(allLayouts)root.style.setProperty('--phone-top',`${allLayouts.top}px`);
   layout=allLayouts?.[sceneMode]??null;
   // While the model withholds the room (hidden, or reconnecting) a mounted scene stays and takes only its
   // status: its frame, held through a Blackout window, survives, as the board's coordinate cache does.
@@ -451,16 +487,12 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    frame=boardV2SceneFrame(model.playerCount,seats,{panels:layout.board.panels,pressAreas:presses,geometry:{sceneOf,slotsOf,frameScene:(_scene,_panel,room)=>frames[room]}});
    if(frame.problems.length){frame=null;if(sceneOn){closeScene();retireBoardPaint();}holder.replaceChildren(el('p','The authorized board placement could not be drawn.'));}
   }else {frame=null;holder.replaceChildren();}
-  const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove]);
-  if(key!==uiKey){uiKey=key;renderUI();}renderTargets();
-  if(foodSurface.active){sheet.hidden=true;targetBar.hidden=true;}sheet.inert=foodSurface.active;rosterText.hidden=foodSurface.exclusive;
-  // The shared board skin forces data-open=true sheets to display, even when
-  // hidden. Keep that marker aligned for this Food consumer's ordinary shell.
-  if(food)sheet.dataset.open=String(!sheet.hidden);
-  // Scroll clearance lets every board target move above the prompt without moving
-  // any room, figure or fixed-slot coordinates. Darkness keeps only the frozen scene.
-  const clearance=targetBar.hidden?0:targetBar.getBoundingClientRect().height+16;
-  scrollSpace.style.height=`${(layout?.contentHeight??0)+clearance}px`;stage.style.scrollPaddingBottom=`${clearance}px`;
+  const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove,shellFrame?.id??null,listOpen]);
+  if(key!==uiKey){uiKey=key;renderUI(shellFrame);}renderTargets();
+  rosterText.hidden=foodSurface.exclusive;
+  // The board scrolls between the shell's bars when it is taller than the stage; no room, figure or
+  // fixed-slot coordinate moves for it.
+  scrollSpace.style.height=`${layout?.contentHeight??0}px`;
   const clock=model.presentation?{current:model.connection==='live'&&!model.phase.expired,kind:model.phase.kind,phaseId:model.phase.id,nowMs:model.presentation.nowMs,startedAt:model.presentation.startedAt,endsAt:model.presentation.endsAt}:null;
   const talk=model.talk&&clock?{hackId:model.talk.id,actorSeatId:model.talk.actorSeatId,targetSeatId:model.talk.targetSeatId,stage:model.phase.kind,phaseId:model.phase.id,current:clock.current,startedAt:clock.startedAt,endsAt:clock.endsAt,elapsedMs:clock.nowMs-clock.startedAt}:null;
   blackout.update(clock,model.presentation?.blackout?{...model.presentation.blackout,snapshotId:model.presentation.blackout.windowId}:null,{visible:!model.concealed&&document.visibilityState==='visible',reducedMotion:reduced()});
@@ -476,26 +508,27 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(target.dataset.intent==='action/choose'){controller.choose(target.dataset.value);return;}
   const action=target.dataset.planetAction,value=target.dataset.value;
   if(action==='food-tasks'){controller.dismiss();food?.openTasks();return;}
-  if(action==='panel'){if(value==='board'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&!model.action&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;if(model.action)render(controller.getModel());else controller.dismiss();}else {more=false;controller.openPanel(value==='more'?'panels':value);}}
+  if(action==='panel'){if(value==='board')switchView();else {more=false;controller.openPanel(value==='more'?'panels':value);}}
   if(action==='begin'){more=false;controller.begin(value);}
   if(action==='choose')controller.choose(value);
   if(action==='confirm')void controller.confirm();
-  if(action==='close'){more=false;controller.dismiss();}
+  if(action==='close'){more=false;listOpen=false;controller.dismiss();}
   if(action==='check')void controller.checkReceipt();
   if(action==='retry')void controller.retry();
  };
- const onKey=e=>{if(e.key==='Escape'){more=false;controller.dismiss();document.getElementById('planet-nav-board')?.focus();}};
- const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
+ // Escape closes what is open, as today's Close; the shell moves the focus to itself when the focused control ends.
+ const onKey=e=>{if(e.key==='Escape'){more=false;listOpen=false;controller.dismiss();}};
+ const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();syncShellActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
  const onArt=()=>{uiKey=null;if(model)render(controller.getModel());};
- const onBlur=()=>{blurred=true;syncSceneActivity();controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
- const onFocus=()=>{blurred=false;if(model)render(controller.getModel());syncSceneActivity();};
- const onResize=()=>{safeInsets=readInsets();uiKey=null;if(model)render(controller.getModel());};
- const barsObserver=new win.ResizeObserver(()=>{if(model&&!disposed)render(controller.getModel());});barsObserver.observe(header);barsObserver.observe(nav);
- root.addEventListener('click',onClick);root.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);document.addEventListener('mothership:art-ready',onArt);document.addEventListener('mothership:preferences-change',onResize);media.addEventListener('change',onMotion);win.addEventListener('resize',onResize);win.addEventListener('blur',onBlur);win.addEventListener('focus',onFocus);
+ const onBlur=()=>{blurred=true;syncSceneActivity();syncShellActivity();controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
+ const onFocus=()=>{blurred=false;if(model)render(controller.getModel());syncSceneActivity();syncShellActivity();};
+ const onResize=()=>{uiKey=null;if(model)render(controller.getModel());};
+ // The shell reports its bars' and stage's sizes (onLayout), which replaced the old bars' ResizeObserver.
+ const disconnect=connectShellLifecycle({doc:document,win,media,root},{click:onClick,keydown:onKey,visibility:onVisibility,art:onArt,preferences:onResize,motion:onMotion,resize:onResize,blur:onBlur,focus:onFocus});
  const stop=controller.subscribe(render);
- return {get view(){return sceneMode;},bars(){return {top:header.getBoundingClientRect().height,bottom:nav.getBoundingClientRect().height};},
+ return {get view(){return sceneMode;},bars(){const bars=disposed?null:shell.layout()?.bars;return {top:bars?.top??0,bottom:bars?.bottom??0};},
   foodSurface(next){if(JSON.stringify(next)===JSON.stringify(foodSurface))return;foodSurface=next;uiKey=null;if(model)render(controller.getModel());},
   navigate(next){if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
-  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();closeScene();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
+  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){if(disposed)return;disposed=true;stop();closeScene();disconnect();blackoutGeometry.clear();if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();shell.dispose();delete root.dataset.crewArt;root.replaceChildren();}};
 }

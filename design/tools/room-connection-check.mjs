@@ -222,7 +222,7 @@ const STATES = {
       await page.evaluate(`${game}.begin('MOVE');${game}.choose('Room B')`);
       await page.waitFor(`${game}.getModel().action?.step==='slots'`, 'the move asks for a position');
       // A move opens the board; the Room button brings the room view back with the position offered.
-      if (await page.evaluate("document.querySelector('.planet-stage').dataset.view") !== 'room') await page.evaluate(tap('#planet-nav-board'));
+      if (await page.evaluate("document.querySelector('.planet-stage').dataset.view") !== 'room') await page.evaluate(tap('#planet-nav-board, .ms-ps-tabs [data-intent="tab"][data-value="switch"]'));
       await page.waitFor(`${SCENE('room-b')}&&document.querySelectorAll('.planet-stage .ms-rs-slot').length===1`, 'B5 offered in Room B');
     },
     facts: s => ({ offered: s.slots.map(x => x.slot).join() === 'B5', noBoardTargets: s.board.slotTargets === 0 }),

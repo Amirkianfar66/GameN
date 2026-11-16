@@ -12,7 +12,13 @@ const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
 // the game.
 const designSources = ['design/phone-ui/components/room-scene/', 'design/phone-ui/components/icons.mjs', 'design/phone-ui/components/tag-layout.mjs'];
 // END room connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources];
+// BEGIN shell connection, for Integration's approval (the owner's plan of 16 November 2026, release 2: the
+// match's frame is Designer's phone shell as it is). Exactly the shell's two runtime files and the kit's two,
+// which the shell imports (it uses icons.mjs, admitted above); never its preview/ or review/, nor the kit's.
+const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 'design/phone-ui/components/phone-shell/phone-shell.css',
+  'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css'];
+// END shell connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),

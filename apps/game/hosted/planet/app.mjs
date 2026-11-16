@@ -22,6 +22,8 @@ import '../crew-runtime.css';
 import './phone.css';
 // The room view's room scene (design/phone-ui/components/room-scene): its styles, scoped under .ms-room-scene.
 import '../../../../design/phone-ui/components/room-scene/room-scene.css';
+// The match's frame, Designer's phone shell (design/phone-ui/components/phone-shell): its styles and the kit's, scoped under .ms-phone-shell.
+import '../../../../design/phone-ui/components/phone-shell/phone-shell.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
 export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){
@@ -149,7 +151,8 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    if(key!==nextKey){
     disposeGame();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;
     game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});terminalReturn=returnButton();terminalReturn.hidden=true;
-    renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn,
+    // The shell's Retry reads the session again at once, as the lobby's Reconnect does.
+    renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn,reconnect:()=>void session.refresh(),
      food:planetHasFood(model.versions)?{openTasks:()=>food?.openTasks()}:null,
      settings:parent=>{preferences.controls(parent);if(model.isHost&&!game?.getModel().dark)hostControls(parent);}});
     connectFood(surface);void game.start();
