@@ -270,7 +270,6 @@
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
-.ms-phone-shell .ms-ps-sheet-head:has(> .ms-k-icon-btn:first-child) { padding-left: 8px; }
 .ms-phone-shell .ms-ps-sheet-title { flex: 1; min-width: 0; }
 .ms-phone-shell .ms-ps-sheet-title h2 { margin: 0; font: 700 1.25rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; }
 .ms-phone-shell .ms-ps-sheet-title p { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
@@ -280,10 +279,13 @@
 .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1; }
 /* Larger text on a narrow phone (0.2.1, #228's .sheet-foot rule): under 19 em across, footer buttons that no
    longer fit side by side take a row each, in the same order, at full width, and a label that still doesn't
-   fit wraps inside its button. Before, "Register Rescue" ran past the sheet's edge at 200 % (found on Actions). */
+   fit wraps inside its button. Before, "Register Rescue" ran past the sheet's edge at 200 % (found on Actions).
+   Buttons that do fit side by side keep the pack's equal halves (0.2.5): each grows from nothing, as the pack's
+   flex: 1, and is never narrower than its own words (fit-content), which is what makes a row too narrow wrap.
+   0.2.1-0.2.4 grew each from its words, so two that fit were unequal (169 and 179 px for Hide and Copy at 200 %). */
 @container ms-k-phone (max-width: 19em) {
   .ms-phone-shell .ms-ps-sheet-foot { flex-wrap: wrap; }
-  .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1 1 auto; min-width: 0; max-width: 100%; }
+  .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
 }
 /* Where glass can't be drawn, or the phone asks for less transparency, the sheet is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); } }
