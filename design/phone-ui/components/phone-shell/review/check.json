@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/phone-shell-check.mjs",
   "component": "design/phone-ui/components/phone-shell",
-  "sourceCommit": "409fa496f7e44318079026c2389b55ed052a23a5",
+  "sourceCommit": "b5872a142cd9b88f222f72f5034879d46b7635b8",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/turn": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
-      "sha256": "0d1ed83b0c51c48a7d169f36a7fc5bbc86d5f75a45027ce957021c771113aed7",
+      "sha256": "759b4dfe0ccb10ad35f1ae5d7612cee5283a6b4b2123b405e525e453672d5d20",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -109,14 +109,14 @@
     },
     "430x932/turn": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-turn.jpg",
-      "sha256": "62efa5bbc2c601d5ac9daae4f528e9e52bbb3a1d3ed10f180264fdcee4c2cb8e",
+      "sha256": "37c8c76979ad065d2a1ea1fb1b4b02f3837a3ee3cb45a9d396cd69ce39f1fedd",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -179,14 +179,14 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-own.jpg",
-      "sha256": "99c288b82043b601ce5d86c94ae7bdcc4ed5528fe29e30bb967bcde85192899b",
+      "sha256": "baead921232bc34b51adbb76cccba14303238fa3f298068489121384d97a38d0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -249,14 +249,14 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
-      "sha256": "b7671d2d6bf8982c7166f8c60079b17b84e3271f3beb2348127b1a4fef99b496",
+      "sha256": "ca413c8477f1b46948b88ae265146953da891dddc081c4ffa0953389f36f3121",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -319,14 +319,14 @@
     },
     "390x844/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
-      "sha256": "c5823f98a7a343d1023446de4f9dde14cac7f284c74a7ca87026ea9be9ef83f6",
+      "sha256": "188ffaf5ef7e5c7b791d050ee66ca37d652906bb66707e8f08f269a1e9e80f6b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -389,14 +389,14 @@
     },
     "430x932/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-urgent.jpg",
-      "sha256": "36b8b2be5b09ce736acdd317228dd1542340a2aab12afe884d07b2257af6436a",
+      "sha256": "be9b0ce144a7432dd6ce1b2040b30a6f5f712ed1f0f775c6c8643e43e8730841",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -459,14 +459,14 @@
     },
     "390x844/vote": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
-      "sha256": "7ff1b74507779bd426c0b39c70197800e732ea3c013dacca52652ca3db4c52f4",
+      "sha256": "e7577c4377f9991e7013c252d2300daac732e99b6f347df2b8a2bad545347bae",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -528,14 +528,14 @@
     },
     "430x932/vote": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
-      "sha256": "672fce48c75a841da75ed6d6f144214ec88179608351c82aa1cfa114c4159534",
+      "sha256": "56e034b5aea9e7125da87787fbe51122f33738f4f11ce238fb652fea5f3ed5b6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -597,14 +597,14 @@
     },
     "390x844/voted": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-voted.jpg",
-      "sha256": "72e4dbebff14c4f3057c2e391cd7aca086b10811fd8dc564602130382d99260d",
+      "sha256": "d8d23dfbda081dcbdb2b919310e938bf82aaafe546c49d2adf2c39b9aa9d60ec",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -666,14 +666,14 @@
     },
     "430x932/voted": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
-      "sha256": "897fd00346f5fa64338a6cebd1ba284bdba4cb0c709447cd840b3b2ce1cef091",
+      "sha256": "c340a875813be509b663a1a35b1319df957de85dbfc2b5bacfb4b7313d5aa89c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -735,14 +735,14 @@
     },
     "390x844/result": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-result.jpg",
-      "sha256": "a467bebfaa99b6dfa6ab6aae3acafac0653aed76af92e64aaa058072f9b4c017",
+      "sha256": "38d6b853ea99fe733ef9a1932db51e7fa07dcef25de586ce4131eb1e3ebb1c04",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -804,14 +804,14 @@
     },
     "430x932/result": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-result.jpg",
-      "sha256": "13d4c32014d843608fcf718fe9cf4136b8e7247e667205d63fccb76bd04a5d56",
+      "sha256": "5c14553b460deb9fa34320967150782823ba92c34ee173618af4a676b9eab21e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -873,14 +873,14 @@
     },
     "390x844/dark": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-dark.jpg",
-      "sha256": "804f43ce72a4e5d85624220318bd61db539789d54bd27d3198db718e583a5c6d",
+      "sha256": "d3ef19318a82f63053c4b6b13e96b879486066e50573798e412ed4c0f4038fa3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -944,14 +944,14 @@
     },
     "430x932/dark": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-dark.jpg",
-      "sha256": "197030839f532fdeb7e5c76613586baec524e2e31c91ad43dfbd2b3a84a06b7e",
+      "sha256": "2fdfad9d6c00fe32fbb0152ddbbe0b786a11f57b8241820c64637e80ed32c293",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1015,14 +1015,14 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
-      "sha256": "8c196ba218ec2cf27c5ce3d08da8d784d6f2883fad9c14bb9213664f15edd9ea",
+      "sha256": "e6c77e19244329a8c364c0e6244e10a5511493b9a33240275e5aa4822b756d25",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1085,14 +1085,14 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
-      "sha256": "bfd88cbed892ba366417b862fb1e3eddaa70cfa1ec990b9b367c415e33a3d708",
+      "sha256": "3f89991c5a0ead85f7935bf8f1e6181d7a6d6e2775b67a1cbdf3e5a733618341",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1155,14 +1155,14 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
-      "sha256": "0ee66519168b71506ca9f07e857f47bd0d62640c0b35858a85f3d0903899e9fb",
+      "sha256": "41587cb6a05a1889a96728c771ddf951fe6664fd3c912d27271359c1533be252",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1225,14 +1225,14 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
-      "sha256": "90c0ec553f8beca6649c3019081ac1c86ded1caa68b780a3ca36e5022957b568",
+      "sha256": "bbcdc4e73a98445ca4cd731eb599121abfa0c8fce65bdf2983b3637ef78c5129",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1295,14 +1295,14 @@
     },
     "390x844/actions": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-actions.jpg",
-      "sha256": "e26bfcf622b2ccabeefd356219ef5c6a84fc705f27fa14a8f1ee726fc7564546",
+      "sha256": "64e0b4f48bc29f0345eda033a65889f61f5c4af17d2cedba9e05897fdb855f85",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1365,14 +1365,14 @@
     },
     "430x932/actions": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
-      "sha256": "35b50e9744215e0669f34386a5594926e01844b1a958cddb5061a2532a06f822",
+      "sha256": "96f3d2fd562ebd517bf3f3530e999bd9bce425899635662c8c315e54964ed3e4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1435,14 +1435,14 @@
     },
     "390x844/card": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card.jpg",
-      "sha256": "30383467c8894afd00775874e8e675229e9f1e38dae9f76f01b9652b502601fe",
+      "sha256": "b4b3a2e4c07ca5fc6d50102b4e9fbf5752596ea4795b98ad99cdba0da18ba70f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1505,14 +1505,14 @@
     },
     "430x932/card": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card.jpg",
-      "sha256": "087d3a8bc34dfdd988b9f9b8c36df9a95a53963cb9d3d28a841b1e3394e87b2f",
+      "sha256": "b2c8e7dc32185061f6c97f2f2a2ab19e795d114cabd407bef35db5ea304329dc",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1582,7 +1582,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1650,7 +1650,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1711,14 +1711,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
-      "sha256": "b74758d75c8781bd1d207fb50e7bc57a71a9c07c860516a3a8965ffa7cdb2409",
+      "sha256": "e1995002db8bb255d863303dfcdcbb7d2d607a0bf6ffda2e87026455c6f8da1f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1780,14 +1780,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
-      "sha256": "b59793473f206ace9729ec34bc58158135fcf6baaf056c08042a04c9c8e90abe",
+      "sha256": "e9d38d2409e06bd4c5af6010d328105ee30794661833b295466a752143f5cc4d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1856,7 +1856,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1921,7 +1921,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1986,7 +1986,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2051,7 +2051,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2109,14 +2109,14 @@
     },
     "390x844/poster": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-poster.jpg",
-      "sha256": "2d9366df70038e1ff73ef00bbd751834ef88cbdd9610537bb7cb824a925bb149",
+      "sha256": "e95722a563fe81bae1272748c74c74cfd0ca7cec4b42b9f009104f3d816d0505",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2174,14 +2174,14 @@
     },
     "430x932/poster": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-poster.jpg",
-      "sha256": "05b71f6da42829639cb75f8a3267a746f239c056c5eede5271bb69b789962526",
+      "sha256": "8a53e0599a5d2e414142aa69a77fdf22b05b9446892cf99a80cc479fa077ddd3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2239,14 +2239,14 @@
     },
     "320x568/large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
-      "sha256": "9460f74db4bf2cfe3cb09e9d81f06aa4ae7e47a17a556429a24b9bde0ec80807",
+      "sha256": "22fe35d92b003483e38cad366e3380c00e193e2c740821dd876e04d1faed160a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2777,6 +2777,61 @@
           }
         },
         {
+          "id": "reach: the cover's reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone's edges, so a part in it reaches the whole phone: with the bars, with no bar, with the private talk's buttons, and edge to edge",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "bars": {
+              "cover": [
+                99,
+                92
+              ],
+              "part": [
+                0,
+                0
+              ],
+              "height": 844,
+              "phone": 844
+            },
+            "nobar": {
+              "cover": [
+                0,
+                92
+              ],
+              "part": [
+                0,
+                0
+              ],
+              "height": 844,
+              "phone": 844
+            },
+            "talk": {
+              "cover": [
+                99,
+                0
+              ],
+              "part": [
+                0,
+                0
+              ],
+              "height": 844,
+              "phone": 844
+            },
+            "edge": {
+              "cover": [
+                0,
+                0
+              ],
+              "part": [
+                0,
+                0
+              ],
+              "height": 844,
+              "phone": 844
+            }
+          }
+        },
+        {
           "id": "backdrop: the room view's space behind the bars by default, the phone's canvas with backdrop: 'canvas', and nothing else",
           "ok": true,
           "detail": {
@@ -2804,6 +2859,59 @@
             "off": true,
             "gone": true,
             "returned": "{\"intent\":\"sheet-head\",\"value\":\"hide\"}"
+          }
+        },
+        {
+          "id": "footer: an action is primary, secondary or warn (the pack's Abort match, outlined in paper); a local one works while reconnecting, a command is refused with the banner's words, and interactive: false refuses both",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "looks": true,
+            "warnLook": {
+              "bg": "rgba(0, 0, 0, 0)",
+              "ink": "rgb(244, 235, 221)",
+              "ring": "rgb(244, 235, 221) 0px 0px 0px 2px inset"
+            },
+            "intents": "sheet-local,sheet-action",
+            "other": true,
+            "staleWhy": {
+              "keep": null,
+              "abort": "Controls return when the match is current"
+            },
+            "whileStale": "keep,hide,copy",
+            "refused": true,
+            "live": "keep,hide,copy,abort"
+          }
+        },
+        {
+          "id": "talk: the private talk's two buttons stay inside the phone and whole at the Largest text on 320 × 568, a row each where they do not fit side by side; a docked sheet stays 10 px above them and layout().covered.bottom is how much they cover; at the Standard text, the pack's two equal columns",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "standard": {
+              "inside": true,
+              "whole": true,
+              "rows": 1,
+              "widths": [
+                174,
+                174
+              ],
+              "gap": 10,
+              "covered": 102,
+              "footFromBottom": 102
+            },
+            "largest": {
+              "inside": true,
+              "whole": true,
+              "rows": 2,
+              "widths": [
+                288,
+                288
+              ],
+              "gap": 10,
+              "covered": 128,
+              "footFromBottom": 128
+            }
           }
         },
         {
@@ -2862,7 +2970,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2897,7 +3005,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-nMhsb3cj.js",
+          "source": "assets/index-C9Bilrcz.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2963,6 +3071,11 @@
               "words": "Player 6 · Turn"
             },
             "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
               "pack": null,
               "shell": null,
               "words": null
@@ -3156,6 +3269,51 @@
               "pack": null,
               "shell": null,
               "words": null
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
             }
           }
         }
@@ -3212,6 +3370,11 @@
               "words": "Player 4 · Dev"
             },
             "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
               "pack": null,
               "shell": null,
               "words": null
@@ -3395,6 +3558,51 @@
               "pack": null,
               "shell": null,
               "words": null
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
             }
           }
         }
@@ -3452,6 +3660,21 @@
                 "y": 56.5,
                 "w": 32,
                 "h": 32
+              },
+              "words": null
+            },
+            "glyph icon": {
+              "pack": {
+                "x": 16,
+                "y": 60.5,
+                "w": 24,
+                "h": 24
+              },
+              "shell": {
+                "x": 16,
+                "y": 60.5,
+                "w": 24,
+                "h": 24
               },
               "words": null
             },
@@ -3614,6 +3837,51 @@
               "pack": null,
               "shell": null,
               "words": null
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
             }
           }
         }
@@ -3670,6 +3938,11 @@
               "words": "Private talk"
             },
             "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
               "pack": null,
               "shell": null,
               "words": null
@@ -3863,6 +4136,51 @@
                 "h": 18
               },
               "words": "2"
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
             }
           }
         }
@@ -3930,6 +4248,21 @@
                 "y": 56.5,
                 "w": 32,
                 "h": 32
+              },
+              "words": null
+            },
+            "glyph icon": {
+              "pack": {
+                "x": 16,
+                "y": 60.5,
+                "w": 24,
+                "h": 24
+              },
+              "shell": {
+                "x": 16,
+                "y": 60.5,
+                "w": 24,
+                "h": 24
               },
               "words": null
             },
@@ -4102,6 +4435,51 @@
               "pack": null,
               "shell": null,
               "words": null
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
             }
           }
         }
@@ -4158,6 +4536,11 @@
               "words": "Player 4 · Dev"
             },
             "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
               "pack": null,
               "shell": null,
               "words": null
@@ -4341,6 +4724,51 @@
               "pack": null,
               "shell": null,
               "words": null
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
             }
           }
         }
@@ -4387,6 +4815,11 @@
               "words": null
             },
             "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
               "pack": null,
               "shell": null,
               "words": null
@@ -4540,6 +4973,1198 @@
               "pack": null,
               "shell": null,
               "words": null
+            },
+            "sheet": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-head": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-back": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-title": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-1": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "foot-2": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: sheet-code",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 82.6875,
+                "h": 20.390625
+              },
+              "shell": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 82.6875,
+                "h": 20.390625
+              },
+              "words": "Fay"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 82.6875,
+                "h": 14.390625
+              },
+              "shell": {
+                "x": 52,
+                "y": 76,
+                "w": 82.6875,
+                "h": 14.390625
+              },
+              "words": "Player 6 · Turn"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 148.265625,
+                "y": 50.5,
+                "w": 92.296875,
+                "h": 44
+              },
+              "shell": {
+                "x": 148.265625,
+                "y": 50.5,
+                "w": 92.296875,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": {
+                "x": 226.8125,
+                "y": 52.5,
+                "w": 18.75,
+                "h": 18
+              },
+              "shell": {
+                "x": 226.8125,
+                "y": 52.5,
+                "w": 18.75,
+                "h": 18
+              },
+              "words": "1"
+            },
+            "round": {
+              "pack": {
+                "x": 251.5625,
+                "y": 66,
+                "w": 18.71875,
+                "h": 13
+              },
+              "shell": {
+                "x": 251.5625,
+                "y": 66,
+                "w": 18.71875,
+                "h": 13
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 275.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "shell": {
+                "x": 275.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:42"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "PASS"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet": {
+              "pack": {
+                "x": 0,
+                "y": 107,
+                "w": 390,
+                "h": 645
+              },
+              "shell": {
+                "x": 0,
+                "y": 107,
+                "w": 390,
+                "h": 645
+              },
+              "words": null
+            },
+            "sheet-head": {
+              "pack": {
+                "x": 0,
+                "y": 120,
+                "w": 390,
+                "h": 62
+              },
+              "shell": {
+                "x": 0,
+                "y": 120,
+                "w": 390,
+                "h": 62
+              },
+              "words": null
+            },
+            "sheet-back": {
+              "pack": {
+                "x": 18,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 18,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "sheet-title": {
+              "pack": {
+                "x": 72,
+                "y": 128.875,
+                "w": 250,
+                "h": 24
+              },
+              "shell": {
+                "x": 72,
+                "y": 128.875,
+                "w": 250,
+                "h": 24
+              },
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": {
+                "x": 72,
+                "y": 154.875,
+                "w": 250,
+                "h": 16.25
+              },
+              "shell": {
+                "x": 72,
+                "y": 154.875,
+                "w": 250,
+                "h": 16.25
+              },
+              "words": null
+            },
+            "sheet-close": {
+              "pack": {
+                "x": 332,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 332,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": {
+                "x": 0,
+                "y": 663,
+                "w": 390,
+                "h": 89
+              },
+              "shell": {
+                "x": 0,
+                "y": 663,
+                "w": 390,
+                "h": 89
+              },
+              "words": null
+            },
+            "foot-1": {
+              "pack": {
+                "x": 16,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "shell": {
+                "x": 16,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "words": null
+            },
+            "foot-2": {
+              "pack": {
+                "x": 200,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "shell": {
+                "x": 200,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: sheet-abort",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 82.6875,
+                "h": 20.390625
+              },
+              "shell": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 82.6875,
+                "h": 20.390625
+              },
+              "words": "Fay"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 82.6875,
+                "h": 14.390625
+              },
+              "shell": {
+                "x": 52,
+                "y": 76,
+                "w": 82.6875,
+                "h": 14.390625
+              },
+              "words": "Player 6 · Turn"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 148.265625,
+                "y": 50.5,
+                "w": 92.296875,
+                "h": 44
+              },
+              "shell": {
+                "x": 148.265625,
+                "y": 50.5,
+                "w": 92.296875,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": {
+                "x": 226.8125,
+                "y": 52.5,
+                "w": 18.75,
+                "h": 18
+              },
+              "shell": {
+                "x": 226.8125,
+                "y": 52.5,
+                "w": 18.75,
+                "h": 18
+              },
+              "words": "1"
+            },
+            "round": {
+              "pack": {
+                "x": 251.5625,
+                "y": 66,
+                "w": 18.71875,
+                "h": 13
+              },
+              "shell": {
+                "x": 251.5625,
+                "y": 66,
+                "w": 18.71875,
+                "h": 13
+              },
+              "words": "R3"
+            },
+            "timer": {
+              "pack": {
+                "x": 275.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "shell": {
+                "x": 275.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:42"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 50.5,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "shell": {
+                "x": 0,
+                "y": 752,
+                "w": 390,
+                "h": 92
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 0,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 78,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 733,
+                "w": 66,
+                "h": 66
+              },
+              "words": "PASS"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 234,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "shell": {
+                "x": 312,
+                "y": 753,
+                "w": 78,
+                "h": 57
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet": {
+              "pack": {
+                "x": 0,
+                "y": 107,
+                "w": 390,
+                "h": 645
+              },
+              "shell": {
+                "x": 0,
+                "y": 107,
+                "w": 390,
+                "h": 645
+              },
+              "words": null
+            },
+            "sheet-head": {
+              "pack": {
+                "x": 0,
+                "y": 120,
+                "w": 390,
+                "h": 62
+              },
+              "shell": {
+                "x": 0,
+                "y": 120,
+                "w": 390,
+                "h": 62
+              },
+              "words": null
+            },
+            "sheet-back": {
+              "pack": {
+                "x": 18,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 18,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "sheet-title": {
+              "pack": {
+                "x": 72,
+                "y": 138,
+                "w": 250,
+                "h": 24
+              },
+              "shell": {
+                "x": 72,
+                "y": 138,
+                "w": 250,
+                "h": 24
+              },
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet-close": {
+              "pack": {
+                "x": 332,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 332,
+                "y": 128,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": {
+                "x": 0,
+                "y": 663,
+                "w": 390,
+                "h": 89
+              },
+              "shell": {
+                "x": 0,
+                "y": 663,
+                "w": 390,
+                "h": 89
+              },
+              "words": null
+            },
+            "foot-1": {
+              "pack": {
+                "x": 16,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "shell": {
+                "x": 16,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "words": null
+            },
+            "foot-2": {
+              "pack": {
+                "x": 200,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "shell": {
+                "x": 200,
+                "y": 674,
+                "w": 174,
+                "h": 50
+              },
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: large-sheet-code at 200% text, 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 140.6875
+              },
+              "shell": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 140.6875
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 52,
+                "y": 74.640625,
+                "w": 57.296875,
+                "h": 37.390625
+              },
+              "shell": {
+                "x": 52,
+                "y": 74.640625,
+                "w": 57.296875,
+                "h": 37.390625
+              },
+              "words": "Fay"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 74.640625,
+                "w": 1,
+                "h": 1
+              },
+              "shell": {
+                "x": 52,
+                "y": 74.640625,
+                "w": 1,
+                "h": 1
+              },
+              "words": "Player 6 · Turn"
+            },
+            "glyph": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "glyph icon": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "portrait": {
+              "pack": {
+                "x": 12,
+                "y": 77.328125,
+                "w": 32,
+                "h": 32
+              },
+              "shell": {
+                "x": 12,
+                "y": 77.328125,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "pair": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "promises": {
+              "pack": {
+                "x": 233.265625,
+                "y": 71.34375,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 233.265625,
+                "y": 71.34375,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "promises-badge": {
+              "pack": {
+                "x": 263.078125,
+                "y": 73.34375,
+                "w": 19.1875,
+                "h": 18
+              },
+              "shell": {
+                "x": 263.078125,
+                "y": 73.34375,
+                "w": 19.1875,
+                "h": 18
+              },
+              "words": "1"
+            },
+            "round": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 282.265625,
+                "y": 77.34375,
+                "w": 63.734375,
+                "h": 32
+              },
+              "shell": {
+                "x": 282.265625,
+                "y": 77.34375,
+                "w": 63.734375,
+                "h": 32
+              },
+              "words": "0:42"
+            },
+            "menu": {
+              "pack": {
+                "x": 346,
+                "y": 71.34375,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 346,
+                "y": 71.34375,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "tabs": {
+              "pack": {
+                "x": 0,
+                "y": 749.8125,
+                "w": 390,
+                "h": 94.1875
+              },
+              "shell": {
+                "x": 0,
+                "y": 749.8125,
+                "w": 390,
+                "h": 94.1875
+              },
+              "words": null
+            },
+            "tab-switch": {
+              "pack": {
+                "x": 0,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 0,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "words": "Board"
+            },
+            "tab-actions": {
+              "pack": {
+                "x": 78,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 78,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "words": "Actions"
+            },
+            "hero": {
+              "pack": {
+                "x": 162,
+                "y": 730.8125,
+                "w": 66,
+                "h": 66
+              },
+              "shell": {
+                "x": 162,
+                "y": 730.8125,
+                "w": 66,
+                "h": 66
+              },
+              "words": "PASS"
+            },
+            "tab-card": {
+              "pack": {
+                "x": 234,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 234,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "words": "Card"
+            },
+            "tab-panels": {
+              "pack": {
+                "x": 312,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "shell": {
+                "x": 312,
+                "y": 750.8125,
+                "w": 78,
+                "h": 59.1875
+              },
+              "words": "Panels"
+            },
+            "panels-badge": {
+              "pack": null,
+              "shell": null,
+              "words": null
+            },
+            "sheet": {
+              "pack": {
+                "x": 0,
+                "y": 148.6875,
+                "w": 390,
+                "h": 601.09375
+              },
+              "shell": {
+                "x": 0,
+                "y": 148.6875,
+                "w": 390,
+                "h": 601.09375
+              },
+              "words": null
+            },
+            "sheet-head": {
+              "pack": {
+                "x": 0,
+                "y": 161.6875,
+                "w": 390,
+                "h": 181
+              },
+              "shell": {
+                "x": 0,
+                "y": 161.6875,
+                "w": 390,
+                "h": 181
+              },
+              "words": null
+            },
+            "sheet-back": {
+              "pack": {
+                "x": 18,
+                "y": 229.1875,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 18,
+                "y": 229.1875,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "sheet-title": {
+              "pack": {
+                "x": 72,
+                "y": 169.6875,
+                "w": 250,
+                "h": 96
+              },
+              "shell": {
+                "x": 72,
+                "y": 169.6875,
+                "w": 250,
+                "h": 96
+              },
+              "words": null
+            },
+            "sheet-sub": {
+              "pack": {
+                "x": 72,
+                "y": 267.6875,
+                "w": 250,
+                "h": 65
+              },
+              "shell": {
+                "x": 72,
+                "y": 267.6875,
+                "w": 250,
+                "h": 65
+              },
+              "words": null
+            },
+            "sheet-close": {
+              "pack": {
+                "x": 332,
+                "y": 229.1875,
+                "w": 44,
+                "h": 44
+              },
+              "shell": {
+                "x": 332,
+                "y": 229.1875,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "sheet-foot": {
+              "pack": {
+                "x": 0,
+                "y": 660.78125,
+                "w": 390,
+                "h": 89
+              },
+              "shell": {
+                "x": 0,
+                "y": 660.78125,
+                "w": 390,
+                "h": 89
+              },
+              "words": null
+            },
+            "foot-1": {
+              "pack": {
+                "x": 16,
+                "y": 671.78125,
+                "w": 174,
+                "h": 50
+              },
+              "shell": {
+                "x": 16,
+                "y": 671.78125,
+                "w": 174,
+                "h": 50
+              },
+              "words": null
+            },
+            "foot-2": {
+              "pack": {
+                "x": 200,
+                "y": 671.78125,
+                "w": 174,
+                "h": 50
+              },
+              "shell": {
+                "x": 200,
+                "y": 671.78125,
+                "w": 174,
+                "h": 50
+              },
+              "words": null
             }
           }
         }
@@ -4549,7 +6174,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-nMhsb3cj.js",
+        "source": "assets/index-C9Bilrcz.js",
         "line": 1,
         "column": 6050,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

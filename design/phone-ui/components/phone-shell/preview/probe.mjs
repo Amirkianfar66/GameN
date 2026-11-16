@@ -21,10 +21,16 @@
 //             do on its films), and slot('clock') keeps its element
 //   edge      with edge: true the stage and its cover fill the shell, under the bar when there is one;
 //             layout() gives the safe areas, also when only they change; the overlays stay where they are
+//   reach     the cover's reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone's
+//             edges, so a part in the cover reaches the whole phone by them (with bars, no bar, talk, edge)
 //   backdrop  the room view's space behind the bars by default, the phone's canvas with backdrop: 'canvas'
 //   head      a sheet's head action sits after the title and before Close, keeps its element and the focus,
 //             reports onSheetAction, works while reconnecting (it is this phone's own), and returns the focus
 //             when it goes
+//   footer    a footer action is primary, secondary or warn (the pack's Abort match); a local one (a code's
+//             Reveal, Hide and Copy, a confirm's Keep playing) works while reconnecting, a command does not
+//   talk      the private talk's two buttons stay inside the phone at the Largest text, a row each when they
+//             don't fit; a docked sheet stays 10 px above them; layout().covered.bottom is what they cover
 //   toast     shown once per id, gone after its time, cleared by suspend()
 //   motion    the sheet slides, or fades in 80 ms with Reduce motion (the game's, or the device's)
 //   hud       a long press on a capped tab label shows its word large, and only then
@@ -385,6 +391,35 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
     });
 
+    await check('reach: the cover\'s reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone\'s edges, so a part in it reaches the whole phone: with the bars, with no bar, with the private talk\'s buttons, and edge to edge', async () => {
+      const cases = {
+        bars: own(),
+        nobar: { ...own(), bar: null },
+        talk: { ...own(), bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: { remainingMs: 47000 }, promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } },
+        edge: { ...own(), edge: true },
+      };
+      const px = v => Math.round(v * 100) / 100;
+      const out = {};
+      for (const [name, input] of Object.entries(cases)) {
+        const s = mount(input);
+        try {
+          await frames();
+          const box = s.root.getBoundingClientRect(), slot = s.shell.slot('cover'), cover = slot.getBoundingClientRect();
+          // A part in the cover that reaches past it by the two lengths, as the round stamp does to centre on the phone.
+          const part = document.createElement('div');
+          Object.assign(part.style, { position: 'absolute', left: '0', right: '0', top: 'calc(0px - var(--ms-ps-cover-top, 0px))', bottom: 'calc(0px - var(--ms-ps-cover-bottom, 0px))' });
+          slot.append(part);
+          const r = part.getBoundingClientRect();
+          out[name] = { cover: [px(cover.top - box.top), px(box.bottom - cover.bottom)], part: [px(r.top - box.top), px(box.bottom - r.bottom)], height: px(r.height), phone: px(box.height) };
+          part.remove();
+        } finally { s.shell.dispose(); }
+      }
+      const fills = c => c.part[0] === 0 && c.part[1] === 0 && c.height === c.phone;
+      const ok = Object.values(out).every(fills) && out.bars.cover[0] === 99 && out.bars.cover[1] > 0 && out.nobar.cover[0] === 0 && out.nobar.cover[1] > 0
+        && out.talk.cover[0] === 99 && out.talk.cover[1] === 0 && out.edge.cover[0] === 0 && out.edge.cover[1] === 0;
+      return { ok, ...out };
+    });
+
     await check('backdrop: the room view\'s space behind the bars by default, the phone\'s canvas with backdrop: \'canvas\', and nothing else', async () => {
       const s = mount({ ...own(), tabs: null });
       const colour = () => getComputedStyle(s.root).backgroundColor;
@@ -437,6 +472,89 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const ok = order.join(',') === 'title,sheet-head,sheet-close' && label === 'Hide card' && kept && tapped === '[["onSheetAction","hide","card"]]'
         && stale === 'hide,hide' && off && gone && returned === '{"intent":"sheet-head","value":"hide"}';
       return { ok, order, label, kept, tapped, stale, off, gone, returned };
+    });
+
+    await check('footer: an action is primary, secondary or warn (the pack\'s Abort match, outlined in paper); a local one works while reconnecting, a command is refused with the banner\'s words, and interactive: false refuses both', async () => {
+      const abort = { id: 'abort', title: 'Host controls', close: true, back: true, detent: 'large',
+        actions: [{ id: 'keep', label: 'Keep playing', local: true }, { id: 'abort', label: 'Abort match', kind: 'warn' }] };
+      const code = { id: 'code', title: 'Recovery code', sub: 'Private to this phone', close: true, back: true, detent: 'large',
+        actions: [{ id: 'hide', label: 'Hide', icon: 'hide', local: true }, { id: 'copy', label: 'Copy', icon: 'copy', kind: 'primary', local: true }] };
+      const s = mount({ ...own(), sheet: abort });
+      try {
+        const btn = id => s.q(`.ms-ps-sheet-foot [data-value="${id}"]`);
+        const reported = () => named(s.calls, 'onSheetAction').map(c => c[1]).join(',');
+        const warn = btn('abort'), keep = btn('keep');
+        // The warn kind is the kit's warn button, the pack's .btn-warn: no fill, and a 2 px ring in its own paper ink.
+        const cs = getComputedStyle(warn);
+        const warnLook = { bg: cs.backgroundColor, ink: cs.color, ring: cs.boxShadow };
+        const looks = warn.classList.contains('ms-k-btn-warn') && keep.classList.contains('ms-k-btn-secondary')
+          && warnLook.bg === 'rgba(0, 0, 0, 0)' && warnLook.ring.startsWith(warnLook.ink) && /\binset\b/.test(warnLook.ring) && /\b2px\b/.test(warnLook.ring);
+        const intents = `${keep.dataset.intent},${warn.dataset.intent}`;
+        // Any other kind is drawn as secondary, as before.
+        s.shell.update({ sheet: { ...abort, actions: [{ ...abort.actions[0], kind: 'tinted' }, abort.actions[1]] } });
+        const other = btn('keep').classList.contains('ms-k-btn-secondary');
+        // Reconnecting: Keep playing (local) is taken; Abort match (a command) is refused with the banner's words.
+        s.shell.update({ status: 'stale', sheet: abort });
+        keep.click();
+        warn.click();
+        const staleWhy = { keep: describedBy(keep), abort: describedBy(warn) };
+        // A recovery code's Hide and Copy are this phone's own: taken while reconnecting.
+        s.shell.update({ sheet: code });
+        btn('hide').click();
+        btn('copy').click();
+        const whileStale = reported();
+        // interactive: false refuses a local action too.
+        s.shell.update({ status: 'live', interactive: false });
+        btn('hide').click();
+        const refused = reported() === whileStale;
+        // Live: the command is taken.
+        s.shell.update({ interactive: true, sheet: abort });
+        btn('abort').click();
+        const live = reported();
+        const ok = looks && intents === 'sheet-local,sheet-action' && other && staleWhy.keep === null && staleWhy.abort === RECONNECTING.sub
+          && whileStale === 'keep,hide,copy' && refused && live === 'keep,hide,copy,abort';
+        return { ok, looks, warnLook, intents, other, staleWhy, whileStale, refused, live };
+      } finally { s.shell.dispose(); }
+    });
+
+    await check('talk: the private talk\'s two buttons stay inside the phone and whole at the Largest text on 320 × 568, a row each where they do not fit side by side; a docked sheet stays 10 px above them and layout().covered.bottom is how much they cover; at the Standard text, the pack\'s two equal columns', async () => {
+      const talk = { ...own(), bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: { remainingMs: 47000 }, promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' },
+        sheet: { id: 'promises', title: 'Promises', close: true } };
+      const px = v => Math.round(v * 100) / 100;
+      const was = { width: frame.style.width, height: frame.style.height };
+      const out = {};
+      try {
+        for (const [name, text, width, height, insets] of [['standard', 100, size.width, size.height, size.insets], ['largest', 200, 320, 568, { top: 20, bottom: 0 }]]) {
+          document.documentElement.style.fontSize = `${text}%`;
+          Object.assign(frame.style, { width: `${width}px`, height: `${height}px` });
+          const s = mount({ ...talk, insets });
+          try {
+            await frames();
+            await frames();
+            const sheetNode = s.q('.ms-ps-sheet');
+            await Promise.all(sheetNode.getAnimations().filter(a => Number.isFinite(a.effect?.getComputedTiming?.().endTime)).map(a => a.finished.catch(() => null)));
+            const box = s.root.getBoundingClientRect(), foot = s.q('.ms-ps-talk').getBoundingClientRect(), sheet = sheetNode.getBoundingClientRect();
+            const buttons = s.qa('.ms-ps-talk .ms-k-btn');
+            const rects = buttons.map(b => b.getBoundingClientRect());
+            out[name] = {
+              inside: rects.every(r => r.left >= box.left - 0.5 && r.right <= box.right + 0.5),
+              whole: buttons.every(b => b.scrollWidth <= b.clientWidth + 1),
+              rows: new Set(rects.map(r => Math.round(r.top))).size,
+              widths: rects.map(r => px(r.width)),
+              gap: px(foot.top - sheet.bottom),
+              covered: s.shell.layout().covered.bottom,
+              footFromBottom: px(box.bottom - foot.top),
+            };
+          } finally { s.shell.dispose(); }
+        }
+      } finally {
+        document.documentElement.style.fontSize = '';
+        Object.assign(frame.style, was);
+      }
+      const { standard: st, largest: lg } = out;
+      const ok = st.inside && st.whole && st.rows === 1 && Math.abs(st.widths[0] - st.widths[1]) < 0.5 && Math.abs(st.gap - 10) < 0.5 && Math.abs(st.covered - st.footFromBottom) < 0.5
+        && lg.inside && lg.whole && (lg.rows === 1 ? Math.abs(lg.widths[0] - lg.widths[1]) < 0.5 : true) && Math.abs(lg.gap - 10) < 0.5 && Math.abs(lg.covered - lg.footFromBottom) < 0.5;
+      return { ok, ...out };
     });
 
     await check('toast: shown once per id, gone after its time, and cleared by suspend()', async () => {
