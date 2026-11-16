@@ -69,7 +69,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/hacker-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(HACKER_VERSION, 'hacker-0.1.0');
+  assert.equal(HACKER_VERSION, 'hacker-0.1.1');
 });
 
 test('its styles reach nothing outside the component: every rule is under its root, weighs two classes and places the kit\'s only inside its own; its one motion is the results\' stamp snap', () => {
@@ -119,7 +119,7 @@ test('its words are the pack\'s (screens-more.mjs scan() and code(), ui.mjs), an
   const pack = ['design/phone-ui/prototype/screens-more.mjs', 'design/phone-ui/prototype/screens-game.mjs', 'design/phone-ui/prototype/ui.mjs'].map(read).join('\n');
   const W = HACKER_WORDS;
   const words = [W.scan, W.chooseInRoom, W.onlyHere, W.scanWho('Gus'), W.guessLine, W.guess, W.matched, W.noMatch, W.guessed('Gus', 'Blue'), W.inCode, W.yes, W.blocked(4),
-    W.cancel, W.done, W.code, W.pickLine, W.confirmLine, W.next, W.back, W.submit, W.correct, W.wrong, W.unlocked, W.separate, W.used, ...SIDES];
+    W.cancel, W.done, W.code, W.pickLine, W.confirmLine, W.next, W.back, W.submit, W.correct, W.wrong, W.unlocked, W.separate, W.used, W.scanStays, ...SIDES];
   for (const w of words) assert.ok(pack.includes(w), `"${w}" is the pack's`);
   // "Pick 1"–"Pick 4", as code() writes them; a cell's name, as the pack's cell() words its aria-label.
   assert.ok(pack.includes('`Pick ${k + 1}`') && W.pick(3) === 'Pick 3', 'the pack\'s Pick n');
@@ -135,13 +135,11 @@ test('its words are the pack\'s (screens-more.mjs scan() and code(), ui.mjs), an
     assert.ok(doc.includes(`"${w}"`), `"${w}" is recorded in the interface`);
   }
   assert.ok(doc.includes('"In the Code · No"'), 'Q2\'s row is recorded');
-  // Q-b (the Lead, 16 November; the handoff): CODE WRONG says only "Your one attempt is used". The pack's "Scan stays
-  // available" states a rule the planet-navigation overlay leaves open, so the component does not say it.
-  assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("h('p', 'Scan stays available')"), 'the pack draws the line the Lead dropped');
-  assert.ok(!Object.values(W).includes('Scan stays available'), 'the component does not say it');
-  const overlay = JSON.parse(read('rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json'));
-  assert.match(overlay.open_integration_details[5]?.question ?? '', /continued Scan availability was not decided/, 'Scan after the failed Code is open (CODE-OPEN-02)');
-  assert.ok(doc.includes('**Q-b.') && doc.includes('CODE-OPEN-02'), 'Q-b is recorded with its reason');
+  // The owner's decision (16 November): the Hacker keeps Scan after a wrong final Code, so CODE WRONG says the
+  // pack's "Scan stays available" again (0.1.1). Scan's tile still follows the projection's offer alone.
+  assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("h('p', 'Scan stays available')"), 'the pack draws it');
+  assert.equal(W.scanStays, 'Scan stays available', 'the component says it');
+  assert.ok(doc.includes('**Scan after a wrong Code.**') && doc.includes('owner-decisions.md'), 'the owner\'s decision is recorded, with where it is');
   assert.match(read('AGENTS.md'), /\*\*Not available now\*\*/, 'T3\'s words are the owner\'s');
 });
 
@@ -243,9 +241,9 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
   assert.equal(agree.checks.length, 8, 'the pack\'s eight frames');
   for (const c of agree.checks) assert.ok(c.ok, `${c.id} agrees with the pack`);
-  // Q-b: one line is taken out of the pack's frame before it is measured, and only there.
-  assert.deepEqual(agree.checks.filter(c => c.detail.dropped).map(c => [c.id.split(' ')[1], c.detail.dropped]), [['code-wrong', ['Scan stays available']]]);
-  for (const size of ['390x844', '430x932']) assert.equal(record.captures[`${size}/code-wrong`].lines, 'Your one attempt is used', `${size}: CODE WRONG's one line`);
+  // Nothing is taken out of the pack's frames: CODE WRONG says both of its lines (the owner, 16 November).
+  assert.ok(agree.checks.every(c => !('dropped' in c.detail)), 'every frame compared as the pack draws it');
+  for (const size of ['390x844', '430x932']) assert.equal(record.captures[`${size}/code-wrong`].lines, 'Your one attempt is used|Scan stays available', `${size}: CODE WRONG's two lines`);
   // Q-a: each result's stamp snaps in over 120 ms, and is there at once with Reduce motion; nothing else moves.
   const motion = record.probe.full.checks.find(c => c.id === 'motion').detail.seen;
   for (const key of ['scan-matched', 'scan-nomatch', 'code-correct', 'code-wrong']) {
