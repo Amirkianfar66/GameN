@@ -59,6 +59,7 @@ export interface PlanetPersistence {
   readOnly?<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>;
   listKeys(namespace:string,limit:number):Promise<string[]>;
   nextFoodInboxIntent?(scopeKey:string):Promise<string|null>;
+  watchFoodInbox?(scopeKey:string,changed:()=>void,failed:(error:unknown)=>void):()=>void;
   watchPrivateKey?(key:string,changed:()=>void,failed:(error:unknown)=>void):()=>void;
 }
 interface Member {
@@ -209,6 +210,9 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     const running=!denied&&s.state!==null&&['running','finished'].includes(s.status);
     const prepared=!denied&&s.status==='reading'&&own&&s.preparedState?engine.projectPlanetPlayer(s.preparedState,own.seatId):null;
     const foodNow=s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion?(serverNowMs??clock()):undefined;
+    const foodPublicView=foodNow!==undefined&&running?engine.projectPlanetFoodPublic!(s.state!,foodNow):null;
+    const step=foodPublicView?.step;
+    const offerFoodStream=s.foodAuthorityProfile===PLANET_FOOD_OWNER_INBOX_PROFILE&&s.status==='running'&&step?.kind==='AWAY';
     return PlanetSessionSnapshotSchema.parse({
       matchId:s.matchId,roomCode:s.roomCode,versions:s.versions,status:s.status,playerCount:s.playerCount,isHost:!denied&&isHost,selfSeatId:denied?null:own?.seatId??null,
       ...(s.setupFlowVersion===undefined?{}:{setupFlowVersion:s.setupFlowVersion}),
@@ -222,7 +226,8 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       publicView:running?PlanetPublicViewSchema.parse(engine.projectPlanetPublic(s.state!)):null,
       playerView:running&&own?PlanetPlayerViewSchema.parse(engine.projectPlanetPlayer(s.state!,own.seatId)):null,
       ...(s.versions.engineVersion===PLANET_FOOD_TASK_PINS.engineVersion?{
-        foodPublicView:running?engine.projectPlanetFoodPublic!(s.state!,foodNow!):null,
+        foodPublicView,
+        ...(offerFoodStream?{foodStream:{version:1,phaseId:foodPublicView!.phaseId,foodStepId:step.stepId}}:{}),
         foodPlayerView:running&&own?engine.projectPlanetFoodPlayer!(s.state!,own.seatId,foodNow!):null,
       }:{}),
     });
@@ -539,26 +544,41 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});}
     catch(error){if(error instanceof FoodHandoff)return food.runBots(matchId);throw error;}
   }
-  async function projectFoodInboxSnapshot(uid:string,matchId:string):Promise<PlanetSessionSnapshot|null>{
+  async function foodProjection<T>(uid:string,matchId:string,projection:(tx:PlanetReadTransaction,s:Session<S>)=>Promise<T>):Promise<T|null>{
     if(!safeUid(uid)||!IdentifierSchema.safeParse(matchId).success)return null;
     const project=async(tx:PlanetReadTransaction)=>{
       const s=await load(tx,matchId);
       if(!s.foodAuthorityProfile||!isParticipant(s,uid))return null;
-      return snapshot(s,uid,clock());
+      return projection(tx,s);
     };
     try{return await (store.readOnly?store.readOnly(project):store.transaction(project));}
     catch(error){if(error instanceof Rejected)return null;throw error;}
   }
+  async function projectFoodInboxSnapshot(uid:string,matchId:string):Promise<PlanetSessionSnapshot|null>{
+    return foodProjection(uid,matchId,async(_tx,s)=>snapshot(s,uid,clock()));
+  }
+  async function projectFoodInboxDelivery(uid:string,matchId:string):Promise<{snapshot:PlanetSessionSnapshot;fresh:boolean;recheckAt?:number}|null>{
+    return foodProjection(uid,matchId,async(tx,s)=>{
+      const at=clock(),view=snapshot(s,uid,at);
+      return {snapshot:view,...await food.deliveryFence(tx,s,view,at)};
+    });
+  }
   async function subscribeFoodInboxMatch(uid:string,matchId:string,changed:()=>void,failed:(error:unknown)=>void):Promise<(()=>void)|null>{
-    if(!store.watchPrivateKey||!await projectFoodInboxSnapshot(uid,matchId))return null;
-    // Signal only. The transport reauthorizes and projects every emitted frame.
-    return store.watchPrivateKey(matchKey(matchId),changed,failed);
+    if(!store.watchPrivateKey)return null;
+    const authorized=await foodProjection(uid,matchId,async(_tx,s)=>({s,view:snapshot(s,uid,clock())}));
+    if(!authorized?.view.foodStream)return null;
+    // Signals only. Delivery reauthorizes and projects every emitted frame.
+    const stopSession=store.watchPrivateKey(matchKey(matchId),changed,failed);
+    try{
+      const stopOwner=await food.watchOwner(authorized.s,authorized.view,changed,failed);
+      return ()=>{stopOwner?.();stopSession();};
+    }catch(error){stopSession();throw error;}
   }
   const food=createPlanetFoodCoordinator<S,Session<S>>({store,engine,clock,newId,newContext:foodContext,newRecoveryCode,
     load,publish,record,snapshot,chooseOrdinaryBot:choosePlanetBotCommand,reject,limit,
     ...(dependencies.waitForBotWake?{waitForBotWake:dependencies.waitForBotWake}:{})});
   return {handle,runDeadline,repairDeadlines,dispatchDeadline,runBots,
-    projectFoodInboxSnapshot,subscribeFoodInboxMatch,runFoodInbox:food.runFoodInbox,dispatchFoodInboxWake:food.dispatchFoodInboxWake,repairFoodInboxWakes:food.repairFoodInboxWakes};
+    projectFoodInboxSnapshot,projectFoodInboxDelivery,subscribeFoodInboxMatch,runFoodInbox:food.runFoodInbox,dispatchFoodInboxWake:food.dispatchFoodInboxWake,repairFoodInboxWakes:food.repairFoodInboxWakes};
 }
 
 /** Deliberately simple practice policy. It sees only its own authorized player projection. */

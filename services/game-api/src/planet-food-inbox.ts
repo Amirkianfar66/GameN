@@ -53,20 +53,20 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
     if(!tx.create)throw new Error('Atomic Food inbox wake is required');
     tx.create(wakeKey(wake.id),{wake,status:'pending',nextAttemptAt:0,...(watchdogFor?{watchdogFor}:{})} satisfies StoredWake);
   }
-  function stageIntake(tx:PlanetTransaction,intent:PlanetFoodInboxIntent,wakeAt:number):void{
+  function stageIntake(tx:PlanetTransaction,intent:PlanetFoodInboxIntent,wakeAt:number,wakeRequired=true):void{
     if(!tx.create||!tx.foodInboxIndex)throw new Error('Atomic Food inbox intake is required');
     const scopeKey=foodInboxScopeKey(intent.scope);
     const wake:PlanetFoodInboxWake={kind:'food-inbox',id:intent.id,scope:intent.scope,wakeAt};
     tx.create(intentKey(scopeKey,intent.id),intent);
-    stageWake(tx,wake);
+    if(wakeRequired)stageWake(tx,wake);
     tx.foodInboxIndex.create(scopeKey,intent.id);
   }
   async function intake(intent:PlanetFoodInboxIntent,wakeAt:number,
-    verify?:(tx:PlanetReadTransaction)=>Promise<void>):Promise<PlanetFoodIntakeReceipt>{
+    verify?:(tx:PlanetReadTransaction)=>Promise<void>,wakeRequired=true):Promise<PlanetFoodIntakeReceipt>{
     try{
       await store.transaction(async tx=>{
         if(verify)await verify(tx);
-        stageIntake(tx,intent,wakeAt);
+        stageIntake(tx,intent,wakeAt,wakeRequired);
       });
       return {kind:'queued',id:intent.id,duplicate:false};
     }catch(error){

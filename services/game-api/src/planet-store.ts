@@ -23,6 +23,7 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
     if(!/^[0-9a-f]{64}$/.test(scopeKey))throw new Error('Invalid Food inbox scope key');
     return db.collection('planetFoodInboxes').doc(scopeKey).collection('pending');
   };
+  const pendingHead=(scopeKey:string)=>pending(scopeKey).orderBy('priorityAt').orderBy(FieldPath.documentId()).limit(1);
   const meta=(key:string)=>db.collection('planetDocuments').doc(hash(key));
   const chunk=(key:string,index:number)=>db.collection('planetChunks').doc(hash(key)+'-'+index);
   // Both modes use the same authenticated JSON envelope and the same SDK transaction
@@ -50,10 +51,12 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
       return structuredClone(value) as T;
     };
   return {
+    watchFoodInbox(scopeKey,changed,failed){
+      return pendingHead(scopeKey).onSnapshot(snapshot=>{if(!snapshot.empty)changed();},failed);
+    },
     watchPrivateKey(key,changed,failed){return meta(key).onSnapshot(()=>changed(),failed);},
     async nextFoodInboxIntent(scopeKey:string):Promise<string|null>{
-      const result=await timePlanetStage('sdkRead',()=>pending(scopeKey)
-        .orderBy('priorityAt').orderBy(FieldPath.documentId()).limit(1).get());
+      const result=await timePlanetStage('sdkRead',()=>pendingHead(scopeKey).get());
       return result.docs[0]?.id??null;
     },
     async readOnly<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>{
