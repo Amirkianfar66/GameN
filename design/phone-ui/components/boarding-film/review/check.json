@@ -2,7 +2,7 @@
   "tool": "design/tools/boarding-film-check.mjs",
   "component": "design/phone-ui/components/boarding-film",
   "version": "pregame-boarding-2.0.0",
-  "sourceCommit": "67fe6aa0b71796040c7255285d8006a0b5108747",
+  "sourceCommit": "7470d62eb38786cae656e8584068016e7679b98b",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless, drawing in software), each phone size at 2x pixels (memory also at 3x); the preview bundled by Vite and served with the production headers below. The CPU slowdown is Chromium's throttle of the page's main thread, a rough stand-in for a slower phone. Not a phone, not Safari: no phone's frame rate or memory was measured.",
   "headers": [
@@ -183,7 +183,7 @@
     },
     "390x844-lit": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-lit.jpg",
-      "sha256": "83a49bb2f8d6fa2cc0cbafc645e76b1264f97de37871a1d76408b8cb8002f003",
+      "sha256": "75244eea6e6430fa678d365692d2979f7b2fb82b711139293483b4e35bd08523",
       "state": "lit",
       "t": 8600,
       "crew": 8,
@@ -199,7 +199,7 @@
     },
     "390x844-mark": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-mark.jpg",
-      "sha256": "76d26d34c67b4eb5b6ac66984e3cb4c73bae2b84a27bce037de677f701e167b6",
+      "sha256": "22f8280a679018c920e7bf2802e3b427c1947f947417562d6fda39a9e2776c67",
       "state": "mark",
       "t": 9450,
       "crew": 8,
@@ -215,7 +215,7 @@
     },
     "390x844-tide": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-tide.jpg",
-      "sha256": "04d4ff034821dbbe3124a4963833312f0367de7966ae95458a819c56b16dc314",
+      "sha256": "6e72cec4eeeff667226f5f2248f3be79040e1b17b4f9406ed690d87e1ac49a22",
       "state": "tide",
       "t": 9800,
       "crew": 8,
@@ -247,7 +247,7 @@
     },
     "390x844-seven": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-seven.jpg",
-      "sha256": "aa1c3b47c1dc1450dc431614a577f28959675cf9fae39ad8de15946097df485f",
+      "sha256": "d328ce11d7b99d61e150d1fb0d4d82601abf3057a1a77d6cef2ef346923af2a9",
       "state": "seven",
       "t": 8600,
       "crew": 7,
@@ -327,7 +327,7 @@
     },
     "390x844-still4": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-still4.jpg",
-      "sha256": "7c1301fb0a0231afd836114b22fc9dcb55d0fe7070a3f0d67ef302eefc5f4862",
+      "sha256": "265d24f9d227614e647228352c3481a1a96b2d02cf0e81265de3cfccfcf102e9",
       "state": "still4",
       "t": 7100,
       "crew": 8,
@@ -343,7 +343,7 @@
     },
     "390x844-still5": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-still5.jpg",
-      "sha256": "bbc55a9d9d5fe2c89cb1402638ec4be65ed2c006e11672fd623a80a5700c1de3",
+      "sha256": "12481e31758d6507cba506677b2ce287221682fefe454fedecb57fab6263d5c7",
       "state": "still5",
       "t": 9100,
       "crew": 8,
@@ -407,7 +407,7 @@
     },
     "390x844-lit-device-reduced": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-lit-device-reduced.jpg",
-      "sha256": "7c1301fb0a0231afd836114b22fc9dcb55d0fe7070a3f0d67ef302eefc5f4862",
+      "sha256": "265d24f9d227614e647228352c3481a1a96b2d02cf0e81265de3cfccfcf102e9",
       "state": "lit",
       "t": 8600,
       "crew": 8,
@@ -423,7 +423,7 @@
     },
     "390x844-mark-device-reduced": {
       "file": "design/phone-ui/components/boarding-film/review/390x844-mark-device-reduced.jpg",
-      "sha256": "bbc55a9d9d5fe2c89cb1402638ec4be65ed2c006e11672fd623a80a5700c1de3",
+      "sha256": "12481e31758d6507cba506677b2ce287221682fefe454fedecb57fab6263d5c7",
       "state": "mark",
       "t": 9450,
       "crew": 8,
@@ -599,7 +599,7 @@
     },
     "430x932-lit": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-lit.jpg",
-      "sha256": "bad503e1824e652c5a0ec0788d27de968f4c0a091dbd28171c088384d236bec3",
+      "sha256": "cfbd4d00faf1ddaecea8c5321a7a5a2639340d73df07f6442728326002fd1db5",
       "state": "lit",
       "t": 8600,
       "crew": 8,
@@ -615,7 +615,7 @@
     },
     "430x932-mark": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-mark.jpg",
-      "sha256": "91aec215a1da302e62585567640d99b1bb4075d31ee68da66d9cffd766d43742",
+      "sha256": "b4372889bc4a35bd1efd921a4b5267b8a9bd2b717091a8a62dc55df7f6ec3b9d",
       "state": "mark",
       "t": 9450,
       "crew": 8,
@@ -631,7 +631,7 @@
     },
     "430x932-tide": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-tide.jpg",
-      "sha256": "fef172cf51c39c1399ea4e5a8e921cf856b1203f6c9d3d0c03bd721fa39a6f64",
+      "sha256": "10a7725538c34efc19cc4d3e34752f0530d6907304a129ad2a6ec7adbbf0af43",
       "state": "tide",
       "t": 9800,
       "crew": 8,
@@ -663,7 +663,7 @@
     },
     "430x932-seven": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-seven.jpg",
-      "sha256": "69dd51d79aeb045b173d31e02a5345fe937bb44e02748facd1125821ed3a6e7a",
+      "sha256": "41bc27b036b8fafde3be15ee8474cf1bb875716f40161583719ee0cfa5c5e0b6",
       "state": "seven",
       "t": 8600,
       "crew": 7,
@@ -743,7 +743,7 @@
     },
     "430x932-still4": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-still4.jpg",
-      "sha256": "2c1dbfc88d413ace6d061ce02649d9358c2a023e1bba19293cb636eea751774a",
+      "sha256": "13ee2cccb0af471cd2ab68ffb9a3c105ec9df48f32850439aa78dbc3614b0dca",
       "state": "still4",
       "t": 7100,
       "crew": 8,
@@ -759,7 +759,7 @@
     },
     "430x932-still5": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-still5.jpg",
-      "sha256": "e7e3039999e8ffa01496404ff4fbc889f8fd8796fc505548cdd173369d19fa68",
+      "sha256": "84716232878763dc909de37da89be03cb2d74e1374917ae92ccd338c52d96436",
       "state": "still5",
       "t": 9100,
       "crew": 8,
@@ -823,7 +823,7 @@
     },
     "430x932-lit-device-reduced": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-lit-device-reduced.jpg",
-      "sha256": "2c1dbfc88d413ace6d061ce02649d9358c2a023e1bba19293cb636eea751774a",
+      "sha256": "13ee2cccb0af471cd2ab68ffb9a3c105ec9df48f32850439aa78dbc3614b0dca",
       "state": "lit",
       "t": 8600,
       "crew": 8,
@@ -839,7 +839,7 @@
     },
     "430x932-mark-device-reduced": {
       "file": "design/phone-ui/components/boarding-film/review/430x932-mark-device-reduced.jpg",
-      "sha256": "e7e3039999e8ffa01496404ff4fbc889f8fd8796fc505548cdd173369d19fa68",
+      "sha256": "84716232878763dc909de37da89be03cb2d74e1374917ae92ccd338c52d96436",
       "state": "mark",
       "t": 9450,
       "crew": 8,
@@ -864,6 +864,233 @@
       "still": 4,
       "pictures": 17,
       "brightness": 10.3,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    }
+  },
+  "display": {
+    "display-1280x720-dusk": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-dusk.jpg",
+      "sha256": "51578afad65275f61ecc198dbdec44803cbd637287c2f7d1f35b0ba0334f0cfc",
+      "size": "1280x720",
+      "state": "dusk",
+      "t": 1200,
+      "crew": 8,
+      "shot": "dusk",
+      "pictures": 127,
+      "brightness": 84.8,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-foot": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-foot.jpg",
+      "sha256": "dbaafbac30026beaf2c72eedd9cf749df62df48d69be2758739c379236e97a93",
+      "size": "1280x720",
+      "state": "foot",
+      "t": 2800,
+      "crew": 8,
+      "shot": "foot",
+      "pictures": 91,
+      "brightness": 49.4,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-faces": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-faces.jpg",
+      "sha256": "b71c048a922988432fd81ac86439d9cedbba40da8bb4beda45b844a2be1215bd",
+      "size": "1280x720",
+      "state": "faces",
+      "t": 4600,
+      "crew": 8,
+      "shot": "faces",
+      "pictures": 70,
+      "brightness": 60.8,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-look": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-look.jpg",
+      "sha256": "af3491ab1baa4084597ce8a4f34d3a948bea553e13a5460d59f23a0ba4d2e3a2",
+      "size": "1280x720",
+      "state": "look",
+      "t": 6040,
+      "crew": 8,
+      "shot": "door",
+      "pictures": 56,
+      "brightness": 73,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-wake": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-wake.jpg",
+      "sha256": "6a6bfb1e8badba6fdc09f2c1688a1d06d8e4bdd2fce4832e25d5e6d3c590cb45",
+      "size": "1280x720",
+      "state": "wake",
+      "t": 6760,
+      "crew": 8,
+      "shot": "wake",
+      "pictures": 51,
+      "brightness": 83.3,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-dark": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-dark.jpg",
+      "sha256": "81dc9f261f9bc6751505568db9eadec10e779e402333ccf0db1e95b5e1931c5e",
+      "size": "1280x720",
+      "state": "dark",
+      "t": 7300,
+      "crew": 8,
+      "shot": "inside",
+      "pictures": 49,
+      "brightness": 12.5,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-lit": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-lit.jpg",
+      "sha256": "0b4f14e30ef1e602c4a45cba5ef3614c25789c7aa6e808336f05a1dd736321ff",
+      "size": "1280x720",
+      "state": "lit",
+      "t": 8600,
+      "crew": 8,
+      "shot": "inside",
+      "pictures": 41,
+      "brightness": 60.4,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-mark": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-mark.jpg",
+      "sha256": "4c42171b4c87541a85777a0b1c06c41c14c08c0d7e475e6c17285369ef0339e2",
+      "size": "1280x720",
+      "state": "mark",
+      "t": 9450,
+      "crew": 8,
+      "shot": "inside",
+      "pictures": 17,
+      "brightness": 44.3,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-seven": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-seven.jpg",
+      "sha256": "f36ae017a9b04daa9b5adde8392a74a6373b0a18d51ed31bea1d55f33dfa31d6",
+      "size": "1280x720",
+      "state": "seven",
+      "t": 8600,
+      "crew": 7,
+      "shot": "inside",
+      "pictures": 36,
+      "brightness": 60.1,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1280x720-nine": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1280x720-nine.jpg",
+      "sha256": "b128f191901d378f2e1d43618d963e56be7b1affba0add1a23b462675f76379a",
+      "size": "1280x720",
+      "state": "nine",
+      "t": 8600,
+      "crew": 9,
+      "shot": "inside",
+      "pictures": 46,
+      "brightness": 61.3,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1920x1080-dusk": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1920x1080-dusk.jpg",
+      "sha256": "37170ce9177e81c389879914c40438b97fb2914805efe0ca918825f150a08f3b",
+      "size": "1920x1080",
+      "state": "dusk",
+      "t": 1200,
+      "crew": 8,
+      "shot": "dusk",
+      "pictures": 127,
+      "brightness": 85.1,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1920x1080-faces": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1920x1080-faces.jpg",
+      "sha256": "504b696b667c390048ba150bf093eae1d4cac9f88bfaeff6d85d341573c127b3",
+      "size": "1920x1080",
+      "state": "faces",
+      "t": 4600,
+      "crew": 8,
+      "shot": "faces",
+      "pictures": 70,
+      "brightness": 60.7,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1920x1080-dark": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1920x1080-dark.jpg",
+      "sha256": "b4fb2d4b81f4d6f21688d4b5116c9d6419730ce20a30bd60a1fd60795a0ebbfc",
+      "size": "1920x1080",
+      "state": "dark",
+      "t": 7300,
+      "crew": 8,
+      "shot": "inside",
+      "pictures": 49,
+      "brightness": 12.4,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1920x1080-lit": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1920x1080-lit.jpg",
+      "sha256": "61ff58e35d5536e604ffae917773fd3ef67d651aa8d550fc876e4d31973afb93",
+      "size": "1920x1080",
+      "state": "lit",
+      "t": 8600,
+      "crew": 8,
+      "shot": "inside",
+      "pictures": 41,
+      "brightness": 61,
+      "ok": true,
+      "faults": [],
+      "violations": [],
+      "problems": []
+    },
+    "display-1920x1080-nine": {
+      "file": "design/phone-ui/components/boarding-film/review/display-1920x1080-nine.jpg",
+      "sha256": "03ea9231d1b78075f24045f01c3f943f1d516b0f2205e1949c8da70e599b4df9",
+      "size": "1920x1080",
+      "state": "nine",
+      "t": 8600,
+      "crew": 9,
+      "shot": "inside",
+      "pictures": 46,
+      "brightness": 61.8,
       "ok": true,
       "faults": [],
       "violations": [],
@@ -1022,6 +1249,50 @@
           }
         },
         {
+          "name": "sharpness: with its pictures drawn, frames slower than the screen take the frame down one step, and frames that keep up leave it there",
+          "ok": true,
+          "detail": {
+            "steps": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "gapMs": 36,
+            "lateSteps": 0
+          }
+        },
+        {
+          "name": "sharpness: a film drawing its pictures as it plays keeps its step at those frames, and begins at the step the page remembers",
+          "ok": true,
+          "detail": {
+            "start": 1,
+            "held": 1,
+            "gapMs": 36,
+            "limitMs": 50
+          }
+        },
+        {
+          "name": "sharpness: late, it goes down a step and plans the pictures still to come as sharp as its frame, no sharper",
+          "ok": true,
+          "detail": {
+            "steps": [
+              1,
+              2
+            ],
+            "lateSteps": 1,
+            "plannedShare": 0.644,
+            "expected": 0.64
+          }
+        },
+        {
+          "name": "sharpness: the page does not remember a late step",
+          "ok": true,
+          "detail": {
+            "step": 1
+          }
+        },
+        {
           "name": "motion: between two paints the scene draws frames of its own",
           "ok": true,
           "detail": {
@@ -1044,8 +1315,8 @@
           "detail": {
             "ownFrames": [
               24,
-              35,
-              35
+              40,
+              40
             ],
             "asked": 0
           }
@@ -1322,8 +1593,8 @@
       "bytes": 55309260,
       "plannedBytes": 53996028,
       "sharp": 1,
-      "drawMs": 3859,
-      "longestMs": 58,
+      "drawMs": 3710,
+      "longestMs": 56,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1360,8 +1631,8 @@
       "bytes": 90868996,
       "plannedBytes": 87842010,
       "sharp": 1,
-      "drawMs": 4539,
-      "longestMs": 48,
+      "drawMs": 4421,
+      "longestMs": 58,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1398,8 +1669,8 @@
       "bytes": 64411508,
       "plannedBytes": 62814476,
       "sharp": 1,
-      "drawMs": 4234,
-      "longestMs": 57,
+      "drawMs": 3837,
+      "longestMs": 56,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1436,8 +1707,8 @@
       "bytes": 106995748,
       "plannedBytes": 103246294,
       "sharp": 1,
-      "drawMs": 4937,
-      "longestMs": 51,
+      "drawMs": 4692,
+      "longestMs": 47,
       "failed": 0,
       "groups": {
         "dots": 3136,
@@ -1473,19 +1744,19 @@
       "run": "today",
       "cpuSlowdown": 1,
       "film": "pregame-boarding-1.0.0",
-      "picturesASecond": 17.5,
+      "picturesASecond": 17.7,
       "byShot": {
-        "dusk": 14,
-        "ramp": 19,
-        "inside": 17.4
+        "dusk": 15,
+        "ramp": 19.2,
+        "inside": 17.1
       },
       "frameGapMs": {
-        "median": 37.4,
-        "p90": 67.8,
-        "p99": 111.2,
-        "max": 167.5
+        "median": 37.7,
+        "p90": 66.1,
+        "p99": 115.9,
+        "max": 185
       },
-      "framesOver34ms": 140,
+      "framesOver34ms": 141,
       "nodes": 4665,
       "pixels": "780x1688",
       "problems": []
@@ -1495,30 +1766,35 @@
       "cpuSlowdown": 1,
       "film": "pregame-boarding-2.0.0",
       "prepared": true,
-      "prepareMs": 3854,
-      "picturesASecond": 53.7,
+      "prepareMs": 3769,
+      "picturesASecond": 57,
       "byShot": {
-        "dusk": 49.5,
-        "foot": 54.4,
-        "faces": 50.6,
-        "door": 58.3,
-        "wake": 62.9,
-        "inside": 54.8
+        "dusk": 54,
+        "foot": 58.1,
+        "faces": 54.4,
+        "door": 60,
+        "wake": 60,
+        "inside": 58.1
       },
       "frameGapMs": {
-        "median": 17.7,
-        "p90": 21.7,
-        "p99": 29.3,
-        "max": 31.9
+        "median": 16.8,
+        "p90": 19.6,
+        "p99": 27.5,
+        "max": 33.9
       },
       "framesOver34ms": 0,
+      "ownDrawMs": {
+        "median": 0.9,
+        "p90": 1.5,
+        "max": 7.8
+      },
       "quality": 0.64,
       "sharp": 1,
       "pixels": "499x1080",
       "peakBytes": 55309260,
       "plannedBytes": 53996028,
-      "bakeMs": 1809,
-      "longestBakeMs": 99,
+      "bakeMs": 1786,
+      "longestBakeMs": 38,
       "problems": []
     },
     {
@@ -1527,46 +1803,51 @@
       "film": "pregame-boarding-2.0.0",
       "prepared": false,
       "prepareMs": 0,
-      "picturesASecond": 33.3,
+      "picturesASecond": 33.6,
       "byShot": {
-        "dusk": 37,
-        "foot": 31.9,
-        "faces": 31.7,
-        "door": 27.8,
+        "dusk": 37.5,
+        "foot": 33.1,
+        "faces": 32.2,
+        "door": 25.2,
         "wake": 25.7,
-        "inside": 35.2
+        "inside": 35.8
       },
       "frameGapMs": {
         "median": 26.4,
-        "p90": 44.4,
-        "p99": 71.9,
-        "max": 93.7
+        "p90": 43.9,
+        "p99": 68.1,
+        "max": 85.2
       },
-      "framesOver34ms": 77,
+      "framesOver34ms": 76,
+      "ownDrawMs": {
+        "median": 1,
+        "p90": 1.7,
+        "max": 9.9
+      },
       "quality": 1,
       "sharp": 1,
       "pixels": "780x1688",
-      "peakBytes": 32260168,
+      "peakBytes": 32485804,
       "plannedBytes": 53996028,
-      "bakeMs": 5933,
-      "longestBakeMs": 100,
+      "bakeMs": 5892,
+      "longestBakeMs": 102,
       "problems": []
     },
     {
       "run": "today",
       "cpuSlowdown": 4,
       "film": "pregame-boarding-1.0.0",
-      "picturesASecond": 6.3,
+      "picturesASecond": 6.4,
       "byShot": {
         "dusk": 3,
         "ramp": 5.3,
-        "inside": 10
+        "inside": 10.3
       },
       "frameGapMs": {
-        "median": 95.5,
-        "p90": 318.3,
-        "p99": 610.6,
-        "max": 610.6
+        "median": 101.7,
+        "p90": 300.3,
+        "p99": 636,
+        "max": 636
       },
       "framesOver34ms": 63,
       "nodes": 4665,
@@ -1578,30 +1859,35 @@
       "cpuSlowdown": 4,
       "film": "pregame-boarding-2.0.0",
       "prepared": true,
-      "prepareMs": 17877,
-      "picturesASecond": 21,
+      "prepareMs": 16746,
+      "picturesASecond": 21.8,
       "byShot": {
-        "dusk": 17.5,
-        "foot": 21.3,
-        "faces": 21.1,
-        "door": 20.9,
-        "wake": 25.7,
-        "inside": 22.3
+        "dusk": 18,
+        "foot": 20.6,
+        "faces": 20.6,
+        "door": 24.3,
+        "wake": 34.3,
+        "inside": 22.9
       },
       "frameGapMs": {
-        "median": 43.9,
-        "p90": 68.2,
-        "p99": 129.6,
-        "max": 140.9
+        "median": 43.2,
+        "p90": 62.6,
+        "p99": 115.8,
+        "max": 141.5
       },
-      "framesOver34ms": 181,
+      "framesOver34ms": 183,
+      "ownDrawMs": {
+        "median": 4.8,
+        "p90": 8.5,
+        "max": 29.4
+      },
       "quality": 0.5,
       "sharp": 1,
       "pixels": "390x844",
       "peakBytes": 55309260,
       "plannedBytes": 53996028,
-      "bakeMs": 8297,
-      "longestBakeMs": 207,
+      "bakeMs": 7552,
+      "longestBakeMs": 195,
       "problems": []
     },
     {
@@ -1610,29 +1896,34 @@
       "film": "pregame-boarding-2.0.0",
       "prepared": false,
       "prepareMs": 0,
-      "picturesASecond": 7.2,
+      "picturesASecond": 13.3,
       "byShot": {
-        "dusk": 6.5,
-        "foot": 6.9,
-        "faces": 8.3,
-        "door": 7,
-        "wake": 5.7,
-        "inside": 6.8
+        "dusk": 8.5,
+        "foot": 14.4,
+        "faces": 18.3,
+        "door": 14.8,
+        "wake": 8.6,
+        "inside": 12.6
       },
       "frameGapMs": {
-        "median": 131.5,
-        "p90": 192.9,
-        "p99": 305.8,
-        "max": 305.8
+        "median": 67.5,
+        "p90": 115,
+        "p99": 200.9,
+        "max": 206.7
       },
-      "framesOver34ms": 71,
-      "quality": 1,
+      "framesOver34ms": 131,
+      "ownDrawMs": {
+        "median": 4.2,
+        "p90": 7.1,
+        "max": 39.7
+      },
+      "quality": 0.5,
       "sharp": 1,
-      "pixels": "780x1688",
-      "peakBytes": 13398900,
-      "plannedBytes": 53996028,
-      "bakeMs": 5068,
-      "longestBakeMs": 324,
+      "pixels": "390x844",
+      "peakBytes": 13111216,
+      "plannedBytes": 14492186,
+      "bakeMs": 5507,
+      "longestBakeMs": 232,
       "problems": []
     }
   ],

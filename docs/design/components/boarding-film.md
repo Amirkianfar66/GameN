@@ -25,7 +25,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/boarding-film/`:
 
 | Path | What |
 | --- | --- |
-| `boarding-film.mjs` | `createBoardingScene()`, `prepareBoardingScene()`, `boardingFrame()`, `shotOf()`, `BOARDING_FILM_VERSION`, `BOARDING_MS`, `BOARDING_TEXT`, `SHOTS`, `DOOR_BEATS`, `HULL_WAKE`, `INSIDE`, `TITLE`, `STILLS`, `STILL_FADE_MS`, `STILL_OUT`, `COAST_MS`, `MEMORY_BUDGET`, `QUALITY`, `SLOW_FRAME_MS`, `SLOW_FRAMES`, `VARIANTS`. The clock, the six shots and the scene |
+| `boarding-film.mjs` | `createBoardingScene()`, `prepareBoardingScene()`, `boardingFrame()`, `shotOf()`, `BOARDING_FILM_VERSION`, `BOARDING_MS`, `BOARDING_TEXT`, `SHOTS`, `DOOR_BEATS`, `HULL_WAKE`, `INSIDE`, `TITLE`, `STILLS`, `STILL_FADE_MS`, `STILL_OUT`, `COAST_MS`, `MEMORY_BUDGET`, `QUALITY`, `SLOW_FRAME_MS`, `SLOW_FRAMES`, `LATE_FRAME_MS`, `VARIANTS`. The clock, the six shots and the scene |
 | `boarding-film.css` | Every style, scoped under `.ms-boarding-film`: the canvas, the light's layer, and the finish (a vignette and grade, the grain) |
 | `engine.mjs` | What a canvas film needs: pictures drawn once (`sprite`, `createBakery`), planes of depth and a lens (`plane`, `lens`), light (`glow`, `beam`, `streak`, `createLight`), particles that are functions of time (`motes`, `sparks`, `puff`, `impact`), the grain's tile |
 | `cast.mjs` | The crew: the film's poses (`stridePose`, `climbPose`, `backPose`, `HELD`), a body and a head as separate pictures (`bodySprite`, `partSprite`, `headSprite`), the light each is drawn in (`LOOKS`), and placing them (`createCaster`) |
@@ -59,7 +59,7 @@ scene.dispose();                              // on every exit, as today
 | Between paints | The scene keeps the picture moving from the last time it was given, at the screen's rate: the player may go on painting 30 times a second. It stops by itself 500 ms after the last paint (`COAST_MS`) and at the film's end |
 | `suspend()`, `resume()` | `suspend()` stops the scene's own frames (the page is hidden, the stage is covered); a paint still draws its frame. After `resume()` the next paint restarts them. A page that stops painting needs neither: the scene stops by itself |
 | `dispose()` | Removes the film and gives back every picture's memory |
-| `stats` | `version`, `paints`, `frames`, `ownFrames`, `drawMs`, `worstMs`, `pictures`, `bytes`, `peakBytes`, `plannedBytes`, `bakeMs`, `longestBakeMs`, `scale`, `quality`, `sharp` |
+| `stats` | `version`, `paints`, `frames`, `ownFrames`, `drawMs`, `worstMs`, `pictures`, `bytes`, `peakBytes`, `planned`, `bakeMs`, `longestBakeMs`, `scale`, `quality`, `sharp`, `lateSteps` |
 | `ready()` | Resolves when every picture asked for so far is drawn. A recording waits for it; the film does not |
 | `createBoardingScene(holder, { options, live: false })` | Draws only when painted (a recording, a test): the scene then never asks for a frame |
 
@@ -67,36 +67,53 @@ scene.dispose();                              // on every exit, as today
 
 **Its words stay the player's.** The picture is hidden from a screen reader. The player keeps the dialog's name ("The crew boards the ship") and the status line ("The crew boards the ship."); `BOARDING_TEXT` is the same text.
 
-**Preparing early (recommended).** `prepareBoardingScene(document, { roster, width, height })` draws the film's pictures ahead of it and returns what `createBoardingScene` takes as `options.prepared` (the same roster and size), with `ready` and `dispose()`. Call it once the roster is public and the page is quiet, for example when the player's own role film has ended. Drawing took 3.9 s on this desktop and 17.9 s with its CPU slowed 4x, in short pieces that leave the page its turns; a phone's time is not known. Without it the film draws its pictures as it opens: it comes up from the night as version 1's held pictures do, each shot's place and one pose of each figure come first, and a figure whose picture is not ready yet holds its nearest pose.
+**Preparing early (recommended).** `prepareBoardingScene(document, { roster, width, height })` draws the film's pictures ahead of it and returns what `createBoardingScene` takes as `options.prepared` (the same roster and size), with `ready` and `dispose()`. Call it once the roster is public and the page is quiet, for example when the player's own role film has ended. Drawing took 3.8 s on this desktop and 16.7 s with its CPU slowed 4x, in short pieces that leave the page its turns; a phone's time is not known. Without it the film draws its pictures as it opens: it comes up from the night as version 1's held pictures do, each shot's place and one pose of each figure come first, and a figure whose picture is not ready yet holds its nearest pose. If that makes it late, it steps its sharpness down and draws the pictures still to come smaller (below).
 
 **What Frontend and Integration decide:** admitting the film's files to the hosted build; linking its stylesheet; when to prepare; and that a match pinned to `1.0.0` keeps `1.0.0`.
+
+## Who is where: from the public roster alone
+
+The film is given the public roster and nothing else: each member's seat and lobby character, 7, 8 or 9 of them, in seat order (the hosted game's own `publicRoster()`). It never receives a role, a team, a name or a status, so it cannot choose by one. Who plays which part is a fixed rule of seat order, the same on every phone and on the display:
+
+| Part | Who |
+| --- | --- |
+| The four who walk in at dusk and climb the ramp first | The four lowest seats |
+| The waist-up pair (the faces) | The fifth and sixth in seat order; the fifth is nearer the lens |
+| Going in ahead, at the door | Whoever lies between the sixth and the last: nobody in a crew of 7, one in 8, two in 9 |
+| The last aboard, who stops at the sill and looks back | The highest seat |
+| Inside | Everyone, in rows filled from the back in seat order: the lowest seats stand at the back, the highest in front. Each holds one of three standing poses, by seat and row |
+
+**Who looks back means nothing about the match.** It is the highest seat in every match, on every screen. If the owner would rather it were not tied to a seat, the rule can become any other function of the public roster, as long as every phone computes the same answer; that is a one-line change in `castOf()`.
 
 ## How it plays
 
 - **Pictures are drawn once.** The ship, the hull's wall, and each crew member's body for each pose and head for each look (open, shut, bowed, from behind) are drawn from the approved drawing into pictures in memory, already lit: the film kit's own light recipe (the dark a figure stands in, a light landing on it, an edge of light) is put on as a picture is drawn. A figure whose light changes is two pictures, one over the other. In the dark corridor the edge of light is a backlight: only the outline takes it, where it faces up or to a side with nothing of the figure beyond, never where it faces down or another part of the figure.
 - **A frame places pictures.** The sky, the giant, the ranges, the ground, the ramp and the corridor are laid on the canvas from shapes; pictures are placed on planes of depth. Soft light (glows, beams, the glare) is drawn on a second canvas a quarter of the size each way and stretched over the first, added to it (`mix-blend-mode: screen`). The vignette, the grade and the grain are CSS layers. No SVG is written, parsed or filtered while the film runs, and no canvas filter is used.
 - **The crew moves on twos:** twelve drawings a second, as drawn animation does. The camera, the light and the air move at the screen's rate.
-- **A slow phone gets a softer frame, not a slower one.** When frames run long, the frame is drawn a step less sharp (`QUALITY`: 1, 0.8, 0.64, 0.5 of the screen's pixels), and the page remembers the step for the next film.
+- **A slow phone gets a softer frame, not a slower one.** When frames run long, the frame is drawn a step less sharp (`QUALITY`: 1, 0.8, 0.64, 0.5 of the screen's pixels).
+  - **With its pictures drawn,** a frame slower than 22 ms counts (`SLOW_FRAME_MS`), eight in a run. The page remembers the step for the next film.
+  - **While it is still drawing its pictures** (it was not prepared, or not in time), each gap between two frames holds a picture's drawing as well, so only a frame slower than 50 ms counts (`LATE_FRAME_MS`): the film as a whole is late. Its step down also re-plans the pictures it has not begun at the frame's own sharpness. A picture the frame cannot show in full is not worth its drawing time, and the smaller ones come sooner. The page does not remember such a step.
+  - A film that draws its own pictures begins them at the step the page remembers.
 - **A frame is a function of the time it is given.** The same time gives the same picture; seeking back gives what a film just begun draws there; a phone that joins late draws only what is left.
 - **Within the hosted game's Content Security Policy:** nothing external, no evaluated code, no worker. A picture is made from the film's own SVG text through a `blob:` image; the grain's tile is a `data:` image.
 
 ## Measured
 
-From [`review/check.json`](../../../design/phone-ui/components/boarding-film/review/check.json), made against `67fe6aa0`. Desktop Chromium, headless, drawing in software; 390 × 844 at 2 pixels a point. The slowdown is Chromium's throttle of the page's main thread, a rough stand-in for a slower phone. **No phone was measured: not its frame rate, and not its memory.**
+From [`review/check.json`](../../../design/phone-ui/components/boarding-film/review/check.json), made against `7470d62e`. Desktop Chromium, headless, drawing in software; 390 × 844 at 2 pixels a point. The slowdown is Chromium's throttle of the page's main thread, a rough stand-in for a slower phone. **No phone was measured: not its frame rate, and not its memory.**
 
 Both films were played in real time and driven as the live player drives a film (a paint at most thirty times a second):
 
 | Film | Pictures a second | With the CPU slowed 4x |
 | --- | --- | --- |
-| Today, `1.0.0` | 17.5 | 6.3 |
-| The pilot, its pictures drawn first | **53.7** | **21.0** |
-| The pilot, its pictures drawn as it plays | 33.3 | 7.2 |
+| Today, `1.0.0` | 17.7 | 6.4 |
+| The pilot, its pictures drawn first | **57.0** | **21.8** |
+| The pilot, its pictures drawn as it plays | 33.6 | 13.3 |
 
-One run each. The run before this one, on the source before the corridor's light changed (`0842ff6c`), gave 18.4 and 6.3, 56.4 and 20.2, 36.1 and 8.3: read each figure as good to a few per cent.
+One run each. The run before this one (`67fe6aa0`) gave 17.5 and 6.3, 53.7 and 21.0, 33.3 and 7.2, and the one before that (`0842ff6c`) 18.4 and 6.3, 56.4 and 20.2, 36.1 and 8.3: read each figure as good to a few per cent. The last figure is the exception, and the one the change since then was for: a film late with its pictures now steps its sharpness down (7.2, then 13.3).
 
-Its pictures drawn first, the pilot keeps the screen's rate at this desktop's own speed: the page's frames came 17.7 ms apart at the middle, and none of the ten seconds' gaps was longer than 34 ms. Under today's film the page's frames came 37.4 ms apart at the middle and 140 gaps were longer than 34 ms: each of its paints rebuilds the picture's SVG (4,665 elements), and with the player painting at most thirty times a second it reached 17.5 pictures a second. To hold its rate the pilot drew its frame less sharp than the screen's pixels: 0.64 of them at this desktop's speed (499 × 1080 of 780 × 1688; 0.8 in the run before), and 0.5 slowed four times (390 × 844). This machine draws a canvas in software, so how far a phone steps down is not known from this. Today's film draws at the screen's full pixels at both speeds.
+Its pictures drawn first, the pilot keeps the screen's rate at this desktop's own speed: the page's frames came 16.8 ms apart at the middle, and none of the ten seconds' gaps was longer than 34 ms. Under today's film the page's frames came 37.7 ms apart at the middle and 141 gaps were longer than 34 ms: each of its paints rebuilds the picture's SVG (4,665 elements), and with the player painting at most thirty times a second it reached 17.7 pictures a second. To hold its rate the pilot drew its frame less sharp than the screen's pixels: 0.64 of them at this desktop's speed (499 × 1080 of 780 × 1688; 0.64 and 0.8 in the two runs before), and 0.5 slowed four times (390 × 844). This machine draws a canvas in software, so how far a phone steps down is not known from this. Today's film draws at the screen's full pixels at both speeds.
 
-Its pictures drawn as it plays, the pilot shares the page's time with that drawing (5.9 s of it here, 5.1 s slowed four times, where it also goes without the drawings it can spare) and stays at full sharpness while it does so. Slowed four times it reaches 7.2 pictures a second: more than today's film, and not what the pilot is for. **Prepare it.** Drawing the pictures first took 3.9 s here and 17.9 s slowed four times.
+Its pictures drawn as it plays, the pilot shares the page's time with that drawing (5.9 s of it here, 5.5 s slowed four times). At this desktop's speed it is not late: it stays at full sharpness and reaches 33.6 pictures a second. Slowed four times it is late, so it steps down to 0.5 and draws the pictures still to come smaller (13.8 MB of them planned in place of 51.5 MB): 13.3 pictures a second, against 7.2 before that rule and today's 6.4. Its slowest shots ran at 8.5. **Prepare it** all the same: prepared, the same slowed page reaches 21.8. Drawing the pictures first took 3.8 s here and 16.7 s slowed four times.
 
 What the pilot's pictures hold, all drawn at once (a crew of 8; a crew of 9 holds about the same):
 
@@ -113,21 +130,21 @@ In `design/phone-ui/components/boarding-film/review/`:
 
 - `pilot-390x844.mp4`, `pilot-430x932.mp4`: the pilot, full motion, a crew of 8 (60 frames a second, exactly 10 s, no sound).
 - `pilot-390x844-reduced.mp4`, `pilot-430x932-reduced.mp4`: Reduce motion.
+- `pilot-display-1280x720.mp4`: the shared display's wide framing, a crew of 9.
 - `compare-as-drawn.mp4`: today's film beside the pilot, both at every sixtieth of a second: what each film is.
 - `compare-as-played.mp4`: the same two, each showing only the pictures it reached when it was played in real time with the CPU slowed 4x: what each film does. It is a reconstruction of measured timing (the times are in `renders.json`), not a screen recording, and not a phone.
 - `pilot-sheet.jpg`: twelve moments side by side.
 - 52 captures (twenty moments at both sizes in full motion, six again with the device's Reduce motion) and `check.json`, under the production headers.
-
-**The videos and the sheet are from before the corridor's light changed.** They were rendered from `0842ff6c` (`renders.json` says so). The Lead's review of 16 November made the crew in the dark corridor lit from the doorway behind, not outlined (`67fe6aa0`); the captures `390x844-dark.jpg` and `430x932-dark.jpg` and `check.json` are from that source. The videos are rendered again once the review's other items are in.
+- 15 captures of the display's wide framing at one pixel a point (`display-1280x720-…`: each shot, the corridor dark and lit, the mark, and the corridor with crews of 7 and 9; `display-1920x1080-…`: five of them).
 
 ## Limits
 
 - **No phone was measured.** Every number above is desktop Chromium drawing in software. A phone draws a canvas on its graphics chip, which this machine does not have; that should help, and it is not evidence.
-- **The display** (a wide screen) draws from the same source with wider framing. It was looked at, not captured or reviewed here.
+- **The display** (a wide screen) draws from the same source with wider framing: rows of four and five in the corridor. It is captured at 1280 × 720 and 1920 × 1080 at one pixel a point, and rendered whole at 1280 × 720. A larger or sharper screen (4K, or two pixels a point) was not run.
 - **Sound** is a separate owner decision; the film has none.
 - **The light's layer** needs `mix-blend-mode: screen` (Safari 8 and later, every current browser). Without it the light would lie over the picture as haze.
 - **A first film on a slow phone** starts sharp and steps down over its first second or two; later films on the same page start at the step it settled on.
-- **A film that was not prepared, on a slow phone,** is the weak case: while its pictures are still being drawn it does not step its sharpness down, and with the CPU slowed 4x it reached 7.2 pictures a second against today's 6.3. Preparing avoids it. Letting it step down while it draws is the first thing to harden if the pilot goes forward.
+- **A film that was not prepared, on a slow phone,** is still the weak case, less than it was: it now steps its sharpness down while it draws its pictures, and with the CPU slowed 4x it reached 13.3 pictures a second against today's 6.4 and the prepared film's 21.8. Its first shot is its slowest (8.5 pictures a second), and its pictures stay softer for the whole film. Preparing avoids both.
 - **Only the boarding is restaged.** The role films, the brand intro and the films behind the board are as they were.
 
 ## Checks
