@@ -15,6 +15,9 @@
 //   films     (0.4.0, for the game's films) a stand-in keeps its tag and press square without its
 //             figure; the recoil moves one figure, not its tag; the films container interleaves with
 //             the scene by z-index, hides while concealed and is gone after dispose()
+//   tags      (0.5.0, #222 item 34) the name tags whole and apart at the game's Large and Largest text,
+//             at both phone sizes, inside the scene and clear of the room's name and its control; at
+//             the standard text, where none meet, each where the pack puts it
 // With the device's Reduce motion (the check emulates it), it checks that setting instead.
 // design/tools/room-scene-check.mjs runs it under the production headers and records each result.
 // Desktop Chromium: not a phone, not Safari, not a screen reader.
@@ -325,6 +328,62 @@ export async function runRoomSceneProbe({ host, base, size, large }) {
     const gone = scene.films === null && !films.isConnected;
     check('films: the films container interleaves with the scene by z-index, hides while concealed and is gone after dispose()',
       own && under && over && concealed && shown && gone, { own, under, over, concealed, shown, gone });
+  });
+
+  // 6 · tags (0.5.0, #222 item 34): whole and apart at every text size; the game's Large and Largest
+  // text is the root's font size, 150 % and 200 %, as its settings set it.
+  await guarded('tags', async () => {
+    const html = document.documentElement, was = html.style.fontSize;
+    const look = scene => {
+      const root = scene.element, o = root.getBoundingClientRect();
+      const rel = r => ({ left: r.left - o.left, top: r.top - o.top, right: r.right - o.left, bottom: r.bottom - o.top });
+      const tags = [...root.querySelectorAll('.ms-rs-tag')].map(n => {
+        const b = n.getBoundingClientRect();
+        const whole = [...n.children].every(k => { const r = k.getBoundingClientRect(); return r.top >= b.top - 0.5 && r.bottom <= b.bottom + 0.5 && r.left >= b.left - 0.5 && r.right <= b.right + 0.5; });
+        return { seat: n.closest('.ms-rs-person').dataset.seat, ...rel(b), whole };
+      });
+      const kept = [...root.querySelectorAll('.ms-rs-label, .ms-rs-control')].map(n => rel(n.getBoundingClientRect()));
+      return { tags, kept, width: o.width, height: o.height };
+    };
+    const meet = (a, b, g) => a.left < b.right + g && b.left < a.right + g && a.top < b.bottom + g && b.top < a.bottom + g;
+    const judge = ({ tags, kept, width, height }) => ({
+      count: tags.length,
+      whole: tags.every(t => t.whole),
+      apart: tags.every((a, i) => tags.every((b, j) => j <= i || !meet(a, b, 2 - 0.01))),
+      inside: tags.every(t => t.left >= 4 - 0.5 && t.top >= 4 - 0.5 && t.right <= width - 4 + 0.5 && t.bottom <= height - 4 + 0.5),
+      clear: tags.every(t => kept.every(k => !meet(t, k, 0))),
+    });
+    try {
+      // The standard text: none meet in Room B, so each is where the pack puts it: centred on its press
+      // square (kept 4 px inside), its top 2 px above the square's foot, and no lower than 34 px above
+      // the scene's foot (the 8 px inset and a 26 px tag).
+      html.style.fontSize = '';
+      const scene = mount({ targets: null });
+      const std = look(scene), people = new Map(scene.layout().people.map(p => [String(p.seat), p]));
+      const where = std.tags.every(t => {
+        const p = people.get(t.seat), w = t.right - t.left;
+        if (!p) return false;
+        const left = Math.max(4, Math.min(std.width - 4 - w, p.left + p.side / 2 - w / 2));
+        return near(t.left, left, 0.75) && near(t.top, Math.min(std.height - 34, p.top + p.side - 2), 0.75);
+      });
+      const plain = judge(std);
+      check('tags: at the standard text, whole and apart, each where the pack puts it (centred on its press square, 2 px above its foot)',
+        plain.count === base.people.length && plain.whole && plain.apart && plain.inside && plain.clear && where, { ...plain, where });
+      scene.dispose();
+      for (const [text, name] of [[1.5, 'Large'], [2, 'Largest']]) {
+        html.style.fontSize = `${text * 100}%`;
+        const results = [];
+        for (const [phone, at] of [['390 × 844', size], ['430 × 932', large]]) {
+          const one = mount({ size: at, targets: null });
+          results.push({ phone, ...judge(look(one)) });
+          one.dispose();
+        }
+        check(`tags: at the ${name} text (${text * 100} %), whole, apart, inside and clear of the room's name and control, at both sizes`,
+          results.every(r => r.count === base.people.length && r.whole && r.apart && r.inside && r.clear), { results });
+      }
+    } finally {
+      html.style.fontSize = was;
+    }
   });
   return { mode: 'full', ok: checks.every(c => c.ok), checks };
 }

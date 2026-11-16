@@ -8,6 +8,8 @@
 // (ambient.mjs), the people present as the game's own crew figures (crew-runtime.mjs, with their idle
 // motion and the match's art pins), their name tags, the turn mark, the offered targets and empty
 // positions, the room's name, its own control ("Windows · 2") and the stale veil or concealing cover.
+// The tags are whole and apart at every text size (#222 item 34): each pill grows with its words, and
+// tag-layout.mjs places them as the board's tags are placed, clear of the room's name and control.
 // How it frames: framing.mjs's phoneFrame, the owner's T1 decision of 11 November 2026 as corrected in
 // #229: the room fills the space, nobody present is cut off, and the frame is held through the Blackout.
 //
@@ -23,12 +25,13 @@ import { INJURED, skeletonOf } from '../../../../apps/game/hosted/scene-drawing/
 import { crewFigureSvg, crewPortraitVariable, disposeCrewMounts, outfitFor, paintCrewFigure, releaseCrewFigure,
   setCrewMountActivity, setCrewMountMotion } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
+import { layoutTags } from '../tag-layout.mjs';
 import { SKY_EPOCH, ambientLayer } from './ambient.mjs';
-import { clamp, phoneFrame, pressRects } from './framing.mjs';
+import { phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
 import { REACH, extensionLayer, zoomFor } from './room-extension.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.4.0';
+export const ROOM_SCENE_VERSION = 'room-scene-0.5.0';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -333,7 +336,6 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   }
 
   function tag(entry, person, rect, dim) {
-    const { width, height, pad } = frame.panel;
     let node = entry.tag;
     if (!node) { node = el('span', 'ms-rs-tag'); entry.group.append(node); entry.tag = node; }
     const self = sameSeat(state.self, person.seat);
@@ -359,9 +361,38 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     node.toggleAttribute('data-self', self);
     node.toggleAttribute('data-active', sameSeat(state.active, person.seat));
     node.toggleAttribute('data-dim', dim);
-    // A tag stays whole on screen: its centre moves inward by half its own width (4 px clear).
-    const cx = rect.left + rect.side / 2, reach = node.offsetWidth ? node.offsetWidth / 2 + 4 : 36;
-    Object.assign(node.style, { left: `${clamp(cx, reach, width - reach)}px`, top: `${Math.min(height - pad - 26, rect.top + rect.side - 2)}px` });
+    // Where it goes is placeTags()'s, once every tag, the room's name and its control are drawn.
+    entry.at = { x: rect.left + rect.side / 2, bottom: rect.top + rect.side };
+    entry.self = self;
+  }
+
+  /**
+   * The tags whole on screen and apart (#222 item 34), by tag-layout.mjs's rules with the pack's room
+   * numbers: centred on the press square and 2 px above its foot, 4 px inside the scene and no lower
+   * than the bottom inset and a standard tag's height above its foot, clear of the room's name and its
+   * control; where two would meet, one moves up, or else down, no further than it needs ("You" first).
+   * At the standard text, where none meet, each is where the pack puts it. Offsets, not boxes on screen,
+   * so a transform around the scene (the board's zoom) never moves a tag.
+   */
+  function placeTags() {
+    const { width, height, pad: bottom } = frame.panel;
+    const shown = [...people.values()].filter(entry => entry.tag && entry.at);
+    if (!shown.length) return;
+    const measured = shown.map(entry => ({ seat: entry.group.dataset.seat, at: entry.at, self: entry.self,
+      width: entry.tag.offsetWidth || 72, height: entry.tag.offsetHeight || 26 }));
+    const keepClear = [];
+    const label = overlay.label;
+    if (label?.offsetWidth) keepClear.push({ left: label.offsetLeft, top: label.offsetTop, width: label.offsetWidth, height: label.offsetHeight });
+    const control = overlay.control;
+    // The control is centred by a translateX(-50%): its box starts half its width left of its offset.
+    if (control?.offsetWidth) keepClear.push({ left: control.offsetLeft - control.offsetWidth / 2, top: control.offsetTop, width: control.offsetWidth, height: control.offsetHeight });
+    const { places } = layoutTags({ panel: { width, height }, pad: 4, gap: 2, lift: 2, footClear: bottom + 26, keepClear, tags: measured });
+    const at = new Map(places.map(p => [String(p.seat), p]));
+    shown.forEach((entry, i) => {
+      const place = at.get(measured[i].seat);
+      // The tag is centred on its left by a translateX(-50%), as the pack's.
+      Object.assign(entry.tag.style, { left: `${place.left + measured[i].width / 2}px`, top: `${place.top}px` });
+    });
   }
 
   function marks(entry, person, slot, rect) {
@@ -551,6 +582,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     paintPeople(rects);
     figureMarks();
     paintOver(rects);
+    placeTags();
     settle(rebuilt, standing);
   }
 
