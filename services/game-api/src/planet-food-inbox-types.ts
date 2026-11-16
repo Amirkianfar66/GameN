@@ -21,7 +21,7 @@ export interface PlanetFoodInboxBinding {
 }
 
 export type PlanetFoodInboxRequest = Extract<PlanetServiceRequest, {operation:
-  'foodCommand' | 'foodHeartbeat' | 'abort' | 'issueRecovery' | 'redeemRecovery' | 'command'}>;
+  'foodCommand' | 'foodHeartbeat' | 'abort' | 'issueRecovery' | 'redeemRecovery' | 'command' | 'advance' | 'runBots'}>;
 
 export interface PlanetFoodInboxIntent {
   readonly id: string;

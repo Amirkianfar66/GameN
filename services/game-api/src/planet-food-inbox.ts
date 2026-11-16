@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import type {PlanetPersistence,PlanetTransaction} from './planet-game.js';
+import type {PlanetPersistence,PlanetReadTransaction,PlanetTransaction} from './planet-game.js';
 import type {
   EnqueuePlanetFoodInboxWake,PlanetFoodInboxBinding,PlanetFoodInboxIntent,PlanetFoodInboxProgress,PlanetFoodInboxRequest,
   PlanetFoodInboxScope,PlanetFoodInboxWake,PlanetFoodIntakeReceipt,
@@ -10,7 +10,7 @@ export const foodInboxScopeKey=({version,matchId,phaseId,taskId}:PlanetFoodInbox
   hash([version,matchId,phaseId,taskId]);
 const intentKey=(scopeKey:string,id:string)=>`foodInboxIntent/${scopeKey}/${id}`;
 const progressKey=(scopeKey:string,id:string)=>`foodInboxProgress/${scopeKey}/${id}`;
-type StoredWake={wake:PlanetFoodInboxWake;status:'pending'|'dispatched';nextAttemptAt:number};
+type StoredWake={wake:PlanetFoodInboxWake;status:'pending'|'dispatched';nextAttemptAt:number;watchdogFor?:string};
 const wakeKey=(id:string)=>`foodInboxWake/${id}`;
 
 // Contract-parsed orders may differ after transport retries. Arrays retain order.
@@ -43,9 +43,15 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
   const first=store.nextFoodInboxIntent?.bind(store);
   if(!first)throw new Error('Food inbox pending index is required');
   const read=store.readOnly?.bind(store)??store.transaction.bind(store);
-  function stageWake(tx:PlanetTransaction,wake:PlanetFoodInboxWake):void{
+  async function loadWake(tx:PlanetReadTransaction,wake:PlanetFoodInboxWake):Promise<StoredWake|null>{
+    const stored=await tx.get<StoredWake>(wakeKey(wake.id));
+    if(!stored||stored.wake.id!==wake.id||stored.wake.wakeAt!==wake.wakeAt
+      ||foodInboxScopeKey(stored.wake.scope)!==foodInboxScopeKey(wake.scope))return null;
+    return stored;
+  }
+  function stageWake(tx:PlanetTransaction,wake:PlanetFoodInboxWake,watchdogFor?:string):void{
     if(!tx.create)throw new Error('Atomic Food inbox wake is required');
-    tx.create(wakeKey(wake.id),{wake,status:'pending',nextAttemptAt:0} satisfies StoredWake);
+    tx.create(wakeKey(wake.id),{wake,status:'pending',nextAttemptAt:0,...(watchdogFor?{watchdogFor}:{})} satisfies StoredWake);
   }
   function stageIntake(tx:PlanetTransaction,intent:PlanetFoodInboxIntent,wakeAt:number):void{
     if(!tx.create||!tx.foodInboxIndex)throw new Error('Atomic Food inbox intake is required');
@@ -55,14 +61,21 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
     stageWake(tx,wake);
     tx.foodInboxIndex.create(scopeKey,intent.id);
   }
-  async function intake(intent:PlanetFoodInboxIntent,wakeAt:number):Promise<PlanetFoodIntakeReceipt>{
+  async function intake(intent:PlanetFoodInboxIntent,wakeAt:number,
+    verify?:(tx:PlanetReadTransaction)=>Promise<void>):Promise<PlanetFoodIntakeReceipt>{
     try{
-      await store.transaction(async tx=>stageIntake(tx,intent,wakeAt));
+      await store.transaction(async tx=>{
+        if(verify)await verify(tx);
+        stageIntake(tx,intent,wakeAt);
+      });
       return {kind:'queued',id:intent.id,duplicate:false};
     }catch(error){
       // The same read recovers a duplicate or a lost commit response. It never
       // turns a different original or a missing write into a success.
-      const saved=await read(tx=>tx.get<PlanetFoodInboxIntent>(intentKey(foodInboxScopeKey(intent.scope),intent.id)));
+      const saved=await read(async tx=>{
+        if(verify)await verify(tx);
+        return tx.get<PlanetFoodInboxIntent>(intentKey(foodInboxScopeKey(intent.scope),intent.id));
+      });
       if(!saved)throw error;
       if(saved.id!==intent.id||foodInboxScopeKey(saved.scope)!==foodInboxScopeKey(intent.scope)
         ||saved.fingerprint!==intent.fingerprint)throw new PlanetFoodInboxConflict();
@@ -76,7 +89,7 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
     if(!row||row.id!==id||foodInboxScopeKey(row.scope)!==scopeKey)throw new Error('Invalid Food inbox pending intent');
     return row;
   }
-  function progress(tx:PlanetTransaction,intent:PlanetFoodInboxIntent){
+  function progress(tx:PlanetReadTransaction,intent:PlanetFoodInboxIntent){
     return tx.get<PlanetFoodInboxProgress>(progressKey(foodInboxScopeKey(intent.scope),intent.id));
   }
   function consume(tx:PlanetTransaction,intent:PlanetFoodInboxIntent,result:PlanetFoodInboxProgress):void{
@@ -116,5 +129,5 @@ export function createPlanetFoodInbox(store:PlanetPersistence){
     }
     return counts;
   }
-  return {intake,stageIntake,stageWake,next,progress,consume,dispatch,repair};
+  return {intake,stageIntake,stageWake,loadWake,next,progress,consume,dispatch,repair};
 }

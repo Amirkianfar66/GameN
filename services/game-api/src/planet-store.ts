@@ -50,6 +50,7 @@ export function createFirestorePlanetStore(db:Firestore):PlanetPersistence{
       return structuredClone(value) as T;
     };
   return {
+    watchPrivateKey(key,changed,failed){return meta(key).onSnapshot(()=>changed(),failed);},
     async nextFoodInboxIntent(scopeKey:string):Promise<string|null>{
       const result=await timePlanetStage('sdkRead',()=>pending(scopeKey)
         .orderBy('priorityAt').orderBy(FieldPath.documentId()).limit(1).get());

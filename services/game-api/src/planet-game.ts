@@ -13,6 +13,7 @@ import type {
 } from '@mothership/contracts';
 import {createPlanetFoodCoordinator} from './planet-food-service.js';
 import type {FoodServiceState} from './planet-food-service.js';
+import {PLANET_FOOD_OWNER_INBOX_PROFILE} from './planet-food-inbox-types.js';
 
 export {withPlanetRequestTiming} from './planet-request-timing.js';
 export type {PlanetRequestTimingSummary} from './planet-request-timing.js';
@@ -58,6 +59,7 @@ export interface PlanetPersistence {
   readOnly?<T>(operation:(tx:PlanetReadTransaction)=>Promise<T>):Promise<T>;
   listKeys(namespace:string,limit:number):Promise<string[]>;
   nextFoodInboxIntent?(scopeKey:string):Promise<string|null>;
+  watchPrivateKey?(key:string,changed:()=>void,failed:(error:unknown)=>void):()=>void;
 }
 interface Member {
   seatId:SeatId;uid:string|null;bindingRevision:number;displayName:string;characterId:string|null;
@@ -68,6 +70,7 @@ interface Session<S> {
   matchId:string;roomCode:string;hostUid:string;versions:PlanetVersions;playerCount:7|8|9;journalSequence:number;
   setupFlowVersion?:2|3;
   foodService?:FoodServiceState;
+  foodAuthorityProfile?:typeof PLANET_FOOD_OWNER_INBOX_PROFILE;
   status:PlanetSessionSnapshot['status'];members:Member[];displays:string[];admissions:Admission[];
   setup:{id:string;endsAt:number;token:string;startedAt?:number;roleFilmStartsAt?:number}|null;prepared:PlanetSetup|null;preparedState:S|null;state:S|null;
 }
@@ -102,12 +105,16 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock?:()=>number;newId?:()=>string;
   waitForBotWake?:(delayMs:number)=>Promise<void>;
   randomSamples?:()=>number[];newRecoveryCode?:()=>string;assetManifestVersion?:string;enabled?:boolean;setupFlowVersion?:1|2|3;
+  foodAuthorityProfile?:typeof PLANET_FOOD_OWNER_INBOX_PROFILE;
   engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE|typeof PLANET_FOOD_TASK_ENGINE_PROFILE;
 }){
   if(dependencies.setupFlowVersion!==undefined&&dependencies.setupFlowVersion!==1&&dependencies.setupFlowVersion!==2&&dependencies.setupFlowVersion!==3)
     throw new Error('Unsupported Planet setup flow version');
   if(dependencies.engineProfile!==undefined&&dependencies.engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_FOOD_TASK_ENGINE_PROFILE)
     throw new Error('Unsupported Planet engine profile');
+  if(dependencies.foodAuthorityProfile!==undefined&&(dependencies.foodAuthorityProfile!==PLANET_FOOD_OWNER_INBOX_PROFILE
+    ||dependencies.engineProfile!==PLANET_FOOD_TASK_ENGINE_PROFILE||!dependencies.store.nextFoodInboxIntent))
+    throw new Error('Unsupported Planet Food authority profile');
   const engine:PlanetEnginePort<S>=dependencies.engine;
   if(dependencies.engineProfile===PLANET_FOOD_TASK_ENGINE_PROFILE)
     for(const name of ['applyPlanetFoodCommand','setPlanetFoodPresence','projectPlanetFoodPublic','projectPlanetFoodPlayer'] as const)
@@ -158,6 +165,9 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         throw new Error('Invalid saved Planet timed reading stage');
     }else if(s.setup&&(Object.hasOwn(s.setup,'startedAt')||Object.hasOwn(s.setup,'roleFilmStartsAt')))
       throw new Error('Setup timestamps outside their versioned stage');
+    if(Object.hasOwn(s,'foodAuthorityProfile')&&(s.foodAuthorityProfile!==PLANET_FOOD_OWNER_INBOX_PROFILE
+      ||s.versions.engineVersion!==PLANET_FOOD_TASK_PINS.engineVersion||!store.nextFoodInboxIntent))
+      throw new Error('Unsupported saved Planet Food authority profile');
     PlanetVersionsSchema.parse(s.versions);
     for(const state of [s.state,s.preparedState])if(state){engine.assertPlanetGameState(state);
       if(state.matchId!==s.matchId||!same(state.versions,s.versions))throw new Error('Saved session identity or version mismatch');}
@@ -280,7 +290,8 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         const matchId=generatedId,roomCode=hash([generatedId,ctx.random]).slice(0,6).toUpperCase();
         if(await tx.get('room/'+roomCode))reject('UNAVAILABLE');
         const s:Session<S>={matchId,roomCode,hostUid:uid,versions,playerCount:request.playerCount,journalSequence:0,status:'lobby',members:[],displays:[],admissions:[],setup:null,prepared:null,preparedState:null,state:null,
-          ...(dependencies.setupFlowVersion===2||dependencies.setupFlowVersion===3?{setupFlowVersion:dependencies.setupFlowVersion}:{})};
+          ...(dependencies.setupFlowVersion===2||dependencies.setupFlowVersion===3?{setupFlowVersion:dependencies.setupFlowVersion}:{}),
+          ...(dependencies.foodAuthorityProfile===undefined?{}:{foodAuthorityProfile:dependencies.foodAuthorityProfile})};
         const response=success({matchId,roomCode});
         tx.set('room/'+roomCode,{matchId});record(tx,s,{kind:'CREATE',context:ctx});await publish(tx,s,ctx);tx.set(receiptKey,{fingerprint,response});
         return response;
@@ -528,10 +539,26 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
       const accepted=await driveBots(s,ctx,tx);if(accepted)await publish(tx,s,ctx);return {accepted};});}
     catch(error){if(error instanceof FoodHandoff)return food.runBots(matchId);throw error;}
   }
+  async function projectFoodInboxSnapshot(uid:string,matchId:string):Promise<PlanetSessionSnapshot|null>{
+    if(!safeUid(uid)||!IdentifierSchema.safeParse(matchId).success)return null;
+    const project=async(tx:PlanetReadTransaction)=>{
+      const s=await load(tx,matchId);
+      if(!s.foodAuthorityProfile||!isParticipant(s,uid))return null;
+      return snapshot(s,uid,clock());
+    };
+    try{return await (store.readOnly?store.readOnly(project):store.transaction(project));}
+    catch(error){if(error instanceof Rejected)return null;throw error;}
+  }
+  async function subscribeFoodInboxMatch(uid:string,matchId:string,changed:()=>void,failed:(error:unknown)=>void):Promise<(()=>void)|null>{
+    if(!store.watchPrivateKey||!await projectFoodInboxSnapshot(uid,matchId))return null;
+    // Signal only. The transport reauthorizes and projects every emitted frame.
+    return store.watchPrivateKey(matchKey(matchId),changed,failed);
+  }
   const food=createPlanetFoodCoordinator<S,Session<S>>({store,engine,clock,newId,newContext:foodContext,newRecoveryCode,
     load,publish,record,snapshot,chooseOrdinaryBot:choosePlanetBotCommand,reject,limit,
     ...(dependencies.waitForBotWake?{waitForBotWake:dependencies.waitForBotWake}:{})});
-  return {handle,runDeadline,repairDeadlines,dispatchDeadline,runBots};
+  return {handle,runDeadline,repairDeadlines,dispatchDeadline,runBots,
+    projectFoodInboxSnapshot,subscribeFoodInboxMatch,runFoodInbox:food.runFoodInbox,dispatchFoodInboxWake:food.dispatchFoodInboxWake,repairFoodInboxWakes:food.repairFoodInboxWakes};
 }
 
 /** Deliberately simple practice policy. It sees only its own authorized player projection. */
