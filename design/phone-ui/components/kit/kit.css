@@ -186,6 +186,12 @@
 .ms-kit :where(.ms-k-tile-icon .ms-k-ic) { width: 28px; height: 28px; }
 .ms-kit :where(.ms-k-tile-name) { font: 600 0.9375rem/1.15 var(--ms-k-font); }
 .ms-kit :where(.ms-k-tile-note) { font: 500 0.75rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); }
+/* A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card svg): the tile's width, at the card's own shape. */
+.ms-kit :where(.ms-k-tile-art) { display: block; width: 100%; }
+.ms-kit :where(.ms-k-tile-art svg) { box-sizing: border-box; display: block; width: 100%; height: auto; }
+/* A note with its icon before it (0.7.0; the private talk's lock, the pack's .declare-sides .tile small). */
+.ms-kit :where(.ms-k-tile-note[data-has-icon]) { display: inline-flex; align-items: center; gap: 4px; }
+.ms-kit :where(.ms-k-tile-note[data-has-icon] .ms-k-ic) { width: 14px; height: 14px; flex: 0 1 auto; }
 .ms-kit :where(.ms-k-tile-badge) { position: absolute; top: 8px; right: 8px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--ms-k-ink); color: var(--ms-k-paper); font: 700 0.75rem/22px var(--ms-k-font); box-shadow: 0 0 0 1.5px rgba(244, 235, 221, 0.4); }
 .ms-kit :where(.ms-k-tile-stamp) { position: absolute; left: 50%; top: 40px; transform: translateX(-50%) rotate(-6deg); padding: 3px 7px 2px; border: 2px solid var(--ms-k-ink); border-radius: 5px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.6875rem/1 var(--ms-k-letter); letter-spacing: 0.06em; box-shadow: 2px 2px 0 #05070B; white-space: nowrap; }
 .ms-kit :where(.ms-k-tile [hidden]) { display: none; }
@@ -271,6 +277,8 @@
 .ms-kit :where(.ms-k-tile[data-state="selected"] .ms-k-tile-icon) { background: var(--ms-k-accent); --ic-knock: var(--ms-k-accent); }
 .ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-icon) { background: var(--ms-k-surface-4); color: var(--ms-k-steel-light); --ic-knock: var(--ms-k-surface-4); }
 .ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-name) { color: var(--ms-k-text-2); }
+/* An unavailable card's art fades to grey (0.7.0; the pack's .declare-sides .tile[data-state="unavailable"] .hack-card). */
+.ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-art) { opacity: 0.35; filter: grayscale(1); }
 .ms-kit :where(.ms-k-tile[data-state="registered"]) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
 .ms-kit :where(.ms-k-tile[data-state="registered"] .ms-k-tile-icon) { background: var(--ms-k-ink); color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); --ic-knock: var(--ms-k-ink); }
 /* A tile that cannot be chosen now is the pack's div, not its button: no hand, and on glass the sheet's halo

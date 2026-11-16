@@ -11,6 +11,7 @@
 // part's box, its type and colours, its ::before and ::after, and an icon's drawing.
 
 import { seatOf as seat } from '../../../prototype/fixtures.mjs';
+import { HACK_ART } from '../../../../../apps/game/hosted/scene-drawing/phone-kit-art.mjs';
 
 const BUTTON = (p, k) => [
   ['button', p, k, { pseudo: ['::before', '::after'] }],
@@ -43,6 +44,19 @@ const ROW_PILL = n => {
     [`row ${n} pill`, p, k],
     [`row ${n} pill drawing`, `${p} > svg`, `${k} > .ms-k-pill-icon > svg`, { svg: true }],
     [`row ${n} pill words`, `${p} > span`, `${k} > .ms-k-pill-label`, { words: true }],
+  ];
+};
+
+/** A side card's parts (sheet 25's .declare-sides; 0.7.0): the tile, its art, its name, and its note with the lock. */
+const CARD = n => {
+  const p = `:scope > .declare-sides > :nth-child(${n})`, k = `:scope > .ms-k-tiles > :nth-child(${n})`;
+  return [
+    [`card ${n}`, p, k],
+    [`card ${n} art`, `${p} > .hack-card`, `${k} > .ms-k-tile-art`],
+    [`card ${n} art drawing`, `${p} > .hack-card > svg`, `${k} > .ms-k-tile-art > svg`],
+    [`card ${n} name`, `${p} > b`, `${k} > .ms-k-tile-name`, { words: true }],
+    [`card ${n} note`, `${p} > small`, `${k} > .ms-k-tile-note:not([hidden])`, { words: true }],
+    [`card ${n} lock`, `${p} > small > svg`, `${k} > .ms-k-tile-note > svg`, { svg: true }],
   ];
 };
 
@@ -323,6 +337,24 @@ export const CASES = Object.freeze([
     kit: ({ kit }) => kit.facts(['Uses your one given Promise only if Ava accepts', { icon: 'lock', text: 'Only you and Ava see it' }]),
     parts: FACTS(2) },
   // The paper card (kit.css .comic), padded by its screen as sheet 33's offer card is.
+  // Kit 0.7.0: sheet 25's side cards, the tile with the card's art, its lock before the note, and no label of its own.
+  // The grid and the cards' height and colour are the private talk's own rules, given here as its own styles.
+  { id: 'tiles art', where: 'both',
+    pack: ({ ui }) => {
+      const sides = ui.h('div.declare-sides', ['blue', 'red', 'alien'].map((s, i) => ui.h('button.tile', { type: 'button', 'data-state': i === 0 ? 'selected' : 'unavailable', 'aria-disabled': i === 0 ? null : 'true' },
+        ui.h('span.hack-card', { html: HACK_ART[`hack-side-${s}`]() }), ui.h('b', ['Blue', 'Red', 'Alien'][i]), i === 0 ? null : ui.h('small', ui.ic('lock', { filled: true }), 'Not for your role'))));
+      // As screens-more.mjs talk() does once it has drawn: each card's art at the tile's width.
+      sides.querySelectorAll('.hack-card svg').forEach(svg => { svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.display = 'block'; });
+      return sides;
+    },
+    kit: ({ kit }) => {
+      const grid = kit.tiles(['blue', 'red', 'alien'].map((s, i) => kit.tile({ art: HACK_ART[`hack-side-${s}`](), name: ['Blue', 'Red', 'Alien'][i], label: false,
+        ...(i === 0 ? { state: 'selected' } : { state: 'unavailable', note: 'Not for your role', noteIcon: 'lock' }) })));
+      grid.style.marginTop = '6px';
+      for (const card of grid.children) { card.style.minHeight = '150px'; card.style.background = '#0A1530'; }
+      return grid;
+    },
+    parts: [1, 2, 3].flatMap(CARD) },
   { id: 'paper card', where: 'plain',
     pack: ({ ui }) => ui.h('article.comic', { style: { padding: '14px' } }, ui.h('div', { style: { height: '60px' } })),
     kit: ({ kit }) => { const card = kit.comic(kit.h('div', null, { style: 'height: 60px' })); card.style.padding = '14px'; return card; },

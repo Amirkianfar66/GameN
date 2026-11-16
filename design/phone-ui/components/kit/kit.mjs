@@ -336,25 +336,47 @@ export function createKit(doc) {
    * unavailable tile's reason); `badge` the count on the icon's corner; `label` its accessible name, by default
    * the name, the note and "registered", as the pack writes it. `sending` is the pack's `submitting`.
    */
+  const tileArt = new WeakMap();
   function setTile(node, props) {
     if (!isText(props?.name)) throw new TypeError('A tile needs its name');
-    if (!isText(props.icon)) throw new TypeError('A tile needs its icon');
+    if (!isText(props.icon) && !isText(props.art)) throw new TypeError('A tile needs its icon or its art');
     const state = props.state ?? 'available';
     if (!TILE_STATES.includes(state)) throw new TypeError(`A tile's state is ${TILE_STATES.join(', ')}, not ${JSON.stringify(state)}`);
     const note = optionalText(props.note, 'A tile\'s note');
     const badge = props.badge === null || props.badge === undefined ? null : String(props.badge);
     if (badge !== null && !/^\d+$/.test(badge)) throw new TypeError('A tile\'s badge is a whole number, or null');
     node.classList.add('ms-k-tile');
-    if (!node.querySelector(':scope > .ms-k-tile-icon')) {
+    if (!node.querySelector(':scope > .ms-k-tile-name')) {
       node.append(h('span', 'ms-k-tile-icon'), h('b', 'ms-k-tile-name'), h('small', 'ms-k-tile-note'),
         h('span', 'ms-k-tile-badge'), h('span', 'ms-k-tile-stamp', { 'aria-hidden': 'true' }));
     }
     const [glyph, name, small, count, mark] = node.children;
     node.dataset.state = state;
-    // The pack fills the icon, but not on an unavailable tile.
-    setIcon(glyph, props.icon, state !== 'unavailable');
+    if (isText(props.art)) {
+      // A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card): the game's own art
+      // markup (HACK_ART), never words or anything a player gave. Kept while it is the same markup.
+      if (glyph.className !== 'ms-k-tile-art') { glyph.className = 'ms-k-tile-art'; glyph.dataset.icon = ''; glyph.hidden = false; }
+      glyph.setAttribute('aria-hidden', 'true');
+      if (tileArt.get(glyph) !== props.art) {
+        const t = doc.createElement('template');
+        t.innerHTML = props.art.trim();
+        glyph.replaceChildren(t.content);
+        tileArt.set(glyph, props.art);
+      }
+    } else {
+      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
+      // The pack fills the icon, but not on an unavailable tile.
+      setIcon(glyph, props.icon, state !== 'unavailable');
+    }
     text(name, props.name);
-    text(small, note ?? '');
+    if (note !== null && isText(props.noteIcon)) {
+      // A note with its icon before it (0.7.0; the private talk's lock, the pack's .declare-sides .tile small).
+      small.replaceChildren(icon(props.noteIcon, true), doc.createTextNode(note));
+      small.dataset.hasIcon = '';
+    } else {
+      if ('hasIcon' in small.dataset) { small.replaceChildren(); delete small.dataset.hasIcon; }
+      text(small, note ?? '');
+    }
     small.hidden = note === null;
     text(count, badge ?? '');
     count.hidden = badge === null;
@@ -362,7 +384,8 @@ export function createKit(doc) {
     attr(count, 'aria-hidden', note !== null ? 'true' : null);
     text(mark, state === 'registered' ? TILE_WORDS.registered : '');
     mark.hidden = state !== 'registered';
-    attr(node, 'aria-label', props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${TILE_WORDS.registeredSaid}` : ''}`);
+    // label: false leaves the tile named by its own words (0.7.0), as the private talk's side cards are.
+    attr(node, 'aria-label', props.label === false ? null : props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${TILE_WORDS.registeredSaid}` : ''}`);
     if (props.intent) node.dataset.intent = props.intent;
     if (props.value !== undefined && props.value !== null) node.dataset.value = String(props.value);
     return node;
