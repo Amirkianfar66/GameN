@@ -1,5 +1,5 @@
 /*
- * The entry choice's styles: runtime source, Designer's (entry-parts.mjs). The phone pack's own values
+ * The entry screens' parts' styles: runtime source, Designer's (entry-parts.mjs). The phone pack's own values
  * (design/phone-ui/prototype/screens.css .entry; kit.css * and button), in the kit's tokens, scoped under
  * the root class a component adds (.ms-entry-parts), at one class's weight as the kit's are, so that a
  * component places a choice with one more class. The kit's tokens come from the component's .ms-kit root.
@@ -32,3 +32,52 @@
 .ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-icon) { background: var(--ms-k-ink); color: var(--ms-k-accent); --ic-knock: var(--ms-k-ink); }
 .ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-sub) { color: rgba(21, 25, 35, 0.75); }
 .ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-chev) { color: var(--ms-k-ink); }
+
+/* ── The screen and its foot (the pack's .screen, .screen-foot) ────────
+   Inside the safe areas: the component sets --ms-ep-safe-t and --ms-ep-safe-b, or the browser's are used.
+   It scrolls, and the foot follows the content, at the bottom when the content is short. */
+.ms-entry-parts :where(.ms-ep-screen, .ms-ep-screen *) { box-sizing: border-box; }
+.ms-entry-parts :where(.ms-ep-screen) {
+  position: absolute; inset: 0; display: flex; flex-direction: column; overflow: auto; overscroll-behavior: contain;
+  padding: calc(var(--ms-ep-safe-t, env(safe-area-inset-top, 0px)) + 8px) 16px calc(var(--ms-ep-safe-b, env(safe-area-inset-bottom, 0px)) + 16px);
+}
+.ms-entry-parts :where(.ms-ep-screen > *) { flex-shrink: 0; }
+.ms-entry-parts :where(.ms-ep-foot) { margin-top: auto; padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.ms-entry-parts :where(.ms-ep-foot .ms-k-group-note) { text-align: center; }
+
+/* ── The nav bar (.nav-bar): the kit's plain button with the chevron, the centred title, a spacer ── */
+.ms-entry-parts :where(.ms-ep-nav) { flex: none; display: flex; align-items: center; min-height: 44px; margin: 0 -8px 6px; }
+.ms-entry-parts :where(.ms-ep-nav .ms-ep-back) { padding: 0 8px; gap: 2px; font-weight: 500; }
+.ms-entry-parts :where(.ms-ep-nav .ms-ep-back .ms-k-ic) { width: 22px; height: 22px; }
+.ms-entry-parts :where(.ms-ep-nav-title) { flex: 1; margin: 0; text-align: center; font: 600 1.0625rem/1.2 var(--ms-k-font); }
+.ms-entry-parts :where(.ms-ep-nav-spacer) { width: 76px; flex: none; }
+.ms-entry-parts :where(.ms-ep-large-title) { margin: 4px 0 14px; font: 700 2rem/1.15 var(--ms-k-font); letter-spacing: -0.02em; }
+
+/* ── The room code card (.code-card): the code selectable, Copy beside it, the seats and their bar ── */
+.ms-entry-parts :where(.ms-ep-code-card) { padding: 16px 16px 14px; border-radius: 18px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-entry-parts :where(.ms-ep-code-label) { font: 600 0.8125rem/1.2 var(--ms-k-font); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-k-text-2); }
+.ms-entry-parts :where(.ms-ep-code-row) { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.ms-entry-parts :where(.ms-ep-code) { flex: 1; font: 800 2.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; letter-spacing: 0.12em; color: var(--ms-k-paper); -webkit-user-select: text; user-select: text; }
+.ms-entry-parts :where(.ms-ep-code-meta) { margin-top: 10px; display: flex; align-items: center; gap: 8px; color: var(--ms-k-text-2); font: 500 0.875rem/1.2 var(--ms-k-font); }
+.ms-entry-parts :where(.ms-ep-code-meta[hidden]) { display: none; }
+.ms-entry-parts :where(.ms-ep-progress) { flex: 1; height: 6px; border-radius: 3px; background: var(--ms-k-surface-3); overflow: hidden; }
+.ms-entry-parts :where(.ms-ep-progress i) { display: block; height: 100%; background: var(--ms-k-accent); border-radius: 3px; }
+
+/* ── The toast (.toast), with the shell's timing (entry-parts.mjs): in over 220 ms from 8 px up, out over
+   180 ms; with Reduce motion, the game's or the device's, it fades in over 80 ms without its travel. ── */
+.ms-entry-parts :where(.ms-ep-toast) {
+  position: absolute; left: 50%; top: var(--ms-ep-toast-top, 0px); z-index: 70; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px;
+  background: var(--ms-k-paper); color: var(--ms-k-ink); font: 600 0.9375rem/1.2 var(--ms-k-font); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  white-space: nowrap; --ic-knock: var(--ms-k-paper); pointer-events: none;
+  animation: ms-ep-toast-in 220ms cubic-bezier(0.16, 0.84, 0.3, 1) both; transition: opacity 180ms linear;
+}
+.ms-entry-parts :where(.ms-ep-toast .ms-ep-ic) { flex: none; width: 20px; height: 20px; }
+.ms-entry-parts :where(.ms-ep-toast-text) { overflow: hidden; text-overflow: ellipsis; }
+.ms-entry-parts :where(.ms-ep-toast[data-leaving]) { opacity: 0; }
+.ms-entry-parts:where([data-motion="reduced"]) :where(.ms-ep-toast) { animation: ms-ep-fade 80ms linear both; }
+@media (prefers-reduced-motion: reduce) {
+  .ms-entry-parts :where(.ms-ep-toast) { animation: ms-ep-fade 80ms linear both; }
+}
+@keyframes ms-ep-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
+@keyframes ms-ep-fade { from { opacity: 0; } }
