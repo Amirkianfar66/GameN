@@ -84,3 +84,7 @@
 }
 @keyframes ms-ep-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
 @keyframes ms-ep-fade { from { opacity: 0; } }
+
+/* ── The seat badge (screens.css .seat-badge; sheet 13) ───────────────── */
+.ms-entry-parts :where(.ms-ep-seat-badge) { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 700 1rem/1 var(--ms-k-font); }
+.ms-entry-parts :where(.ms-ep-seat-badge .ms-k-num) { background: var(--ms-k-ink); color: var(--ms-k-paper); min-width: calc(30em / 16); height: calc(30em / 16); font-size: 1rem; }

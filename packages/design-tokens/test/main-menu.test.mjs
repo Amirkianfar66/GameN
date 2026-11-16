@@ -110,7 +110,7 @@ test('the entry parts\' styles: scoped under their root class at one class\'s we
   assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), ['ms-ep-toast-in', 'ms-ep-fade'], 'the toast\'s motion, and its plain fade with Reduce motion: the only motion');
   assert.match(css, /\.ms-entry-parts:where\(\[data-motion="reduced"\]\) :where\(\.ms-ep-toast\) \{ animation: ms-ep-fade 80ms linear both; \}/, 'the game\'s Reduce motion');
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.ms-entry-parts :where\(\.ms-ep-toast\) \{ animation: ms-ep-fade 80ms linear both; \}/, 'the device\'s Reduce motion');
-  assert.equal(ENTRY_PARTS_VERSION, 'entry-parts-0.2.0');
+  assert.equal(ENTRY_PARTS_VERSION, 'entry-parts-0.3.0');
   assert.deepEqual(ENTRY_TONES, [null, 'primary']);
   assert.throws(() => createEntryParts(null), /need a document/);
   assert.doesNotMatch(read(`${PARTS}/entry-parts.mjs`), /mothership:dev-only/);
