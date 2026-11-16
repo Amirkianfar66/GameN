@@ -46,6 +46,15 @@ const ROW_PILL = n => {
   ];
 };
 
+/** A notice's parts (screens.css .registered; 0.7.0): the box, its stamp or its icon, and its lines. */
+const NOTICE = ({ stamp = false, icon = false, lines = 1 } = {}) => [
+  ['notice', ':scope > .registered', ':scope > .ms-k-notice'],
+  ...(stamp ? [['stamp', ':scope > .registered > .stamp', ':scope > .ms-k-notice > .ms-k-stamp', { words: true }]] : []),
+  ...(icon ? [['icon', ':scope > .registered > .big-icon', ':scope > .ms-k-notice > .ms-k-notice-icon'],
+    ['icon drawing', ':scope > .registered > .big-icon > svg', ':scope > .ms-k-notice > .ms-k-notice-icon > svg', { svg: true }]] : []),
+  ...Array.from({ length: lines }, (_, i) => [`line ${i + 1}`, `:scope > .registered > p:nth-of-type(${i + 1})`, `:scope > .ms-k-notice > p:nth-of-type(${i + 1})`, { words: true }]),
+];
+
 /** A waiting block's parts (screens.css .wait): the tile and its drawing, or a portrait; the title; the line and its spinner. */
 const WAIT = ({ lead = false, spinner = false } = {}) => [
   ['wait', ':scope > .wait', ':scope > .ms-k-wait'],
@@ -239,6 +248,26 @@ export const CASES = Object.freeze([
     parts: [1, 2, 3, 4].flatMap(n => [[`pill ${n}`, `:scope > .pill:nth-child(${n})`, `:scope > .ms-k-pill:nth-child(${n})`],
       [`pill ${n} drawing`, `:scope > .pill:nth-child(${n}) > svg`, `:scope > .ms-k-pill:nth-child(${n}) > .ms-k-pill-icon > svg`, { svg: true }],
       [`pill ${n} words`, `:scope > .pill:nth-child(${n}) > span`, `:scope > .ms-k-pill:nth-child(${n}) > .ms-k-pill-label`, { words: true }]]) },
+  // Kit 0.7.0: the notice (screens.css .registered), moved in from play-parts: sheet 40's BLOCKED, sheet 43's
+  // spent attempt, and sheet 42's MATCHED with its row inside.
+  { id: 'notice stamp', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.stamp('BLOCKED', 'amber'), ui.h('p', 'Gus can’t move this round'), ui.h('p', 'Everyone sees the block')),
+    kit: ({ kit }) => kit.notice({ stamp: { text: 'BLOCKED', tone: 'amber' }, lines: ['Gus can’t move this round', 'Everyone sees the block'] }),
+    parts: NOTICE({ stamp: true, lines: 2 }) },
+  { id: 'notice icon', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.h('span.big-icon', ui.ic('lock', { filled: true })), ui.h('p', 'Your attempt is used')),
+    kit: ({ kit }) => kit.notice({ icon: 'lock', lines: ['Your attempt is used'] }),
+    parts: NOTICE({ icon: true, lines: 1 }) },
+  { id: 'notice extra', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.stamp('MATCHED', 'amber'), ui.h('p', 'Gus · Blue guess'), ui.list(ui.row({ tag: 'div', icon: 'code', tint: 'paper', title: 'In the Code', value: 'Yes' }))),
+    kit: ({ kit }) => kit.notice({ stamp: { text: 'MATCHED', tone: 'amber' }, lines: ['Gus · Blue guess'], extra: kit.list(kit.row({ tag: 'div', icon: 'code', tint: 'paper', title: 'In the Code', value: 'Yes' })) }),
+    parts: [...NOTICE({ stamp: true, lines: 1 }),
+      ['list', ':scope > .registered > .list', ':scope > .ms-k-notice > .ms-k-list'],
+      ['row', ':scope > .registered > .list > li > .row', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row', { pseudo: ['::before'] }],
+      ['row icon', ':scope > .registered > .list > li > .row > .row-icon', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row > .ms-k-row-icon'],
+      ['row icon drawing', ':scope > .registered > .list > li > .row > .row-icon > svg', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row > .ms-k-row-icon > svg', { svg: true }],
+      ['row title', ':scope > .registered .row-title', ':scope > .ms-k-notice .ms-k-row-title', { words: true }],
+      ['row value', ':scope > .registered .row-value', ':scope > .ms-k-notice .ms-k-row-value', { words: true }]] },
   { id: 'stamps', where: 'both',
     pack: ({ ui }) => [ui.stamp('Jailed'), ui.stamp('Saved', 'amber'), ui.stamp('Sent', 'pending'), ui.stamp('Winner', 'gold'), ui.stamp('Out', 'steel')],
     kit: ({ kit }) => [kit.stamp({ text: 'Jailed' }), kit.stamp({ text: 'Saved', tone: 'amber' }), kit.stamp({ text: 'Sent', tone: 'pending' }), kit.stamp({ text: 'Winner', tone: 'gold' }), kit.stamp({ text: 'Out', tone: 'steel' })],

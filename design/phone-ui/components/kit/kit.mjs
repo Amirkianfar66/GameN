@@ -426,6 +426,43 @@ export function createKit(doc) {
     return node;
   }
   const facts = lines => setFacts(h('ul'), lines);
+
+  // ── The notice (screens.css .registered; 0.7.0) ────────────────────
+  /**
+   * { icon, filled, stamp: { text, tone }, lines: [text, …], extra, status }: an icon or a stamp centred over its
+   * lines, as sheet 45's "Outcome unknown", sheet 40's BLOCKED and sheet 42's MATCHED. Moved in from play-parts with
+   * the same props. The icon is drawn as the pack draws it there: the 76 px .big-icon tile applies only inside a
+   * waiting block. `extra` is a node after the lines, inside the notice, as the Scan result holds its row; the notice
+   * keeps it while the same node is given. `status` (default true) reads the notice as it opens.
+   */
+  const noticeExtras = new WeakMap();
+  function setNotice(node, props) {
+    const lines = props?.lines ?? [];
+    if (!Array.isArray(lines) || !lines.length || !lines.every(isText)) throw new TypeError('A notice needs its lines');
+    if (!isText(props.icon) && !isText(props.stamp?.text)) throw new TypeError('A notice has an icon or a stamp');
+    if (props.extra !== undefined && props.extra !== null && !isNode(props.extra)) throw new TypeError('A notice\'s extra is a node, or null');
+    node.classList.add('ms-k-notice');
+    attr(node, 'role', props.status === false ? null : 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-notice-icon'));
+    let mark = node.firstChild;
+    if (isText(props.stamp?.text)) {
+      if (!mark.classList.contains('ms-k-stamp')) { const s = h('span'); mark.replaceWith(s); mark = s; }
+      setStamp(mark, { text: props.stamp.text, tone: props.stamp.tone ?? null });
+    } else {
+      if (!mark.classList.contains('ms-k-notice-icon')) { const s = h('span', 'ms-k-notice-icon'); mark.replaceWith(s); mark = s; }
+      setIcon(mark, props.icon, props.filled !== false);
+    }
+    const paras = [...node.querySelectorAll(':scope > p')];
+    while (paras.length > lines.length) paras.pop().remove();
+    while (paras.length < lines.length) { const p = h('p'); (paras[paras.length - 1] ?? mark).after(p); paras.push(p); }
+    lines.forEach((line, i) => text(paras[i], line));
+    const before = noticeExtras.get(node) ?? null, extra = props.extra ?? null;
+    if (before !== extra) before?.remove();
+    if (extra && node.lastChild !== extra) node.append(extra);
+    noticeExtras.set(node, extra);
+    return node;
+  }
+  const notice = props => setNotice(h('div'), props);
   /** The pack's paper card (kit.css .comic): paper, an ink border and the ink shadow. The caller fills it and pads it. */
   const comic = (...children) => { const card = h('article', 'ms-k-comic'); card.append(...children.flat().filter(Boolean)); return card; };
 
@@ -481,7 +518,7 @@ export function createKit(doc) {
   }
   const switchControl = props => setSwitch(h('button', null, { type: 'button' }), props);
 
-  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead,
+  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead, notice, setNotice,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
     seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic });
 }
