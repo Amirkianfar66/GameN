@@ -107,3 +107,30 @@ The final runtime at `2cc1fa9f5a27d5255d6b705d75a847acb53aa759` passed all 13 sc
 The two-match loopback probe exercised four concurrent players. All 16 heartbeats returned, with a maximum of **244 ms**, while an unrelated ordinary setup deadline advanced. This measures simultaneous service and Firestore operation. Shared managed queue capacity and the continuous browser journey still need acceptance. [Baseline, failed stress run and corrected comparison](evidence/food-owner-renewal-2026-11-16/inbox-apply-comparison.json)
 
 On the same runtime source, typecheck, workspace boundaries and source integrity passed. The backend build and regression suite passed all 692 tests.
+
+## Native LOCK timing and proposed admission changes
+
+The recorded two-phone desktop Chromium run used Frontend `d8f324f5d6c4427477456b56c5b45dbfb7152a1e` and Backend `d4967a1aec0d967216da9adf99de5a23fa7e77f3`. The Panel operator tapped LOCK 1,122.1 ms after tapping RELEASE. The two exact receipts place their authoritative admissions 1,251 ms apart. The difference is 128.9 ms of additional input-to-admission time for this LOCK relative to this RELEASE. The trace does not contain a server receive timestamp for either input, so it cannot divide that difference among network, intake, worker wake and storage.
+
+From the starting stop, visible stop 6 rests from RELEASE +1,050 ms up to RELEASE +1,250 ms. The authoritative LOCK at +1,251 ms lands during the snap toward visible stop 7. The engine samples the snap destination and applies the existing cut. The exact LOCK receipt arrived 292 ms after touch. The observed LOCK state reached a rendering opportunity after 298 ms. The browser observer recorded no exact authoritative render witness for that sample. [Native trace](/private/tmp/gamen-food-prodrun-recorded.SIVOeN/report-invitations-timed-lifecycle-silence.json)
+
+### Source path at 262d99a9
+
+On a first-time warm input, the source contains the following serial reads before the candidate authoritative clock sample. These are nominal SDK calls for existing envelope keys and absent receipt and pending entries. Read retries, SDK wire timings, auth, writes and listener scheduling are outside this count.
+
+| Step | Fixed reads from source | Nominal SDK calls |
+| --- | --- | ---: |
+| API classification and authorization | Session for classification, then Session, route and live owner in a second snapshot | 8 |
+| Durable inbox intake | Current match route and listener-generation gate, followed by the intake commit | 4 |
+| Worker selection | Scoped route, owner and Control probe, then pending-head query and immutable intent | 9 |
+| Ordered admission | Session, Control, scoped route, owner, missing original receipt and missing pending pointer | 10 |
+
+An existing envelope uses one SDK read for its metadata and one batched read for its fragments. Each missing key uses its metadata read. The append's budget lookup and buffered-write metadata reads run after the candidate clock sample, and the successful transaction makes that sample authoritative. A retried append takes a fresh sample. The apply and response stages follow admission. The source identifies repeated reads, while the captured browser run cannot identify their individual time contributions.
+
+### Changes to evaluate after the browser repeat
+
+1. **One authorized API snapshot for timed inputs.** Merge the classification and authorization reads for human `TASK_PRESS` and explicit heartbeats on the opted-in profile. In the same read-only callback, classify the stored Session, run the existing validated load against that transaction's cached envelope, resolve the open route, authorize the caller and capture the binding and current listener. Feed that capture to the existing intake path. The intake write transaction still checks the current scope, binding generation and listener generation. A changed scope or binding follows the existing retry path. Invitation commands, private receipt lookup, setup, legacy matches and host recovery keep their existing entry points.
+
+2. **Skip the separate worker probe after a known drained commit.** A live worker can carry a hint from a confirmed processing commit that the prefix was drained. When a pending intent is available, attempt its ordered append on the same owner lane. In that append transaction, recheck the scoped route is open, the exact owner ID and epoch still hold, the lease is valid, and durable Control satisfies both `processedSequence >= cutoverThrough` and `processedSequence === nextSequence - 1`. A pending prefix causes an immediate fallback to the existing drain and a fresh pending-head selection without consuming the cached candidate. A closed scope, stale owner, missing Control or uncertain prior commit uses the existing recovery path. The chosen timestamp still comes from the successful append, with ordinary due boundaries and receipt deduplication retained.
+
+Validate both changes with the existing concurrent JOIN, exact retry, binding recovery, ownership takeover, abort and common-return cases. Record bounded redacted spans for request receipt and auth, intake commit, pending-head notification and selection, ordered-append read groups, authoritative stamp and commit. Compare the same network conditions and report misses with successful samples. The report makes no claim about a warm Session cache or per-key RPC latency.
