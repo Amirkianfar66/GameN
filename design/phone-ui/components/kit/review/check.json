@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.5.1",
-  "sourceCommit": "481105204dd086469dd494ca66eefdda4541cc74",
+  "version": "component-kit-0.6.0",
+  "sourceCommit": "e7da9b4ff5242d7816c17c9897f379035ccb0f39",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -192,87 +192,87 @@
   "pages": {
     "pack-100": {
       "file": "design/phone-ui/components/kit/review/pack-100.jpg",
-      "sha256": "907b573602480695bd23ba74a18106a42ceb5a951b1c11ee8c60596cbb83eb0d",
+      "sha256": "74fa88a2501503a1b448af0efb133de24449bb1982749ce49e70d2f06c2e6959",
       "size": {
         "width": 390,
-        "height": 7896
+        "height": 9094
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D7RCJQLy.js",
+          "source": "assets/page-CyXmwK5n.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "8353c79a7e9aa639225ce1fe89b1ee6b14dbdecb289a3b760c34b89872b01145"
+      "measurementSha256": "d8bcb6b69bd27ed3631b00a39aa17887becf72ca97ad620d3f5b1e2282c1023c"
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "b20b7947930b4854e6efa786302940b3cbf0dacdb47a1b2c517e553336f89e5d",
+      "sha256": "7d8808786ab00c074f36ae3a969eb650510c1c90b5204868d1d3865b602b84f3",
       "size": {
         "width": 390,
-        "height": 7965
+        "height": 9163
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D7RCJQLy.js",
+          "source": "assets/page-CyXmwK5n.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "8c3be0fb37781d0ec54f3d7074f9326d3a6f5e9526cd0230dfbb67598600be6e"
+      "measurementSha256": "a592ca0406acbf9a85c7763c884e9b3e7dc273150348b8c526b2a79b0ec4a3fe"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
-      "sha256": "bb3cd51a9ee6a831596e62a29355b2b16c30b2f549bf75c1148f14f2cc6e227e",
+      "sha256": "8af6541cb21cfb72f095c6c08bb38174c8a441448367676300df9179eef05f8a",
       "size": {
         "width": 390,
-        "height": 10769
+        "height": 12771
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D7RCJQLy.js",
+          "source": "assets/page-CyXmwK5n.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "3e160fc478edd9c11f6ac031da6289e04b79b4759324bdb208a58f16c873cd55"
+      "measurementSha256": "f52fd7f41570236787a5d4683ed267a2258af1e06848d44fa99324cbaaf00ef3"
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "a872fba3f3f195df84291c3181bef14d843fb9f5614eda0fe96401aec624c489",
+      "sha256": "ad0cfa28f24b4fc9303d0a9ce07f7feea32e5ff5c0333ca7d6b845fc13837d60",
       "size": {
         "width": 390,
-        "height": 10960
+        "height": 12963
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-D7RCJQLy.js",
+          "source": "assets/page-CyXmwK5n.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "9e472afc40d64eff856be8555e349d807f277442a1a86cb2d41d436ecfae88d0"
+      "measurementSha256": "2230751abc80d56a04827d8fa56d4c518816c73e75193455a4d8cf5d476838c4"
     }
   },
   "agreement": {
@@ -579,6 +579,36 @@
         "wait portrait": {
           "ok": true,
           "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "paper card": {
+          "ok": true,
+          "parts": 1,
           "differences": [],
           "accepted": []
         },
@@ -900,6 +930,30 @@
         "wait portrait": {
           "ok": true,
           "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
           "differences": [],
           "accepted": []
         },
@@ -1257,6 +1311,36 @@
         "wait portrait": {
           "ok": true,
           "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
+        "paper card": {
+          "ok": true,
+          "parts": 1,
           "differences": [],
           "accepted": []
         },
@@ -2032,6 +2116,30 @@
           "differences": [],
           "accepted": []
         },
+        "tiles": {
+          "ok": true,
+          "parts": 24,
+          "differences": [],
+          "accepted": []
+        },
+        "who": {
+          "ok": true,
+          "parts": 4,
+          "differences": [],
+          "accepted": []
+        },
+        "who icon": {
+          "ok": true,
+          "parts": 5,
+          "differences": [],
+          "accepted": []
+        },
+        "facts": {
+          "ok": true,
+          "parts": 7,
+          "differences": [],
+          "accepted": []
+        },
         "cells": {
           "ok": true,
           "parts": 51,
@@ -2042,9 +2150,9 @@
     }
   },
   "summary": {
-    "cases": 144,
-    "agree": 144,
-    "parts": 931,
+    "cases": 162,
+    "agree": 162,
+    "parts": 1093,
     "accepted": 124
   }
 }
