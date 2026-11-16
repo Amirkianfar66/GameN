@@ -185,7 +185,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const agree = record.agree;
   assert.ok(agree.ok && agree.checks.length === 9 && agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the sheet agrees with the frozen pack\'s host-controls screen');
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
-  // Compared with the shell as it is (0.2.5 draws the pack's head with Back and its footer's halves): no patch, nothing recorded as the shell's.
+  // Compared with the shell as it is (since 0.2.5 it draws the pack's head with Back and its footer's halves): no patch, nothing recorded as the shell's.
   assert.ok(agree.checks.every(c => !('shell' in c.detail)), 'nothing recorded as the shell\'s');
   // The one accepted difference: the timer icon keeps its 24 px at the Largest text.
   const accepted = agree.checks.filter(c => c.detail.accepted);

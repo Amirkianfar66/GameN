@@ -1,6 +1,6 @@
 # Host controls: Designer's runtime component
 
-**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.5. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -23,7 +23,7 @@
 
 **Not in it:**
 - **The commands and their answers:** checking the deadline (today's `advance`), running bots (`runBots`), issuing a seat's code (`issueRecovery`) and aborting (`abort`) are Frontend's to send and the server's to answer. The component reports a tap; Frontend gives each command's state and the issued code.
-- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.5). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, answer 1), so they stay in Designer's source.
+- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.6). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, answer 1), so they stay in Designer's source.
 - **The host's lobby controls** (seats, bots before the start, admitting players): the host room (#287).
 
 ## The Lead's answers (#295)
@@ -50,7 +50,7 @@ The tool is `design/tools/host-controls-check.mjs`, on the shared `lib/component
 
 **Uses unchanged:**
 - **The kit (0.5.1):** `list` and `row` (icon tiles, portraits as leads, the chevron, the spinner as a trail), `groupLabel`, `groupNote`, `wait` (`size: 'small'`, the abort's warning tile and its 1.25rem title), and the control policy.
-- **The phone shell (0.2.5):** its sheet (`back`, `sub`, `detent: 'large'`, `actions` with `kind: 'warn'` and `local: true`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
+- **The phone shell (0.2.6):** its sheet (`back`, `sub`, `detent: 'large'`, `actions` with `kind: 'warn'` and `local: true`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
 
 ## Mount, update and dispose
 
@@ -117,7 +117,7 @@ Each reports a tap, and only that.
 
 The agreement draws the frozen pack's `host-controls` screen beside the sheet (its list, the code hidden and revealed, the copy's toast, and the abort's confirm; at both sizes and the Largest text) and compares, to within half a pixel: the sheet, its title, line and body; the footer and its buttons and icons; the toast; the group label, the lists, the rows, their icon tiles and drawings, portraits (by file), titles, lines and chevrons; the code card and each of its six lines and its timer icon; the note; and the confirm's tile, icon, title and line: their boxes, words, looks, states (`aria-disabled`, `aria-busy`, names, roles) and drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; what the pack does not draw (a command in flight or refused, reconnecting) is the probe's.
 
-- **The shell, as it is:** compared with shell 0.2.5, which draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text; nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
+- **The shell, as it is:** compared with shell 0.2.6 (since 0.2.5 it draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text); nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
 - **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
 
 ## Check
