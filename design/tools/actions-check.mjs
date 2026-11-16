@@ -76,6 +76,7 @@ const EXPECT = {
   'after-reload': afterOf('Rescue', 'REGISTERED', 'The server accepted your action.', { steps: 0 }),
   unknown: { part: 'unknown', sheet: 'Outcome unknown', notice: 'Rescue Eli was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'unknown-blackout': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Request Blackout was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
+  'unknown-panel': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Panel request was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   pass: { part: 'pass', sheet: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', note: 'Your move stays open on the other turns this round.', footer: 'Cancel|Pass' },
   stale: tilesOf(DOCTOR, { banner: 'Connection lost', refused: true }),
   concealed: { concealed: true },

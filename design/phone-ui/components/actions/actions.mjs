@@ -17,6 +17,9 @@
 // room scene draws the people offered; the board, those in other rooms. Move chooses a position, not a person
 // (sheets 20, 26 and 27.1; the Lead's Q1–Q4, 16 November): its bar and chip are moveBar() and moveChip(), its
 // check is the same check with the position, and once accepted it says movedToast(). Pass's is passedToast().
+// The Hospital panel's request (PANEL_CODE) is the Hospital panel component's (design/phone-ui/components/
+// hospital-panel; the Lead's Q3, 16 November): Actions draws only its sheet 45, "Panel request was sent, but no
+// answer came back.", which names no number, and every other part refuses it, naming that component.
 //
 // What it never does: decide which actions a role has or which are offered, why one is not, who can be
 // chosen, what an action costs or does, or whether it was accepted. Every state, line, reason, person, fact
@@ -26,7 +29,7 @@
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 import { TILE_STATES, createPlayParts } from '../play-parts/play-parts.mjs';
 
-export const ACTIONS_VERSION = 'actions-0.2.0';
+export const ACTIONS_VERSION = 'actions-0.2.1';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const TURNS = Object.freeze(['own', 'other']);
 const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured']);
@@ -54,6 +57,9 @@ export const ACTION_LOOKS = Object.freeze({
   MOVE: look('move', 'Move', 'Move', 'Move to', 'Register move', 'Registering…', 'Move', 0),
   SCAN: look('scan', 'Scan', 'Scan', null, null, null, 'Scan', null),
   SUBMIT_CODE: look('code', 'Final Code', 'Final Code', null, null, null, 'Final Code', null),
+  // The Hospital panel's request (the Lead's Q3): sheet 45 alone is Actions', as "Panel request". It takes no one,
+  // so "Outcome unknown" can never name the number the patient entered.
+  PANEL_CODE: look('panel', 'Hospital panel', 'Hospital panel', 'Panel request', null, null, 'Panel request', 0),
 });
 
 /** The pack's words (screens-game.mjs actions(), room() and screens-more.mjs system()). */
@@ -98,6 +104,13 @@ const lookOf = (type, what = 'type') => {
   if (!Object.hasOwn(ACTION_LOOKS, type)) throw new TypeError(`${what} is one of ${Object.keys(ACTION_LOOKS).join(', ')}, not ${JSON.stringify(type)}`);
   return ACTION_LOOKS[type];
 };
+/**
+ * The Hospital panel's request is the Hospital panel component's (the Lead's Q3, 16 November): its keypad, its
+ * Submit and its records are drawn there, once. Every part here but sheet 45 refuses it, and says where it is.
+ */
+function notPanel(type, what) {
+  if (type === 'PANEL_CODE') throw new TypeError(`PANEL_CODE ${what} the Hospital panel component's (design/phone-ui/components/hospital-panel); Actions draws only its "Outcome unknown"`);
+}
 
 // ── Inputs ──────────────────────────────────────────────────────────────
 const COMMON = Object.freeze({ viewer: null, status: 'live', interactive: true, reducedMotion: false, versions: null });
@@ -164,6 +177,7 @@ function checkTiles(list) {
   return Object.freeze(list.map((t, i) => {
     if (!t || typeof t !== 'object') throw new TypeError(`tiles[${i}] is { type, state, note, reason, badge }`);
     lookOf(t.type, `tiles[${i}].type`);
+    notPanel(t.type, `is not an action tile (tiles[${i}]): the Hospital's own control and the Panels row open`);
     if (seen.has(t.type)) throw new TypeError(`tiles lists ${t.type} twice`);
     seen.add(t.type);
     const state = t.state ?? 'available';
@@ -187,6 +201,7 @@ export const nextActionsInput = (current, partial) => TILES.merge(current, parti
 export const TARGET_LIST_DEFAULTS = Object.freeze({ ...COMMON, type: null, groups: Object.freeze([]), picked: Object.freeze([]) });
 const LIST = part(TARGET_LIST_DEFAULTS, ['type', 'groups', 'picked'], next => {
   if (next.type !== null) lookOf(next.type);
+  notPanel(next.type, 'has no list: its keypad is');
   if (!Array.isArray(next.groups)) throw new TypeError('groups is [{ room, people }]');
   const seen = new Set();
   const groups = next.groups.map((g, i) => {
@@ -208,6 +223,7 @@ export const checkTargetList = input => LIST.normalize(input);
 export const ACTION_CHECK_DEFAULTS = Object.freeze({ ...COMMON, type: null, targets: Object.freeze([]), position: null, facts: Object.freeze([]), error: null });
 const CHECK = part(ACTION_CHECK_DEFAULTS, ['type', 'targets', 'position', 'facts', 'error'], next => {
   if (next.type !== null) lookOf(next.type);
+  notPanel(next.type, 'has no check: its keypad and Submit are');
   let error = next.error ?? null;
   if (error !== null) {
     if (!isText(error.text)) throw new TypeError('error is { text, detail }, or null');
@@ -222,6 +238,7 @@ export const AFTER_REGISTER_DEFAULTS = Object.freeze({ ...COMMON, type: null, ki
 const AFTER = part(AFTER_REGISTER_DEFAULTS, ['type', 'kind', 'title', 'detail', 'people', 'steps'], next => {
   if (next.type !== null) lookOf(next.type);
   if (next.type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
+  notPanel(next.type, 'has no After Register: its records are');
   if (!AFTER_KINDS.includes(next.kind)) throw new TypeError(`kind is ${AFTER_KINDS.join(', ')}, not ${JSON.stringify(next.kind)}`);
   let people = next.people ?? null;
   if (people !== null) {
@@ -241,6 +258,8 @@ export const checkAfterRegister = input => AFTER.normalize(input);
 export const OUTCOME_UNKNOWN_DEFAULTS = Object.freeze({ ...COMMON, type: null, targets: Object.freeze([]), position: null });
 const UNKNOWN = part(OUTCOME_UNKNOWN_DEFAULTS, ['type', 'targets', 'position'], next => {
   if (next.type !== null) lookOf(next.type);
+  // "Panel request was sent, but no answer came back.": the patient's number is never in it (the Lead's Q3).
+  if (next.type === 'PANEL_CODE' && Array.isArray(next.targets) && next.targets.length) throw new TypeError('PANEL_CODE\'s "Outcome unknown" names no number: it takes no targets');
   return { ...next, targets: checkTargets(next.targets, next.type), position: checkPosition(next.position, next.type) };
 });
 export const checkOutcomeUnknown = input => UNKNOWN.normalize(input);
@@ -290,6 +309,7 @@ export function actionsSheet({ role = null, room = null } = {}) {
 /** The list's sheet: back to the board, no close. Move has none: its positions are the room scene's and the board's. */
 export function targetListSheet({ type }) {
   const l = lookOf(type);
+  notPanel(type, 'has no list: its keypad is');
   if (type === 'MOVE') throw new TypeError('Move has no list: its positions are the room scene\'s and the board\'s');
   return { id: 'action-list', title: ACTION_WORDS.list, sub: ACTION_WORDS.listSub(l.title), back: true, close: false };
 }
@@ -299,6 +319,7 @@ export function targetListSheet({ type }) {
  */
 export function checkSheet({ type, phase = 'ready', canRegister = true }) {
   const l = lookOf(type);
+  notPanel(type, 'has no check: its keypad and Submit are');
   if (!l.register) throw new TypeError(`${type} has no check of this component's`);
   if (!['ready', 'sending'].includes(phase)) throw new TypeError('phase is ready or sending');
   const sending = phase === 'sending';
@@ -311,9 +332,13 @@ export function checkSheet({ type, phase = 'ready', canRegister = true }) {
 export function afterSheet({ type }) {
   const l = lookOf(type);
   if (type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
+  notPanel(type, 'has no After Register: its records are');
   return { id: 'action-after', title: l.title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary', local: true }] };
 }
-/** Sheet 45's "Outcome unknown": "Retry the same" and "Check receipt", each busy while it asks. */
+/**
+ * Sheet 45's "Outcome unknown": "Retry the same" and "Check receipt", each busy while it asks. The Hospital panel's
+ * request too (PANEL_CODE, the Lead's Q3): both stand for commands, as for every action.
+ */
 export function unknownSheet({ type, busy = null } = {}) {
   if (type !== undefined && type !== null) lookOf(type);
   if (![null, 'retry', 'check'].includes(busy)) throw new TypeError('busy is retry, check, or null');
@@ -343,6 +368,7 @@ export function targetBar({ type, where = 'room', picked = [] }) {
   if (type === 'SCAN') throw new TypeError('Scan\'s target bar is the Hacker component\'s scanBar() (design/phone-ui/components/hacker)');
   if (type === 'SUBMIT_CODE') throw new TypeError('The final Code has no target bar: it is the Hacker component\'s codeSheet() and mountFinalCode()');
   if (type === 'MOVE') throw new TypeError('Move chooses a position, not a person: its target bar is moveBar()');
+  notPanel(type, 'has no target bar: its keypad is');
   if (!['room', 'board'].includes(where)) throw new TypeError('where is room or board');
   const sub = l.people === 2 ? (picked.length ? ACTION_WORDS.chooseSecond : ACTION_WORDS.chooseTwo) : ACTION_WORDS.choosePlayer;
   return { icon: l.icon, title: l.title, sub: where === 'board' ? ACTION_WORDS.everyRoom(sub) : sub };
@@ -383,6 +409,7 @@ export function targetChip({ kind, count = null }) {
 export function registeredToast({ type, kind = 'registered', id }) {
   const l = lookOf(type);
   if (type === 'MOVE') throw new TypeError('A move\'s toast is movedToast(): "Moved to A3" (Q2)');
+  notPanel(type, 'has no toast (the Lead\'s Q4): its records are');
   if (!AFTER_KINDS.includes(kind)) throw new TypeError(`kind is ${AFTER_KINDS.join(', ')}`);
   if (!isText(String(id ?? ''))) throw new TypeError('A toast needs the command\'s id, so it shows once');
   return { id: String(id), text: ACTION_WORDS.toast[kind](l.noun), icon: 'check' };
