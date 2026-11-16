@@ -52,3 +52,11 @@ node apps/game/dev/phone/food-causal-capture.mjs \
   --baseline-hosted-output=/absolute/path/to/approved-hosting-artifact \
   --output=/absolute/path/to/new-visual-directory
 ```
+
+## Designer component extraction inputs
+
+[food-component-preview-inputs.json](food-component-preview-inputs.json) is a **development-only synthetic fixture packet**, prepared by Frontend from the pinned causal-capture source for Designer's [shared Food component](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6913141625). SHA-256: `f381f0e2f9bab8c937a8febb93a54aa750227ed77ac6d397a8deff1fb1525751` (41,134 bytes). Integration checked the JSON, all five part IDs, input boundaries and absence of match bindings, credentials, role data and original command receipts.
+
+The four causal states are reconstructed from validated synthetic views and controller flags. The fifth, `food-panel-18`, is explicitly a synthetic stale-view equivalent: the connected runner did not retain its capture-time view or clock. It retains a RELEASE-capable view to match the disabled RELEASE state; the standalone design storyboard with the same ID shows LOCK. These are not new screenshots or exact connected capture payloads. Use the same inputs on both sides of the extraction comparison, with a fixed preview clock and measured host bars, at the existing two iPhone presets.
+
+The packet separates public board facts, private `viewer.promiseOfferCount` and local navigation. Keep it outside the production graph. It supports parity review; it does not replace the original connected evidence or Designer's explicit acceptance of the integrated result.
