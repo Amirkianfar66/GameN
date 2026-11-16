@@ -1,4 +1,5 @@
 import {randomUUID} from 'node:crypto';
+import {performance} from 'node:perf_hooks';
 import {PlanetFoodClockResponseSchema,PlanetFoodStreamFrameSchema,PlanetSessionSnapshotSchema} from '@mothership/contracts';
 import type {PlanetFoodTransportRequest,PlanetFoodStreamScope,PlanetSessionSnapshot} from '@mothership/contracts';
 
@@ -37,12 +38,14 @@ const semantic=(s:PlanetSessionSnapshot,fresh:boolean)=>JSON.stringify({snapshot
 /** Called only after the ordinary endpoint's origin, Auth, App Check and input-size checks. */
 export async function handlePlanetFoodTransport(d:{
   service:PlanetFoodStreamService;uid:string;request:PlanetFoodTransportRequest;response:PlanetFoodHttpResponse;
-  receivedAt:number;clock:()=>number;maxStreamMs?:number;
+  receivedAt:number;clock:()=>number;maxStreamMs?:number;monotonicClock?:()=>number;
 }):Promise<void>{
   const {service,uid,request,response,clock}=d;
+  const monotonic=d.monotonicClock??(()=>performance.now());
   const {operation,...scope}=request;
   const fail=(status:number,code:string)=>{response.status(status).json({ok:false,serverTimeMs:clock(),error:{code}});};
   let initial:PlanetFoodDelivery|null;
+  const initialReadAt=monotonic();
   try{initial=await service.projectFoodInboxDelivery(uid,scope.matchId);}
   catch{fail(503,'UNAVAILABLE');return;}
   if(!initial){fail(403,'FORBIDDEN');return;}
@@ -59,28 +62,33 @@ export async function handlePlanetFoodTransport(d:{
   const frameEpoch=randomUUID(),originalAudience=audience(checked.data);
   let sequence=0,done=false,busy=false,dirty=false,blocked=false,unsubscribe:(()=>void)|null=null;
   let boundary:ReturnType<typeof setTimeout>|undefined,timeout:ReturnType<typeof setTimeout>|undefined;
-  let stalled:ReturnType<typeof setTimeout>|undefined;
+  let stalled:ReturnType<typeof setTimeout>|undefined,pulseTimer:ReturnType<typeof setTimeout>|undefined;
+  let lastValidatedReadAt=-Infinity;
   let finish!:()=>void;
   const completed=new Promise<void>(resolve=>{finish=resolve;});
   const cleanup=()=>{
     if(done)return;done=true;
-    clearTimeout(boundary);clearTimeout(timeout);clearTimeout(stalled);
+    clearTimeout(boundary);clearTimeout(timeout);clearTimeout(stalled);clearTimeout(pulseTimer);
     try{unsubscribe?.();}catch{/* Closing a failed listener cannot retain the response. */}
     unsubscribe=null;response.off!('close',cleanup);response.off!('drain',drained);finish();
   };
   const end=()=>{cleanup();try{response.end!();}catch{/* Connection is already closed. */}};
-  const write=(value:Record<string,unknown>)=>{
+  const send=(line:string)=>{
     if(done)return false;
-    const parsed=PlanetFoodStreamFrameSchema.safeParse({...scope,frameEpoch,frameSequence:++sequence,...value});
-    if(!parsed.success){end();return false;}
     try{
       // A false write still accepted this frame. Coalesce later signals until
       // drain instead of buffering a history or reconnecting on every large view.
-      if(!response.write!('data: '+JSON.stringify(parsed.data)+'\n\n')){
+      if(!response.write!(line)){
         blocked=true;stalled=setTimeout(end,2_000);
       }
       return true;
     }catch{end();return false;}
+  };
+  const write=(value:Record<string,unknown>)=>{
+    if(done)return false;
+    const parsed=PlanetFoodStreamFrameSchema.safeParse({...scope,frameEpoch,frameSequence:++sequence,...value});
+    if(!parsed.success){end();return false;}
+    return send('data: '+JSON.stringify(parsed.data)+'\n\n');
   };
   const close=(reason:'phase-ended'|'unavailable'|'authorization',snapshot?:PlanetSessionSnapshot)=>{
     write({kind:'closed',reason,serverTimeMs:snapshot?.foodPublicView?.serverNowMs??clock(),...(snapshot?{snapshot}:{})});end();
@@ -90,13 +98,14 @@ export async function handlePlanetFoodTransport(d:{
     blocked=false;clearTimeout(stalled);void refresh();
   }
   let lastSemantic:string|null=null;
-  const publish=(delivery:PlanetFoodDelivery)=>{
+  const publish=(delivery:PlanetFoodDelivery,requestedAt:number)=>{
     if(done)return;
     const validated=PlanetSessionSnapshotSchema.safeParse(delivery.snapshot);
     if(!validated.success||validated.data.matchId!==scope.matchId){close('unavailable');return;}
     const snapshot=validated.data;
     if(audience(snapshot)!==originalAudience){close('authorization');return;}
     if(!sameScope(snapshot,scope)){close('phase-ended',snapshot);return;}
+    lastValidatedReadAt=requestedAt;
     // The technical owner/presence state is only the actual operator's feedback.
     const fresh=snapshot.foodPlayerView?.participantTask?delivery.fresh:true;
     const key=semantic(snapshot,fresh);
@@ -114,18 +123,28 @@ export async function handlePlanetFoodTransport(d:{
     try{
       while(dirty&&!done&&!blocked){
         dirty=false;
+        const requestedAt=monotonic();
         const next=await service.projectFoodInboxDelivery(uid,scope.matchId);
         if(done)return;
         if(!next){close('authorization');return;}
-        publish(next);
+        publish(next,requestedAt);
       }
     }catch{if(!done)close('unavailable');}
     finally{busy=false;}
   }
+  function pulse():void{
+    if(done)return;
+    // Fixed transport cadence, never a gameplay event, clock sample or fresh
+    // snapshot. A stalled authority read must not keep this channel looking live.
+    const age=monotonic()-lastValidatedReadAt;
+    if(!blocked&&age>=0&&age<=2_000)send(': food-alive\n\n');
+    if(!done){void refresh();pulseTimer=setTimeout(pulse,1_000);}
+  }
   response.status(200);response.set('Content-Type','text/event-stream; charset=utf-8');
   response.set('X-Accel-Buffering','no');response.on('close',cleanup);response.on('drain',drained);response.flushHeaders?.();
   timeout=setTimeout(()=>close('unavailable'),Math.min(45_000,Math.max(1,d.maxStreamMs??45_000)));
-  publish(initial);
+  publish(initial,initialReadAt);
+  if(!done)pulseTimer=setTimeout(pulse,1_000);
   if(!done){
     try{
       // A second projection after subscribing closes the initial-read/listen race.

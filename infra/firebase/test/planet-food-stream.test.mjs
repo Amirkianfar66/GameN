@@ -14,12 +14,12 @@ async function fixture(){
   return {h,snapshot,scope:{...offer,matchId:snapshot.matchId}};
 }
 function response({backpressure=false}={}){
-  const events=new EventEmitter(),frames=[],capture={headers:{},status:0,json:null,ended:0};
+  const events=new EventEmitter(),frames=[],comments=[],capture={headers:{},status:0,json:null,ended:0};
   const res={...capture,set(k,v){capture.headers[k]=v;return res;},status(v){capture.status=v;return res;},
     json(v){capture.json=v;return res;},on:(...args)=>events.on(...args),off:(...args)=>events.off(...args),
-    write(line){const value=JSON.parse(line.slice(6).trim());PlanetFoodStreamFrameSchema.parse(value);frames.push(value);return !backpressure;},
+    write(line){if(line.startsWith(':'))comments.push(line);else{const value=JSON.parse(line.slice(6).trim());PlanetFoodStreamFrameSchema.parse(value);frames.push(value);}return !backpressure;},
     end(){capture.ended++;events.emit('close');},flushHeaders(){}};
-  return {res,frames,capture,events};
+  return {res,frames,comments,capture,events};
 }
 async function until(predicate){for(let n=0;n<100&&!predicate();n++)await tick();assert.ok(predicate(),'expected transport progress');}
 
@@ -100,4 +100,28 @@ test('backpressure coalesces updates, keeps the accepted first frame and reproje
   await until(()=>changed);changed();changed();await tick();assert.equal(reads,1);assert.equal(out.capture.ended,0);
   snapshot.foodPlayerView.viewRevision++;out.events.emit('drain');await until(()=>out.frames.length===2);
   assert.equal(reads,2);out.events.emit('close');await pending;
+});
+
+test('fixed delivery pulses require recent reauthorization and do not publish or revive a stale snapshot',async t=>{
+  const {snapshot,scope}=await fixture(),out=response();let now=0,reads=0,hang=false,release;
+  t.mock.timers.enable({apis:['setTimeout']});
+  const service={projectFoodInboxDelivery:async()=>{
+    reads++;if(hang)await new Promise(resolve=>{release=resolve;});
+    return {snapshot,fresh:false};
+  },subscribeFoodInboxMatch:async()=>()=>{}};
+  const pending=handlePlanetFoodTransport({service,uid:'player',request:{operation:'foodWatch',...scope},response:out.res,
+    receivedAt:0,clock:()=>snapshot.foodPublicView.serverNowMs,monotonicClock:()=>now});
+  await until(()=>reads===2);
+  assert.equal(out.frames.length,1);assert.equal(out.frames[0].fresh,false);
+  now=1_000;t.mock.timers.tick(1_000);await until(()=>reads===3);
+  assert.deepEqual(out.comments,[': food-alive\n\n']);
+  assert.equal(out.frames.length,1,'transport pulses never turn stale projection into fresh');
+  hang=true;now=2_000;t.mock.timers.tick(1_000);await until(()=>release);
+  now=3_000;t.mock.timers.tick(1_000);await tick();
+  assert.equal(out.comments.length,3);
+  now=4_000;t.mock.timers.tick(1_000);await tick();
+  assert.equal(out.comments.length,3,'a stalled projection cannot keep sending live pulses');
+  out.events.emit('close');release();await pending;await tick();
+  now=10_000;t.mock.timers.tick(6_000);await tick();
+  assert.equal(out.comments.length,3);assert.equal(out.frames.length,1);
 });
