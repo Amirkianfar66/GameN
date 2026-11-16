@@ -3,8 +3,8 @@
 /*
  * Windows' styles: runtime source, Designer's (windows.mjs). The phone pack's own values (screens.css .canvas-box,
  * .swatches, .swatch and .drawing-meta, and screens-more.mjs windows; sheet 34), scoped under .ms-windows so nothing
- * here reaches the rest of the app and nothing of the app's reaches in. The group labels, the icon buttons, the
- * stamp and the waiting block are the shared kit's (../kit/kit.css); the sheet's frame, footer and glass the phone
+ * here reaches the rest of the app and nothing of the app's reaches in. The windows' heads (0.7.0's section head), the
+ * group labels, the icon buttons, the stamp and the waiting block are the shared kit's (../kit/kit.css); the sheet's frame, footer and glass the phone
  * shell's. Its own: the drawing's dark box, the drawing box's pen, the inks, the drawing's line, the stamp's place, and
  * the 12 px between windows.
  */
@@ -12,11 +12,6 @@
 .ms-windows:focus { outline: none; }
 .ms-windows :where([class^="ms-wn-"], [class*=" ms-wn-"]) { box-sizing: border-box; }
 .ms-windows :is(.ms-k-group-label, .ms-wn-drawings)[hidden] { display: none; }
-
-/* A window's head (the pack's .section-head): the rooms in capitals at the left, its line at the right. */
-.ms-windows .ms-wn-head { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 2px 10px; }
-.ms-windows .ms-wn-head-title { margin: 0; font: 700 0.8125rem/1.2 var(--ms-k-font); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ms-k-text-2); }
-.ms-windows .ms-wn-head-aside { font: 500 0.8125rem/1.2 var(--ms-k-font); color: var(--ms-k-text-3); }
 
 /* The pack's 12 px between one window and the next; the same between drawings at one window (not drawn). Padding,
    so the head's own 4 px stays as the pack's spacer leaves it. */

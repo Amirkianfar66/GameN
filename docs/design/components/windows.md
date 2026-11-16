@@ -40,7 +40,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/windows/`:
 The tool is `design/tools/windows-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/windows.test.mjs`.
 
 **Uses unchanged:**
-- **The kit (0.6.1, then 0.7.0):** `groupLabel`, `stamp` (amber "SHOWN"), `iconButton` (Undo, Clear), `wait` (`size: 'small'`, "No window here"), and the control policy.
+- **The kit (0.7.0):** `groupLabel`, `stamp` (amber "SHOWN"), `iconButton` (Undo, Clear), `wait` (`size: 'small'`, "No window here"), and the control policy.
 - **The kit's section head (0.7.0):** `sectionHead({ title, aside })`, the pack's `.section-head`: the window's rooms in capitals, and its line at the right. It moves into the kit because Actions and Windows both draw it (decision 1).
 - **The phone shell (0.2.7):** its sheet, with footer actions (`local` for Done) and its toast, opened by Frontend; the component does not import the shell.
 

@@ -44,9 +44,9 @@ const FRAME = [
   ['footer button icons', '.sheet-foot .btn svg', '.ms-ps-sheet-foot .ms-k-btn svg', false, null],
 ];
 const BODY = [
-  ['section heads', '.section-head', '.ms-wn-head', true, null],
-  ['section head rooms', '.section-head h3', '.ms-wn-head-title', true, ['fontSize', 'fontWeight', 'color', 'textTransform', 'letterSpacing']],
-  ['section head lines', '.section-head span', '.ms-wn-head-aside', true, ['fontSize', 'fontWeight', 'color']],
+  ['section heads', '.section-head', '.ms-k-section-head', true, null],
+  ['section head rooms', '.section-head h3', '.ms-k-section-title', true, ['fontSize', 'fontWeight', 'color', 'textTransform', 'letterSpacing']],
+  ['section head lines', '.section-head span', '.ms-k-section-aside', true, ['fontSize', 'fontWeight', 'color']],
   ['drawing boxes', '.canvas-box', '.ms-wn-box', false, ['backgroundColor', 'borderRadius', 'boxShadow']],
   ['drawing pictures', '.canvas-box svg', '.ms-wn-box > svg', false, null, { strokes: true }],
   ['strokes', '.canvas-box svg path', '.ms-wn-box .ms-wn-stroke', false, ['stroke', 'strokeWidth', 'strokeLinecap', 'strokeLinejoin', 'fill']],

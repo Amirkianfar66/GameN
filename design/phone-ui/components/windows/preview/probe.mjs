@@ -254,7 +254,7 @@ export async function runWindowsProbe({ sizes, mountState, disposeState, inputOf
     });
     await check('views: each window with its drawings; at a station that window only; after a Show, the drawing stamped with the others below; Frontend\'s words for none', async () => {
       const s = mount(inputOf());
-      const heads = () => [...s.root.querySelectorAll('.ms-wn-head')].filter(shown).map(h => `${h.firstChild.textContent}|${h.lastChild.textContent}`);
+      const heads = () => [...s.root.querySelectorAll('.ms-k-section-head')].filter(shown).map(h => `${h.firstChild.textContent}|${h.lastChild.textContent}`);
       const metas = () => [...s.root.querySelectorAll('.ms-wn-meta')].filter(shown).map(m => [...m.children].map(c => c.textContent).join('|'));
       const labels = () => [...s.root.querySelectorAll('.ms-k-group-label')].filter(shown).map(n => n.textContent);
       const view = { heads: heads(), metas: metas(), labels: labels(), pad: !!s.pad() };
@@ -399,9 +399,9 @@ export async function runWindowsProbe({ sizes, mountState, disposeState, inputOf
         document.documentElement.style.fontSize = '200%';
         const s = mount(input);
         await frames();
-        const parts = [...s.root.querySelectorAll('.ms-wn-head-title, .ms-wn-head-aside, .ms-wn-meta > span, .ms-k-group-label, .ms-k-stamp')].filter(shown);
+        const parts = [...s.root.querySelectorAll('.ms-k-section-title, .ms-k-section-aside, .ms-wn-meta > span, .ms-k-group-label, .ms-k-stamp')].filter(shown);
         const cut = parts.filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent);
-        const overlap = [...s.root.querySelectorAll('.ms-wn-meta, .ms-wn-head')].filter(shown).filter(m => { const [a, b] = [...m.children].map(c => c.getBoundingClientRect()); return a.right > b.left + 0.5 && a.bottom > b.top + 0.5; }).map(m => m.textContent);
+        const overlap = [...s.root.querySelectorAll('.ms-wn-meta, .ms-k-section-head')].filter(shown).filter(m => { const [a, b] = [...m.children].map(c => c.getBoundingClientRect()); return a.right > b.left + 0.5 && a.bottom > b.top + 0.5; }).map(m => m.textContent);
         const body = s.m.shell.sheetBody, last = [...s.root.querySelectorAll('.ms-wn-drawing, .ms-wn-tools')].filter(shown).pop();
         last.scrollIntoView({ block: 'end' });
         await frames();

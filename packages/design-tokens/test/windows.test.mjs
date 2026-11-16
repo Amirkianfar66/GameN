@@ -79,7 +79,7 @@ test('its styles reach nothing outside its root, and restyle no kit part', () =>
   const file = `${COMPONENT}/windows.css`;
   const css = read(file).replace(/\/\*[\s\S]*?\*\//g, '');
   const list = selectors(file);
-  assert.ok(list.length >= 20, `found the rules (${list.length})`);
+  assert.ok(list.length >= 18, `found the rules (${list.length})`);
   for (const selector of list) {
     assert.match(selector, /^\.ms-windows(?:[\s.:[]|$)/, `"${selector}" is scoped`);
     assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
@@ -90,6 +90,9 @@ test('its styles reach nothing outside its root, and restyle no kit part', () =>
   assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), [], 'no motion of its own');
   assert.doesNotMatch(css, /transition|animation/, 'no transition or animation');
   assert.match(read(file), /^@import url\("\.\.\/kit\/kit\.css"\);/, 'it starts from the kit\'s stylesheet');
+  // Decision 1: each window's head is the kit's section head (0.7.0), not a copy.
+  assert.match(read(`${COMPONENT}/windows.mjs`), /kit\.sectionHead\(/, 'the kit\'s section head');
+  assert.doesNotMatch(read(`${COMPONENT}/windows.mjs`) + css, /ms-wn-head/, 'no head of its own');
   assert.deepEqual([...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))], [], 'no custom properties of its own');
   // The pack's values (screens.css .canvas-box, .swatch, .drawing-meta).
   for (const value of ['aspect-ratio: 512 / 280', 'border-radius: 14px', 'background: #0E1420', 'width: 34px; height: 34px', 'margin: 12px 0 4px', 'margin: 6px 2px 0', 'touch-action: none']) assert.ok(css.includes(value), `windows.css: ${value}`);

@@ -276,13 +276,9 @@ export function mountWindows(host, input = {}, handlers = {}) {
   let uid = 0;
   const idFor = () => `ms-wn-${(mountWindows.count = (mountWindows.count ?? 0) + 1)}-${(uid += 1)}`;
 
-  // ── A window's head (the pack's .section-head) ──────────────────────
-  function head() {
-    const node = kit.h('div', 'ms-wn-head');
-    node.append(kit.h('h3', 'ms-wn-head-title'), kit.h('span', 'ms-wn-head-aside'));
-    return node;
-  }
-  const setHead = (node, title, aside) => { kit.text(node.firstChild, title); kit.text(node.lastChild, aside); };
+  // ── A window's head: the kit's section head (0.7.0, the pack's .section-head; decision 1) ──
+  const head = () => kit.sectionHead({ title: '' });
+  const setHead = (node, title, aside) => kit.setSectionHead(node, { title, aside });
 
   // ── A drawing shown at a window: its dark box, and its line ─────────
   function drawingItem() {

@@ -88,7 +88,7 @@ try {
         return { violations: window.__policy, root: parseFloat(getComputedStyle(document.documentElement).fontSize),
           name: [root.getAttribute('role'), root.getAttribute('aria-label')].join(':'), detent: sheet.dataset.detent, back: !!sheet.querySelector('[data-intent="sheet-back"]'),
           title: sheet.querySelector('.ms-ps-sheet-title h2').textContent, openTab: shell.querySelector('[data-intent="tab"][aria-expanded="true"]')?.dataset.value ?? null,
-          heads: qa('.ms-wn-head').filter(shown).map(h => [...h.children].map(c => c.textContent).join('|')).join('|'),
+          heads: qa('.ms-k-section-head').filter(shown).map(h => [...h.children].map(c => c.textContent).join('|')).join('|'),
           metas: qa('.ms-wn-meta').filter(shown).map(m => [...m.children].map(c => c.textContent).join('|')).join('|'),
           labels: qa('.ms-k-group-label').filter(shown).map(n => n.textContent).join('|'),
           strokes: qa('.ms-wn-stroke').filter(shown).length, stamp: q('.ms-wn-stamp .ms-k-stamp')?.textContent ?? null,
@@ -99,7 +99,7 @@ try {
           foot: foot.map(b => b.textContent.trim()).join('|'), showOn: !!foot[0] && foot[0].getAttribute('aria-disabled') !== 'true', showBusy: foot[0]?.getAttribute('aria-busy') === 'true',
           showWaits: foot[0]?.getAttribute('aria-disabled') === 'true' ? describedBy(foot[0]) : null,
           banner: shown(shell.querySelector('.ms-ps-banner')),
-          cut: qa('.ms-wn-head-title, .ms-wn-head-aside, .ms-wn-meta > span, .ms-k-group-label, .ms-k-stamp, .ms-k-wait-title, .ms-k-wait-line').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
+          cut: qa('.ms-k-section-title, .ms-k-section-aside, .ms-wn-meta > span, .ms-k-group-label, .ms-k-stamp, .ms-k-wait-title, .ms-k-wait-line').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
