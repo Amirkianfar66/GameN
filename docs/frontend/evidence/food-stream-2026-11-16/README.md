@@ -2,6 +2,8 @@
 
 The production service, authenticated HTTP handler and private inbox worker ran against disposable loopback Firestore. Desktop Chrome 157 used trusted touch at 390 × 844 and 430 × 932, the production response headers and 67 hash-verified files from the approved Food art inventory. The trial supplied local test credentials to those handlers and recorded desktop focus emulation. The runtime candidate was `491e2819ada55c303b4c25b74c4ac3a408dda16a`. The connected harness used `a53d887406a90bf63a99ba3300f60a8f237394d8` with byte-identical production client, renderer, presentation and contract sources. [Connected measurements](connected.json)
 
+The follow-up with one fewer server classification read completed all three timed deliveries on the same controlled network setting. The earlier stop-7 miss remains in this record. [Server read reduction repeat](api-only.md)
+
 ## Three timed attempts
 
 Each attempt injected 40–60 ms before the POST handler and 40–60 ms before each JSON reply. The nominal network round trip was 100 ms with a combined jitter bound of ±20 ms. SSE bytes kept their order and received the same one-way outbound delay. The touch driver waited for the actual `data-next` LOCK at the visible stop. It read the reticle and pointer cue from the rendered interface. Pointer and cue times use the same document monotonic clock. Admission offsets use the two original server receipt times.
