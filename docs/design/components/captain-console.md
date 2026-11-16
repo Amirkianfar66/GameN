@@ -48,7 +48,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/captain-console/`:
 The tool is `design/tools/captain-console-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/captain-console.test.mjs`.
 
 **Uses unchanged:**
-- **The kit (0.7.1):** `tile` for each plate, with its `art` as a node (the component's picture of the plate) and the `spent` state for a used command (decision 1); `who` (the confirm's icon, title and line), `facts`, `groupNote`, and the control policy.
+- **The kit (0.7.1, merged at 0.7.2):** `tile` for each plate, with its `art` as a node (the component's picture of the plate) and the `spent` state for a used command (decision 1); `who` (the confirm's icon, title and line), `facts`, `groupNote`, and the control policy.
 - **The plates' art:** the game's existing film art bundle (`apps/game/hosted/board-v2-film-art/captain/plate-{release,eject}-{available,used,unavailable}.svg`, `catalog.json`), through the CSS properties it defines (`--board-v2-film-captain-plate-release-available` and the rest), as today's game draws them. The component names the property; it fetches nothing. The bundle's `plate-*-pressed.svg` stays unused, as the pack leaves it (decision 2).
 - **The phone shell (0.2.7):** its sheet, with footer actions (`local` for Cancel) and its banner, opened by Frontend; the component does not import the shell.
 
@@ -140,11 +140,11 @@ The commands carry nothing else: the contract's `CAPTAIN_RELEASE` and `CAPTAIN_E
 
 `node design/tools/captain-console-check.mjs` bundles the preview as the game bundles the component, serves it with the hosted game's production headers, and writes `design/phone-ui/components/captain-console/review/`:
 - **14 captures:** sheets 22 and 24's console states (the console, the commands used, each confirm), Release in flight, reconnecting and the Largest text, at 390 × 844 and 430 × 932;
-- **the probe:** the plates and their lines, the art, the footer, the confirm's words, the Captain's privacy, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
+- **the probe, 15 of 15 (14 checks, then motion again under the device's Reduce motion):** the plates and their lines, the art, the footer, the confirm's words, the Captain's privacy, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
 - **the pack's plate pictures in the bundle:** the check copies `apps/game/hosted/board-v2-film-art/captain/` to where the frozen pack's screen looks for them at run time, as the pack's own pages serve them. The shared check lib copies only the crew's portraits, and stays untouched;
 - **the agreement, 9 cases:** the sheet beside the frozen pack's `captain` in its four console states at both sizes, and the console at the Largest text: the same words, states, look and boxes to within half a pixel, and each plate's picture by its file.
 
-**Recorded against** (the check's `sourceCommit`): to be filled in by the record commit.
+**Recorded against** (the check's `sourceCommit`): `f63b75bd`, clean, on kit 0.7.2 (which leaves a picture node's art unfaded): 14 of 14 captures, the probe 15 of 15, the agreement 9 of 9.
 
 ## Not in this version
 
