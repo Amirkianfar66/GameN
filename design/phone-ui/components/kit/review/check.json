@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.4.0",
-  "sourceCommit": "a3c99f01528fad7a211df1a9a18860174dd9361a",
+  "version": "component-kit-0.5.0",
+  "sourceCommit": "0b35497fcd5537a7c94205a5059d538d380b3e97",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -111,7 +111,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DP6PEiuM.js",
+          "source": "assets/page-CGEyaakc.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -122,24 +122,24 @@
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "f13f1de2f0c6d48abda588b083a99a694dd7b71b5fb75d01efc24c766f5f587c",
+      "sha256": "30ee56728333e726dd7e23b417b6c7ff45ba8e41048d0d25a910e3ca5384ef91",
       "size": {
         "width": 390,
-        "height": 7827
+        "height": 7825
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DP6PEiuM.js",
+          "source": "assets/page-CGEyaakc.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "6d55636b3ec24e4c7f45deeb80021b3fdda21e8321163b576996e4cb56ab7efb"
+      "measurementSha256": "212002b4fd817f234218404cfb69983ffceb94b512b2fffddee4727d5bdbd821"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
@@ -153,7 +153,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DP6PEiuM.js",
+          "source": "assets/page-CGEyaakc.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -164,24 +164,24 @@
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "9915cf8e601da573ef989279b2b14b2b8623ed4f999dad5ededb1fd825eb764b",
+      "sha256": "edae0faf9a6ea7ba6693c04385da88ff16c911bde6a0ac9e5e6e2862c1f43e87",
       "size": {
         "width": 390,
-        "height": 10623
+        "height": 10744
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DP6PEiuM.js",
+          "source": "assets/page-CGEyaakc.js",
           "line": 1,
           "column": 3872,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "587e2d424feb44b8817760ae390f88cafcb4919757e15e3fd364a281a3d3caae"
+      "measurementSha256": "51ab69d5f631d32c689c517965ea751abe561d78fccb704ef0a995068609cf7e"
     }
   },
   "agreement": {
@@ -1217,9 +1217,280 @@
           "accepted": []
         },
         "list": {
-          "ok": true,
+          "ok": false,
           "parts": 39,
-          "differences": [],
+          "differences": [
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 610.98,
+              "kit": 691.77
+            },
+            {
+              "part": "row 2",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89
+            },
+            {
+              "part": "row 2",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid"
+            },
+            {
+              "part": "row 2",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px"
+            },
+            {
+              "part": "row 2",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px"
+            },
+            {
+              "part": "row 2",
+              "key": "::before bottom",
+              "pack": "55.5px",
+              "kit": "95.8906px"
+            },
+            {
+              "part": "row 2 title",
+              "key": "w",
+              "pack": 299.89,
+              "kit": 330
+            },
+            {
+              "part": "row 2 value",
+              "key": "x",
+              "pack": 325.89,
+              "kit": 14
+            },
+            {
+              "part": "row 2 value",
+              "key": "y",
+              "pack": 100.34,
+              "kit": 142.8
+            },
+            {
+              "part": "row 3",
+              "key": "y",
+              "pack": 147.8,
+              "kit": 188.19
+            },
+            {
+              "part": "row 3 portrait",
+              "key": "y",
+              "pack": 175.44,
+              "kit": 215.83
+            },
+            {
+              "part": "row 3 title",
+              "key": "y",
+              "pack": 154.8,
+              "kit": 195.19
+            },
+            {
+              "part": "row 3 sub",
+              "key": "y",
+              "pack": 198.3,
+              "kit": 238.69
+            },
+            {
+              "part": "row 3 chevron",
+              "key": "y",
+              "pack": 185.44,
+              "kit": 225.83
+            },
+            {
+              "part": "row 3 chevron drawing",
+              "key": "y",
+              "pack": 194.44,
+              "kit": 234.83
+            },
+            {
+              "part": "row 4",
+              "key": "y",
+              "pack": 239.09,
+              "kit": 279.48
+            },
+            {
+              "part": "row 4 icon",
+              "key": "y",
+              "pack": 307.89,
+              "kit": 348.28
+            },
+            {
+              "part": "row 4 icon drawing",
+              "key": "y",
+              "pack": 313.39,
+              "kit": 353.78
+            },
+            {
+              "part": "row 4 title",
+              "key": "y",
+              "pack": 246.09,
+              "kit": 286.48
+            },
+            {
+              "part": "row 4 sub",
+              "key": "y",
+              "pack": 332.09,
+              "kit": 372.48
+            },
+            {
+              "part": "row 4 switch",
+              "key": "y",
+              "pack": 307.39,
+              "kit": 347.78
+            },
+            {
+              "part": "row 5",
+              "key": "y",
+              "pack": 406.69,
+              "kit": 447.08
+            },
+            {
+              "part": "row 5 icon",
+              "key": "y",
+              "pack": 419.94,
+              "kit": 460.33
+            },
+            {
+              "part": "row 5 icon drawing",
+              "key": "y",
+              "pack": 425.44,
+              "kit": 465.83
+            },
+            {
+              "part": "row 5 title",
+              "key": "y",
+              "pack": 413.69,
+              "kit": 454.08
+            },
+            {
+              "part": "row 5 chevron",
+              "key": "y",
+              "pack": 426.94,
+              "kit": 467.33
+            },
+            {
+              "part": "row 5 chevron drawing",
+              "key": "y",
+              "pack": 435.94,
+              "kit": 476.33
+            },
+            {
+              "part": "row 6",
+              "key": "y",
+              "pack": 463.19,
+              "kit": 503.58
+            },
+            {
+              "part": "row 6",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89
+            },
+            {
+              "part": "row 6",
+              "key": "display",
+              "pack": "flex",
+              "kit": "grid"
+            },
+            {
+              "part": "row 6",
+              "key": "column-gap",
+              "pack": "12px",
+              "kit": "0px"
+            },
+            {
+              "part": "row 6",
+              "key": "row-gap",
+              "pack": "12px",
+              "kit": "2px"
+            },
+            {
+              "part": "row 6",
+              "key": "::before bottom",
+              "pack": "55.5px",
+              "kit": "95.8906px"
+            },
+            {
+              "part": "row 6 icon",
+              "key": "y",
+              "pack": 476.44,
+              "kit": 537.02
+            },
+            {
+              "part": "row 6 icon",
+              "key": "margin-right",
+              "pack": "0px",
+              "kit": "12px"
+            },
+            {
+              "part": "row 6 icon drawing",
+              "key": "y",
+              "pack": 481.94,
+              "kit": 542.52
+            },
+            {
+              "part": "row 6 title",
+              "key": "y",
+              "pack": 470.19,
+              "kit": 510.58
+            },
+            {
+              "part": "row 6 title",
+              "key": "w",
+              "pack": 256.23,
+              "kit": 288
+            },
+            {
+              "part": "row 6 value",
+              "key": "x",
+              "pack": 324.23,
+              "kit": 56
+            },
+            {
+              "part": "row 6 value",
+              "key": "y",
+              "pack": 472.23,
+              "kit": 555.08
+            },
+            {
+              "part": "row 7",
+              "key": "y",
+              "pack": 519.69,
+              "kit": 600.47
+            },
+            {
+              "part": "row 7 icon",
+              "key": "y",
+              "pack": 550.33,
+              "kit": 631.11
+            },
+            {
+              "part": "row 7 icon drawing",
+              "key": "y",
+              "pack": 555.83,
+              "kit": 636.61
+            },
+            {
+              "part": "row 7 title",
+              "key": "y",
+              "pack": 526.69,
+              "kit": 607.47
+            },
+            {
+              "part": "row 7 sub",
+              "key": "y",
+              "pack": 570.19,
+              "kit": 650.97
+            }
+          ],
           "accepted": []
         },
         "row unavailable": {
@@ -1229,9 +1500,22 @@
           "accepted": []
         },
         "group": {
-          "ok": true,
+          "ok": false,
           "parts": 3,
-          "differences": [],
+          "differences": [
+            {
+              "part": "list",
+              "key": "h",
+              "pack": 56.5,
+              "kit": 96.89
+            },
+            {
+              "part": "note",
+              "key": "y",
+              "pack": 119.69,
+              "kit": 160.08
+            }
+          ],
           "accepted": []
         },
         "field": {
@@ -1490,7 +1774,7 @@
   },
   "summary": {
     "cases": 140,
-    "agree": 140,
+    "agree": 138,
     "parts": 911,
     "accepted": 62
   }
