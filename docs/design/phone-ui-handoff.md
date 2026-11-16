@@ -51,7 +51,7 @@ The icons, from `design/phone-ui/assets/icons.svg` (`ic-<name>` and `ic-<name>-f
 | 32–34 Panels and Settings, Promises, Windows | Panels: grouped rows (Windows, Navigation, the Hospital panel, Players, Round order); Settings, from ⋮ (Reduce motion, text size; Host controls for the host); Promises, from the top bar (kinds, terms, offer, accept); Windows (view, draw, Show, none) | Own phone; pair; the window's rooms | `promiseQuota`, `promises`, `windows`, offers; Settings are local to the phone | — |
 | 33.1 Promise results | One match moment per result state (Pending, Fulfilled, Not fulfilled, Condition not met), each within the lifetime quota of one given and one received: a phone never lists more than two. Captain Support's terms: "in every ballot of that election in which the recipient is a candidate" (P23); never a candidate gives Condition not met | Pair | `promiseQuota`, `promises` | — |
 | 35–38, 56 Vote and results | The ballot sheet with the grid; Abstain ("You abstained" above the roster); Voted; closed; a runoff; can't vote; the result window for 5 s. Sheet 56: both at 320 × 568 with 200% text | Ballot private; totals public | `ballot`, `ownBallot`, `lastTally` | `RESULT_ART` |
-| 40–45 Offices, navigation, Hacker, panel, the end, system | As drawn | As labelled on each sheet | `offices`, `privateNavigation`, `abilities`, `panelRequest`, `result`, `endReveal`, `recovery`, `connection` | Captain plates `plate-*`; posters `transit`, `blackhole` and `arrival-*` |
+| 40–45 Offices, navigation, Hacker, panel, the end, system | As drawn. The Hacker's CODE WRONG, which sheet 42 doesn't draw, reads only "Your one attempt is used": whether Scan continues after the failed Code isn't decided (the planet-navigation overlay, `open_integration_details[5]`), so Scan's state shows on its Actions tile alone | As labelled on each sheet | `offices`, `privateNavigation`, `abilities`, `panelRequest`, `result`, `endReveal`, `recovery`, `connection` | Captain plates `plate-*`; posters `transit`, `blackhole` and `arrival-*` |
 
 ## After Register
 
@@ -112,7 +112,7 @@ Throughout the stage:
 | Room ↔ Board | 450 ms zoom from the current room's panel | Direct |
 | The room view re-centres (someone enters or leaves) | A 450 ms pan, with the public move | Direct |
 | Pass to Vote | The hero turns paper and its icon changes, in 220 ms | Direct |
-| Registered | Stamp snap, 120 ms | Direct |
+| Registered, and the private results' stamps (MATCHED, NO MATCH, CODE CORRECT, CODE WRONG) | Stamp snap, 120 ms | Direct |
 | Result | The window rises over the room in 320 ms, then holds for 5 s | 80 ms fade |
 | Role card to film | 700 ms crossfade at 20 s | Stills with 80 ms fades |
 
