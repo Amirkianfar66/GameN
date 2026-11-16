@@ -60,7 +60,8 @@ function box(frame, node) {
   const f = frame.getBoundingClientRect(), r = node.getBoundingClientRect();
   return { x: r.left - f.left, y: r.top - f.top, w: r.width, h: r.height };
 }
-const words = node => (visible(node) ? node.innerText.replace(/\s+/g, ' ').trim() : null);
+// An icon's svg has no innerText; its words are its textContent (none).
+const words = node => (visible(node) ? (node.innerText ?? node.textContent ?? '').replace(/\s+/g, ' ').trim() : null);
 const near = (a, b) => (a === null || b === null ? a === b : ['x', 'y', 'w', 'h'].every(k => Math.abs(a[k] - b[k]) <= TOLERANCE));
 
 export async function runPhoneShellAgreement({ size, versions }) {
