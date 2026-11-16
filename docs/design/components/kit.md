@@ -181,7 +181,7 @@ The component's own check draws its states, runs its probe and writes its record
     - At 200 %, plain, the pack squeezes its two long options' icons to 12.8 and 11.4 px. The kit's keep their 18 px.
     - At 200 % on glass, inside the shell's phone root, the kit stacks the two options, the 0.5.0 rule.
     - Both are accepted with their reason. The other 140 comparisons agree as before.
-  - **Result:** all 166 agree, 1185 parts. The only remaining differences are the ten kinds the kit has on purpose (above, and the larger-text forms), 184 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
+  - **Result:** all 170 agree, 1209 parts. The only remaining differences are the ten kinds the kit has on purpose (above, and the larger-text forms), 184 instances in all. All four pages are clean: no page error, no failed request, and no policy report but the known Zod probe.
   - **It catches drift:** three changes injected one at a time each fail it: one pixel of a button's padding, one pill tone's alpha, and a glass grey by 1/255.
   - **What it found, fixed before 0.1.0's record:**
     - a busy spinner 5 px small, and turning faster;
@@ -194,6 +194,6 @@ The component's own check draws its states, runs its probe and writes its record
   - **0.4.0 against 0.3.0:** the inline error takes an icon (two comparisons, the menu's offline note, 6 parts); the 138 earlier comparisons agree as before.
   - **0.5.0 against 0.4.0:** the glass cases sit in the shell, whose root is now the phone container. So at 200 % two of them, the list and the group, take the larger-text row rule: the rows with a value put it under their title, and what follows moves down. Those 47 differences are accepted with their reason (three entries in `ACCEPTED`), where the pinned pack's title and value run into each other. The other 138 comparisons agree as before. The rule itself, and the stacking segmented control, are measured in the shell's probe (`large`: under its title at 200 %, beside it at 100 %; three stacked options at 200 %, one row of short ones at both).
   - **0.3.0 against 0.2.0:** the waiting block is new (ten comparisons, 48 parts). The 128 earlier comparisons agree as before. In the pack, its portrait is the 44 px `.pt` even where a screen asks `pt(…, 76)`, because the CSS sizes every `.pt`; the kit's portrait agrees.
-  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `50888f35`, with the source clean. Before: `e7da9b4f` (0.6.0).
+  - **Where the record is:** `review/check.json` (each case, part and difference) and a picture of each half at each text size. Recorded on `39778572`, with the source clean. Before: `50888f35` (0.6.1).
 - **In the shell:** the shell's check draws the kit's buttons and icon buttons in its 29 captures, and its probe drives the control policy (focus kept, refused taps, reasons, reconnecting, focus return). Recorded on `b51b715c` ([the shell's page](phone-shell.md)).
 - **Not run:** physical phones, Safari, screen readers.
