@@ -332,7 +332,7 @@ These are listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/room-scene.test.mjs` | 12 of 12 |
-  | `npm run test:design` | 370 of 370 |
+  | `npm run test:design` | 371 of 371 |
   | `npm run test:tooling` | 337 of 337 (on 0.3.0) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
@@ -358,8 +358,9 @@ These are listed, not omitted:
   - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
   - There are no page errors and no failed requests.
   - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
-  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `e56b9c5d` (0.4.0), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `ad39ee11` (0.5.0), with the source clean. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
   - **At the game's text size:** the preview's root is the browser's 16 px, as the game's (its html sets no size). Until `191700a1` the preview forced 14 px, so the name tags and the room's control drew an eighth small (11.375 px tags against the game's 13 px). At 16 px every tag stays whole and apart in all 22 captures; the probe's checks are unchanged.
+  - 0.5.0's captures differ from 0.4.0's only in the crew's idle motion (a blink, a breath; at most 454 of a capture's 1.3 million pixels). At the standard text no two of Room B's tags meet, so each is where 0.4.0 put it.
   - 0.4.0 draws nothing new until the game uses its new inputs. Its captures differ from 0.3.0's only where the crew's idle motion and the voyage stood at another moment.
   - 0.3.0's captures show the approved pictures a fifth wider, so they differ from 0.2.1's by design. The new `today` state shows older art in the pack's framing, as 0.2.1's captures showed every state.
 - **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.
