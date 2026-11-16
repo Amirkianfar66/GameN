@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.8`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.9`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -33,7 +33,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | --- | --- |
 | `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
 | `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell`. It imports the kit's styles |
-| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.5.0`, [its page](kit.md)): the shell's buttons, icon buttons and control policy are the kit's, as every Designer component's are |
+| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.0`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are |
 | `icons.mjs` | The phone interface's icon family (from #261) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
@@ -100,6 +100,15 @@ shell.dispose();             // removes the element and its listeners
   - It is this viewer's: dropped while concealed and for a new viewer, unless the same update gives the new viewer's own. The reconnecting banner is the phone's, and a new viewer keeps it.
   - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
 - **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
+- **The target bar below a banner, and at the Largest text (0.2.9).** Two findings from the Gameplay builder's Move test page.
+  - **Below a banner.** While a banner shows, the target bar stays 8 px below it, as a docked sheet does (0.2.0).
+    - Before, the two sat at the same place with the banner over the bar, so Retry lay over the bar's Cancel.
+    - Cancel works while reconnecting (0.2.7), so it has to stay in reach.
+  - **At the Largest text.** Under 14 em across (200 % text on the 390 and 430 px phones), the bar's words keep the whole width beside its icon, and Cancel goes under them, lined up with the words.
+    - Before, the words stood in a narrow column beside Cancel, many lines deep: the bar grew to about 290 px at 390 × 844.
+    - Every word still shows, at its full size.
+  - **The chip** wraps its label at that size instead of cutting it ("Other rooms on th…").
+  - **Not solved yet:** a tall bar can still lie over an offered place near the top of the room, as Room A's A5 at 200 %. The same places stay offered on the Board. Keeping offered places clear of the overlays needs the room scene's framing to know what the overlays cover, which is the room scene's next change.
 - **The target bar's Cancel while reconnecting (0.2.7).** It only ends the choosing on this phone, so it works while reconnecting, as Back and Close do. Before, it was refused with the banner's words, so a player who had started choosing a target couldn't leave the choosing until the match was current again. The Gameplay builder asked for it after making Actions' Cancel and Done local. The tabs, the chip and the hero stay refused while reconnecting, as sheet 45 draws them.
 - **The private talk's two buttons at larger text (0.2.6).** Under 19 em across, Promises and My card take the sheet footer's rule: side by side in equal halves while their words fit, a row each when they don't. What docks above them, a sheet or the chip, stays 10 px clear by their measured height (`--ms-ps-talk-h`), and `layout().covered.bottom` says how much of the stage's foot they cover, so the capsule can keep its tags above them.
   - Before, at the Largest text on a 320 px phone, the two stayed on one row, "My card" ran past the phone's edge, and a docked sheet covered them by 21.6 px. The Gameplay builder found it on the private talk.
@@ -259,7 +268,9 @@ Listed, not omitted:
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** seventeen states at 390 × 844 and 430 × 932, and the Largest text at 320 × 568: 35 of 35 pass, each drawing what its state asks.
+  - **Captures:** eighteen states at 390 × 844 and 430 × 932, the target bar at the Largest text on both, and the Largest text at 320 × 568: 39 of 39 pass, each drawing what its state asks.
+    - `target-stale` (0.2.9): the target bar 8 px under the reconnecting banner, with its Cancel the topmost thing at its centre.
+    - `target-large` (0.2.9): at 200 % text, Cancel under the bar's words, the bar inside the phone, and the chip's label whole.
     - `out` (0.2.8) draws an eliminated player's phone: "You're out" without Retry, 107 px from the top at a 47 px safe area, the phone live, Actions not offered, and the viewer's figure down in its place.
     - The 5 s result carries a stand-in for the vote's result window in the cover.
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
@@ -291,7 +302,11 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `5ac3354f`, with kit 0.8.0 and shell 0.2.8, and the source clean. Against `344fcf91`'s record (shell 0.2.7):
+    - Recorded on `97a7eebb`, with kit 0.8.0 and shell 0.2.9, and the source clean. Against `5ac3354f`'s record (shell 0.2.8):
+      - 15 captures are unchanged: 13 byte for byte, and 2 with no pixel more than 32 of 255 apart.
+      - 20 differ in at most 272 pixels, all inside the room's picture (its ambient motion). The target bar and the chip at the Standard text are unchanged.
+      - `target-stale` and `target-large` are new at both sizes.
+    - Before: `5ac3354f`, with kit 0.8.0 and shell 0.2.8, and the source clean. Against `344fcf91`'s record (shell 0.2.7):
       - 17 captures are unchanged: 12 byte for byte, and 5 with no pixel more than 32 of 255 apart.
       - 15 differ in at most 125 pixels, all inside the room's picture (its ambient motion).
       - `large` changed with room scene 0.5.0, which `bb6ef309` merged. At 200 % on 320 × 568 every name tag is now whole and apart, stacked over the people where they would meet. There the active player's tag lies over the turn mark, and its amber ring still marks the turn.

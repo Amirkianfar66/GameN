@@ -33,7 +33,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/phone-shell');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
 /** Each state at the two development sizes; the Largest text at 320 × 568 (preview.mjs PREVIEW_STATES). */
-const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'] };
+const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'], 'target-stale': 2, 'target-large': ['390x844', '430x932'] };
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
 const AT = 130;
 
@@ -74,6 +74,10 @@ const EXPECT = {
     && s.banner === 'Connection lost' && s.bannerTop === s.layout.safe.top + 52 + 8,
   poster: s => s.kind === 'phase' && s.name === 'Setting course' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0,
   large: s => s.name === 'Your turn' && s.tabs === 4,
+  // 0.2.9: the target bar 8 px under the banner while reconnecting, so its Cancel is in reach; the banner keeps its place.
+  'target-stale': s => s.banner === 'Connection lost' && s.target === 'Rescue' && s.over.targetTop >= s.over.bannerBottom + 8 && s.over.cancelReach,
+  // 0.2.9: at 200 % on the two phones, Cancel under the words, the bar inside the phone, and the chip's label whole.
+  'target-large': s => s.target === 'Move within Room A' && s.over.cancelTop >= s.over.wordsBottom && s.over.targetRight <= s.layout.size.width && s.over.chipWhole && s.over.cancelReach,
 };
 try {
   await mkdir(REVIEW, { recursive: true });
@@ -97,7 +101,12 @@ try {
           bannerButtons: q('.ms-ps-banner') ? q('.ms-ps-banner').querySelectorAll('button').length : null, sheet: t('.ms-ps-sheet h2'),
           sheetActions: root.querySelectorAll('.ms-ps-sheet-foot button').length, head: q('.ms-ps-sheet-head [data-intent="sheet-head"]')?.getAttribute('aria-label') ?? null, buttons: root.querySelectorAll('.ms-ps-tb button, .ms-ps-tabs button, .ms-ps-talk button, .ms-ps-over button, .ms-ps-sheet button').length,
           figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, cover: q('.ms-ps-cover')?.children.length ?? 0,
-          bannerTop: q('.ms-ps-banner') ? Math.round(q('.ms-ps-banner').getBoundingClientRect().top - root.getBoundingClientRect().top) : null, layout: window.__phoneShell.mounted[0].shell.layout() };
+          bannerTop: q('.ms-ps-banner') ? Math.round(q('.ms-ps-banner').getBoundingClientRect().top - root.getBoundingClientRect().top) : null, layout: window.__phoneShell.mounted[0].shell.layout(),
+          // 0.2.9: where the target bar, its words and Cancel, the banner and the chip lie, and whether Cancel is the topmost thing at its centre.
+          over: (() => { const box = s => { const n = q(s); return n ? n.getBoundingClientRect() : null; }, top = root.getBoundingClientRect().top, tb = box('.ms-ps-target'), bn = box('.ms-ps-banner'), w = box('.ms-ps-target .ms-ps-text'), c = q('.ms-ps-target > .ms-k-btn'), cb = c ? c.getBoundingClientRect() : null, label = q('.ms-ps-chip .ms-k-btn-label');
+            const hit = cb ? document.elementFromPoint(cb.left + cb.width / 2, cb.top + cb.height / 2) : null;
+            return { targetTop: tb ? Math.round(tb.top - top) : null, targetRight: tb ? Math.round(tb.right) : null, bannerBottom: bn ? Math.round(bn.bottom - top) : null, wordsBottom: w ? Math.round(w.bottom) : null, cancelTop: cb ? Math.round(cb.top) : null,
+              cancelReach: !!(hit && c && (hit === c || c.contains(hit))), chipWhole: label ? label.scrollWidth <= label.clientWidth + 1 : null }; })() };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
