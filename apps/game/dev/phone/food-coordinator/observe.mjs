@@ -188,7 +188,7 @@ export function observeFoodTrial(root, {seatId}) {
       };
       if (!displayed || displayed.serverNowMs !== view.serverNowMs || !accepted()) return;
       if (frames.length < 512) {
-        frames.push({receivedAtMs, domObservedAtMs: win.performance.now(), sequence: marker?.sequence ?? null,
+        frames.push({receivedAtMs, domObservedAtMs: win.performance.now(), epoch: marker?.epoch ?? null, sequence: marker?.sequence ?? null,
           stage: view.participantTask?.stage ?? null, surfaceVisible: !!surface()});
       } else droppedFrames++;
       if (!before) return;

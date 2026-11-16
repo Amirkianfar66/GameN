@@ -88,7 +88,7 @@ export async function startFoodTrialBridge({
   coordinator, taskId, actors, baseline, applySignal, serverNow, bundle, artwork, startTrial, variant, backendSource,
 }) {
   const art = await approvedArt(artwork);
-  const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set();
+  const tickets = new Map(), labels = new Set(), bindings = new Set(), sockets = new Set(), streams = new Set();
   let launch = null, started = !startTrial, release;
   const startGate = new Promise(resolve => { release = resolve; });
   for (const actor of actors) {
@@ -137,6 +137,8 @@ export async function startFoodTrialBridge({
       return launch;
     },
     async close() {
+      // Stop Firestore watches before the caller closes its durable client.
+      for (const detach of streams) detach();
       const closed = once(server, 'close');
       server.close();
       for (const socket of sockets) socket.destroy();
@@ -233,8 +235,16 @@ export async function startFoodTrialBridge({
       if (stopped || res.destroyed) return;
       res.end('event: failure\ndata: ' + (error?.code === 'FORBIDDEN' ? 'authorization' : 'network') + '\n\n');
     });
+    const detach = () => {
+      if (stopped) return;
+      stopped = true;
+      streams.delete(detach);
+      res.off('drain', write);
+      stop();
+    };
+    streams.add(detach);
     res.on('drain', write);
-    res.once('close', () => { stopped = true; stop(); });
+    res.once('close', detach);
   }
 
   async function staticFile(req, res, path) {
