@@ -3,6 +3,7 @@ import {test} from 'node:test';
 import {setTimeout as sleep} from 'node:timers/promises';
 import {createPlanetService,PLANET_FOOD_OWNER_INBOX_PROFILE,withPlanetRequestTiming} from '../../dist/index.js';
 import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey} from '../../dist/planet-food-inbox.js';
+import {LostFoodInboxAuthority} from '../../dist/planet-food-inbox-worker.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
 import {envelope,seedTwoHumanTask} from './fixture.mjs';
 import {ok,planetServiceHarness} from '../../test/planet-service-helper.mjs';
@@ -11,16 +12,21 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
   const real=createLoopbackFoodStore();
   let failAfterOwnerClaim=false, ownerWasClaimed=false;
   const joined=Promise.withResolvers(), trailing=Promise.withResolvers();
-  let joinId, trailingId, trailingReply, trailingRequest,recordCommit,afterInboxCapture;
+  let joinId, trailingId, trailingReply, trailingRequest,recordCommit,afterInboxCapture,selectionHook,rollbackIntent;
   const store={...real,...(live?{}:{watchFoodInbox:undefined}),
     async transaction(action){
       let claim=false, observed, recorded=[];
-      const value=await real.transaction(tx=>{
+      const value=await real.transaction(async tx=>{
         recorded=[];
-        return action({...tx,
+        let abort=false;
+        const result=await action({...tx,
           create(path,item){
             if(recordCommit&&path.startsWith('foodInboxIntent/'))recorded.push({stage:'intake',item});
-            if(recordCommit&&path.startsWith('foodInboxProgress/'))recorded.push({stage:'progress',item,id:path.split('/').at(-1)});
+            if(path.startsWith('foodInboxProgress/')){
+              const id=path.split('/').at(-1);
+              if(recordCommit)recorded.push({stage:'progress',item,id});
+              if(id===rollbackIntent)abort=true;
+            }
             tx.create(path,item);
           },
           set(path,item){
@@ -31,6 +37,11 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
             }
             tx.set(path,item);
           }});
+        if(abort){
+          rollbackIntent=undefined;
+          throw new Error('simulated aborted admission transaction');
+        }
+        return result;
       });
       if(recorded.length)recordCommit(recorded);
       if(claim&&failAfterOwnerClaim)ownerWasClaimed=true;
@@ -40,6 +51,15 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
       }
       if(observed&&observed.request.request.commandId===trailingId)trailing.resolve(observed);
       return value;
+    },
+    async nextFoodInboxIntent(scopeKey){
+      const id=await real.nextFoodInboxIntent(scopeKey);
+      if(id&&selectionHook?.id===id){
+        const {run}=selectionHook;
+        selectionHook=undefined;
+        await run();
+      }
+      return id;
     },
     async readOnly(action){
       if(ownerWasClaimed){
@@ -100,7 +120,11 @@ async function inboxMatch(t,{overlap=false,live=false,humans=7}={}){
     }
     return result;
   }
-  return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,setCommitObserver:observe=>{recordCommit=observe;},afterCapture:next=>{afterInboxCapture=next;},failNextOwner:()=>{failAfterOwnerClaim=true;}};
+  return {...seeded,store,route,read,pump,call,deliveries,trailing,trailingRequest,trailingReply,
+    setCommitObserver:observe=>{recordCommit=observe;},afterCapture:next=>{afterInboxCapture=next;},
+    afterSelect:(id,run)=>{selectionHook={id,run};},rollbackAppend:id=>{rollbackIntent=id;},
+    failNextOwner:()=>{failAfterOwnerClaim=true;}};
+
 
 }
 
@@ -233,6 +257,88 @@ test('JOIN fence preserves each already-admitted command and its original clock'
   assert.equal(stored.response.result.receipt.status,'rejected');
   assert.equal((await read('foodIngressControl/'+h.matchId)).processedSequence,original.sequence);
 });
+
+async function stageHeartbeatPair(game){
+  const {store,route,h,winch}=game;
+  const m=(await h.current()).members.find(row=>row.uid===winch);
+  const inbox=createPlanetFoodInbox(store),request={operation:'foodHeartbeat',matchId:h.matchId,taskId:route.scope.taskId};
+  const ordered=['warm-first','warm-next'].map(id=>createFoodInboxIntent(route.scope,
+    {uid:winch,seatId:m.seatId,revision:m.bindingRevision},request,id)).sort((a,b)=>a.id<b.id?-1:1);
+  await store.transaction(async tx=>{for(const intent of ordered)inbox.stageIntake(tx,intent,h.now());});
+  return {inbox,first:ordered[0],next:ordered[1]};
+}
+
+test('warm append drains a prefix discovered after selection before consuming the inbox row', {timeout:60_000},async t=>{
+  const game=await inboxMatch(t);
+  const {h,task,store,read,pump,afterSelect,setCommitObserver}=game;
+  h.setTime(task.options.startedAt+300);
+  const {inbox,first,next}=await stageHeartbeatPair(game);
+  const controlPath='foodIngressControl/'+h.matchId;
+  const entryPath=sequence=>'foodIngress/'+h.matchId+'/'+String(sequence).padStart(16,'0');
+  let earlierSequence;
+  const events=[];
+  setCommitObserver(rows=>events.push(...rows.map(({stage,item,id})=>({stage,sequence:item.sequence,id}))));
+  afterSelect(next.id,async()=>{
+    const confirmed=await store.readOnly(tx=>inbox.progress(tx,first));
+    const applied=await read(entryPath(confirmed.sequence));
+    assert.equal(applied.response.ok,true);
+    assert.equal(await store.readOnly(tx=>inbox.progress(tx,next)),null);
+    await store.transaction(async tx=>{
+      const control=await tx.get(controlPath);
+      earlierSequence=control.nextSequence;
+      assert.equal(earlierSequence,confirmed.sequence+1);
+      // Model an already-admitted item showing up after selection. Its original
+      // time and binding precede the picked intent and must remain authoritative.
+      tx.set(entryPath(earlierSequence),{...applied,sequence:earlierSequence,response:null});
+      tx.set(controlPath,{...control,nextSequence:earlierSequence+1});
+    });
+    h.setTime(h.now()+25);
+  });
+  await pump();
+  assert.ok(earlierSequence);
+  const progress=await store.readOnly(tx=>inbox.progress(tx,next));
+  assert.equal(progress.sequence,earlierSequence+1);
+  assert.equal(progress.admittedAt,h.now());
+  const earlier=await read(entryPath(earlierSequence));
+  assert.equal(earlier.context.now,h.now()-25);
+  assert.equal(earlier.response.ok,true);
+  const appliedEarlier=events.findIndex(event=>event.stage==='apply'&&event.sequence===earlierSequence);
+  const consumedNext=events.findIndex(event=>event.stage==='progress'&&event.id===next.id);
+  assert.ok(appliedEarlier>=0&&consumedNext>appliedEarlier);
+  assert.equal(await inbox.next(game.route.scope),null);
+});
+
+for(const condition of ['rollback','expired lease']){
+  test('warm append retains the selected original across '+condition, {timeout:60_000},async t=>{
+    const game=await inboxMatch(t);
+    const {h,task,route,store,read,pump,afterSelect,rollbackAppend}=game;
+    h.setTime(task.options.startedAt+300);
+    const {inbox,first,next}=await stageHeartbeatPair(game);
+    const ownerPath='foodInboxOwner/'+foodInboxScopeKey(route.scope),controlPath='foodIngressControl/'+h.matchId;
+    let previous;
+    afterSelect(next.id,async()=>{
+      assert.equal((await store.readOnly(tx=>inbox.progress(tx,first))).kind,'admitted');
+      previous=await read(ownerPath);
+      if(condition==='expired lease')h.setTime(previous.expiresAt);
+      else rollbackAppend(next.id);
+    });
+    await assert.rejects(pump(),condition==='expired lease'?LostFoodInboxAuthority:/simulated aborted admission/);
+    assert.ok(previous);
+    const control=await read(controlPath);
+    assert.equal(control.nextSequence-1,control.processedSequence);
+    assert.equal((await inbox.next(route.scope)).id,next.id);
+    assert.equal(await store.readOnly(tx=>inbox.progress(tx,next)),null);
+    assert.equal((await inbox.intake(next,h.now())).duplicate,true);
+    h.setTime(previous.expiresAt);
+    await pump();
+    const result=await store.readOnly(tx=>inbox.progress(tx,next));
+    assert.deepEqual(result,{kind:'admitted',sequence:control.nextSequence,admittedAt:h.now()});
+    assert.ok((await read(ownerPath)).epoch>previous.epoch);
+    assert.equal(await inbox.next(route.scope),null);
+    assert.equal((await inbox.intake(next,h.now())).duplicate,true);
+    assert.equal((await read(controlPath)).processedSequence,result.sequence);
+  });
+}
 
 test('production inbox preserves causal release and does not acknowledge gameplay at intake', {timeout:60_000},async t=>{
   const {h,task,winch,panel,route,store,read,call,pump}=await inboxMatch(t);

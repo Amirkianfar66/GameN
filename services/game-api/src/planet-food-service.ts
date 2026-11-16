@@ -55,7 +55,7 @@ interface Entry {
   response:PlanetServiceResponse|null;
 }
 interface Pending {sequence:number;fingerprint:string}
-interface AdmissionResult {sequence:number;response:PlanetServiceResponse|null;refresh?:true}
+interface AdmissionResult {sequence:number;response:PlanetServiceResponse|null;refresh?:true;probeInbox?:true}
 class FoodInboxMoved extends Error {}
 const inboxExpectedRefusals=new Set<FailureCode>(['FORBIDDEN','NOT_ALLOWED','NOT_FOUND','RATE_LIMITED','COMMAND_ID_CONFLICT','REQUEST_ID_CONFLICT']);
 class RecoveredAdmission extends Error {}
@@ -411,6 +411,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     trySnapshotWhileWaiting?:boolean;
     inboxAuthority?:PlanetFoodInboxAuthority;
     inboxIntent?:PlanetFoodInboxIntent;
+    requireDrainedInbox?:true;
   }={}):Promise<AdmissionResult>{
     if(options.human&&options.human.operation!==q?.operation)throw new Error('Invalid detached Food operation');
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
@@ -428,6 +429,9 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       const control=observedControl??freshControl();
       if(options.inboxAuthority){
         const route=await inboxPorts().worker.requireOwner(tx,options.inboxAuthority);
+        if(options.requireDrainedInbox&&(route.closedAt!==null||!observedControl
+          ||control.processedSequence<route.cutoverThrough||control.processedSequence!==control.nextSequence-1))
+          return {sequence:0,response:null,probeInbox:true};
         if(route.closedAt!==null)d.reject('NOT_ALLOWED');
         if(control.processedSequence<route.cutoverThrough)throw new Error('Undrained Food cutover prefix');
       }else if(s.foodAuthorityProfile&&await activeInboxRoute(tx,s))throw new FoodInboxMoved();
@@ -742,11 +746,11 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       else delete f.botWakes[m.seatId];
     }
   }
-  async function processOne(matchId:string,owner:string,throughSequence:number,inboxAuthority?:PlanetFoodInboxAuthority):Promise<void>{
-    await store.transaction(async tx=>{
+  async function processOne(matchId:string,owner:string,throughSequence:number,inboxAuthority?:PlanetFoodInboxAuthority):Promise<boolean>{
+    return store.transaction(async tx=>{
       const s=await d.load(tx,matchId);
       const control=await tx.get<Control>(controlKey(matchId));
-      if(!control||control.processedSequence>=throughSequence)return;
+      if(!control||control.processedSequence>=throughSequence)return false;
       const routing=s.foodAuthorityProfile?await activeInboxRoute(tx,s):null;
       if(inboxAuthority){
         await inboxPorts().worker.requireOwner(tx,inboxAuthority);
@@ -756,7 +760,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
         requirePrefixOwner(lease,owner,throughSequence,clock());
       }
-      if(control.processedSequence===control.nextSequence-1)return;
+      if(control.processedSequence===control.nextSequence-1)return false;
       const path=entryKey(matchId,control.processedSequence+1),entry=await tx.get<Entry>(path);
       if(!entry||entry.response)throw new Error('Invalid Food ingress prefix');
       service(s).leases=effectiveLeases(s,await contacts(tx,matchId),entry.context.now);
@@ -785,6 +789,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       }
       tx.set(path,entry);await d.publish(tx,s,entry.context);
       if(inboxAuthority&&clock()>=inboxAuthority.owner.expiresAt)throw new LostFoodInboxAuthority();
+      return complete&&entry.sequence===control.nextSequence-1;
     });
   }
   async function drainThrough(matchId:string,sequence:number):Promise<PlanetServiceResponse>{
@@ -940,38 +945,57 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     }
   }
 
-  async function stepInbox(authority:PlanetFoodInboxAuthority):Promise<PlanetFoodInboxStep>{
+  async function processInboxIntent(authority:PlanetFoodInboxAuthority,intent:PlanetFoodInboxIntent,
+    closed:boolean,requireDrainedInbox?:true):Promise<'again'|'drained'|'probe'>{
     const {worker,inbox}=inboxPorts(),matchId=authority.scope.matchId;
+    let admitted:AdmissionResult|null=null;
+    try{
+      if(closed)d.reject('NOT_ALLOWED');
+      admitted=await admit(matchId,intent.binding.uid,intent.request,{
+        inboxAuthority:authority,inboxIntent:intent,...(requireDrainedInbox?{requireDrainedInbox}:{}),
+      });
+    }catch(error){
+      const code=error!==null&&typeof error==='object'&&'code' in error?error.code as FailureCode:null;
+      if(code===null||!inboxExpectedRefusals.has(code))throw error;
+      // This transaction records a refusal without inventing an admission time.
+      // An ambiguous append, ownership loss or SDK failure never lands here.
+      await store.transaction(async tx=>{
+        await worker.requireOwner(tx,authority);
+        if(!await inbox.progress(tx,intent))inbox.consume(tx,intent,{kind:'resolved',response:{
+          ok:false,serverTimeMs:clock(),error:{code},
+        }});
+      });
+    }
+    if(admitted?.probeInbox)return 'probe';
+    if(admitted&&!admitted.response&&admitted.sequence>0
+      &&await processOne(matchId,authority.owner.id,admitted.sequence,authority))return 'drained';
+    return 'again';
+  }
+
+  async function stepInbox(authority:PlanetFoodInboxAuthority,confirmedDrained:boolean):Promise<PlanetFoodInboxStep>{
+    const {worker,inbox}=inboxPorts(),matchId=authority.scope.matchId;
+    if(confirmedDrained){
+      const selected=await inbox.next(authority.scope);
+      if(selected){
+        const step=await processInboxIntent(authority,selected,false,true);
+        if(step!=='probe')return step;
+        // A failed guard leaves the index and receipt untouched. Reprobe and
+        // reselect only after processing the durable prefix in its saved order.
+      }
+    }
     const observed=await readOnly(async tx=>{
       const route=await worker.requireOwner(tx,authority),control=await tx.get<Control>(controlKey(matchId));
       return {closed:route.closedAt!==null,control};
     });
     const {closed,control}=observed;
     if(!closed&&control&&control.processedSequence<control.nextSequence-1){
-      await processOne(matchId,authority.owner.id,control.nextSequence-1,authority);
-      return 'again';
+      const drained=await processOne(matchId,authority.owner.id,control.nextSequence-1,authority);
+      return drained?'drained':'again';
     }
     const intent=await inbox.next(authority.scope);
     if(intent){
-      let admitted:AdmissionResult|null=null;
-      try{
-        if(closed)d.reject('NOT_ALLOWED');
-        admitted=await admit(matchId,intent.binding.uid,intent.request,{inboxAuthority:authority,inboxIntent:intent});
-      }catch(error){
-        const code=error!==null&&typeof error==='object'&&'code' in error?error.code as FailureCode:null;
-        if(code===null||!inboxExpectedRefusals.has(code))throw error;
-        // This transaction records a refusal without inventing an admission time.
-        // An ambiguous append, ownership loss or SDK failure never lands here.
-        await store.transaction(async tx=>{
-          await worker.requireOwner(tx,authority);
-          if(!await inbox.progress(tx,intent))inbox.consume(tx,intent,{kind:'resolved',response:{
-            ok:false,serverTimeMs:clock(),error:{code},
-          }});
-        });
-      }
-      if(admitted&&!admitted.response&&admitted.sequence>0)
-        await processOne(matchId,authority.owner.id,admitted.sequence,authority);
-      return 'again';
+      const step=await processInboxIntent(authority,intent,closed);
+      return step==='probe'?'again':step;
     }
     if(closed)return {closed:true,nextAt:null};
     const before=control?.nextSequence;
