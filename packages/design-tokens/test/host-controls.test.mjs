@@ -180,14 +180,13 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   }
   const ids = record.probe.full.checks.map(c => c.id);
   for (const group of ['report', 'command', 'reconnect', 'privacy', 'minutes', 'focus', 'words', 'layout', 'dispose', 'motion']) assert.ok(ids.some(id => id.startsWith(`${group}:`)), `probe group ${group}`);
-  // The Lead's privacy checks (#295, answer 4), each its own.
-  for (const pattern of [/only while revealed/, /never in an attribute, a report or the layout/, /when the viewer changes/, /while concealed/]) assert.ok(ids.some(id => pattern.test(id)), `probe: ${pattern}`);
+  // The Lead's privacy checks (#295, answer 4, and the reconnecting Hide), each its own.
+  for (const pattern of [/only while revealed/, /revealed, then reconnecting: Hide is still taken/, /never in an attribute, a report or the layout/, /when the viewer changes/, /while concealed/]) assert.ok(ids.some(id => pattern.test(id)), `probe: ${pattern}`);
   const agree = record.agree;
   assert.ok(agree.ok && agree.checks.length === 9 && agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the sheet agrees with the frozen pack\'s host-controls screen');
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
-  // The shell's, recorded and raised with the Lead (the head with Back; the footer at the Larger text): nothing else.
-  for (const c of agree.checks) for (const d of c.detail.shell) assert.match(d.part, /^sheet (?:head|footer)$/, `${c.id}: only the shell's head and footer are recorded as the shell's`);
-  assert.ok(agree.checks.some(c => c.detail.shell.some(d => d.part === 'sheet head')), 'the head with Back is recorded');
+  // Compared with the shell as it is (0.2.5 draws the pack's head with Back and its footer's halves): no patch, nothing recorded as the shell's.
+  assert.ok(agree.checks.every(c => !('shell' in c.detail)), 'nothing recorded as the shell\'s');
   // The one accepted difference: the timer icon keeps its 24 px at the Largest text.
   const accepted = agree.checks.filter(c => c.detail.accepted);
   assert.equal(accepted.length, 1);

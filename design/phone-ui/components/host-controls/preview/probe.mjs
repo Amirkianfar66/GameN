@@ -153,6 +153,21 @@ export async function runHostControlsProbe({ sizes, mountState, disposeState, in
       disposeState(s.m);
       return { ok: !hidden.inPage && hidden.text === CODE_MASK && shown.inPage && shown.text === SAMPLE_CODE && shown.count === 1 && !again.inPage && again.text === CODE_MASK, hidden, shown, again };
     });
+    await check('privacy: revealed, then reconnecting: Hide is still taken, and once Frontend hides it the code leaves the page', async () => {
+      const s = mount(inputOf({ view: 'code', code: codeOf(true) }));
+      const live = inPage();
+      s.update({ status: 'stale' }, { status: 'stale', banner: { kind: 'reconnecting' } });
+      const [hide, copy] = s.footer();
+      const stale = { inPage: inPage(), hide: hide?.textContent.trim(), intent: hide?.getAttribute('data-intent'), refused: refused(hide), dimmed: dimmed(hide), copyRefused: refused(copy) };
+      tap(hide);
+      const actions = s.calls.filter(c => c[0] === 'onSheetAction').map(c => c[1]);
+      s.update({ code: codeOf(false) });
+      const hidden = { inPage: inPage(), text: s.q('.ms-hc-code').textContent, reveal: s.footer()[0]?.textContent.trim(), attributes: inAttributes() };
+      disposeState(s.m);
+      const ok = live && stale.inPage && stale.hide === HOST_WORDS.hide && stale.intent === 'sheet-local' && !stale.refused && !stale.dimmed && !stale.copyRefused
+        && actions.join() === 'hide' && !hidden.inPage && hidden.text === CODE_MASK && hidden.reveal === HOST_WORDS.reveal && !hidden.attributes;
+      return { ok, live, stale, actions, hidden };
+    });
     await check('privacy: the code is never in an attribute, a report or the layout', async () => {
       const s = mount(inputOf({ view: 'code', code: codeOf(true) }));
       s.q('.ms-hc-code').focus?.();

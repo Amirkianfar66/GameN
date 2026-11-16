@@ -10,12 +10,6 @@
 // Not compared: the room behind the sheet (the room scene's own agreement), the top bar and the tabs (the phone
 // shell's), and what the pack does not draw: a command in flight or refused, and reconnecting (the probe checks them).
 //
-// The shell's, recorded (raised with the Lead on #295; the shell's to settle, not this component's): with Back in its
-// head, the shell's sheet head drops its left padding to 8 px where the pack's keeps 18 px, so the title starts 10 px
-// further left; and at the Larger text its footer's buttons take their own widths (0.2.1's flex: 1 1 auto) where the
-// pack's are two equal halves. Each is measured against the shell as it is and recorded in detail.shell; then the
-// shell side is drawn with the pack's two values, so everything of this component's is compared as usual.
-//
 // One accepted difference, at the Largest text only: beside the long "Works once · 15 minutes" the pack's timer
 // icon shrinks to under its 24 px (its .ic may shrink); the card's keeps its 24 px, as the kit's icons never shrink
 // (.ms-k-ic, flex: none). That case compares the icon's place and height, and records its width.
@@ -23,8 +17,6 @@
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
 
 const TOLERANCE = 0.5;
-/** The pack's sheet head and footer values, on the shell side only (see above). */
-const SHELL_AS_PACK = '.pv-agree-host .ms-phone-shell .ms-ps-sheet-head:has(> .ms-k-icon-btn:first-child) { padding-left: 18px !important; } .pv-agree-host .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1 1 0% !important; }';
 
 function loadPack() {
   return Promise.all(['kit.css', 'screens.css'].map(file => {
@@ -127,16 +119,6 @@ export async function runHostControlsAgreement({ sizes, mountState, disposeState
       try { a.finish(); } catch { a.pause(); a.currentTime = 0; }
     }
     await frames();
-    // The shell as it is: its head's title and its footer's buttons against the pack's, recorded; then drawn as the pack's.
-    const shell = [];
-    const title = [box(pack, pack.querySelector('.sheet-title h2')), box(host, host.querySelector('.ms-ps-sheet-title h2'))];
-    if (!near(...title)) shell.push({ part: 'sheet head', what: 'with Back, the shell\'s sheet head keeps 8 px at its left (the pack 18 px): the title starts 10 px further left', pack: title[0], screen: title[1] });
-    const feet = [[...pack.querySelectorAll('.sheet-foot .btn')].map(b => box(pack, b).w), [...host.querySelectorAll('.ms-ps-sheet-foot .ms-k-btn')].map(b => box(host, b).w)];
-    if (feet[0].length === feet[1].length && feet[0].some((w, i) => Math.abs(w - feet[1][i]) > TOLERANCE)) shell.push({ part: 'sheet footer', what: 'at the Larger text the shell\'s footer buttons take their own widths (flex: 1 1 auto; the pack two equal halves)', pack: feet[0], screen: feet[1] });
-    const patch = document.createElement('style');
-    patch.textContent = SHELL_AS_PACK;
-    document.head.append(patch);
-    await frames();
     const differences = [], parts = {};
     let accepted = null;
     for (const [name, packSel, mineSel, compareWords, props] of [...FRAME, ...BODY]) {
@@ -163,8 +145,7 @@ export async function runHostControlsAgreement({ sizes, mountState, disposeState
     const pictureOf = node => (node.tagName === 'IMG' ? node.src.replace(/^.*\//, '') : (getComputedStyle(node).backgroundImage.match(/([^/"]+\.svg)/)?.[1]?.replace(/-[A-Za-z0-9_-]{8}\.svg$/, '.svg') ?? null));
     const packPictures = [...pack.querySelectorAll('.sheet .row > .pt')].map(pictureOf), minePictures = [...host.querySelectorAll('.ms-host-controls .ms-k-row .ms-k-pt')].map(pictureOf);
     if (JSON.stringify(packPictures) !== JSON.stringify(minePictures)) differences.push({ part: 'portraits', what: 'files', pack: packPictures, screen: minePictures });
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && (!c.iconKept || accepted !== null), detail: { differences, parts, shell, accepted } });
-    patch.remove();
+    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && (!c.iconKept || accepted !== null), detail: { differences, parts, accepted } });
     disposeState(mounted);
     pack.remove();
     host.remove();

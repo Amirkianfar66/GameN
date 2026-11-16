@@ -1,6 +1,6 @@
 # Host controls: Designer's runtime component
 
-**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.4. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.5. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -23,7 +23,7 @@
 
 **Not in it:**
 - **The commands and their answers:** checking the deadline (today's `advance`), running bots (`runBots`), issuing a seat's code (`issueRecovery`) and aborting (`abort`) are Frontend's to send and the server's to answer. The component reports a tap; Frontend gives each command's state and the issued code.
-- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.4). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, answer 1), so they stay in Designer's source.
+- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.5). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, answer 1), so they stay in Designer's source.
 - **The host's lobby controls** (seats, bots before the start, admitting players): the host room (#287).
 
 ## The Lead's answers (#295)
@@ -32,7 +32,7 @@
 2. **In flight and refused:** in flight, the row busy with the kit's spinner at its end, and Abort match busy in the footer; refused, the row dimmed, Frontend's reason in place of its line and as its description; receipts in the shell's toast. While a command is in flight only that row is busy; the others keep their own state as Frontend gives it. The component never infers one command's state from another's.
 3. **Abort match:** the shell draws it. Shell 0.2.4's sheet actions take `kind: 'warn'`, the kit's warn button (the pack's `.btn-warn`: a paper outline, no fill, the same on glass). The confirm's footer is Keep playing (secondary) and Abort match (warn).
 4. **The code:** the server issues it with `expiresAt` 15 minutes ahead, and a `used` flag makes it single-use (`services/game-api/src/planet-game.ts`), so "Works once" is the server's fact. `minutes` are the minutes left, which Frontend works out from `expiresAt` and the trusted clock, rounded up and updated as they change; without them the line is dropped, and the component never counts down. Once it expires, Frontend drops the code. The value is in the page only while revealed, never in an attribute, a report or the layout, and it is dropped on a viewer change and when concealed; the probe checks each.
-5. **Reconnecting:** shell 0.2.4 adds `local: true` to a footer action: this phone's own, like Back, ✕ and the head actions, working while reconnecting and standing for no command. Reveal, Hide, Copy and Keep playing are local, so Hide always works; Abort match stays a command, refused while reconnecting with the banner's words, as the command rows are. `interactive: false` still refuses everything, and concealed draws no sheet.
+5. **Reconnecting:** shell 0.2.4 adds `local: true` to a footer action: this phone's own, like Back, ✕ and the head actions, working while reconnecting and standing for no command. Reveal, Hide, Copy and Keep playing are local, so Hide always works (the probe checks it: the code revealed, then reconnecting, Hide is taken, and once Frontend hides the code it leaves the page); Abort match stays a command, refused while reconnecting with the banner's words, as the command rows are. `interactive: false` still refuses everything, and concealed draws no sheet.
 6. **The seats:** Frontend lists them, and the component draws only what it is given: names given, portraits by character. Whether the host's own seat or a bot's seat is listed is Frontend's and the server's call.
 
 ## Files
@@ -50,7 +50,7 @@ The tool is `design/tools/host-controls-check.mjs`, on the shared `lib/component
 
 **Uses unchanged:**
 - **The kit (0.5.1):** `list` and `row` (icon tiles, portraits as leads, the chevron, the spinner as a trail), `groupLabel`, `groupNote`, `wait` (`size: 'small'`, the abort's warning tile and its 1.25rem title), and the control policy.
-- **The phone shell (0.2.4):** its sheet (`back`, `sub`, `detent: 'large'`, `actions` with `kind: 'warn'` and `local: true`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
+- **The phone shell (0.2.5):** its sheet (`back`, `sub`, `detent: 'large'`, `actions` with `kind: 'warn'` and `local: true`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
 
 ## Mount, update and dispose
 
@@ -117,7 +117,7 @@ Each reports a tap, and only that.
 
 The agreement draws the frozen pack's `host-controls` screen beside the sheet (its list, the code hidden and revealed, the copy's toast, and the abort's confirm; at both sizes and the Largest text) and compares, to within half a pixel: the sheet, its title, line and body; the footer and its buttons and icons; the toast; the group label, the lists, the rows, their icon tiles and drawings, portraits (by file), titles, lines and chevrons; the code card and each of its six lines and its timer icon; the note; and the confirm's tile, icon, title and line: their boxes, words, looks, states (`aria-disabled`, `aria-busy`, names, roles) and drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; what the pack does not draw (a command in flight or refused, reconnecting) is the probe's.
 
-- **The shell's, recorded (raised with the Lead on #295):** with Back in its head, the shell's sheet head keeps 8 px at its left where the pack's keeps 18 px, so the title and its line start 10 px further left (x 62 against 72); and at the Larger text the shell's footer buttons take their own widths (0.2.1's `flex: 1 1 auto`) where the pack draws two equal halves. Each is measured against the shell as it is and recorded in `detail.shell`; then the shell side is drawn with the pack's two values, so everything of this component's is compared as usual. They are the shell's to settle.
+- **The shell, as it is:** compared with shell 0.2.5, which draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text; nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
 - **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
 
 ## Check
