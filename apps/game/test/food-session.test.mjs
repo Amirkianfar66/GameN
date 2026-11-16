@@ -163,7 +163,7 @@ function streamingRig(){
  const offer={version:1,phaseId:s.foodPlayerView.phaseId,foodStepId:s.foodPlayerView.step.stepId};
  s.foodStream=offer;
  r.connection.foodDelivery={
-  watch(request,signal,receive){const gate=deferred();watch.push({request,signal,receive,...gate});return gate.promise;},
+  watch(request,signal,receive,keepalive){const gate=deferred();watch.push({request,signal,receive,keepalive,...gate});return gate.promise;},
   clock(request,signal){const gate=deferred();clock.push({request,signal,...gate});return gate.promise;},
  };
  const scope={matchId:s.matchId,...offer};
@@ -226,6 +226,41 @@ test('an old heartbeat refusal cannot conceal a reconnected Food seat; current r
  heartbeat.resolve({ok:false,error:{code:'FORBIDDEN'},serverTimeMs:7500});await flush();assert.equal(s.getModel().connection,'live');
  r.close(1,2,'authorization');await r.advance(5000);
  assert.equal(s.getModel().connection,'error');assert.equal(r.reads().length,1);assert.equal(r.watch.length,2);s.dispose();
+});
+test('the watch pulse keeps a stale stream open without making its seat usable',async()=>{
+ const r=streamingRig(),s=r.session;await s.start(r.scope.matchId);
+ const transport=s.gameTransport('player'),packets=[];
+ const stop=transport.listen({matchId:r.scope.matchId,seatId:'seat-1'},{snapshot:value=>packets.push(value),error(){}});
+ try{
+  r.frame(0,1,{fresh:false});r.pair(0);await flush();await r.advance(2500);r.watch[0].keepalive();
+  await r.advance(2500);assert.equal(r.watch[0].signal.aborted,false);assert.equal(s.getModel().connection,'stale');
+  assert.equal(packets.length,0);assert.equal(transport.readClock().serverNowMs,11000);
+  r.frame(0,2);assert.equal(s.getModel().connection,'live');assert.equal(packets.length,1);
+  r.frame(0,2);await r.advance(3000);assert.equal(s.getModel().connection,'stale');assert.equal(r.watch[0].signal.aborted,true);
+  assert.equal(transport.readClock().status,'unsynced');assert.equal(r.reads().length,1);
+  await r.advance(500);r.frame(1,1);r.pair(1);await flush();assert.equal(s.getModel().connection,'live');
+  await r.advance(2500);r.watch[0].keepalive();await r.advance(500);
+  assert.equal(s.getModel().connection,'stale');assert.equal(r.watch[1].signal.aborted,true);
+  assert.equal(r.reads().length,1);
+ }finally{stop();s.dispose();}
+});
+test('paired time cannot revive a pending frame after delivery silence',async()=>{
+ const r=streamingRig(),s=r.session;await s.start(r.scope.matchId);
+ r.frame(0,1);await r.advance(3000);r.pair(0,9000);r.watch[0].keepalive();await flush();
+ assert.equal(r.watch[0].signal.aborted,true);assert.equal(s.gameTransport('player').readClock().status,'unsynced');
+ assert.equal(s.getModel().selfSeatId,null);assert.equal(r.reads().length,1);
+ s.dispose();
+});
+test('an unknown scoped heartbeat retains its own cadence without arming the watch',async()=>{
+ const r=streamingRig(),s=r.session,ordinary=r.connection.request,beats=[];
+ r.connection.request=(q,signal)=>{
+  if(q.operation!=='foodHeartbeat')return ordinary(q);
+  const at=r.ports.clock.now();assert.ok(signal instanceof AbortSignal);beats.push(at);
+  return Promise.resolve(beats.length===1?{ok:false,error:{code:'UNAVAILABLE'},serverTimeMs:at}:{ok:true,result:{renewed:true},serverTimeMs:at});
+ };
+ await s.start(r.scope.matchId);r.frame(0,1);r.pair(0);await flush();await r.advance(3000);
+ assert.deepEqual(beats,[7000,8000,9000]);assert.equal(s.getModel().connection,'stale');assert.equal(r.watch[0].signal.aborted,true);
+ s.dispose();
 });
 test('a lost command response checks just the original ID without another semantic frame or gameplay POST',async()=>{
  const r=streamingRig(),s=r.session,ordinary=r.connection.request;

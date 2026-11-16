@@ -76,7 +76,7 @@ export async function postHostedPlanetRequest(config:HostedConfiguration,ports:H
 
 /** The authenticated Food watch uses POST headers and one JSON value per SSE event. */
 export async function postHostedPlanetFoodDelivery(config:HostedConfiguration,ports:HostedRequestPorts,
- request:PlanetFoodTransportRequest,signal:AbortSignal,receive?:(frame:unknown)=>void):Promise<unknown>{
+ request:PlanetFoodTransportRequest,signal:AbortSignal,receive?:(frame:unknown)=>void,keepalive?:()=>void):Promise<unknown>{
  const body=readPlanetFoodTransportRequest(request),pinned=readHostedConfiguration(config);
  const response=await dispatchUntilAbort(pinned,ports,body,signal);
  signal.throwIfAborted();
@@ -88,7 +88,7 @@ export async function postHostedPlanetFoodDelivery(config:HostedConfiguration,po
  }
 
  const reader=response.body.getReader(),decoder=new TextDecoder('utf-8',{fatal:true});
- let buffer='',data:string|null=null,complete=false;
+ let buffer='',data:string|null=null,lines=0,alive=false,complete=false;
  try{
   while(!signal.aborted){
    const chunk=await reader.read();signal.throwIfAborted();
@@ -99,11 +99,17 @@ export async function postHostedPlanetFoodDelivery(config:HostedConfiguration,po
     const line=buffer.slice(lineStart,buffer[lineEnd-1]==='\r'?lineEnd-1:lineEnd);
     lineStart=lineEnd+1;
     if(line.length>MAX_FOOD_EVENT_CHARS)throw new TypeError('Food event is too large');
-    if(!line&&data!==null){
-     receive(JSON.parse(data) as unknown);data=null;signal.throwIfAborted();
-    }else if(line.startsWith('data:')){
-     if(data!==null)throw new TypeError('Expected one data line per Food event');
-     data=line.slice(line[5]===' '?6:5);
+    if(!line){
+     if(data!==null)receive(JSON.parse(data) as unknown);
+     else if(lines===1&&alive)keepalive?.();
+     data=null;lines=0;alive=false;signal.throwIfAborted();
+    }else{
+     lines++;
+     if(line===': food-alive')alive=true;
+     if(line.startsWith('data:')){
+      if(data!==null)throw new TypeError('Expected one data line per Food event');
+      data=line.slice(line[5]===' '?6:5);
+     }
     }
    }
    buffer=buffer.slice(lineStart);

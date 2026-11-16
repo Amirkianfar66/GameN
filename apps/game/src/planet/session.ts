@@ -16,7 +16,7 @@ export interface PlanetServiceConnection {
  request(request:PlanetServiceRequest,signal?:AbortSignal):Promise<unknown>;
  /** Optional read-only delivery. The verified snapshot delegates when it can be used. */
  foodDelivery?:{
-  watch(request:Extract<PlanetFoodTransportRequest,{operation:'foodWatch'}>,signal:AbortSignal,receive:(frame:unknown)=>void):Promise<unknown>;
+  watch(request:Extract<PlanetFoodTransportRequest,{operation:'foodWatch'}>,signal:AbortSignal,receive:(frame:unknown)=>void,keepalive:()=>void):Promise<unknown>;
   clock(request:Extract<PlanetFoodTransportRequest,{operation:'foodClock'}>,signal:AbortSignal):Promise<unknown>;
  };
  dispose?():Promise<void>;
@@ -64,10 +64,12 @@ export function readPlanetServiceAnswer(value:unknown):Answer|null {
 
 const FRESHNESS_WAIT_MS=8_000;
 const FOOD_WATCH_LIFETIME_MS=45_000+FRESHNESS_WAIT_MS;
+const FOOD_WATCH_SILENCE_MS=3_000;
 const isAuthorizationFailure=(answer:Answer|null)=>answer?.code==='FORBIDDEN'||answer?.code==='UNAUTHENTICATED';
 type FoodSnapshotFrame=Extract<PlanetFoodStreamFrame,{kind:'snapshot'}>;
 type FoodWatch={
  controller:AbortController;timer:unknown;epoch:string|null;sequence:number;
+ silenceTimer:unknown;silenceDeadline:number|null;
  calibrated:boolean;pending:FoodSnapshotFrame|null;
 };
 const sameFoodScope=(a:PlanetFoodStreamScope,b:PlanetFoodStreamScope)=>
@@ -273,6 +275,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const watch=foodWatch;foodWatch=null;
   if(watch){
    ports.scheduler.clearTimeout(watch.timer);
+   if(watch.silenceTimer!==null)ports.scheduler.clearTimeout(watch.silenceTimer);
    watch.controller.abort();
   }
  }
@@ -317,20 +320,42 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  }
  function openFoodDelivery(){
   const scope=foodDeliveryScope(),delivery=connection.foodDelivery;
-  if(!scope||foodWatch||foodReconnect!==null||foodStreamDenied||!visible||disposed||!auth())return;
-  if(!delivery){conceal('The Food connection is unavailable.');return;}
-  const watch:FoodWatch={controller:new AbortController(),epoch:null,sequence:0,calibrated:false,pending:null,timer:null};
+  if(!scope||!delivery||foodWatch||foodReconnect!==null||foodStreamDenied||!visible||disposed||!auth())return;
+  const watch:FoodWatch={controller:new AbortController(),epoch:null,sequence:0,calibrated:false,pending:null,timer:null,
+   silenceTimer:null,silenceDeadline:null};
   foodWatch=watch;
   const {signal}=watch.controller;
   const current=()=>foodWatch===watch&&visible&&!disposed&&auth();
   watch.timer=ports.scheduler.setTimeout(()=>{if(current())retryFoodDelivery();},FRESHNESS_WAIT_MS);
+  const checkSilence=()=>{
+   if(!current())return false;
+   if(watch.silenceDeadline!==null&&ports.clock.now()>=watch.silenceDeadline){
+    retryFoodDelivery();return false;
+   }
+   return true;
+  };
+  const expireSilence=()=>{
+   if(!checkSilence())return;
+   const left=watch.silenceDeadline!-ports.clock.now();
+   watch.silenceTimer=ports.scheduler.setTimeout(expireSilence,Math.max(1,Math.ceil(left)));
+  };
+  const heard=()=>{
+   if(watch.silenceTimer!==null)ports.scheduler.clearTimeout(watch.silenceTimer);
+   watch.silenceDeadline=ports.clock.now()+FOOD_WATCH_SILENCE_MS;
+   watch.silenceTimer=ports.scheduler.setTimeout(expireSilence,FOOD_WATCH_SILENCE_MS);
+  };
+  const keepalive=()=>{
+   // Only this scoped response can renew its delivery timer. A comment
+   // contains no clock or view and cannot establish initial readiness.
+   if(watch.silenceDeadline!==null&&checkSilence())heard();
+  };
   const ready=()=>{
    if(watch.sequence===0||!watch.calibrated)return;
    ports.scheduler.clearTimeout(watch.timer);
    watch.timer=ports.scheduler.setTimeout(()=>{if(current())retryFoodDelivery();},FOOD_WATCH_LIFETIME_MS);
   };
   const receive=(raw:unknown)=>{
-   if(!current())return;
+   if(!checkSilence())return;
    const checked=PlanetFoodStreamFrameSchema.safeParse(raw);
    if(!checked.success||!sameFoodScope(checked.data,scope)||watch.epoch!==null&&checked.data.frameEpoch!==watch.epoch){
     retryFoodDelivery();return;
@@ -350,6 +375,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
     return;
    }
    if(!verifyFoodDelivery(frame.snapshot,frame.serverTimeMs,latest)){retryFoodDelivery();return;}
+   heard();
    if(!frame.fresh){
     watch.pending=null;rememberSnapshot(frame.snapshot,frame.serverTimeMs);
     conceal('Reconnecting to the authorized session.');
@@ -359,7 +385,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   };
   const requestedAt=ports.clock.now();
   void Promise.resolve().then(()=>delivery.clock({operation:'foodClock',...scope},signal)).then(raw=>{
-   if(!current())return;
+   if(!checkSilence())return;
    const receivedAt=ports.clock.now(),checked=PlanetFoodClockResponseSchema.safeParse(raw);
    if(!checked.success||!sameFoodScope(checked.data.scope,scope)){
     if(isAuthorizationFailure(readPlanetServiceAnswer(raw)))denyFoodDelivery();
@@ -374,7 +400,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    const pending=watch.pending;watch.pending=null;
    if(pending)publishSnapshot(pending.snapshot,pending.serverTimeMs);
   },()=>{/* Initial clock timeout remains owned by the watch. */});
-  void Promise.resolve().then(()=>delivery.watch({operation:'foodWatch',...scope},signal,receive)).then(raw=>{
+  void Promise.resolve().then(()=>delivery.watch({operation:'foodWatch',...scope},signal,receive,keepalive)).then(raw=>{
    if(!current())return;
    if(isAuthorizationFailure(readPlanetServiceAnswer(raw)))denyFoodDelivery();
    else retryFoodDelivery();

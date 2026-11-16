@@ -23,7 +23,7 @@ export function createHostedPlanetConnection(input:unknown):PlanetServiceConnect
   async signIn(){await auth.authStateReady();await getToken(appCheck);return auth.currentUser?.uid??(await signInAnonymously(auth)).user.uid;},
   request:(request,signal)=>postHostedPlanetRequest(config,ports,request,undefined,signal),
   foodDelivery:{
-   watch:(request,signal,receive)=>postHostedPlanetFoodDelivery(config,ports,request,signal,receive),
+   watch:(request,signal,receive,keepalive)=>postHostedPlanetFoodDelivery(config,ports,request,signal,receive,keepalive),
    clock:(request,signal)=>postHostedPlanetFoodDelivery(config,ports,request,signal),
   },
   dispose:()=>deleteApp(app),

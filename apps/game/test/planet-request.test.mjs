@@ -17,7 +17,7 @@ const scope={version:1,matchId:'planet-local',phaseId:'food-phase',foodStepId:'f
 test('Food watch uses the existing authenticated endpoint and delivers complete UTF-8 events only',async()=>{
  const request={operation:'foodWatch',...scope},controller=new AbortController(),received=[];
  const encoder=new TextEncoder();
- const bytes=encoder.encode(': keepalive\r\n\r\ndata: {"value":"é"}\r\n\r\ndata: {"value":2}\n\ndata: {"incomplete":true}');
+ const bytes=encoder.encode(': arbitrary\r\n\r\n: food-alive\r\n\r\ndata: {"value":"é"}\r\n\r\n: food-alive\ndata: {"value":2}\n\n: food-alive\n');
  const response=new Response(new ReadableStream({start(reader){for(const byte of bytes)reader.enqueue(Uint8Array.of(byte));reader.close();}}),{headers:{'content-type':'text/event-stream; charset=utf-8'}});
  const ports={getIdToken:async()=>'id-token',getAppCheckToken:async()=>'app-check',async fetch(url,options){
   assert.equal(url,`https://us-central1-${projectId}.cloudfunctions.net/planetApi`);
@@ -25,8 +25,8 @@ test('Food watch uses the existing authenticated endpoint and delivers complete 
   assert.equal(options.headers.authorization,'Bearer id-token');assert.equal(options.headers['X-Firebase-AppCheck'],'app-check');
   assert.deepEqual(JSON.parse(options.body),request);assert.equal(options.signal,controller.signal);return response;
  }};
- await postHostedPlanetFoodDelivery(config,ports,request,controller.signal,frame=>received.push(frame));
- assert.deepEqual(received,[{value:'é'},{value:2}]);
+ await postHostedPlanetFoodDelivery(config,ports,request,controller.signal,frame=>received.push(frame),()=>received.push('keepalive'));
+ assert.deepEqual(received,['keepalive',{value:'é'},{value:2}]);
 });
 test('Food delivery exposes paired JSON and safe refusals and aborts delayed credentials before dispatch',async()=>{
  const controller=new AbortController(),receive=()=>assert.fail('a refusal is not a frame');
