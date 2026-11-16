@@ -284,19 +284,14 @@ export function mountOfficeDecisions(host, input = {}, handlers = {}) {
     if (!p.wait) { p.wait = kit.wait(props); root.append(p.wait); } else kit.setWait(p.wait, props);
   }
   function buildBlocked() {
-    // The pack's .registered: the amber stamp over its two lines (kit 0.7.0's notice, decision 2).
-    const notice = kit.h('div', 'ms-od-notice');
-    const stamp = kit.stamp({ text: W.blockedStamp, tone: 'amber' });
-    const who = kit.h('p'), all = kit.h('p');
-    kit.text(all, W.everyoneSees);
-    notice.append(stamp, who, all);
-    root.append(notice);
-    parts = { notice, who };
+    parts = { notice: null };
   }
+  /** The block made (sheet 40): the kit's notice (0.7.0, the pack's .registered; decision 2), read as it opens. */
   function paintBlocked() {
-    const b = state.blocked;
-    parts.notice.hidden = !b;
-    kit.text(parts.who, b ? W.cantMove(b.name) : '');
+    const p = parts, b = state.blocked;
+    if (!b) { if (p.notice) { policy.remove(p.notice); p.notice = null; } return; }
+    const props = { stamp: { text: W.blockedStamp, tone: 'amber' }, lines: [W.cantMove(b.name), W.everyoneSees] };
+    if (!p.notice) { p.notice = kit.notice(props); root.append(p.notice); } else kit.setNotice(p.notice, props);
   }
   function buildNavigation() {
     const map = kit.h('div', 'ms-od-route', { role: 'img' });

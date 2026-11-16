@@ -49,7 +49,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/office-decisions/`:
 The tool is `design/tools/office-decisions-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/office-decisions.test.mjs`.
 
 **Uses unchanged:**
-- **The kit (0.6.1, then 0.7.0):** `grid9` and `cell`/`setCell` (the 3 × 3, with "You", the selected and the dimmed cells and their notes), `wait` (the Captain's portrait in the waiting block), `stamp` ("BLOCKED"), `list` and `row` (Position, Next move, Acknowledge, with values), `groupNote`, `button` (Blue and Red), and the control policy.
+- **The kit (0.7.0):** `grid9` and `cell`/`setCell` (the 3 × 3, with "You", the selected and the dimmed cells and their notes), `wait` (the Captain's portrait in the waiting block), `stamp` ("BLOCKED"), `list` and `row` (Position, Next move, Acknowledge, with values), `groupNote`, `button` (Blue and Red), and the control policy.
 - **The kit's notice (0.7.0):** `notice({ icon, filled, stamp: { text, tone }, lines, extra, status })`, `ms-k-notice`, the pack's `.registered`: a stamp over its lines. It moves into the kit because play-parts and the offices both draw it (decision 2).
 - **The phone shell (0.2.7):** its sheet with footer actions and its banner, opened by Frontend; the component does not import the shell.
 

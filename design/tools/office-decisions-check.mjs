@@ -96,7 +96,7 @@ try {
           list: q('.ms-k-grid9') ? getComputedStyle(q('.ms-k-grid9')).gridTemplateColumns.split(' ').length === 1 : null,
           wait: wait ? [wait.querySelector('.ms-k-wait-title').textContent, wait.querySelector('.ms-k-wait-line').textContent].join('|') : null,
           portrait: wait ? Math.round(wait.querySelector('.ms-k-pt').getBoundingClientRect().width) : null,
-          notice: q('.ms-od-notice') ? [...q('.ms-od-notice').children].map(n => n.textContent).join('|') : null,
+          notice: q('.ms-k-notice') ? [...q('.ms-k-notice').children].map(n => n.textContent).join('|') : null,
           map: map && shown(map) ? [map.getAttribute('role'), map.getAttribute('aria-label')].join(':') : null,
           dashed: map ? map.querySelectorAll('line[stroke-dasharray]').length : 0, tieLine: !!map && [...map.querySelectorAll('text')].some(t => t.textContent === 'Genuine tie · the Officer chooses'),
           rows: qa('.ms-k-row').map(r => [r.querySelector('.ms-k-row-title')?.textContent, r.querySelector('.ms-k-row-sub')?.hidden === false ? r.querySelector('.ms-k-row-sub').textContent : '', r.querySelector('.ms-k-row-value')?.textContent ?? ''].join(':')).join('|'),
@@ -104,7 +104,7 @@ try {
           directionsWait: dirs[0]?.getAttribute('aria-disabled') === 'true' ? describedBy(dirs[0]) : null,
           foot: foot.map(b => b.textContent.trim()).join('|'), footBusy: foot.some(b => b.getAttribute('aria-busy') === 'true'),
           banner: shown(shell.querySelector('.ms-ps-banner')),
-          cut: qa('.ms-k-cell-label, .ms-k-cell-note, .ms-k-row-title, .ms-k-row-sub, .ms-k-row-value, .ms-k-group-note, .ms-k-btn-label, .ms-od-notice p, .ms-k-wait-title, .ms-k-wait-line').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
+          cut: qa('.ms-k-cell-label, .ms-k-cell-note, .ms-k-row-title, .ms-k-row-sub, .ms-k-row-value, .ms-k-group-note, .ms-k-btn-label, .ms-k-notice > p, .ms-k-wait-title, .ms-k-wait-line').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.

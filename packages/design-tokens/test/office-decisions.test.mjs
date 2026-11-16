@@ -74,7 +74,7 @@ test('its styles reach nothing outside its root, and restyle no kit part', () =>
   const file = `${COMPONENT}/office-decisions.css`;
   const css = read(file).replace(/\/\*[\s\S]*?\*\//g, '');
   const list = selectors(file);
-  assert.ok(list.length >= 7, `found the rules (${list.length})`);
+  assert.ok(list.length >= 5, `found the rules (${list.length})`);
   for (const selector of list) {
     assert.match(selector, /^\.ms-office-decisions(?:[\s.:[]|$)/, `"${selector}" is scoped`);
     assert.doesNotMatch(selector, /\*(?!=)/, `"${selector}": no universal selector`);
@@ -85,7 +85,10 @@ test('its styles reach nothing outside its root, and restyle no kit part', () =>
   assert.doesNotMatch(css, /transition|animation/, 'no transition or animation');
   assert.match(read(file), /^@import url\("\.\.\/kit\/kit\.css"\);/, 'it starts from the kit\'s stylesheet');
   assert.deepEqual([...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))], [], 'no custom properties of its own');
-  for (const value of ['height: 210px', 'margin: 4px 0 6px', 'border-radius: 16px', 'background: #0B1220', 'grid-template-columns: 1fr 1fr', 'padding: 18px 0 8px']) assert.ok(css.includes(value), `office-decisions.css: ${value}`);
+  for (const value of ['height: 210px', 'margin: 4px 0 6px', 'border-radius: 16px', 'background: #0B1220', 'grid-template-columns: 1fr 1fr']) assert.ok(css.includes(value), `office-decisions.css: ${value}`);
+  // Decision 2: the block's notice is the kit's (0.7.0), not a copy.
+  assert.match(read(`${COMPONENT}/office-decisions.mjs`), /kit\.notice\(/, 'the kit\'s notice');
+  assert.doesNotMatch(read(`${COMPONENT}/office-decisions.mjs`) + css, /ms-od-notice/, 'no notice of its own');
 });
 
 test('its words are the pack\'s (sheets 40 and 41); the rule-stating ones are listed in the doc; names and moves are Frontend\'s', () => {

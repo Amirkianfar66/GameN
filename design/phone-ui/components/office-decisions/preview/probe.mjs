@@ -131,7 +131,7 @@ export async function runOfficeDecisionsProbe({ sizes, mountState, disposeState,
       s.update({ captain: person(7) });
       const other = s.q('.ms-k-wait-title').textContent;
       s.update({ view: 'blocked', blocked: person(7), offices: { captain: 2, officer: 4 } });
-      const notice = [...s.q('.ms-od-notice').children].map(n => n.textContent);
+      const notice = [...s.q('.ms-k-notice').children].map(n => n.textContent);
       s.update({ view: 'navigation', offices: { captain: 4, officer: 3 }, navigation: { position: 'R2' } });
       const rows = () => [...s.root.querySelectorAll('.ms-k-row')].map(r => [r.querySelector('.ms-k-row-title')?.textContent, r.querySelector('.ms-k-row-sub')?.hidden === false ? r.querySelector('.ms-k-row-sub').textContent : '', r.querySelector('.ms-k-row-value')?.textContent ?? ''].join(':'));
       const route = rows();
@@ -262,7 +262,7 @@ export async function runOfficeDecisionsProbe({ sizes, mountState, disposeState,
         document.documentElement.style.fontSize = '200%';
         const s = mount(input, {}, key);
         await frames();
-        const parts = [...s.root.querySelectorAll('.ms-k-cell-label, .ms-k-cell-note, .ms-k-row-title, .ms-k-row-sub, .ms-k-row-value, .ms-k-group-note, .ms-k-btn-label, .ms-od-notice p, .ms-k-wait-title, .ms-k-wait-line')].filter(shown);
+        const parts = [...s.root.querySelectorAll('.ms-k-cell-label, .ms-k-cell-note, .ms-k-row-title, .ms-k-row-sub, .ms-k-row-value, .ms-k-group-note, .ms-k-btn-label, .ms-k-notice > p, .ms-k-wait-title, .ms-k-wait-line')].filter(shown);
         const cut = parts.filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent);
         const list = s.q('.ms-k-grid9') ? getComputedStyle(s.q('.ms-k-grid9')).gridTemplateColumns.split(' ').length === 1 : null;
         const body = s.m.shell.sheetBody, last = [...s.root.children].filter(n => shown(n) && !n.classList.contains('ms-k-vh')).pop();
