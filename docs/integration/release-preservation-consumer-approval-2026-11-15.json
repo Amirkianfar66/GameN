@@ -1,0 +1,190 @@
+{
+  "schema": "mothership.release-preservation-consumer-approval/1",
+  "status": "approved-production-consumer",
+  "scope": "Exact release-admission correction for the accepted Role and Boarding films; no art or gameplay change. Deployment remains separate.",
+  "reviewedCommit": "de6126dcb00fb1c7875de5396c8ab8783c55465e",
+  "target": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.4.0",
+    "rulesetVersion": "in-person-planet-food-task-2026-11-12",
+    "rulesetHash": "7a12428b37a0cd7382c98b1772fc46444899d9be7b64ad60f6c0cea8bc3c9333",
+    "assetManifestVersion": "design-0.9.0",
+    "tokensVersion": "0.5.0"
+  },
+  "parents": [
+    {
+      "path": "docs/integration/food-consumer-source-2026-11-13.json",
+      "sha256": "1d8adae166454ae901d0e10586b389ee2c9a2226cc106be0acaec90cf428b1a9",
+      "bytes": 17349
+    },
+    {
+      "path": "docs/integration/food-production-consumer-approval-2026-11-13.json",
+      "sha256": "fe97a589262557603f1da62c8ed2c74aea70fb304cd9d5e1508617a7566dc624",
+      "bytes": 6907
+    },
+    {
+      "path": "docs/integration/phone-ui-production-consumer-approval.json",
+      "sha256": "295063f3a64443cc5bc9a6baf4c7ffd3344c37d98f0a556387b1219997ff9057",
+      "bytes": 15700
+    }
+  ],
+  "files": {
+    "apps/game/hosted/crew-runtime.mjs": {
+      "sha256": "9d666e189d74692ad62644241d9d925a52fb8e3dc39879985726c9af34304b41",
+      "bytes": 11761,
+      "predecessors": [
+        {
+          "path": "design/releases/candidate-blobs/227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+          "sha256": "227f98dc1b49f06e8a5b9c34c6be648a6c1900a927f45d6cd084968ebf63c047",
+          "bytes": 11738
+        },
+        {
+          "path": "design/releases/historical-blobs/38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+          "sha256": "38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+          "bytes": 11540
+        },
+        {
+          "path": "design/releases/historical-blobs/3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+          "sha256": "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+          "bytes": 11429
+        },
+        {
+          "path": "design/releases/historical-blobs/b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+          "sha256": "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+          "bytes": 11354
+        }
+      ]
+    },
+    "apps/game/src/planet/pregame.ts": {
+      "sha256": "5aded3936cf8ec62e72c21b79b6281f4116f513db37a1fcd367885c710cab6bf",
+      "bytes": 8830,
+      "predecessors": [
+        {
+          "path": "design/releases/candidate-blobs/58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
+          "sha256": "58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
+          "bytes": 8763
+        },
+        {
+          "path": "design/releases/historical-blobs/e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+          "sha256": "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+          "bytes": 7643
+        }
+      ]
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "sha256": "4199c79a97a9890a0ac50fdf4ade87bf45e4c03f5251114e91c0aff375494a3a",
+      "bytes": 4657,
+      "predecessors": [
+        {
+          "path": "design/releases/historical-blobs/304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+          "sha256": "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+          "bytes": 2184
+        },
+        {
+          "path": "design/releases/candidate-blobs/3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+          "sha256": "3445b264c069fb2b99d8531d1c04dd30b7a2af11fe22bc5a3d654885b2f42610",
+          "bytes": 4845
+        },
+        {
+          "path": "design/releases/historical-blobs/4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+          "sha256": "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+          "bytes": 2100
+        },
+        {
+          "path": "design/releases/historical-blobs/b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+          "sha256": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+          "bytes": 2143
+        },
+        {
+          "path": "design/releases/historical-blobs/da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+          "sha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+          "bytes": 3871
+        }
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "path": "packages/contracts/src/planet-release-capabilities.ts",
+      "sha256": "1e79a7fc27d9114152f51b7da9fee8d60c161acf2fe35624eb4bd681dfa8b419",
+      "bytes": 3728
+    },
+    {
+      "path": "packages/contracts/src/planet-art-capabilities.json",
+      "sha256": "b1bec58487c318ab1e16269a61be64fd547cdbdb9192961a9c36d0840e1286f9",
+      "bytes": 1142
+    }
+  ],
+  "designerAcceptance": {
+    "path": "docs/frontend/evidence/release-preservation-2026-11-15/designer-acceptance.json",
+    "sha256": "72df1747f6172e9c9c2db02432a1623b6f827b1584b753f47f81c19f3902fe53",
+    "bytes": 4234
+  },
+  "captureReport": {
+    "path": "docs/frontend/evidence/release-preservation-2026-11-15/report.json",
+    "sha256": "4a74e640c6da8c70a38d18a82edb5cc91a7b1dd510bd156e45be8ac05651b53f",
+    "bytes": 20086
+  },
+  "captures": [
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/390x844-food-role-card.jpg",
+      "sha256": "e43ff4408ead4278ba4a4d78b6881361f2e86922ae89c36dadb93b64946336e0",
+      "bytes": 34585
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/390x844-food-role-full.jpg",
+      "sha256": "aae4028def15108e059d6820e72378cbba1def1433e8c2638ac15932cb0f1860",
+      "bytes": 51892
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/390x844-food-role-ready.jpg",
+      "sha256": "a91337ceac07cd13611259a806d890c22f80f433d0ae62d8e7e20b14f8becde9",
+      "bytes": 34368
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/390x844-food-boarding-full.jpg",
+      "sha256": "f7f5076b2c2b8ecaf2009cef6b49944b8840b5a61e041631d7c5eca93d840fb0",
+      "bytes": 72353
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/390x844-food-role-reduced.jpg",
+      "sha256": "3cd6450ec56238a11ee5a80f1be6b4f0d860fd0e8447f6a2c36226bcb5b34e92",
+      "bytes": 60878
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/390x844-food-boarding-reduced.jpg",
+      "sha256": "b3b241eed41eeecb755908c6c801233db9bcf493d0369ab1c628631d665eb34c",
+      "bytes": 51679
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/430x932-food-role-card.jpg",
+      "sha256": "8cac153b821507369d997220859d638e7230c00218382b7704e72aecc10bede4",
+      "bytes": 35124
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/430x932-food-role-full.jpg",
+      "sha256": "e1f624b6fb01196d463afb64ffe1417b5f38991148c21c88d286d5e5152baa26",
+      "bytes": 61509
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/430x932-food-boarding-full.jpg",
+      "sha256": "f1fe8cd199356061ed96d4eb2bdd1583cd337036c4ee62d6bd66e32a81b11875",
+      "bytes": 66916
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/430x932-food-role-reduced.jpg",
+      "sha256": "ebd7009f9a845d26e4fd2732d8e945c3bbb3a57cae31b336648177601c772304",
+      "bytes": 79703
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/430x932-food-boarding-reduced.jpg",
+      "sha256": "f9b37b8e5542904e015ca6c08a0223035d63abda406572ea4c3784d0c97dc1e6",
+      "bytes": 59902
+    },
+    {
+      "path": "docs/frontend/evidence/release-preservation-2026-11-15/430x932-food-role-ready.jpg",
+      "sha256": "bea985f85debfc6576822cd4ae37229af6e035d0bfdb059b08192f3f663ffc88",
+      "bytes": 34947
+    }
+  ]
+}

@@ -203,7 +203,7 @@ export type { V1DeadlineIntent, EnqueueV1Deadline, StoredV1State, StoredV1Setup 
 export { choosePracticeBotActions } from './practice-bot-policy.js';
 
 // Protocol 3 orchestration is separate from the historical protocol 2 adapter.
-export {createPlanetService,choosePlanetBotCommand} from './planet-game.js';
-export type {PlanetDeadlineJob,PlanetPersistence,PlanetTransaction,PlanetEnginePort} from './planet-game.js';
+export {createPlanetService,choosePlanetBotCommand,withPlanetRequestTiming} from './planet-game.js';
+export type {PlanetDeadlineJob,PlanetPersistence,PlanetTransaction,PlanetEnginePort,PlanetRequestTimingSummary} from './planet-game.js';
 export {createFirestorePlanetStore} from './planet-store.js';
 export {createProductionPlanetService} from './planet-engine.js';
