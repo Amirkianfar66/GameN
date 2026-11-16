@@ -44,7 +44,8 @@ function initializePlanetRuntime() {
   return {app,configuration,service:createProductionPlanetService({store:createFirestorePlanetStore(getFirestore(app)),
     assetManifestVersion:configuration.assetManifestVersion,enabled:configuration.creationEnabled,
     ...(configuration.setupFlowVersion === undefined ? {} : {setupFlowVersion:configuration.setupFlowVersion}),
-    ...(configuration.engineProfile === undefined ? {} : {engineProfile:configuration.engineProfile})})};
+    ...(configuration.engineProfile === undefined ? {} : {engineProfile:configuration.engineProfile}),
+    ...(configuration.foodAuthorityProfile === undefined ? {} : {foodAuthorityProfile:configuration.foodAuthorityProfile})})};
 }
 let planetRuntime:ReturnType<typeof initializePlanetRuntime>|undefined;
 const planet=createPlanetEntrypoints(()=>planetRuntime ??= initializePlanetRuntime());
