@@ -170,7 +170,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(c.cut, [], `${key}: every word whole`);
     assert.equal(c.openTab, 'panels', `${key}: the Panels tab open under its sheets`);
   }
-  for (const size of ['390x844', '430x932']) assert.match(record.captures[`${size}/jailed`].lines, /^Room A\|Command Room\|Room B\|In Jail\|/, `${size}: "In Jail" in the room's place`);
+  for (const size of ['390x844', '430x932']) assert.equal(record.captures[`${size}/jailed`].lines, 'Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail', `${size}: "In Jail" in the room's place for Fay and Ike; Dev, the viewer, in Room A as the room behind shows`);
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
   for (const [mode, run] of Object.entries(record.probe)) {
     assert.ok(run.ok && run.checks.length > 0 && run.checks.every(c => c.ok), `probe ${mode}: every check passed`);

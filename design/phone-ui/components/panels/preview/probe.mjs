@@ -25,7 +25,7 @@ import { panelsSheet, PANELS_WORDS, ROUND_STEP_ICONS } from '../panels.mjs';
 
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
 
-export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf, playersOf, STEPS, REFUSED }) {
+export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf, playersOf, OTHERS_IN_JAIL, STEPS, REFUSED }) {
   const W = PANELS_WORDS;
   const deviceReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mode = deviceReduced ? 'device-reduced' : 'full';
@@ -252,7 +252,7 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
       });
     }
     size = sizeTo('390x844');
-    for (const [which, input] of [['the list', inputOf()], ['Players', inputOf({ view: 'players', players: playersOf('jail') })], ['Round order', inputOf({ view: 'round-order' })]]) {
+    for (const [which, input] of [['the list', inputOf()], ['Players', inputOf({ view: 'players', players: playersOf(OTHERS_IN_JAIL) })], ['Round order', inputOf({ view: 'round-order' })]]) {
       await check(`layout: ${which} with the Largest text (200 %): every word whole, the last part reached by scrolling`, async () => {
         document.documentElement.style.fontSize = '200%';
         const s = mount(input);

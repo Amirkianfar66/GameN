@@ -76,7 +76,9 @@ export const DESTINATIONS = Object.freeze({
  * Every seat's public facts, as Frontend gives them from the board and the offices (the pack's players screen draws
  * the Captain on seat 2 and the Officer on seat 3).
  */
-export const playersOf = (fixtureKey = 'room-a') => board({ place: ROOM_FIXTURES[fixtureKey].place }).map(p => ({
+/** Fay and Ike in Jail (the jail fixture's seats 6 and 9), while Dev, the viewer, stays in Room A behind the sheet. */
+export const OTHERS_IN_JAIL = Object.freeze({ 6: ['Jail', 'J1'], 9: ['Jail', 'J4'] });
+export const playersOf = (place = fixture.place) => board({ place }).map(p => ({
   seat: p.seat, name: p.name, character: p.character, location: p.location, health: p.health, jailed: p.jailed, captain: p.seat === 2, officer: p.seat === 3,
 }));
 /** The round's steps, as Frontend gives them from the ruleset: the pack's six, in its words (screens-more.mjs rules). */
@@ -96,7 +98,7 @@ export const PREVIEW_STATES = Object.freeze({
   captain: { caption: 'Panels · as the Captain: Navigation open', input: inputOf({ navigation: { enabled: true } }) },
   nowindow: { caption: 'Panels · in the Command Room: no window', input: inputOf({ windows: { enabled: true, rooms: [] } }) },
   players: { caption: 'Players · sheet 32', input: inputOf({ view: 'players' }) },
-  jailed: { caption: 'Players · three in Jail', input: inputOf({ view: 'players', players: playersOf('jail') }) },
+  jailed: { caption: 'Players · Fay and Ike in Jail', input: inputOf({ view: 'players', players: playersOf(OTHERS_IN_JAIL) }) },
   order: { caption: 'Round order · sheet 32', input: inputOf({ view: 'round-order' }) },
   stale: { caption: 'Reconnecting · the rows still open', input: inputOf({ status: 'stale' }), shell: { status: 'stale', banner: { kind: 'reconnecting' } } },
   largest: { caption: 'Players · Largest text (200 %)', input: inputOf({ view: 'players' }), text: 200 },
@@ -140,7 +142,7 @@ if (params.get('agree')) {
     .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
 } else if (params.get('probe')) {
   document.body.classList.add('pv-single');
-  probe = document.fonts.ready.then(() => import('./probe.mjs')).then(m => m.runPanelsProbe({ sizes: PREVIEW_SIZES, mountState, disposeState, inputOf, playersOf, STEPS, REFUSED }))
+  probe = document.fonts.ready.then(() => import('./probe.mjs')).then(m => m.runPanelsProbe({ sizes: PREVIEW_SIZES, mountState, disposeState, inputOf, playersOf, OTHERS_IN_JAIL, STEPS, REFUSED }))
     .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
 } else if (params.get('single')) {
   document.body.classList.add('pv-single');

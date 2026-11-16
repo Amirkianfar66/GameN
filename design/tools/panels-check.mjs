@@ -60,7 +60,7 @@ const EXPECT = {
   captain: s => list(s) && s.lines === LINES && s.refused.join() === 'hospital' && s.dimmed.join() === 'hospital',
   nowindow: s => list(s) && s.lines === LINES.replace('Room A ↔ Room B · Room A ↔ Hospital', 'No window here') && s.refused.join() === 'navigation,hospital',
   players: s => players(s) && s.lines === 'Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A' && s.badges === 'Captain|Officer' && s.root === 16,
-  jailed: s => players(s) && s.lines === 'Room A|Command Room|Room B|In Jail|Hospital · Injured|In Jail|Room A|Room B|In Jail' && s.badges === 'Captain|Officer',
+  jailed: s => players(s) && s.lines === 'Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail' && s.badges === 'Captain|Officer',
   order: s => common(s) && s.name === 'group:Round order' && s.title === 'Round order' && s.back && s.detent === 'large' && s.opens === 0 && s.note === null
     && s.rows === 'Before turns|Turns|Ship synchronized|Jail vote|Blackout|Navigation' && s.kinds === 'pre-turn|turns|sync|jail-vote|blackout|navigation',
   // Reconnecting: the rows keep taking taps (not refused by the reconnect); Navigation and the Hospital panel as Frontend says.
