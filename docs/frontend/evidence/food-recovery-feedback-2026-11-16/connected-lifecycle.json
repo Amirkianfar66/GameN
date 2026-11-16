@@ -1,0 +1,58 @@
+{
+  "scope": "One lifecycle run using the committed parameterized runner, disposable Chromium contexts and loopback Firestore. Actual native Hide and reconnect. Production headers verified.",
+  "frontendSource": "76ca8aedcc76b19fe479b2e5ec06176b7a34df48",
+  "backendSource": "0d2969db3ad851cb489fd2e3ed5706e5d4ec9942",
+  "backendCheckoutIsolatedAndClean": true,
+  "browser": {
+    "product": "Chrome/157.0.8103.51",
+    "protocolVersion": "1.3"
+  },
+  "bundle": {
+    "index-Cmcz3FNV.js": "fc53d53bd17bfeddf8f9cc6e07c0ad3ec052852648eb7928a3a48f5a7c856281",
+    "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c"
+  },
+  "firestoreJarSha256": "4a117fc297b1441eac1b7756e80442e86ef88865b9e3caf6f59eabf83da574f8",
+  "localReportSha256": "189d56ede8b98f182fa51791b268ad7f763d09c76480e2fd32ab1dbec0634be1",
+  "variant": "owner-fifo",
+  "viewports": {
+    "winch": {
+      "width": 390,
+      "height": 844,
+      "reducedMotion": false
+    },
+    "panel": {
+      "width": 430,
+      "height": 932,
+      "reducedMotion": true
+    }
+  },
+  "firstUpBeforeDownReceiptMs": 91.2,
+  "hiddenDocumentConcealedTask": true,
+  "freshEpochAfterReconnect": true,
+  "originalUps": [
+    {
+      "receiptStatus": "accepted",
+      "effect": "APPLIED",
+      "playerFeedback": "accepted",
+      "eventToRenderingOpportunityMs": 161.7
+    },
+    {
+      "receiptStatus": "accepted",
+      "effect": "APPLIED",
+      "playerFeedback": "accepted",
+      "eventToRenderingOpportunityMs": null
+    }
+  ],
+  "automaticClosures": [
+    {
+      "receiptStatus": "rejected",
+      "refusal": "STALE_RECOVERY",
+      "recoveryFeedback": "rejected"
+    },
+    {
+      "receiptStatus": "rejected",
+      "refusal": "STALE_RECOVERY",
+      "recoveryFeedback": "rejected"
+    }
+  ]
+}
