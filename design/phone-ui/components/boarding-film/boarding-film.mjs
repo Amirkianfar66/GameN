@@ -528,7 +528,13 @@ export const QUALITY = Object.freeze([1, 0.8, 0.64, 0.5]);
 /** Frames slower than this, eight in a run (one twice as slow counts twice), and the frame is drawn a step less sharp. */
 export const SLOW_FRAME_MS = 22;
 export const SLOW_FRAMES = 8;
-let remembered = 0; // the step the last film on this page settled at: the next one starts there
+/**
+ * While a film is still drawing its pictures (it was not prepared, or not in time), each gap between two frames holds
+ * a picture's drawing as well, so a frame is not slow at SLOW_FRAME_MS. Past this the film as a whole is late: it then
+ * goes down a step too, and draws the pictures it has not begun as sharp as its frame now is, so they come sooner.
+ */
+export const LATE_FRAME_MS = 50;
+let remembered = 0; // the step the last film on this page settled at with its pictures drawn: the next one starts there
 
 /** The frame for a holder `width` × `height` px: its pixels (`quality`: a share of the screen's), and the measures drawn in. */
 function viewOf(win, width, height, quality = 1) {
@@ -570,7 +576,7 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
   const tile = grainTile(doc);
   speck.style.backgroundImage = `url(${tile.toDataURL('image/png')})`;
   tile.width = 0; tile.height = 0;
-  const stats = { version: BOARDING_FILM_VERSION, paints: 0, frames: 0, ownFrames: 0, drawMs: 0, worstMs: 0, pictures: 0, bytes: 0, peakBytes: 0, bakeMs: 0, longestBakeMs: 0, scale: 1, quality: QUALITY[remembered], sharp: 1, planned: 0 };
+  const stats = { version: BOARDING_FILM_VERSION, paints: 0, frames: 0, ownFrames: 0, drawMs: 0, worstMs: 0, pictures: 0, bytes: 0, peakBytes: 0, bakeMs: 0, longestBakeMs: 0, scale: 1, quality: QUALITY[remembered], sharp: 1, planned: 0, lateSteps: 0 };
   let assets = null, jobs = [], view = null, baked = null, box = null, step = remembered, variant = 'full', disposed = false, suspended = false, raf = null;
   const media = win.matchMedia ? win.matchMedia('(prefers-reduced-motion: reduce)') : null;
   let anchor = null; // { t, at }: the last server time given, and when (the page's clock)
@@ -595,13 +601,15 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
     box = [width, height];
     root.style.width = `${width}px`; root.style.height = `${height}px`;
     frame();
-    // Pictures are drawn for the screen's own sharpness, whatever the frame's is.
+    // Pictures drawn ahead are drawn for the screen's own sharpness, whatever the frame's comes to be. A film that
+    // draws its own draws them for the frame it begins with: a page that could not hold a sharper frame has no use
+    // for sharper pictures.
     const full = viewOf(win, width, height);
     if (assets && baked) assets.stop();
     baked = full;
     if (!adopt(options.prepared)) {
       assets = createBakery(doc);
-      const plan = planFor(doc, baked, roster);
+      const plan = planFor(doc, step ? view : baked, roster);
       jobs = plan.jobs; stats.sharp = plan.sharp; stats.planned = plan.bytes;
     }
     need(t, true);
@@ -617,6 +625,16 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
     const wanted = jobs.filter(job => job.until >= t && !late(job) && !assets.has(job.key) && !assets.waiting(job.key));
     if (wanted.length) assets.add(wanted);
     if (!all) for (const job of jobs) if ((job.until < t - 400 && (assets.has(job.key) || assets.waiting(job.key))) || (late(job) && assets.waiting(job.key))) assets.release(job.key);
+  }
+
+  /**
+   * A film late with its pictures draws those it has not begun as sharp as its frame now is, and no sharper: a
+   * picture the frame cannot show in full is not worth the time it takes. Those drawn, or being drawn, stay.
+   */
+  function soften() {
+    const plan = planFor(doc, view, roster);
+    assets.swap(plan.jobs);
+    jobs = plan.jobs; stats.planned = plan.bytes;
   }
 
   /** The finish over the canvas: how strong (it goes with the picture into the ink and the night), where the grain sits. */
@@ -711,15 +729,24 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
     if (disposed || suspended || !anchor || !view) return;
     const now = win.performance.now(), since = now - anchor.at;
     if (since > COAST_MS || anchor.t + since > BOARDING_MS) return; // no paint for a while, or the film is over: the picture stops
-    // A phone that cannot hold the frame draws it a step less sharp. A frame a picture was drawn in does not count:
-    // the picture is what slowed it, and a smaller frame would not have helped.
-    const drew = assets.stats.done !== bakedSoFar;
+    // A phone that cannot hold the frame draws it a step less sharp.
+    // - With its pictures drawn, a frame slower than SLOW_FRAME_MS is slow: the frame is what took the time.
+    // - While pictures are being drawn they share every gap, so only a frame slower than LATE_FRAME_MS counts: the
+    //   film as a whole is late. Its step down also makes the pictures still to come smaller (soften), which is what
+    //   brings them sooner. The page does not remember such a step: the next film may have its pictures drawn first.
+    const drawing = assets.busy() || assets.stats.done !== bakedSoFar;
     bakedSoFar = assets.stats.done;
-    if (lastTick && !drew) {
-      const gap = now - lastTick;
-      slow = gap > SLOW_FRAME_MS ? slow + (gap > SLOW_FRAME_MS * 2 ? 2 : 1) : Math.max(0, slow - 1);
-      if (slow >= SLOW_FRAMES && step < QUALITY.length - 1) { step += 1; remembered = step; slow = 0; frame(); }
-    } else slow = 0;
+    if (lastTick) {
+      const gap = now - lastTick, limit = drawing ? LATE_FRAME_MS : SLOW_FRAME_MS;
+      slow = gap > limit ? slow + (gap > limit * 2 ? 2 : 1) : Math.max(0, slow - 1);
+      if (slow >= SLOW_FRAMES && step < QUALITY.length - 1) {
+        step += 1; slow = 0;
+        if (drawing) stats.lateSteps += 1;
+        remembered = Math.max(remembered, step - stats.lateSteps);
+        frame();
+        if (drawing) soften();
+      }
+    }
     lastTick = now;
     stats.ownFrames += 1;
     draw(anchor.t + since);

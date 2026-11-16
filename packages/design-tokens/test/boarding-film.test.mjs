@@ -14,7 +14,7 @@ import { CREW, CREW_DRAWING_VERSION } from '../../../apps/game/hosted/crew-drawi
 import * as released from '../../../apps/game/hosted/pregame-films/boarding/boarding.mjs';
 import * as releasedClock from '../../../apps/game/hosted/pregame-films/boarding/clock.mjs';
 import {
-  BOARDING_FILM_VERSION, BOARDING_MS, BOARDING_TEXT, COAST_MS, DOOR_BEATS, HULL_WAKE, INSIDE, MEMORY_BUDGET, QUALITY, SHOTS, STILLS, STILL_FADE_MS, STILL_OUT, TITLE, VARIANTS,
+  BOARDING_FILM_VERSION, BOARDING_MS, BOARDING_TEXT, COAST_MS, DOOR_BEATS, HULL_WAKE, INSIDE, LATE_FRAME_MS, MEMORY_BUDGET, QUALITY, SHOTS, SLOW_FRAMES, SLOW_FRAME_MS, STILLS, STILL_FADE_MS, STILL_OUT, TITLE, VARIANTS,
   boardingFrame, shotOf,
 } from '../../../design/phone-ui/components/boarding-film/boarding-film.mjs';
 import { ANCHOR, CREW_HEAD_SCALE, HELD, LOOKS, backPose, bodyArt, bodyBox, climbPose, headArt, headBox, partBox, stridePose } from '../../../design/phone-ui/components/boarding-film/cast.mjs';
@@ -308,6 +308,16 @@ test('privacy: the film is drawn from seats and characters alone, and says nothi
 
 test('the frame: sharp at the screen\'s own pixels, a step less when a phone cannot hold it; the mark as version 1 sized it', () => {
   assert.deepEqual([...QUALITY], [1, 0.8, 0.64, 0.5]);
+  // Slow with its pictures drawn: past 22 ms a frame, eight in a run. Late while it still draws them: past 50 ms, a
+  // limit a healthy page's frames stay under even with a picture drawn between them (the probe drives both).
+  assert.deepEqual([SLOW_FRAME_MS, SLOW_FRAMES, LATE_FRAME_MS], [22, 8, 50]);
+  assert.ok(LATE_FRAME_MS > SLOW_FRAME_MS * 2);
+  const film = code(`${COMPONENT}/boarding-film.mjs`);
+  assert.match(film, /const drawing = assets\.busy\(\) \|\| assets\.stats\.done !== bakedSoFar;/);
+  assert.match(film, /limit = drawing \? LATE_FRAME_MS : SLOW_FRAME_MS/);
+  assert.match(film, /remembered = Math\.max\(remembered, step - stats\.lateSteps\);/, 'the page remembers only a step taken with the pictures drawn');
+  assert.match(film, /if \(drawing\) soften\(\);/);
+  assert.match(code(`${COMPONENT}/engine.mjs`), /swap\(jobs\) \{\s+for \(const job of jobs\) \{ const at = pending\.findIndex\(p => p\.key === job\.key\); if \(at >= 0\) pending\[at\] = \{ \.\.\.job \}; \}/, 'only pictures still waiting are drawn another way');
   assert.ok(MEMORY_BUDGET === 112 * 1024 * 1024);
   assert.equal(markSize({ W: 780, H: 1688 }), Math.min(780 * 0.16, 1688 * 0.095));
   // The grain's place changes 24 times a second and is the same for the same time.

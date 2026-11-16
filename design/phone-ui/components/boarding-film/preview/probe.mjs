@@ -10,9 +10,11 @@
 //   lifecycle  suspend() stops its frames, resume() lets the next paint restart them, dispose() gives everything back
 //   pictures   every picture's ink lies inside its box; the memory planned is within the budget, and what is held is
 //              what was planned
+//   sharpness  a frame the phone cannot hold is drawn a step less sharp; while pictures are still being drawn only a
+//              late film steps down, and then draws the pictures still to come as sharp as its frame, no sharper
 //   roster     public only: 7 to 9 members, and nothing but a seat and a character changes the picture
 
-import { BOARDING_MS, COAST_MS, DOOR_BEATS, MEMORY_BUDGET, SHOTS, STILLS, STILL_FADE_MS, STILL_OUT, TITLE, boardingFrame, createBoardingScene, prepareBoardingScene, shotOf } from '../boarding-film.mjs';
+import { BOARDING_MS, COAST_MS, DOOR_BEATS, LATE_FRAME_MS, MEMORY_BUDGET, QUALITY, SHOTS, SLOW_FRAMES, SLOW_FRAME_MS, STILLS, STILL_FADE_MS, STILL_OUT, TITLE, boardingFrame, createBoardingScene, prepareBoardingScene, shotOf } from '../boarding-film.mjs';
 
 const rosterOf = count => Array.from({ length: count }, (_, i) => ({ seat: i + 1, character: `c${i + 1}` }));
 const wait = ms => new Promise(done => setTimeout(done, ms));
@@ -136,6 +138,59 @@ export async function runProbe({ width, height }) {
       check('reduced: the device\'s Reduce motion gives the held pictures whatever is asked', scene.held().variant === (deviceReduced ? 'reduced' : 'full'), { device: deviceReduced, variant: scene.held().variant });
     }
     stage.remove(); scene.dispose();
+
+    // ── sharpness (the scene's own frames, driven by hand on a clock that says how far apart they come) ──
+    if (!deviceReduced) {
+      const counting = window.requestAnimationFrame, due = [];
+      const clock = { now: performance.now(), film: 0 };
+      let ids = 0;
+      const set = prepareBoardingScene(document, { roster: rosterOf(8), ...size });
+      await set.ready;
+      const films = [];
+      try {
+        window.requestAnimationFrame = callback => { due.push(callback); return (ids -= 1); }; // an id no real frame has
+        window.performance.now = () => clock.now;
+        const film = options => { const made = createBoardingScene(holder(), { options: { roster: rosterOf(8), ...options } }); films.push(made); return made; };
+        // Each frame comes `gap` ms after the last. The player's paint goes with it: with a frame due it only gives the time.
+        const drive = (made, gaps) => { for (const gap of gaps) { clock.now += gap; clock.film += gap; made.paint(clock.film, size); for (const callback of due.splice(0)) callback(clock.now); } };
+        const begin = made => { clock.film = 2200; due.length = 0; made.paint(clock.film, size); drive(made, [16]); };
+        const between = (SLOW_FRAME_MS + LATE_FRAME_MS) / 2, of = made => QUALITY.indexOf(made.stats.quality);
+        // Its pictures drawn: frames a little too slow for the screen, and the frame goes down one step.
+        const drawnFirst = film({ prepared: set });
+        begin(drawnFirst);
+        const from = of(drawnFirst), planned = drawnFirst.stats.planned;
+        drive(drawnFirst, Array(SLOW_FRAMES - 1).fill(between));
+        const before = of(drawnFirst);
+        drive(drawnFirst, [between, between]);
+        const down = of(drawnFirst);
+        drive(drawnFirst, Array(SLOW_FRAMES * 2).fill(SLOW_FRAME_MS - 6));
+        check('sharpness: with its pictures drawn, frames slower than the screen take the frame down one step, and frames that keep up leave it there',
+          from === 0 && before === 0 && down === 1 && of(drawnFirst) === 1 && drawnFirst.stats.lateSteps === 0 && drawnFirst.stats.planned === planned,
+          { steps: [from, before, down, of(drawnFirst)], gapMs: between, lateSteps: drawnFirst.stats.lateSteps });
+        // Drawing its pictures as it plays: the same frames do not count, because a picture's drawing shares each gap.
+        const asItPlays = film({});
+        begin(asItPlays);
+        const start = of(asItPlays), plan = asItPlays.stats.planned;
+        drive(asItPlays, Array(SLOW_FRAMES * 2).fill(between));
+        const held = of(asItPlays);
+        // Late (more than twice LATE_FRAME_MS a frame): down a step, and the pictures still to come are planned smaller.
+        drive(asItPlays, Array(SLOW_FRAMES / 2 + 1).fill(LATE_FRAME_MS * 2 + 20));
+        const late = of(asItPlays), share = asItPlays.stats.planned / plan, expected = (QUALITY[late] / QUALITY[start]) ** 2;
+        check('sharpness: a film drawing its pictures as it plays keeps its step at those frames, and begins at the step the page remembers',
+          start === 1 && held === start, { start, held, gapMs: between, limitMs: LATE_FRAME_MS });
+        check('sharpness: late, it goes down a step and plans the pictures still to come as sharp as its frame, no sharper',
+          late === start + 1 && asItPlays.stats.lateSteps === 1 && Math.abs(share - expected) < 0.08, { steps: [start, late], lateSteps: asItPlays.stats.lateSteps, plannedShare: +share.toFixed(3), expected: +expected.toFixed(3) });
+        // The page does not remember a step taken for lateness: the next film begins where the last one settled with its pictures drawn.
+        const next = film({});
+        begin(next);
+        check('sharpness: the page does not remember a late step', of(next) === 1, { step: of(next) });
+      } finally {
+        delete window.performance.now;
+        window.requestAnimationFrame = counting;
+        for (const made of films) { const node = made.element.parentNode; made.dispose(); node?.remove(); }
+        set.dispose();
+      }
+    }
 
     // ── motion and lifecycle (a scene that moves by itself) ──
     {

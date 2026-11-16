@@ -100,11 +100,11 @@ async function measure({ prepare = true, count = 8 } = {}) {
   let prepared = null, prepareMs = 0;
   if (prepare) { const a = performance.now(); prepared = prepareBoardingScene(document, { roster: rosterOf(count), width, height }); await prepared.ready; prepareMs = performance.now() - a; }
   const film = createBoardingScene(holder, { options: { roster: rosterOf(count), prepared } });
-  const frames = [], drawn = []; let lastPaint = -Infinity, lastFrames = 0; const start = performance.now();
+  const frames = [], drawn = [], own = []; let lastPaint = -Infinity, lastFrames = 0; const start = performance.now();
   await new Promise(done => {
     const step = () => {
       const now = performance.now(), at = now - start; frames.push(now);
-      if (film.stats.frames !== lastFrames) { drawn.push(at); lastFrames = film.stats.frames; }
+      if (film.stats.frames !== lastFrames) { drawn.push(at); own.push(film.stats.drawMs); lastFrames = film.stats.frames; }
       if (at >= BOARDING_MS) { done(); return; }
       if (now - lastPaint >= 1000 / 30) { film.paint(at, { width, height, variant: 'full' }); lastPaint = now; }
       requestAnimationFrame(step);
@@ -114,8 +114,10 @@ async function measure({ prepare = true, count = 8 } = {}) {
   const gaps = frames.slice(1).map((f, i) => f - frames[i]).sort((a, b) => a - b), q = p => +gaps[Math.min(gaps.length - 1, Math.floor(gaps.length * p))].toFixed(1);
   const byShot = Object.fromEntries(Object.entries(SHOTS).map(([shot, [a, b]]) => [shot, +(drawn.filter(at => at >= a && at < b).length / ((b - a) / 1000)).toFixed(1)]));
   const stats = { ...film.stats };
+  // What drawing a frame itself took (the film's own measure), apart from the gaps between frames.
+  const ownOf = list => { const sorted = [...list].sort((x, y) => x - y), at = p => +(sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))] ?? 0).toFixed(1); return { median: at(0.5), p90: at(0.9), max: +(sorted.at(-1) ?? 0).toFixed(1) }; };
   film.dispose(); holder.remove();
-  return { drawnAt: drawn.map(Math.round), film: stats.version, prepared: prepare, prepareMs: Math.round(prepareMs), picturesASecond: +(stats.frames / (BOARDING_MS / 1000)).toFixed(1), byShot, frameGapMs: { median: q(0.5), p90: q(0.9), p99: q(0.99), max: +gaps.at(-1).toFixed(1) }, framesOver34ms: gaps.filter(g => g > 34).length, quality: stats.quality, sharp: stats.sharp, pixels: `${Math.round(width * stats.scale)}x${Math.round(height * stats.scale)}`, peakBytes: stats.peakBytes, plannedBytes: stats.planned, bakeMs: Math.round(stats.bakeMs), longestBakeMs: Math.round(stats.longestBakeMs) };
+  return { drawnAt: drawn.map(Math.round), film: stats.version, prepared: prepare, prepareMs: Math.round(prepareMs), picturesASecond: +(stats.frames / (BOARDING_MS / 1000)).toFixed(1), byShot, frameGapMs: { median: q(0.5), p90: q(0.9), p99: q(0.99), max: +gaps.at(-1).toFixed(1) }, framesOver34ms: gaps.filter(g => g > 34).length, ownDrawMs: ownOf(own), quality: stats.quality, sharp: stats.sharp, pixels: `${Math.round(width * stats.scale)}x${Math.round(height * stats.scale)}`, peakBytes: stats.peakBytes, plannedBytes: stats.planned, bakeMs: Math.round(stats.bakeMs), longestBakeMs: Math.round(stats.longestBakeMs) };
 }
 
 /** What the film's pictures hold for this frame's size and the screen's sharpness, all drawn at once. */

@@ -148,6 +148,10 @@ export function createBakery(doc) {
     get: key => store.get(key) ?? null,
     has: key => store.get(key) != null,
     waiting: key => pending.some(p => p.key === key),
+    /** Gives pictures still waiting another way to be drawn (jobs of the same keys). One being drawn, or drawn, is left as it is. */
+    swap(jobs) {
+      for (const job of jobs) { const at = pending.findIndex(p => p.key === job.key); if (at >= 0) pending[at] = { ...job }; }
+    },
     /** Whether a picture is being drawn or waiting to be. */
     busy: () => running || pending.length > 0,
     /** Lets a picture go, drawn or still waiting. */
