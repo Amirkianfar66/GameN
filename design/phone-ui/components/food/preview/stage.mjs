@@ -273,6 +273,27 @@ export function describe(root, assets = null) {
   const shown = el => !el.closest('[hidden]');
   const html = frame.outerHTML.replace(/blob:[^"')\s&]+/g, url => `picture:${names.get(url) ?? 'unknown'}`);
   const active = frame.ownerDocument.activeElement;
+  // The parts the corrections to the port are about (sources.json): where each lies, and whether its words are whole.
+  const part = selector => { const el = frame.querySelector(selector); return el && shown(el) ? el : null; };
+  const range = frame.ownerDocument.createRange();
+  /** A run of words as it is drawn: how many lines it takes (a whole piece takes one) and the box around them. */
+  const piece = node => {
+    range.selectNodeContents(node);
+    const lines = [...range.getClientRects()].filter(r => r.width > 0.5), tops = new Set(lines.map(r => Math.round(r.top)));
+    const left = Math.min(...lines.map(r => r.left)), top = Math.min(...lines.map(r => r.top)), right = Math.max(...lines.map(r => r.right)), bottom = Math.max(...lines.map(r => r.bottom));
+    return { text: node.textContent.trim(), lines: tops.size, box: lines.length ? [left - origin.left, top - origin.top, right - left, bottom - top].map(n => Math.round(n * 100) / 100) : null };
+  };
+  const holds = el => [el.scrollHeight, el.clientHeight];
+  const bar = part(':scope > .tb'), slot = part('.food-instrument') ?? frame.querySelector('.food-instrument'), role = frame.querySelector('.fs-role'), card = part('.fs-card'), pass = part('.tabs .hero');
+  const layout = {
+    bar: bar && { kind: bar.dataset.kind, who: box(bar.querySelector('.tb-who')), name: box(bar.querySelector('.tb-name')), portraits: [...bar.querySelectorAll('.tb-who .pt')].map(box) },
+    slot: slot && { empty: slot.childElementCount === 0, hidden: slot.hidden },
+    role: role && (role.getClientRects().length ? { shown: true, row: box(role), pill: box(role.querySelector('.pill')), pieces: [...role.querySelector('.fs-who').childNodes].map(piece) } : { shown: false }),
+    card: card && { kind: card.matches('.fs-brief') ? 'briefing' : frame.dataset.screen === 'food-task' ? 'outcome' : 'request', box: box(card), holds: holds(card),
+      words: card.querySelector('.fs-card-body') && { box: box(card.querySelector('.fs-card-body')), holds: holds(card.querySelector('.fs-card-body')) },
+      answers: [...card.querySelectorAll('.fs-card-foot .btn')].map(box), timer: card.querySelector('.fs-timer') && box(card.querySelector('.fs-timer')) },
+    pass: pass && box(pass),
+  };
   return {
     present: true, hidden: frame.hidden, screen: frame.dataset.screen ?? null, motion: frame.dataset.motion ?? null,
     html, text: frame.innerText, pictures: [...new Set(html.match(/picture:[^"')\s&]+/g) ?? [])].sort(),
@@ -284,5 +305,6 @@ export function describe(root, assets = null) {
     boxes: Object.fromEntries(['.tb', '.fs-view', '.fs-art > svg', '.fs-role', '.fs-hint', '.fs-dock', '.fs-strip', '.fs-meter-wrap', '.fs-controls', '.tabs', '.sheet', '.fs-card', '.fs-banner']
       .map(selector => [selector, [...frame.querySelectorAll(selector)].filter(shown).map(box)]).filter(([, list]) => list.length)),
     focus: frame.contains(active) ? (active.id || String(active.className) || active.tagName) : null,
+    layout,
   };
 }

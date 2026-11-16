@@ -17,7 +17,7 @@ import './food-surface.css';
 export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()=>null,assets=null,preferences=()=>({reduced:false}),navigate=()=>{},settings=()=>{},exclusive=()=>{},surface=()=>{},boardMode=()=> 'room',bars=()=>({top:0,bottom:0}),contacts}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const ui=createFoodUi(document,{portrait:(character,{size=36,alt=''})=>{
-  const node=document.createElement('span');node.className='pt food-portrait';node.style.width=`${size}px`;node.style.height=`${size}px`;
+  const node=document.createElement('span');node.className='pt food-portrait';
   node.style.setProperty('--food-portrait',crewPortraitVariable(character,controller.getModel().view?.versions));
   if(alt){node.setAttribute('role','img');node.setAttribute('aria-label',alt);}else node.setAttribute('aria-hidden','true');return node;
  }});
@@ -53,8 +53,8 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
  }
  function updateHeader(v,now){
   const stamp=JSON.stringify([v?.role,v?.partner,v?.phase,v?.secondsLeft,model.view?.step?.kind,model.view?.round,model.view?.stock.doses,now===null?null:Math.ceil(now/1000),identities()]);
-  if(stamp===lastHeader)return;lastHeader=stamp;const old=frame.querySelector(':scope > .tb'),node=sourceHeader(v,now),focus=document.activeElement?.id;
-  if(old)old.replaceWith(node);else frame.prepend(node);if(focus==='food-settings')node.querySelector('#food-settings')?.focus({preventScroll:true});
+  if(stamp===lastHeader)return;lastHeader=stamp;const old=frame.querySelector(':scope > .tb'),node=sourceHeader(v,now),held=old?.contains(document.activeElement)?document.activeElement.dataset.tb:null;
+  if(old)old.replaceWith(node);else frame.prepend(node);if(held)node.querySelector(`[data-tb="${held}"]`)?.focus({preventScroll:true});
  }
  function taskSkeleton(task){
   hold.releaseAll();taskId=task.taskId;screen=null;selected=null;lastStructure=null;lastHeader=null;replace(frame);
@@ -118,7 +118,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   nodes.controls.dataset.role=v.role;attr(nodes.controls,'data-landed',v.crate.state==='landed'?'':null);
   put(nodes.hintText,v.hint.text);if(nodes.hint.dataset.icon!==v.hint.icon){const icon=ic(v.hint.icon,{filled:true});nodes.hintIcon.replaceWith(icon);nodes.hintIcon=icon;nodes.hint.dataset.icon=v.hint.icon;}nodes.hint.dataset.tone=v.hint.tone;
   const liveIds=new Set(v.buttons.map(b=>control(b,v)));for(const [id,node]of nodes.buttons)node.hidden=!liveIds.has(id);
-  replace(nodes.instrument,instrument(v));
+  const meter=instrument(v);nodes.instrument.hidden=!meter;replace(nodes.instrument,meter);
   const pose=foodPoseAt(v.task,now,{reduced,guide:v.guide}),art=h('span',{html:foodSceneSvg(pose,{assets,characters:{winch:person(v.task.winchSeatId).character,panel:person(v.task.panelSeatId).character},prefix:'food-native'})});
   replace(nodes.art,...art.childNodes);attr(nodes.view,'data-dim',pose.dim>.5?'':null);
   for(const role of ['winch','panel']){const seatId=role==='winch'?v.task.winchSeatId:v.task.panelSeatId,who=person(seatId),status=v.task.people.find(x=>x.seatId===seatId),[tx,ty]=TAGS[role],x=role==='winch'?BOXES.cab[0]+BOXES.cab[2]-6:tx;
@@ -128,8 +128,14 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const panelDescription=v.panel.locked?`The panel is locked at stop ${v.panel.stop+1}.`:`The panel is clicking along the rail, now at stop ${v.panel.stop+1}.`;
   nodes.view.setAttribute('aria-label',`The Supply Room. ${panelDescription} ${v.crate.state==='intake'?'A crate waits in the intake.':v.crate.state==='landed'?'The crate is on the platform.':v.crate.state==='sent'?'The crate has gone down.':`${v.crate.holder==='winch'?'The Winch':'The brake'} holds the crate up, now over stop ${Math.round(v.crate.x)+1}.`}${v.broken?` ${v.broken} crates have broken.`:''}${v.warnings.length?' Warning shown.':''}`);
   const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;
+  // An outcome card stays inside the view (sources.json, fix 4): it ends 12 px above the view's lower edge and scrolls there.
+  // Its limit is given before it is shown, so that it never shows taller, and again whenever the view's height changes.
+  const limit=card&&card.key!=='briefing'?`max(${Math.round(nodes.view.getBoundingClientRect().bottom-frame.getBoundingClientRect().top)-top-36}px, min(calc(100% - var(--top) - 36px), 6rem))`:null;
+  if(limit)card.node.style.maxHeight=limit;
   if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}
   else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}
+  else if(limit&&limit!==nodes.limit)nodes.cards.querySelector('.fs-card').style.maxHeight=limit;
+  nodes.limit=limit;
   nodes.controls.inert=!!card;
   const notices=[];const stop=v.recent.find(e=>e.kind==='STOPPED');if(stop&&v.phase==='running')notices.push(toast(stop.mechanism==='CUT'?"Stopped · the cab's buffer held":'Stopped · the winch brake held','block'));
   if(v.offline)notices.push(banner({icon:'offline',title:'Reconnecting…',sub:'The Task goes on without your presses.'}));
@@ -152,13 +158,15 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
   const tight=frame.clientWidth/(parseFloat(win.getComputedStyle(document.documentElement).fontSize)||16)<14;
   const signature=JSON.stringify([screen,selected,tight,boardMode(),ordinary()?.board,ordinary()?.phase?.kind,ordinary()?.activeSeatId,foodTaskRevisionBody(model.view),model.canAsk,model.canAnswer,model.canWithdraw,model.feedback,identities(),stockToast,stockToastIcon]);
   if(signature===lastStructure)return;lastStructure=signature;
-  const focus=document.activeElement?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;
+  const active=document.activeElement,held=frame.contains(active)&&active!==frame?active:null,focus=active?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;
+  // A sheet or card that is built again gives the focus back (sources.json, fix 6): a control with no id is found by its mark.
+  const mark=held&&!focus?['data-go','data-tab','data-tb'].map(key=>held.hasAttribute(key)?`[${key}="${win.CSS.escape(held.getAttribute(key))}"]`:null).find(Boolean)??null:null,inDialog=!!held?.closest('.fs-card,.sheet');
   const flowKey=JSON.stringify([screen,model.view?.invitation?.requestId,model.view?.invitation?.state,model.feedback?.receipt?.status==='rejected'?model.feedback.receipt.requestClosure?.state:null]);
   const header=frame.querySelector(':scope > .tb');replace(frame,header,chrome?tabs({view:boardMode(),open:screen?'actions':null,hero:'pass-off',go:{switch:'food:switch',actions:'food:tasks',card:'food:card',panels:'food:panels'}}):null);
   const top=header?.offsetHeight??bars().top,nodes=flow(top,tight);frame.append(...nodes);
   const away=model.view?.step?.kind==='AWAY';if(away&&!screen&&!nodes.length)frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},banner({icon:'supply',title:'Two players are away on the Food Supply Task',sub:'The board shows who. They come back when its time is up; the Task shows on their phones only.'})));
   if(!screen&&!nodes.length&&!away&&stockToast)frame.append(h('div.fs-banner',{style:{top:`${top+44}px`}},toast(stockToast,stockToastIcon)));
-  if(nodes.length){const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey)focusCard();}
+  if(nodes.length){const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):mark?frame.querySelector(mark):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey||inDialog)focusCard();}
   lastFlowKey=flowKey;
  }
  function render(){
@@ -239,7 +247,7 @@ export function mountFoodRenderer(root,controller,{identities=()=>[],ordinary=()
 
 function buildFoodFlow({ui,h,model,person,name,room,screen,selected,closedRequests,activeRequest,setActive,actButton,locationOf,top,tight}){
  const {sheet,row,list,groupLabel,groupNote,ic}=ui,v=model.view,r=v.invitation,where=room(),location=where??'';
- const cardStyle={top:`calc(var(--top) + ${tight?8:60}px)`,maxHeight:`calc(100% - var(--top) - ${tight?20:72}px)`},tightAttr=tight?'':null;
+ const cardStyle={top:`calc(var(--top) + ${tight?8:60}px)`,maxHeight:`max(calc(100% - var(--top) - var(--bottom) - ${tight?36:88}px), min(calc(100% - var(--top) - ${tight?20:72}px), 13rem))`},tightAttr=tight?'':null;
  const f=model.feedback,closure=f?.receipt?.status==='rejected'?f.receipt.requestClosure:v.requestClosures.find(c=>c.requestId===activeRequest&&!closedRequests.has(c.requestId));
  const layout=(title,body,foot,options={})=>sheet({title,sub:'Food Supply Task',body,foot,close:'close',...options});
  const accepted=f?.receipt?.status==='accepted'&&f.receipt.result.kind==='REQUEST'?f.receipt.result:null;

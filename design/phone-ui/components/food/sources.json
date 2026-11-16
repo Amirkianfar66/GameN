@@ -102,9 +102,17 @@
       "source": "apps/game/hosted/planet/food.css",
       "sourceSha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
       "sourceBytes": 30798,
-      "sha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
-      "bytes": 30798,
-      "differences": []
+      "sha256": "88ea0772705a55b232dc9c4849f826c793f243df4b0ff110a76d09aca94cbe62",
+      "bytes": 31438,
+      "differences": [
+        {
+          "kind": "correction",
+          "fix": 3,
+          "was": "/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
+          "now": "/* The role row, corrected (sources.json, fix 3): the Partner's label is two whole pieces, the seat number with its name\n   (\"8 Hana\") and the rest (\"· Winch\"). Where they do not fit side by side beside the pill, they stand one above the\n   other; where a piece does not fit beside the pill either, the label takes a line of its own. No word is broken. */\n.planet-food:is(.fs-role), .planet-food :is(.fs-role) { flex-wrap: wrap; row-gap: 4px; }\n.planet-food:is(.fs-who), .planet-food :is(.fs-who) { flex: 1 1 0%; flex-wrap: wrap; justify-content: flex-end; row-gap: 0; min-width: min-content; white-space: nowrap; overflow-wrap: normal; }\n/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
+          "why": "At the larger text the role row squeezed the Partner's label: the seat number left its name and a word broke inside (\"· / Winc / h\"). The label is now two unbreakable pieces that wrap whole. The row is still dropped at the largest text, as before."
+        }
+      ]
     },
     {
       "file": "food-ink.mjs",
@@ -133,8 +141,8 @@
       "source": "apps/game/hosted/planet/food-render.mjs",
       "sourceSha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
       "sourceBytes": 35737,
-      "sha256": "79bab90c6cf22e322e33a1b2d4e4ba223d2549e4388a67ec8452820b511cb203",
-      "bytes": 35022,
+      "sha256": "d75763c63140565a3b4fa8364243fce9ab426e14534f8e8cae9726620188f78b",
+      "bytes": 36194,
       "differences": [
         {
           "kind": "connector-seam",
@@ -189,6 +197,55 @@
           "was": "   win.removeEventListener('blur',blur,true);win.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',visibility,true);document.removeEventListener('mothership:preferences-change',preferencesChanged);frame.remove();",
           "now": "   frame.remove();",
           "why": "The listeners removed above are not there to remove."
+        },
+        {
+          "kind": "correction",
+          "fix": 1,
+          "was": "node.className='pt food-portrait';node.style.width=`${size}px`;node.style.height=`${size}px`;",
+          "now": "node.className='pt food-portrait';",
+          "why": "The top bar's portraits take the kit's size (.tb-who .pt: 32 px), as the approved package's do. The port set each portrait's size inline (36 px), which the kit's rule cannot reach, so the Task's title sat 8 px too far right."
+        },
+        {
+          "kind": "correction",
+          "fix": 2,
+          "was": "replace(nodes.instrument,instrument(v));",
+          "now": "const meter=instrument(v);nodes.instrument.hidden=!meter;replace(nodes.instrument,meter);",
+          "why": "With no instrument the dock has no slot and no gap for one, as the approved package's dock (the instrument or nothing, then the controls). The port kept the empty slot, whose gap made the dock 10 px taller."
+        },
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": "  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;\n  if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}\n  else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}\n",
+          "now": "  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;\n  // An outcome card stays inside the view (sources.json, fix 4): it ends 12 px above the view's lower edge and scrolls there.\n  // Its limit is given before it is shown, so that it never shows taller, and again whenever the view's height changes.\n  const limit=card&&card.key!=='briefing'?`max(${Math.round(nodes.view.getBoundingClientRect().bottom-frame.getBoundingClientRect().top)-top-36}px, min(calc(100% - var(--top) - 36px), 6rem))`:null;\n  if(limit)card.node.style.maxHeight=limit;\n  if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}\n  else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}\n  else if(limit&&limit!==nodes.limit)nodes.cards.querySelector('.fs-card').style.maxHeight=limit;\n  nodes.limit=limit;\n",
+          "why": "At the larger text an outcome card ran over the role row, and at the largest over the hint. It now ends 12 px above the view's lower edge, as far inside the view as it is from its sides, and scrolls with the port's fade when its words need more. It keeps the port's own limit as the most it may take, and 6rem as the least (the largest text on a phone under about 640 px tall), so that its words stay in sight there. The briefing is left alone: by the package's rule it never scrolls."
+        },
+        {
+          "kind": "correction",
+          "fix": 5,
+          "was": "maxHeight:`calc(100% - var(--top) - ${tight?20:72}px)`}",
+          "now": "maxHeight:`max(calc(100% - var(--top) - var(--bottom) - ${tight?36:88}px), min(calc(100% - var(--top) - ${tight?20:72}px), 13rem))`}",
+          "why": "At the larger text a request card ran over the tab bar. It now ends 28 px above the tab bar, which is 8 px clear of the Pass button that stands 20 px above the bar, and its words scroll above Decline, Join and the time to answer, which stay whole. It keeps the port's reach over the tab bar only where ending above it would leave the card under 13rem tall (the largest text on a phone under about 700 px tall), so that its words stay in sight there."
+        },
+        {
+          "kind": "correction",
+          "fix": 6,
+          "was": "node=sourceHeader(v,now),focus=document.activeElement?.id;\n  if(old)old.replaceWith(node);else frame.prepend(node);if(focus==='food-settings')node.querySelector('#food-settings')?.focus({preventScroll:true});",
+          "now": "node=sourceHeader(v,now),held=old?.contains(document.activeElement)?document.activeElement.dataset.tb:null;\n  if(old)old.replaceWith(node);else frame.prepend(node);if(held)node.querySelector(`[data-tb=\"${held}\"]`)?.focus({preventScroll:true});",
+          "why": "The top bar is drawn again once a second, and after a text-size change. It gave the focus back to Settings only, by its id; Promises lost it. Either of the bar's two buttons now gets it back, by its data-tb mark."
+        },
+        {
+          "kind": "correction",
+          "fix": 6,
+          "was": " const focus=document.activeElement?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;\n",
+          "now": " const active=document.activeElement,held=frame.contains(active)&&active!==frame?active:null,focus=active?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;\n  // A sheet or card that is built again gives the focus back (sources.json, fix 6): a control with no id is found by its mark.\n  const mark=held&&!focus?['data-go','data-tab','data-tb'].map(key=>held.hasAttribute(key)?`[${key}=\"${win.CSS.escape(held.getAttribute(key))}\"]`:null).find(Boolean)??null:null,inDialog=!!held?.closest('.fs-card,.sheet');\n",
+          "why": "A sheet or card that was built again (after a text-size change, or by any change of what it shows) gave the focus back only to a control with an id. Close, Back, the rows of Start a Task and the tabs have none, and the sheet or card itself has none: the focus went to the page. What held the focus is now remembered by its id, or by its data-go, data-tab or data-tb mark, or as the sheet or card itself."
+        },
+        {
+          "kind": "correction",
+          "fix": 6,
+          "was": "const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey)focusCard();}",
+          "now": "const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):mark?frame.querySelector(mark):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey||inDialog)focusCard();}",
+          "why": "The same control gets the focus back; where it is gone, or the sheet or card itself held the focus, the sheet or card takes it, as a new one does."
         }
       ]
     },

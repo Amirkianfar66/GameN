@@ -2,7 +2,8 @@
 //
 // The Food component's lifecycle probe (index.html?probe=1): the runtime component itself (../food.mjs, unchanged),
 // mounted on the preview's synthetic states in the real DOM with the real styles and pictures. It checks what the
-// agreed interface promises (#213; Frontend's four answers on #4, relayed by Integration):
+// agreed interface promises (the interface posted on #4 for #274's adoption dependency; Frontend's four answers on
+// #4, relayed by Integration):
 //   contacts   a pointer, a key or an assistive activation on Hold is reported, never matched here; every pointer and
 //              key that comes up anywhere is reported; one set of window listeners per mount, alive through redraws
 //              and through the control being disabled; a disabled Hold reports nothing unless a contact is still held
@@ -29,6 +30,11 @@
 //   motion     the game's Reduce motion and the device's
 //   layout     update({ reducedMotion }) changes motion and lays nothing out; relayout() lays the surface out again
 //              after a text-size change, as a new mount would; suspended, it waits for resume
+//   corrections  the six corrections to the port (sources.json): the top bar's portraits are the kit's 32 px; with no
+//              instrument the dock has no slot; at the Large text the Partner's label is whole pieces and at the
+//              Largest the role row is dropped; an outcome card stays inside the view and a request card clear of the
+//              Pass button and the tab bar, each scrolling to its last line; and a sheet, a card or the top bar that
+//              is built again gives the focus back, never taking it from outside the surface
 //   pictures   the pictures may come after the mount; the loader's signal is listened to once and let go
 //   adapter    Frontend's own controller and contact adapter, wired as the adapter will wire them: a hold goes down
 //              and up through them, survives the redraws in between, and is let go by suspend; the surface shows the
@@ -79,8 +85,8 @@ export async function runProbe(document) {
   const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
   /** One mount of the component on a preview state, with every report written down. */
-  function open(stateId, changes = {}, wire = null) {
-    const sit = situation(stateId), device = phone(document, '390x844'), calls = [], raw = [];
+  function open(stateId, changes = {}, wire = null, sizeKey = '390x844') {
+    const sit = situation(stateId), device = phone(document, sizeKey), calls = [], raw = [];
     stage.append(device.el);
     const before = listeners.list();
     const handlers = Object.fromEntries(FOOD_HANDLERS.map(name => [name, (...args) => { raw.push([name, args]); calls.push([name, ...structuredClone(args)]); wire?.[name]?.(...args); }]));
@@ -709,6 +715,171 @@ export async function runProbe(document) {
     check('layout: relayout() lays the surface out again: it is what a new mount draws at that text size', afterRelayout.banner === large.banner && afterRelayout.same, afterRelayout);
     check('layout: suspended, relayout() waits, and resume draws the new layout', whileSuspended === large.banner && afterResume.banner === standard.banner && afterResume.same, { whileSuspended, afterResume });
     check('layout: concealed or disposed, relayout() is quiet', quiet, {});
+  });
+
+  // ── The corrections to the port (sources.json, kind "correction") ─────────────────────────────────────────
+  // Six places where the component is meant to differ from the frozen port. Each is checked here on the mounted
+  // surface: at the Standard, the Large and the Largest text and in both phone sizes where the text size matters.
+  await step('corrections', async () => {
+    const root = document.documentElement, was = root.style.fontSize, PHONES = ['390x844', '430x932'];
+    const at = async (stateId, text, sizeKey = '390x844', changes = {}) => { root.style.fontSize = `${text * 100}%`; const m = open(stateId, changes, null, sizeKey); await frames.frames(4); return m; };
+    const rect = node => { const r = node.getBoundingClientRect(); return { left: r.left, top: r.top, right: r.right, bottom: r.bottom }; };
+    const within = (a, b) => a.left >= b.left - 0.5 && a.right <= b.right + 0.5 && a.top >= b.top - 0.5 && a.bottom <= b.bottom + 0.5;
+    const overlap = (a, b) => a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5;
+    const longNames = stateId => ({ people: situation(stateId).input.people.map(person => ({ ...person, name: 'WWWWWWWWWWWW' })) });
+
+    // 1. The top bar's portraits.
+    {
+      const pair = await at('food-panel-04', 1), turn = await at('case-food-states-14', 1);
+      turn.food.openTasks();
+      await frames.frames(3);
+      const sizes = m => [...m.frame().querySelectorAll('.tb-who .pt')].map(node => { const r = node.getBoundingClientRect(); return [r.width, r.height, node.style.width, node.style.height]; });
+      const two = sizes(pair), one = sizes(turn), kinds = [pair, turn].map(m => m.find('.planet-food .tb')?.dataset.kind);
+      check('corrections: the top bar\'s portraits take the kit\'s 32 px, beside two names and beside one, with no size of their own', same(kinds, ['pair', 'turn']) && two.length === 2 && one.length === 1 && [...two, ...one].every(size => same(size, [32, 32, '', ''])), { kinds, two, one });
+      pair.close(); turn.close();
+    }
+
+    // 2. The dock with no instrument.
+    {
+      const m = await at('food-winch-12', 1);
+      const dock = () => ({ hidden: m.find('.food-instrument').hidden, holds: m.find('.food-instrument').childElementCount, dock: rect(m.find('.fs-dock')), controls: rect(m.find('.fs-controls')) });
+      const landed = dock();
+      m.food.update({ ...situation('food-winch-03').input, assets, bars: m.device.bars() });
+      await frames.frames(3);
+      const hanging = dock();
+      check('corrections: with no instrument the dock has no slot and no gap for one, and when there is one again the slot holds it above the controls',
+        landed.hidden === true && landed.holds === 0 && same(landed.dock, landed.controls) && hanging.hidden === false && hanging.holds === 1 && hanging.dock.top < hanging.controls.top && hanging.dock.bottom === hanging.controls.bottom, { landed, hanging });
+      m.close();
+    }
+
+    // 3. The role row.
+    {
+      const rows = [], dropped = [], range = document.createRange();
+      for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) {
+        for (const [stateId, changes] of [['food-panel-04', {}], ['food-winch-03', {}], ['case-food-panel-16', {}], ['case-food-winch-17', {}], ['food-panel-04', longNames('food-panel-04')], ['food-winch-03', longNames('food-winch-03')]]) {
+          const m = await at(stateId, text, sizeKey, changes), row = m.find('.fs-role'), who = m.find('.fs-who'), shown = row.getClientRects().length > 0;
+          if (text === 2) dropped.push({ sizeKey, stateId, shown });
+          else {
+            const box = rect(row);
+            const pieces = [...who.childNodes].map(node => { range.selectNodeContents(node); const lines = [...range.getClientRects()].filter(r => r.width > 0.5); return { text: node.textContent.trim(), lines: new Set(lines.map(r => Math.round(r.top))).size, inside: lines.every(r => r.left >= box.left - 0.5 && r.right <= box.right + 0.5 && r.top >= box.top - 2 && r.bottom <= box.bottom + 2) }; });
+            rows.push({ sizeKey, text, stateId, longNames: !!changes.people, shown, pieces, pill: within(rect(m.find('.fs-role .pill')), box), cut: who.scrollWidth > who.clientWidth + 1 || row.scrollWidth > row.clientWidth + 1 });
+          }
+          m.close();
+        }
+      }
+      check('corrections: at the Standard and the Large text, on both phones and with the longest names, the Partner\'s label is two whole pieces: no word is broken, the seat number stays with its name, and nothing is cut',
+        rows.length === 24 && rows.every(r => r.shown && r.pill && !r.cut && r.pieces.length === 2 && r.pieces.every(piece => piece.lines === 1 && piece.inside) && /^\d+ \S+$/.test(r.pieces[0].text) && /^· /.test(r.pieces[1].text)), { rows });
+      check('corrections: at the Largest text the role row is dropped, as in the port', dropped.length === 12 && dropped.every(r => !r.shown), { dropped });
+    }
+
+    // 4. An outcome card.
+    {
+      const cards = [];
+      for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) {
+        for (const stateId of ['case-food-panel-16', 'case-food-panel-17', 'case-food-winch-14', 'case-food-winch-17']) {
+          const m = await at(stateId, text, sizeKey), card = m.find('.fs-card'), box = rect(card), view = rect(m.find('.fs-view'));
+          const under = [...m.frame().querySelectorAll('.fs-role, .fs-hint, .fs-strip, .fs-meter-wrap, .fs-ctl')].filter(node => node.getClientRects().length && !node.closest('[hidden]')).map(rect);
+          const scrolls = card.scrollHeight > card.clientHeight + 1;
+          card.scrollTop = card.scrollHeight;
+          await frames.frames(1);
+          cards.push({ sizeKey, text, stateId, outcome: !card.classList.contains('fs-brief'), clear: Math.round((view.bottom - box.bottom) * 100) / 100, covers: under.filter(part => overlap(box, part)).length, parts: under.length,
+            scrolls, marked: card.hasAttribute('data-scrolls'), lastLine: rect(card.lastElementChild).bottom <= box.bottom + 0.5 });
+          m.close();
+        }
+      }
+      check('corrections: at every text size, on both phones, an outcome card ends 12 px above the view\'s lower edge or higher, over no row and no control',
+        cards.length === 24 && cards.every(c => c.outcome && c.clear >= 11.5 && c.covers === 0 && c.parts >= 2), { cards });
+      check('corrections: an outcome card with more words than room scrolls to its last line, with the port\'s fade; at the Standard text none needs to',
+        cards.every(c => c.scrolls === c.marked && c.lastLine) && cards.filter(c => c.text === 1).every(c => !c.scrolls) && [1.5, 2].every(text => PHONES.every(sizeKey => cards.some(c => c.text === text && c.sizeKey === sizeKey && c.scrolls))), { cards });
+    }
+
+    // 5. A request card.
+    {
+      const cards = [];
+      for (const sizeKey of PHONES) for (const text of [1, 1.5, 2]) {
+        const m = await at('case-food-flow-04', text, sizeKey), card = m.find('.fs-card'), box = rect(card), words = m.find('.fs-card-body'), tabs = rect(m.find('.planet-food .tabs')), pass = rect(m.find('.planet-food .hero'));
+        const answers = [...card.querySelectorAll('.fs-card-foot .btn, .fs-card-foot .fs-timer')].map(rect), inner = { left: box.left + 16, top: box.top + 16, right: box.right - 16, bottom: box.bottom - 16 };
+        const scrolls = words.scrollHeight > words.clientHeight + 1;
+        words.scrollTop = words.scrollHeight;
+        await frames.frames(1);
+        cards.push({ sizeKey, text, abovePass: Math.round((pass.top - box.bottom) * 100) / 100, aboveTabs: Math.round((tabs.top - box.bottom) * 100) / 100, answers: answers.length, whole: answers.every(part => within(part, inner)),
+          scrolls, marked: words.hasAttribute('data-scrolls'), lastLine: rect(words.lastElementChild).bottom <= rect(words).bottom + 0.5, wordsShown: words.clientHeight });
+        m.close();
+      }
+      check('corrections: at every text size, on both phones, the request card ends 8 px above the Pass button or higher, clear of the tab bar, with Decline, Join and the time to answer whole inside it',
+        cards.length === 6 && cards.every(c => c.abovePass >= 7.5 && c.aboveTabs >= 27.5 && c.answers === 3 && c.whole), { cards });
+      check('corrections: where the request\'s words need more room they scroll above the answers to their last line, with the port\'s fade, and keep room to be read',
+        cards.every(c => c.scrolls === c.marked && c.lastLine && c.wordsShown >= 200) && cards.filter(c => c.scrolls).length >= 3 && cards.filter(c => c.text === 1).every(c => !c.scrolls), { cards });
+    }
+
+    // 6. The focus, when a sheet, a card or the top bar is built again.
+    {
+      const name = node => (node ? node.id || node.dataset.go || node.dataset.tab || node.dataset.tb || String(node.className) : null);
+      /** Focus one thing at the Standard text, change the text size, and say what holds the focus afterwards. Told, the surface is laid out again at the Large text; not told, it builds its sheet or card again by itself at the Largest. */
+      const survives = async (m, pick, told = true) => {
+        root.style.fontSize = '100%';
+        m.food.relayout();
+        await frames.frames(3);
+        const before = pick();
+        before.focus({ preventScroll: true });
+        const held = document.activeElement === before;
+        root.style.fontSize = told ? '150%' : '200%';
+        if (told) m.food.relayout();
+        await frames.frames(6);
+        const after = document.activeElement;
+        return { focused: name(before), held, builtAgain: !before.isConnected, after: m.frame().contains(after) ? name(after) : null, same: after === pick() };
+      };
+      const kept = results => results.every(r => r.held && r.builtAgain && r.same);
+
+      const sheet = await at('case-food-flow-01', 1);
+      sheet.food.openTasks();
+      await frames.frames(3);
+      const onSheet = [];
+      for (const selector of ['.sheet', '.sheet [data-go="close"]', '.sheet [data-go="howto"]', '.tabs [data-tab="actions"]', '.tb [data-tb="promises"]', '#food-settings']) onSheet.push({ selector, ...await survives(sheet, () => sheet.find(`.planet-food ${selector}`)) });
+      check('corrections: with a sheet open, the focus survives relayout(): on the sheet itself, on Close, on a row, on a tab, on Promises and on Settings, each built again', onSheet.length === 6 && kept(onSheet), { onSheet });
+      const sheetAlone = { selector: '.sheet [data-go="close"]', ...await survives(sheet, () => sheet.find('.planet-food .sheet [data-go="close"]'), false) };
+      sheet.close();
+
+      const card = await at('case-food-flow-04', 1);
+      const onCard = [];
+      for (const selector of ['.fs-card', '#food-action-join', '#food-action-decline']) onCard.push({ selector, ...await survives(card, () => card.find(`.planet-food ${selector}`)) });
+      check('corrections: with a request card open, the focus survives relayout(): on the card itself, on Join and on Decline, each built again', onCard.length === 3 && kept(onCard), { onCard });
+      const cardAlone = { selector: '#food-action-join', ...await survives(card, () => card.find('.planet-food #food-action-join'), false) };
+      check('corrections: at the Largest text, where a sheet or a card is built again by itself, the focus stays too', kept([sheetAlone, cardAlone]), { sheetAlone, cardAlone });
+
+      // Focus that is outside the surface is left where it is.
+      const elsewhere = document.createElement('button');
+      elsewhere.type = 'button';
+      stage.append(elsewhere);
+      root.style.fontSize = '100%';
+      card.food.relayout();
+      await frames.frames(3);
+      const old = card.find('.planet-food .fs-card');
+      elsewhere.focus();
+      root.style.fontSize = '150%';
+      card.food.relayout();
+      await frames.frames(6);
+      check('corrections: a card built again does not take the focus from outside the surface', !old.isConnected && document.activeElement === elsewhere, { builtAgain: !old.isConnected, focus: name(document.activeElement) });
+      elsewhere.remove();
+      card.close();
+
+      // The top bar is drawn again once a second of the clock.
+      root.style.fontSize = '100%';
+      let now = situation('case-food-flow-01').input.clock.now();
+      const ticking = open('case-food-flow-01', { clock: { now: () => now } });
+      await frames.frames(3);
+      const seconds = [];
+      for (const selector of ['.tb [data-tb="promises"]', '#food-settings']) {
+        const before = ticking.find(`.planet-food ${selector}`);
+        before.focus({ preventScroll: true });
+        now += 1000;
+        await frames.frames(3);
+        seconds.push({ selector, held: true, builtAgain: !before.isConnected, same: document.activeElement === ticking.find(`.planet-food ${selector}`) });
+      }
+      check('corrections: the top bar is drawn again a second later, and Promises keeps the focus, as Settings does', seconds.length === 2 && kept(seconds), { seconds });
+      ticking.close();
+    }
+    root.style.fontSize = was;
   });
 
   // ── Pictures ────────────────────────────────────────────────────────────────────────────────────────────────
