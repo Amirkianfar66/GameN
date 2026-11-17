@@ -22,7 +22,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,shellFocusOrder,shellHandlers,shellInput,shellRuns} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,phaseClosed,shellFocusOrder,shellHandlers,shellInput,shellRuns} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -69,8 +69,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null;
  let scene=null,sceneOn=false,sceneKey=null,sceneInput=null,sceneMarks=null,sceneRunning=true,blurred=false;
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
- // live (the reconnecting bar names it), a pass's toast (kept, so it shows its whole time once), and its layout.
- let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null;
+ // live (the reconnecting bar names it), a toast (kept, so it shows its whole time once), its layout, and the
+ // model painted before this one (a phase that closed under an open choice is told from the two: phaseClosed()).
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null;
  // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
  const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
@@ -414,6 +415,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   root.dataset.ownTurn=String(!model.dark&&model.activeSeatId===model.ownSeatId);
   if(model.connection==='live'&&Number.isSafeInteger(model.round))lastRound=model.round;
   serverClock.observe(model);
+  const closed=phaseClosed(before,model);before=model;
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
   // phones and the display get the same gauge, beside the shell's clock; no private Task is consulted.
   const clockSlot=shell.slot('clock');
@@ -454,7 +456,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The shell: this phone's input (shell-input.mjs). While the Food surface owns the chrome (active, or its
   // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
   // with no name, time or control, as today's header and nav were hidden and inert.
-  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen});
+  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed});
   const nextToast=input.toast;if(nextToast)toast=nextToast;
   if(input.status==='concealed')toast=null;else input.toast=toast;
   shellFrame=input.sheet;choosing=!!input.target;

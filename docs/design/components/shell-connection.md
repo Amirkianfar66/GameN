@@ -18,12 +18,12 @@
 
 | Path | What |
 | --- | --- |
-| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the round stamp's moment and clock (`roundStart`, `createServerClock`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
+| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the round stamp's moment and clock (`roundStart`, `createServerClock`), a phase that closed under an open choice (`phaseClosed`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
 | `apps/game/hosted/planet/render.mjs` | Mounts the shell once, mounts the stage in `shell.stage`, the game's sheet content in `shell.sheetBody`, Food's gauge in `shell.slot('clock')`, and the result window and the status line in `shell.slot('cover')`. It updates, suspends, resumes and disposes the shell. It no longer draws the header, the tab bar, the Pass button, the sheet's frame or the target bar |
 | `apps/game/hosted/planet/app.mjs` | Imports `phone-shell.css`, and gives the renderer Retry's reconnect: the session's `refresh()` |
 | `apps/game/hosted/planet/phone.css`, `planet.css` | The old chrome's rules are removed. The game's two generic button rules keep off the shell's and the kit's controls. The stage fills the shell's stage; the result window and the status line sit in the cover |
 | `apps/game/hosted/vite.config.mjs` | One marked hunk: the shell's three files (`phase-bars.mjs` with shell 0.2.10) and the kit's two join the hosted build's `allowedSources` |
-| `apps/game/test/planet-phone-shell.test.mjs` | The mapping, privacy, the intents, the focus and the lifecycle |
+| `apps/game/test/planet-phone-shell.test.mjs` | The mapping, privacy, the intents, the focus and the lifecycle; the phase-closed toast on models and on the game's own controller |
 | `design/tools/shell-connection-check.mjs` | The check: the real app, under the production headers, at both phone sizes |
 | `design/tools/lib/phone-ui-native-parts.mjs` | The merge gate's comparison: each step that taps a match control names the shell's control beside today's, so the same steps drive a build from before and after this |
 | `design/phone-ui/review/shell-connection/` | The check's captures and `check.json`, and the comparison's `compare.json` |
@@ -57,7 +57,7 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | `target` | While this viewer chooses on the scene or the board (today's rule: the action's seat choices except a ballot or a code, a move's room or position, the Blackout's fixed position): the action's name and prompt, with its icon |
 | `chip` | "Other rooms · n" in the room view when people the action offers stand in other rooms (counted on the public board), or "Other rooms on the Board" for a move; "List" in the board view (sheet 29) |
 | `banner` | As the handoff, but none on the first connect, before this phone has seen a round: the pack's Loading frame (sheet 45) has none, since nothing was lost yet. A first connect that fails is an error, and gets the reconnecting banner with Retry |
-| `toast` | A pass the server accepted: the model's registration words, once per phase |
+| `toast` | A phase that closed under this phone's open choice: the pack's "That phase closed · choices cleared", from the shell's `phaseClosedToast()` ([below](#a-phase-that-closed-under-an-open-choice)). Otherwise a pass the server accepted: the model's registration words. Each once |
 | `sheet` | The open panel's frame (below) |
 
 **The sheets:**
@@ -128,6 +128,40 @@ The round stamp (#288, "ROUND 1" over the room as Round 1 begins) is mounted on 
   - It is `null` while the phone isn't live or the phase's time isn't trusted or has run out. The stamp, given no clock, draws nothing.
 - **The mount** is the Pre-game builder's: on each model, `mountRoundStamp(shell.slot('cover'), { ...roundStart(model), clock: serverClock.current(), status, reducedMotion })` while there is a window, then `update()`, and `dispose()` when the room view leaves.
 
+## A phase that closed under an open choice
+
+When a phase's time is up, the game's controller clears this phone's open choice and closes its sheet, without a word (`apps/game/src/planet/controller.ts`: `tick()` at the clock, `receive()` at a new phase). The pack says what happened: sheet 45's stale frame is the player's own bar at 0:00, Pass off, and the toast "That phase closed · choices cleared". The shell has had those words since 0.2.10 (`phaseClosedToast()`). The in-game animation builder connected them, to the interface the Lead Designer agreed on 17 November 2026.
+
+- **`phaseClosed(before, model)`** in `shell-input.mjs` tells the moment from two models painted one after the other. `render.mjs` keeps the model painted before.
+  - **Before:** a choice in progress. Its `action.step` is one of `SHELL_CHOOSING`: `targets`, `slots`, `faction`, `direction`, `number`, `promise`, `confirm`.
+  - **Now:** that phase's time is up (`phase.expired` with trusted time, the same phase id), or another phase is on.
+  - Both models are live and this player's, in one match.
+  - It returns `{ id }`, the closed phase's id. The toast's id is `closed:<id>`, so it shows once: at 0:00 under the old bar, as the sheet draws it, and not again when the next phase arrives.
+- **`shellToast(model, { closed })`** gives the closed toast when there is one, else the pass's. The two never meet: a closed phase has no accepted action left.
+- **It reads nothing private:** the connection, the match, the seat, the phase and whether this phone had a choice open. A model with every private field filled gives the same answer.
+
+| Case | Toast |
+| --- | --- |
+| The time runs out under an open choice | Once, at 0:00 |
+| Another phase arrives before 0:00 | Once |
+| "Pass your turn?" still open at the end | Once |
+| The player cancelled the choice, or sent it | None |
+| The connection went stale, then a new phase | None: the reconnecting banner says it |
+| The phone was put away and came back | None |
+| Only a sheet open (Card, Panels), no choice | None |
+| A shared display; another match or seat; time that is not trusted | None |
+
+**Three decisions (the Lead Designer, 17 November 2026):**
+
+- **One rule for every phase, the Blackout too.** The toast goes to the same phone and audience as the target bar it replaces, and only the deciding player's phone had that bar. Telling them their position wasn't fixed is useful, and it shows nothing the bar didn't. Concealed, the shell drops it.
+- **Food Supply next.** After the Captain's appointment, or an office's confirmation at the move, the next phase can be Food Supply. Food's surface then takes the bars and the toast goes with the shell, so it can show for less than its 2.4 s. The phone can't know at 0:00 what comes next.
+- **The vote, in release 3.** Today the controller closes the game's own ballot, and this toast explains it. #267's ballot keeps "Voting closed" itself (sheet 35). The change that connects it names the two votes in `SHELL_CLOSES_ITSELF` (`shell-input.mjs`), and `phaseClosed()` then stays silent for them. That change is the Gameplay UI builder's.
+
+**Not covered:**
+
+- **A sheet with no choice in it.** The controller closes Card and Panels at every phase's end too, and nothing says so.
+- **A choice dropped inside a running phase** because its offer went away: the lights go out, or another player takes the position. The phase did not close, and the pack has no words for it.
+
 ## The boundary
 
 - **The hunk.** Marked `BEGIN shell connection` / `END shell connection` in `apps/game/hosted/vite.config.mjs`. It adds four entries to `allowedSources`: `phone-shell/phone-shell.mjs`, `phone-shell/phone-shell.css`, `kit/kit.mjs` and `kit/kit.css` (`icons.mjs` is in the room connection's hunk). Nothing else; the shell's and the kit's `preview/` and `review/` are never imported.
@@ -165,11 +199,13 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 16 of 16. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+`apps/game/test/planet-phone-shell.test.mjs` passes 18 of 18. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
 - the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
 - the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
 - the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
 - the round stamp's moment and clock (G18): Round 1's Before turns and no other phase or round, the same window for a late phone; the server time plus the time since the model arrived, kept when a model is shown again, and none while untrusted, run out or not live; nothing private read;
+- a phase that closed under an open choice: the moment from two models (the time up, another phase, every step of a choice; never one sent, registered or refused, a cancel, a sheet alone, untrusted time, or a model that isn't live or isn't this player's); the toast's words, icon and id; given once through the whole input, kept by the shell's checks, dropped under Food's surface; nothing private read;
+- the same on the game's own controller, with its test rig (`planet-support.mjs`): it clears an open choice at 0:00 without a word, and its models give the toast once; never for a cancel, a pass accepted, a lost connection, a phone put away or a sheet alone;
 - the clock: the time as given, amber from 10 s, the ring without amber for the two fixed presentations, no clock while untrusted;
 - Promises and ⋮;
 - the tabs: the view, the open tab, the round button's modes and the result's Vote unavailable, the talk's buttons, an eliminated player's Actions;
@@ -187,7 +223,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers; this record was made in batches.
 
-**Result:** 40 of 40 captures pass: twenty states at both sizes, recorded on `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) with the source clean and the art from `64e55516`, in one run. The in-game animation builder's run of its patch, on its own commit before the 0.2.11 merge, also passed 40 of 40. Before it, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
+**Result:** 40 of 40 captures pass: twenty states at both sizes, recorded on `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) with the source clean and the art from `64e55516`, in one run. The in-game animation builder's run of its patch, on its own commit before the 0.2.11 merge, also passed 40 of 40. Before it, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, passed 42 of 42: those twenty states and `closed`.
 
 Against `00e679e9`'s record:
 - `before`, `appointment` and `course` are new, at both sizes.
@@ -203,6 +239,7 @@ Against `00e679e9`'s record:
 | `pass` | "Pass your turn?" with Cancel and Pass, and nothing sent. Then Pass sends `PASS_TURN`, once, and the sheet closes |
 | `actions` | The Actions sheet: the game's tiles in the shell's frame, the Actions tab open. Then Escape from inside the sheet closes it, and the focus goes back to the Actions tab |
 | `target` | The Officer's block from Actions: the top bar "Block a move · Before turns · Officer", the target bar "Block movement" with Cancel, no sheet, three people offered in the scene, the round button kept (T2). Then Cancel ends the choosing, and the top bar is everyone's again |
+| `closed` | A phase that closed under an open choice: Scan opened from Actions, then the harness's own turn moved so that it ends 1.2 s later. At 0:00 the game clears the choice: the bar stays "Your turn" at 0:00, Pass is unavailable, nothing was sent, and the toast says "That phase closed · choices cleared". Then the next turn arrives, with no second toast |
 | `reconnecting` | The reading fails: the bar "Reconnecting… · Showing Round 6 as last seen", the banner with Retry, every tab and the round button refused, the room dimmed. Then Retry reads the session again |
 | `eliminated` | This viewer's seat Eliminated: "You’re out · You can watch. Your role stays private.", no Retry, the figure down in its place; Actions and Pass unavailable, the Board, Card and Panels usable |
 | `vote`, `ballot`, `voted` | A Jail vote: the round button as Vote. Then the ballot, "Jail vote", large, with the game's roster and Abstain, which Close leaves. Then the registered ballot: Voted |
