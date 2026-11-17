@@ -11,10 +11,10 @@
 //
 // What it never does: work out a count's team mix, or whether the room can open. Each callback reports a tap.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const HOST_SETUP_VERSION = 'host-setup-0.1.1';
+export const HOST_SETUP_VERSION = 'host-setup-0.1.2';
 
 /** The pack's words (screens-entry.mjs, host-setup; sheet 11). */
 export const SETUP_WORDS = Object.freeze({
@@ -89,6 +89,8 @@ export function mountHostSetup(host, input = {}, handlers = {}) {
   screen.append(nav, parts.largeTitle(SETUP_WORDS.heading), kit.groupLabel(SETUP_WORDS.players), seg, mix, kit.groupLabel(SETUP_WORDS.after), rows, foot);
   root.append(screen);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  const textSize = followTextSize(root);
 
   const accepts = () => !disposed && state.interactive;
   const policy = createControlPolicy({ root, accepts, onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); } });
@@ -154,6 +156,7 @@ export function mountHostSetup(host, input = {}, handlers = {}) {
     observer?.disconnect();
     root.removeEventListener('click', onClick);
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
 
