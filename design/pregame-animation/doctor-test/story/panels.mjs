@@ -51,20 +51,20 @@ const frameOf = (at, scale, flip) => ({
  * Mira, the Doctor: her body in `sk` with the new kit and finish, her acting head (`face`), and if asked her far hand
  * apart (`hand`: open, closing, fist) holding the injector (`injector`: an angle). `light` in the panel's px.
  */
-async function mira(doc, ctx, { sk, face, light, at, scale, flip = false, hand = null, holds = null, legs = true, dpr = 2 }) {
+export async function mira(doc, ctx, { sk, face, light, at, scale, flip = false, hand = null, holds = null, legs = true, dpr = 2, headScale = 1.2, finish = FINISH }) {
   const F = frameOf(at, scale, flip);
   const look = {
     ambient: light.ambient,
     key: light.key && { ...light.key, at: F.toFig(light.key.at), z: light.key.z / scale },
     rim: light.rim && { ...light.rim, dx: flip ? -light.rim.dx : light.rim.dx, width: light.rim.width / scale },
-    novel: FINISH,
+    novel: finish,
   };
   const skBody = hand ? { ...sk, handF: { type: 'none' } } : sk;
   const box = bodyBox(skBody, { legs, item: true });
   const px = scale * dpr * 1.1;
   const [body, head] = await Promise.all([
     sprite(doc, { rect: box, px, inner: bodySvg(skBody, { look, legs, box, kit: true }) }),
-    sprite(doc, { rect: HEAD_BOX, px: px * 1.2, inner: headSvg(face, { look: headLook(look, sk) }) }),
+    sprite(doc, { rect: HEAD_BOX, px: px * headScale * 1.1, inner: headSvg(face, { look: headLook(look, sk) }) }),
   ]);
   const handS = hand ? await sprite(doc, { rect: HAND_BOX, px: px * 1.3, inner: handSvg(hand, { look: { ...look, key: null, rim: null, novel: { outline: 0.9, wear: 0 } } }) }) : null;
   const inj = holds != null ? injector() : null;
@@ -75,7 +75,7 @@ async function mira(doc, ctx, { sk, face, light, at, scale, flip = false, hand =
       c.save();
       F.apply(c);
       put(c, body);
-      c.save(); c.translate(sk.head[0], sk.head[1]); c.rotate(((sk.tilt ?? 0) * Math.PI) / 180); c.scale(1.2, 1.2); put(c, head); c.restore();
+      c.save(); c.translate(sk.head[0], sk.head[1]); c.rotate(((sk.tilt ?? 0) * Math.PI) / 180); c.scale(headScale, headScale); put(c, head); c.restore();
       if (handS) {
         const { at: w, angle } = handPlace(sk);
         if (injS) {
@@ -90,7 +90,7 @@ async function mira(doc, ctx, { sk, face, light, at, scale, flip = false, hand =
 }
 
 /** Nobody: a figure in one flat colour with a plain oval head (no face, no hair, nothing that says who), rimmed. */
-async function nobody(doc, ctx, { sk, at, scale, color = '#120B07', rim = null, flip = false, dpr = 2 }) {
+export async function nobody(doc, ctx, { sk, at, scale, color = '#120B07', rim = null, flip = false, dpr = 2 }) {
   const box = bodyBox(sk, { legs: true, item: true });
   const flat = c => `<defs><filter id="nb" filterUnits="userSpaceOnUse" x="${box[0]}" y="${box[1]}" width="${box[2]}" height="${box[3]}"><feFlood flood-color="${c}"/><feComposite in2="SourceAlpha" operator="in"/></filter></defs>`
     + `<g filter="url(#nb)">${bodySvg({ ...sk, handF: { type: 'none' }, handN: { type: 'none' } }, { look: null, legs: true, box, character: 'c5' })}<rect x="${sk.head[0] - 6}" y="${sk.head[1]}" width="12" height="${sk.neck[1] - sk.head[1]}"/><ellipse cx="${sk.head[0]}" cy="${sk.head[1] - 3}" rx="14" ry="17"/></g>`;
@@ -103,13 +103,13 @@ async function nobody(doc, ctx, { sk, at, scale, color = '#120B07', rim = null, 
   ctx.restore();
 }
 
-function vignette(ctx, color, k, cx = 0.5, cy = 0.45) {
+export function vignette(ctx, color, k, cx = 0.5, cy = 0.45) {
   const [W, H] = SIZE;
   const g = ctx.createRadialGradient(W * cx, H * cy, W * 0.3, W * cx, H * cy, Math.hypot(W, H) * 0.6);
   g.addColorStop(0, rgba(color, 0)); g.addColorStop(1, rgba(color, k));
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 }
-function beamCone(ctx, from, to, w0, w1, color, alpha) {
+export function beamCone(ctx, from, to, w0, w1, color, alpha) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   const g = ctx.createLinearGradient(from[0], from[1], to[0], to[1]);
   g.addColorStop(0, rgba(color, alpha)); g.addColorStop(1, rgba(color, 0));

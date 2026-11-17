@@ -1,0 +1,82 @@
+<title>The Doctor, Three Plates</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: three tall plates side by side like pages of a graphic novel, each with its caption; notes underneath. One dark look by choice. */
+:root {
+  --bg: #0B0A0C; --line: #2C2730; --fg: #EDE6DA; --muted: #A79E94; --amber: #FFB347; --teal: #3FE0D0;
+  --display: "Archivo Narrow", "Arial Narrow", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1200px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+header { display: grid; gap: 10px; max-width: 72ch; }
+.eyebrow { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); }
+h1 { font: 700 42px/1.05 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 700 17px var(--display); text-transform: uppercase; letter-spacing: 0.07em; color: var(--amber); margin: 0; }
+p { margin: 0; }
+.lede { color: var(--muted); font-size: 16px; }
+.plates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.plate { margin: 0; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.plate img { display: block; width: 100%; height: auto; aspect-ratio: 390 / 844; border-radius: 14px; outline: 1px solid var(--line); background: #000; }
+figcaption { display: grid; gap: 4px; }
+figcaption strong { font: 700 19px var(--display); letter-spacing: 0.02em; }
+figcaption p { color: var(--muted); font-size: 14px; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.notes section { display: grid; gap: 10px; align-content: start; min-width: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; color: var(--muted); }
+li strong { color: var(--fg); font-weight: 500; }
+@media (max-width: 760px) { .plates { grid-template-columns: minmax(0, 1fr); max-width: 430px; margin: 0 auto; } h1 { font-size: 34px; } }
+</style>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">The Doctor · the new world, from your references</span>
+    <h1>The Doctor, three plates</h1>
+    <p class="lede">Three moments of "The Last Two Doses", drawn after your three examples: the Hospital aboard in deep perspective, Colony Nine's street between the stacks, and the shuttle's climb out through the debris. Mira plays the Doctor, taller than the game's crew, in the inked finish. Everyone else is a shape with no face.</p>
+  </header>
+
+  <div class="plates">
+    <figure class="plate">
+      <img src="plate-1.jpg" width="390" height="844" alt="The Hospital, aboard: The Doctor holds the last injector up to the surgical light. Behind her, somebody sits up in the middle bed. Beyond the port, the swirl." loading="eager">
+      <figcaption><strong>The Hospital, aboard</strong><p>The Doctor holds the last injector up to the surgical light. Behind her, somebody sits up in the middle bed. Beyond the port, the swirl.</p></figcaption>
+    </figure>
+    <figure class="plate">
+      <img src="plate-2.jpg" width="390" height="844" alt="Colony Nine: The street between the stacks, in the dust. The ward's cross is the only sign still lit. She walks toward us with her case. Far behind her, two shapes carry a stretcher." loading="eager">
+      <figcaption><strong>Colony Nine</strong><p>The street between the stacks, in the dust. The ward's cross is the only sign still lit. She walks toward us with her case. Far behind her, two shapes carry a stretcher.</p></figcaption>
+    </figure>
+    <figure class="plate">
+      <img src="plate-3.jpg" width="390" height="844" alt="The climb: The shuttle that took her off climbs through the debris on three cyan engines. Below, the colony is a ring of fire. Above, the sky turns." loading="eager">
+      <figcaption><strong>The climb</strong><p>The shuttle that took her off climbs through the debris on three cyan engines. Below, the colony is a ring of fire. Above, the sky turns.</p></figcaption>
+    </figure>
+  </div>
+
+  <div class="notes">
+    <section>
+      <h2>Taken from your examples</h2>
+      <ul>
+        <li><strong>Depth:</strong> every place is built in perspective, so floors, walls, pipes and hatching recede to one vanishing point. The street and the Hospital are one-point, like your city street.</li>
+        <li><strong>Linework:</strong> plates, seams, vents and rivets on every surface, fine engraved lines over the walls, and ink that thins with distance. Dust and haze swallow the far stacks.</li>
+        <li><strong>The crew redefined:</strong> Mira is drawn about 1.2 times taller with a smaller head, closer to your Room A picture. Her face, hair and suit are the approved ones.</li>
+        <li><strong>The ship:</strong> a hull of overlapping blocks with greebles and coloured panels, three cyan engine trails and rocks blurred as they pass, like your ship picture.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Each place, its own light</h2>
+      <ul>
+        <li><strong>The Hospital:</strong> cold steel under amber surgical lamps, cyan guide lights and monitors, and the cosmic swirl in the far port.</li>
+        <li><strong>Colony Nine:</strong> rust and dust, the ward's cross the one cold sign still lit, and amber beacons.</li>
+        <li><strong>The climb:</strong> the cosmic language. Saturated swirl, orbital rings, a far ringed giant for scale, and the colony a ring of fire below.</li>
+        <li>No team colour anywhere: every pixel is at least 42 away from the three team colours. No words in any picture.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>How they were made</h2>
+      <ul>
+        <li>Drawn entirely in code, with no image-generation model in this session. The finish is flatter and less painted than your Room A example.</li>
+        <li>An image-generation tool would get much closer to that painted finish. Without one, the next steps are more detail and better faces at this size.</li>
+        <li>Tell me which plate is closest to what you want and what's still missing. I'll push that one further before animating.</li>
+      </ul>
+    </section>
+  </div>
+</div>
