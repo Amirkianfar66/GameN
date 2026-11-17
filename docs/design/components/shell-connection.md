@@ -121,7 +121,7 @@ For a phase with no active player the bar's words are Designer's, held once in `
 The round stamp (#288, "ROUND 1" over the room as Round 1 begins) is mounted on the shell's cover by the Pre-game builder's connection (release 4). This connection gives it the two things it reads from the game:
 
 - **`roundStart(model)`** in `shell-input.mjs`: `{ round: 1, window: { id, startedAt } }` for Round 1's first phase, Before turns, which shows the room; otherwise `null`.
-  - The engine opens a match there, and Food Supply opens only at a later round's start, so Round 1 has one Before turns.
+  - Without the Food rules the engine opens a match there. With them it opens Food Supply at once (`packages/engine/src/planet-game/lifecycle.ts`), whose surface covers the shell, and Before turns follows; so the stamp lands when the room first shows, after Food Supply, about 30 s into the match. Either way Round 1 has one Before turns. The in-game animation builder found it.
   - Public facts only: the round and the phase's kind, id and start. A phone that arrives late gets the same window; the stamp's own clock finds it past and draws nothing.
 - **The match's trusted server time**, `createServerClock({ monotonic })`, which `render.mjs` keeps as `serverClock` and observes on each model.
   - `current()` is `{ now() }`: the phase's `nowMs`, the server's time when the model was made, plus the time since it arrived, by the phone's monotonic clock. A model shown again keeps its first arrival.
