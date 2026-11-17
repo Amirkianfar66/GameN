@@ -147,7 +147,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers; this record was made in batches.
 
-**Result:** 34 of 34 captures pass: seventeen states at both sizes, recorded on `45afe011` with the source clean and the art from `64e55516`, in three batches.
+**Result:** 34 of 34 captures pass: seventeen states at both sizes, recorded on `00e679e9` (shell 0.2.9) with the source clean and the art from `64e55516`, in one run. The helper's first record, on `45afe011` (shell 0.2.8), also passed 34 of 34.
 
 | State | What it shows and checks |
 | --- | --- |
@@ -183,7 +183,7 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only room-b,capsule,pass,actions,targeting,card,panels,settings,promise-incoming,jail-ballot,jail-result,blackout,reconnecting`:
-- The build is the check's own bundle (`--keep`); both sides name `45afe011`, clean, with art from `64e55516`. Its `compare.json` is in `design/phone-ui/review/shell-connection/`; its pictures stay outside the repository.
+- The build is the check's own bundle (`--keep`); both sides name `45afe011` (before the 0.2.9 merge, which changed only the target bar under a banner and at the Largest text), clean, with art from `64e55516`. Its `compare.json` is in `design/phone-ui/review/shell-connection/`; its pictures stay outside the repository.
 - Every step reached the shell's own controls through the doubled selectors ("tap: Pass your turn", "tap: Open the ballot", "tap: Promises, 1 new"), and neither side met a problem.
 - **The frame:** in the pairs looked at (the pass, the targeting, the Card and the result), the build's top bar, tabs, round button, target bar and sheet frame take the pack's form, in the pack's places.
 - **The differences are elsewhere:**

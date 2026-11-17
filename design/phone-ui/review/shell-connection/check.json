@@ -1,0 +1,6688 @@
+{
+  "tool": "design/tools/shell-connection-check.mjs",
+  "what": "The Planet app's match frame drawn by the phone shell (design/phone-ui/components/phone-shell), in Frontend's phone and Food harnesses (apps/game/dev/phone) built from the candidate below",
+  "candidate": {
+    "commit": "00e679e9af989de217be50c03312123992bb1561",
+    "clean": true,
+    "dirty": []
+  },
+  "art": {
+    "base": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "originMain": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "note": "The harnesses' art plugins over a clean worktree of origin/main; the harnesses and their asset tooling are byte for byte that commit's"
+  },
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harnesses bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/actions": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "gameBody": true,
+        "tabOpen": true,
+        "noControlUnder": true,
+        "escapeCloses": true,
+        "focusBack": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-actions.jpg",
+      "sha256": "b16e0bf746c459e4dc77d8f38c88d2708045ae82476236fedd13d4b7b9bd9d51",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": {
+          "id": "actions",
+          "title": "Actions",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "body": {
+            "game": true,
+            "buttons": [
+              "planet-action-SCAN",
+              "planet-action-SUBMIT_CODE"
+            ],
+            "text": "ScanSubmit final Code"
+          },
+          "box": {
+            "x": 0,
+            "y": 553,
+            "width": 390,
+            "height": 233
+          }
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "actions",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": true,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/ballot": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "sheet": true,
+        "roster": true,
+        "voteStep": true,
+        "heroStays": true,
+        "closed": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-ballot.jpg",
+      "sha256": "77c6baa7dcc0d103a36f425eabc9a67b8556bb263386f0b5d92f986d7d33e2c3",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Jail vote",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:59",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "vote",
+              "label": "Open the ballot",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "vote",
+          "intent": "hero",
+          "value": "vote",
+          "label": "Open the ballot",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": {
+          "id": "action:VOTE",
+          "title": "Jail vote",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "body": {
+            "game": true,
+            "buttons": [
+              "planet-choice-seat-1",
+              "planet-choice-seat-2",
+              "planet-choice-seat-3",
+              "planet-choice-seat-4",
+              "planet-choice-seat-5",
+              "planet-choice-seat-6",
+              "planet-choice-seat-7",
+              "planet-choice-seat-8",
+              "planet-choice-seat-9",
+              "Abstain"
+            ],
+            "text": "Choose a player.1Crew 12Crew 23Crew 34Crew 45Crew 56Crew 6You7Crew 78Crew 89Crew 9Abstain"
+          },
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 726
+          }
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": [
+            "seat-6",
+            "seat-7",
+            "seat-8",
+            "seat-9"
+          ]
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "JAIL_VOTE",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": true,
+          "round": 6,
+          "action": {
+            "type": "VOTE",
+            "step": "targets"
+          },
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/blackout": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "dark": true,
+        "clock": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-blackout.jpg",
+      "sha256": "963b836a680966dcad702f8b71eed59ac1d913c97cddb9e6ed501277c2f012a6",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": "dark",
+          "hidden": false,
+          "name": "Blackout",
+          "sub": null,
+          "glyph": "dark",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:09",
+          "urgent": true,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-a",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "BLACKOUT",
+          "panel": "board",
+          "activeSeatId": "seat-3",
+          "ownSeatId": "seat-3",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/concealed": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "empty": true,
+        "shape": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-concealed.jpg",
+      "sha256": "02893a0937497af233782bc606322343218663fd68a62c58a32d887e8ff00259",
+      "seen": {
+        "shell": {
+          "status": "concealed",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": true,
+          "name": null,
+          "sub": null,
+          "glyph": null,
+          "portrait": false,
+          "round": null,
+          "clock": null,
+          "urgent": false,
+          "ring": false,
+          "promises": null,
+          "menu": false,
+          "gauge": null,
+          "controls": 0,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": true,
+          "buttons": [],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": null,
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "stale",
+          "concealed": true,
+          "surface": "player",
+          "phase": null,
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": null,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/display": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "noTabs": true,
+        "onlyMenu": true,
+        "bar": true,
+        "noSheet": true,
+        "settings": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-display.jpg",
+      "sha256": "e0d50a9b6d8bbd4878c402492ef5ab9c1a77382842707451083860b48be1f141",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "none",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 6",
+          "sub": "Player 6 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": null,
+          "menu": true,
+          "gauge": null,
+          "controls": 1,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": null,
+        "talk": null,
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": null,
+          "view": "board",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 792
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "display",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": null,
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/eliminated": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "banner": true,
+        "passOff": true,
+        "live": true,
+        "actionsOff": true,
+        "othersOn": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-eliminated.jpg",
+      "sha256": "fd8a32f0f20e25db1576c8b209bef9e0da980560cca15ebb3898efb27d7e2849",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 1",
+          "sub": "Player 1 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": {
+          "kind": "out",
+          "title": "You’re out",
+          "sub": "You can watch. Your role stays private.",
+          "retry": null,
+          "box": {
+            "x": 10,
+            "y": 60,
+            "width": 370,
+            "height": 51.44
+          }
+        },
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-1",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/food-gauge": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "gauge": true,
+        "clock": true,
+        "live": true,
+        "foodChromeOff": true,
+        "foodMatch": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-food-gauge.jpg",
+      "sha256": "6d5ab6b78b5f8fb56215edce874b73a642f50a8c2b3319c5d2453049c03a3c18",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Gus",
+          "sub": "Player 7 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R3",
+          "clock": "0:42",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": "Food low: 1 package left",
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-a",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-7",
+          "ownSeatId": "seat-4",
+          "canPass": false,
+          "canVote": false,
+          "round": 3,
+          "action": null,
+          "food": true
+        },
+        "commands": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/food-surface": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "foodChrome": true,
+        "concealed": true,
+        "noShellControls": true,
+        "sameBars": true,
+        "unreachable": true,
+        "foodTakesTaps": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-food-surface.jpg",
+      "sha256": "eeca57623d9d12a278050e0c807c51e5a6b48bc69a797c0e75d72b8750f8e8ae",
+      "seen": {
+        "shell": {
+          "status": "concealed",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": true,
+          "name": null,
+          "sub": null,
+          "glyph": null,
+          "portrait": false,
+          "round": null,
+          "clock": null,
+          "urgent": false,
+          "ring": false,
+          "promises": null,
+          "menu": false,
+          "gauge": "Food low: 1 package left",
+          "controls": 0,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": true,
+          "buttons": [],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "true",
+          "bar": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          },
+          "tabs": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          },
+          "screens": 1
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "FOOD_SUPPLY",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-8",
+          "canPass": false,
+          "canVote": false,
+          "round": 3,
+          "action": null,
+          "food": true
+        },
+        "commands": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "hits": [
+          {
+            "tag": "DIV",
+            "shell": false,
+            "food": true,
+            "stage": false
+          },
+          {
+            "tag": "P",
+            "shell": false,
+            "food": true,
+            "stage": false
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/own": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "yourTurn": true,
+        "passOn": true,
+        "roomScene": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-own.jpg",
+      "sha256": "4be4bfe0641790a384938889b79609d4bbbf1086302b85ffb9ca3b7b9d6c8f61",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": true,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/pass": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "sheet": true,
+        "confirmStep": true,
+        "noCommandYet": true,
+        "passSent": true,
+        "sheetClosed": true
+      },
+      "info": {
+        "infoToast": "Registered. Waiting for the authoritative view."
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-pass.jpg",
+      "sha256": "cce4202da9649e4c07f28fcf7ec202fba2100212c22bf521776c34198bcb47c4",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": true,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:57",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": {
+          "id": "pass",
+          "title": "Pass your turn?",
+          "sub": null,
+          "back": false,
+          "close": false,
+          "foot": [
+            {
+              "intent": "sheet-local",
+              "value": "cancel",
+              "label": "Cancel",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 16,
+                "y": 708,
+                "width": 174,
+                "height": 50
+              }
+            },
+            {
+              "intent": "sheet-action",
+              "value": "confirm",
+              "label": "Pass",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 200,
+                "y": 708,
+                "width": 174,
+                "height": 50
+              }
+            }
+          ],
+          "body": {
+            "game": true,
+            "buttons": [],
+            "text": ""
+          },
+          "box": {
+            "x": 0,
+            "y": 616,
+            "width": 390,
+            "height": 170
+          }
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": true,
+          "canVote": false,
+          "round": 6,
+          "action": {
+            "type": "PASS_TURN",
+            "step": "confirm"
+          },
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/reconnecting": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "banner": true,
+        "bar": true,
+        "stale": true,
+        "refused": true,
+        "noOldStatus": true,
+        "retryReads": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-reconnecting.jpg",
+      "sha256": "4c2d3bcb00f896d28b12111b17a800a05401247ed7f3e82e1b76a677ebbe143a",
+      "seen": {
+        "shell": {
+          "status": "stale",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Reconnecting…",
+          "sub": "Showing Round 6 as last seen",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": null,
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": {
+          "kind": "reconnecting",
+          "title": "Connection lost",
+          "sub": "Controls return when the match is current",
+          "retry": {
+            "intent": "retry",
+            "value": null,
+            "label": "Retry",
+            "expanded": null,
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 305.97,
+              "y": 74.84,
+              "width": 66.03,
+              "height": 38
+            }
+          },
+          "box": {
+            "x": 10,
+            "y": 60,
+            "width": 370,
+            "height": 67.69
+          }
+        },
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "stale",
+          "concealed": false,
+          "surface": "player",
+          "phase": null,
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": null,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/result": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "bar": true,
+        "hero": true,
+        "window": true,
+        "sheetOverResult": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-result.jpg",
+      "sha256": "5cb299dd08309def5a54014b4876e570ec7c265d0b5a4709d6bcc2823e9a96f5",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Vote result",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:03",
+          "urgent": false,
+          "ring": true,
+          "promises": null,
+          "menu": true,
+          "gauge": null,
+          "controls": 1,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "vote",
+              "label": "Open the ballot",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "vote",
+          "intent": "hero",
+          "value": "vote",
+          "label": "Open the ballot",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": {
+          "inCover": true,
+          "text": "Jail vote resultJail full · no transfer9 eligible voters1Crew 1—2Crew 253Crew 3—4Crew 425Crew 5—6Crew 6You—7Crew 7—8Crew 8—9Crew 9—",
+          "box": {
+            "x": 6,
+            "y": 60,
+            "width": 378,
+            "height": 718
+          }
+        },
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "VOTE_RESULT",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/talk": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "pair": true,
+        "buttons": true,
+        "noGameTabs": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-talk.jpg",
+      "sha256": "4d9988e67a8a51b4c989a2a9975ab3616cf9572fd4eb53fa44764f525950dd2c",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "talk",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "pair",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 6 + Crew 1",
+          "sub": "Private talk",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises, 1 new",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": null,
+        "talk": [
+          {
+            "intent": "tab",
+            "value": "promises",
+            "label": "Promises",
+            "expanded": "false",
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 16,
+              "y": 776,
+              "width": 174,
+              "height": 50
+            }
+          },
+          {
+            "intent": "tab",
+            "value": "my-card",
+            "label": "My card",
+            "expanded": "false",
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 200,
+              "y": 776,
+              "width": 174,
+              "height": 50
+            }
+          }
+        ],
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": null,
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 792
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "HACK",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/target": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "targetBar": true,
+        "noSheet": true,
+        "offered": true,
+        "heroStays": true,
+        "cancelled": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-target.jpg",
+      "sha256": "c95e6d23fc558f86c4b7fd2282fba1c19e156cd29c4030a18b28dadbab279d1a",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Round begins",
+          "sub": "Current board · shared: Round 5 complete",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:13",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": {
+          "title": "Block movement",
+          "sub": "Choose an offered character on the board.",
+          "cancel": {
+            "intent": "cancel-target",
+            "value": null,
+            "label": "Cancel",
+            "expanded": null,
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 298.52,
+              "y": 73.84,
+              "width": 73.48,
+              "height": 40
+            }
+          },
+          "box": {
+            "x": 10,
+            "y": 60,
+            "width": 370,
+            "height": 67.69
+          }
+        },
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-a",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": [
+            "seat-1",
+            "seat-2",
+            "seat-3"
+          ]
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "PRE_TURN",
+          "panel": "actions",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": {
+            "type": "BLOCK_MOVE",
+            "step": "targets"
+          },
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/turn": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "turnBar": true,
+        "clock": true,
+        "round": true,
+        "promisesMenu": true,
+        "tabs": true,
+        "passOff": true,
+        "live": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-turn.jpg",
+      "sha256": "b794cdd933db5c556d68c22cc763a632f8bcceab199b94c2242f83a37b62445d",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 1",
+          "sub": "Player 1 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-1",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/vote": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "vote": true,
+        "bar": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-vote.jpg",
+      "sha256": "6c595bd5c54c2be3f2a944243427e95b62f3dafdd1cbe8f8e951c55f71c21cae",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Jail vote",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "1:00",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "vote",
+              "label": "Open the ballot",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "vote",
+          "intent": "hero",
+          "value": "vote",
+          "label": "Open the ballot",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "JAIL_VOTE",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": true,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/voted": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "voted": true
+      },
+      "file": "design/phone-ui/review/shell-connection/390x844-voted.jpg",
+      "sha256": "6978ce359c638ea0e55f6450884f55c0ce5ba31a1e4c4d09ab32061672afdc8a",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Jail vote",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "voted",
+              "label": "Ballot registered",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 786,
+            "width": 390,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "voted",
+          "intent": "hero",
+          "value": "voted",
+          "label": "Ballot registered",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 390,
+            "height": 734
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "JAIL_VOTE",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 5,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/actions": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "gameBody": true,
+        "tabOpen": true,
+        "noControlUnder": true,
+        "escapeCloses": true,
+        "focusBack": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-actions.jpg",
+      "sha256": "854cedde2d3c89a97a87ecc66c10a06ba912eb9f8e7ccca3459004f97ca11c70",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": {
+          "id": "actions",
+          "title": "Actions",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "body": {
+            "game": true,
+            "buttons": [
+              "planet-action-SCAN",
+              "planet-action-SUBMIT_CODE"
+            ],
+            "text": "ScanSubmit final Code"
+          },
+          "box": {
+            "x": 0,
+            "y": 641,
+            "width": 430,
+            "height": 233
+          }
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "actions",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": true,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/ballot": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "sheet": true,
+        "roster": true,
+        "voteStep": true,
+        "heroStays": true,
+        "closed": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-ballot.jpg",
+      "sha256": "b1511dffe18075f1bdf5b8edb45463c1c00c6ef2a166e5679f4f4f0c16a2128f",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Jail vote",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:59",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "vote",
+              "label": "Open the ballot",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "vote",
+          "intent": "hero",
+          "value": "vote",
+          "label": "Open the ballot",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": {
+          "id": "action:VOTE",
+          "title": "Jail vote",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "body": {
+            "game": true,
+            "buttons": [
+              "planet-choice-seat-1",
+              "planet-choice-seat-2",
+              "planet-choice-seat-3",
+              "planet-choice-seat-4",
+              "planet-choice-seat-5",
+              "planet-choice-seat-6",
+              "planet-choice-seat-7",
+              "planet-choice-seat-8",
+              "planet-choice-seat-9",
+              "Abstain"
+            ],
+            "text": "Choose a player.1Crew 12Crew 23Crew 34Crew 45Crew 56Crew 6You7Crew 78Crew 89Crew 9Abstain"
+          },
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 814
+          }
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": [
+            "seat-6",
+            "seat-7",
+            "seat-8",
+            "seat-9"
+          ]
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "JAIL_VOTE",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": true,
+          "round": 6,
+          "action": {
+            "type": "VOTE",
+            "step": "targets"
+          },
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/blackout": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "dark": true,
+        "clock": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-blackout.jpg",
+      "sha256": "21b38c75b9daeb1a01771bdc70b5c29a053cb7dc78230b299ee84bc9d71038a9",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": "dark",
+          "hidden": false,
+          "name": "Blackout",
+          "sub": null,
+          "glyph": "dark",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:09",
+          "urgent": true,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-a",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "BLACKOUT",
+          "panel": "board",
+          "activeSeatId": "seat-3",
+          "ownSeatId": "seat-3",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/concealed": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "empty": true,
+        "shape": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-concealed.jpg",
+      "sha256": "5d85d23b5bf9562d5e72a07032ece9d210b3aaa7ee950afa67d3d26158fd8414",
+      "seen": {
+        "shell": {
+          "status": "concealed",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": true,
+          "name": null,
+          "sub": null,
+          "glyph": null,
+          "portrait": false,
+          "round": null,
+          "clock": null,
+          "urgent": false,
+          "ring": false,
+          "promises": null,
+          "menu": false,
+          "gauge": null,
+          "controls": 0,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": true,
+          "buttons": [],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": null,
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "stale",
+          "concealed": true,
+          "surface": "player",
+          "phase": null,
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": null,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/display": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "noTabs": true,
+        "onlyMenu": true,
+        "bar": true,
+        "noSheet": true,
+        "settings": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-display.jpg",
+      "sha256": "7a83d35f418dc9bf91276ba692bddbdc6f35d1f3a93dc92ea86bf1ee8a797f48",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "none",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 6",
+          "sub": "Player 6 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": null,
+          "menu": true,
+          "gauge": null,
+          "controls": 1,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": null,
+        "talk": null,
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": null,
+          "view": "board",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 880
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "display",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": null,
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/eliminated": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "banner": true,
+        "passOff": true,
+        "live": true,
+        "actionsOff": true,
+        "othersOn": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-eliminated.jpg",
+      "sha256": "08226d999504d413f0f1a4c6954e68ac9568e6d90abec99e39d47e5f06131055",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 1",
+          "sub": "Player 1 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": {
+          "kind": "out",
+          "title": "You’re out",
+          "sub": "You can watch. Your role stays private.",
+          "retry": null,
+          "box": {
+            "x": 10,
+            "y": 60,
+            "width": 410,
+            "height": 51.44
+          }
+        },
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-1",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/food-gauge": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "gauge": true,
+        "clock": true,
+        "live": true,
+        "foodChromeOff": true,
+        "foodMatch": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-food-gauge.jpg",
+      "sha256": "5f7a9c5bf9f159d67045635fb39aecd5654530bb9dc93fc2b11f4c86d429ff59",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Gus",
+          "sub": "Player 7 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R3",
+          "clock": "0:42",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": "Food low: 1 package left",
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-a",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-7",
+          "ownSeatId": "seat-4",
+          "canPass": false,
+          "canVote": false,
+          "round": 3,
+          "action": null,
+          "food": true
+        },
+        "commands": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/food-surface": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "foodChrome": true,
+        "concealed": true,
+        "noShellControls": true,
+        "sameBars": true,
+        "unreachable": true,
+        "foodTakesTaps": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-food-surface.jpg",
+      "sha256": "6672796ff8e05babf09e3a17f1ada1f53fdc34ada68d1f7b51ef8d26df11d234",
+      "seen": {
+        "shell": {
+          "status": "concealed",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": true,
+          "name": null,
+          "sub": null,
+          "glyph": null,
+          "portrait": false,
+          "round": null,
+          "clock": null,
+          "urgent": false,
+          "ring": false,
+          "promises": null,
+          "menu": false,
+          "gauge": "Food low: 1 package left",
+          "controls": 0,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": true,
+          "buttons": [],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "true",
+          "bar": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          },
+          "tabs": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          },
+          "screens": 1
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "FOOD_SUPPLY",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-8",
+          "canPass": false,
+          "canVote": false,
+          "round": 3,
+          "action": null,
+          "food": true
+        },
+        "commands": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "hits": [
+          {
+            "tag": "DIV",
+            "shell": false,
+            "food": true,
+            "stage": false
+          },
+          {
+            "tag": "P",
+            "shell": false,
+            "food": true,
+            "stage": false
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/own": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "yourTurn": true,
+        "passOn": true,
+        "roomScene": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-own.jpg",
+      "sha256": "c134ffb19b5911128c5b177aa180061a3e5546521aba2127ea90cbc96b316f5e",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": true,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/pass": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "sheet": true,
+        "confirmStep": true,
+        "noCommandYet": true,
+        "passSent": true,
+        "sheetClosed": true
+      },
+      "info": {
+        "infoToast": "Registered. Waiting for the authoritative view."
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-pass.jpg",
+      "sha256": "f34180bde656edea8361976bf9fc986077e04f95a4d9133e8d5c8c2f480b5901",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": true,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:57",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": {
+          "id": "pass",
+          "title": "Pass your turn?",
+          "sub": null,
+          "back": false,
+          "close": false,
+          "foot": [
+            {
+              "intent": "sheet-local",
+              "value": "cancel",
+              "label": "Cancel",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 16,
+                "y": 796,
+                "width": 194,
+                "height": 50
+              }
+            },
+            {
+              "intent": "sheet-action",
+              "value": "confirm",
+              "label": "Pass",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 220,
+                "y": 796,
+                "width": 194,
+                "height": 50
+              }
+            }
+          ],
+          "body": {
+            "game": true,
+            "buttons": [],
+            "text": ""
+          },
+          "box": {
+            "x": 0,
+            "y": 704,
+            "width": 430,
+            "height": 170
+          }
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": true,
+          "canVote": false,
+          "round": 6,
+          "action": {
+            "type": "PASS_TURN",
+            "step": "confirm"
+          },
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/reconnecting": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "banner": true,
+        "bar": true,
+        "stale": true,
+        "refused": true,
+        "noOldStatus": true,
+        "retryReads": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-reconnecting.jpg",
+      "sha256": "d9cdef79860cad3e3081251fd9d38d80ea41c78745beaf8d5531b35831b7f56a",
+      "seen": {
+        "shell": {
+          "status": "stale",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Reconnecting…",
+          "sub": "Showing Round 6 as last seen",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": null,
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": {
+          "kind": "reconnecting",
+          "title": "Connection lost",
+          "sub": "Controls return when the match is current",
+          "retry": {
+            "intent": "retry",
+            "value": null,
+            "label": "Retry",
+            "expanded": null,
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 345.97,
+              "y": 68,
+              "width": 66.03,
+              "height": 38
+            }
+          },
+          "box": {
+            "x": 10,
+            "y": 60,
+            "width": 410,
+            "height": 54
+          }
+        },
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "stale",
+          "concealed": false,
+          "surface": "player",
+          "phase": null,
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": null,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/result": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "bar": true,
+        "hero": true,
+        "window": true,
+        "sheetOverResult": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-result.jpg",
+      "sha256": "3584b9b2b8d50c060ac2dc7494b19d8a20feb6ff2fe885616650a97c7250b75e",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Vote result",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:03",
+          "urgent": false,
+          "ring": true,
+          "promises": null,
+          "menu": true,
+          "gauge": null,
+          "controls": 1,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "vote",
+              "label": "Open the ballot",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "vote",
+          "intent": "hero",
+          "value": "vote",
+          "label": "Open the ballot",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": {
+          "inCover": true,
+          "text": "Jail vote resultJail full · no transfer9 eligible voters1Crew 1—2Crew 253Crew 3—4Crew 425Crew 5—6Crew 6You—7Crew 7—8Crew 8—9Crew 9—",
+          "box": {
+            "x": 6,
+            "y": 60,
+            "width": 418,
+            "height": 806
+          }
+        },
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "VOTE_RESULT",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/talk": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "pair": true,
+        "buttons": true,
+        "noGameTabs": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-talk.jpg",
+      "sha256": "0c69d117d64992fb6ccfb8312f61d030386428bdcf4e30faa34fcd6709e1383f",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "talk",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "pair",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 6 + Crew 1",
+          "sub": "Private talk",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises, 1 new",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": null,
+        "talk": [
+          {
+            "intent": "tab",
+            "value": "promises",
+            "label": "Promises",
+            "expanded": "false",
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 16,
+              "y": 864,
+              "width": 194,
+              "height": 50
+            }
+          },
+          {
+            "intent": "tab",
+            "value": "my-card",
+            "label": "My card",
+            "expanded": "false",
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 220,
+              "y": 864,
+              "width": 194,
+              "height": 50
+            }
+          }
+        ],
+        "hero": null,
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": null,
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 880
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "HACK",
+          "panel": "board",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/target": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "targetBar": true,
+        "noSheet": true,
+        "offered": true,
+        "heroStays": true,
+        "cancelled": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-target.jpg",
+      "sha256": "99399edfb80379c11fbdf18bd7e3ec66e7fe41d8dacac38d88a0997e8277dddf",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Round begins",
+          "sub": "Current board · shared: Round 5 complete",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:13",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": {
+          "title": "Block movement",
+          "sub": "Choose an offered character on the board.",
+          "cancel": {
+            "intent": "cancel-target",
+            "value": null,
+            "label": "Cancel",
+            "expanded": null,
+            "disabled": false,
+            "busy": false,
+            "box": {
+              "x": 338.52,
+              "y": 73.84,
+              "width": 73.48,
+              "height": 40
+            }
+          },
+          "box": {
+            "x": 10,
+            "y": 60,
+            "width": 410,
+            "height": 67.69
+          }
+        },
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-a",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": [
+            "seat-1",
+            "seat-2",
+            "seat-3"
+          ]
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "PRE_TURN",
+          "panel": "actions",
+          "activeSeatId": "seat-6",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": {
+            "type": "BLOCK_MOVE",
+            "step": "targets"
+          },
+          "food": false
+        },
+        "commands": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/turn": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "turnBar": true,
+        "clock": true,
+        "round": true,
+        "promisesMenu": true,
+        "tabs": true,
+        "passOff": true,
+        "live": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-turn.jpg",
+      "sha256": "447dc811eb4d6e4aad6327ddc1101ebdc89914fc2f3556cd701059ddbcd83b15",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "hidden": false,
+          "name": "Crew 1",
+          "sub": "Player 1 · Turn",
+          "glyph": null,
+          "portrait": true,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "ORDINARY_TURN",
+          "panel": "board",
+          "activeSeatId": "seat-1",
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/vote": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "vote": true,
+        "bar": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-vote.jpg",
+      "sha256": "90969212ad8b71375ece8a627ae088069e52356206c2874b1165d36fc4876e3d",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Jail vote",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "1:00",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "vote",
+              "label": "Open the ballot",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "vote",
+          "intent": "hero",
+          "value": "vote",
+          "label": "Open the ballot",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "JAIL_VOTE",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": true,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/voted": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "voted": true
+      },
+      "file": "design/phone-ui/review/shell-connection/430x932-voted.jpg",
+      "sha256": "28a890d1bfe496bb7c71f9d04050d10f613bdabfe99b44a66105ce30a26fa13d",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "bar": "top",
+          "focusInside": false,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "hidden": false,
+          "name": "Jail vote",
+          "sub": "Current board · shared: After Blackout · Round 6",
+          "glyph": "plain",
+          "portrait": false,
+          "round": "R6",
+          "clock": "0:58",
+          "urgent": false,
+          "ring": false,
+          "promises": "Promises",
+          "menu": true,
+          "gauge": null,
+          "controls": 2,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 52
+          }
+        },
+        "tabs": {
+          "hidden": false,
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "voted",
+              "label": "Ballot registered",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ],
+          "box": {
+            "x": 0,
+            "y": 874,
+            "width": 430,
+            "height": 58
+          }
+        },
+        "talk": null,
+        "hero": {
+          "mode": "voted",
+          "intent": "hero",
+          "value": "voted",
+          "label": "Ballot registered",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "result": null,
+        "sheet": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "box": {
+            "x": 0,
+            "y": 52,
+            "width": 430,
+            "height": 822
+          },
+          "presses": []
+        },
+        "old": 0,
+        "status": null,
+        "food": {
+          "chrome": "false",
+          "bar": null,
+          "tabs": null,
+          "screens": 0
+        },
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "surface": "player",
+          "phase": "JAIL_VOTE",
+          "panel": "board",
+          "activeSeatId": null,
+          "ownSeatId": "seat-6",
+          "canPass": false,
+          "canVote": false,
+          "round": 6,
+          "action": null,
+          "food": false
+        },
+        "commands": [],
+        "reads": 5,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DAehpqfi.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    }
+  }
+}
