@@ -124,7 +124,9 @@ Each reports a tap, and only that.
 
 ## Checks run on this version
 
-On `a1131c94`, clean (the kit 0.5.0 at `13167281`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
+**On `584d1dd3` (`main-menu-0.1.1`), clean,** with the kit 0.8.2 (#265 at `a0900240`) merged: the 8 captures pass and are byte-identical to those on `a1131c94` (the call draws nothing); the probe passes **16 of 16**, with the new **text later** check; the agreement with the pack passes 6 of 6. The record is `review/check.json`.
+
+Before that, on `a1131c94`, clean (the kit 0.5.0 at `13167281`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`):
 - **Tests:** `packages/design-tokens/test/main-menu.test.mjs`:
   - the runtime-safe graph, with the kit, the entry parts and the hosted brand film's layout, and no phone shell or development film;
   - styles scoped, placing kit and entry parts only through the menu's own parts;
