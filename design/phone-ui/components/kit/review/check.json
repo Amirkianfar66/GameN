@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.8.1",
-  "sourceCommit": "1f5ad81b734a5951472e9672d5cf8383a70d52ad",
+  "version": "component-kit-0.8.2",
+  "sourceCommit": "f0c24a264ee768ff9b6f4ae474b0375c88c13e1b",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -216,16 +216,29 @@
     {
       "cases": "/^toast/",
       "parts": [
-        "toast words"
+        "/^toast( icon| words)?$/"
       ],
       "keys": [
-        "overflow-x",
-        "overflow-y",
-        "text-overflow"
+        "white-space"
       ],
       "sections": null,
       "texts": null,
-      "why": "The kit cuts a toast's words with an ellipsis where they would run past the phone (its max-width, the phone less 16 px a side), as the shell's and the entry screens' toasts did; the pack's words run on past the edge. Words that fit are drawn the same"
+      "why": "The kit's toast wraps words too long for one line inside the phone (its max-width, the phone less 16 px a side), so every word shows; the pack's words run on past the edge. Words that fit keep one line and are drawn the same, which the boxes show"
+    },
+    {
+      "cases": "/^toast/",
+      "parts": [
+        "toast"
+      ],
+      "keys": [
+        "border-top-left-radius",
+        "border-top-right-radius",
+        "border-bottom-right-radius",
+        "border-bottom-left-radius"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "The kit's corners are as round as a one-line toast's ends (half its line, the icon's 20 px or the words' 1.2 em, and the 9 px padding: 19 px at 100 %, 27 px at 200 %) instead of the pack's 999 px, so a wrapped toast's paper still holds its words. On one line both draw the same pill, which the boxes show"
     },
     {
       "cases": "/^segmented icons$/",
@@ -287,10 +300,10 @@
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "eb991e435ba8575281e0871ab5f52bf017eed00bf0309e1bfecc07da87cc044f",
+      "sha256": "98e5120747a1afe1fe59b81c135d973451a54e78f823bb20c10fd48fdd40d3e3",
       "size": {
         "width": 390,
-        "height": 12063
+        "height": 12066
       },
       "ok": true,
       "violations": [
@@ -304,7 +317,7 @@
         }
       ],
       "problems": [],
-      "measurementSha256": "77182d03367715b13fa26503317e301bbeb3141a146ee09bb7e46aba3d9ff02d"
+      "measurementSha256": "1facc1ddff23d0c2aa9375e12bd3e898c77dc80df85950909b95dd633426cf64"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
@@ -329,7 +342,7 @@
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "891a20a65ba234f726350a60566c1feebb37ab49e92207691228a8f5da929e22",
+      "sha256": "df8f0230a7c4b7f85957079e9d8cdac333f9544736d558bf8f174a019d24a194",
       "size": {
         "width": 390,
         "height": 17602
@@ -346,7 +359,7 @@
         }
       ],
       "problems": [],
-      "measurementSha256": "abb381df303c9c74280f90c8529f5297b750cb30f4250d443d898aa949afad11"
+      "measurementSha256": "a1750f94900049a6b8ce96d7c746ebe5fd0787f4866ab49d47c42ac7457f8b4b"
     }
   },
   "agreement": {
@@ -825,24 +838,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -853,24 +894,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -1443,24 +1512,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -1471,24 +1568,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "19px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -1785,14 +1910,14 @@
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 11
+              "rule": 12
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 11
+              "rule": 12
             }
           ]
         },
@@ -2019,24 +2144,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -2047,24 +2200,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -3126,91 +3307,91 @@
               "key": "h",
               "pack": 78.38,
               "kit": 97,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 1",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 1",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 1 icon",
               "key": "x",
               "pack": 9,
               "kit": 65.83,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 1 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 16,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 1 icon",
               "key": "w",
               "pack": 12.78,
               "kit": 18,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2",
               "key": "x",
               "pack": 180.5,
               "kit": 3,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2",
               "key": "y",
               "pack": 3,
               "kit": 50,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2",
               "key": "w",
               "pack": 174.5,
               "kit": 352,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2",
               "key": "h",
               "pack": 72.38,
               "kit": 44,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2 icon",
               "key": "x",
               "pack": 186.5,
               "kit": 52.66,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2 icon",
               "key": "y",
               "pack": 30.19,
               "kit": 63,
-              "rule": 12
+              "rule": 13
             },
             {
               "part": "option 2 icon",
               "key": "w",
               "pack": 11.42,
               "kit": 18,
-              "rule": 12
+              "rule": 13
             }
           ]
         },
@@ -3636,24 +3817,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -3664,24 +3873,52 @@
           "differences": [],
           "accepted": [
             {
-              "part": "toast words",
-              "key": "text-overflow",
-              "pack": "clip",
-              "kit": "ellipsis",
+              "part": "toast",
+              "key": "border-top-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-top-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-right-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "border-bottom-left-radius",
+              "pack": "999px",
+              "kit": "27px",
+              "rule": 11
+            },
+            {
+              "part": "toast",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
+              "rule": 10
+            },
+            {
+              "part": "toast icon",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             },
             {
               "part": "toast words",
-              "key": "overflow-x",
-              "pack": "visible",
-              "kit": "hidden",
-              "rule": 10
-            },
-            {
-              "part": "toast words",
-              "key": "overflow-y",
-              "pack": "visible",
-              "kit": "hidden",
+              "key": "white-space",
+              "pack": "nowrap",
+              "kit": "normal",
               "rule": 10
             }
           ]
@@ -3699,6 +3936,6 @@
     "cases": 202,
     "agree": 202,
     "parts": 1401,
-    "accepted": 298
+    "accepted": 330
   }
 }

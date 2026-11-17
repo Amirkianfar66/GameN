@@ -6,7 +6,7 @@
 // keeps its default. Nothing here works out who may act from the rules; the controller checks the current
 // offer before it sends anything.
 import {LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
-import {PHASE_BAR_PHASES,loadingBar,phaseBar,reconnectingBar} from '../../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
+import {PHASE_BAR_PHASES,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
 
 /**
  * Today's names (render.mjs before the shell) for the phases whose bar is still the game's own: the votes, the
@@ -63,10 +63,11 @@ export function shellPicking(action){
 
 /**
  * The round stamp's moment (#288's "ROUND 1", which the Pre-game builder's connection mounts on the shell's cover):
- * Round 1's first phase, Before turns, the round's first that shows the room. The engine opens a match there, and
- * Food Supply opens only at a later round's start, so Round 1 has one. Public facts only: the round and the
- * phase's kind, id and start. A phone that arrives late gets the same window, and the stamp's own clock finds it
- * past and draws nothing.
+ * Round 1's first Before turns, the round's first phase that shows the room. Without the Food rules the engine
+ * opens a match there; with them it opens Food Supply at once (lifecycle.ts), whose surface covers the shell, and
+ * Before turns follows it, so the stamp lands when the room first shows, after Food Supply. Either way Round 1 has
+ * one Before turns. Public facts only: the round and the phase's kind, id and start. A phone that arrives late gets
+ * the same window, and the stamp's own clock finds it past and draws nothing.
  */
 export function roundStart(model){
  const p=model?.phase;
@@ -92,6 +93,32 @@ export function createServerClock({monotonic}){
   },
   current:()=>base?clock:null,
  });
+}
+
+/** A choice in progress on this phone: begun and not yet sent (the presentation model's steps before `sending`). */
+export const SHELL_CHOOSING=Object.freeze(['targets','slots','faction','direction','number','promise','confirm']);
+/**
+ * The phases whose own surface says they closed, so phaseClosed() stays silent for them. None today. When #267's
+ * ballot is connected and keeps "Voting closed" itself (sheet 35), the change that connects it names the two votes
+ * here, in the same change.
+ */
+export const SHELL_CLOSES_ITSELF=Object.freeze([]);
+/**
+ * A phase that closed under this phone's open choice (sheet 45's stale frame, "That phase closed · choices
+ * cleared"): the model painted just before had a choice in progress, and in this one that phase's time is up or
+ * another phase is on. The controller clears the choice there without a word; this is what tells the player.
+ * Both models are live and this player's, in one match. Not this: a choice the player cancelled or sent, a lost
+ * connection (the banner says it), a phone put away, a sheet with no choice in it, and a choice whose offer went
+ * away inside a running phase. One rule for every phase, the Blackout's too: the toast goes to the phone that
+ * showed the choice, as the target bar it replaces did, so it tells no one else anything. Returns { id }, the
+ * closed phase's, so the toast shows once: at 0:00, and not again when the next phase arrives.
+ */
+export function phaseClosed(before,model){
+ const mine=m=>m?.connection==='live'&&!m.concealed&&m.surface==='player'&&!!m.ownSeatId&&typeof m.phase?.id==='string'&&!!m.phase.id;
+ if(!mine(before)||!mine(model)||before.matchId!==model.matchId||before.ownSeatId!==model.ownSeatId)return null;
+ if(!before.action||!SHELL_CHOOSING.includes(before.action.step)||SHELL_CLOSES_ITSELF.includes(before.phase.kind))return null;
+ const over=model.phase.id!==before.phase.id||model.phase.trusted===true&&model.phase.expired===true;
+ return over?{id:before.phase.id}:null;
 }
 
 /** The clock while the server time is trusted: amber in the last 10 s, a ring for the two fixed presentations. */
@@ -229,12 +256,16 @@ export function shellBanner(model,{lastRound=null}={}){
 }
 
 /**
- * A pass the server accepted: a toast once, with the pack's icon (sheet 27.3, `toast('Turn passed', 'info')`) and the
- * model's own registration words.
+ * The shell's toast, each shown once. A phase that closed under this phone's open choice (`closed`, from
+ * phaseClosed()): the pack's words and icon, from phase-bars.mjs. Otherwise a pass the server accepted: the pack's
+ * icon (sheet 27.3, `toast('Turn passed', 'info')`) and the model's own registration words. The two never meet: a
+ * closed phase has no accepted action left.
  */
-export function shellToast(model){
+export function shellToast(model,{closed=null}={}){
+ if(model.surface!=='player'||model.concealed)return null;
+ if(closed)return phaseClosedToast({id:`closed:${closed.id}`});
  const action=model.action;
- if(model.surface!=='player'||model.concealed||action?.type!=='PASS_TURN'||action.step!=='accepted'||!action.prompt)return null;
+ if(action?.type!=='PASS_TURN'||action.step!=='accepted'||!action.prompt)return null;
  return {id:`pass:${model.phase?.id??''}`,text:action.prompt,icon:'info'};
 }
 
@@ -280,18 +311,19 @@ export function shellSheet(model,{listOpen=false}={}){
 
 /**
  * Every input of the shell for this phone. `view` is what the renderer holds: the scene mode (`view`), the room
- * view's room, the Food surface ({ active, exclusive }), Reduce motion, the round last seen live and whether the
- * board's List is open. Concealed, the shell drops this viewer's inputs itself; the tabs are still given so the
+ * view's room, the Food surface ({ active, exclusive }), Reduce motion, the round last seen live, whether the
+ * board's List is open, and a phase that just closed under an open choice (`closed`, from phaseClosed() on the
+ * model painted before and this one). Concealed, the shell drops this viewer's inputs itself; the tabs are still given so the
  * bars keep their shape and the stage its size. A shared display takes taps: it has no tabs, Promises, target bar
  * or chip, so its only controls are ⋮, the Settings sheet's Close and Retry.
  */
-export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false}={}){
+export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null}={}){
  const display=model.surface!=='player',status=shellStatus(model,{food}),hidden=status==='concealed';
  return {
   status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??null,
   bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view}),
   target:hidden?null:shellTarget(model),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
-  toast:hidden?null:shellToast(model),sheet:hidden?null:shellSheet(model,{listOpen}),
+  toast:hidden?null:shellToast(model,{closed}),sheet:hidden?null:shellSheet(model,{listOpen}),
  };
 }
 
@@ -300,7 +332,16 @@ export function shellInput(model,{view='room',room=null,food=null,reducedMotion=
  * switch and the session's refresh. `opened` hears which of the shell's controls opened something, so the focus can
  * go back to it. `live()` is false once the renderer is disposed: then nothing is called.
  */
-export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true}){
+/**
+ * A host sheet (`mountPlanetRenderer`'s `hostSheet`: the pre-game connection's Host controls, part 8) takes the
+ * Settings sheet's place while it gives a frame, as Host controls opens from Settings and goes Back to it. Its frame
+ * is the component's own (title, line, Back, Close, footer); `kind: 'host'` tells the renderer whose body to mount.
+ */
+export function shellHostSheet(sheet,hostFrame){
+ return sheet?.kind==='settings'&&hostFrame?{...hostFrame,kind:'host'}:sheet;
+}
+
+export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null}){
  const when=run=>(...args)=>{if(live())run(...args);};
  const from=(intent,value=null)=>opened?.({intent,value});
  return {
@@ -312,9 +353,10 @@ export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBo
   onCancelTarget:when(()=>dismiss()),
   onChip:when(id=>{from('chip',id);if(id==='list')openList();else if(id==='board')showBoard();}),
   onRetry:when(()=>reconnect?.()),
-  onSheetAction:when(id=>{if(id==='confirm')confirm();else if(id==='cancel')dismiss();}),
-  onSheetBack:when(()=>openPanel('panels')),
-  onSheetClose:when(sheetId=>{if(sheetId==='target-list')closeList();else dismiss();}),
+  // While the host sheet is open (`host.open()`), its footer, Back and Close are its own; Close also closes Settings.
+  onSheetAction:when(id=>{if(host?.open())host.action(id);else if(id==='confirm')confirm();else if(id==='cancel')dismiss();}),
+  onSheetBack:when(()=>{if(host?.open())host.back();else openPanel('panels');}),
+  onSheetClose:when(sheetId=>{if(host?.open()){host.close();dismiss();}else if(sheetId==='target-list')closeList();else dismiss();}),
   onLayout:when(next=>layout?.(next)),
   onFocusReturn:when(detail=>focusReturn?.(detail)),
  };

@@ -46,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.1', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.2', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -112,13 +112,23 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   assert.equal(seatNumber({ seat: 'seat-7' }), 7);
 });
 
-test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'s drop and fade (0.8.0)', () => {
+test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'s drop and fade (0.8.0), and words that wrap inside the phone (0.8.2)', () => {
   const block = (css, selector) => { const start = css.indexOf(`${selector} {`); assert.ok(start >= 0, selector); return css.slice(start + selector.length + 2, css.indexOf('}', start)); };
   const declarations = body => Object.fromEntries(body.split(';').map(d => d.trim()).filter(Boolean).map(d => [d.slice(0, d.indexOf(':')).trim(), d.slice(d.indexOf(':') + 1).trim()]));
   const pack = declarations(block(PACK_CSS, '.toast')), kit = declarations(block(KIT_CSS, '.ms-kit :where(.ms-k-toast)'));
   const as = { 'calc(var(--top) + 10px)': 'calc(var(--ms-k-toast-top, 0px) + 10px)', 'var(--paper)': 'var(--ms-k-paper)', 'var(--ink)': 'var(--ms-k-ink)',
     '600 0.9375rem/1.2 var(--font-ui)': '600 0.9375rem/1.2 var(--ms-k-font)', 'var(--shadow-soft)': tokens(PACK_CSS, ':root')['--shadow-soft'] };
-  for (const [key, value] of Object.entries(pack)) assert.equal(kit[key], as[value] ?? value, `the toast's ${key} is the pack's`);
+  // Its own since 0.8.2: words too long for one line wrap, and its corners are as round as a one-line toast's ends (the
+  // pack's pill on one line). Every other declaration of the pack's is the kit's.
+  const own = new Set(['white-space', 'border-radius']);
+  for (const [key, value] of Object.entries(pack)) if (!own.has(key)) assert.equal(kit[key], as[value] ?? value, `the toast's ${key} is the pack's`);
+  assert.equal(pack['white-space'], 'nowrap');
+  assert.equal(pack['border-radius'], '999px');
+  assert.equal(kit['white-space'], 'normal');
+  assert.equal(kit['border-radius'], 'calc(max(20px, 1.2em) / 2 + 9px)');
+  assert.equal(kit.width, 'max-content');
+  assert.ok(KIT_CSS.includes('.ms-kit :where(.ms-k-toast-text) { text-align: start; overflow-wrap: anywhere; }'), 'its words wrap anywhere, so no word runs past the phone');
+  assert.doesNotMatch(KIT_CSS, /\.ms-k-toast-text\) \{[^}]*text-overflow/, 'its words are not cut');
   assert.match(PACK_CSS, /\.toast \.ic \{ width: 20px; height: 20px; \}/);
   assert.ok(KIT_CSS.includes('.ms-kit :where(.ms-k-toast .ms-k-ic) { width: 20px; height: 20px; }'));
   // Its own: inside the phone, no tap (it has no action), the shell's drop and fade (since 0.1.0) and its 80 ms fade

@@ -11,8 +11,9 @@
 // Chromium at 2× pixels:
 //   turn, own                another player's turn; your turn, Pass ready
 //   pass                     "Pass your turn?" (then Pass sends PASS_TURN and its registration shows once)
-//   actions                  the Actions sheet: the game's own body in the shell's frame
+//   actions                  the Actions sheet: the game's own body in the shell's frame (with release 3, #310, Actions' part)
 //   target                   the target bar with Cancel (the Officer's block)
+//   closed                   a phase that closed under an open choice: the toast at 0:00 (then no second one)
 //   reconnecting, eliminated the two banners (Retry reads the session again)
 //   vote, ballot, voted      the round button as Vote; the ballot's sheet; then Voted
 //   result                   the 5 s result: the ring, no Promises, the round button as Vote, unavailable, and the
@@ -167,7 +168,8 @@ const LOOK = `(() => {
     result: (() => { const r = document.querySelector('.planet-result'); return r && !r.hidden ? { inCover: !!r.closest('.ms-ps-cover'), text: text(r).slice(0, 160), box: box(r) } : null; })(),
     sheet: sheet ? { id: sheet.dataset.sheet, title: text(q('.ms-ps-sheet-title h2', sheet)), sub: q('.ms-ps-sheet-title p', sheet)?.hidden ? null : text(q('.ms-ps-sheet-title p', sheet)),
       back: !!q('[data-intent="sheet-back"]', sheet), close: !!q('[data-intent="sheet-close"]', sheet), foot: all('.ms-ps-sheet-foot button', sheet).map(control),
-      body: { game: !!q('.ms-ps-sheet-body > .planet-sheet-body', sheet), buttons: all('.planet-sheet-body button', sheet).map(b => b.id || text(b)).slice(0, 12), text: (text(q('.planet-sheet-body', sheet)) ?? '').slice(0, 200) }, box: box(sheet) } : null,
+      body: { game: !!q('.ms-ps-sheet-body > .planet-sheet-body', sheet), part: !!q('.ms-ps-sheet-body > .ms-actions', sheet), buttons: all('.planet-sheet-body button', sheet).map(b => b.id || text(b)).slice(0, 12),
+        tiles: all('.ms-ps-sheet-body > .ms-actions [data-intent="tile"]', sheet).map(b => b.dataset.value), text: (text(q('.planet-sheet-body', sheet)) ?? '').slice(0, 200) }, box: box(sheet) } : null,
     stage: { inShell: !!document.querySelector('.ms-ps-stage > .planet-stage'), scene: document.querySelector('.planet-stage .ms-room-scene')?.dataset.room ?? null, view: document.querySelector('.planet-stage')?.dataset.view ?? null, box: box(q('.ms-ps-stage')),
       presses: [...document.querySelectorAll('.planet-stage .ms-rs-press')].map(p => p.dataset.value) },
     old: document.querySelectorAll('.planet-header:not(.planet-bar-measure), .planet-nav, #planet-pass, .planet-sheet, .planet-target-bar, #planet-top-promises, #planet-top-settings').length,
@@ -208,7 +210,8 @@ const STATES = {
     facts: s => ({ sheet: s.sheet?.title === 'Pass your turn?' && !s.sheet.close && s.sheet.foot.map(b => b.label).join() === 'Cancel,Pass', confirmStep: s.model?.action?.type === 'PASS_TURN' && s.model.action.step === 'confirm',
       noCommandYet: s.commands.length === 0 }),
     after: async page => {
-      await page.evaluate(tap('.ms-ps-sheet-foot [data-value="confirm"]'));
+      // Both builds, #307's first: the game's Pass footer sends with confirm; release 3's (#310), Actions' Pass sheet, with its own pass.
+      await page.evaluate(tap('.ms-ps-sheet-foot [data-value="confirm"], .ms-ps-sheet-foot [data-value="pass"]'));
       await page.waitFor(`${APP}.game.getModel().action?.step==='accepted'||document.querySelector('.ms-ps-toast')`, 'the pass registered', 8000);
       const seen = await page.evaluate(LOOK);
       return { passSent: seen.commands.join() === 'PASS_TURN', infoToast: seen.toast ?? '', sheetClosed: seen.sheet === null };
@@ -217,11 +220,13 @@ const STATES = {
       await page.evaluate(tap(TAB('actions')));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='actions'", 'the Actions sheet');
     },
-    facts: s => ({ frame: s.sheet?.title === 'Actions' && s.sheet.close && s.sheet.body.game, gameBody: s.sheet?.body.buttons.includes('planet-action-SCAN'),
+    // Both builds, #307's first: the game's own Actions body with its Scan button; release 3's (#310), Actions' part with its Scan tile.
+    facts: s => ({ frame: s.sheet?.title === 'Actions' && s.sheet.close && (s.sheet.body.game || s.sheet.body.part),
+      gameBody: s.sheet?.body.buttons.includes('planet-action-SCAN') || s.sheet?.body.tiles.includes('SCAN'),
       tabOpen: s.tabs?.buttons.find(b => b.value === 'actions')?.expanded === 'true', noControlUnder: !s.stage.presses.length }),
     after: async page => {
       // Escape from inside the sheet's body closes it, as today's; the shell hands the focus back, and it goes to the tab that opened it.
-      await page.evaluate("document.querySelector('.ms-ps-sheet .planet-sheet-body button').focus()");
+      await page.evaluate("document.querySelector('.ms-ps-sheet .planet-sheet-body button, .ms-ps-sheet .ms-actions button').focus()");
       for (const type of ['rawKeyDown', 'keyUp']) await page.send('Input.dispatchKeyEvent', { type, key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
       await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'Escape closed Actions');
       await sleep(150);
@@ -243,6 +248,29 @@ const STATES = {
       await page.waitFor(`${game}.getModel().action===null`, 'Cancel ended the choosing');
       const seen = await page.evaluate(LOOK);
       return { cancelled: seen.target === null && seen.stage.presses.length === 0, everyonesBar: seen.bar?.name === 'Before turns' && seen.bar.sub === 'Officer block · Blackhole' };
+    } },
+  // A phase that closed under an open choice (sheet 45's stale frame; shell-input.mjs phaseClosed()). The harness's
+  // own view, with the same 60 s turn moved so that it ends 1.2 s after the choice is open: the game's controller
+  // clears the choice at 0:00, and the shell's toast says why.
+  closed: { page: 'phone', url: 'scenario=board', steps: async page => {
+      await page.evaluate(tap(TAB('actions')));
+      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered in Actions');
+      await page.evaluate(tap('#planet-action-SCAN'));
+      await page.waitFor(`${game}.getModel().action?.type==='SCAN'&&!!document.querySelector('.ms-ps-target')`, 'the Scan choice open');
+      await page.evaluate(edit("const length=p.phase.endsAt-p.phase.startedAt;p.phase={...p.phase,startedAt:now+1200-length,endsAt:now+1200}"));
+      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast when the time is up', 8000);
+    },
+    facts: s => ({ toast: s.toast === 'That phase closed · choices cleared', choiceCleared: s.model?.action === null && s.target === null && s.sheet === null && s.stage.presses.length === 0,
+      atZero: s.bar?.clock === '0:00', ownBarStays: s.bar?.kind === 'turn' && s.bar.name === 'Your turn', passOff: s.hero?.mode === 'pass' && s.hero.disabled,
+      live: s.shell?.status === 'live' && s.model?.connection === 'live', nothingSent: s.commands.length === 0 }),
+    after: async page => {
+      await page.waitFor("!document.querySelector('.ms-ps-toast')", 'the toast gone after its time', 6000);
+      // The next phase arrives: the same closed phase gives no second toast.
+      await page.evaluate(edit("p.phase={id:p.phase.id+'-next',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.activeSeatId='seat-1';p.offers=p.offers.filter(o=>o.type!=='PASS_TURN')"));
+      await page.waitFor(`${game}.getModel().activeSeatId==='seat-1'&&${game}.getModel().phase.expired===false`, 'the next turn');
+      await sleep(500);
+      const seen = await page.evaluate(LOOK);
+      return { notAgain: seen.toast === null, nextTurn: seen.bar?.kind === 'turn' && seen.bar.name === 'Crew 1' && /^\d:\d\d$/.test(seen.bar.clock ?? '') };
     } },
   reconnecting: { page: 'phone', url: 'scenario=board', steps: async page => {
       await page.evaluate('window.planetHarness.setReadFailure(true);window.planetHarness.app.session.refresh()');

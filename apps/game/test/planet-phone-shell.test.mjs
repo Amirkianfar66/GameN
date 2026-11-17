@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,createServerClock,ownOut,ownTalk,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
- SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownOut,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+ SHELL_CHOOSING,SHELL_CLOSES_ITSELF,SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,loadingBar,phaseBar,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
+import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,PHASE_WORDS,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
+import {planetView,rig} from './planet-support.mjs';
 
 // The match's frame on a phone is Designer's phone shell (the owner's plan of 16 November 2026, release 2).
 // These cover the game's side: what it gives the shell for each state, whose data reaches it, the intents'
@@ -379,6 +380,24 @@ test('every intent reaches the call the game already makes, and nothing after di
  assert.doesNotThrow(()=>shellHandlers({}).onRetry());
 });
 
+test('a host sheet (the pre-game connection\'s Host controls) takes the Settings sheet\'s place, with its own footer, Back and Close',()=>{
+ const settings={id:'settings',kind:'settings',title:'Settings',sub:null,back:false,close:true,detent:'auto',actions:[]};
+ const host={id:'host-controls',title:'Host controls',back:true,close:true,detent:'large',actions:[{id:'abort',label:'Abort match',kind:'warn'}]};
+ assert.deepEqual(shellHostSheet(settings,host),{...host,kind:'host'});
+ assert.equal(shellHostSheet(settings,null),settings,'no host frame: Settings stays');
+ const actions={id:'action:VOTE',kind:'action',title:'Vote'};
+ assert.equal(shellHostSheet(actions,host),actions,'only in Settings\' place');
+ assert.equal(shellHostSheet(null,host),null,'nothing open: nothing');
+ // While it is open, the sheet's intents are the host sheet's; Close also closes Settings. Otherwise, as before.
+ const calls=[];let open=true;
+ const handlers=shellHandlers({openPanel:p=>calls.push(['openPanel',p]),confirm:()=>calls.push(['confirm']),dismiss:()=>calls.push(['dismiss']),closeList:()=>calls.push(['closeList']),
+  host:{open:()=>open,action:id=>calls.push(['host.action',id]),back:()=>calls.push(['host.back']),close:()=>calls.push(['host.close'])}});
+ handlers.onSheetAction('abort','host-controls');handlers.onSheetAction('confirm','host-controls');handlers.onSheetBack('host-controls');handlers.onSheetClose('host-controls');
+ open=false;
+ handlers.onSheetAction('confirm','pass');handlers.onSheetBack('windows');handlers.onSheetClose('settings');
+ assert.deepEqual(calls,[['host.action','abort'],['host.action','confirm'],['host.back'],['host.close'],['dismiss'],['confirm'],['openPanel','panels'],['dismiss']]);
+});
+
 test('the focus handed back: Cancel while choosing, else the control that opened it, else the first tab',()=>{
  const first='[data-intent="tab"][data-value="switch"]';
  assert.deepEqual(shellFocusOrder(null),[first]);
@@ -441,4 +460,93 @@ test('the round stamp\'s moment and clock (G18): Round 1\'s Before turns, and th
  const plain=createServerClock({monotonic:()=>0}),busy=createServerClock({monotonic:()=>0});
  plain.observe(first);busy.observe({...first,privateArea:{role:{name:'Alien'}},action:action('BLOCK_MOVE','targets',['seat-1'])});
  assert.equal(plain.current().now(),busy.current().now());
+});
+
+test('a phase that closed under an open choice: the pack\'s toast once, told from the model painted before and this one',()=>{
+ const open=model({activeSeatId:'seat-4',action:action('MOVE','targets',['Room A'])});
+ const expired=model({activeSeatId:'seat-4',phase:{...turn,nowMs:60000,remainingMs:0,expired:true}});
+ const next=model({phase:phase('JAIL_VOTE'),activeSeatId:null});
+ // The time is up: at 0:00, under the old bar, as sheet 45 draws it. Or another phase is on before 0:00.
+ assert.deepEqual(phaseClosed(open,expired),{id:'turn-1'});
+ assert.deepEqual(phaseClosed(open,next),{id:'turn-1'});
+ // Not again when the next phase follows the expired model: nothing was open in that one.
+ assert.equal(phaseClosed(expired,next),null);
+ // Every step of a choice in progress; never one being sent, registered or refused.
+ assert.deepEqual(SHELL_CHOOSING,['targets','slots','faction','direction','number','promise','confirm']);
+ for(const step of SHELL_CHOOSING)assert.deepEqual(phaseClosed(model({action:action('MOVE',step,[])}),expired),{id:'turn-1'},step);
+ for(const step of ['sending','accepted','rejected','unknown'])assert.equal(phaseClosed(model({action:action('PASS_TURN',step,[])}),next),null,step);
+ // The same phase still running (the player cancelled, or the offer went away), and a sheet with no choice in it.
+ assert.equal(phaseClosed(open,model({activeSeatId:'seat-4'})),null);
+ assert.equal(phaseClosed(model({panel:'card'}),expired),null);
+ // Time that is not trusted cannot say the phase closed.
+ assert.equal(phaseClosed(open,model({phase:{...turn,trusted:false,expired:true,nowMs:null,remainingMs:null}})),null);
+ // Both models are live and this player's, in one match.
+ for(const other of [{connection:'stale'},{connection:'connecting'},{connection:'error'},{concealed:true},{surface:'display',ownSeatId:null},{phase:null}]){
+  assert.equal(phaseClosed({...open,...other},next),null,JSON.stringify(other));
+  assert.equal(phaseClosed(open,{...next,...other}),null,JSON.stringify(other));
+ }
+ assert.equal(phaseClosed({...open,matchId:'match-2'},next),null);assert.equal(phaseClosed({...open,ownSeatId:'seat-1'},next),null);
+ assert.equal(phaseClosed(null,next),null);assert.equal(phaseClosed(open,null),null);assert.equal(phaseClosed(open,open),null);
+ // One rule for every phase, the votes and the Blackout too. No phase says it closed by itself yet: #267's ballot will.
+ assert.deepEqual(SHELL_CLOSES_ITSELF,[]);
+ for(const kind of ['CAPTAIN_ELECTION','JAIL_VOTE','BLACKOUT','OFFICER_APPOINTMENT','NAV_OFFICER_CONFIRM','PRE_TURN']){
+  assert.deepEqual(phaseClosed(model({phase:phase(kind),action:action('VOTE','targets',['seat-1'])}),model({phase:phase('ORDINARY_TURN')})),{id:`p-${kind}`},kind);
+ }
+ // The toast: Designer's words and icon (phase-bars.mjs), under an id of its own, once for the phase.
+ const closed=phaseClosed(open,expired);
+ assert.deepEqual(shellToast(expired,{closed}),{id:'closed:turn-1',text:'That phase closed · choices cleared',icon:'info'});
+ assert.deepEqual(shellToast(expired,{closed}),phaseClosedToast({id:'closed:turn-1'}));assert.equal(PHASE_WORDS.closed,'That phase closed · choices cleared');
+ assert.equal(shellToast(expired),null);
+ assert.equal(shellToast({...expired,surface:'display'},{closed}),null);assert.equal(shellToast({...expired,concealed:true},{closed}),null);
+ // Through the whole input: given once, kept by the shell's own checks, and dropped with the shell under the Food surface.
+ const input=shellInput(expired,{view:'room',room:'room-b',closed});
+ assert.deepEqual(input.toast,{id:'closed:turn-1',text:'That phase closed · choices cleared',icon:'info'});
+ assert.deepEqual(kept({viewer:'seat-4',toast:input.toast}).toast,input.toast);
+ assert.equal(shellInput(expired,{view:'room',room:'room-b'}).toast,null);
+ assert.equal(shellInput(expired,{view:'room',room:'room-b',closed,food:{active:true,exclusive:false}}).toast,null);
+ // It reads nothing private: every private field filled changes nothing.
+ const loud=m=>({...m,privateArea:{role:{name:'Alien'},offers:[{type:'ACTIVATE_BLACKHOLE'}],navigation:{position:'B1',direction:'Red'}},offices:{captainSeatId:'seat-4',officerSeatId:'seat-1',blockedSeatId:null}});
+ assert.deepEqual(phaseClosed(loud(open),loud(expired)),phaseClosed(open,expired));
+});
+
+test('the game\'s own controller clears an open choice without a word; its models give the toast once, and never for a cancel, a lost connection or a phone put away',async()=>{
+ // The controller's own test rig (planet-support.mjs): every model it emits, and the toast between each two.
+ async function watch(){
+  const view=planetView('Hacker'),r=rig(view),models=[];
+  r.controller.subscribe(m=>models.push(m));await r.controller.start();await r.advance(0);
+  const toasts=()=>{const out=[];for(let i=1;i<models.length;i++){const closed=phaseClosed(models[i-1],models[i]);if(closed)out.push(shellToast(models[i],{closed}));}return out;};
+  const vote=()=>{r.push({...structuredClone(view),viewRevision:2,phase:{id:'phase-6-jail',kind:'JAIL_VOTE',startedAt:61000,endsAt:121000},activeSeatId:null});};
+  return {...r,models,toasts,vote,last:()=>models.at(-1)};
+ }
+ const toast={id:'closed:phase-6-turn',text:'That phase closed · choices cleared',icon:'info'};
+ // The turn's time runs out under an open Move: at 0:00, and not again when the vote arrives.
+ let w=await watch();w.controller.begin('MOVE');assert.equal(w.last().action.step,'targets');
+ await w.advance(59_000);assert.equal(w.last().action.step,'targets');assert.deepEqual(w.toasts(),[]);
+ await w.advance(1_000);
+ assert.equal(w.last().action,null);assert.equal(w.last().connection,'live');assert.equal(w.last().phase.id,'phase-6-turn');
+ assert.equal(w.last().phase.expired,true);assert.equal(w.last().phase.trusted,true);assert.equal(w.last().phase.remainingMs,0);assert.equal(w.last().panel,'board');
+ assert.deepEqual(w.toasts(),[toast]);
+ w.vote();await w.advance(0);await w.advance(500);assert.equal(w.last().phase.id,'phase-6-jail');assert.deepEqual(w.toasts(),[toast]);
+ // Another phase arrives before 0:00.
+ w=await watch();w.controller.begin('MOVE');await w.advance(10_000);w.vote();await w.advance(0);await w.advance(500);
+ assert.equal(w.last().phase.id,'phase-6-jail');assert.deepEqual(w.toasts(),[toast]);
+ // "Pass your turn?" still open at the end is a choice; a pass the server accepted is not.
+ w=await watch();w.controller.begin('PASS_TURN');assert.equal(w.last().action.step,'confirm');await w.advance(60_000);assert.deepEqual(w.toasts(),[toast]);
+ w=await watch();w.controller.begin('PASS_TURN');await w.controller.confirm();await w.advance(0);assert.equal(w.last().action.step,'accepted');
+ w.vote();await w.advance(0);await w.advance(500);assert.equal(w.last().phase.id,'phase-6-jail');assert.deepEqual(w.toasts(),[]);
+ // The player cancels: nothing then, and nothing at the end.
+ w=await watch();w.controller.begin('MOVE');await w.advance(1_000);w.controller.dismiss();await w.advance(60_000);
+ assert.equal(w.last().phase.expired,true);assert.deepEqual(w.toasts(),[]);
+ // The connection goes stale under the choice, then the vote arrives: the banner said it.
+ w=await watch();w.controller.begin('MOVE');await w.advance(1_000);w.push(planetView('Hacker'),false);await w.advance(0);
+ assert.equal(w.last().connection,'stale');assert.equal(w.last().action,null);
+ w.vote();await w.advance(0);await w.advance(500);assert.equal(w.last().connection,'live');assert.deepEqual(w.toasts(),[]);
+ // The phone is put away under the choice and comes back in the vote.
+ w=await watch();w.controller.begin('MOVE');await w.advance(1_000);w.controller.setVisible(false);await w.advance(0);
+ assert.equal(w.last().concealed,true);assert.notEqual(w.last().connection,'live');
+ w.controller.setVisible(true);await w.advance(0);w.vote();await w.advance(0);await w.advance(500);
+ assert.equal(w.last().phase.id,'phase-6-jail');assert.equal(w.last().connection,'live');assert.deepEqual(w.toasts(),[]);
+ // Only a sheet open: the controller closes it at 0:00 too, and no toast says a choice was cleared.
+ w=await watch();w.controller.openPanel('card');assert.equal(w.last().panel,'card');await w.advance(60_000);
+ assert.equal(w.last().panel,'board');assert.deepEqual(w.toasts(),[]);
 });
