@@ -331,15 +331,6 @@ export function shellInput(model,{view='room',room=null,food=null,reducedMotion=
 }
 
 /**
- * The shell's intents, each to a call the game already makes: openPanel, begin, confirm, dismiss, retry,
- * checkReceipt, its local view switch and the session's refresh. Actions' footer ids (release 3): Register and Pass
- * confirm; Done closes; "Retry the same" and "Check receipt" are the controller's retry and checkReceipt; the
- * check's Cancel and the target bar's are `cancelCheck` and `cancelTarget` (actions-input.mjs actionsCancel). Its
- * chips go to the board ("Other rooms · n", a move's "Other rooms on the Board") or open the List, whose Back closes
- * it. `opened` hears which of the shell's controls opened something, so the focus can go back to it. `live()` is
- * false once the renderer is disposed: then nothing is called.
- */
-/**
  * A host sheet (`mountPlanetRenderer`'s `hostSheet`: the pre-game connection's Host controls, part 8) takes the
  * Settings sheet's place while it gives a frame, as Host controls opens from Settings and goes Back to it. Its frame
  * is the component's own (title, line, Back, Close, footer); `kind: 'host'` tells the renderer whose body to mount.
@@ -348,6 +339,16 @@ export function shellHostSheet(sheet,hostFrame){
  return sheet?.kind==='settings'&&hostFrame?{...hostFrame,kind:'host'}:sheet;
 }
 
+/**
+ * The shell's intents, each to a call the game already makes: openPanel, begin, confirm, dismiss, retry,
+ * checkReceipt, its local view switch and the session's refresh. Actions' footer ids (release 3): Register and Pass
+ * confirm; Done closes; "Retry the same" and "Check receipt" are the controller's retry and checkReceipt; the
+ * check's Cancel and the target bar's are `cancelCheck` and `cancelTarget` (actions-input.mjs actionsCancel). Its
+ * chips go to the board ("Other rooms · n", a move's "Other rooms on the Board") or open the List, whose Back closes
+ * it. `opened` hears which of the shell's controls opened something, so the focus can go back to it. `live()` is
+ * false once the renderer is disposed: then nothing is called. While a host sheet is open (`host.open()`), its
+ * footer, Back and Close are its own.
+ */
 export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,retry=null,checkReceipt=null,cancelTarget=null,cancelCheck=null,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null}){
  const when=run=>(...args)=>{if(live())run(...args);};
  const from=(intent,value=null)=>opened?.({intent,value});

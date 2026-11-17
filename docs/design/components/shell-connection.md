@@ -21,7 +21,7 @@
 | `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the round stamp's moment and clock (`roundStart`, `createServerClock`), a phase that closed under an open choice (`phaseClosed`), a host sheet in Settings' place (`shellHostSheet`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
 | `apps/game/hosted/planet/render.mjs` | Mounts the shell once, mounts the stage in `shell.stage`, the game's sheet content in `shell.sheetBody`, Food's gauge in `shell.slot('clock')`, and the result window and the status line in `shell.slot('cover')`. It updates, suspends, resumes and disposes the shell. It takes a `hostSheet` for the pre-game connection's Host controls ([below](#the-host-sheet-for-the-pre-game-connections-part-8)). It no longer draws the header, the tab bar, the Pass button, the sheet's frame or the target bar |
 | `apps/game/hosted/planet/app.mjs` | Imports `phone-shell.css`, and gives the renderer Retry's reconnect: the session's `refresh()` |
-| `apps/game/hosted/planet/phone.css`, `planet.css` | The old chrome's rules are removed. The game's two generic button rules keep off the shell's and the kit's controls. The stage fills the shell's stage; the result window and the status line sit in the cover |
+| `apps/game/hosted/planet/phone.css`, `planet.css` | The old chrome's rules are removed. The game's two generic button rules keep off the shell's and the kit's controls, and its sheet rules for `p` and `button` keep off a Designer component mounted in the sheet body (its own `.ms-kit` root: release 3's parts, the match's Settings and Host controls; the Pre-game builder's find). The stage fills the shell's stage; the result window and the status line sit in the cover |
 | `apps/game/hosted/vite.config.mjs` | One marked hunk: the shell's three files (`phase-bars.mjs` with shell 0.2.10) and the kit's two join the hosted build's `allowedSources` |
 | `apps/game/test/planet-phone-shell.test.mjs` | The mapping, privacy, the intents, the focus and the lifecycle; the phase-closed toast on models and on the game's own controller; the host sheet |
 | `design/tools/shell-connection-check.mjs` | The check: the real app, under the production headers, at both phone sizes |
@@ -193,7 +193,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 **Also pinned:** `app.mjs` and `render.mjs` by `phone-ui-production-consumer-approval.json`, `crew-consumer-approval-2026-11-07.json` and `pregame-production-consumer-approval-2026-11-08.json`; the Food record also pins `vite.config.mjs` (from the room connection's page).
 
 **These pass:**
-- `test:frontend`: 226 of 226 and 861 of 861 (the room connection's 845 and this one's 16), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
+- `test:frontend`: 226 of 226 and 864 of 864 (the room connection's 845 and this one's 19, on `aabb4417`), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
 - `typecheck`, `build`, `check:toolchain`, `check:workspace`, and `node design/tools/check-assets.mjs` (15 passed);
 - `packages/design-tokens/test/phone-ui-native-compare.test.mjs`: 7 of 7, with the doubled selectors.
 
@@ -228,9 +228,14 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
 
-**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `8ad0ff44` (shell 0.2.12 with kit 0.8.2 and room scene 0.5.1, the phase-closed toast, the host sheet hook and the doubled selectors) with the source clean and the art from `64e55516`, in one run. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, also passed 42 of 42. Before them, `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) passed 40 of 40, as did the in-game animation builder's run of its patch on its own commit before the 0.2.11 merge. Before those, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
+**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `211b5b58` (shell 0.2.12 with kit 0.8.2 and room scene 0.5.1, the phase-closed toast, the host sheet hook, the doubled selectors, and the game's sheet rules kept off Designer components in the sheet body) with the source clean and the art from `64e55516`, in one run. Before it, `8ad0ff44`, the same less the sheet rules, also passed 42 of 42. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, also passed 42 of 42. Before them, `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) passed 40 of 40, as did the in-game animation builder's run of its patch on its own commit before the 0.2.11 merge. Before those, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
 
-Against `883473be`'s record:
+Against `8ad0ff44`'s record:
+- Nothing in the frame moved. The tab bar is the same in all 42 captures. The top bar differs only at the result's ring (26 pixels), the harness's time.
+- The sheet rules change nothing here: nothing in this connection mounts a kit root in the sheet body, so the game's own sheets keep their rules. Inside the docked sheets, which are glass, only the room moving behind them differs (at most 850 pixels); the ballot's sheet doesn't differ at all.
+- The rest differs inside the stage, where the room moves. `concealed` is the same byte for byte at both sizes.
+
+Before, `8ad0ff44` against `883473be`'s record:
 - `closed` is new, at both sizes: the toast "That phase closed · choices cleared" under the bar at 0:00, the clock amber, Pass unavailable.
 - No bar, tab or sheet frame moved. The tab bar is the same in all 38 captures that both records have. The top bar differs only at the clock's digits (`turn`, `voted` and `ballot` on 390 × 844, at most 270 pixels) and the result's ring (at most 63 pixels): the harness's time at the capture.
 - Everything else that differs is inside the stage, in at most 48,216 pixels: the room's picture, which moves (the window's voyage and the figures' idle motion), also through a sheet's glass. `concealed` is the same byte for byte at both sizes.

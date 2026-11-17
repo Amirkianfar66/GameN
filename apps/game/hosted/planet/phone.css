@@ -26,9 +26,10 @@
 .planet-sheet-body{font-size:1rem}
 .planet-sheet-body>h2,.planet-result h2{font-size:1.125rem;line-height:1.25;margin:0 0 12px;overflow-wrap:anywhere}
 .planet-sheet-body>h3{font-size:1rem;line-height:1.3}
-.planet-sheet-body p,.planet-result p{font-size:.875rem;line-height:1.45;margin:8px 0;color:var(--phone-secondary);overflow-wrap:anywhere}
+/* A Designer component mounted in the sheet body (its own .ms-kit root there: release 3's parts, the match's Settings sheet and Host controls) keeps its kit's own forms: the game's sheet rules for p and button keep off it (also planet.css). The game's own content keeps them. */
+.planet-sheet-body p:not(:where(.planet-sheet-body .ms-kit *)),.planet-result p{font-size:.875rem;line-height:1.45;margin:8px 0;color:var(--phone-secondary);overflow-wrap:anywhere}
 .planet-sheet-body>button{display:block;width:100%;margin:6px 0;text-align:start}
-.planet-sheet-body button{background:rgba(8,11,18,.72)}
+.planet-sheet-body button:not(:where(.planet-sheet-body .ms-kit *)){background:rgba(8,11,18,.72)}
 .planet-sheet-body>button.planet-action-tile,.planet-sheet-body>button.planet-panel-option{display:flex;align-items:center;gap:12px}
 .planet-action-tile .planet-control-label,.planet-panel-option .planet-control-label{min-width:0;overflow-wrap:anywhere}
 .planet-result{overflow:auto;padding:14px;font:1rem/1.4 system-ui,sans-serif}
