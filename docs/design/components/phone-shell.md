@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.11`, with `component-kit-0.8.1`. **Status (17 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.11`, with `component-kit-0.8.2`. **Status (17 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -35,7 +35,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
 | `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell`. It imports the kit's styles |
 | `phone-shell/phase-bars.mjs` | The phase bars' words (0.2.10): `phaseBar()`, `movedBar()`, `loadingBar()`, `reconnectingBar()`, `phaseClosedToast()`, `PHASE_WORDS`, `PHASE_BAR_PHASES`, `PHASE_BAR_REFUSED`. It imports the shell only for `clockText()`, and the shell does not import it |
-| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.1`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are, and so is how it follows the text size (0.2.11) |
+| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.2`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are, and so is how it follows the text size (0.2.11). Since 0.8.2 the toast's words wrap where they don't fit on one line |
 | `icons.mjs` | The phone interface's icon family (from #261) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) and the pack's own bar for each game step (`phase-cases.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
@@ -103,6 +103,7 @@ shell.dispose();             // removes the element and its listeners
   - It is this viewer's: dropped while concealed and for a new viewer, unless the same update gives the new viewer's own. The reconnecting banner is the phone's, and a new viewer keeps it.
   - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
 - **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
+- **The toast's words wrap (kit 0.8.2).** Words too long for one line wrap inside the phone instead of being cut. The in-game animation builder found "That phase closed · choices cleared" (sheet 45) cut at the Large and Largest text. The shell itself is unchanged.
 - **The text size changing in a match (0.2.11, kit 0.8.1).** A part opened after the text size changes now takes the new size's rules, as a part open through the change does. The Gameplay builder found it on its Actions test page.
   - **What went wrong.** At 200 % on 390 × 844, a target bar opened after the change stood side by side, 294 px tall, and its chip's label was cut again: 0.2.8's layout. A sheet opened afterwards kept Cancel and "Register Rescue" side by side, and in its body a row's value stayed beside its title and Card · Knowledge · Resources stayed a row. A shell mounted at 200 % draws the bar stacked, 238 px tall.
   - **Why.** In Chromium (153), a container reads its em again for its queries only while something inside it uses one of them. With nothing open, nothing in the shell did, so what opened next took the old size's rules.
@@ -349,7 +350,7 @@ Listed, not omitted:
   | --- | --- |
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10) |
 | `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
-  | `packages/design-tokens/test/kit.test.mjs` | 7 of 7, with the kit's own check: every builder agrees with the pinned pack's, the toast included ([the kit's page](kit.md)) |
+  | `packages/design-tokens/test/kit.test.mjs` | 8 of 8, with the kit's own check: every builder agrees with the pinned pack's, the toast included, and `followTextSize` (0.8.1) ([the kit's page](kit.md)) |
   | `npm run test:design` | 398 of 398, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.2.11's record) |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
@@ -373,8 +374,14 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 27 of 27 checks pass.
-    - **As the page comes (26):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (twice), a phase bar's words, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 28 of 28 checks pass.
+    - **As the page comes (27):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, dispose and motion.
+      - **The toast at larger text (kit 0.8.2):** four of the game's toasts at 100, 150 and 200 % on 390 × 844 and 430 × 932, and at 100 and 200 % on 320 × 568: 32 toasts. The four are "The ship moved · Round 12 complete", "That phase closed · choices cleared", "Captain election open" and "Turn passed".
+        - Each stays inside the phone less 16 px a side.
+        - Every line of its words lies inside its words' box and on its paper, rounded corners included.
+        - Words that fit on one line keep one line; words that don't, wrap.
+        - The two longest take two lines on the 390 and 430 phones at 150 and 200 %, and "Captain election open" two at 200 % on 390. On the 320 phone they take three at 200 %. At 100 % every toast on the 390 and 430 phones keeps its one line and its width (320.9, 316.2, 214.2 and 145.9 px).
+        - Run against kit 0.8.1's stylesheet, 14 of the 32 fail: one line, cut. Those are the in-game animation builder's ten at 390 and 430, and four on the 320 phone.
       - **A phase bar's words (0.2.10):** one mounted shell is given the lit Blackout's bar at each second, "Lights out in 0:03", "0:02" and "0:01", then the dark one. The bar's left part is built again each time, so no old line can stay. The bar stays 99 px, Promises, the round, the clock and ⋮ keep their elements and their places, Promises keeps the focus, and no layout is reported.
       - **An eliminated player's banner (0.2.8):** the pack's words and icon, `role="status"`, and no button. The phone is live: a tab Frontend offers takes a tap, and Actions, not offered, is described by its reason. A large docked sheet docks 8.6 px below it. Reconnecting takes its place, with Retry, and the eliminated player's comes back when given again. A new viewer drops it unless given again; concealment drops it, and it doesn't come back by itself. A new viewer keeps the reconnecting banner.
       - **The toast takes no tap (kit 0.8.0):** its computed `pointer-events` is `none`. With its pointer events on for that one measurement, it lies over a button in the cover; with them off, a tap at its centre reaches the button, once. The layers check reads the toast's paint order the same way. With `pointer-events: none` taken out, the Pre-game builder saw this check fail and the layers check still pass.
@@ -410,7 +417,13 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `1f5ad81b`, with kit 0.8.1 and shell 0.2.11, and the source clean. Against `62c0bca4`'s record (shell 0.2.10):
+    - Recorded on `f0c24a26`, with kit 0.8.2 and shell 0.2.11, and the source clean. Against `1f5ad81b`'s record (kit 0.8.1):
+      - No bar, tab, sheet or overlay moved.
+      - At the Standard text the toast is unchanged: the `closed` captures, which show it, differ only inside the room's picture.
+      - What 0.8.2 changes shows at the Large and Largest text, which the probe's new check measures.
+      - 18 captures are unchanged byte for byte, and 10 with no pixel more than 32 of 255 apart.
+      - 36 differ in at most 2,236 pixels, all inside the room's picture (its ambient motion), between 310 and 564 px from the top.
+    - Before: `1f5ad81b`, with kit 0.8.1 and shell 0.2.11, and the source clean. Against `62c0bca4`'s record (shell 0.2.10):
       - No bar, tab, sheet or overlay moved: what 0.2.11 changes shows only when the text size changes on a live phone, which the probe's new check measures.
       - 19 captures are unchanged byte for byte, and 13 with no pixel more than 32 of 255 apart.
       - 32 differ in at most 56 pixels, all inside the room's picture (its ambient motion), between 310 and 539 px from the top.
