@@ -155,7 +155,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 **Also pinned:** `app.mjs` and `render.mjs` by `phone-ui-production-consumer-approval.json`, `crew-consumer-approval-2026-11-07.json` and `pregame-production-consumer-approval-2026-11-08.json`; the Food record also pins `vite.config.mjs` (from the room connection's page).
 
 **These pass:**
-- `test:frontend`: 226 of 226 and 860 of 860 (the room connection's 845 and this one's 15), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
+- `test:frontend`: 226 of 226 and 861 of 861 (the room connection's 845 and this one's 16), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
 - `typecheck`, `build`, `check:toolchain`, `check:workspace`, and `node design/tools/check-assets.mjs` (15 passed);
 - `packages/design-tokens/test/phone-ui-native-compare.test.mjs`: 7 of 7, with the doubled selectors.
 
@@ -268,10 +268,11 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - the fence not seeing a stylesheet's `@import`;
   - the production exclusion not reaching the hosted app;
   - the harness's `openJailVote()` keeps the board's checkpoint, which the Blackout release's contract refuses ("Shared checkpoint publication round and phase must agree"); the check opens its vote with `AFTER_BLACKOUT`, as the scenario builder does.
-- **For Frontend:** eighteen development scripts drive the old header, tab bar, Pass button and sheet by their ids (`#planet-nav-*`, `#planet-pass`, `#planet-top-*`, the old sheet's `#planet-confirm` and `#planet-close`) or classes (`.planet-header`, `.planet-nav`, `.planet-sheet`, `.planet-target-bar`). No suite runs them, and they were not changed or run here. They need the shell's controls, named beside today's as the comparison's steps now are:
+- **For Frontend:** seventeen development scripts, which no suite runs, drive the old header, tab bar, Pass button and sheet by their ids (`#planet-nav-*`, `#planet-pass`, `#planet-top-*`, the old sheet's `#planet-confirm` and `#planet-close`) or classes (`.planet-header`, `.planet-nav`, `.planet-sheet`, `.planet-target-bar`). No suite runs them, and they were not changed or run here. They need the shell's controls, named beside today's as the comparison's steps now are:
   - `apps/game/dev/phone/`: `capture.mjs`, `presentation-capture.mjs`, `blackout-capture.mjs`, `blackout-connected.mjs`, `food-connected.mjs`, `food-app-smoke.mjs`, `food-chrome-regression.mjs`, `round-order-capture.mjs`, `art-checks.mjs`, and `food/app-main.mjs`, whose Tasks fallback goes through `#planet-nav-actions`;
   - `apps/game/dev/planet/`: `capture.mjs`, `capture-library.mjs`, `capture-stage.mjs`, `capture-terminal-return.mjs`, `capture-review-safety.mjs`, `capture-private-feedback.mjs`;
-  - `apps/game/dev/planet-emulator/capture.mjs` and `apps/game/dev/host-abort/capture.mjs`.
+  - `apps/game/dev/host-abort/capture.mjs`.
+  - **One of them runs in CI, so the connection changes it:** `apps/game/dev/planet-emulator/capture.mjs`, step 9 of the `backend-emulator` job. Its three in-match steps (the host's ⋮, then the recovered player's Card tab and the sheet's ✕) now take doubled selectors, the old id or the shell's control, as `design/tools/lib/phone-ui-native-parts.mjs` does. Its pre-game steps are the Pre-game builder's to move with release 4. The Pre-game builder found it.
 - **For Frontend:** the review. These change behaviour:
   - Actions is unavailable to an eliminated player;
   - the 5 s result's round button is Vote, unavailable;
