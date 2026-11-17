@@ -2,11 +2,11 @@
 
 **Status (17 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet, and it is not a release.
 - Release 3 of the owner's plan of 16 November 2026. Its first step is Actions (#273), as the plan's order says; the other parts follow on this branch, each in its own commit.
-- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's head `03119bd7` is merged at `9ba0858e`: `phone-shell-0.2.11` with the phase bars, `component-kit-0.8.1`, `room-scene-0.5.0`.
+- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610` and `aa46726c` at `e97df11a`: `phone-shell-0.2.11` with the phase bars, `component-kit-0.8.2`, `room-scene-0.5.1`. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`.
 - Integration first approves the source fence's new marked hunk. The changed files meet the pins the base already meets: `app.mjs` and `render.mjs`, and, through the drawing-port fence, `vite.config.mjs` (see [The gates](#the-gates)).
 
 **What it is:**
-- On a player's phone, Actions is Designer's Actions component (`actions-0.2.2`, with `play-parts-0.1.2` on `component-kit-0.8.1`), used as it is:
+- On a player's phone, Actions is Designer's Actions component (`actions-0.2.3`, with `play-parts-0.1.2` on `component-kit-0.8.2`), used as it is:
   - its parts in the shell's sheet body: the tiles, the List, the check, After Register, "Outcome unknown" and Pass's line;
   - its frames, target bars, chips and toasts in the shell.
 - It replaces the game's Actions sheet, the generic check of Actions' commands, the "Outcome unknown" body and its two buttons, the Pass sheet's frame, the target bar's words for Actions' commands, and the pass toast's words.
@@ -40,10 +40,10 @@ What each step gives the shell and the sheet's body. Every frame, bar, chip and 
 | The List | the same, with the board's List open | `targetListSheet()`: "Choose from a list", with Back | `mountTargetList()`: by room, the viewer's room first |
 | The check | `confirm` | `checkSheet()`: Cancel and "Register Rescue", usable as `canConfirm` | `mountActionCheck()`: this phone's pick, with its room, and the facts |
 | Registering | `sending` | `checkSheet({ phase: 'sending' })`: Register busy, "Registering…" | the check keeps what it showed: it is given its status only |
-| Accepted | `accepted` (one revision) | `afterSheet()`: Done | `mountAfterRegister()`: REGISTERED, ACCEPTED (Private talk), ACTIVE (Clone) or CAPTURED (Suppress), and the model's registration words |
+| Accepted | `accepted` (one revision) | `afterSheet()`: Done | `mountAfterRegister()`: REGISTERED, ACCEPTED (Private talk), ACTIVE (Clone) or CAPTURED (Suppress), and the handoff's words: Frontend's line where its copy has one, the component's `afterWords()` for the rest and for the time line, from the round, and the names from this phone's own pick ([After Register](#after-register)) |
 | Hack Ship and Blackhole accepted | `accepted` | the toast `registeredToast()`: "Blackhole registered"; the tiles, if Actions is open (L7) | the tiles, the tile REGISTERED |
-| No answer came | `recovery` | `unknownSheet()`: "Retry the same" and "Check receipt", usable as `canRetry` and `canCheck`, Check busy while it asks, Retry busy while it resends | `mountOutcomeUnknown()`: "Rescue Crew 3 was sent, but no answer came back." from this phone's own send |
-| Pass | `PASS_TURN` at `confirm` or `sending` | `passSheet()`: Cancel and Pass, Pass usable as `canConfirm` | `mountPassNote()`, with no line (B6) |
+| No answer came | `recovery` | `unknownSheet()`: "Retry the same" and "Check receipt", usable as `canRetry` and `canCheck` (the component's own flags since 0.2.3), Check busy while it asks, Retry busy while it resends | `mountOutcomeUnknown()`: "Rescue Crew 3 was sent, but no answer came back." from this phone's own send; "Pass was sent, …" and "Position A3 was sent, …" too (0.2.3) |
+| Pass | `PASS_TURN` at `confirm` or `sending` | `passSheet()`: Cancel and Pass, Pass usable as `canConfirm` (its `canPass`, 0.2.3) | `mountPassNote()`, with no line (B6) |
 | Passed | `PASS_TURN` at `accepted` | no sheet; `passedToast()`: "Turn passed" | |
 | Move | `MOVE` at `slots` (the tile chose the viewer's room) | no sheet; `moveBar()`: "Move within Room B" with "Choose an empty position · or another room on the Board"; `moveChip()`; on the board, "Move · uses this round’s move" | none; the scene's positions |
 | Move's check | `MOVE` at `confirm` | `checkSheet({ type: 'MOVE' })`: "Register move" | the check: "Move to B5", "Room B", the fact |
@@ -74,6 +74,17 @@ It is this phone's own tap, not data from the server. A model that carries the c
 
 An "Outcome unknown" this phone did not see sent has nothing to name, so its body is empty (A4). That happens after a reload, after a hidden page, or when Actions was closed while it sent. The title and the two buttons still show.
 
+## After Register
+
+The Lead's change of 17 November: the handoff's [After Register](../phone-ui-handoff.md#after-register) table, never the model's generic "Registered. Resolution is pending." (#222 item 12).
+- **Frontend's copy where it has the line,** from `en` in `@mothership/presentation`, which the fence already admits: `acceptedTarget` and `acceptedDetail` for Rescue, Protection and a shot, `compound.supplyAccepted` and `supplyDetail` for Supply, and `acceptedDetail.hack` for the private talk's detail (the Lead's answer, 17 November). For example "Rescue of Crew 3 registered." and "This is not a result. Registered actions are resolved at the end of the round."; the private talk's "The phase shown at the top of this screen says what happens next."
+- **The component's `afterWords()`** (`actions-0.2.3`) for the rest: Blackout, the private talk's headline (in the pack's name), the Clone and the Engineer. It also gives every time line, from the round the server reports: "Registered · Round 6 · your turn", then "End of Round 6 · Rescue is resolved, after the attacks".
+- **Who:** the accepted action names no one (A2), so the names are this phone's own pick, as at the check: the display name, or "yourself". Without the pick, the headline is Frontend's "The server accepted your action.", with no time line (L6).
+- **What the model lacks stays out,** as the Lead accepted on 17 November. The Actions panel's private area carries no `abilities` (A15, which the Lead takes to #222), so there is:
+  - no Clone end: "Active from now. It used your main action for this round.";
+  - no Protection start: no "Round 7 · Protection for …: active" step;
+  - no capture: "Captured now: the players in the other room. …", with no captured players.
+
 ## The taps
 
 | Tap | Call |
@@ -86,7 +97,7 @@ An "Outcome unknown" this phone did not see sent has nothing to name, so its bod
 | Register, Pass | `confirm()` |
 | Done | `dismiss()` |
 | Retry the same, Check receipt | `retry()`, `checkReceipt()` |
-| Cancel on the bar | back to the tiles: `openPanel('actions')`. Once the Disabler's position is fixed, only hidden: `dismiss()` (T2) |
+| Cancel on the bar | back to the tiles: `openPanel('actions')`. Once the Disabler's position is fixed, only hidden: `dismiss()` (T2), until shell 0.2.12's bar without Cancel (the Lead's decision, [Open](#open)) |
 | Cancel in the check | back to the tiles; a move back to choosing, with nothing picked (Q1). While it sends, back to the tiles: it recalls nothing (L5) |
 | The chips | "Other rooms · n" and "Other rooms on the Board": the board view. "List": the List; its Back closes it |
 
@@ -103,7 +114,8 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - **The Hacker's Scan and final Code:** their tiles are Actions'; their flows stay the game's until the Hacker's step.
 - **The other commands' flows:** the ballot, the declaration, the Promises, the windows, the Officer's and the Captain's.
 - **The dark Actions sheet:** "People and windows are hidden." and its "Choose fixed slot", from which the Disabler starts choosing.
-- **The status line in the cover:** for example "Outcome unknown. Check the original receipt before any new command." over "Outcome unknown", and a rejection's words.
+- **The status line in the cover:** a rejection's words and the game's messages. While Actions' "Outcome unknown" is open it hides, so the notice says it once (the Lead, 17 November).
+- **The screen-reader facts** the shell connection keeps unseen: the offices, the shared checkpoint and the current step (`#ms-action-step`). At Actions' accepted step they still hold the model's prompt, "Registered. Resolution is pending." (A16, for the Lead).
 
 ## The boundary
 
@@ -119,7 +131,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
-- **These pass:** `typecheck`, `build`, and the game's tests, 871 of 871 on `9ba0858e` (the shell connection's 861 and this one's 10).
+- **These pass:** `typecheck`, `build`, and the game's tests, 871 of 871 on `1e723308` (the shell connection's 861 and this one's 10), as on `9ba0858e`.
 
 ## Evidence
 
@@ -131,13 +143,16 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - the bars and chips: a person, Supply's second, a move's position, here and elsewhere, off the board, the Disabler's position and its fixed bar;
 - the toasts;
 - this phone's pick, through "Outcome unknown", and dropped when it should be;
-- the parts' inputs;
+- the parts' inputs: After Register's lines and time line for every action of the handoff's table, through this phone's taps, the viewer as "yourself", and none without the pick; Pass's and the Disabler's position's "Outcome unknown";
 - the taps: Move's replay, the Disabler's one tap, and nothing after dispose;
 - Cancel, and the shell's routing of every new id;
 - privacy: concealed and on a display, none of it;
 - the scene's marks.
 
-**A mutation run** made 20 changes to the connection's source, each restored from its saved bytes. Every one is caught by the three connection test files (this one, the shell's and the room scene's), on `4367f7e0` and again on `9ba0858e`. The first run missed one, Retry's busy "Outcome unknown"; its test is `4367f7e0`.
+**A mutation run** made 27 changes to the connection's source, each restored from its saved bytes. Every one is caught by the three connection test files (this one, the shell's and the room scene's), on `aef40283`.
+- It adds the Lead's changes: After Register's words and time line (Frontend's headline and detail, the private talk's detail, the round, the pick, the viewer as "yourself", Supply's order), the flags `canRetry`, `canCheck` and `canPass`, and the positions of Pass's and the Disabler's "Outcome unknown".
+- Two of the earlier 20 fell with the code they changed (the connection's own `usable()`, which `actions-0.2.3`'s flags replace).
+- The earlier runs, of 20, were on `4367f7e0` and again on `9ba0858e`. The first run missed one, Retry's busy "Outcome unknown"; its test is `4367f7e0`.
 
 ### The check
 
@@ -146,18 +161,20 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932.
 
-**Result:** 36 of 36 captures pass: eighteen states at both sizes, recorded on `9ba0858e` with the source clean and the art from `64e55516`, in one run. The first record, on `4367f7e0` before #307's head was merged, also passed 36 of 36.
+**Result:** 36 of 36 captures pass: eighteen states at both sizes, recorded on `1e723308` (#273's `b1aac9d2` and #307's `aa46726c` merged in) with the source clean and the art from `64e55516`, in one run.
+- **Against the record on `cf7e72d1`** (the Lead's changes 1 and 2): every recorded field of the 36 captures is the same, but for the bundle's file name in the known Zod report; 2 are byte for byte the same.
+- **Earlier records,** on `9ba0858e` (before the Lead's changes) and on `4367f7e0` (before #307's head was merged), also passed 36 of 36.
 
 | State | What it shows and checks |
 | --- | --- |
 | `tiles` | The Hacker's tiles: Scan, Final Code and Move usable; Private talk and Shoot "Not available now", taking no tap; "Your turn · Round 6"; "Actions · Room B". The part first, no game body |
 | `rescue` | The Doctor's Rescue: the bar "Rescue · Choose a player" with Cancel, Crew 3 offered in the Hospital, no sheet, Pass kept (T2) |
 | `rescue-check` | "Check and register": "Rescue Crew 3", "Player 3 · Hospital", the portrait, Crew 3 marked in the scene, Cancel and "Register Rescue", nothing sent. Then Cancel returns to the tiles |
-| `rescue-after` | Register sends `RESCUE` for seat-3; REGISTERED with "Registered. Resolution is pending.", no time line, nothing drawn on the target. Then Done closes it |
-| `unknown` | No answer: "Outcome unknown", "Rescue Crew 3 was sent, but no answer came back." and "Check before doing anything else.", Retry the same and Check receipt. Then Retry resends the same command id, and it registers |
+| `rescue-after` | Register sends `RESCUE` for seat-3; REGISTERED with "Rescue of Crew 3 registered.", "This is not a result. Registered actions are resolved at the end of the round.", and the time line "Registered · Round 6 · your turn" → "End of Round 6 · Rescue is resolved, after the attacks"; nothing drawn on the target, and no "Resolution is pending" on the phone. Then Done closes it |
+| `unknown` | No answer: "Outcome unknown", "Rescue Crew 3 was sent, but no answer came back." and "Check before doing anything else.", Retry the same and Check receipt, and no status line under the bar (one message). Then Retry resends the same command id, and it registers |
 | `list` | Rescue offered in three rooms: on the board, "Choose from a list", "Rescue · everyone you can reach", Room A, Room B and the Hospital. Then a row opens its check |
 | `other-rooms` | The same in the room: "Other rooms · 2"; then the chip goes to the board, its bar "every room" and the List chip |
-| `suppress` | "Suppress navigation · Only you see this", no portrait; then CAPTURED and the model's words |
+| `suppress` | "Suppress navigation · Only you see this", no portrait; then CAPTURED, "Navigation suppressed.", "Captured now: the players in the other room. …" and its two steps |
 | `blackhole` | "Activate Blackhole" with its fact; then the toast "Blackhole registered" over the tiles, the tile REGISTERED, no After Register |
 | `move` | The Move tile: Room B's position B5 in the room, "Move within Room B · Choose an empty position · or another room on the Board", "Other rooms on the Board" |
 | `move-check` | "Move to B5", "Room B", "Entering or repositioning spends this round’s movement.", B5 marked, "Register move". Then Cancel returns to choosing with nothing picked |
@@ -180,10 +197,11 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting`:
-- The build is the check's own bundle (`--keep`); it names `9ba0858e`, clean, with art from `64e55516`.
+- The build is the check's own bundle (`--keep`): it names `1e723308`, clean, with art from `64e55516`. The pack is read at `aef40283`, the record's commit, clean.
 - Every part was drawn with no problem met, the steps reaching Actions' tiles, the scene's person and the footer's Register.
 - Its `compare.json` is in `design/phone-ui/review/match-connection/`; its pictures stay outside the repository.
-- **In the pairs:** the tiles, the bar, the check, After Register and "Pass your turn?" take the pack's form in the pack's places. The differences are listed next.
+- **In the pairs:** the tiles, the bar, the check, After Register and "Pass your turn?" take the pack's form in the pack's places. After Register now has the pack's headline, detail and time line: "Rescue of Crew 3 registered.", then "Registered · Round 6 · your turn" and "End of Round 6 · Rescue is resolved, after the attacks". The differences are listed next.
+- **`clone` (29.2)** is the tool's own steps, which open the Card: it shows no Clone. The connection's Clone words are in the test (the shorter line, A15), and Actions' own check draws the Clone's After Register.
 
 ### Differences from the pack
 
@@ -192,10 +210,9 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
   - a role's own tile the server does not offer is not shown, where T3 shows it unavailable (A7: the role is not under Actions);
   - unavailable tiles say "Not available now" (B1).
 - **The check:** the facts are the game's confirmation words where it has any (B7); Rescue's has none.
-- **After Register:** the model's words ("Registered. Resolution is pending.") where the pack says "Rescue of Ava registered." and what follows; no time line (the model has none).
+- **After Register:** the handoff's words. What the Actions panel's model lacks stays out (A15): the Clone's end, Protection's start, and the Engineer's capture and its players.
 - **Pass:** no "The turn goes to Eli · Player 5" (B5), and no "Your move stays open…" line (B6).
 - **The Disabler** starts from the dark Actions sheet's "Choose fixed slot". In sheet 30 the positions are offered as the dark begins, with no tap; the controller offers them only after `begin('SELECT_BLACKOUT_SLOT')`.
-- **"Outcome unknown"** shows the game's status line too, in the cover.
 - The harness's sample names, rooms and rounds; the pack's 47 and 34 px safe areas.
 
 ## Gaps, for #222 through the Lead
@@ -215,8 +232,10 @@ The connection works around none of these by inventing data. Where it holds this
 | A8 | A draft ends at every phase change, and each turn is a phase | Frontend's call |
 | A11 | No back step: Move's Cancel begins it again | Frontend |
 | A12 (new) | The Disabler's positions need `begin('SELECT_BLACKOUT_SLOT')`; sheet 30 offers them as the dark begins | Frontend |
-| A13 (new) | `PASS_TURN` and `SELECT_BLACKOUT_SLOT` have no look in `ACTION_LOOKS`, so their "Outcome unknown" names nothing | Designer (Actions' next change) |
-| A14 (new) | `unknownSheet()` and `passSheet()` take no `canRetry`, `canCheck` or `canPass`, so the connection sets their footer's `enabled` | Designer (Actions' next change) |
+| A13 | Done in `actions-0.2.3` (#273, merged here): "Outcome unknown" names Pass and the Disabler's position | Designer |
+| A14 | Done in `actions-0.2.3`: `canRetry`, `canCheck` and `canPass` | Designer |
+| A15 (new) | The Actions panel's private area carries no `abilities`: After Register has no Clone end, Protection start or capture | Frontend |
+| A16 (new) | At an accepted action, the screen-reader facts' current step (`#ms-action-step`) and checkpoint keep the model's prompt, "Registered. Resolution is pending." | The shell connection's (the Lead), or Frontend's `planetRegistrationText` |
 
 ## Behaviour changes, for Frontend's review
 
@@ -234,9 +253,9 @@ The connection works around none of these by inventing data. Where it holds this
 
 - **For the Lead:**
   - the gaps above, for #222;
-  - A13 and A14, which are Actions' next change (mine);
+  - change 3, the fixed Disabler bar's Cancel: the engine offers no `SELECT_BLACKOUT_SLOT` once a position is fixed (`packages/engine/src/planet-game/offers.ts:22`, `commands.ts:73`), so Cancel cannot go back to choosing. The Lead decided on a fixed bar with no Cancel, through a shell option to come (`target.cancel: false`, shell 0.2.12 on #265), and takes the departure from sheet 30 to the owner and #222; it is built once both are in. Until then Cancel only hides the bar;
+  - A16, the screen-reader step: the hidden step takes After Register's headline (a patch to the Lead's shell connection), or Frontend changes `planetRegistrationText`;
   - the empty "Outcome unknown" when this phone did not see the send (A4): a model change, or a type-less specimen ("Your action was sent, …"), which would be new words for the Lead and the owner;
-  - on this branch, `shell-connection-check.mjs`'s `pass` and `actions` states expect the game's old Pass footer id and Actions body. This check covers those states now. I left your tool as it is.
 - **For Integration:**
   - the fence hunk;
   - the fence not seeing `play-parts.css`'s `@import`;
