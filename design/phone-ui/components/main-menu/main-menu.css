@@ -1,0 +1,37 @@
+@import url("../kit/kit.css");
+@import url("../entry-parts/entry-parts.css");
+
+/*
+ * The main menu's styles: runtime source, Designer's (main-menu.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/screens.css .menu-hero, .menu-actions, .menu-settings, .entry-plain), scoped under
+ * .ms-main-menu so nothing here reaches the rest of the app and nothing of the app's reaches in. The settings
+ * button, Recover and the offline note are the shared kit's (../kit/kit.css), and Join and Host the entry
+ * parts' (../entry-parts/entry-parts.css): here, only where they sit.
+ */
+
+.ms-main-menu {
+  /* The safe areas: the browser's, unless Frontend gives them (main-menu.mjs sets them inline). */
+  --ms-mm-safe-t: env(safe-area-inset-top, 0px);
+  --ms-mm-safe-b: env(safe-area-inset-bottom, 0px);
+  position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+  /* The pack's phone canvas (kit.css --canvas, the kit's --ms-k-canvas). */
+  background: var(--ms-k-canvas);
+}
+.ms-main-menu:focus { outline: none; }
+
+/* The hero: the top 58 %, with the canvas fading over its lower 40 % (the pack's .menu-hero and its ::after). */
+.ms-main-menu .ms-mm-heroframe { position: absolute; inset: 0 0 auto; height: 58%; overflow: hidden; }
+.ms-main-menu .ms-mm-hero { position: absolute; inset: 0; overflow: hidden; }
+.ms-main-menu .ms-mm-fade { position: absolute; inset: auto 0 0; height: 40%; pointer-events: none; background: linear-gradient(to bottom, rgba(16, 20, 28, 0), var(--ms-k-canvas)); }
+/* Larger text only: when the choices rise into the hero, the canvas covers it from 24 px above their top
+   (main-menu.mjs places it), so no word of the choices sits on the hero's words. Never drawn at the Standard text. */
+.ms-main-menu .ms-mm-cover { position: absolute; left: 0; right: 0; bottom: 0; top: var(--ms-mm-cover-top, 100%); pointer-events: none; background: linear-gradient(to bottom, rgba(16, 20, 28, 0) 0, var(--ms-k-canvas) 24px); }
+.ms-main-menu .ms-mm-cover[hidden] { display: none; }
+
+/* Display settings: the kit's 44 px icon button, 4 px under the top safe area, 8 px from the right. */
+.ms-main-menu .ms-mm-settings { position: absolute; top: calc(var(--ms-mm-safe-t) + 4px); right: 8px; z-index: 5; }
+
+/* The choices: at the foot, 16 px from the sides and 18 px over the bottom safe area, 12 px apart. */
+.ms-main-menu .ms-mm-actions { position: absolute; left: 16px; right: 16px; bottom: calc(var(--ms-mm-safe-b) + 18px); display: flex; flex-direction: column; gap: 12px; }
+/* Recover my seat: the kit's plain button, centred (the pack's .entry-plain). */
+.ms-main-menu .ms-mm-actions .ms-mm-recover { align-self: center; }
