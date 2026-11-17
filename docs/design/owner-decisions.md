@@ -305,6 +305,27 @@ A test that cost nothing was started.
 - **The other rooms' pictures.** They wait for the Room B test.
 - **The game's rooms.** Until the owner approves a new room, today's approved rooms and places stay in the game.
 
+**The owner's approval of the colour, the same day,** after seeing the one Room B test picture beside the first Option 1 picture and today's code-drawn Room B. Word for word:
+
+> First let me comment on adding color to rooms ambient I really like the new color more vivid I approve it completely
+
+**The picture:** PV1-P.
+- It is on [the records page](https://claude.ai/artifact/DktwvLiaiYHRKTMpQLR97h), version 1794933523-24c0, sha256 `1f24a2cc4eefa6f982bff43612aa03c7327ba744a4aca61a61a9c20e7cb2ed0d`.
+- It is AI-generated from the shared-view sheet's version 2 (pv1-shared, version 1794932851-a70e).
+- It passed every check on the first attempt. In the colour check, 97% of its walls and deck are in Room B's family, at a median hue of 307°.
+
+**What it decides:**
+- **Room pictures are painted in their room's own colour family from the code,** as vivid as this picture. The approval covers the colour of every room's pictures, not only Room B's.
+- **How the colour is held:**
+  - each picture's guide is painted as the room's colour plan, in the family's five values;
+  - the prompt names those values;
+  - the colour check confirms the picture before it is used.
+- **The reference for strength:** PV1-P is the reference for how strong the colour is.
+
+**What it does not settle:**
+- **The camera.** The owner wrote this as their first comment. Whether the rooms use Option 1 or a view from each place comes next.
+- **The code's ambient in the picture's openings.** That test page is on hold until the camera is settled.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
