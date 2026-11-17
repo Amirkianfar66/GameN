@@ -235,6 +235,24 @@ After the Pre-game Animation builder's blockout comparison of a shared eye-level
 - **The Lead's point for the test:** from a station on a ring, the two nearest neighbours stand far to either side. The blockout measures the field of view each station needs, and compares ways to fit all four others: an uneven ring, a slightly wider lens, or a view the player can drag a little.
 - **The crew in the test:** the approved drawings as stand-in cut-outs. New side or three-quarter drawings of the crew go to the owner before anyone draws them.
 
+**Four positions and four views, the same day,** answering the Lead's question after the five-station ring blockout. Word for word:
+
+> Lets for simplicity say 4 positions in each room and 4 view ,always 1 player can not see 1 position if it filled as a test
+
+**What the five-station blockout had shown** ([the ring page](https://claude.ai/artifact/UoYoz7fdGb7i1xtmGZy3CR), version 1):
+- From every station, holding all four others needed about 126°, drawn as a curved panorama.
+- Everyone was seen from the front or at three-quarter, never from behind, and every tag and tap passed at both phone sizes.
+- The people were small: 71–79 px tall across the room and 115–131 px beside you at 390 × 844, against about 330 px in today's room view. Floor lines bent.
+
+**What it sets for the Room B test:**
+- **Four places, B1–B4,** around the walls, facing the open centre. B5 is left out of the test.
+- **Each view shows two of the other three:** the one opposite and one neighbour. All four cameras turn the same way, so each place is out of view for exactly one player.
+- **The one out of view, when that place is filled,** is marked at the edge of the view with their number and name. Tapping the marker works like tapping the person, so targets and the Blackout work as before. No rule changes.
+- **A straight lens,** the narrowest that holds the two whole.
+- **The order:** a blockout of the four views, the Lead's check, then the four generated pictures and a test page for the owner.
+
+**What it does not settle:** the game's room capacities stay as recorded above (Room A and Room B hold five) unless the owner changes them. If per-place views are chosen for the game, a room of five needs either a fifth view or a limit of four.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
