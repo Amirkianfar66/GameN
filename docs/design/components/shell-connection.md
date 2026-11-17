@@ -193,7 +193,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 **Also pinned:** `app.mjs` and `render.mjs` by `phone-ui-production-consumer-approval.json`, `crew-consumer-approval-2026-11-07.json` and `pregame-production-consumer-approval-2026-11-08.json`; the Food record also pins `vite.config.mjs` (from the room connection's page).
 
 **These pass:**
-- `test:frontend`: 226 of 226 and 861 of 861 (the room connection's 845 and this one's 16), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
+- `test:frontend`: 226 of 226 and 864 of 864 (the room connection's 845 and this one's 19, on `aabb4417`), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
 - `typecheck`, `build`, `check:toolchain`, `check:workspace`, and `node design/tools/check-assets.mjs` (15 passed);
 - `packages/design-tokens/test/phone-ui-native-compare.test.mjs`: 7 of 7, with the doubled selectors.
 
