@@ -48,7 +48,7 @@ const EXPECT = {
   unavailable: statusOf(null, null, 'panel', 'The panel is unavailable right now'),
   spent: statusOf(null, null, 'lock', 'Your attempt is used'),
   sending: keypadOf('3', '3', 'Submitting…', { busy: 'Submitting…', refused: true }),
-  rejected: keypadOf('3', '3', 'Submit 3', { error: 'The server did not accept it. Check it, then submit again.' }),
+  rejected: keypadOf('3', '3', 'Submit 3', { error: 'The server did not accept it. Nothing was queued. Submit again.' }),
   treated: statusOf('TREATED', 'amber', null, 'You were treated|Your attempt is used'),
   'no-effect': statusOf('NO EFFECT', null, null, 'Your request had no effect|Your attempt is used'),
   discarded: statusOf('DISCARDED', null, null, 'Your request was discarded|Your attempt is used'),

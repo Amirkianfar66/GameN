@@ -248,7 +248,7 @@ export async function runPanelProbe({ sizes, versions }) {
         const changed = three.filter(([path, name, value]) => !five.some(([q, n, v]) => q === path && n === name && v === value)).map(([path, name, value]) => `${path} ${name}=${value}`);
         const secret = attributes(p.root).filter(([, , value]) => SECRET.test(value));
         p.part.update({ phase: 'sending' });
-        p.part.update({ error: { text: 'The server did not accept it.', detail: 'Check it, then submit again.' }, phase: 'ready' });
+        p.part.update({ error: { text: 'The server did not accept it.', detail: 'Nothing was queued. Submit again.' }, phase: 'ready' });
         const callbacks = p.intents.filter(i => i[0] !== 'onPick' && i[0] !== 'onSheetAction' && i[0] !== 'onSheetClose');
         p.dispose();
         const s = phone('treated');

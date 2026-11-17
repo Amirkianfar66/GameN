@@ -49,7 +49,7 @@ export const PANEL_STATES = Object.freeze({
   spent: statusState('Attempt used', '43', 'spent'),
   // What the pack does not draw, as the Lead answered it (16 November).
   sending: keypadState('Sending · “Submitting…”, the keys refused (Q1)', '43+', { picked: PICKED, phase: 'sending' }),
-  rejected: keypadState('Not accepted · the keypad stays, with the kit’s note (Q2)', '43+', { picked: PICKED, error: { text: 'The server did not accept it.', detail: 'Check it, then submit again.' } }),
+  rejected: keypadState('Not accepted · the keypad stays, with the kit’s note (Q2)', '43+', { picked: PICKED, error: { text: 'The server did not accept it.', detail: 'Nothing was queued. Submit again.' } }),
   treated: statusState('TREATED (Q4)', '43+', 'TREATED'),
   'no-effect': statusState('NO EFFECT (Q4)', '43+', 'NO_EFFECT'),
   discarded: statusState('DISCARDED (Q4)', '43+', 'DISCARDED'),
