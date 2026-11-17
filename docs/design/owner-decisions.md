@@ -392,6 +392,43 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The human test.** The Lead's recommendation that it ships on today's rooms still waits for the owner's own answer.
 - **Other rules.** Capacities, movement, targeting, the Blackout and private information stay as they are, except the Jail at four, which is with Integration.
 
+**The view's settings, the same day,** after the layout test of Room B ([the test page](https://claude.ai/artifact/PyijGrLQSDyFa5zfVjNeac), version 1794956824-0ec9). It used stand-in crew and generated no pictures.
+- The Lead had recommended a 100° picture in a 4 m room, looking 5° down.
+- The owner asked, word for word:
+
+> But why not 4 m 90 degrees or 95? One arm is not a big deal? Also we can little bit fake the perspective by some tricks?
+
+- The test then measured 90° and 95° with the side-on drawings' width, and the two far people drawn 10%, 15% and 20% larger.
+- The owner chose, word for word:
+
+> Lets go with 4 m room, 95° slice, far two people 10% bigger and camera 5° down. Then I want to check with you the ratio Height and width , compare it with  in instagram ratio
+
+**What it decides:**
+- **Rooms A and B's views:**
+  - a 4 m square room;
+  - each phone shows a 95° slice of the view, while the rule of who sees whom stays 90°;
+  - the camera sits at 1.6 m and looks 5° down, drawn as a raised horizon so that walls stay upright;
+  - in each view the two far people are drawn 10% larger than true perspective, standing on their places, and the near one at true size. Who sees whom doesn't change.
+- **The edge rule:** a person's face, name tag and tap area are always fully on screen. A hand or an elbow may cross the edge.
+- **The paintings:**
+  - each view is painted 120° across on the image tool's 1024 × 1536, with the horizon 747 px from the top;
+  - any slice from 90° to 100°, level or 5° down, then fits both phones;
+  - the slice and the size trick stay adjustable later, with no new pictures.
+- **Room B's five pictures are approved:** in the approved purple, with one re-run each only if a check fails.
+
+**What it means for the work:**
+1. The Pre-game Animation builder makes the sheet for the five views from the layout test's geometry: colour-plan guides, the purple palette, flat black openings and a colour check.
+2. The Lead reviews it and names it in the go.
+3. The image session makes the pictures and records them.
+4. Then comes a test page with the game's ambient and the stand-in crew, for the owner.
+
+**What it does not settle:**
+- **The 18 new crew angles.** They go to the owner before anyone draws them.
+- **The observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+- **The human test.**
+- **Room A,** which follows Room B.
+- **The height-to-width ratio,** compared with Instagram's. It is next.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.

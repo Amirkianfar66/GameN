@@ -49,6 +49,18 @@ The owner approved these with the Lead Designer's recommendations ("Yes go as yo
 - **The camera** sits at eye height, about 1.6 m, looking level or a little down.
 - **The other rooms:** they have fixed places and no blind places, and each has one shared view. The Hospital and the Jail have four places, the Private Room and the Task Room two, and the Command Room one.
 
+## The settings the owner chose after the layout test
+
+The settings were chosen on 17 November 2026, after [the Room B layout test](https://claude.ai/artifact/PyijGrLQSDyFa5zfVjNeac) (version 1794956824-0ec9, with stand-in crew and no pictures):
+- **The room:** 4 m square.
+- **The view:**
+  - each phone shows a 95° slice, while the rule stays 90°;
+  - the camera sits at 1.6 m and looks 5° down, drawn as a raised horizon;
+  - the two far people are drawn 10% larger, and the near one at true size.
+- **The edge rule:** a person's face, name tag and tap area are always fully on screen. A hand or an elbow may cross the edge.
+- **The paintings:** each view is painted 120° across on 1024 × 1536, with the horizon 747 px from the top, so the slice and the size can still change without new pictures.
+- **The heights** are near the test's 95° with ×1.10 row: at 390 × 844, the near person is about 186–195 px and the far two about 127–132 px.
+
 ## What it does not decide
 
 - **What an unseen action leaves you.** Until this is decided, the blind places hide nothing:
