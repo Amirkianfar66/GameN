@@ -328,11 +328,6 @@ export function shellInput(model,{view='room',room=null,food=null,reducedMotion=
 }
 
 /**
- * The shell's intents, each to a call the game already makes: openPanel, begin, confirm, dismiss, its local view
- * switch and the session's refresh. `opened` hears which of the shell's controls opened something, so the focus can
- * go back to it. `live()` is false once the renderer is disposed: then nothing is called.
- */
-/**
  * A host sheet (`mountPlanetRenderer`'s `hostSheet`: the pre-game connection's Host controls, part 8) takes the
  * Settings sheet's place while it gives a frame, as Host controls opens from Settings and goes Back to it. Its frame
  * is the component's own (title, line, Back, Close, footer); `kind: 'host'` tells the renderer whose body to mount.
@@ -341,6 +336,12 @@ export function shellHostSheet(sheet,hostFrame){
  return sheet?.kind==='settings'&&hostFrame?{...hostFrame,kind:'host'}:sheet;
 }
 
+/**
+ * The shell's intents, each to a call the game already makes: openPanel, begin, confirm, dismiss, its local view
+ * switch and the session's refresh. `opened` hears which of the shell's controls opened something, so the focus can
+ * go back to it. `live()` is false once the renderer is disposed: then nothing is called. While a host sheet is
+ * open (`host.open()`), its footer, Back and Close are its own.
+ */
 export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null}){
  const when=run=>(...args)=>{if(live())run(...args);};
  const from=(intent,value=null)=>opened?.({intent,value});
