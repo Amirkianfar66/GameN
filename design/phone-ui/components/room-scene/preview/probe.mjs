@@ -94,11 +94,35 @@ export async function runRoomSceneProbe({ host, base, size, large }) {
     scene.dispose();
   });
 
+  // 1b · held across a remount (0.5.1, #309's finding 1): the Board view disposes the scene; the next scene of the
+  // room, mounted in the same dark window and given the first one's hold(), keeps the frame and every press square.
+  await guarded('held', async () => {
+    const first = mount({ hold: null, control: null, targets: null });
+    const lit = geometry(first);
+    const none = first.hold();
+    first.update({ hold: 'blackout-9' });
+    first.update({ lighting: 'dark', people: [] });
+    const held = first.hold();
+    first.dispose();
+    const after = first.hold();
+    const second = mount({ hold: 'blackout-9', lighting: 'dark', people: [], size: large, heldFrame: held, control: null, targets: null });
+    const kept = { same: geometry(second) === lit, held: second.layout().frame.held };
+    second.dispose();
+    const third = mount({ hold: 'blackout-9', lighting: 'dark', people: [], size: large, control: null, targets: null });
+    const fresh = { cold: third.layout().frame.cold, same: geometry(third) === lit };
+    third.dispose();
+    const keys = held ? Object.keys(held).sort().join(',') : null;
+    check('held: across a remount in the same window (the Board, then Room again, in another size), a scene given hold() keeps the frame and every press square; without it, every place is framed; hold() is geometry alone, null outside a window and after dispose()',
+      none === null && keys === 'cold,context,k,panel,tx,ty,window,zoom' && Object.isFrozen(held) && held.window === 'blackout-9' && after === null
+      && kept.same && kept.held && fresh.cold && !fresh.same, { none, keys, window: held?.window, after, kept, fresh });
+  });
+
   // 2 · private: who is where only while the lit room shows them; this viewer's offers and control only.
   await guarded('private', async () => {
     const scene = mount({ targets: { seats: [3, 6, 8], picked: [6] } });
     const q = selector => scene.element.querySelectorAll(selector).length;
     const lit = scene.layout();
+    const figuresLit = q('.ms-rs-fig');
     check('private: lit, layout() gives who is where', lit.people.length === 4 && lit.people.every(p => p.slot && p.side > 0), { people: lit.people.map(p => [p.seat, p.slot]) });
     scene.update({ lighting: 'dark', hold: 'blackout-2', targets: null, control: null });
     const dark = scene.layout();
@@ -115,6 +139,14 @@ export async function runRoomSceneProbe({ host, base, size, large }) {
     scene.update({ status: 'live' });
     check('private: offers and the control are dropped when concealed, not kept for when it shows', offeredConcealed === 0 && q('.ms-rs-press') === 0 && q('.ms-rs-control') === 0,
       { pressesWhileConcealed: offeredConcealed, presses: q('.ms-rs-press'), controls: q('.ms-rs-control') });
+    // 0.5.1 (#309's finding 2): the wake gave the status alone, so nobody comes back, not even "you"; a fresh
+    // input brings the people back.
+    const woke = scene.layout();
+    const empty = { figures: q('.ms-rs-fig'), tags: q('.ms-rs-tag'), you: scene.element.querySelectorAll('.ms-rs-tag[data-self], .ms-rs-you').length, people: woke.people.length };
+    scene.update({ people: base.people, self: base.self, active: base.active });
+    const back = { figures: q('.ms-rs-fig'), people: scene.layout().people.length };
+    check('private: concealed drops the people too; a wake with the status alone shows the room empty, and a fresh input brings them back (0.5.1)',
+      empty.figures + empty.tags + empty.you + empty.people === 0 && back.figures === figuresLit && back.people === lit.people.length, { empty, back, figuresLit, peopleLit: lit.people.length });
     scene.update({ targets: { seats: [3, 6], picked: [] }, control: base.control });
     const before = [q('.ms-rs-press'), q('.ms-rs-control')];
     scene.update({ self: 5 });
