@@ -5,10 +5,13 @@
 // (../phone-shell.mjs), drawn in the same page from the same inputs, compared case by case: the words,
 // the states (open, unavailable, the hero's mode) and where each part sits, to within half a pixel. It
 // is how the shell shows it draws the pack's bars and not a second design of them.
+// The phase bars too (0.2.10): each bar the pack draws for a game step (phase-cases.mjs), the pack's own input
+// to topBar() beside the shell drawing what ../phase-bars.mjs returns for that step.
 
 import { topBar, tabs, sheet, button, banner } from '../../../prototype/ui.mjs';
 import { mountPhoneShell } from '../phone-shell.mjs';
 import { seatOf } from '../../../prototype/fixtures.mjs';
+import { PHASE_CASES } from './phase-cases.mjs';
 
 const TOLERANCE = 0.5;
 
@@ -32,8 +35,6 @@ const CASES = [
     shell: { bar: { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'vote', enabled: false } } } },
   { id: 'pair', pack: { bar: { kind: 'pair', pair: [seatOf(1), seatOf(4)], sub: 'Private talk', round: 3, seconds: 47 }, tabs: { view: 'board', open: 'actions', hero: 'vote', badges: { panels: 2 } } },
     shell: { bar: { kind: 'pair', pair: [seatOf(1), seatOf(4)], sub: 'Private talk', round: 3, timer: { remainingMs: 47000 }, promises: { count: 0 }, menu: {} }, tabs: { view: 'board', open: 'actions', hero: { mode: 'vote' }, badges: { panels: 2 } } } },
-  { id: 'dark', pack: { bar: { kind: 'phase', icon: 'dark', tone: 'dark', title: 'Blackout', sub: 'Lights out', round: 3, seconds: 18 }, tabs: { view: 'room', open: 'panels', hero: 'voted' } },
-    shell: { bar: { kind: 'phase', icon: 'dark', tone: 'dark', title: 'Blackout', sub: 'Lights out', round: 3, timer: { remainingMs: 18000 }, promises: { count: 0 }, menu: {} }, tabs: { view: 'room', open: 'panels', hero: { mode: 'voted' } } } },
   { id: 'large-own', text: 200, width: 320, height: 568, insets: { top: 20, bottom: 0 },
     pack: { bar: { kind: 'turn', who: seatOf(4), self: true, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass' } },
     shell: { bar: { kind: 'turn', who: seatOf(4), self: true, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass' } } } },
@@ -69,6 +70,14 @@ const CASES = [
     pack: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, seconds: 42, promises: { badge: 1 } }, tabs: { view: 'room', hero: 'pass-off' },
       banner: { icon: 'eliminated', title: 'You’re out', sub: 'You can watch. Your role stays private.' } },
     shell: { bar: { kind: 'turn', who: seatOf(6), self: false, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} }, tabs: { view: 'room', hero: { mode: 'pass', enabled: false } }, banner: { kind: 'out' } } },
+  // The phase bars (0.2.10): the pack's own input for each game step, and the bar phase-bars.mjs returns for it. The
+  // Blackout's dark, compared since 0.1.0 with words of the shell's own, is now the pack's specimen, "Dark · positions
+  // fixed" at 8 s. Those marked for the Largest text are compared again at 200 % on the small phone.
+  ...PHASE_CASES.flatMap(c => {
+    const one = { id: c.id, pack: { bar: c.pack, tabs: c.tabs?.pack ?? { view: 'room', hero: 'pass-off' } },
+      shell: { bar: c.bar(), tabs: c.tabs?.shell ?? { view: 'room', hero: { mode: 'pass', enabled: false } } } };
+    return c.text ? [one, { ...one, id: `large-${c.id}`, text: c.text, width: 320, height: 568, insets: { top: 20, bottom: 0 } }] : [one];
+  }),
 ];
 
 /** The parts compared, as [name, the pack's selector, the shell's selector]. */
@@ -104,6 +113,11 @@ const settle = async node => {
   if (!node) return;
   await Promise.all(node.getAnimations().filter(a => Number.isFinite(a.effect?.getComputedTiming?.().endTime)).map(a => a.finished.catch(() => null)));
 };
+
+/** A ring's share, rounded to a hundredth; null where the clock has no ring. */
+const ringOf = node => (node ? Math.round(Number(node.style.getPropertyValue('--p')) * 100) / 100 : null);
+/** A part's computed colour, or null when the part is missing. */
+const paint = (node, property) => (node ? node.ownerDocument.defaultView.getComputedStyle(node)[property] : null);
 
 const visible = node => !!node && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden';
 function box(frame, node) {
@@ -160,10 +174,18 @@ export async function runPhoneShellAgreement({ size, versions }) {
       ['hero unavailable', pack.querySelector('.hero')?.getAttribute('aria-disabled') === 'true', root.querySelector('.ms-ps-hero')?.getAttribute('aria-disabled') === 'true'],
       ['hero name', pack.querySelector('.hero')?.getAttribute('aria-label'), root.querySelector('.ms-ps-hero')?.getAttribute('aria-label')],
       ['hero word', words(pack.querySelector('.hero b')), words(root.querySelector('.ms-ps-hero-label'))],
+      // The round button's fill and ink (0.2.10): an unavailable Vote is paper with dimmed words, as the pack's cascade draws it.
+      ['hero fill', paint(pack.querySelector('.hero'), 'backgroundColor'), paint(root.querySelector('.ms-ps-hero'), 'backgroundColor')],
+      ['hero ink', paint(pack.querySelector('.hero'), 'color'), paint(root.querySelector('.ms-ps-hero'), 'color')],
       ['switch name', pack.querySelector('.tab[data-tab="switch"]')?.getAttribute('aria-label'), root.querySelector('.ms-ps-tab[data-value="switch"]')?.getAttribute('aria-label')],
       ['promises name', pack.querySelector('.tb-promises')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-promises')?.getAttribute('aria-label') ?? null],
       ['menu name', pack.querySelector('.tb-menu')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-menu')?.getAttribute('aria-label') ?? null],
       ['bar kind', pack.querySelector('.tb')?.dataset.kind, root.querySelector('.ms-ps-tb')?.dataset.kind],
+      // The clock (0.2.10): amber or not, a ring or the clock's icon, and how full the ring is, to a hundredth (sheet
+      // 07 writes the ring of 5 s left of 6 as 0.17).
+      ['clock amber', pack.querySelector('.timer')?.hasAttribute('data-urgent') ?? null, root.querySelector('.ms-ps-timer')?.hasAttribute('data-urgent') ?? null],
+      ['clock ring', ringOf(pack.querySelector('.timer-ring')), ringOf(root.querySelector('.ms-ps-ring'))],
+      ['bar tone', pack.querySelector('.tb')?.dataset.tone ?? null, root.querySelector('.ms-ps-tb')?.dataset.tone ?? null],
       ['back name', pack.querySelector('.sheet-head > .icon-btn[aria-label="Back"]')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-sheet-head > [data-intent="sheet-back"]')?.getAttribute('aria-label') ?? null],
       ['foot-1 kind', kindOf(pack.querySelector('.sheet-foot > .btn:nth-child(1)'), 'btn-'), kindOf(root.querySelector('.ms-ps-sheet-foot > .ms-k-btn:nth-child(1)'), 'ms-k-btn-')],
       ['foot-2 kind', kindOf(pack.querySelector('.sheet-foot > .btn:nth-child(2)'), 'btn-'), kindOf(root.querySelector('.ms-ps-sheet-foot > .ms-k-btn:nth-child(2)'), 'ms-k-btn-')],

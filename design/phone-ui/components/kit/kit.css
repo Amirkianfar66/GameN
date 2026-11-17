@@ -248,13 +248,17 @@
 .ms-kit :where(.ms-k-comic) { position: relative; display: block; background: var(--ms-k-paper); color: var(--ms-k-ink); border: 3px solid var(--ms-k-ink); border-radius: 12px; box-shadow: var(--ms-k-shadow-ink); }
 
 /* ── The toast (kit.css .toast; 0.8.0) ─────────────────────────────────── */
-/* Over what it lies on, centred, 10 px under --ms-k-toast-top (where its owner's bar ends: the pack's --top), and never
-   wider than the phone less 16 px a side: long words are cut. It has no action, so it takes no tap: a tap reaches what
-   is under it (Copy, Retry, a sheet's Close). It drops in from 8 px up over 220 ms on the sheet's ease and, leaving,
-   fades out over 180 ms (the shell's toast since 0.1.0); its owner removes it after. */
-.ms-kit :where(.ms-k-toast) { position: absolute; left: 50%; top: calc(var(--ms-k-toast-top, 0px) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 600 0.9375rem/1.2 var(--ms-k-font); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); white-space: nowrap; pointer-events: none; --ic-knock: var(--ms-k-paper); animation: ms-k-toast-in 220ms cubic-bezier(0.16, 0.84, 0.3, 1) both; transition: opacity 180ms linear; }
+/* Over what it lies on, centred, 10 px under --ms-k-toast-top (where its owner's bar ends: the pack's --top), as wide as
+   its words and never wider than the phone less 16 px a side. Words that don't fit on one line wrap onto the next, so
+   every word shows (0.8.2: before, they were cut, "That phase closed · choi…" at the Large and Largest text, as the
+   in-game animation builder measured). Its corners are as round as a one-line toast's ends (half its one line, the
+   icon's 20 px or the words' 1.2 em, and the 9 px padding), so one line is the pack's pill and a wrapped toast's paper
+   still holds its words. It has no action, so it takes no tap: a tap reaches what is under it (Copy, Retry, a sheet's
+   Close). It drops in from 8 px up over 220 ms on the sheet's ease and, leaving, fades out over 180 ms (the shell's
+   toast since 0.1.0); its owner removes it after. */
+.ms-kit :where(.ms-k-toast) { position: absolute; left: 50%; top: calc(var(--ms-k-toast-top, 0px) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; width: max-content; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: calc(max(20px, 1.2em) / 2 + 9px); background: var(--ms-k-paper); color: var(--ms-k-ink); font: 600 0.9375rem/1.2 var(--ms-k-font); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); white-space: normal; pointer-events: none; --ic-knock: var(--ms-k-paper); animation: ms-k-toast-in 220ms cubic-bezier(0.16, 0.84, 0.3, 1) both; transition: opacity 180ms linear; }
 .ms-kit :where(.ms-k-toast .ms-k-ic) { width: 20px; height: 20px; }
-.ms-kit :where(.ms-k-toast-text) { overflow: hidden; text-overflow: ellipsis; }
+.ms-kit :where(.ms-k-toast-text) { text-align: start; overflow-wrap: anywhere; }
 .ms-kit :where(.ms-k-toast[data-leaving]) { opacity: 0; }
 @keyframes ms-k-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
 
@@ -343,6 +347,9 @@
    the two rules below ask. They fix text that overlaps or is cut, with the pack's own rules for these two
    parts (#228); nothing changes at the Standard text, where every phone 320 px or wider is 20 em or more across. */
 .ms-kit:where(.ms-k-phone), .ms-kit :where(.ms-k-phone) { container: ms-k-phone / inline-size; }
+/* followTextSize()'s box (kit.mjs, 0.8.1): 1 em tall and never seen, so the root learns when its text size changes and
+   sets its container up again (Chromium kept the old size's em for parts added afterwards). */
+.ms-kit :where(.ms-k-em) { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 0; height: 1em; overflow: hidden; visibility: hidden; pointer-events: none; }
 /* Under 19 em across (the Large or Largest text on any phone up to 456 px wide): a row's value goes under its
    title instead of beside it, so neither runs into the other ("Promises" and "Given 0/1 · Received 1/1"). A long
    value wraps. The lead (icon, portrait) and the trail (chevron, switch, stepper) keep their places at the sides. */
