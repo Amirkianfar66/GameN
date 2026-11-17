@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/join-room-check.mjs",
   "component": "design/phone-ui/components/join-room",
-  "sourceCommit": "48177875c8578c2119d9c4058b2843571fdfdb2b",
+  "sourceCommit": "5146e2da7dd1a814ba7860d213740f88508c2a0f",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -86,6 +86,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -110,7 +113,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -151,6 +154,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -175,7 +181,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -218,6 +224,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -242,7 +251,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -285,6 +294,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -309,7 +321,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -352,6 +364,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -376,7 +391,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -419,6 +434,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -443,7 +461,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -486,6 +504,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -510,7 +531,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -553,6 +574,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -570,14 +594,14 @@
     },
     "390x844/sending": {
       "file": "design/phone-ui/components/join-room/review/390x844-sending.jpg",
-      "sha256": "128fa7ab35552cb38652221cb6acb316db8b70e5f1a4b27e26f326b75a426bf4",
+      "sha256": "047b3a7f52c4bb9004b9f2b370442919257bb7223e5dde679249c4f72fcfeba2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -618,6 +642,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -635,14 +662,14 @@
     },
     "430x932/sending": {
       "file": "design/phone-ui/components/join-room/review/430x932-sending.jpg",
-      "sha256": "330ca05102a2779025caff9e3d48ca7b2608ff01ffed9321ac28fc7fd482926d",
+      "sha256": "127d1f8b5d39c2ce75b74c67278c91e94eae15212b327aaa5ce2cc74c93f8f4c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -683,6 +710,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -707,7 +737,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -750,6 +780,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -774,7 +807,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -817,6 +850,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -841,7 +877,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -882,6 +918,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -906,7 +945,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -947,6 +986,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -971,7 +1013,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1014,6 +1056,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -1038,7 +1083,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1081,6 +1126,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -1105,7 +1153,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1146,6 +1194,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1170,7 +1221,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1211,6 +1262,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1228,14 +1282,14 @@
     },
     "390x844/admitted": {
       "file": "design/phone-ui/components/join-room/review/390x844-admitted.jpg",
-      "sha256": "eb9da092fdce5ef849d5ff10e167c5d0544d47c106b8acbd6a53def74640e75a",
+      "sha256": "3802130bcdc71b779d10007e928764f685270d0a48acaa3c0506a2c5c85f0a6c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1276,6 +1330,9 @@
       "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
       "footNote": "Character selection starts when every seat is filled",
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1293,14 +1350,14 @@
     },
     "430x932/admitted": {
       "file": "design/phone-ui/components/join-room/review/430x932-admitted.jpg",
-      "sha256": "3f42cb780d14b52b2de4bdd46ea146fa146fe399085ca938693ad60280fe7712",
+      "sha256": "495e24b9085ffdf46b1050ec2121e9f5a56bce030e0a75fadc622e2b4c050a4a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1341,6 +1398,9 @@
       "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
       "footNote": "Character selection starts when every seat is filled",
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1365,7 +1425,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1406,6 +1466,9 @@
       "rows": "",
       "footNote": null,
       "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1430,7 +1493,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1471,6 +1534,9 @@
       "rows": "",
       "footNote": null,
       "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1495,7 +1561,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1536,6 +1602,9 @@
       "rows": "",
       "footNote": null,
       "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1560,7 +1629,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1601,6 +1670,9 @@
       "rows": "",
       "footNote": null,
       "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1625,7 +1697,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1668,6 +1740,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1692,7 +1767,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1735,6 +1810,145 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/wait-noexit": {
+      "file": "design/phone-ui/components/join-room/review/390x844-wait-noexit.jpg",
+      "sha256": "c5a8de55b070adf9c3a7278e773e75c0ae4dbcaabcd2c529c4278dbf392b20b7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": true,
+      "navDimmed": true,
+      "navReason": "Not available in this test",
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/wait-noexit": {
+      "file": "design/phone-ui/components/join-room/review/430x932-wait-noexit.jpg",
+      "sha256": "f1731074d9f78b04cff277c4a0475c297fbb545187eaeb9a0f645466513a34ce",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": true,
+      "navDimmed": true,
+      "navReason": "Not available in this test",
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1759,7 +1973,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1802,6 +2016,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": true,
       "askInView": true,
       "layout": {
@@ -1826,7 +2043,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1869,6 +2086,9 @@
       "rows": "",
       "footNote": null,
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": true,
       "layout": {
@@ -1886,14 +2106,14 @@
     },
     "390x844/wait-large": {
       "file": "design/phone-ui/components/join-room/review/390x844-wait-large.jpg",
-      "sha256": "30c9962bd31ce15f69c8de464953a74fcbadec31770ba0aa2e0398c3c6cbfff0",
+      "sha256": "9bdf5ba1ac36cf58c3123b71ee97bd9a8f56231c4902950b6fa700e4f8f17024",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1934,6 +2154,9 @@
       "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
       "footNote": "Character selection starts when every seat is filled",
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -1951,14 +2174,14 @@
     },
     "430x932/wait-large": {
       "file": "design/phone-ui/components/join-room/review/430x932-wait-large.jpg",
-      "sha256": "3e24ba39a32dfe77ff2685a92e902b85aeba75b2846297f02b042196ef645e55",
+      "sha256": "d53afef6383aa56942a66521e814fb4c44521b41ae1734ac830f2e1c70e8dcd4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1999,6 +2222,9 @@
       "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
       "footNote": "Character selection starts when every seat is filled",
       "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
       "scrolls": false,
       "askInView": null,
       "layout": {
@@ -2259,6 +2485,58 @@
           }
         },
         {
+          "id": "the game’s gap: Cancel, Leave and Back to menu unavailable are dimmed and refused, with Frontend’s reason, and report nothing (G6)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "pending": {
+                "nav": "Cancel",
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "foot": null,
+                "taps": [],
+                "after": [
+                  [
+                    "onCancel"
+                  ]
+                ]
+              },
+              "admitted": {
+                "nav": "Leave",
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "foot": null,
+                "taps": [],
+                "after": [
+                  [
+                    "onLeave"
+                  ]
+                ]
+              },
+              "declined": {
+                "nav": "Menu",
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "foot": {
+                  "refused": true,
+                  "dimmed": true,
+                  "reason": "Not available in this test"
+                },
+                "taps": [],
+                "after": [
+                  [
+                    "onBack"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
           "id": "offline: the words over the form’s foot or under the waiting line; with every control enabled they refuse nothing; Frontend’s refusals refuse with the reason; Back and Cancel stay usable",
           "ok": true,
           "detail": {
@@ -2372,6 +2650,339 @@
           }
         },
         {
+          "id": "text later: mounted at the Standard text, then the Largest set and a part opened (the form: the code’s and the name’s errors and the inline error; waiting: admitted), each screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "form": {
+                "late": [
+                  [
+                    55,
+                    8,
+                    130.55,
+                    44
+                  ],
+                  [
+                    56.59,
+                    138.55,
+                    167.45,
+                    40.8
+                  ],
+                  [
+                    109,
+                    16,
+                    358,
+                    73.59
+                  ],
+                  [
+                    196.59,
+                    16,
+                    358,
+                    273.09
+                  ],
+                  [
+                    236.19,
+                    16,
+                    358,
+                    84
+                  ],
+                  [
+                    328.19,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    483.69,
+                    16,
+                    358,
+                    91.59
+                  ],
+                  [
+                    528.88,
+                    30,
+                    243,
+                    40.8
+                  ],
+                  [
+                    597.28,
+                    18,
+                    354,
+                    60.5
+                  ],
+                  [
+                    675.78,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    713.97,
+                    16,
+                    358,
+                    97
+                  ],
+                  [
+                    716.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    763.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    818.97,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    974.47,
+                    16,
+                    358,
+                    50
+                  ]
+                ],
+                "fresh": [
+                  [
+                    55,
+                    8,
+                    130.55,
+                    44
+                  ],
+                  [
+                    56.59,
+                    138.55,
+                    167.45,
+                    40.8
+                  ],
+                  [
+                    109,
+                    16,
+                    358,
+                    73.59
+                  ],
+                  [
+                    196.59,
+                    16,
+                    358,
+                    273.09
+                  ],
+                  [
+                    236.19,
+                    16,
+                    358,
+                    84
+                  ],
+                  [
+                    328.19,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    483.69,
+                    16,
+                    358,
+                    91.59
+                  ],
+                  [
+                    528.88,
+                    30,
+                    243,
+                    40.8
+                  ],
+                  [
+                    597.28,
+                    18,
+                    354,
+                    60.5
+                  ],
+                  [
+                    675.78,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    713.97,
+                    16,
+                    358,
+                    97
+                  ],
+                  [
+                    716.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    763.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    818.97,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    974.47,
+                    16,
+                    358,
+                    50
+                  ]
+                ]
+              },
+              "wait": {
+                "late": [
+                  [
+                    55,
+                    8,
+                    135.48,
+                    44
+                  ],
+                  [
+                    56.59,
+                    143.48,
+                    162.52,
+                    40.8
+                  ],
+                  [
+                    199,
+                    24,
+                    342,
+                    89.59
+                  ],
+                  [
+                    314.59,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    290
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    410.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    468.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    526.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    584.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    723.81,
+                    20,
+                    350,
+                    70.19
+                  ]
+                ],
+                "fresh": [
+                  [
+                    55,
+                    8,
+                    135.48,
+                    44
+                  ],
+                  [
+                    56.59,
+                    143.48,
+                    162.52,
+                    40.8
+                  ],
+                  [
+                    199,
+                    24,
+                    342,
+                    89.59
+                  ],
+                  [
+                    314.59,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    290
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    410.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    468.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    526.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    584.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    723.81,
+                    20,
+                    350,
+                    70.19
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
           "id": "input: malformed input is refused",
           "ok": true,
           "detail": {
@@ -2434,7 +3045,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2466,7 +3077,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CWz3LoNj.js",
+          "source": "assets/index-B_htoIvA.js",
           "line": 1,
           "column": 3329,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3582,7 +4193,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-CWz3LoNj.js",
+        "source": "assets/index-B_htoIvA.js",
         "line": 1,
         "column": 3329,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
