@@ -403,7 +403,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 110, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
+  assert.equal(captures.length, 114, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.mismatched, [], `${key}: nothing differs from what its state asks`);
@@ -433,6 +433,14 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   // The Disabler during a Blackout (sheet 30): the dark room, every position offered, then A3 fixed.
   assert.deepEqual([at('blackout-pick').target, at('blackout-pick').slots, at('blackout-pick').lighting], ['Choose a position|Room A · any position, even empty', 'A1,A2,A3,A4,A5', 'dark']);
   assert.deepEqual([at('blackout-fixed').target, at('blackout-fixed').slots], ['Position A3 fixed|Resolves after the window · no effect shown now', 'A1,A2,A3*,A4,A5']);
+  // Pass's and the Disabler's "Outcome unknown" (0.2.3, A13), the position's in the dark room; and the probe draws both.
+  assert.deepEqual([at('unknown-pass').notice, at('unknown-position').notice, at('unknown-position').lighting], ['Pass was sent, but no answer came back.', 'Position A3 was sent, but no answer came back.', 'dark']);
+  assert.deepEqual(['pass', 'position'].map(k => record.probe.full.checks.find(c => c.id === 'unknown').detail[k][0]), ['Pass was sent, but no answer came back.', 'Position A3 was sent, but no answer came back.']);
+  // After Register from afterWords() (0.2.3), as drawn: each headline and its time line's length, the pack's own
+  // (screens-game.mjs afterRegister()), which the agreement compares with sheets 29.1 and 29.2.
+  const AFTER_DRAWN = { 'after-rescue': ['Rescue of Eli registered.', 2], 'after-protect': ['Protection for Gus registered.', 3], 'after-blackout': ['Blackout registered.', 3],
+    'after-talk': ['Private talk with Ava accepted.', 3], 'after-clone': ['Clone active.', 2], 'after-suppress': ['Navigation suppressed.', 2], 'after-reload': ['The server accepted your action.', 0] };
+  for (const [key, drawn] of Object.entries(AFTER_DRAWN)) assert.deepEqual([at(key).headline, at(key).steps], drawn, key);
   // The pack's room shows its own control on 27.3's third frame: the room scene's, named, not compared here.
   assert.deepEqual(agree.checks.find(c => c.id.startsWith('agree: passed')).detail.notCompared, ['chip "Window · Hospital": the room\'s own control, the room scene\'s (#261)']);
 });
