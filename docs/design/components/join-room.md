@@ -199,7 +199,9 @@ At the Largest text the device choice stacks, one option per row (kit 0.5.0's `s
 
 ### Checks run on this version
 
-On `b4897667`, clean: `join-wait-0.1.1` (the game's gap, above), with #287's `host-setup-0.1.1` and `host-lobby-0.1.2` merged (its `147a66d6`); the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
+**On `5146e2da` (`join-form-0.1.1`, `join-wait-0.1.2`), clean,** with the host room (#287 at `8513d3be`: main menu 0.1.1, kit 0.8.2) merged, headers SHA-256 `424e5dec…`: **32 of 32 captures pass.** Against `3678d548`'s record, 26 are byte-identical; the other six change only where a spinner turns at the foot (admitted, sending and waiting at the Largest, at both sizes; patches of 26 to 44 px). The probe passes **16 of 16**, with the new **text later** check. The agreement passes **11 of 11**.
+
+Before that, on `b4897667`, clean: `join-wait-0.1.1` (the game's gap, above), with #287's `host-setup-0.1.1` and `host-lobby-0.1.2` merged (its `147a66d6`); the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
 - **Captures:** **32 of 32 pass**: the sixteen states at both sizes. Against `48177875`'s record, 28 of the 30 old captures are byte-identical. "Sending…" and the waiting screen at the Largest text, both at 390 × 844, differ only in the busy spinner's patch (48 × 47 and 29 × 29 device pixels). The new `wait-noexit` captures show Leave dimmed and refused, with "Not available in this test" as its description, at both sizes.
 - **The lifecycle probe:** 15 of 15, with the gap's check. **The agreement:** 11 of 11 cases, as before; `wait-noexit` fills a state sheet 13 doesn't draw, so it has no pack case.
 - **The host room and the main menu,** which share the entry parts (0.4.0 here), pass on `3678d548`: the host room 26 of 26, probe 15 of 15, agreement 11 of 11, every capture byte-identical to #287's own record on `37d9f616`; the menu 8 of 8, probe 15 of 15, agreement 6 of 6, every capture byte-identical.
