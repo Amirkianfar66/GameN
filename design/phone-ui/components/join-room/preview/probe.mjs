@@ -20,6 +20,8 @@
 //   insets    Frontend's safe areas, or the browser's
 //   text      with the Largest text the form scrolls, and both screens' feet are reached; the device choice
 //             stacks there, and not at the Standard text
+//   text later  mounted at the Standard text, then the Largest and a part opened: laid out as one mounted at
+//             the Largest (the kit's followTextSize, 0.8.1)
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    only the spinners turn; with Reduce motion (the game's or the device's) they stand still
@@ -178,6 +180,26 @@ export async function runJoinRoomProbe({ sizes, formOf, waitOf }) {
         && JSON.stringify(seen.taps) === '[["onCheck"],["onCancel"],["onLeave"],["onBack"],["onBack"]]' && JSON.stringify(seen.returned) === '[{"intent":"check","value":null}]', seen };
     });
 
+    await check('the game\u2019s gap: Cancel, Leave and Back to menu unavailable are dimmed and refused, with Frontend\u2019s reason, and report nothing (G6)', async () => {
+      const off = { enabled: false, reason: 'Not available in this test' }, all = { cancel: off, leave: off, back: off };
+      const seen = {};
+      for (const view of ['pending', 'admitted', 'declined']) {
+        const m = mountWait({ ...waitOf({ view }), ...all });
+        const nav = m.q('.ms-ep-back'), foot = m.q('.ms-jw-back');
+        tap(nav); if (foot) tap(foot);
+        seen[view] = { nav: words(nav), refused: refused(nav), dimmed: nav.hasAttribute('data-off'), reason: describedBy(nav),
+          foot: foot ? { refused: refused(foot), dimmed: foot.hasAttribute('data-off'), reason: describedBy(foot) } : null, taps: taps(m.calls) };
+        m.s.update({ cancel: { enabled: true }, leave: { enabled: true }, back: { enabled: true } });
+        tap(m.q('.ms-ep-back'));
+        seen[view].after = taps(m.calls);
+        m.s.dispose();
+      }
+      const off3 = v => seen[v].refused && seen[v].dimmed && seen[v].reason === 'Not available in this test' && seen[v].taps.length === 0;
+      return { ok: off3('pending') && off3('admitted') && off3('declined') && seen.pending.nav === 'Cancel' && seen.admitted.nav === 'Leave' && seen.declined.nav === 'Menu'
+        && seen.declined.foot?.refused && seen.declined.foot.dimmed && seen.declined.foot.reason === 'Not available in this test'
+        && JSON.stringify(seen.pending.after) === '[["onCancel"]]' && JSON.stringify(seen.admitted.after) === '[["onLeave"]]' && JSON.stringify(seen.declined.after) === '[["onBack"]]', seen };
+    });
+
     await check('offline: the words over the form’s foot or under the waiting line; with every control enabled they refuse nothing; Frontend’s refusals refuse with the reason; Back and Cancel stay usable', async () => {
       const f = mountForm(formOf({ error: JOIN_WORDS.offline }));
       const alone = { words: words(f.q('.ms-k-error')), refused: [f.ask, ...f.qa('.ms-k-seg-btn')].map(refused) };
@@ -256,6 +278,30 @@ export async function runJoinRoomProbe({ sizes, formOf, waitOf }) {
       const seen = { standard, form, wait };
       // The lobby of five fits the 390 × 844 screen even then; whether it scrolls or not, its foot is in view.
       return { ok: !standard && form.stacked && form.scrolls && form.footInView && wait.footInView, seen };
+    });
+
+    await check('text later: mounted at the Standard text, then the Largest set and a part opened (the form: the code\u2019s and the name\u2019s errors and the inline error; waiting: admitted), each screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)', async () => {
+      const html = document.documentElement.style;
+      const boxes = m => {
+        const f = m.root.getBoundingClientRect();
+        return [...m.root.querySelectorAll('button, input, .ms-k-row, .ms-k-list, .ms-k-error, .ms-k-seg, .ms-k-field, h1, h2, p')].filter(n => n.getClientRects().length)
+          .map(n => { const r = n.getBoundingClientRect(); return [r.top - f.top, r.left - f.left, r.width, r.height].map(v => Math.round(v * 100) / 100); });
+      };
+      const late = async (mount, first, then) => {
+        html.fontSize = '100%'; const m = mount(first); await frames();
+        html.fontSize = '200%'; await frames();
+        m.s.update(then); await frames(); await frames();
+        const seen = boxes(m); m.s.dispose(); return seen;
+      };
+      const fresh = async (mount, input) => { html.fontSize = '200%'; const m = mount(input); await frames(); await frames(); const seen = boxes(m); m.s.dispose(); return seen; };
+      const errors = formOf({ codeError: JOIN_WORDS.noRoom, name: 'Devendra Kumar', nameError: JOIN_WORDS.nameRule(12), error: JOIN_WORDS.busy });
+      const seen = {
+        form: { late: await late(mountForm, formOf(), errors), fresh: await fresh(mountForm, errors) },
+        wait: { late: await late(mountWait, waitOf(), waitOf({ view: 'admitted' })), fresh: await fresh(mountWait, waitOf({ view: 'admitted' })) },
+      };
+      html.fontSize = '';
+      const same = v => v.late.length > 0 && JSON.stringify(v.late) === JSON.stringify(v.fresh);
+      return { ok: same(seen.form) && same(seen.wait), seen };
     });
 
     await check('input: malformed input is refused', async () => {
