@@ -382,6 +382,62 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok, largest, standard };
     });
 
+    // The text size changing on a live phone (0.2.11). The Gameplay builder found, in Chromium 153, that a part opened after
+    // the text size changed took the old size's container rules: at 200 % Move's target bar stood side by side, its chip's
+    // label was cut, and a sheet's Cancel and Register Rescue stayed side by side; a part open through the change was right.
+    await check('textsize: after the text size changes on a live phone, a target bar, a chip and a sheet opened afterwards take the new size\'s rules, as parts open through the change and a shell mounted at that size do; back at the Standard text, the Standard rules', async () => {
+      const kit = createKit(document);
+      const target = { icon: 'move', title: 'Move within Room A', sub: 'Choose an empty position · or another room on the Board' };
+      const chip = { id: 'move-board', label: 'Other rooms on the Board', icon: 'board', tone: 'paper' };
+      const sheet = { id: 'textsize', title: 'Rescue', sub: 'Once a round', close: true, detent: 'large',
+        actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'register', label: 'Register Rescue', kind: 'primary', icon: 'rescue' }] };
+      const text = size => { document.documentElement.style.fontSize = size === 100 ? '' : `${size}%`; };
+      const box = n => n.getBoundingClientRect();
+      // The sheet's body holds a row with a value and a segmented control that stacks: the kit's own two phone rules.
+      const fill = s => {
+        const row = kit.row({ tag: 'div', title: 'Promises', value: 'Given 0/1 · Received 1/1', icon: 'promise' });
+        const seg = kit.seg({ options: [{ id: 'card', label: 'Card' }, { id: 'knowledge', label: 'Knowledge' }, { id: 'resources', label: 'Resources' }], value: 'card', stack: true, label: 'Part' });
+        s.shell.sheetBody.replaceChildren(kit.list([row]), seg);
+      };
+      // How each open part is laid out, by the shell's rules (14 em, 19 em) and the kit's (19 em, 15 em).
+      const read = s => {
+        const t = s.q('.ms-ps-target'), c = s.q('.ms-ps-chip'), foot = s.q('.ms-ps-sheet-foot'), row = s.q('.ms-ps-sheet-body .ms-k-row'), seg = s.q('.ms-ps-sheet-body .ms-k-seg');
+        const words = t?.querySelector('.ms-ps-text'), cancel = t?.querySelector(':scope > .ms-k-btn'), label = c?.querySelector('.ms-k-btn-label');
+        return {
+          target: t ? { display: getComputedStyle(t).display, cancelUnder: box(cancel).top >= box(words).bottom - 0.5, height: Math.round(box(t).height) } : null,
+          chip: c ? { whiteSpace: getComputedStyle(c).whiteSpace, whole: label.scrollWidth <= label.clientWidth + 1 } : null,
+          foot: foot ? { wrap: getComputedStyle(foot).flexWrap, rows: new Set([...foot.querySelectorAll('.ms-k-btn')].map(b => Math.round(box(b).top))).size } : null,
+          row: row ? { valueUnder: box(row.querySelector('.ms-k-row-value')).top >= box(row.querySelector('.ms-k-row-title')).bottom - 1 } : null,
+          seg: seg ? { stacked: new Set([...seg.children].map(b => Math.round(box(b).top))).size === seg.children.length } : null,
+        };
+      };
+      const open = async s => { s.shell.update({ target, chip, sheet }); fill(s); await frames(); await frames(); };
+      const shut = async s => { s.shell.update({ target: null, chip: null, sheet: null }); await frames(); };
+      // A shell mounted at each size, its parts open from the start: what each size's rules draw.
+      const fresh = async size => { text(size); const s = mount(); try { await open(s); return read(s); } finally { s.shell.dispose(); text(100); } };
+      const large = await fresh(200), standard = await fresh(100);
+      const s = mount();
+      let after, back, again, through;
+      try {
+        await frames();
+        // 200 % first, with nothing open; then the target bar, the chip and the sheet open (the builder's two sequences).
+        text(200); await frames(); await frames();
+        await open(s); after = read(s);
+        // The same the other way: closed, back to the Standard text with nothing open, then opened.
+        await shut(s);
+        text(100); await frames(); await frames();
+        await open(s); back = read(s);
+        // Open through each change (the case that was already right).
+        text(200); await frames(); await frames(); again = read(s);
+        text(100); await frames(); await frames(); through = read(s);
+      } finally { s.shell.dispose(); text(100); }
+      const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      const drawn = large.target?.display === 'grid' && large.target.cancelUnder && large.chip?.whiteSpace === 'normal' && large.chip.whole && large.foot?.wrap === 'wrap'
+        && large.row?.valueUnder && large.seg?.stacked && standard.target?.display === 'flex' && standard.foot?.wrap === 'nowrap' && standard.foot.rows === 1
+        && standard.row?.valueUnder === false && standard.seg?.stacked === false;
+      return { ok: drawn && same(after, large) && same(back, standard) && same(again, large) && same(through, standard), large, standard, after, back, again, through };
+    });
+
     await check('nobar: with bar: null the stage runs to the top edge, the overlays keep the bar\'s place, and slot(\'clock\') keeps its element', async () => {
       const s = mount({ ...own(), bar: null, tabs: null, banner: { kind: 'reconnecting' }, toast: { id: 'rejoined', text: 'Rejoined · the stage carried on', icon: 'retry' } });
       // Measured at rest: the toast drops in.

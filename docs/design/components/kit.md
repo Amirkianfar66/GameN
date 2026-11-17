@@ -1,6 +1,6 @@
 # Component kit: the controls every Designer component shares
 
-**Version:** `component-kit-0.8.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (16 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
+**Version:** `component-kit-0.8.1` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (17 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
 
 **What it is:** one look and one behaviour for the controls in every Designer component: the shell, and the screens the Designer team builds next (the role card and Ready, the ballot and results, the sheets' contents, the lobby).
 - It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds each visual component once, and Frontend connects it without rebuilding, restyling or copying it.
@@ -12,7 +12,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/kit/`:
 
 | Path | What |
 | --- | --- |
-| `kit.mjs` | `createKit(doc)`, `createControlPolicy()`, `seatNumber()`, `COMPONENT_KIT_VERSION`, `BUTTON_KINDS`, `CELL_STATES`, `STAMP_TONES`, `PILL_TONES`, `ROW_TINTS` |
+| `kit.mjs` | `createKit(doc)`, `createControlPolicy()`, `followTextSize()` (0.8.1), `seatNumber()`, `COMPONENT_KIT_VERSION`, `BUTTON_KINDS`, `CELL_STATES`, `STAMP_TONES`, `PILL_TONES`, `ROW_TINTS` |
 | `kit.css` | Every style, applied only inside an `.ms-kit` root and only to elements with an `ms-k-` class |
 | `preview/` | Development only: the comparison with the pack. `cases.mjs` (every builder, from the same inputs as the pack's), `pack.html` and `kit.html` (one half each, with only its own styles), `page.mjs` (draws and measures a half) and `compare.mjs` (how two halves are compared, and the differences the kit has on purpose) |
 | `review/` | The check's pictures of each half and `check.json` |
@@ -138,6 +138,10 @@ Each `x(props)` makes an element; each `setX(node, props)` changes it in place.
   - **Rows:** under 19 em across (the Large or Largest text on any phone up to 456 px wide), a row's value goes under its title instead of beside it, so "Promises" and "Given 0/1 · Received 1/1" no longer run into each other. A long value wraps. The icon or portrait and the chevron, switch or stepper keep their places at the sides.
   - **Segmented controls:** `seg({ …, stack: true })` for options that are words, which may not fit side by side ("Card · Knowledge · Resources"). Under 15 em across (the Largest text on any phone, or Large on the smallest) they stack, one per row, each still 44 px. Leave `stack` off for short options ("7 · 8 · 9"), which stay a row.
   - A component inside the shell (its sheets, its cover) is already in the shell's container and needs nothing more.
+  - **When the text size changes (0.8.1),** a phone root calls `followTextSize(root)` once, and `dispose()` when it goes. The shell does (0.2.11).
+    - In Chromium (153), a container reads its em again for its queries only while something inside it uses one of them. When the text size changed while nothing did, a part added afterwards took the old size's rules. The Gameplay builder found it on 17 November: at 200 % a target bar opened afterwards stood side by side, its chip's label was cut, a sheet's two footer actions stayed side by side and a row's value stayed beside its title. A part already open through the change was right, and a 1 px resize put it right.
+    - `followTextSize` keeps a hidden box, 1 em tall, among the root's children (`.ms-k-em`). When its height changes, the root's container is set up again at once: off for one layout, then as its style has it, before anything is drawn. The focus, scroll positions, a text selection and what is moving are kept.
+    - A root that replaces all its children gets the box back at the next change. Without a `ResizeObserver` it does nothing.
 - **A segmented control's chosen icon (0.5.1).** The chosen option's icon is filled and the others plain, as sheet 12 draws Join's device choice ("Player phone" filled, "Shared display" plain). Options without icons are unchanged.
 - **The tile, who, the facts and the paper card (0.6.0).** The Gameplay builder's play-parts drew the first three for Actions and the private talk. When Promises needed them too, they moved into the kit, with the same props, states and behaviour (the Lead's L2: a part another builder needs goes into the kit). The kit also takes the pack's tiles grid and its paper card (`.comic`).
   - play-parts delegates its `tile`, `who` and `facts` to the kit and keeps its own API, so Actions and the private talk don't change. Its notice and time line stay in play-parts until another builder needs them.

@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.10`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.11`, with `component-kit-0.8.1`. **Status (17 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -35,7 +35,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
 | `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell`. It imports the kit's styles |
 | `phone-shell/phase-bars.mjs` | The phase bars' words (0.2.10): `phaseBar()`, `movedBar()`, `loadingBar()`, `reconnectingBar()`, `phaseClosedToast()`, `PHASE_WORDS`, `PHASE_BAR_PHASES`, `PHASE_BAR_REFUSED`. It imports the shell only for `clockText()`, and the shell does not import it |
-| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.0`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are |
+| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.1`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are, and so is how it follows the text size (0.2.11) |
 | `icons.mjs` | The phone interface's icon family (from #261) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) and the pack's own bar for each game step (`phase-cases.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
@@ -103,6 +103,12 @@ shell.dispose();             // removes the element and its listeners
   - It is this viewer's: dropped while concealed and for a new viewer, unless the same update gives the new viewer's own. The reconnecting banner is the phone's, and a new viewer keeps it.
   - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
 - **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
+- **The text size changing in a match (0.2.11, kit 0.8.1).** A part opened after the text size changes now takes the new size's rules, as a part open through the change does. The Gameplay builder found it on its Actions test page.
+  - **What went wrong.** At 200 % on 390 × 844, a target bar opened after the change stood side by side, 294 px tall, and its chip's label was cut again: 0.2.8's layout. A sheet opened afterwards kept Cancel and "Register Rescue" side by side, and in its body a row's value stayed beside its title and Card · Knowledge · Resources stayed a row. A shell mounted at 200 % draws the bar stacked, 238 px tall.
+  - **Why.** In Chromium (153), a container reads its em again for its queries only while something inside it uses one of them. With nothing open, nothing in the shell did, so what opened next took the old size's rules.
+  - **The fix.** The shell calls the kit's `followTextSize(root)`. A hidden box, 1 em tall, reports each change of the text size, and the root's container is set up again at once, before anything is drawn. The focus, scroll positions and what is moving are kept. `dispose()` stops it.
+  - The game changes the text size during a match, in Settings (#222 item 27), so every bar or sheet opened after it was laid out for the old size, until the phone turned or the window was resized.
+  - Nothing else changes: at a size the page was opened at, everything is drawn as in 0.2.10.
 - **The phase bars' words (0.2.10).** `phase-bars.mjs` holds the pack's words for each game step with no active player, and returns the shell's `bar` from the facts Frontend gives ([the words and the inputs](#the-phase-bars-words)).
   - Before, the shell drew whatever words it was given, and only the votes had theirs (#267): every other phase showed the game's own names, such as "Round begins".
   - The shell draws as before, and does not import the words. Nothing of its looks, layout or inputs changed.
@@ -367,8 +373,8 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 26 of 26 checks pass.
-    - **As the page comes (25):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (twice), a phase bar's words, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 27 of 27 checks pass.
+    - **As the page comes (26):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (twice), a phase bar's words, the large-content view, dispose and motion.
       - **A phase bar's words (0.2.10):** one mounted shell is given the lit Blackout's bar at each second, "Lights out in 0:03", "0:02" and "0:01", then the dark one. The bar's left part is built again each time, so no old line can stay. The bar stays 99 px, Promises, the round, the clock and ⋮ keep their elements and their places, Promises keeps the focus, and no layout is reported.
       - **An eliminated player's banner (0.2.8):** the pack's words and icon, `role="status"`, and no button. The phone is live: a tab Frontend offers takes a tap, and Actions, not offered, is described by its reason. A large docked sheet docks 8.6 px below it. Reconnecting takes its place, with Retry, and the eliminated player's comes back when given again. A new viewer drops it unless given again; concealment drops it, and it doesn't come back by itself. A new viewer keeps the reconnecting banner.
       - **The toast takes no tap (kit 0.8.0):** its computed `pointer-events` is `none`. With its pointer events on for that one measurement, it lies over a button in the cover; with them off, a tap at its centre reaches the button, once. The layers check reads the toast's paint order the same way. With `pointer-events: none` taken out, the Pre-game builder saw this check fail and the layers check still pass.
@@ -385,6 +391,10 @@ Listed, not omitted:
         - At 200 %, the two rows' values sit under their titles. The three word options stack, each label whole, and 7 · 8 · 9 stays a row.
         - At 200 %, the footer's "Cancel" and "Register Rescue" take a row each, inside the sheet, each label whole (0.2.1).
         - At 100 %, the values sit beside their titles, nothing overlaps, both controls are rows, and the two footer buttons share one row.
+      - **The text size changing (0.2.11),** at 390 × 844, with Move's target bar, its chip "Other rooms on the Board" and a sheet with Cancel · Register Rescue, a row with a value and Card · Knowledge · Resources. Each sequence must draw what a shell mounted at that size draws, part by part: the target bar's form and height, Cancel's place, the chip's wrap and whole label, the footer's wrap and rows, the row's value and the stacking.
+        - 200 % first, with nothing open, then the three opened (the Gameplay builder's sequences): stacked, 238 px, the chip whole, the footer on two rows, the value under its title, the options stacked.
+        - Closed, the Standard text with nothing open, then opened again; then open through a change to 200 % and back: each as a shell mounted at that size.
+        - Run against 0.2.10, it fails on the first: the bar side by side at 294 px, the chip's label cut, the footer on one row, the value beside its title and the options a row. The reverse, back to the Standard text with nothing open, was right already.
     - **With the device's Reduce motion emulated (1):** motion.
   - **The agreement with the pinned pack** (`preview/agree.mjs`): 29 of 29 cases.
     - **The phase bars (0.2.10),** in seventeen cases: the pack's own input to `topBar()` for each game step (`preview/phase-cases.mjs`) beside the shell drawing what `phase-bars.mjs` returns for it.
