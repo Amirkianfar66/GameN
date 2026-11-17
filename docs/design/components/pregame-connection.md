@@ -122,9 +122,15 @@ Its in-match steps are the shell connection's: the Lead doubled them with the sh
 - Before the Lead's in-match steps, on `4892423e`, the first seven passed and the run stopped at today's `#planet-top-settings`; Recover was then checked with a local copy that issued the code by `session.operate` (not committed).
 - The emulators log "Planet deadline has not elapsed" from the deadline task while a stage runs; the run doesn't depend on it.
 
+### The merge gate's comparison
+
+`design/tools/phone-ui-native-compare.mjs --only menu,host-lobby,characters,role-card,role-film,role-ready --stage-sheets`, on the check's own bundle (`--keep`; Frontend's harness config refuses an asset-tooling import here), built from `42337251`, clean, with art from `64e55516`. Its `compare.json` is in `design/phone-ui/review/pregame-connection/`; its pictures stay outside the repository.
+- **Six parts, no problem met:** the parts whose build steps need no control of today's pre-game. Every step reached its screen.
+- **What differs, all known:** the harness's sample names, rooms, roles and seats (Crew 1–9, PLANET, the Hacker); the pack's frames carry safe areas, so its bars sit lower; on the role card, no fact lines (G7); in the host's lobby, Leave dimmed (G6) and no host row for a seatless host device (G15); the role film is today's player, as decided.
+- **Not compared yet:** `host-setup`, `join`, `join-wait`, `recover` and `settings-entry`, whose build steps still tap today's pre-game ids (`design/tools/lib/phone-ui-native-parts.mjs`); doubling them with the new screens' controls is asked of the Lead. `boarding` has no build side (today's film).
+
 ### Not run
 
-- The merge gate's comparison (`compare.json`).
 - Physical phones, Safari, screen readers and a live match.
 
 ## Open
