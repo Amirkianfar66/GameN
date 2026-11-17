@@ -1,0 +1,3451 @@
+{
+  "tool": "design/tools/character-select-check.mjs",
+  "component": "design/phone-ui/components/character-select",
+  "sourceCommit": "3a8a8845f6913334d0ea6bc9ba9d8f070269c1d4",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/open": {
+      "file": "design/phone-ui/components/character-select/review/390x844-open.jpg",
+      "sha256": "9ccee24809e2a60a1030284b3f61e5cd77258a37418e23f54d61e05887a71ceb",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "aaataaata",
+      "notes": "Taken · 2|Taken · 1",
+      "marks": 0,
+      "busy": "",
+      "refused": 2,
+      "reasons": [
+        "Taken by player 2",
+        "Taken by player 1"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "No character yet",
+        "line": "Tap one to choose",
+        "spinner": false,
+        "pill": null,
+        "empty": true
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/open": {
+      "file": "design/phone-ui/components/character-select/review/430x932-open.jpg",
+      "sha256": "15df81b7e61aec3852742a4d605bd7d44cebc5374d5035f1c34b1506c7a83a8a",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "aaataaata",
+      "notes": "Taken · 2|Taken · 1",
+      "marks": 0,
+      "busy": "",
+      "refused": 2,
+      "reasons": [
+        "Taken by player 2",
+        "Taken by player 1"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "No character yet",
+        "line": "Tap one to choose",
+        "spinner": false,
+        "pill": null,
+        "empty": true
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/selected": {
+      "file": "design/phone-ui/components/character-select/review/390x844-selected.jpg",
+      "sha256": "919610389e97952a9cf970ca0a82d0b69b6994f9d008e74f892f60adf0689ea4",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttasatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Saving…|Taken · 1|Taken · 6",
+      "marks": 0,
+      "busy": "c6",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Saving your choice",
+        "spinner": true,
+        "pill": null,
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/selected": {
+      "file": "design/phone-ui/components/character-select/review/430x932-selected.jpg",
+      "sha256": "dcfa1e682960f22e87b854528ae9cd0bdc13cab02912ffcaf92b4a366dad4b46",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttasatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Saving…|Taken · 1|Taken · 6",
+      "marks": 0,
+      "busy": "c6",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Saving your choice",
+        "spinner": true,
+        "pill": null,
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/confirmed": {
+      "file": "design/phone-ui/components/character-select/review/390x844-confirmed.jpg",
+      "sha256": "7ff3d7248a77204f96f42c151060f8b27a7fe45dac27d4bde9813440a8c13445",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/confirmed": {
+      "file": "design/phone-ui/components/character-select/review/430x932-confirmed.jpg",
+      "sha256": "5684a8b3e0d6f0188bc20ddd1687bb6083fa30efeb2434bf51ec479e85301f71",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/closing": {
+      "file": "design/phone-ui/components/character-select/review/390x844-closing.jpg",
+      "sha256": "1d2474f494e3f165a24e832846a8ef7984a1d3ba0c3282e62f0270b94d0d763e",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:04",
+      "urgent": true,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/closing": {
+      "file": "design/phone-ui/components/character-select/review/430x932-closing.jpg",
+      "sha256": "bfd605767dac9156d3c966e92cdbda4de16f6c9835afff25e4fba196ac531ed8",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:04",
+      "urgent": true,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/auto": {
+      "file": "design/phone-ui/components/character-select/review/390x844-auto.jpg",
+      "sha256": "d37198ef6818701ec3a4726247a428be4da9f03603c9f06eaae07f37d5b069c9",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Time is up",
+      "timer": "0:00",
+      "urgent": true,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "ttttttctt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Assigned|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 8,
+      "reasons": [
+        "Time is up",
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Time is up",
+        "Time is up",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Juno",
+        "line": "Assigned automatically",
+        "spinner": false,
+        "pill": null,
+        "empty": false
+      },
+      "toast": "Assigned: Juno",
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/auto": {
+      "file": "design/phone-ui/components/character-select/review/430x932-auto.jpg",
+      "sha256": "da85fea975b3c0c21851137ec0e3a72b605629a67376014dd4705e8ef34a182c",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Time is up",
+      "timer": "0:00",
+      "urgent": true,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "ttttttctt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Assigned|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 8,
+      "reasons": [
+        "Time is up",
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Time is up",
+        "Time is up",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Juno",
+        "line": "Assigned automatically",
+        "spinner": false,
+        "pill": null,
+        "empty": false
+      },
+      "toast": "Assigned: Juno",
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/closed": {
+      "file": "design/phone-ui/components/character-select/review/390x844-closed.jpg",
+      "sha256": "c9693c3a671d2a9d3d453b13d0160a6c4321aa8bc2725efd436fb6108a59572f",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Time is up",
+      "timer": "0:00",
+      "urgent": true,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "tttttcttt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 8,
+      "reasons": [
+        "Time is up",
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Time is up",
+        "Time is up",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Time is up",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/closed": {
+      "file": "design/phone-ui/components/character-select/review/430x932-closed.jpg",
+      "sha256": "81306920d95159639717d76138cbf95791fdb70ffc900971611c858d59d8158c",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Time is up",
+      "timer": "0:00",
+      "urgent": true,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "tttttcttt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 8,
+      "reasons": [
+        "Time is up",
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Time is up",
+        "Time is up",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Time is up",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/not-offered": {
+      "file": "design/phone-ui/components/character-select/review/390x844-not-offered.jpg",
+      "sha256": "9ccee24809e2a60a1030284b3f61e5cd77258a37418e23f54d61e05887a71ceb",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "aaataaata",
+      "notes": "Taken · 2|Taken · 1",
+      "marks": 0,
+      "busy": "",
+      "refused": 9,
+      "reasons": [
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Taken by player 2",
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Taken by player 1",
+        "Opens when every seat is filled"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "No character yet",
+        "line": "Tap one to choose",
+        "spinner": false,
+        "pill": null,
+        "empty": true
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/not-offered": {
+      "file": "design/phone-ui/components/character-select/review/430x932-not-offered.jpg",
+      "sha256": "15df81b7e61aec3852742a4d605bd7d44cebc5374d5035f1c34b1506c7a83a8a",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "aaataaata",
+      "notes": "Taken · 2|Taken · 1",
+      "marks": 0,
+      "busy": "",
+      "refused": 9,
+      "reasons": [
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Taken by player 2",
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Opens when every seat is filled",
+        "Taken by player 1",
+        "Opens when every seat is filled"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "No character yet",
+        "line": "Tap one to choose",
+        "spinner": false,
+        "pill": null,
+        "empty": true
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/character-select/review/390x844-stale.jpg",
+      "sha256": "19717415fee919714f8c368c1629abec2138b4bff5d08601a3524dd6703f14af",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 9,
+      "reasons": [
+        "Controls return when the match is current",
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": true,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/character-select/review/430x932-stale.jpg",
+      "sha256": "567378d9704c7129365a61aa01c2675451f16567b7bd475c83a669c59635e062",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 9,
+      "reasons": [
+        "Controls return when the match is current",
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": true,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/large": {
+      "file": "design/phone-ui/components/character-select/review/390x844-large.jpg",
+      "sha256": "d5190df901ade6991c9fbdefefaa0c6500435475172f2ed8c3f58405050532c4",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 24,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 117.27,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/large": {
+      "file": "design/phone-ui/components/character-select/review/430x932-large.jpg",
+      "sha256": "4a3d4abf611709a5c819092815811887482f582c69bec41fc222285a9d97e88a",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 24,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": false,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": false,
+      "footInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 117.27,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/character-select/review/390x844-largest.jpg",
+      "sha256": "0dcdfbdf2d4bbe7e073eb0dbd0f7c8d41d573cec6a96cbc4683ad33d48eeb948",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": true,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": true,
+      "footInView": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 140.69,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/character-select/review/430x932-largest.jpg",
+      "sha256": "de62c1d71e0f5f4691ce77b32c9d1307a91ed81c7f9b59a8811872698532baf5",
+      "ok": true,
+      "drawn": true,
+      "portraits": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "backdrop": "rgb(16, 20, 28)",
+      "tabs": 0,
+      "title": "Choose a character",
+      "sub": "Assigned for you if time runs out",
+      "timer": "0:21",
+      "urgent": false,
+      "group": "Characters",
+      "cells": 9,
+      "names": "Vega|Rigel|Lyra|Atlas|Orion|Nova|Juno|Mira|Echo",
+      "grid": "atttacatt",
+      "notes": "Taken · 8|Taken · 5|Taken · 2|Yours|Taken · 1|Taken · 6",
+      "marks": 1,
+      "busy": "",
+      "refused": 5,
+      "reasons": [
+        "Taken by player 8",
+        "Taken by player 5",
+        "Taken by player 2",
+        "Taken by player 1",
+        "Taken by player 6"
+      ],
+      "cut": [],
+      "list": true,
+      "foot": {
+        "name": "Nova",
+        "line": "Tap another to change",
+        "spinner": false,
+        "pill": "Yours",
+        "empty": false
+      },
+      "toast": null,
+      "banner": false,
+      "scrolls": true,
+      "footInView": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 140.69,
+          "bottom": 34
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c7-DAw8IUe0.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "choose: a free character reports onChoose(id), once per tap; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "calls": [
+              [
+                "onChoose",
+                "c1"
+              ],
+              [
+                "onChoose",
+                "c5"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "choose: another free character while one is this phone's reports it; this phone's own reports nothing",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "own": 0,
+            "calls": [
+              [
+                "onChoose",
+                "c1"
+              ]
+            ],
+            "mine": {
+              "state": "confirmed",
+              "refused": false,
+              "busy": false,
+              "pressed": "true",
+              "note": "Yours",
+              "why": null,
+              "label": "Nova, yours"
+            }
+          }
+        },
+        {
+          "id": "refused: a taken character is dimmed, refused, keeps its focus and says who holds it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "state": "taken",
+              "refused": true,
+              "busy": false,
+              "pressed": "false",
+              "note": "Taken · 2",
+              "why": "Taken by player 2",
+              "label": "Atlas, taken by player 2"
+            }
+          }
+        },
+        {
+          "id": "refused: Time is up (closed) dims and refuses every character but this phone's, with its reason",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "all": [
+              {
+                "id": "c1",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": "Time is up",
+                "label": "Vega"
+              },
+              {
+                "id": "c2",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "Taken · 8",
+                "why": "Taken by player 8",
+                "label": "Rigel, taken by player 8"
+              },
+              {
+                "id": "c3",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "Taken · 5",
+                "why": "Taken by player 5",
+                "label": "Lyra, taken by player 5"
+              },
+              {
+                "id": "c4",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "Taken · 2",
+                "why": "Taken by player 2",
+                "label": "Atlas, taken by player 2"
+              },
+              {
+                "id": "c5",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": "Time is up",
+                "label": "Orion"
+              },
+              {
+                "id": "c6",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": "Time is up",
+                "label": "Nova"
+              },
+              {
+                "id": "c7",
+                "state": "confirmed",
+                "refused": false,
+                "busy": false,
+                "pressed": "true",
+                "note": "Assigned",
+                "why": null,
+                "label": "Juno, yours"
+              },
+              {
+                "id": "c8",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "Taken · 1",
+                "why": "Taken by player 1",
+                "label": "Mira, taken by player 1"
+              },
+              {
+                "id": "c9",
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "Taken · 6",
+                "why": "Taken by player 6",
+                "label": "Echo, taken by player 6"
+              }
+            ],
+            "sub": "Time is up"
+          }
+        },
+        {
+          "id": "refused: while choosing is not offered, a free character is refused with Frontend's reason, not dimmed",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "state": "available",
+              "refused": true,
+              "busy": false,
+              "pressed": "false",
+              "note": "",
+              "why": "Opens when every seat is filled",
+              "label": "Vega"
+            },
+            "without": {
+              "state": "available",
+              "refused": true,
+              "busy": false,
+              "pressed": "false",
+              "note": "",
+              "why": null,
+              "label": "Vega"
+            },
+            "calls": [
+              [
+                "onChoose",
+                "c1"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: this phone's choice while saving is busy and takes no tap; the others still report",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "state": "selected",
+              "refused": false,
+              "busy": true,
+              "pressed": "true",
+              "note": "Saving…",
+              "why": null,
+              "label": "Nova, yours"
+            },
+            "calls": [
+              [
+                "onChoose",
+                "c1"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: reconnecting, every cell refused with the banner's words, nothing dimmed; Retry reported",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "free": {
+              "state": "available",
+              "refused": true,
+              "busy": false,
+              "pressed": "false",
+              "note": "",
+              "why": "Controls return when the match is current",
+              "label": "Vega"
+            },
+            "banner": "Connection lostControls return when the match is currentRetry",
+            "calls": [
+              [
+                "onRetry"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: not interactive, every cell refused, nothing dimmed; taps come back with the input",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "state": "available",
+              "refused": true,
+              "busy": false,
+              "pressed": "false",
+              "note": "",
+              "why": null,
+              "label": "Vega"
+            },
+            "calls": [
+              [
+                "onChoose",
+                "c1"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "focus: a cell keeps its element and the focus through clock ticks, changes of holder, its own choice and a new order",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "same": true,
+            "kept": true,
+            "order": [
+              "c9",
+              "c8",
+              "c7",
+              "c6",
+              "c5",
+              "c4",
+              "c3",
+              "c2",
+              "c1"
+            ]
+          }
+        },
+        {
+          "id": "focus: a focused cell that ends moves the focus to the screen and reports it once (onFocusReturn)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "choose",
+                  "value": "c3"
+                }
+              ]
+            ],
+            "active": "pv-single"
+          }
+        },
+        {
+          "id": "private: a new viewer drops this phone's choice, its saving state, the offer and the toast",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "foot": {
+                "name": "Nova",
+                "line": "Saving your choice",
+                "spinner": true,
+                "pill": null,
+                "empty": false
+              },
+              "toast": "Assigned: Juno",
+              "selected": true
+            },
+            "after": {
+              "foot": {
+                "name": "No character yet",
+                "line": "Tap one to choose",
+                "spinner": false,
+                "pill": null,
+                "empty": true
+              },
+              "toast": null,
+              "selected": false,
+              "free": {
+                "state": "available",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": null,
+                "label": "Nova"
+              },
+              "offer": {
+                "state": "available",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": null,
+                "label": "Vega"
+              }
+            },
+            "given": {
+              "foot": {
+                "name": "Rigel",
+                "line": "Tap another to change",
+                "spinner": false,
+                "pill": "Yours",
+                "empty": false
+              },
+              "mine": {
+                "state": "confirmed",
+                "refused": false,
+                "busy": false,
+                "pressed": "true",
+                "note": "Yours",
+                "why": null,
+                "label": "Rigel, yours"
+              }
+            }
+          }
+        },
+        {
+          "id": "private: concealed drops this phone's choice and the toast, refuses every tap, and nothing comes back by itself",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "foot": {
+                "name": "No character yet",
+                "line": "Tap one to choose",
+                "spinner": false,
+                "pill": null,
+                "empty": true
+              },
+              "toast": null,
+              "mine": {
+                "state": "available",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": null,
+                "label": "Nova"
+              },
+              "free": {
+                "state": "available",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": null,
+                "label": "Vega"
+              },
+              "taken": {
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "Taken · 2",
+                "why": "Taken by player 2",
+                "label": "Atlas, taken by player 2"
+              }
+            },
+            "offered": "No character yet",
+            "shown": "No character yet"
+          }
+        },
+        {
+          "id": "time: the clock shows what it is given, amber from 0:05; none without one; 0:00 alone is not \"Time is up\"",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "texts": "0:21 0:06 0:05! 0:04! 0:00!",
+            "atZero": {
+              "sub": "Assigned for you if time runs out",
+              "free": {
+                "state": "available",
+                "refused": false,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": null,
+                "label": "Vega"
+              }
+            },
+            "none": null,
+            "closed": {
+              "sub": "Time is up",
+              "free": {
+                "state": "taken",
+                "refused": true,
+                "busy": false,
+                "pressed": "false",
+                "note": "",
+                "why": "Time is up",
+                "label": "Vega"
+              }
+            }
+          }
+        },
+        {
+          "id": "words: once time is up, the foot invites no tap it refuses; assigned and saving keep their words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "name": "Nova",
+              "line": "Tap another to change",
+              "spinner": false,
+              "pill": "Yours",
+              "empty": false
+            },
+            "chosen": {
+              "name": "Nova",
+              "line": "Time is up",
+              "spinner": false,
+              "pill": "Yours",
+              "empty": false
+            },
+            "none": {
+              "name": "No character yet",
+              "line": "Time is up",
+              "spinner": false,
+              "pill": null,
+              "empty": true
+            },
+            "assigned": {
+              "name": "Juno",
+              "line": "Assigned automatically",
+              "spinner": false,
+              "pill": null,
+              "empty": false
+            },
+            "saving": {
+              "name": "Nova",
+              "line": "Saving your choice",
+              "spinner": true,
+              "pill": null,
+              "empty": false
+            },
+            "open": {
+              "name": "No character yet",
+              "line": "Tap one to choose",
+              "spinner": false,
+              "pill": null,
+              "empty": true
+            }
+          }
+        },
+        {
+          "id": "words: the cells' names, the grid's group, this phone's own pressed, and the foot's line said as it changes",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "names": [
+              "Vega",
+              "Rigel, taken by player 8",
+              "Lyra, taken by player 5",
+              "Atlas, taken by player 2",
+              "Orion",
+              "Nova, yours",
+              "Juno",
+              "Mira, taken by player 1",
+              "Echo, taken by player 6"
+            ],
+            "pressed": [
+              "c6"
+            ],
+            "saving": {
+              "name": "Nova",
+              "line": "Saving your choice",
+              "spinner": true,
+              "pill": null,
+              "empty": false
+            },
+            "confirmed": {
+              "name": "Nova",
+              "line": "Tap another to change",
+              "spinner": false,
+              "pill": "Yours",
+              "empty": false
+            },
+            "assigned": {
+              "name": "Juno",
+              "line": "Assigned automatically",
+              "spinner": false,
+              "pill": null,
+              "empty": false
+            }
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the grid 12 px under the bar and 16 px in, the foot 16 px above the bottom safe area; layout() and onLayout agree",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "gridTop": 12,
+              "gridLeft": 16,
+              "gridRight": 16,
+              "footBottom": 16,
+              "layout": {
+                "size": {
+                  "width": 390,
+                  "height": 844
+                },
+                "bars": {
+                  "top": 99,
+                  "bottom": 34
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              },
+              "reported": {
+                "size": {
+                  "width": 390,
+                  "height": 844
+                },
+                "bars": {
+                  "top": 99,
+                  "bottom": 34
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the grid 12 px under the bar and 16 px in, the foot 16 px above the bottom safe area; layout() and onLayout agree",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "gridTop": 12,
+              "gridLeft": 16,
+              "gridRight": 16,
+              "footBottom": 16,
+              "layout": {
+                "size": {
+                  "width": 430,
+                  "height": 932
+                },
+                "bars": {
+                  "top": 99,
+                  "bottom": 34
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              },
+              "reported": {
+                "size": {
+                  "width": 430,
+                  "height": 932
+                },
+                "bars": {
+                  "top": 99,
+                  "bottom": 34
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "layout: with the Large text (150 %), every name whole, and the foot in view or reached by scrolling",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "asList": false,
+            "scrolls": false,
+            "footSeen": true
+          }
+        },
+        {
+          "id": "layout: with the Largest text (200 %), every name whole, the nine as a list, and the foot in view or reached by scrolling",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "asList": true,
+            "scrolls": true,
+            "footSeen": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left, nothing fires, layout() is null and update() is ignored",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": 0
+          }
+        },
+        {
+          "id": "motion: the saving spinner turns, and stands still with the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "ms-k-spin",
+            "reduced": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: the saving spinner stands still with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "none",
+            "reduced": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BrxXgiuE.js",
+          "line": 1,
+          "column": 3721,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: open at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "marks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "mark icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: selected · saving at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "mark icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 1,
+              "screen": 1
+            },
+            "pill": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: confirmed · taken at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "pill icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: last seconds at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "pill icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: assigned automatically, its toast, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast icon": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: open at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "marks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "mark icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: confirmed · taken at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "pill icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: assigned automatically at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast icon": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: confirmed with the Large text (150 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 0,
+              "screen": 0
+            },
+            "glyph icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "pill icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: confirmed with the Largest text (200 %) at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sub": {
+              "pack": 1,
+              "screen": 1
+            },
+            "glyph": {
+              "pack": 0,
+              "screen": 0
+            },
+            "glyph icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "timer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "timer icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "grid": {
+              "pack": 1,
+              "screen": 1
+            },
+            "cells": {
+              "pack": 9,
+              "screen": 9
+            },
+            "portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "names": {
+              "pack": 9,
+              "screen": 9
+            },
+            "name words": {
+              "pack": 9,
+              "screen": 9
+            },
+            "notes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "marks": {
+              "pack": 1,
+              "screen": 1
+            },
+            "mark icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot tile icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            },
+            "pill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "pill icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": {
+            "what": "the 3 × 3 becomes a list at the Largest text, every name whole (the kit's .ms-k-grid-wrap, the pack's own .grid-wrap rule)",
+            "pack": {
+              "x": 16,
+              "y": 152.6875,
+              "w": 398,
+              "h": 580.390625
+            },
+            "screen": {
+              "x": 16,
+              "y": 152.6875,
+              "w": 398,
+              "h": 742.78125
+            },
+            "packList": false,
+            "screenList": true
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-BrxXgiuE.js",
+        "line": 1,
+        "column": 3721,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
