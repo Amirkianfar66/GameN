@@ -41,6 +41,18 @@ The owner's messages are quoted as written.
 
 **What it leaves open:** whether the direction goes beyond the Doctor test. That covers the other role films, boarding and the brand intro, and the game's own crew and rooms. The owner chooses after seeing the test.
 
+**A minute later, story images first.** The owner sent the same direction again (23:47 UTC), ending:
+
+> Before creating the animation let's create some images as story telling of. Doctor role imagine a dark story
+
+So the builder drew "The Last Two Doses": eight still panels of the Doctor's dark story in the new finish, ahead of any further animation.
+- Mira plays the Doctor. Everyone else is a faceless shape.
+- The pictures carry no words.
+- Every panel stays at least 30 (CIE76) from each team's colour.
+- Panel 5 never shows what she chose.
+- The 4 s animation test it had already started is on its own test page, with today's look behind a switch.
+- Both are test pages for the owner, not in the game. Which panels the 10-second film tells is the owner's choice.
+
 ## 16 November 2026: no animation clips for the test; the pre-game films tried as pure animation; the animation work in two
 
 **Recorded by the Lead Designer from the owner's answers in the Lead's session.**
