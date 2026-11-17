@@ -226,11 +226,16 @@ These refuse the changed files until Integration approves. Each was found by rev
 `GAMEN_PHONE_ART_BASE=<clean worktree of origin/main> node design/tools/shell-connection-check.mjs`:
 - It builds Frontend's two harnesses from this tree: the phone harness (`apps/game/dev/phone`: the real Planet app, controller and renderer over its synthetic connection) and the Food harness (the same app on the frozen Food release's packets), with art from origin/main.
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
-- It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers; this record was made in batches.
+- It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
 
-**Result:** 40 of 40 captures pass: twenty states at both sizes, recorded on `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) with the source clean and the art from `64e55516`, in one run. The in-game animation builder's run of its patch, on its own commit before the 0.2.11 merge, also passed 40 of 40. Before it, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, passed 42 of 42: those twenty states and `closed`.
+**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `8ad0ff44` (shell 0.2.12 with kit 0.8.2 and room scene 0.5.1, the phase-closed toast, the host sheet hook and the doubled selectors) with the source clean and the art from `64e55516`, in one run. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, also passed 42 of 42. Before them, `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) passed 40 of 40, as did the in-game animation builder's run of its patch on its own commit before the 0.2.11 merge. Before those, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
 
-Against `00e679e9`'s record:
+Against `883473be`'s record:
+- `closed` is new, at both sizes: the toast "That phase closed · choices cleared" under the bar at 0:00, the clock amber, Pass unavailable.
+- No bar, tab or sheet frame moved. The tab bar is the same in all 38 captures that both records have. The top bar differs only at the clock's digits (`turn`, `voted` and `ballot` on 390 × 844, at most 270 pixels) and the result's ring (at most 63 pixels): the harness's time at the capture.
+- Everything else that differs is inside the stage, in at most 48,216 pixels: the room's picture, which moves (the window's voyage and the figures' idle motion), also through a sheet's glass. `concealed` is the same byte for byte at both sizes.
+
+Against `00e679e9`'s record (for `883473be`):
 - `before`, `appointment` and `course` are new, at both sizes.
 - `blackout` and `target` changed in the top bar, by its words: "Dark · positions fixed", and "Block a move · Before turns · Officer".
 - `result` changed in the round button: an unavailable Vote is paper with dimmed words, as shell 0.2.10 draws it.
